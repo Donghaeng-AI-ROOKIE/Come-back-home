@@ -1,0 +1,38 @@
+"""전역 설정. .env 로 오버라이드 가능 (.env.example 참고)."""
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    # 모델 API 키 — 비어 있으면 해당 클라이언트는 스텁 모드
+    exaone_api_key: str = ""
+    midm_api_key: str = ""
+    varco_api_key: str = ""
+    upstage_api_key: str = ""
+
+    # H3 격자 해상도 (9 ≈ 육각형 변 174m, 도심 수색 단위에 적합)
+    h3_resolution: int = 9
+
+    # Phase 2 — Monte Carlo
+    mc_num_walkers: int = 500
+
+    # Phase 3 — 제보 판정 임계값 (예시값, 시뮬레이션 테스트로 튜닝 대상)
+    tip_discard_threshold: float = 0.2   # p < 0.2 → 파기
+    tip_lkp_threshold: float = 0.8       # p ≥ 0.8 + 위치·시각 특정 → 층2 트리거
+
+    # Phase 3 — 층2(Phase 2 재실행) 트리거
+    layer2_periodic_minutes: int = 45    # 주기 재실행 (Koester 반경 확장 대응, 30~60분)
+    kl_divergence_threshold: float = 0.5 # posterior가 baseline에서 이탈했다고 보는 KL 임계
+
+    # 층1 혼합 likelihood 커널
+    likelihood_l_max: float = 5.0        # 목격 지점 셀의 L
+    likelihood_l_far: float = 0.1        # 먼 셀의 L (음의 증거)
+    likelihood_sigma_cells: float = 2.0  # 가우시안 감쇠 폭 (H3 grid distance 단위)
+
+    # 알림 발송 — POA 상위 셀 누적 커버리지
+    alert_coverage: float = 0.8
+
+
+settings = Settings()
