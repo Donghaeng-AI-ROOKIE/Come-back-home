@@ -1,161 +1,242 @@
 /**
  * 수색 탭 (spec §3.4, search-content). 라이트 소비자 화면.
- * 실 타일맵 위 POA 히트맵(usePoaPrediction) + 최종 목격 핀 + 수치·패턴 범례.
- * 실종자 정보는 익명 compact 카드(단일 소스)로만 노출. 주 액션 = 제보하기.
- * 모드 전환 트리거 없음 — 색만 useModeTheme().accent로 셸 강조.
+ *
+ * 목업 재현: 전면 지도 위 상태 pill·경과 chip·"내가 확인할 구역" 주석·현재위치 마커,
+ * 하단 시트(인상착의 카드 · 112 안내 · 제보 CTA)를 그대로 옮긴다.
+ *
+ * 적용한 정정(§3.4/§4.1/§4.2/§4.5):
+ *  - 목업의 라벨없는 SVG blob → 실 타일맵 <BaseMap> + <PoaHeatmap>(usePoaPrediction) +
+ *    최종 목격 <MapPin lastSeen> + 현재위치 <MapPin me> + 확인구역 <PredictionRadius>.
+ *  - 색약 대비 <HeatLegend>(수치·패턴 범례)를 지도 위에 부유.
+ *  - 심각도 색: '수색 진행 중' chrome = 앰버(useModeTheme().accent). 긴급(critical)은
+ *    ModeStatusBar가 severity로 자동 승격(빨강). 이 화면에 앰버 긴급 badge 없음.
+ *  - 주 CTA "제보하기" → ReportChat. 112 안내 병기.
+ *  - 실종자 = MissingPersonCard(compact·anon) 단일 소스. "남성"/"84세" 하드코딩 없음.
+ *  - 모드 전환 트리거 없음 — 색만 셸 강조.
  */
 import React from 'react';
-import {
-  ActivityIndicator,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ActivityIndicator, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { color, radius, space, type } from '../theme/tokens';
 import { useModeTheme } from '../theme/theme';
-import { usePoaPrediction } from '../hooks/queries';
-import { DEMO_CASE_ID, LAST_SEEN } from '../data/missing';
+import { usePoaPrediction, useGoldenTime } from '../hooks/queries';
+import { DEMO_CASE_ID, LAST_SEEN, MISSING } from '../data/missing';
+import { hexToRgba } from '../utils/color';
 import { useAuthStore } from '../store/authStore';
+import type { GeoPoint } from '../types/domain';
 import type { RootStackParamList } from '../navigation/types';
 
 import BaseMap from '../components/BaseMap';
 import PoaHeatmap from '../components/PoaHeatmap';
 import MapPin from '../components/MapPin';
+import PredictionRadius from '../components/PredictionRadius';
 import HeatLegend from '../components/HeatLegend';
 import MissingPersonCard from '../components/MissingPersonCard';
 import ModeStatusBar from '../components/ModeStatusBar';
-import CTAButton from '../components/CTAButton';
+
+/** 데모 현재위치 — 최종 목격 위치에서 남서쪽으로 오프셋(목업의 '나' 마커 위치 재현). */
+const ME: GeoPoint = { lat: LAST_SEEN.lat - 0.0015, lng: LAST_SEEN.lng - 0.0017 };
+/** '내가 확인할 구역' 반경(m). '수색 진행' 요소 → 앰버 계열. */
+const ZONE_RADIUS_M = 240;
 
 export default function SearchScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const theme = useModeTheme();
   const role = useAuthStore((s) => s.role);
+  const golden = useGoldenTime();
   const poa = usePoaPrediction(DEMO_CASE_ID, 1);
 
   const grid = poa.data;
+  const cumPct = grid ? Math.round(grid.cumulative * 100) : null;
+  const elapsedMin = golden ? Math.floor(golden.elapsedSec / 60) : null;
+
   const mapA11y = grid
-    ? `발견 확률 히트맵. 최고 구역 ${grid.topLabel}. 누적 발견확률 ${Math.round(
-        grid.cumulative * 100,
-      )}%. 최종 목격 위치가 표시돼 있어요.`
+    ? `발견 확률 히트맵. 최고 구역 ${grid.topLabel}. 누적 발견확률 ${cumPct}%. 최종 목격 위치와 현재 위치, 내가 확인할 구역이 표시돼 있어요.`
     : '발견 확률 지도를 불러오는 중입니다.';
 
   const onReport = () => navigation.navigate('ReportChat', { caseId: DEMO_CASE_ID });
 
   return (
-    <SafeAreaView style={styles.safe} edges={['top']}>
+    <View style={styles.root}>
       <StatusBar style="dark" />
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + space.xxl }]}
-        showsVerticalScrollIndicator={false}
-      >
+
+      {/* ── 지도 레이어 (전면) ─────────────────────────── */}
+      <View style={styles.mapLayer}>
+        <BaseMap style={styles.mapFill} accessibilityLabel={mapA11y}>
+          {grid ? <PoaHeatmap grid={grid} /> : null}
+          <PredictionRadius center={LAST_SEEN} radiusM={ZONE_RADIUS_M} color={theme.accent} />
+          <MapPin
+            kind="lastSeen"
+            coordinate={LAST_SEEN}
+            title="최종 목격 위치"
+            description="정릉동 주민센터, 오후 3시 10분경"
+          />
+          <MapPin kind="me" coordinate={ME} title="내 위치" description="여기서부터 살펴볼 수 있어요" />
+        </BaseMap>
+      </View>
+
+      {/* ── 지도 로딩 오버레이 ─────────────────────────── */}
+      {poa.isLoading ? (
+        <View
+          style={styles.loadOverlay}
+          accessible
+          accessibilityLabel="예측 지도를 불러오는 중입니다"
+        >
+          <ActivityIndicator color={theme.accent} size="large" />
+          <Text style={styles.loadText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            예측 지도를 불러오는 중…
+          </Text>
+        </View>
+      ) : null}
+
+      {/* ── 상단 스크림(칩 가독성 확보) ────────────────── */}
+      <LinearGradient
+        pointerEvents="none"
+        colors={[hexToRgba(color.surface, 0.98), hexToRgba(color.surface, 0)] as const}
+        style={[styles.topScrim, { height: insets.top + 132 }]}
+      />
+
+      {/* ── 상단 바: 모드 상태 + 경과 chip ─────────────── */}
+      <View style={[styles.topBar, { top: insets.top + space.sm }]}>
         <ModeStatusBar />
-
-        <View style={styles.headerBlock}>
-          <Text style={styles.title} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            실시간 예측 지도
-          </Text>
-          <Text style={styles.subtitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            AI가 예측한 발견 확률이 높은 구역이에요. 이 근처를 지나신다면 한 번 살펴봐 주세요.
-          </Text>
-        </View>
-
-        <View style={styles.mapWrap}>
-          <BaseMap scrollEnabled={false} accessibilityLabel={mapA11y}>
-            {grid ? <PoaHeatmap grid={grid} /> : null}
-            <MapPin
-              kind="lastSeen"
-              coordinate={LAST_SEEN}
-              title="최종 목격 위치"
-              description="정릉동 주민센터, 오후 3시 10분경"
-            />
-          </BaseMap>
-
-          {poa.isLoading ? (
-            <View style={styles.mapOverlay} accessible accessibilityLabel="지도를 불러오는 중입니다">
-              <ActivityIndicator color={theme.accent} size="large" />
-              <Text style={styles.overlayText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-                예측 지도를 불러오는 중…
-              </Text>
-            </View>
-          ) : null}
-        </View>
-
-        {poa.isError ? (
-          <Pressable
-            onPress={() => poa.refetch()}
-            accessibilityRole="button"
-            accessibilityLabel="지도 다시 불러오기"
-            style={({ pressed }) => [styles.errorCard, pressed && styles.pressed]}
-          >
-            <Text style={styles.errorText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              지도를 불러오지 못했어요. 눌러서 다시 시도해 주세요.
-            </Text>
-          </Pressable>
-        ) : null}
-
-        <HeatLegend compact />
-
-        {grid ? (
+        {elapsedMin != null ? (
           <View
-            style={styles.cumRow}
+            style={[styles.elapsedChip, { backgroundColor: theme.accentWash }]}
             accessible
-            accessibilityLabel={`최고 확률 구역 ${grid.topLabel}, 누적 발견확률 ${Math.round(
-              grid.cumulative * 100,
-            )}퍼센트`}
+            accessibilityLabel={`수색 시작 ${elapsedMin}분 경과`}
           >
-            <Text style={styles.cumLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              최고 확률 구역 · {grid.topLabel}
-            </Text>
-            <Text style={styles.cumValue} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              누적 {Math.round(grid.cumulative * 100)}%
+            <Text
+              style={[styles.elapsedText, { color: theme.accentInk }]}
+              allowFontScaling
+              maxFontSizeMultiplier={type.maxScale}
+              numberOfLines={1}
+            >
+              {elapsedMin}분 전 시작
             </Text>
           </View>
         ) : null}
+      </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            지금 찾고 있어요
+      {/* ── 지도 위 주석 + 범례 (그리드 준비 후) ──────────── */}
+      {grid && !poa.isLoading ? (
+        <>
+          <View
+            style={[styles.zoneAnno, { top: insets.top + 150 }]}
+            pointerEvents="none"
+            accessible
+            accessibilityLabel={`내가 확인할 구역. 약 3분 거리. 누적 발견확률 ${cumPct}퍼센트.`}
+          >
+            <View style={styles.zonePill}>
+              <View style={[styles.zoneDot, { backgroundColor: theme.accent }]} />
+              <Text style={styles.zonePillText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+                내가 확인할 구역
+              </Text>
+            </View>
+            <View style={[styles.distChip, { backgroundColor: theme.accent }]}>
+              <Text style={styles.distText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+                약 3분 거리 · 누적 {cumPct}%
+              </Text>
+            </View>
+          </View>
+
+          <View style={[styles.legendFloat, { top: insets.top + 60 }]}>
+            <HeatLegend compact />
+          </View>
+        </>
+      ) : null}
+
+      {/* ── 지도 로드 실패 → 재시도 ─────────────────────── */}
+      {poa.isError ? (
+        <Pressable
+          onPress={() => poa.refetch()}
+          accessibilityRole="button"
+          accessibilityLabel="지도 다시 불러오기"
+          style={({ pressed }) => [
+            styles.errorCard,
+            { top: insets.top + 160 },
+            pressed && styles.pressed,
+          ]}
+        >
+          <Text style={styles.errorText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            지도를 불러오지 못했어요. 눌러서 다시 시도해 주세요.
           </Text>
-          <MissingPersonCard variant="compact" anon />
+        </Pressable>
+      ) : null}
+
+      {/* ── 하단 시트 ─────────────────────────────────── */}
+      <View style={[styles.sheet, { paddingBottom: insets.bottom + space.lg }]}>
+        <View style={styles.grabber} />
+
+        <Text style={styles.sheetKicker} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+          지금 함께 찾고 있어요
+        </Text>
+
+        <MissingPersonCard variant="compact" anon />
+
+        <View style={styles.lastSeenRow} accessible accessibilityLabel={`마지막 목격 · ${MISSING.area} 인근`}>
+          <Text style={styles.lastSeenIcon} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            📍
+          </Text>
+          <Text
+            style={[styles.lastSeenText, { color: theme.accentInk }]}
+            allowFontScaling
+            maxFontSizeMultiplier={type.maxScale}
+            numberOfLines={1}
+          >
+            마지막 목격 · {MISSING.area} 인근
+          </Text>
         </View>
 
-        <CTAButton
-          label="제보하기"
-          onPress={onReport}
-          accent={theme.accent}
-          accessibilityHint="본 것을 알려주면 수색 구역을 좁힐 수 있어요"
-          style={styles.cta}
-        />
-
+        {/* 112 안내 (mockup copy) — 안전 지침 */}
         <View
-          style={styles.infoLine}
+          style={[styles.info112, { backgroundColor: theme.accentWash }]}
           accessible
-          accessibilityLabel="급한 상황이면 112에 먼저 신고해 주세요. 이 앱은 신고 채널이 아니라 함께 찾는 도구예요."
+          accessibilityLabel="발견하면 가까이 가지 말고 112로 신고해 주세요. 이 앱은 신고 채널이 아니라 함께 찾는 도구예요."
         >
-          <Text style={styles.infoEmoji} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            📞
+          <Text style={styles.info112Icon} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            ℹ️
           </Text>
-          <Text style={styles.infoText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            급한 상황이면{' '}
-            <Text
-              style={styles.infoStrong}
-              allowFontScaling
-              maxFontSizeMultiplier={type.maxScale}
-            >
+          <Text
+            style={[styles.info112Text, { color: theme.accentInk }]}
+            allowFontScaling
+            maxFontSizeMultiplier={type.maxScale}
+          >
+            발견하면 가까이 가지 말고{' '}
+            <Text style={styles.info112Strong} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
               112
             </Text>
-            에 먼저 신고해 주세요. 이 앱은 신고 채널이 아니라, 예측과 제보로 함께 찾는 도구예요.
+            로 신고해 주세요. 이 앱은 신고 채널이 아니라, 예측과 제보로 함께 찾는 도구예요.
           </Text>
         </View>
+
+        {/* 주 CTA: 제보하기 → ReportChat (앰버 그라디언트) */}
+        <Pressable
+          onPress={onReport}
+          accessibilityRole="button"
+          accessibilityLabel="제보하기"
+          accessibilityHint="본 것을 알려주면 수색 구역을 좁힐 수 있어요"
+          style={({ pressed }) => [styles.ctaWrap, pressed && styles.pressed]}
+        >
+          <LinearGradient
+            colors={[theme.accent, theme.accentInk] as const}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={[styles.ctaGradient, { shadowColor: theme.accent }]}
+          >
+            <Text style={styles.ctaIcon} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              👁️
+            </Text>
+            <Text style={styles.ctaLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale} numberOfLines={1}>
+              목격 내용 제보하기
+            </Text>
+          </LinearGradient>
+        </Pressable>
 
         {role === 'operator' ? (
           <View
@@ -164,58 +245,118 @@ export default function SearchScreen() {
             accessibilityLabel="운영자 전용 안내. AI 예측 지도 전체보기는 관제 콘솔에서 제공돼요."
           >
             <Text style={styles.operatorText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              운영자 전용 · AI 예측 지도 전체보기는 관제 콘솔에서 제공돼요.
+              운영자 · AI 예측 지도 전체보기는 관제 콘솔에서 제공돼요
             </Text>
           </View>
         ) : null}
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </View>
   );
 }
 
+const SHADOW = Platform.OS === 'android' ? { elevation: 8 } : {
+  shadowColor: color.text,
+  shadowOpacity: 0.14,
+  shadowRadius: 16,
+  shadowOffset: { width: 0, height: -6 },
+};
+
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: color.surface },
-  scroll: { flex: 1 },
-  content: {
-    paddingHorizontal: space.lg,
-    paddingTop: space.md,
-    gap: space.lg,
-  },
-  headerBlock: { gap: space.xs },
-  title: {
-    fontSize: type.size.title,
-    fontWeight: type.weight.black,
-    color: color.text,
-    fontFamily: type.family,
-  },
-  subtitle: {
-    fontSize: type.size.body,
-    fontWeight: type.weight.medium,
-    color: color.textBody,
-    fontFamily: type.family,
-    lineHeight: 24,
-  },
-  mapWrap: { height: 300 },
-  mapOverlay: {
-    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-    borderRadius: radius.lg,
+  root: { flex: 1, backgroundColor: color.surface },
+
+  mapLayer: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
+  mapFill: { flex: 1, borderRadius: 0, borderWidth: 0 },
+
+  loadOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: 'rgba(255,255,255,0.72)',
     alignItems: 'center',
     justifyContent: 'center',
     gap: space.sm,
   },
-  overlayText: {
+  loadText: {
     fontSize: type.size.label,
     fontWeight: type.weight.bold,
     color: color.textBody,
     fontFamily: type.family,
   },
+
+  topScrim: { position: 'absolute', top: 0, left: 0, right: 0 },
+
+  topBar: {
+    position: 'absolute',
+    left: space.lg,
+    right: space.lg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: space.sm,
+  },
+  elapsedChip: {
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+    borderRadius: radius.pill,
+  },
+  elapsedText: {
+    fontSize: type.size.label,
+    fontWeight: type.weight.bold,
+    fontFamily: type.family,
+  },
+
+  zoneAnno: { position: 'absolute', left: 0, right: 0, alignItems: 'center', gap: space.sm },
+  zonePill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.sm,
+    backgroundColor: color.surface,
+    borderRadius: radius.pill,
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+    shadowColor: color.text,
+    shadowOpacity: 0.16,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 4,
+  },
+  zoneDot: { width: 9, height: 9, borderRadius: 5 },
+  zonePillText: {
+    fontSize: type.size.label,
+    fontWeight: type.weight.black,
+    color: color.text,
+    fontFamily: type.family,
+  },
+  distChip: {
+    borderRadius: radius.pill,
+    paddingHorizontal: space.md,
+    paddingVertical: space.xs,
+  },
+  distText: {
+    fontSize: type.size.label,
+    fontWeight: type.weight.black,
+    color: color.surface,
+    fontFamily: type.family,
+  },
+
+  legendFloat: { position: 'absolute', right: space.lg },
+
   errorCard: {
-    backgroundColor: color.surfaceAlt,
+    position: 'absolute',
+    left: space.lg,
+    right: space.lg,
+    backgroundColor: color.surface,
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: color.border,
     padding: space.lg,
+    shadowColor: color.text,
+    shadowOpacity: 0.12,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
   },
   errorText: {
     fontSize: type.size.label,
@@ -224,62 +365,88 @@ const styles = StyleSheet.create({
     fontFamily: type.family,
     textAlign: 'center',
   },
-  cumRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: color.surfaceAlt,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: color.border,
+
+  sheet: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: color.surface,
+    borderTopLeftRadius: radius.xl,
+    borderTopRightRadius: radius.xl,
     paddingHorizontal: space.lg,
-    paddingVertical: space.md,
-    gap: space.sm,
+    paddingTop: space.sm,
+    gap: space.md,
+    ...SHADOW,
   },
-  cumLabel: {
+  grabber: {
+    width: 42,
+    height: 5,
+    borderRadius: radius.pill,
+    backgroundColor: color.border,
+    alignSelf: 'center',
+    marginBottom: space.xs,
+  },
+  sheetKicker: {
+    fontSize: type.size.label,
+    fontWeight: type.weight.black,
+    color: color.text,
+    fontFamily: type.family,
+  },
+
+  lastSeenRow: { flexDirection: 'row', alignItems: 'center', gap: space.xs },
+  lastSeenIcon: { fontSize: 15 },
+  lastSeenText: {
     flex: 1,
     fontSize: type.size.label,
     fontWeight: type.weight.bold,
-    color: color.text,
     fontFamily: type.family,
   },
-  cumValue: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.black,
-    color: color.critical,
-    fontFamily: type.family,
-    fontVariant: ['tabular-nums'],
-  },
-  section: { gap: space.sm },
-  sectionTitle: {
-    fontSize: type.size.cardTitle,
-    fontWeight: type.weight.black,
-    color: color.text,
-    fontFamily: type.family,
-  },
-  cta: { marginTop: space.xs },
-  infoLine: {
+
+  info112: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    backgroundColor: color.surfaceAlt,
     borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: color.border,
-    padding: space.lg,
+    padding: space.md,
     gap: space.sm,
   },
-  infoEmoji: { fontSize: 18 },
-  infoText: {
+  info112Icon: { fontSize: 18 },
+  info112Text: {
     flex: 1,
     fontSize: type.size.label,
     fontWeight: type.weight.medium,
-    color: color.textBody,
     fontFamily: type.family,
     lineHeight: 22,
   },
-  infoStrong: { fontWeight: type.weight.black, color: color.critical },
+  info112Strong: { fontWeight: type.weight.black },
+
+  ctaWrap: {
+    borderRadius: radius.lg,
+    marginTop: space.xs,
+  },
+  ctaGradient: {
+    minHeight: 60,
+    borderRadius: radius.lg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: space.sm,
+    paddingHorizontal: space.xl,
+    shadowOpacity: 0.4,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 8,
+  },
+  ctaIcon: { fontSize: 20 },
+  ctaLabel: {
+    fontSize: type.size.cardTitle,
+    fontWeight: type.weight.black,
+    color: color.surface,
+    fontFamily: type.family,
+  },
+
   operatorNote: {
-    backgroundColor: color.walkWash,
+    backgroundColor: color.surfaceAlt,
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: color.border,
@@ -288,8 +455,9 @@ const styles = StyleSheet.create({
   operatorText: {
     fontSize: type.size.caption,
     fontWeight: type.weight.bold,
-    color: color.walkInk,
+    color: color.textBody,
     fontFamily: type.family,
   },
-  pressed: { opacity: 0.85 },
+
+  pressed: { opacity: 0.9 },
 });

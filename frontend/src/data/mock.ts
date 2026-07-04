@@ -187,11 +187,14 @@ export function buildFoundSummary(): FoundSummary {
 }
 
 // ── 산책(평시) ────────────────────────────────────────
+/** 산책러(평시 사용자) 이름 — 실종자(김순자)와 다른 일반 시민. 목업 기준. */
+export const WALKER_NAME = '영자';
+
 export const WALK_STATS: WalkStats = {
-  steps: 6420,
+  steps: 6248,
   goal: 8000,
-  distanceKm: 4.3,
-  durationMin: 48,
+  distanceKm: 4.1,
+  durationMin: 52,
   route: [
     { lat: 37.6055, lng: 127.0098 },
     { lat: 37.6062, lng: 127.0109 },
@@ -202,9 +205,9 @@ export const WALK_STATS: WalkStats = {
 };
 
 export const WALK_COURSES: WalkCourse[] = [
-  { id: 'wc1', name: '정릉천 물길 코스', distanceKm: 2.1, durationMin: 30, tag: '평지' },
-  { id: 'wc2', name: '북한산 둘레길 초입', distanceKm: 3.4, durationMin: 55, tag: '숲길' },
-  { id: 'wc3', name: '아리랑시장 마실', distanceKm: 1.6, durationMin: 22, tag: '동네' },
+  { id: 'wc1', name: '호수공원 한 바퀴', distanceKm: 2.4, durationMin: 35, tag: '초급' },
+  { id: 'wc2', name: '벚꽃길 산책로', distanceKm: 1.8, durationMin: 25, tag: '초급' },
+  { id: 'wc3', name: '동산 둘레길', distanceKm: 3.6, durationMin: 55, tag: '중급' },
 ];
 
 /** 지도 초기 리전 (정릉동). */
