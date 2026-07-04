@@ -1,0 +1,95 @@
+/**
+ * 챗봇 말풍선 (spec §2.5, §3.3/§3.4). 등록·제보·알림 챗봇 공용.
+ * bot 좌측(surfaceAlt) / user 우측(accent 틴트). 고령 타깃 — 큰 본문(16sp)·고대비.
+ * 색만으로 화자 구분 금지: 정렬(좌/우) + 꼬리 모서리로 이중부호화.
+ */
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { color, radius, space, type } from '../theme/tokens';
+import { hexToRgba } from '../utils/color';
+
+export type ChatBubbleProps = {
+  from: 'bot' | 'user';
+  text: string;
+  /** 표시용 시각 (예: '오후 3:12'). */
+  time?: string;
+  dark?: boolean;
+};
+
+export function ChatBubble({ from, text, time, dark }: ChatBubbleProps) {
+  const isUser = from === 'user';
+
+  const bubbleBg = isUser
+    ? dark
+      ? hexToRgba(color.walk, 0.24)
+      : color.walkWash
+    : dark
+      ? color.operatorSurfaceAlt
+      : color.surfaceAlt;
+  const textColor = dark ? color.operatorText : color.text;
+  const timeColor = dark ? color.operatorTextSec : color.textCaption;
+
+  const speaker = isUser ? '나' : '상담';
+  const a11yLabel = time ? `${speaker}. ${text}. ${time}` : `${speaker}. ${text}`;
+
+  return (
+    <View
+      style={[styles.row, isUser ? styles.rowUser : styles.rowBot]}
+      accessible
+      accessibilityLabel={a11yLabel}
+    >
+      <View
+        style={[
+          styles.bubble,
+          { backgroundColor: bubbleBg },
+          isUser ? styles.bubbleUser : styles.bubbleBot,
+        ]}
+      >
+        <Text
+          style={[styles.text, { color: textColor }]}
+          allowFontScaling
+          maxFontSizeMultiplier={type.maxScale}
+        >
+          {text}
+        </Text>
+        {time ? (
+          <Text
+            style={[styles.time, { color: timeColor }]}
+            allowFontScaling
+            maxFontSizeMultiplier={type.maxScale}
+          >
+            {time}
+          </Text>
+        ) : null}
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  row: { flexDirection: 'row', marginVertical: space.xs },
+  rowBot: { justifyContent: 'flex-start' },
+  rowUser: { justifyContent: 'flex-end' },
+  bubble: {
+    maxWidth: '80%',
+    paddingHorizontal: space.lg,
+    paddingVertical: space.md,
+    borderRadius: radius.lg,
+  },
+  bubbleBot: { borderTopLeftRadius: radius.sm },
+  bubbleUser: { borderTopRightRadius: radius.sm },
+  text: {
+    fontSize: type.size.body,
+    fontWeight: type.weight.medium,
+    fontFamily: type.family,
+  },
+  time: {
+    marginTop: space.xs,
+    fontSize: type.size.caption,
+    fontWeight: type.weight.regular,
+    fontFamily: type.family,
+    textAlign: 'right',
+  },
+});
+
+export default ChatBubble;
