@@ -14,6 +14,8 @@
 import type {
   CrossValidation,
   FoundSummary,
+  GeoPoint,
+  PoaCell,
   PoaGrid,
   PoliceAlert,
   TimeAxis,
@@ -23,6 +25,7 @@ import type {
   ValidationMetrics,
 } from '../types/domain';
 import { DEMO_CASE_ID } from '../data/missing';
+import { tierForProb } from '../theme/poa';
 import {
   buildAlert,
   buildBeforeAfter,
@@ -46,12 +49,35 @@ export async function getActiveAlerts(): Promise<PoliceAlert[]> {
   return [];
 }
 
+type PoaResponse = { top_cells: { cell: string; prob: number; polygon: GeoPoint[] }[] };
+
+function polygonCentroid(poly: GeoPoint[]): GeoPoint {
+  const n = poly.length || 1;
+  const s = poly.reduce((a, p) => ({ lat: a.lat + p.lat, lng: a.lng + p.lng }), { lat: 0, lng: 0 });
+  return { lat: s.lat / n, lng: s.lng / n };
+}
+
 export async function getPoaPrediction(caseId: string, t: TimeAxis): Promise<PoaGrid> {
   if (USE_MOCK) return delay(buildPoaGrid(t));
+  // 백엔드가 각 셀의 폴리곤을 함께 반환(backend: POA 폴리곤 응답) → 그대로 렌더.
   const res = await fetch(`${API_BASE}/phase3/cases/${caseId}/poa?top=64`);
   if (!res.ok) throw new Error(`POA 조회 실패: ${res.status}`);
-  // 백엔드는 top_cells(H3 셀 id+prob)를 반환 → 클라에서 셀 지오메트리로 매핑 필요.
-  return buildPoaGrid(t); // TODO: H3 → 폴리곤 변환기 연결
+  const data = (await res.json()) as PoaResponse;
+  const maxP = data.top_cells.reduce((m, c) => Math.max(m, c.prob), 0) || 1;
+  const cells: PoaCell[] = data.top_cells.map((tc) => {
+    // 백엔드 prob 는 전체 셀 합=1 기준이라 작다 → 최댓값 대비 상대값으로 색 스프레드.
+    const rel = Math.min(0.95, (tc.prob / maxP) * 0.9);
+    return {
+      id: tc.cell,
+      center: polygonCentroid(tc.polygon),
+      polygon: tc.polygon,
+      prob: rel,
+      tier: tierForProb(rel),
+    };
+  });
+  const cumulative = Math.min(1, data.top_cells.reduce((a, c) => a + c.prob, 0));
+  const peakPct = Math.round((cells[0]?.prob ?? 0) * 100);
+  return { caseId, t, cells, cumulative, topLabel: `최고확률 구역 ${peakPct}%` };
 }
 
 export async function getCrossValidation(caseId: string): Promise<CrossValidation> {

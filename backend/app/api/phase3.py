@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app import storage
+from app.geo import h3grid
 from app.phase3 import alerts, tip_flow, triggers
 from app.schemas.common import GeoPoint
 from app.schemas.tip import Tip
@@ -60,8 +61,19 @@ def get_poa(case_id: str, top: int = 20):
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
     ranked = sorted(case.current_poa.items(), key=lambda kv: kv[1], reverse=True)[:top]
-    return {"case_id": case.id, "total_cells": len(case.current_poa),
-            "top_cells": [{"cell": c, "prob": round(p, 6)} for c, p in ranked]}
+    return {
+        "case_id": case.id,
+        "total_cells": len(case.current_poa),
+        "top_cells": [
+            {
+                "cell": c,
+                "prob": round(p, 6),
+                # H3 셀 → 육각형 폴리곤(위경도 6꼭짓점). 프론트는 그대로 지도에 렌더 (변환 불필요).
+                "polygon": [{"lat": v.lat, "lng": v.lng} for v in h3grid.cell_boundary(c)],
+            }
+            for c, p in ranked
+        ],
+    }
 
 
 @router.get("/cases/{case_id}/rerun-check")

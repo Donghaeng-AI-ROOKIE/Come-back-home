@@ -21,6 +21,11 @@ def cell_center(cell: str) -> GeoPoint:
     return GeoPoint(lat=lat, lng=lng)
 
 
+def cell_boundary(cell: str) -> list[GeoPoint]:
+    """H3 셀의 육각형 경계 꼭짓점(위경도). 프론트 지도 폴리곤 렌더용."""
+    return [GeoPoint(lat=lat, lng=lng) for lat, lng in h3.cell_to_boundary(cell)]
+
+
 def cells_within_km(center: GeoPoint, radius_km: float, res: int | None = None) -> list[str]:
     """중심점 반경 radius_km 를 덮는 H3 셀 목록."""
     res = res or settings.h3_resolution
