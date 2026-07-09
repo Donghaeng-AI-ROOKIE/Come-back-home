@@ -7,7 +7,7 @@
 - Base URL: `http://localhost:8000` (로컬), Swagger: `/docs`
 - 모든 시각은 **ISO 8601** 문자열. 좌표는 `{lat, lng}`.
 - **스텁 모드:** API 키(EXAONE/Mi:dm/VARCO/Upstage)가 없으면 백엔드가 **유효한 모양의 가짜 응답**을 반환 → 프론트는 지금 당장 실 배선·렌더 검증 가능. 실 AI는 나중에 스텁 자리에 교체.
-- **데모 케이스 미리 seed됨:** 서버 부팅 시 정릉동 김순자 케이스가 `case_id="demo"` 로 자동 생성·예측까지 완료. 프론트는 케이스 생성 없이 **`GET /phase3/cases/demo/poa` 로 바로** 실 데이터 히트맵 검증 가능. CORS 도 열려 있음(`*`).
+- **데모 케이스 미리 seed됨:** 서버 부팅 시 정릉동 김순자 케이스가 `case_id="case-jeongneung-001"`(프론트 `DEMO_CASE_ID`와 동일) 로 자동 생성·예측까지 완료. 프론트는 케이스 생성 없이 **`GET /phase3/cases/case-jeongneung-001/poa` 로 바로** 실 데이터 히트맵 검증 가능. CORS 도 열려 있음(`*`).
 
 ---
 

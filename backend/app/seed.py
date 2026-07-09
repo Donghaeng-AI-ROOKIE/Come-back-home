@@ -15,14 +15,14 @@ from app.schemas.common import GeoPoint
 from app.schemas.persona import AttractionPoint, Persona, PersonaType
 from app.schemas.report import MissingReport
 
-DEMO_CASE_ID = "demo"
+DEMO_CASE_ID = "case-jeongneung-001"  # 프론트 DEMO_CASE_ID(frontend/src/data/missing.ts)와 일치
 
 
 def seed_demo() -> None:
     if storage.cases.get(DEMO_CASE_ID) is not None:
         return  # 이미 seed 됨
 
-    home = GeoPoint(lat=37.6100, lng=127.0165)  # 정릉동 인근
+    home = GeoPoint(lat=37.6061, lng=127.0106)  # 프론트 LAST_SEEN 과 일치 (정릉동)
     persona = Persona(
         id="demo-persona",
         type=PersonaType.dementia,
@@ -30,8 +30,8 @@ def seed_demo() -> None:
         age=78,
         home=home,
         attraction_points=[
-            AttractionPoint(label="옛집(정릉동)", location=GeoPoint(lat=37.6132, lng=127.0098), weight=0.55),
-            AttractionPoint(label="정릉시장", location=GeoPoint(lat=37.6089, lng=127.0151), weight=0.30),
+            AttractionPoint(label="옛집(아리랑고개)", location=GeoPoint(lat=37.6015, lng=127.0088), weight=0.55),
+            AttractionPoint(label="정릉시장", location=GeoPoint(lat=37.6047, lng=127.0121), weight=0.30),
         ],
         behavior_notes=["해질녘 옛집 방향으로 걷는 습관", "중기 치매 — 시간 인식 혼란(time-shift)"],
     )
