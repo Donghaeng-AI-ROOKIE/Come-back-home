@@ -1,0 +1,11 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.7
+pydantic-settings>=2.3
+numpy>=1.26
+h3>=4.0
+pytest>=8.0
+
+# 도로망 기반 시뮬레이션으로 교체할 때 설치 (geo/roadnet.py 참고)
+# osmnx>=2.0
+# networkx>=3.3

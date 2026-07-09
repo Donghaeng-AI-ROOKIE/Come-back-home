@@ -1,0 +1,15 @@
+# 비밀키 — 절대 GitHub에 올리면 안 됨 (API 키 발급 후 여기 저장됨)
+.env
+
+# Python 캐시
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 가상환경
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
