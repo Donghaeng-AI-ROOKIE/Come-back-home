@@ -1,6 +1,14 @@
-"""지오코딩 — gazetteer 매칭 + draft → AttractionPoint 변환 검증."""
+"""지오코딩 — gazetteer 매칭 + draft → AttractionPoint 변환 검증.
 
-from app.geo.geocode import GazetteerGeocoder, to_attraction_points
+기본 백엔드 테스트는 오프라인 gazetteer 로 결정적으로. 카카오(네트워크·키)는
+KAKAO_REST_KEY 있을 때만 도는 live 테스트로 분리.
+"""
+
+import os
+
+import pytest
+
+from app.geo.geocode import GazetteerGeocoder, KakaoGeocoder, to_attraction_points
 
 
 def test_gazetteer_prefers_dong_over_gu():
@@ -29,14 +37,26 @@ def test_to_attraction_points_splits_resolved_and_unresolved():
         {"label": "집 근처", "area_text": "정릉동"},
         {"label": "미상 장소", "area_text": "이름없는곳"},
     ]
-    points, unresolved = to_attraction_points(drafts)
+    # 결정적 검증 위해 오프라인 gazetteer 명시
+    points, unresolved = to_attraction_points(drafts, geocoder=GazetteerGeocoder())
     assert len(points) == 2
     assert {p.label for p in points} == {"옛 직장", "집 근처"}
     assert all(p.weight == 1.0 for p in points)
+    assert all(p.precision == "dong" for p in points)   # gazetteer → 동 단위
     assert len(unresolved) == 1 and unresolved[0]["label"] == "미상 장소"
 
 
 def test_to_attraction_points_falls_back_to_label_when_no_area():
     drafts = [{"label": "화곡동"}]  # area_text 없음 → label 로 지오코딩 시도
-    points, unresolved = to_attraction_points(drafts)
+    points, unresolved = to_attraction_points(drafts, geocoder=GazetteerGeocoder())
     assert len(points) == 1 and not unresolved
+
+
+@pytest.mark.skipif(not os.environ.get("KAKAO_REST_KEY"), reason="카카오 키 없음 (live)")
+def test_kakao_keyword_returns_poi_precision():
+    """카카오 키워드 검색 → 실제 상호 건물 좌표(precision=poi). (네트워크)"""
+    g = KakaoGeocoder(os.environ["KAKAO_REST_KEY"])
+    res = g.locate("정릉동 방앗간")
+    assert res is not None
+    assert res.precision == "poi" and res.source == "kakao"
+    assert 37.0 < res.point.lat < 38.0 and 126.5 < res.point.lng < 127.5
