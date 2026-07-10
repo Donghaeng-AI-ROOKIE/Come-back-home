@@ -1,86 +1,111 @@
-"""지오코딩 — 장소 텍스트(동/랜드마크) → 좌표(GeoPoint).
+"""지오코딩 — 장소 텍스트(동/랜드마크/상호) → 좌표(GeoPoint) + 정밀도.
 
-Phase 0 온보딩에서 뽑은 끌림점(area_text: "면목동", "성북구 정릉동" 등)을 Phase 2
-시뮬레이션이 쓰는 좌표로 바꾼다. draft → Persona.attraction_points 확정의 끊긴 고리.
+Phase 0 온보딩 끌림점(area_text: "면목동 방앗간", "성북구 정릉동" 등)을 Phase 2
+시뮬레이션 좌표로 바꾼다. draft → Persona.attraction_points 확정의 끊긴 고리.
 
-백엔드 교체형:
-- GazetteerGeocoder: 오프라인 사전(결정적·키리스). 데모 지역 + 서울 자치구 커버.
-- NominatimGeocoder: OSM 실지오코더(네트워크, 키 불필요). 사전에 없는 곳 보강.
-- ChainGeocoder: 사전 우선 → 실패 시 다음 백엔드.
-기본은 gazetteer (오프라인·테스트 안정). config 로 nominatim 체인 활성화.
+정밀도(precision)를 함께 반환 — SAR에서 거친 앵커는 반경 넓게, 정밀 POI는 좁게:
+  poi(건물·상호) > address(도로명·지번) > dong(동 중심) > approx(근사)
+
+백엔드 교체형(정밀→거침 순 체인):
+- KakaoGeocoder:    카카오 Local — 키워드 장소검색(상호까지 건물 좌표) + 주소검색. ★가장 정밀
+- NominatimGeocoder: OSM(네트워크, 키 불필요). 카카오 밖 보강.
+- GazetteerGeocoder: 오프라인 사전(결정적·키리스). 최후 폴백·테스트용.
+config.kakao_rest_key 있으면 카카오 우선.
 """
 
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 from typing import Protocol
 
 from app.schemas.common import GeoPoint
 from app.schemas.persona import AttractionPoint
 
 
+@dataclass
+class GeoResult:
+    point: GeoPoint
+    precision: str          # poi | address | dong | approx
+    source: str             # kakao | nominatim | gazetteer
+    matched: str | None = None   # 실제 매칭된 장소/주소명
+
+
 class Geocoder(Protocol):
+    def locate(self, query: str) -> GeoResult | None: ...
     def geocode(self, query: str) -> GeoPoint | None: ...
 
 
-# ── 오프라인 gazetteer ───────────────────────────────────────────────
-# 근사 중심좌표(WGS84). 데모(정릉동 김순자·화곡동 아동) + 서울 주요 지역.
-_GAZETTEER: dict[str, GeoPoint] = {
-    # 동 단위 (데모)
-    "정릉동": GeoPoint(lat=37.6076, lng=127.0133),
-    "면목동": GeoPoint(lat=37.5872, lng=127.0873),
-    "화곡동": GeoPoint(lat=37.5417, lng=126.8407),
-    "안양천": GeoPoint(lat=37.5290, lng=126.8760),
-    "정릉초등학교": GeoPoint(lat=37.6087, lng=127.0155),
-    # 자치구 (동을 못 잡으면 구 수준으로라도)
-    "성북구": GeoPoint(lat=37.5894, lng=127.0167),
-    "중랑구": GeoPoint(lat=37.6063, lng=127.0925),
-    "강서구": GeoPoint(lat=37.5509, lng=126.8495),
-    "종로구": GeoPoint(lat=37.5730, lng=126.9794),
-    "강남구": GeoPoint(lat=37.5172, lng=127.0473),
-    "노원구": GeoPoint(lat=37.6542, lng=127.0568),
-    "은평구": GeoPoint(lat=37.6027, lng=126.9291),
-}
+class _BaseGeocoder:
+    """geocode() 는 locate() 의 좌표만 뽑아주는 편의 래퍼."""
 
-
-def _normalize(text: str) -> str:
-    # 공백·괄호 제거, 조사/수식 최소 정리
-    return re.sub(r"[\s()]+", "", text)
-
-
-class GazetteerGeocoder:
-    """오프라인 사전 매칭 — query 안에 사전 키가 포함되면 그 좌표.
-
-    긴 키(동)를 먼저 시도해 '성북구 정릉동'에서 구가 아니라 동을 잡는다.
-    """
-
-    def __init__(self, table: dict[str, GeoPoint] | None = None) -> None:
-        self.table = table or _GAZETTEER
-        self._keys = sorted(self.table, key=len, reverse=True)
+    def locate(self, query: str) -> GeoResult | None:  # pragma: no cover - 추상
+        raise NotImplementedError
 
     def geocode(self, query: str) -> GeoPoint | None:
+        r = self.locate(query)
+        return r.point if r else None
+
+
+# ── 카카오 Local (가장 정밀) ─────────────────────────────────────────
+class KakaoGeocoder(_BaseGeocoder):
+    """카카오 Local API — 키워드 장소검색 우선(상호·건물), 실패 시 주소검색.
+
+    "면목동 방앗간" → 실제 방앗간 상호의 건물 좌표(precision=poi).
+    "서울 성북구 정릉동" → 주소 좌표(precision=address). REST 키 필요.
+    """
+
+    KEYWORD_URL = "https://dapi.kakao.com/v2/local/search/keyword.json"
+    ADDRESS_URL = "https://dapi.kakao.com/v2/local/search/address.json"
+
+    def __init__(self, rest_key: str, timeout: float = 8.0) -> None:
+        self.rest_key = rest_key
+        self.timeout = timeout
+
+    def _get(self, url: str, query: str) -> list[dict]:
+        import json
+        import urllib.parse
+        import urllib.request
+
+        full = f"{url}?{urllib.parse.urlencode({'query': query, 'size': 1})}"
+        req = urllib.request.Request(full, headers={"Authorization": f"KakaoAK {self.rest_key}"})
+        try:
+            with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                return json.loads(resp.read().decode("utf-8")).get("documents", [])
+        except Exception:  # noqa: BLE001 — 네트워크/인증 실패는 조용히 미탐
+            return []
+
+    def locate(self, query: str) -> GeoResult | None:
         if not query:
             return None
-        q = _normalize(query)
-        for key in self._keys:
-            if _normalize(key) in q:
-                return self.table[key]
+        # 1) 키워드 장소검색 — 상호/POI 건물 좌표
+        docs = self._get(self.KEYWORD_URL, query)
+        if docs:
+            d = docs[0]
+            return GeoResult(
+                GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
+                precision="poi", source="kakao", matched=d.get("place_name"),
+            )
+        # 2) 주소검색 — 도로명/지번
+        docs = self._get(self.ADDRESS_URL, query)
+        if docs:
+            d = docs[0]
+            return GeoResult(
+                GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
+                precision="address", source="kakao", matched=d.get("address_name"),
+            )
         return None
 
 
-class NominatimGeocoder:
-    """OpenStreetMap Nominatim 실지오코더 (네트워크, API 키 불필요).
-
-    사전에 없는 임의 장소 보강용. 예의상 UA 지정, 저속. 실패 시 None.
-    """
-
+# ── OSM Nominatim ────────────────────────────────────────────────────
+class NominatimGeocoder(_BaseGeocoder):
     URL = "https://nominatim.openstreetmap.org/search"
 
     def __init__(self, timeout: float = 8.0, country: str = "kr") -> None:
         self.timeout = timeout
         self.country = country
 
-    def geocode(self, query: str) -> GeoPoint | None:
+    def locate(self, query: str) -> GeoResult | None:
         import json
         import urllib.parse
         import urllib.request
@@ -97,55 +122,104 @@ class NominatimGeocoder:
         try:
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                 rows = json.loads(resp.read().decode("utf-8"))
-        except Exception:  # noqa: BLE001 — 네트워크/파싱 실패는 조용히 미탐
+        except Exception:  # noqa: BLE001
             return None
         if not rows:
             return None
-        return GeoPoint(lat=float(rows[0]["lat"]), lng=float(rows[0]["lon"]))
+        r = rows[0]
+        return GeoResult(
+            GeoPoint(lat=float(r["lat"]), lng=float(r["lon"])),
+            precision="approx", source="nominatim", matched=r.get("display_name"),
+        )
 
 
-class ChainGeocoder:
-    """여러 백엔드를 순서대로 시도, 첫 성공 반환."""
+# ── 오프라인 gazetteer (최후 폴백) ──────────────────────────────────
+_GAZETTEER: dict[str, GeoPoint] = {
+    "정릉동": GeoPoint(lat=37.6076, lng=127.0133),
+    "면목동": GeoPoint(lat=37.5872, lng=127.0873),
+    "화곡동": GeoPoint(lat=37.5417, lng=126.8407),
+    "안양천": GeoPoint(lat=37.5290, lng=126.8760),
+    "정릉초등학교": GeoPoint(lat=37.6087, lng=127.0155),
+    "성북구": GeoPoint(lat=37.5894, lng=127.0167),
+    "중랑구": GeoPoint(lat=37.6063, lng=127.0925),
+    "강서구": GeoPoint(lat=37.5509, lng=126.8495),
+    "종로구": GeoPoint(lat=37.5730, lng=126.9794),
+    "강남구": GeoPoint(lat=37.5172, lng=127.0473),
+    "노원구": GeoPoint(lat=37.6542, lng=127.0568),
+    "은평구": GeoPoint(lat=37.6027, lng=126.9291),
+}
+
+
+def _normalize(text: str) -> str:
+    return re.sub(r"[\s()]+", "", text)
+
+
+class GazetteerGeocoder(_BaseGeocoder):
+    """오프라인 사전 매칭 — 긴 키(동)를 먼저 시도해 구보다 동을 우선."""
+
+    def __init__(self, table: dict[str, GeoPoint] | None = None) -> None:
+        self.table = table or _GAZETTEER
+        self._keys = sorted(self.table, key=len, reverse=True)
+
+    def locate(self, query: str) -> GeoResult | None:
+        if not query:
+            return None
+        q = _normalize(query)
+        for key in self._keys:
+            if _normalize(key) in q:
+                return GeoResult(self.table[key], precision="dong", source="gazetteer", matched=key)
+        return None
+
+
+# ── 체인 ─────────────────────────────────────────────────────────────
+class ChainGeocoder(_BaseGeocoder):
+    """여러 백엔드를 순서대로 시도, 첫 성공 반환 (정밀→거침 순 권장)."""
 
     def __init__(self, *backends: Geocoder) -> None:
         self.backends = backends
 
-    def geocode(self, query: str) -> GeoPoint | None:
+    def locate(self, query: str) -> GeoResult | None:
         for b in self.backends:
-            hit = b.geocode(query)
+            hit = b.locate(query)
             if hit is not None:
                 return hit
         return None
 
 
 def get_geocoder(use_nominatim: bool = False) -> Geocoder:
-    """기본 gazetteer. use_nominatim 이면 사전 → OSM 체인."""
-    gaz = GazetteerGeocoder()
+    """설정 기반 체인. kakao_rest_key 있으면 카카오 우선 → (nominatim) → gazetteer."""
+    from app.config import settings
+
+    backends: list[Geocoder] = []
+    if getattr(settings, "kakao_rest_key", ""):
+        backends.append(KakaoGeocoder(settings.kakao_rest_key))
     if use_nominatim:
-        return ChainGeocoder(gaz, NominatimGeocoder())
-    return gaz
+        backends.append(NominatimGeocoder())
+    backends.append(GazetteerGeocoder())
+    return backends[0] if len(backends) == 1 else ChainGeocoder(*backends)
 
 
 # ── draft 끌림점 → AttractionPoint ──────────────────────────────────
-
 def to_attraction_points(
     drafts: list[dict], geocoder: Geocoder | None = None, *, default_weight: float = 1.0
 ) -> tuple[list[AttractionPoint], list[dict]]:
-    """온보딩 초안 [{"label","area_text"}] → (좌표화된 AttractionPoint, 실패 목록).
+    """온보딩 초안 [{"label","area_text"}] → (AttractionPoint[], 미해결[]).
 
-    area_text 가 지오코딩되면 AttractionPoint 생성, 안 되면 실패 목록에 남겨
-    후속 보완(수동 확인·다른 지오코더)로 넘긴다.
+    지오코딩되면 좌표·정밀도(precision) 담아 AttractionPoint 생성, 안 되면 미해결.
     """
     geocoder = geocoder or get_geocoder()
     points: list[AttractionPoint] = []
     unresolved: list[dict] = []
     for d in drafts:
         area = d.get("area_text") or d.get("label")
-        loc = geocoder.geocode(area) if area else None
-        if loc is None:
+        res = geocoder.locate(area) if area else None
+        if res is None:
             unresolved.append(d)
             continue
-        points.append(
-            AttractionPoint(label=d.get("label") or area, location=loc, weight=default_weight)
-        )
+        points.append(AttractionPoint(
+            label=d.get("label") or area,
+            location=res.point,
+            weight=default_weight,
+            precision=res.precision,
+        ))
     return points, unresolved

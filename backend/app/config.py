@@ -27,6 +27,10 @@ class Settings(BaseSettings):
     embed_model: str = "jhgan/ko-sroberta-multitask"
     embed_api_key: str = ""
 
+    # 카카오 Local API — Phase 0 끌림점 지오코딩(키워드 장소검색으로 건물 단위 POI).
+    #   있으면 KakaoGeocoder 우선 사용, 없으면 gazetteer/nominatim 폴백.
+    kakao_rest_key: str = ""
+
     # H3 격자 해상도 (9 ≈ 육각형 변 174m, 도심 수색 단위에 적합)
     h3_resolution: int = 9
 

@@ -19,6 +19,7 @@ class AttractionPoint(BaseModel):
     label: str
     location: GeoPoint
     weight: float = 1.0   # 상대 중요도 (EXAONE prior 생성 시 재조정됨)
+    precision: str = "unknown"   # 지오코딩 정밀도 poi>address>dong>approx — Phase 2 반경 보정용
 
 
 class Persona(BaseModel):
