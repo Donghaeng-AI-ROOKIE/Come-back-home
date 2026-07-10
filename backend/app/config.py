@@ -12,6 +12,21 @@ class Settings(BaseSettings):
     varco_api_key: str = ""
     upstage_api_key: str = ""
 
+    # KT 믿음(Mi:dm) 서빙 엔드포인트 (OpenAI 호환 chat completions)
+    #   midm_base_url   = 발급받은 endpoint URL (…/v1 또는 …/v1/chat/completions 앞부분)
+    #   midm_model      = 발급받은 endpoint ID (chat 요청의 model 필드로 들어감)
+    midm_base_url: str = ""
+    midm_model: str = ""
+    llm_timeout: float = 30.0        # LLM HTTP 타임아웃(초)
+
+    # Phase 0 온보딩 — 한국어 문장 임베더 (히스토리-어웨어 슬롯 검색용)
+    #   embed_base_url 있으면 원격 OpenAI 호환 /embeddings, 없으면 embed_model 을
+    #   로컬 sentence-transformers 로 로드. 완전히 비우면 해시 스텁(의미검색 불가).
+    #   기본 = 가벼운 한국어 STS 모델. 품질 업그레이드: nlpai-lab/KURE-v1 (bge-m3 기반, ~2.2GB).
+    embed_base_url: str = ""
+    embed_model: str = "jhgan/ko-sroberta-multitask"
+    embed_api_key: str = ""
+
     # H3 격자 해상도 (9 ≈ 육각형 변 174m, 도심 수색 단위에 적합)
     h3_resolution: int = 9
 

@@ -6,6 +6,9 @@ numpy>=1.26
 h3>=4.0
 pytest>=8.0
 
+# Phase 0 온보딩 — 히스토리-어웨어 슬롯 검색용 한국어 임베더 (로컬)
+sentence-transformers>=3.0
+
 # 도로망 기반 시뮬레이션으로 교체할 때 설치 (geo/roadnet.py 참고)
 # osmnx>=2.0
 # networkx>=3.3

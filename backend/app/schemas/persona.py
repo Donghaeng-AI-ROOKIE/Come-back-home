@@ -33,9 +33,22 @@ class Persona(BaseModel):
 
 
 class InterviewSession(BaseModel):
-    """Mi:dm 챗봇 인터뷰 세션 — 종료 시 Persona 로 변환된다."""
+    """Mi:dm 챗봇 인터뷰 세션 — 종료 시 Persona 로 변환된다.
+
+    적응형 엘리시테이션 상태를 함께 들고 다닌다: 검색이 다음 슬롯을 고르고
+    Mi:dm 이 추출/문장화하며 채워진 슬롯·누적 추출을 여기 쌓는다.
+    """
     id: str
     guardian_name: str
+    persona_type: PersonaType | None = None   # 첫 답에서 확정
     messages: list[dict] = []        # {"role": "assistant"|"user", "text": ...}
+    filled_keys: list[str] = []      # 충족된 슬롯 key
+    asked_counts: dict[str, int] = {}    # 물었지만 안 채워진 슬롯 횟수(반복 억제)
+    prev_target_key: str | None = None   # 직전에 겨냥한 슬롯 (추출 대상)
+    # 누적 추출 (종료 시 Persona 로 변환)
+    draft_fields: dict = {}                       # name/age/home
+    draft_attractions: list[dict] = []            # [{"label","area_text"}]
+    draft_behaviors: list[str] = []
+    awaiting_confirmation: bool = False   # 요약 확인("이게 맞나요?") 대기 중
     done: bool = False
     persona_id: str | None = None
