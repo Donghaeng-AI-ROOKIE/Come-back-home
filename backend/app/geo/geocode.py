@@ -48,11 +48,26 @@ class _BaseGeocoder:
 
 
 # ── 카카오 Local (가장 정밀) ─────────────────────────────────────────
-class KakaoGeocoder(_BaseGeocoder):
-    """카카오 Local API — 키워드 장소검색 우선(상호·건물), 실패 시 주소검색.
+# 행정구역 접미사 — 마지막 토큰이 이걸로 끝나면 '순수 지역명'으로 보고 주소검색 먼저.
+_ADMIN_SUFFIX = ("특별시", "광역시", "시", "도", "구", "군", "동", "읍", "면", "리")
 
-    "면목동 방앗간" → 실제 방앗간 상호의 건물 좌표(precision=poi).
-    "서울 성북구 정릉동" → 주소 좌표(precision=address). REST 키 필요.
+
+def _looks_like_region(query: str) -> bool:
+    """'면목동', '성북구 정릉동'처럼 마지막 토큰이 행정구역 접미사로 끝나는가.
+
+    True  → 주소검색 먼저(동 좌표). '면목동'을 키워드로 넣으면 엉뚱한 랜드마크가 걸림.
+    False → 키워드검색 먼저(상호/건물 POI). '면목동 방앗간', '서울숲' 등.
+    """
+    toks = query.split()
+    return bool(toks) and toks[-1].endswith(_ADMIN_SUFFIX)
+
+
+class KakaoGeocoder(_BaseGeocoder):
+    """카카오 Local API — 입력 종류에 따라 검색 순서를 바꾼다.
+
+    - 순수 지역명("면목동", "성북구 정릉동") → 주소검색 먼저 → 동/주소 좌표(precision=address).
+    - 상호·장소명("면목동 방앗간", "서울숲")   → 키워드검색 먼저 → 건물 POI(precision=poi).
+    각각 실패하면 다른 방식으로 폴백. REST 키 필요.
     """
 
     KEYWORD_URL = "https://dapi.kakao.com/v2/local/search/keyword.json"
@@ -75,25 +90,31 @@ class KakaoGeocoder(_BaseGeocoder):
         except Exception:  # noqa: BLE001 — 네트워크/인증 실패는 조용히 미탐
             return []
 
+    def _keyword(self, query: str) -> GeoResult | None:
+        docs = self._get(self.KEYWORD_URL, query)
+        if not docs:
+            return None
+        d = docs[0]
+        return GeoResult(GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
+                         precision="poi", source="kakao", matched=d.get("place_name"))
+
+    def _address(self, query: str) -> GeoResult | None:
+        docs = self._get(self.ADDRESS_URL, query)
+        if not docs:
+            return None
+        d = docs[0]
+        return GeoResult(GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
+                         precision="address", source="kakao", matched=d.get("address_name"))
+
     def locate(self, query: str) -> GeoResult | None:
         if not query:
             return None
-        # 1) 키워드 장소검색 — 상호/POI 건물 좌표
-        docs = self._get(self.KEYWORD_URL, query)
-        if docs:
-            d = docs[0]
-            return GeoResult(
-                GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
-                precision="poi", source="kakao", matched=d.get("place_name"),
-            )
-        # 2) 주소검색 — 도로명/지번
-        docs = self._get(self.ADDRESS_URL, query)
-        if docs:
-            d = docs[0]
-            return GeoResult(
-                GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
-                precision="address", source="kakao", matched=d.get("address_name"),
-            )
+        # 순수 지역명이면 주소→키워드, 상호/장소명이면 키워드→주소
+        steps = (self._address, self._keyword) if _looks_like_region(query) else (self._keyword, self._address)
+        for step in steps:
+            res = step(query)
+            if res is not None:
+                return res
         return None
 
 
