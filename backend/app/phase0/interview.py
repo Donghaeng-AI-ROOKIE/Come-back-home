@@ -16,17 +16,20 @@ from __future__ import annotations
 from app import storage
 from app.llm import midm
 from app.phase0 import retrieval, safety
+from app.geo.geocode import get_geocoder, to_attraction_points
 from app.phase0.retrieval import get_embedder
 from app.phase0.slots import SlotSpec, slot_by_key, slots_for
 from app.schemas.common import GeoPoint
 from app.schemas.persona import AttractionPoint, InterviewSession, Persona, PersonaType
 
+import re
+
 _EMB = get_embedder()
 
 # 피벗(꼬리질문) 판정은 검색의 PIVOT_SIM 과 일치 — 강한 신호일 때만 '되받아 확인' 톤.
 FOLLOWUP_SIM = retrieval.PIVOT_SIM
-# 최대 질문 수 안전장치 (무한 루프 방지).
-MAX_QUESTIONS = 14
+# 절대 백스톱(모든 슬롯 소진/충족으로 자연 종료가 먼저 걸린다). 유형별 슬롯×시도 상한 위.
+MAX_QUESTIONS = 40
 
 _IDENTITY = slot_by_key("identity")
 
@@ -83,7 +86,8 @@ def build_summary(session: InterviewSession) -> str:
     if f.get("name"):
         who.append(str(f["name"]))
     if f.get("age"):
-        who.append(f"{f['age']}세")
+        age_num = re.sub(r"[^0-9]", "", str(f["age"]))   # "78세" → "78" (중복 '세' 방지)
+        who.append(f"{age_num}세" if age_num else str(f["age"]))
     who.append(_TYPE_KO.get(session.persona_type, "—"))
     lines.append(f"• 대상자: {', '.join(who)}")
 
@@ -122,10 +126,22 @@ def start_interview(guardian_name: str, persona_type: PersonaType | None = None)
     return session
 
 
+def _norm(s: str) -> str:
+    return re.sub(r"[\s()]+", "", str(s or ""))
+
+
 def _apply_extraction(session: InterviewSession, prev_slot: SlotSpec, extracted: dict) -> None:
-    session.draft_fields.update(extracted.get("fields", {}) or {})
+    # 필드는 first-wins — 한 번 정해진 name/age/home/type 을 이후 답변이 덮어쓰지 못하게.
+    # (특히 현재 집을 과거 거주지 답변이 덮어쓰던 버그 방지.)
+    for k, v in (extracted.get("fields", {}) or {}).items():
+        if v:
+            session.draft_fields.setdefault(k, v)
+    # 끌림점 — 정규화한 label/area 기준 중복 제거(정릉시장 poi/address 중복 방지).
+    seen = {(_norm(a.get("label")), _norm(a.get("area_text"))) for a in session.draft_attractions}
     for ap in extracted.get("attraction_points", []) or []:
-        if ap not in session.draft_attractions:
+        key = (_norm(ap.get("label")), _norm(ap.get("area_text")))
+        if key not in seen:
+            seen.add(key)
             session.draft_attractions.append(ap)
     for note in extracted.get("behavior_notes", []) or []:
         if note not in session.draft_behaviors:
@@ -135,10 +151,23 @@ def _apply_extraction(session: InterviewSession, prev_slot: SlotSpec, extracted:
         session.asked_counts.pop(prev_slot.key, None)   # 채워지면 반복 페널티 해제
 
 
+# 슬롯 하나를 이만큼 물어도 안 채워지면 '소진'으로 보고 넘어간다(무한루프 방지).
+MAX_ASKS_PER_SLOT = 2
+
+
+def _exhausted_keys(session: InterviewSession) -> set[str]:
+    return {k for k, c in session.asked_counts.items() if c >= MAX_ASKS_PER_SLOT}
+
+
+def _blocked_keys(session: InterviewSession) -> set[str]:
+    """더 물을 필요 없는 슬롯 = 채워짐 ∪ 소진됨."""
+    return set(session.filled_keys) | _exhausted_keys(session)
+
+
 def _next_slot(session: InterviewSession) -> tuple[SlotSpec, bool] | None:
-    """검색으로 다음 슬롯 + 꼬리질문 여부. 후보 없으면 None."""
+    """검색으로 다음 슬롯 + 꼬리질문 여부. 채움/소진된 슬롯은 제외. 없으면 None."""
     ranked, _ = retrieval.rank_next_slots(
-        session.persona_type, _user_turns(session), set(session.filled_keys), _EMB,
+        session.persona_type, _user_turns(session), _blocked_keys(session), _EMB,
         top_k=5, asked_counts=session.asked_counts,
     )
     if not ranked:
@@ -147,20 +176,15 @@ def _next_slot(session: InterviewSession) -> tuple[SlotSpec, bool] | None:
     return top.slot, top.similarity >= FOLLOWUP_SIM
 
 
-MIN_TIER2 = 3   # 종료에 필요한 최소 tier2(성격·신체) 슬롯 수
-
-
 def _is_complete(session: InterviewSession) -> bool:
-    """종료 판정: tier1(경로·장소) 전부 + tier2 최소 MIN_TIER2 충족.
+    """종료 판정: 유형-유효 슬롯이 **전부 채워지거나 소진**되면 끝.
 
-    모든 슬롯을 다 채우려 하면 인터뷰가 너무 길어진다. 예측의 뼈대(장소)는
-    빠짐없이, 스타일 보정(성격·신체)은 핵심 몇 개만 확보되면 요약으로 넘어간다.
+    온보딩은 응급(골든타임)이 아니라 사전 등록이므로, 개인화를 위해 페르소나
+    버퍼(슬롯)를 최대한 다 채운다. 안 채워지는 슬롯은 MAX_ASKS_PER_SLOT 만큼
+    시도 후 소진 처리해 무한루프를 막는다.
     """
-    filled = set(session.filled_keys)
-    slots = slots_for(session.persona_type)
-    tier1_done = all(s.key in filled for s in slots if s.tier.value == 1)
-    tier2_done = sum(1 for s in slots if s.tier.value == 2 and s.key in filled)
-    return tier1_done and tier2_done >= MIN_TIER2
+    blocked = _blocked_keys(session)
+    return all(s.key in blocked for s in slots_for(session.persona_type))
 
 
 def answer_interview(session_id: str, user_text: str) -> InterviewSession:
@@ -197,6 +221,20 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
             storage.interviews.save(session.id, session)
             return session
 
+    # 2.5) 이름 다음 필수 앵커 = 현재 집. 검색에 맡기지 않고 명시적으로 먼저 묻는다
+    #      (과거 거주지 답변이 현재 집을 덮어쓰던 혼동 방지 + 수색 원점 정확도).
+    if "home" not in session.filled_keys and session.asked_counts.get("home", 0) == 0:
+        home_slot = slot_by_key("home")
+        raw_q = midm.phrase_question(
+            session.persona_type, home_slot, False, session.messages, known=session.draft_fields
+        )
+        question, _fb = safety.guard_question(raw_q, home_slot, _EMB)
+        session.messages.append({"role": "assistant", "text": question})
+        session.prev_target_key = "home"
+        session.asked_counts["home"] = 1
+        storage.interviews.save(session.id, session)
+        return session
+
     # 3) 종료 판정
     n_questions = sum(1 for m in session.messages if m["role"] == "assistant")
     nxt = _next_slot(session)
@@ -226,12 +264,14 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
     session.messages.append({"role": "user", "text": clean})
 
     if _is_affirmative(clean):
-        session.awaiting_confirmation = False
-        session.done = True
-        session.messages.append({
-            "role": "assistant",
-            "text": "확인 감사합니다. 이 내용으로 프로필을 등록할게요. 🙏",
-        })
+        try:
+            finalize_persona(session)   # draft → 지오코딩 → 확정 Persona 저장
+            msg = "확인 감사합니다. 이 내용으로 프로필을 등록했어요. 🙏"
+        except ValueError as e:
+            session.awaiting_confirmation = False
+            session.done = True
+            msg = f"등록 중 문제가 있었어요({e}). 집 위치를 한 번만 더 확인해 주세요."
+        session.messages.append({"role": "assistant", "text": msg})
         storage.interviews.save(session.id, session)
         return session
 
@@ -252,6 +292,57 @@ def _to_type(value) -> PersonaType | None:
         return PersonaType(value) if value else None
     except ValueError:
         return None
+
+
+_GEO = get_geocoder(use_nominatim=True)   # 카카오 → nominatim → gazetteer
+
+
+def _parse_age(value) -> int:
+    if isinstance(value, int):
+        return value
+    m = re.search(r"\d+", str(value or ""))
+    return int(m.group()) if m else 0
+
+
+def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
+    """확인 완료된 인터뷰 초안(draft_*) → 지오코딩 → 확정 Persona 저장.
+
+    home 텍스트를 좌표로 지오코딩(필수), 끌림점은 to_attraction_points 로 좌표화·정밀도 부여.
+    home 을 좌표화 못 하면 첫 끌림점 위치로 폴백, 그것도 없으면 ValueError.
+    geocoder 미지정 시 모듈 기본(_GEO, 카카오 체인) 사용 — 테스트는 gazetteer 주입.
+    """
+    geo = geocoder or _GEO
+    f = session.draft_fields
+    points, _unresolved = to_attraction_points(session.draft_attractions, geo)
+    # 중복 제거 — 같은 이름(또는 같은 좌표)이 poi/address 로 두 번 잡히면 더 정밀한 것만.
+    _rank = {"poi": 0, "address": 1, "dong": 2, "approx": 3, "unknown": 4}
+    uniq: dict[object, AttractionPoint] = {}
+    for p in points:
+        key = _norm(p.label) or (round(p.location.lat, 4), round(p.location.lng, 4))
+        if key not in uniq or _rank.get(p.precision, 9) < _rank.get(uniq[key].precision, 9):
+            uniq[key] = p
+    points = list(uniq.values())
+
+    home_res = geo.locate(f["home"]) if f.get("home") else None
+    home = home_res.point if home_res else (points[0].location if points else None)
+    if home is None:
+        raise ValueError("집 위치 지오코딩 실패")
+
+    persona = Persona(
+        id=storage.new_id(),
+        type=session.persona_type,
+        name=str(f.get("name") or "미상"),
+        age=_parse_age(f.get("age")),
+        home=home,
+        attraction_points=points,
+        behavior_notes=list(session.draft_behaviors),
+    )
+    storage.personas.save(persona.id, persona)
+    session.persona_id = persona.id
+    session.done = True
+    session.awaiting_confirmation = False
+    storage.interviews.save(session.id, session)
+    return persona
 
 
 def register_persona(
