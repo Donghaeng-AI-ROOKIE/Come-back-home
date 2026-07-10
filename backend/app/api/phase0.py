@@ -13,6 +13,7 @@ router = APIRouter(prefix="/phase0", tags=["Phase 0 — 온보딩"])
 
 class StartInterviewIn(BaseModel):
     guardian_name: str
+    persona_type: PersonaType | None = None   # UI 에서 유형을 먼저 고르면 전달(선택)
 
 
 class AnswerIn(BaseModel):
@@ -31,7 +32,7 @@ class RegisterPersonaIn(BaseModel):
 
 @router.post("/interviews", response_model=InterviewSession)
 def start_interview(body: StartInterviewIn):
-    return interview.start_interview(body.guardian_name)
+    return interview.start_interview(body.guardian_name, body.persona_type)
 
 
 @router.post("/interviews/{session_id}/answers", response_model=InterviewSession)
