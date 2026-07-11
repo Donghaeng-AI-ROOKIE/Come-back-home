@@ -4,7 +4,17 @@
 - Top-down: 페르소나 맥락을 읽어 prior(전략확률·끌림점 가중치·반경 파라미터)만 출력.
   좌표를 직접 예측하지 않는다 (LLM calibration 한계).
 - 마음 예측: 혼란도·목적지 변경 등 심리 상태 추론. 마음이 바뀔 때만 호출.
+
+서빙: OpenAI 호환 chat completions (Mi:dm 과 같은 규약). settings 에
+exaone_base_url(endpoint URL) / exaone_model(endpoint ID) / exaone_api_key 를
+채우면 chat() 실호출 가능, 비어 있으면 스텁 모드.
+generate_prior / predict_mind 의 실프롬프트 연동은 별도 작업 — 여기는 연결 배관만.
 """
+
+from __future__ import annotations
+
+import json
+import urllib.request
 
 from app.config import settings
 from app.llm.base import LLMClient
@@ -41,6 +51,69 @@ class ExaoneClient(LLMClient):
 
     def __init__(self) -> None:
         super().__init__(settings.exaone_api_key)
+        self.base_url = settings.exaone_base_url.rstrip("/")
+        self.model = settings.exaone_model
+
+    @property
+    def is_stub(self) -> bool:
+        # 키·URL·모델이 모두 있어야 실동작 (Mi:dm 과 동일 규약)
+        return not (self.api_key and self.base_url and self.model)
+
+    # ── OpenAI 호환 chat completions ────────────────────────────────
+    def _chat_url(self) -> str:
+        base = self.base_url
+        if base.endswith("/chat/completions"):
+            return base
+        if base.endswith("/v1"):
+            return f"{base}/chat/completions"
+        return f"{base}/v1/chat/completions"
+
+    def chat(
+        self,
+        messages: list[dict],
+        *,
+        temperature: float = 0.3,
+        max_tokens: int = 512,
+        enable_thinking: bool = False,
+    ) -> str:
+        """messages=[{role, content}...] → assistant content 문자열.
+
+        K-EXAONE 은 reasoning 모델(답 전에 '생각'을 먼저 씀, 서버 기본 켜짐)이라
+        thinking 을 켠 채 두면 max_tokens 를 생각에 다 쓰고 content 없이 잘릴 수
+        있다 (실측: 512토큰 전부 reasoning, finish_reason=length). 우리 파이프라인은
+        짧은 구조화 출력을 자주 받는 용도라 기본 꺼둔다.
+        """
+        payload = json.dumps({
+            "model": self.model,
+            "messages": messages,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+            "chat_template_kwargs": {"enable_thinking": enable_thinking},
+        }).encode("utf-8")
+        req = urllib.request.Request(
+            self._chat_url(),
+            data=payload,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self.api_key}",
+            },
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=settings.llm_timeout) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        message = data["choices"][0]["message"]
+        content = message.get("content")
+        if content is None:
+            finish = data["choices"][0].get("finish_reason")
+            raise RuntimeError(
+                f"{self.name}: content 없는 응답 (finish_reason={finish}) — "
+                "reasoning 이 max_tokens 를 소진했을 가능성. max_tokens 를 늘리거나 "
+                "enable_thinking=False 인지 확인하세요."
+            )
+        return content
+
+    def _call_api(self, prompt: str, **kwargs) -> str:
+        return self.chat([{"role": "user", "content": prompt}], **kwargs)
 
     def generate_prior(self, persona: Persona | None, report: MissingReport) -> PriorParams:
         """Few-shot CoT 로 개인 맥락 → prior 생성.
