@@ -4,7 +4,17 @@
 - Top-down: 페르소나 맥락을 읽어 prior(전략확률·끌림점 가중치·반경 파라미터)만 출력.
   좌표를 직접 예측하지 않는다 (LLM calibration 한계).
 - 마음 예측: 혼란도·목적지 변경 등 심리 상태 추론. 마음이 바뀔 때만 호출.
+
+서빙: OpenAI 호환 chat completions (Mi:dm 과 같은 규약). settings 에
+exaone_base_url(endpoint URL) / exaone_model(endpoint ID) / exaone_api_key 를
+채우면 chat() 실호출 가능, 비어 있으면 스텁 모드.
+generate_prior / predict_mind 의 실프롬프트 연동은 별도 작업 — 여기는 연결 배관만.
 """
+
+from __future__ import annotations
+
+import json
+import urllib.request
 
 from app.config import settings
 from app.llm.base import LLMClient
@@ -41,6 +51,46 @@ class ExaoneClient(LLMClient):
 
     def __init__(self) -> None:
         super().__init__(settings.exaone_api_key)
+        self.base_url = settings.exaone_base_url.rstrip("/")
+        self.model = settings.exaone_model
+
+    @property
+    def is_stub(self) -> bool:
+        # 키·URL·모델이 모두 있어야 실동작 (Mi:dm 과 동일 규약)
+        return not (self.api_key and self.base_url and self.model)
+
+    # ── OpenAI 호환 chat completions ────────────────────────────────
+    def _chat_url(self) -> str:
+        base = self.base_url
+        if base.endswith("/chat/completions"):
+            return base
+        if base.endswith("/v1"):
+            return f"{base}/chat/completions"
+        return f"{base}/v1/chat/completions"
+
+    def chat(self, messages: list[dict], *, temperature: float = 0.3, max_tokens: int = 512) -> str:
+        """messages=[{role, content}...] → assistant content 문자열."""
+        payload = json.dumps({
+            "model": self.model,
+            "messages": messages,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+        }).encode("utf-8")
+        req = urllib.request.Request(
+            self._chat_url(),
+            data=payload,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self.api_key}",
+            },
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=settings.llm_timeout) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        return data["choices"][0]["message"]["content"]
+
+    def _call_api(self, prompt: str, **kwargs) -> str:
+        return self.chat([{"role": "user", "content": prompt}], **kwargs)
 
     def generate_prior(self, persona: Persona | None, report: MissingReport) -> PriorParams:
         """Few-shot CoT 로 개인 맥락 → prior 생성.
