@@ -7,10 +7,26 @@
 from datetime import datetime
 
 from app import storage
+from app.config import settings
 from app.llm import exaone
 from app.phase2 import combine, simulation, topdown
 from app.schemas.case import Case, CaseStatus
 from app.schemas.prediction import MindState, POA, PredictionResult
+
+
+def _load_roadnet(case: Case):
+    """도로망 로딩 (설정 시) — 실패해도 예측은 연속 공간 폴백으로 계속."""
+    if not settings.use_roadnet:
+        return None
+    try:
+        from app.geo import envlayer, roadnet
+
+        net = roadnet.get_network(case.lkp)
+        envlayer.attach(net, case.lkp)  # 환경 속성 — 게이지·트리거가 사용
+        return net
+    except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
+        print(f"[roadnet] 로딩 실패 → 연속 공간 폴백: {e}")
+        return None
 
 
 def run_prediction(case: Case, *, now: datetime | None = None, seed: int | None = None) -> PredictionResult:
@@ -25,12 +41,14 @@ def run_prediction(case: Case, *, now: datetime | None = None, seed: int | None 
     # 마음 상태 초기화 (이후 제보의 심리 단서로 갱신됨)
     mind = case.mind or MindState()
 
-    # ② 3-way 예측
+    # ② 3-way 예측 — 도로망이 있으면 두 MC 모두 그래프 위를 걷는다
+    #    (통계 MC 도 같은 지형 제약이어야 "AI 기여도" 비교가 공정)
+    net = _load_roadnet(case)
     poa_td = topdown.topdown_poa(case.lkp, prior, persona, elapsed_hours)
     poa_bu = simulation.run_monte_carlo(
-        case.lkp, prior, persona, elapsed_hours, mode="agent", mind=mind, seed=seed)
+        case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed)
     poa_stat = simulation.run_monte_carlo(
-        case.lkp, prior, persona, elapsed_hours, mode="statistical", seed=seed)
+        case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed)
 
     # ③ α-pool 통합 — 초기(제보 없음)엔 linear (넓게), 제보 누적 후 log-linear (좁게)
     pool_mode = "log_linear" if len(case.tips) >= 3 else "linear"

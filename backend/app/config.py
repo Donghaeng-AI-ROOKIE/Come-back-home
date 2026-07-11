@@ -53,7 +53,13 @@ class Settings(BaseSettings):
     egis_landcover_layer: str = "EGIS:lv3_2021_g"   # 세분류 2021년판
 
     # Phase 2 — Monte Carlo
-    mc_num_walkers: int = 500
+    mc_num_walkers: int = 500      # 통계 MC (AI 없음, 베이스라인) — LLM 호출 없어 많이 돌려도 공짜
+    # 에이전트 MC 롤아웃 — 아키텍처 문서 "비용 고려 10회". 스텁/실모델 동일 값 사용:
+    # E2E 가 실운영 구성을 검증해야 하므로 스텁이라고 늘리지 않는다 (2026-07-11 결정).
+    mc_rollouts_agent: int = 10
+    # 시뮬레이션이 도로망 그래프를 쓸지 — 켜면 Phase 2 실행 시 LKP 반경 도로망을
+    # 로딩(캐시 우선, 실패 시 연속 공간 폴백). 오프라인 테스트 기본값은 False.
+    use_roadnet: bool = False
 
     # Phase 3 — 제보 판정 임계값 (예시값, 시뮬레이션 테스트로 튜닝 대상)
     tip_discard_threshold: float = 0.2   # p < 0.2 → 파기

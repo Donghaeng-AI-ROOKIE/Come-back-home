@@ -22,11 +22,12 @@ from app.schemas.persona import Persona, PersonaType
 from app.schemas.prediction import LognormalParams, MindState, PriorParams
 from app.schemas.report import MissingReport
 
-# Koester 프로파일별 이동 거리 lognormal 파라미터 (km) — placeholder, ISRID 기반 튜닝 대상
+# Koester 프로파일별 이동 거리 lognormal 파라미터 (km) — 아키텍처 문서 값 (2026-07-11 교정)
+#   치매: 50%가 1.6km, 95%가 6.4km 이내 / 아동은 문서의 1~3세 값(연령대 세분화 전 잠정)
 _KOESTER_PARAMS: dict[PersonaType, LognormalParams] = {
-    PersonaType.dementia: LognormalParams(mu=0.0, sigma=0.9),                 # 중앙값 ~1.0km
-    PersonaType.child: LognormalParams(mu=-0.2, sigma=0.8),                   # 중앙값 ~0.8km
-    PersonaType.intellectual_disability: LognormalParams(mu=0.2, sigma=1.0),  # 중앙값 ~1.2km
+    PersonaType.dementia: LognormalParams(mu=0.47, sigma=1.53),                # 중앙값 ~1.6km
+    PersonaType.child: LognormalParams(mu=-1.2, sigma=1.4),                    # 중앙값 ~0.3km (1~3세)
+    PersonaType.intellectual_disability: LognormalParams(mu=0.89, sigma=1.50), # 중앙값 ~2.4km
 }
 
 # Hashimoto 2022 6전략 — 프로파일별 기본 확률 (placeholder, 논문 값으로 교체 대상)
