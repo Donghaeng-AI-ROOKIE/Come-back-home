@@ -40,6 +40,13 @@ class Settings(BaseSettings):
     # H3 격자 해상도 (9 ≈ 육각형 변 174m, 도심 수색 단위에 적합)
     h3_resolution: int = 9
 
+    # 도로망 (OSMnx) — Phase 2 시뮬레이션의 "도로 위에서만 이동" 제약
+    #   roadnet_preload=True 면 신고 접수(Phase 1) 시 LKP 반경 그래프를 미리 로딩.
+    #   테스트·오프라인 환경 기본값은 False (시뮬레이션이 필요할 때 캐시에서 로딩).
+    roadnet_preload: bool = False
+    roadnet_radius_m: int = 3000            # 아키텍처 문서: LKP 반경 3km
+    roadnet_cache_dir: str = "data/roadnet_cache"
+
     # Phase 2 — Monte Carlo
     mc_num_walkers: int = 500
 
