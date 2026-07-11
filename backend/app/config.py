@@ -41,6 +41,11 @@ class Settings(BaseSettings):
     roadnet_radius_m: int = 3000            # 아키텍처 문서: LKP 반경 3km
     roadnet_cache_dir: str = "data/roadnet_cache"
 
+    # 환경 레이어 — 환경부 EGIS 토지피복지도 WMS (인증키 불필요, 2026-07-11 검증)
+    #   케이스 영역 래스터 1회 + 색→클래스 보정 조회 소수로 전 노드 피복 분류.
+    egis_wms_url: str = "https://api.mcee.go.kr/geoserver/wms"
+    egis_landcover_layer: str = "EGIS:lv3_2021_g"   # 세분류 2021년판
+
     # Phase 2 — Monte Carlo
     mc_num_walkers: int = 500
 
