@@ -99,6 +99,37 @@ _TYPE_LABEL = {
     PersonaType.intellectual_disability: "지적장애인",
 }
 
+# ── 마음 재해석 (H·A 트리거 발동 시) 프롬프트 ──────────────────────
+# 회의 원칙: 게이지를 자연어로 번역해 주고 좌표는 주지 않는다.
+# 출력도 자연어 판단 + 정성 등급만 — 수치화는 guardrail 이 한다.
+_MIND_SYSTEM = """\
+너는 실종자 수색(SAR) 행동 분석 전문가다. 이동 중인 실종자의 내면 상태가 \
+임계를 넘었다는 보고를 받고, 지금 이 사람의 마음 상태와 목표를 재해석한다.
+예: 치매 노인이라면 현재를 과거로 착각(time-shifting)해 '집'이 현재 집이 아니라 \
+옛집을 뜻하게 될 수 있다.
+
+출력 규칙:
+- JSON 객체 하나만 출력한다. JSON 밖에 어떤 문장도 쓰지 않는다.
+- status: 현재 마음 상태 한 구절 (예: "옛집으로 돌아가려 함", "불안해서 큰길을 찾음")
+- confusion_level: 혼란 정도 "상"/"중"/"하"
+- goal_label: 주어진 끌림점 후보 중 지금 향할 곳 하나. 방향을 바꿀 이유가 없거나 \
+후보에 없는 곳이면 null. 후보에 없는 장소를 지어내지 않는다.
+- reasoning: 근거 1~2문장 (한국어)."""
+
+
+def _build_mind_input(persona: Persona, gauge_report: str, labels: list[str]) -> str:
+    lines = [
+        "[실종자]",
+        f"- 유형: {_TYPE_LABEL[persona.type]}, 나이: {persona.age}세",
+    ]
+    if persona.behavior_notes:
+        lines.append("- 평소 행동 사실:")
+        lines += [f"  - {note}" for note in persona.behavior_notes]
+    lines.append(f"[현재 상태] {gauge_report}")
+    lines.append(f"[끌림점 후보] {', '.join(labels) if labels else '(없음)'}")
+    lines.append("[질문] 이 사람은 지금 어떤 마음 상태이고, 어디로 향하려 하는가?")
+    return "\n".join(lines)
+
 
 def _build_prior_input(persona: Persona | None, report: MissingReport) -> str:
     lines = ["[실종자]"]
@@ -224,12 +255,44 @@ class ExaoneClient(LLMClient):
             reasoning="[스텁] 프로파일 통계 기본값 사용 — EXAONE 연동 후 개인 맥락 반영",
         )
 
+    def reinterpret_mind(
+        self,
+        persona: Persona,
+        current: MindState,
+        gauge_report: str,
+        labels: list[str],
+    ) -> tuple[MindState, str | None]:
+        """H·A 게이지 발동 시 마음·목표 재해석 — 시뮬레이션 워커가 호출.
+
+        반환: (검증된 MindState, 새 목표 끌림점 라벨 또는 None).
+        스텁 모드·실패 시: 혼란도 +0.2 휴리스틱, 목표 유지.
+        """
+        fallback = (MindState(status="혼란 심화",
+                              confusion=min(1.0, current.confusion + 0.2),
+                              changed=True), None)
+        if self.is_stub:
+            return fallback
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": _MIND_SYSTEM},
+                    {"role": "user", "content": _build_mind_input(persona, gauge_report, labels)},
+                ],
+                temperature=0.3,
+                max_tokens=400,
+            )
+            data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
+        except Exception:  # noqa: BLE001 — LLM 실패가 시뮬레이션을 막으면 안 됨
+            return fallback
+        return guardrail.sanitize_mind(data, current, labels)
+
     def predict_mind(self, current: MindState, observations: list[str]) -> MindState:
-        """마음 예측 — 상태 변화가 의심될 때만 호출된다 (비용 원칙).
+        """제보 관찰 문장 기반 마음 예측 — 상태 변화가 의심될 때만 호출 (비용 원칙).
 
         스텁: observations 에 심리 단서가 있으면 혼란도를 올리고 상태 변경.
+        (시뮬레이션 내부의 게이지 발동 재해석은 reinterpret_mind 가 담당.)
         """
-        # TODO: API 연동 시 EXAONE 추론으로 교체
+        # TODO: 제보 파이프라인에서 실관찰이 쌓이면 EXAONE 추론으로 교체
         cues = [o for o in observations if any(k in o for k in ("울", "뛰", "헤매", "불안"))]
         if cues:
             return MindState(status="혼란 심화", confusion=min(1.0, current.confusion + 0.2), changed=True)

@@ -10,7 +10,7 @@ LLM 은 확률·거리 calibration 이 약하다는 전제(아키텍처 결정�
 """
 
 from app.schemas.persona import Persona
-from app.schemas.prediction import LognormalParams, PriorParams
+from app.schemas.prediction import LognormalParams, MindState, PriorParams
 
 # ε-flooring — 어떤 전략도 확률 0 이 되지 않게 (탐색 다양성 보존)
 EPSILON = 0.02
@@ -86,3 +86,24 @@ def sanitize_radius(raw_level, profile: LognormalParams) -> LognormalParams:
     """등급이 유효하면 μ 보정, 아니면 프로파일 그대로. σ 는 항상 프로파일 값."""
     adjust = RADIUS_MU_ADJUST.get(raw_level, 0.0) if isinstance(raw_level, str) else 0.0
     return LognormalParams(mu=profile.mu + adjust, sigma=profile.sigma)
+
+
+# ── 마음 재해석 (H·A 트리거 → EXAONE) 출력 검증 ─────────────────────
+# confusion 도 숫자를 직접 받지 않고 상/중/하 → 고정 절대값
+CONFUSION_LEVELS = {"상": 0.85, "중": 0.6, "하": 0.35}
+STATUS_MAX_CHARS = 50
+
+
+def sanitize_mind(data: dict, current: MindState, labels: list[str]) -> tuple[MindState, str | None]:
+    """LLM 재해석 JSON → (검증된 MindState, 목표 끌림점 라벨 또는 None).
+
+    goal_label 은 실존 끌림점 라벨일 때만 인정 — 지어낸 목적지 차단.
+    """
+    status = data.get("status")
+    status = status.strip()[:STATUS_MAX_CHARS] if isinstance(status, str) and status.strip() \
+        else current.status
+    confusion = CONFUSION_LEVELS.get(data.get("confusion_level"), current.confusion)
+    goal = data.get("goal_label")
+    goal = goal if isinstance(goal, str) and goal in labels else None
+    mind = MindState(status=status, confusion=confusion, changed=True)
+    return mind, goal
