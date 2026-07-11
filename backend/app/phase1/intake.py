@@ -8,6 +8,8 @@
 from datetime import datetime
 
 from app import storage
+from app.config import settings
+from app.geo import roadnet
 from app.llm import upstage, varco
 from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
@@ -51,6 +53,11 @@ def create_report(
     )
     storage.cases.save(case.id, case)
 
-    # TODO: 도로망 로딩 — OSMnx 연동 시 여기서 LKP 중심 반경 그래프를 미리 로드
-    # (geo/roadnet.py OSMnxNetwork 참고)
+    # 도로망 사전 로딩 — LKP 반경 보행 그래프를 미리 받아 캐시 (Phase 2 가 사용).
+    # 실패해도 신고 접수는 막지 않는다 (시뮬레이션이 필요 시 재시도).
+    if settings.roadnet_preload:
+        try:
+            roadnet.get_network(case.lkp)
+        except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
+            print(f"[roadnet] 사전 로딩 실패 (신고 접수는 계속): {e}")
     return case
