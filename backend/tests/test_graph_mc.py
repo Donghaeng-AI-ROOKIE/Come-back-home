@@ -33,7 +33,7 @@ def _prior(strategy_probs: dict, mu=0.0, sigma=0.5, attraction=None) -> PriorPar
 
 def _persona() -> Persona:
     return Persona(
-        id="t", type=PersonaType.dementia, name="테스트", age=78,
+        id="t", type=PersonaType.dementia, name="테스트", age=78, home=LKP,
         attraction_points=[AttractionPoint(label="시장", location=ATTRACTION, weight=1.0)],
     )
 
