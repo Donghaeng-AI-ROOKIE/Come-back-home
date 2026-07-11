@@ -8,7 +8,8 @@
 서빙: OpenAI 호환 chat completions (Mi:dm 과 같은 규약). settings 에
 exaone_base_url(endpoint URL) / exaone_model(endpoint ID) / exaone_api_key 를
 채우면 chat() 실호출 가능, 비어 있으면 스텁 모드.
-generate_prior / predict_mind 의 실프롬프트 연동은 별도 작업 — 여기는 연결 배관만.
+generate_prior 는 실프롬프트 연동됨 — 출력은 phase2.guardrail 검증을 거쳐서만
+파이프라인에 들어간다. predict_mind 실연동은 게이지·트리거 작업에서.
 """
 
 from __future__ import annotations
@@ -18,6 +19,7 @@ import urllib.request
 
 from app.config import settings
 from app.llm.base import LLMClient
+from app.phase2 import guardrail
 from app.schemas.persona import Persona, PersonaType
 from app.schemas.prediction import LognormalParams, MindState, PriorParams
 from app.schemas.report import MissingReport
@@ -45,6 +47,73 @@ _STRATEGY_PRIORS: dict[PersonaType, dict[str, float]] = {
         "backtracking": 0.10, "staying_put": 0.15, "landmark_seeking": 0.15,
     },
 }
+
+
+# ── 목적지 예측 (prior 생성) 프롬프트 ──────────────────────────────
+# 좌표·거리(km)를 직접 묻지 않는다 — LLM calibration 한계(아키텍처 결정사항).
+# 수치는 전략확률만 받고, 끌림점·반경은 상/중/하 정성 등급으로 받아
+# guardrail 이 고정 매핑으로 수치화한다.
+_PRIOR_SYSTEM = """\
+너는 실종자 수색(SAR) 행동 분석 전문가다. 실종자의 프로필과 보호자가 알려준 \
+평소 행동 사실을 읽고, 어디로 향했을지에 대한 사전 분포 파라미터를 추정한다.
+
+6가지 이동 전략:
+- route_following: 아는 길·익숙한 경로를 따라감
+- direction_keeping: 한 방향으로 계속 직진
+- random_walk: 방향성 없이 배회
+- backtracking: 왔던 길을 되돌아감
+- staying_put: 한 곳에 머무름
+- landmark_seeking: 특정 장소(끌림점)를 향해 이동
+
+출력 규칙:
+- JSON 객체 하나만 출력한다. JSON 밖에 어떤 문장도 쓰지 않는다.
+- strategy_probs: 6개 전략 모두 포함, 값의 합이 1.
+- attraction_levels: 주어진 끌림점 라벨마다 "상"/"중"/"하" 중 하나. \
+주어지지 않은 라벨을 만들어내지 않는다.
+- radius_level: 같은 유형의 평균적인 실종자보다 멀리 이동할 사람이면 "상", \
+비슷하면 "중", 가까이 머물 사람이면 "하".
+- reasoning: 판단 근거 2~3문장 (한국어)."""
+
+_PRIOR_FEWSHOT_USER = """\
+[실종자]
+- 유형: 치매 노인, 나이: 82세
+- 끌림점: 옛 직장(방직공장), 단골 목욕탕
+- 평소 행동 사실:
+  - 해질녘이면 옛 직장 방향으로 걸어가는 습관이 있음
+  - 30년 다닌 출퇴근길은 지금도 정확히 기억함
+  - 최근 집 앞에서도 방향을 헷갈린 적이 두 번 있음
+- 실종 상황: 18:20 자택 앞에서 마지막 목격, 현재 2시간 경과"""
+
+_PRIOR_FEWSHOT_ASSISTANT = """\
+{"strategy_probs": {"route_following": 0.35, "direction_keeping": 0.15, \
+"random_walk": 0.10, "backtracking": 0.05, "staying_put": 0.05, "landmark_seeking": 0.30}, \
+"attraction_levels": {"옛 직장(방직공장)": "상", "단골 목욕탕": "중"}, \
+"radius_level": "중", \
+"reasoning": "해질녘 옛 직장 방향 습관과 출퇴근길 기억이 뚜렷해 익숙한 경로 추종과 \
+끌림점 지향 확률을 높게 봤다. 최근 방향 혼동이 있어 배회 가능성도 남겼다. \
+보행 능력에 특이사항이 없어 이동 반경은 유형 평균 수준으로 판단했다."}"""
+
+_TYPE_LABEL = {
+    PersonaType.dementia: "치매 노인",
+    PersonaType.child: "아동",
+    PersonaType.intellectual_disability: "지적장애인",
+}
+
+
+def _build_prior_input(persona: Persona | None, report: MissingReport) -> str:
+    lines = ["[실종자]"]
+    if persona:
+        lines.append(f"- 유형: {_TYPE_LABEL[persona.type]}, 나이: {persona.age}세")
+        if persona.attraction_points:
+            labels = ", ".join(ap.label for ap in persona.attraction_points)
+            lines.append(f"- 끌림점: {labels}")
+        if persona.behavior_notes:
+            lines.append("- 평소 행동 사실:")
+            lines += [f"  - {note}" for note in persona.behavior_notes]
+    else:
+        lines.append(f"- 유형: {_TYPE_LABEL[report.missing_type]} (사전 등록 정보 없음)")
+    lines.append(f"- 실종 상황: {report.lkp_time:%H:%M} 마지막 목격")
+    return "\n".join(lines)
 
 
 class ExaoneClient(LLMClient):
@@ -117,23 +186,39 @@ class ExaoneClient(LLMClient):
         return self.chat([{"role": "user", "content": prompt}], **kwargs)
 
     def generate_prior(self, persona: Persona | None, report: MissingReport) -> PriorParams:
-        """Few-shot CoT 로 개인 맥락 → prior 생성.
+        """Few-shot CoT 로 개인 맥락 → prior 생성. 출력은 가드레일 통과 후에만 사용.
 
-        스텁: 프로파일 통계 기본값 + 끌림점 균등 가중.
-        실제 구현 시 페르소나의 behavior_notes 를 프롬프트에 넣어
-        전략확률·끌림점 가중치를 개인화한다.
+        스텁 모드(키 없음) 또는 호출·파싱 실패 시: 프로파일 통계 기본값.
         """
-        # TODO: API 연동 시 Few-shot CoT 프롬프트로 교체
-        mtype = report.missing_type
-        strategy = dict(_STRATEGY_PRIORS[mtype])
+        default = self._default_prior(persona, report)
+        if self.is_stub:
+            return default
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": _PRIOR_SYSTEM},
+                    {"role": "user", "content": _PRIOR_FEWSHOT_USER},
+                    {"role": "assistant", "content": _PRIOR_FEWSHOT_ASSISTANT},
+                    {"role": "user", "content": _build_prior_input(persona, report)},
+                ],
+                temperature=0.2,
+                max_tokens=700,
+            )
+            data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
+        except Exception as e:  # noqa: BLE001 — LLM 실패가 예측 자체를 막으면 안 됨
+            return default.model_copy(update={
+                "reasoning": f"[폴백] EXAONE prior 실패({type(e).__name__}) — 통계 기본값 사용"})
+        return guardrail.sanitize_prior(data, persona, default)
 
+    def _default_prior(self, persona: Persona | None, report: MissingReport) -> PriorParams:
+        """프로파일 통계 기본값 — 스텁 모드이자 가드레일의 항목별 폴백 기준."""
+        mtype = report.missing_type
         attraction: dict[str, float] = {}
         if persona and persona.attraction_points:
             total = sum(p.weight for p in persona.attraction_points)
             attraction = {p.label: p.weight / total for p in persona.attraction_points}
-
         return PriorParams(
-            strategy_probs=strategy,
+            strategy_probs=dict(_STRATEGY_PRIORS[mtype]),
             attraction_weights=attraction,
             radius_lognormal=_KOESTER_PARAMS[mtype],
             reasoning="[스텁] 프로파일 통계 기본값 사용 — EXAONE 연동 후 개인 맥락 반영",
