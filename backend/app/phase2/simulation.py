@@ -125,6 +125,8 @@ def _walk_graph(
     - H·A 발동 → agent 모드에서만 EXAONE reinterpret_mind 호출(워커당 최대 1회),
       응답의 혼란 등급 → κ 재계산, 목표 라벨 → target 전환 (자연어 재주입)
     """
+    # Koester 분포는 LKP→발견지점 "직선 이탈거리" — 경로 길이가 아니라
+    # 변위(displacement)가 이 값에 도달하면 종료한다 (테스트셋 dist_ratio 교정).
     mu, sigma = prior.radius_lognormal.mu, prior.radius_lognormal.sigma
     total_km = rng.lognormvariate(mu, sigma) * max(1.0, elapsed_hours) ** 0.5
     if strategy == "staying_put":
@@ -149,9 +151,9 @@ def _walk_graph(
     mind_called = False
 
     node = start_node
+    start_loc = net.node_location(start_node)
     prev: int | None = None
     heading = rng.uniform(-math.pi, math.pi)
-    walked_km = 0.0
 
     for _ in range(_MAX_STEPS):
         if target_node is not None and node == target_node:
@@ -178,7 +180,6 @@ def _walk_graph(
         nxt = rng.choices(nbrs, weights=weights)[0]
 
         edge_len_m = float(net.edge_attrs(node, nxt).get("length", 30.0))
-        walked_km += edge_len_m / 1000.0
         heading = _bearing(here, net.node_location(nxt))
         prev, node = node, nxt
 
@@ -193,9 +194,10 @@ def _walk_graph(
                fatigue_mult=f_mult,
                unfamiliarity=gauge_mod.unfamiliarity(net.node_location(node), familiar),
                hostile=gauge_mod.hostile_exposure(env, persona))
+        displaced_km = h3grid.haversine_km(start_loc, net.node_location(node))
         if g.fatigue_fired(rng):
             g.rest()  # F 발동 — 쉬는 동안 시간이 흘러 남은 순변위가 준다 (EXAONE 미호출)
-            total_km = walked_km + (total_km - walked_km) * 0.6
+            total_km = displaced_km + (total_km - displaced_km) * 0.6
         if use_mind and not mind_called and persona is not None:
             fired = g.mind_fired(rng)
             if fired:
@@ -209,8 +211,8 @@ def _walk_graph(
                 if goal is not None:
                     target_node = (label_nodes or {})[goal]  # 목표 전환 — 자연어 재주입
 
-        if walked_km >= total_km:
-            break  # Koester 거리 소진
+        if displaced_km >= total_km:
+            break  # Koester 이탈거리(직선 변위) 도달
 
     return net.node_location(node)
 
