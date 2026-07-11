@@ -39,10 +39,18 @@ def create_report(
         lkp_time=lkp_time,
     )
 
+    # 외부 모델 장애가 신고 접수를 막으면 안 된다 (골든타임) — 실패 시 해당
+    # 필드만 비우고 접수는 계속. 인상착의는 이후 제보·재업로드로 보강 가능.
     if photo_bytes is not None:
-        report.appearance = varco.extract_appearance(photo_bytes)
+        try:
+            report.appearance = varco.extract_appearance(photo_bytes)
+        except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
+            print(f"[varco] 인상착의 추출 실패 (접수는 계속): {e}")
     if document_bytes is not None:
-        report.reporter = upstage.parse_document(document_bytes)
+        try:
+            report.reporter = upstage.parse_document(document_bytes)
+        except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
+            print(f"[upstage] 신고서 파싱 실패 (접수는 계속): {e}")
 
     case = Case(
         id=storage.new_id(),
