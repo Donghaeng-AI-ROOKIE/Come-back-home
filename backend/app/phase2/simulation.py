@@ -23,6 +23,7 @@ import random
 from app.config import settings
 from app.geo import h3grid
 from app.geo.roadnet import RoadNetwork
+from app.phase2 import gauges as gauge_mod
 from app.schemas.common import GeoPoint
 from app.schemas.persona import Persona
 from app.schemas.prediction import MindState, PriorParams
@@ -58,26 +59,34 @@ def run_monte_carlo(
     probs = list(prior.strategy_probs.values())
 
     attraction_locs: list[tuple[GeoPoint, float]] = []
+    attraction_labels: list[str] = []
     if persona:
         for ap in persona.attraction_points:
             w = prior.attraction_weights.get(ap.label, 0.0)
             if w > 0:
                 attraction_locs.append((ap.location, w))
+                attraction_labels.append(ap.label)
 
     # 그래프 모드 준비물 — 워커 루프 밖에서 1회만 계산 (nearest_node 는 선형 탐색)
     start_node = None
     attraction_nodes: list[tuple[int, float]] = []
+    label_nodes: dict[str, int] = {}   # 끌림점 라벨 → 노드 (마음 재해석의 목표 전환용)
     if net is not None:
         start_node = net.nearest_node(lkp)
         attraction_nodes = [(net.nearest_node(loc), w) for loc, w in attraction_locs]
+        label_nodes = {label: node for label, (node, _)
+                       in zip(attraction_labels, attraction_nodes)}
 
     counts: dict[str, int] = {}
     for _ in range(n):
         strategy = rng.choices(names, weights=probs)[0]
         if net is not None:
+            # mind 는 롤아웃별 사본 — 한 워커의 재해석이 다른 워커·케이스에 새지 않게
             endpoint = _walk_graph(rng, net, start_node, strategy, prior,
                                    attraction_nodes, elapsed_hours,
-                                   use_mind=(mode == "agent"), mind=mind)
+                                   persona=persona, label_nodes=label_nodes,
+                                   use_mind=(mode == "agent"),
+                                   mind=mind.model_copy() if mind else None)
         else:
             endpoint = _walk(rng, lkp, strategy, prior, attraction_locs, elapsed_hours,
                              use_mind=(mode == "agent"), mind=mind)
@@ -89,6 +98,11 @@ def run_monte_carlo(
 
 
 # ── 그래프 워커 (도로망 위) ─────────────────────────────────────────
+def _kappa(confusion: float) -> float:
+    """혼란도 → 방향 집중도 κ: 혼란할수록 갈림길 선택이 랜덤에 가까워진다."""
+    return max(0.2, 2.5 * (1.0 - confusion))
+
+
 def _walk_graph(
     rng: random.Random,
     net: RoadNetwork,
@@ -98,10 +112,19 @@ def _walk_graph(
     attraction_nodes: list[tuple[int, float]],
     elapsed_hours: float,
     *,
+    persona: Persona | None = None,
+    label_nodes: dict[str, int] | None = None,
     use_mind: bool,
     mind: MindState | None,
 ) -> GeoPoint:
-    """워커 1명이 도로망 위를 걷고 종착 좌표를 반환한다."""
+    """워커 1명이 도로망 위를 걷고 종착 좌표를 반환한다.
+
+    게이지·트리거 (회의 "트리거 설계 최종본"):
+    - 매 스텝 F/C/E 누적 + H/A 파생 → 로지스틱 hazard 판정
+    - F 발동 → 알고리즘 처리: 휴식(남은 순변위 감소), EXAONE 미호출
+    - H·A 발동 → agent 모드에서만 EXAONE reinterpret_mind 호출(워커당 최대 1회),
+      응답의 혼란 등급 → κ 재계산, 목표 라벨 → target 전환 (자연어 재주입)
+    """
     mu, sigma = prior.radius_lognormal.mu, prior.radius_lognormal.sigma
     total_km = rng.lognormvariate(mu, sigma) * max(1.0, elapsed_hours) ** 0.5
     if strategy == "staying_put":
@@ -109,14 +132,21 @@ def _walk_graph(
     elif strategy == "backtracking":
         total_km *= 0.3  # 나갔다 돌아오는 궤적의 순변위
 
-    # 혼란도 → 방향 집중도 κ: 혼란할수록 갈림길 선택이 랜덤에 가까워진다
     confusion = (mind.confusion if (use_mind and mind) else 0.5)
-    kappa = max(0.2, 2.5 * (1.0 - confusion))
+    kappa = _kappa(confusion)
 
     target_node: int | None = None
     if strategy in ("landmark_seeking", "route_following") and attraction_nodes:
         nodes, weights = zip(*attraction_nodes)
         target_node = rng.choices(list(nodes), weights=list(weights))[0]
+
+    # 게이지 준비 — 롤아웃마다 독립 상태
+    g = gauge_mod.Gauges(gauge_mod.config_for(persona))
+    speed = gauge_mod.walk_speed(persona)
+    f_mult = gauge_mod.fatigue_mult(persona)
+    familiar = ([persona.home] + [ap.location for ap in persona.attraction_points]) \
+        if persona else []
+    mind_called = False
 
     node = start_node
     prev: int | None = None
@@ -151,11 +181,36 @@ def _walk_graph(
         walked_km += edge_len_m / 1000.0
         heading = _bearing(here, net.node_location(nxt))
         prev, node = node, nxt
+
+        # ── 게이지 누적·트리거 ──
+        env = net.env(node)
+        if gauge_mod.is_water_attracted(persona):
+            water = env.get("water_m")
+            if isinstance(water, (int, float)) and water <= gauge_mod.WATER_ATTRACTOR_M:
+                break  # 7세 미만 물 끌림 — 물가 체류 (Anderson 2012, 익사위험 지점)
+        g.step(edge_len_m / speed,
+               terrain=gauge_mod.terrain_difficulty(net.edge_attrs(prev, node)),
+               fatigue_mult=f_mult,
+               unfamiliarity=gauge_mod.unfamiliarity(net.node_location(node), familiar),
+               hostile=gauge_mod.hostile_exposure(env, persona))
+        if g.fatigue_fired(rng):
+            g.rest()  # F 발동 — 쉬는 동안 시간이 흘러 남은 순변위가 준다 (EXAONE 미호출)
+            total_km = walked_km + (total_km - walked_km) * 0.6
+        if use_mind and not mind_called and persona is not None:
+            fired = g.mind_fired(rng)
+            if fired:
+                mind_called = True  # 비용 원칙 — 워커당 EXAONE 최대 1회
+                from app import llm  # 지연 임포트 (테스트에서 모킹 지점)
+
+                mind, goal = llm.exaone.reinterpret_mind(
+                    persona, mind or MindState(), g.report(fired),
+                    list(label_nodes or {}))
+                kappa = _kappa(mind.confusion)
+                if goal is not None:
+                    target_node = (label_nodes or {})[goal]  # 목표 전환 — 자연어 재주입
+
         if walked_km >= total_km:
             break  # Koester 거리 소진
-
-        # TODO(게이지·트리거 PR): env(node)와 누적 게이지로 hazard 판정 →
-        # H/A 발동 시 exaone.predict_mind() 호출, 응답을 target/κ 에 재주입.
 
     return net.node_location(node)
 
