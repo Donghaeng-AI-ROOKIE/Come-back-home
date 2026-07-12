@@ -230,22 +230,25 @@ def _parse_height_m(row) -> float | None:
     return None
 
 
-def _geometry_to_coords(geom) -> list[list[float]] | None:
-    """건물 외곽선을 [[lng, lat], ...] 로. 폴리곤이 아니면(점 태그 등) None(스킵)."""
+def _geometry_to_polygons(geom) -> list[list[list[float]]]:
+    """건물 외곽선(들)을 [[[lng, lat], ...], ...] 로. MultiPolygon(동 여러 채가
+    한 건물로 매핑된 아파트 단지 등)은 조각 전부를 살린다. 폴리곤이 아닌 것
+    (점 태그 건물)은 빈 리스트 — 발자국이 없어 지도에 면으로 그릴 수 없음."""
     from shapely.geometry import MultiPolygon, Polygon
 
     if isinstance(geom, Polygon):
-        return [[x, y] for x, y in geom.exterior.coords]
+        return [[[x, y] for x, y in geom.exterior.coords]]
     if isinstance(geom, MultiPolygon):
-        largest = max(geom.geoms, key=lambda g: g.area)
-        return [[x, y] for x, y in largest.exterior.coords]
-    return None
+        return [[[x, y] for x, y in g.exterior.coords] for g in geom.geoms]
+    return []
 
 
 def buildings_with_height(center: GeoPoint, radius_m: int | None = None) -> list[dict]:
-    """center 반경 내 모든 건물(폴리곤)에 높이 태그를 붙여 반환. 노드 단위가 아니라
-    지도에 표시되는 건물 전체가 대상이다. 디스크 캐시 — 같은 중심/반경 재요청은
-    API 없이 로드.
+    """center 반경 내 건물 폴리곤 전체에 높이 태그를 붙여 반환. 노드 단위가 아니라
+    지도에 면으로 그려지는 건물 전체가 대상이다 (점(node)으로만 태그된 건물은
+    발자국이 없어 제외 — 정릉 800m 실측 기준 전체의 ~6%). 디스크 캐시 —
+    같은 중심/반경 재요청은 API 없이 로드. API 실패 시에는 빈 목록을 반환하되
+    캐시에 쓰지 않는다 (일시 장애가 영구 빈 레이어로 굳는 것 방지).
 
     반환 형식:
         [{"geometry": [[lng, lat], ...], "height_m": 12.5, "levels": 4,
@@ -263,20 +266,21 @@ def buildings_with_height(center: GeoPoint, radius_m: int | None = None) -> list
 
     try:
         gdf = ox.features_from_point((center.lat, center.lng), tags={"building": True}, dist=r)
-    except Exception:  # noqa: BLE001 — 반경 내 건물 태그가 하나도 없는 지역
-        gdf = None
+    except Exception:  # noqa: BLE001 — Overpass 장애·타임아웃·건물 없는 지역
+        # 캐시 없이 빈 목록 — 다음 호출이 API 를 재시도한다. (건물이 정말 0개인
+        # 지역도 매번 재조회하게 되지만, 오탐 캐시로 레이어가 영구 소실되는
+        # 것보다 낫다. 호출 빈도는 예측 1회당 1번 수준.)
+        return []
 
     buildings: list[dict] = []
-    if gdf is not None:
-        for _, row in gdf.iterrows():
-            coords = _geometry_to_coords(row.geometry) if row.geometry is not None else None
-            if coords is None:
-                continue
+    for _, row in gdf.iterrows():
+        polys = _geometry_to_polygons(row.geometry) if row.geometry is not None else []
+        height_m = _parse_height_m(row)
+        levels = _parse_levels(row)
+        name = row.get("name") if _notna(row.get("name")) else None
+        for coords in polys:
             buildings.append({
-                "geometry": coords,
-                "height_m": _parse_height_m(row),
-                "levels": _parse_levels(row),
-                "name": row.get("name") if _notna(row.get("name")) else None,
+                "geometry": coords, "height_m": height_m, "levels": levels, "name": name,
             })
 
     cache.parent.mkdir(parents=True, exist_ok=True)
