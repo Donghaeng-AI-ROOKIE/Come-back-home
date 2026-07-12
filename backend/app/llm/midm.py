@@ -111,16 +111,91 @@ class MidmClient(LLMClient):
         )
         return prompts.clean_question(raw)
 
-    # ── Phase 3 시민 제보 (기존 스텁 유지) ──────────────────────────
+    # ── Phase 3 시민 제보 챗봇 ──────────────────────────────────────
     def structure_tip(self, text: str) -> dict:
-        """구어체 시민 제보 → 구조화 데이터. (Phase 3 — 별도 연동)"""
+        """구어체 시민 제보 → 구조화 데이터.
+
+        반환: {location_text, time_text, appearance_cues, direction,
+               travel_mode("walk"/"transit"/None), specificity("상"/"중"/"하")}.
+        specificity 는 신뢰도 p 의 구체성 항 입력 — LLM 에 숫자를 직접 받지 않고
+        상/중/하 등급만 받아 trust 가 고정값으로 매핑한다 (가드레일 패턴).
+        스텁: 키워드 휴리스틱으로 필드 채움 비율 → 등급.
+        """
+        if self.is_stub:
+            return _stub_structure_tip(text)
+        raw = self.chat(
+            [
+                {"role": "system", "content": _TIP_STRUCTURE_SYSTEM},
+                {"role": "user", "content": text},
+            ],
+            temperature=0.1,
+            max_tokens=400,
+        )
+        try:
+            data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
+        except (ValueError, json.JSONDecodeError):
+            return _stub_structure_tip(text)   # 파싱 실패 → 휴리스틱 폴백
+        level = data.get("specificity")
         return {
-            "location_text": None,
-            "time_text": None,
-            "behavior_cues": [k for k in ("울", "뛰", "헤매", "앉아") if k in text],
-            "specificity": 0.5,
+            "location_text": data.get("location_text"),
+            "time_text": data.get("time_text"),
+            "appearance_cues": data.get("appearance_cues") or [],
+            "direction": data.get("direction"),
+            "travel_mode": data.get("travel_mode") if data.get("travel_mode") in ("walk", "transit") else None,
+            "specificity": level if level in ("상", "중", "하") else "중",
         }
 
-    def ask_followup(self, tip_text: str) -> str:
-        """제보자에게 던질 확인 질문 생성 (신뢰 온도 측정). (Phase 3)"""
-        return "목격하신 정확한 위치와 시각, 그리고 옷차림을 기억나는 대로 알려주시겠어요?"
+    def next_tip_question(self, structured: dict, ask_travel_mode: bool = False) -> str | None:
+        """제보 챗봇 다음 질문 — 고정 4개(위치·시각·인상착의·행동/방향)를 순서대로,
+        확보 안 된 것부터. 4개가 다 차면 조건부 이동수단 질문(ask_travel_mode=True,
+        제보 위치가 걷기 상한을 넘을 때만). 더 물을 게 없으면 None.
+        """
+        if not structured.get("location_text"):
+            return _TIP_Q_LOCATION
+        if not structured.get("time_text"):
+            return _TIP_Q_TIME
+        if not structured.get("appearance_cues"):
+            return _TIP_Q_APPEARANCE
+        if not structured.get("direction"):
+            return _TIP_Q_DIRECTION
+        if ask_travel_mode and not structured.get("travel_mode"):
+            return _TIP_Q_TRAVEL_MODE
+        return None
+
+
+# ── Phase 3 제보 챗봇 — 질문 뱅크 (고정 4 + 조건부 이동수단) ────────────
+_TIP_Q_LOCATION = "어디서 보셨어요? 근처 건물이나 가게 이름을 알려주세요."
+_TIP_Q_TIME = "몇 시쯤이었을까요? 방금 전인가요, 아까쯤인가요?"
+_TIP_Q_APPEARANCE = "무엇을 입고 있었는지, 어떤 모습이었는지 기억나세요?"
+_TIP_Q_DIRECTION = "그때 뭘 하고 계셨나요? 어느 쪽으로 가셨어요?"
+_TIP_Q_TRAVEL_MODE = "그분이 걸어가시던가요, 아니면 버스나 택시 같은 걸 타시던가요?"
+
+_TIP_STRUCTURE_SYSTEM = """\
+너는 실종자 목격 제보를 정리하는 보조원이다. 시민의 구어체 제보에서 아래를 뽑아 \
+JSON 객체 하나만 출력한다 (JSON 밖 문장 금지). 없는 정보는 지어내지 말고 null.
+
+- location_text: 목격 장소 (건물·가게·교차로 등), 없으면 null
+- time_text: 목격 시각 표현 ("방금", "30분 전", "3시쯤"), 없으면 null
+- appearance_cues: 옷차림·외모 단서 문자열 배열, 없으면 []
+- direction: 이동 방향·행동 ("골목 쪽", "북쪽으로"), 없으면 null
+- travel_mode: "walk"(걸어서) / "transit"(버스·택시·지하철) / null(불명)
+- specificity: 제보의 구체성·일관성 등급 "상"/"중"/"하" 중 하나. \
+장소·시각·외모가 모두 구체적이고 앞뒤가 맞으면 "상", 하나만 있거나 모호하면 "하"."""
+
+
+def _stub_structure_tip(text: str) -> dict:
+    """스텁·폴백 — 키워드 휴리스틱. LLM 없이 필드 채움 정도로 등급 근사."""
+    cues = [k for k in ("점퍼", "셔츠", "바지", "모자", "치마", "코트", "운동화") if k in text]
+    behavior = [k for k in ("울", "뛰", "헤매", "앉아", "두리번") if k in text]
+    transit = "transit" if any(k in text for k in ("버스", "택시", "지하철", "전철")) else None
+    filled = sum([
+        any(k in text for k in ("역", "앞", "동", "로", "길", "편의점", "시장", "공원")),  # 장소 흔적
+        any(k in text for k in ("분", "시", "방금", "아까", "전")),                        # 시각 흔적
+        bool(cues),                                                                        # 외모
+    ])
+    level = "상" if filled >= 3 else ("중" if filled == 2 else "하")
+    return {
+        "location_text": None, "time_text": None,
+        "appearance_cues": cues, "direction": behavior[0] if behavior else None,
+        "travel_mode": transit, "specificity": level,
+    }
