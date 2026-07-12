@@ -4,6 +4,8 @@
 알림 피로도를 낮춘다 (핵심 차별점).
 """
 
+import math
+
 from app.config import settings
 
 
@@ -21,15 +23,24 @@ def select_alert_cells(
     (실측: σ 오교정 시 21,950셀, 경과 20h 케이스 3,684셀). 상한에 걸리면
     커버리지 미달이어도 끊는다 — "타겟 알림" 이 서비스 전제이므로.
     """
-    coverage = coverage or settings.alert_coverage
-    max_cells = max_cells or settings.max_alert_cells
-    ranked = sorted(poa.items(), key=lambda kv: kv[1], reverse=True)
+    # 기본값 대입은 `or` 가 아니라 `is None` — coverage=0.0·max_cells=0 을
+    # 명시적으로 넘겨도 falsy 라 기본값으로 치환되던 버그 방지.
+    coverage = settings.alert_coverage if coverage is None else coverage
+    max_cells = settings.max_alert_cells if max_cells is None else max_cells
+    # 비유한값(NaN/inf) 셀 제외 — 정렬 불안정·acc 오염(NaN 누적 시 커버리지
+    # 판정 무력화) 방지. 상류(전략확률 가드레일)에서 막지만 심층 방어.
+    ranked = sorted(
+        ((c, p) for c, p in poa.items() if math.isfinite(p)),
+        key=lambda kv: kv[1], reverse=True,
+    )
     selected: list[str] = []
     acc = 0.0
     for cell, prob in ranked:
+        if len(selected) >= max_cells:
+            break
         selected.append(cell)
         acc += prob
-        if acc >= coverage or len(selected) >= max_cells:
+        if acc >= coverage:
             break
     return selected
 
