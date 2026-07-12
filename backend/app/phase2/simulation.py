@@ -5,9 +5,12 @@
 
 - statistical 모드: 전략 확률·Koester 거리만 사용 (AI 없음) → 베이스라인.
   Bottom-up 과의 성능 차이 = AI 개인화 기여도.
-- agent 모드: 마음 예측 훅 활성화 — 심리 상태가 바뀔 때만 EXAONE 호출
-  (갈림길마다 호출 × n회 비용 문제 회피 원칙). 롤아웃 수는 실모델과 동일한
-  config 값(mc_rollouts_agent)을 쓴다 — E2E 가 실운영 구성을 검증해야 하므로.
+- agent 모드: 마음 예측 훅 활성화 — 심리 상태가 바뀔 때만 EXAONE 호출.
+  워커 수는 두 모드 공통 500 (보행은 순수 알고리즘이라 공짜), EXAONE 실호출만
+  예측당 예산(mind_call_budget)으로 제한한다: 예산 내 발동 = 실호출 + 풀 저장,
+  소진 후 발동 = 풀에서 독립 표집 (_MindPool — 결정론적 마음 캐시 금지 원칙).
+  이전의 "워커 10명" 방식은 셀당 0.1 단위 분산의 히스토그램에 α=0.5 를 주는
+  통계적 결함이라 폐기 (2026-07-12).
 
 이동 공간 (net 인자로 선택):
 - net 있음: OSMnx 도로망 그래프 위를 걷는다 — 갈림길마다
@@ -40,6 +43,42 @@ STRATEGIES = [
 _MAX_STEPS = 300  # 그래프 워커 안전 상한 (평균 엣지 ~50m × 300 = 15km)
 
 
+class _MindPool:
+    """EXAONE 마음 재해석의 호출 예산 + 결과 분포 공유 (예측 1회 스코프).
+
+    예산 내 발동은 실호출하고 (MindState, goal) 을 풀에 저장, 예산 소진 후
+    발동은 풀에서 rng 로 독립 표집한다 — 워커마다 같은 값을 박제하는
+    결정론적 캐시가 아니라 "분포 저장 + 매 진입 독립 표집" (아키텍처 원칙).
+    정밀화 여지: 지금은 게이지 상태와 무관하게 풀 전체에서 표집 —
+    발동 사유(귀소/불안)별 풀 분리는 후속 튜닝 항목.
+    """
+
+    def __init__(self, budget: int) -> None:
+        self.remaining = budget
+        self.results: list[tuple[MindState, str | None]] = []
+
+    def reinterpret(
+        self,
+        rng: random.Random,
+        persona: Persona,
+        current: MindState,
+        gauge_report: str,
+        labels: list[str],
+    ) -> tuple[MindState, str | None] | None:
+        """(MindState, goal) 또는 None(예산 0 + 풀 비어있음 → 호출자 휴리스틱)."""
+        if self.remaining > 0:
+            self.remaining -= 1
+            from app import llm  # 지연 임포트 (테스트에서 모킹 지점)
+
+            out = llm.exaone.reinterpret_mind(persona, current, gauge_report, labels)
+            self.results.append(out)
+            return out
+        if self.results:
+            mind, goal = rng.choice(self.results)
+            return mind.model_copy(), goal   # 표집된 상태도 워커별 사본
+        return None
+
+
 def run_monte_carlo(
     lkp: GeoPoint,
     prior: PriorParams,
@@ -53,7 +92,9 @@ def run_monte_carlo(
     seed: int | None = None,
 ) -> dict[str, float]:
     rng = random.Random(seed)
-    n = n_walkers or (settings.mc_rollouts_agent if mode == "agent" else settings.mc_num_walkers)
+    n = n_walkers or settings.mc_num_walkers
+    # EXAONE 호출 예산은 예측 1회 스코프 — 모든 워커가 공유
+    mind_pool = _MindPool(settings.mind_call_budget) if mode == "agent" else None
 
     names = list(prior.strategy_probs.keys())
     probs = list(prior.strategy_probs.values())
@@ -86,7 +127,8 @@ def run_monte_carlo(
                                    attraction_nodes, elapsed_hours,
                                    persona=persona, label_nodes=label_nodes,
                                    use_mind=(mode == "agent"),
-                                   mind=mind.model_copy() if mind else None)
+                                   mind=mind.model_copy() if mind else None,
+                                   mind_pool=mind_pool)
         else:
             endpoint = _walk(rng, lkp, strategy, prior, attraction_locs, elapsed_hours,
                              use_mind=(mode == "agent"), mind=mind)
@@ -116,13 +158,15 @@ def _walk_graph(
     label_nodes: dict[str, int] | None = None,
     use_mind: bool,
     mind: MindState | None,
+    mind_pool: "_MindPool | None" = None,
 ) -> GeoPoint:
     """워커 1명이 도로망 위를 걷고 종착 좌표를 반환한다.
 
     게이지·트리거 (회의 "트리거 설계 최종본"):
     - 매 스텝 F/C/E 누적 + H/A 파생 → 로지스틱 hazard 판정
     - F 발동 → 알고리즘 처리: 휴식(남은 순변위 감소), EXAONE 미호출
-    - H·A 발동 → agent 모드에서만 EXAONE reinterpret_mind 호출(워커당 최대 1회),
+    - H·A 발동 → agent 모드에서만 마음 재해석(워커당 최대 1회):
+      mind_pool 예산 내면 EXAONE 실호출, 소진 후엔 풀에서 독립 표집.
       응답의 혼란 등급 → κ 재계산, 목표 라벨 → target 전환 (자연어 재주입)
     """
     # Koester 분포는 LKP→발견지점 "직선 이탈거리" — 경로 길이가 아니라
@@ -201,12 +245,17 @@ def _walk_graph(
         if use_mind and not mind_called and persona is not None:
             fired = g.mind_fired(rng)
             if fired:
-                mind_called = True  # 비용 원칙 — 워커당 EXAONE 최대 1회
-                from app import llm  # 지연 임포트 (테스트에서 모킹 지점)
-
-                mind, goal = llm.exaone.reinterpret_mind(
-                    persona, mind or MindState(), g.report(fired),
-                    list(label_nodes or {}))
+                mind_called = True  # 워커당 마음 재해석 최대 1회
+                result = mind_pool.reinterpret(
+                    rng, persona, mind or MindState(), g.report(fired),
+                    list(label_nodes or {})) if mind_pool is not None else None
+                if result is None:
+                    # 예산 0 + 풀 비어있음 — 스텁과 같은 혼란 심화 휴리스틱
+                    base = mind.confusion if mind else 0.5
+                    result = (MindState(status="혼란 심화",
+                                        confusion=min(1.0, base + 0.2),
+                                        changed=True), None)
+                mind, goal = result
                 kappa = _kappa(mind.confusion)
                 if goal is not None:
                     target_node = (label_nodes or {})[goal]  # 목표 전환 — 자연어 재주입
