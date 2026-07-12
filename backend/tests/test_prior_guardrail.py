@@ -1,5 +1,7 @@
 """목적지 예측 가드레일 테스트 — LLM 출력의 "택도 없는" 케이스 방어."""
 
+import math
+
 import pytest
 
 from app.llm.exaone import ExaoneClient
@@ -40,6 +42,33 @@ def test_strategy_garbage_falls_back_to_default():
     assert guardrail.sanitize_strategy_probs("말도 안 되는 출력", DEFAULT_STRATEGY) == DEFAULT_STRATEGY
     assert guardrail.sanitize_strategy_probs({"route_following": -1}, DEFAULT_STRATEGY) == DEFAULT_STRATEGY
     assert guardrail.sanitize_strategy_probs({}, DEFAULT_STRATEGY) == DEFAULT_STRATEGY
+
+
+def test_strategy_nonfinite_rejected():
+    # json.loads 는 "1e400"·"Infinity" 를 inf 로 파싱한다. inf 가 통과하면
+    # 정규화에서 NaN 이 되어 rng.choices(weights=...) 가 예측을 통째로 죽인다.
+    for bad in (float("inf"), float("nan"), float("-inf")):
+        probs = guardrail.sanitize_strategy_probs(
+            {"route_following": bad, "landmark_seeking": 0.5}, DEFAULT_STRATEGY)
+        assert all(math.isfinite(v) for v in probs.values())
+        assert abs(sum(probs.values()) - 1.0) < 1e-9
+        # 유효 전략(landmark_seeking)은 남고, 비유한값 항목은 ε-floor 로만 존재
+        assert probs["landmark_seeking"] > probs["route_following"]
+
+    # 남는 유효 확률이 하나도 없으면 default 폴백 (전부 비유한값)
+    only_bad = {"route_following": float("inf"), "random_walk": float("nan")}
+    assert guardrail.sanitize_strategy_probs(only_bad, DEFAULT_STRATEGY) == DEFAULT_STRATEGY
+
+
+def test_sanitized_strategy_survives_rng_choices():
+    # 회귀: inf 입력 → NaN → simulation.py 의 rng.choices 크래시 경로 방어 확인
+    import random
+    probs = guardrail.sanitize_strategy_probs(
+        {"route_following": float("inf"), "landmark_seeking": 0.7}, DEFAULT_STRATEGY)
+    rng = random.Random(0)
+    # NaN·전부0 이면 여기서 ValueError — 통과하면 방어 성공
+    picks = [rng.choices(list(probs), weights=list(probs.values()))[0] for _ in range(20)]
+    assert len(picks) == 20
 
 
 # ── 끌림점 등급 ──────────────────────────────────────────────────────
