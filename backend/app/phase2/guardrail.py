@@ -9,6 +9,8 @@ LLM 은 확률·거리 calibration 이 약하다는 전제(아키텍처 결정�
 항목별로 검증하며, 실패한 항목만 프로파일 통계 기본값으로 폴백한다.
 """
 
+import math
+
 from app.schemas.persona import Persona
 from app.schemas.prediction import LognormalParams, MindState, PriorParams
 
@@ -48,7 +50,9 @@ def sanitize_strategy_probs(raw, default: dict[str, float]) -> dict[str, float]:
     probs: dict[str, float] = {}
     for name in default:  # default 의 키 = 유효한 전략 목록. 모르는 전략은 버림
         v = raw.get(name)
-        if isinstance(v, (int, float)) and not isinstance(v, bool) and v >= 0:
+        # 비유한값(inf/NaN) 거부 — json.loads 는 "1e400"·"Infinity" 를 inf 로 파싱한다.
+        # inf 가 통과하면 정규화에서 NaN 이 되어 rng.choices 가 예측을 통째로 죽인다.
+        if isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v) and v >= 0:
             probs[name] = float(v)
     if not probs or sum(probs.values()) <= 0:
         return dict(default)
