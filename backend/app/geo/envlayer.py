@@ -14,6 +14,10 @@
 
     {"landcover_l1": "시가화건조지역", "landcover_l3": "도로", "landcover_code": "154",
      "water_m": 37.2, "forest_m": 411.0, "park_m": None, "market_m": 88.5}
+
+건물 높이 레이어 (`buildings_with_height`): 노드가 아니라 지도에 나오는 건물
+전체(폴리곤)를 대상으로 한다. 1차 기술회의 OSMNX 설계안 ④(가시성·랜드마크
+인식범위 산출용)의 데이터 공급 단계 — 반경·인식범위 계산 자체는 후속 작업.
 """
 
 from __future__ import annotations
@@ -198,3 +202,83 @@ def _wms_get(**params) -> bytes:
     url = settings.egis_wms_url + "?" + urllib.parse.urlencode({**base, **params})
     with urllib.request.urlopen(url, timeout=60) as resp:
         return resp.read()
+
+
+# ── 건물 높이 레이어 — 지도에 나오는 건물 전체에 높이 태그 부착 ─────────
+def _parse_levels(row) -> int | None:
+    lv = row.get("building:levels")
+    if not _notna(lv):
+        return None
+    try:
+        return int(float(str(lv).strip()))
+    except (ValueError, TypeError):
+        return None
+
+
+def _parse_height_m(row) -> float | None:
+    """OSM height 태그("12", "12.5 m") 우선, 없으면 building:levels *
+    settings.building_level_height_m 로 근사. 둘 다 없으면 None(태그 미상)."""
+    h = row.get("height")
+    if _notna(h):
+        try:
+            return float(str(h).strip().rstrip("m").strip())
+        except (ValueError, TypeError):
+            pass
+    levels = _parse_levels(row)
+    if levels is not None:
+        return round(levels * settings.building_level_height_m, 1)
+    return None
+
+
+def _geometry_to_coords(geom) -> list[list[float]] | None:
+    """건물 외곽선을 [[lng, lat], ...] 로. 폴리곤이 아니면(점 태그 등) None(스킵)."""
+    from shapely.geometry import MultiPolygon, Polygon
+
+    if isinstance(geom, Polygon):
+        return [[x, y] for x, y in geom.exterior.coords]
+    if isinstance(geom, MultiPolygon):
+        largest = max(geom.geoms, key=lambda g: g.area)
+        return [[x, y] for x, y in largest.exterior.coords]
+    return None
+
+
+def buildings_with_height(center: GeoPoint, radius_m: int | None = None) -> list[dict]:
+    """center 반경 내 모든 건물(폴리곤)에 높이 태그를 붙여 반환. 노드 단위가 아니라
+    지도에 표시되는 건물 전체가 대상이다. 디스크 캐시 — 같은 중심/반경 재요청은
+    API 없이 로드.
+
+    반환 형식:
+        [{"geometry": [[lng, lat], ...], "height_m": 12.5, "levels": 4,
+          "name": "OO빌딩"}, ...]
+
+    height_m 은 OSM height 태그 우선, 없으면 building:levels 로 근사, 둘 다
+    없으면 None(태그 미상 — 지도에는 그리되 높이 정보 없음으로 표시).
+    """
+    r = radius_m or settings.roadnet_radius_m
+    cache = Path(settings.roadnet_cache_dir) / f"buildings_{center.lat:.4f}_{center.lng:.4f}_{r}.json"
+    if cache.exists():
+        return json.loads(cache.read_text(encoding="utf-8"))
+
+    import osmnx as ox
+
+    try:
+        gdf = ox.features_from_point((center.lat, center.lng), tags={"building": True}, dist=r)
+    except Exception:  # noqa: BLE001 — 반경 내 건물 태그가 하나도 없는 지역
+        gdf = None
+
+    buildings: list[dict] = []
+    if gdf is not None:
+        for _, row in gdf.iterrows():
+            coords = _geometry_to_coords(row.geometry) if row.geometry is not None else None
+            if coords is None:
+                continue
+            buildings.append({
+                "geometry": coords,
+                "height_m": _parse_height_m(row),
+                "levels": _parse_levels(row),
+                "name": row.get("name") if _notna(row.get("name")) else None,
+            })
+
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(json.dumps(buildings, ensure_ascii=False), encoding="utf-8")
+    return buildings
