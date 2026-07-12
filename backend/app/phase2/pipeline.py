@@ -15,18 +15,28 @@ from app.schemas.prediction import MindState, POA, PredictionResult
 
 
 def _load_roadnet(case: Case):
-    """도로망 로딩 (설정 시) — 실패해도 예측은 연속 공간 폴백으로 계속."""
+    """도로망 로딩 (설정 시) — 실패해도 예측은 연속 공간 폴백으로 계속.
+
+    도로망과 환경레이어는 실패를 분리 격리한다: 환경레이어(외부 WMS·의존성)가
+    죽어도 도로망 그래프 MC 는 유지 — env() 는 빈 dict 로 동작하게 설계돼 있다.
+    (실측: PIL 미설치 하나로 도로망 전체가 연속 공간 폴백되던 문제.)
+    """
     if not settings.use_roadnet:
         return None
     try:
-        from app.geo import envlayer, roadnet
+        from app.geo import roadnet
 
         net = roadnet.get_network(case.lkp)
-        envlayer.attach(net, case.lkp)  # 환경 속성 — 게이지·트리거가 사용
-        return net
     except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
         print(f"[roadnet] 로딩 실패 → 연속 공간 폴백: {e}")
         return None
+    try:
+        from app.geo import envlayer
+
+        envlayer.attach(net, case.lkp)  # 환경 속성 — 게이지·트리거가 사용
+    except Exception as e:  # noqa: BLE001 — 환경레이어 실패는 도로망을 죽이지 않는다
+        print(f"[envlayer] 부착 실패 → 환경 속성 없이 도로망 MC 계속: {e}")
+    return net
 
 
 def run_prediction(case: Case, *, now: datetime | None = None, seed: int | None = None) -> PredictionResult:
