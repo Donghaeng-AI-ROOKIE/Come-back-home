@@ -130,12 +130,20 @@ def _norm(s: str) -> str:
     return re.sub(r"[\s()]+", "", str(s or ""))
 
 
-def _apply_extraction(session: InterviewSession, prev_slot: SlotSpec, extracted: dict) -> None:
+def _apply_extraction(
+    session: InterviewSession, prev_slot: SlotSpec, extracted: dict,
+    *, overwrite: bool = False,
+) -> None:
     # 필드는 first-wins — 한 번 정해진 name/age/home/type 을 이후 답변이 덮어쓰지 못하게.
     # (특히 현재 집을 과거 거주지 답변이 덮어쓰던 버그 방지.)
+    # 단 확인 게이트의 '정정' 발화는 보호자가 명시적으로 고치는 것 — overwrite=True 로
+    # 덮어쓴다. (라이브 실측 버그: 요약 후 나이 정정이 first-wins 에 막혀 무시됨.)
     for k, v in (extracted.get("fields", {}) or {}).items():
         if v:
-            session.draft_fields.setdefault(k, v)
+            if overwrite:
+                session.draft_fields[k] = v
+            else:
+                session.draft_fields.setdefault(k, v)
     # 끌림점 — 정규화한 label/area 기준 중복 제거(정릉시장 poi/address 중복 방지).
     seen = {(_norm(a.get("label")), _norm(a.get("area_text"))) for a in session.draft_attractions}
     for ap in extracted.get("attraction_points", []) or []:
@@ -275,13 +283,14 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
         storage.interviews.save(session.id, session)
         return session
 
-    # 정정: 발화와 가장 관련있는 슬롯으로 재추출해 반영 → 다시 요약
+    # 정정: 발화와 가장 관련있는 슬롯으로 재추출해 반영 → 다시 요약.
+    # 정정은 명시적 수정 의사이므로 first-wins 를 넘어 덮어쓴다 (overwrite=True).
     ranked, _ = retrieval.rank_next_slots(
         session.persona_type, [clean], set(), _EMB, top_k=1
     )
     if ranked:
         ext = midm.extract_answer(ranked[0].slot, session.messages)
-        _apply_extraction(session, ranked[0].slot, ext)
+        _apply_extraction(session, ranked[0].slot, ext, overwrite=True)
     session.messages.append({"role": "assistant", "text": build_summary(session)})
     storage.interviews.save(session.id, session)
     return session
