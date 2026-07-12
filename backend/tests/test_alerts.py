@@ -35,6 +35,28 @@ def test_explicit_max_cells_overrides():
     assert len(alerts.select_alert_cells(poa, max_cells=10)) == 10
 
 
+def test_explicit_zero_not_swallowed_by_falsy_default():
+    """coverage=0.0 / max_cells=0 을 명시하면 그 값이 존중돼야 한다.
+
+    회귀: `x or default` 는 0 을 falsy 로 보고 기본값으로 치환했다
+    (max_cells=0 → 500). `is None` 검사로 교정.
+    """
+    poa = {f"cell{i}": 1.0 / 100 for i in range(100)}
+    # max_cells=0 → 한 셀도 선택 안 함 (기본값 500 으로 새지 않음)
+    assert alerts.select_alert_cells(poa, max_cells=0) == []
+    # coverage=0.0 → 첫 셀 담고 즉시 커버리지 충족 → 정확히 1셀 (500 아님)
+    assert len(alerts.select_alert_cells(poa, coverage=0.0)) == 1
+
+
+def test_nonfinite_cells_excluded():
+    """POA 에 NaN/inf 셀이 있어도 유한값만 선택, acc 오염 없이 커버리지 도달."""
+    poa = {"a": 0.5, "bad_nan": float("nan"), "b": 0.3,
+           "bad_inf": float("inf"), "c": 0.2}
+    cells = alerts.select_alert_cells(poa)
+    assert "bad_nan" not in cells and "bad_inf" not in cells
+    assert cells == ["a", "b"]  # 0.5+0.3 ≥ 0.8, NaN 이 acc 를 망치지 않음
+
+
 def test_koester_dementia_matches_isrid_urban():
     """치매 lognormal 이 ISRID Urban 원표 분위수와 정합해야 한다.
 
