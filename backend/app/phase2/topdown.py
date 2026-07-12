@@ -22,7 +22,10 @@ def topdown_poa(
     mu, sigma = prior.radius_lognormal.mu, prior.radius_lognormal.sigma
     # 경과 시간에 따라 중앙값 반경 확장 (Koester: 시간 경과 → 이동 반경 증가)
     median_km = math.exp(mu) * max(1.0, elapsed_hours) ** 0.5
-    max_km = median_km * math.exp(2 * sigma)
+    # 원판 컷 = 분포의 p95 (z=1.645). ISRID 분위수 적합 파라미터라 p95 가 곧
+    # 경험적 95% 거리(치매 Urban 12.6km)와 일치한다. e^{2σ}(p97.7) 컷은 σ=1.48 기준
+    # 원판 21km — 얇은 꼬리가 수만 셀로 퍼지는 알림 폭주의 한 축이었다.
+    max_km = median_km * math.exp(1.645 * sigma)
 
     cells = h3grid.cells_within_km(lkp, max_km)
     scores: dict[str, float] = {}

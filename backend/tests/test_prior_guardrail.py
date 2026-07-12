@@ -106,7 +106,11 @@ def test_generate_prior_uses_sanitized_llm_output(monkeypatch):
     assert prior.strategy_probs["landmark_seeking"] > 0.8      # ε-floor 몫 제외 최대
     assert abs(sum(prior.strategy_probs.values()) - 1.0) < 1e-9
     assert prior.attraction_weights["장소0"] <= guardrail.ATTRACTION_CAP + 1e-9
-    assert prior.radius_lognormal.mu == pytest.approx(0.47 - 0.4)
+    # "하" 등급 → 프로파일 μ − 0.4 (프로파일 상수 참조 — 값 하드코딩 시 재교정마다 깨진다)
+    from app.llm.exaone import _KOESTER_PARAMS
+
+    profile_mu = _KOESTER_PARAMS[PersonaType.dementia].mu
+    assert prior.radius_lognormal.mu == pytest.approx(profile_mu - 0.4)
     assert "옛집" in prior.reasoning
 
 
