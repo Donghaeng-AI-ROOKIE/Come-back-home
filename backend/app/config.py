@@ -52,6 +52,10 @@ class Settings(BaseSettings):
     egis_wms_url: str = "https://api.mcee.go.kr/geoserver/wms"
     egis_landcover_layer: str = "EGIS:lv3_2021_g"   # 세분류 2021년판
 
+    # 건물 높이 레이어 — OSM height 태그가 없는 건물은 building:levels(층수) *
+    # 이 값으로 높이를 근사한다. 국내 층고 통상값(약 3m/층) 기준, 잠정값.
+    building_level_height_m: float = 3.0
+
     # Phase 2 — Monte Carlo
     mc_num_walkers: int = 500      # 두 MC 공통 워커 수 — 보행은 순수 알고리즘이라 공짜
     # 에이전트 MC 의 EXAONE 마음 재해석 실호출 예산 (예측 1회당).
