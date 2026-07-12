@@ -28,6 +28,7 @@ from app.geo import h3grid
 from app.geo.roadnet import RoadNetwork
 from app.phase2 import gauges as gauge_mod
 from app.schemas.common import GeoPoint
+from app.schemas.debug import MindEvent, SimTrace, WalkerTrace
 from app.schemas.persona import Persona
 from app.schemas.prediction import MindState, PriorParams
 
@@ -64,18 +65,22 @@ class _MindPool:
         current: MindState,
         gauge_report: str,
         labels: list[str],
-    ) -> tuple[MindState, str | None] | None:
-        """(MindState, goal) 또는 None(예산 0 + 풀 비어있음 → 호출자 휴리스틱)."""
+    ) -> tuple[MindState, str | None, str] | None:
+        """(MindState, goal, source) 또는 None(예산 0 + 풀 비어있음 → 호출자 휴리스틱).
+
+        source = "exaone"(실호출) / "stub"(예산 내 발동이나 키 없음) / "pool"(풀 표집)
+        — 대시보드가 점 색을 구분하는 데 쓴다. 로직 분기에는 쓰지 않는다.
+        """
         if self.remaining > 0:
             self.remaining -= 1
             from app import llm  # 지연 임포트 (테스트에서 모킹 지점)
 
             out = llm.exaone.reinterpret_mind(persona, current, gauge_report, labels)
             self.results.append(out)
-            return out
+            return out[0], out[1], ("stub" if llm.exaone.is_stub else "exaone")
         if self.results:
             mind, goal = rng.choice(self.results)
-            return mind.model_copy(), goal   # 표집된 상태도 워커별 사본
+            return mind.model_copy(), goal, "pool"   # 표집된 상태도 워커별 사본
         return None
 
 
@@ -90,6 +95,7 @@ def run_monte_carlo(
     n_walkers: int | None = None,
     mind: MindState | None = None,
     seed: int | None = None,
+    trace: SimTrace | None = None,   # E2E 대시보드용 궤적·이벤트 수집 (결과 불변)
 ) -> dict[str, float]:
     rng = random.Random(seed)
     n = n_walkers or settings.mc_num_walkers
@@ -119,7 +125,7 @@ def run_monte_carlo(
                        in zip(attraction_labels, attraction_nodes)}
 
     counts: dict[str, int] = {}
-    for _ in range(n):
+    for i in range(n):
         strategy = rng.choices(names, weights=probs)[0]
         if net is not None:
             # mind 는 롤아웃별 사본 — 한 워커의 재해석이 다른 워커·케이스에 새지 않게
@@ -128,10 +134,12 @@ def run_monte_carlo(
                                    persona=persona, label_nodes=label_nodes,
                                    use_mind=(mode == "agent"),
                                    mind=mind.model_copy() if mind else None,
-                                   mind_pool=mind_pool)
+                                   mind_pool=mind_pool,
+                                   trace=trace, walker_idx=i)
         else:
             endpoint = _walk(rng, lkp, strategy, prior, attraction_locs, elapsed_hours,
-                             use_mind=(mode == "agent"), mind=mind)
+                             use_mind=(mode == "agent"), mind=mind,
+                             trace=trace, walker_idx=i)
         cell = h3grid.cell_of(endpoint)
         counts[cell] = counts.get(cell, 0) + 1
 
@@ -159,6 +167,8 @@ def _walk_graph(
     use_mind: bool,
     mind: MindState | None,
     mind_pool: "_MindPool | None" = None,
+    trace: SimTrace | None = None,
+    walker_idx: int = 0,
 ) -> GeoPoint:
     """워커 1명이 도로망 위를 걷고 종착 좌표를 반환한다.
 
@@ -199,7 +209,10 @@ def _walk_graph(
     prev: int | None = None
     heading = rng.uniform(-math.pi, math.pi)
 
-    for _ in range(_MAX_STEPS):
+    rec_path = trace is not None and trace.trace_path(walker_idx)
+    path = [[start_loc.lat, start_loc.lng]] if rec_path else None
+
+    for step in range(_MAX_STEPS):
         if target_node is not None and node == target_node:
             break  # 끌림점 도달
         nbrs = net.neighbors(node)
@@ -226,6 +239,9 @@ def _walk_graph(
         edge_len_m = float(net.edge_attrs(node, nxt).get("length", 30.0))
         heading = _bearing(here, net.node_location(nxt))
         prev, node = node, nxt
+        if rec_path:
+            loc = net.node_location(node)
+            path.append([loc.lat, loc.lng])
 
         # ── 게이지 누적·트리거 ──
         env = net.env(node)
@@ -246,24 +262,55 @@ def _walk_graph(
             fired = g.mind_fired(rng)
             if fired:
                 mind_called = True  # 워커당 마음 재해석 최대 1회
+                gauge_report = g.report(fired)
                 result = mind_pool.reinterpret(
-                    rng, persona, mind or MindState(), g.report(fired),
+                    rng, persona, mind or MindState(), gauge_report,
                     list(label_nodes or {})) if mind_pool is not None else None
                 if result is None:
                     # 예산 0 + 풀 비어있음 — 스텁과 같은 혼란 심화 휴리스틱
                     base = mind.confusion if mind else 0.5
                     result = (MindState(status="혼란 심화",
                                         confusion=min(1.0, base + 0.2),
-                                        changed=True), None)
-                mind, goal = result
+                                        changed=True), None, "heuristic")
+                mind, goal, source = result
                 kappa = _kappa(mind.confusion)
                 if goal is not None:
                     target_node = (label_nodes or {})[goal]  # 목표 전환 — 자연어 재주입
+                if trace is not None:
+                    trace.mind_events.append(_mind_event(
+                        walker_idx, step, net.node_location(node),
+                        gauge_report, source, mind, goal))
 
         if displaced_km >= total_km:
             break  # Koester 이탈거리(직선 변위) 도달
 
+    if rec_path:
+        trace.walkers.append(WalkerTrace(
+            walker_idx=walker_idx, strategy=strategy, path=path, mind_fired=mind_called))
     return net.node_location(node)
+
+
+def _mind_event(
+    walker_idx: int,
+    step: int,
+    loc: GeoPoint,
+    trigger: str,
+    source: str,
+    mind: MindState,
+    goal: str | None,
+) -> MindEvent:
+    """마음 재해석 이벤트 기록 — 실호출이면 EXAONE 입·출력 원문을 붙인다."""
+    prompt = response = None
+    if source == "exaone":
+        from app import llm
+
+        if llm.exaone.call_log and llm.exaone.call_log[-1]["kind"] == "mind":
+            prompt = llm.exaone.call_log[-1]["prompt"]
+            response = llm.exaone.call_log[-1]["response"]
+    return MindEvent(
+        walker_idx=walker_idx, step=step, location=loc, trigger=trigger,
+        source=source, status=mind.status, confusion=mind.confusion, goal=goal,
+        prompt=prompt, response_raw=response)
 
 
 def _bearing(a: GeoPoint, b: GeoPoint) -> float:
@@ -284,6 +331,8 @@ def _walk(
     *,
     use_mind: bool,
     mind: MindState | None,
+    trace: SimTrace | None = None,
+    walker_idx: int = 0,
 ) -> GeoPoint:
     """워커 1명의 종착점 — 연속 공간 (도로 제약 없음)."""
     mu, sigma = prior.radius_lognormal.mu, prior.radius_lognormal.sigma
@@ -305,6 +354,9 @@ def _walk(
         locs, weights = zip(*attractions)
         target = rng.choices(list(locs), weights=list(weights))[0]
 
+    rec_path = trace is not None and trace.trace_path(walker_idx)
+    path = [[pos.lat, pos.lng]] if rec_path else None
+
     steps = 20
     step_km = total_km / steps
     for _ in range(steps):
@@ -323,5 +375,12 @@ def _walk(
         else:
             heading += rng.gauss(0, wobble)
         pos = h3grid.move(pos, heading, step_km)
+        if rec_path:
+            path.append([pos.lat, pos.lng])
 
+    if rec_path:
+        if path[-1] != [pos.lat, pos.lng]:  # 목표 도달 break 시 마지막 점 보장
+            path.append([pos.lat, pos.lng])
+        trace.walkers.append(WalkerTrace(
+            walker_idx=walker_idx, strategy=strategy, path=path))
     return pos

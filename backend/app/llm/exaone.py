@@ -165,6 +165,13 @@ class ExaoneClient(LLMClient):
         super().__init__(settings.exaone_api_key)
         self.base_url = settings.exaone_base_url.rstrip("/")
         self.model = settings.exaone_model
+        # 실호출 입·출력 기록 — E2E 대시보드가 "EXAONE 이 뭘 받고 뭘 뱉었나"를
+        # 보여주는 유일한 통로 (스텁 모드에서는 기록 없음). 최근 것만 유지.
+        self.call_log: list[dict] = []
+
+    def _log_call(self, kind: str, prompt: str, response: str) -> None:
+        self.call_log.append({"kind": kind, "prompt": prompt, "response": response})
+        del self.call_log[:-50]
 
     @property
     def is_stub(self) -> bool:
@@ -235,17 +242,19 @@ class ExaoneClient(LLMClient):
         default = self._default_prior(persona, report)
         if self.is_stub:
             return default
+        prior_input = _build_prior_input(persona, report)
         try:
             raw = self.chat(
                 [
                     {"role": "system", "content": _PRIOR_SYSTEM},
                     {"role": "user", "content": _PRIOR_FEWSHOT_USER},
                     {"role": "assistant", "content": _PRIOR_FEWSHOT_ASSISTANT},
-                    {"role": "user", "content": _build_prior_input(persona, report)},
+                    {"role": "user", "content": prior_input},
                 ],
                 temperature=0.2,
                 max_tokens=700,
             )
+            self._log_call("prior", prior_input, raw)
             data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
         except Exception as e:  # noqa: BLE001 — LLM 실패가 예측 자체를 막으면 안 됨
             return default.model_copy(update={
@@ -283,15 +292,17 @@ class ExaoneClient(LLMClient):
                               changed=True), None)
         if self.is_stub:
             return fallback
+        mind_input = _build_mind_input(persona, gauge_report, labels)
         try:
             raw = self.chat(
                 [
                     {"role": "system", "content": _MIND_SYSTEM},
-                    {"role": "user", "content": _build_mind_input(persona, gauge_report, labels)},
+                    {"role": "user", "content": mind_input},
                 ],
                 temperature=0.3,
                 max_tokens=400,
             )
+            self._log_call("mind", mind_input, raw)
             data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
         except Exception:  # noqa: BLE001 — LLM 실패가 시뮬레이션을 막으면 안 됨
             return fallback

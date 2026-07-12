@@ -36,3 +36,4 @@ def new_id() -> str:
 personas = Repository()      # Persona
 interviews = Repository()    # InterviewSession
 cases = Repository()         # Case
+debug_traces = Repository()  # PredictionDebug — E2E 대시보드용 (case_id 키)

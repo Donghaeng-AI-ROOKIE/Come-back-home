@@ -43,6 +43,15 @@ def answer(session_id: str, body: AnswerIn):
         raise HTTPException(404, "인터뷰 세션 없음")
 
 
+@router.get("/interviews/{session_id}", response_model=InterviewSession)
+def get_interview(session_id: str):
+    """인터뷰 세션 조회 — 대화 전문(messages) 포함. E2E 대시보드가 사용."""
+    session = storage.interviews.get(session_id)
+    if session is None:
+        raise HTTPException(404, "인터뷰 세션 없음")
+    return session
+
+
 @router.post("/personas", response_model=Persona)
 def register_persona(body: RegisterPersonaIn):
     return interview.register_persona(
