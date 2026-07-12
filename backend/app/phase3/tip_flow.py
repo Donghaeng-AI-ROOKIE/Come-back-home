@@ -38,8 +38,13 @@ def process_tip(
         has_photo=tip_image is not None,
     )
 
-    # ① 신뢰도 p 산출 — 이진 판정이 아니라 p 값 그대로 아래로 전달
-    tip.p = trust.score_tip(tip, case.report.appearance, tip_image)
+    # ① 신뢰도 p 산출 — 이진 판정이 아니라 p 값 그대로 아래로 전달.
+    #    개연성 항에 필요한 현재 LKP·시각·유형을 함께 넘긴다 (kinematic 상한).
+    tip.p = trust.score_tip(
+        tip, case.report.appearance,
+        lkp=case.lkp, lkp_time=case.lkp_time, persona_type=case.report.missing_type,
+        tip_image=tip_image,
+    )
     tip.decision = poa_update.classify_tip(tip.p, trust.has_specific_location_time(tip))
     case.tips.append(tip)
 

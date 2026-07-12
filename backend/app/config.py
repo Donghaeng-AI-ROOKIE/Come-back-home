@@ -90,5 +90,22 @@ class Settings(BaseSettings):
     # 값은 잠정 — POA×POD 실구현 후 평가곡선(알림수 vs 발견율)으로 튜닝 대상.
     max_alert_cells: int = 500
 
+    # ── Phase 3 제보 신뢰도 p (docs: "제보 신뢰도 p 계산 방식") ─────────
+    # p = 가중평균(시공간개연성·사진일치·구체성). 없는 신호는 가중치 재정규화.
+    # 초기값은 도메인 판단, 합성 시나리오(진짜 vs 가짜 제보 분리)로 튜닝 대상.
+    trust_weight_plausibility: float = 0.40  # 시공간 개연성 (kinematic, 알고리즘)
+    trust_weight_photo: float = 0.35         # 사진 일치 (VARCO)
+    trust_weight_specificity: float = 0.25   # 구체성 (Mi:dm 챗봇)
+    trust_base_p: float = 0.3                # 아무 신호도 없을 때의 사전 신뢰
+
+    # kinematic 상한 — v_max(km/h) × Δt = 도달 가능 반경. 넘으면 지수 감쇠.
+    # v_max 는 평균이 아니라 "갈 수 있는 최대"(가능성 판정). 고령자 실측 부족 →
+    # 추정치, 발표 시 명시. 이동수단 확인 시 transit 값으로 상향.
+    reach_vmax_dementia_kmh: float = 4.5
+    reach_vmax_child_kmh: float = 4.0
+    reach_vmax_id_kmh: float = 5.0
+    reach_vmax_transit_kmh: float = 25.0     # 대중교통 목격 확인 시 (도심 버스·지하철)
+    reach_min_dt_hours: float = 0.05         # Δt 하한 — 0 나누기·동시목격 방지
+
 
 settings = Settings()
