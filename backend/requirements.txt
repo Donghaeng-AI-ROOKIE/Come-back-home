@@ -11,3 +11,6 @@ sentence-transformers>=3.0
 
 # 도로망 그래프 (Phase 1 로딩 → Phase 2 시뮬레이션 이동 제약)
 osmnx>=2.0
+
+# 환경 레이어 — EGIS 토지피복 WMS 래스터 파싱 (geo/envlayer.py)
+pillow>=10.0
