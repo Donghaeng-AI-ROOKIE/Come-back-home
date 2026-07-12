@@ -11,6 +11,7 @@ p 는 이진(통과/파기)이 아니라 값 그대로 POA 갱신 모듈에 전�
 
 from __future__ import annotations
 
+import math
 from datetime import datetime
 
 from app.config import settings
@@ -52,7 +53,8 @@ def score_tip(
             seen_at=tip.seen_at, created_at=tip.created_at,
             transit=(structured.get("travel_mode") == "transit"),
         )
-        terms.append((plaus, settings.trust_weight_plausibility))
+        if math.isfinite(plaus):   # 좌표가 NaN 이면 항 제외 (p 오염 방지)
+            terms.append((plaus, settings.trust_weight_plausibility))
 
     # ② 사진 일치 — 사진 있을 때만 (없다고 신뢰도 깎지 않음)
     if tip.has_photo:
@@ -68,7 +70,8 @@ def score_tip(
     if not terms:
         return settings.trust_base_p  # 아무 신호도 없음 → 사전 신뢰
     total_w = sum(w for _, w in terms)
-    return sum(v * w for v, w in terms) / total_w
+    p = sum(v * w for v, w in terms) / total_w if total_w > 0 else settings.trust_base_p
+    return p if math.isfinite(p) else settings.trust_base_p   # 최종 방어
 
 
 def has_specific_location_time(tip: Tip) -> bool:

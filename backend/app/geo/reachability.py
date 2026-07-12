@@ -34,13 +34,22 @@ def vmax_kmh(persona_type: PersonaType, transit: bool = False) -> float:
     return getter() if getter else settings.reach_vmax_dementia_kmh
 
 
+def _naive(dt: datetime | None) -> datetime | None:
+    """tz-aware → naive 로 통일 (프로젝트는 전부 naive 로컬 시각).
+    API 로 +09:00 붙은 시각이 들어와 naive lkp_time 과 빼기하면 TypeError 나는 것 방지.
+    """
+    return dt.replace(tzinfo=None) if dt is not None and dt.tzinfo is not None else dt
+
+
 def elapsed_hours(lkp_time: datetime, seen_at: datetime | None,
                   created_at: datetime) -> float:
     """개연성용 Δt(시간). 목격 시각(seen_at) 우선, 없으면 접수 시각(created_at)
     상한으로 fallback — created_at ≥ seen_at 이라 넉넉한(보수적) 반경이 나온다.
     하한(reach_min_dt_hours)으로 0 나누기·동시목격 붕괴 방지.
     """
-    ref = seen_at if seen_at is not None else created_at
+    lkp_time, seen_at, created_at = _naive(lkp_time), _naive(seen_at), _naive(created_at)
+    # 목격은 신고보다 늦을 수 없다 — 미래로 오추출된 seen_at 은 created_at 으로 캡.
+    ref = created_at if seen_at is None else min(seen_at, created_at)
     dt_h = (ref - lkp_time).total_seconds() / 3600.0
     return max(dt_h, settings.reach_min_dt_hours)
 

@@ -3,7 +3,8 @@
 docs: "제보 신뢰도 p 계산 방식". 외부 API 안 침 (structured 명시 전달·스텁 함수 직접 호출).
 """
 
-from datetime import datetime, timedelta
+import math
+from datetime import datetime, timedelta, timezone
 
 from app.config import settings
 from app.geo import reachability
@@ -66,6 +67,34 @@ def test_past_sighting_or_zero_dt_low():
     p = reachability.plausibility(LKP, T0, _pt_km_north(3.0), PersonaType.dementia,
                                   seen_at=T0, created_at=T0)
     assert p < 0.1
+
+
+# ── 셀프리뷰 회귀: tz / NaN / 미래 seen_at ──────────────────────────
+def test_tz_aware_seen_at_does_not_crash():
+    # API 로 +09:00 붙은 tz-aware 시각이 와도 naive lkp_time 과 빼기 크래시 안 남
+    aware = datetime(2026, 7, 13, 13, 0, 0, tzinfo=timezone.utc)
+    p = reachability.plausibility(LKP, T0, _pt_km_north(2.0), PersonaType.dementia,
+                                  seen_at=aware, created_at=T0 + timedelta(hours=2))
+    assert 0.0 <= p <= 1.0
+
+
+def test_nan_location_excluded_not_poisoning_p():
+    nan_tip = GeoPoint(lat=float("nan"), lng=127.02)
+    plaus = reachability.plausibility(LKP, T0, nan_tip, PersonaType.dementia,
+                                      seen_at=T0 + timedelta(hours=1), created_at=T0 + timedelta(hours=1))
+    assert math.isnan(plaus)   # 개연성 자체는 NaN 이지만
+    tip = _tip(location=nan_tip, seen_at=T0 + timedelta(hours=1))
+    p = trust.score_tip(tip, None, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
+                        structured={"specificity": "중", "travel_mode": None})
+    assert math.isfinite(p)    # trust 는 NaN 개연성 항을 빼고 유한한 p 반환
+
+
+def test_future_seen_at_capped_at_created_at():
+    # seen_at 이 신고 시각보다 미래(오추출) → created_at 으로 캡 → 게이트 무력화 방지
+    far = GeoPoint(lat=38.5, lng=128.0)   # 약 110km
+    p = reachability.plausibility(LKP, T0, far, PersonaType.dementia,
+                                  seen_at=T0 + timedelta(days=1), created_at=T0 + timedelta(hours=1))
+    assert p < 0.01   # created_at(1h) 기준이면 110km 는 사실상 불가능
 
 
 # ── 가중평균 trust ──────────────────────────────────────────────────
