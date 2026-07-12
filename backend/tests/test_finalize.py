@@ -46,3 +46,20 @@ def test_finalize_raises_without_geocodable_home():
     )
     with pytest.raises(ValueError):
         interview.finalize_persona(s, geocoder=GazetteerGeocoder())
+
+
+def test_finalize_no_silent_fallback_to_attraction_point():
+    """home 미확보 시 끌림점 폴백 금지 — ValueError 로 재질문 유도.
+
+    라이브 실측 버그 재현: Mi:dm 이 home 을 끌림점으로 오추출 →
+    draft_fields.home 부재 → (구버전) 첫 끌림점(과거 거주지 면목동!)이
+    무경고로 수색 원점이 됨 = 원점 오염. 이제는 반드시 예외.
+    """
+    s = InterviewSession(
+        id="fin4", guardian_name="보호자", persona_type=PersonaType.dementia,
+        draft_fields={"name": "김순자", "age": 78},          # home 없음
+        draft_attractions=[{"label": "옛집", "area_text": "면목동"}],  # 과거 거주지
+        awaiting_confirmation=True,
+    )
+    with pytest.raises(ValueError, match="집 위치"):
+        interview.finalize_persona(s, geocoder=GazetteerGeocoder())

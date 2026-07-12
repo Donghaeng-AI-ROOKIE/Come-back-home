@@ -32,14 +32,19 @@ class GeoResult:
 
 
 class Geocoder(Protocol):
-    def locate(self, query: str) -> GeoResult | None: ...
+    def locate(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None: ...
     def geocode(self, query: str) -> GeoPoint | None: ...
+
+
+# 앵커(집) 기준 끌림점 탐색 반경 상한 (km). 카카오 radius 파라미터 상한(20,000m)과 정합.
+# 라이브 인터뷰 실측 버그의 방어선: "은행 앞"→과천 21km, "산책로"→경북 188km 전국 오검색.
+ANCHOR_MAX_KM = 20.0
 
 
 class _BaseGeocoder:
     """geocode() 는 locate() 의 좌표만 뽑아주는 편의 래퍼."""
 
-    def locate(self, query: str) -> GeoResult | None:  # pragma: no cover - 추상
+    def locate(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:  # pragma: no cover - 추상
         raise NotImplementedError
 
     def geocode(self, query: str) -> GeoPoint | None:
@@ -77,12 +82,13 @@ class KakaoGeocoder(_BaseGeocoder):
         self.rest_key = rest_key
         self.timeout = timeout
 
-    def _get(self, url: str, query: str) -> list[dict]:
+    def _get(self, url: str, query: str, extra: dict | None = None) -> list[dict]:
         import json
         import urllib.parse
         import urllib.request
 
-        full = f"{url}?{urllib.parse.urlencode({'query': query, 'size': 1})}"
+        params = {"query": query, "size": 1, **(extra or {})}
+        full = f"{url}?{urllib.parse.urlencode(params)}"
         req = urllib.request.Request(full, headers={"Authorization": f"KakaoAK {self.rest_key}"})
         try:
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
@@ -90,15 +96,21 @@ class KakaoGeocoder(_BaseGeocoder):
         except Exception:  # noqa: BLE001 — 네트워크/인증 실패는 조용히 미탐
             return []
 
-    def _keyword(self, query: str) -> GeoResult | None:
-        docs = self._get(self.KEYWORD_URL, query)
+    def _keyword(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
+        # 앵커(집)가 있으면 반경 내 근접순 검색 — "은행 앞" 같은 일반명사가
+        # 전국 아무 곳에나 걸리는 것을 API 단에서 차단 (radius 상한 20,000m).
+        extra = ({"x": anchor.lng, "y": anchor.lat,
+                  "radius": int(ANCHOR_MAX_KM * 1000), "sort": "distance"}
+                 if anchor else None)
+        docs = self._get(self.KEYWORD_URL, query, extra)
         if not docs:
             return None
         d = docs[0]
         return GeoResult(GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
                          precision="poi", source="kakao", matched=d.get("place_name"))
 
-    def _address(self, query: str) -> GeoResult | None:
+    def _address(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
+        # 주소검색 API 는 x/y 파라미터 미지원 — anchor 는 시그니처 통일용
         docs = self._get(self.ADDRESS_URL, query)
         if not docs:
             return None
@@ -106,13 +118,13 @@ class KakaoGeocoder(_BaseGeocoder):
         return GeoResult(GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
                          precision="address", source="kakao", matched=d.get("address_name"))
 
-    def locate(self, query: str) -> GeoResult | None:
+    def locate(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
         if not query:
             return None
         # 순수 지역명이면 주소→키워드, 상호/장소명이면 키워드→주소
         steps = (self._address, self._keyword) if _looks_like_region(query) else (self._keyword, self._address)
         for step in steps:
-            res = step(query)
+            res = step(query, anchor)
             if res is not None:
                 return res
         return None
@@ -126,16 +138,22 @@ class NominatimGeocoder(_BaseGeocoder):
         self.timeout = timeout
         self.country = country
 
-    def locate(self, query: str) -> GeoResult | None:
+    def locate(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
         import json
+        import math
         import urllib.parse
         import urllib.request
 
         if not query:
             return None
-        params = urllib.parse.urlencode({
-            "q": query, "format": "json", "limit": 1, "countrycodes": self.country,
-        })
+        q: dict = {"q": query, "format": "json", "limit": 1, "countrycodes": self.country}
+        if anchor is not None:
+            # 앵커 기준 ~ANCHOR_MAX_KM 박스로 제한 (viewbox=left,top,right,bottom + bounded)
+            dlat = ANCHOR_MAX_KM / 111.32
+            dlng = ANCHOR_MAX_KM / (111.32 * math.cos(math.radians(anchor.lat)))
+            q["viewbox"] = f"{anchor.lng - dlng},{anchor.lat + dlat},{anchor.lng + dlng},{anchor.lat - dlat}"
+            q["bounded"] = 1
+        params = urllib.parse.urlencode(q)
         req = urllib.request.Request(
             f"{self.URL}?{params}",
             headers={"User-Agent": "come-back-home/0.1 (SAR onboarding)"},
@@ -182,7 +200,7 @@ class GazetteerGeocoder(_BaseGeocoder):
         self.table = table or _GAZETTEER
         self._keys = sorted(self.table, key=len, reverse=True)
 
-    def locate(self, query: str) -> GeoResult | None:
+    def locate(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
         if not query:
             return None
         q = _normalize(query)
@@ -199,9 +217,9 @@ class ChainGeocoder(_BaseGeocoder):
     def __init__(self, *backends: Geocoder) -> None:
         self.backends = backends
 
-    def locate(self, query: str) -> GeoResult | None:
+    def locate(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
         for b in self.backends:
-            hit = b.locate(query)
+            hit = b.locate(query, anchor)
             if hit is not None:
                 return hit
         return None
@@ -222,20 +240,33 @@ def get_geocoder(use_nominatim: bool = False) -> Geocoder:
 
 # ── draft 끌림점 → AttractionPoint ──────────────────────────────────
 def to_attraction_points(
-    drafts: list[dict], geocoder: Geocoder | None = None, *, default_weight: float = 1.0
+    drafts: list[dict],
+    geocoder: Geocoder | None = None,
+    *,
+    default_weight: float = 1.0,
+    anchor: GeoPoint | None = None,
 ) -> tuple[list[AttractionPoint], list[dict]]:
     """온보딩 초안 [{"label","area_text"}] → (AttractionPoint[], 미해결[]).
 
     지오코딩되면 좌표·정밀도(precision) 담아 AttractionPoint 생성, 안 되면 미해결.
+    anchor(집 좌표)가 있으면: (1) 백엔드에 근접 검색 힌트로 전달하고,
+    (2) 결과가 anchor 에서 ANCHOR_MAX_KM 를 벗어나면 채택하지 않고 미해결 처리 —
+    백엔드가 앵커를 무시하는 경우(nominatim 미탐 폴백 등)까지 막는 최종 방어선.
+    실측 버그: "은행 앞"→과천 21km, "산책로"→경북 188km (전국 키워드 오검색).
     """
+    from app.geo import h3grid
+
     geocoder = geocoder or get_geocoder()
     points: list[AttractionPoint] = []
     unresolved: list[dict] = []
     for d in drafts:
         area = d.get("area_text") or d.get("label")
-        res = geocoder.locate(area) if area else None
+        res = geocoder.locate(area, anchor) if area else None
         if res is None:
             unresolved.append(d)
+            continue
+        if anchor is not None and h3grid.haversine_km(anchor, res.point) > ANCHOR_MAX_KM:
+            unresolved.append({**d, "reason": f"집 기준 {ANCHOR_MAX_KM:.0f}km 밖 매칭 — 오검색 의심"})
             continue
         points.append(AttractionPoint(
             label=d.get("label") or area,

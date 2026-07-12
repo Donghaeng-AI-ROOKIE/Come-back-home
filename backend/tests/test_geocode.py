@@ -82,3 +82,47 @@ def test_kakao_region_name_uses_address_not_random_poi():
     assert res is not None
     assert res.precision == "address"          # 키워드(poi) 아니라 주소여야
     assert 37.57 < res.point.lat < 37.61       # 중랑구 면목동 근처
+
+
+# ── home 앵커 (전국 오검색 방어) ─────────────────────────────────────
+def test_anchor_filters_far_matches_to_unresolved():
+    """앵커(집) 기준 ANCHOR_MAX_KM 밖 매칭은 채택하지 않고 미해결 처리.
+
+    라이브 실측 버그 재현: "은행 앞"→과천 21km, "산책로"→경북 188km —
+    백엔드가 앵커를 무시해도(gazetteer 등) 최종 방어선이 걸러야 한다.
+    """
+    from app.geo.geocode import GeoPoint
+
+    table = {
+        "동네가게": GeoPoint(lat=37.6076, lng=127.0133),   # 정릉동 (집 근처)
+        "먼가게": GeoPoint(lat=35.1796, lng=129.0756),     # 부산 (~325km)
+    }
+    home = GeoPoint(lat=37.6061, lng=127.0106)             # 정릉동 집
+    drafts = [{"label": "동네가게"}, {"label": "먼가게"}]
+    points, unresolved = to_attraction_points(
+        drafts, geocoder=GazetteerGeocoder(table), anchor=home)
+    assert [p.label for p in points] == ["동네가게"]
+    assert len(unresolved) == 1 and unresolved[0]["label"] == "먼가게"
+    assert "오검색 의심" in unresolved[0]["reason"]
+
+
+def test_kakao_keyword_sends_anchor_params(monkeypatch):
+    """앵커가 있으면 카카오 키워드검색에 x/y/radius/sort=distance 가 실린다 (오프라인)."""
+    from app.geo.geocode import ANCHOR_MAX_KM, GeoPoint
+
+    captured = {}
+    g = KakaoGeocoder("fake-key")
+
+    def fake_get(url, query, extra=None):
+        captured["url"] = url
+        captured["extra"] = extra
+        return [{"y": "37.61", "x": "127.01", "place_name": "가게"}]
+
+    monkeypatch.setattr(g, "_get", fake_get)
+    home = GeoPoint(lat=37.6061, lng=127.0106)
+    res = g.locate("은행 앞", anchor=home)                 # 상호형 → 키워드검색 먼저
+    assert res is not None and res.precision == "poi"
+    assert captured["extra"] == {
+        "x": home.lng, "y": home.lat,
+        "radius": int(ANCHOR_MAX_KM * 1000), "sort": "distance",
+    }
