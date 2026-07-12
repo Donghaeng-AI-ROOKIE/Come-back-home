@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920" role="img" aria-labelledby="title desc">
+  <title id="title">돌아오길 전체 아키텍처</title>
+  <desc id="desc">보호자 온보딩부터 실종 신고, 위치 확률 예측, 시민 알림과 제보 갱신까지의 Phase 0~3 데이터 흐름</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F7FAF8"/>
+      <stop offset="1" stop-color="#EEF4F1"/>
+    </linearGradient>
+    <linearGradient id="phase2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#173B35"/>
+      <stop offset="1" stop-color="#24584E"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#173B35" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#527168"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#D85B39"/>
+    </marker>
+    <style>
+      .title { font: 700 34px Pretendard, "Apple SD Gothic Neo", sans-serif; fill: #173B35; }
+      .subtitle { font: 500 17px Pretendard, "Apple SD Gothic Neo", sans-serif; fill: #5D746D; }
+      .lane { font: 700 14px Pretendard, "Apple SD Gothic Neo", sans-serif; letter-spacing: 1.4px; fill: #668078; }
+      .phase { font: 700 23px Pretendard, "Apple SD Gothic Neo", sans-serif; fill: #173B35; }
+      .phaseLight { font: 700 23px Pretendard, "Apple SD Gothic Neo", sans-serif; fill: #FFFFFF; }
+      .body { font: 500 16px Pretendard, "Apple SD Gothic Neo", sans-serif; fill: #38554D; }
+      .bodyLight { font: 500 16px Pretendard, "Apple SD Gothic Neo", sans-serif; fill: #E7F1EE; }
+      .small { font: 500 14px Pretendard, "Apple SD Gothic Neo", sans-serif; fill: #5D746D; }
+      .smallLight { font: 500 14px Pretendard, "Apple SD Gothic Neo", sans-serif; fill: #CDE0DB; }
+      .chip { font: 700 13px Pretendard, "Apple SD Gothic Neo", sans-serif; fill: #24584E; }
+      .chipLight { font: 700 13px Pretendard, "Apple SD Gothic Neo", sans-serif; fill: #FFFFFF; }
+      .edge { fill: none; stroke: #527168; stroke-width: 3; marker-end: url(#arrow); }
+      .edgeDashed { fill: none; stroke: #D85B39; stroke-width: 3; stroke-dasharray: 9 8; marker-end: url(#arrow-accent); }
+    </style>
+  </defs>
+
+  <rect width="1600" height="920" rx="28" fill="url(#bg)"/>
+  <text x="72" y="65" class="title">돌아오길 전체 아키텍처</text>
+  <text x="72" y="97" class="subtitle">안정적 개인 정보 → 사건 정보 → 위치 확률 분포 → 타겟 알림 → 제보 기반 재탐색</text>
+
+  <text x="72" y="147" class="lane">USERS · CLIENT</text>
+  <rect x="72" y="166" width="1456" height="126" rx="20" fill="#FFFFFF" stroke="#D9E5E1"/>
+
+  <g transform="translate(104 188)">
+    <rect width="210" height="82" rx="15" fill="#E6F5EC"/>
+    <circle cx="35" cy="31" r="13" fill="#1DA35C"/>
+    <path d="M18 66c3-15 31-15 34 0" fill="#1DA35C"/>
+    <text x="67" y="32" class="phase" font-size="19">보호자</text>
+    <text x="67" y="57" class="small">사전 등록 · 상태 확인</text>
+  </g>
+  <g transform="translate(355 188)">
+    <rect width="210" height="82" rx="15" fill="#FFF0EB"/>
+    <path d="M26 22h24v30H26z" fill="none" stroke="#D85B39" stroke-width="4"/>
+    <path d="M31 18h14v8H31zM31 34h14M31 43h10" fill="none" stroke="#D85B39" stroke-width="3"/>
+    <text x="67" y="32" class="phase" font-size="19">경찰 신고</text>
+    <text x="67" y="57" class="small">LKP · 시각 · 사건 정보</text>
+  </g>
+  <g transform="translate(606 188)">
+    <rect width="210" height="82" rx="15" fill="#FFF7E3"/>
+    <circle cx="35" cy="31" r="13" fill="#E3A325"/>
+    <path d="M18 66c3-15 31-15 34 0" fill="#E3A325"/>
+    <text x="67" y="32" class="phase" font-size="19">시민</text>
+    <text x="67" y="57" class="small">경보 수신 · 목격 제보</text>
+  </g>
+  <g transform="translate(857 188)">
+    <rect width="210" height="82" rx="15" fill="#EAF0F7"/>
+    <rect x="20" y="19" width="31" height="25" rx="3" fill="none" stroke="#42658C" stroke-width="4"/>
+    <path d="M26 55h19M35 44v11" stroke="#42658C" stroke-width="4"/>
+    <text x="67" y="32" class="phase" font-size="19">운영자</text>
+    <text x="67" y="57" class="small">POA · 제보 · Case 관제</text>
+  </g>
+  <g transform="translate(1108 188)">
+    <rect width="388" height="82" rx="15" fill="#173B35"/>
+    <rect x="21" y="15" width="37" height="54" rx="7" fill="none" stroke="#A9D6C5" stroke-width="3"/>
+    <circle cx="39.5" cy="61" r="3" fill="#A9D6C5"/>
+    <text x="78" y="31" class="phaseLight" font-size="19">Expo React Native</text>
+    <text x="78" y="56" class="smallLight">역할 게이트 · 산책↔수색 모드 · H3 지도</text>
+  </g>
+
+  <text x="72" y="345" class="lane">BACKEND · PHASE PIPELINE</text>
+
+  <path class="edge" d="M205 292V382"/>
+  <path class="edge" d="M460 292V382"/>
+  <path class="edge" d="M711 292V325H1402V382"/>
+  <path class="edge" d="M962 292V350"/>
+
+  <g filter="url(#shadow)">
+    <rect x="72" y="382" width="316" height="260" rx="22" fill="#FFFFFF" stroke="#BFD8CD" stroke-width="2"/>
+    <rect x="72" y="382" width="316" height="9" rx="5" fill="#1DA35C"/>
+    <text x="98" y="432" class="phase">Phase 0 · 온보딩</text>
+    <text x="98" y="468" class="body">적응형 보호자 인터뷰</text>
+    <text x="98" y="498" class="small">• 22개 슬롯 히스토리-어웨어 검색</text>
+    <text x="98" y="525" class="small">• Mi:dm 답변 추출 · 질문 문장화</text>
+    <text x="98" y="552" class="small">• 요약 확인 · 장소 지오코딩</text>
+    <rect x="98" y="580" width="116" height="34" rx="17" fill="#E6F5EC"/>
+    <text x="156" y="602" text-anchor="middle" class="chip">Persona</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="420" y="382" width="276" height="260" rx="22" fill="#FFFFFF" stroke="#E8CBBF" stroke-width="2"/>
+    <rect x="420" y="382" width="276" height="9" rx="5" fill="#D85B39"/>
+    <text x="446" y="432" class="phase">Phase 1 · 신고</text>
+    <text x="446" y="468" class="body">사건 정보와 Persona 결합</text>
+    <text x="446" y="498" class="small">• 마지막 목격 위치 LKP</text>
+    <text x="446" y="525" class="small">• 마지막 목격 시각</text>
+    <text x="446" y="552" class="small">• 선택적 사진 · 신고 문서</text>
+    <rect x="446" y="580" width="96" height="34" rx="17" fill="#FFF0EB"/>
+    <text x="494" y="602" text-anchor="middle" class="chip">Case</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="728" y="350" width="516" height="324" rx="24" fill="url(#phase2)"/>
+    <text x="758" y="401" class="phaseLight">Phase 2 · 위치 확률 예측</text>
+    <text x="758" y="435" class="bodyLight">LLM은 prior와 마음만, 좌표·이동은 알고리즘이 담당</text>
+
+    <rect x="758" y="463" width="214" height="74" rx="14" fill="#315F56"/>
+    <text x="776" y="491" class="chipLight">EXAONE</text>
+    <text x="776" y="517" class="smallLight">6전략 · 끌림점 · 반경 등급</text>
+
+    <rect x="990" y="463" width="224" height="74" rx="14" fill="#315F56"/>
+    <text x="1008" y="491" class="chipLight">OSMnx + 환경</text>
+    <text x="1008" y="517" class="smallLight">도로망 · 물 · 숲 · 토지피복</text>
+
+    <rect x="758" y="555" width="138" height="57" rx="13" fill="#F4FAF8"/>
+    <text x="827" y="580" text-anchor="middle" class="chip">Top-down</text>
+    <text x="827" y="600" text-anchor="middle" class="small">해석적 POA</text>
+    <rect x="910" y="555" width="138" height="57" rx="13" fill="#F4FAF8"/>
+    <text x="979" y="580" text-anchor="middle" class="chip">Agent MC</text>
+    <text x="979" y="600" text-anchor="middle" class="small">10 rollouts</text>
+    <rect x="1062" y="555" width="152" height="57" rx="13" fill="#F4FAF8"/>
+    <text x="1138" y="580" text-anchor="middle" class="chip">Statistical MC</text>
+    <text x="1138" y="600" text-anchor="middle" class="small">500 walkers</text>
+
+    <text x="986" y="647" text-anchor="middle" class="chipLight">α-pool 0.3 / 0.5 / 0.2 → H3 Current POA</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1276" y="382" width="252" height="260" rx="22" fill="#FFFFFF" stroke="#E8D6A8" stroke-width="2"/>
+    <rect x="1276" y="382" width="252" height="9" rx="5" fill="#E3A325"/>
+    <text x="1302" y="432" class="phase">Phase 3 · 수색</text>
+    <text x="1302" y="468" class="body">알림 · 제보 · 확률 갱신</text>
+    <text x="1302" y="498" class="small">• 누적 POA 80% 셀 선택</text>
+    <text x="1302" y="525" class="small">• 제보 신뢰도 p 산출</text>
+    <text x="1302" y="552" class="small">• 층1 베이지안 갱신</text>
+    <text x="1302" y="579" class="small">• 층2 새 LKP 재실행</text>
+    <rect x="1302" y="595" width="132" height="30" rx="15" fill="#FFF7E3"/>
+    <text x="1368" y="615" text-anchor="middle" class="chip">Target alerts</text>
+  </g>
+
+  <path class="edge" d="M388 512H420"/>
+  <path class="edge" d="M696 512H728"/>
+  <path class="edge" d="M1244 512H1276"/>
+
+  <text x="72" y="735" class="lane">STATE · FEEDBACK LOOP</text>
+  <rect x="72" y="754" width="1456" height="102" rx="20" fill="#FFFFFF" stroke="#D9E5E1"/>
+
+  <g transform="translate(104 777)">
+    <ellipse cx="96" cy="9" rx="96" ry="9" fill="#D5E8E0"/>
+    <rect y="9" width="192" height="42" fill="#E9F3EF"/>
+    <ellipse cx="96" cy="51" rx="96" ry="9" fill="#D5E8E0"/>
+    <text x="96" y="37" text-anchor="middle" class="chip">인메모리 Repository</text>
+  </g>
+  <text x="333" y="797" class="body">Persona · InterviewSession · Case · baseline/current POA · Tips</text>
+  <text x="333" y="827" class="small">현재는 프로세스 메모리 저장 · 운영 단계에서 DB로 교체</text>
+
+  <path class="edgeDashed" d="M1402 642V704H986V674"/>
+  <rect x="1071" y="684" width="234" height="34" rx="17" fill="#FFF0EB"/>
+  <text x="1188" y="706" text-anchor="middle" class="chip">고신뢰 제보 → 새 LKP 재예측</text>
+
+  <text x="1528" y="892" text-anchor="end" class="small">기준: origin/develop · 2026-07-12</text>
+</svg>
