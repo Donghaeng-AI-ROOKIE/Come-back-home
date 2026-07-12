@@ -307,13 +307,24 @@ def _parse_age(value) -> int:
 def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     """확인 완료된 인터뷰 초안(draft_*) → 지오코딩 → 확정 Persona 저장.
 
-    home 텍스트를 좌표로 지오코딩(필수), 끌림점은 to_attraction_points 로 좌표화·정밀도 부여.
-    home 을 좌표화 못 하면 첫 끌림점 위치로 폴백, 그것도 없으면 ValueError.
+    home 을 먼저 좌표화(필수)하고, 그 좌표를 앵커로 끌림점을 근접 검색한다.
+    home 미확보·좌표화 실패 시 ValueError — 끌림점 폴백은 하지 않는다:
+    Mi:dm 이 home 을 끌림점으로 오추출한 라이브 케이스에서 과거 거주지가
+    무경고로 수색 원점이 되던 치명 버그 (원점 오염). ValueError 는 확인 게이트가
+    받아 보호자에게 집 위치를 재질문한다.
     geocoder 미지정 시 모듈 기본(_GEO, 카카오 체인) 사용 — 테스트는 gazetteer 주입.
     """
     geo = geocoder or _GEO
     f = session.draft_fields
-    points, _unresolved = to_attraction_points(session.draft_attractions, geo)
+
+    # ① home 먼저 — 수색 원점이자 끌림점 근접 검색의 앵커
+    home_res = geo.locate(f["home"]) if f.get("home") else None
+    if home_res is None:
+        raise ValueError("집 위치 미확보 — 집 주소/동네를 다시 확인해 주세요")
+    home = home_res.point
+
+    # ② 끌림점 — home 앵커로 반경 내 근접 검색 (전국 키워드 오검색 차단)
+    points, _unresolved = to_attraction_points(session.draft_attractions, geo, anchor=home)
     # 중복 제거 — 같은 이름(또는 같은 좌표)이 poi/address 로 두 번 잡히면 더 정밀한 것만.
     _rank = {"poi": 0, "address": 1, "dong": 2, "approx": 3, "unknown": 4}
     uniq: dict[object, AttractionPoint] = {}
@@ -322,11 +333,6 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
         if key not in uniq or _rank.get(p.precision, 9) < _rank.get(uniq[key].precision, 9):
             uniq[key] = p
     points = list(uniq.values())
-
-    home_res = geo.locate(f["home"]) if f.get("home") else None
-    home = home_res.point if home_res else (points[0].location if points else None)
-    if home is None:
-        raise ValueError("집 위치 지오코딩 실패")
 
     persona = Persona(
         id=storage.new_id(),
