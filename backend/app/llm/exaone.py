@@ -24,12 +24,23 @@ from app.schemas.persona import Persona, PersonaType
 from app.schemas.prediction import LognormalParams, MindState, PriorParams
 from app.schemas.report import MissingReport
 
-# Koester 프로파일별 이동 거리 lognormal 파라미터 (km) — 아키텍처 문서 값 (2026-07-11 교정)
-#   치매: 50%가 1.6km, 95%가 6.4km 이내 / 아동은 문서의 1~3세 값(연령대 세분화 전 잠정)
+# Koester 프로파일별 이동 거리 lognormal 파라미터 (km).
+# 치매 = ISRID **Urban** 도메인 원표 정합 (2026-07-12 재교정, 출처 대조 완료):
+#   ISRID Dementia Urban (n=336): 25%=0.3 / 50%=1.1 / 75%=3.2 / 95%=12.6 km
+#   — Koester, Lost Person Behavior (dbS Productions); Laing 2013
+#     "Analysis of Missing Dementia Persons in an Urban Environment" Table 1 재인용.
+#   lognormal(μ=0.095, σ=1.48) 적합값 = 0.40/1.1/3.0/12.6 → 4개 분위수 모두 일치.
+# 이전 값(μ=0.47, σ=1.53)은 ISRID Dry 지형 값으로 추정 — 도시 서비스와 도메인 불일치,
+# 문서의 "95% 6.4km" 해석은 어느 도메인과도 불일치(문서 오류).
+# 모집단 prior 는 넓게 유지한다: 개인 이질성(0.3km 배회~대중교통 12km)이 섞인 값이고,
+# 개인화(EXAONE radius_level·끌림점)가 분포를 옮기고 좁히는 방향으로 소비한다.
+# 좁은 σ 는 가드레일(μ±0.4) 위에서 먼 끌림점 페르소나를 구조적으로 표현 불가하게 만든다.
+# ⚠️ 아동·지적장애는 Urban 분위수 원표 미확보 — σ 유지, 원 Koester 표 대조 검증 필요
+#   (현 σ 로는 아동 95%≈3.0km(1~3세), 지적장애 95%≈28km 로 후자는 비현실적).
 _KOESTER_PARAMS: dict[PersonaType, LognormalParams] = {
-    PersonaType.dementia: LognormalParams(mu=0.47, sigma=1.53),                # 중앙값 ~1.6km
+    PersonaType.dementia: LognormalParams(mu=0.095, sigma=1.48),               # ISRID Urban: 50% 1.1km, 95% 12.6km
     PersonaType.child: LognormalParams(mu=-1.2, sigma=1.4),                    # 중앙값 ~0.3km (1~3세)
-    PersonaType.intellectual_disability: LognormalParams(mu=0.89, sigma=1.50), # 중앙값 ~2.4km
+    PersonaType.intellectual_disability: LognormalParams(mu=0.89, sigma=1.50), # 중앙값 ~2.4km — σ 검증 필요
 }
 
 # Hashimoto 2022 6전략 — 프로파일별 기본 확률 (placeholder, 논문 값으로 교체 대상)

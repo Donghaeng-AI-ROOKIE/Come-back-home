@@ -76,6 +76,11 @@ class Settings(BaseSettings):
 
     # 알림 발송 — POA 상위 셀 누적 커버리지
     alert_coverage: float = 0.8
+    # 알림 셀 수 상한 (타겟팅 가드레일) — 꼬리가 두꺼운 분포에서 80% 커버리지가
+    # 수천 셀(사실상 무차별)로 폭주하는 것을 차단. res9 셀 ≈0.105km² 기준
+    # 500셀 ≈ 52km². 건강한 케이스(경과 1h)는 80% 도달에 ~159셀이라 안 걸린다.
+    # 값은 잠정 — POA×POD 실구현 후 평가곡선(알림수 vs 발견율)으로 튜닝 대상.
+    max_alert_cells: int = 500
 
 
 settings = Settings()
