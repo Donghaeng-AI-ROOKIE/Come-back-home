@@ -5,11 +5,13 @@
 """
 
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
-from app.api import phase0, phase1, phase2, phase3
+from app.api import debug, phase0, phase1, phase2, phase3
 
 
 @asynccontextmanager
@@ -40,6 +42,13 @@ app.include_router(phase0.router)
 app.include_router(phase1.router)
 app.include_router(phase2.router)
 app.include_router(phase3.router)
+app.include_router(debug.router)
+
+
+@app.get("/dashboard", include_in_schema=False)
+def dashboard():
+    """E2E 시연 대시보드 — 단일 HTML (팀 내부 이해·검증용)."""
+    return FileResponse(Path(__file__).parent / "static" / "dashboard.html")
 
 
 @app.get("/")

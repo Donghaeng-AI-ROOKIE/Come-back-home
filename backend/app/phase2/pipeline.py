@@ -11,6 +11,7 @@ from app.config import settings
 from app.llm import exaone
 from app.phase2 import combine, simulation, topdown
 from app.schemas.case import Case, CaseStatus
+from app.schemas.debug import PredictionDebug, SimTrace
 from app.schemas.prediction import MindState, POA, PredictionResult
 
 
@@ -39,14 +40,24 @@ def _load_roadnet(case: Case):
     return net
 
 
-def run_prediction(case: Case, *, now: datetime | None = None, seed: int | None = None) -> PredictionResult:
+def run_prediction(
+    case: Case,
+    *,
+    now: datetime | None = None,
+    seed: int | None = None,
+    trace: bool = False,   # E2E 대시보드 — 워커 궤적·EXAONE 이벤트 수집 (결과 불변)
+) -> PredictionResult:
     now = now or datetime.now()
     elapsed_hours = max((now - case.lkp_time).total_seconds() / 3600.0, 0.05)
 
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
 
     # ① Few-shot CoT → prior (EXAONE, 좌표 아님)
+    last_call = exaone.call_log[-1] if exaone.call_log else None
     prior = exaone.generate_prior(persona, case.report)
+    prior_call = (exaone.call_log[-1]
+                  if exaone.call_log and exaone.call_log[-1] is not last_call
+                  and exaone.call_log[-1]["kind"] == "prior" else None)
 
     # 마음 상태 초기화 (이후 제보의 심리 단서로 갱신됨)
     mind = case.mind or MindState()
@@ -54,9 +65,11 @@ def run_prediction(case: Case, *, now: datetime | None = None, seed: int | None 
     # ② 3-way 예측 — 도로망이 있으면 두 MC 모두 그래프 위를 걷는다
     #    (통계 MC 도 같은 지형 제약이어야 "AI 기여도" 비교가 공정)
     net = _load_roadnet(case)
+    sim_trace = SimTrace() if trace else None
     poa_td = topdown.topdown_poa(case.lkp, prior, persona, elapsed_hours)
     poa_bu = simulation.run_monte_carlo(
-        case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed)
+        case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed,
+        trace=sim_trace)
     poa_stat = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed)
 
@@ -77,7 +90,7 @@ def run_prediction(case: Case, *, now: datetime | None = None, seed: int | None 
     case.status = CaseStatus.predicted
     storage.cases.save(case.id, case)
 
-    return PredictionResult(
+    result = PredictionResult(
         case_id=case.id,
         prior=prior,
         poa_topdown=POA(cells=poa_td, source="topdown"),
@@ -85,3 +98,18 @@ def run_prediction(case: Case, *, now: datetime | None = None, seed: int | None 
         poa_statistical=POA(cells=poa_stat, source="statistical"),
         poa_combined=POA(cells=final, source="combined"),
     )
+
+    if sim_trace is not None:
+        storage.debug_traces.save(case.id, PredictionDebug(
+            case_id=case.id,
+            seed=seed,
+            roadnet=net is not None,
+            exaone_stub=exaone.is_stub,
+            prior_prompt=prior_call["prompt"] if prior_call else None,
+            prior_response_raw=prior_call["response"] if prior_call else None,
+            walkers=sim_trace.walkers,
+            mind_events=sim_trace.mind_events,
+            result=result,
+        ))
+
+    return result
