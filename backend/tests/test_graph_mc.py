@@ -88,16 +88,41 @@ def test_landmark_seeking_pulls_toward_attraction(net):
     assert d_seek < d_rand
 
 
-def test_agent_mode_uses_config_rollouts(net):
-    """에이전트 MC 는 실운영 config 값(10)으로 돈다 — E2E 유효성 결정사항."""
-    from app.config import settings
+def test_agent_mode_full_walkers_budgeted_mind_calls(net, monkeypatch):
+    """agent MC: 워커는 두 모드 공통 500 전부 걷되, EXAONE 실호출은 예산 이내.
 
-    prior = _prior({s: 1 / 6 for s in simulation.STRATEGIES})
-    poa = simulation.run_monte_carlo(LKP, prior, None, 1.0, mode="agent", net=net, seed=5)
-    # 롤아웃 10회면 셀 확률은 0.1 의 배수
-    assert settings.mc_rollouts_agent == 10
+    회귀 배경: 워커 10명 히스토그램(셀당 0.1 단위 분산)에 α=0.5 를 주던
+    통계적 결함 폐기 — 보행(공짜)과 LLM 호출(비싼 것)을 분리한다.
+    예산 소진 후 발동은 풀에서 독립 표집되므로 목표 재주입 효과는 유지된다.
+    """
+    from app import llm
+    from app.config import settings
+    from app.phase2 import gauges
+    from app.schemas.prediction import MindState
+
+    calls = []
+
+    def fake_reinterpret(persona, current, report, labels):
+        calls.append(report)
+        return MindState(status="옛집으로", confusion=0.3, changed=True), "시장"
+
+    monkeypatch.setattr(llm.exaone, "reinterpret_mind", fake_reinterpret)
+    # 매 스텝 발동 강제 → 모든 워커가 마음 재해석을 시도 (최악 케이스)
+    monkeypatch.setattr(gauges.Gauges, "mind_fired", lambda self, rng: "귀소")
+
+    prior = _prior({"direction_keeping": 1.0}, mu=0.5, attraction={"시장": 1.0})
+    poa = simulation.run_monte_carlo(LKP, prior, _persona(), 1.0,
+                                     mode="agent", net=net, seed=5)
+    # 워커 수 = 공통 500 → 셀 확률은 1/500 단위 (0.1 단위 분산 회귀 방지)
+    assert settings.mc_num_walkers == 500
     for p in poa.values():
-        assert abs(p * 10 - round(p * 10)) < 1e-9
+        assert abs(p * 500 - round(p * 500)) < 1e-6
+    # 전 워커 발동에도 실호출은 예산까지만 — 나머지는 풀 표집
+    assert len(calls) == settings.mind_call_budget
+    # 풀 표집으로도 목표 재주입이 작동 — 질량이 끌림점 쪽으로 쏠린다
+    near = sum(p for c, p in poa.items()
+               if h3grid.haversine_km(h3grid.cell_center(c), ATTRACTION) < 0.25)
+    assert near > 0.3
 
 
 def test_continuous_fallback_without_net():
