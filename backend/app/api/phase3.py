@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from app import storage
 from app.geo import h3grid
 from app.phase3 import alerts, tip_flow, triggers
+from app.privacy import lifecycle
 from app.schemas.case import CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.tip import Tip
@@ -33,8 +34,10 @@ def _require_active(case):
     """종결(발견/철회)된 케이스에 알림·제보가 계속 흐르면 개인정보 파기
     라이프사이클이 무효가 된다 — 인상착의 알림 발송, 제보로 인한 status
     되돌림(searching)을 여기서 차단. 조회(GET)는 막지 않는다."""
-    if case.status in (CaseStatus.found, CaseStatus.closed):
-        raise HTTPException(409, f"종결된 케이스 ({case.status.value}) — 알림·제보 불가")
+    try:
+        lifecycle.ensure_not_closed(case)
+    except lifecycle.AlreadyClosed as e:
+        raise HTTPException(409, str(e))
 
 
 @router.post("/cases/{case_id}/alerts")

@@ -102,6 +102,18 @@ def get_audit_log() -> list[AuditRecord]:
     return sorted(storage.audit_logs.list(), key=lambda r: r.at)
 
 
+def ensure_not_closed(case: Case) -> None:
+    """종결 케이스에 수색 작업(예측·알림·제보)이 흐르는 것을 차단하는 정책 게이트.
+
+    특히 Phase 2 예측은 status 를 predicted 로 덮어써 종결을 '부활'시키므로
+    (pipeline.run_prediction), 모든 수색 진입점이 이 게이트를 먼저 통과해야 한다.
+    """
+    if case.status in (CaseStatus.found, CaseStatus.closed):
+        raise AlreadyClosed(
+            f"종결된 케이스 ({case.status.value}) — 예측·알림·제보 불가"
+        )
+
+
 def close_case(case: Case, reason: CloseReason, now: datetime | None = None) -> Case:
     """종결 처리 — 이 순간부터 TTL 카운트다운이 시작된다."""
     if case.status in (CaseStatus.found, CaseStatus.closed):

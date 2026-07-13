@@ -10,6 +10,8 @@ import pytest
 from fastapi import HTTPException
 
 from app import storage
+from app.api import debug as debug_api
+from app.api import phase2 as phase2_api
 from app.api import phase3 as phase3_api
 from app.config import settings
 from app.privacy import lifecycle
@@ -201,6 +203,20 @@ def test_closed_case_rejects_alerts_and_tips():
         phase3_api.submit_tip(case.id, phase3_api.TipIn(text="정릉시장에서 봤어요"))
     assert exc.value.status_code == 409
     assert case.status == CaseStatus.found  # 제보가 종결을 되돌리지 못함
+
+
+def test_closed_case_rejects_phase2_and_debug_predict():
+    """예측 API 는 status 를 predicted 로 덮어써 종결을 '부활'시킬 수 있다 —
+    phase2·debug 예측 진입점 모두 종결 케이스를 거부해야 한다."""
+    case = _make_case()
+    lifecycle.close_case(case, CloseReason.found)
+    with pytest.raises(HTTPException) as exc:
+        phase2_api.predict(case.id)
+    assert exc.value.status_code == 409
+    with pytest.raises(HTTPException) as exc:
+        debug_api.predict_traced(case.id)
+    assert exc.value.status_code == 409
+    assert case.status == CaseStatus.found  # 부활 안 함
 
 
 def test_closed_case_rerun_check_says_no():
