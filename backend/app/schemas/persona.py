@@ -53,3 +53,6 @@ class InterviewSession(BaseModel):
     awaiting_confirmation: bool = False   # 요약 확인("이게 맞나요?") 대기 중
     done: bool = False
     persona_id: str | None = None
+    # 개인정보 파기 — 미완료인 채 방치된 세션(draft 에 이름·주소 초안이 남는다)을
+    # TTL 로 쓸어내기 위한 마지막 활동 시각 (privacy/lifecycle.purge_expired)
+    last_active_at: datetime = Field(default_factory=datetime.now)

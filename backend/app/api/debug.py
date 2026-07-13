@@ -10,6 +10,7 @@ from fastapi import APIRouter, HTTPException
 from app import storage
 from app.geo import h3grid
 from app.phase2 import pipeline
+from app.privacy import lifecycle
 from app.schemas.debug import PredictionDebug
 
 router = APIRouter(prefix="/debug", tags=["Debug — E2E 대시보드"])
@@ -41,6 +42,11 @@ def predict_traced(case_id: str, seed: int | None = None):
     case = storage.cases.get(case_id)
     if case is None:
         raise HTTPException(404, "케이스 없음")
+    try:
+        # 시연용이라도 종결 케이스 예측은 차단 — status 부활 방지 (phase2 와 동일)
+        lifecycle.ensure_not_closed(case)
+    except lifecycle.AlreadyClosed as e:
+        raise HTTPException(409, str(e))
     pipeline.run_prediction(case, seed=seed, trace=True)
     return storage.debug_traces.get(case_id)
 

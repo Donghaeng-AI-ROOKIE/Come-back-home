@@ -13,6 +13,8 @@
 
 from __future__ import annotations
 
+from datetime import datetime
+
 from app import storage
 from app.llm import midm
 from app.phase0 import retrieval, safety
@@ -202,6 +204,8 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
         raise KeyError(f"인터뷰 세션 없음: {session_id}")
     if session.done:
         return session
+    # 개인정보 파기 — 방치 세션 TTL(privacy.purge_expired)의 기준 시각 갱신
+    session.last_active_at = datetime.now()
 
     # 요약 확인 대기 중이면 '네/정정'만 처리하고 리턴
     if session.awaiting_confirmation:

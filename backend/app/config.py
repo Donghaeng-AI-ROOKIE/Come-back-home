@@ -107,5 +107,18 @@ class Settings(BaseSettings):
     reach_vmax_transit_kmh: float = 25.0     # 대중교통 목격 확인 시 (도심 버스·지하철)
     reach_min_dt_hours: float = 0.05         # Δt 하한 — 0 나누기·동시목격 방지
 
+    # ── 개인정보 파기 (개인정보 보호법 §21 + 표준 개인정보 보호지침) ─────
+    # 종결(발견/철회) 후 이 일수가 지나면 purge_expired 가 케이스를 파기한다.
+    # 5일 = 표준지침의 "정당한 사유가 없는 한 5일 이내" 상한. 유예를 두는
+    # 이유는 오종결 복구·재실종 초동 대응. 즉시 파기는 명시 삭제요청
+    # (DELETE /privacy/...)으로 언제든 가능.
+    privacy_retention_days: int = 5
+    # 미완료 인터뷰 세션 방치 상한 — persona_id 가 없어 보호자 삭제요청으로
+    # 못 지우는 draft 개인정보를 시간 상한으로 파기 (인증 도입 전 임시 방어)
+    privacy_session_ttl_hours: int = 48
+    # 감사로그 영속 파일 (JSONL append-only) — 인메모리 storage 는 재시작 시
+    # 증발하므로 파기 증적만은 파일로 남긴다. DB 전환 시 테이블로 임포트.
+    privacy_audit_path: str = "data/audit_log.jsonl"
+
 
 settings = Settings()

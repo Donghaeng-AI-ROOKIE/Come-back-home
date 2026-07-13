@@ -37,3 +37,4 @@ personas = Repository()      # Persona
 interviews = Repository()    # InterviewSession
 cases = Repository()         # Case
 debug_traces = Repository()  # PredictionDebug — E2E 대시보드용 (case_id 키)
+audit_logs = Repository()    # AuditRecord — 파기 증적 (개인정보 미포함, 파기 후에도 유지)

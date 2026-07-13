@@ -3,7 +3,7 @@
 from datetime import datetime
 from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.schemas.common import GeoPoint
 from app.schemas.prediction import MindState, PriorParams
@@ -19,10 +19,21 @@ class CaseStatus(str, Enum):
     closed = "closed"
 
 
+class CloseReason(str, Enum):
+    found = "found"          # 발견 — 목적 달성
+    withdrawn = "withdrawn"  # 신고 철회
+
+
 class Case(BaseModel):
     id: str
     report: MissingReport
     status: CaseStatus = CaseStatus.intake
+
+    # 개인정보 파기 라이프사이클 (privacy/lifecycle.py) — 종결 시각 기준으로
+    # TTL(보관 만료) 카운트다운이 시작된다
+    created_at: datetime = Field(default_factory=datetime.now)
+    closed_at: datetime | None = None
+    close_reason: CloseReason | None = None
 
     # 현재 앵커 — 층2 트리거 시 고신뢰 목격 위치·시각으로 교체된다
     lkp: GeoPoint
