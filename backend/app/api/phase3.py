@@ -40,6 +40,16 @@ def _require_active(case):
         raise HTTPException(409, str(e))
 
 
+@router.post("/cases/{case_id}/reflex-alerts")
+def send_reflex_alerts(case_id: str):
+    """1차 안전반경 즉시 알림 — POA 불필요 (신고 직후 골든타임용, 수동 재발송)."""
+    case = _get_case(case_id)
+    _require_active(case)
+    cells = alerts.select_reflex_cells(case.lkp)
+    summary = case.report.appearance.summary if case.report.appearance else "인상착의 정보 없음"
+    return alerts.send_alerts(case.id, cells, summary, kind="reflex")
+
+
 @router.post("/cases/{case_id}/alerts")
 def send_alerts(case_id: str):
     """1차 알림 — 현재 POA 상위 셀(누적 80%) 내 사용자에게 발송."""

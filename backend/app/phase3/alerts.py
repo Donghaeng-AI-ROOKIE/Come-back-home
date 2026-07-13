@@ -7,6 +7,8 @@
 import math
 
 from app.config import settings
+from app.geo import h3grid
+from app.schemas.common import GeoPoint
 
 
 def select_alert_cells(
@@ -45,17 +47,35 @@ def select_alert_cells(
     return selected
 
 
-def send_alerts(case_id: str, cells: list[str], appearance_summary: str) -> dict:
+def select_reflex_cells(lkp: GeoPoint, k: int | None = None) -> list[str]:
+    """1차 안전반경 (Reflex Tasking) — POA 없이 IPP 주변 k-ring 선택.
+
+    Koester 원칙: 수색 초반에는 복잡한 확률 분석보다 즉시 확인이 중요.
+    신고 접수 직후 Phase 2 예측이 나오기 전의 골든타임을 이 알림이 메운다.
+    예측 완료 후에는 select_alert_cells(POA 기반)로 전환.
+    """
+    k = settings.reflex_kring if k is None else k
+    return h3grid.cells_within_k(lkp, k)
+
+
+def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
+                kind: str = "poa") -> dict:
     """알림 발송 스텁.
 
     실제 구현: 셀 내 앱 사용자 조회(위치 인덱스) → 푸시 발송
     (인상착의 시각 자료 + 지도 하이라이트 포함).
     """
     # TODO: 푸시 인프라(FCM 등) + 사용자 위치 인덱스 연동
+    message = (
+        f"[돌아오길] 인근에서 실종이 발생했습니다. 주변을 확인해 주세요. {appearance_summary}"
+        if kind == "reflex"
+        else f"[돌아오길] 근처에서 실종자가 목격되었습니다. {appearance_summary}"
+    )
     return {
         "case_id": case_id,
+        "kind": kind,   # reflex(1차 안전반경) | poa(예측 기반 타겟)
         "target_cells": len(cells),
-        "message": f"[돌아오길] 근처에서 실종자가 목격되었습니다. {appearance_summary}",
+        "message": message,
         "sent": False,
         "note": "푸시 인프라 미연동 — 스텁 응답",
     }

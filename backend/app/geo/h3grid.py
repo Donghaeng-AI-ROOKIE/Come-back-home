@@ -26,6 +26,11 @@ def cell_boundary(cell: str) -> list[GeoPoint]:
     return [GeoPoint(lat=lat, lng=lng) for lat, lng in h3.cell_to_boundary(cell)]
 
 
+def cells_within_k(center: GeoPoint, k: int, res: int | None = None) -> list[str]:
+    """중심 셀 포함 k-ring (grid_disk) — '격자 몇 칸' 단위 선택용 (1차 안전반경 등)."""
+    return list(h3.grid_disk(cell_of(center, res), k))
+
+
 def cells_within_km(center: GeoPoint, radius_km: float, res: int | None = None) -> list[str]:
     """중심점 반경 radius_km 를 덮는 H3 셀 목록."""
     res = res or settings.h3_resolution
