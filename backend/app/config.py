@@ -113,6 +113,12 @@ class Settings(BaseSettings):
     # 이유는 오종결 복구·재실종 초동 대응. 즉시 파기는 명시 삭제요청
     # (DELETE /privacy/...)으로 언제든 가능.
     privacy_retention_days: int = 5
+    # 미완료 인터뷰 세션 방치 상한 — persona_id 가 없어 보호자 삭제요청으로
+    # 못 지우는 draft 개인정보를 시간 상한으로 파기 (인증 도입 전 임시 방어)
+    privacy_session_ttl_hours: int = 48
+    # 감사로그 영속 파일 (JSONL append-only) — 인메모리 storage 는 재시작 시
+    # 증발하므로 파기 증적만은 파일로 남긴다. DB 전환 시 테이블로 임포트.
+    privacy_audit_path: str = "data/audit_log.jsonl"
 
 
 settings = Settings()

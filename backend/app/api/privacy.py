@@ -66,12 +66,20 @@ def delete_persona(persona_id: str):
 
 @router.post("/purge-expired")
 def purge_expired():
-    """TTL 만료분 일괄 파기 — 운영 스케줄러가 주기 호출 (백본은 수동 트리거)."""
+    """TTL 만료분 일괄 파기 — 운영 스케줄러가 주기 호출 (백본은 수동 트리거).
+
+    케이스(종결 후 retention_days)와 방치된 미완료 인터뷰 세션
+    (session_ttl_hours)을 함께 쓸어낸다.
+    """
     purged = lifecycle.purge_expired()
-    return {"purged_case_ids": purged, "count": len(purged)}
+    return {
+        "purged_case_ids": purged["cases"],
+        "purged_interview_ids": purged["interviews"],
+        "count": len(purged["cases"]) + len(purged["interviews"]),
+    }
 
 
 @router.get("/audit", response_model=list[AuditRecord])
 def audit_log():
-    """파기 증적 조회 — 개인정보 미포함(ID·행위·사유 코드만)."""
-    return sorted(storage.audit_logs.list(), key=lambda r: r.at)
+    """파기 증적 조회 — 개인정보 미포함(ID·행위·사유 코드만), 재시작 후에도 유지."""
+    return lifecycle.get_audit_log()

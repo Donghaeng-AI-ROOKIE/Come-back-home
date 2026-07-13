@@ -18,7 +18,9 @@
   물리삭제/익명화 정책의 단일 진입점이 된다.
 """
 
+import json
 from datetime import datetime, timedelta
+from pathlib import Path
 
 from app import storage
 from app.config import settings
@@ -45,13 +47,59 @@ class ActiveCaseLinked(LifecycleError):
     pass
 
 
+# ── 감사로그 영속화 (JSONL append-only) ─────────────────────────────
+# 인메모리 storage 는 재시작 시 증발한다 — "파기했다는 증거"가 사라지면
+# 증적으로서 무가치하므로 감사로그만은 파일에 남긴다. 개인정보가 없는
+# 데이터라 파일 보존이 파기 원칙과 모순되지 않는다.
+
+_audit_loaded = False   # 프로세스당 1회 파일 → 메모리 로드
+
+
+def _ensure_audit_loaded() -> None:
+    global _audit_loaded
+    if _audit_loaded:
+        return
+    _audit_loaded = True   # 실패해도 재시도 폭주 방지 — 이번 프로세스는 메모리로만 동작
+    path = Path(settings.privacy_audit_path)
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            rec = AuditRecord.model_validate_json(line)
+            storage.audit_logs.save(rec.id, rec)
+        except Exception as e:  # noqa: BLE001 — 손상 라인은 건너뛰고 나머지는 살린다
+            print(f"[privacy] 감사로그 손상 라인 무시: {e}")
+
+
+def _append_audit_file(rec: AuditRecord) -> None:
+    # 파일 기록 실패가 파기 자체를 막으면 안 된다 — 메모리 기록은 이미 됐고,
+    # 영속 증적만 이번 건이 빠진다 (경고로 노출)
+    try:
+        path = Path(settings.privacy_audit_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8") as f:
+            f.write(rec.model_dump_json() + "\n")
+    except OSError as e:
+        print(f"[privacy] 감사로그 파일 기록 실패 (메모리 기록은 유지): {e}")
+
+
 def _audit(action: str, target_type: str, target_id: str, detail: str = "") -> AuditRecord:
+    _ensure_audit_loaded()
     rec = AuditRecord(
         id=storage.new_id(),
         action=action, target_type=target_type, target_id=target_id, detail=detail,
     )
     storage.audit_logs.save(rec.id, rec)
+    _append_audit_file(rec)
     return rec
+
+
+def get_audit_log() -> list[AuditRecord]:
+    """전체 감사로그 (시간순) — 재시작 후에도 파일에서 복원된다."""
+    _ensure_audit_loaded()
+    return sorted(storage.audit_logs.list(), key=lambda r: r.at)
 
 
 def close_case(case: Case, reason: CloseReason, now: datetime | None = None) -> Case:
@@ -126,13 +174,28 @@ def purge_persona(persona_id: str, *, cause: str = "explicit_request") -> None:
     _audit("persona_purged", "persona", persona_id, cause)
 
 
-def purge_expired(now: datetime | None = None) -> list[str]:
-    """TTL 만료분 일괄 파기 — 스케줄러(또는 수동 트리거)가 주기 호출."""
+def purge_expired(now: datetime | None = None) -> dict[str, list[str]]:
+    """TTL 만료분 일괄 파기 — 스케줄러(또는 수동 트리거)가 주기 호출.
+
+    두 종류를 쓸어낸다:
+    - 종결 후 retention_days 지난 케이스
+    - 미완료인 채 session_ttl_hours 방치된 인터뷰 세션 (draft 에 이름·주소
+      초안이 남는데 persona_id 가 없어 보호자 삭제요청으로 못 지우는 것들)
+    """
     now = now or datetime.now()
-    purged: list[str] = []
+    purged: dict[str, list[str]] = {"cases": [], "interviews": []}
     for case in storage.cases.list():
         due = purge_due_at(case)
         if due is not None and now >= due:
             purge_case(case, cause="ttl_expired")
-            purged.append(case.id)
+            purged["cases"].append(case.id)
+    session_ttl = timedelta(hours=settings.privacy_session_ttl_hours)
+    for s in storage.interviews.list():
+        # persona_id 가 있으면 페르소나 파기 경로가 책임진다. 없으면 고아 draft —
+        # 진행 중 방치든, 완료했지만 등록 실패(예: finalize 지오코딩 오류로
+        # done=True + persona_id=None)든 TTL 로 쓸어낸다.
+        if s.persona_id is None and now >= s.last_active_at + session_ttl:
+            storage.interviews.delete(s.id)
+            _audit("interview_purged", "interview", s.id, "abandoned_ttl")
+            purged["interviews"].append(s.id)
     return purged

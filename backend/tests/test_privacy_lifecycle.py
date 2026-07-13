@@ -16,9 +16,17 @@ from app.privacy import lifecycle
 from app.schemas.case import Case, CaseStatus, CloseReason
 from app.schemas.common import GeoPoint
 from app.schemas.persona import InterviewSession, Persona, PersonaType
+from app.schemas.privacy import AuditRecord
 from app.schemas.report import MissingReport
 
 LKP = GeoPoint(lat=37.5511, lng=126.9410)
+
+
+@pytest.fixture(autouse=True)
+def _isolated_audit_file(tmp_path, monkeypatch):
+    """감사로그 파일을 테스트 임시 경로로 격리 — 실제 data/ 오염 방지."""
+    monkeypatch.setattr(settings, "privacy_audit_path", str(tmp_path / "audit.jsonl"))
+    monkeypatch.setattr(lifecycle, "_audit_loaded", False)
 
 
 def _make_case(persona_id: str | None = None, status: CaseStatus = CaseStatus.searching) -> Case:
@@ -92,7 +100,7 @@ def test_purge_expired_keeps_case_within_ttl():
     now = datetime(2026, 7, 13, 12, 0)
     lifecycle.close_case(case, CloseReason.found, now=now)
     purged = lifecycle.purge_expired(now=now + timedelta(days=settings.privacy_retention_days - 1))
-    assert case.id not in purged
+    assert case.id not in purged["cases"]
     assert storage.cases.get(case.id) is not None
 
 
@@ -102,7 +110,7 @@ def test_purge_expired_deletes_case_and_derivatives_after_ttl():
     now = datetime(2026, 7, 13, 12, 0)
     lifecycle.close_case(case, CloseReason.found, now=now)
     purged = lifecycle.purge_expired(now=now + timedelta(days=settings.privacy_retention_days))
-    assert case.id in purged
+    assert case.id in purged["cases"]
     assert storage.cases.get(case.id) is None
     assert storage.debug_traces.get(case.id) is None  # 파생물 동반삭제
 
@@ -110,8 +118,31 @@ def test_purge_expired_deletes_case_and_derivatives_after_ttl():
 def test_purge_expired_never_touches_open_cases():
     case = _make_case()  # searching — 종결 안 됨
     purged = lifecycle.purge_expired(now=datetime.now() + timedelta(days=365))
-    assert case.id not in purged
+    assert case.id not in purged["cases"]
     assert storage.cases.get(case.id) is not None
+
+
+def test_purge_expired_sweeps_orphan_sessions():
+    """persona_id 없는 방치 세션(고아 draft)은 TTL 파기 — 등록 완료·최근 것은 유지."""
+    expired_at = datetime.now() - timedelta(hours=settings.privacy_session_ttl_hours + 1)
+    stale = InterviewSession(id=storage.new_id(), guardian_name="보호자",
+                             last_active_at=expired_at)
+    # 셀프리뷰 회귀: finalize 지오코딩 실패 경로는 done=True 인데 persona_id 가
+    # 없는 고아를 남긴다 (interview.py) — done 여부와 무관하게 쓸어내야 한다
+    orphan_done = InterviewSession(id=storage.new_id(), guardian_name="보호자",
+                                   done=True, last_active_at=expired_at)
+    fresh = InterviewSession(id=storage.new_id(), guardian_name="보호자")
+    registered = InterviewSession(id=storage.new_id(), guardian_name="보호자",
+                                  done=True, persona_id="p-1", last_active_at=expired_at)
+    for s in (stale, orphan_done, fresh, registered):
+        storage.interviews.save(s.id, s)
+
+    purged = lifecycle.purge_expired()
+
+    assert stale.id in purged["interviews"]
+    assert orphan_done.id in purged["interviews"]
+    assert storage.interviews.get(fresh.id) is not None       # 아직 TTL 안 지남
+    assert storage.interviews.get(registered.id) is not None  # 페르소나 파기 경로 담당
 
 
 # ── 명시 삭제요청 ───────────────────────────────────────────────────
@@ -189,6 +220,29 @@ def test_audit_trail_written_and_survives_purge():
     actions = [(r.action, r.target_id) for r in storage.audit_logs.list()]
     assert ("case_closed", case.id) in actions
     assert ("case_purged", case.id) in actions
+
+
+def test_audit_log_survives_restart(monkeypatch):
+    """인메모리가 날아가도 JSONL 파일에서 증적이 복원된다."""
+    case = _make_case()
+    lifecycle.close_case(case, CloseReason.found)
+    # 재시작 시뮬레이션: 메모리 로그를 새 저장소로 갈아끼우고 로드 플래그 리셋
+    monkeypatch.setattr(storage, "audit_logs", storage.Repository())
+    monkeypatch.setattr(lifecycle, "_audit_loaded", False)
+    records = lifecycle.get_audit_log()
+    assert any(r.action == "case_closed" and r.target_id == case.id for r in records)
+
+
+def test_audit_load_skips_corrupt_lines(monkeypatch, tmp_path):
+    """파일 일부가 손상돼도 나머지 증적은 살린다."""
+    good = AuditRecord(id="rec-good", action="case_purged",
+                       target_type="case", target_id="case-x")
+    path = tmp_path / "corrupt.jsonl"
+    path.write_text("깨진 줄{{{\n" + good.model_dump_json() + "\n", encoding="utf-8")
+    monkeypatch.setattr(settings, "privacy_audit_path", str(path))
+    monkeypatch.setattr(lifecycle, "_audit_loaded", False)
+    monkeypatch.setattr(storage, "audit_logs", storage.Repository())
+    assert [r.id for r in lifecycle.get_audit_log()] == ["rec-good"]
 
 
 def test_audit_log_contains_no_personal_data():
