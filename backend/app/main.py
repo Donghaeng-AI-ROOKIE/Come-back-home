@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
-from app.api import debug, phase0, phase1, phase2, phase3
+from app.api import debug, phase0, phase1, phase2, phase3, privacy
 
 
 @asynccontextmanager
@@ -42,6 +42,7 @@ app.include_router(phase0.router)
 app.include_router(phase1.router)
 app.include_router(phase2.router)
 app.include_router(phase3.router)
+app.include_router(privacy.router)
 app.include_router(debug.router)
 
 
@@ -60,6 +61,7 @@ def root():
             "phase1": "신고 접수 — VARCO 인상착의 + Upstage 파싱 → Case 생성",
             "phase2": "동선 예측 — Top-down/Bottom-up/통계 3-way → α-pool → POA",
             "phase3": "수색 루프 — 타겟 알림, 제보 신뢰도 p, 층1 베이지안 갱신 + 층2 재실행",
+            "privacy": "개인정보 — 종결·TTL 자동 파기·명시 삭제요청·감사로그",
         },
         "docs": "/docs",
     }

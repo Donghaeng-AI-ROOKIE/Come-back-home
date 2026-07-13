@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from app import storage
 from app.geo import h3grid
 from app.phase3 import alerts, tip_flow, triggers
+from app.schemas.case import CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.tip import Tip
 
@@ -28,10 +29,19 @@ def _get_case(case_id: str):
     return case
 
 
+def _require_active(case):
+    """종결(발견/철회)된 케이스에 알림·제보가 계속 흐르면 개인정보 파기
+    라이프사이클이 무효가 된다 — 인상착의 알림 발송, 제보로 인한 status
+    되돌림(searching)을 여기서 차단. 조회(GET)는 막지 않는다."""
+    if case.status in (CaseStatus.found, CaseStatus.closed):
+        raise HTTPException(409, f"종결된 케이스 ({case.status.value}) — 알림·제보 불가")
+
+
 @router.post("/cases/{case_id}/alerts")
 def send_alerts(case_id: str):
     """1차 알림 — 현재 POA 상위 셀(누적 80%) 내 사용자에게 발송."""
     case = _get_case(case_id)
+    _require_active(case)
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
     cells = alerts.select_alert_cells(case.current_poa)
@@ -43,6 +53,7 @@ def send_alerts(case_id: str):
 def submit_tip(case_id: str, body: TipIn):
     """시민 제보 접수 → 신뢰도 p → 층1 갱신 (+조건 충족 시 층2 재실행)."""
     case = _get_case(case_id)
+    _require_active(case)
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
     return tip_flow.process_tip(
@@ -80,5 +91,10 @@ def get_poa(case_id: str, top: int = 20):
 def rerun_check(case_id: str):
     """층2 트리거(주기/분포이탈) 상태 확인 — 운영 대시보드·스케줄러용."""
     case = _get_case(case_id)
+    if case.status in (CaseStatus.found, CaseStatus.closed):
+        # 종결 케이스를 스케줄러가 계속 재실행하면 파기 대기 중인 개인정보로
+        # 예측을 돌리는 셈 — 트리거 판정 전에 차단
+        return {"case_id": case.id, "should_rerun": False,
+                "reason": f"종결된 케이스 ({case.status.value})"}
     rerun, reason = triggers.should_rerun_phase2(case)
     return {"case_id": case.id, "should_rerun": rerun, "reason": reason}
