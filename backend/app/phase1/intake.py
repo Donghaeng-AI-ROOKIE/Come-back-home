@@ -11,6 +11,7 @@ from app import storage
 from app.config import settings
 from app.geo import roadnet
 from app.llm import upstage, varco
+from app.phase3 import alerts
 from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
@@ -60,6 +61,16 @@ def create_report(
         lkp_time=report.lkp_time,
     )
     storage.cases.save(case.id, case)
+
+    # 1차 안전반경 (Reflex Tasking) — 신고 즉시 IPP 주변 k-ring 알림.
+    # Phase 2 예측이 나오기 전 골든타임 대응. 실패해도 접수는 계속.
+    if settings.reflex_alert_on_intake:
+        try:
+            cells = alerts.select_reflex_cells(case.lkp)
+            summary = report.appearance.summary if report.appearance else "인상착의 정보 없음"
+            alerts.send_alerts(case.id, cells, summary, kind="reflex")
+        except Exception as e:  # noqa: BLE001 — 알림 실패가 접수를 막으면 안 됨
+            print(f"[reflex] 1차 알림 실패 (신고 접수는 계속): {e}")
 
     # 도로망 사전 로딩 — LKP 반경 보행 그래프를 미리 받아 캐시 (Phase 2 가 사용).
     # 실패해도 신고 접수는 막지 않는다 (시뮬레이션이 필요 시 재시도).

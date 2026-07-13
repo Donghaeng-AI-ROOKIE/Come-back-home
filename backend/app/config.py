@@ -82,6 +82,13 @@ class Settings(BaseSettings):
     likelihood_l_far: float = 0.1        # 먼 셀의 L (음의 증거)
     likelihood_sigma_cells: float = 2.0  # 가우시안 감쇠 폭 (H3 grid distance 단위)
 
+    # 1차 안전반경 (Reflex Tasking, Koester) — 신고 직후 POA 없이 IPP 주변
+    # k-ring 즉시 알림. 아키텍처 문서: "예측 위치(육각 격자) + 한두 칸".
+    # res9 셀 중심 간격 ≈ 300m → k=2 ≈ 반경 600m, 19셀. 수색 초반에는
+    # 확률 분석보다 즉시 확인이 중요하다는 원칙 — Phase 2 완료 후 POA 알림으로 전환.
+    reflex_kring: int = 2
+    reflex_alert_on_intake: bool = True   # 신고 접수 시 자동 발송 (실패해도 접수 계속)
+
     # 알림 발송 — POA 상위 셀 누적 커버리지
     alert_coverage: float = 0.8
     # 알림 셀 수 상한 (타겟팅 가드레일) — 꼬리가 두꺼운 분포에서 80% 커버리지가
