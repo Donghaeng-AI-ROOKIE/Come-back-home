@@ -4,7 +4,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field
 
-from app.schemas.common import GeoPoint
+from app.schemas.common import GeoPoint, LocalNaiveDT
 from app.schemas.persona import PersonaType
 
 
@@ -31,7 +31,7 @@ class MissingReport(BaseModel):
     persona_id: str | None = None      # 사전 등록된 페르소나가 있으면 연결
     missing_type: PersonaType
     lkp: GeoPoint                       # Last Known Position (최종 목격 지점)
-    lkp_time: datetime
+    lkp_time: LocalNaiveDT
     appearance: Appearance | None = None
     reporter: ReporterInfo | None = None
     created_at: datetime = Field(default_factory=datetime.now)
