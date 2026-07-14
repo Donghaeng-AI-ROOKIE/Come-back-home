@@ -5,7 +5,7 @@ from enum import Enum
 
 from pydantic import BaseModel, Field
 
-from app.schemas.common import GeoPoint
+from app.schemas.common import GeoPoint, LocalNaiveDT
 from app.schemas.prediction import MindState, PriorParams
 from app.schemas.report import MissingReport
 from app.schemas.tip import Tip
@@ -37,7 +37,7 @@ class Case(BaseModel):
 
     # 현재 앵커 — 층2 트리거 시 고신뢰 목격 위치·시각으로 교체된다
     lkp: GeoPoint
-    lkp_time: datetime
+    lkp_time: LocalNaiveDT
 
     # Phase 2 산출물
     prior: PriorParams | None = None
