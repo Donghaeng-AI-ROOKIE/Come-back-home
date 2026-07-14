@@ -102,6 +102,23 @@ def bundle(case_id: str):
     }
 
 
+@router.get("/cases/{case_id}/buildings")
+def buildings(case_id: str, radius_m: int = 800):
+    """건물 높이 레이어 — LKP 반경 내 건물 폴리곤 + 높이 (envlayer, OSM).
+
+    대시보드 지도에 백엔드가 만든 건물 데이터를 그리기 위한 것. 반경 기본
+    800m(시연 화면 범위). 첫 호출은 Overpass 다운로드로 수십 초 걸릴 수 있고,
+    이후는 디스크 캐시에서 즉시 로드된다.
+    """
+    case = storage.cases.get(case_id)
+    if case is None:
+        raise HTTPException(404, "케이스 없음")
+    from app.geo import envlayer
+
+    blds = envlayer.buildings_with_height(case.lkp, radius_m=radius_m)
+    return {"count": len(blds), "buildings": blds}
+
+
 @router.get("/overview")
 def overview():
     """대시보드 셀렉터용 — 저장소에 있는 페르소나·인터뷰·케이스 목록."""

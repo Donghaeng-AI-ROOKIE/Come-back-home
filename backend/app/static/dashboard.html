@@ -256,6 +256,7 @@
       <label class="row"><input type="checkbox" id="chk-heat" checked> 확률 히트맵</label>
       <label class="row"><input type="checkbox" id="chk-traj" checked> 워커 궤적</label>
       <label class="row"><input type="checkbox" id="chk-dots" checked> EXAONE 호출 지점</label>
+      <label class="row"><input type="checkbox" id="chk-bldg"> 건물 높이 (백엔드 OSM)</label>
     </div>
     <div id="map-status"></div>
     <div id="legend">
@@ -322,6 +323,7 @@ const heatLayer = L.layerGroup().addTo(map);
 const trajLayer = L.layerGroup().addTo(map);
 const dotLayer  = L.layerGroup().addTo(map);
 const markLayer = L.layerGroup().addTo(map);
+const bldgLayer = L.layerGroup().addTo(map);
 
 function heatColor(p, maxP) {
   const t = maxP > 0 ? Math.sqrt(p / maxP) : 0;   // sqrt — 꼬리 셀도 보이게
@@ -405,7 +407,44 @@ function renderMarkers() {
     pin(ap.location, `끌림점 — ${ap.label} (w=${ap.weight})`, "#eda100");
 }
 
-function renderMap() { renderHeat(); renderTraj(); renderDots(); renderMarkers(); }
+/* ── 건물 높이 레이어 (백엔드 envlayer가 만든 데이터) ── */
+const bldgCache = { caseId: null, list: null, loading: false };
+function bldgStyle(h) {
+  // 높이 미상=옅은 점선, 있으면 30m(≈10층)를 상한으로 어두워진다
+  if (h == null) return { color: "#a9a69d", weight: 0.7, dashArray: "3,3", fillColor: "#d9d4cc", fillOpacity: 0.25 };
+  const t = Math.min(1, h / 30);
+  const shade = ["#d9d0c5", "#c2b4a3", "#a08a72", "#7d6650", "#5a4636"][Math.min(4, Math.floor(t * 5))];
+  return { color: "#fcfcfb", weight: 0.5, fillColor: shade, fillOpacity: 0.6 };
+}
+async function renderBuildings() {
+  bldgLayer.clearLayers();
+  if (!$("chk-bldg").checked || !state.caseId) return;
+  if (bldgCache.caseId !== state.caseId) {
+    if (bldgCache.loading) return;
+    bldgCache.loading = true;
+    toast("건물 레이어 로딩 중 — 캐시가 없으면 OSM 다운로드로 수십 초 걸릴 수 있습니다");
+    try {
+      const res = await api(`/debug/cases/${state.caseId}/buildings`);
+      bldgCache.caseId = state.caseId; bldgCache.list = res.buildings;
+      toast(`건물 ${res.count}동 로드 완료`);
+    } catch (e) {
+      $("chk-bldg").checked = false;
+      return toast("건물 레이어 실패: " + e.message);
+    } finally { bldgCache.loading = false; }
+  }
+  for (const b of bldgCache.list) {
+    const label = b.name ? esc(b.name) : "건물";
+    const ht = b.height_m != null
+      ? `높이 ≈ ${b.height_m}m${b.levels != null ? ` (${b.levels}층)` : ""}`
+      : (b.levels != null ? `${b.levels}층` : "높이 태그 없음");
+    L.polygon(b.geometry.map(([lng, lat]) => [lat, lng]), bldgStyle(b.height_m))
+      .bindTooltip(`<div class="t-head">${label}</div><div class="t-muted">${ht}</div>`,
+        { className: "ev-tip", sticky: true })
+      .addTo(bldgLayer);
+  }
+}
+
+function renderMap() { renderHeat(); renderTraj(); renderDots(); renderMarkers(); renderBuildings(); }
 
 /* ── 스테퍼 ────────────────────────────── */
 function setStep(id, done) { $(id).classList.toggle("done", !!done); }
@@ -558,8 +597,17 @@ async function loadBundle() {
   renderAll();
   const lkp = state.bundle?.case?.lkp;
   if (lkp) map.setView([lkp.lat, lkp.lng], 15);
-  // 케이스에 연결된 인터뷰 기록이 있으면 채팅 패널에 표시 (라이브 세션 중이 아닐 때)
-  if (!state.session && state.bundle?.interview) showTranscript(state.bundle.interview);
+  // 케이스에 연결된 인터뷰 기록이 있으면 채팅 패널에 표시 (라이브 세션 중이 아닐 때).
+  // 기록 없는 케이스로 바꾸면 이전 케이스 기록이 남지 않게 시작 폼으로 되돌린다.
+  if (!state.session) {
+    if (state.bundle?.interview) {
+      showTranscript(state.bundle.interview);
+    } else {
+      $("chat-body").innerHTML = "";
+      $("chat-setup").style.display = "flex";
+      $("chat-form").style.display = "none";
+    }
+  }
 }
 
 function renderAll() { renderStepper(); renderPersona(); renderExaone(); renderStatus(); renderMap(); }
@@ -605,13 +653,15 @@ function addMsg(role, text) {
 function showTranscript(session) {
   $("chat-body").innerHTML = "";
   (session.messages || []).forEach((m) => addMsg(m.role, m.text));
-  $("chat-setup").style.display = session.done ? "none" : "flex";
+  // 완료된 기록은 읽기 전용이지만, 새 인터뷰는 언제든 시작할 수 있어야 한다
+  // (시드 데모 인터뷰가 자동 선택돼도 라이브 시연 진입로가 막히지 않게).
+  $("chat-setup").style.display = session.done ? "flex" : "none";
   $("chat-form").style.display = session.done ? "none" : "flex";
   if (session.done) {
     const div = document.createElement("div");
     div.className = "note";
     div.style.textAlign = "center";
-    div.textContent = "인터뷰 종료 — 페르소나가 저장되었습니다.";
+    div.textContent = "인터뷰 종료 — 페르소나가 저장되었습니다. 위에서 새 인터뷰를 시작할 수 있습니다.";
     $("chat-body").appendChild(div);
   }
 }
@@ -674,6 +724,7 @@ $("layer-select").addEventListener("change", renderHeat);
 $("chk-heat").addEventListener("change", renderHeat);
 $("chk-traj").addEventListener("change", renderTraj);
 $("chk-dots").addEventListener("change", renderDots);
+$("chk-bldg").addEventListener("change", renderBuildings);
 
 (async function init() {
   const q = new URLSearchParams(location.search);   // 딥링크: ?case=<id>&tab=persona&ev=<n>
