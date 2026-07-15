@@ -36,10 +36,14 @@ MAX_QUESTIONS = 40
 _IDENTITY = slot_by_key("identity")
 
 # 유형 키워드 폴백 (Mi:dm 추출 실패/스텁 시).
+# 축 고도화(2026-07): 발달장애 세트가 자폐를 포함 — '자폐'는 child 가 아니라
+# intellectual_disability 로 라우팅한다. 아동 특화 슬롯 세트는 제외됐지만
+# child 유형 자체는 타 Phase 호환을 위해 폴백으로 남는다(공통 슬롯만 받음).
 _TYPE_HINTS = [
     (PersonaType.dementia, ("치매", "알츠하이머", "어르신", "노인")),
-    (PersonaType.intellectual_disability, ("지적장애", "지적 장애", "발달장애")),
-    (PersonaType.child, ("자폐", "아동", "아이", "아들", "딸", "어린이", "초등")),
+    (PersonaType.intellectual_disability,
+     ("지적장애", "지적 장애", "발달장애", "발달 장애", "자폐")),
+    (PersonaType.child, ("아동", "아이", "아들", "딸", "어린이", "초등")),
 ]
 
 
@@ -156,6 +160,8 @@ def _apply_extraction(
     for note in extracted.get("behavior_notes", []) or []:
         if note not in session.draft_behaviors:
             session.draft_behaviors.append(note)
+            # 어느 슬롯 답변에서 나온 노트인지 기록 → finalize 에서 축별 근거로 묶임
+            session.slot_notes.setdefault(prev_slot.key, []).append(note)
     if extracted.get("slot_filled") and prev_slot.key not in session.filled_keys:
         session.filled_keys.append(prev_slot.key)
         session.asked_counts.pop(prev_slot.key, None)   # 채워지면 반복 페널티 해제
@@ -227,7 +233,7 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
             or _to_type(session.draft_fields.get("type"))
         )
         if session.persona_type is None:
-            q = "어떤 상황이신지 한 번만 더 알려주세요 — 치매 어르신, 아동, 지적장애 중 어디에 해당하시나요?"
+            q = "어떤 상황이신지 한 번만 더 알려주세요 — 치매 어르신과 발달장애가 있는 분 중 어디에 해당하시나요?"
             session.messages.append({"role": "assistant", "text": q})
             session.prev_target_key = _IDENTITY.key
             storage.interviews.save(session.id, session)
@@ -347,6 +353,13 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
             uniq[key] = p
     points = list(uniq.values())
 
+    # ③ 축별 근거 — 슬롯별 노트를 축 DB 필드명으로 묶는다(축 점수 컴파일 입력)
+    axis_evidence: dict[str, list[str]] = {}
+    for key, notes in session.slot_notes.items():
+        spec = slot_by_key(key)
+        if spec is not None and spec.axis_field:
+            axis_evidence.setdefault(spec.axis_field, []).extend(notes)
+
     persona = Persona(
         id=storage.new_id(),
         type=session.persona_type,
@@ -355,6 +368,7 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
         home=home,
         attraction_points=points,
         behavior_notes=list(session.draft_behaviors),
+        axis_evidence=axis_evidence,
     )
     storage.personas.save(persona.id, persona)
     session.persona_id = persona.id

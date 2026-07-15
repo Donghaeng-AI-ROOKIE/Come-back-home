@@ -30,6 +30,11 @@ class Persona(BaseModel):
     home: GeoPoint
     attraction_points: list[AttractionPoint] = []
     behavior_notes: list[str] = []   # "해질녘에 옛 직장 방향으로 걷는 습관" 등 인터뷰 추출 사실
+    # 축별 근거 — {축 DB 필드명(slots.SlotSpec.axis_field): 관찰 사실 노트}.
+    # 인터뷰가 수집한 사실을 몸축·마음축·행동축 필드로 묶어둔 것. 이후 축 점수
+    # (0.1~0.9) 컴파일 단계의 입력이 된다. behavior_notes 의 부분집합 재구성이라
+    # 기존 소비자(Phase 2 게이지 등)에는 영향 없음.
+    axis_evidence: dict[str, list[str]] = {}
     created_at: datetime = Field(default_factory=datetime.now)
 
 
@@ -50,6 +55,9 @@ class InterviewSession(BaseModel):
     draft_fields: dict = {}                       # name/age/home
     draft_attractions: list[dict] = []            # [{"label","area_text"}]
     draft_behaviors: list[str] = []
+    # 어느 슬롯을 겨냥했을 때 나온 노트인지 — {slot_key: [노트...]}.
+    # finalize 에서 슬롯의 axis_field 로 묶어 Persona.axis_evidence 가 된다.
+    slot_notes: dict[str, list[str]] = {}
     awaiting_confirmation: bool = False   # 요약 확인("이게 맞나요?") 대기 중
     done: bool = False
     persona_id: str | None = None
