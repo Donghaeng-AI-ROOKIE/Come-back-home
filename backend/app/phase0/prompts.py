@@ -13,6 +13,11 @@ Mi:dm 은 매 턴 두 가지만:
   2) **관찰 가능한 행동·장소**만. 내면 심리 단정·진단·의료조언 금지.
   3) **한 번에 한 질문**, 짧고 명확 — 골든타임.
   4) **존댓말**, 공감은 한 문장 이내. 5) 장소는 **동/랜드마크 수준**까지.
+
+답변 예시(slot.answer_example) 정책 — 인터뷰 느낌 유지 + 앵커링 방지:
+  첫 질문에서는 예시를 낭독하지 않는다(설문지화 방지). 꼬리질문 모드에서
+  직전 답이 두루뭉술할 때만, 예시의 구체성 수준을 질문 문장 안(물음표 앞)에
+  짧게 녹인다. clean_question 이 첫 물음표 뒤를 자르므로 뒤에 붙이면 소실됨.
 """
 
 from __future__ import annotations
@@ -108,9 +113,19 @@ def build_phrase_input(
 ) -> str:
     mode = (
         "꼬리질문: 방금 보호자가 한 말을 아주 짧게 되받아 확인하며, 부족한 한 가지"
-        "(구체적 지명·빈도·방향 중 하나)만 더 물어라."
+        "(구체적 지명·빈도·방향·구체 사례 중 하나)만 더 물어라."
         if is_followup
         else "새 화제: 군더더기 없이 이 슬롯을 묻는 질문으로 넘어가라."
+    )
+    # 답변 예시는 꼬리질문 모드에서만 — 첫 질문에 실으면 설문지처럼 되고
+    # 보호자 답이 예시 문형에 앵커링된다. 예시는 물음표 앞에 녹여야 살아남는다
+    # (clean_question 이 첫 물음표 뒤를 자름).
+    example_block = (
+        f"\n- 답변 눈높이 예시(그대로 낭독 금지): {target_slot.answer_example}"
+        "\n  직전 답이 두루뭉술하면 이 예시 수준의 구체성(시간·거리·지명·행동)을"
+        " 질문 문장 안에 짧게 녹여 물어라."
+        if is_followup and target_slot.answer_example
+        else ""
     )
     known = known or {}
     known_line = ", ".join(f"{k}={v}" for k, v in known.items() if v) or "(없음)"
@@ -126,7 +141,7 @@ def build_phrase_input(
 [겨냥 슬롯]
 - {target_slot.label} (key: {target_slot.key})
 - 씨앗 질문(참고용, 그대로 쓰지 말 것): {target_slot.question}
-- 더 파고들 각도: {" / ".join(target_slot.probes) or "(없음)"}
+- 더 파고들 각도: {" / ".join(target_slot.probes) or "(없음)"}{example_block}
 - 모드: {mode}
 
 질문 한 문장만 출력."""
