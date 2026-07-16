@@ -4,6 +4,9 @@ EXAONE 은 가짜 클라이언트로 대체: 채점 로직(기준표 파싱, 다
 quote 검증, 형식 위반 복구)과 인터뷰 배관(원발화 보존 → axis_quotes)을 검증한다.
 """
 
+import threading
+import time
+
 from app.geo.geocode import GazetteerGeocoder
 from app.phase0 import axis_scoring, interview
 from app.phase0.slots import slot_by_key
@@ -117,21 +120,167 @@ def test_stub_mode_skips_scoring():
     assert scores == {} and "skipped" in report
 
 
-def test_call_failure_drops_run_only():
+def test_transient_failure_is_retried(monkeypatch):
+    # 일시 장애 1회는 재시도로 복구 — run 유실 없음 (비동기 유실 방지 fix)
+    monkeypatch.setattr(axis_scoring, "RETRY_WAIT_S", 0)
     quote = "쉬지 않고 30분 정도 걸으시고, 버스는 혼자 못 타요"
 
-    class Flaky(FakeExaone):
+    class FlakyOnce(FakeExaone):
         def chat(self, messages, **kwargs):
-            self.calls += 1
-            if self.calls == 2:
+            if self.calls + 1 == 2:      # run2 의 1차 시도만 실패
+                self.calls += 1
                 raise RuntimeError("일시 오류")
             return super().chat(messages, **kwargs)
 
     p = _persona(quotes={"mobility_transport_capacity": [quote]})
-    fake = Flaky([_resp("C", quote)] * 2)
+    fake = FlakyOnce([_resp("C", quote)] * 3)
+    scores, report = axis_scoring.score_axes_for(p, client=fake, runs=3)
+    meta = report["axes"]["mobility_transport_capacity"]
+    assert scores["mobility_transport_capacity"] == 0.5
+    assert meta["retries"] == 1 and meta["errors"] == 0
+    assert len(meta["choices"]) == 3      # 세 run 모두 살아남음
+
+
+def test_repeated_failure_drops_run_only(monkeypatch):
+    monkeypatch.setattr(axis_scoring, "RETRY_WAIT_S", 0)
+    quote = "쉬지 않고 30분 정도 걸으시고, 버스는 혼자 못 타요"
+
+    class FlakyTwice(FakeExaone):
+        def chat(self, messages, **kwargs):
+            if self.calls + 1 in (2, 3):  # run2 는 재시도까지 실패 → run 폐기
+                self.calls += 1
+                raise RuntimeError("일시 오류")
+            return super().chat(messages, **kwargs)
+
+    p = _persona(quotes={"mobility_transport_capacity": [quote]})
+    fake = FlakyTwice([_resp("C", quote)] * 2)
     scores, report = axis_scoring.score_axes_for(p, client=fake, runs=3)
     assert scores["mobility_transport_capacity"] == 0.5
     assert report["axes"]["mobility_transport_capacity"]["errors"] == 1
+
+
+# ── 6) 백필 — 미채점 persona 의 마지막 채점 기회 (신고 접수 시) ──────
+
+def _saved_unscored(pid: str):
+    p = _persona()
+    p.id = pid
+    p.axis_quotes = {"mobility_transport_capacity": ["쉬지 않고 30분 걸으세요"]}
+    interview.storage.personas.save(pid, p)
+    return p
+
+
+def test_backfill_scores_unscored_persona(monkeypatch):
+    from app.config import settings
+    monkeypatch.setattr(settings, "axis_scoring_enabled", True)
+    # 백필은 골든타임 경로라 항상 강제 비동기(force_async=True) — 결정론적 검증을
+    # 위해 _start_scoring 을 동기 호출로 대체(실 스레드 타이밍에 의존하지 않음).
+    monkeypatch.setattr(interview, "_start_scoring",
+                        lambda pid, **kw: interview._score_and_save(pid))
+    monkeypatch.setattr(axis_scoring, "score_axes_for",
+                        lambda persona, **kw: ({"mobility_transport_capacity": 0.5}, {"runs": 3}))
+    _saved_unscored("bf1")
+    interview.ensure_axis_scores("bf1")
+    assert interview.storage.personas.get("bf1").axis_scores == {
+        "mobility_transport_capacity": 0.5}
+
+
+def test_backfill_marks_in_progress_and_triggers(monkeypatch):
+    from app.config import settings
+    monkeypatch.setattr(settings, "axis_scoring_enabled", True)
+    called = []
+    monkeypatch.setattr(interview, "_start_scoring", lambda pid, **kw: called.append(pid))
+    _saved_unscored("bf2")
+    interview.ensure_axis_scores("bf2")
+    assert called == ["bf2"]
+    # 진행 중 표시 저장 → 연속 신고에도 이중 채점(이중 쿼터) 방지
+    assert (interview.storage.personas.get("bf2").axis_scoring_report["status"]
+            == interview._SCORING_IN_PROGRESS)
+    interview.ensure_axis_scores("bf2")
+    assert called == ["bf2"]
+
+
+def test_backfill_skips_scored_in_progress_and_no_evidence(monkeypatch):
+    from app.config import settings
+    monkeypatch.setattr(settings, "axis_scoring_enabled", True)
+    called = []
+    monkeypatch.setattr(interview, "_start_scoring", lambda pid, **kw: called.append(pid))
+    p1 = _saved_unscored("bf3")
+    p1.axis_scores = {"mobility_transport_capacity": 0.5}   # 이미 채점됨
+    interview.storage.personas.save("bf3", p1)
+    p2 = _persona()
+    p2.id = "bf4"                                           # 근거 없음(직접 등록)
+    interview.storage.personas.save("bf4", p2)
+    interview.ensure_axis_scores("bf3")
+    interview.ensure_axis_scores("bf4")
+    interview.ensure_axis_scores(None)                      # persona 미연결 신고
+    interview.ensure_axis_scores("없는아이디")
+    assert called == []
+
+
+# ── 6-보강) 셀프리뷰 발견 수정 검증 (2026-07-17) ─────────────────────
+
+def test_scoring_does_not_resurrect_deleted_persona(monkeypatch):
+    # 파기 경합: 채점 도중(score_axes_for 실행 중) 보호자가 삭제를 요청하면,
+    # 채점 완료 후의 저장이 삭제된 persona 를 되살리면 안 된다.
+    pid = "del1"
+    p = _persona()
+    p.id = pid
+    interview.storage.personas.save(pid, p)
+
+    def fake_score_then_delete(persona, **kw):
+        interview.storage.personas.delete(pid)   # 채점 도중 삭제 요청 도착 가정
+        return ({"mobility_transport_capacity": 0.5}, {"runs": 3})
+
+    monkeypatch.setattr(axis_scoring, "score_axes_for", fake_score_then_delete)
+    interview._score_and_save(pid)
+    assert interview.storage.personas.get(pid) is None
+
+
+def test_ensure_axis_scores_lock_prevents_double_trigger(monkeypatch):
+    # 락 없이는 근접 시각의 중복 호출(같은 사람 신고 2건)이 둘 다 체크를 통과해
+    # 이중 채점(이중 EXAONE 쿼터)을 걸 수 있었다 — 락으로 원자화.
+    from app.config import settings
+    monkeypatch.setattr(settings, "axis_scoring_enabled", True)
+    called = []
+    monkeypatch.setattr(interview, "_start_scoring", lambda pid, **kw: called.append(pid))
+    _saved_unscored("race1")
+
+    barrier = threading.Barrier(2)
+
+    def trigger():
+        barrier.wait()
+        interview.ensure_axis_scores("race1")
+
+    threads = [threading.Thread(target=trigger) for _ in range(2)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert called == ["race1"]
+
+
+def test_backfill_forces_async_regardless_of_setting(monkeypatch):
+    # 골든타임(신고 접수) 경로는 AXIS_SCORING_ASYNC 설정이 off 여도 블로킹되면 안 됨.
+    from app.config import settings
+    monkeypatch.setattr(settings, "axis_scoring_enabled", True)
+    monkeypatch.setattr(settings, "axis_scoring_async", False)
+    started = threading.Event()
+    finished = threading.Event()
+
+    def slow_score(persona, **kw):
+        started.set()
+        finished.wait(timeout=2)
+        return ({"mobility_transport_capacity": 0.5}, {"runs": 3})
+
+    monkeypatch.setattr(axis_scoring, "score_axes_for", slow_score)
+    _saved_unscored("golden1")
+
+    t0 = time.time()
+    interview.ensure_axis_scores("golden1")
+    elapsed = time.time() - t0
+    assert elapsed < 1.0        # 즉시 반환 — 채점은 백그라운드에서 진행 중이어야 함
+    assert started.wait(timeout=1)
+    finished.set()
 
 
 # ── 4) 인터뷰 배관 — 원발화 보존 → finalize 에서 axis_quotes ─────────
