@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import json
 import re
+import time
 from collections import Counter
 from pathlib import Path
 
@@ -27,6 +28,9 @@ from app.phase0.slots import slots_for
 from app.schemas.persona import Persona, PersonaType
 
 CHOICE_SCORE = {"A": 0.1, "B": 0.3, "C": 0.5, "D": 0.7, "E": 0.9, "F": None}
+
+# 호출 재시도 전 대기(초) — 테스트는 0 으로 패치
+RETRY_WAIT_S = 1.0
 
 _TYPE_LABEL = {
     PersonaType.dementia: "치매",
@@ -252,12 +256,23 @@ def score_axes_for(persona: Persona, client=None, runs: int | None = None) -> tu
             continue
         msgs = build_p1_messages(rubrics[axis], directions.get(axis, ""), info, input_text)
         run_scores: list[float | None] = []
-        meta = {"choices": [], "quote_fails": 0, "format_violations": 0, "errors": 0}
+        meta = {"choices": [], "quote_fails": 0, "format_violations": 0,
+                "errors": 0, "retries": 0}
         for _ in range(runs):
-            try:
-                raw = client.chat(msgs, temperature=0.0, max_tokens=400, enable_thinking=False)
-                parsed = parse_p1(raw, input_text)
-            except Exception:  # noqa: BLE001 — 호출 실패는 그 run 만 버림
+            parsed = None
+            # 일시 장애(429/5xx·타임아웃) 1회 재시도 — 비동기 채점은 실패하면
+            # 사람이 다시 눌러줄 기회가 없어 run 유실이 그대로 점수 품질 저하가 된다.
+            for attempt in range(2):
+                try:
+                    raw = client.chat(msgs, temperature=0.0, max_tokens=400,
+                                      enable_thinking=False)
+                    parsed = parse_p1(raw, input_text)
+                    break
+                except Exception:  # noqa: BLE001 — 호출 실패는 재시도 후 run 폐기
+                    if attempt == 0:
+                        meta["retries"] += 1
+                        time.sleep(RETRY_WAIT_S)
+            if parsed is None:
                 meta["errors"] += 1
                 continue
             if parsed["parse_error"]:

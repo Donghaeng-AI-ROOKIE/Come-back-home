@@ -62,6 +62,14 @@ def create_report(
     )
     storage.cases.save(case.id, case)
 
+    # 축 점수 백필 — 비동기 채점이 유실된 미채점 페르소나의 마지막 채점 기회
+    # (Phase 2 가 점수를 소비하기 직전). 실패해도 접수는 계속.
+    try:
+        from app.phase0 import interview as phase0_interview
+        phase0_interview.ensure_axis_scores(persona_id)
+    except Exception as e:  # noqa: BLE001 — 채점 실패가 접수를 막으면 안 됨
+        print(f"[axis] 축 점수 백필 실패 (접수는 계속): {e}")
+
     # 1차 안전반경 (Reflex Tasking) — 신고 즉시 IPP 주변 k-ring 알림.
     # Phase 2 예측이 나오기 전 골든타임 대응. 실패해도 접수는 계속.
     if settings.reflex_alert_on_intake:
