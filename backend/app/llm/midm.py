@@ -72,19 +72,25 @@ class MidmClient(LLMClient):
     def extract_answer(self, target_slot: SlotSpec, conversation: list[dict]) -> dict:
         """직전 답변에서 슬롯값 추출 + 충족 판정.
 
-        반환: {"fields", "attraction_points", "behavior_notes", "slot_filled"}.
+        반환: {"fields", "attraction_points", "preferred_targets", "behavior_notes", "slot_filled"}.
         스텁 모드에서는 빈 추출(slot_filled=True 로 진행만 시킴).
         """
         if self.is_stub:
-            return {"fields": {}, "attraction_points": [], "behavior_notes": [], "slot_filled": True}
-        raw = self.chat(
-            [
-                {"role": "system", "content": prompts.EXTRACT_SYSTEM},
-                {"role": "user", "content": prompts.build_extract_input(target_slot, conversation)},
-            ],
-            temperature=0.1,
-            max_tokens=400,
-        )
+            return {"fields": {}, "attraction_points": [], "preferred_targets": [],
+                    "behavior_notes": [], "slot_filled": True}
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.EXTRACT_SYSTEM},
+                    {"role": "user", "content": prompts.build_extract_input(target_slot, conversation)},
+                ],
+                temperature=0.1,
+                max_tokens=400,
+            )
+        except Exception:  # noqa: BLE001 — 호출 실패(엔드포인트 만료 등)가 인터뷰를 죽이면 안 됨.
+            # 빈 추출 + 미충족으로 처리 — 같은 슬롯을 한 번 더 묻고(MAX_ASKS_PER_SLOT),
+            # 계속 실패하면 소진 처리돼 인터뷰가 진행된다.
+            return prompts.parse_extract("")
         return prompts.parse_extract(raw)
 
     def phrase_question(
@@ -101,14 +107,17 @@ class MidmClient(LLMClient):
         """
         if self.is_stub:
             return target_slot.question
-        raw = self.chat(
-            [
-                {"role": "system", "content": prompts.PHRASE_SYSTEM},
-                {"role": "user", "content": prompts.build_phrase_input(ptype, target_slot, is_followup, conversation, known)},
-            ],
-            temperature=0.4,
-            max_tokens=160,
-        )
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.PHRASE_SYSTEM},
+                    {"role": "user", "content": prompts.build_phrase_input(ptype, target_slot, is_followup, conversation, known)},
+                ],
+                temperature=0.4,
+                max_tokens=160,
+            )
+        except Exception:  # noqa: BLE001 — 호출 실패 시 씨앗 질문으로 폴백 (스텁과 동일)
+            return target_slot.question
         return prompts.clean_question(raw)
 
     # ── Phase 3 시민 제보 챗봇 ──────────────────────────────────────
@@ -123,18 +132,20 @@ class MidmClient(LLMClient):
         """
         if self.is_stub:
             return _stub_structure_tip(text)
-        raw = self.chat(
-            [
-                {"role": "system", "content": _TIP_STRUCTURE_SYSTEM},
-                {"role": "user", "content": text},
-            ],
-            temperature=0.1,
-            max_tokens=400,
-        )
         try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": _TIP_STRUCTURE_SYSTEM},
+                    {"role": "user", "content": text},
+                ],
+                temperature=0.1,
+                max_tokens=400,
+            )
             data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
-        except (ValueError, json.JSONDecodeError):
-            return _stub_structure_tip(text)   # 파싱 실패 → 휴리스틱 폴백
+        except Exception:  # noqa: BLE001 — 호출·파싱 실패 → 휴리스틱 폴백.
+            # LLM 실패가 제보 접수를 막으면 안 된다 (실측: 엔드포인트 만료 410 이
+            # 500 으로 전파돼 제보가 통째로 거부되던 문제).
+            return _stub_structure_tip(text)
         level = data.get("specificity")
         return {
             "location_text": data.get("location_text"),

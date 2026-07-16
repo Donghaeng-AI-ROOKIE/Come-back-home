@@ -18,11 +18,17 @@ from datetime import datetime
 from app import storage
 from app.llm import midm
 from app.phase0 import retrieval, safety
-from app.geo.geocode import get_geocoder, to_attraction_points
+from app.geo.geocode import coerce_evidence, get_geocoder, to_attraction_points
 from app.phase0.retrieval import get_embedder
 from app.phase0.slots import SlotSpec, slot_by_key, slots_for
 from app.schemas.common import GeoPoint
-from app.schemas.persona import AttractionPoint, InterviewSession, Persona, PersonaType
+from app.schemas.persona import (
+    AttractionPoint,
+    InterviewSession,
+    Persona,
+    PersonaType,
+    PreferredTarget,
+)
 
 import re
 
@@ -136,6 +142,10 @@ def _norm(s: str) -> str:
     return re.sub(r"[\s()]+", "", str(s or ""))
 
 
+# evidence 강도 순위 (낮을수록 강함) — 중복 언급 시 더 강한 근거로만 승격
+_EVIDENCE_RANK = {"previous_missing_found": 0, "caregiver_report": 1, "mention_only": 2}
+
+
 def _apply_extraction(
     session: InterviewSession, prev_slot: SlotSpec, extracted: dict,
     *, overwrite: bool = False, utterance: str = "",
@@ -151,12 +161,28 @@ def _apply_extraction(
             else:
                 session.draft_fields.setdefault(k, v)
     # 끌림점 — 정규화한 label/area 기준 중복 제거(정릉시장 poi/address 중복 방지).
-    seen = {(_norm(a.get("label")), _norm(a.get("area_text"))) for a in session.draft_attractions}
+    # 같은 장소가 더 강한 근거로 재언급되면(예: 나중 턴에 "거기서 발견됐어요")
+    # evidence 만 승격 — 근거는 추출 직후가 아니면 복원 불가하므로 여기서 지켜야 한다.
+    by_key = {(_norm(a.get("label")), _norm(a.get("area_text"))): a
+              for a in session.draft_attractions}
     for ap in extracted.get("attraction_points", []) or []:
         key = (_norm(ap.get("label")), _norm(ap.get("area_text")))
-        if key not in seen:
-            seen.add(key)
+        if key not in by_key:
+            by_key[key] = ap
             session.draft_attractions.append(ap)
+        elif _EVIDENCE_RANK.get(ap.get("evidence"), 9) < _EVIDENCE_RANK.get(by_key[key].get("evidence"), 9):
+            by_key[key]["evidence"] = ap["evidence"]
+    # 카테고리 선호 (좌표화 불가 — 지하철·자동문 등) — label 기준 중복 제거 + 근거 승격
+    pref_by_label = {_norm(t.get("label")): t for t in session.draft_preferred}
+    for tg in extracted.get("preferred_targets", []) or []:
+        label = _norm(tg.get("label"))
+        if not label:
+            continue
+        if label not in pref_by_label:
+            pref_by_label[label] = tg
+            session.draft_preferred.append(tg)
+        elif _EVIDENCE_RANK.get(tg.get("evidence"), 9) < _EVIDENCE_RANK.get(pref_by_label[label].get("evidence"), 9):
+            pref_by_label[label]["evidence"] = tg["evidence"]
     got_note = False
     for note in extracted.get("behavior_notes", []) or []:
         if note not in session.draft_behaviors:
@@ -382,7 +408,17 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
             uniq[key] = p
     points = list(uniq.values())
 
-    # ③ 축별 근거 — 슬롯별 노트·원발화를 축 DB 필드명으로 묶는다(축 점수 컴파일 입력)
+    # ③ 카테고리 선호 — 좌표화 대상이 아니므로 지오코딩 없이 스키마 검증만
+    preferred = [
+        PreferredTarget(
+            label=str(t.get("label")),
+            target_type=str(t.get("target_type") or ""),
+            evidence=coerce_evidence(t.get("evidence")),
+        )
+        for t in session.draft_preferred if t.get("label")
+    ]
+
+    # ④ 축별 근거 — 슬롯별 노트·원발화를 축 DB 필드명으로 묶는다(축 점수 컴파일 입력)
     axis_evidence: dict[str, list[str]] = {}
     for key, notes in session.slot_notes.items():
         spec = slot_by_key(key)
@@ -402,11 +438,12 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
         home=home,
         attraction_points=points,
         behavior_notes=list(session.draft_behaviors),
+        preferred_targets=preferred,
         axis_evidence=axis_evidence,
         axis_quotes=axis_quotes,
     )
 
-    # ④ 축 점수 컴파일 — 기능 플래그(기본 off, 회의에서 B×P1 채택 시 켠다).
+    # ⑤ 축 점수 컴파일 — 기능 플래그(기본 off, 회의에서 B×P1 채택 시 켠다).
     # 확정(보호자 "네") 이후에만 채점하며, 기본은 비동기: 채점(EXAONE 21회,
     # 실측 40초~1분)이 마지막 확인 응답을 막지 않게 등록을 먼저 저장하고
     # 점수는 백그라운드로 채운다. 실패는 리포트에만 남긴다(등록을 되돌리지 않음).
