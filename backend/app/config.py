@@ -25,6 +25,15 @@ class Settings(BaseSettings):
     exaone_base_url: str = ""
     exaone_model: str = ""
 
+    # Phase 0 축 점수 컴파일 (phase0.axis_scoring) — 골드셋 실험으로 검증된 B×P1 채점.
+    # 기본 off: 회의에서 채점 방식 채택 시 켠다. runs = 축당 호출 수(3회 다수결 권장).
+    axis_scoring_enabled: bool = False
+    axis_scoring_runs: int = 3
+    axis_rubric_path: str = "app/phase0/axis_rubric.md"   # 기준표 단일 소스 (md)
+    # 비동기 채점(기본): 보호자의 마지막 확인 응답을 채점(EXAONE 21회, 40초~1분)이
+    # 막지 않게 등록을 먼저 확정하고 점수는 백그라운드로 채운다. 테스트·디버깅은 false.
+    axis_scoring_async: bool = True
+
     # Phase 0 온보딩 — 한국어 문장 임베더 (히스토리-어웨어 슬롯 검색용)
     #   embed_base_url 있으면 원격 OpenAI 호환 /embeddings, 없으면 embed_model 을
     #   로컬 sentence-transformers 로 로드. 완전히 비우면 해시 스텁(의미검색 불가).

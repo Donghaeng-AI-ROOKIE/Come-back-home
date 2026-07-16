@@ -35,6 +35,14 @@ class Persona(BaseModel):
     # (0.1~0.9) 컴파일 단계의 입력이 된다. behavior_notes 의 부분집합 재구성이라
     # 기존 소비자(Phase 2 게이지 등)에는 영향 없음.
     axis_evidence: dict[str, list[str]] = {}
+    # 축별 보호자 원발화 — Mi:dm 재서술 노트(axis_evidence)의 정보 손실을 우회하는
+    # 채점 1차 근거 (골드셋 실험: 원문 quote 검증이 환각 필터로 작동).
+    axis_quotes: dict[str, list[str]] = {}
+    # 축 점수(0.1~0.9) — phase0.axis_scoring 이 채움. F(판정 불가)·근거 없음 축은
+    # 키 자체가 없다 → Phase 2 는 없는 축을 유형 기본 prior 로 폴백.
+    # 리포트의 축별 F·quote 실패 카운트 = 앞단 추출 품질 감시 지표.
+    axis_scores: dict[str, float] = {}
+    axis_scoring_report: dict = {}
     created_at: datetime = Field(default_factory=datetime.now)
 
 
@@ -58,6 +66,9 @@ class InterviewSession(BaseModel):
     # 어느 슬롯을 겨냥했을 때 나온 노트인지 — {slot_key: [노트...]}.
     # finalize 에서 슬롯의 axis_field 로 묶어 Persona.axis_evidence 가 된다.
     slot_notes: dict[str, list[str]] = {}
+    # 근거가 나온 보호자 원발화 원문 — {slot_key: [발화...]}. 노트는 Mi:dm 재서술이라
+    # 정보가 깎이므로 원문을 병행 보존 → finalize 에서 Persona.axis_quotes 가 된다.
+    slot_quotes: dict[str, list[str]] = {}
     awaiting_confirmation: bool = False   # 요약 확인("이게 맞나요?") 대기 중
     done: bool = False
     persona_id: str | None = None
