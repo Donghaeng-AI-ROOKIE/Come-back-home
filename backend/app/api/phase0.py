@@ -52,7 +52,12 @@ def get_interview(session_id: str):
     return session
 
 
-@router.post("/personas", response_model=Persona)
+# axis_quotes = 보호자 원발화 그대로(quote 검증용 내부 값) — 프론트가 쓸 일이 없어
+# API 응답에서 제외한다. 저장·파기·채점 로직에는 영향 없음(응답 스키마만 필터링).
+_PERSONA_EXCLUDE = {"axis_quotes"}
+
+
+@router.post("/personas", response_model=Persona, response_model_exclude=_PERSONA_EXCLUDE)
 def register_persona(body: RegisterPersonaIn):
     return interview.register_persona(
         body.session_id,
@@ -61,7 +66,7 @@ def register_persona(body: RegisterPersonaIn):
     )
 
 
-@router.get("/personas/{persona_id}", response_model=Persona)
+@router.get("/personas/{persona_id}", response_model=Persona, response_model_exclude=_PERSONA_EXCLUDE)
 def get_persona(persona_id: str):
     persona = storage.personas.get(persona_id)
     if persona is None:
