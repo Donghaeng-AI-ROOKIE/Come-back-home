@@ -138,7 +138,7 @@ def _norm(s: str) -> str:
 
 def _apply_extraction(
     session: InterviewSession, prev_slot: SlotSpec, extracted: dict,
-    *, overwrite: bool = False,
+    *, overwrite: bool = False, utterance: str = "",
 ) -> None:
     # 필드는 first-wins — 한 번 정해진 name/age/home/type 을 이후 답변이 덮어쓰지 못하게.
     # (특히 현재 집을 과거 거주지 답변이 덮어쓰던 버그 방지.)
@@ -157,11 +157,21 @@ def _apply_extraction(
         if key not in seen:
             seen.add(key)
             session.draft_attractions.append(ap)
+    got_note = False
     for note in extracted.get("behavior_notes", []) or []:
         if note not in session.draft_behaviors:
             session.draft_behaviors.append(note)
             # 어느 슬롯 답변에서 나온 노트인지 기록 → finalize 에서 축별 근거로 묶임
             session.slot_notes.setdefault(prev_slot.key, []).append(note)
+            got_note = True
+    # 근거를 낳은 답변은 원문도 보존 — 노트는 Mi:dm 재서술이라 정보가 깎이고,
+    # 축 점수 채점(axis_scoring)은 원발화 인용 검증을 환각 필터로 쓴다.
+    # 장소 추출물만 나온 답변도 보존(자전적기억·선호대상 축 근거 공백 완화).
+    if utterance and (got_note or extracted.get("attraction_points")
+                      or extracted.get("slot_filled")):
+        quotes = session.slot_quotes.setdefault(prev_slot.key, [])
+        if utterance not in quotes:
+            quotes.append(utterance)
     if extracted.get("slot_filled") and prev_slot.key not in session.filled_keys:
         session.filled_keys.append(prev_slot.key)
         session.asked_counts.pop(prev_slot.key, None)   # 채워지면 반복 페널티 해제
@@ -224,7 +234,7 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
     prev_slot = slot_by_key(session.prev_target_key) if session.prev_target_key else None
     if prev_slot is not None:
         extracted = midm.extract_answer(prev_slot, session.messages)
-        _apply_extraction(session, prev_slot, extracted)
+        _apply_extraction(session, prev_slot, extracted, utterance=clean)
 
     # 2) 유형 확정 (identity 턴). 미확정이면 유형부터 다시 묻는다.
     if session.persona_type is None:
@@ -300,7 +310,7 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
     )
     if ranked:
         ext = midm.extract_answer(ranked[0].slot, session.messages)
-        _apply_extraction(session, ranked[0].slot, ext, overwrite=True)
+        _apply_extraction(session, ranked[0].slot, ext, overwrite=True, utterance=clean)
     session.messages.append({"role": "assistant", "text": build_summary(session)})
     storage.interviews.save(session.id, session)
     return session
@@ -321,6 +331,25 @@ def _parse_age(value) -> int:
         return value
     m = re.search(r"\d+", str(value or ""))
     return int(m.group()) if m else 0
+
+
+def _score_and_save(persona_id: str) -> None:
+    """축 점수 채점 후 Persona 재저장 — 비동기 모드에서는 백그라운드 스레드로 돈다.
+
+    저장소에서 새로 읽어 스레드 간 객체 공유를 피한다. 실패는 리포트로만 남긴다
+    (채점 실패가 이미 확정된 등록을 되돌리면 안 됨).
+    """
+    from app.phase0 import axis_scoring
+    persona = storage.personas.get(persona_id)
+    if persona is None:
+        return
+    try:
+        persona.axis_scores, persona.axis_scoring_report = (
+            axis_scoring.score_axes_for(persona)
+        )
+    except Exception as e:  # noqa: BLE001
+        persona.axis_scoring_report = {"error": f"{type(e).__name__}: {e}"}
+    storage.personas.save(persona_id, persona)
 
 
 def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
@@ -353,12 +382,17 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
             uniq[key] = p
     points = list(uniq.values())
 
-    # ③ 축별 근거 — 슬롯별 노트를 축 DB 필드명으로 묶는다(축 점수 컴파일 입력)
+    # ③ 축별 근거 — 슬롯별 노트·원발화를 축 DB 필드명으로 묶는다(축 점수 컴파일 입력)
     axis_evidence: dict[str, list[str]] = {}
     for key, notes in session.slot_notes.items():
         spec = slot_by_key(key)
         if spec is not None and spec.axis_field:
             axis_evidence.setdefault(spec.axis_field, []).extend(notes)
+    axis_quotes: dict[str, list[str]] = {}
+    for key, quotes in session.slot_quotes.items():
+        spec = slot_by_key(key)
+        if spec is not None and spec.axis_field:
+            axis_quotes.setdefault(spec.axis_field, []).extend(quotes)
 
     persona = Persona(
         id=storage.new_id(),
@@ -369,12 +403,31 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
         attraction_points=points,
         behavior_notes=list(session.draft_behaviors),
         axis_evidence=axis_evidence,
+        axis_quotes=axis_quotes,
     )
+
+    # ④ 축 점수 컴파일 — 기능 플래그(기본 off, 회의에서 B×P1 채택 시 켠다).
+    # 확정(보호자 "네") 이후에만 채점하며, 기본은 비동기: 채점(EXAONE 21회,
+    # 실측 40초~1분)이 마지막 확인 응답을 막지 않게 등록을 먼저 저장하고
+    # 점수는 백그라운드로 채운다. 실패는 리포트에만 남긴다(등록을 되돌리지 않음).
+    from app.config import settings
+    if settings.axis_scoring_enabled:
+        persona.axis_scoring_report = {"status": "채점 진행 중(백그라운드)"}
+
     storage.personas.save(persona.id, persona)
     session.persona_id = persona.id
     session.done = True
     session.awaiting_confirmation = False
     storage.interviews.save(session.id, session)
+
+    if settings.axis_scoring_enabled:
+        if settings.axis_scoring_async:
+            import threading
+            threading.Thread(
+                target=_score_and_save, args=(persona.id,), daemon=True
+            ).start()
+        else:
+            _score_and_save(persona.id)
     return persona
 
 
