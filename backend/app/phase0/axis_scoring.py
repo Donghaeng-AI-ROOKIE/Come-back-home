@@ -11,8 +11,12 @@
 - F(판정 불가)·근거 없음 축은 점수를 만들지 않는다 → 소비자(Phase 2)가 유형
   기본 prior 로 폴백. 축별 F율·quote 검증률은 앞단 추출 품질(병목) 감시 지표 겸용.
 
-기준표 단일 소스 = data/axis_rubric.md (settings.axis_rubric_path). 회의에서
+기준표 단일 소스 = app/phase0/axis_rubric.md (settings.axis_rubric_path). 회의에서
 기준표가 갱신되면 코드 수정 없이 다음 채점부터 반영된다.
+
+축 구조는 팀 확정본 도착 시 개정될 수 있다(2026-07-17: 공통3+치매3 로 교체,
+route_environment_familiarity 는 축에서 제외하고 장소별 관계 변수로 분리 —
+scored_axes() 는 기준표에 없는 축을 자동 제외하므로 유형별 특례 코드가 불필요해졌다).
 """
 
 from __future__ import annotations
@@ -79,20 +83,16 @@ def load_rubrics(path: str | Path | None = None) -> tuple[dict[str, dict], dict[
     return rubrics, directions
 
 
-# routine_destinations 는 공통 슬롯이지만 route_environment_familiarity 채점은
-# 치매 전용 (회의 결정: 치매 = 공통3+특화3+route친숙 / 발달 = 공통3+특화4 = 각 7축)
-_DEMENTIA_ONLY_SCORED = {"route_environment_familiarity"}
-
-
 def scored_axes(ptype: PersonaType, rubrics: dict[str, dict]) -> list[str]:
     """채점 대상 축 = 유형 슬롯의 axis_field ∩ 기준표 보유 축.
 
-    lost_behavior·dementia_wandering_pattern 은 점수 없는 관찰 지표 —
-    기준표에 없으므로 자동 제외된다(치매·발달 각 7축).
+    lost_behavior·dementia_wandering_pattern 은 점수 없는 관찰 지표, \
+    route_environment_familiarity 는 사람이 아닌 (사람,경로) 쌍의 속성이라 별도
+    관계 변수(Persona.route_familiarity, 미구현)로 분리됨 — 기준표(axis_rubric.md)에
+    없으므로 자동 제외된다(치매 6축, 발달 7축. 2026-07-17 축 구조 개정).
     """
     fields = [s.axis_field for s in slots_for(ptype) if s.axis_field]
-    return [f for f in fields if f in rubrics
-            and (ptype == PersonaType.dementia or f not in _DEMENTIA_ONLY_SCORED)]
+    return [f for f in fields if f in rubrics]
 
 
 # ── P1 프롬프트 ─────────────────────────────────────────────────────

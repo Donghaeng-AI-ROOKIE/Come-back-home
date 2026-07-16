@@ -115,8 +115,10 @@ def test_meeting_questions_verbatim():
 def test_subvariables_moved_to_probes():
     mob = " ".join(slot_by_key("mobility_transport_capacity").probes)
     for sub in ("walking_endurance", "walking_speed", "outdoor_independence",
-                "transit_use", "vehicle_use", "physical_limitations"):
+                "transit_use", "physical_limitations"):
         assert sub in mob, f"mobility probes 에 {sub} 없음"
+    # 차량 이용·운전 가능성은 탐색 반경·방법이 통째로 바뀌는 별개 시나리오라 제외(2026-07-17)
+    assert "vehicle_use" not in mob
 
     way = " ".join(slot_by_key("wayfinding_error_recovery_deficit").probes)
     for sub in ("destination_retention", "landmark_recognition", "intersection_decision",

@@ -49,8 +49,9 @@ COMMON_AXES = [
     "hazard_awareness_vulnerability",
     "communication_approach_vulnerability",
 ]
+# route_environment_familiarity 는 2026-07-17 축 구조 개정으로 EXAONE 채점 대상에서
+# 빠짐(사람 아닌 경로 단위 관계 변수로 분리, axis_rubric.md 참고) — 실험에서도 제외.
 DEMENTIA_AXES = COMMON_AXES + [
-    "route_environment_familiarity",
     "autobiographical_destination_pull",
     "wayfinding_error_recovery_deficit",
     "distress_induced_movement_reactivity",
@@ -245,7 +246,8 @@ def main() -> None:
 
     jobs = plan_jobs(scenarios, sids, conditions, args.runs)
     print(f"파싱 확인: 기준표 {len(rubrics)}축 / 방향 {len(directions)}축 / 시나리오 {len(scenarios)}개")
-    print(f"실행 계획: 시나리오 {sids} × 축 7 × 조건 {conditions} × 반복 {args.runs}회")
+    axes_desc = ", ".join(f"{sid}={len(scenarios[sid]['axes'])}축" for sid in sids)
+    print(f"실행 계획: 시나리오 {sids}({axes_desc}) × 조건 {conditions} × 반복 {args.runs}회")
     print(f"→ 총 EXAONE 호출 수: {len(jobs)}")
 
     if not args.go:
