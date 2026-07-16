@@ -43,19 +43,24 @@ def _resp(choice, quote="", reason="근거"):
 # ── 1) 기준표 로드·채점 축 집합 ─────────────────────────────────────
 
 def test_rubric_loads_all_axes_with_directions():
+    # 2026-07-17 축 구조 개정: route_environment_familiarity 제외로 10축(방향표는
+    # 관계변수 제외라 마찬가지로 10) — 공통3+치매3+발달4
     rubrics, directions = axis_scoring.load_rubrics()
-    assert len(rubrics) == 11 and len(directions) == 11
+    assert len(rubrics) == 10 and len(directions) == 10
+    assert "route_environment_familiarity" not in rubrics   # 관계 변수로 분리됨
     for r in rubrics.values():
         assert set(r["anchors"]) == {"0.1", "0.3", "0.5", "0.7", "0.9"}
 
 
-def test_scored_axes_are_seven_per_type_excluding_observation():
+def test_scored_axes_dementia_six_developmental_seven():
+    # 치매: 공통3+특화3(길찾기·자전적기억·정서반응)=6, 발달: 공통3+특화4=7
     rubrics, _ = axis_scoring.load_rubrics()
     dem = axis_scoring.scored_axes(PersonaType.dementia, rubrics)
     dd = axis_scoring.scored_axes(PersonaType.intellectual_disability, rubrics)
-    assert len(dem) == 7 and len(dd) == 7
-    # 관찰 지표(점수 없음)는 기준표에 없어 자동 제외
+    assert len(dem) == 6 and len(dd) == 7
+    # 관찰 지표(점수 없음)·경로 관계변수는 기준표에 없어 자동 제외
     assert "lost_behavior" not in dem and "dementia_wandering_pattern" not in dem
+    assert "route_environment_familiarity" not in dem
     assert "elopement_pattern_consistency" in dd   # 행동축이지만 채점 대상
 
 
@@ -83,8 +88,8 @@ def test_score_axes_for_scores_only_evidenced_axes():
     fake = FakeExaone([_resp("C", quote)] * 3)
     scores, report = axis_scoring.score_axes_for(p, client=fake, runs=3)
     assert scores == {"mobility_transport_capacity": 0.5}
-    assert fake.calls == 3                       # 근거 없는 6축은 호출 자체가 없다
-    assert len(report["unscored"]) == 6
+    assert fake.calls == 3                       # 근거 없는 나머지 축은 호출 자체가 없다
+    assert len(report["unscored"]) == 5          # 치매 6축 - 근거 있는 1축
     assert all(v == "근거 없음(추출 공백)" for v in report["unscored"].values())
 
 
