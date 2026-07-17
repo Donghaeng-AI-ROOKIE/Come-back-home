@@ -126,3 +126,21 @@ def test_kakao_keyword_sends_anchor_params(monkeypatch):
         "x": home.lng, "y": home.lat,
         "radius": int(ANCHOR_MAX_KM * 1000), "sort": "distance",
     }
+
+
+def test_attraction_geocode_prefers_label_over_area():
+    """라벨(구체 장소)이 area_text(지역)보다 우선 지오코딩된다.
+
+    라이브 실측(2026-07-17): 라벨 "대흥역" + area "대흥동"에서 구버전이
+    area 를 먼저 검색해 마커가 동 중심에 찍힘 — 라벨-좌표 불일치.
+    """
+    from app.geo.geocode import GeoPoint
+
+    station = GeoPoint(lat=37.5476, lng=126.9422)   # 대흥역
+    dong = GeoPoint(lat=37.5510, lng=126.9419)      # 대흥동 중심
+    g = GazetteerGeocoder({"대흥역": station, "대흥동": dong})
+    points, unresolved = to_attraction_points(
+        [{"label": "대흥역", "area_text": "대흥동"}], geocoder=g)
+    assert not unresolved
+    assert abs(points[0].location.lat - station.lat) < 1e-6   # 역 좌표 채택
+    assert points[0].label == "대흥역"

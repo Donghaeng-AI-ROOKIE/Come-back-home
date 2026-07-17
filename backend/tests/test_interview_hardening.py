@@ -18,10 +18,10 @@ EMB = retrieval.HashingEmbedder()
 
 # ── ② finalize 데드엔드 → 복구 루프 ──────────────────────────────────
 
-def _confirmed_session(home: str) -> InterviewSession:
+def _confirmed_session(home: str, sid: str = "hard1") -> InterviewSession:
     """모든 슬롯이 끝나 요약 확인 게이트에 도달한 세션."""
     s = InterviewSession(
-        id="hard1", guardian_name="보호자", persona_type=PersonaType.dementia,
+        id=sid, guardian_name="보호자", persona_type=PersonaType.dementia,
         draft_fields={"name": "김순자", "age": "78세", "home": home},
         filled_keys=[sp.key for sp in slots_for(PersonaType.dementia)],
         awaiting_confirmation=True,
@@ -166,6 +166,69 @@ def test_empty_extraction_avoids_immediate_same_slot():
     assert out.prev_target_key != "routine_destinations"
 
 
+# ── 확인 게이트 — 정정을 긍정으로 오판 금지 (라이브 실측 2026-07-17) ──
+
+def test_affirmative_rejects_partial_matches():
+    """'…주소예요'의 '예'가 긍정으로 오판돼 정정이 그대로 등록되던 버그 회귀."""
+    assert not interview._is_affirmative("마포구 신수동 백범로가 정확한 주소예요")
+    assert not interview._is_affirmative("주소를 백범로로 변경해주세요")
+    assert not interview._is_affirmative("동네 이름이 신수동이에요")
+    assert interview._is_affirmative("네 맞아요")
+    assert interview._is_affirmative("네!")
+    assert interview._is_affirmative("맞습니다")
+    assert interview._is_affirmative("이대로 등록해주세요")
+
+
+def test_confirmation_address_correction_overwrites_home(monkeypatch):
+    """확인 게이트에서 주소 정정 → 등록되지 않고, 주소가 실제로 바뀌어 재요약된다."""
+    monkeypatch.setattr(interview, "_GEO", GazetteerGeocoder())
+    s = _confirmed_session(home="마포구 신수동", sid="hard-corr")
+
+    class _Hit:
+        slot = slot_by_key("home")
+        similarity = 0.9
+
+    monkeypatch.setattr(interview.retrieval, "rank_next_slots",
+                        lambda *a, **k: ([_Hit()], []))
+    out = interview.answer_interview(s.id, "정릉동이 정확한 주소예요")
+    assert not out.done                              # 구버전: 긍정 오판 → 그대로 등록
+    assert out.awaiting_confirmation                 # 재요약 후 다시 확인 대기
+    assert out.draft_fields["home"] == "정릉동"      # 규칙 백스톱 + overwrite 반영
+    assert "정릉동" in out.messages[-1]["text"]      # 재요약에 정정 주소 노출
+
+    out = interview.answer_interview(s.id, "네 맞아요")
+    assert out.done and out.persona_id
+
+
+# ── 노트 품질 — 무지·환각 차단 + '질문 요약: 답변 요약' 형식 ─────────
+
+_LOST = slot_by_key("lost_behavior")
+
+
+def test_note_filter_drops_ignorance_and_hallucination():
+    """'잘 모르겠어요' 복사와 발화에 없는 프롬프트 예시 문구(환각)를 모두 차단."""
+    s = InterviewSession(id="hard-note1", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    interview._apply_extraction(s, _LOST, {
+        "fields": {}, "attraction_points": [],
+        "behavior_notes": ["잘 모르겠어요", "길 잃으면 계속 걷는 편"],
+        "slot_filled": False,
+    }, utterance="잘 모르겠어요")
+    assert s.draft_behaviors == [] and s.slot_notes == {}
+
+
+def test_note_saved_with_question_summary_prefix():
+    """노트는 '슬롯 라벨(질문 요약): 답변 요약' 형식으로 저장, 채점용 원노트는 유지."""
+    s = InterviewSession(id="hard-note2", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    interview._apply_extraction(s, _LOST, {
+        "fields": {}, "attraction_points": [],
+        "behavior_notes": ["큰길 쪽으로 나가는 편"], "slot_filled": True,
+    }, utterance="보통 큰길쪽으로 나가세요")
+    assert s.draft_behaviors == ["길 잃었을 때 행동: 큰길 쪽으로 나가는 편"]
+    assert s.slot_notes["lost_behavior"] == ["큰길 쪽으로 나가는 편"]   # 축 채점 입력은 원노트
+
+
 def test_guard_fallback_emits_single_question():
     """폴백 씨앗 질문이 복합 문형(물음표 3개)이어도 한 질문만 내보낸다."""
     slot = slot_by_key("medication")
@@ -174,3 +237,290 @@ def test_guard_fallback_emits_single_question():
     assert fell_back
     assert out.count("?") == 1
     assert out == "복용 중인 약이 있나요?"
+
+
+# ── 갭 기반 꼬리질문 — 충족 기준·확보 사실이 프롬프트에 실린다 ──────
+
+def test_phrase_input_carries_gap_information():
+    from app.phase0 import prompts
+    slot = slot_by_key("mobility_transport_capacity")
+    conv = [{"role": "user", "text": "쉬지 않고 30분은 걸으세요"}]
+    out = prompts.build_phrase_input(
+        PersonaType.dementia, slot, True, conv,
+        collected=["쉬지 않고 30분 걸을 수 있음"])
+    assert "충족 기준:" in out and slot.filled_when in out
+    assert "이 슬롯에서 이미 확보한 사실: 쉬지 않고 30분 걸을 수 있음" in out
+    assert "비어 있는 부분 하나만" in out
+    # 확보 사실이 없으면 '(아직 없음)' 표기
+    out2 = prompts.build_phrase_input(PersonaType.dementia, slot, False, conv)
+    assert "(아직 없음)" in out2
+
+
+def test_slot_collected_gathers_notes_and_place_labels():
+    s = InterviewSession(id="hard-gap", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    slot = slot_by_key("routine_destinations")
+    interview._apply_extraction(s, slot, {
+        "fields": {}, "attraction_points": [
+            {"label": "망원시장", "area_text": "망원동", "evidence": "caregiver_report"}],
+        "behavior_notes": ["망원시장에 자주 감"], "slot_filled": False,
+    }, utterance="망원시장에 자주 가세요")
+    got = interview._slot_collected(s, slot)
+    assert "망원시장에 자주 감" in got
+    assert "장소: 망원시장" in got
+
+
+# ── '여부 먼저' — 존재 전제 세부 질문 가드 (라이브 실측 6차) ─────────
+
+def test_conditional_detail_requires_base_fact(monkeypatch):
+    """복용 여부 확인 전에 '약을 드시지 않으면…'이 나오면 씨앗(여부 질문)으로 교체."""
+    assert interview._NEG_CONDITIONAL_RE.search("약을 드시지 않으면 밖에 나가려고 하시나요?")
+    assert interview._NEG_CONDITIONAL_RE.search("약을 거르시면 더 자주 외출하시나요?")
+    assert not interview._NEG_CONDITIONAL_RE.search("길을 잃으시면 보통 어떻게 하시나요?")  # 긍정 조건은 허용
+
+    s = interview.start_interview("보호자", PersonaType.dementia)
+    s.draft_fields.update({"name": "김순자", "age": "82세", "home": "신수동"})
+    s.filled_keys += ["identity", "home"]
+    storage.interviews.save(s.id, s)
+    med = slot_by_key("medication")
+
+    class _Hit:
+        slot = med
+        similarity = 0.1
+
+    monkeypatch.setattr(interview.retrieval, "rank_next_slots",
+                        lambda *a, **k: ([_Hit()], []))
+    monkeypatch.setattr(interview.midm, "extract_answer",
+                        lambda *a, **k: {"fields": {}, "attraction_points": [],
+                                         "preferred_targets": [], "behavior_notes": [],
+                                         "slot_filled": False})
+    monkeypatch.setattr(interview.midm, "phrase_question",
+                        lambda *a, **k: "약을 드시지 않으면 밖에 나가려고 하시나요?")
+    monkeypatch.setattr(interview.safety, "guard_question",
+                        lambda q, slot, emb, bank=None: (q, False))   # 가드 통과 가정
+    out = interview.answer_interview(s.id, "네 그래요")
+    q = out.messages[-1]["text"]
+    assert q.startswith("복용 중인 약이 있나요?")   # 여부 확인이 먼저
+
+
+# ── 라이브 실측 2차(2026-07-17) 회귀 5종 ────────────────────────────
+
+def test_relative_grounding_blocks_topic_drift():
+    """다른 슬롯 화제로 흘러간 생성 질문(배회 슬롯 겨냥인데 신호등 질문)은 폴백."""
+    target = slot_by_key("dementia_wandering_pattern")
+    bank = list(slots_for(PersonaType.dementia))
+    drifted = "어르신이 망원시장에 가실 때 횡단보도에서 신호를 지키시나요?"
+    out, fell_back = safety.guard_question(drifted, target, EMB, bank=bank)
+    assert fell_back                          # 위험인지 슬롯과 더 유사 → 화제 이탈 판정
+    assert out == safety.single_question(target.question)
+
+
+def test_session_wide_question_dedupe():
+    """같은 질문 문장은 몇 턴이 지나도 다시 나가지 않는다(4회 반복 회귀)."""
+    s = InterviewSession(id="hard-dup", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    q = "어르신이 횡단보도에서 신호를 지키시나요?"
+    s.messages = [{"role": "assistant", "text": q},
+                  {"role": "user", "text": "몰라요"},
+                  {"role": "assistant", "text": "다른 질문"},
+                  {"role": "user", "text": "네"}]
+    slot = slot_by_key("hazard_awareness_vulnerability")
+    out = interview._dedupe_question(s, slot, q)          # 재등장 → 씨앗 질문으로 교체
+    assert interview._norm_q(out) != interview._norm_q(q)
+    s.messages.append({"role": "assistant", "text": out})  # 씨앗도 나간 상태에서 또 반복
+    out2 = interview._dedupe_question(s, slot, q)
+    assert interview._norm_q(out2) not in {interview._norm_q(q), interview._norm_q(out)}
+
+
+def test_pure_ignorance_exhausts_slot():
+    """'모르겠다니까요'는 그 슬롯을 즉시 소진 — 정보 섞인 답은 소진하지 않는다."""
+    assert interview._is_pure_ignorance("모르겠다니까요")
+    assert interview._is_pure_ignorance("잘 모르겠어요")
+    assert not interview._is_pure_ignorance("잘 모르겠는데 사고가 난 적은 없으세요")
+
+    s = interview.start_interview("보호자", PersonaType.dementia)
+    s.draft_fields.update({"name": "김순자", "age": "82세"})
+    s.filled_keys += ["identity", "home"]
+    s.prev_target_key = "hazard_awareness_vulnerability"
+    s.asked_counts["hazard_awareness_vulnerability"] = 1
+    storage.interviews.save(s.id, s)
+    import unittest.mock as mock
+    with mock.patch.object(interview.midm, "extract_answer",
+                           return_value={"fields": {}, "attraction_points": [],
+                                         "preferred_targets": [], "behavior_notes": [],
+                                         "slot_filled": False}):
+        out = interview.answer_interview(s.id, "모르겠다니까요")
+    assert out.asked_counts["hazard_awareness_vulnerability"] >= interview.MAX_ASKS_PER_SLOT
+
+
+def test_sentence_like_home_rejected():
+    """문장형 답("집에 주로 계세요")은 home 으로 수용하지 않는다 — 장소 표현만."""
+    assert not interview._valid_home_text("집에 주로 계세요")
+    assert not interview._valid_home_text("잘 모르겠어요")
+    assert interview._valid_home_text("마포구 신수동")
+    assert interview._valid_home_text("서울역 근처")
+
+    s = interview.start_interview("보호자", PersonaType.dementia)
+    s.persona_type = PersonaType.dementia
+    s.draft_fields.update({"name": "김순자", "age": "82세"})
+    s.filled_keys.append("identity")
+    s.prev_target_key = "home"
+    s.asked_counts["home"] = 1
+    storage.interviews.save(s.id, s)
+    import unittest.mock as mock
+    with mock.patch.object(interview.midm, "extract_answer",
+                           return_value={"fields": {"home": "집에 주로 계세요"},
+                                         "attraction_points": [], "preferred_targets": [],
+                                         "behavior_notes": [], "slot_filled": True}):
+        out = interview.answer_interview(s.id, "집에 주로 계세요")
+    assert "home" not in out.draft_fields      # 문장형 home 거부
+    assert "home" not in out.filled_keys       # 충족 처리도 취소
+
+
+def test_near_duplicate_notes_blocked():
+    """어미만 다른 같은 사실('~편이 아님' vs '~편이 아니에요')은 자카드로 차단."""
+    s = InterviewSession(id="hard-jdup", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    utt = "길을 잘못 들면 스스로 못 알아차리세요"
+    interview._apply_extraction(
+        s, slot_by_key("wayfinding_error_recovery_deficit"),
+        {"fields": {}, "attraction_points": [],
+         "behavior_notes": ["길을 잘못 들었을 때 스스로 알아차리시는 편이 아님"],
+         "slot_filled": True}, utterance=utt)
+    interview._apply_extraction(
+        s, slot_by_key("dementia_wandering_pattern"),
+        {"fields": {}, "attraction_points": [],
+         "behavior_notes": ["길을 잘못 들었을 때 스스로 알아차리시는 편이 아니에요"],
+         "slot_filled": True}, utterance=utt)
+    assert len(s.draft_behaviors) == 1
+
+
+def test_profile_slots_reject_behavior_notes():
+    """identity/home 은 필드 수집 전용 — '현재 거주지: 길 잃었을 때…' 오귀속 방지."""
+    s = InterviewSession(id="hard-prof", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    interview._apply_extraction(
+        s, slot_by_key("home"),
+        {"fields": {"home": "정릉동"}, "attraction_points": [],
+         "behavior_notes": ["길 잃었을 때 그 자리에 계속 있으세요"], "slot_filled": True},
+        utterance="정릉동이요, 길 잃으면 그 자리에 계속 있으세요")
+    assert s.draft_behaviors == []                  # 행동 노트는 받지 않는다
+    assert s.draft_fields["home"] == "정릉동"       # 필드 수집은 정상
+
+
+def test_slots_catalog_endpoint():
+    """대시보드 축 렌더링용 슬롯 카탈로그 API — 치매 = 공통 8 + 특화 4."""
+    from fastapi.testclient import TestClient
+    from app.main import app
+    client = TestClient(app)
+    r = client.get("/phase0/slots", params={"persona_type": "dementia"})
+    assert r.status_code == 200
+    data = r.json()
+    assert len(data) == 12
+    assert {s["axis"] for s in data} == {"기본필드", "몸축", "마음축", "행동축"}
+    assert all(s["key"] and s["label"] for s in data)
+
+
+def test_negative_answer_resolves_slot():
+    """'딱히 없어요'는 유효한 답 — 슬롯 충족 처리, 재질문 금지 (4차 실측 회귀)."""
+    assert interview._is_negative_answer("딱히 없어요")
+    assert interview._is_negative_answer("아니요")
+    assert interview._is_negative_answer("먹는 약 없다고요")
+    assert not interview._is_negative_answer("망원동까진 걸어가세요")
+    assert not interview._is_negative_answer("잘 모르겠는데 사고가 난 적은 없으세요")  # 정보 섞임(길이)
+
+    s = interview.start_interview("보호자", PersonaType.dementia)
+    s.draft_fields.update({"name": "김순자", "age": "82세", "home": "신수동"})
+    s.filled_keys += ["identity", "home"]
+    s.prev_target_key = "medication"
+    s.asked_counts["medication"] = 1
+    storage.interviews.save(s.id, s)
+    import unittest.mock as mock
+    with mock.patch.object(interview.midm, "extract_answer",
+                           return_value={"fields": {}, "attraction_points": [],
+                                         "preferred_targets": [], "behavior_notes": [],
+                                         "slot_filled": False}):
+        out = interview.answer_interview(s.id, "아니요")
+    assert "medication" in out.filled_keys      # '해당 없음'으로 충족 — 약 후속질문 금지
+
+
+def test_seed_question_personalized_by_type():
+    """폴백 씨앗 질문의 '대상자' 문체를 유형 호칭으로 바꾼다."""
+    q = "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요?"
+    assert interview._personalize(q, PersonaType.dementia).startswith("어르신이")
+    assert interview._personalize(q, PersonaType.child).startswith("아이가")
+    assert interview._personalize(q, None) == q
+
+
+def test_attraction_dedup_by_label():
+    """같은 장소가 지역 표기만 달리 재언급돼도 한 번만 저장 + 근거 승격."""
+    s = InterviewSession(id="hard-attr", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    interview._apply_extraction(s, _LOST, {
+        "fields": {}, "attraction_points": [
+            {"label": "망원시장", "area_text": "망원시장", "evidence": "mention_only"}],
+        "behavior_notes": [], "slot_filled": False}, utterance="망원시장이요")
+    interview._apply_extraction(s, _LOST, {
+        "fields": {}, "attraction_points": [
+            {"label": "망원시장", "area_text": "망원동", "evidence": "previous_missing_found"}],
+        "behavior_notes": [], "slot_filled": False}, utterance="망원시장에서 발견됐어요")
+    assert len(s.draft_attractions) == 1
+    assert s.draft_attractions[0]["evidence"] == "previous_missing_found"   # 근거 승격
+
+
+def test_seed_fallback_includes_answer_example():
+    """씨앗 질문이 그대로 나갈 때 '(예: …)'를 붙인다 — 단문 절단으로 모호해진
+    질문("길을 잃으시면 보통 어떻게 하시나요?")에 축 눈높이 예시 제공."""
+    q = interview._seed_with_example(slot_by_key("lost_behavior"))
+    assert q.startswith("길을 잃으시면 보통 어떻게 하시나요?")
+    assert "(예: " in q and q.count("?") == 1
+    # 예시 유무만 다른 같은 질문은 중복으로 인식돼야 한다 (재질문 가드 연동)
+    assert interview._norm_q(q) == interview._norm_q("길을 잃으시면 보통 어떻게 하시나요?")
+
+
+def test_attraction_containment_merge():
+    """포함 관계 라벨("대흥역" vs "대흥역 2번 출구")은 한 장소로 병합 + 근거 승격."""
+    s = InterviewSession(id="hard-contain", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    interview._apply_extraction(s, _LOST, {
+        "fields": {}, "attraction_points": [
+            {"label": "대흥역", "area_text": "대흥동", "evidence": "caregiver_report"}],
+        "behavior_notes": [], "slot_filled": False}, utterance="대흥역 쪽을 자주 가세요")
+    interview._apply_extraction(s, _LOST, {
+        "fields": {}, "attraction_points": [
+            {"label": "대흥역 2번 출구", "area_text": "대흥역", "evidence": "previous_missing_found"}],
+        "behavior_notes": [], "slot_filled": False}, utterance="대흥역 2번 출구에서 발견됐어요")
+    assert len(s.draft_attractions) == 1
+    assert s.draft_attractions[0]["label"] == "대흥역"
+    assert s.draft_attractions[0]["evidence"] == "previous_missing_found"
+
+
+def test_ungrounded_presupposition_falls_back():
+    """'~한다고 말씀하실 때'는 보호자가 실제로 그렇게 말한 뒤에만 허용."""
+    s = InterviewSession(id="hard-presup", guardian_name="보호자",
+                         persona_type=PersonaType.dementia,
+                         messages=[{"role": "user", "text": "집에 주로 계세요"}])
+    bad = "예전에 살던 집에 가야 한다고 말씀하실 때, 어느 지역을 말씀하시나요?"
+    assert not interview._presupposition_grounded(s, bad)   # 그런 말 한 적 없음
+
+    s.messages.append({"role": "user", "text": "회사에 가야 한다고 자꾸 말씀하세요"})
+    ok = "회사에 가야 한다고 말씀하실 때 어느 회사를 뜻하시는 걸까요?"
+    assert interview._presupposition_grounded(s, ok)        # 실제 발화 기반 — 통과
+
+    plain = "혼자 나가실 때 주로 어디에 가시나요?"
+    assert interview._presupposition_grounded(s, plain)     # 전제 없음 — 통과
+
+
+def test_same_fact_not_duplicated_across_slots():
+    """같은 원노트는 겨냥 슬롯이 달라도 한 번만 저장된다."""
+    s = InterviewSession(id="hard-xdup", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    ext = {"fields": {}, "attraction_points": [],
+           "behavior_notes": ["많이 배회하는 편"], "slot_filled": True}
+    interview._apply_extraction(
+        s, slot_by_key("wayfinding_error_recovery_deficit"), dict(ext),
+        utterance="네 많이 배회하세요")
+    interview._apply_extraction(
+        s, slot_by_key("dementia_wandering_pattern"), dict(ext),
+        utterance="네 많이 배회하세요")
+    assert len(s.draft_behaviors) == 1

@@ -104,10 +104,12 @@ class MidmClient(LLMClient):
         is_followup: bool,
         conversation: list[dict],
         known: dict | None = None,
+        collected: list[str] | None = None,
     ) -> str:
         """겨냥된 슬롯을 존댓말 질문 한 문장으로. 스텁이면 씨앗 질문.
 
         known: 이미 확보한 정보(이름·집 등) — 질문에서 반복하지 않게 프롬프트에 반영.
+        collected: 이 슬롯에서 이미 확보한 사실 — 갭 기반 꼬리질문의 재료.
         """
         if self.is_stub:
             return target_slot.question
@@ -115,7 +117,8 @@ class MidmClient(LLMClient):
             raw = self.chat(
                 [
                     {"role": "system", "content": prompts.PHRASE_SYSTEM},
-                    {"role": "user", "content": prompts.build_phrase_input(ptype, target_slot, is_followup, conversation, known)},
+                    {"role": "user", "content": prompts.build_phrase_input(
+                        ptype, target_slot, is_followup, conversation, known, collected)},
                 ],
                 temperature=0.4,
                 max_tokens=160,

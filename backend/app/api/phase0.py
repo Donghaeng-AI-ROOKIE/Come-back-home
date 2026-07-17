@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 from app import storage
 from app.phase0 import interview
+from app.phase0.slots import SLOTS, slots_for
 from app.schemas.common import GeoPoint
 from app.schemas.persona import AttractionPoint, InterviewSession, Persona, PersonaType
 
@@ -50,6 +51,18 @@ def get_interview(session_id: str):
     if session is None:
         raise HTTPException(404, "인터뷰 세션 없음")
     return session
+
+
+@router.get("/slots")
+def list_slots(persona_type: PersonaType | None = None):
+    """온보딩 슬롯 카탈로그 (축·라벨·필드명) — 대시보드가 페르소나를
+    축 구조(공통 8 + 유형별 4)로 렌더링할 때 사용."""
+    slots = slots_for(persona_type) if persona_type else SLOTS
+    return [
+        {"key": s.key, "label": s.label, "axis": s.axis.value,
+         "axis_field": s.axis_field, "tier": s.tier.value}
+        for s in slots
+    ]
 
 
 # axis_quotes = 보호자 원발화 그대로(quote 검증용 내부 값) — 프론트가 쓸 일이 없어
