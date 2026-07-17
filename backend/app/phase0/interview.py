@@ -64,6 +64,93 @@ def _user_turns(session: InterviewSession) -> list[str]:
     return [m["text"] for m in session.messages if m["role"] == "user"]
 
 
+# ── Mi:dm 호출 래퍼 — 실패를 세션 플래그로 노출 ─────────────────────
+# midm 폴백은 침묵한다(빈 추출·씨앗 질문). 그대로 두면 장애가 "이상한 반복
+# 인터뷰"로만 체감되므로(라이브 실측 410), 카운터 증가를 세션에 기록해
+# API 응답(llm_degraded)으로 드러낸다.
+
+
+def _extract_tracked(session: InterviewSession, slot: SlotSpec) -> dict:
+    before = midm.call_failures
+    out = midm.extract_answer(slot, session.messages)
+    if midm.call_failures > before:
+        session.llm_call_failures += midm.call_failures - before
+        session.llm_degraded = True
+    return out
+
+
+def _phrase_tracked(session: InterviewSession, slot: SlotSpec, is_followup: bool) -> str:
+    before = midm.call_failures
+    raw = midm.phrase_question(
+        session.persona_type, slot, is_followup, session.messages, known=session.draft_fields
+    )
+    if midm.call_failures > before:
+        session.llm_call_failures += midm.call_failures - before
+        session.llm_degraded = True
+    return raw
+
+
+# ── 규칙 기반 최소 추출 폴백 (identity/home 전용) ────────────────────
+# name/age/home 추출이 Mi:dm 단일 장애점이면 엔드포인트가 죽는 순간 등록 퍼널
+# 전체가 실패한다(라이브 실측). 필수 3필드만 규칙으로 최후 방어한다.
+# 행동·장소 슬롯은 규칙 오추출 위험이 커서 다루지 않는다(소진 처리로 넘어감).
+
+_AGE_RE = re.compile(r"(\d{1,3})\s*(?:세|살)")
+# 이름으로 오인하기 쉬운 호칭·관계어 — 후보에서 제외
+_NAME_STOP = {"어머니", "아버지", "할머니", "할아버지", "할머", "할아버",
+              "어르신", "아드", "보호자", "선생", "환자"}
+_NAME_RES = [
+    re.compile(r"(?:이름은|성함은|이름이|성함이)\s*([가-힣]{2,4})"),
+    re.compile(r"([가-힣]{2,3})(?:님|씨)(?:이고|이며|이에요|예요|입니다|인데|이|,|\.|\s|$)"),
+    re.compile(r"([가-힣]{2,4})(?:이라고|라고)\s*(?:하|부|해)"),
+]
+# 지오코딩 가능한 주소 표면 — "성북구 정릉동", "면목로 12" 수준까지
+_HOME_RE = re.compile(
+    r"((?:[가-힣]+(?:특별시|광역시|시|도)\s+)?(?:[가-힣]+(?:구|군|시)\s+)?"
+    r"[가-힣0-9]+(?:동|읍|면|리)(?:\s*\d+(?:-\d+)?)?"
+    r"|[가-힣0-9]+(?:로|길)\s*\d+(?:-\d+)?)"
+)
+
+
+def _rule_extract_fields(slot_key: str, text: str) -> dict:
+    fields: dict = {}
+    if slot_key == "identity":
+        m = _AGE_RE.search(text)
+        if m:
+            fields["age"] = f"{m.group(1)}세"
+        for pat in _NAME_RES:
+            for cand in pat.findall(text):
+                if cand not in _NAME_STOP:
+                    fields["name"] = cand
+                    break
+            if "name" in fields:
+                break
+    elif slot_key == "home":
+        m = _HOME_RE.search(text)
+        if m:
+            fields["home"] = m.group(1).strip()
+    return fields
+
+
+def _merge_rule_fallback(session: InterviewSession, prev_slot: SlotSpec,
+                         extracted: dict, utterance: str) -> None:
+    """identity/home 은 Mi:dm 이 빈손이어도 규칙으로 최소 추출 — LLM 추출이 우선."""
+    if prev_slot.key not in ("identity", "home"):
+        return
+    fields = extracted.setdefault("fields", {})
+    for k, v in _rule_extract_fields(prev_slot.key, utterance).items():
+        fields.setdefault(k, v)
+    # 필수 필드가 (세션 누적 기준으로) 확보되면 충족 처리 — 스텁·장애 모드에서
+    # 같은 것을 무한 재질문하다 소진되는 것을 막는다.
+    def _have(key: str) -> bool:
+        return bool(session.draft_fields.get(key) or fields.get(key))
+
+    if prev_slot.key == "home" and _have("home"):
+        extracted["slot_filled"] = True
+    if prev_slot.key == "identity" and _have("name") and _have("age"):
+        extracted["slot_filled"] = True
+
+
 _TYPE_KO = {
     PersonaType.dementia: "치매 어르신",
     PersonaType.child: "아동",
@@ -216,12 +303,28 @@ def _blocked_keys(session: InterviewSession) -> set[str]:
     return set(session.filled_keys) | _exhausted_keys(session)
 
 
-def _next_slot(session: InterviewSession) -> tuple[SlotSpec, bool] | None:
-    """검색으로 다음 슬롯 + 꼬리질문 여부. 채움/소진된 슬롯은 제외. 없으면 None."""
+def _next_slot(
+    session: InterviewSession, *, avoid_prev: bool = False
+) -> tuple[SlotSpec, bool] | None:
+    """검색으로 다음 슬롯 + 꼬리질문 여부. 채움/소진된 슬롯은 제외. 없으면 None.
+
+    avoid_prev: 직전 답변이 빈손(추출 0)이었을 때 켠다 — 답변 어휘가 방금 물은
+    슬롯과 유사해 피벗이 같은 슬롯을 곧바로 재선택하면 같은 질문 낭독이 된다
+    (라이브 실측 Q5=Q6). 다른 슬롯을 먼저 소화하고, 직전 슬롯만 남았을 때만 허용.
+    추출이 뭐라도 건졌을 때는 같은 슬롯 꼬리질문(파고들기)이 유효하므로 끄지 않는다.
+    """
+    blocked = _blocked_keys(session)
+    avoid = (blocked | {session.prev_target_key}) \
+        if (avoid_prev and session.prev_target_key) else blocked
     ranked, _ = retrieval.rank_next_slots(
-        session.persona_type, _user_turns(session), _blocked_keys(session), _EMB,
+        session.persona_type, _user_turns(session), avoid, _EMB,
         top_k=5, asked_counts=session.asked_counts,
     )
+    if not ranked and avoid != blocked:
+        ranked, _ = retrieval.rank_next_slots(
+            session.persona_type, _user_turns(session), blocked, _EMB,
+            top_k=5, asked_counts=session.asked_counts,
+        )
     if not ranked:
         return None
     top = ranked[0]
@@ -256,10 +359,17 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
     clean = safety.sanitize_input(user_text)
     session.messages.append({"role": "user", "text": clean})
 
-    # 1) 직전 겨냥 슬롯 추출
+    # 1) 직전 겨냥 슬롯 추출 (+ identity/home 은 규칙 폴백으로 최후 방어)
     prev_slot = slot_by_key(session.prev_target_key) if session.prev_target_key else None
+    got_something = True   # 이번 답에서 뭐라도 건졌나 — 빈손이면 직전 슬롯 재선택 회피
     if prev_slot is not None:
-        extracted = midm.extract_answer(prev_slot, session.messages)
+        extracted = _extract_tracked(session, prev_slot)
+        _merge_rule_fallback(session, prev_slot, extracted, clean)
+        got_something = bool(
+            extracted.get("fields") or extracted.get("attraction_points")
+            or extracted.get("preferred_targets") or extracted.get("behavior_notes")
+            or extracted.get("slot_filled")
+        )
         _apply_extraction(session, prev_slot, extracted, utterance=clean)
 
     # 2) 유형 확정 (identity 턴). 미확정이면 유형부터 다시 묻는다.
@@ -279,9 +389,7 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
     #      (과거 거주지 답변이 현재 집을 덮어쓰던 혼동 방지 + 수색 원점 정확도).
     if "home" not in session.filled_keys and session.asked_counts.get("home", 0) == 0:
         home_slot = slot_by_key("home")
-        raw_q = midm.phrase_question(
-            session.persona_type, home_slot, False, session.messages, known=session.draft_fields
-        )
+        raw_q = _phrase_tracked(session, home_slot, False)
         question, _fb = safety.guard_question(raw_q, home_slot, _EMB)
         session.messages.append({"role": "assistant", "text": question})
         session.prev_target_key = "home"
@@ -291,7 +399,7 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
 
     # 3) 종료 판정
     n_questions = sum(1 for m in session.messages if m["role"] == "assistant")
-    nxt = _next_slot(session)
+    nxt = _next_slot(session, avoid_prev=not got_something)
     if nxt is None or _is_complete(session) or n_questions >= MAX_QUESTIONS:
         # 종료 대신 '요약 → 확인' 단계로 진입
         session.awaiting_confirmation = True
@@ -301,16 +409,36 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
 
     # 4) 다음 슬롯 문장화 + 가드레일
     target, is_followup = nxt
-    raw_q = midm.phrase_question(
-        session.persona_type, target, is_followup, session.messages, known=session.draft_fields
-    )
+    raw_q = _phrase_tracked(session, target, is_followup)
     question, _fallback = safety.guard_question(raw_q, target, _EMB)
+    question = _avoid_verbatim_repeat(session, target, question)
 
     session.messages.append({"role": "assistant", "text": question})
     session.prev_target_key = target.key
     session.asked_counts[target.key] = session.asked_counts.get(target.key, 0) + 1
     storage.interviews.save(session.id, session)
     return session
+
+
+_REASK_PREFIXES = [
+    "죄송해요, 한 번만 더 여쭐게요. ",
+    "확인이 필요해서 다시 여쭤봅니다. 아시는 만큼만 편하게 알려주세요. ",
+]
+
+
+def _avoid_verbatim_repeat(session: InterviewSession, target: SlotSpec, question: str) -> str:
+    """직전 질문과 토씨까지 같으면 설문지 낭독처럼 들린다(라이브 실측 Q5=Q6) — 변형.
+
+    Mi:dm 이 살아 있으면 문장화가 매번 다르게 나오므로 이 가드는 폴백(씨앗 질문)
+    경로에서 같은 슬롯을 연속으로 물을 때만 발동한다.
+    """
+    last_q = next(
+        (m["text"] for m in reversed(session.messages) if m["role"] == "assistant"), None
+    )
+    if question != last_q:
+        return question
+    n = session.asked_counts.get(target.key, 0)
+    return _REASK_PREFIXES[n % len(_REASK_PREFIXES)] + question
 
 
 def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSession:
@@ -322,9 +450,18 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
             finalize_persona(session)   # draft → 지오코딩 → 확정 Persona 저장
             msg = "확인 감사합니다. 이 내용으로 프로필을 등록했어요. 🙏"
         except ValueError as e:
+            # 데드엔드 금지(라이브 실측): 구버전은 여기서 done=True 로 닫아,
+            # "다시 확인해 달라"는 안내와 달리 이후 입력을 전부 무시했다.
+            # 세션을 열어둔 채 home 재질문 흐름으로 복귀한다.
             session.awaiting_confirmation = False
-            session.done = True
-            msg = f"등록 중 문제가 있었어요({e}). 집 위치를 한 번만 더 확인해 주세요."
+            session.draft_fields.pop("home", None)   # 좌표화 실패 값이 first-wins 로 새 답을 막지 않게
+            if "home" in session.filled_keys:
+                session.filled_keys.remove("home")
+            home_slot = slot_by_key("home")
+            session.prev_target_key = home_slot.key
+            session.asked_counts[home_slot.key] = 1  # 2.5 게이트가 곧바로 또 묻지 않게
+            msg = (f"등록 중 문제가 있었어요({e}). "
+                   f"{safety.single_question(home_slot.question)}")
         session.messages.append({"role": "assistant", "text": msg})
         storage.interviews.save(session.id, session)
         return session
@@ -335,7 +472,7 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
         session.persona_type, [clean], set(), _EMB, top_k=1
     )
     if ranked:
-        ext = midm.extract_answer(ranked[0].slot, session.messages)
+        ext = _extract_tracked(session, ranked[0].slot)
         _apply_extraction(session, ranked[0].slot, ext, overwrite=True, utterance=clean)
     session.messages.append({"role": "assistant", "text": build_summary(session)})
     storage.interviews.save(session.id, session)

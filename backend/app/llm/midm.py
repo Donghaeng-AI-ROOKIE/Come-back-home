@@ -28,6 +28,9 @@ class MidmClient(LLMClient):
         super().__init__(settings.midm_api_key)
         self.base_url = settings.midm_base_url.rstrip("/")
         self.model = settings.midm_model
+        # 호출 실패 누적 — 아래 폴백들은 침묵하므로(빈 추출·씨앗 질문·휴리스틱),
+        # 호출자가 이 카운터 증가로 장애를 감지해 세션에 노출한다(phase0.interview).
+        self.call_failures = 0
 
     @property
     def is_stub(self) -> bool:
@@ -90,6 +93,7 @@ class MidmClient(LLMClient):
         except Exception:  # noqa: BLE001 — 호출 실패(엔드포인트 만료 등)가 인터뷰를 죽이면 안 됨.
             # 빈 추출 + 미충족으로 처리 — 같은 슬롯을 한 번 더 묻고(MAX_ASKS_PER_SLOT),
             # 계속 실패하면 소진 처리돼 인터뷰가 진행된다.
+            self.call_failures += 1
             return prompts.parse_extract("")
         return prompts.parse_extract(raw)
 
@@ -117,6 +121,7 @@ class MidmClient(LLMClient):
                 max_tokens=160,
             )
         except Exception:  # noqa: BLE001 — 호출 실패 시 씨앗 질문으로 폴백 (스텁과 동일)
+            self.call_failures += 1
             return target_slot.question
         return prompts.clean_question(raw)
 
@@ -145,6 +150,7 @@ class MidmClient(LLMClient):
         except Exception:  # noqa: BLE001 — 호출·파싱 실패 → 휴리스틱 폴백.
             # LLM 실패가 제보 접수를 막으면 안 된다 (실측: 엔드포인트 만료 410 이
             # 500 으로 전파돼 제보가 통째로 거부되던 문제).
+            self.call_failures += 1
             return _stub_structure_tip(text)
         level = data.get("specificity")
         return {

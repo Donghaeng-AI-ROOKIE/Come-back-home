@@ -56,11 +56,24 @@ def is_grounded(question: str, slot: SlotSpec, embedder: Embedder) -> bool:
     return cosine(q_emb, s_emb) >= GROUNDING_THRESHOLD
 
 
+def single_question(text: str) -> str:
+    """복합 질문을 첫 질문 하나로 — '한 번에 한 질문' 원칙.
+
+    씨앗 질문(회의록 원문)은 물음표 2~3개짜리 복합 문형이 있다. Mi:dm 참고용
+    으로는 원문을 유지하되, 폴백으로 **직접 내보낼 때**만 첫 질문으로 자른다
+    (잘린 각도는 probes 가 꼬리질문에서 파고든다).
+    """
+    if "?" in text:
+        return text.split("?")[0].strip() + "?"
+    return text
+
+
 def guard_question(question: str, slot: SlotSpec, embedder: Embedder) -> tuple[str, bool]:
     """2층 검증 통과 질문을 반환. 실패 시 슬롯의 안전한 canned 질문으로 폴백.
 
-    반환: (내보낼 질문, 폴백 발생 여부).
+    반환: (내보낼 질문, 폴백 발생 여부). 어느 경로든 단일 질문으로 잘라 내보낸다
+    (스텁/폴백 경로의 씨앗 질문이 복합 문형이어도 설문지 낭독이 되지 않게).
     """
     if passes_rules(question) and is_grounded(question, slot, embedder):
-        return question, False
-    return slot.question, True  # 폴백: 스키마 안의 씨앗 질문
+        return single_question(question), False
+    return single_question(slot.question), True  # 폴백: 스키마 안의 씨앗 질문
