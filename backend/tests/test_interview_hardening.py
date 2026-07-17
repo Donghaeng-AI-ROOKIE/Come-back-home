@@ -269,6 +269,37 @@ def test_phrase_input_carries_gap_information():
     assert "(아직 없음)" in out2
 
 
+def test_home_never_becomes_attraction():
+    """거주지 답변에서 추출된 거주 동네는 끌림점으로 저장되지 않는다 (7차 실측)."""
+    s = InterviewSession(id="hard-homeattr", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    interview._apply_extraction(s, slot_by_key("home"), {
+        "fields": {"home": "마포구 신수동"},
+        "attraction_points": [
+            {"label": "신수동", "area_text": "신수동", "evidence": "mention_only"},
+            {"label": "대흥동", "area_text": "대흥동", "evidence": "caregiver_report"}],
+        "behavior_notes": [], "slot_filled": True,
+    }, utterance="마포구 신수동에 거주하시고 대흥동에 자주 가세요")
+    labels = [a["label"] for a in s.draft_attractions]
+    assert "신수동" not in labels          # 거주지 = 끌림점 금지
+    assert "대흥동" in labels              # 진짜 끌림점은 유지
+
+
+def test_attraction_slots_share_collected_places():
+    """장소 수집 슬롯들은 세션 전체 장소를 확보 사실로 공유 — 중복 질문 방지."""
+    s = InterviewSession(id="hard-share", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    # 자전적 기억 턴에서 망원시장이 나옴
+    interview._apply_extraction(s, slot_by_key("autobiographical_destination_pull"), {
+        "fields": {}, "attraction_points": [
+            {"label": "망원시장", "area_text": "망원동", "evidence": "caregiver_report"}],
+        "behavior_notes": [], "slot_filled": True,
+    }, utterance="망원동 망원시장도 자주 가세요")
+    # routine 슬롯의 확보 사실에도 망원시장이 보인다
+    got = interview._slot_collected(s, slot_by_key("routine_destinations"))
+    assert "장소: 망원시장" in got
+
+
 def test_slot_collected_gathers_notes_and_place_labels():
     s = InterviewSession(id="hard-gap", guardian_name="보호자",
                          persona_type=PersonaType.dementia)

@@ -20,7 +20,7 @@ from app.llm import midm
 from app.phase0 import retrieval, safety
 from app.geo.geocode import coerce_evidence, get_geocoder, to_attraction_points
 from app.phase0.retrieval import get_embedder
-from app.phase0.slots import Axis, SlotSpec, slot_by_key, slots_for
+from app.phase0.slots import Axis, Sink, SlotSpec, slot_by_key, slots_for
 from app.schemas.common import GeoPoint
 from app.schemas.persona import (
     AttractionPoint,
@@ -83,15 +83,23 @@ def _extract_tracked(session: InterviewSession, slot: SlotSpec) -> dict:
 def _slot_collected(session: InterviewSession, slot: SlotSpec) -> list[str]:
     """이 슬롯에서 지금까지 확보한 사실 — 갭 기반 꼬리질문의 재료.
 
-    노트(재서술) + 이 슬롯 답변에서 나온 장소 라벨. 충족 기준(filled_when)과
-    나란히 프롬프트에 실려 '아직 빈 부분'을 모델이 스스로 고르게 한다.
+    노트(재서술) + 장소 라벨. 충족 기준(filled_when)과 나란히 프롬프트에 실려
+    '아직 빈 부분'을 모델이 스스로 고르게 한다.
+
+    장소 수집 슬롯(sink=attraction)은 **세션 전체에서 모인 장소를 전부** 공유한다
+    — 장소는 어느 슬롯 답변에서 나왔든 같은 저장소(draft_attractions)로 가므로,
+    슬롯별로 갈라 보면 "자주 가는 곳"을 이미 들었는데 또 묻는다(라이브 실측 7차:
+    자전적 기억 턴에 나온 망원시장을 routine 질문이 모르고 재질문).
     """
     out = list(session.slot_notes.get(slot.key, []))
-    quotes = set(session.slot_quotes.get(slot.key, []))
-    if quotes:
-        labels = [str(a.get("label")) for a in session.draft_attractions if a.get("label")]
-        out += [f"장소: {lb}" for lb in labels
-                if any(lb in q for q in quotes)]   # 이 슬롯 발화에서 나온 장소만
+    labels = [str(a.get("label")) for a in session.draft_attractions if a.get("label")]
+    if slot.sink == Sink.attraction:
+        out += [f"장소: {lb}" for lb in labels]
+    else:
+        quotes = set(session.slot_quotes.get(slot.key, []))
+        if quotes:
+            out += [f"장소: {lb}" for lb in labels
+                    if any(lb in q for q in quotes)]   # 이 슬롯 발화에서 나온 장소만
     return out
 
 
@@ -370,9 +378,15 @@ def _apply_extraction(
     # ("망원시장(망원시장)" vs "망원시장(망원동)") 두 번 쌓인다(라이브 실측 4차).
     # 같은 라벨의 서로 다른 실제 장소는 드물다고 보고 라벨 기준으로 합친다.
     by_key = {_norm(a.get("label")): a for a in session.draft_attractions}
+    # 거주지 자체는 끌림점이 아니다 — home 답변("신수동에 거주하시고…")에서 Mi:dm 이
+    # 거주 동네를 끌림점으로도 추출해 수색 원점이 중복 가중되던 실측(2026-07-17 7차).
+    home_txt = _norm(str(session.draft_fields.get("home")
+                         or extracted.get("fields", {}).get("home") or ""))
     for ap in extracted.get("attraction_points", []) or []:
         key = _norm(ap.get("label"))
         if not key:
+            continue
+        if home_txt and key in home_txt:
             continue
         # 포함 관계 라벨("대흥역" vs "대흥역 2번 출구")도 같은 장소로 병합 (실측 5차).
         # 3자 미만 라벨은 오병합 위험("시장" ⊂ "망원시장")이 커서 정확 일치만.
