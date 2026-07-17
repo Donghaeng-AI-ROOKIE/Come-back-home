@@ -6,6 +6,7 @@ quote 검증, 형식 위반 복구)과 인터뷰 배관(원발화 보존 → axi
 
 import threading
 import time
+from datetime import datetime, timedelta
 
 from app.geo.geocode import GazetteerGeocoder
 from app.phase0 import axis_scoring, interview
@@ -288,6 +289,107 @@ def test_backfill_forces_async_regardless_of_setting(monkeypatch):
     finished.set()
 
 
+# ── 6-보강2) stale 감지(1b) + all-F 완료 구분(2b) (2026-07-17) ───────
+
+def test_all_f_completion_not_rescored(monkeypatch):
+    # 모든 축이 F/근거없음으로 끝나면 axis_scores == {} 라 미채점과 겉보기 동일하지만,
+    # status=DONE 이 있으면 재채점하지 않는다(입력 불변이라 결과도 매번 동일한 all-F).
+    from app.config import settings
+    monkeypatch.setattr(settings, "axis_scoring_enabled", True)
+    called = []
+    monkeypatch.setattr(interview, "_start_scoring", lambda pid, **kw: called.append(pid))
+    p = _saved_unscored("allf1")
+    p.axis_scoring_report = {"unscored": {"mobility_transport_capacity": "판정 불가(F) 다수"},
+                              "status": interview._SCORING_DONE,
+                              "scored_at": datetime.now().isoformat()}
+    interview.storage.personas.save("allf1", p)
+    interview.ensure_axis_scores("allf1")
+    assert called == []
+
+
+def test_stale_in_progress_is_retried(monkeypatch):
+    # 채점 스레드가 죽어 IN_PROGRESS 마커만 남은 경우(임계값 초과) 다음 신고에서 재시도.
+    from app.config import settings
+    monkeypatch.setattr(settings, "axis_scoring_enabled", True)
+    called = []
+    monkeypatch.setattr(interview, "_start_scoring", lambda pid, **kw: called.append(pid))
+    p = _saved_unscored("stale1")
+    stale_start = datetime.now() - timedelta(seconds=settings.axis_scoring_stale_seconds + 60)
+    p.axis_scoring_report = {"status": interview._SCORING_IN_PROGRESS,
+                              "started_at": stale_start.isoformat()}
+    interview.storage.personas.save("stale1", p)
+    interview.ensure_axis_scores("stale1")
+    assert called == ["stale1"]
+    # 마커가 재시도 시각으로 갱신됨(다음 호출은 다시 신선한 마커를 봄)
+    refreshed = interview.storage.personas.get("stale1").axis_scoring_report
+    assert refreshed["status"] == interview._SCORING_IN_PROGRESS
+    assert refreshed["started_at"] != stale_start.isoformat()
+
+
+def test_fresh_in_progress_not_retried(monkeypatch):
+    from app.config import settings
+    monkeypatch.setattr(settings, "axis_scoring_enabled", True)
+    called = []
+    monkeypatch.setattr(interview, "_start_scoring", lambda pid, **kw: called.append(pid))
+    p = _saved_unscored("fresh1")
+    p.axis_scoring_report = {"status": interview._SCORING_IN_PROGRESS,
+                              "started_at": datetime.now().isoformat()}
+    interview.storage.personas.save("fresh1", p)
+    interview.ensure_axis_scores("fresh1")
+    assert called == []
+
+
+def test_in_progress_without_timestamp_is_stale(monkeypatch):
+    # 레거시/오염된 마커(started_at 없음)는 안전 쪽으로 stale 취급 — 재시도.
+    from app.config import settings
+    monkeypatch.setattr(settings, "axis_scoring_enabled", True)
+    called = []
+    monkeypatch.setattr(interview, "_start_scoring", lambda pid, **kw: called.append(pid))
+    p = _saved_unscored("notime1")
+    p.axis_scoring_report = {"status": interview._SCORING_IN_PROGRESS}
+    interview.storage.personas.save("notime1", p)
+    interview.ensure_axis_scores("notime1")
+    assert called == ["notime1"]
+
+
+def test_errored_scoring_is_retried(monkeypatch):
+    from app.config import settings
+    monkeypatch.setattr(settings, "axis_scoring_enabled", True)
+    called = []
+    monkeypatch.setattr(interview, "_start_scoring", lambda pid, **kw: called.append(pid))
+    p = _saved_unscored("err1")
+    p.axis_scoring_report = {"status": interview._SCORING_ERROR, "error": "RuntimeError: 다운",
+                              "failed_at": datetime.now().isoformat()}
+    interview.storage.personas.save("err1", p)
+    interview.ensure_axis_scores("err1")
+    assert called == ["err1"]
+
+
+def test_score_and_save_stamps_done(monkeypatch):
+    p = _persona()
+    interview.storage.personas.save(p.id, p)
+    monkeypatch.setattr(axis_scoring, "score_axes_for",
+                        lambda persona, **kw: ({"mobility_transport_capacity": 0.5}, {"runs": 3}))
+    interview._score_and_save(p.id)
+    saved = interview.storage.personas.get(p.id)
+    assert saved.axis_scores == {"mobility_transport_capacity": 0.5}
+    assert saved.axis_scoring_report["status"] == interview._SCORING_DONE
+    assert "scored_at" in saved.axis_scoring_report
+
+
+def test_score_and_save_stamps_done_even_for_all_f(monkeypatch):
+    # all-F 도 "실행이 완료됨"이므로 DONE — ERROR 가 아니다.
+    p = _persona()
+    interview.storage.personas.save(p.id, p)
+    monkeypatch.setattr(axis_scoring, "score_axes_for",
+                        lambda persona, **kw: ({}, {"runs": 3, "unscored": {"x": "F"}}))
+    interview._score_and_save(p.id)
+    saved = interview.storage.personas.get(p.id)
+    assert saved.axis_scores == {}
+    assert saved.axis_scoring_report["status"] == interview._SCORING_DONE
+    assert "scored_at" in saved.axis_scoring_report
+
+
 # ── 4) 인터뷰 배관 — 원발화 보존 → finalize 에서 axis_quotes ─────────
 
 def test_apply_extraction_keeps_utterance_only_when_evidence():
@@ -344,7 +446,9 @@ def test_finalize_scores_after_confirm_when_sync(monkeypatch):
     p = interview.finalize_persona(_confirmed_session("sync1"), geocoder=GazetteerGeocoder())
     saved = interview.storage.personas.get(p.id)
     assert saved.axis_scores == {"mobility_transport_capacity": 0.5}
-    assert saved.axis_scoring_report == {"runs": 3}
+    assert saved.axis_scoring_report["runs"] == 3
+    assert saved.axis_scoring_report["status"] == interview._SCORING_DONE
+    assert "scored_at" in saved.axis_scoring_report
 
 
 def test_finalize_async_returns_before_scores_arrive(monkeypatch):
@@ -374,3 +478,5 @@ def test_score_and_save_failure_keeps_registration(monkeypatch):
     saved = interview.storage.personas.get(p.id)
     assert saved is not None and saved.axis_scores == {}
     assert "RuntimeError" in saved.axis_scoring_report["error"]
+    assert saved.axis_scoring_report["status"] == interview._SCORING_ERROR
+    assert "failed_at" in saved.axis_scoring_report
