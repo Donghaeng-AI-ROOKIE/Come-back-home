@@ -544,11 +544,11 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
     #      (과거 거주지 답변이 현재 집을 덮어쓰던 혼동 방지 + 수색 원점 정확도).
     if "home" not in session.filled_keys and session.asked_counts.get("home", 0) == 0:
         home_slot = slot_by_key("home")
-        raw_q = _phrase_tracked(session, home_slot, False)
-        question, _fb = safety.guard_question(
-            raw_q, home_slot, _EMB, bank=slots_for(session.persona_type))
-        question = _personalize(question, session.persona_type)
-        session.messages.append({"role": "assistant", "text": question})
+        # 첫 두 질문(identity·home)은 **고정** — 등록의 뼈대(이름·나이·유형·수색
+        # 원점)라 세션마다 문장이 흔들리면 안 된다(2026-07-17 사용자 결정).
+        # identity 는 start_interview 가 원문 그대로 묻고, home 도 문장화 없이
+        # 씨앗 원문으로 묻는다.
+        session.messages.append({"role": "assistant", "text": home_slot.question})
         session.prev_target_key = "home"
         session.asked_counts["home"] = 1
         storage.interviews.save(session.id, session)

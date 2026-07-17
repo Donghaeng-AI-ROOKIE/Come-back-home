@@ -239,6 +239,19 @@ def test_guard_fallback_emits_single_question():
     assert out == "복용 중인 약이 있나요?"
 
 
+# ── 첫 두 질문 고정 — identity·home 은 문장 변형 금지 ────────────────
+
+def test_first_two_questions_are_fixed(monkeypatch):
+    """identity·home 질문은 Mi:dm 이 살아 있어도 씨앗 원문 그대로 나간다."""
+    monkeypatch.setattr(interview.midm, "phrase_question",
+                        lambda *a, **k: "임의로 바꾼 거주지 질문인가요?")
+    s = interview.start_interview("보호자")
+    assert s.messages[0]["text"] == slot_by_key("identity").question   # Q1 고정
+    out = interview.answer_interview(s.id, "김순자님이고 82세, 치매 어르신이에요")
+    assert out.messages[-1]["text"] == slot_by_key("home").question    # Q2 고정
+    assert "임의로 바꾼" not in out.messages[-1]["text"]
+
+
 # ── 갭 기반 꼬리질문 — 충족 기준·확보 사실이 프롬프트에 실린다 ──────
 
 def test_phrase_input_carries_gap_information():
