@@ -25,6 +25,7 @@ def _confirmed_session(home: str, sid: str = "hard1") -> InterviewSession:
         draft_fields={"name": "김순자", "age": "78세", "home": home},
         filled_keys=[sp.key for sp in slots_for(PersonaType.dementia)],
         awaiting_confirmation=True,
+        asked_more_places=True,   # 요약까지 간 세션은 추가 장소 스윕을 이미 지났다
     )
     storage.interviews.save(s.id, s)
     return s
@@ -267,6 +268,46 @@ def test_phrase_input_carries_gap_information():
     # 확보 사실이 없으면 '(아직 없음)' 표기
     out2 = prompts.build_phrase_input(PersonaType.dementia, slot, False, conv)
     assert "(아직 없음)" in out2
+
+
+def test_more_places_sweep_before_summary():
+    """모든 슬롯이 끝나면 요약 전에 '다른 곳 또 있나요' 스윕이 정확히 1회 나온다."""
+    s = InterviewSession(
+        id="hard-sweep", guardian_name="보호자", persona_type=PersonaType.dementia,
+        draft_fields={"name": "김순자", "age": "78세", "home": "신수동"},
+        filled_keys=[sp.key for sp in slots_for(PersonaType.dementia)],
+        draft_attractions=[{"label": "망원시장", "area_text": "망원동",
+                            "evidence": "caregiver_report"}],
+        prev_target_key="communication_approach_vulnerability",
+    )
+    storage.interviews.save(s.id, s)
+
+    out = interview.answer_interview(s.id, "경계하는 편이에요")
+    q = out.messages[-1]["text"]
+    assert "망원시장" in q and "또 있을까요" in q     # 스윕 — 아는 장소를 나열하며 묻는다
+    assert not out.awaiting_confirmation
+    assert out.prev_target_key == "routine_destinations"   # 답은 자주 가는 곳으로 추출
+
+    out = interview.answer_interview(s.id, "없어요")
+    assert out.awaiting_confirmation                # 스윕은 1회 — 바로 요약으로
+
+
+def test_geocode_tries_space_collapsed_variant():
+    """'망원 시장'(띄어쓰기)도 공백 제거 변형으로 좌표를 찾는다 (8차 실측)."""
+    from app.geo.geocode import GeoResult, to_attraction_points
+    from app.schemas.common import GeoPoint
+
+    class _ExactGeo:   # 표기 그대로만 매칭하는 백엔드 (nominatim 흉내)
+        def locate(self, q, anchor=None):
+            if q == "망원시장":
+                return GeoResult(GeoPoint(lat=37.556, lng=126.906),
+                                 precision="poi", source="x", matched=q)
+            return None
+
+    points, unresolved = to_attraction_points(
+        [{"label": "망원 시장", "area_text": "망원 시장"}], geocoder=_ExactGeo())
+    assert not unresolved
+    assert points[0].label == "망원 시장"
 
 
 def test_home_never_becomes_attraction():

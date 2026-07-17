@@ -274,6 +274,10 @@ def to_attraction_points(
         if label and area and label not in area and area not in label:
             candidates.append(f"{area} {label}")
         candidates += [label, area]
+        # 공백 제거 변형도 시도 — Mi:dm 이 "망원 시장"처럼 띄어 추출하면 nominatim
+        # 이 못 찾아 조용히 탈락하던 실측(2026-07-17 8차). 카카오는 양쪽 다 잘 찾지만
+        # 폴백 백엔드는 표기에 민감하다.
+        candidates += [re.sub(r"\s+", "", q) for q in candidates]
         candidates = list(dict.fromkeys(q for q in candidates if q))
 
         res = None

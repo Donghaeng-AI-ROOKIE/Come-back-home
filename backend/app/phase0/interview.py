@@ -572,6 +572,22 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
     n_questions = sum(1 for m in session.messages if m["role"] == "assistant")
     nxt = _next_slot(session, avoid_prev=not got_something)
     if nxt is None or _is_complete(session) or n_questions >= MAX_QUESTIONS:
+        # 요약 전 '추가 장소 스윕' 1회 보장 — 끌림점은 예측의 뼈대인데, 슬롯 충족
+        # 판정(Mi:dm)이 한 곳만 듣고 닫아버리면 더 못 모은다(라이브 실측 8차).
+        # LLM 판정과 무관하게 마지막에 한 번은 반드시 묻는다. 답은 자주 가는 곳
+        # 슬롯으로 추출되고, "없어요"면 다음 턴에 요약으로 넘어간다.
+        if not session.asked_more_places:
+            session.asked_more_places = True
+            labels = list(dict.fromkeys(
+                str(a.get("label")) for a in session.draft_attractions if a.get("label")))
+            q = (f"말씀해주신 곳({', '.join(labels)}) 외에 대상자가 평소 자주 가시거나 "
+                 "좋아하시는 곳이 또 있을까요?" if labels else
+                 "대상자가 평소 자주 가시거나 좋아하시는 곳이 또 있을까요?")
+            session.messages.append(
+                {"role": "assistant", "text": _personalize(q, session.persona_type)})
+            session.prev_target_key = "routine_destinations"
+            storage.interviews.save(session.id, session)
+            return session
         # 종료 대신 '요약 → 확인' 단계로 진입
         session.awaiting_confirmation = True
         session.messages.append({"role": "assistant", "text": build_summary(session)})
