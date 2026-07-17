@@ -1,4 +1,4 @@
-"""POA 분포 통합 — α-pool + POA×POD.
+"""POA 분포 통합 — α-pool.
 
 단순곱 대신 α-pool 을 쓰는 이유 (아키텍처 결정사항):
 - 골든타임 초기 = linear pool (넓게 커버)
@@ -40,17 +40,6 @@ def alpha_pool(
         else:
             raise ValueError(f"알 수 없는 mode: {mode}")
     return normalize(out)
-
-
-def apply_pod(poa: dict[str, float], pod: dict[str, float] | None = None) -> dict[str, float]:
-    """POA × POD — 셀별 발견 확률(탐지 용이성) 가중.
-
-    POD 스텁: 균일 1.0. 실제로는 셀의 토지 이용(도로/공원/하천),
-    유동인구, 시간대(주간/야간)로 산출한다.
-    """
-    if pod is None:
-        return dict(poa)
-    return normalize({c: v * pod.get(c, 1.0) for c, v in poa.items()})
 
 
 def normalize(scores: dict[str, float]) -> dict[str, float]:
