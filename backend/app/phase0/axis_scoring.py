@@ -11,14 +11,19 @@
 - F(판정 불가)·근거 없음 축은 점수를 만들지 않는다 → 소비자(Phase 2)가 유형
   기본 prior 로 폴백. 축별 F율·quote 검증률은 앞단 추출 품질(병목) 감시 지표 겸용.
 
-기준표 단일 소스 = data/axis_rubric.md (settings.axis_rubric_path). 회의에서
+기준표 단일 소스 = app/phase0/axis_rubric.md (settings.axis_rubric_path). 회의에서
 기준표가 갱신되면 코드 수정 없이 다음 채점부터 반영된다.
+
+축 구조는 팀 확정본 도착 시 개정될 수 있다(2026-07-17: 공통3+치매3 로 교체,
+route_environment_familiarity 는 축에서 제외하고 장소별 관계 변수로 분리 —
+scored_axes() 는 기준표에 없는 축을 자동 제외하므로 유형별 특례 코드가 불필요해졌다).
 """
 
 from __future__ import annotations
 
 import json
 import re
+import time
 from collections import Counter
 from pathlib import Path
 
@@ -27,6 +32,9 @@ from app.phase0.slots import slots_for
 from app.schemas.persona import Persona, PersonaType
 
 CHOICE_SCORE = {"A": 0.1, "B": 0.3, "C": 0.5, "D": 0.7, "E": 0.9, "F": None}
+
+# 호출 재시도 전 대기(초) — 테스트는 0 으로 패치
+RETRY_WAIT_S = 1.0
 
 _TYPE_LABEL = {
     PersonaType.dementia: "치매",
@@ -75,20 +83,16 @@ def load_rubrics(path: str | Path | None = None) -> tuple[dict[str, dict], dict[
     return rubrics, directions
 
 
-# routine_destinations 는 공통 슬롯이지만 route_environment_familiarity 채점은
-# 치매 전용 (회의 결정: 치매 = 공통3+특화3+route친숙 / 발달 = 공통3+특화4 = 각 7축)
-_DEMENTIA_ONLY_SCORED = {"route_environment_familiarity"}
-
-
 def scored_axes(ptype: PersonaType, rubrics: dict[str, dict]) -> list[str]:
     """채점 대상 축 = 유형 슬롯의 axis_field ∩ 기준표 보유 축.
 
-    lost_behavior·dementia_wandering_pattern 은 점수 없는 관찰 지표 —
-    기준표에 없으므로 자동 제외된다(치매·발달 각 7축).
+    lost_behavior·dementia_wandering_pattern 은 점수 없는 관찰 지표, \
+    route_environment_familiarity 는 사람이 아닌 (사람,경로) 쌍의 속성이라 별도
+    관계 변수(Persona.route_familiarity, 미구현)로 분리됨 — 기준표(axis_rubric.md)에
+    없으므로 자동 제외된다(치매 6축, 발달 7축. 2026-07-17 축 구조 개정).
     """
     fields = [s.axis_field for s in slots_for(ptype) if s.axis_field]
-    return [f for f in fields if f in rubrics
-            and (ptype == PersonaType.dementia or f not in _DEMENTIA_ONLY_SCORED)]
+    return [f for f in fields if f in rubrics]
 
 
 # ── P1 프롬프트 ─────────────────────────────────────────────────────
@@ -252,12 +256,23 @@ def score_axes_for(persona: Persona, client=None, runs: int | None = None) -> tu
             continue
         msgs = build_p1_messages(rubrics[axis], directions.get(axis, ""), info, input_text)
         run_scores: list[float | None] = []
-        meta = {"choices": [], "quote_fails": 0, "format_violations": 0, "errors": 0}
+        meta = {"choices": [], "quote_fails": 0, "format_violations": 0,
+                "errors": 0, "retries": 0}
         for _ in range(runs):
-            try:
-                raw = client.chat(msgs, temperature=0.0, max_tokens=400, enable_thinking=False)
-                parsed = parse_p1(raw, input_text)
-            except Exception:  # noqa: BLE001 — 호출 실패는 그 run 만 버림
+            parsed = None
+            # 일시 장애(429/5xx·타임아웃) 1회 재시도 — 비동기 채점은 실패하면
+            # 사람이 다시 눌러줄 기회가 없어 run 유실이 그대로 점수 품질 저하가 된다.
+            for attempt in range(2):
+                try:
+                    raw = client.chat(msgs, temperature=0.0, max_tokens=400,
+                                      enable_thinking=False)
+                    parsed = parse_p1(raw, input_text)
+                    break
+                except Exception:  # noqa: BLE001 — 호출 실패는 재시도 후 run 폐기
+                    if attempt == 0:
+                        meta["retries"] += 1
+                        time.sleep(RETRY_WAIT_S)
+            if parsed is None:
                 meta["errors"] += 1
                 continue
             if parsed["parse_error"]:

@@ -48,6 +48,14 @@ class PreferredTarget(BaseModel):
     evidence: AttractionEvidence = AttractionEvidence.mention_only
 
 
+class RouteFamiliarity(BaseModel):
+    """경로·환경 익숙함 — 사람이 아니라 (사람, 경로) 쌍의 속성이라 axis_scores 와
+    분리된 장소별 관계 변수 (축 방향 개정, 2026-07-17: app/phase0/axis_rubric.md 참고).
+    컴파일러(보호자 발화 → 이 목록) 는 미구현 — 스키마만 선반영, 백로그."""
+    route: str
+    score: float
+
+
 class Persona(BaseModel):
     id: str
     type: PersonaType
@@ -71,6 +79,11 @@ class Persona(BaseModel):
     # 리포트의 축별 F·quote 실패 카운트 = 앞단 추출 품질 감시 지표.
     axis_scores: dict[str, float] = {}
     axis_scoring_report: dict = {}
+    # 경로별 익숙함 — route_environment_familiarity 는 축이 아니라 관계 변수라 여기 분리
+    # (미구현 컴파일러 대상, RouteFamiliarity 참고). 원료가 되는 보호자 근거는
+    # axis_evidence["route_environment_familiarity"]/axis_quotes["route_environment_familiarity"]
+    # 에 그대로 쌓여 있음 — 필드 이름이 서로 달라 헷갈리지 않도록 명시.
+    route_familiarity: list[RouteFamiliarity] = []
     created_at: datetime = Field(default_factory=datetime.now)
 
 

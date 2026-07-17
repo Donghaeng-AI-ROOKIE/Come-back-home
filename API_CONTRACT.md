@@ -29,13 +29,22 @@ TipDecision         "discard" | "layer1" | "layer2"
 
 AttractionPoint     { "label": "옛집(정릉동)", "location": GeoPoint, "weight": 1.0 }
 
+RouteFamiliarity   { "route": "집-시장", "score": 0.9 }   // 경로별 익숙함, 미구현 컴파일러 대상(백로그)
+
 Persona {
   "id": str, "type": PersonaType, "name": str, "age": int,
   "home": GeoPoint,
   "attraction_points": [AttractionPoint],
   "behavior_notes": [str],           // "해질녘 옛직장 방향으로 걷는 습관" 등
+  "axis_evidence": { "mobility_transport_capacity": [str], ... },  // 축별 근거 노트(Mi:dm 재서술)
+  "axis_scores": { "mobility_transport_capacity": 0.5, ... },      // 축 점수(0.1~0.9), F·근거없음 축은 키 자체가 없음
+  "axis_scoring_report": {},                                      // 채점 진행상태·F율·quote검증 등 디버그용
+  "route_familiarity": [RouteFamiliarity],  // 경로별 관계 변수(컴파일러 미구현이라 항상 빈 배열)
   "created_at": datetime
+  // "axis_quotes" 는 응답에 없음 — 모델에는 있지만 API 는 response_model_exclude 로 제외(아래 참고)
 }
+// ⚠️ axis_quotes 는 보호자가 실제로 한 말 그대로(quote 검증용 원문) — 민감도 때문에 POST/GET
+// /phase0/personas 양쪽 다 response_model_exclude 로 API 응답에서 뺐다(저장·채점 로직엔 영향 없음).
 
 InterviewSession {
   "id": str, "guardian_name": str,

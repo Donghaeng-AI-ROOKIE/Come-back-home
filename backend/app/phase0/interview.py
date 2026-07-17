@@ -31,6 +31,7 @@ from app.schemas.persona import (
 )
 
 import re
+import threading
 
 _EMB = get_embedder()
 
@@ -496,6 +497,52 @@ def _parse_age(value) -> int:
     return int(m.group()) if m else 0
 
 
+_SCORING_IN_PROGRESS = "채점 진행 중(백그라운드)"
+
+# ensure_axis_scores 의 체크(진행중 표시 확인)-후-셋(표시 저장)을 원자화한다.
+# 락 없이는 근접 시각의 중복 호출(같은 사람에 대한 신고 2건 등)이 둘 다 통과해
+# 채점을 이중으로 걸 수 있다(이중 EXAONE 쿼터 소모) — 셀프리뷰 발견, 2026-07-17.
+_scoring_trigger_lock = threading.Lock()
+
+
+def _start_scoring(persona_id: str, *, force_async: bool = False) -> None:
+    """설정에 따라 동기/비동기로 채점 실행 (finalize·백필 공용).
+
+    force_async=True 는 골든타임 경로(신고 접수 백필) 전용 — AXIS_SCORING_ASYNC
+    설정값과 무관하게 항상 백그라운드로 돌려, 그 설정이 언젠가 off 로 바뀌더라도
+    신고 접수 응답이 EXAONE 채점 때문에 블로킹되지 않게 한다(셀프리뷰 발견).
+    """
+    from app.config import settings
+    if force_async or settings.axis_scoring_async:
+        threading.Thread(target=_score_and_save, args=(persona_id,), daemon=True).start()
+    else:
+        _score_and_save(persona_id)
+
+
+def ensure_axis_scores(persona_id: str | None) -> None:
+    """미채점 persona 백필 — 점수 소비 직전(실종 신고 접수)의 마지막 채점 기회.
+
+    비동기 채점은 서버 재시작·EXAONE 장애로 유실되면 영구 미채점이 된다.
+    점수가 비어 있는데 근거는 있는 persona 를 만나면 채점을 다시 건다.
+    진행 중 표시가 있으면 중복 실행하지 않는다(이중 채점·이중 쿼터 방지 — 락으로 보호).
+    신고 접수(골든타임) 경로에서만 불리므로 항상 강제 비동기로 채점을 건다.
+    """
+    from app.config import settings
+    if not (persona_id and settings.axis_scoring_enabled):
+        return
+    with _scoring_trigger_lock:
+        persona = storage.personas.get(persona_id)
+        if persona is None or persona.axis_scores:
+            return
+        if not (persona.axis_quotes or persona.axis_evidence):
+            return   # 채점할 근거 자체가 없음 (구조화 직접 등록 페르소나 등)
+        if persona.axis_scoring_report.get("status") == _SCORING_IN_PROGRESS:
+            return   # finalize 가 건 채점이 아직 도는 중
+        persona.axis_scoring_report = {"status": _SCORING_IN_PROGRESS}
+        storage.personas.save(persona.id, persona)
+    _start_scoring(persona.id, force_async=True)
+
+
 def _score_and_save(persona_id: str) -> None:
     """축 점수 채점 후 Persona 재저장 — 비동기 모드에서는 백그라운드 스레드로 돈다.
 
@@ -512,6 +559,10 @@ def _score_and_save(persona_id: str) -> None:
         )
     except Exception as e:  # noqa: BLE001
         persona.axis_scoring_report = {"error": f"{type(e).__name__}: {e}"}
+    # 채점(최대 수십 초) 도중 보호자가 삭제를 요청했을 수 있다 — 삭제된 persona 를
+    # 되살리지 않도록 저장 직전 재확인(개인정보 파기 경합 방지, 셀프리뷰 발견).
+    if storage.personas.get(persona_id) is None:
+        return
     storage.personas.save(persona_id, persona)
 
 
@@ -586,7 +637,7 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     # 점수는 백그라운드로 채운다. 실패는 리포트에만 남긴다(등록을 되돌리지 않음).
     from app.config import settings
     if settings.axis_scoring_enabled:
-        persona.axis_scoring_report = {"status": "채점 진행 중(백그라운드)"}
+        persona.axis_scoring_report = {"status": _SCORING_IN_PROGRESS}
 
     storage.personas.save(persona.id, persona)
     session.persona_id = persona.id
@@ -595,13 +646,7 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     storage.interviews.save(session.id, session)
 
     if settings.axis_scoring_enabled:
-        if settings.axis_scoring_async:
-            import threading
-            threading.Thread(
-                target=_score_and_save, args=(persona.id,), daemon=True
-            ).start()
-        else:
-            _score_and_save(persona.id)
+        _start_scoring(persona.id)
     return persona
 
 
