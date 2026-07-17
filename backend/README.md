@@ -36,7 +36,7 @@ app/
 ├── phase2/
 │   ├── topdown.py       2-1 Top-down: prior → POA (MC 없음)
 │   ├── simulation.py    2-2 Bottom-up (agent+MC 500회) / 2-3 통계 MC (AI 없음)
-│   ├── combine.py       α-pool (linear=넓게 / log-linear=좁게) + POA×POD
+│   ├── combine.py       α-pool (linear=넓게 / log-linear=좁게)
 │   └── pipeline.py      3-way → 통합 → 최종 POA, baseline 저장
 ├── phase3/
 │   ├── trust.py         제보 신뢰도 p 산출 (이진 아님 — p값 그대로 전달)
@@ -79,7 +79,6 @@ GET  /phase3/cases/{id}/rerun-check    층2 트리거 상태 (스케줄러용)
 | 모델 API | `llm/*.py` | 키 발급 후 각 클라이언트 `_call_api` + 메서드 구현 |
 | 도로망 | `geo/roadnet.py`, `phase2/simulation.py::_walk` | OSMnx 그래프 탐색으로 교체 |
 | 마음 예측 훅 | `phase2/simulation.py` | agent 모드에서 상태 변화 시에만 EXAONE 호출 |
-| POD | `phase2/combine.py::apply_pod` | 토지이용·유동인구·시간대 기반 산출 |
 | DB | `storage.py` | SQLite/Postgres Repository 로 교체 |
 | 푸시 | `phase3/alerts.py` | FCM + 사용자 위치 인덱스 |
 | 파일 업로드 | `api/phase1.py`, `api/phase3.py` | 플래그 → multipart UploadFile |

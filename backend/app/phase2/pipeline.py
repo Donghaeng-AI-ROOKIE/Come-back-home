@@ -1,4 +1,4 @@
-"""Phase 2 파이프라인 — 3-way 예측 → α-pool 통합 → POA×POD → 최종 POA.
+"""Phase 2 파이프라인 — 3-way 예측 → α-pool 통합 → 최종 POA.
 
 층2(Phase 2 재실행) 트리거 시에도 이 run_prediction 이 그대로 재호출된다.
 재실행 시 case.lkp / case.lkp_time 이 새 LKP 로 교체된 상태여야 한다.
@@ -78,14 +78,11 @@ def run_prediction(
     combined = combine.alpha_pool([poa_td, poa_bu, poa_stat],
                                   alphas=[0.3, 0.5, 0.2], mode=pool_mode)
 
-    # ④ POA × POD (POD 는 현재 균일 스텁)
-    final = combine.apply_pod(combined, pod=None)
-
     # 케이스 상태 갱신 — baseline 은 KL 이탈 트리거의 비교 기준
     case.prior = prior
     case.mind = mind
-    case.baseline_poa = dict(final)
-    case.current_poa = dict(final)
+    case.baseline_poa = dict(combined)
+    case.current_poa = dict(combined)
     case.last_sim_at = now
     case.status = CaseStatus.predicted
     storage.cases.save(case.id, case)
@@ -96,7 +93,7 @@ def run_prediction(
         poa_topdown=POA(cells=poa_td, source="topdown"),
         poa_bottomup=POA(cells=poa_bu, source="bottomup"),
         poa_statistical=POA(cells=poa_stat, source="statistical"),
-        poa_combined=POA(cells=final, source="combined"),
+        poa_combined=POA(cells=combined, source="combined"),
     )
 
     if sim_trace is not None:

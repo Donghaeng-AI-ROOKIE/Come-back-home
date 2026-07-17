@@ -2,7 +2,7 @@
 
 import pytest
 
-from app.phase2.combine import alpha_pool, apply_pod
+from app.phase2.combine import alpha_pool
 
 
 P1 = {"a": 0.7, "b": 0.3}
@@ -30,9 +30,3 @@ def test_log_linear_narrows_to_agreement():
     out = alpha_pool([P1, P2], mode="log_linear")
     assert out["c"] < 0.01
 
-
-def test_apply_pod_reweights():
-    poa = {"a": 0.5, "b": 0.5}
-    out = apply_pod(poa, pod={"a": 1.0, "b": 0.5})
-    assert out["a"] > out["b"]
-    assert sum(out.values()) == pytest.approx(1.0)

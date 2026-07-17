@@ -39,4 +39,4 @@ class PredictionResult(BaseModel):
     poa_topdown: POA
     poa_bottomup: POA
     poa_statistical: POA
-    poa_combined: POA                         # α-pool 통합 + POD 적용 후
+    poa_combined: POA                         # α-pool 통합 결과 (최종)
