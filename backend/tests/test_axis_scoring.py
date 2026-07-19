@@ -12,7 +12,7 @@ from app.geo.geocode import GazetteerGeocoder
 from app.phase0 import axis_scoring, interview
 from app.phase0.slots import slot_by_key
 from app.schemas.common import GeoPoint
-from app.schemas.persona import InterviewSession, Persona, PersonaType
+from app.schemas.persona import AttractionPoint, InterviewSession, Persona, PersonaType, RouteFamiliarity
 
 
 # ── 가짜 EXAONE — 응답 목록을 순서대로 돌려준다 ─────────────────────
@@ -480,3 +480,41 @@ def test_score_and_save_failure_keeps_registration(monkeypatch):
     assert "RuntimeError" in saved.axis_scoring_report["error"]
     assert saved.axis_scoring_report["status"] == interview._SCORING_ERROR
     assert "failed_at" in saved.axis_scoring_report
+
+
+# ── 7) route_familiarity 컴파일 트리거 (작업5 — 같은 백그라운드 트리거에 얹음) ──
+
+def test_score_and_save_compiles_route_familiarity(monkeypatch):
+    from app.phase0 import route_familiarity_compiler
+
+    p = _persona()
+    p.attraction_points = [AttractionPoint(
+        label="옛집", location=GeoPoint(lat=37.6, lng=127.0),
+        origin_slot="autobiographical_destination_pull")]
+    interview.storage.personas.save(p.id, p)
+
+    monkeypatch.setattr(axis_scoring, "score_axes_for",
+                        lambda persona, **kw: ({}, {"skipped": "x"}))
+    monkeypatch.setattr(route_familiarity_compiler, "compile_route_familiarity",
+                        lambda persona, **kw: [RouteFamiliarity(route="옛집", score=0.8)])
+    interview._score_and_save(p.id)
+    saved = interview.storage.personas.get(p.id)
+    assert saved.route_familiarity == [RouteFamiliarity(route="옛집", score=0.8)]
+
+
+def test_score_and_save_route_familiarity_failure_does_not_block_axis_scores(monkeypatch):
+    from app.phase0 import route_familiarity_compiler
+
+    p = _persona()
+    interview.storage.personas.save(p.id, p)
+    monkeypatch.setattr(axis_scoring, "score_axes_for",
+                        lambda persona, **kw: ({"mobility_transport_capacity": 0.5}, {"runs": 3}))
+
+    def boom(persona, **kw):
+        raise RuntimeError("컴파일러 다운")
+    monkeypatch.setattr(route_familiarity_compiler, "compile_route_familiarity", boom)
+    interview._score_and_save(p.id)
+    saved = interview.storage.personas.get(p.id)
+    assert saved.axis_scores == {"mobility_transport_capacity": 0.5}   # 축 채점은 영향 없음
+    assert saved.axis_scoring_report["status"] == interview._SCORING_DONE
+    assert saved.route_familiarity == []   # 컴파일 실패 시 빈 리스트 유지(폴백)

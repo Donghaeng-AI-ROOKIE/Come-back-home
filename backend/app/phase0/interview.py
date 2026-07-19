@@ -842,11 +842,14 @@ def ensure_axis_scores(persona_id: str | None) -> None:
 
 
 def _score_and_save(persona_id: str) -> None:
-    """축 점수 채점 후 Persona 재저장 — 비동기 모드에서는 백그라운드 스레드로 돈다.
+    """축 점수 채점 + route_familiarity 컴파일 후 Persona 재저장 — 비동기 모드에서는
+    백그라운드 스레드로 돈다.
 
     저장소에서 새로 읽어 스레드 간 객체 공유를 피한다. 실패는 리포트로만 남긴다
     (채점 실패가 이미 확정된 등록을 되돌리면 안 됨). 완료·실패 각각 상태와
     시각을 리포트에 남겨 ensure_axis_scores 가 재시도 여부를 판단할 수 있게 한다.
+    route_familiarity 는 별도 완료 상태를 추적하지 않는다 — 실패해도 unfamiliarity()
+    가 거리 기반 근사로 안전하게 폴백하므로 재시도 인프라를 둘 이유가 약하다.
     """
     from app.phase0 import axis_scoring
     persona = storage.personas.get(persona_id)
@@ -866,6 +869,15 @@ def _score_and_save(persona_id: str) -> None:
             "error": f"{type(e).__name__}: {e}",
             "failed_at": datetime.now().isoformat(),
         }
+    # route_familiarity 컴파일(작업5) — 같은 백그라운드 트리거에 얹는다(별도 비동기
+    # 인프라 신설 안 함). 컴파일러 자체가 실패를 빈 리스트로 흡수하지만, 여기서도
+    # 한 번 더 감싸 위에서 이미 확정된 axis_scores 저장이 이 블록 때문에 막히지 않게 한다.
+    try:
+        from app.phase0.route_familiarity_compiler import compile_route_familiarity
+
+        persona.route_familiarity = compile_route_familiarity(persona)
+    except Exception:  # noqa: BLE001 — 실패해도 축 채점 결과 저장은 계속 진행
+        pass
     # 채점(최대 수십 초) 도중 보호자가 삭제를 요청했을 수 있다 — 삭제된 persona 를
     # 되살리지 않도록 저장 직전 재확인(개인정보 파기 경합 방지, 셀프리뷰 발견).
     if storage.personas.get(persona_id) is None:
