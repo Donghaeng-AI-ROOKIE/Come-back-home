@@ -102,7 +102,7 @@ def test_agent_mode_full_walkers_budgeted_mind_calls(net, monkeypatch):
 
     calls = []
 
-    def fake_reinterpret(persona, current, report, labels):
+    def fake_reinterpret(persona, current, report, labels, prior=None):
         calls.append(report)
         return MindState(status="옛집으로", confusion=0.3, changed=True), "시장"
 
@@ -123,6 +123,29 @@ def test_agent_mode_full_walkers_budgeted_mind_calls(net, monkeypatch):
     near = sum(p for c, p in poa.items()
                if h3grid.haversine_km(h3grid.cell_center(c), ATTRACTION) < 0.25)
     assert near > 0.3
+
+
+def test_mind_trigger_receives_prior_for_context(net, monkeypatch):
+    """워커의 마음 재해석 호출에 이번 예측의 prior 가 그대로 전달된다 (작업 3)."""
+    from app import llm
+    from app.phase2 import gauges
+    from app.schemas.prediction import MindState
+
+    received = []
+
+    def fake_reinterpret(persona, current, report, labels, prior=None):
+        received.append(prior)
+        return MindState(status="이동 중", confusion=0.3, changed=True), None
+
+    monkeypatch.setattr(llm.exaone, "reinterpret_mind", fake_reinterpret)
+    monkeypatch.setattr(gauges.Gauges, "mind_fired",
+                        lambda self, rng: "귀소" if self.elapsed_min > 3 else None)
+
+    prior = _prior({"direction_keeping": 1.0}, mu=1.2, attraction={"시장": 1.0})
+    simulation.run_monte_carlo(LKP, prior, _persona(), 2.0, mode="agent",
+                               net=net, n_walkers=8, seed=11)
+    assert received, "트리거가 한 번도 발동하지 않음"
+    assert all(p is prior for p in received)   # 워커 전원이 같은 prior 객체 공유(재계산 없음)
 
 
 def test_continuous_fallback_without_net():
