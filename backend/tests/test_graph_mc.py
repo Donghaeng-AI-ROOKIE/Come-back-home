@@ -88,6 +88,74 @@ def test_landmark_seeking_pulls_toward_attraction(net):
     assert d_seek < d_rand
 
 
+def test_route_familiarity_known_score_reaches_gauge(net, monkeypatch):
+    """route_familiarity 컴파일 결과가 있으면 unfamiliarity 게이지에 known_score 로
+    전달된다 (작업4) — 거리 기반 근사 대신 사람-경로 관계 점수를 우선 사용."""
+    from app.phase2 import gauges as gauge_mod
+    from app.schemas.persona import RouteFamiliarity
+
+    captured: list[float | None] = []
+    real_unfamiliarity = gauge_mod.unfamiliarity
+
+    def spy(here, familiar, known_score=None):
+        captured.append(known_score)
+        return real_unfamiliarity(here, familiar, known_score=known_score)
+
+    monkeypatch.setattr(gauge_mod, "unfamiliarity", spy)
+
+    persona = Persona(
+        id="t", type=PersonaType.dementia, name="테스트", age=78, home=LKP,
+        attraction_points=[AttractionPoint(label="시장", location=ATTRACTION, weight=1.0)],
+        route_familiarity=[RouteFamiliarity(route="시장", score=0.9)],
+    )
+    prior = _prior({"landmark_seeking": 1.0}, mu=0.5, attraction={"시장": 1.0})
+    simulation.run_monte_carlo(LKP, prior, persona, 2.0, mode="statistical",
+                               net=net, n_walkers=5, seed=5)
+    assert captured, "게이지 스텝이 한 번도 안 돎"
+    assert all(k == pytest.approx(0.9) for k in captured)
+
+
+def test_routine_destination_gets_default_familiarity(net, monkeypatch):
+    """origin_slot=routine_destinations 유래 끌림점은 route_familiarity 컴파일 없이도
+    기본 익숙함(ROUTINE_DEFAULT_FAMILIARITY)이 known_score 로 전달된다 (작업4)."""
+    from app.phase2 import gauges as gauge_mod
+
+    captured: list[float | None] = []
+    real_unfamiliarity = gauge_mod.unfamiliarity
+
+    def spy(here, familiar, known_score=None):
+        captured.append(known_score)
+        return real_unfamiliarity(here, familiar, known_score=known_score)
+
+    monkeypatch.setattr(gauge_mod, "unfamiliarity", spy)
+
+    persona = Persona(
+        id="t", type=PersonaType.dementia, name="테스트", age=78, home=LKP,
+        attraction_points=[AttractionPoint(label="시장", location=ATTRACTION, weight=1.0,
+                                           origin_slot="routine_destinations")],
+    )
+    prior = _prior({"landmark_seeking": 1.0}, mu=0.5, attraction={"시장": 1.0})
+    simulation.run_monte_carlo(LKP, prior, persona, 2.0, mode="statistical",
+                               net=net, n_walkers=5, seed=5)
+    assert captured
+    assert all(k == pytest.approx(gauge_mod.ROUTINE_DEFAULT_FAMILIARITY) for k in captured)
+
+
+def test_no_origin_slot_falls_back_to_distance(net, monkeypatch):
+    """origin_slot 이 없으면(기존 데이터·다른 슬롯 유래) known_score 없이 거리 폴백 그대로."""
+    from app.phase2 import gauges as gauge_mod
+
+    captured: list[float | None] = []
+    monkeypatch.setattr(gauge_mod, "unfamiliarity",
+                        lambda here, familiar, known_score=None: captured.append(known_score) or 0.5)
+
+    prior = _prior({"landmark_seeking": 1.0}, mu=0.5, attraction={"시장": 1.0})
+    simulation.run_monte_carlo(LKP, prior, _persona(), 2.0, mode="statistical",
+                               net=net, n_walkers=5, seed=5)
+    assert captured
+    assert all(k is None for k in captured)
+
+
 def test_agent_mode_full_walkers_budgeted_mind_calls(net, monkeypatch):
     """agent MC: 워커는 두 모드 공통 500 전부 걷되, EXAONE 실호출은 예산 이내.
 

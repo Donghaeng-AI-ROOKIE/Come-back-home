@@ -89,6 +89,26 @@ def test_terrain_and_unfamiliarity_and_hostile():
     assert gauges.hostile_exposure({"forest_m": 10.0}, young) == 0.0  # 부호 반전 유형
 
 
+def test_unfamiliarity_known_score_overrides_distance():
+    """route_familiarity 컴파일 결과(작업4) — known_score 가 있으면 거리 무시."""
+    far = GeoPoint(lat=37.70, lng=127.10)
+    # 거리상으론 낯선(1.0) 위치지만, known_score=0.8(잘 앎)이 최우선
+    assert gauges.unfamiliarity(far, [], known_score=0.8) == pytest.approx(0.2)
+    assert gauges.unfamiliarity(far, [], known_score=0.3) == pytest.approx(0.7)
+
+
+def test_unfamiliarity_known_score_zero_is_not_falsy():
+    """known_score=0.0(전혀 모름)도 유효한 값 — `is not None` 체크라 거리 폴백으로 안 샌다."""
+    # 거리상으론 익숙한(0.0) 위치지만, known_score=0.0(전혀 모름)이 최우선
+    assert gauges.unfamiliarity(LKP, [LKP], known_score=0.0) == pytest.approx(1.0)
+
+
+def test_unfamiliarity_no_known_score_falls_back_to_distance():
+    far = GeoPoint(lat=37.70, lng=127.10)
+    assert gauges.unfamiliarity(far, [LKP], known_score=None) == pytest.approx(1.0)
+    assert gauges.unfamiliarity(LKP, [LKP], known_score=None) == pytest.approx(0.0)
+
+
 # ── 마음 재해석 가드레일 ─────────────────────────────────────────────
 def test_sanitize_mind_maps_levels_and_blocks_fabricated_goal():
     current = MindState()

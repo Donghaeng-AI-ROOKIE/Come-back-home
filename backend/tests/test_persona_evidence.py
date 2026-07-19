@@ -183,6 +183,8 @@ def test_match_preferred_targets_caps_and_tags():
     assert all(p.precision == "poi" for p in points)
     assert all(p.evidence == AttractionEvidence.previous_missing_found for p in points)
     assert points[0].label == "지하철(지하철POI0)"
+    # PreferredTarget 은 preferred_target_seeking 슬롯에서만 생성됨 (작업4 origin_slot)
+    assert all(p.origin_slot == "preferred_target_seeking" for p in points)
 
 
 def test_match_preferred_targets_stub_without_key():

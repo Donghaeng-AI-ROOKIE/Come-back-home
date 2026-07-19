@@ -303,6 +303,7 @@ def to_attraction_points(
             precision=res.precision,
             place_type=str(d.get("place_type") or ""),
             evidence=coerce_evidence(d.get("evidence")),
+            origin_slot=str(d.get("origin_slot") or ""),
         ))
     return points, unresolved
 
