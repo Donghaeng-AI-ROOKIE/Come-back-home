@@ -60,12 +60,12 @@ def test_full_pipeline(case):
     assert tip1.decision in (TipDecision.layer1, TipDecision.discard)
     assert sum(case.current_poa.values()) == pytest.approx(1.0)
 
-    # Phase 3 — 층2 제보 (사진 + 위치·시각 특정 → 고신뢰, 새 LKP)
+    # Phase 3 — 층2 제보 (위치·시각 특정 + 구체적 서술 → 고신뢰, 새 LKP)
     seen = datetime.now() - timedelta(minutes=10)
     tip2 = tip_flow.process_tip(
-        case, text="방금 공원 벤치에 앉아 계신 걸 사진 찍었어요",
+        case, text="방금 공원 벤치에 앉아 계신 걸 봤어요",
         location=GeoPoint(lat=37.5480, lng=126.9350),
-        seen_at=seen, tip_image=b"stub-photo")
+        seen_at=seen)
     assert tip2.p is not None and tip2.p >= 0.8
     assert tip2.decision == TipDecision.layer2
     # 새 LKP 로 앵커 교체 확인

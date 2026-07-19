@@ -1,6 +1,6 @@
 """Phase 3 — 제보 수신부터 POA 갱신·층2 재실행까지의 전체 흐름.
 
-제보 수신 → 신뢰도 p 산출 (Varco 사진 대조 + 챗봇 질문)
+제보 수신 → 신뢰도 p 산출 (시공간 개연성 + 챗봇 질문)
 │
 ├─ p < 0.2 (허위/스팸)         → 파기. 아무 데도 반영 안 함
 ├─ 0.2 ≤ p < 0.8               → 층1: POA 베이지안 갱신만 (p 가중)
@@ -24,7 +24,6 @@ def process_tip(
     text: str,
     location: GeoPoint | None = None,
     seen_at: datetime | None = None,
-    tip_image: bytes | None = None,
     now: datetime | None = None,
 ) -> Tip:
     now = now or datetime.now()
@@ -35,15 +34,13 @@ def process_tip(
         text=text,
         location=location,
         seen_at=seen_at,
-        has_photo=tip_image is not None,
     )
 
     # ① 신뢰도 p 산출 — 이진 판정이 아니라 p 값 그대로 아래로 전달.
     #    개연성 항에 필요한 현재 LKP·시각·유형을 함께 넘긴다 (kinematic 상한).
     tip.p = trust.score_tip(
-        tip, case.report.appearance,
+        tip,
         lkp=case.lkp, lkp_time=case.lkp_time, persona_type=case.report.missing_type,
-        tip_image=tip_image,
     )
     tip.decision = poa_update.classify_tip(tip.p, trust.has_specific_location_time(tip))
     case.tips.append(tip)

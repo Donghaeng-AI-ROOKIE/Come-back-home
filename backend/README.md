@@ -26,7 +26,7 @@ app/
 ├── llm/               모델 인터페이스 + 스텁 ★API 키 발급 후 _call_api 구현
 │   ├── exaone.py        EXAONE — prior 생성(좌표 아님), 마음 예측, 리포트
 │   ├── midm.py          Mi:dm — 온보딩 인터뷰, 제보 구조화
-│   ├── varco_vision.py  VARCO-Vision — 인상착의 추출, 사진 대조 (생성 아님)
+│   ├── varco_vision.py  VARCO-Vision — 인상착의 추출 (생성 아님, 시민 제보 사진 대조는 미수행으로 확정)
 │   └── upstage.py       Solar Pro — 신고서 파싱
 ├── geo/
 │   ├── h3grid.py        H3 육각격자, likelihood 커널, 좌표 유틸

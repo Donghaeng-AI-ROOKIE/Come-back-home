@@ -6,7 +6,6 @@ from app import llm
 from app.phase1 import intake
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
-from app.schemas.report import Appearance
 
 LKP = GeoPoint(lat=37.6061, lng=127.0106)
 
@@ -34,11 +33,3 @@ def test_intake_survives_upstage_failure(monkeypatch):
     case = _create(document_bytes=b"doc")
     assert case.id
     assert case.report.reporter is None
-
-
-def test_compare_photo_degrades_without_reference():
-    """대조 기준 없는 사진은 스텁 유사도를 낮게 — 신뢰도 p 과대평가 방지."""
-    with_ref = llm.varco.compare_photo(b"img", Appearance(summary="파란 점퍼"))
-    without_ref = llm.varco.compare_photo(b"img", None)
-    assert without_ref < with_ref
-    assert llm.varco.compare_photo(None, None) == 0.0

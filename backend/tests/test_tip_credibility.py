@@ -13,7 +13,6 @@ from app.llm.midm import _stub_structure_tip
 from app.phase3 import trust
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
-from app.schemas.report import Appearance
 from app.schemas.tip import Tip
 
 LKP = GeoPoint(lat=37.6061, lng=127.0106)
@@ -24,9 +23,9 @@ def _pt_km_north(km: float) -> GeoPoint:
     return GeoPoint(lat=LKP.lat + km / 111.32, lng=LKP.lng)
 
 
-def _tip(location=None, seen_at=None, has_photo=False, created_at=None):
+def _tip(location=None, seen_at=None, created_at=None):
     return Tip(id="t", case_id="c", text="목격", location=location,
-               seen_at=seen_at, has_photo=has_photo,
+               seen_at=seen_at,
                created_at=created_at or (T0 + timedelta(hours=1)))
 
 
@@ -84,7 +83,7 @@ def test_nan_location_excluded_not_poisoning_p():
                                       seen_at=T0 + timedelta(hours=1), created_at=T0 + timedelta(hours=1))
     assert math.isnan(plaus)   # 개연성 자체는 NaN 이지만
     tip = _tip(location=nan_tip, seen_at=T0 + timedelta(hours=1))
-    p = trust.score_tip(tip, None, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
+    p = trust.score_tip(tip, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
                         structured={"specificity": "중", "travel_mode": None})
     assert math.isfinite(p)    # trust 는 NaN 개연성 항을 빼고 유한한 p 반환
 
@@ -98,28 +97,27 @@ def test_future_seen_at_capped_at_created_at():
 
 
 # ── 가중평균 trust ──────────────────────────────────────────────────
-def test_score_all_signals_weighted_average():
-    tip = _tip(location=_pt_km_north(2.0), seen_at=T0 + timedelta(hours=1), has_photo=True)
-    ref = Appearance(summary="파란 점퍼")
-    p = trust.score_tip(tip, ref, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
-                        tip_image=b"img", structured={"specificity": "상", "travel_mode": None})
-    # 개연성1·사진0.85·구체성0.9 의 가중평균 (0.4/0.35/0.25) ≈ 0.9175
-    expected = (0.4 * 1.0 + 0.35 * 0.85 + 0.25 * 0.9) / (0.4 + 0.35 + 0.25)
-    assert abs(p - expected) < 1e-9
-
-
-def test_missing_photo_renormalizes():
-    tip = _tip(location=_pt_km_north(2.0), seen_at=T0 + timedelta(hours=1), has_photo=False)
-    p = trust.score_tip(tip, None, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
+def test_score_weighted_average():
+    tip = _tip(location=_pt_km_north(2.0), seen_at=T0 + timedelta(hours=1))
+    p = trust.score_tip(tip, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
                         structured={"specificity": "상", "travel_mode": None})
-    # 사진 항 빠지고 개연성·구체성만 재정규화 → (0.4·1 + 0.25·0.9)/(0.4+0.25)
+    # 개연성1·구체성0.9 의 가중평균 (0.4/0.25)
     expected = (0.4 * 1.0 + 0.25 * 0.9) / (0.4 + 0.25)
     assert abs(p - expected) < 1e-9
 
 
+def test_missing_location_renormalizes():
+    tip = _tip(location=None, seen_at=None)
+    p = trust.score_tip(tip, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
+                        structured={"specificity": "상", "travel_mode": None})
+    # 위치 없어 개연성 항 빠짐 → 구체성 단독(재정규화 결과 = 구체성 값 그대로)
+    expected = trust.SPECIFICITY_LEVELS["상"]
+    assert abs(p - expected) < 1e-9
+
+
 def test_no_signals_returns_base_p():
-    tip = _tip(location=None, has_photo=False)   # 위치·사진 없음
-    p = trust.score_tip(tip, None, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
+    tip = _tip(location=None)   # 위치 없음
+    p = trust.score_tip(tip, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
                         structured={"specificity": None})   # 구체성 등급도 무효
     assert p == settings.trust_base_p
 
@@ -127,7 +125,7 @@ def test_no_signals_returns_base_p():
 def test_specificity_levels_ordered():
     tip = _tip(location=_pt_km_north(2.0), seen_at=T0 + timedelta(hours=1))
     scores = [
-        trust.score_tip(tip, None, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
+        trust.score_tip(tip, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
                         structured={"specificity": lv, "travel_mode": None})
         for lv in ("하", "중", "상")
     ]

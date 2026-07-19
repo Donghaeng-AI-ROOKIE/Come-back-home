@@ -85,7 +85,7 @@ t0 = time.time()
 tip = step("6 제보 접수", client.post(f"/phase3/cases/{cid}/tips", json={
     "text": "정릉시장 입구에서 파란 점퍼 입은 할머니가 두리번거리는 걸 봤어요",
     "location": {"lat": 37.6047, "lng": 127.0121},
-    "seen_at": seen_time, "with_photo": False}))
+    "seen_at": seen_time}))
 print(f"   제보 {time.time() - t0:.1f}s | p={tip['p']:.2f}, decision={tip['decision']}")
 
 # 7. 갱신 POA — 베이지안 갱신이 실제로 반영됐는지 (회의록 7번: 확률 업데이트)
