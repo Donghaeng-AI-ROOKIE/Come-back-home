@@ -125,5 +125,6 @@ def match_preferred_targets(
                 precision="poi",
                 place_type=t.target_type or "category",
                 evidence=t.evidence,
+                origin_slot="preferred_target_seeking",  # PreferredTarget 은 이 슬롯에서만 생성됨
             ))
     return points

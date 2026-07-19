@@ -388,6 +388,8 @@ def _apply_extraction(
             continue
         if home_txt and key in home_txt:
             continue
+        # 이 답변이 나온 슬롯 — unfamiliarity 게이지 폴백 판단(작업4)의 origin_slot 원료.
+        ap.setdefault("origin_slot", prev_slot.key)
         # 포함 관계 라벨("대흥역" vs "대흥역 2번 출구")도 같은 장소로 병합 (실측 5차).
         # 3자 미만 라벨은 오병합 위험("시장" ⊂ "망원시장")이 커서 정확 일치만.
         match = key if key in by_key else next(
@@ -402,6 +404,8 @@ def _apply_extraction(
             kept["evidence"] = ap["evidence"]
         if not kept.get("area_text") and ap.get("area_text"):
             kept["area_text"] = ap["area_text"]   # 지역 표기는 있는 쪽을 보존
+        if not kept.get("origin_slot") and ap.get("origin_slot"):
+            kept["origin_slot"] = ap["origin_slot"]   # 어느 슬롯에서 처음 나왔는지도 first-wins
     # 카테고리 선호 (좌표화 불가 — 지하철·자동문 등) — label 기준 중복 제거 + 근거 승격
     pref_by_label = {_norm(t.get("label")): t for t in session.draft_preferred}
     for tg in extracted.get("preferred_targets", []) or []:

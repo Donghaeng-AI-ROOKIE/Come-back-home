@@ -51,6 +51,12 @@ WALK_SPEED_M_PER_MIN = {
 # 낯섦도 정규화 반경 (회의: D_max = 페르소나 생활권 또는 고정 1km)
 _D_MAX_KM = 1.0
 
+# routine_destinations(혼자 자주 가는 곳) 유래 끌림점의 기본 익숙함 — 보호자가
+# "자주 다니는 곳"이라고 답한 것 자체가 이미 익숙함의 근거라, 컴파일러(작업5) 없이도
+# 기본값으로 반영한다. autobiographical_destination_pull(과거 장소)은 다르다 — 가려는
+# 끌림은 있어도 현재 그 경로를 실제로 아는지는 별개라 컴파일러가 채점해야 함(작업5).
+ROUTINE_DEFAULT_FAMILIARITY = 0.8
+
 # 혐오환경 — 유형별 (env 키, 임계 m, 심각도). 아동 7세 미만은 물이 혐오가 아니라
 # 끌림(부호 반전, Anderson 2012)이라 이 표에 없음 — water_attractor 규칙이 대신한다.
 _AVERSION = {
@@ -176,8 +182,17 @@ def terrain_difficulty(edge_attrs: dict) -> float:
     return _HIGHWAY_DIFFICULTY.get(hw, _DEFAULT_DIFFICULTY)
 
 
-def unfamiliarity(here: GeoPoint, familiar: list[GeoPoint]) -> float:
-    """가장 가까운 익숙한 장소와의 거리 / D_max (회의 공식)."""
+def unfamiliarity(
+    here: GeoPoint, familiar: list[GeoPoint], known_score: float | None = None,
+) -> float:
+    """낯섦도 — known_score 가 주어지면(route_familiarity 컴파일 결과 또는
+    routine_destinations 기본값) 그걸 최우선으로 쓰고, 없으면 기존 거리 기반
+    근사(가장 가까운 익숙한 장소와의 거리 / D_max, 회의 공식)로 폴백한다.
+
+    known_score 는 0.0 도 유효한 값이므로 `is not None` 으로 체크한다(falsy 체크 금지).
+    """
+    if known_score is not None:
+        return max(0.0, min(1.0, 1.0 - known_score))
     if not familiar:
         return 1.0
     nearest = min(h3grid.haversine_km(here, p) for p in familiar)

@@ -34,6 +34,10 @@ class AttractionPoint(BaseModel):
     precision: str = "unknown"   # 지오코딩 정밀도 poi>address>dong>approx — Phase 2 반경 보정용
     place_type: str = ""         # 장소 유형 (past_home/workplace/market 등 — LLM 추출 그대로)
     evidence: AttractionEvidence = AttractionEvidence.mention_only  # 기본값 = 최약 근거 (하위호환)
+    # 어느 온보딩 슬롯에서 왔는지 — slots.SlotSpec.key 원문(예: "routine_destinations",
+    # "autobiographical_destination_pull"). unfamiliarity 게이지 폴백 판단에 사용
+    # (route_familiarity 컴파일러 대상 구분, app/phase2/gauges.py 참고).
+    origin_slot: str = ""
 
 
 class PreferredTarget(BaseModel):

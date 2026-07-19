@@ -341,6 +341,37 @@ def test_attraction_slots_share_collected_places():
     assert "장소: 망원시장" in got
 
 
+# ── origin_slot 태깅 (작업4, unfamiliarity 게이지 폴백 판단용) ────────
+def test_attraction_tagged_with_origin_slot():
+    s = InterviewSession(id="hard-origin", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    interview._apply_extraction(s, slot_by_key("routine_destinations"), {
+        "fields": {}, "attraction_points": [
+            {"label": "정릉시장", "area_text": "정릉동", "evidence": "caregiver_report"}],
+        "behavior_notes": [], "slot_filled": True,
+    }, utterance="정릉시장에 자주 가세요")
+    assert s.draft_attractions[0]["origin_slot"] == "routine_destinations"
+
+
+def test_attraction_origin_slot_first_wins_on_merge():
+    """같은 장소가 다른 슬롯 턴에서 다시 언급돼도 origin_slot 은 처음 슬롯을 유지."""
+    s = InterviewSession(id="hard-origin-merge", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    interview._apply_extraction(s, slot_by_key("routine_destinations"), {
+        "fields": {}, "attraction_points": [
+            {"label": "망원시장", "area_text": "망원동", "evidence": "mention_only"}],
+        "behavior_notes": [], "slot_filled": True,
+    }, utterance="망원시장에 자주 가세요")
+    interview._apply_extraction(s, slot_by_key("autobiographical_destination_pull"), {
+        "fields": {}, "attraction_points": [
+            {"label": "망원시장", "area_text": "망원동", "evidence": "previous_missing_found"}],
+        "behavior_notes": [], "slot_filled": True,
+    }, utterance="예전에 망원시장에서 발견된 적도 있어요")
+    assert len(s.draft_attractions) == 1
+    assert s.draft_attractions[0]["origin_slot"] == "routine_destinations"   # 처음 슬롯 유지
+    assert s.draft_attractions[0]["evidence"] == "previous_missing_found"    # 근거는 승격(기존 동작)
+
+
 def test_slot_collected_gathers_notes_and_place_labels():
     s = InterviewSession(id="hard-gap", guardian_name="보호자",
                          persona_type=PersonaType.dementia)

@@ -46,6 +46,18 @@ def test_to_attraction_points_splits_resolved_and_unresolved():
     assert len(unresolved) == 1 and unresolved[0]["label"] == "미상 장소"
 
 
+def test_to_attraction_points_passes_through_origin_slot():
+    """origin_slot(작업4, unfamiliarity 게이지 폴백 판단용)이 draft → AttractionPoint 로 그대로 전달."""
+    drafts = [
+        {"label": "정릉시장", "area_text": "정릉동", "origin_slot": "routine_destinations"},
+        {"label": "옛 직장", "area_text": "면목동"},   # origin_slot 없는 기존 draft(하위호환)
+    ]
+    points, unresolved = to_attraction_points(drafts, geocoder=GazetteerGeocoder())
+    by_label = {p.label: p for p in points}
+    assert by_label["정릉시장"].origin_slot == "routine_destinations"
+    assert by_label["옛 직장"].origin_slot == ""
+
+
 def test_to_attraction_points_falls_back_to_label_when_no_area():
     drafts = [{"label": "화곡동"}]  # area_text 없음 → label 로 지오코딩 시도
     points, unresolved = to_attraction_points(drafts, geocoder=GazetteerGeocoder())

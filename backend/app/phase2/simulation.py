@@ -192,10 +192,19 @@ def _walk_graph(
     confusion = (mind.confusion if (use_mind and mind) else 0.5)
     kappa = _kappa(confusion)
 
+    # route_familiarity(작업4) 폴백 준비 — 목표 끌림점의 라벨을 알아야 known_score 를
+    # 찾을 수 있는데, 지금까지는 target_node(노드 ID)만 추적하고 라벨을 버리고 있었다.
+    node_labels = {v: k for k, v in (label_nodes or {}).items()}   # node → label 역매핑
+    route_scores = {r.route: r.score for r in (persona.route_familiarity if persona else [])}
+    routine_labels = {ap.label for ap in (persona.attraction_points if persona else [])
+                      if ap.origin_slot == "routine_destinations"}
+
     target_node: int | None = None
+    target_label: str | None = None
     if strategy in ("landmark_seeking", "route_following") and attraction_nodes:
         nodes, weights = zip(*attraction_nodes)
         target_node = rng.choices(list(nodes), weights=list(weights))[0]
+        target_label = node_labels.get(target_node)
 
     # 게이지 준비 — 롤아웃마다 독립 상태
     g = gauge_mod.Gauges(gauge_mod.config_for(persona))
@@ -250,10 +259,16 @@ def _walk_graph(
             water = env.get("water_m")
             if isinstance(water, (int, float)) and water <= gauge_mod.WATER_ATTRACTOR_M:
                 break  # 7세 미만 물 끌림 — 물가 체류 (Anderson 2012, 익사위험 지점)
+        known = None
+        if target_label in route_scores:
+            known = route_scores[target_label]      # route_familiarity 컴파일 결과(작업5)
+        elif target_label in routine_labels:
+            known = gauge_mod.ROUTINE_DEFAULT_FAMILIARITY   # 자주 가는 곳 — 기본 익숙함
         g.step(edge_len_m / speed,
                terrain=gauge_mod.terrain_difficulty(net.edge_attrs(prev, node)),
                fatigue_mult=f_mult,
-               unfamiliarity=gauge_mod.unfamiliarity(net.node_location(node), familiar),
+               unfamiliarity=gauge_mod.unfamiliarity(
+                   net.node_location(node), familiar, known_score=known),
                hostile=gauge_mod.hostile_exposure(env, persona))
         displaced_km = h3grid.haversine_km(start_loc, net.node_location(node))
         if g.fatigue_fired(rng):
@@ -277,6 +292,7 @@ def _walk_graph(
                 kappa = _kappa(mind.confusion)
                 if goal is not None:
                     target_node = (label_nodes or {})[goal]  # 목표 전환 — 자연어 재주입
+                    target_label = goal
                 if trace is not None:
                     trace.mind_events.append(_mind_event(
                         walker_idx, step, net.node_location(node),
