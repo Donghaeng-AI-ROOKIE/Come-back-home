@@ -12,7 +12,7 @@ router = APIRouter(prefix="/phase2", tags=["Phase 2 — 동선 예측"])
 
 @router.post("/cases/{case_id}/predict", response_model=PredictionResult)
 def predict(case_id: str, seed: int | None = None):
-    """3-way 예측(Top-down/Bottom-up/통계) → α-pool → 최종 POA."""
+    """예측(Top-down prior + Bottom-up/통계 2-way α-pool) → 최종 POA."""
     case = storage.cases.get(case_id)
     if case is None:
         raise HTTPException(404, "케이스 없음")

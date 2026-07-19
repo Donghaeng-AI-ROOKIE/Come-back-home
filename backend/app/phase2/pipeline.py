@@ -1,4 +1,9 @@
-"""Phase 2 파이프라인 — 3-way 예측 → α-pool 통합 → 최종 POA.
+"""Phase 2 파이프라인 — bottom-up·statistical 2-way α-pool 통합 → 최종 POA.
+
+top-down(목적지 prior → topdown.topdown_poa)은 별도로 계산해 poa_topdown 으로
+디버그·시각화에는 계속 노출하지만, 최종 결합(baseline/current POA)에는 포함하지
+않는다 — top-down 은 few-shot CoT(=prior 생성) 그 자체이고, 이미 그 prior 가
+bottom-up·statistical 양쪽에 반영되고 있어 별도 POA로 다시 더하면 이중 반영이다.
 
 층2(Phase 2 재실행) 트리거 시에도 이 run_prediction 이 그대로 재호출된다.
 재실행 시 case.lkp / case.lkp_time 이 새 LKP 로 교체된 상태여야 한다.
@@ -88,21 +93,23 @@ def run_prediction(
     # 마음 상태 초기화 (이후 제보의 심리 단서로 갱신됨)
     mind = case.mind or MindState()
 
-    # ② 3-way 예측 — 도로망이 있으면 두 MC 모두 그래프 위를 걷는다
+    # ② 예측 — 도로망이 있으면 두 MC 모두 그래프 위를 걷는다
     #    (통계 MC 도 같은 지형 제약이어야 "AI 기여도" 비교가 공정)
     net = _load_roadnet(case)
     sim_trace = SimTrace() if trace else None
-    poa_td = topdown.topdown_poa(case.lkp, prior, persona, elapsed_hours)
+    poa_td = topdown.topdown_poa(case.lkp, prior, persona, elapsed_hours)  # 디버그·시각화 전용
     poa_bu = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed,
         trace=sim_trace)
     poa_stat = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed)
 
-    # ③ α-pool 통합 — 초기(제보 없음)엔 linear (넓게), 제보 누적 후 log-linear (좁게)
+    # ③ α-pool 통합 — bottom-up·statistical 2-way. bottom-up 이 AI 개인화가 있는
+    #    쪽이라 더 큰 가중(0.7 : 0.3, 기존 3-way 비율 0.5:0.2 을 그대로 재정규화한 값).
+    #    초기(제보 없음)엔 linear (넓게), 제보 누적 후 log-linear (좁게)
     pool_mode = "log_linear" if len(case.tips) >= 3 else "linear"
-    combined = combine.alpha_pool([poa_td, poa_bu, poa_stat],
-                                  alphas=[0.3, 0.5, 0.2], mode=pool_mode)
+    combined = combine.alpha_pool([poa_bu, poa_stat],
+                                  alphas=[0.7, 0.3], mode=pool_mode)
 
     # 케이스 상태 갱신 — baseline 은 KL 이탈 트리거의 비교 기준
     case.prior = prior

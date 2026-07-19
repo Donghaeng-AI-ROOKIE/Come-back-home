@@ -34,7 +34,7 @@
 |---|---|---|---|
 | Phase 0 | 보호자 대화 | 적응형 슬롯 인터뷰, 추출, 지오코딩 | `Persona` |
 | Phase 1 | Persona ID, LKP, 시각, 선택적 사진·문서 | 신고 구조화, Case 생성, 도로망 사전 로딩 | `MissingReport`, `Case` |
-| Phase 2 | Case, Persona, 경과시간 | EXAONE prior, 3-way POA, α-pool | `PredictionResult`, `current_poa` |
+| Phase 2 | Case, Persona, 경과시간 | EXAONE prior, top-down/bottom-up/통계 POA, 2-way α-pool(top-down 제외) | `PredictionResult`, `current_poa` |
 | Phase 3 | 현재 POA, 시민 제보 | 신뢰도 평가, 베이지안 갱신, 재예측 트리거, 알림 셀 선택 | 갱신 POA, 타겟 알림 |
 
 ### 모델과 알고리즘의 책임 경계
@@ -243,22 +243,24 @@ EXAONE이 바꿀 수 있는 목표는 Persona에 이미 등록된 끌림점 라�
 
 ### 2-6. 분포 결합과 상태 저장
 
-세 분포를 다음 고정 가중치로 결합합니다.
+Top-down(EXAONE prior → topdown.topdown_poa)은 few-shot CoT(=prior 생성) 그 자체이고, 그 prior가 이미 Agent MC·Statistical MC 양쪽에 반영되고 있어 별도 POA로 다시 합치면 이중 반영입니다. 그래서 최종 결합은 Agent MC와 Statistical MC 두 분포만 사용합니다. Top-down POA는 `poa_topdown`으로 계속 계산·응답에 포함되지만(디버그·시각화용), 최종 결합에는 들어가지 않습니다.
 
 ```text
-Top-down 0.3 + Agent MC 0.5 + Statistical MC 0.2
+Agent MC 0.7 + Statistical MC 0.3
 ```
 
+가중치는 기존 3-way 비율(Agent MC 0.5 : Statistical MC 0.2 = 5:2)을 그대로 유지한 채 재정규화한 값입니다.
+
 - 제보가 3건 미만이면 linear pool을 사용해 어느 한 모델이 높게 본 구역도 보존합니다.
-- 제보가 3건 이상인 재실행에서는 log-linear pool을 사용해 세 분포가 함께 지지하는 구역에 집중합니다.
-- α-pool 결합 결과를 그대로 최종 분포로 사용합니다.
+- 제보가 3건 이상인 재실행에서는 log-linear pool을 사용해 두 분포가 함께 지지하는 구역에 집중합니다.
+- α-pool 결합 결과를 그대로 최종 분포(`baseline_poa`/`current_poa`)로 사용합니다.
 - 최종 분포를 `baseline_poa`와 `current_poa`에 저장하고 Case 상태를 `predicted`로 변경합니다.
 
 ### API와 응답
 
 | 메서드 | 경로 | 설명 |
 |---|---|---|
-| `POST` | `/phase2/cases/{case_id}/predict?seed=42` | 3-way 예측 실행. `seed`는 재현용 선택값 |
+| `POST` | `/phase2/cases/{case_id}/predict?seed=42` | 예측 실행(top-down/bottom-up/통계 3종 계산, 최종 결합은 bottom-up·통계 2-way). `seed`는 재현용 선택값 |
 
 응답은 `prior`, `poa_topdown`, `poa_bottomup`, `poa_statistical`, `poa_combined`를 포함합니다.
 

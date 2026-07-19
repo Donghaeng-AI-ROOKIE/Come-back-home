@@ -11,7 +11,7 @@ LLM 은 확률·거리 calibration 이 약하다는 전제(아키텍처 결정�
 
 import math
 
-from app.schemas.persona import Persona
+from app.schemas.persona import Persona, PersonaType
 from app.schemas.prediction import LognormalParams, MindState, PriorParams
 
 # ε-flooring — 어떤 전략도 확률 0 이 되지 않게 (탐색 다양성 보존)
@@ -72,17 +72,87 @@ def sanitize_attraction_levels(raw, persona: Persona | None) -> dict[str, float]
     }
     total = sum(weights.values())
     normed = {label: w / total for label, w in weights.items()}
+    return _apply_cap(normed, ATTRACTION_CAP)
 
-    if len(normed) >= 2:  # 상한 초과분은 나머지에 비례 배분 (동시 초과는 합>1 이라 불가능)
+
+def _apply_cap(weights: dict[str, float], cap: float) -> dict[str, float]:
+    """분포에서 하나가 cap 을 넘지 않게 재분배. 초과분은 나머지에 비례 배분
+    (동시 초과는 합>1 이라 불가능하므로 한 번만 확인하면 된다)."""
+    normed = dict(weights)
+    if len(normed) >= 2:
         for label, share in normed.items():
-            if share > ATTRACTION_CAP:
-                excess = share - ATTRACTION_CAP
+            if share > cap:
+                excess = share - cap
                 rest_total = 1.0 - share
                 for other in normed:
                     if other != label:
                         normed[other] += excess * (normed[other] / rest_total)
-                normed[label] = ATTRACTION_CAP
+                normed[label] = cap
                 break
+    return normed
+
+
+def apply_axis_scores(
+    prior: PriorParams,
+    axis_scores: dict[str, float],
+    persona: Persona | None,
+    base_radius: LognormalParams,
+) -> PriorParams:
+    """축점수(phase0.axis_scoring, 0.1~0.9)를 PriorParams 에 결정론적으로 반영.
+
+    LLM 스텁 여부와 무관하게 exaone.generate_prior() 끝에서 항상 실행된다 —
+    가드레일 안에만 넣으면 로컬 개발(대부분 스텁 모드)에서 효과가 안 보인다.
+
+    반경은 axis_score 가 있으면 LLM 등급을 무시하고 축 기준으로 재계산한다
+    (축점수는 quote 검증·다수결을 거쳐 LLM 의 단발 등급보다 신뢰도가 높은
+    신호이므로 override). 전략확률·끌림점가중치는 이미 계산된 값 위에
+    곱셈 틸트만 가한다(파괴적 override 아님).
+    """
+    updates = {}
+
+    # 1) 반경 — mobility_transport_capacity (몸축, 유일한 반경 신호)
+    if "mobility_transport_capacity" in axis_scores:
+        score = axis_scores["mobility_transport_capacity"]
+        level = "하" if score < 0.3 else ("중" if score < 0.7 else "상")
+        mu = base_radius.mu + RADIUS_MU_ADJUST[level]
+        updates["radius_lognormal"] = LognormalParams(mu=mu, sigma=base_radius.sigma)
+
+    # 2) 전략확률 — elopement_pattern_consistency (발달장애 전용 행동축)
+    if (persona and persona.type == PersonaType.intellectual_disability
+            and "elopement_pattern_consistency" in axis_scores):
+        updates["strategy_probs"] = _sharpen(
+            prior.strategy_probs, axis_scores["elopement_pattern_consistency"],
+            floor=EPSILON)
+
+    # 3) 끌림점가중치 — autobiographical_destination_pull(치매) / preferred_target_seeking(발달)
+    axis_key = {
+        PersonaType.dementia: "autobiographical_destination_pull",
+        PersonaType.intellectual_disability: "preferred_target_seeking",
+    }.get(persona.type if persona else None)
+    if axis_key and axis_key in axis_scores and prior.attraction_weights:
+        sharpened = _sharpen(prior.attraction_weights, axis_scores[axis_key], floor=0.0)
+        updates["attraction_weights"] = _apply_cap(sharpened, ATTRACTION_CAP)
+
+    return prior.model_copy(update=updates) if updates else prior
+
+
+def _sharpen(dist: dict[str, float], score: float, *, floor: float) -> dict[str, float]:
+    """score(0.1~0.9)로 분포 쏠림(sharpness) 조정. score=0.5 면 무변화.
+
+    gamma>1 → 1등에 더 쏠림(뾰족해짐), gamma<1 → 평평해짐(균등에 가까워짐).
+    gamma 는 방어적으로 클램프 — score 가 이론상 0.1~0.9 지만, 클램프 없이
+    극단값이 들어오면 사실상 결정론적 선택이 되어버릴 수 있다.
+    """
+    gamma = max(0.2, min(2.0, 1.0 + 2.0 * (score - 0.5)))
+    powered = {k: v ** gamma for k, v in dist.items()}
+    total = sum(powered.values())
+    if total <= 0:
+        return dict(dist)  # 방어 — 입력에 0 이 없다는 전제라 이론상 도달 안 함
+    normed = {k: v / total for k, v in powered.items()}
+    if floor > 0:  # 전략확률용 — 재정규화 후 다시 floor 보장 (0 확률 금지 원칙 유지)
+        floored = {k: max(v, floor) for k, v in normed.items()}
+        t2 = sum(floored.values())
+        normed = {k: v / t2 for k, v in floored.items()}
     return normed
 
 

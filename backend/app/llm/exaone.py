@@ -133,7 +133,26 @@ _MIND_SYSTEM = """\
 - reasoning: 근거 1~2문장 (한국어)."""
 
 
-def _build_mind_input(persona: Persona, gauge_report: str, labels: list[str]) -> str:
+# 마음 재해석에 텍스트로만 반영할 취약성 축(2-B) — PriorParams 3필드 어디에도
+# 안 맞는 마음축 취약성형. 출력은 기존 sanitize_mind() 가 그대로 검증하므로
+# 입력을 풍부하게 해줄 뿐 안전장치는 안 건드린다.
+_VULN_AXIS_KO = {
+    "hazard_awareness_vulnerability": "위험 인식",
+    "communication_approach_vulnerability": "의사소통·낯선사람 반응",
+    "wayfinding_error_recovery_deficit": "길찾기·경로회복",
+    "distress_induced_movement_reactivity": "불안 시 이동 반응",
+    "aversive_context_escape": "불편 회피 행동",
+    "transition_routine_disruption": "루틴 변화 취약성",
+}
+
+
+def _axis_level_ko(score: float) -> str:
+    return "낮음" if score < 0.3 else ("중간" if score < 0.7 else "높음")
+
+
+def _build_mind_input(
+    persona: Persona, gauge_report: str, labels: list[str], prior: PriorParams | None = None,
+) -> str:
     lines = [
         "[실종자]",
         f"- 유형: {_TYPE_LABEL[persona.type]}, 나이: {persona.age}세",
@@ -141,6 +160,17 @@ def _build_mind_input(persona: Persona, gauge_report: str, labels: list[str]) ->
     if persona.behavior_notes:
         lines.append("- 평소 행동 사실:")
         lines += [f"  - {note}" for note in persona.behavior_notes]
+    if persona.axis_scores:
+        vuln = [f"{_VULN_AXIS_KO[k]}: {_axis_level_ko(v)}"
+                for k, v in persona.axis_scores.items() if k in _VULN_AXIS_KO]
+        if vuln:
+            lines.append("[특성] " + ", ".join(vuln))
+    if prior is not None:
+        top_strategy = max(prior.strategy_probs, key=prior.strategy_probs.get)
+        lines.append(f"[예측된 이동 성향] 주 전략: {top_strategy}")
+        if prior.attraction_weights:
+            top_label = max(prior.attraction_weights, key=prior.attraction_weights.get)
+            lines.append(f"[유력 목적지 후보] {top_label}")
     lines.append(f"[현재 상태] {gauge_report}")
     lines.append(f"[끌림점 후보] {', '.join(labels) if labels else '(없음)'}")
     lines.append("[질문] 이 사람은 지금 어떤 마음 상태이고, 어디로 향하려 하는가?")
@@ -257,25 +287,31 @@ class ExaoneClient(LLMClient):
         """
         default = self._default_prior(persona, report)
         if self.is_stub:
-            return default
-        prior_input = _build_prior_input(persona, report)
-        try:
-            raw = self.chat(
-                [
-                    {"role": "system", "content": _PRIOR_SYSTEM},
-                    {"role": "user", "content": _PRIOR_FEWSHOT_USER},
-                    {"role": "assistant", "content": _PRIOR_FEWSHOT_ASSISTANT},
-                    {"role": "user", "content": prior_input},
-                ],
-                temperature=0.2,
-                max_tokens=700,
-            )
-            self._log_call("prior", prior_input, raw)
-            data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
-        except Exception as e:  # noqa: BLE001 — LLM 실패가 예측 자체를 막으면 안 됨
-            return default.model_copy(update={
-                "reasoning": f"[폴백] EXAONE prior 실패({type(e).__name__}) — 통계 기본값 사용"})
-        return guardrail.sanitize_prior(data, persona, default)
+            prior = default
+        else:
+            prior_input = _build_prior_input(persona, report)
+            try:
+                raw = self.chat(
+                    [
+                        {"role": "system", "content": _PRIOR_SYSTEM},
+                        {"role": "user", "content": _PRIOR_FEWSHOT_USER},
+                        {"role": "assistant", "content": _PRIOR_FEWSHOT_ASSISTANT},
+                        {"role": "user", "content": prior_input},
+                    ],
+                    temperature=0.2,
+                    max_tokens=700,
+                )
+                self._log_call("prior", prior_input, raw)
+                data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
+                prior = guardrail.sanitize_prior(data, persona, default)
+            except Exception as e:  # noqa: BLE001 — LLM 실패가 예측 자체를 막으면 안 됨
+                prior = default.model_copy(update={
+                    "reasoning": f"[폴백] EXAONE prior 실패({type(e).__name__}) — 통계 기본값 사용"})
+
+        # 축점수(phase0.axis_scoring) 반영 — 스텁이든 실호출이든 항상 실행.
+        # 가드레일 안에만 넣으면 스텁 모드(로컬 개발 기본값)에서 효과가 안 보인다.
+        axis_scores = persona.axis_scores if persona else {}
+        return guardrail.apply_axis_scores(prior, axis_scores, persona, default.radius_lognormal)
 
     def _default_prior(self, persona: Persona | None, report: MissingReport) -> PriorParams:
         """프로파일 통계 기본값 — 스텁 모드이자 가드레일의 항목별 폴백 기준."""
@@ -297,8 +333,12 @@ class ExaoneClient(LLMClient):
         current: MindState,
         gauge_report: str,
         labels: list[str],
+        prior: PriorParams | None = None,
     ) -> tuple[MindState, str | None]:
         """H·A 게이지 발동 시 마음·목표 재해석 — 시뮬레이션 워커가 호출.
+
+        prior: 이번 예측의 목적지 prior(전략확률·끌림점가중치) — 마음 재해석이
+        "예측된 이동 성향"을 참고 문맥으로 쓸 수 있게 전달(작업 3). 없어도 동작.
 
         반환: (검증된 MindState, 새 목표 끌림점 라벨 또는 None).
         스텁 모드·실패 시: 혼란도 +0.2 휴리스틱, 목표 유지.
@@ -308,7 +348,7 @@ class ExaoneClient(LLMClient):
                               changed=True), None)
         if self.is_stub:
             return fallback
-        mind_input = _build_mind_input(persona, gauge_report, labels)
+        mind_input = _build_mind_input(persona, gauge_report, labels, prior)
         try:
             raw = self.chat(
                 [

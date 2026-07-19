@@ -122,7 +122,7 @@ def test_mind_trigger_switches_target_and_calls_once(net, monkeypatch):
     """H/A 발동 → reinterpret_mind 1회 호출, 목표가 재주입한 끌림점으로 전환."""
     calls = []
 
-    def fake_reinterpret(persona, current, report, labels):
+    def fake_reinterpret(persona, current, report, labels, prior=None):
         calls.append(report)
         return MindState(status="옛집으로", confusion=0.3, changed=True), "시장"
 

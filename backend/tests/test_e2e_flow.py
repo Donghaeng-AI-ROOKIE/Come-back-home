@@ -43,7 +43,7 @@ def test_full_pipeline(case):
     assert case.report.appearance is not None
     assert case.report.reporter is not None
 
-    # Phase 2 — 3-way 예측
+    # Phase 2 — 예측 (top-down/bottom-up/통계 3종 계산, 결합은 bottom-up·통계 2-way)
     result = pipeline.run_prediction(case, seed=42)
     for poa in (result.poa_topdown, result.poa_bottomup, result.poa_statistical, result.poa_combined):
         assert sum(poa.cells.values()) == pytest.approx(1.0)

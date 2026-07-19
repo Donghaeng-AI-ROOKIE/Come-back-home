@@ -65,7 +65,7 @@ def test_trace_records_mind_events(net, monkeypatch):
     """agent 모드에서 마음 재해석 이벤트가 위치·트리거·응답과 함께 기록된다."""
     from app import llm
 
-    def fake_reinterpret(persona, current, report, labels):
+    def fake_reinterpret(persona, current, report, labels, prior=None):
         return MindState(status="옛집으로 가려 함", confusion=0.8, changed=True), "시장"
 
     monkeypatch.setattr(llm.exaone, "reinterpret_mind", fake_reinterpret)

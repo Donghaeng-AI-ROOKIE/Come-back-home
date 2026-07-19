@@ -37,7 +37,7 @@ app/
 │   ├── topdown.py       2-1 Top-down: prior → POA (MC 없음)
 │   ├── simulation.py    2-2 Bottom-up (agent+MC 500회) / 2-3 통계 MC (AI 없음)
 │   ├── combine.py       α-pool (linear=넓게 / log-linear=좁게)
-│   └── pipeline.py      3-way → 통합 → 최종 POA, baseline 저장
+│   └── pipeline.py      3종 계산(top-down은 디버그용) → bottom-up·통계 2-way 통합 → 최종 POA, baseline 저장
 ├── phase3/
 │   ├── trust.py         제보 신뢰도 p 산출 (이진 아님 — p값 그대로 전달)
 │   ├── poa_update.py    ★층1: 새POA ∝ 기존POA × [p·L + (1−p)·1], 잔여 제보 재적용
@@ -65,7 +65,7 @@ app/
 ```
 POST /phase0/personas                  페르소나 등록
 POST /phase1/reports                   신고 접수 → case_id
-POST /phase2/cases/{id}/predict        3-way 예측 → POA
+POST /phase2/cases/{id}/predict        예측(2-way 결합) → POA
 POST /phase3/cases/{id}/alerts         1차 타겟 알림
 POST /phase3/cases/{id}/tips           시민 제보 → 층1/층2 자동 처리
 GET  /phase3/cases/{id}/poa            현재 POA 상위 셀 (지도용)

@@ -65,6 +65,7 @@ class _MindPool:
         current: MindState,
         gauge_report: str,
         labels: list[str],
+        prior: PriorParams | None = None,
     ) -> tuple[MindState, str | None, str] | None:
         """(MindState, goal, source) 또는 None(예산 0 + 풀 비어있음 → 호출자 휴리스틱).
 
@@ -75,7 +76,7 @@ class _MindPool:
             self.remaining -= 1
             from app import llm  # 지연 임포트 (테스트에서 모킹 지점)
 
-            out = llm.exaone.reinterpret_mind(persona, current, gauge_report, labels)
+            out = llm.exaone.reinterpret_mind(persona, current, gauge_report, labels, prior)
             self.results.append(out)
             return out[0], out[1], ("stub" if llm.exaone.is_stub else "exaone")
         if self.results:
@@ -265,7 +266,7 @@ def _walk_graph(
                 gauge_report = g.report(fired)
                 result = mind_pool.reinterpret(
                     rng, persona, mind or MindState(), gauge_report,
-                    list(label_nodes or {})) if mind_pool is not None else None
+                    list(label_nodes or {}), prior) if mind_pool is not None else None
                 if result is None:
                     # 예산 0 + 풀 비어있음 — 스텁과 같은 혼란 심화 휴리스틱
                     base = mind.confusion if mind else 0.5
