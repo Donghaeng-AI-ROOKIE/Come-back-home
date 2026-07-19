@@ -114,7 +114,7 @@ score = cosine_similarity + tier_bonus + gated_risk - asked_penalty
 - 집과 끌림점은 `Kakao Local → Nominatim → 오프라인 Gazetteer` 순으로 좌표화합니다.
 - 지오코딩 결과에는 `poi > address > dong > approx` 정밀도를 기록하고 중복 장소는 더 정밀한 결과를 남깁니다. `place_type`·`evidence` 태그는 좌표화 과정에서 증발하지 않고 그대로 통과합니다. 같은 장소가 더 강한 근거로 재언급되면 근거만 승격합니다(약한 방향으로는 안 내려감). evidence → 초기 weight 계수는 팀 미결 사항이라 아직 균등(1.0)입니다.
 - 축 점수(0.1~0.9) 컴파일은 `phase0/axis_scoring.py`가 담당합니다: 기준표(`axis_rubric.md`)를 단일 소스로 EXAONE이 축별 A~E 정성 분류만 하고 코드가 고정 매핑으로 수치화하며, 원발화 인용 검증과 축당 3회 다수결을 거칩니다. 기능 플래그(`axis_scoring_enabled`, 기본 off)로 제어되고, 켜면 등록 확정 후 백그라운드에서 채점해 `Persona.axis_scores`를 채웁니다. 판정 불가(F)·근거 없는 축은 점수를 만들지 않아 Phase 2가 유형 기본값으로 폴백합니다.
-- 같은 백그라운드 트리거에서 `phase0/route_familiarity_compiler.py`가 자전적 기억 목적지(`autobiographical_destination_pull`) 유래 끌림점의 route_familiarity(경로별 익숙함)도 함께 채점합니다. 닫힌 후보 목록(끌림점 라벨) 각각에 상/중/하 등급을 매기는 "list 출력" 패턴이며, 근거 발화가 없거나 실패하면 빈 결과로 폴백해 Phase 2의 거리 기반 근사가 대신합니다. 혼자 자주 가는 곳(`routine_destinations`) 유래 끌림점은 이미 기본 익숙함이 적용돼 컴파일 대상에서 제외됩니다.
+- 같은 백그라운드 트리거에서 `phase0/route_familiarity_compiler.py`가 자전적 기억 목적지(`autobiographical_destination_pull`) 유래 끌림점의 route_familiarity(경로별 익숙함)도 함께 채점합니다. 닫힌 후보 목록(끌림점 라벨) 각각에 축 점수와 동일한 A~E 5단계(0.1~0.9, 팀 확정 기준표)를 매기는 "list 출력" 패턴입니다. 신뢰도 확보 방식도 축 점수 컴파일과 통일했습니다: quote 강제·실존 검증으로 근거 없는 판정(환각)을 거르고, 기본 3회 호출 후 라벨별 다수결로 비결정성을 상쇄합니다. 근거 발화가 없거나 모든 호출이 실패하면 빈 결과로 폴백해 Phase 2의 거리 기반 근사가 대신합니다. 혼자 자주 가는 곳(`routine_destinations`) 유래 끌림점은 이미 기본 익숙함이 적용돼 컴파일 대상에서 제외됩니다.
 
 ### API
 
