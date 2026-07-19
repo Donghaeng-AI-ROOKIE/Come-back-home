@@ -11,7 +11,7 @@ LLM 은 확률·거리 calibration 이 약하다는 전제(아키텍처 결정�
 
 import math
 
-from app.schemas.persona import Persona, PersonaType
+from app.schemas.persona import AttractionPoint, Persona, PersonaType, RouteFamiliarity
 from app.schemas.prediction import LognormalParams, MindState, PriorParams
 
 # ε-flooring — 어떤 전략도 확률 0 이 되지 않게 (탐색 다양성 보존)
@@ -181,3 +181,27 @@ def sanitize_mind(data: dict, current: MindState, labels: list[str]) -> tuple[Mi
     goal = goal if isinstance(goal, str) and goal in labels else None
     mind = MindState(status=status, confusion=confusion, changed=True)
     return mind, goal
+
+
+# ── route_familiarity 컴파일러 (작업5) 출력 검증 ────────────────────
+# 상/중/하 → 고정값. axis_rubric.md 5단계(0.1~0.9) 표를 3단계로 압축한 잠정값
+# — 회의에서 재확인 권장(설계 문서 "아직 팀 확인이 필요한 것" 3번).
+ROUTE_LEVEL_SCORES = {"하": 0.3, "중": 0.5, "상": 0.8}
+
+
+def sanitize_route_familiarity(
+    raw, targets: list[AttractionPoint],
+) -> list[RouteFamiliarity]:
+    """LLM 출력(라벨→등급) → 검증된 RouteFamiliarity 리스트.
+
+    실존 라벨만 인정 — sanitize_mind() 의 goal_label 검증과 동일 원칙을
+    닫힌 후보 목록 전체로 확장한 것. 후보에 없는 라벨·모르는 등급은 버린다.
+    """
+    if not isinstance(raw, dict):
+        return []
+    valid_labels = {ap.label for ap in targets}
+    out = []
+    for label, level in raw.items():
+        if label in valid_labels and level in ROUTE_LEVEL_SCORES:
+            out.append(RouteFamiliarity(route=label, score=ROUTE_LEVEL_SCORES[level]))
+    return out
