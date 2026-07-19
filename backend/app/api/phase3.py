@@ -20,7 +20,6 @@ class TipIn(BaseModel):
     text: str
     location: GeoPoint | None = None
     seen_at: datetime | None = None
-    with_photo: bool = False   # 실제 구현 시 UploadFile 로 교체
 
 
 def _get_case(case_id: str):
@@ -74,7 +73,6 @@ def submit_tip(case_id: str, body: TipIn):
         text=body.text,
         location=body.location,
         seen_at=body.seen_at,
-        tip_image=b"stub" if body.with_photo else None,
     )
 
 

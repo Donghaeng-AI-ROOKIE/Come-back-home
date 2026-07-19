@@ -113,10 +113,9 @@ class Settings(BaseSettings):
     max_alert_cells: int = 500
 
     # ── Phase 3 제보 신뢰도 p (docs: "제보 신뢰도 p 계산 방식") ─────────
-    # p = 가중평균(시공간개연성·사진일치·구체성). 없는 신호는 가중치 재정규화.
+    # p = 가중평균(시공간개연성·구체성). 없는 신호는 가중치 재정규화.
     # 초기값은 도메인 판단, 합성 시나리오(진짜 vs 가짜 제보 분리)로 튜닝 대상.
     trust_weight_plausibility: float = 0.40  # 시공간 개연성 (kinematic, 알고리즘)
-    trust_weight_photo: float = 0.35         # 사진 일치 (VARCO)
     trust_weight_specificity: float = 0.25   # 구체성 (Mi:dm 챗봇)
     trust_base_p: float = 0.3                # 아무 신호도 없을 때의 사전 신뢰
 

@@ -79,7 +79,7 @@ Case {
 
 Tip {
   "id": str, "case_id": str, "text": str,
-  "location": GeoPoint|null, "seen_at": datetime|null, "has_photo": bool,
+  "location": GeoPoint|null, "seen_at": datetime|null,
   "p": float|null,                    // 신뢰도
   "decision": TipDecision|null, "created_at": datetime
 }
@@ -112,7 +112,7 @@ Tip {
 | 메서드 | 경로 | 요청/쿼리 | 응답 |
 |---|---|---|---|
 | POST | `/phase3/cases/{case_id}/alerts` | — | `{ case_id, target_cells, message, sent, note }` |
-| POST | `/phase3/cases/{case_id}/tips` | `{ text, location?, seen_at?, with_photo }` | Tip (`decision`으로 파기/층1/층2 판정) |
+| POST | `/phase3/cases/{case_id}/tips` | `{ text, location?, seen_at? }` | Tip (`decision`으로 파기/층1/층2 판정) — 시민 제보 사진 대조는 하지 않기로 확정되어 `with_photo` 제거됨 |
 | GET | `/phase3/cases/{case_id}/poa` | `?top=20` | `{ case_id, total_cells, top_cells: [{ cell, prob, polygon:[{lat,lng}×6] }] }` |
 | GET | `/phase3/cases/{case_id}/rerun-check` | — | `{ case_id, should_rerun, reason }` |
 
