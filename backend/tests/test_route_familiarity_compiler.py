@@ -41,22 +41,43 @@ def test_sanitize_route_familiarity_valid_mapping():
     targets = [_ap("옛집", "autobiographical_destination_pull"),
               _ap("옛 직장", "autobiographical_destination_pull")]
     out = guardrail.sanitize_route_familiarity(
-        {"옛집": "상", "옛 직장": "하"}, targets)
+        {"옛집": "E", "옛 직장": "A"}, targets)
     by_route = {r.route: r.score for r in out}
-    assert by_route == {"옛집": 0.8, "옛 직장": 0.3}
+    assert by_route == {"옛집": 0.9, "옛 직장": 0.1}
+
+
+def test_sanitize_route_familiarity_all_five_levels():
+    targets = [_ap(f"장소{i}", "autobiographical_destination_pull") for i in range(5)]
+    raw = {f"장소{i}": g for i, g in enumerate("ABCDE")}
+    out = guardrail.sanitize_route_familiarity(raw, targets)
+    by_route = {r.route: r.score for r in out}
+    assert by_route == {"장소0": 0.1, "장소1": 0.3, "장소2": 0.5, "장소3": 0.7, "장소4": 0.9}
 
 
 def test_sanitize_route_familiarity_drops_fabricated_label():
     targets = [_ap("옛집", "autobiographical_destination_pull")]
     out = guardrail.sanitize_route_familiarity(
-        {"옛집": "상", "지어낸곳": "상"}, targets)
+        {"옛집": "E", "지어낸곳": "E"}, targets)
     assert [r.route for r in out] == ["옛집"]
+
+
+def test_sanitize_route_familiarity_drops_f_grade():
+    """F(판정 불가)는 매핑에 없어 자동으로 버려진다 — axis_scoring 의 F 처리와 동일 원칙."""
+    targets = [_ap("옛집", "autobiographical_destination_pull")]
+    out = guardrail.sanitize_route_familiarity({"옛집": "F"}, targets)
+    assert out == []
 
 
 def test_sanitize_route_familiarity_drops_unknown_level():
     targets = [_ap("옛집", "autobiographical_destination_pull")]
     out = guardrail.sanitize_route_familiarity({"옛집": "매우잘앎"}, targets)
     assert out == []
+
+
+def test_sanitize_route_familiarity_normalizes_case_and_whitespace():
+    targets = [_ap("옛집", "autobiographical_destination_pull")]
+    out = guardrail.sanitize_route_familiarity({"옛집": " e "}, targets)
+    assert out and out[0].score == 0.9
 
 
 def test_sanitize_route_familiarity_non_dict_returns_empty():
@@ -72,7 +93,7 @@ def test_compile_returns_empty_without_autobiographical_targets():
         attraction_points=[_ap("정릉시장", "routine_destinations")],
         quotes={"route_environment_familiarity": ["정릉시장에 자주 가세요"]},
     )
-    fake = FakeExaone('{"정릉시장": "상"}')
+    fake = FakeExaone('{"정릉시장": "E"}')
     out = compile_route_familiarity(persona, client=fake)
     assert out == []
     assert fake.calls == 0
@@ -84,7 +105,7 @@ def test_compile_returns_empty_without_evidence_text():
         attraction_points=[_ap("옛집", "autobiographical_destination_pull")],
         quotes={},
     )
-    fake = FakeExaone('{"옛집": "상"}')
+    fake = FakeExaone('{"옛집": "E"}')
     out = compile_route_familiarity(persona, client=fake)
     assert out == []
     assert fake.calls == 0
@@ -111,11 +132,11 @@ def test_compile_success_parses_and_sanitizes():
         quotes={"route_environment_familiarity": [
             "옛집 가는 길은 지금도 정확히 기억하세요. 옛 직장 쪽은 재개발돼서 잘 모르세요."]},
     )
-    fake = FakeExaone('{"옛집": "상", "옛 직장": "하"}')
+    fake = FakeExaone('{"옛집": "E", "옛 직장": "A"}')
     out = compile_route_familiarity(persona, client=fake)
     assert fake.calls == 1
     by_route = {r.route: r.score for r in out}
-    assert by_route == {"옛집": 0.8, "옛 직장": 0.3}
+    assert by_route == {"옛집": 0.9, "옛 직장": 0.1}
 
 
 def test_compile_hallucinated_label_filtered():
@@ -123,7 +144,20 @@ def test_compile_hallucinated_label_filtered():
         attraction_points=[_ap("옛집", "autobiographical_destination_pull")],
         quotes={"route_environment_familiarity": ["옛집 얘기를 자주 하세요"]},
     )
-    fake = FakeExaone('{"옛집": "상", "지어낸장소": "상"}')
+    fake = FakeExaone('{"옛집": "E", "지어낸장소": "E"}')
+    out = compile_route_familiarity(persona, client=fake)
+    assert [r.route for r in out] == ["옛집"]
+
+
+def test_compile_f_grade_omitted_from_result():
+    """언급은 됐지만 판정 불가(F)면 결과에서 빠진다 — 폴백(거리근사)에 맡김."""
+    persona = _persona(
+        attraction_points=[_ap("옛집", "autobiographical_destination_pull"),
+                           _ap("옛 직장", "autobiographical_destination_pull")],
+        quotes={"route_environment_familiarity": [
+            "옛집 가는 길은 잘 아세요. 옛 직장 얘기는 하시는데 어느 정도인진 모르겠어요."]},
+    )
+    fake = FakeExaone('{"옛집": "E", "옛 직장": "F"}')
     out = compile_route_familiarity(persona, client=fake)
     assert [r.route for r in out] == ["옛집"]
 

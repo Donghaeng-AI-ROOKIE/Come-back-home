@@ -184,9 +184,12 @@ def sanitize_mind(data: dict, current: MindState, labels: list[str]) -> tuple[Mi
 
 
 # ── route_familiarity 컴파일러 (작업5) 출력 검증 ────────────────────
-# 상/중/하 → 고정값. axis_rubric.md 5단계(0.1~0.9) 표를 3단계로 압축한 잠정값
-# — 회의에서 재확인 권장(설계 문서 "아직 팀 확인이 필요한 것" 3번).
-ROUTE_LEVEL_SCORES = {"하": 0.3, "중": 0.5, "상": 0.8}
+# A~E → 고정값. 팀 확정 기준표(축 점수 CHOICE_SCORE 와 동일 5단계 스케일) —
+# 0.1=처음 가거나 거의 경험 없음 / 0.3=방문 경험은 있으나 혼자 이동 경험 거의 없음 /
+# 0.5=가끔 이용, 일부 랜드마크·구간만 앎 / 0.7=반복 이용하는 익숙한 경로+혼자 이동 경험 /
+# 0.9=일상적으로 반복 이용하는 핵심 생활경로+최근까지 독립 이동. F(판정 불가)는
+# 매핑에 없어 자동으로 버려진다 — "언급됐지만 이 기준표로 판단할 근거가 부족함".
+ROUTE_LEVEL_SCORES = {"A": 0.1, "B": 0.3, "C": 0.5, "D": 0.7, "E": 0.9}
 
 
 def sanitize_route_familiarity(
@@ -195,13 +198,14 @@ def sanitize_route_familiarity(
     """LLM 출력(라벨→등급) → 검증된 RouteFamiliarity 리스트.
 
     실존 라벨만 인정 — sanitize_mind() 의 goal_label 검증과 동일 원칙을
-    닫힌 후보 목록 전체로 확장한 것. 후보에 없는 라벨·모르는 등급은 버린다.
+    닫힌 후보 목록 전체로 확장한 것. 후보에 없는 라벨·모르는 등급(F 포함)은 버린다.
     """
     if not isinstance(raw, dict):
         return []
     valid_labels = {ap.label for ap in targets}
     out = []
-    for label, level in raw.items():
+    for label, choice in raw.items():
+        level = choice.strip().upper()[:1] if isinstance(choice, str) else ""
         if label in valid_labels and level in ROUTE_LEVEL_SCORES:
             out.append(RouteFamiliarity(route=label, score=ROUTE_LEVEL_SCORES[level]))
     return out
