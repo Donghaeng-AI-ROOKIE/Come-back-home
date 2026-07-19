@@ -20,7 +20,7 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from app.schemas.common import GeoPoint
-from app.schemas.persona import AttractionPoint
+from app.schemas.persona import AttractionEvidence, AttractionPoint
 
 
 @dataclass
@@ -253,6 +253,10 @@ def to_attraction_points(
     (2) 결과가 anchor 에서 ANCHOR_MAX_KM 를 벗어나면 채택하지 않고 미해결 처리 —
     백엔드가 앵커를 무시하는 경우(nominatim 미탐 폴백 등)까지 막는 최종 방어선.
     실측 버그: "은행 앞"→과천 21km, "산책로"→경북 188km (전국 키워드 오검색).
+
+    place_type/evidence 태그는 좌표화 과정에서 증발하지 않게 그대로 통과시킨다
+    (근거 분류는 추출 단계에서만 가능 — 여기서 소실되면 복원 불가). evidence →
+    초기 weight 매핑은 팀 회의 미결이라 weight 는 아직 default_weight 균등.
     """
     from app.geo import h3grid
 
@@ -273,5 +277,15 @@ def to_attraction_points(
             location=res.point,
             weight=default_weight,
             precision=res.precision,
+            place_type=str(d.get("place_type") or ""),
+            evidence=coerce_evidence(d.get("evidence")),
         ))
     return points, unresolved
+
+
+def coerce_evidence(raw) -> AttractionEvidence:
+    """LLM 추출값 → enum. 모르는 값·누락은 최약 근거(mention_only)로 — 과대평가 방지."""
+    try:
+        return AttractionEvidence(raw)
+    except ValueError:
+        return AttractionEvidence.mention_only

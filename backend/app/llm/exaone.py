@@ -80,7 +80,9 @@ _PRIOR_SYSTEM = """\
 - JSON 객체 하나만 출력한다. JSON 밖에 어떤 문장도 쓰지 않는다.
 - strategy_probs: 6개 전략 모두 포함, 값의 합이 1.
 - attraction_levels: 주어진 끌림점 라벨마다 "상"/"중"/"하" 중 하나. \
-주어지지 않은 라벨을 만들어내지 않는다.
+주어지지 않은 라벨을 만들어내지 않는다. 키는 괄호의 근거 표시를 뺀 라벨 원문 그대로. \
+끌림점의 근거를 등급에 반영한다: 과거 실종 때 실제 발견된 곳 > 보호자가 반복 지향을 \
+직접 관찰 > 지나가듯 언급만.
 - radius_level: 같은 유형의 평균적인 실종자보다 멀리 이동할 사람이면 "상", \
 비슷하면 "중", 가까이 머물 사람이면 "하".
 - reasoning: 판단 근거 2~3문장 (한국어)."""
@@ -88,7 +90,9 @@ _PRIOR_SYSTEM = """\
 _PRIOR_FEWSHOT_USER = """\
 [실종자]
 - 유형: 치매 노인, 나이: 82세
-- 끌림점: 옛 직장(방직공장), 단골 목욕탕
+- 끌림점:
+  - 옛 직장(방직공장) — 근거: 과거 실종 때 실제 발견된 곳
+  - 단골 목욕탕 — 근거: 지나가듯 언급만
 - 평소 행동 사실:
   - 해질녘이면 옛 직장 방향으로 걸어가는 습관이 있음
   - 30년 다닌 출퇴근길은 지금도 정확히 기억함
@@ -98,10 +102,11 @@ _PRIOR_FEWSHOT_USER = """\
 _PRIOR_FEWSHOT_ASSISTANT = """\
 {"strategy_probs": {"route_following": 0.35, "direction_keeping": 0.15, \
 "random_walk": 0.10, "backtracking": 0.05, "staying_put": 0.05, "landmark_seeking": 0.30}, \
-"attraction_levels": {"옛 직장(방직공장)": "상", "단골 목욕탕": "중"}, \
+"attraction_levels": {"옛 직장(방직공장)": "상", "단골 목욕탕": "하"}, \
 "radius_level": "중", \
-"reasoning": "해질녘 옛 직장 방향 습관과 출퇴근길 기억이 뚜렷해 익숙한 경로 추종과 \
-끌림점 지향 확률을 높게 봤다. 최근 방향 혼동이 있어 배회 가능성도 남겼다. \
+"reasoning": "옛 직장은 과거 실종 때 실제 발견된 곳이고 해질녘 그 방향으로 걷는 습관도 \
+있어 최상위 끌림점으로 봤다. 목욕탕은 언급만 있어 낮게 뒀다. 출퇴근길 기억이 뚜렷해 \
+익숙한 경로 추종 확률을 높였고, 최근 방향 혼동이 있어 배회 가능성도 남겼다. \
 보행 능력에 특이사항이 없어 이동 반경은 유형 평균 수준으로 판단했다."}"""
 
 _TYPE_LABEL = {
@@ -142,13 +147,24 @@ def _build_mind_input(persona: Persona, gauge_report: str, labels: list[str]) ->
     return "\n".join(lines)
 
 
+_EVIDENCE_KO = {
+    "previous_missing_found": "과거 실종 때 실제 발견된 곳",
+    "caregiver_report": "보호자가 반복 지향을 직접 관찰",
+    "mention_only": "지나가듯 언급만",
+}
+
+
 def _build_prior_input(persona: Persona | None, report: MissingReport) -> str:
     lines = ["[실종자]"]
     if persona:
         lines.append(f"- 유형: {_TYPE_LABEL[persona.type]}, 나이: {persona.age}세")
         if persona.attraction_points:
-            labels = ", ".join(ap.label for ap in persona.attraction_points)
-            lines.append(f"- 끌림점: {labels}")
+            # 근거 태그를 사람 말로 붙인다 — attraction_levels 의 키는 라벨 원문이어야
+            # 하므로 근거는 별도 주석 위치(— 근거: …)에만 둔다 (few-shot 이 시연).
+            lines.append("- 끌림점:")
+            for ap in persona.attraction_points:
+                ev = _EVIDENCE_KO.get(ap.evidence, _EVIDENCE_KO["mention_only"])
+                lines.append(f"  - {ap.label} — 근거: {ev}")
         if persona.behavior_notes:
             lines.append("- 평소 행동 사실:")
             lines += [f"  - {note}" for note in persona.behavior_notes]

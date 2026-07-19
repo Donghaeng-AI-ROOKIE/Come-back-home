@@ -14,12 +14,38 @@ class PersonaType(str, Enum):
     intellectual_disability = "intellectual_disability"  # 지적장애인
 
 
+class AttractionEvidence(str, Enum):
+    """장소가 왜 중요한지의 근거 강도 — 추출 단계에서만 분류 가능(이후 복원 불가).
+
+    자유 텍스트가 아니라 enum 3종으로 제한 — 제보 구체성을 상/중/하로만 받는
+    기존 가드레일 패턴과 동일. evidence → 초기 weight 계수는 팀 회의 미결
+    (제안: 발견지 0.9 / 관찰 0.5 / 언급 0.3) — 결정 전까지 태그만 저장·전달한다.
+    """
+    previous_missing_found = "previous_missing_found"  # 과거 실종 때 실제 발견된 곳
+    caregiver_report = "caregiver_report"              # 보호자가 반복 지향을 직접 관찰
+    mention_only = "mention_only"                      # 지나가듯 언급만
+
+
 class AttractionPoint(BaseModel):
     """끌림점 — 과거 직장, 옛집, 자주 가던 공원 등. Phase 2 prior의 핵심 입력."""
     label: str
     location: GeoPoint
     weight: float = 1.0   # 상대 중요도 (EXAONE prior 생성 시 재조정됨)
     precision: str = "unknown"   # 지오코딩 정밀도 poi>address>dong>approx — Phase 2 반경 보정용
+    place_type: str = ""         # 장소 유형 (past_home/workplace/market 등 — LLM 추출 그대로)
+    evidence: AttractionEvidence = AttractionEvidence.mention_only  # 기본값 = 최약 근거 (하위호환)
+
+
+class PreferredTarget(BaseModel):
+    """발달장애 선호 대상 중 좌표로 특정되지 않는 카테고리 선호 — '지하철', '자동문' 등.
+
+    좌표가 특정되는 대상(단골 역)은 attraction_points 경로로 간다. 카테고리 선호는
+    지오코딩이 불가능하므로 여기 저장했다가 Phase 2 에서 LKP 주변의 해당 카테고리
+    POI 만 매칭한다 (회의록: 모든 지하철역 일괄 가중치 금지, 등록된 대상만 반영).
+    """
+    label: str            # "지하철", "자동문", "편의점" 등 보호자 표현
+    target_type: str = "" # transport/facility/sensory/person/activity (LLM 분류, 자유)
+    evidence: AttractionEvidence = AttractionEvidence.mention_only
 
 
 class RouteFamiliarity(BaseModel):
@@ -38,6 +64,8 @@ class Persona(BaseModel):
     home: GeoPoint
     attraction_points: list[AttractionPoint] = []
     behavior_notes: list[str] = []   # "해질녘에 옛 직장 방향으로 걷는 습관" 등 인터뷰 추출 사실
+    # 카테고리 선호 (발달장애) — 좌표화 불가 대상. Phase 2 가 LKP 주변 POI 매칭에 사용.
+    preferred_targets: list[PreferredTarget] = []
     # 축별 근거 — {축 DB 필드명(slots.SlotSpec.axis_field): 관찰 사실 노트}.
     # 인터뷰가 수집한 사실을 몸축·마음축·행동축 필드로 묶어둔 것. 이후 축 점수
     # (0.1~0.9) 컴파일 단계의 입력이 된다. behavior_notes 의 부분집합 재구성이라
@@ -74,7 +102,8 @@ class InterviewSession(BaseModel):
     prev_target_key: str | None = None   # 직전에 겨냥한 슬롯 (추출 대상)
     # 누적 추출 (종료 시 Persona 로 변환)
     draft_fields: dict = {}                       # name/age/home
-    draft_attractions: list[dict] = []            # [{"label","area_text"}]
+    draft_attractions: list[dict] = []            # [{"label","area_text","place_type","evidence"}]
+    draft_preferred: list[dict] = []              # [{"label","target_type","evidence"}] 좌표화 불가 선호
     draft_behaviors: list[str] = []
     # 어느 슬롯을 겨냥했을 때 나온 노트인지 — {slot_key: [노트...]}.
     # finalize 에서 슬롯의 axis_field 로 묶어 Persona.axis_evidence 가 된다.
