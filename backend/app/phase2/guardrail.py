@@ -193,19 +193,22 @@ ROUTE_LEVEL_SCORES = {"A": 0.1, "B": 0.3, "C": 0.5, "D": 0.7, "E": 0.9}
 
 
 def sanitize_route_familiarity(
-    raw, targets: list[AttractionPoint],
+    raw: dict, targets: list[AttractionPoint],
 ) -> list[RouteFamiliarity]:
-    """LLM 출력(라벨→등급) → 검증된 RouteFamiliarity 리스트.
+    """다수결·quote 검증을 거친 {라벨: 점수} → 검증된 RouteFamiliarity 리스트.
 
-    실존 라벨만 인정 — sanitize_mind() 의 goal_label 검증과 동일 원칙을
-    닫힌 후보 목록 전체로 확장한 것. 후보에 없는 라벨·모르는 등급(F 포함)은 버린다.
+    다수결·quote 검증(axis_scoring._majority/_quote_exists 재사용)은
+    route_familiarity_compiler 가 담당 — 여기서는 최종 결과값만 검증하는
+    마지막 방어선이다. 실존 라벨만 인정(sanitize_mind() 의 goal_label 검증과
+    동일 원칙)하고, ROUTE_LEVEL_SCORES 5단계 값이 아닌 점수는 버린다.
     """
     if not isinstance(raw, dict):
         return []
     valid_labels = {ap.label for ap in targets}
+    valid_scores = set(ROUTE_LEVEL_SCORES.values())
     out = []
-    for label, choice in raw.items():
-        level = choice.strip().upper()[:1] if isinstance(choice, str) else ""
-        if label in valid_labels and level in ROUTE_LEVEL_SCORES:
-            out.append(RouteFamiliarity(route=label, score=ROUTE_LEVEL_SCORES[level]))
+    for label, score in raw.items():
+        if (label in valid_labels and isinstance(score, (int, float))
+                and not isinstance(score, bool) and score in valid_scores):
+            out.append(RouteFamiliarity(route=label, score=float(score)))
     return out
