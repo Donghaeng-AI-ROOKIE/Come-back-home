@@ -13,7 +13,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from app import storage
 from app.llm import midm
@@ -757,12 +757,37 @@ def _parse_age(value) -> int:
     return int(m.group()) if m else 0
 
 
-_SCORING_IN_PROGRESS = "채점 진행 중(백그라운드)"
+_SCORING_IN_PROGRESS = "채점 진행 중(백그라운드)"   # 값 그대로 유지 — 기존 테스트가 이 문자열을 검사
+_SCORING_DONE = "채점 완료"
+_SCORING_ERROR = "채점 실패"
+_SCORING_SKIPPED = "채점 생략(스텁)"
 
 # ensure_axis_scores 의 체크(진행중 표시 확인)-후-셋(표시 저장)을 원자화한다.
 # 락 없이는 근접 시각의 중복 호출(같은 사람에 대한 신고 2건 등)이 둘 다 통과해
 # 채점을 이중으로 걸 수 있다(이중 EXAONE 쿼터 소모) — 셀프리뷰 발견, 2026-07-17.
 _scoring_trigger_lock = threading.Lock()
+
+
+def _in_progress_marker(now: datetime) -> dict:
+    return {"status": _SCORING_IN_PROGRESS, "started_at": now.isoformat()}
+
+
+def _is_stale(report: dict, now: datetime) -> bool:
+    """IN_PROGRESS 마커가 죽은 채점(스레드 하드킬·서버 재시작)으로 볼 수 있는지.
+
+    시작 시각이 없거나 파싱 불가한 마커도 stale 취급(레거시·오염 방어).
+    임계값은 살아있는 채점의 최악(healthy-slow)에 마진을 둔 값 — 상세 근거는
+    config.py의 axis_scoring_stale_seconds 주석 참고.
+    """
+    from app.config import settings
+    ts = report.get("started_at")
+    if not ts:
+        return True
+    try:
+        started = datetime.fromisoformat(ts)
+    except (ValueError, TypeError):
+        return True
+    return now - started > timedelta(seconds=settings.axis_scoring_stale_seconds)
 
 
 def _start_scoring(persona_id: str, *, force_async: bool = False) -> None:
@@ -785,6 +810,10 @@ def ensure_axis_scores(persona_id: str | None) -> None:
     비동기 채점은 서버 재시작·EXAONE 장애로 유실되면 영구 미채점이 된다.
     점수가 비어 있는데 근거는 있는 persona 를 만나면 채점을 다시 건다.
     진행 중 표시가 있으면 중복 실행하지 않는다(이중 채점·이중 쿼터 방지 — 락으로 보호).
+    단, 그 표시가 stale(채점 스레드가 죽어 마커만 남음)이면 재시도한다.
+    완료(all-F 포함) 표시가 있으면 재채점하지 않는다 — 입력이 안 바뀌었는데 매 신고마다
+    다시 채점하는 건 낭비다(EXAONE 은 temp 0 에서도 비결정성이 실측돼 결과가 항상
+    똑같이 재현된다는 보장은 없지만, 그렇다고 매번 다시 돌릴 근거도 아니다).
     신고 접수(골든타임) 경로에서만 불리므로 항상 강제 비동기로 채점을 건다.
     """
     from app.config import settings
@@ -796,9 +825,14 @@ def ensure_axis_scores(persona_id: str | None) -> None:
             return
         if not (persona.axis_quotes or persona.axis_evidence):
             return   # 채점할 근거 자체가 없음 (구조화 직접 등록 페르소나 등)
-        if persona.axis_scoring_report.get("status") == _SCORING_IN_PROGRESS:
-            return   # finalize 가 건 채점이 아직 도는 중
-        persona.axis_scoring_report = {"status": _SCORING_IN_PROGRESS}
+        report = persona.axis_scoring_report
+        status = report.get("status")
+        now = datetime.now()
+        if status == _SCORING_DONE:
+            return   # all-F 로 끝난 완료도 재채점 안 함 (입력 불변 — 매번 다시 돌릴 이유 없음)
+        if status == _SCORING_IN_PROGRESS and not _is_stale(report, now):
+            return   # 아직 신선한 진행 중 표시 — finalize 가 건 채점이 도는 중
+        persona.axis_scoring_report = _in_progress_marker(now)
         storage.personas.save(persona.id, persona)
     _start_scoring(persona.id, force_async=True)
 
@@ -807,18 +841,27 @@ def _score_and_save(persona_id: str) -> None:
     """축 점수 채점 후 Persona 재저장 — 비동기 모드에서는 백그라운드 스레드로 돈다.
 
     저장소에서 새로 읽어 스레드 간 객체 공유를 피한다. 실패는 리포트로만 남긴다
-    (채점 실패가 이미 확정된 등록을 되돌리면 안 됨).
+    (채점 실패가 이미 확정된 등록을 되돌리면 안 됨). 완료·실패 각각 상태와
+    시각을 리포트에 남겨 ensure_axis_scores 가 재시도 여부를 판단할 수 있게 한다.
     """
     from app.phase0 import axis_scoring
     persona = storage.personas.get(persona_id)
     if persona is None:
         return
     try:
-        persona.axis_scores, persona.axis_scoring_report = (
-            axis_scoring.score_axes_for(persona)
-        )
+        scores, report = axis_scoring.score_axes_for(persona)
+        if "skipped" in report:
+            report = {**report, "status": _SCORING_SKIPPED}
+        else:
+            report = {**report, "status": _SCORING_DONE, "scored_at": datetime.now().isoformat()}
+        persona.axis_scores = scores
+        persona.axis_scoring_report = report
     except Exception as e:  # noqa: BLE001
-        persona.axis_scoring_report = {"error": f"{type(e).__name__}: {e}"}
+        persona.axis_scoring_report = {
+            "status": _SCORING_ERROR,
+            "error": f"{type(e).__name__}: {e}",
+            "failed_at": datetime.now().isoformat(),
+        }
     # 채점(최대 수십 초) 도중 보호자가 삭제를 요청했을 수 있다 — 삭제된 persona 를
     # 되살리지 않도록 저장 직전 재확인(개인정보 파기 경합 방지, 셀프리뷰 발견).
     if storage.personas.get(persona_id) is None:
@@ -897,7 +940,7 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     # 점수는 백그라운드로 채운다. 실패는 리포트에만 남긴다(등록을 되돌리지 않음).
     from app.config import settings
     if settings.axis_scoring_enabled:
-        persona.axis_scoring_report = {"status": _SCORING_IN_PROGRESS}
+        persona.axis_scoring_report = _in_progress_marker(datetime.now())
 
     storage.personas.save(persona.id, persona)
     session.persona_id = persona.id

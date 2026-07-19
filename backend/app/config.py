@@ -33,6 +33,12 @@ class Settings(BaseSettings):
     # 비동기 채점(기본): 보호자의 마지막 확인 응답을 채점(EXAONE 21회, 40초~1분)이
     # 막지 않게 등록을 먼저 확정하고 점수는 백그라운드로 채운다. 테스트·디버깅은 false.
     axis_scoring_async: bool = True
+    # stale 채점 마커 재시도 임계(초). IN_PROGRESS 마커가 이 시간보다 오래되면
+    # 채점 스레드가 죽은 것으로 보고 다음 신고에서 재채점한다. 살아있는 채점의
+    # 최악(healthy-slow, 7축·부하) ~6분에 마진을 둔 값 — 오판 시 이중 EXAONE
+    # 호출이 나므로 넉넉히 잡는다. EXAONE 완전 다운 시 이론적 최대(21분)는
+    # 결과가 무가치하므로 보호 대상 아님. config 라 운영 데이터로 튜닝 가능.
+    axis_scoring_stale_seconds: int = 600
 
     # Phase 0 온보딩 — 한국어 문장 임베더 (히스토리-어웨어 슬롯 검색용)
     #   embed_base_url 있으면 원격 OpenAI 호환 /embeddings, 없으면 embed_model 을
@@ -103,7 +109,7 @@ class Settings(BaseSettings):
     # 알림 셀 수 상한 (타겟팅 가드레일) — 꼬리가 두꺼운 분포에서 80% 커버리지가
     # 수천 셀(사실상 무차별)로 폭주하는 것을 차단. res9 셀 ≈0.105km² 기준
     # 500셀 ≈ 52km². 건강한 케이스(경과 1h)는 80% 도달에 ~159셀이라 안 걸린다.
-    # 값은 잠정 — POA×POD 실구현 후 평가곡선(알림수 vs 발견율)으로 튜닝 대상.
+    # 값은 잠정 — 실제 알림 로그 쌓이면 평가곡선(알림수 vs 발견율)으로 튜닝 대상.
     max_alert_cells: int = 500
 
     # ── Phase 3 제보 신뢰도 p (docs: "제보 신뢰도 p 계산 방식") ─────────

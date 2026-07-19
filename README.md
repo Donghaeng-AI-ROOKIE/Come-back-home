@@ -176,8 +176,7 @@ flowchart TD
     TD --> POOL[α-pool\n0.3 / 0.5 / 0.2]
     AG --> POOL
     ST --> POOL
-    POOL --> POD[POA × POD]
-    POD --> OUT[baseline_poa = current_poa]
+    POOL --> OUT[baseline_poa = current_poa]
 ```
 
 ### 2-0. 카테고리 선호 POI 매칭
@@ -252,7 +251,7 @@ Top-down 0.3 + Agent MC 0.5 + Statistical MC 0.2
 
 - 제보가 3건 미만이면 linear pool을 사용해 어느 한 모델이 높게 본 구역도 보존합니다.
 - 제보가 3건 이상인 재실행에서는 log-linear pool을 사용해 세 분포가 함께 지지하는 구역에 집중합니다.
-- 마지막에 `POA × POD`를 적용하지만, 현재 POD는 모든 셀에서 1인 균일 스텁이므로 분포를 바꾸지 않습니다.
+- α-pool 결합 결과를 그대로 최종 분포로 사용합니다.
 - 최종 분포를 `baseline_poa`와 `current_poa`에 저장하고 Case 상태를 `predicted`로 변경합니다.
 
 ### API와 응답
@@ -344,7 +343,6 @@ flowchart TD
 | EXAONE 희소 호출 | 일치 | Agent 워커에서 H/A 발동 시에만, 워커당 최대 1회 호출 |
 | 500 워커 몬테카를로 | 부분 일치 | Statistical MC는 500회, 비용이 발생할 수 있는 Agent MC는 10회로 축소 |
 | AI 기여도를 분리한 통계 베이스라인 | 부분 불일치 | Statistical MC도 동일한 EXAONE prior를 공유하므로 동적 마음 재해석만 분리됨 |
-| 환경 기반 POD | 미완성 | 환경 레이어는 게이지에 쓰이지만 최종 `POA×POD`의 POD는 균일 스텁 |
 | 실사진·문서 자동 추출 | 미완성/보류 | API는 불리언 플래그이고 VARCO·Upstage는 스텁 |
 | 영속 저장과 운영 알림 | 미완성 | 인메모리 저장소, FCM·사용자 위치 인덱스 미연동 |
 
@@ -439,6 +437,5 @@ Come-back-home/
 2. `USE_ROADNET=true` 운영 프로필 확정과 도로망·환경 캐시 배포 전략 수립
 3. Statistical MC에 통계 전용 prior를 분리해 AI 기여도 비교의 독립성 확보
 4. 잠정 게이지 계수와 6전략 prior를 테스트셋으로 보정
-5. 환경·유동인구·시간대를 반영한 실제 POD 구현
-6. 실제 파일 업로드, DB, 푸시 알림과 사용자 위치 인덱스 연동
-7. 루트 API 계약과 백엔드 README를 현재 코드에 맞게 동기화
+5. 실제 파일 업로드, DB, 푸시 알림과 사용자 위치 인덱스 연동
+6. 루트 API 계약과 백엔드 README를 현재 코드에 맞게 동기화
