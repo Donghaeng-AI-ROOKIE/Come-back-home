@@ -457,11 +457,54 @@ function renderStepper() {
   setStep("st-poa", b?.poa_layers && Object.keys(b.poa_layers).length === 4);
 }
 
-/* ── 페르소나 패널 ─────────────────────── */
-function renderPersona() {
+/* ── 페르소나 패널 — 페르소나 축 구조(공통 8 + 유형별 4)로 렌더링 ── */
+const _slotCatalogCache = {};   // persona_type → 슬롯 카탈로그 (축·라벨)
+async function getSlotCatalog(type) {
+  if (!_slotCatalogCache[type]) {
+    _slotCatalogCache[type] = await api(`/phase0/slots?persona_type=${encodeURIComponent(type)}`);
+  }
+  return _slotCatalogCache[type];
+}
+
+const AXIS_ORDER = ["몸축", "마음축", "행동축"];   // 기본필드(identity/home)는 '기본 정보'가 담당
+
+async function renderPersona() {
   const el = $("persona-panel");
   const p = state.bundle?.persona;
   if (!p) { el.innerHTML = `<div class="empty">저장된 페르소나가 없습니다.<br>좌측 탭에서 인터뷰를 진행하면 여기 나타납니다.</div>`; return; }
+
+  let slots = [];
+  try { slots = await getSlotCatalog(p.type); } catch (e) { /* 카탈로그 실패 → 평면 폴백 */ }
+
+  // behavior_notes 는 "슬롯 라벨: 노트" 형식 — 라벨로 슬롯에 귀속시킨다.
+  // (구형 무태그 노트·매칭 실패분은 '기타 관찰'로 내려보낸다.)
+  const byLabel = {};
+  const leftovers = [];
+  for (const n of p.behavior_notes) {
+    const idx = n.indexOf(": ");
+    const label = idx > 0 ? n.slice(0, idx) : null;
+    if (label && slots.some((s) => s.label === label)) {
+      (byLabel[label] = byLabel[label] || []).push(n.slice(idx + 2));
+    } else leftovers.push(n);
+  }
+
+  const scoreBadge = (s) => {
+    const v = s.axis_field && p.axis_scores ? p.axis_scores[s.axis_field] : undefined;
+    return v === undefined ? "" : `<span class="src exaone" title="축 점수(0.1~0.9)">${v.toFixed(1)}</span>`;
+  };
+  const axisSection = (axis) => {
+    const rows = slots.filter((s) => s.axis === axis).map((s) => {
+      const notes = byLabel[s.label] || [];
+      const body = notes.length
+        ? notes.map((n) => `<div style="padding:2px 0;color:var(--ink-2)">· ${esc(n)}</div>`).join("")
+        : `<div style="padding:2px 0;color:var(--muted)">— 미수집</div>`;
+      return `<div style="padding:4px 0 6px">
+        <div style="font-weight:600">${esc(s.label)} ${scoreBadge(s)}</div>${body}
+      </div>`;
+    });
+    return rows.length ? `<div class="section"><h3>${axis}</h3>${rows.join("")}</div>` : "";
+  };
+
   el.innerHTML = `
     <div class="section"><h3>기본 정보</h3>
       <dl class="kv">
@@ -473,16 +516,23 @@ function renderPersona() {
     </div>
     <div class="section"><h3>끌림점 ${p.attraction_points.length}곳</h3>
       ${p.attraction_points.map((ap) => `
-        <div class="bar-row" title="지오코딩 정밀도: ${esc(ap.precision)}">
+        <div class="bar-row" title="지오코딩 정밀도: ${esc(ap.precision)} · 근거: ${esc(ap.evidence || "")}">
           <span class="name">${esc(ap.label)}</span>
           <span class="bar-track"><span class="bar-fill" style="width:${Math.min(100, ap.weight * 100)}%"></span></span>
           <span class="val">${ap.weight.toFixed(2)}</span>
         </div>`).join("") || `<div class="note" style="padding:0">없음</div>`}
     </div>
-    <div class="section"><h3>행동 사실 (인터뷰 추출)</h3>
-      ${p.behavior_notes.map((n) => `<div style="padding:3px 0;color:var(--ink-2)">· ${esc(n)}</div>`).join("")
-        || `<div class="note" style="padding:0">없음</div>`}
-    </div>
+    ${(p.preferred_targets || []).length ? `<div class="section"><h3>카테고리 선호 (좌표 미특정)</h3>
+      ${p.preferred_targets.map((t) => `<div style="padding:2px 0;color:var(--ink-2)">· ${esc(t.label)} <span style="color:var(--muted)">(${esc(t.target_type || "-")}, ${esc(t.evidence)})</span></div>`).join("")}
+    </div>` : ""}
+    ${slots.length
+      ? AXIS_ORDER.map(axisSection).join("")
+      : `<div class="section"><h3>행동 사실 (인터뷰 추출)</h3>
+          ${p.behavior_notes.map((n) => `<div style="padding:3px 0;color:var(--ink-2)">· ${esc(n)}</div>`).join("")
+            || `<div class="note" style="padding:0">없음</div>`}</div>`}
+    ${leftovers.length && slots.length ? `<div class="section"><h3>기타 관찰</h3>
+      ${leftovers.map((n) => `<div style="padding:3px 0;color:var(--ink-2)">· ${esc(n)}</div>`).join("")}
+    </div>` : ""}
     <div class="section">
       <button id="btn-report" class="primary" style="width:100%">이 페르소나로 실종 신고 접수 (1시간 전 자택 앞)</button>
     </div>`;

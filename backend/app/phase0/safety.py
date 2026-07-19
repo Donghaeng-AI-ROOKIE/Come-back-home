@@ -56,11 +56,44 @@ def is_grounded(question: str, slot: SlotSpec, embedder: Embedder) -> bool:
     return cosine(q_emb, s_emb) >= GROUNDING_THRESHOLD
 
 
-def guard_question(question: str, slot: SlotSpec, embedder: Embedder) -> tuple[str, bool]:
+def single_question(text: str) -> str:
+    """복합 질문을 첫 질문 하나로 — '한 번에 한 질문' 원칙.
+
+    씨앗 질문(회의록 원문)은 물음표 2~3개짜리 복합 문형이 있다. Mi:dm 참고용
+    으로는 원문을 유지하되, 폴백으로 **직접 내보낼 때**만 첫 질문으로 자른다
+    (잘린 각도는 probes 가 꼬리질문에서 파고든다).
+    """
+    if "?" in text:
+        return text.split("?")[0].strip() + "?"
+    return text
+
+
+def guard_question(
+    question: str, slot: SlotSpec, embedder: Embedder,
+    bank: list[SlotSpec] | None = None,
+) -> tuple[str, bool]:
     """2층 검증 통과 질문을 반환. 실패 시 슬롯의 안전한 canned 질문으로 폴백.
 
-    반환: (내보낼 질문, 폴백 발생 여부).
+    반환: (내보낼 질문, 폴백 발생 여부). 어느 경로든 단일 질문으로 잘라 내보낸다
+    (스텁/폴백 경로의 씨앗 질문이 복합 문형이어도 설문지 낭독이 되지 않게).
+
+    bank 가 주어지면 **상대 grounding** 을 추가한다: 생성 질문이 겨냥 슬롯보다
+    다른 슬롯과 더 유사하면 화제 이탈로 보고 폴백. 절대 임계(0.12)는 해시 임베더의
+    일반 어휘 중첩 때문에 관대해서, 다른 슬롯 화제로 흘러간 질문(라이브 실측:
+    배회 슬롯을 겨냥했는데 '신호를 지키시나요'류가 반복 생성)을 통과시킨다.
     """
-    if passes_rules(question) and is_grounded(question, slot, embedder):
-        return question, False
-    return slot.question, True  # 폴백: 스키마 안의 씨앗 질문
+    if not passes_rules(question):
+        return single_question(slot.question), True
+    if bank:
+        others = [s for s in bank if s.key != slot.key]
+        embs = embedder.encode(
+            [question, slot.embed_text, *[s.embed_text for s in others]])
+        q_emb, target_emb, other_embs = embs[0], embs[1], embs[2:]
+        target_sim = cosine(q_emb, target_emb)
+        if target_sim < GROUNDING_THRESHOLD or any(
+                cosine(q_emb, oe) > target_sim for oe in other_embs):
+            return single_question(slot.question), True
+        return single_question(question), False
+    if is_grounded(question, slot, embedder):
+        return single_question(question), False
+    return single_question(slot.question), True  # 폴백: 스키마 안의 씨앗 질문

@@ -264,13 +264,37 @@ def to_attraction_points(
     points: list[AttractionPoint] = []
     unresolved: list[dict] = []
     for d in drafts:
-        area = d.get("area_text") or d.get("label")
-        res = geocoder.locate(area, anchor) if area else None
+        label = str(d.get("label") or "").strip()
+        area = str(d.get("area_text") or "").strip()
+        # 후보 쿼리는 구체 장소(라벨) 우선. area_text 를 먼저 쓰던 구버전은 라벨
+        # "대흥역"이 area "대흥동"의 동 중심 좌표로 찍히는 라벨-좌표 불일치를 냈다
+        # (라이브 실측 2026-07-17). "지역+라벨" 결합 → 라벨 → 지역 순으로 시도하고,
+        # 앵커 반경 밖 매칭은 다음 후보로 넘어간다.
+        candidates: list[str] = []
+        if label and area and label not in area and area not in label:
+            candidates.append(f"{area} {label}")
+        candidates += [label, area]
+        # 공백 제거 변형도 시도 — Mi:dm 이 "망원 시장"처럼 띄어 추출하면 nominatim
+        # 이 못 찾아 조용히 탈락하던 실측(2026-07-17 8차). 카카오는 양쪽 다 잘 찾지만
+        # 폴백 백엔드는 표기에 민감하다.
+        candidates += [re.sub(r"\s+", "", q) for q in candidates]
+        candidates = list(dict.fromkeys(q for q in candidates if q))
+
+        res = None
+        rejected_far = False
+        for q in candidates:
+            r = geocoder.locate(q, anchor)
+            if r is None:
+                continue
+            if anchor is not None and h3grid.haversine_km(anchor, r.point) > ANCHOR_MAX_KM:
+                rejected_far = True
+                continue
+            res = r
+            break
         if res is None:
-            unresolved.append(d)
-            continue
-        if anchor is not None and h3grid.haversine_km(anchor, res.point) > ANCHOR_MAX_KM:
-            unresolved.append({**d, "reason": f"집 기준 {ANCHOR_MAX_KM:.0f}km 밖 매칭 — 오검색 의심"})
+            extra = ({"reason": f"집 기준 {ANCHOR_MAX_KM:.0f}km 밖 매칭 — 오검색 의심"}
+                     if rejected_far else {})
+            unresolved.append({**d, **extra})
             continue
         points.append(AttractionPoint(
             label=d.get("label") or area,

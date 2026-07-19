@@ -112,6 +112,11 @@ class InterviewSession(BaseModel):
     # 정보가 깎이므로 원문을 병행 보존 → finalize 에서 Persona.axis_quotes 가 된다.
     slot_quotes: dict[str, list[str]] = {}
     awaiting_confirmation: bool = False   # 요약 확인("이게 맞나요?") 대기 중
+    asked_more_places: bool = False       # 요약 전 '추가 장소 스윕' 1회 보장용 플래그
+    # Mi:dm 호출 실패 가시화 — 폴백(빈 추출·씨앗 질문)으로 인터뷰는 계속 진행하되,
+    # 장애가 "이상한 반복 인터뷰"로만 체감되지 않게 API 응답에 그대로 노출한다.
+    llm_call_failures: int = 0            # 이 세션에서 Mi:dm 호출 실패 누적
+    llm_degraded: bool = False            # 실패가 1회라도 있었나 — UI 배지용
     done: bool = False
     persona_id: str | None = None
     # 개인정보 파기 — 미완료인 채 방치된 세션(draft 에 이름·주소 초안이 남는다)을
