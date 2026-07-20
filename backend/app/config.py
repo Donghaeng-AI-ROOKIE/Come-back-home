@@ -92,6 +92,13 @@ class Settings(BaseSettings):
     layer2_periodic_minutes: int = 45    # 주기 재실행 (Koester 반경 확장 대응, 30~60분)
     kl_divergence_threshold: float = 0.5 # posterior가 baseline에서 이탈했다고 보는 KL 임계
 
+    # Phase 3 — D3(3차 알림, 새 지역 한정) — JS는 예비스크린, 집합차+질량임계가 최종판정.
+    # new_region_mass_threshold 는 새 셀 "하나"가 아니라 새 셀 전체 합산 질량 기준
+    # (셀 단위로 재면 넓게 퍼지는 실제 분포에서 항상 무반응이라 D3 의 존재 이유와
+    # 모순됨 — 실측으로 확인됨). 두 값 모두 완전 잠정 — 팀 확인 필요(작업6 설계 노션 문서 참고)
+    js_divergence_threshold: float = 0.05
+    new_region_mass_threshold: float = 0.05
+
     # 층1 혼합 likelihood 커널
     likelihood_l_max: float = 5.0        # 목격 지점 셀의 L
     likelihood_l_far: float = 0.1        # 먼 셀의 L (음의 증거)

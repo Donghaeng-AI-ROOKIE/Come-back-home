@@ -3,7 +3,7 @@
 import pytest
 
 from app.phase3.poa_update import classify_tip, mixed_likelihood
-from app.phase3.triggers import kl_divergence
+from app.phase3.triggers import jensen_shannon_divergence, kl_divergence
 from app.schemas.tip import TipDecision
 
 
@@ -62,3 +62,31 @@ class TestKLDivergence:
         baseline = {"a": 0.5, "b": 0.5}
         shifted = {"a": 0.99, "b": 0.01}
         assert kl_divergence(shifted, baseline) > 0.5
+
+
+class TestJensenShannonDivergence:
+    """D3 예비스크린용 — 대칭·유계([0, log2])·질량 0 칸에서도 안전해야 함."""
+
+    def test_identical_distributions_zero(self):
+        d = {"a": 0.5, "b": 0.5}
+        assert jensen_shannon_divergence(d, d) == pytest.approx(0.0, abs=1e-9)
+
+    def test_symmetric(self):
+        p = {"a": 0.9, "b": 0.1}
+        q = {"a": 0.2, "b": 0.8}
+        assert jensen_shannon_divergence(p, q) == pytest.approx(jensen_shannon_divergence(q, p))
+
+    def test_disjoint_distributions_bounded_by_log2(self):
+        # 완전히 겹치지 않는 두 분포 — KL과 달리 무한대로 발산하지 않고 log2 에 수렴
+        p = {"a": 1.0}
+        q = {"b": 1.0}
+        import math
+        assert jensen_shannon_divergence(p, q) == pytest.approx(math.log(2), rel=1e-6)
+
+    def test_new_mass_only_in_p_is_finite(self):
+        # q(baseline)에 질량 0인 칸이 p 에 있어도(=새 지역) 발산하지 않음 —
+        # KL(new‖old)이 이 지점에서 무한대로 터지는 문제를 JS는 피해감
+        p = {"a": 0.5, "new_cell": 0.5}
+        q = {"a": 1.0}
+        js = jensen_shannon_divergence(p, q)
+        assert js > 0 and js < 1.0

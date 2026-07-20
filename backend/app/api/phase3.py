@@ -51,14 +51,24 @@ def send_reflex_alerts(case_id: str):
 
 @router.post("/cases/{case_id}/alerts")
 def send_alerts(case_id: str):
-    """1차 알림 — 현재 POA 상위 셀(누적 80%) 내 사용자에게 발송."""
+    """1차 알림 — 현재 POA 상위 셀(누적 80%) 내 사용자에게 발송.
+
+    D3(3차, 새 지역 한정 알림)의 비교 기준(last_alert_poa)을 최초로 시딩하는
+    지점이기도 하다 — 이 엔드포인트를 한 번도 호출하지 않으면 D3 는 계속
+    비활성 상태로 남는다(비교 기준이 없으면 "새 지역"을 판정할 수 없으므로
+    의도된 동작).
+    """
     case = _get_case(case_id)
     _require_active(case)
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
     cells = alerts.select_alert_cells(case.current_poa)
     summary = case.report.appearance.summary if case.report.appearance else "인상착의 정보 없음"
-    return alerts.send_alerts(case.id, cells, summary)
+    result = alerts.send_alerts(case.id, cells, summary)
+    case.last_alert_poa = dict(case.current_poa)
+    case.last_alert_at = datetime.now()
+    storage.cases.save(case.id, case)
+    return result
 
 
 @router.post("/cases/{case_id}/tips", response_model=Tip)

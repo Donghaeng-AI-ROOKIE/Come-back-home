@@ -45,6 +45,8 @@ class Case(BaseModel):
     baseline_poa: dict[str, float] | None = None   # 마지막 시뮬 직후 분포 (KL 이탈 비교 기준)
     current_poa: dict[str, float] | None = None    # 층1 갱신이 누적된 최신 분포
     last_sim_at: datetime | None = None
+    last_alert_poa: dict[str, float] | None = None  # 마지막 알림(POA 기반) 시점 스냅샷 — D3 새 지역 비교 기준
+    last_alert_at: datetime | None = None
 
     # Phase 3 누적
     tips: list[Tip] = []
