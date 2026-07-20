@@ -564,7 +564,7 @@ def test_seed_question_personalized_by_type():
     """폴백 씨앗 질문의 '대상자' 문체를 유형 호칭으로 바꾼다."""
     q = "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요?"
     assert interview._personalize(q, PersonaType.dementia).startswith("어르신이")
-    assert interview._personalize(q, PersonaType.child).startswith("아이가")
+    assert interview._personalize(q, PersonaType.intellectual_disability).startswith("그분이")
     assert interview._personalize(q, None) == q
 
 

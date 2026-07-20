@@ -32,17 +32,17 @@ def test_finalize_builds_persona_with_geocoded_home_and_dedup():
 
 def test_finalize_age_parsed_from_text():
     s = InterviewSession(
-        id="fin2", guardian_name="보호자", persona_type=PersonaType.child,
-        draft_fields={"name": "아이", "age": "만 7세", "home": "화곡동"},
+        id="fin2", guardian_name="보호자", persona_type=PersonaType.dementia,
+        draft_fields={"name": "김순자", "age": "만 78세", "home": "화곡동"},
     )
     p = interview.finalize_persona(s, geocoder=GazetteerGeocoder())
-    assert p.age == 7
+    assert p.age == 78
 
 
 def test_finalize_raises_without_geocodable_home():
     s = InterviewSession(
-        id="fin3", guardian_name="보호자", persona_type=PersonaType.child,
-        draft_fields={"name": "아이", "age": 7, "home": "지도에없는곳"},
+        id="fin3", guardian_name="보호자", persona_type=PersonaType.dementia,
+        draft_fields={"name": "김순자", "age": 78, "home": "지도에없는곳"},
     )
     with pytest.raises(ValueError):
         interview.finalize_persona(s, geocoder=GazetteerGeocoder())

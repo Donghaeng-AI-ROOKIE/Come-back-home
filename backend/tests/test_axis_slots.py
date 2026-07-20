@@ -1,7 +1,7 @@
 """Phase 0 축 기반 슬롯 카탈로그 — 회의록(2026-07 페르소나 축 고도화) 반영 검증.
 
 검증 항목:
-  1) 카탈로그 무결성 — 16개, 키 유일, 필수 필드, 유형별 세트(치매 12 / 발달 12 / 아동=공통 8)
+  1) 카탈로그 무결성 — 16개, 키 유일, 필수 필드, 유형별 세트(치매 12 / 발달 12)
   2) 회의록 「실제 질문 형식」 원문이 씨앗 질문에 그대로 들어갔는지 (팀 결정 사항)
   3) 하위변수 → probes 이관 (꼬리질문 각도로 내려간 회의록 하위변수)
   4) 검색 피벗 — 보호자 발화가 해당 축 슬롯을 꼬리질문으로 끌어오는지 (해시 임베더)
@@ -44,14 +44,12 @@ def test_axis_slots_have_axis_field():
 def test_type_specific_sets():
     dem = {s.key for s in slots_for(PersonaType.dementia)}
     dd = {s.key for s in slots_for(PersonaType.intellectual_disability)}
-    child = {s.key for s in slots_for(PersonaType.child)}
 
     common = {
         "identity", "home", "routine_destinations", "mobility_transport_capacity",
         "hazard_awareness_vulnerability", "communication_approach_vulnerability",
         "medication", "lost_behavior",
     }
-    assert child == common                      # 아동 특화 세트 제외 — 공통만
     assert dem == common | {
         "autobiographical_destination_pull", "dementia_wandering_pattern",
         "wayfinding_error_recovery_deficit", "distress_induced_movement_reactivity",
@@ -259,6 +257,5 @@ def test_guard_falls_back_to_meeting_question():
 
 
 def test_autism_routes_to_developmental_disability():
-    """'자폐' 발화는 아동이 아니라 발달장애 세트로 라우팅 (축 고도화 결정)."""
+    """'자폐' 발화는 발달장애 세트로 라우팅 (축 고도화 결정)."""
     assert interview._detect_type("아들이 자폐 스펙트럼이에요") == PersonaType.intellectual_disability
-    assert interview._detect_type("일곱 살 아이예요") == PersonaType.child

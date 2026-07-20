@@ -43,14 +43,11 @@ MAX_QUESTIONS = 40
 _IDENTITY = slot_by_key("identity")
 
 # 유형 키워드 폴백 (Mi:dm 추출 실패/스텁 시).
-# 축 고도화(2026-07): 발달장애 세트가 자폐를 포함 — '자폐'는 child 가 아니라
-# intellectual_disability 로 라우팅한다. 아동 특화 슬롯 세트는 제외됐지만
-# child 유형 자체는 타 Phase 호환을 위해 폴백으로 남는다(공통 슬롯만 받음).
+# 축 고도화(2026-07): 발달장애 세트가 자폐를 포함 — '자폐'는 intellectual_disability 로 라우팅한다.
 _TYPE_HINTS = [
     (PersonaType.dementia, ("치매", "알츠하이머", "어르신", "노인")),
     (PersonaType.intellectual_disability,
      ("지적장애", "지적 장애", "발달장애", "발달 장애", "자폐")),
-    (PersonaType.child, ("아동", "아이", "아들", "딸", "어린이", "초등")),
 ]
 
 
@@ -224,7 +221,6 @@ def _merge_rule_fallback(session: InterviewSession, prev_slot: SlotSpec,
 
 _TYPE_KO = {
     PersonaType.dementia: "치매 어르신",
-    PersonaType.child: "아동",
     PersonaType.intellectual_disability: "지적장애",
 }
 
@@ -651,8 +647,6 @@ def _presupposition_grounded(session: InterviewSession, question: str) -> bool:
 _HONORIFIC = {
     PersonaType.dementia: {"대상자가": "어르신이", "대상자는": "어르신은",
                            "대상자를": "어르신을", "대상자의": "어르신의", "대상자에게": "어르신께"},
-    PersonaType.child: {"대상자가": "아이가", "대상자는": "아이는",
-                        "대상자를": "아이를", "대상자의": "아이의", "대상자에게": "아이에게"},
     PersonaType.intellectual_disability: {"대상자가": "그분이", "대상자는": "그분은",
                                           "대상자를": "그분을", "대상자의": "그분의", "대상자에게": "그분께"},
 }

@@ -130,7 +130,6 @@ class Settings(BaseSettings):
     # v_max 는 평균이 아니라 "갈 수 있는 최대"(가능성 판정). 고령자 실측 부족 →
     # 추정치, 발표 시 명시. 이동수단 확인 시 transit 값으로 상향.
     reach_vmax_dementia_kmh: float = 4.5
-    reach_vmax_child_kmh: float = 4.0
     reach_vmax_id_kmh: float = 5.0
     reach_vmax_transit_kmh: float = 25.0     # 대중교통 목격 확인 시 (도심 버스·지하철)
     reach_min_dt_hours: float = 0.05         # Δt 하한 — 0 나누기·동시목격 방지
