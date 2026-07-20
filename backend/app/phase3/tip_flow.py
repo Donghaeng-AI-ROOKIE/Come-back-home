@@ -11,8 +11,9 @@
 from datetime import datetime
 
 from app import storage
+from app.config import settings
 from app.phase2 import pipeline
-from app.phase3 import poa_update, triggers, trust
+from app.phase3 import alerts, poa_update, triggers, trust
 from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.tip import Tip, TipDecision
@@ -69,6 +70,22 @@ def process_tip(
             pipeline.run_prediction(case, now=now)
             case.current_poa = poa_update.reapply_tips(
                 case.baseline_poa or {}, case.tips, since=case.lkp_time)
+
+    # ⑤ D3 — 3차 알림(새 지역 한정) 평가. last_alert_poa 가 없으면(수동 POA
+    #    알림을 한 번도 보낸 적 없으면) 비교 기준이 없어 평가하지 않는다 —
+    #    비교 기준 없이는 "새 지역"을 판정할 수 없으므로 의도된 동작.
+    if case.current_poa and case.last_alert_poa:
+        js = triggers.jensen_shannon_divergence(case.current_poa, case.last_alert_poa)
+        if js >= settings.js_divergence_threshold:
+            new_cells = alerts.select_new_region_cells(case.current_poa, case.last_alert_poa)
+            if new_cells:
+                summary = (
+                    case.report.appearance.summary if case.report.appearance
+                    else "인상착의 정보 없음"
+                )
+                alerts.send_alerts(case.id, new_cells, summary, kind="new_region")
+                case.last_alert_poa = dict(case.current_poa)
+                case.last_alert_at = now
 
     case.status = CaseStatus.searching
     storage.cases.save(case.id, case)

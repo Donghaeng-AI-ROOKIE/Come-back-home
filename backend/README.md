@@ -41,9 +41,9 @@ app/
 ├── phase3/
 │   ├── trust.py         제보 신뢰도 p 산출 (이진 아님 — p값 그대로 전달)
 │   ├── poa_update.py    ★층1: 새POA ∝ 기존POA × [p·L + (1−p)·1], 잔여 제보 재적용
-│   ├── triggers.py      ★층2 트리거: 새 LKP / 주기(45분) / KL 분포 이탈
-│   ├── tip_flow.py      제보 수신 → p → 판정 → 층1 (+층2 재실행) 오케스트레이션
-│   └── alerts.py        POA 상위 셀(누적 80%) 타겟 알림
+│   ├── triggers.py      ★층2 트리거: 새 LKP / 주기(45분) / KL 분포 이탈 + JS divergence(D3 예비스크린)
+│   ├── tip_flow.py      제보 수신 → p → 판정 → 층1 (+층2 재실행) → D3(3차, 새 지역 한정 알림) 오케스트레이션
+│   └── alerts.py        POA 상위 셀(누적 80%) 타겟 알림 + 새 지역 선별(D3, 집합차+합산질량임계 후 커버리지 타겟팅)
 └── api/                 phase별 REST 라우터
 ```
 
@@ -66,8 +66,8 @@ app/
 POST /phase0/personas                  페르소나 등록
 POST /phase1/reports                   신고 접수 → case_id
 POST /phase2/cases/{id}/predict        예측(2-way 결합) → POA
-POST /phase3/cases/{id}/alerts         1차 타겟 알림
-POST /phase3/cases/{id}/tips           시민 제보 → 층1/층2 자동 처리
+POST /phase3/cases/{id}/alerts         1차 타겟 알림 (POA 기반, last_alert_poa 최초 시딩)
+POST /phase3/cases/{id}/tips           시민 제보 → 층1/층2 자동 처리 → D3(새 지역 한정 3차 알림) 자동 평가
 GET  /phase3/cases/{id}/poa            현재 POA 상위 셀 (지도용)
 GET  /phase3/cases/{id}/rerun-check    층2 트리거 상태 (스케줄러용)
 ```

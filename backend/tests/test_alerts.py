@@ -57,6 +57,56 @@ def test_nonfinite_cells_excluded():
     assert cells == ["a", "b"]  # 0.5+0.3 ≥ 0.8, NaN 이 acc 를 망치지 않음
 
 
+class TestSelectNewRegionCells:
+    """D3 최종판정 — 집합차(현재 − 마지막알림) 중 **합산** 질량이 임계를 넘을 때만,
+    그 안에서 상위 커버리지(기본 80%, select_alert_cells 와 같은 로직)만 타겟팅.
+    KL이 아니라 집합차인 이유·질량임계가 셀 하나가 아니라 합산인 이유는
+    select_new_region_cells docstring 참고."""
+
+    def test_no_new_cells_returns_empty(self):
+        last_alert = {"a": 0.5, "b": 0.5}
+        current = {"a": 0.4, "b": 0.6}  # 같은 셀 집합, 질량만 재배분
+        assert alerts.select_new_region_cells(current, last_alert) == []
+
+    def test_new_cell_above_threshold_returned(self):
+        last_alert = {"a": 0.5, "b": 0.5}
+        current = {"a": 0.4, "b": 0.4, "c": 0.2}  # c 는 last_alert 에 없던 셀
+        assert alerts.select_new_region_cells(current, last_alert) == ["c"]
+
+    def test_new_cells_below_aggregate_threshold_ignored(self):
+        last_alert = {"a": 1.0}
+        current = {"a": 0.99, "tiny": 0.01}  # 새 셀 합산 질량(0.01)이 임계(기본 0.05) 미달
+        assert alerts.select_new_region_cells(current, last_alert) == []
+
+    def test_explicit_mass_threshold_overrides(self):
+        last_alert = {"a": 1.0}
+        current = {"a": 0.99, "tiny": 0.01}
+        assert alerts.select_new_region_cells(current, last_alert, mass_threshold=0.005) == ["tiny"]
+
+    def test_multiple_new_cells_sorted_by_mass_desc(self):
+        last_alert = {"a": 1.0}
+        current = {"a": 0.5, "big": 0.3, "small": 0.2}
+        assert alerts.select_new_region_cells(current, last_alert) == ["big", "small"]
+
+    def test_aggregate_mass_triggers_despite_tiny_individual_cells(self):
+        """실측 회귀 배경: 층2 재실행 직후 새 지역 확률은 셀 하나가 아니라
+        수십~수백 개에 얇게 퍼진다(실측: 새 셀 149개, 최대 단일 셀 1.3%).
+        셀 단위 임계였다면 이 상황(D3 가 원래 잡으려던 바로 그 상황)에서
+        영원히 무반응이었다 — 합산 질량 기준으로 고쳐 이 케이스를 잡는다."""
+        new_keys = [f"new{i}" for i in range(30)]
+        last_alert = {"old": 0.79}
+        current = {"old": 0.79, **{k: 0.007 for k in new_keys}}  # 합산 0.21, 개별 0.007
+        result = alerts.select_new_region_cells(current, last_alert)
+        assert result  # 개별 질량(0.007) < 임계(0.05)여도 합산 초과로 발동
+        assert set(result) <= set(new_keys)
+
+    def test_max_cells_caps_new_region_target(self):
+        new_keys = [f"new{i}" for i in range(30)]
+        last_alert = {"old": 0.5}
+        current = {"old": 0.5, **{k: 0.5 / 30 for k in new_keys}}
+        assert len(alerts.select_new_region_cells(current, last_alert, max_cells=5)) == 5
+
+
 def test_koester_dementia_matches_isrid_urban():
     """치매 lognormal 이 ISRID Urban 원표 분위수와 정합해야 한다.
 
