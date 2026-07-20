@@ -2,7 +2,7 @@
 
 > 기준 브랜치: `origin/develop`
 >
-> 기준 커밋: [`b63977a`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/b63977a) (`2026-07-20`, PR #46 병합)
+> 기준 커밋: [`075ec15`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/075ec15) (`2026-07-20`, PR #47 병합)
 >
 > 조사 방식: API 라우터, 도메인 스키마, Phase별 서비스 모듈, 프런트엔드 클라이언트와 테스트 코드를 정적 추적
 >
@@ -198,7 +198,7 @@ sequenceDiagram
 
 - 전체 16개 슬롯이다.
 - 공통 8개, 치매 특화 4개, 발달장애 특화 4개이다.
-- `PersonaType.child`는 호환을 위해 남아 있지만 아동 특화 슬롯은 없고 공통 8개만 사용한다.
+- 지원 Persona 유형은 치매와 지적장애 두 종류이며, 아동 Persona는 PR #47에서 제거됐다.
 - 각 슬롯은 `axis`, `axis_field`, `tier`, `sink`, `question`, `probes`, `filled_when`, `why`, `keywords`, `risk`, `answer_example`을 가진다.
 - 저장 대상은 기본 필드, 좌표화할 끌림점, 행동·축 근거로 구분한다.
 
@@ -401,7 +401,7 @@ EXAONE 출력은 좌표가 아니라 다음 `PriorParams`이다.
 - 치매 `autobiographical_destination_pull`, 발달장애 `preferred_target_seeking`: 끌림점 분포의 sharpness를 조정한다.
 - 마음 취약성 축은 마음 재해석 프롬프트의 자연어 문맥으로 전달된다.
 
-EXAONE 미설정·실패 시 유형별 Koester·6전략 기본값으로 폴백한다. 현재 코드에서 치매 Koester는 Urban 분위수에 맞춘 `mu=0.095`, `sigma=1.48`이다. 아동·지적장애 파라미터는 코드 주석상 추가 검증 대상이다.
+EXAONE 미설정·실패 시 유형별 Koester·6전략 기본값으로 폴백한다. 현재 코드에서 치매 Koester는 Urban 분위수에 맞춘 `mu=0.095`, `sigma=1.48`이다. 지적장애 파라미터는 코드 주석상 추가 검증 대상이다.
 
 ### 6.5 3단계: 예측기 3종
 
@@ -420,7 +420,7 @@ EXAONE 미설정·실패 시 유형별 Koester·6전략 기본값으로 폴백�
 - Koester 샘플은 이동 경로 길이가 아니라 LKP 대비 직선 이탈거리 종료 기준이다.
 - 도로망 모드에서는 이웃 노드 선택 확률이 `exp(kappa × cos(bearing difference))`에 비례한다.
 - 혼란도가 높을수록 `kappa`가 낮아져 갈림길 선택이 무작위에 가까워진다.
-- 종료 조건은 끌림점 도달, 이탈거리 소진, 막다른 길, 최대 300스텝, 7세 미만 아동의 물가 도달이다.
+- 종료 조건은 끌림점 도달, 이탈거리 소진, 막다른 길, 최대 300스텝이다.
 
 도로망 모드의 인지 게이지는 다음과 같다.
 
@@ -715,7 +715,7 @@ API 요청·응답의 상세 형식은 [`API_CONTRACT.md`](../API_CONTRACT.md)�
 
 ## 14. 테스트와 검증 자산
 
-- `backend/tests`에는 정적 기준으로 290개의 `test_*` 함수가 있다.
+- `backend/tests`에는 정적 기준으로 289개의 `test_*` 함수가 있다.
 - E2E 흐름, D3, Phase 0 인터뷰, 축 채점, route familiarity, 도로망 MC, 인지 게이지, 제보 신뢰도, 개인정보 파기 등을 각각 테스트한다.
 - 정릉동 도로망·환경·건물 fixture가 포함돼 있다.
 - `backend/experiments/axis_goldset`에는 축 채점 골드셋 실험 스크립트와 결과가 있다.
@@ -727,11 +727,11 @@ API 요청·응답의 상세 형식은 [`API_CONTRACT.md`](../API_CONTRACT.md)�
 
 ### 문서·주석 불일치
 
-1. 루트 README의 기준 커밋은 `5cab6a0`으로 최신 develop보다 오래됐다.
-2. `API_CONTRACT.md`는 route familiarity 컴파일러를 미구현으로 설명하지만 최신 코드에는 구현돼 있다.
-3. `backend/README.md`는 OSMnx 도로망을 미구현으로 설명하지만 최신 코드에는 구현돼 있다.
-4. 일부 스키마·축 기준표 주석도 route familiarity를 미구현으로 적고 있어 코드와 맞지 않는다.
-5. `simulation.py` 문서 문자열은 Statistical MC를 “AI 없음”이라 표현하지만 실제 파이프라인은 동일 EXAONE prior를 전달한다.
+1. `API_CONTRACT.md`는 route familiarity 컴파일러를 미구현으로 설명하지만 최신 코드에는 구현돼 있다.
+2. `backend/README.md`는 OSMnx 도로망을 미구현으로 설명하지만 최신 코드에는 구현돼 있다.
+3. 일부 스키마·축 기준표 주석도 route familiarity를 미구현으로 적고 있어 코드와 맞지 않는다.
+4. `simulation.py` 문서 문자열은 Statistical MC를 “AI 없음”이라 표현하지만 실제 파이프라인은 동일 EXAONE prior를 전달한다.
+5. PR #47에서 아동 Persona를 제거했지만 정적 E2E 대시보드의 유형 선택지·표시 맵에는 아동 문자열이 남아 있다.
 
 ### 실서비스 전 핵심 미구현
 
@@ -763,7 +763,7 @@ Come-back-home/
 │   ├── config.py
 │   ├── seed.py
 │   └── storage.py
-├── backend/tests/           290개 test 함수와 정릉동 fixture
+├── backend/tests/           289개 test 함수와 정릉동 fixture
 ├── frontend/src/
 │   ├── api/                 목/실백엔드 전환 클라이언트
 │   ├── navigation/          역할별 분리 트리
