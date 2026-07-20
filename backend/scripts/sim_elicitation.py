@@ -6,7 +6,7 @@ retrieval.py 실코드로 돌려 확인한다. Mi:dm 문장화는 PHRASING 목�
 (실제로는 Mi:dm 이 slot_filled 로 반환).
 
 축 고도화(2026-07) 반영: 슬롯 = 몸축·마음축·행동축 16개 카탈로그.
-시나리오 B 는 아동이 아니라 발달장애(자폐 포함) — 아동 특화 세트 제외 결정.
+시나리오 B 는 발달장애(자폐 포함) 케이스.
 
 실행:  PYTHONPATH=. python3 scripts/sim_elicitation.py
 """
