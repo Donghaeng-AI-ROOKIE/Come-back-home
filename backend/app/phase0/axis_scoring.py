@@ -38,7 +38,6 @@ RETRY_WAIT_S = 1.0
 
 _TYPE_LABEL = {
     PersonaType.dementia: "치매",
-    PersonaType.child: "아동",
     PersonaType.intellectual_disability: "발달장애",
 }
 

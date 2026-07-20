@@ -255,10 +255,6 @@ def _walk_graph(
 
         # ── 게이지 누적·트리거 ──
         env = net.env(node)
-        if gauge_mod.is_water_attracted(persona):
-            water = env.get("water_m")
-            if isinstance(water, (int, float)) and water <= gauge_mod.WATER_ATTRACTOR_M:
-                break  # 7세 미만 물 끌림 — 물가 체류 (Anderson 2012, 익사위험 지점)
         known = None
         if target_label in route_scores:
             known = route_scores[target_label]      # route_familiarity 컴파일 결과(작업5)

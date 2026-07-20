@@ -35,11 +35,10 @@ from app.schemas.report import MissingReport
 # 모집단 prior 는 넓게 유지한다: 개인 이질성(0.3km 배회~대중교통 12km)이 섞인 값이고,
 # 개인화(EXAONE radius_level·끌림점)가 분포를 옮기고 좁히는 방향으로 소비한다.
 # 좁은 σ 는 가드레일(μ±0.4) 위에서 먼 끌림점 페르소나를 구조적으로 표현 불가하게 만든다.
-# ⚠️ 아동·지적장애는 Urban 분위수 원표 미확보 — σ 유지, 원 Koester 표 대조 검증 필요
-#   (현 σ 로는 아동 95%≈3.0km(1~3세), 지적장애 95%≈28km 로 후자는 비현실적).
+# ⚠️ 지적장애는 Urban 분위수 원표 미확보 — σ 유지, 원 Koester 표 대조 검증 필요
+#   (현 σ 로는 95%≈28km 로 비현실적).
 _KOESTER_PARAMS: dict[PersonaType, LognormalParams] = {
     PersonaType.dementia: LognormalParams(mu=0.095, sigma=1.48),               # ISRID Urban: 50% 1.1km, 95% 12.6km
-    PersonaType.child: LognormalParams(mu=-1.2, sigma=1.4),                    # 중앙값 ~0.3km (1~3세)
     PersonaType.intellectual_disability: LognormalParams(mu=0.89, sigma=1.50), # 중앙값 ~2.4km — σ 검증 필요
 }
 
@@ -48,10 +47,6 @@ _STRATEGY_PRIORS: dict[PersonaType, dict[str, float]] = {
     PersonaType.dementia: {
         "route_following": 0.30, "direction_keeping": 0.25, "random_walk": 0.15,
         "backtracking": 0.05, "staying_put": 0.10, "landmark_seeking": 0.15,
-    },
-    PersonaType.child: {
-        "route_following": 0.20, "direction_keeping": 0.10, "random_walk": 0.20,
-        "backtracking": 0.15, "staying_put": 0.25, "landmark_seeking": 0.10,
     },
     PersonaType.intellectual_disability: {
         "route_following": 0.25, "direction_keeping": 0.20, "random_walk": 0.15,
@@ -111,7 +106,6 @@ _PRIOR_FEWSHOT_ASSISTANT = """\
 
 _TYPE_LABEL = {
     PersonaType.dementia: "치매 노인",
-    PersonaType.child: "아동",
     PersonaType.intellectual_disability: "지적장애인",
 }
 

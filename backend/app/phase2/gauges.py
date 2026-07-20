@@ -23,9 +23,6 @@ from app.geo import h3grid
 from app.schemas.common import GeoPoint
 from app.schemas.persona import Persona, PersonaType
 
-# 아동은 연령대별 행동이 갈린다 (7세 미만: 공간인지 미형성 / 7~12세: 랜드마크 시퀀스)
-CHILD_YOUNG_MAX_AGE = 6
-
 # 지형난이도 — highway 태그만 (더미 버전). 0=수월 ~ 1=험함
 _HIGHWAY_DIFFICULTY = {
     "footway": 0.15, "pedestrian": 0.15, "residential": 0.25, "living_street": 0.25,
@@ -37,14 +34,12 @@ _DEFAULT_DIFFICULTY = 0.4
 # 페르소나별 피로 체감 배수 (회의: persona_fatigue_mult)
 _FATIGUE_MULT = {
     PersonaType.dementia: 1.3,
-    PersonaType.child: 0.8,
     PersonaType.intellectual_disability: 1.0,
 }
 
 # 보행 속도 (m/분) — 연령별 보행속도 문헌 기반 잠정값 (고령자 데이터 공백은 회의록 명시)
 WALK_SPEED_M_PER_MIN = {
     PersonaType.dementia: 48.0,                  # ~0.8 m/s
-    PersonaType.child: 60.0,                     # ~1.0 m/s
     PersonaType.intellectual_disability: 66.0,   # ~1.1 m/s
 }
 
@@ -57,16 +52,11 @@ _D_MAX_KM = 1.0
 # 끌림은 있어도 현재 그 경로를 실제로 아는지는 별개라 컴파일러가 채점해야 함(작업5).
 ROUTINE_DEFAULT_FAMILIARITY = 0.8
 
-# 혐오환경 — 유형별 (env 키, 임계 m, 심각도). 아동 7세 미만은 물이 혐오가 아니라
-# 끌림(부호 반전, Anderson 2012)이라 이 표에 없음 — water_attractor 규칙이 대신한다.
+# 혐오환경 — 유형별 (env 키, 임계 m, 심각도)
 _AVERSION = {
     PersonaType.dementia: [("forest_m", 30.0, 0.5)],                  # 수풀 — 낯섦·위험
-    PersonaType.child: [("forest_m", 30.0, 0.7)],                     # 7~12세
     PersonaType.intellectual_disability: [("market_m", 50.0, 1.0)],   # 혼잡·소음 (Rice 2016)
 }
-
-# 아동 7세 미만 물 끌림 — 물가 도달 시 체류 (수색에선 익사위험 지점, Anderson 2012)
-WATER_ATTRACTOR_M = 30.0
 
 
 @dataclass
@@ -81,7 +71,6 @@ class GaugeConfig:
     k_h2: float = 0.5       # 귀소 — 혼란 항
     k_a1: float = 0.6       # 불안 — 혼란 항
     k_a2: float = 0.5       # 불안 — 혐오노출 항
-    h_capability: float = 1.0   # 아동 age_return_capability (연령가중)
     # 로지스틱 hazard: P = 1/(1+exp(-β(gauge-θ))). θ 를 게이지 상단보다 높게 둬
     # 스텝당 발동확률이 낮게 유지되고, 게이지가 찰수록 지수적으로 오른다.
     theta_f: float = 1.2
@@ -95,20 +84,7 @@ def config_for(persona: Persona | None) -> GaugeConfig:
     if persona is None:
         return GaugeConfig()
     cfg = GaugeConfig()
-    if persona.type == PersonaType.child:
-        if persona.age <= CHILD_YOUNG_MAX_AGE:
-            # 7세 미만: F만 유지. C·H 비활성(길 잃음 개념 없음), A 는 초기 고정
-            # 상태(정지+울음)로 외인성 처리 — 게이지로는 안 굴린다.
-            cfg.k_c1 = cfg.k_c2 = cfg.k_c3 = 0.0
-            cfg.k_h1 = cfg.k_h2 = 0.0
-            cfg.k_a1 = cfg.k_a2 = 0.0
-        else:
-            # 7~12세: C 감쇠, H 연령가중 (근거 약함 — 발표 시 한계 명시)
-            cfg.k_c1 *= 0.5
-            cfg.k_c2 *= 0.5
-            age = persona.age
-            cfg.h_capability = 0.4 if age <= 9 else 0.8
-    elif persona.type == PersonaType.intellectual_disability:
+    if persona.type == PersonaType.intellectual_disability:
         # ID: C 대폭 축소(이탈 53%가 혼란 무관 탐험, Rice 2016),
         # A 는 E(혼잡·소음) 중심, H 는 attractor 추구로 대체(외인성 → 게이지 밖)
         cfg.k_c1 *= 0.2
@@ -143,7 +119,7 @@ class Gauges:
     @property
     def H(self) -> float:
         c = self.cfg
-        return c.h_capability * (c.k_h1 * self.elapsed_min + c.k_h2 * self.C)
+        return c.k_h1 * self.elapsed_min + c.k_h2 * self.C
 
     @property
     def A(self) -> float:
@@ -203,8 +179,6 @@ def hostile_exposure(env: dict, persona: Persona | None) -> float:
     """현 위치의 혐오환경 심각도 (0=없음). env 는 envlayer 가 노드에 얹은 dict."""
     if persona is None or not env:
         return 0.0
-    if persona.type == PersonaType.child and persona.age <= CHILD_YOUNG_MAX_AGE:
-        return 0.0  # 물·불빛은 혐오가 아니라 끌림 — water_attractor 규칙이 처리
     total = 0.0
     for key, threshold_m, severity in _AVERSION.get(persona.type, []):
         dist = env.get(key)
@@ -219,8 +193,3 @@ def fatigue_mult(persona: Persona | None) -> float:
 
 def walk_speed(persona: Persona | None) -> float:
     return WALK_SPEED_M_PER_MIN.get(persona.type, 60.0) if persona else 60.0
-
-
-def is_water_attracted(persona: Persona | None) -> bool:
-    return (persona is not None and persona.type == PersonaType.child
-            and persona.age <= CHILD_YOUNG_MAX_AGE)

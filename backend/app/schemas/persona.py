@@ -10,7 +10,6 @@ from app.schemas.common import GeoPoint
 
 class PersonaType(str, Enum):
     dementia = "dementia"                          # 치매 노인
-    child = "child"                                # 아동
     intellectual_disability = "intellectual_disability"  # 지적장애인
 
 

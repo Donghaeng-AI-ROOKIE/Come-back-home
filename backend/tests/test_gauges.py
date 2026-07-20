@@ -55,12 +55,6 @@ def test_gauges_accumulate_and_derive():
 
 def test_persona_activation_mapping():
     """회의 종합 매핑 표 — 유형별로 켜지는 게이지가 다르다."""
-    young = gauges.config_for(_persona(PersonaType.child, age=5))
-    assert young.k_c1 == young.k_h1 == young.k_a1 == 0.0   # 7세 미만: F만
-
-    mid = gauges.config_for(_persona(PersonaType.child, age=9))
-    assert mid.h_capability == pytest.approx(0.4)           # 연령가중 귀소
-
     id_cfg = gauges.config_for(_persona(PersonaType.intellectual_disability, age=14))
     assert id_cfg.k_a1 == 0.0 and id_cfg.k_h1 == 0.0        # A 는 E 중심, H 는 외인성 대체
     assert id_cfg.k_c1 == pytest.approx(0.015 * 0.2)        # C 대폭 축소
@@ -85,8 +79,6 @@ def test_terrain_and_unfamiliarity_and_hostile():
     dementia = _persona()
     assert gauges.hostile_exposure({"forest_m": 10.0}, dementia) > 0
     assert gauges.hostile_exposure({"forest_m": 500.0}, dementia) == 0.0
-    young = _persona(PersonaType.child, age=5)
-    assert gauges.hostile_exposure({"forest_m": 10.0}, young) == 0.0  # 부호 반전 유형
 
 
 def test_unfamiliarity_known_score_overrides_distance():
@@ -202,19 +194,3 @@ def test_fatigue_shortens_walk(net, monkeypatch):
     d_tired = mean_dist(simulation.run_monte_carlo(
         LKP, prior, _persona(), 2.0, mode="statistical", net=net, n_walkers=60, seed=5))
     assert d_tired < d_fresh
-
-
-def test_young_child_stays_at_water_if_present(net):
-    """7세 미만 물 끌림 — 물가 노드(env)가 있으면 그 근처에서 종료 가능해야 한다."""
-    # fixture 에는 env 가 없으므로 수동 주입: 시작점에서 몇 노드 떨어진 곳을 물가로
-    node = net.nearest_node(GeoPoint(lat=37.6075, lng=127.0120))
-    net.node_env = {node: {"water_m": 5.0}}
-    try:
-        prior = _prior({"random_walk": 1.0}, mu=1.0, sigma=0.1)
-        child = _persona(PersonaType.child, age=5)
-        poa = simulation.run_monte_carlo(LKP, prior, child, 1.0, mode="statistical",
-                                         net=net, n_walkers=100, seed=7)
-        water_cell = h3grid.cell_of(net.node_location(node))
-        assert poa.get(water_cell, 0.0) > 0.0
-    finally:
-        net.node_env = {}
