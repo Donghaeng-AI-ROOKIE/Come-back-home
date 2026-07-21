@@ -270,6 +270,8 @@ def _walk_graph(
         for nb in nbrs:
             b = _bearing(here, net.node_location(nb))
             w = math.exp(kappa * math.cos(b - desired))
+            # 도로 위계 선호 — 간선 기피·이면 선호 (치매 한정, 기획팀 논문조사 2번)
+            w *= gauge_mod.road_preference(net.edge_attrs(node, nb), persona)
             if nb == prev and len(nbrs) > 1:
                 w *= 0.2  # 왔던 길 즉시 회귀 억제 (backtracking 도 새 경로로 돌아가게)
             weights.append(w)

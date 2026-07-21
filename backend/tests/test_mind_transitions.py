@@ -28,6 +28,17 @@ def net() -> OSMnxNetwork:
     return OSMnxNetwork.from_graphml(FIXTURE)
 
 
+@pytest.fixture(autouse=True)
+def _neutral_routing(monkeypatch):
+    """이 파일은 마음 전환 역학만 검증한다.
+
+    도로 위계 선호가 켜져 있으면 워커 경로가 바뀌어 불응기(30스텝)를 채우기
+    전에 종료할 수 있고, 그러면 전환 횟수가 라우팅 사정으로 흔들린다.
+    라우팅을 중립으로 고정해 전환 로직만 남긴다.
+    """
+    monkeypatch.setattr(settings, "road_preference_strength", 0.0)
+
+
 def _prior(mu: float = 1.0) -> PriorParams:
     # mu 크게 — 워커가 불응기(30스텝)를 넘겨 오래 걷도록
     return PriorParams(strategy_probs={"direction_keeping": 1.0},

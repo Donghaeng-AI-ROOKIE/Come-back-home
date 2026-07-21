@@ -84,6 +84,10 @@ class Settings(BaseSettings):
     # 동작(워커당 1회). 2회차부터는 예산과 무관하게 풀 표집만 쓰므로 (실호출
     # 예산 불변) 마음 변화 시퀀스(옛집→혼란→휴식)를 복원하면서 비용은 그대로.
     mind_transitions_per_walker: int = 2
+    # 도로 위계 선호(gauges._ROAD_PREFERENCE)의 세기 — 지수로 들어간다.
+    # 0=끔(전부 중립), 1=표 그대로, 2=대비 강화. 평가 하네스 그리드서치용
+    # 단일 노브. 치매에만 적용(문헌 근거 범위).
+    road_preference_strength: float = 1.0
     # 시뮬레이션이 도로망 그래프를 쓸지 — 켜면 Phase 2 실행 시 LKP 반경 도로망을
     # 로딩(캐시 우선, 실패 시 연속 공간 폴백). 오프라인 테스트 기본값은 False.
     use_roadnet: bool = False
