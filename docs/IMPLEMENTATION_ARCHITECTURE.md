@@ -229,6 +229,25 @@ score = similarity + tier_bonus + gated_risk - asked_penalty
 - 확인 게이트의 정정 발화는 `first-wins`를 예외적으로 덮어쓴다.
 - 집 지오코딩 실패 시 세션을 종료하지 않고 집 재질문으로 복귀한다.
 
+#### 라이브 실측 기반 보강 (PR #64, 2026-07-22)
+
+대시보드 라이브 인터뷰 3회와 Mi:dm 실호출 A/B에서 확인된 결함을 코드 규칙으로 막았다. 모든 판정은 닫힌 어휘·표면형 규칙이고 LLM은 제한된 방향으로만 개입한다.
+
+| 결함 (실측) | 대응 |
+|---|---|
+| Mi:dm이 "자주 가세요"·"가야 한다는 말을 종종 합니다"도 `mention_only`로 떨굼 (4/4, 프롬프트 수정 무효) | 한국어 표면형 규칙이 evidence를 판정하고 **LLM 판정은 승급 방향으로만** 덮는다 |
+| 이전 턴 장소를 되뱉을 때 근거가 전이돼 평소 다니던 시장이 발견지로 둔갑 | 최상위 등급은 **이번 발화에 언급된 장소에만** 승급 |
+| "가게를 하신 적이 있어서"를 발견지로 분류 | 발화에 발견 근거가 없으면 **모델 판정을 되돌림** |
+| 발견 장소가 추출에서 누락 | 발화의 지명으로 끌림점 직접 생성, 빈손이면 추출 1회 재시도 |
+| Mi:dm이 "예전에 살던 집"을 장소로 안 뽑음 (0/3) | 정규식으로 라벨 생성 후 **그 턴에 주소 되묻기** (`pending_area_label`, 장소당 1회) |
+| 지역 표기를 지어냄 (자택 동네 복사) | 발화 근거 검증(`_area_grounded`)으로 버리고 되묻기 |
+| "대흥역 2번 출구" 지오코딩 실패 | `base_place_name` 접미어 제거 폴백으로 좌표 확보, 라벨은 보호자 표현 유지 |
+| 장소 정정이 `home` 슬롯으로 랭킹돼 **수색 원점이 조용히 바뀜** | 정정 전용 `place_ops` 닫힌 어휘(`rename`/`set_area`/`remove`/`add`), 적용은 코드. 삭제는 뺄 의사가 있을 때만, `home` 교체는 "지금 사는 집" 명시 시에만 |
+| `slot_filled=true`가 슬롯을 즉시 닫아 `SlotSpec.probes`가 한 번도 안 쓰임 | 얕은 충족(확보 사실 ≤ 1)이면 **슬롯당 1회 probes 파고들기** (`probed_keys`), LLM이 재탕 질문을 내면 probes 문구 직접 낭독 |
+| Mi:dm이 `behavior_notes`를 빈 배열로 냄 (3/3) | 원발화 폴백 저장 — 축 근거가 3축에서 7축으로 증가 |
+| 긴 대화에서 발견지 포착 실패 | 추출 프롬프트를 **`이전 대화(맥락)` / `추출 대상 발화`로 분리** (0/3 → 3/3) |
+| 프롬프트 답변 예시가 추출 입력으로 되돌아와 환각 노트 생성 | 추출용 대화에서 질문의 `(예: …)` 제거 |
+
 ### 4.4 Persona 확정과 지오코딩
 
 지오코딩은 `Kakao Local → Nominatim → 오프라인 Gazetteer` 체인이다.
@@ -237,6 +256,7 @@ score = similarity + tier_bonus + gated_risk - asked_penalty
 2. 끌림점은 집 좌표를 앵커로 검색하며 20km 밖 결과는 오검색으로 간주한다.
 3. 결과 정밀도는 `poi > address > dong > approx > unknown` 순으로 관리한다.
 4. 같은 장소가 다시 언급되면 근거를 `mention_only → caregiver_report → previous_missing_found` 방향으로만 승격한다.
+4-1. `AttractionPoint.weight`는 명시하지 않으면 evidence 계수(`0.9` / `0.5` / `0.3`)로 채워진다(스키마 검증자). 이 값은 Phase 2에서 EXAONE 등급과 곱셈 병합된다.
 5. “지하철”, “자동문”처럼 특정 좌표가 아닌 선호는 `preferred_targets`로 저장하고 Phase 2에서 LKP 주변 POI와 매칭한다.
 
 ### 4.5 축 점수와 경로 익숙함 컴파일
@@ -742,13 +762,13 @@ API 요청·응답의 상세 형식은 [`API_CONTRACT.md`](../API_CONTRACT.md)�
 
 ## 14. 테스트와 검증 자산
 
-- `backend/tests`는 381개를 수집하며 379 passed / 2 skipped 이다(2건은 카카오 라이브 키 없는 실호출 지오코딩).
-- E2E 흐름, D3, Phase 0 인터뷰, 축 채점, route familiarity, 도로망 MC, 인지 게이지, 제보 신뢰도, 개인정보 파기 등을 각각 테스트한다.
+- `backend/tests`는 441개를 수집하며 439 passed / 2 skipped 이다(2건은 카카오 라이브 키 없는 실호출 지오코딩).
+- E2E 흐름, D3, Phase 0 인터뷰, evidence 등급 판정, 장소 좌표 복구, probes 꼬리질문, 축 채점, route familiarity, 도로망 MC, 인지 게이지, 제보 신뢰도, 개인정보 파기 등을 각각 테스트한다.
 - 정릉동 도로망·환경·건물 fixture가 포함돼 있다.
 - `backend/experiments/axis_goldset`에는 축 채점 골드셋 실험 스크립트와 결과가 있다.
 - `/dashboard`와 Debug API는 워커 궤적, 마음 이벤트, EXAONE 입력·출력, 네 POA 레이어를 시각화한다.
 
-테스트 개수는 2026-07-21 develop f1286f4 에서 pytest 를 직접 실행해 확인한 값이다.
+테스트 개수는 2026-07-22 develop 1be16fa(PR #64 머지 직후) 에서 pytest 를 직접 실행해 확인한 값이다.
 
 ## 15. develop 기준 구현·문서 불일치와 우선 정리 항목
 
@@ -795,7 +815,7 @@ Come-back-home/
 │   ├── config.py
 │   ├── seed.py
 │   └── storage.py
-├── backend/tests/           381개 test 함수와 정릉동 fixture
+├── backend/tests/           441개 test 함수와 정릉동 fixture
 ├── frontend/src/
 │   ├── api/                 목/실백엔드 전환 클라이언트
 │   ├── navigation/          역할별 분리 트리
