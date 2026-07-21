@@ -143,6 +143,9 @@ def run_monte_carlo(
         label_nodes = {label: node for label, (node, _)
                        in zip(attraction_labels, attraction_nodes)}
 
+    # 물리 도달 상한용 v_max — 워커마다 같으므로 루프 밖에서 1회 (radius.py)
+    v_max = radius.vmax_kmh(persona)
+
     counts: dict[str, int] = {}
     for i in range(n):
         strategy = rng.choices(names, weights=probs)[0]
@@ -153,12 +156,12 @@ def run_monte_carlo(
                                    persona=persona, label_nodes=label_nodes,
                                    use_mind=(mode == "agent"),
                                    mind=mind.model_copy() if mind else None,
-                                   mind_pool=mind_pool,
+                                   mind_pool=mind_pool, v_max_kmh=v_max,
                                    trace=trace, walker_idx=i)
         else:
             endpoint = _walk(rng, lkp, strategy, prior, attraction_locs, elapsed_hours,
                              use_mind=(mode == "agent"), mind=mind,
-                             trace=trace, walker_idx=i)
+                             v_max_kmh=v_max, trace=trace, walker_idx=i)
         cell = h3grid.cell_of(endpoint)
         counts[cell] = counts.get(cell, 0) + 1
 
@@ -186,6 +189,7 @@ def _walk_graph(
     use_mind: bool,
     mind: MindState | None,
     mind_pool: "_MindPool | None" = None,
+    v_max_kmh: float | None = None,
     trace: SimTrace | None = None,
     walker_idx: int = 0,
 ) -> GeoPoint:
@@ -203,7 +207,9 @@ def _walk_graph(
     # Koester 분포는 LKP→발견지점 "직선 이탈거리" — 경로 길이가 아니라
     # 변위(displacement)가 이 값에 도달하면 종료한다 (테스트셋 dist_ratio 교정).
     # 표집은 p95 절단 — topdown 원판 컷과 지원 정렬 (radius.py, PR #20 후속).
-    total_km = radius.sample_distance_km(rng, prior.radius_lognormal, elapsed_hours)
+    # 상한 = min(통계 p95, v_max×경과시간) 이라 도달 불가능한 변위는 안 나온다.
+    total_km = radius.sample_distance_km(rng, prior.radius_lognormal,
+                                         elapsed_hours, v_max_kmh)
     if strategy == "staying_put":
         total_km *= 0.1
     elif strategy == "backtracking":
@@ -376,6 +382,7 @@ def _walk(
     *,
     use_mind: bool,
     mind: MindState | None,
+    v_max_kmh: float | None = None,
     trace: SimTrace | None = None,
     walker_idx: int = 0,
 ) -> GeoPoint:
@@ -383,7 +390,8 @@ def _walk(
 
     이전엔 이 경로(기본값)만 반경 상한이 전혀 없었다 — p95 절단으로 정렬.
     """
-    total_km = radius.sample_distance_km(rng, prior.radius_lognormal, elapsed_hours)
+    total_km = radius.sample_distance_km(rng, prior.radius_lognormal,
+                                         elapsed_hours, v_max_kmh)
 
     # agent 모드: 혼란도가 높을수록 방향 유지력이 떨어짐 (마음 예측 반영 지점)
     confusion = (mind.confusion if (use_mind and mind) else 0.5)
