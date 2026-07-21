@@ -260,6 +260,43 @@ def terrain_difficulty(edge_attrs: dict) -> float:
     return _HIGHWAY_DIFFICULTY.get(hw, _DEFAULT_DIFFICULTY)
 
 
+# 개인 환경 반응이 "보인다"고 볼 거리 — 이 안에 들어와야 이동 확률이 기운다.
+# 물가는 익사 위험이라 더 멀리서도 반영한다(장면 텍스트 임계와 같은 기준).
+_ENV_RESPONSE_RANGE_M = {"water": 100.0, "forest": 60.0, "park": 60.0, "market": 60.0}
+
+
+def env_response_weight(env: dict | None, persona: Persona | None) -> float:
+    """개인 환경 반응 → 이동 확률 배수 (1.0 = 중립).
+
+    "물가만 보면 다가간다" 같은, 축 기준표에 없는 개인 특성의 소비처
+    (PR #21 과제1 페르소나 컴파일). 축은 "얼마나" 반응하는지의 눈금이라
+    "무엇에" 반응하는지를 못 담는다.
+
+    도로 위계 선호(road_preference)와 같은 계열 — 게이지 누적이 아니라 갈림길
+    선택 확률을 기울인다. 끌림/회피는 "얼마나 지치는가"가 아니라 "어디로
+    가는가"의 문제이기 때문.
+
+    마음 재해석의 장면 텍스트(PR #53)와는 층이 다르다: 저쪽은 트리거 발동 시
+    LLM 이 맥락으로 해석하는 희소·비결정 경로이고, 이쪽은 매 스텝 전 워커에
+    적용되는 알고리즘 경로다 (realism 무게중심 = 알고리즘 원칙).
+    """
+    if not env or persona is None or not persona.env_responses:
+        return 1.0
+    strength_mult = settings.env_response_strength
+    if strength_mult <= 0.0:
+        return 1.0
+    weight = 1.0
+    for r in persona.env_responses:
+        dist = env.get(f"{r.feature}_m")
+        if not isinstance(dist, (int, float)):
+            continue
+        if dist > _ENV_RESPONSE_RANGE_M.get(r.feature, 60.0):
+            continue
+        tilt = r.strength * strength_mult
+        weight *= (1.0 + tilt) if r.direction == "접근" else 1.0 / (1.0 + tilt)
+    return weight
+
+
 def road_preference(edge_attrs: dict, persona: Persona | None) -> float:
     """도로 위계 선호 배수 — 갈림길 선택 확률에 곱한다 (1.0 = 중립).
 

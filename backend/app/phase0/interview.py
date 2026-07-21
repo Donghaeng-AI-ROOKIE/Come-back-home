@@ -872,6 +872,15 @@ def _score_and_save(persona_id: str) -> None:
         persona.route_familiarity = compile_route_familiarity(persona)
     except Exception:  # noqa: BLE001 — 실패해도 축 채점 결과 저장은 계속 진행
         pass
+    # 개인 환경 반응 컴파일(과제1) — 같은 트리거에 얹는다. 축 기준표에 없는
+    # "무엇에 반응하는가"를 behavior_notes 에서 뽑는다. 실패는 빈 리스트로
+    # 흡수되고, 소비처가 중립 1.0 을 돌려주므로 예측이 도입 이전과 같아진다.
+    try:
+        from app.phase0.env_response_compiler import compile_env_responses
+
+        persona.env_responses = compile_env_responses(persona)
+    except Exception:  # noqa: BLE001 — 실패해도 앞선 결과 저장은 계속 진행
+        pass
     # 채점(최대 수십 초) 도중 보호자가 삭제를 요청했을 수 있다 — 삭제된 persona 를
     # 되살리지 않도록 저장 직전 재확인(개인정보 파기 경합 방지, 셀프리뷰 발견).
     if storage.personas.get(persona_id) is None:

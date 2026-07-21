@@ -54,9 +54,23 @@ class PreferredTarget(BaseModel):
 class RouteFamiliarity(BaseModel):
     """경로·환경 익숙함 — 사람이 아니라 (사람, 경로) 쌍의 속성이라 axis_scores 와
     분리된 장소별 관계 변수 (축 방향 개정, 2026-07-17: app/phase0/axis_rubric.md 참고).
-    컴파일러(보호자 발화 → 이 목록) 는 미구현 — 스키마만 선반영, 백로그."""
+    컴파일러는 app/phase0/route_familiarity_compiler.py (PR #44)."""
     route: str
     score: float
+
+
+class EnvResponse(BaseModel):
+    """개인 환경 반응 — "물가만 보면 다가간다" 같은, 축 기준표에 없는 특성.
+
+    축(axis_scores)은 성향 눈금이라 "무엇에" 반응하는지를 못 담는다. 이 목록이
+    그 자리를 채운다 (PR #21 과제1 "페르소나 컴파일"). 컴파일러는
+    app/phase0/env_response_compiler.py.
+
+    feature 는 envlayer 카테고리 닫힌 어휘만 — 지어낸 대상은 가드레일이 버린다.
+    """
+    feature: str        # water | forest | park | market (envlayer 카테고리)
+    direction: str      # "접근" | "회피"
+    strength: float     # 0.1~0.9 — 등급을 코드가 매핑한 값
 
 
 class Persona(BaseModel):
@@ -87,6 +101,9 @@ class Persona(BaseModel):
     # axis_evidence["route_environment_familiarity"]/axis_quotes["route_environment_familiarity"]
     # 에 그대로 쌓여 있음 — 필드 이름이 서로 달라 헷갈리지 않도록 명시.
     route_familiarity: list[RouteFamiliarity] = []
+    # 개인 환경 반응 — behavior_notes 자유 텍스트에서 컴파일 (EnvResponse 참고).
+    # 축은 "얼마나" 반응하는지의 눈금이라 "무엇에" 반응하는지를 못 담는다.
+    env_responses: list[EnvResponse] = []
     created_at: datetime = Field(default_factory=datetime.now)
 
 

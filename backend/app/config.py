@@ -88,6 +88,10 @@ class Settings(BaseSettings):
     # 0=끔(전부 중립), 1=표 그대로, 2=대비 강화. 평가 하네스 그리드서치용
     # 단일 노브. 치매에만 적용(문헌 근거 범위).
     road_preference_strength: float = 1.0
+    # 개인 환경 반응(EnvResponse)이 이동 확률을 기울이는 세기. 0=끔.
+    # 축 기준표에 없는 개인 특성("물가만 보면 다가간다")의 소비 강도 —
+    # 평가 하네스가 개인화 기여도를 재는 ablation 노브.
+    env_response_strength: float = 1.0
     # 시뮬레이션이 도로망 그래프를 쓸지 — 켜면 Phase 2 실행 시 LKP 반경 도로망을
     # 로딩(캐시 우선, 실패 시 연속 공간 폴백). 오프라인 테스트 기본값은 False.
     use_roadnet: bool = False
