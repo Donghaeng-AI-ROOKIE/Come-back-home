@@ -41,9 +41,36 @@ def test_to_attraction_points_splits_resolved_and_unresolved():
     points, unresolved = to_attraction_points(drafts, geocoder=GazetteerGeocoder())
     assert len(points) == 2
     assert {p.label for p in points} == {"옛 직장", "집 근처"}
-    assert all(p.weight == 1.0 for p in points)
+    # 근거 태그 없는 draft → mention_only 계수 0.3 (evidence 곱셈 병합의 출발값)
+    assert all(p.weight == 0.3 for p in points)
     assert all(p.precision == "dong" for p in points)   # gazetteer → 동 단위
     assert len(unresolved) == 1 and unresolved[0]["label"] == "미상 장소"
+
+
+def test_positional_suffix_falls_back_to_base_name():
+    """'대흥역 2번 출구'는 지오코더가 못 찾지만 '대흥역'은 찾는다 (라이브 실측 2026-07-22).
+
+    보호자는 만난 지점을 그대로 말하므로("○○역 2번 출구", "○○아파트 앞"),
+    핵심 지명 폴백이 없으면 **과거 발견지가 좌표를 못 얻어 통째로 사라진다.**
+    """
+    from app.geo.geocode import GeoResult, base_place_name
+    from app.schemas.common import GeoPoint
+
+    assert base_place_name("대흥역 2번 출구") == "대흥역"
+    assert base_place_name("성산아파트 앞 근처") == "성산아파트"
+    assert base_place_name("망원시장") == "망원시장"
+
+    class _ExactGeo:
+        def locate(self, q, anchor=None):
+            if q == "대흥역":
+                return GeoResult(GeoPoint(lat=37.5470, lng=126.9435), "poi", "test")
+            return None
+
+    points, unresolved = to_attraction_points(
+        [{"label": "대흥역 2번 출구", "area_text": "대흥역 2번 출구"}], geocoder=_ExactGeo())
+    assert not unresolved
+    assert points[0].label == "대흥역 2번 출구"      # 라벨은 보호자 표현 그대로 보존
+    assert points[0].location.lat == 37.5470        # 좌표는 핵심 지명으로 확보
 
 
 def test_to_attraction_points_passes_through_origin_slot():

@@ -243,7 +243,6 @@ def to_attraction_points(
     drafts: list[dict],
     geocoder: Geocoder | None = None,
     *,
-    default_weight: float = 1.0,
     anchor: GeoPoint | None = None,
 ) -> tuple[list[AttractionPoint], list[dict]]:
     """온보딩 초안 [{"label","area_text"}] → (AttractionPoint[], 미해결[]).
@@ -255,8 +254,10 @@ def to_attraction_points(
     실측 버그: "은행 앞"→과천 21km, "산책로"→경북 188km (전국 키워드 오검색).
 
     place_type/evidence 태그는 좌표화 과정에서 증발하지 않게 그대로 통과시킨다
-    (근거 분류는 추출 단계에서만 가능 — 여기서 소실되면 복원 불가). evidence →
-    초기 weight 매핑은 팀 회의 미결이라 weight 는 아직 default_weight 균등.
+    (근거 분류는 추출 단계에서만 가능 — 여기서 소실되면 복원 불가). weight 는
+    균등이 아니라 evidence 계수(schemas.persona.EVIDENCE_PRIOR_WEIGHTS)로 시작한다
+    — "과거 실제 발견지"와 "지나가듯 언급"이 같은 무게로 출발하면 안 되기 때문.
+    이 값은 뒤에서 EXAONE 등급과 곱셈 병합된다(phase2.guardrail).
     """
     from app.geo import h3grid
 
@@ -265,7 +266,9 @@ def to_attraction_points(
     unresolved: list[dict] = []
     for d in drafts:
         label = str(d.get("label") or "").strip()
-        area = str(d.get("area_text") or "").strip()
+        # 구버전 세션·직접 호출로 들어온 "언급 없음" 류도 여기서 한 번 더 막는다
+        # (인터뷰 단계에서 이미 정규화되지만, 이 함수가 마지막 관문이다).
+        area = clean_area_text(d.get("area_text"))
         # 후보 쿼리는 구체 장소(라벨) 우선. area_text 를 먼저 쓰던 구버전은 라벨
         # "대흥역"이 area "대흥동"의 동 중심 좌표로 찍히는 라벨-좌표 불일치를 냈다
         # (라이브 실측 2026-07-17). "지역+라벨" 결합 → 라벨 → 지역 순으로 시도하고,
@@ -278,6 +281,11 @@ def to_attraction_points(
         # 이 못 찾아 조용히 탈락하던 실측(2026-07-17 8차). 카카오는 양쪽 다 잘 찾지만
         # 폴백 백엔드는 표기에 민감하다.
         candidates += [re.sub(r"\s+", "", q) for q in candidates]
+        # 위치 접미어를 뗀 핵심 지명도 **마지막 후보**로 — 보호자는 "대흥역 2번 출구",
+        # "○○아파트 앞"처럼 만난 지점을 그대로 말하는데 지오코더는 그 표기를 못 찾는다
+        # (라이브 실측 2026-07-21: '대흥역 2번 출구' → None, '대흥역' → 성공).
+        # 정확한 표기를 먼저 다 시도한 뒤에만 쓰므로 정밀도를 깎지 않는다.
+        candidates += [base_place_name(q) for q in (label, area)]
         candidates = list(dict.fromkeys(q for q in candidates if q))
 
         res = None
@@ -297,15 +305,44 @@ def to_attraction_points(
             unresolved.append({**d, **extra})
             continue
         points.append(AttractionPoint(
+            # weight 는 명시하지 않는다 — AttractionPoint 검증자가 evidence 계수로 채운다.
             label=d.get("label") or area,
             location=res.point,
-            weight=default_weight,
             precision=res.precision,
             place_type=str(d.get("place_type") or ""),
             evidence=coerce_evidence(d.get("evidence")),
             origin_slot=str(d.get("origin_slot") or ""),
         ))
     return points, unresolved
+
+
+# LLM 이 '없음'을 빈 값이 아니라 문자열로 채우는 실측(2026-07-21 라이브: area_text
+# "언급 없음") — 그대로 두면 (1) 이 문자열이 지오코딩 질의로 나가 실패하고,
+# (2) truthy 라서 나중에 들어온 진짜 지역 표기가 병합·정정에서 막힌다.
+_PLACEHOLDER_AREA_RE = re.compile(
+    r"^(언급\s*없음|없음|미상|불명|모름|모르겠\S*|알\s*수\s*없음|해당\s*없음|"
+    r"n\s*/\s*a|none|null|unknown|-+)$", re.IGNORECASE)
+
+
+# 장소명 뒤에 붙는 '만난 지점' 표현 — 지오코더가 못 찾는 꼬리표다.
+_PLACE_SUFFIX_RE = re.compile(
+    r"\s*(\d+\s*번\s*출구|출구|입구|정문|후문|앞|뒤|옆|근처|주변|건너편|맞은편)\s*$")
+
+
+def base_place_name(query: str) -> str:
+    """'대흥역 2번 출구' → '대흥역'. 접미어가 겹쳐 붙어도("○○역 앞 근처") 다 뗀다."""
+    cur = str(query or "").strip()
+    while True:
+        stripped = _PLACE_SUFFIX_RE.sub("", cur).strip()
+        if stripped == cur or not stripped:
+            return cur
+        cur = stripped
+
+
+def clean_area_text(raw) -> str:
+    """area_text 정규화 — 플레이스홀더는 빈 문자열로. '지역 미상'과 '미기입'을 같게 만든다."""
+    text = str(raw or "").strip()
+    return "" if _PLACEHOLDER_AREA_RE.match(text) else text
 
 
 def coerce_evidence(raw) -> AttractionEvidence:

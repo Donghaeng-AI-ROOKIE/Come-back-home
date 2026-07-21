@@ -3,7 +3,7 @@
 from datetime import datetime
 from enum import Enum
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 from app.schemas.common import GeoPoint
 
@@ -17,19 +17,40 @@ class AttractionEvidence(str, Enum):
     """장소가 왜 중요한지의 근거 강도 — 추출 단계에서만 분류 가능(이후 복원 불가).
 
     자유 텍스트가 아니라 enum 3종으로 제한 — 제보 구체성을 상/중/하로만 받는
-    기존 가드레일 패턴과 동일. evidence → 초기 weight 계수는 팀 회의 미결
-    (제안: 발견지 0.9 / 관찰 0.5 / 언급 0.3) — 결정 전까지 태그만 저장·전달한다.
+    기존 가드레일 패턴과 동일.
     """
     previous_missing_found = "previous_missing_found"  # 과거 실종 때 실제 발견된 곳
     caregiver_report = "caregiver_report"              # 보호자가 반복 지향을 직접 관찰
     mention_only = "mention_only"                      # 지나가듯 언급만
 
 
+# evidence → 초기 weight 계수 (팀 결정 2026-07-21). 이 값은 "고정"이 아니라
+# EXAONE 등급(상/중/하)과 **곱셈 병합**된다 — phase2.guardrail.sanitize_attraction_levels.
+# 두 신호는 서로 다른 것을 본다: evidence 는 보호자 발화의 근거 강도(관측 사실),
+# EXAONE 등급은 실종 상황·라벨 맥락의 지향 가능성(추론). 어느 한쪽 override 는
+# 다른 쪽 정보를 버리므로 곱으로 합의시키고, 정규화·상한(ATTRACTION_CAP)이
+# 한 장소의 독식을 막는다.
+EVIDENCE_PRIOR_WEIGHTS: dict[str, float] = {
+    "previous_missing_found": 0.9,   # 과거 실제 발견지 — 가장 강한 근거
+    "caregiver_report": 0.5,         # 보호자 관찰
+    "mention_only": 0.3,             # 언급만
+}
+
+
+def evidence_prior_weight(evidence) -> float:
+    """evidence → 계수. 모르는 값은 최약 근거로 (coerce_evidence 와 같은 원칙)."""
+    key = evidence.value if isinstance(evidence, AttractionEvidence) else str(evidence)
+    return EVIDENCE_PRIOR_WEIGHTS.get(key, EVIDENCE_PRIOR_WEIGHTS["mention_only"])
+
+
 class AttractionPoint(BaseModel):
     """끌림점 — 과거 직장, 옛집, 자주 가던 공원 등. Phase 2 prior의 핵심 입력."""
     label: str
     location: GeoPoint
-    weight: float = 1.0   # 상대 중요도 (EXAONE prior 생성 시 재조정됨)
+    # 상대 중요도 — 명시하지 않으면 evidence 계수(EVIDENCE_PRIOR_WEIGHTS)로 채워진다
+    # (아래 검증자). EXAONE 등급과 곱셈 병합돼 prior.attraction_weights 가 되고,
+    # LLM 실패·스텁이면 이 값 단독으로 정규화된다.
+    weight: float = 1.0
     precision: str = "unknown"   # 지오코딩 정밀도 poi>address>dong>approx — Phase 2 반경 보정용
     place_type: str = ""         # 장소 유형 (past_home/workplace/market 등 — LLM 추출 그대로)
     evidence: AttractionEvidence = AttractionEvidence.mention_only  # 기본값 = 최약 근거 (하위호환)
@@ -37,6 +58,19 @@ class AttractionPoint(BaseModel):
     # "autobiographical_destination_pull"). unfamiliarity 게이지 폴백 판단에 사용
     # (route_familiarity 컴파일러 대상 구분, app/phase2/gauges.py 참고).
     origin_slot: str = ""
+
+    @model_validator(mode="before")
+    @classmethod
+    def _weight_from_evidence(cls, data):
+        """weight 미지정 시 evidence 계수로 채운다 — 생성 경로마다 중복 매핑 금지.
+
+        지오코딩(geo.geocode)·POI 매칭(geo.poi)·시드·저장 데이터 복원이 모두 이
+        한 규칙을 지나게 해서 weight 와 evidence 가 어긋나는 상태를 만들지 않는다.
+        명시된 weight(예: seed.py 의 수동 가중)는 그대로 존중한다.
+        """
+        if isinstance(data, dict) and data.get("weight") is None:
+            return {**data, "weight": evidence_prior_weight(data.get("evidence"))}
+        return data
 
 
 class PreferredTarget(BaseModel):
@@ -133,6 +167,13 @@ class InterviewSession(BaseModel):
     slot_quotes: dict[str, list[str]] = {}
     awaiting_confirmation: bool = False   # 요약 확인("이게 맞나요?") 대기 중
     asked_more_places: bool = False       # 요약 전 '추가 장소 스윕' 1회 보장용 플래그
+    # 지역 표기 없는 끌림점의 주소 되묻기 — 없으면 지오코딩이 실패해 그 장소가
+    # 페르소나에서 통째로 사라진다(라이브 실측 2026-07-21: "예전에 살던 집").
+    pending_area_label: str | None = None  # 지금 주소를 되묻고 있는 장소 라벨
+    asked_area_labels: list[str] = []      # 이미 되물은 라벨 (장소당 1회만)
+    # 하위 항목(SlotSpec.probes) 꼬리질문을 이미 던진 슬롯 — 슬롯당 1회 보장용.
+    # Mi:dm 이 얕은 답에도 slot_filled=true 를 내서 probes 가 한 번도 안 쓰이던 실측.
+    probed_keys: list[str] = []
     # Mi:dm 호출 실패 가시화 — 폴백(빈 추출·씨앗 질문)으로 인터뷰는 계속 진행하되,
     # 장애가 "이상한 반복 인터뷰"로만 체감되지 않게 API 응답에 그대로 노출한다.
     llm_call_failures: int = 0            # 이 세션에서 Mi:dm 호출 실패 누적

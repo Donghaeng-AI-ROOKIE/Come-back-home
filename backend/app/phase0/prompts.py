@@ -54,10 +54,11 @@ behavior_notes 규칙:
 - 보호자가 "모르겠다", "글쎄요"라고 하거나 답에 정보가 없으면 빈 배열 [] — 무지·거부·
   잡담은 사실이 아니다.
 
-evidence 는 그 장소·대상이 왜 중요한지의 근거 강도다. 반드시 아래 3개 중 하나:
-- "previous_missing_found": 과거 실종·이탈 때 실제로 거기서 발견됐다고 말함
-- "caregiver_report": 보호자가 반복해서 가려는 걸 직접 봤다고 말함
-- "mention_only": 지나가듯 언급만 (근거 발화가 없으면 이것)
+evidence — 그 장소가 왜 중요한지의 근거 강도. 위에서부터 먼저 해당하는 것:
+- "previous_missing_found": 과거에 길을 잃었을 때 그곳에서 **발견됐다**고 말함
+- "caregiver_report": **자주 간다 / 가려고 한다 / 가야 한다고 반복해서 말한다** 중 \
+하나라도 있음. 반복되는 '말'도 관찰된 지향이다
+- "mention_only": 반복·지향 표현 없이 배경으로만 언급됨 ("젊을 때 다니셨대요")
 
 반드시 아래 JSON 하나만 출력:
 {
@@ -71,15 +72,128 @@ evidence 는 그 장소·대상이 왜 중요한지의 근거 강도다. 반드�
 
 
 def build_extract_input(target_slot: SlotSpec, conversation: list[dict]) -> str:
-    return f"""\
+    """추출 입력 — 이전 대화는 '맥락 참고용', 마지막 보호자 발화는 '추출 대상'으로 분리.
+
+    통짜 대화 뒤에 "마지막 발화를 대상으로 추출하라"만 붙이던 구버전은, 대화가
+    길어지면 모델이 마지막 답변의 새 사실 대신 **이전 턴에서 이미 나온 장소들을
+    재추출**했다 — 새로 말한 과거 발견지("원평중학교 앞에서 발견됐어요")가 통째로
+    유실되던 라이브 실측(2026-07-21). 대상 발화를 헤더로 분리하고 기존 장소
+    재출력을 금지하자 Mi:dm 실호출 A/B 에서 0/3 → 3/3 으로 회복됐다.
+    (창 크기를 줄이는 대안은 2/3 에 그쳤고 지시대명사 맥락을 잃는다.)
+    """
+    head = f"""\
 [방금 겨냥했던 슬롯]
 - key: {target_slot.key} · {target_slot.label}
 - 충족 기준: {target_slot.filled_when}
+"""
+    if not conversation or conversation[-1].get("role") != "user":
+        return head + f"\n[대화]\n{_convo(conversation)}\n\n마지막 '보호자:' 발화를 대상으로 추출하라. 위 JSON 하나만 출력."
+    return head + f"""
+[이전 대화 — 맥락 참고용]
+{_convo(conversation[:-1])}
 
-[대화]
-{_convo(conversation)}
+[추출 대상 — 이 발화에서만 뽑는다]
+보호자: {conversation[-1].get('text', '')}
 
-마지막 '보호자:' 발화를 대상으로 추출하라. 위 JSON 하나만 출력."""
+위 '추출 대상' 발화에만 담긴 사실을 추출하라. 이전 대화에서 이미 나온 장소는 \
+다시 넣지 마라. 위 JSON 하나만 출력."""
+
+
+# ── (A') 확인 게이트 정정 ────────────────────────────────────────────
+# 일반 추출과 분리한 이유(라이브 실측 2026-07-21): 요약 확인 단계의 발화는 '새 사실
+# 진술'이 아니라 **이미 등록된 항목에 대한 변경 지시**다. 일반 추출로 처리하면
+#  - "원평중학교가 아니라 원평초등학교예요" → 아무 일도 안 일어나고(이름 교체 수단 없음)
+#  - "원마루 공원은 빼주세요"              → 삭제 수단이 없어 무시되며
+#  - "예전에 살던 집은 수곡동이에요"        → 슬롯 랭킹이 home 을 골라 **자택이 바뀐다**
+# 그래서 변경 대상·동작을 닫힌 어휘로 받고, 적용은 코드가 한다(가드레일 원칙).
+CORRECTION_SYSTEM = """\
+너는 '돌아오길' 온보딩의 정정 처리기다. 보호자가 등록 요약을 보고 말한 '수정 요청'을 \
+읽고, 무엇을 어떻게 바꿔야 하는지만 JSON 으로 낸다. 새 정보를 지어내지 마라.
+
+반드시 아래 JSON 하나만 출력:
+{
+  "fields": {},      // 바꿀 기본 정보만. 키는 name/age/home 중 실제로 정정된 것만. \
+장소(가시려 할 만한 곳) 정정은 여기 넣지 마라 — home 은 '지금 사시는 집'을 고칠 때만.
+  "place_ops": []    // 장소 변경 지시 배열
+}
+
+place_ops 의 각 항목:
+- {"op":"rename","target":"<기존 장소명>","value":"<새 장소명>"}   이름이 틀렸을 때
+- {"op":"set_area","target":"<기존 장소명>","value":"<동/주소>"}   위치(동네)가 틀렸을 때
+- {"op":"remove","target":"<기존 장소명>"}                        더 이상 해당 없을 때
+- {"op":"add","value":"<새 장소명>","area":"<동/주소 또는 null>"}  빠진 곳을 더할 때
+
+규칙:
+- target 은 아래 [현재 등록된 장소] 목록의 이름과 **글자 그대로** 일치해야 한다. \
+목록에 없는 이름을 target 으로 쓰지 마라.
+- 바꿀 것이 없으면 빈 값으로 둔다. 확실하지 않으면 넣지 마라."""
+
+
+def build_correction_input(place_labels: list[str], utterance: str) -> str:
+    places = ", ".join(place_labels) if place_labels else "(없음)"
+    return f"""\
+[현재 등록된 장소] {places}
+
+[보호자의 수정 요청]
+{utterance}
+
+위 JSON 하나만 출력."""
+
+
+# few-shot — 실측(2026-07-21)에서 흔들린 세 패턴을 그대로 시연한다:
+# (1) 장소의 동네 정정을 fields.home 으로 잘못 보내던 것(2/2 오작동),
+# (2) "A가 아니라 B" 이름 정정을 remove 로 처리해 장소가 사라지던 것,
+# (3) "A가 아니라 B" 에서 새 값이 B(뒤쪽)라는 것.
+CORRECTION_FEWSHOT_USER = """\
+[현재 등록된 장소] 옛 직장, 예전에 살던 집, 망원중학교
+
+[보호자의 수정 요청]
+예전에 살던 집은 신수동이 아니라 수곡동이에요. 그리고 망원중학교가 아니라 망원초등학교예요
+
+위 JSON 하나만 출력."""
+
+CORRECTION_FEWSHOT_ASSISTANT = """\
+{"fields": {}, "place_ops": [\
+{"op":"set_area","target":"예전에 살던 집","value":"수곡동"}, \
+{"op":"rename","target":"망원중학교","value":"망원초등학교"}]}"""
+
+
+_PLACE_OPS = ("rename", "set_area", "remove", "add")
+
+
+def parse_correction(raw: str, place_labels: list[str]) -> dict:
+    """정정 응답 → 검증된 {fields, place_ops}. 실존 라벨·닫힌 동작만 통과."""
+    empty: dict = {"fields": {}, "place_ops": []}
+    try:
+        data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    except (ValueError, json.JSONDecodeError):
+        return empty
+    if not isinstance(data, dict):
+        return empty
+    fields = {k: v for k, v in (data.get("fields") or {}).items()
+              if k in ("name", "age", "home") and isinstance(v, str) and v.strip()}
+    known = set(place_labels)
+    ops = []
+    for raw_op in data.get("place_ops") or []:
+        if not isinstance(raw_op, dict):
+            continue
+        op = str(raw_op.get("op") or "").strip()
+        target = str(raw_op.get("target") or "").strip()
+        value = str(raw_op.get("value") or "").strip()
+        if op not in _PLACE_OPS:
+            continue
+        if op == "add":
+            if not value:
+                continue
+            ops.append({"op": op, "value": value,
+                        "area": str(raw_op.get("area") or "").strip()})
+            continue
+        if target not in known:      # 지어낸 대상 차단 — goal_label '실존 라벨만' 원칙
+            continue
+        if op in ("rename", "set_area") and not value:
+            continue
+        ops.append({"op": op, "target": target, "value": value})
+    return {"fields": fields, "place_ops": ops}
 
 
 def parse_extract(raw: str) -> dict:

@@ -271,11 +271,16 @@ def test_phrase_input_carries_gap_information():
 
 
 def test_more_places_sweep_before_summary():
-    """모든 슬롯이 끝나면 요약 전에 '다른 곳 또 있나요' 스윕이 정확히 1회 나온다."""
+    """모든 슬롯이 끝나면 요약 전에 '다른 곳 또 있나요' 스윕이 정확히 1회 나온다.
+
+    (2026-07-21) 직전 슬롯이 얕게 채워졌으면 하위 항목 꼬리질문이 한 번 먼저 나간다
+    — probed_keys 를 미리 채워 그 경로를 비활성화하고 스윕 자체를 검증한다.
+    """
     s = InterviewSession(
         id="hard-sweep", guardian_name="보호자", persona_type=PersonaType.dementia,
         draft_fields={"name": "김순자", "age": "78세", "home": "신수동"},
         filled_keys=[sp.key for sp in slots_for(PersonaType.dementia)],
+        probed_keys=[sp.key for sp in slots_for(PersonaType.dementia)],
         draft_attractions=[{"label": "망원시장", "area_text": "망원동",
                             "evidence": "caregiver_report"}],
         prev_target_key="communication_approach_vulnerability",
