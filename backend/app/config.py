@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     midm_api_key: str = ""
     varco_api_key: str = ""
     upstage_api_key: str = ""
+    tip_llm_api_key: str = ""
 
     # KT 믿음(Mi:dm) 서빙 엔드포인트 (OpenAI 호환 chat completions)
     #   midm_base_url   = 발급받은 endpoint URL (…/v1 또는 …/v1/chat/completions 앞부분)
@@ -24,6 +25,13 @@ class Settings(BaseSettings):
     #   exaone_model    = 발급받은 endpoint ID (chat 요청의 model 필드로 들어감)
     exaone_base_url: str = ""
     exaone_model: str = ""
+
+    # Phase 3 제보 구조화 전용 — 모델 미정(2026-07-21, Mi:dm 에서 분리).
+    # OpenAI 호환 chat completions 전제로 셋 다 채우면 실동작, 비어 있으면 스텁.
+    #   tip_llm_base_url = 발급받은 endpoint URL
+    #   tip_llm_model    = 발급받은 endpoint ID
+    tip_llm_base_url: str = ""
+    tip_llm_model: str = ""
 
     # Phase 0 축 점수 컴파일 (phase0.axis_scoring) — 골드셋 실험으로 검증된 B×P1 채점.
     # 기본 off: 회의에서 채점 방식 채택 시 켠다. runs = 축당 호출 수(3회 다수결 권장).
@@ -135,7 +143,7 @@ class Settings(BaseSettings):
     # p = 가중평균(시공간개연성·구체성). 없는 신호는 가중치 재정규화.
     # 초기값은 도메인 판단, 합성 시나리오(진짜 vs 가짜 제보 분리)로 튜닝 대상.
     trust_weight_plausibility: float = 0.40  # 시공간 개연성 (kinematic, 알고리즘)
-    trust_weight_specificity: float = 0.25   # 구체성 (Mi:dm 챗봇)
+    trust_weight_specificity: float = 0.25   # 구체성 (제보 구조화 LLM, tip_llm)
     trust_base_p: float = 0.3                # 아무 신호도 없을 때의 사전 신뢰
 
     # kinematic 상한 — v_max(km/h) × Δt = 도달 가능 반경. 넘으면 지수 감쇠.

@@ -3,7 +3,7 @@
 p = 가중평균(시공간개연성·구체성). 각 항은 [0,1], 없는 신호는
 가중치를 재정규화. docs: "제보 신뢰도 p 계산 방식".
 - 시공간개연성: kinematic 상한 (알고리즘, geo.reachability)
-- 구체성: Mi:dm 챗봇 상/중/하 등급 → 고정값 매핑
+- 구체성: 제보 구조화 LLM(app.llm.tip_llm) 상/중/하 등급 → 고정값 매핑
 
 시민 제보 사진 대조는 하지 않기로 확정되어 제거됨(등록 사진 인상착의
 추출은 Phase 1에서 유지, app/llm/varco_vision.py 참고).
@@ -18,7 +18,7 @@ from datetime import datetime
 
 from app.config import settings
 from app.geo import reachability
-from app.llm import midm
+from app.llm import tip_llm
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
 from app.schemas.tip import Tip
@@ -37,11 +37,11 @@ def score_tip(
 ) -> float:
     """제보 신뢰도 p 산출. 가중치는 예시값 — 합성 시나리오로 튜닝.
 
-    structured: Mi:dm 챗봇 구조화 결과(specificity 등급·travel_mode 등).
+    structured: 제보 구조화 결과(specificity 등급·travel_mode 등).
     없으면 tip.text 로 즉석 구조화.
     """
     if structured is None:
-        structured = midm.structure_tip(tip.text)
+        structured = tip_llm.structure_tip(tip.text)
 
     terms: list[tuple[float, float]] = []  # (value, weight)
 
@@ -50,7 +50,8 @@ def score_tip(
         plaus = reachability.plausibility(
             lkp, lkp_time, tip.location, persona_type,
             seen_at=tip.seen_at, created_at=tip.created_at,
-            transit=(structured.get("travel_mode") == "transit"),
+            transit=False,  # walk-only MVP(팀 결정, 2026-07-21) — 이동수단 미고려.
+            # 확장 시: structured.get("travel_mode") == "transit"
         )
         if math.isfinite(plaus):   # 좌표가 NaN 이면 항 제외 (p 오염 방지)
             terms.append((plaus, settings.trust_weight_plausibility))
