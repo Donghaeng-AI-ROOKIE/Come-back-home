@@ -54,9 +54,12 @@ def test_full_pipeline(case):
     assert 0 < len(cells) < len(case.current_poa)
 
     # Phase 3 — 층1 제보 (위치는 있지만 시각 불특정 → 층2 자격 없음)
+    # 이 텍스트는 폴백 p 가 층2 문턱(0.8) 이상이라 시각 되묻기 게이트가 걸린다
+    # (test_tip_time_reask.py 참고) — 여기선 그 뒤 파이프라인 확인이 목적이라
+    # force=True 로 건너뛴다.
     tip1 = tip_flow.process_tip(
         case, text="공원 근처에서 비슷한 분을 본 것 같아요",
-        location=GeoPoint(lat=37.5480, lng=126.9350))
+        location=GeoPoint(lat=37.5480, lng=126.9350), force=True)
     assert tip1.decision in (TipDecision.layer1, TipDecision.discard)
     assert sum(case.current_poa.values()) == pytest.approx(1.0)
 
