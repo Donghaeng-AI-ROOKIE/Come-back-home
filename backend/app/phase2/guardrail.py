@@ -4,7 +4,8 @@
 LLM 은 확률·거리 calibration 이 약하다는 전제(아키텍처 결정사항)에 따라:
 - 전략확률: 숫자 출력을 받되 알려진 6전략만 인정, ε-floor 후 재정규화
 - 끌림점: 숫자 대신 상/중/하 정성 등급만 받아 고정 가중치로 매핑
-  (LLM 이 임의 숫자를 지어내는 것 자체를 차단)
+  (LLM 이 임의 숫자를 지어내는 것 자체를 차단) 후, 보호자 발화에서 나온
+  근거 태그(evidence) 계수와 곱셈 병합 — sanitize_attraction_levels 참고
 - 반경: 상/중/하 → Koester 프로파일 μ 만 소폭 보정, σ 는 프로파일 고정
 항목별로 검증하며, 실패한 항목만 프로파일 통계 기본값으로 폴백한다.
 """
@@ -17,6 +18,7 @@ from app.schemas.persona import (
     Persona,
     PersonaType,
     RouteFamiliarity,
+    evidence_prior_weight,
 )
 from app.schemas.prediction import LognormalParams, MindState, PriorParams
 
@@ -68,12 +70,24 @@ def sanitize_strategy_probs(raw, default: dict[str, float]) -> dict[str, float]:
 
 
 def sanitize_attraction_levels(raw, persona: Persona | None) -> dict[str, float]:
-    """상/중/하 등급 → 고정 가중치 → 정규화 → 상한. 지어낸 라벨은 버리고 빠진 라벨은 '중'."""
+    """(EXAONE 등급 × evidence 계수) → 정규화 → 상한. 지어낸 라벨은 버리고 빠진 라벨은 '중'.
+
+    두 신호의 곱셈 병합(팀 결정 2026-07-21):
+      w(장소) = LEVEL_WEIGHTS[EXAONE 등급] × EVIDENCE_PRIOR_WEIGHTS[근거 태그]
+
+    - EXAONE 등급(상/중/하): 실종 상황·라벨 맥락을 보고 추론한 지향 가능성.
+    - evidence(발견지/관찰/언급): 보호자 발화에서 분류된 근거 강도 = 관측 사실.
+    한쪽으로 override 하면 다른 쪽 정보가 사라진다. 곱은 "둘 다 높아야 높다"라
+    보호자가 언급만 한 장소를 LLM 이 '상'으로 밀어올려도 0.3 배로 눌리고, 반대로
+    과거 실제 발견지를 LLM 이 '하'로 깎아도 0.9 배가 남아 완전히 죽지 않는다.
+    곱의 최대 배율은 9 배(3×0.9 : 1×0.3)지만 ATTRACTION_CAP 이 독식을 막는다.
+    """
     if persona is None or not persona.attraction_points:
         return {}
     levels = raw if isinstance(raw, dict) else {}
     weights = {
-        ap.label: LEVEL_WEIGHTS.get(levels.get(ap.label), LEVEL_WEIGHTS["중"])
+        ap.label: (LEVEL_WEIGHTS.get(levels.get(ap.label), LEVEL_WEIGHTS["중"])
+                   * evidence_prior_weight(ap.evidence))
         for ap in persona.attraction_points
     }
     total = sum(weights.values())

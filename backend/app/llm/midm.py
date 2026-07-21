@@ -100,6 +100,32 @@ class MidmClient(LLMClient):
             return prompts.parse_extract("")
         return prompts.parse_extract(raw)
 
+    def extract_correction(self, place_labels: list[str], utterance: str) -> dict:
+        """요약 확인 단계의 '수정 요청' → {fields, place_ops}.
+
+        일반 추출과 분리한 이유는 prompts.CORRECTION_SYSTEM 주석 참고 — 정정은 새
+        사실 진술이 아니라 등록된 항목에 대한 변경 지시라 동작(op)이 필요하다.
+        스텁·호출 실패는 빈 결과 → 호출부가 기존 슬롯 재추출 경로로 폴백한다.
+        """
+        if self.is_stub:
+            return {"fields": {}, "place_ops": []}
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.CORRECTION_SYSTEM},
+                    {"role": "user", "content": prompts.CORRECTION_FEWSHOT_USER},
+                    {"role": "assistant", "content": prompts.CORRECTION_FEWSHOT_ASSISTANT},
+                    {"role": "user", "content": prompts.build_correction_input(
+                        place_labels, utterance)},
+                ],
+                temperature=0.1,
+                max_tokens=400,
+            )
+        except Exception:  # noqa: BLE001 — 정정 실패가 등록 흐름을 죽이면 안 된다
+            self.call_failures += 1
+            return {"fields": {}, "place_ops": []}
+        return prompts.parse_correction(raw, place_labels)
+
     def phrase_question(
         self,
         ptype: PersonaType,

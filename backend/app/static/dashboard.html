@@ -397,13 +397,30 @@ function renderDots() {
 function renderMarkers() {
   markLayer.clearLayers();
   const b = state.bundle; if (!b) return;
-  const pin = (loc, label, fill) =>
-    L.circleMarker([loc.lat, loc.lng], { radius: 6, color: "#0b0b0b", weight: 1.5, fillColor: fill, fillOpacity: 1 })
-      .bindTooltip(`<div class="t-head">${esc(label)}</div>`, { className: "ev-tip" }).addTo(markLayer);
-  if (b.case?.lkp) pin(b.case.lkp, "LKP — 마지막 목격 지점", "#0b0b0b");
-  if (b.persona?.home) pin(b.persona.home, `자택 — ${b.persona.name}`, "#fcfcfb");
+  /* 같은 좌표에 여러 마커가 겹치면 마지막에 그린 것만 보인다 — 지오코딩이 거칠면
+     (카카오 키 없이 동 중심으로 폴백) 자택·끌림점·LKP 가 한 점에 쌓여 자택이
+     사라진다(라이브 실측 2026-07-21). 겹칠 때만 12m 반경으로 흩고 툴팁에 알린다.
+     그리는 순서도 중요도 역순(끌림점 → 자택 → LKP)으로 둬 핵심이 위에 온다. */
+  const seen = new Map();                       // "lat,lng" → 이미 그린 개수
+  const OFFSET_DEG = 12 / 111320;               // 약 12m
+  const pin = (loc, label, fill) => {
+    const key = `${loc.lat.toFixed(6)},${loc.lng.toFixed(6)}`;
+    const n = seen.get(key) ?? 0;
+    seen.set(key, n + 1);
+    let { lat, lng } = loc, note = "";
+    if (n > 0) {                                // 앞서 같은 좌표에 그린 게 있다
+      const a = (n - 1) * (2 * Math.PI / 5) - Math.PI / 2;
+      lat += OFFSET_DEG * Math.sin(a);
+      lng += OFFSET_DEG * Math.cos(a) / Math.cos(loc.lat * Math.PI / 180);
+      note = `<div class="t-muted">좌표 겹침 — 표시 위치를 살짝 옮김</div>`;
+    }
+    return L.circleMarker([lat, lng], { radius: 6, color: "#0b0b0b", weight: 1.5, fillColor: fill, fillOpacity: 1 })
+      .bindTooltip(`<div class="t-head">${esc(label)}</div>${note}`, { className: "ev-tip" }).addTo(markLayer);
+  };
   for (const ap of b.persona?.attraction_points ?? [])
     pin(ap.location, `끌림점 — ${ap.label} (w=${ap.weight})`, "#eda100");
+  if (b.persona?.home) pin(b.persona.home, `자택 — ${b.persona.name}`, "#fcfcfb");
+  if (b.case?.lkp) pin(b.case.lkp, "LKP — 마지막 목격 지점", "#0b0b0b");
 }
 
 /* ── 건물 높이 레이어 (백엔드 envlayer가 만든 데이터) ── */

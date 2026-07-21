@@ -5,7 +5,8 @@
   어느 단계에서도 증발하지 않는다.
 - 카테고리 선호는 지오코딩하지 않고 Persona.preferred_targets 로 분리 저장,
   예측 시점에 LKP 주변 POI 만 매칭한다 (등록된 대상만, 반경·개수 상한).
-- evidence → 초기 weight 계수는 팀 회의 미결 — weight 는 아직 1.0 균등이어야 한다.
+- evidence → 초기 weight 계수(0.9/0.5/0.3)로 출발하고, Phase 2 에서 EXAONE
+  상/중/하 등급과 곱셈 병합된다 (팀 결정 2026-07-21).
 
 (축 점수 컴파일은 phase0.axis_scoring — PR #33 — 소관. 여기서 다루지 않는다.)
 """
@@ -50,7 +51,7 @@ def test_parse_extract_failure_has_preferred_targets_key():
     assert data["preferred_targets"] == []
 
 
-# ── 지오코딩 — 태그 통과, weight 는 아직 균등 ────────────────────────
+# ── 지오코딩 — 태그 통과, weight 는 evidence 계수로 출발 ─────────────
 
 def test_to_attraction_points_passes_tags_through():
     drafts = [{"label": "옛 직장", "area_text": "면목동",
@@ -60,7 +61,18 @@ def test_to_attraction_points_passes_tags_through():
     ap = points[0]
     assert ap.place_type == "workplace"
     assert ap.evidence == AttractionEvidence.previous_missing_found
-    assert ap.weight == 1.0   # evidence→weight 계수는 회의 미결 — 아직 균등이어야 한다
+    assert ap.weight == pytest.approx(0.9)   # 발견지 계수 (균등 1.0 아님)
+
+
+def test_to_attraction_points_weights_by_evidence():
+    """근거 강도가 초기 weight 로 내려온다 — 곱셈 병합의 evidence 항."""
+    drafts = [
+        {"label": "옛 직장", "area_text": "면목동", "evidence": "previous_missing_found"},
+        {"label": "정릉시장", "area_text": "정릉동", "evidence": "caregiver_report"},
+        {"label": "정릉동", "area_text": "정릉동", "evidence": "mention_only"},
+    ]
+    points, _ = to_attraction_points(drafts, GazetteerGeocoder())
+    assert [p.weight for p in points] == pytest.approx([0.9, 0.5, 0.3])
 
 
 def test_to_attraction_points_coerces_unknown_evidence():
@@ -182,6 +194,7 @@ def test_match_preferred_targets_caps_and_tags():
     assert fake.calls[0][1] == int(poi.MATCH_RADIUS_KM * 1000)
     assert all(p.precision == "poi" for p in points)
     assert all(p.evidence == AttractionEvidence.previous_missing_found for p in points)
+    assert all(p.weight == pytest.approx(0.9) for p in points)   # 좌표형과 같은 evidence 계수
     assert points[0].label == "지하철(지하철POI0)"
     # PreferredTarget 은 preferred_target_seeking 슬롯에서만 생성됨 (작업4 origin_slot)
     assert all(p.origin_slot == "preferred_target_seeking" for p in points)

@@ -18,7 +18,13 @@ from datetime import datetime, timedelta
 from app import storage
 from app.llm import midm
 from app.phase0 import retrieval, safety
-from app.geo.geocode import coerce_evidence, get_geocoder, to_attraction_points
+from app.geo.geocode import (
+    base_place_name,
+    clean_area_text,
+    coerce_evidence,
+    get_geocoder,
+    to_attraction_points,
+)
 from app.phase0.retrieval import get_embedder
 from app.phase0.slots import Axis, Sink, SlotSpec, slot_by_key, slots_for
 from app.schemas.common import GeoPoint
@@ -68,9 +74,235 @@ def _user_turns(session: InterviewSession) -> list[str]:
 # API 응답(llm_degraded)으로 드러낸다.
 
 
+# 질문에 붙는 답변 눈높이 예시 "(예: …)" — 보호자에게는 도움이 되지만, 대화 이력이
+# 그대로 추출 입력이 되므로 예시 속 고유명사·상황이 추출을 오염한다. 실측 A/B
+# (2026-07-21, Mi:dm 실호출): "원평중학교 앞에서 발견됐다"는 답변에서 발견 장소 추출이
+# 예시문 있음 0/3 → 예시문 제거 2/3. 예시가 있으면 모델이 마지막 답변의 새 장소 대신
+# 이전 턴 장소들을 재추출한다 = 과거 발견지(가장 강한 근거)가 통째로 유실된다.
+_QUESTION_EXAMPLE_RE = re.compile(r"\s*[(（]\s*예\s*[:：].*?[)）]", re.DOTALL)
+
+
+def _strip_question_examples(messages: list[dict]) -> list[dict]:
+    """추출용 대화 사본 — 챗봇 발화의 "(예: …)"만 제거. 원본 messages 는 불변
+    (보호자에게 보여준 대화 기록은 그대로 남아야 한다)."""
+    out = []
+    for m in messages:
+        if m.get("role") == "assistant" and "예" in str(m.get("text", "")):
+            out.append({**m, "text": _QUESTION_EXAMPLE_RE.sub("", str(m["text"])).strip()})
+        else:
+            out.append(m)
+    return out
+
+
+def _arealess_attractions(session: InterviewSession) -> list[dict]:
+    """지역 표기가 없는 끌림점 — 이대로 두면 지오코딩이 실패해 조용히 사라진다.
+
+    라이브 실측(2026-07-21): "예전에 살던 집"이 area_text 없이 확정돼 좌표화에
+    실패했고, finalize 가 미해결 목록을 버려 페르소나 끌림점이 통째로 누락됐다.
+    보호자는 주소를 물어본 적조차 없으니 고칠 기회도 없었다.
+    """
+    return [a for a in session.draft_attractions
+            if a.get("label") and not clean_area_text(a.get("area_text"))]
+
+
+# 과거 장소를 수집하는 슬롯 — "예전에 살던 집", "과거 발견지"처럼 **지금은 안 사는
+# 곳**이라 지역 표기가 없으면 좌표를 만들 방법이 아예 없다. 그 자리에서 바로 묻는다.
+_PAST_PLACE_SLOTS = ("autobiographical_destination_pull", "dementia_wandering_pattern")
+
+
+def _area_grounded(area: str, utterance: str) -> bool:
+    """지역 표기가 보호자 발화에 실제로 있었나 — 없으면 모델이 지어낸 값이다.
+
+    라이브 실측(2026-07-21): "예전에 살던 집에 가야한다는 말을 종종 합니다"에
+    Mi:dm 이 area_text 를 **현재 집 동네**("청주시 서원구 분평동")로 채웠다. 빈 값이
+    아니라 그럴듯한 오답이라 되묻기가 발동하지 않았고, 과거 거주지가 수색 원점과
+    같은 좌표에 찍혔다. 축 채점의 quote 실존 검증과 같은 원칙으로 막는다.
+    """
+    text = _norm(utterance)
+    tokens = [_norm(t) for t in str(area or "").split() if len(_norm(t)) >= 2]
+    return bool(tokens) and any(t in text for t in tokens)
+
+
+# 과거 장소는 고유명사가 없어 Mi:dm 이 장소로 안 뽑는다 — "예전에 살던 집"은
+# 라이브 실측 0/3 으로 attraction_points 에 한 번도 안 잡혔고 노트로만 남았다.
+# 그러면 되묻기도 못 걸려 끌림점이 영영 안 생긴다. 발화에서 직접 라벨을 만든다.
+_PAST_PLACE_LABEL_RE = re.compile(
+    r"((?:예전|옛날|이전|전)에?\s*(?:살던|다니던|일하던|계시던)\s*(?:집|곳|동네|직장|회사|가게)"
+    r"|옛집|옛\s*직장|친정|고향\s*집|고향)")
+
+
+def _geocodable(label: str) -> bool:
+    """라벨만으로 좌표가 나오나 — 나오면 동네를 되물어 보호자를 번거롭게 할 이유가 없다.
+
+    실패(네트워크·백엔드 장애)는 '모른다'로 보고 되묻기로 넘긴다 — 질문 한 번이
+    좌표 없는 끌림점보다 싸다.
+    """
+    try:
+        return _GEO.locate(label) is not None
+    except Exception:  # noqa: BLE001 — 지오코더 장애가 인터뷰를 죽이면 안 됨
+        return False
+
+
+# 발견지는 evidence 최상위(0.9)라 놓치면 예측 가중치가 통째로 어긋난다. Mi:dm 이
+# 새 장소를 못 뽑고 이전 턴 장소를 되뱉는 실측이 반복돼(2026-07-22 "대흥역에서
+# 발견한 적이 있어요" → 망원시장 반환) 발화에서 직접 지명을 집는 백스톱을 둔다.
+_PLACE_TOKEN_RE = re.compile(
+    r"[가-힣A-Za-z0-9]{1,10}(?:역|시장|공원|학교|대학교|교회|성당|병원|아파트|마트|"
+    r"백화점|정류장|터미널|사거리|삼거리|주민센터|도서관|경로당|복지관)")
+
+
+def _ensure_found_place(
+    session: InterviewSession, prev_slot: SlotSpec, extracted: dict, utterance: str,
+) -> None:
+    """과거 발견지가 추출에서 누락됐으면 발화의 지명을 직접 끌림점으로 만든다.
+
+    추출 결과에 **이번 발화에 나온 장소가 하나도 없을 때만** 돈다 — 모델이 제대로
+    뽑았으면 건드리지 않는다.
+    """
+    if prev_slot.key != "dementia_wandering_pattern":
+        return
+    if _evidence_from_utterance(utterance, prev_slot.key) != "previous_missing_found":
+        return   # 발견 근거가 아니거나 부정문("발견된 적 없어요")
+    norm_utt = _norm(utterance)
+    for ap in extracted.get("attraction_points") or []:
+        if _norm(ap.get("label")) and _norm(ap.get("label")) in norm_utt:
+            return          # 모델이 이 발화의 장소를 제대로 뽑았다
+    for token in _PLACE_TOKEN_RE.findall(utterance):
+        if any(_norm(a.get("label")) == _norm(token) for a in session.draft_attractions):
+            continue        # 이미 등록된 장소면 아래 병합 경로가 근거를 승급한다
+        ap = {"label": token, "area_text": token, "place_type": "found_location",
+              "evidence": "previous_missing_found", "origin_slot": prev_slot.key}
+        session.draft_attractions.append(ap)
+        extracted.setdefault("attraction_points", []).append(dict(ap))
+        return              # 첫 지명 하나만 — 여러 개 집으면 오탐이 는다
+
+
+def _ensure_past_place(
+    session: InterviewSession, prev_slot: SlotSpec, extracted: dict, utterance: str,
+) -> None:
+    """과거 장소 슬롯인데 끌림점이 안 생겼으면 발화에서 라벨을 만들어 넣는다.
+
+    좌표는 아직 없다 — 바로 뒤 _ask_area_for_new_place 가 주소를 되묻는다.
+    보호자가 "예전에 살던 집에 간다"고 말한 것은 **예측에 쓸 목적지 후보**이지
+    행동 노트로만 남길 정보가 아니다.
+    """
+    if prev_slot.key != "autobiographical_destination_pull":
+        return
+    if extracted.get("attraction_points"):
+        return
+    m = _PAST_PLACE_LABEL_RE.search(utterance)
+    if not m:
+        return
+    label = re.sub(r"\s+", " ", m.group(1)).strip()
+    if any(_norm(a.get("label")) == _norm(label) for a in session.draft_attractions):
+        return
+    ap = {"label": label, "area_text": "", "place_type": "past_residence",
+          "evidence": "mention_only", "origin_slot": prev_slot.key}
+    _upgrade_evidence(ap, _evidence_from_utterance(utterance, prev_slot.key))
+    session.draft_attractions.append(ap)
+    extracted.setdefault("attraction_points", []).append(dict(ap))   # 되묻기 대상으로 인계
+
+
+def _ask_area_for_new_place(
+    session: InterviewSession, prev_slot: SlotSpec, extracted: dict, utterance: str,
+) -> str | None:
+    """과거 장소 슬롯에서 새 끌림점이 나왔는데 지역 표기가 없거나 근거 없으면 되물을 질문.
+
+    보호자가 "그런 곳이 있다"고 답한 **그 턴에** 주소를 묻는다 — 요약 직전까지
+    미루면 대화 맥락이 끊기고, 그때는 어느 장소 얘기였는지 서로 헷갈린다.
+    """
+    if prev_slot.key not in _PAST_PLACE_SLOTS:
+        return None
+    for raw_ap in extracted.get("attraction_points") or []:
+        label = str(raw_ap.get("label") or "").strip()
+        if not label or label in session.asked_area_labels:
+            continue
+        ap = next((a for a in session.draft_attractions
+                   if _norm(a.get("label")) == _norm(label)), None)
+        if ap is None:
+            continue
+        area = clean_area_text(ap.get("area_text"))
+        if area and _area_grounded(area, utterance):
+            continue          # 보호자가 직접 말한 지역 — 물을 필요 없다
+        ap["area_text"] = ""  # 지어낸 값은 버린다(그대로 두면 엉뚱한 좌표가 된다)
+        if _geocodable(label):
+            continue          # 라벨만으로 좌표가 나온다("대흥역 2번 출구") — 묻지 않는다
+        session.asked_area_labels.append(label)
+        session.pending_area_label = label
+        return (f"'{label}'은 어느 동네인가요? 동 이름이나 근처 건물·가게 이름을 "
+                "알려주시면 지도에 표시해 둘게요. (모르시면 '모르겠어요'라고 답해주세요)")
+    return None
+
+
+def _needs_probe(session: InterviewSession, slot: SlotSpec, utterance: str) -> bool:
+    """이 슬롯을 한 번 더 파고들어야 하나 — 하위 항목(probes)이 안 채워진 얕은 답인가.
+
+    라이브 실측(2026-07-21): Mi:dm 은 "혈압약을 저녁에만 드세요"에도 slot_filled=true
+    를 낸다. 충족 처리된 슬롯은 _blocked_keys 로 후보에서 빠지므로 **probes 가 한
+    번도 쓰이지 않는다** — 씨앗 질문은 clean_question 이 첫 물음표에서 자르기 때문에
+    ("복용 중인 약이 있나요?" 뒤의 '거르면 어떤 증상' 이 잘림) 하위 항목은 꼬리질문이
+    유일한 통로인데, 그 통로가 닫혀 있던 것이다. 슬롯당 1회만 보장한다.
+    """
+    if not slot.probes or slot.key in session.probed_keys:
+        return False
+    if slot.axis == Axis.profile:
+        return False        # 이름·집은 파고들 하위 항목이 아니다
+    if _is_pure_ignorance(utterance) or _is_negative_answer(utterance):
+        return False        # "모르겠다"·"아니요"(해당 없음)는 더 물어도 얻을 게 없다
+    return len(_slot_collected(session, slot)) < 2   # 확보한 사실이 1개 이하 = 얕음
+
+
+# 꼬리질문이 원 질문의 재탕이면 안 된다 — 정확 일치만 잡는 _dedupe_question 으로는
+# "낯선 사람이 다가와 말을 걸면 어떻게 반응하시나요?" vs "낯선 시민이 다가와 말을
+# 걸면 어떤 행동을 보이시나요?" 를 못 거른다(라이브 실측 2026-07-22).
+_PROBE_DUP_JACCARD = 0.5
+
+
+def _probe_question(session: InterviewSession, slot: SlotSpec) -> str:
+    """하위 항목 꼬리질문 — LLM 문장화를 쓰되, 원 질문의 재탕이면 각도를 직접 묻는다."""
+    asked = [m["text"] for m in session.messages if m["role"] == "assistant"]
+    recent = asked[-3:]
+    raw = _phrase_tracked(session, slot, is_followup=True)
+    question, _fb = safety.guard_question(
+        raw, slot, _EMB, bank=slots_for(session.persona_type))
+    qt = _note_tokens(question)
+    too_similar = any(
+        pt and qt and len(qt & pt) / len(qt | pt) >= _PROBE_DUP_JACCARD
+        for pt in (_note_tokens(a) for a in recent))
+    if too_similar or not question.strip():
+        # 결정론적 폴백 — 아직 안 들은 각도를 그대로 묻는다. 어색해도 재탕보다 낫다.
+        collected = " ".join(_slot_collected(session, slot))
+        angle = next((pr for pr in slot.probes
+                      if not any(tok in collected for tok in _note_tokens(pr))),
+                     slot.probes[0])
+        angle = re.sub(r"\s*\([a-z_]+\)\s*$", "", angle).strip()   # "(destination_retention)" 제거
+        question = f"{angle}에 대해서도 알려주세요."
+    return _dedupe_question(session, slot, question)
+
+
+def _resolve_pending_area(session: InterviewSession, utterance: str) -> None:
+    """되물은 주소 답변을 해당 끌림점의 area_text 로 확정 — LLM 추출에 의존하지 않는
+    결정론적 백스톱(home 규칙 폴백과 같은 원칙). 장소 표현이 아니면 그냥 넘어간다."""
+    label = session.pending_area_label
+    if not label:
+        return
+    session.pending_area_label = None
+    if _is_pure_ignorance(utterance) or _is_negative_answer(utterance):
+        return   # "모르겠어요" — 되묻기는 1회뿐이므로 여기서 포기(질문 반복 금지)
+    if not _valid_home_text(utterance):
+        return   # 문장형·비장소 답변은 지오코딩 불가 — 받지 않는다
+    area = _strip_tail_particles(clean_area_text(utterance))   # 질의로 나갈 값이라 조사 제거
+    if not area:
+        return
+    for ap in session.draft_attractions:
+        if _norm(ap.get("label")) == _norm(label) and not clean_area_text(ap.get("area_text")):
+            ap["area_text"] = area
+            return
+
+
 def _extract_tracked(session: InterviewSession, slot: SlotSpec) -> dict:
     before = midm.call_failures
-    out = midm.extract_answer(slot, session.messages)
+    out = midm.extract_answer(slot, _strip_question_examples(session.messages))
     if midm.call_failures > before:
         session.llm_call_failures += midm.call_failures - before
         session.llm_degraded = True
@@ -134,6 +366,14 @@ _HOME_RE = re.compile(
 )
 
 
+_TAIL_PARTICLE_RE = re.compile(r"(?:에|에서|이요|이에요|예요|입니다|이|가|은|는|요)\s*$")
+
+
+def _strip_tail_particles(text: str) -> str:
+    """말끝 조사 제거 — "산남동이요" → "산남동". 지오코딩 질의로 나갈 값에 필요."""
+    return _TAIL_PARTICLE_RE.sub("", str(text or "").strip()).strip()
+
+
 def _valid_home_text(value) -> bool:
     """home 필드 값이 지오코딩을 시도할 만한 '장소 표현'인지 — 문장형 답 차단.
 
@@ -146,7 +386,7 @@ def _valid_home_text(value) -> bool:
         return False
     if _HOME_RE.search(t):
         return True
-    core = re.sub(r"(?:에|에서|이요|이에요|예요|입니다|이|가|은|는|요)\s*$", "", t)
+    core = _strip_tail_particles(t)
     if re.search(r"(?:계세|계셔|살|다니|지내|있어|있으|해요|세요|어요|네요|니다)", core):
         return False
     return 2 <= len(core) <= 20
@@ -311,8 +551,82 @@ def _norm(s: str) -> str:
     return re.sub(r"[\s()]+", "", str(s or ""))
 
 
+# area_text 플레이스홀더 정규화는 지오코딩 계층이 단일 소스 (geo.geocode.clean_area_text).
+_clean_area = clean_area_text
+
+
 # evidence 강도 순위 (낮을수록 강함) — 중복 언급 시 더 강한 근거로만 승격
 _EVIDENCE_RANK = {"previous_missing_found": 0, "caregiver_report": 1, "mention_only": 2}
+
+# evidence 규칙 백스톱 — Mi:dm 은 "발견됐다"가 아닌 것을 전부 최약으로 떨어뜨린다.
+# 실측 A/B(2026-07-21, 각 4회): "원마루 공원에 자주 가세요", "예전에 살던 집에 가야
+# 한다는 말을 종종 합니다" 모두 4/4 mention_only — 프롬프트 문구를 고쳐도 그대로였다.
+# 근거 강도는 한국어 표면형이 뚜렷하므로(자주·종종·가려고 한다) 코드가 판정한다.
+# 가드레일 원칙 그대로: LLM 판정은 받되, 규칙이 더 강한 근거를 찾으면 **승급만** 한다.
+# '~에서 발견됐다'(피발견)만 근거로 본다. "새 공원을 발견하고 좋아하셨어요" 같은
+# 타동사 용법(을/를 + 발견)은 장소 근거가 아니므로 제외 — 슬롯 종류에 의존하지
+# 않고 문장 구조로 가른다(발견 진술은 lost_behavior 등 다른 슬롯에서도 나온다).
+_EV_FOUND_RE = re.compile(r"(?<![을를])(?<![을를]\s)(발견|찾았|찾으셨)|파출소|지구대|경찰서")
+_EV_REPEAT_RE = re.compile(
+    r"자주|종종|매일|날마다|항상|늘\s|반복|가려고|가야\s*한|가시려|가신다|"
+    r"찾아\s*나|나가려|보러\s*가|들르|다니려")
+_EV_NEGATION_RE = re.compile(r"아니|않|없|안\s*가|말리")
+
+
+def _evidence_from_utterance(utterance: str, slot_key: str) -> str | None:
+    """보호자 발화 표면형으로 근거 강도 판정. 근거가 없으면 None(=LLM 판정 유지).
+
+    부정문("가시려는 건 아니에요")은 그 문장 단위로 배제한다 — 반복 표현이 있어도
+    지향을 부정하는 말이면 승급하지 않는다.
+    """
+    text = str(utterance or "")
+    for sentence in re.split(r"[.!?\n]", text):
+        # "발견된 적 없어요"처럼 부정하면 근거가 아니다 (반복 표현과 같은 원칙)
+        if _EV_FOUND_RE.search(sentence) and not _EV_NEGATION_RE.search(sentence):
+            return "previous_missing_found"
+    for sentence in re.split(r"[.!?\n]", text):
+        if _EV_REPEAT_RE.search(sentence) and not _EV_NEGATION_RE.search(sentence):
+            return "caregiver_report"
+    return None
+
+
+def _verify_found_evidence(ap: dict, utterance: str, slot_key: str) -> None:
+    """최상위 등급(previous_missing_found)은 발화 근거가 있을 때만 인정한다.
+
+    가장 큰 가중치(0.9)라 오분류 비용이 가장 크다. 실측(2026-07-22): "과거에
+    망원시장에서 **가게를 하신 적**이 있어서 거기에 가야 한다고…"를 Mi:dm 이
+    previous_missing_found 로 분류해, 평소 다니는 시장이 과거 발견지로 둔갑했다.
+    승급 규칙은 등급을 올리기만 하므로 이 오분류를 못 막는다 — 근거 실존 검증
+    (축 채점의 quote 검증과 같은 원칙)으로 새로 들어온 판정만 되돌린다.
+    """
+    if ap.get("evidence") != "previous_missing_found":
+        return
+    if _evidence_from_utterance(utterance, slot_key) == "previous_missing_found":
+        return   # 발화에 '발견' 근거가 실제로 있다
+    ap["evidence"] = ("caregiver_report"
+                      if _evidence_from_utterance(utterance, slot_key) == "caregiver_report"
+                      else "mention_only")
+
+
+def _upgrade_evidence(ap: dict, rule_grade: str | None, utterance: str = "") -> None:
+    """규칙 판정이 LLM 판정보다 강하면 올린다 (내리지는 않는다).
+
+    단 **이번 발화에 실제로 언급된 장소에만** 적용한다. Mi:dm 은 새 장소를 못 뽑을 때
+    이전 턴 장소를 다시 뱉는데(라이브 실측 2026-07-22: "대흥역에서 발견한 적이
+    있어요" → 망원시장 반환), 그때 발화의 '발견' 근거를 그 장소에 붙이면 **엉뚱한
+    곳이 최고 가중치(0.9)를 받는다.** 실제로 망원시장이 과거 발견지로 둔갑했다.
+    """
+    if rule_grade is None:
+        return
+    label = _norm(ap.get("label"))
+    if utterance and label and label not in _norm(utterance):
+        base = _norm(base_place_name(str(ap.get("label") or "")))
+        if not base or base not in _norm(utterance):
+            return   # 이 발화가 말한 장소가 아니다 — 근거를 옮겨 붙이지 않는다
+    current = ap.get("evidence")
+    if _EVIDENCE_RANK.get(rule_grade, 9) < _EVIDENCE_RANK.get(current, 9):
+        ap["evidence"] = rule_grade
+
 
 # 노트 품질 필터 — 라이브 실측(2026-07-17): Mi:dm 이 "잘 모르겠어요"를 노트로
 # 복사하고, 답변에 없는 프롬프트 예시 문구("길 잃으면 계속 걷는 편")까지 노트로
@@ -384,6 +698,10 @@ def _apply_extraction(
             continue
         if home_txt and key in home_txt:
             continue
+        ap["area_text"] = _clean_area(ap.get("area_text"))   # "언급 없음" → "" (병합·되묻기 판정의 전제)
+        if utterance:
+            _verify_found_evidence(ap, utterance, prev_slot.key)   # 최상위 등급 근거 검증
+        _upgrade_evidence(ap, _evidence_from_utterance(utterance, prev_slot.key), utterance)
         # 이 답변이 나온 슬롯 — unfamiliarity 게이지 폴백 판단(작업4)의 origin_slot 원료.
         ap.setdefault("origin_slot", prev_slot.key)
         # 포함 관계 라벨("대흥역" vs "대흥역 2번 출구")도 같은 장소로 병합 (실측 5차).
@@ -398,8 +716,11 @@ def _apply_extraction(
         kept = by_key[match]
         if _EVIDENCE_RANK.get(ap.get("evidence"), 9) < _EVIDENCE_RANK.get(kept.get("evidence"), 9):
             kept["evidence"] = ap["evidence"]
-        if not kept.get("area_text") and ap.get("area_text"):
-            kept["area_text"] = ap["area_text"]   # 지역 표기는 있는 쪽을 보존
+        # 지역 표기는 있는 쪽을 보존. 단 확인 게이트의 '정정'(overwrite)은 이미 있는
+        # 표기도 덮는다 — 보호자가 "그 집 주소는 산남동이에요"라고 고쳐 말해도
+        # 기존 값이 있다는 이유로 무시되던 실측 버그(2026-07-21).
+        if ap.get("area_text") and (overwrite or not kept.get("area_text")):
+            kept["area_text"] = ap["area_text"]
         if not kept.get("origin_slot") and ap.get("origin_slot"):
             kept["origin_slot"] = ap["origin_slot"]   # 어느 슬롯에서 처음 나왔는지도 first-wins
     # 카테고리 선호 (좌표화 불가 — 지하철·자동문 등) — label 기준 중복 제거 + 근거 승격
@@ -436,6 +757,24 @@ def _apply_extraction(
             session.slot_notes.setdefault(prev_slot.key, []).append(note)
             seen_notes.append(note)
             got_note = True
+    # 노트 폴백 — Mi:dm 이 slot_filled 만 내고 behavior_notes 를 비워 보내는 실측
+    # (2026-07-21 라이브, "혈압약을 저녁에만 드세요" → notes [] 3/3). 그대로 두면
+    # 보호자가 말한 사실이 axis_evidence 에서 통째로 사라진다(대화는 했는데 저장이
+    # 안 되는 상태). 재서술이 없으면 **원발화 자체**를 근거로 남긴다 — 축 채점은
+    # 원발화를 1차 근거로 쓰므로 형태상 문제도 없다.
+    # 단, 모델이 노트를 **냈는데** 중복·환각 필터에 걸린 경우는 폴백하지 않는다 —
+    # 그건 이미 저장된 사실이거나 버려야 할 사실이지, 유실이 아니다.
+    if (not got_note and not notes_in and prev_slot.axis != Axis.profile and utterance
+            and extracted.get("slot_filled")
+            and not _is_pure_ignorance(utterance) and not _is_negative_answer(utterance)
+            and _is_informative_note(utterance, utterance)
+            and not _is_dup_note(utterance, seen_notes)):
+        tagged = f"{prev_slot.label}: {utterance}"
+        if tagged not in session.draft_behaviors:
+            session.draft_behaviors.append(tagged)
+            session.slot_notes.setdefault(prev_slot.key, []).append(utterance)
+            got_note = True
+
     # 근거를 낳은 답변은 원문도 보존 — 노트는 Mi:dm 재서술이라 정보가 깎이고,
     # 축 점수 채점(axis_scoring)은 원발화 인용 검증을 환각 필터로 쓴다.
     # 장소 추출물만 나온 답변도 보존(자전적기억·선호대상 축 근거 공백 완화).
@@ -523,13 +862,29 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
     got_something = True   # 이번 답에서 뭐라도 건졌나 — 빈손이면 직전 슬롯 재선택 회피
     if prev_slot is not None:
         extracted = _extract_tracked(session, prev_slot)
+        # 과거 장소 슬롯에서 장소가 담긴 답인데 빈손이면 1회 재시도 — Mi:dm 이
+        # 같은 입력에도 이따금 빈 배열을 낸다(실측: 재시도 6/6 회복). 여기서 놓치면
+        # 과거 발견지(가장 강한 근거)가 통째로 사라지므로 한 번 더 물어본다.
+        if (prev_slot.key in _PAST_PLACE_SLOTS
+                and not (extracted.get("attraction_points") or [])
+                and _evidence_from_utterance(clean, prev_slot.key)
+                and not _is_pure_ignorance(clean) and not _is_negative_answer(clean)):
+            retry = _extract_tracked(session, prev_slot)
+            if retry.get("attraction_points"):
+                extracted = retry
         _merge_rule_fallback(session, prev_slot, extracted, clean)
         got_something = bool(
             extracted.get("fields") or extracted.get("attraction_points")
             or extracted.get("preferred_targets") or extracted.get("behavior_notes")
             or extracted.get("slot_filled")
         )
+        if session.pending_area_label:
+            # 되묻기 답변("산남동이요")은 주소일 뿐 새 장소가 아니다 — 그대로 두면
+            # Mi:dm 이 "산남동"을 별개 끌림점으로 추가한다.
+            extracted["attraction_points"] = []
+            extracted["preferred_targets"] = []
         _apply_extraction(session, prev_slot, extracted, utterance=clean)
+        _resolve_pending_area(session, clean)
         # 순수 무지 답변("모르겠다니까요")이면 그 슬롯은 즉시 소진 — 같은 것을
         # 또 물어 보호자를 지치게 하지 않는다(라이브 실측 2026-07-17 2차).
         if _is_pure_ignorance(clean) and prev_slot.key not in session.filled_keys:
@@ -540,6 +895,28 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
                 and prev_slot.key not in session.filled_keys:
             session.filled_keys.append(prev_slot.key)
             session.asked_counts.pop(prev_slot.key, None)
+        # 과거 장소를 새로 얻었으면 그 자리에서 주소를 묻는다 — 좌표 없는 끌림점은
+        # 예측에 못 들어가므로 "장소를 들었다"와 "끌림점이 생겼다"는 다른 일이다.
+        _ensure_found_place(session, prev_slot, extracted, clean)
+        _ensure_past_place(session, prev_slot, extracted, clean)
+        area_q = _ask_area_for_new_place(session, prev_slot, extracted, clean)
+        if area_q:
+            session.messages.append({"role": "assistant", "text": area_q})
+            storage.interviews.save(session.id, session)
+            return session
+        # 얕은 답이면 같은 슬롯의 하위 항목(probes)을 1회 파고든다 — Mi:dm 의
+        # slot_filled 판정만 믿으면 하위 항목을 영영 못 묻는다(위 _needs_probe 주석).
+        # 빈손 답변은 파고들지 않는다 — 그건 '충족 실패'라 기존 재질문 예산
+        # (asked_counts·MAX_ASKS_PER_SLOT)이 담당한다. 파고들기는 모델이 '다 받았다'
+        # (slot_filled)고 판정했는데 실제로는 얕은 경우만이다.
+        if extracted.get("slot_filled") and _needs_probe(session, prev_slot, clean):
+            session.probed_keys.append(prev_slot.key)
+            probe_q = _probe_question(session, prev_slot)
+            session.messages.append(
+                {"role": "assistant", "text": _personalize(probe_q, session.persona_type)})
+            session.prev_target_key = prev_slot.key
+            storage.interviews.save(session.id, session)
+            return session
 
     # 2) 유형 확정 (identity 턴). 미확정이면 유형부터 다시 묻는다.
     if session.persona_type is None:
@@ -586,6 +963,22 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
             session.messages.append(
                 {"role": "assistant", "text": _personalize(q, session.persona_type)})
             session.prev_target_key = "routine_destinations"
+            storage.interviews.save(session.id, session)
+            return session
+        # 요약 전 '주소 없는 끌림점' 되묻기 — 장소당 1회. 좌표가 없으면 그 장소는
+        # 예측에 못 들어가고 finalize 에서 조용히 버려지므로, 닫기 전에 한 번은 묻는다.
+        pending = [a for a in _arealess_attractions(session)
+                   if str(a.get("label")) not in session.asked_area_labels]
+        if pending:
+            label = str(pending[0]["label"])
+            session.asked_area_labels.append(label)
+            session.pending_area_label = label
+            session.messages.append({"role": "assistant", "text": (
+                f"'{label}'은 어느 동네인가요? 동 이름이나 근처 건물·가게 이름이면 됩니다. "
+                "(모르시면 '모르겠어요'라고 답해주세요)")})
+            # 추출은 그 장소가 나온 슬롯 맥락에서 — 답이 그 슬롯 근거로도 쌓이게 한다.
+            session.prev_target_key = str(pending[0].get("origin_slot")
+                                          or "autobiographical_destination_pull")
             storage.interviews.save(session.id, session)
             return session
         # 종료 대신 '요약 → 확인' 단계로 진입
@@ -699,6 +1092,114 @@ def _dedupe_question(session: InterviewSession, target: SlotSpec, question: str)
     return _REASK_PREFIXES[n % len(_REASK_PREFIXES)] + seed
 
 
+# 자택 정정으로 인정할 신호 — '지금 사는 집'을 명시할 때만 수색 원점을 바꾼다.
+_HOME_CORRECTION_RE = re.compile(
+    r"(지금|현재|요즘|사시는|사는|거주|계시는)\s*(집|곳|데)|자택|본가|사시는데")
+
+
+# 삭제는 되돌릴 수 없다 — 보호자가 실제로 뺄 것을 요구했을 때만 인정한다.
+# 라이브 실측(2026-07-21): "원평중학교가 아니라 원평초등학교예요"(이름 정정)에
+# 모델이 remove 를 내서 장소가 이름 교체 없이 통째로 사라졌다.
+_REMOVE_CUE_RE = re.compile(r"빼|삭제|지워|지우|제외|없애|안\s*가|이제\s*안|해당\s*없")
+
+
+def _mentioned_place(session: InterviewSession, utterance: str) -> dict | None:
+    """발화가 지목한 등록 장소 (가장 긴 라벨 우선). 없으면 None."""
+    text = _norm(utterance)
+    hits = [a for a in session.draft_attractions
+            if a.get("label") and len(_norm(a.get("label"))) >= 3
+            and _norm(a.get("label")) in text]
+    return max(hits, key=lambda a: len(_norm(a.get("label")))) if hits else None
+
+
+def _is_place_correction(session: InterviewSession, utterance: str) -> bool:
+    """등록된 끌림점 이름을 지목한 발화인가 — 그렇다면 자택 정정이 아니다.
+
+    라이브 실측(2026-07-21): "예전에 살던 집은 산남동이 아니라 수곡동이에요"라는
+    **끌림점** 정정에 슬롯 랭킹이 home 을 골라, 수색 원점이 조용히 수곡동으로
+    바뀌었다. 확인 게이트는 overwrite=True 라 first-wins 보호가 풀려 있어
+    (끌림점은 그대로인 채) 자택만 틀어지는 최악의 조합이 된다.
+    """
+    if _HOME_CORRECTION_RE.search(utterance):
+        return False       # '지금 사는 집' 을 명시했으면 자택 정정이 맞다
+    return _mentioned_place(session, utterance) is not None
+
+
+def _guard_home_overwrite(session: InterviewSession, extracted: dict, utterance: str) -> None:
+    """장소를 지목한 정정이면 home 필드 변경을 버린다 (수색 원점 보호)."""
+    fields = extracted.get("fields") or {}
+    if "home" in fields and _is_place_correction(session, utterance):
+        fields.pop("home")
+
+
+def _apply_correction(session: InterviewSession, utterance: str) -> bool:
+    """확인 게이트 전용 정정 — 장소 이름·위치 변경과 삭제까지 처리. 반영했으면 True.
+
+    LLM 은 '무엇을 어떻게'만 닫힌 어휘로 내고(prompts.CORRECTION_SYSTEM), 적용은
+    여기서 결정론적으로 한다 — 기존 가드레일 원칙(정성 판단은 LLM, 반영은 코드).
+    """
+    labels = [str(a.get("label")) for a in session.draft_attractions if a.get("label")]
+    before = midm.call_failures
+    result = midm.extract_correction(labels, utterance)
+    if midm.call_failures > before:
+        session.llm_call_failures += midm.call_failures - before
+        session.llm_degraded = True
+
+    changed = False
+    ops = list(result.get("place_ops") or [])
+    for key, value in (result.get("fields") or {}).items():
+        if key == "home" and _is_place_correction(session, utterance):
+            # 장소의 동네 정정을 모델이 home 으로 잘못 보내는 실측(2/2) — 수색 원점을
+            # 지키는 데서 끝내지 않고, 지목된 장소의 지역 정정으로 되돌려 살린다.
+            # (그냥 버리면 보호자에게는 "또 안 먹혔다"로 보인다.)
+            place = _mentioned_place(session, utterance)
+            if place is not None and not any(
+                    o["op"] in ("set_area", "rename", "remove")
+                    and _norm(o.get("target")) == _norm(place.get("label")) for o in ops):
+                ops.append({"op": "set_area", "target": str(place["label"]), "value": value})
+            continue
+        if key == "home" and not _valid_home_text(value):
+            continue
+        if session.draft_fields.get(key) != value:
+            session.draft_fields[key] = value
+            changed = True
+
+    for op in ops:
+        kind = op["op"]
+        if kind == "add":
+            label = op["value"]
+            if any(_norm(a.get("label")) == _norm(label) for a in session.draft_attractions):
+                continue
+            session.draft_attractions.append({
+                "label": label, "area_text": clean_area_text(op.get("area")),
+                "evidence": "caregiver_report", "origin_slot": "routine_destinations"})
+            changed = True
+            continue
+        target = next((a for a in session.draft_attractions
+                       if _norm(a.get("label")) == _norm(op["target"])), None)
+        if target is None:
+            continue
+        if kind == "remove":
+            if not _REMOVE_CUE_RE.search(utterance):
+                continue   # 보호자가 빼달라고 한 적 없다 — 이름 정정을 삭제로 낸 오분류
+            session.draft_attractions.remove(target)
+            changed = True
+        elif kind == "rename":
+            old_label = str(target.get("label") or "")
+            target["label"] = op["value"]
+            # 지역 표기가 옛 이름을 담고 있으면 같이 따라간다 — 안 그러면 "원평초등학교"로
+            # 고친 뒤에도 area_text("원평중학교 앞")가 남아 옛 장소로 좌표가 잡힌다.
+            if old_label and _norm(old_label) in _norm(target.get("area_text")):
+                target["area_text"] = op["value"]
+            changed = True
+        elif kind == "set_area":
+            area = _strip_tail_particles(clean_area_text(op["value"]))
+            if area:
+                target["area_text"] = area
+                changed = True
+    return changed
+
+
 def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSession:
     """요약 확인 응답 처리: 긍정→등록 완료 / 정정→관련 슬롯 반영 후 재요약."""
     session.messages.append({"role": "user", "text": clean})
@@ -724,15 +1225,34 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
         storage.interviews.save(session.id, session)
         return session
 
-    # 정정: 발화와 가장 관련있는 슬롯으로 재추출해 반영 → 다시 요약.
-    # 정정은 명시적 수정 의사이므로 first-wins 를 넘어 덮어쓴다 (overwrite=True).
-    ranked, _ = retrieval.rank_next_slots(
-        session.persona_type, [clean], set(), _EMB, top_k=1
-    )
-    if ranked:
-        ext = _extract_tracked(session, ranked[0].slot)
-        _merge_rule_fallback(session, ranked[0].slot, ext, clean)   # 주소 정정 등 규칙 백스톱
-        _apply_extraction(session, ranked[0].slot, ext, overwrite=True, utterance=clean)
+    # 정정: 전용 경로(장소 변경 지시 포함)를 먼저 시도하고, 아무것도 못 건지면
+    # 기존 슬롯 재추출로 폴백한다(스텁·호출 실패 대비).
+    if not _apply_correction(session, clean):
+        ranked, _ = retrieval.rank_next_slots(
+            session.persona_type, [clean], set(), _EMB, top_k=1
+        )
+        if ranked:
+            ext = _extract_tracked(session, ranked[0].slot)
+            _merge_rule_fallback(session, ranked[0].slot, ext, clean)   # 주소 정정 등 규칙 백스톱
+            _guard_home_overwrite(session, ext, clean)
+            _apply_extraction(session, ranked[0].slot, ext, overwrite=True, utterance=clean)
+
+    # 정정으로 새로 들어온 장소에 지역 표기가 없으면 요약 대신 주소부터 묻는다 —
+    # 확인 단계에서 추가된 곳도 좌표가 없으면 그대로 사라지기 때문(요약 전 게이트와 동일 원칙).
+    pending = [a for a in _arealess_attractions(session)
+               if str(a.get("label")) not in session.asked_area_labels]
+    if pending:
+        label = str(pending[0]["label"])
+        session.asked_area_labels.append(label)
+        session.pending_area_label = label
+        session.awaiting_confirmation = False
+        session.prev_target_key = str(pending[0].get("origin_slot") or "routine_destinations")
+        session.messages.append({"role": "assistant", "text": (
+            f"'{label}'은 어느 동네인가요? 동 이름이나 근처 건물·가게 이름이면 됩니다. "
+            "(모르시면 '모르겠어요'라고 답해주세요)")})
+        storage.interviews.save(session.id, session)
+        return session
+
     session.messages.append({"role": "assistant", "text": build_summary(session)})
     storage.interviews.save(session.id, session)
     return session
@@ -908,7 +1428,13 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     home = home_res.point
 
     # ② 끌림점 — home 앵커로 반경 내 근접 검색 (전국 키워드 오검색 차단)
-    points, _unresolved = to_attraction_points(session.draft_attractions, geo, anchor=home)
+    points, unresolved = to_attraction_points(session.draft_attractions, geo, anchor=home)
+    if unresolved:
+        # 되묻기(_arealess_attractions)까지 거치고도 좌표가 안 나온 장소 — 예측에서
+        # 빠진다. 조용히 사라지면 원인 추적이 불가능하므로 최소한 로그로 남긴다.
+        print("[phase0] 끌림점 좌표화 실패 → 예측 제외: "
+              + ", ".join(f"{u.get('label')}({u.get('area_text') or '지역 미상'})"
+                          for u in unresolved))
     # 중복 제거 — 같은 이름(또는 같은 좌표)이 poi/address 로 두 번 잡히면 더 정밀한 것만.
     _rank = {"poi": 0, "address": 1, "dong": 2, "approx": 3, "unknown": 4}
     uniq: dict[object, AttractionPoint] = {}

@@ -349,7 +349,11 @@ class ExaoneClient(LLMClient):
         return guardrail.apply_axis_scores(prior, axis_scores, persona, default.radius_lognormal)
 
     def _default_prior(self, persona: Persona | None, report: MissingReport) -> PriorParams:
-        """프로파일 통계 기본값 — 스텁 모드이자 가드레일의 항목별 폴백 기준."""
+        """프로파일 통계 기본값 — 스텁 모드이자 가드레일의 항목별 폴백 기준.
+
+        끌림점 가중치는 AttractionPoint.weight(= evidence 계수) 정규화 —
+        LLM 등급이 없는 경로라 곱셈 병합의 evidence 항만 남는 형태다.
+        """
         mtype = report.missing_type
         attraction: dict[str, float] = {}
         if persona and persona.attraction_points:

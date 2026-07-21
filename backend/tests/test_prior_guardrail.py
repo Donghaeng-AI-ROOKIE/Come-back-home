@@ -7,7 +7,12 @@ import pytest
 from app.llm.exaone import ExaoneClient
 from app.phase2 import guardrail
 from app.schemas.common import GeoPoint
-from app.schemas.persona import AttractionPoint, Persona, PersonaType
+from app.schemas.persona import (
+    AttractionEvidence,
+    AttractionPoint,
+    Persona,
+    PersonaType,
+)
 from app.schemas.prediction import LognormalParams, PriorParams
 from app.schemas.report import MissingReport
 
@@ -89,6 +94,62 @@ def test_attraction_cap_prevents_single_point_dominance():
 
 def test_attraction_no_persona_returns_empty():
     assert guardrail.sanitize_attraction_levels({"장소0": "상"}, None) == {}
+
+
+# ── 끌림점 등급 × evidence 곱셈 병합 (팀 결정 2026-07-21) ────────────
+def _persona_with_evidence(*evidences: AttractionEvidence) -> Persona:
+    points = [AttractionPoint(label=f"장소{i}", location=HOME, evidence=ev)
+              for i, ev in enumerate(evidences)]
+    return Persona(id="t", type=PersonaType.dementia, name="테스트", age=78,
+                   home=HOME, attraction_points=points)
+
+
+def test_attraction_evidence_multiplies_llm_level():
+    """같은 '중' 등급이면 근거 강도만으로 갈린다 — 0.9 : 0.3 : 0.3 = 3 : 1 : 1.
+
+    (끌림점 2개로 두면 3:1 이 상한 0.6 에 걸려 1.5:1 로 눌리므로 3개로 확인한다.)
+    """
+    weights = guardrail.sanitize_attraction_levels(
+        {"장소0": "중", "장소1": "중", "장소2": "중"},
+        _persona_with_evidence(AttractionEvidence.previous_missing_found,
+                               AttractionEvidence.mention_only,
+                               AttractionEvidence.mention_only))
+    assert weights["장소0"] / weights["장소1"] == pytest.approx(3.0)
+    assert abs(sum(weights.values()) - 1.0) < 1e-9
+
+
+def test_attraction_evidence_damps_llm_overrating():
+    """언급뿐인 곳을 LLM 이 '상'으로 밀어올려도 근거가 되돌린다.
+
+    등급만 보면 3:1 이지만, 상×언급 = 3×0.3 = 0.9 와 하×발견지 = 1×0.9 = 0.9 로
+    동률이 된다 — 한쪽 override 였다면 사라졌을 신호가 곱에서는 살아 있다.
+    """
+    weights = guardrail.sanitize_attraction_levels(
+        {"장소0": "상", "장소1": "하"},
+        _persona_with_evidence(AttractionEvidence.mention_only,
+                               AttractionEvidence.previous_missing_found))
+    # 등급만 보면 3:1 이지만 근거가 뒤집어 3×0.3=0.9 : 1×0.9=0.9 → 동률
+    assert weights["장소0"] == pytest.approx(weights["장소1"])
+
+
+def test_attraction_evidence_cap_still_applies():
+    """곱이 커져도 한 장소가 ATTRACTION_CAP 을 넘지 못한다."""
+    weights = guardrail.sanitize_attraction_levels(
+        {"장소0": "상", "장소1": "하"},
+        _persona_with_evidence(AttractionEvidence.previous_missing_found,
+                               AttractionEvidence.mention_only))
+    assert weights["장소0"] <= guardrail.ATTRACTION_CAP + 1e-9
+    assert abs(sum(weights.values()) - 1.0) < 1e-9
+
+
+def test_default_prior_uses_evidence_weights_when_llm_absent():
+    """LLM 실패·스텁 경로 — 곱셈의 evidence 항만 남는다."""
+    client = ExaoneClient()
+    persona = _persona_with_evidence(AttractionEvidence.previous_missing_found,
+                                     AttractionEvidence.caregiver_report)
+    prior = client._default_prior(persona, _report())
+    assert (prior.attraction_weights["장소0"] / prior.attraction_weights["장소1"]
+            == pytest.approx(0.9 / 0.5))
 
 
 # ── 반경 등급 ────────────────────────────────────────────────────────
