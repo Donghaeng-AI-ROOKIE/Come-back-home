@@ -4,7 +4,7 @@
 
 돌아오길은 실종자의 이동을 하나의 정답 경로로 단정하지 않습니다. 보호자가 사전 등록한 생활사·행동 특성, 마지막 목격 위치와 시각, 고전 수색구조(SAR) 통계, 도로망과 주변 환경을 결합해 `P(위치 | 경과시간)` 형태의 위치 확률 분포(POA, Probability of Area)를 만듭니다.
 
-> 구현 확인 기준: `origin/develop` [`f1286f4`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/f1286f4), 2026-07-21 (PR #56 병합)
+> 구현 확인 기준: `origin/develop` [`31ae401`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/31ae401), 2026-07-22 (PR #62 병합)
 >
 > 상세 구현 문서: [`docs/IMPLEMENTATION_ARCHITECTURE.md`](docs/IMPLEMENTATION_ARCHITECTURE.md)
 
@@ -336,7 +336,8 @@ stateDiagram-v2
 
 | 구성 요소 | 담당 | 담당하지 않는 것 | 장애·미설정 시 |
 |---|---|---|---|
-| Mi:dm | 온보딩 답변 추출, 질문 문장화, 제보 구조화 | 다음 슬롯 자율 선택, 좌표·경로 생성, 상대→절대 시각 산술 | 규칙 추출·씨앗 질문·휴리스틱 |
+| Mi:dm | 온보딩 답변 추출, 질문 문장화 | 다음 슬롯 자율 선택, 좌표·경로 생성 | 규칙 추출·씨앗 질문 |
+| tip_llm | 제보 구조화, 구체성·일관성 등급 | 좌표 확정, 상대→절대 시각 산술 | 결정적 스텁 (모델 미정) |
 | EXAONE | prior, 선택적 축 채점, 경로 익숙함, 개인 환경 반응, 마음·목표 재해석 | 좌표·전역 경로, 미등록 목적지 생성, 계수 숫자 직접 결정 | 유형별 SAR prior·혼란 증가 휴리스틱 |
 | Koester + 6전략 MC | 이동거리와 워커 이동, 위치 분포 | 자연어 해석 | 항상 실행 |
 | OSMnx + 환경 레이어 | 도로 제약, 환경 거리·토지피복 | 마음·목표 판단 | 연속 공간 폴백 또는 빈 환경 |

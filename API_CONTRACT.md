@@ -29,7 +29,8 @@ TipDecision         "discard" | "layer1" | "layer2"
 
 AttractionPoint     { "label": "옛집(정릉동)", "location": GeoPoint, "weight": 1.0 }
 
-RouteFamiliarity   { "route": "집-시장", "score": 0.9 }   // 경로별 익숙함, 미구현 컴파일러 대상(백로그)
+RouteFamiliarity   { "route": "옛 직장", "score": 0.9 }   // 경로별 익숙함 — route_familiarity_compiler 가 채움. route 는 끌림점 라벨
+EnvResponse        { "feature": "water", "direction": "접근", "strength": 0.9 }   // 개인 환경 반응. feature 는 water|forest|park|market 닫힌 어휘
 
 Persona {
   "id": str, "type": PersonaType, "name": str, "age": int,
