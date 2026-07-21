@@ -101,8 +101,88 @@ class GaugeConfig:
     beta_mind: float = 6.0
 
 
+@dataclass(frozen=True)
+class OverrideSpec:
+    """개인화를 허용하는 게이지 계수 1개의 명세 (PR #21 과제1 스키마).
+
+    LLM 이 숫자를 직접 정하지 않는다 — 축 채점(quote 검증 + 3회 다수결)을 거친
+    `axis_scores` 만 입력으로 받고, 배수 변환·클램프는 코드가 한다. 기존
+    가드레일 원칙("LLM 은 등급, 숫자는 우리")의 게이지 판이다.
+    """
+    field: str          # GaugeConfig 필드명
+    axis: str           # 유래 축 (Persona.axis_scores 키)
+    ptype: PersonaType  # 이 축이 채점되는 유형
+    lo: float           # 유형 기본값 대비 배수 하한
+    hi: float           # 상한
+    why: str
+
+
+# 허용 목록 — 축 정의와 계수 의미가 1:1 대응하는 것만 연다.
+_GAUGE_OVERRIDES: tuple[OverrideSpec, ...] = (
+    OverrideSpec(
+        "k_c1", "wayfinding_error_recovery_deficit", PersonaType.dementia, 0.6, 1.4,
+        "축 0.1='잘못 들어가도 스스로 알아차려 돌아옴' ↔ k_c1='낯섦이 혼란으로 "
+        "전환되는 속도'. 길찾기 복구가 취약할수록 같은 낯선 환경이 더 빨리 혼란이 된다."),
+    OverrideSpec(
+        "k_a1", "distress_induced_movement_reactivity", PersonaType.dementia, 0.6, 1.4,
+        "축 0.1='불안·초조가 나타나도 이동 행동 거의 변화 없음' ↔ k_a1='혼란이 "
+        "불안으로 전환되는 속도'. 불안이 곧 이동으로 이어지는 사람일수록 크다."),
+    OverrideSpec(
+        "k_e", "aversive_context_escape", PersonaType.intellectual_disability, 0.6, 1.4,
+        "축 0.1='불편한 자극이 이동에 거의 영향 없음' ↔ k_e='혐오 노출 누적 속도'. "
+        "감각·상황 회피성이 강할수록 같은 자극이 더 빨리 쌓인다."),
+)
+
+# 금지 목록 — 왜 안 여는지까지 코드에 남긴다 (테스트가 이 목록을 강제한다).
+DENIED_OVERRIDES: dict[str, str] = {
+    "theta_f": "피로 hazard 임계 — 시스템 튜닝 축이라 개인화하면 계수 그리드서치가 "
+               "사람마다 다른 좌표계를 갖게 되어 역산 불능",
+    "beta_f": "피로 hazard 기울기 — theta_f 와 짝을 이루는 곡선 형태라 같은 이유로 고정",
+    "theta_mind": "마음 재해석 hazard 임계 — 발동 빈도가 사람마다 다르면 실호출 예산 "
+                  "배분이 흔들려 마음 풀의 다양성 비교가 불가능해진다",
+    "beta_mind": "마음 hazard 기울기 — theta_mind 와 짝이라 같이 고정해야 곡선이 의미를 유지",
+    "k_h2": "귀소의 혼란 교차항 — 개인화하면 C 를 키우는 축(길찾기)과 곱해져 "
+            "같은 특성이 H 에 두 번 반영된다",
+    "k_a2": "불안의 혐오 교차항 — 개인화하면 E 를 키우는 축(회피성)과 곱해져 "
+            "같은 특성이 A 에 두 번 반영된다",
+    "k_c2": "혼란의 경과시간 항 — 시간이 흐르면 누구나 혼란이 쌓인다는 시간의 성질이지 "
+            "개인차가 아니다",
+    "k_c3": "혼란의 어둠 항 — 조도는 환경 변수다. 개인의 야간 취약성을 다루려면 "
+            "별도 축이 필요하고 현재 기준표에 없다",
+    "k_f": "피로 누적 — mobility_transport_capacity 축이 이미 반경과 v_max 로 "
+           "두 번 소비 중이라 여기까지 열면 같은 축이 세 곳에 반영된다",
+    "k_h1": "귀소의 경과시간 항 — 개인화하려면 '귀가 욕구' 축이 따로 있어야 하는데 "
+            "현재 기준표 10축에 해당 항목이 없다",
+}
+
+
+def _score_to_mult(score: float, lo: float, hi: float) -> float:
+    """축점수(0.1~0.9) → 계수 배수. 0.5 를 중립(1.0)으로 두고 선형, 양끝 클램프."""
+    return max(lo, min(hi, 1.0 + (score - 0.5)))
+
+
+def apply_personal_overrides(cfg: GaugeConfig, persona: Persona | None) -> GaugeConfig:
+    """축점수를 게이지 계수에 곱셈으로 반영 (유형 기본값 위에, 파괴적 아님).
+
+    유형 특례(ID 의 k_c1 ×0.2 등)를 덮지 않고 그 위에 곱하므로 유형 구조는
+    보존된다. 축이 없거나 유형이 안 맞으면 그대로 둔다 — 축 채점이 꺼져 있는
+    기본 구성에서 동작이 안 바뀌는 것이 의도된 폴백이다.
+    """
+    if persona is None or not persona.axis_scores:
+        return cfg
+    for spec in _GAUGE_OVERRIDES:
+        if persona.type != spec.ptype:
+            continue
+        score = persona.axis_scores.get(spec.axis)
+        if score is None:
+            continue
+        base = getattr(cfg, spec.field)
+        setattr(cfg, spec.field, base * _score_to_mult(score, spec.lo, spec.hi))
+    return cfg
+
+
 def config_for(persona: Persona | None) -> GaugeConfig:
-    """페르소나별 활성화 매핑 (회의 종합 매핑 표)."""
+    """페르소나별 활성화 매핑 (회의 종합 매핑 표) + 축점수 개인화."""
     if persona is None:
         return GaugeConfig()
     cfg = GaugeConfig()
@@ -113,7 +193,7 @@ def config_for(persona: Persona | None) -> GaugeConfig:
         cfg.k_c2 *= 0.2
         cfg.k_a1 = 0.0
         cfg.k_h1 = cfg.k_h2 = 0.0
-    return cfg
+    return apply_personal_overrides(cfg, persona)
 
 
 class Gauges:
