@@ -27,6 +27,7 @@ from app.config import settings
 from app.geo import h3grid
 from app.geo.roadnet import RoadNetwork
 from app.phase2 import gauges as gauge_mod
+from app.phase2 import radius
 from app.schemas.common import GeoPoint
 from app.schemas.debug import MindEvent, SimTrace, WalkerTrace
 from app.schemas.persona import Persona
@@ -182,8 +183,8 @@ def _walk_graph(
     """
     # Koester 분포는 LKP→발견지점 "직선 이탈거리" — 경로 길이가 아니라
     # 변위(displacement)가 이 값에 도달하면 종료한다 (테스트셋 dist_ratio 교정).
-    mu, sigma = prior.radius_lognormal.mu, prior.radius_lognormal.sigma
-    total_km = rng.lognormvariate(mu, sigma) * max(1.0, elapsed_hours) ** 0.5
+    # 표집은 p95 절단 — topdown 원판 컷과 지원 정렬 (radius.py, PR #20 후속).
+    total_km = radius.sample_distance_km(rng, prior.radius_lognormal, elapsed_hours)
     if strategy == "staying_put":
         total_km *= 0.1
     elif strategy == "backtracking":
@@ -347,9 +348,11 @@ def _walk(
     trace: SimTrace | None = None,
     walker_idx: int = 0,
 ) -> GeoPoint:
-    """워커 1명의 종착점 — 연속 공간 (도로 제약 없음)."""
-    mu, sigma = prior.radius_lognormal.mu, prior.radius_lognormal.sigma
-    total_km = rng.lognormvariate(mu, sigma) * max(1.0, elapsed_hours) ** 0.5
+    """워커 1명의 종착점 — 연속 공간 (도로 제약 없음).
+
+    이전엔 이 경로(기본값)만 반경 상한이 전혀 없었다 — p95 절단으로 정렬.
+    """
+    total_km = radius.sample_distance_km(rng, prior.radius_lognormal, elapsed_hours)
 
     # agent 모드: 혼란도가 높을수록 방향 유지력이 떨어짐 (마음 예측 반영 지점)
     confusion = (mind.confusion if (use_mind and mind) else 0.5)
