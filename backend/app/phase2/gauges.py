@@ -19,6 +19,7 @@ import math
 import random
 from dataclasses import dataclass
 
+from app.config import settings
 from app.geo import h3grid
 from app.schemas.common import GeoPoint
 from app.schemas.persona import Persona, PersonaType
@@ -30,6 +31,27 @@ _HIGHWAY_DIFFICULTY = {
     "unclassified": 0.4, "path": 0.6, "track": 0.7, "steps": 0.9,
 }
 _DEFAULT_DIFFICULTY = 0.4
+
+# 도로 위계 선호 — 갈림길 선택 확률의 곱셈 틸트 (1.0 = 중립).
+# 근거: 치매 실종자는 소음·교통량이 많고 차량이 빠른 주간선·간선도로(trunk,
+# primary)를 기피하고, 보행 인프라가 갖춰진 보조간선(secondary)·이면도로
+# (residential)를 선호한다 — 특히 보조간선은 인도망 단절이 적고 횡단보도
+# 시청각 신호가 갖춰져 장거리 이동의 축이 된다 (기획팀 「지도 인식 범위
+# 논문 조사」 2번).
+#
+# terrain_difficulty(피로 게이지)와는 다른 축이다: 저쪽은 "얼마나 힘든가",
+# 이쪽은 "어느 길을 고르는가". 이중계상이 아니라 서로 다른 소비처다.
+# 문헌이 다루지 않은 위계(service/path/track/steps)는 중립으로 둔다 —
+# steps 의 부담은 이미 terrain_difficulty 0.9 가 반영하므로 여기서 또
+# 깎으면 이중계상이 된다.
+_ROAD_PREFERENCE = {
+    "trunk": 0.5, "trunk_link": 0.5,
+    "primary": 0.6, "primary_link": 0.6,
+    "secondary": 1.2, "secondary_link": 1.2,
+    "tertiary": 1.1,
+    "residential": 1.3, "living_street": 1.3,
+    "footway": 1.3, "pedestrian": 1.3,
+}
 
 # 페르소나별 피로 체감 배수 (회의: persona_fatigue_mult)
 _FATIGUE_MULT = {
@@ -156,6 +178,29 @@ def terrain_difficulty(edge_attrs: dict) -> float:
     if isinstance(hw, list) and hw:
         hw = hw[0]
     return _HIGHWAY_DIFFICULTY.get(hw, _DEFAULT_DIFFICULTY)
+
+
+def road_preference(edge_attrs: dict, persona: Persona | None) -> float:
+    """도로 위계 선호 배수 — 갈림길 선택 확률에 곱한다 (1.0 = 중립).
+
+    치매 한정으로 적용한다. 근거 문헌(_ROAD_PREFERENCE 주석)이 치매 실종자
+    대상이고, 발달장애의 도로 선택 성향은 기획팀 조사 범위 밖이라 중립으로
+    남긴다 — 근거 없이 확장하면 "그럴듯하지만 틀린 확신"이 된다.
+
+    `road_preference_strength` 는 지수로 들어가 ablation 노브가 된다:
+    0 이면 전부 1.0(기능 끔), 1 이면 표 그대로, 2 이면 대비 강화.
+    평가 하네스의 그리드서치가 이 한 값만 쓸어보면 된다.
+    """
+    if persona is None or persona.type != PersonaType.dementia:
+        return 1.0
+    strength = settings.road_preference_strength
+    if strength <= 0.0:
+        return 1.0
+    hw = edge_attrs.get("highway")
+    if isinstance(hw, list) and hw:
+        hw = hw[0]
+    base = _ROAD_PREFERENCE.get(hw, 1.0)
+    return base if strength == 1.0 else base ** strength
 
 
 def unfamiliarity(
