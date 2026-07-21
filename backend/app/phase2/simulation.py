@@ -9,6 +9,9 @@
   워커 수는 두 모드 공통 500 (보행은 순수 알고리즘이라 공짜), EXAONE 실호출만
   예측당 예산(mind_call_budget)으로 제한한다: 예산 내 발동 = 실호출 + 풀 저장,
   소진 후 발동 = 풀에서 독립 표집 (_MindPool — 결정론적 마음 캐시 금지 원칙).
+  워커당 전환은 최대 mind_transitions_per_walker 회(기본 2, 사이에 불응기) —
+  2회차부터는 풀 표집 전용이라 실호출 예산은 그대로다 (PR #21 과제3 다회전환,
+  마음 변화 시퀀스 "옛집→혼란→휴식" 복원).
   이전의 "워커 10명" 방식은 셀당 0.1 단위 분산의 히스토그램에 α=0.5 를 주는
   통계적 결함이라 폐기 (2026-07-12).
 
@@ -43,6 +46,12 @@ STRATEGIES = [
 ]
 
 _MAX_STEPS = 300  # 그래프 워커 안전 상한 (평균 엣지 ~50m × 300 = 15km)
+
+# 마음 전환 사이 최소 스텝 (평균 엣지 ~50m × 30 ≈ 1.5km ≈ 도보 20분).
+# H·A 게이지는 발동 후 리셋되지 않고 누적만 하므로, 불응기가 없으면 2회차
+# 전환이 1회차 직후 몇 스텝 안에 거의 같은 게이지 상태로 발동해 다회전환이
+# 무의미해진다. 계수 정밀 튜닝은 게이지 그리드서치(트랙 5)와 함께.
+_MIND_REFRACTORY_STEPS = 30
 
 
 class _MindPool:
@@ -80,6 +89,14 @@ class _MindPool:
             out = llm.exaone.reinterpret_mind(persona, current, gauge_report, labels, prior)
             self.results.append(out)
             return out[0], out[1], ("stub" if llm.exaone.is_stub else "exaone")
+        return self.sample_only(rng)
+
+    def sample_only(self, rng: random.Random) -> tuple[MindState, str | None, str] | None:
+        """풀 표집 전용 — 워커의 2회차 이후 전환은 예산을 건드리지 않는다 (과제3).
+
+        1회차만 reinterpret(예산 소비 가능)를 타게 해서, 예산 슬롯이 서로 다른
+        워커의 첫 발동 문맥에 고르게 쓰이도록 유지한다 (풀 다양성 보존).
+        """
         if self.results:
             mind, goal = rng.choice(self.results)
             return mind.model_copy(), goal, "pool"   # 표집된 상태도 워커별 사본
@@ -177,8 +194,10 @@ def _walk_graph(
     게이지·트리거 (회의 "트리거 설계 최종본"):
     - 매 스텝 F/C/E 누적 + H/A 파생 → 로지스틱 hazard 판정
     - F 발동 → 알고리즘 처리: 휴식(남은 순변위 감소), EXAONE 미호출
-    - H·A 발동 → agent 모드에서만 마음 재해석(워커당 최대 1회):
-      mind_pool 예산 내면 EXAONE 실호출, 소진 후엔 풀에서 독립 표집.
+    - H·A 발동 → agent 모드에서만 마음 재해석
+      (워커당 최대 mind_transitions_per_walker 회, 전환 사이 불응기):
+      1회차만 mind_pool 예산 사용(예산 내 EXAONE 실호출, 소진 후 풀 표집),
+      2회차부터는 풀 표집 전용 — 실호출 예산 불변 (PR #21 과제3 다회전환).
       응답의 혼란 등급 → κ 재계산, 목표 라벨 → target 전환 (자연어 재주입)
     """
     # Koester 분포는 LKP→발견지점 "직선 이탈거리" — 경로 길이가 아니라
@@ -213,7 +232,8 @@ def _walk_graph(
     f_mult = gauge_mod.fatigue_mult(persona)
     familiar = ([persona.home] + [ap.location for ap in persona.attraction_points]) \
         if persona else []
-    mind_called = False
+    mind_transitions = 0
+    last_mind_step = -_MIND_REFRACTORY_STEPS   # 첫 발동은 즉시 허용
 
     node = start_node
     start_loc = net.node_location(start_node)
@@ -271,14 +291,24 @@ def _walk_graph(
         if g.fatigue_fired(rng):
             g.rest()  # F 발동 — 쉬는 동안 시간이 흘러 남은 순변위가 준다 (EXAONE 미호출)
             total_km = displaced_km + (total_km - displaced_km) * 0.6
-        if use_mind and not mind_called and persona is not None:
+        if use_mind and persona is not None \
+                and mind_transitions < settings.mind_transitions_per_walker \
+                and step - last_mind_step >= _MIND_REFRACTORY_STEPS:
             fired = g.mind_fired(rng)
             if fired:
-                mind_called = True  # 워커당 마음 재해석 최대 1회
+                mind_transitions += 1
+                last_mind_step = step
                 gauge_report = g.report(fired)
-                result = mind_pool.reinterpret(
-                    rng, persona, mind or MindState(), gauge_report,
-                    list(label_nodes or {}), prior) if mind_pool is not None else None
+                if mind_pool is None:
+                    result = None
+                elif mind_transitions == 1:
+                    # 1회차만 예산 소비 가능 — 풀 다양성(서로 다른 워커의 첫 문맥) 보존
+                    result = mind_pool.reinterpret(
+                        rng, persona, mind or MindState(), gauge_report,
+                        list(label_nodes or {}), prior)
+                else:
+                    # 2회차부터 풀 표집 전용 — 실호출 예산 불변 (과제3 다회전환)
+                    result = mind_pool.sample_only(rng)
                 if result is None:
                     # 예산 0 + 풀 비어있음 — 스텁과 같은 혼란 심화 휴리스틱
                     base = mind.confusion if mind else 0.5
@@ -300,7 +330,8 @@ def _walk_graph(
 
     if rec_path:
         trace.walkers.append(WalkerTrace(
-            walker_idx=walker_idx, strategy=strategy, path=path, mind_fired=mind_called))
+            walker_idx=walker_idx, strategy=strategy, path=path,
+            mind_fired=mind_transitions > 0))
     return net.node_location(node)
 
 
