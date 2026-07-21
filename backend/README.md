@@ -13,7 +13,7 @@ uvicorn app.main:app --reload
 # http://localhost:8000/docs (Swagger UI)
 ```
 
-테스트: `python -m pytest tests/` (18개 — 층1 수식 수치 검증, α-pool, E2E 흐름)
+테스트: `python -m pytest tests/` (2026-07-22 develop `1be16fa` 기준 **441개 수집 / 439 passed / 2 skipped**. skip 2건은 카카오 라이브 키가 없어 건너뛰는 실호출 지오코딩)
 
 ## 구조
 
