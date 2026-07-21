@@ -2,7 +2,7 @@
 
 > 기준 브랜치: `origin/develop`
 >
-> 기준 커밋: [`f1286f4`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/f1286f4) (`2026-07-21`, PR #56 병합)
+> 기준 커밋: [`31ae401`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/31ae401) (`2026-07-22`, PR #62 병합)
 >
 > 조사 방식: API 라우터, 도메인 스키마, Phase별 서비스 모듈, 프런트엔드 클라이언트와 테스트 코드를 정적 추적
 >
@@ -17,7 +17,7 @@
 | Phase 0 보호자 온보딩 | 구현, 일부 기능 플래그 | 백엔드 적응형 인터뷰·지오코딩·Persona 확정 구현. 축 점수·경로 익숙함 컴파일은 기본 비활성 |
 | Phase 1 실종 신고 | 백본 구현 | Case 생성, 선택적 인상착의·문서 추출 경로, 즉시 안전반경 알림, 도로망 사전 로딩 구현. 파일 입력과 외부 추출 모델은 스텁 |
 | Phase 2 위치 예측 | 알고리즘 파이프라인 구현 | EXAONE prior, Koester, 6전략, H3, 500 워커 MC, 조건부 OSMnx, 인지 게이지, 2-way 결합 구현 |
-| Phase 3 알림·제보 | 로직 구현, 외부 발송 미연동 | POA 타겟 셀, 신뢰도 `p`, 층1 갱신, 층2 재실행, D3 새 지역 알림 구현. FCM·사용자 위치 인덱스는 스텁 |
+| Phase 3 알림·제보 | 로직 구현, 외부 발송 미연동 | POA 타겟 셀, 자유텍스트 제보 구조화·지오코딩·시각 변환·되묻기 게이트, 신뢰도 `p`, 층1 갱신, 층2 재실행, D3 새 지역 알림 구현. FCM·사용자 위치 인덱스는 스텁 |
 | 개인정보 수명주기 | 백본 구현 | 종결·TTL·명시 삭제·연쇄 파기·감사로그 구현. 실제 서비스 DB가 아닌 인메모리 저장소 |
 | 프런트엔드 | 목 중심 UI 구현 | 3역할·2모드·11개 화면과 POA 조회 일부 배선. Phase 0·3 챗봇은 백엔드 챗봇과 별개의 로컬 고정 흐름 |
 
@@ -49,7 +49,8 @@ flowchart LR
     end
 
     subgraph MODEL["모델·외부 데이터"]
-        MIDM["Mi:dm<br/>질문 문장화·추출·제보 구조화"]
+        MIDM["Mi:dm<br/>온보딩 질문 문장화·추출"]
+        TIPL["tip_llm<br/>제보 구조화·구체성 등급"]
         EXA["EXAONE<br/>prior·축 채점·마음 재해석"]
         GEO["Kakao / Nominatim / Gazetteer"]
         OSM["OSMnx / OSM / EGIS"]
@@ -73,7 +74,7 @@ flowchart LR
     P1 --> OSM
     P2 <--> EXA
     P2 <--> OSM
-    P3 <--> MIDM
+    P3 <--> TIPL
     P0 --> MEM
     P1 --> MEM
     P2 --> MEM
@@ -117,7 +118,7 @@ flowchart LR
 | 공간 모델 | H3 resolution 9, OSMnx 보행 그래프, OSM 환경 객체, EGIS WMS |
 | 프런트엔드 | Expo SDK 57, React Native 0.86, React 19, TypeScript strict |
 | 프런트 상태 | Zustand, TanStack Query, React Navigation v7 |
-| LLM 연동 규약 | Mi:dm·EXAONE 모두 OpenAI 호환 `chat/completions` |
+| LLM 연동 규약 | Mi:dm·EXAONE·tip_llm 모두 OpenAI 호환 `chat/completions` |
 | 현재 영속성 | Persona·Case·Interview 등은 프로세스 메모리 `dict`; 감사로그만 JSONL append-only |
 | 데모 | 서버 시작 시 `case-jeongneung-001` 시드, `/dashboard` 정적 E2E 대시보드 |
 
@@ -255,7 +256,8 @@ flowchart LR
     RQV --> RFS["Persona.route_familiarity"]
 ```
 
-- 치매는 기준표가 있는 6개 축, 발달장애는 7개 축을 채점한다.
+- 치매는 기준표가 있는 6개 축, 발달장애는 7개 축을 채점한다(기준표 총 10축, 코드로 확인).
+- 기준표는 2026-07-21에 발달 4축 세 항목이 보완됐다(PR #60): 관련 이력 자체가 없으면 최저점이 아니라 `F`로 분류, 인계 가능 정보에 소속 기관명 포함, 반복 이탈 기준을 "1회 있음(0.7) / 2회 이상 반복(0.9)"으로 정량화. 앞의 둘은 F 비율을 올려 미채점 축을 늘리므로 `axis_scoring_report`의 F율 지표 해석에 영향을 준다.
 - `F` 또는 근거 없음은 0점이 아니라 **키 부재**로 저장해 Phase 2 기본값 폴백을 허용한다.
 - 축 채점은 기본 비동기이며 진행·완료·오류·스텁 상태와 stale 재시도 마커를 관리한다.
 - 경로 익숙함은 `autobiographical_destination_pull`에서 생긴 끌림점만 채점한다.
@@ -495,11 +497,19 @@ POA 타겟 알림 API를 호출하면 그 시점 분포를 `last_alert_poa`로 �
 
 ### 7.3 시민 제보 처리 아키텍처
 
+제보는 자유텍스트 한 덩어리로 받는다. 위치·시각은 별도 입력 필드가 아니라 구조화 결과에서 뽑아내며, 판단이 갈리는 구간에서만 되묻는다(PR #57~59).
+
 ```mermaid
 flowchart TD
-    IN["POST /phase3/cases/id/tips"] --> MIDM["Mi:dm one-shot 구조화<br/>specificity·travel_mode 등"]
-    MIDM --> P["신뢰도 p 계산"]
-    P --> CLASS{"p와 위치·시각"}
+    IN["POST /phase3/cases/id/tips<br/>자유텍스트"] --> LLM["tip_llm one-shot 구조화<br/>위치 문구·시각 표현·구체성"]
+    LLM --> GC["위치 지오코딩"]
+    GC --> HASLOC{"위치 확보?"}
+    HASLOC -- "아니오" --> RA1["need_more: location<br/>저장 안 함"]
+    HASLOC -- "예" --> TR["time_resolve<br/>상대·절대 표현 → seen_at"]
+    TR --> P["신뢰도 p 계산"]
+    P --> RAQ{"시각 없음 &<br/>폴백 p ≥ 0.8?"}
+    RAQ -- "예" --> RA2["need_more: time<br/>층2 판정에 시각 필요"]
+    RAQ -- "아니오" --> CLASS{"p와 위치·시각"}
     CLASS -- "p < 0.2" --> DISCARD["discard<br/>POA 미반영"]
     CLASS -- "p ≥ 0.2" --> L1["층1 혼합 likelihood 갱신"]
     L1 --> L2Q{"p ≥ 0.8 + 위치·시각?"}
@@ -525,11 +535,26 @@ flowchart TD
 | 항 | 계산 | 기본 가중치 |
 |---|---|---|
 | 시공간 개연성 | 유형별 최대속도 × 경과시간 도달권, 초과 시 감쇠 | 0.40 |
-| 구체성 | Mi:dm `상/중/하` → `0.9/0.6/0.3` | 0.25 |
+| 구체성 | `tip_llm` `상/중/하` → `0.9/0.6/0.3` | 0.25 |
 
 없는 신호는 제외하고 남은 가중치만 재정규화한다. 아무 신호도 없으면 사전값 `0.3`을 사용한다. 대중교통 단서가 있으면 최대속도를 25km/h로 올린다. 시민 제보 사진 대조는 코드에서 제거됐다.
 
-Phase 3의 Mi:dm 모듈에는 “위치 → 시각 → 인상착의 → 방향 → 조건부 이동수단” 질문 순서를 반환하는 헬퍼가 있지만, 현재 REST API는 다중 턴 제보 세션을 제공하지 않는다. API에서는 제보 텍스트 한 건을 받아 한 번 구조화한다.
+`tip_llm`에는 “위치 → 시각 → 인상착의 → 방향 → 조건부 이동수단” 질문 순서를 반환하는 헬퍼(`next_tip_question`)가 있지만, 현재 REST API는 다중 턴 제보 세션을 제공하지 않는다. API에서는 제보 텍스트 한 건을 받아 한 번 구조화한다.
+
+### 7.4-1 되묻기 게이트 (PR #59)
+
+되묻기는 두 곳에서만 발생하며, 응답은 `{"status": "need_more", "missing": [...], "reason": str}`이다. `force=true`로 건너뛸 수 있다.
+
+| 누락 | 조건 | 근거 |
+|---|---|---|
+| `location` | 텍스트에서도 명시 좌표에서도 위치 미확보 | 위치 없는 제보는 POA를 기울일 수 없어 저장 자체를 하지 않는다 |
+| `time` | 위치는 있고 시각만 없으며 **폴백(`created_at`) 기준 `p ≥ 0.8`** | 폴백 `p`가 문턱 미만이면 실제 시각을 받아도 층2가 될 수 없어 되물어도 무의미하다. 되묻기는 제보자 이탈 비용이 있으므로 판정이 실제로 갈리는 구간만 고른다 |
+
+### 7.4-2 시각 변환 (PR #58)
+
+`phase3/time_resolve.py`가 구조화 결과(`time_kind`/`time_minutes_ago`/`time_clock`)를 실제 `seen_at`으로 바꾼다. 가드레일 패턴은 다른 모듈과 같다 — LLM은 시민이 명시한 표현(`"30분 전"`, `"3시쯤"`)만 뽑고, 상대→절대 산술은 코드가 결정론적으로 계산한다.
+
+안전 클램프: 계산된 시각이 `[lkp_time, now]` 창을 벗어나면 버리고 `None`을 반환한다. `seen_at`은 층2에서 새 LKP 시각으로 그대로 쓰이므로, 실종 이전 목격이나 미래 목격 같은 오추출·산술 오류가 새 앵커를 오염시키지 않게 막고 층1로 안전하게 강등한다.
 
 ### 7.5 층1과 층2
 
@@ -558,7 +583,7 @@ posterior(cell) ∝ current_poa(cell) × [p × L(tip | cell) + (1 - p) × 1]
 |---|---|---|
 | `POST` | `/phase3/cases/{id}/reflex-alerts` | 즉시 안전반경 수동 재호출 |
 | `POST` | `/phase3/cases/{id}/alerts` | POA 타겟 셀 선택, D3 기준 시딩 |
-| `POST` | `/phase3/cases/{id}/tips` | 제보 판정·갱신·조건부 재실행 |
+| `POST` | `/phase3/cases/{id}/tips` | 자유텍스트 제보 → 구조화·지오코딩·시각 변환 → 판정·갱신·조건부 재실행. **`Tip` 또는 되묻기 응답 두 형태를 반환**한다 |
 | `GET` | `/phase3/cases/{id}/poa?top=` | 상위 H3 셀과 육각형 폴리곤 |
 | `GET` | `/phase3/cases/{id}/rerun-check` | 주기·KL 재실행 조건 조회 |
 
@@ -566,7 +591,8 @@ posterior(cell) ∝ current_poa(cell) × [p × L(tip | cell) + (1 - p) × 1]
 
 - `send_alerts`는 FCM·APNs·사용자 위치 인덱스를 호출하지 않고 `sent=false`를 반환한다.
 - 주기·KL 재실행은 별도 스케줄러가 자동 호출하지 않는다. 제보 흐름에서 검사하거나 조회 API로 상태만 확인한다.
-- 프런트 제보 화면은 로컬 고정 4단계이며 백엔드의 `Tip` 응답을 `TipResult`로 변환하는 코드가 없어 실모드에서 의도적으로 예외를 낸다.
+- 프런트 제보 화면은 로컬 고정 4단계이며 백엔드의 `Tip` 응답을 `TipResult`로 변환하는 코드가 없어 실모드에서 의도적으로 예외를 낸다. 되묻기 응답(`status: "need_more"`) 분기도 프런트에 없다.
+- `tip_llm`은 모델 미정 상태다. `tip_llm_base_url`·`tip_llm_model`·`tip_llm_api_key`를 채우면 실동작하고, 비어 있으면 결정적 스텁으로 폴백한다.
 
 ---
 
@@ -590,7 +616,7 @@ flowchart LR
     SESSION --> REG
 
     TIPUI["ReportChatScreen"] --> TIPSESSION["제보 세션 API<br/>현재 없음"]
-    TIPSESSION --> MIDM["Mi:dm next question"]
+    TIPSESSION --> TIPL["tip_llm next question"]
     MIDM --> TIPUI
     TIPUI --> SUBMIT["POST /phase3/cases/id/tips"]
     SUBMIT --> MAP["Tip → TipResult·POA delta 매핑<br/>현재 미구현"]
@@ -665,7 +691,8 @@ stateDiagram-v2
 
 | 구성요소 | 현재 담당 | 금지·비담당 | 실패·미설정 시 |
 |---|---|---|---|
-| Mi:dm | 온보딩 답변 추출, 질문 문장화, 제보 구조화 | 좌표·전역 경로, 다음 온보딩 슬롯 자율 선택 | 규칙 추출·씨앗 질문·키워드 휴리스틱 |
+| Mi:dm | 온보딩 답변 추출, 질문 문장화 | 좌표·전역 경로, 다음 온보딩 슬롯 자율 선택 | 규칙 추출·씨앗 질문 |
+| tip_llm | 제보 구조화, 구체성·일관성 등급 | 좌표 확정, 상대→절대 시각 산술 | 결정적 스텁(모델 미정) |
 | EXAONE | prior, 선택적 축 채점, 경로 익숙함, 마음·목표 재해석 | 좌표·전역 경로, 미등록 목적지 생성 | 유형별 SAR prior·혼란 증가 휴리스틱 |
 | Koester | 유형별 이동거리 확률 | 자연어 해석 | 항상 알고리즘 경로에 존재 |
 | 6전략 MC | 확률적 이동과 종착점 분포 | 보호자 발화 해석 | 항상 실행 |
