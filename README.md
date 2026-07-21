@@ -4,7 +4,7 @@
 
 돌아오길은 실종자의 이동을 하나의 정답 경로로 단정하지 않습니다. 보호자가 사전 등록한 생활사·행동 특성, 마지막 목격 위치와 시각, 고전 수색구조(SAR) 통계, 도로망과 주변 환경을 결합해 `P(위치 | 경과시간)` 형태의 위치 확률 분포(POA, Probability of Area)를 만듭니다.
 
-> 구현 확인 기준: `origin/develop` [`075ec15`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/075ec15), 2026-07-20
+> 구현 확인 기준: `origin/develop` [`f1286f4`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/f1286f4), 2026-07-21 (PR #56 병합)
 >
 > 상세 구현 문서: [`docs/IMPLEMENTATION_ARCHITECTURE.md`](docs/IMPLEMENTATION_ARCHITECTURE.md)
 
@@ -13,15 +13,15 @@
 | 영역 | 상태 | 현재 동작 |
 |---|---|---|
 | Phase 0 보호자 온보딩 | 구현, 일부 기능 플래그 | 적응형 슬롯 인터뷰, Mi:dm 추출·질문 문장화, 지오코딩, Persona 확정 |
-| Phase 0 축 컴파일 | 구현, 기본 비활성 | EXAONE 축 채점과 경로별 익숙함 컴파일. `AXIS_SCORING_ENABLED=false`가 기본 |
+| Phase 0 축 컴파일 | 구현, 기본 비활성 | EXAONE 축 채점, 경로별 익숙함, 개인 환경 반응 컴파일. `AXIS_SCORING_ENABLED=false`가 기본 |
 | Phase 1 실종 신고 | 백본 구현 | Case 생성, 즉시 안전반경 알림, 선택적 도로망 사전 로딩 |
-| Phase 2 위치 예측 | 구현 | Koester, 6전략, 500 워커 MC 2종, 조건부 OSMnx, 인지 게이지, H3 POA |
+| Phase 2 위치 예측 | 구현 | Koester, 6전략, 500 워커 MC 2종, 조건부 OSMnx, 인지 게이지, 물리 도달 상한, 개인화 틸트, H3 POA |
 | Phase 3 알림·제보 | 로직 구현 | 타겟 셀 선택, 신뢰도 `p`, 층1 갱신, 층2 재실행, D3 새 지역 알림 |
 | 개인정보 수명주기 | 백본 구현 | 종결, TTL, 명시 삭제, 연쇄 파기, 비식별 감사로그 |
 | 프런트엔드 | 목 중심 구현 | 3역할·산책/수색 모드·11개 화면. POA 조회 일부만 실백엔드 연결 |
 | 운영 인프라 | 미구현 | 영속 DB, FCM/APNs, 사용자 위치 인덱스, 자동 스케줄러 |
 
-현재 지원 Persona 유형은 `dementia`와 `intellectual_disability` 두 종류입니다. 아동 Persona는 PR #47에서 백엔드 스키마·알고리즘·테스트에서 제거됐습니다.
+현재 지원 Persona 유형은 `dementia`와 `intellectual_disability` 두 종류입니다. 아동 Persona는 PR #47에서 백엔드 스키마·알고리즘·테스트에서, PR #49에서 E2E 대시보드에서 제거됐습니다.
 
 ## 서비스 흐름
 
@@ -111,6 +111,9 @@ flowchart TD
 - `F`와 근거 없는 축은 0점이 아니라 미채점으로 남겨 Phase 2 기본값 폴백을 허용합니다.
 - 같은 백그라운드 작업에서 자전적 목적지별 `route_familiarity`도 A~E로 컴파일합니다.
 - 혼자 자주 가는 목적지는 별도 채점 없이 기본 익숙함 `0.8`을 사용합니다.
+- 같은 작업에서 `behavior_notes`의 개인 환경 반응(`Persona.env_responses`)도 컴파일합니다. 판정 대상은 envlayer가 실제 수집하는 `water`·`forest`·`park`·`market` 닫힌 어휘뿐이고, 방향(접근·회피)과 강도(상·중·하)만 받아 코드가 수치화합니다. 실행마다 방향이 갈리면 근거 불안정으로 보고 채택하지 않습니다.
+
+세 컴파일러 모두 원문 인용 실존 검증과 다수결이라는 같은 신뢰도 확보 방식을 씁니다. 실패는 빈 결과로 흡수되며, 소비처가 중립값으로 폴백하므로 예측이 도입 이전과 같아집니다.
 
 주요 API:
 
@@ -174,15 +177,50 @@ EXAONE은 좌표를 만들지 않고 다음 값만 반환합니다.
 
 가드레일은 알려진 전략만 남기고 각 전략에 `0.02` floor를 적용합니다. 끌림점 등급은 `3:2:1`로 수치화하고 한 장소의 비중을 60%로 제한합니다. 반경 등급은 Koester 로그정규 분포의 `mu`만 최대 `±0.4` 조정하고 `sigma`는 고정합니다.
 
+### 유효 반경: 통계 상한 ∩ 물리 상한
+
+세 예측기는 같은 지원 경계를 공유합니다([`backend/app/phase2/radius.py`](backend/app/phase2/radius.py)).
+
+```text
+p95 = min(ISRID p95, v_max × 경과시간)
+```
+
+- **통계 상한**은 Koester 로그정규의 p95입니다. 치매 Urban(`mu=0.095`, `sigma=1.48`)에서 12.55km로, ISRID 경험적 95% 거리와 일치합니다.
+- **물리 상한**은 도달 가능성입니다. `v_max`는 Phase 3 제보 신뢰도가 쓰는 상수를 그대로 재사용합니다(치매 4.5, 지적장애 5.0, 대중교통 25 km/h). 대중교통 속도는 `mobility_transport_capacity`가 `0.7` 이상으로 확인된 경우에만 적용합니다.
+- 경과시간 `√t` 스케일은 폐기했습니다. ISRID 거리는 발견 시점 거리를 경과시간 전반에 걸쳐 모은 종국 분포이므로 다시 `√t`를 곱하면 같은 시간 효과를 두 번 세게 되고, 실제로 `t=15분`에 12.55km처럼 도보 한계(1.12km)를 크게 넘는 반경이 나왔습니다. 이제 반경은 `v_max × t`로 자라다 통계 상한에서 멈춥니다(치매 도보 기준 약 2.79시간).
+- MC 표집도 같은 경계로 절단해 top-down 원판과 지원을 정렬합니다.
+
 ### 예측기
 
 - **Top-down:** Koester 거리 링과 300m 끌림점 범프로 분석적 H3 POA를 만듭니다. 응답·디버그에는 포함하지만 최종 결합에는 넣지 않습니다.
 - **Agent MC:** 기본 500 워커가 prior에서 전략을 샘플링해 이동합니다. 도로망 모드에서는 F/C/E 게이지와 H/A 파생 게이지를 로지스틱 hazard로 갱신합니다.
 - **Statistical MC:** 기본 500 워커가 동일한 Koester·전략 prior·도로망을 사용하되 이동 중 마음 재해석은 하지 않습니다.
 
-Agent MC의 피로 발동은 알고리즘이 휴식과 남은 거리를 조정합니다. 귀소·불안 발동은 워커당 최대 한 번 마음을 재해석하며, 실제 EXAONE 호출은 예측당 10회로 제한합니다. 이후 발동은 앞선 결과 풀에서 독립 표집합니다.
+Agent MC의 피로 발동은 알고리즘이 휴식과 남은 거리를 조정합니다. 귀소·불안 발동은 워커당 최대 `MIND_TRANSITIONS_PER_WALKER`회(기본 2, 전환 사이 30스텝 불응기) 마음을 재해석합니다. 실제 EXAONE 호출은 예측당 10회로 제한하며, **1회차 전환만 이 예산을 쓰고 2회차부터는 풀 표집 전용**이라 다회 전환이 호출 비용을 늘리지 않습니다.
+
+### 갈림길 선택에 반영되는 것
+
+도로망 모드에서 다음 노드 확률은 방위각 가중치에 두 개의 곱셈 틸트를 얹습니다.
+
+```text
+P(next) ∝ exp(κ·cos Δbearing) × 도로 위계 선호 × 개인 환경 반응
+```
+
+- **도로 위계 선호**(치매 한정): 주간선·간선(`trunk`, `primary`)을 기피하고 보조간선·이면도로를 선호합니다. 근거는 기획팀 「지도 인식 범위 논문 조사」입니다. `terrain_difficulty`는 피로 게이지용이므로 소비처가 다르며, `steps`는 그쪽에서 이미 반영하므로 여기서는 중립입니다.
+- **개인 환경 반응**: `behavior_notes`에서 컴파일한 `Persona.env_responses`가 물가·수풀·공원·시장에 대한 접근/회피를 이동 확률에 반영합니다. 축 점수가 "얼마나" 반응하는지의 눈금이라면 이쪽은 "무엇에" 반응하는지를 담습니다.
+
+두 항목 모두 `*_STRENGTH` 설정으로 세기를 조절하며 `0`이면 완전히 꺼져 도입 이전 동작으로 돌아갑니다(ablation 대조군).
 
 `route_familiarity`는 목표 경로의 낯섦도를 `1 - familiarity`로 변환해 혼란 게이지에 반영합니다. 값이 없으면 익숙한 장소와의 거리로 근사합니다.
+
+### 축 점수의 알고리즘 반영
+
+`axis_scores`는 두 갈래로 소비됩니다.
+
+- **PriorParams**: 반경(`mobility_transport_capacity`), 전략확률(`elopement_pattern_consistency`), 끌림점 가중치(`autobiographical_destination_pull`, `preferred_target_seeking`)
+- **게이지 계수**: `k_c1`←`wayfinding_error_recovery_deficit`, `k_a1`←`distress_induced_movement_reactivity`, `k_e`←`aversive_context_escape`
+
+게이지 개인화는 허용·금지 목록이 [`backend/app/phase2/gauges.py`](backend/app/phase2/gauges.py)에 명시돼 있습니다. hazard 곡선(`theta`, `beta`)과 게이지 간 교차항은 개인화하지 않습니다. 계수 그리드서치가 사람마다 다른 좌표계를 갖거나 같은 특성이 두 번 반영되는 것을 막기 위해서입니다. 유형 기본값 위에 곱셈으로 얹으므로 유형 구조는 보존되고, 축이 없으면 동작이 바뀌지 않습니다.
 
 ### 최종 결합
 
@@ -284,7 +322,7 @@ stateDiagram-v2
 | 구성 요소 | 담당 | 담당하지 않는 것 | 장애·미설정 시 |
 |---|---|---|---|
 | Mi:dm | 온보딩 답변 추출, 질문 문장화, 제보 구조화 | 다음 슬롯 자율 선택, 좌표·경로 생성 | 규칙 추출·씨앗 질문·휴리스틱 |
-| EXAONE | prior, 선택적 축 채점, 경로 익숙함, 마음·목표 재해석 | 좌표·전역 경로, 미등록 목적지 생성 | 유형별 SAR prior·혼란 증가 휴리스틱 |
+| EXAONE | prior, 선택적 축 채점, 경로 익숙함, 개인 환경 반응, 마음·목표 재해석 | 좌표·전역 경로, 미등록 목적지 생성, 계수 숫자 직접 결정 | 유형별 SAR prior·혼란 증가 휴리스틱 |
 | Koester + 6전략 MC | 이동거리와 워커 이동, 위치 분포 | 자연어 해석 | 항상 실행 |
 | OSMnx + 환경 레이어 | 도로 제약, 환경 거리·토지피복 | 마음·목표 판단 | 연속 공간 폴백 또는 빈 환경 |
 | Kakao·Nominatim·Gazetteer | 자연어 장소 좌표화 | 경로 예측 | 다음 지오코더 또는 미해결 |
@@ -363,6 +401,9 @@ npm start
 | `ROADNET_PRELOAD` | `false` | Phase 1 도로망 사전 로딩 |
 | `MC_NUM_WALKERS` | `500` | Agent·Statistical 공통 워커 수 |
 | `MIND_CALL_BUDGET` | `10` | 예측당 실제 EXAONE 마음 호출 상한 |
+| `MIND_TRANSITIONS_PER_WALKER` | `2` | 워커당 마음 전환 최대 횟수. 2회차부터는 풀 표집이라 호출 예산 불변 |
+| `ROAD_PREFERENCE_STRENGTH` | `1.0` | 도로 위계 선호 세기(지수). `0`이면 끔 |
+| `ENV_RESPONSE_STRENGTH` | `1.0` | 개인 환경 반응 세기. `0`이면 끔 |
 | `REFLEX_ALERT_ON_INTAKE` | `true` | 신고 직후 안전반경 경로 |
 | `ALERT_COVERAGE` | `0.8` | POA·D3 타겟 누적 커버리지 |
 | `MAX_ALERT_CELLS` | `500` | 알림 셀 수 상한 |
@@ -394,7 +435,7 @@ python scripts/sim_testset.py --fixture
 python scripts/e2e_smoke.py
 ```
 
-현재 `backend/tests`에는 정적 기준 289개의 `test_*` 함수가 있습니다. E2E, D3, Phase 0 인터뷰, 축 채점, 경로 익숙함, 도로망 MC, 인지 게이지, 제보 신뢰도, 개인정보 파기를 다룹니다.
+현재 `backend/tests`는 **381개**를 수집하며 379 passed / 2 skipped입니다(2건은 카카오 라이브 키가 없어 건너뛰는 실호출 지오코딩). E2E, D3, Phase 0 인터뷰, 축 채점, 경로 익숙함, 개인 환경 반응, 유효 반경, 도로 위계, 게이지 개인화, 도로망 MC, 인지 게이지, 제보 신뢰도, 개인정보 파기를 다룹니다.
 
 ## 현재 제한과 다음 작업
 
@@ -406,7 +447,10 @@ python scripts/e2e_smoke.py
 6. 주기 재예측과 TTL 파기를 호출할 운영 스케줄러
 7. `USE_ROADNET=true` 운영 프로필과 공간 데이터 캐시 배포
 8. Statistical MC의 통계 전용 prior 분리 여부 결정
-9. 지적장애 Koester 파라미터와 게이지·알림 임계값 튜닝
+9. **합성 시나리오 평가 하네스** — 정답 위치를 아는 케이스로 `x:알림 수, y:발견율` 곡선을 만들어 알림 없음·무차별·목적지만·현재 구성 네 비교군을 비교합니다. 아래 잠정값들이 모두 여기에 걸려 있습니다
+10. 잠정값 튜닝: 지적장애 Koester 파라미터, 게이지 계수와 hazard `theta`·`beta`, 알림 임계값, 도로 위계 배수, 개인 환경 반응 인식 범위와 강도
+
+9번이 선행조건입니다. 각 기능은 `*_STRENGTH`·`MIND_TRANSITIONS_PER_WALKER` 같은 ablation 노브를 두어 하네스가 켬·끔을 비교할 수 있게 해두었습니다.
 
 ## 저장소 구조
 

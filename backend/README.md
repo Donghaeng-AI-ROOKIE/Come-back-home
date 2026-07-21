@@ -30,7 +30,7 @@ app/
 │   └── upstage.py       Solar Pro — 신고서 파싱
 ├── geo/
 │   ├── h3grid.py        H3 육각격자, likelihood 커널, 좌표 유틸
-│   └── roadnet.py       도로망 인터페이스 (OSMnx 교체 지점, 미구현)
+│   └── roadnet.py       OSMnx 보행 도로망 (USE_ROADNET=true 일 때 활성, 디스크 캐시)
 ├── phase0/interview.py  온보딩: 챗봇 인터뷰 → 페르소나 DB
 ├── phase1/intake.py     신고 접수: 인상착의·신고자 추출 → Case 생성
 ├── phase2/
@@ -77,7 +77,7 @@ GET  /phase3/cases/{id}/rerun-check    층2 트리거 상태 (스케줄러용)
 | 지점 | 파일 | 내용 |
 |---|---|---|
 | 모델 API | `llm/*.py` | 키 발급 후 각 클라이언트 `_call_api` + 메서드 구현 |
-| 도로망 | `geo/roadnet.py`, `phase2/simulation.py::_walk` | OSMnx 그래프 탐색으로 교체 |
+| 도로망 운영 프로필 | `geo/roadnet.py`, `.env` | OSMnx 자체는 구현됨 — `USE_ROADNET=true` 기본화와 캐시 배포가 남음 |
 | 마음 예측 훅 | `phase2/simulation.py` | agent 모드에서 상태 변화 시에만 EXAONE 호출 |
 | DB | `storage.py` | SQLite/Postgres Repository 로 교체 |
 | 푸시 | `phase3/alerts.py` | FCM + 사용자 위치 인덱스 |
