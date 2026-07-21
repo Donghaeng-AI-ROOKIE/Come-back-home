@@ -78,6 +78,11 @@ def submit_tip(case_id: str, body: TipIn):
     위치를 텍스트에서도 명시값에서도 못 얻으면 저장하지 않고
     {"status": "need_more", "missing": ["location"]} 를 반환한다 — 프론트가
     위치만 되물어 합친 전체 텍스트로 재제출하거나, force=True 로 그대로 확정한다.
+
+    위치는 있는데 시각이 없고 폴백 기준 p 가 이미 층2 문턱(0.8) 이상이면
+    {"status": "need_more", "missing": ["time"]} 를 반환한다 — 실제 시각을
+    받아야 층2(새 LKP) 여부가 정확히 갈리는 구간이라서다. 이 역시
+    force=True 로 건너뛸 수 있다(건너뛰면 층1로 접수).
     """
     case = _get_case(case_id)
     _require_active(case)
