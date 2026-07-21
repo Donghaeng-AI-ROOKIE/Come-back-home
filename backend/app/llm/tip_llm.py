@@ -14,10 +14,14 @@ tip_llm_api_key 를 채우면 실동작, 비어 있으면 결정적 스텁으로
 from __future__ import annotations
 
 import json
+import re
 import urllib.request
 
 from app.config import settings
 from app.llm.base import LLMClient
+
+_CLOCK_RE = re.compile(r"^([01]?\d|2[0-3]):([0-5]\d)$")
+_TIME_KINDS = ("relative", "absolute", "vague", "none")
 
 
 class TipLLMClient(LLMClient):
@@ -69,10 +73,15 @@ class TipLLMClient(LLMClient):
     def structure_tip(self, text: str) -> dict:
         """구어체 시민 제보 → 구조화 데이터.
 
-        반환: {location_text, time_text, appearance_cues, direction,
-               travel_mode("walk"/"transit"/None), specificity("상"/"중"/"하")}.
+        반환: {location_text, time_text, time_kind, time_minutes_ago, time_clock,
+               appearance_cues, direction, travel_mode("walk"/"transit"/None),
+               specificity("상"/"중"/"하")}.
         specificity 는 신뢰도 p 의 구체성 항 입력 — LLM 에 숫자를 직접 받지 않고
         상/중/하 등급만 받아 trust 가 고정값으로 매핑한다 (가드레일 패턴).
+        time_kind/time_minutes_ago/time_clock 도 같은 가드레일 패턴: LLM 은 시민이
+        "명시한" 값만 뽑고(relative/absolute), 상대→절대시각 산술은
+        app.phase3.time_resolve 가 결정론적으로 한다 — LLM 이 몇 분 전인지
+        추측해서 숫자를 지어내면 안 되므로 여기서 값 형태만 검증한다.
         travel_mode 는 walk-only MVP(2026-07-21)에서 trust 가 소비하지 않는다 —
         확장 대비 필드만 유지.
         스텁: 키워드 휴리스틱으로 필드 채움 비율 → 등급.
@@ -95,9 +104,19 @@ class TipLLMClient(LLMClient):
             self.call_failures += 1
             return _stub_structure_tip(text)
         level = data.get("specificity")
+        time_kind = data.get("time_kind") if data.get("time_kind") in _TIME_KINDS else "none"
+        minutes_ago = data.get("time_minutes_ago")
+        if time_kind != "relative" or not isinstance(minutes_ago, int) or minutes_ago < 0:
+            minutes_ago = None
+        clock = data.get("time_clock")
+        if time_kind != "absolute" or not _CLOCK_RE.match(str(clock or "")):
+            clock = None
         return {
             "location_text": data.get("location_text"),
             "time_text": data.get("time_text"),
+            "time_kind": time_kind,
+            "time_minutes_ago": minutes_ago,
+            "time_clock": clock,
             "appearance_cues": data.get("appearance_cues") or [],
             "direction": data.get("direction"),
             "travel_mode": data.get("travel_mode") if data.get("travel_mode") in ("walk", "transit") else None,
@@ -137,11 +156,39 @@ JSON 객체 하나만 출력한다 (JSON 밖 문장 금지). 없는 정보는 �
 
 - location_text: 목격 장소 (건물·가게·교차로 등), 없으면 null
 - time_text: 목격 시각 표현 ("방금", "30분 전", "3시쯤"), 없으면 null
+- time_kind: "relative"(N분/시간 전, 방금) / "absolute"(N시 등 시계 표현) / \
+"vague"(아까·좀전 등 모호) / "none"(시각 언급 없음)
+- time_minutes_ago: time_kind가 relative일 때만 정수(방금=0, "30분 전"=30, \
+"2시간 전"=120). 아니면 null
+- time_clock: time_kind가 absolute일 때만 "HH:MM" 24시간(오전/오후 반영). 아니면 null
 - appearance_cues: 옷차림·외모 단서 문자열 배열, 없으면 []
 - direction: 이동 방향·행동 ("골목 쪽", "북쪽으로"), 없으면 null
 - travel_mode: "walk"(걸어서) / "transit"(버스·택시·지하철) / null(불명)
 - specificity: 제보의 구체성·일관성 등급 "상"/"중"/"하" 중 하나. \
-장소·시각·외모가 모두 구체적이고 앞뒤가 맞으면 "상", 하나만 있거나 모호하면 "하"."""
+장소·시각·외모가 모두 구체적이고 앞뒤가 맞으면 "상", 하나만 있거나 모호하면 "하".
+
+⚠️ 시민이 명시하지 않은 시각을 추측해서 숫자를 만들지 마라. 모호하면 vague, \
+언급이 없으면 none."""
+
+
+_STUB_HOURS_AGO_RE = re.compile(r"(\d+)\s*시간\s*전")
+_STUB_MINUTES_AGO_RE = re.compile(r"(\d+)\s*분\s*전")
+
+
+def _stub_time_kind(text: str) -> tuple[str, int | None]:
+    """스텁 상대시각 파싱 — 절대시각("3시쯤")은 오전/오후 중의성이 있어 스텁에선
+    보수적으로 시도하지 않는다(vague 로 남김, 실LLM 만 absolute 를 낸다)."""
+    if "방금" in text or "지금" in text:
+        return "relative", 0
+    m = _STUB_HOURS_AGO_RE.search(text)
+    if m:
+        return "relative", int(m.group(1)) * 60
+    m = _STUB_MINUTES_AGO_RE.search(text)
+    if m:
+        return "relative", int(m.group(1))
+    if any(k in text for k in ("분", "시", "아까", "전")):
+        return "vague", None
+    return "none", None
 
 
 def _stub_structure_tip(text: str) -> dict:
@@ -149,14 +196,16 @@ def _stub_structure_tip(text: str) -> dict:
     cues = [k for k in ("점퍼", "셔츠", "바지", "모자", "치마", "코트", "운동화") if k in text]
     behavior = [k for k in ("울", "뛰", "헤매", "앉아", "두리번") if k in text]
     transit = "transit" if any(k in text for k in ("버스", "택시", "지하철", "전철")) else None
+    time_kind, minutes_ago = _stub_time_kind(text)
     filled = sum([
         any(k in text for k in ("역", "앞", "동", "로", "길", "편의점", "시장", "공원")),  # 장소 흔적
-        any(k in text for k in ("분", "시", "방금", "아까", "전")),                        # 시각 흔적
+        time_kind != "none",                                                              # 시각 흔적
         bool(cues),                                                                        # 외모
     ])
     level = "상" if filled >= 3 else ("중" if filled == 2 else "하")
     return {
         "location_text": None, "time_text": None,
+        "time_kind": time_kind, "time_minutes_ago": minutes_ago, "time_clock": None,
         "appearance_cues": cues, "direction": behavior[0] if behavior else None,
         "travel_mode": transit, "specificity": level,
     }

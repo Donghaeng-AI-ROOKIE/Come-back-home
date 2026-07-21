@@ -22,7 +22,7 @@ from app.geo import h3grid
 from app.geo.geocode import ANCHOR_MAX_KM, get_geocoder
 from app.llm import tip_llm
 from app.phase2 import pipeline
-from app.phase3 import alerts, poa_update, triggers, trust
+from app.phase3 import alerts, poa_update, time_resolve, triggers, trust
 from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.tip import Tip, TipDecision
@@ -61,6 +61,8 @@ def process_tip(
 
     if location is None:
         location = _geocode_tip_location(structured.get("location_text"), case.lkp)
+    if seen_at is None:
+        seen_at = time_resolve.resolve_seen_at(structured, now=now, lkp_time=case.lkp_time)
 
     if location is None and not structured.get("location_text") and not force:
         return {"status": "need_more", "missing": ["location"]}
