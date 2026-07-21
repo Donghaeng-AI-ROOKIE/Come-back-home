@@ -113,7 +113,14 @@ Tip {
 | 메서드 | 경로 | 요청/쿼리 | 응답 |
 |---|---|---|---|
 | POST | `/phase3/cases/{case_id}/alerts` | — | `{ case_id, target_cells, message, sent, note }` |
-| POST | `/phase3/cases/{case_id}/tips` | `{ text, location?, seen_at? }` | Tip (`decision`으로 파기/층1/층2 판정) — 시민 제보 사진 대조는 하지 않기로 확정되어 `with_photo` 제거됨 |
+| POST | `/phase3/cases/{case_id}/tips` | `{ text, location?, seen_at?, force? }` | **Tip 또는 되묻기 응답** (아래 참고). `decision`으로 파기/층1/층2 판정 — 시민 제보 사진 대조는 하지 않기로 확정되어 `with_photo` 제거됨 |
+
+> ⚠️ `POST /tips` 는 두 가지 형태를 반환한다. 프론트는 `status` 키 유무로 분기해야 한다.
+>
+> - **Tip 객체** — 정상 접수. 저장·POA 갱신까지 완료됨
+> - **`{ "status": "need_more", "missing": ["location"|"time"], "reason": str }`** — 저장하지 않고 되묻기를 요청. 프론트가 부족한 항목만 받아 **합친 전체 텍스트로 재제출**하거나 `force: true` 로 그대로 확정한다
+>
+> `text` 는 자유 텍스트 한 덩어리다. 위치·시각은 별도 필드가 아니라 이 텍스트에서 구조화·지오코딩·시각 변환으로 뽑는다(`location`·`seen_at` 은 지도 핀 등 명시값이 있을 때만 사용).
 | GET | `/phase3/cases/{case_id}/poa` | `?top=20` | `{ case_id, total_cells, top_cells: [{ cell, prob, polygon:[{lat,lng}×6] }] }` |
 | GET | `/phase3/cases/{case_id}/rerun-check` | — | `{ case_id, should_rerun, reason }` |
 
