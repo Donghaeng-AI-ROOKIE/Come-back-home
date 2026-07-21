@@ -1,8 +1,7 @@
-"""예측기 유효반경 정렬 (PR #20 후속) — topdown p95 컷과 MC 표집 지원 일치.
+"""예측기 유효반경 — 통계 상한(ISRID p95) ∩ 물리 상한(v_max×t) 정렬.
 
-이전 상태: topdown 만 원판을 p95 로 잘랐고, 그래프 MC 는 _MAX_STEPS(경로장
-~15km) 부수 안전망뿐, 연속 공간 MC(기본값)는 상한이 아예 없었다. 이제 세
-예측기가 radius.py 의 같은 p95 를 지원 경계로 쓴다.
+PR #50: topdown 만 p95 컷이 있고 MC 는 상한이 없던 비대칭 해소.
+PR(본): √t 폐기 + 물리 도달 상한 도입 (PR #20 후속 "이중계상" 결정).
 """
 
 import math
@@ -11,10 +10,12 @@ from pathlib import Path
 
 import pytest
 
+from app.config import settings
 from app.geo import h3grid
 from app.geo.roadnet import OSMnxNetwork
 from app.phase2 import radius, simulation, topdown
 from app.schemas.common import GeoPoint
+from app.schemas.persona import Persona, PersonaType
 from app.schemas.prediction import LognormalParams, PriorParams
 
 FIXTURE = Path(__file__).parent / "fixtures" / "jeongneung_walk_800m.graphml"
@@ -22,6 +23,8 @@ LKP = GeoPoint(lat=37.6061, lng=127.0106)
 
 # ISRID Dementia Urban 재교정값 (PR #20)
 DEMENTIA = LognormalParams(mu=0.095, sigma=1.48)
+V_WALK = settings.reach_vmax_dementia_kmh          # 4.5
+V_TRANSIT = settings.reach_vmax_transit_kmh        # 25.0
 
 
 @pytest.fixture(scope="module")
@@ -38,29 +41,77 @@ def _prior(mu: float = 0.095, sigma: float = 1.48) -> PriorParams:
     )
 
 
-def test_p95_matches_isrid_urban():
-    """치매 Urban p95 ≈ 12.55km (t=1h) — PR #20 재교정 수치와 일치."""
-    assert radius.p95_km(DEMENTIA, 1.0) == pytest.approx(12.55, abs=0.05)
-    # 현행 √t 스케일: t=4h → 2배 (√t 결정이 바뀌면 time_multiplier 만 고친다)
-    assert radius.p95_km(DEMENTIA, 4.0) == pytest.approx(2 * radius.p95_km(DEMENTIA, 1.0))
+def _persona(ptype=PersonaType.dementia, **axis) -> Persona:
+    return Persona(id="t", type=ptype, name="테스트", age=78, home=LKP,
+                   axis_scores=axis)
 
 
-def test_sample_never_exceeds_p95():
-    """절단 표집 — 어떤 표본도 p95 를 넘지 않고, 본체 분포는 훼손되지 않는다."""
+# ── 통계 상한 ────────────────────────────────────────────────────────
+def test_statistical_p95_matches_isrid_and_is_time_independent():
+    """통계 상한 = ISRID Urban 12.55km, 경과시간과 무관(√t 폐기)."""
+    assert radius.statistical_p95_km(DEMENTIA) == pytest.approx(12.55, abs=0.05)
+    # v_max 를 안 주면 물리 상한 미적용 → 시각 무관 동일값
+    assert radius.p95_km(DEMENTIA, 1.0) == radius.p95_km(DEMENTIA, 8.0)
+
+
+# ── 물리 상한 ────────────────────────────────────────────────────────
+def test_kinematic_cap_binds_early_statistical_binds_late():
+    """반경은 v_max×t 로 자라다 통계 상한(12.55km)에서 멈춘다.
+
+    회귀 배경: 구 √t 는 t=15분에 12.55km 를 줬는데 도보 물리한계는 1.12km —
+    11.2배 초과였다. 골든타임 전 구간이 도달 불가능 영역이었다.
+    """
+    stat = radius.statistical_p95_km(DEMENTIA)
+    assert radius.p95_km(DEMENTIA, 0.25, V_WALK) == pytest.approx(1.125)
+    assert radius.p95_km(DEMENTIA, 1.0, V_WALK) == pytest.approx(4.5)
+    assert radius.p95_km(DEMENTIA, 2.0, V_WALK) == pytest.approx(9.0)
+    # 교차점(12.55/4.5 ≈ 2.79h) 이후는 통계 상한이 지배 — 무한 확장 없음
+    assert radius.p95_km(DEMENTIA, 4.0, V_WALK) == pytest.approx(stat)
+    assert radius.p95_km(DEMENTIA, 24.0, V_WALK) == pytest.approx(stat)
+
+
+def test_cap_never_collapses_to_zero():
+    """t≈0 에서도 하한이 있어 전 워커가 LKP 한 점에 뭉치지 않는다."""
+    assert radius.p95_km(DEMENTIA, 0.0, V_WALK) == pytest.approx(radius._MIN_REACH_KM)
+
+
+def test_vmax_uses_transit_only_with_confirmed_capability():
+    """대중교통 v_max 는 mobility 축이 확인됐을 때만 — trust.py 관례와 동일 방향."""
+    assert radius.vmax_kmh(None) == V_WALK                       # 유형 미상 → 보수적
+    assert radius.vmax_kmh(_persona()) == V_WALK                 # 축 없음 → 도보
+    assert radius.vmax_kmh(_persona(mobility_transport_capacity=0.5)) == V_WALK
+    assert radius.vmax_kmh(
+        _persona(mobility_transport_capacity=0.7)) == V_TRANSIT  # 임계 도달
+    assert radius.vmax_kmh(
+        _persona(PersonaType.intellectual_disability)) == settings.reach_vmax_id_kmh
+
+
+# ── 절단 표집 ────────────────────────────────────────────────────────
+def test_sample_never_exceeds_cap_and_keeps_body():
+    """절단 표집 — 상한 초과 0, 본체 분포는 훼손되지 않는다."""
     rng = random.Random(42)
-    cap = radius.p95_km(DEMENTIA, 1.0)
-    samples = [radius.sample_distance_km(rng, DEMENTIA, 1.0) for _ in range(5000)]
-    assert max(samples) <= cap + 1e-9
-    # 잘리는 건 상위 5% 꼬리뿐 — 중앙값은 exp(μ) 근방 유지
+    samples = [radius.sample_distance_km(rng, DEMENTIA, 4.0) for _ in range(5000)]
+    assert max(samples) <= radius.statistical_p95_km(DEMENTIA) + 1e-9
     med = sorted(samples)[len(samples) // 2]
     assert med == pytest.approx(math.exp(0.095), rel=0.15)
 
 
+def test_sample_respects_kinematic_cap():
+    """t=1h 도보면 4.5km 초과 표본이 나오지 않는다."""
+    rng = random.Random(7)
+    cap = radius.p95_km(DEMENTIA, 1.0, V_WALK)
+    samples = [radius.sample_distance_km(rng, DEMENTIA, 1.0, V_WALK)
+               for _ in range(2000)]
+    assert max(samples) <= cap + 1e-9
+
+
+# ── 예측기 배선 ──────────────────────────────────────────────────────
 def test_both_mc_modes_use_truncated_sampler(net, monkeypatch):
-    """그래프·연속 두 워커 모두 절단 표집기를 워커당 1회 호출한다 (배선 검증)."""
-    calls: list[float] = []
-    monkeypatch.setattr(radius, "sample_distance_km",
-                        lambda rng, params, elapsed: calls.append(elapsed) or 0.2)
+    """그래프·연속 두 워커 모두 절단 표집기를 워커당 1회, v_max 와 함께 호출."""
+    calls: list[tuple] = []
+    monkeypatch.setattr(
+        radius, "sample_distance_km",
+        lambda rng, params, elapsed, v_max=None: calls.append((elapsed, v_max)) or 0.2)
 
     prior = _prior()
     simulation.run_monte_carlo(LKP, prior, None, 2.0, mode="statistical",
@@ -69,29 +120,34 @@ def test_both_mc_modes_use_truncated_sampler(net, monkeypatch):
     simulation.run_monte_carlo(LKP, prior, None, 2.0, mode="statistical",
                                n_walkers=5, seed=1)
     assert len(calls) == 12
-    assert all(t == 2.0 for t in calls)
+    assert all(t == 2.0 and v == V_WALK for t, v in calls)
 
 
-def test_continuous_walkers_within_p95():
-    """연속 공간 모드(기본값) — 이전엔 상한이 아예 없던 경로.
+def test_continuous_walkers_within_kinematic_cap():
+    """연속 공간 모드(기본값) — 종착점 전부가 도달 가능 범위 안.
 
-    구 코드는 lognormal 꼬리(5%)가 12.55km 를 넘는 워커를 그대로 걸렸다
-    (300 워커면 기대 ~15명). 이제 전 종착점이 p95 안이다.
+    구 코드는 상한이 아예 없어 t=1h 에도 12.55km 밖 종착이 나왔다.
     """
     poa = simulation.run_monte_carlo(LKP, _prior(), None, 1.0, mode="statistical",
                                      n_walkers=300, seed=13)
-    cap = radius.p95_km(DEMENTIA, 1.0)
+    cap = radius.p95_km(DEMENTIA, 1.0, V_WALK)      # 4.5km
     worst = max(h3grid.haversine_km(LKP, h3grid.cell_center(c)) for c in poa)
-    assert worst <= cap + 0.5   # 셀 중심 이산화 여유
+    assert worst <= cap + 0.5                        # 셀 중심 이산화 여유
 
 
-def test_topdown_support_unchanged_by_refactor():
-    """topdown 은 순수 리팩터링 — 원판 컷이 여전히 같은 p95 공식이다."""
-    params = LognormalParams(mu=0.095, sigma=0.8)   # 테스트 속도용 작은 원판(~4.1km)
-    prior = PriorParams(strategy_probs={s: 1 / 6 for s in simulation.STRATEGIES},
-                        attraction_weights={}, radius_lognormal=params, reasoning="t")
+def test_topdown_disc_follows_same_cap():
+    """topdown 원판도 같은 경계 — 세 예측기 지원 정렬."""
+    prior = _prior()
     poa = topdown.topdown_poa(LKP, prior, None, 1.0)
-    cap = radius.p95_km(params, 1.0)
+    cap = radius.p95_km(DEMENTIA, 1.0, V_WALK)
     worst = max(h3grid.haversine_km(LKP, h3grid.cell_center(c)) for c in poa)
-    assert worst <= cap + 0.3   # 셀 그리드 경계 여유
+    assert worst <= cap + 0.5
     assert abs(sum(poa.values()) - 1.0) < 1e-9
+
+
+def test_transit_capable_persona_gets_wider_disc():
+    """대중교통 가능 축이 확인되면 초기 시각에도 반경이 넓어진다 (개인화)."""
+    walk = topdown.topdown_poa(LKP, _prior(), _persona(), 1.0)
+    transit = topdown.topdown_poa(
+        LKP, _prior(), _persona(mobility_transport_capacity=0.9), 1.0)
+    assert len(transit) > len(walk)

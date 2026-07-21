@@ -1,60 +1,103 @@
-"""Koester 반경 분포의 시간 스케일과 유효 지원(p95) — 세 예측기의 단일 소스.
+"""Koester 반경의 유효 지원(p95) — 세 예측기의 단일 소스.
 
-PR #20 이 topdown 원판만 p95 로 잘라, MC 와 지원(support)이 어긋나 있었다:
-그래프 모드는 _MAX_STEPS(경로장 ~15km)라는 부수적 안전망뿐이고, 기본값인
-연속 공간 모드는 상한이 아예 없어 lognormal 꼬리가 그대로 살았다 (PR #20
-후속 "예측기 유효반경 비대칭").
+두 개의 상한이 겹친다.
 
-여기의 컷은 고정 km 가 아니라 "표집 분포 자체의 p95"로 정의한다 — √t 스케일
-결정(이중계상 논의, 회의 안건)이 어느 쪽으로 나든 time_multiplier() 하나만
-고치면 topdown·그래프 MC·연속 MC 가 함께 움직인다.
+1. **통계 상한** — ISRID 분위수 적합 lognormal 의 p95. 치매 Urban(μ=0.095,
+   σ=1.48)에서 12.55km 로, Koester 경험적 95% 거리(12.6km)와 일치한다.
+2. **물리 상한** — `v_max × 경과시간`. 도달 가능성 판정으로, Phase 3 제보
+   신뢰도(`trust.py`)가 이미 쓰는 원칙·상수를 그대로 재사용한다.
+
+`p95 = min(통계 상한, 물리 상한)`.
+
+√t 스케일 폐기 (2026-07-21 결정, PR #20 후속 "이중계상"):
+ISRID 거리는 **발견 시점 거리**를 경과시간 전반에 걸쳐 모은 종국 분포다.
+여기에 ×√t 를 다시 곱하면 같은 시간 효과를 두 번 세는 것이고, 실제로
+골든타임 전 구간에서 물리적으로 불가능한 반경이 나왔다 —
+t=15분에 12.55km(도보 한계 1.12km 의 11.2배), t=1h 에 2.8배.
+√t 가 물리적으로 타당해지는 시점은 t≥8h 로, 알림 가치가 가장 낮은 구간이다.
+
+시간 의존성은 이제 물리 상한이 전담한다: 반경은 `v_max × t` 로 자라다가
+통계 상한에 닿으면 멈춘다(치매 도보 기준 2.79h). "시간이 지나면 반경이
+커진다"는 직관은 유지되면서, 커지는 근거가 임의 지수가 아니라 도달
+가능성이 된다. T_ref 같은 자유 파라미터도 필요 없다.
 """
 
 import math
 import random
 
+from app.config import settings
+from app.schemas.persona import Persona, PersonaType
 from app.schemas.prediction import LognormalParams
 
 # 표준정규 95% 분위 — topdown 원판 컷과 동일한 z (PR #20).
 Z_P95 = 1.645
-# 절단 표집 재시도 상한 — 초과 확률이 5% 라 연속 초과는 사실상 없다(0.05^8).
-_TRUNC_MAX_RESAMPLE = 8
+# 절단 표집 재시도 상한. 물리 상한이 낮은 초기 시각에는 절단 질량이 커질 수
+# 있어(t=0.5h 에 31%) 넉넉히 잡는다. 초과 시 상한 클램프.
+_TRUNC_MAX_RESAMPLE = 24
+# 반경 하한 — t≈0 에서 상한이 0 으로 붕괴해 전 워커가 LKP 한 점에 뭉치는 것을
+# 막는다. Phase 1 즉시 알림의 k-ring 2(약 600m)와 같은 스케일.
+_MIN_REACH_KM = 0.5
+# 대중교통 v_max 를 쓰는 mobility 축 임계. 기준표 0.7 = "장시간 보행 가능
+# 하거나 익숙한 버스·지하철 노선을 혼자 이용할 수 있음".
+TRANSIT_AXIS_THRESHOLD = 0.7
 
 
-def time_multiplier(elapsed_hours: float) -> float:
-    """경과시간 → 반경 배수. 현행 √t (최소 1h 앵커).
+def vmax_kmh(persona: Persona | None) -> float:
+    """도달 가능 반경 계산용 최대 속도(km/h).
 
-    ISRID 거리는 시간독립(발견 시점 거리) 통계라 ×√t 재확장은 이중계상
-    의심이 있다 — 제거/앵커 명시/재설계는 회의 안건 (PR #20 후속).
-    결정이 나면 이 함수만 고친다.
+    대중교통 속도는 **능력이 확인된 경우에만** 적용한다 — `trust.py` 가
+    대중교통 v_max 를 "목격 확인 시"에만 쓰는 관례와 같은 방향이다. 축 채점이
+    꺼져 있거나 근거가 없으면 도보 속도로 남아 물리 상한이 실제로 작동한다.
+
+    미확인 대중교통 이용으로 반경 밖에서 발견되는 경우는 Phase 3 가 흡수한다
+    (고신뢰 제보 → 새 LKP 재예측 → D3 새 지역 알림).
     """
-    return max(1.0, elapsed_hours) ** 0.5
+    if persona is not None:
+        score = persona.axis_scores.get("mobility_transport_capacity")
+        if score is not None and score >= TRANSIT_AXIS_THRESHOLD:
+            return settings.reach_vmax_transit_kmh
+        if persona.type == PersonaType.intellectual_disability:
+            return settings.reach_vmax_id_kmh
+    # 유형 미상은 가장 느린 값 — 물리 상한은 보수적으로 잡는다.
+    return settings.reach_vmax_dementia_kmh
 
 
-def p95_km(params: LognormalParams, elapsed_hours: float) -> float:
-    """시간 반영 유효 반경 = exp(μ + zσ)·√t — 세 예측기 공통 지원 경계.
+def statistical_p95_km(params: LognormalParams) -> float:
+    """시간 무관 통계 상한 = exp(μ + zσ). ISRID 종국 분포의 95% 거리."""
+    return math.exp(params.mu + Z_P95 * params.sigma)
 
-    치매 Urban(μ=0.095, σ=1.48) 기준 t=1h 에서 12.55km — ISRID 경험적
-    95% 거리와 일치 (PR #20 재교정).
+
+def p95_km(
+    params: LognormalParams,
+    elapsed_hours: float,
+    v_max_kmh: float | None = None,
+) -> float:
+    """세 예측기 공통 지원 경계 = min(통계 상한, 물리 상한).
+
+    `v_max_kmh` 를 안 주면 통계 상한만 — 물리 제약 없이 분포 자체를 볼 때
+    (테스트·문서화)용.
     """
-    return math.exp(params.mu + Z_P95 * params.sigma) * time_multiplier(elapsed_hours)
+    stat = statistical_p95_km(params)
+    if v_max_kmh is None:
+        return stat
+    reach = max(_MIN_REACH_KM, v_max_kmh * max(0.0, elapsed_hours))
+    return min(stat, reach)
 
 
 def sample_distance_km(
     rng: random.Random,
     params: LognormalParams,
     elapsed_hours: float,
+    v_max_kmh: float | None = None,
 ) -> float:
     """p95 절단 lognormal 표집 — MC 가 topdown 원판 컷과 같은 지원을 갖게 한다.
 
     초과 표본은 재표집(절단 분포 — topdown 이 원판 밖 질량을 재정규화하는
-    것과 동형). 연속 초과 시 p95 클램프 — 잘리는 꼬리가 5% 라 편향은 무시
-    가능한 수준.
+    것과 동형). 연속 초과 시 상한 클램프.
     """
-    cap = p95_km(params, elapsed_hours)
-    mult = time_multiplier(elapsed_hours)
+    cap = p95_km(params, elapsed_hours, v_max_kmh)
     for _ in range(_TRUNC_MAX_RESAMPLE):
-        d = rng.lognormvariate(params.mu, params.sigma) * mult
+        d = rng.lognormvariate(params.mu, params.sigma)
         if d <= cap:
             return d
     return cap
