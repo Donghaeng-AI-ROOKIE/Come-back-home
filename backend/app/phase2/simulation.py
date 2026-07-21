@@ -272,6 +272,8 @@ def _walk_graph(
             w = math.exp(kappa * math.cos(b - desired))
             # 도로 위계 선호 — 간선 기피·이면 선호 (치매 한정, 기획팀 논문조사 2번)
             w *= gauge_mod.road_preference(net.edge_attrs(node, nb), persona)
+            # 개인 환경 반응 — "물가만 보면 다가간다" 같은 축 밖 특성 (과제1 컴파일)
+            w *= gauge_mod.env_response_weight(net.env(nb), persona)
             if nb == prev and len(nbrs) > 1:
                 w *= 0.2  # 왔던 길 즉시 회귀 억제 (backtracking 도 새 경로로 돌아가게)
             weights.append(w)

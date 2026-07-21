@@ -11,7 +11,13 @@ LLM 은 확률·거리 calibration 이 약하다는 전제(아키텍처 결정�
 
 import math
 
-from app.schemas.persona import AttractionPoint, Persona, PersonaType, RouteFamiliarity
+from app.schemas.persona import (
+    AttractionPoint,
+    EnvResponse,
+    Persona,
+    PersonaType,
+    RouteFamiliarity,
+)
 from app.schemas.prediction import LognormalParams, MindState, PriorParams
 
 # ε-flooring — 어떤 전략도 확률 0 이 되지 않게 (탐색 다양성 보존)
@@ -190,6 +196,38 @@ def sanitize_mind(data: dict, current: MindState, labels: list[str]) -> tuple[Mi
 # 0.9=일상적으로 반복 이용하는 핵심 생활경로+최근까지 독립 이동. F(판정 불가)는
 # 매핑에 없어 자동으로 버려진다 — "언급됐지만 이 기준표로 판단할 근거가 부족함".
 ROUTE_LEVEL_SCORES = {"A": 0.1, "B": 0.3, "C": 0.5, "D": 0.7, "E": 0.9}
+
+# 개인 환경 반응(EnvResponse) — 닫힌 어휘. envlayer 가 실제로 수집하는 카테고리만
+# 인정한다(_OSM_CATEGORIES 와 같은 집합) — 지어낸 대상은 소비할 데이터가 없다.
+ENV_FEATURES = ("water", "forest", "park", "market")
+ENV_DIRECTIONS = ("접근", "회피")
+# 등급 → 강도. axis_scoring·route_familiarity 와 같은 5단계 스케일을 3단계로 쓴다
+# (강도는 "약/중/강"이면 충분하고, 단계를 늘리면 LLM 이 가짜 정밀도를 만든다).
+ENV_STRENGTH_SCORES = {"하": 0.3, "중": 0.5, "상": 0.9}
+
+
+def sanitize_env_responses(raw: dict) -> list[EnvResponse]:
+    """다수결·quote 검증을 거친 {feature: (direction, strength)} → 검증된 목록.
+
+    마지막 방어선 — 닫힌 어휘 밖 feature/direction 과 규정 밖 강도는 버린다
+    (sanitize_mind() 의 goal_label "실존 라벨만 인정"과 같은 원칙).
+    """
+    if not isinstance(raw, dict):
+        return []
+    valid_strengths = set(ENV_STRENGTH_SCORES.values())
+    out: list[EnvResponse] = []
+    for feature, item in raw.items():
+        if feature not in ENV_FEATURES or not isinstance(item, tuple | list) or len(item) != 2:
+            continue
+        direction, strength = item
+        if direction not in ENV_DIRECTIONS:
+            continue
+        if (not isinstance(strength, (int, float)) or isinstance(strength, bool)
+                or strength not in valid_strengths):
+            continue
+        out.append(EnvResponse(feature=feature, direction=direction,
+                               strength=float(strength)))
+    return out
 
 
 def sanitize_route_familiarity(
