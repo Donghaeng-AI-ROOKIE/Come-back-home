@@ -227,7 +227,6 @@
         <select id="ptype">
           <option value="">유형 미지정 (첫 답에서 확정)</option>
           <option value="dementia">치매 노인</option>
-          <option value="child">아동</option>
           <option value="intellectual_disability">지적장애인</option>
         </select>
         <button id="btn-start" class="primary">새 인터뷰 시작</button>
@@ -295,7 +294,7 @@ const STRATEGY_KO = {
   random_walk: "무작위 배회", backtracking: "되돌아가기",
   staying_put: "제자리 머무름", landmark_seeking: "끌림점 지향",
 };
-const TYPE_KO = { dementia: "치매 노인", child: "아동", intellectual_disability: "지적장애인" };
+const TYPE_KO = { dementia: "치매 노인", intellectual_disability: "지적장애인" };
 const SRC_KO = { exaone: "EXAONE 실호출", stub: "스텁 (키 없음)", pool: "풀 표집", heuristic: "휴리스틱" };
 const SEQ = ["#cde2fb","#9ec5f4","#6da7ec","#3987e5","#256abf","#184f95","#0d366b"];
 
