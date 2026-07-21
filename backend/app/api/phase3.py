@@ -11,15 +11,15 @@ from app.phase3 import alerts, tip_flow, triggers
 from app.privacy import lifecycle
 from app.schemas.case import CaseStatus
 from app.schemas.common import GeoPoint
-from app.schemas.tip import Tip
 
 router = APIRouter(prefix="/phase3", tags=["Phase 3 — 알림·제보·POA 갱신"])
 
 
 class TipIn(BaseModel):
     text: str
-    location: GeoPoint | None = None
+    location: GeoPoint | None = None   # 명시 좌표(향후 지도 핀 등). 없으면 텍스트에서 지오코딩.
     seen_at: datetime | None = None
+    force: bool = False                 # 위치 미확보 되묻기를 건너뛰고 그대로 확정
 
 
 def _get_case(case_id: str):
@@ -71,9 +71,14 @@ def send_alerts(case_id: str):
     return result
 
 
-@router.post("/cases/{case_id}/tips", response_model=Tip)
+@router.post("/cases/{case_id}/tips")
 def submit_tip(case_id: str, body: TipIn):
-    """시민 제보 접수 → 신뢰도 p → 층1 갱신 (+조건 충족 시 층2 재실행)."""
+    """시민 제보 접수(자유텍스트) → 신뢰도 p → 층1 갱신 (+조건 충족 시 층2 재실행).
+
+    위치를 텍스트에서도 명시값에서도 못 얻으면 저장하지 않고
+    {"status": "need_more", "missing": ["location"]} 를 반환한다 — 프론트가
+    위치만 되물어 합친 전체 텍스트로 재제출하거나, force=True 로 그대로 확정한다.
+    """
     case = _get_case(case_id)
     _require_active(case)
     if not case.current_poa:
@@ -83,6 +88,7 @@ def submit_tip(case_id: str, body: TipIn):
         text=body.text,
         location=body.location,
         seen_at=body.seen_at,
+        force=body.force,
     )
 
 

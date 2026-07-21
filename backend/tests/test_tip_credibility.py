@@ -8,8 +8,8 @@ from datetime import datetime, timedelta, timezone
 
 from app.config import settings
 from app.geo import reachability
-from app.llm import midm
-from app.llm.midm import _stub_structure_tip
+from app.llm import tip_llm
+from app.llm.tip_llm import _stub_structure_tip
 from app.phase3 import trust
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
@@ -135,15 +135,15 @@ def test_specificity_levels_ordered():
 # ── 제보 챗봇 질문 순서 ─────────────────────────────────────────────
 def test_next_question_fixed_order():
     empty = {"location_text": None, "time_text": None, "appearance_cues": [], "direction": None}
-    assert midm.next_tip_question(empty) == "어디서 보셨어요? 근처 건물이나 가게 이름을 알려주세요."
+    assert tip_llm.next_tip_question(empty) == "어디서 보셨어요? 근처 건물이나 가게 이름을 알려주세요."
     got_loc = {**empty, "location_text": "대흥역 앞"}
-    assert "몇 시" in midm.next_tip_question(got_loc)
+    assert "몇 시" in tip_llm.next_tip_question(got_loc)
 
 
 def test_travel_mode_only_when_flagged_and_over_ceiling():
     full = {"location_text": "역앞", "time_text": "방금", "appearance_cues": ["셔츠"], "direction": "북쪽"}
-    assert midm.next_tip_question(full, ask_travel_mode=False) is None       # 걷기 범위 내 → 안 물음
-    assert "버스" in midm.next_tip_question(full, ask_travel_mode=True)       # 상한 초과 → 이동수단 질문
+    assert tip_llm.next_tip_question(full, ask_travel_mode=False) is None       # 걷기 범위 내 → 안 물음
+    assert "버스" in tip_llm.next_tip_question(full, ask_travel_mode=True)       # 상한 초과 → 이동수단 질문
 
 
 def test_stub_structure_specificity_grades():
