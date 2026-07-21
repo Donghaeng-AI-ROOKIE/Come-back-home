@@ -1,7 +1,5 @@
 """게이지·트리거·마음 재해석 테스트 — fixture 도로망, 외부 API 안 침."""
 
-import random
-from datetime import datetime
 from pathlib import Path
 
 import pytest
@@ -134,7 +132,7 @@ def test_mind_trigger_switches_target_and_calls_once(net, monkeypatch):
     """H/A 발동 → reinterpret_mind 1회 호출, 목표가 재주입한 끌림점으로 전환."""
     calls = []
 
-    def fake_reinterpret(persona, current, report, labels, prior=None):
+    def fake_reinterpret(persona, current, report, labels, prior=None, scene=None):
         calls.append(report)
         return MindState(status="옛집으로", confusion=0.3, changed=True), "시장"
 
@@ -149,7 +147,6 @@ def test_mind_trigger_switches_target_and_calls_once(net, monkeypatch):
     assert len(calls) <= 8                                  # 워커당 최대 1회
     assert "귀소" in calls[0]                               # 게이지 자연어 보고 포함
     # 목표 전환 재주입 → 상당수 워커가 끌림점 근처에서 종료
-    target_cell = h3grid.cell_of(ATTRACTION)
     near = sum(p for c, p in poa.items()
                if h3grid.haversine_km(h3grid.cell_center(c), ATTRACTION) < 0.25)
     assert near > 0.3

@@ -76,6 +76,7 @@ class _MindPool:
         gauge_report: str,
         labels: list[str],
         prior: PriorParams | None = None,
+        scene: str | None = None,
     ) -> tuple[MindState, str | None, str] | None:
         """(MindState, goal, source) 또는 None(예산 0 + 풀 비어있음 → 호출자 휴리스틱).
 
@@ -86,7 +87,8 @@ class _MindPool:
             self.remaining -= 1
             from app import llm  # 지연 임포트 (테스트에서 모킹 지점)
 
-            out = llm.exaone.reinterpret_mind(persona, current, gauge_report, labels, prior)
+            out = llm.exaone.reinterpret_mind(persona, current, gauge_report, labels,
+                                              prior, scene)
             self.results.append(out)
             return out[0], out[1], ("stub" if llm.exaone.is_stub else "exaone")
         return self.sample_only(rng)
@@ -309,9 +311,12 @@ def _walk_graph(
                     result = None
                 elif mind_transitions == 1:
                     # 1회차만 예산 소비 가능 — 풀 다양성(서로 다른 워커의 첫 문맥) 보존
+                    # 장면 텍스트: 지금 이 노드에서 무엇이 보이는가 (외인성 자극)
+                    from app.llm.exaone import build_scene_text  # 지연 — 순환 임포트
+
                     result = mind_pool.reinterpret(
                         rng, persona, mind or MindState(), gauge_report,
-                        list(label_nodes or {}), prior)
+                        list(label_nodes or {}), prior, build_scene_text(env))
                 else:
                     # 2회차부터 풀 표집 전용 — 실호출 예산 불변 (과제3 다회전환)
                     result = mind_pool.sample_only(rng)
