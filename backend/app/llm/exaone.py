@@ -144,8 +144,47 @@ def _axis_level_ko(score: float) -> str:
     return "낮음" if score < 0.3 else ("중간" if score < 0.7 else "높음")
 
 
+# 환경 레이어 거리 필드 → 장면 문장 조각. 임계는 "지금 눈에 들어오는가"
+# 기준의 잠정값 — 물가는 익사 위험이라 더 멀리서도 알린다.
+_SCENE_FEATURES: list[tuple[str, float, str]] = [
+    ("water_m", 100.0, "물가"),
+    ("market_m", 60.0, "시장"),
+    ("park_m", 60.0, "공원"),
+    ("forest_m", 60.0, "수풀"),
+]
+
+
+def build_scene_text(env: dict | None) -> str | None:
+    """노드 환경 dict → 자연어 장면 1줄. 임계 밖이면 None.
+
+    좌표 불가침 원칙 유지 — 위경도가 아니라 "지금 무엇이 보이는가"의 국소
+    의미 텍스트만 준다 (대형 그래프 추론은 LLM 불가, 국소 장면은 가능).
+
+    방향(끌림/회피) 판단은 여기서 하드코딩하지 않는다. 같은 "물가 30m"라도
+    좋아하는 사람과 무서워하는 사람이 다르게 반응하므로, 사실만 주고 해석은
+    페르소나 맥락을 함께 보는 EXAONE 이 한다. 아동 제거(PR #47)로 물가
+    하드코딩이 사라진 뒤 water 가 수집만 되고 소비처가 없던 결손을 이 경로로
+    복원한다 — 알고리즘이 방향을 정하지 않으므로 근거 없는 확신이 안 생긴다.
+    """
+    if not env:
+        return None
+    parts = []
+    for key, threshold_m, korean in _SCENE_FEATURES:
+        dist = env.get(key)
+        if isinstance(dist, (int, float)) and dist <= threshold_m:
+            parts.append(f"{korean} {round(dist)}m")
+    land = env.get("landcover_l3") or env.get("landcover_l1")
+    if land:
+        parts.append(str(land))
+    return ", ".join(parts) if parts else None
+
+
 def _build_mind_input(
-    persona: Persona, gauge_report: str, labels: list[str], prior: PriorParams | None = None,
+    persona: Persona,
+    gauge_report: str,
+    labels: list[str],
+    prior: PriorParams | None = None,
+    scene: str | None = None,
 ) -> str:
     lines = [
         "[실종자]",
@@ -166,6 +205,8 @@ def _build_mind_input(
             top_label = max(prior.attraction_weights, key=prior.attraction_weights.get)
             lines.append(f"[유력 목적지 후보] {top_label}")
     lines.append(f"[현재 상태] {gauge_report}")
+    if scene:
+        lines.append(f"[주변 장면] {scene}")
     lines.append(f"[끌림점 후보] {', '.join(labels) if labels else '(없음)'}")
     lines.append("[질문] 이 사람은 지금 어떤 마음 상태이고, 어디로 향하려 하는가?")
     return "\n".join(lines)
@@ -328,11 +369,14 @@ class ExaoneClient(LLMClient):
         gauge_report: str,
         labels: list[str],
         prior: PriorParams | None = None,
+        scene: str | None = None,
     ) -> tuple[MindState, str | None]:
         """H·A 게이지 발동 시 마음·목표 재해석 — 시뮬레이션 워커가 호출.
 
         prior: 이번 예측의 목적지 prior(전략확률·끌림점가중치) — 마음 재해석이
         "예측된 이동 성향"을 참고 문맥으로 쓸 수 있게 전달(작업 3). 없어도 동작.
+        scene: 현재 노드의 주변 장면 텍스트(`build_scene_text`) — 외인성 자극을
+        마음 재해석에 공급한다(PR #21 과제2 1단계). 없어도 동작.
 
         반환: (검증된 MindState, 새 목표 끌림점 라벨 또는 None).
         스텁 모드·실패 시: 혼란도 +0.2 휴리스틱, 목표 유지.
@@ -342,7 +386,7 @@ class ExaoneClient(LLMClient):
                               changed=True), None)
         if self.is_stub:
             return fallback
-        mind_input = _build_mind_input(persona, gauge_report, labels, prior)
+        mind_input = _build_mind_input(persona, gauge_report, labels, prior, scene)
         try:
             raw = self.chat(
                 [
