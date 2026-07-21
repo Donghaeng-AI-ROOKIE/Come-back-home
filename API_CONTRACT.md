@@ -39,7 +39,8 @@ Persona {
   "axis_evidence": { "mobility_transport_capacity": [str], ... },  // 축별 근거 노트(Mi:dm 재서술)
   "axis_scores": { "mobility_transport_capacity": 0.5, ... },      // 축 점수(0.1~0.9), F·근거없음 축은 키 자체가 없음
   "axis_scoring_report": {},                                      // 채점 진행상태·F율·quote검증 등 디버그용
-  "route_familiarity": [RouteFamiliarity],  // 경로별 관계 변수(컴파일러 미구현이라 항상 빈 배열)
+  "route_familiarity": [RouteFamiliarity],  // 경로별 관계 변수 — 자전적 목적지 유래 끌림점만 컴파일(PR #44)
+  "env_responses": [EnvResponse],           // 개인 환경 반응 {feature, direction, strength} — behavior_notes 에서 컴파일(PR #56)
   "created_at": datetime
   // "axis_quotes" 는 응답에 없음 — 모델에는 있지만 API 는 response_model_exclude 로 제외(아래 참고)
 }

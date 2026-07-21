@@ -2,7 +2,7 @@
 
 > 기준 브랜치: `origin/develop`
 >
-> 기준 커밋: [`075ec15`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/075ec15) (`2026-07-20`, PR #47 병합)
+> 기준 커밋: [`f1286f4`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/f1286f4) (`2026-07-21`, PR #56 병합)
 >
 > 조사 방식: API 라우터, 도메인 스키마, Phase별 서비스 모듈, 프런트엔드 클라이언트와 테스트 코드를 정적 추적
 >
@@ -408,8 +408,8 @@ EXAONE 미설정·실패 시 유형별 Koester·6전략 기본값으로 폴백�
 #### A. Top-down POA
 
 - Koester 로그정규 분포로 LKP 중심 거리 링을 만든다.
-- 경과시간은 중앙 반경에 `max(1, hours)^0.5`로 반영한다.
-- 탐색 원판은 로그정규 p95까지 생성한다.
+- 경과시간 `√t` 스케일은 폐기했다(PR #52). ISRID 거리가 이미 발견 시점 거리를 모은 종국 분포라 이중계상이었고, 실제로 `t=15분`에 12.55km처럼 도보 한계(1.12km)를 11배 넘는 반경이 나왔다.
+- 탐색 원판은 `min(로그정규 p95, v_max × 경과시간)`까지 생성한다 — 통계 상한과 물리 도달 상한의 교집합(`phase2/radius.py`). 세 예측기가 같은 경계를 공유한다.
 - 끌림점은 300m 가우시안 범프로 더한다.
 - 응답의 `poa_topdown`에는 포함하지만 최종 분포에는 합치지 않는다. 동일 prior가 두 MC에 이미 들어가므로 중복 반영을 피하기 위한 결정이다.
 
@@ -430,7 +430,7 @@ flowchart LR
     FCE --> HA["H 귀소 / A 불안 파생"]
     HA --> HAZ["로지스틱 hazard 표집"]
     HAZ -- "F 발동" --> ALG["휴식·남은 이탈거리 축소<br/>알고리즘 처리"]
-    HAZ -- "H 또는 A 발동" --> LLM["EXAONE 마음·목표 재해석<br/>워커당 최대 1회"]
+    HAZ -- "H 또는 A 발동" --> LLM["EXAONE 마음·목표 재해석<br/>워커당 최대 2회, 불응기 30스텝<br/>2회차부터 풀 표집 전용"]
     LLM --> SAFE["상·중·하 혼란도 수치화<br/>기존 끌림점 라벨만 허용"]
     SAFE --> MOVE["kappa·target 갱신"]
 ```
@@ -715,23 +715,28 @@ API 요청·응답의 상세 형식은 [`API_CONTRACT.md`](../API_CONTRACT.md)�
 
 ## 14. 테스트와 검증 자산
 
-- `backend/tests`에는 정적 기준으로 289개의 `test_*` 함수가 있다.
+- `backend/tests`는 381개를 수집하며 379 passed / 2 skipped 이다(2건은 카카오 라이브 키 없는 실호출 지오코딩).
 - E2E 흐름, D3, Phase 0 인터뷰, 축 채점, route familiarity, 도로망 MC, 인지 게이지, 제보 신뢰도, 개인정보 파기 등을 각각 테스트한다.
 - 정릉동 도로망·환경·건물 fixture가 포함돼 있다.
 - `backend/experiments/axis_goldset`에는 축 채점 골드셋 실험 스크립트와 결과가 있다.
 - `/dashboard`와 Debug API는 워커 궤적, 마음 이벤트, EXAONE 입력·출력, 네 POA 레이어를 시각화한다.
 
-이 문서를 작성한 환경에는 백엔드 Python 의존성이 설치돼 있지 않아 전체 테스트를 실행하지 않았으며, 테스트 개수와 범위는 소스 정적 확인값이다.
+테스트 개수는 2026-07-21 develop f1286f4 에서 pytest 를 직접 실행해 확인한 값이다.
 
 ## 15. develop 기준 구현·문서 불일치와 우선 정리 항목
 
 ### 문서·주석 불일치
 
-1. `API_CONTRACT.md`는 route familiarity 컴파일러를 미구현으로 설명하지만 최신 코드에는 구현돼 있다.
-2. `backend/README.md`는 OSMnx 도로망을 미구현으로 설명하지만 최신 코드에는 구현돼 있다.
-3. 일부 스키마·축 기준표 주석도 route familiarity를 미구현으로 적고 있어 코드와 맞지 않는다.
-4. `simulation.py` 문서 문자열은 Statistical MC를 “AI 없음”이라 표현하지만 실제 파이프라인은 동일 EXAONE prior를 전달한다.
-5. PR #47에서 아동 Persona를 제거했지만 정적 E2E 대시보드의 유형 선택지·표시 맵에는 아동 문자열이 남아 있다.
+**해소됨 (2026-07-21)**
+
+- ~~`API_CONTRACT.md`가 route familiarity 컴파일러를 미구현으로 설명~~ → 갱신, `env_responses` 필드도 추가
+- ~~`backend/README.md`가 OSMnx 도로망을 미구현으로 설명~~ → "구현됨, 운영 프로필·캐시 배포가 남음"으로 정정
+- ~~스키마·축 기준표 주석의 route familiarity 미구현 표기~~ → `schemas/persona.py`·`phase0/axis_scoring.py`·`axis_rubric.md` 3곳 정정
+- ~~PR #47 이후 E2E 대시보드에 남은 아동 문자열~~ → PR #49에서 제거
+
+**남음**
+
+1. `simulation.py` 문서 문자열은 Statistical MC를 "AI 없음"이라 표현하지만 실제 파이프라인은 동일 EXAONE prior를 전달한다. 정확히는 "동적 마음 재해석 제외 비교군"이다.
 
 ### 실서비스 전 핵심 미구현
 
@@ -763,7 +768,7 @@ Come-back-home/
 │   ├── config.py
 │   ├── seed.py
 │   └── storage.py
-├── backend/tests/           289개 test 함수와 정릉동 fixture
+├── backend/tests/           381개 test 함수와 정릉동 fixture
 ├── frontend/src/
 │   ├── api/                 목/실백엔드 전환 클라이언트
 │   ├── navigation/          역할별 분리 트리

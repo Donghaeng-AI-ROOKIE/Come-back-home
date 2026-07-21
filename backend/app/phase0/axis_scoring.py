@@ -87,7 +87,7 @@ def scored_axes(ptype: PersonaType, rubrics: dict[str, dict]) -> list[str]:
 
     lost_behavior·dementia_wandering_pattern 은 점수 없는 관찰 지표, \
     route_environment_familiarity 는 사람이 아닌 (사람,경로) 쌍의 속성이라 별도
-    관계 변수(Persona.route_familiarity, 미구현)로 분리됨 — 기준표(axis_rubric.md)에
+    관계 변수(Persona.route_familiarity — route_familiarity_compiler 담당)로 분리됨 — 기준표(axis_rubric.md)에
     없으므로 자동 제외된다(치매 6축, 발달 7축. 2026-07-17 축 구조 개정).
     """
     fields = [s.axis_field for s in slots_for(ptype) if s.axis_field]

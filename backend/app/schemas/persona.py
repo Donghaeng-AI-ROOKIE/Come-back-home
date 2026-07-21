@@ -97,7 +97,7 @@ class Persona(BaseModel):
     axis_scores: dict[str, float] = {}
     axis_scoring_report: dict = {}
     # 경로별 익숙함 — route_environment_familiarity 는 축이 아니라 관계 변수라 여기 분리
-    # (미구현 컴파일러 대상, RouteFamiliarity 참고). 원료가 되는 보호자 근거는
+    # (route_familiarity_compiler 가 채움, RouteFamiliarity 참고). 원료가 되는 보호자 근거는
     # axis_evidence["route_environment_familiarity"]/axis_quotes["route_environment_familiarity"]
     # 에 그대로 쌓여 있음 — 필드 이름이 서로 달라 헷갈리지 않도록 명시.
     route_familiarity: list[RouteFamiliarity] = []
