@@ -153,6 +153,10 @@ def cosine(a: list[float], b: list[float]) -> float:
 
 # ── 히스토리-어웨어 쿼리 (논문 ①: 문맥 디노이즈) ─────────────────────
 
+# 화제이탈 grounding 가드 토글 (평가 하네스 전용, 기본 켜짐). False 면 과거 턴을
+# 디노이즈 없이 전부 쿼리에 넣는다 — topic drift 로 검색이 나빠지는지 측정용.
+DENOISE = True
+
 # 현재 답변과 이 임계 미만으로 유사한 과거 턴은 topic drift 로 보고 버린다.
 COHERENCE_THRESHOLD = 0.15
 # 과거 턴 기여를 거리(턴 수)에 따라 감쇠 — 최근 맥락일수록 크게.
@@ -183,7 +187,7 @@ def build_history_aware_query(
     for offset, (turn, emb) in enumerate(zip(history, hist_embs)):
         idx = len(history) - 1 - offset  # 원래 인덱스
         dist = offset + 1                 # 앵커로부터의 턴 거리(1=바로 앞)
-        if cosine(anchor_emb, emb) < COHERENCE_THRESHOLD:
+        if DENOISE and cosine(anchor_emb, emb) < COHERENCE_THRESHOLD:
             continue                      # 관련 없는 과거 턴 → 디노이즈
         weight = RECENCY_DECAY ** (dist - 1)
         repeat = max(1, round(weight * 2))  # 가까울수록 쿼리에 더 크게 반영

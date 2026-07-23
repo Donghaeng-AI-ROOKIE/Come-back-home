@@ -46,6 +46,19 @@ FOLLOWUP_SIM = retrieval.PIVOT_SIM
 # 절대 백스톱(모든 슬롯 소진/충족으로 자연 종료가 먼저 걸린다). 유형별 슬롯×시도 상한 위.
 MAX_QUESTIONS = 40
 
+# ── 대화 가드 토글 (평가 하네스 전용) ──────────────────────────────────
+# experiments/chatbot_eval 가 가드 실효성을 재려고 하나씩 끈다("가드 다이어트").
+# **운영 기본은 전부 켜짐 — 모두 True 이면 동작이 종전과 완전히 동일**하다(프로덕션
+# 영향 없음). 개별 가드를 끈 실행의 점수/효율 하락이 곧 그 가드의 실효성이다.
+# 화제이탈 grounding 은 retrieval.DENOISE 로 별도 제어(순환참조 회피).
+GUARDS = {
+    "ignorance_exhaust": True,   # 무지 답변("모르겠어요") → 그 슬롯 즉시 소진
+    "negation_fill": True,       # 부정 답변("없어요") → '해당 없음'으로 충족
+    "presupposition": True,      # 근거 없는 전제 질문("~라고 하실 때") 차단
+    "existence_first": True,     # 여부 확인 전 세부(부정조건) 질문 차단
+    "dedup": True,               # 세션 전체 질문 문장 중복 방지
+}
+
 _IDENTITY = slot_by_key("identity")
 
 # 유형 키워드 폴백 (Mi:dm 추출 실패/스텁 시).
@@ -667,6 +680,42 @@ def _is_dup_note(note: str, seen: list[str]) -> bool:
     return False
 
 
+def _looks_like_past_home(label: str) -> bool:
+    """'예전에 살던 집'·'옛집'·'마포구 신수동 옛날 집'처럼 과거 거주지 라벨인가.
+
+    Mi:dm 이 옛집을 나중 턴에 변종 라벨로 반복 재추출하는 실측(2026-07-23 D2:
+    routine·복약 턴에 '예전 집'·'마포구 신수동 옛날 집'을 새 장소로 되뱉음)이 있다.
+    비연속 부분열이라('예전집'⊄'예전에살던집') 라벨 포함매칭이 못 잡아 같은 집이
+    3조각으로 쌓였다. 옛집류는 지역이 호환되면 한 장소로 병합한다(_merge_target).
+    """
+    n = _norm(label)
+    return ("옛" in n or "예전" in n) and "집" in n
+
+
+def _merge_target(ap: dict, by_key: dict) -> str | None:
+    """새 끌림점을 병합할 기존 라벨 키 — 포함매칭 + 옛집류 + 지역-둔갑 병합. 없으면 None."""
+    key = _norm(ap.get("label"))
+    area = _norm(_clean_area(ap.get("area_text")))
+    if not key:
+        return None
+    if key in by_key:
+        return key
+    for k, ex in by_key.items():
+        # ① 포함 관계 라벨("대흥역" vs "대흥역 2번 출구") — 3자 미만은 오병합 위험
+        if (k in key and len(k) >= 3) or (key in k and len(key) >= 3):
+            return k
+        ex_area = _norm(_clean_area(ex.get("area_text")))
+        # ② 옛집류끼리 지역이 호환되면 같은 집 — 변종 라벨 재추출 흡수
+        if _looks_like_past_home(ap.get("label")) and _looks_like_past_home(ex.get("label")):
+            if not area or not ex_area or area in ex_area or ex_area in area:
+                return k
+        # ③ 지역이 라벨로 둔갑 — 새 라벨이 기존 장소의 지역 그 자체(되묻기 주소가
+        #    이후 턴에 별개 장소로 재추출됨). "신수동"⊂"마포구 신수동" 도 흡수.
+        if ex_area and len(key) >= 2 and (key == ex_area or key in ex_area):
+            return k
+    return None
+
+
 def _apply_extraction(
     session: InterviewSession, prev_slot: SlotSpec, extracted: dict,
     *, overwrite: bool = False, utterance: str = "",
@@ -704,11 +753,9 @@ def _apply_extraction(
         _upgrade_evidence(ap, _evidence_from_utterance(utterance, prev_slot.key), utterance)
         # 이 답변이 나온 슬롯 — unfamiliarity 게이지 폴백 판단(작업4)의 origin_slot 원료.
         ap.setdefault("origin_slot", prev_slot.key)
-        # 포함 관계 라벨("대흥역" vs "대흥역 2번 출구")도 같은 장소로 병합 (실측 5차).
-        # 3자 미만 라벨은 오병합 위험("시장" ⊂ "망원시장")이 커서 정확 일치만.
-        match = key if key in by_key else next(
-            (k for k in by_key
-             if (k in key and len(k) >= 3) or (key in k and len(key) >= 3)), None)
+        # 포함 관계 라벨("대흥역" vs "대흥역 2번 출구") + 옛집류 변종 + 지역-둔갑 병합.
+        # 3자 미만 라벨은 오병합 위험("시장" ⊂ "망원시장")이 커서 정확 일치만(_merge_target).
+        match = _merge_target(ap, by_key)
         if match is None:
             by_key[key] = ap
             session.draft_attractions.append(ap)
@@ -887,11 +934,13 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
         _resolve_pending_area(session, clean)
         # 순수 무지 답변("모르겠다니까요")이면 그 슬롯은 즉시 소진 — 같은 것을
         # 또 물어 보호자를 지치게 하지 않는다(라이브 실측 2026-07-17 2차).
-        if _is_pure_ignorance(clean) and prev_slot.key not in session.filled_keys:
+        if GUARDS["ignorance_exhaust"] and _is_pure_ignorance(clean) \
+                and prev_slot.key not in session.filled_keys:
             session.asked_counts[prev_slot.key] = MAX_ASKS_PER_SLOT
         # 부정 답변("딱히 없어요")은 '해당 없음'으로 **충족** 처리 — 무지와 달리
         # 답을 받은 것이다. profile 슬롯(이름·집)은 부정으로 채울 수 없어 제외.
-        if _is_negative_answer(clean) and prev_slot.axis != Axis.profile \
+        if GUARDS["negation_fill"] and _is_negative_answer(clean) \
+                and prev_slot.axis != Axis.profile \
                 and prev_slot.key not in session.filled_keys:
             session.filled_keys.append(prev_slot.key)
             session.asked_counts.pop(prev_slot.key, None)
@@ -992,9 +1041,10 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
     raw_q = _phrase_tracked(session, target, is_followup)
     question, _fallback = safety.guard_question(
         raw_q, target, _EMB, bank=slots_for(session.persona_type))
-    if not _presupposition_grounded(session, question):
+    if GUARDS["presupposition"] and not _presupposition_grounded(session, question):
         question = safety.single_question(target.question)   # 근거 없는 전제 → 씨앗 질문
-    if not _slot_collected(session, target) and _NEG_CONDITIONAL_RE.search(question):
+    if GUARDS["existence_first"] and not _slot_collected(session, target) \
+            and _NEG_CONDITIONAL_RE.search(question):
         question = safety.single_question(target.question)   # 여부 확인 전의 세부 질문 → 씨앗
     question = _dedupe_question(session, target, question)
     if _norm_q(question) == _norm_q(safety.single_question(target.question)):
@@ -1082,6 +1132,8 @@ def _dedupe_question(session: InterviewSession, target: SlotSpec, question: str)
     같은 질문("신호를 지키시나요")이 몇 턴 간격을 두고 4번 반복됐다.
     같은 문장이 이미 나갔으면: 씨앗 질문 → 그것도 나갔으면 재질문 프리픽스.
     """
+    if not GUARDS["dedup"]:
+        return question   # 가드 스윕: 중복 방지 끔
     asked = {_norm_q(m["text"]) for m in session.messages if m["role"] == "assistant"}
     if _norm_q(question) not in asked:
         return question
@@ -1268,11 +1320,43 @@ def _to_type(value) -> PersonaType | None:
 _GEO = get_geocoder(use_nominatim=True)   # 카카오 → nominatim → gazetteer
 
 
+# 고유어 나이 수사 — Mi:dm 이 나이 칸에 "여든둘"·"일흔여덟"처럼 한글 수사를 그대로
+# 넣는 실측(2026-07-23 골드셋: 이름 100% 인데 나이 대부분 0% — 숫자 파싱 실패).
+# 아라비아 숫자가 없을 때만 고유어를 정수로 변환한다.
+_KO_AGE_TENS = {"아흔": 90, "여든": 80, "일흔": 70, "예순": 60, "쉰": 50,
+                "마흔": 40, "서른": 30, "스물": 20, "열": 10}
+_KO_AGE_ONES = {"아홉": 9, "여덟": 8, "일곱": 7, "여섯": 6, "다섯": 5,
+                "넷": 4, "네": 4, "셋": 3, "세": 3, "둘": 2, "두": 2, "하나": 1, "한": 1}
+
+
+def _korean_age_to_int(value) -> int:
+    """고유어 나이 → 정수. '일흔여덟'→78, '여든둘'→82, '스물다섯'→25. 못 읽으면 0."""
+    t = re.sub(r"\s+", "", str(value or ""))
+    total, matched = 0, False
+    for tens, val in _KO_AGE_TENS.items():
+        if tens in t:
+            total += val
+            t = t.replace(tens, "", 1)
+            matched = True
+            break
+    # 일의 자리는 십의 자리 바로 뒤(접두)에서만 — "여든둘이세요"의 조사 '세요'가
+    # 셋(3)으로 오매칭되지 않게 startswith 로 본다.
+    for ones, val in _KO_AGE_ONES.items():
+        if t.startswith(ones):
+            total += val
+            matched = True
+            break
+    return total if matched else 0
+
+
 def _parse_age(value) -> int:
     if isinstance(value, int):
         return value
-    m = re.search(r"\d+", str(value or ""))
-    return int(m.group()) if m else 0
+    s = str(value or "")
+    m = re.search(r"\d+", s)
+    if m:
+        return int(m.group())
+    return _korean_age_to_int(s)   # 아라비아 숫자 없으면 고유어 폴백
 
 
 _SCORING_IN_PROGRESS = "채점 진행 중(백그라운드)"   # 값 그대로 유지 — 기존 테스트가 이 문자열을 검사
