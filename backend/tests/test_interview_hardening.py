@@ -645,3 +645,64 @@ def test_same_fact_not_duplicated_across_slots():
         s, slot_by_key("dementia_wandering_pattern"), dict(ext),
         utterance="네 많이 배회하세요")
     assert len(s.draft_behaviors) == 1
+
+
+# ── 옛집 변종 라벨 재추출 → 한 장소로 병합 (2026-07-23 D2 실측) ──────────
+
+def test_past_home_variant_labels_merge_not_fragment():
+    """Mi:dm 이 옛집을 변종 라벨로 반복 재추출해도 한 장소로 병합한다.
+
+    라이브 실측(2026-07-23 D2): '예전에 살던 집'(마포구 신수동)이 이후 턴에
+    '예전 집'·'마포구 신수동 옛날 집'·되묻기 주소 '마포구 신수동'으로 재추출돼
+    같은 집이 3~4조각으로 쌓였다(비연속 부분열이라 라벨 포함매칭이 못 잡음).
+    """
+    s = InterviewSession(
+        id="merge-pasthome", guardian_name="보호자", persona_type=PersonaType.dementia,
+        draft_attractions=[{"label": "예전에 살던 집", "area_text": "마포구 신수동",
+                            "evidence": "caregiver_report",
+                            "origin_slot": "autobiographical_destination_pull"}],
+    )
+    slot = slot_by_key("autobiographical_destination_pull")
+    for label in ("예전 집", "마포구 신수동 옛날 집", "마포구 신수동"):
+        interview._apply_extraction(s, slot, {
+            "attraction_points": [{"label": label, "area_text": "마포구 신수동",
+                                   "evidence": "mention_only"}],
+            "slot_filled": True,
+        }, utterance="늘 옛날 집 얘기만 하세요")
+    labels = [a["label"] for a in s.draft_attractions]
+    assert len(s.draft_attractions) == 1, f"옛집이 조각남: {labels}"
+    assert labels[0] == "예전에 살던 집"
+
+
+def test_distinct_places_not_over_merged():
+    """서로 다른 장소는 병합하지 않는다 — 옛집 병합이 과병합으로 번지지 않게."""
+    s = InterviewSession(
+        id="merge-distinct", guardian_name="보호자", persona_type=PersonaType.dementia,
+        draft_attractions=[{"label": "정릉시장", "area_text": "성북구 정릉동",
+                            "evidence": "caregiver_report"}],
+    )
+    interview._apply_extraction(s, slot_by_key("routine_destinations"), {
+        "attraction_points": [{"label": "대흥역", "area_text": "마포구",
+                               "evidence": "previous_missing_found"}],
+        "slot_filled": True,
+    }, utterance="대흥역에서 발견됐어요")
+    labels = sorted(a["label"] for a in s.draft_attractions)
+    assert labels == ["대흥역", "정릉시장"], labels
+
+
+# ── 고유어 나이 파싱 (2026-07-23 골드셋 실측: Mi:dm 이 "여든둘" 그대로 저장) ──
+
+def test_korean_native_age_parsing():
+    """고유어 나이 수사를 정수로 변환한다 — Mi:dm 이 '여든둘'을 그대로 넣는 실측.
+
+    골드셋에서 이름 100% 인데 나이 대부분 0% 였던 원인: 나이 칸에 '여든둘'·
+    '일흔여덟' 같은 한글 수사가 그대로 저장돼 숫자 파싱이 실패했다.
+    """
+    assert interview._parse_age("일흔여덟") == 78
+    assert interview._parse_age("여든둘") == 82
+    assert interview._parse_age("스물다섯") == 25
+    assert interview._parse_age("여든") == 80
+    assert interview._parse_age("열아홉") == 19
+    assert interview._parse_age("여든둘이세요") == 82   # 조사 '세요'가 셋(3)으로 오염 안 됨
+    assert interview._parse_age("78세") == 78           # 아라비아 숫자 경로 유지
+    assert interview._parse_age("") == 0
