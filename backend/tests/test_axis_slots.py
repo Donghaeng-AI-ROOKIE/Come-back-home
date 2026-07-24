@@ -70,8 +70,7 @@ def test_risk_boost_placement():
 
 _MEETING_QUESTIONS = {
     "mobility_transport_capacity":
-        "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요? "
-        "버스나 지하철 같은 교통수단을 혼자 이용할 수 있는지도 함께 알려주세요.",
+        "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
     "hazard_awareness_vulnerability":
         "대상자는 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요?",
     "communication_approach_vulnerability":
@@ -113,10 +112,12 @@ def test_meeting_questions_verbatim():
 def test_subvariables_moved_to_probes():
     mob = " ".join(slot_by_key("mobility_transport_capacity").probes)
     for sub in ("walking_endurance", "walking_speed", "outdoor_independence",
-                "transit_use", "physical_limitations"):
+                "physical_limitations"):
         assert sub in mob, f"mobility probes 에 {sub} 없음"
     # 차량 이용·운전 가능성은 탐색 반경·방법이 통째로 바뀌는 별개 시나리오라 제외(2026-07-17)
     assert "vehicle_use" not in mob
+    # 대중교통 이용 가능성도 같은 이유로 제외(2026-07-24 안1)
+    assert "transit_use" not in mob
 
     way = " ".join(slot_by_key("wayfinding_error_recovery_deficit").probes)
     for sub in ("destination_retention", "landmark_recognition", "intersection_decision",

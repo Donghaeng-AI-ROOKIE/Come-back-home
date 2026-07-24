@@ -84,7 +84,7 @@ def test_f_majority_gives_none():
 # ── 3) 채점 본체 — 근거 있는 축만 호출, F·근거 없음은 미채점 ─────────
 
 def test_score_axes_for_scores_only_evidenced_axes():
-    quote = "쉬지 않고 30분 정도 걸으시고, 버스는 혼자 못 타요"
+    quote = "쉬지 않고 30분 정도 걸으시고, 그 이상은 힘들어해요"
     p = _persona(quotes={"mobility_transport_capacity": [quote]})
     fake = FakeExaone([_resp("C", quote)] * 3)
     scores, report = axis_scoring.score_axes_for(p, client=fake, runs=3)
@@ -129,7 +129,7 @@ def test_stub_mode_skips_scoring():
 def test_transient_failure_is_retried(monkeypatch):
     # 일시 장애 1회는 재시도로 복구 — run 유실 없음 (비동기 유실 방지 fix)
     monkeypatch.setattr(axis_scoring, "RETRY_WAIT_S", 0)
-    quote = "쉬지 않고 30분 정도 걸으시고, 버스는 혼자 못 타요"
+    quote = "쉬지 않고 30분 정도 걸으시고, 그 이상은 힘들어해요"
 
     class FlakyOnce(FakeExaone):
         def chat(self, messages, **kwargs):
@@ -149,7 +149,7 @@ def test_transient_failure_is_retried(monkeypatch):
 
 def test_repeated_failure_drops_run_only(monkeypatch):
     monkeypatch.setattr(axis_scoring, "RETRY_WAIT_S", 0)
-    quote = "쉬지 않고 30분 정도 걸으시고, 버스는 혼자 못 타요"
+    quote = "쉬지 않고 30분 정도 걸으시고, 그 이상은 힘들어해요"
 
     class FlakyTwice(FakeExaone):
         def chat(self, messages, **kwargs):

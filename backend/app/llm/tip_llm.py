@@ -74,16 +74,13 @@ class TipLLMClient(LLMClient):
         """구어체 시민 제보 → 구조화 데이터.
 
         반환: {location_text, time_text, time_kind, time_minutes_ago, time_clock,
-               appearance_cues, direction, travel_mode("walk"/"transit"/None),
-               specificity("상"/"중"/"하")}.
+               appearance_cues, direction, specificity("상"/"중"/"하")}.
         specificity 는 신뢰도 p 의 구체성 항 입력 — LLM 에 숫자를 직접 받지 않고
         상/중/하 등급만 받아 trust 가 고정값으로 매핑한다 (가드레일 패턴).
         time_kind/time_minutes_ago/time_clock 도 같은 가드레일 패턴: LLM 은 시민이
         "명시한" 값만 뽑고(relative/absolute), 상대→절대시각 산술은
         app.phase3.time_resolve 가 결정론적으로 한다 — LLM 이 몇 분 전인지
         추측해서 숫자를 지어내면 안 되므로 여기서 값 형태만 검증한다.
-        travel_mode 는 walk-only MVP(2026-07-21)에서 trust 가 소비하지 않는다 —
-        확장 대비 필드만 유지.
         스텁: 키워드 휴리스틱으로 필드 채움 비율 → 등급.
         """
         if self.is_stub:
@@ -119,16 +116,14 @@ class TipLLMClient(LLMClient):
             "time_clock": clock,
             "appearance_cues": data.get("appearance_cues") or [],
             "direction": data.get("direction"),
-            "travel_mode": data.get("travel_mode") if data.get("travel_mode") in ("walk", "transit") else None,
             "specificity": level if level in ("상", "중", "하") else "중",
         }
 
-    def next_tip_question(self, structured: dict, ask_travel_mode: bool = False) -> str | None:
+    def next_tip_question(self, structured: dict) -> str | None:
         """확장용 — 현재 흐름(자유텍스트+위치 조건부 되묻기)은 안 쓴다.
 
         고정 4개(위치·시각·인상착의·행동/방향)를 순서대로, 확보 안 된 것부터.
-        4개가 다 차면 조건부 이동수단 질문(ask_travel_mode=True). 향후 다턴
-        세션화나 이동수단 확장 시 재활용 자리로 남겨둔다.
+        향후 다턴 세션화 시 재활용 자리로 남겨둔다.
         """
         if not structured.get("location_text"):
             return _TIP_Q_LOCATION
@@ -138,8 +133,6 @@ class TipLLMClient(LLMClient):
             return _TIP_Q_APPEARANCE
         if not structured.get("direction"):
             return _TIP_Q_DIRECTION
-        if ask_travel_mode and not structured.get("travel_mode"):
-            return _TIP_Q_TRAVEL_MODE
         return None
 
 
@@ -148,7 +141,6 @@ _TIP_Q_LOCATION = "어디서 보셨어요? 근처 건물이나 가게 이름을 
 _TIP_Q_TIME = "몇 시쯤이었을까요? 방금 전인가요, 아까쯤인가요?"
 _TIP_Q_APPEARANCE = "무엇을 입고 있었는지, 어떤 모습이었는지 기억나세요?"
 _TIP_Q_DIRECTION = "그때 뭘 하고 계셨나요? 어느 쪽으로 가셨어요?"
-_TIP_Q_TRAVEL_MODE = "그분이 걸어가시던가요, 아니면 버스나 택시 같은 걸 타시던가요?"
 
 _TIP_STRUCTURE_SYSTEM = """\
 너는 실종자 목격 제보를 정리하는 보조원이다. 시민의 구어체 제보에서 아래를 뽑아 \
@@ -163,7 +155,6 @@ JSON 객체 하나만 출력한다 (JSON 밖 문장 금지). 없는 정보는 �
 - time_clock: time_kind가 absolute일 때만 "HH:MM" 24시간(오전/오후 반영). 아니면 null
 - appearance_cues: 옷차림·외모 단서 문자열 배열, 없으면 []
 - direction: 이동 방향·행동 ("골목 쪽", "북쪽으로"), 없으면 null
-- travel_mode: "walk"(걸어서) / "transit"(버스·택시·지하철) / null(불명)
 - specificity: 제보의 구체성·일관성 등급 "상"/"중"/"하" 중 하나. \
 장소·시각·외모가 모두 구체적이고 앞뒤가 맞으면 "상", 하나만 있거나 모호하면 "하".
 
@@ -195,7 +186,6 @@ def _stub_structure_tip(text: str) -> dict:
     """스텁·폴백 — 키워드 휴리스틱. LLM 없이 필드 채움 정도로 등급 근사."""
     cues = [k for k in ("점퍼", "셔츠", "바지", "모자", "치마", "코트", "운동화") if k in text]
     behavior = [k for k in ("울", "뛰", "헤매", "앉아", "두리번") if k in text]
-    transit = "transit" if any(k in text for k in ("버스", "택시", "지하철", "전철")) else None
     time_kind, minutes_ago = _stub_time_kind(text)
     filled = sum([
         any(k in text for k in ("역", "앞", "동", "로", "길", "편의점", "시장", "공원")),  # 장소 흔적
@@ -207,5 +197,5 @@ def _stub_structure_tip(text: str) -> dict:
         "location_text": None, "time_text": None,
         "time_kind": time_kind, "time_minutes_ago": minutes_ago, "time_clock": None,
         "appearance_cues": cues, "direction": behavior[0] if behavior else None,
-        "travel_mode": transit, "specificity": level,
+        "specificity": level,
     }

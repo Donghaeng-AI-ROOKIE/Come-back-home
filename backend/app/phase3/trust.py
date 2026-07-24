@@ -37,7 +37,7 @@ def score_tip(
 ) -> float:
     """제보 신뢰도 p 산출. 가중치는 예시값 — 합성 시나리오로 튜닝.
 
-    structured: 제보 구조화 결과(specificity 등급·travel_mode 등).
+    structured: 제보 구조화 결과(specificity 등급 등).
     없으면 tip.text 로 즉석 구조화.
     """
     if structured is None:
@@ -50,8 +50,6 @@ def score_tip(
         plaus = reachability.plausibility(
             lkp, lkp_time, tip.location, persona_type,
             seen_at=tip.seen_at, created_at=tip.created_at,
-            transit=False,  # walk-only MVP(팀 결정, 2026-07-21) — 이동수단 미고려.
-            # 확장 시: structured.get("travel_mode") == "transit"
         )
         if math.isfinite(plaus):   # 좌표가 NaN 이면 항 제외 (p 오염 방지)
             terms.append((plaus, settings.trust_weight_plausibility))
