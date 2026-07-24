@@ -102,6 +102,10 @@ export const DEMO_ATTRACTIONS = [
   { label: "복지관 경로당", note: "주 3회" },
 ];
 
+/** 데모 인상착의 — S3 접수 폼 프리필·디자인 브리프와 동일 문안 */
+export const DEMO_APPEARANCE =
+  "회색 점퍼, 검은색 바지, 지팡이 사용. 흰머리, 키 155cm가량.";
+
 export const DEMO_BEHAVIOR_NOTE =
   "행동 특징: 오전 산책 습관이 강하고 물가(정릉천)를 선호. 평균 이동 반경 약 1.8km, 익숙한 옛 동선으로 회귀하는 경향.";
 

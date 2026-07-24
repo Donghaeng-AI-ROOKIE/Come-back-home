@@ -3,6 +3,7 @@
 > 이 문서가 **유일한 계약**이다. 프론트 목(mock)은 이 스펙을 흉내내고, 백엔드는 이 스펙을 구현한다.
 > 둘은 서로 안 붙어 있어도 각자 이 계약을 상대로 개발한다. **계약을 바꾸려면 이 문서를 먼저 고치고 양쪽에 공지.**
 > 출처: `backend/app/api/*.py` + `backend/app/schemas/*.py` (feat/backend-skeleton, 2026-07-09 기준 자동 추출).
+> 갱신 2026-07-25: 백엔드에 실존하나 미문서였던 엔드포인트(reflex-alerts · privacy 6종 · debug) 문서화 — 관제 대시보드(PR #71) 정합.
 
 - Base URL: `http://localhost:8000` (로컬), Swagger: `/docs`
 - 모든 시각은 **ISO 8601** 문자열. 좌표는 `{lat, lng}`.
@@ -113,6 +114,7 @@ Tip {
 ### Phase 3 — 알림·제보·POA
 | 메서드 | 경로 | 요청/쿼리 | 응답 |
 |---|---|---|---|
+| POST | `/phase3/cases/{case_id}/reflex-alerts` | — | `{ case_id, target_cells, message, sent, note }` — LKP 반경 19셀 1차 경보(D1). **신고 접수 시 자동 발송됨**(`reflex_alert_on_intake=True` 기본, 실패해도 접수는 계속) — 이 엔드포인트는 수동 재발송용 |
 | POST | `/phase3/cases/{case_id}/alerts` | — | `{ case_id, target_cells, message, sent, note }` |
 | POST | `/phase3/cases/{case_id}/tips` | `{ text, location?, seen_at?, force? }` | **Tip 또는 되묻기 응답** (아래 참고). `decision`으로 파기/층1/층2 판정 — 시민 제보 사진 대조는 하지 않기로 확정되어 `with_photo` 제거됨 |
 
@@ -126,6 +128,24 @@ Tip {
 | GET | `/phase3/cases/{case_id}/rerun-check` | — | `{ case_id, should_rerun, reason }` |
 
 > 에러: 리소스 없음 `404`, POA 없이 알림/제보/조회 시도 `409`("Phase 2 예측을 먼저").
+
+### 종결·개인정보 파기 (privacy)
+| 메서드 | 경로 | 요청 body | 응답 |
+|---|---|---|---|
+| POST | `/privacy/cases/{case_id}/close` | `{ reason: "found"\|"withdrawn" }` | Case — `closed_at` 기록, 5일(`privacy_retention_days`) 후 자동 파기 예약 |
+| GET | `/privacy/cases/{case_id}/retention` | — | `{ case_id, status, closed_at, retention_days, purge_due_at, expired }` (종결 전 `purge_due_at=null`) |
+| DELETE | `/privacy/cases/{case_id}` | — | `{ purged, case_id }` — 명시 삭제요청, 즉시 파기. 수색 중이면 `409`(철회 종결이 먼저) |
+| DELETE | `/privacy/personas/{persona_id}` | — | `{ purged, persona_id }` — 페르소나·인터뷰·종결된 연결 케이스 동반 파기. 수색 중 케이스 연결 시 `409` |
+| POST | `/privacy/purge-expired` | — | `{ purged_case_ids, purged_interview_ids, count }` — TTL 만료분 일괄 파기(스케줄러 수동 트리거) |
+| GET | `/privacy/audit` | — | `[AuditRecord]` — 파기 증적(개인정보 미포함, ID·행위·사유 코드만) |
+
+### 디버그·관제 (debug) — 시연·검증용, 프로덕션 계약 아님
+| 메서드 | 경로 | 요청/쿼리 | 응답 |
+|---|---|---|---|
+| GET | `/debug/overview` | — | `{ personas: [{id,name,age,type,n_attractions,n_notes}], interviews: [{id,guardian_name,done,persona_id,n_messages}], cases: [{id,status,persona_id,lkp,lkp_time,has_trace}] }` — 관제 대시보드가 케이스 목록으로 임시 사용(관제 전용 목록 API 승격 예정) |
+| POST | `/debug/cases/{case_id}/predict` | `?seed=` | PredictionDebug — 워커 궤적·EXAONE 이벤트 트레이스 포함 재예측 |
+| GET | `/debug/cases/{case_id}/bundle` | — | 케이스+페르소나+인터뷰+트레이스+4층 POA 폴리곤 종합(1회 로딩 번들) |
+| GET | `/debug/cases/{case_id}/buildings` | `?radius_m=800` | LKP 반경 내 건물 폴리곤+높이(envlayer, OSM — 첫 호출은 수십 초) |
 
 ---
 

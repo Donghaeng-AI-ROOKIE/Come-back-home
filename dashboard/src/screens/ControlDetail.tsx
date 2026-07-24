@@ -15,6 +15,7 @@ import {
   demoAlerts,
   demoTimeline,
   demoTipPins,
+  DEMO_APPEARANCE,
   DEMO_ATTRACTIONS,
   DEMO_AXIS_SCORES,
   DEMO_BEHAVIOR_NOTE,
@@ -303,6 +304,10 @@ export default function ControlDetail({ live }: { live: LiveState }) {
   const behaviorNote = isLive
     ? (persona?.behavior_notes ?? []).slice(0, 3).join(" · ")
     : DEMO_BEHAVIOR_NOTE;
+  const appearance = isLive
+    ? caseDetail?.report?.appearance?.summary ??
+      "인상착의 미등록 — 사진 접수 시 추출(VARCO)"
+    : DEMO_APPEARANCE;
 
   // ── 스타일 헬퍼 ────────────────────────────────────────────────
   const seg = (on: boolean): React.CSSProperties => ({
@@ -905,7 +910,44 @@ export default function ControlDetail({ live }: { live: LiveState }) {
           <div style={{ flex: 1, overflowY: "auto", padding: 18 }}>
             {tab === "profile" && (
               <div>
-                <SectionLabel>페르소나 요약 · 끌림점</SectionLabel>
+                <SectionLabel>인상착의</SectionLabel>
+                <div
+                  style={{
+                    fontSize: 12.5,
+                    color: "#dfe2ec",
+                    lineHeight: 1.6,
+                    padding: "11px 13px",
+                    borderRadius: 8,
+                    background: "#1e2130",
+                    border: `1px solid rgba(233,233,237,.07)`,
+                    marginBottom: 20,
+                  }}
+                >
+                  {appearance}
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    justifyContent: "space-between",
+                    gap: 8,
+                  }}
+                >
+                  <SectionLabel>페르소나 요약 · 끌림점</SectionLabel>
+                  <span
+                    style={{
+                      fontSize: 10,
+                      color: T.faint,
+                      border: `1px solid ${T.border}`,
+                      borderRadius: 5,
+                      padding: "2px 7px",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    보호자 사전등록 인터뷰 기반
+                  </span>
+                </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 7, marginBottom: 20 }}>
                   {attractions.length === 0 && (
                     <div style={{ fontSize: 12, color: T.dim }}>등록된 끌림점 없음</div>

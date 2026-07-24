@@ -91,6 +91,16 @@ export interface RerunCheck {
   reason: string | null;
 }
 
+/** 인상착의 — 사진 접수 시 VARCO 추출(스텁 모드는 "[스텁]" 접두 고정값), 미접수면 null */
+export interface Appearance {
+  top: string;
+  bottom: string;
+  shoes: string;
+  physical: string;
+  summary: string;
+  accessories?: string[];
+}
+
 export interface AttractionPoint {
   label: string;
   location?: GeoPoint;
@@ -117,7 +127,11 @@ export interface CaseDetail {
   created_at: string;
   closed_at: string | null;
   tips: Tip[];
-  report: { persona_id?: string | null; missing_type?: string };
+  report: {
+    persona_id?: string | null;
+    missing_type?: string;
+    appearance?: Appearance | null;
+  };
 }
 
 // ── fetch 헬퍼 ──────────────────────────────────────────────────────
