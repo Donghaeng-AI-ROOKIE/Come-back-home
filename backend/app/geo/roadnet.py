@@ -21,6 +21,10 @@ from app.config import settings
 from app.geo import h3grid
 from app.schemas.common import GeoPoint
 
+# 노드 스냅 허용 오차(km). 도심 보행망은 교차로 간격이 대개 수십~150m라,
+# 이보다 멀리 스냅되면 "그 지점이 이 그래프 커버리지 밖"이라는 신호로 본다.
+_SNAP_SLACK_KM = 0.15
+
 
 class RoadNetwork(ABC):
     @abstractmethod
@@ -98,6 +102,34 @@ class OSMnxNetwork(RoadNetwork):
         g = self._require_graph()
         data = g.get_edge_data(u, v)
         return dict(data[next(iter(data))]) if data else {}
+
+    def road_distance_km(self, a: GeoPoint, b: GeoPoint) -> float | None:
+        """a→b 도로망 최단경로 거리(km). 양끝을 최근접 노드로 스냅한 뒤
+        엣지 length(m) 가중 최단경로를 구한다.
+
+        None 을 반환하는 두 경우(호출부가 haversine 으로 폴백하라는 신호):
+        - 그래프 안에 na→nb 경로가 없음.
+        - **스냅 오차가 너무 큼** — nearest_node() 는 bbox 체크가 없어 그래프
+          밖 좌표도 "그중 제일 가까운 노드"로 조용히 스냅해버린다. 이 경우
+          최단경로는 원래 좌표가 아니라 그래프 가장자리까지의 거리라
+          실제보다 훨씬 짧게 나올 수 있다(로딩 반경 밖 제보일수록 심함).
+          스냅 지점이 원래 좌표에서 _SNAP_SLACK_KM 이상 떨어지면 이 그래프가
+          그 지점을 커버하지 못한다고 보고 None 을 반환한다.
+        """
+        import networkx as nx
+
+        g = self._require_graph()
+        na, nb = self.nearest_node(a), self.nearest_node(b)
+        if (
+            h3grid.haversine_km(a, self.node_location(na)) > _SNAP_SLACK_KM
+            or h3grid.haversine_km(b, self.node_location(nb)) > _SNAP_SLACK_KM
+        ):
+            return None
+        try:
+            meters = nx.shortest_path_length(g, na, nb, weight="length")
+        except (nx.NetworkXNoPath, nx.NodeNotFound, KeyError):
+            return None
+        return meters / 1000.0
 
     def env(self, node: int) -> dict:
         """노드의 환경 속성 (물가/숲/시장 인접 등) — 환경 레이어 PR 전까지는 빈 dict."""

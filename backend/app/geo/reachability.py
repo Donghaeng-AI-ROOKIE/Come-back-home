@@ -53,6 +53,32 @@ def elapsed_hours(lkp_time: datetime, seen_at: datetime | None,
     return max(dt_h, settings.reach_min_dt_hours)
 
 
+def _distance_km(
+    lkp: GeoPoint, tip_location: GeoPoint, use_roadnet: bool | None,
+) -> tuple[float, str]:
+    """개연성용 거리 산출. use_roadnet=True 면 도로망 최단경로를 시도하고,
+    실패하거나 꺼져있으면 직선(haversine)으로 폴백한다.
+
+    반환값의 두 번째 항(사유 코드)은 디버깅용 — 항상 직선으로 폴백하므로
+    (직선은 실제거리의 하한이라 안전), plausibility() 판정 자체는 바뀌지 않는다.
+    """
+    if use_roadnet is None:
+        use_roadnet = settings.use_roadnet
+    if not use_roadnet:
+        return haversine_km(lkp, tip_location), "straight"
+    try:
+        from app.geo import roadnet
+
+        net = roadnet.get_network(lkp)  # 케이스 단위 캐시 재사용 — 제보마다 재로딩 안 함
+        d = net.road_distance_km(lkp, tip_location)
+        if d is not None:
+            return d, "roadnet"
+        return haversine_km(lkp, tip_location), "fallback_no_path"
+    except Exception:  # noqa: BLE001 — 도로망 조회 실패(그래프 미로딩·osmnx 문제 등)가
+        # 제보 신뢰도 계산 자체를 죽이면 안 됨 — 직선 폴백으로 격리
+        return haversine_km(lkp, tip_location), "fallback_disabled"
+
+
 def plausibility(
     lkp: GeoPoint,
     lkp_time: datetime,
@@ -62,16 +88,19 @@ def plausibility(
     seen_at: datetime | None = None,
     created_at: datetime,
     transit: bool = False,
+    use_roadnet: bool | None = None,
 ) -> float:
     """제보 위치의 시공간 개연성 ∈ [0, 1].
 
     d ≤ d_max → 1.0, 아니면 exp(−(d−d_max)/d_max).
-    거리는 직선(haversine) — 실제 도로거리는 더 길어 보수적 하한이다
-    (직선으로도 상한을 넘으면 확실히 불가능).
+    거리는 기본 직선(haversine). use_roadnet=True(또는 config.use_roadnet)면
+    도로망 최단경로를 쓰되, 그래프 밖·경로 없음 등으로 실패하면 직선으로
+    폴백한다 — 직선은 실제거리의 하한이라 폴백해도 "직선으로도 상한을
+    넘으면 확실히 불가능"이라는 판정 안전성은 유지된다.
     """
     dt_h = elapsed_hours(lkp_time, seen_at, created_at)
     d_max = vmax_kmh(persona_type, transit) * dt_h
-    d = haversine_km(lkp, tip_location)
+    d, _dist_mode = _distance_km(lkp, tip_location, use_roadnet)
     if d <= d_max:
         return 1.0
     if d_max <= 0:            # 방어 — dt 하한이 있어 정상 경로에선 도달 안 함
