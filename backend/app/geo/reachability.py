@@ -5,8 +5,8 @@
 쓰지 않는다 (프로젝트 핵심 원칙 — LLM calibration 한계).
 
 핵심: 시간 Δt 동안 최대 속도 v_max 로 갈 수 있는 최대 거리 d_max = v_max·Δt.
-제보가 그 반경 안이면 개연성 1, 밖이면 지수 감쇠(하드 컷 아님 — 대중교통으로
-멀리 간 사례를 낮은 확률로 남긴다).
+제보가 그 반경 안이면 개연성 1, 밖이면 지수 감쇠(하드 컷 아님 — 물리적으로
+좀 벗어난 사례도 낮은 확률로 남긴다).
 """
 
 from __future__ import annotations
@@ -25,10 +25,8 @@ _VMAX_KMH = {
 }
 
 
-def vmax_kmh(persona_type: PersonaType, transit: bool = False) -> float:
-    """페르소나별 도보 최대 속도(km/h). transit=True 면 대중교통 상한."""
-    if transit:
-        return settings.reach_vmax_transit_kmh
+def vmax_kmh(persona_type: PersonaType) -> float:
+    """페르소나별 도보 최대 속도(km/h). 전부 도보(2026-07-24 안1)."""
     getter = _VMAX_KMH.get(persona_type)
     return getter() if getter else settings.reach_vmax_dementia_kmh
 
@@ -87,7 +85,6 @@ def plausibility(
     *,
     seen_at: datetime | None = None,
     created_at: datetime,
-    transit: bool = False,
     use_roadnet: bool | None = None,
 ) -> float:
     """제보 위치의 시공간 개연성 ∈ [0, 1].
@@ -99,7 +96,7 @@ def plausibility(
     넘으면 확실히 불가능"이라는 판정 안전성은 유지된다.
     """
     dt_h = elapsed_hours(lkp_time, seen_at, created_at)
-    d_max = vmax_kmh(persona_type, transit) * dt_h
+    d_max = vmax_kmh(persona_type) * dt_h
     d, _dist_mode = _distance_km(lkp, tip_location, use_roadnet)
     if d <= d_max:
         return 1.0

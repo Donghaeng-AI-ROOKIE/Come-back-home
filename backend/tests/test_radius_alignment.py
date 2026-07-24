@@ -24,7 +24,6 @@ LKP = GeoPoint(lat=37.6061, lng=127.0106)
 # ISRID Dementia Urban 재교정값 (PR #20)
 DEMENTIA = LognormalParams(mu=0.095, sigma=1.48)
 V_WALK = settings.reach_vmax_dementia_kmh          # 4.5
-V_TRANSIT = settings.reach_vmax_transit_kmh        # 25.0
 
 
 @pytest.fixture(scope="module")
@@ -75,13 +74,12 @@ def test_cap_never_collapses_to_zero():
     assert radius.p95_km(DEMENTIA, 0.0, V_WALK) == pytest.approx(radius._MIN_REACH_KM)
 
 
-def test_vmax_uses_transit_only_with_confirmed_capability():
-    """대중교통 v_max 는 mobility 축이 확인됐을 때만 — trust.py 관례와 동일 방향."""
+def test_vmax_is_walk_only_regardless_of_mobility_score():
+    """전부 도보(2026-07-24 안1) — mobility 축 점수는 반경 v_max 에 영향 없음."""
     assert radius.vmax_kmh(None) == V_WALK                       # 유형 미상 → 보수적
     assert radius.vmax_kmh(_persona()) == V_WALK                 # 축 없음 → 도보
     assert radius.vmax_kmh(_persona(mobility_transport_capacity=0.5)) == V_WALK
-    assert radius.vmax_kmh(
-        _persona(mobility_transport_capacity=0.7)) == V_TRANSIT  # 임계 도달
+    assert radius.vmax_kmh(_persona(mobility_transport_capacity=0.9)) == V_WALK
     assert radius.vmax_kmh(
         _persona(PersonaType.intellectual_disability)) == settings.reach_vmax_id_kmh
 
@@ -145,9 +143,10 @@ def test_topdown_disc_follows_same_cap():
     assert abs(sum(poa.values()) - 1.0) < 1e-9
 
 
-def test_transit_capable_persona_gets_wider_disc():
-    """대중교통 가능 축이 확인되면 초기 시각에도 반경이 넓어진다 (개인화)."""
+def test_high_mobility_score_no_longer_widens_disc():
+    """전부 도보(2026-07-24 안1) — mobility 축 점수가 높아도 반경 v_max 는 그대로라
+    topdown 원판 크기가 달라지지 않는다(과거엔 대중교통으로 넓어졌음)."""
     walk = topdown.topdown_poa(LKP, _prior(), _persona(), 1.0)
-    transit = topdown.topdown_poa(
+    high_mobility = topdown.topdown_poa(
         LKP, _prior(), _persona(mobility_transport_capacity=0.9), 1.0)
-    assert len(transit) > len(walk)
+    assert len(high_mobility) == len(walk)

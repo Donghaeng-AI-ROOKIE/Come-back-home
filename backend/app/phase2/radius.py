@@ -37,27 +37,16 @@ _TRUNC_MAX_RESAMPLE = 24
 # 반경 하한 — t≈0 에서 상한이 0 으로 붕괴해 전 워커가 LKP 한 점에 뭉치는 것을
 # 막는다. Phase 1 즉시 알림의 k-ring 2(약 600m)와 같은 스케일.
 _MIN_REACH_KM = 0.5
-# 대중교통 v_max 를 쓰는 mobility 축 임계. 기준표 0.7 = "장시간 보행 가능
-# 하거나 익숙한 버스·지하철 노선을 혼자 이용할 수 있음".
-TRANSIT_AXIS_THRESHOLD = 0.7
 
 
 def vmax_kmh(persona: Persona | None) -> float:
-    """도달 가능 반경 계산용 최대 속도(km/h).
+    """도달 가능 반경 계산용 최대 속도(km/h). 전부 도보(2026-07-24 안1).
 
-    대중교통 속도는 **능력이 확인된 경우에만** 적용한다 — `trust.py` 가
-    대중교통 v_max 를 "목격 확인 시"에만 쓰는 관례와 같은 방향이다. 축 채점이
-    꺼져 있거나 근거가 없으면 도보 속도로 남아 물리 상한이 실제로 작동한다.
-
-    미확인 대중교통 이용으로 반경 밖에서 발견되는 경우는 Phase 3 가 흡수한다
-    (고신뢰 제보 → 새 LKP 재예측 → D3 새 지역 알림).
+    미확인 대중교통 이용으로 이 반경 밖에서 발견되는 경우는 Phase 3 가 흡수한다
+    (고신뢰 제보 → 새 LKP 재예측 → D3 새 지역 알림) — 도보 상한만 쓰는 안전판.
     """
-    if persona is not None:
-        score = persona.axis_scores.get("mobility_transport_capacity")
-        if score is not None and score >= TRANSIT_AXIS_THRESHOLD:
-            return settings.reach_vmax_transit_kmh
-        if persona.type == PersonaType.intellectual_disability:
-            return settings.reach_vmax_id_kmh
+    if persona is not None and persona.type == PersonaType.intellectual_disability:
+        return settings.reach_vmax_id_kmh
     # 유형 미상은 가장 느린 값 — 물리 상한은 보수적으로 잡는다.
     return settings.reach_vmax_dementia_kmh
 

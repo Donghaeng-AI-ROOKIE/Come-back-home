@@ -44,16 +44,6 @@ def test_plausibility_beyond_envelope_decays():
     assert 0.0 < p < 1.0
 
 
-def test_transit_lifts_far_tip():
-    far = _pt_km_north(10.0)
-    walk = reachability.plausibility(LKP, T0, far, PersonaType.dementia,
-                                     seen_at=T0 + timedelta(hours=1), created_at=T0 + timedelta(hours=1))
-    transit = reachability.plausibility(LKP, T0, far, PersonaType.dementia,
-                                        seen_at=T0 + timedelta(hours=1), created_at=T0 + timedelta(hours=1),
-                                        transit=True)
-    assert transit == 1.0 and transit > walk   # 대중교통이면 10km 도 반경 안
-
-
 def test_created_at_fallback_when_no_seen_at():
     # seen_at 없음 → created_at(2h) 상한 fallback → d_max 9km → 5km 제보 정상
     p = reachability.plausibility(LKP, T0, _pt_km_north(5.0), PersonaType.dementia,
@@ -84,7 +74,7 @@ def test_nan_location_excluded_not_poisoning_p():
     assert math.isnan(plaus)   # 개연성 자체는 NaN 이지만
     tip = _tip(location=nan_tip, seen_at=T0 + timedelta(hours=1))
     p = trust.score_tip(tip, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
-                        structured={"specificity": "중", "travel_mode": None})
+                        structured={"specificity": "중"})
     assert math.isfinite(p)    # trust 는 NaN 개연성 항을 빼고 유한한 p 반환
 
 
@@ -100,7 +90,7 @@ def test_future_seen_at_capped_at_created_at():
 def test_score_weighted_average():
     tip = _tip(location=_pt_km_north(2.0), seen_at=T0 + timedelta(hours=1))
     p = trust.score_tip(tip, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
-                        structured={"specificity": "상", "travel_mode": None})
+                        structured={"specificity": "상"})
     # 개연성1·구체성0.9 의 가중평균 (0.4/0.25)
     expected = (0.4 * 1.0 + 0.25 * 0.9) / (0.4 + 0.25)
     assert abs(p - expected) < 1e-9
@@ -109,7 +99,7 @@ def test_score_weighted_average():
 def test_missing_location_renormalizes():
     tip = _tip(location=None, seen_at=None)
     p = trust.score_tip(tip, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
-                        structured={"specificity": "상", "travel_mode": None})
+                        structured={"specificity": "상"})
     # 위치 없어 개연성 항 빠짐 → 구체성 단독(재정규화 결과 = 구체성 값 그대로)
     expected = trust.SPECIFICITY_LEVELS["상"]
     assert abs(p - expected) < 1e-9
@@ -126,7 +116,7 @@ def test_specificity_levels_ordered():
     tip = _tip(location=_pt_km_north(2.0), seen_at=T0 + timedelta(hours=1))
     scores = [
         trust.score_tip(tip, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
-                        structured={"specificity": lv, "travel_mode": None})
+                        structured={"specificity": lv})
         for lv in ("하", "중", "상")
     ]
     assert scores[0] < scores[1] < scores[2]   # 하 < 중 < 상
@@ -140,15 +130,8 @@ def test_next_question_fixed_order():
     assert "몇 시" in tip_llm.next_tip_question(got_loc)
 
 
-def test_travel_mode_only_when_flagged_and_over_ceiling():
-    full = {"location_text": "역앞", "time_text": "방금", "appearance_cues": ["셔츠"], "direction": "북쪽"}
-    assert tip_llm.next_tip_question(full, ask_travel_mode=False) is None       # 걷기 범위 내 → 안 물음
-    assert "버스" in tip_llm.next_tip_question(full, ask_travel_mode=True)       # 상한 초과 → 이동수단 질문
-
-
 def test_stub_structure_specificity_grades():
     rich = _stub_structure_tip("대흥역 앞에서 방금 파란 셔츠 입은 사람을 봤어요")
     poor = _stub_structure_tip("아까 비슷한 사람 봤어요")
     assert rich["specificity"] == "상"
     assert poor["specificity"] == "하"
-    assert _stub_structure_tip("버스 타는 걸 봤어요")["travel_mode"] == "transit"
