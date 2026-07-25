@@ -1,0 +1,5 @@
+[baseline] positive=1000/1000 negative=1000/1000 (attempts=2512/8000)
+[false_stress_10] positive=300/300 negative=300/300 (attempts=733/3000)
+[false_stress_30] positive=300/300 negative=300/300 (attempts=713/3000)
+[low_quality] positive=300/300 negative=300/300 (attempts=666/3000)
+저장: C:\Users\방서영\OneDrive - Sogang\바탕 화면\서강\insight\Come-back-home\backend\experiments\d3_threshold\timelines.jsonl (3800개)
