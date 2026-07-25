@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { LiveState } from "../App";
 import {
   api,
+  type AttractionPoint,
   type CaseDetail,
   type Persona,
   type PoaResponse,
@@ -20,6 +21,7 @@ import {
   DEMO_AXIS_SCORES,
   DEMO_BEHAVIOR_NOTE,
   probColor,
+  type DemoTimelineEvent,
   type DemoView,
   type PanelTab,
   type PoaLayer,
@@ -135,6 +137,8 @@ export default function ControlDetail({ live }: { live: LiveState }) {
   const [rerun, setRerun] = useState<RerunCheck | null>(null);
   const [predicting, setPredicting] = useState(false);
   const [liveLog, setLiveLog] = useState<string[]>([]);
+  // 이 세션에서 발송한 알림 — 백엔드에 알림 이력 API가 없어 타임라인은 세션분만 표시
+  const [sessionAlerts, setSessionAlerts] = useState<{ ts: number; cells: number }[]>([]);
   const [tipOpen, setTipOpen] = useState(false);
   const [closeOpen, setCloseOpen] = useState(false);
   const predStart = useRef(0);
@@ -189,6 +193,7 @@ export default function ControlDetail({ live }: { live: LiveState }) {
         ...l,
         `알림 발송(시뮬) — target_cells=${r.target_cells.length}셀, sent=${r.sent}`,
       ]);
+      setSessionAlerts((s) => [...s, { ts: Date.now(), cells: r.target_cells.length }]);
       loadLive();
     } catch (e) {
       setLiveLog((l) => [...l, `알림 실패: ${String(e).slice(0, 120)}`]);
@@ -200,8 +205,14 @@ export default function ControlDetail({ live }: { live: LiveState }) {
     if (!isLive || !poa || poa.top_cells.length === 0) return null;
     const pts: GeoPoint[] = poa.top_cells.flatMap((c) => c.polygon);
     if (caseDetail) pts.push(caseDetail.lkp);
+    if (persona) {
+      pts.push(persona.home);
+      persona.attraction_points.forEach((a) => {
+        if (a.location) pts.push(a.location);
+      });
+    }
     return makeProjector(pts);
-  }, [isLive, poa, caseDetail]);
+  }, [isLive, poa, caseDetail, persona]);
 
   const liveCells = useMemo(() => {
     if (!projector || !poa) return [];
@@ -225,6 +236,18 @@ export default function ControlDetail({ live }: { live: LiveState }) {
     if (!projector || !caseDetail) return null;
     return projector(caseDetail.lkp);
   }, [projector, caseDetail]);
+
+  const liveHome = useMemo(
+    () => (projector && persona ? projector(persona.home) : null),
+    [projector, persona],
+  );
+
+  const liveAttractions = useMemo(() => {
+    if (!projector || !persona) return [];
+    return persona.attraction_points
+      .filter((a): a is AttractionPoint & { location: GeoPoint } => a.location != null)
+      .map((a) => ({ ...projector(a.location), label: a.label }));
+  }, [projector, persona]);
 
   const liveTipPins = useMemo(() => {
     if (!projector || !caseDetail) return [];
@@ -260,35 +283,56 @@ export default function ControlDetail({ live }: { live: LiveState }) {
     ? liveStatusKo[caseDetail?.status ?? "intake"]
     : statusMap[view];
 
-  const timeline = useMemo(() => {
+  const timeline = useMemo<DemoTimelineEvent[]>(() => {
     if (!isLive) return demoTimeline(view);
     if (!caseDetail) return [];
-    const items = [
+    const hhmm = (v: string | number) => new Date(v).toTimeString().slice(0, 5);
+    // 실데이터(created_at·last_sim_at·tips) + 이 세션 발송분만 — 백엔드에 알림 이력 API 없음
+    const evts: (DemoTimelineEvent & { ts: number })[] = [
       {
-        t: new Date(caseDetail.created_at).toTimeString().slice(0, 5),
+        ts: +new Date(caseDetail.created_at),
+        t: hhmm(caseDetail.created_at),
         tag: "접수",
-        tone: "amber" as const,
+        tone: "amber",
         title: "실종 신고 접수",
         desc: `LKP ${caseDetail.lkp.lat.toFixed(4)}, ${caseDetail.lkp.lng.toFixed(4)}`,
-        sim: false,
-        p: undefined as number | undefined,
-        verdict: undefined as keyof typeof VERDICT | undefined,
       },
     ];
+    if (caseDetail.last_sim_at) {
+      evts.push({
+        ts: +new Date(caseDetail.last_sim_at),
+        t: hhmm(caseDetail.last_sim_at),
+        tag: "예측",
+        tone: "accent",
+        title: "AI 예측 완료",
+        desc: "몬테카를로 시뮬레이션 · POA 생성 (last_sim_at)",
+      });
+    }
     caseDetail.tips.forEach((tip, i) => {
-      items.push({
-        t: new Date(tip.created_at).toTimeString().slice(0, 5),
+      evts.push({
+        ts: +new Date(tip.created_at),
+        t: hhmm(tip.created_at),
         tag: "제보",
         tone: "amber",
         title: `제보 #${i + 1}`,
         desc: `"${tip.text.slice(0, 60)}"`,
-        sim: false,
         p: tip.p ?? undefined,
         verdict: tip.decision ?? undefined,
       });
     });
-    return items;
-  }, [isLive, view, caseDetail]);
+    sessionAlerts.forEach((al) => {
+      evts.push({
+        ts: al.ts,
+        t: hhmm(al.ts),
+        tag: "알림",
+        tone: "red",
+        sim: true,
+        title: "예측기반 경보 발송",
+        desc: `target_cells=${al.cells}셀 발송 (sent=false)`,
+      });
+    });
+    return evts.sort((a, b) => a.ts - b.ts);
+  }, [isLive, view, caseDetail, sessionAlerts]);
 
   const personaName = isLive ? persona?.name ?? "—" : "김순자";
   const personaAge = isLive ? persona?.age ?? 0 : 78;
@@ -507,7 +551,7 @@ export default function ControlDetail({ live }: { live: LiveState }) {
               );
             })()}
 
-            {/* 데모 전용: 자택·끌림점 마커 */}
+            {/* 자택·끌림점 마커 — 데모는 고정 좌표, 라이브는 페르소나 실좌표 투영 */}
             {!isLive && (
               <>
                 <g transform="translate(560 540)">
@@ -522,6 +566,21 @@ export default function ControlDetail({ live }: { live: LiveState }) {
                 </g>
               </>
             )}
+            {isLive && !showLoadingOverlay && liveHome && (
+              <g transform={`translate(${liveHome.x} ${liveHome.y})`}>
+                <rect x={-7} y={-6.5} width={14} height={13} rx={2.5} fill="#12283f" stroke={T.home} strokeWidth={1.8} />
+                <path d="M-4.5,-1.5 L0,-6 L4.5,-1.5" fill="none" stroke="#a9d2f2" strokeWidth={1.7} strokeLinecap="round" />
+                <title>자택</title>
+              </g>
+            )}
+            {isLive &&
+              !showLoadingOverlay &&
+              liveAttractions.map((a, i) => (
+                <g key={i} transform={`translate(${a.x} ${a.y})`}>
+                  <path d="M0,-8 L8,7 L-8,7 Z" fill="#3a2c12" stroke={T.amberText} strokeWidth={1.9} strokeLinejoin="round" />
+                  <title>{`끌림점 · ${a.label}`}</title>
+                </g>
+              ))}
           </svg>
 
           {/* 레이어 토글 */}
@@ -661,7 +720,7 @@ export default function ControlDetail({ live }: { live: LiveState }) {
                 <span style={{ width: 12, height: 12, borderRadius: "50%", background: T.tierDiscard, border: `1.5px dashed ${T.sub}` }} />
                 제보 · 파기(p&lt;0.2)
               </div>
-              {!isLive && (
+              {(!isLive || liveHome != null || liveAttractions.length > 0) && (
                 <>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <span style={{ width: 11, height: 11, background: "#12283f", border: `1.6px solid ${T.home}`, borderRadius: 2 }} />

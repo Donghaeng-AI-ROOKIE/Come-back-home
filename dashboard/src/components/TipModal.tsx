@@ -15,6 +15,12 @@ const VERDICT = {
 
 const TIME_CHIPS = ["방금 전", "10분 이내", "30분쯤 전", "1시간 이상"];
 
+/** 되묻기 사유 코드 → 관제요원용 설명 (백엔드는 시각 분기에서만 reason 을 보낸다) */
+const REASON_KO: Record<string, string> = {
+  layer2_needs_time:
+    "신뢰도 p가 재예측(층2) 문턱(0.8) 이상인 강한 제보 — 목격 시각을 확정해야 새 LKP로 반영됩니다.",
+};
+
 export default function TipModal({
   caseId,
   onClose,
@@ -26,6 +32,7 @@ export default function TipModal({
 }) {
   const [text, setText] = useState("");
   const [missing, setMissing] = useState<string[] | null>(null);
+  const [needReason, setNeedReason] = useState<string | null>(null);
   const [result, setResult] = useState<Tip | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -39,10 +46,12 @@ export default function TipModal({
       const r = await api.submitTip(caseId, { text: full, force });
       if (isNeedMore(r)) {
         setMissing(r.missing);
+        setNeedReason(r.reason ?? null);
         setResult(null);
       } else {
         setResult(r);
         setMissing(null);
+        setNeedReason(null);
       }
     } catch (e) {
       setError(String(e).slice(0, 200));
@@ -155,6 +164,11 @@ export default function TipModal({
               <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 11 }}>
                 {missing.includes("location") ? "어디쯤에서 보셨나요?" : "언제쯤 보셨나요?"}
               </div>
+              {needReason && (
+                <div style={{ fontSize: 11.5, color: "#c9a86a", lineHeight: 1.55, marginBottom: 11 }}>
+                  {REASON_KO[needReason] ?? `사유 코드: ${needReason}`}
+                </div>
+              )}
               {missing.includes("time") && (
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: 12 }}>
                   {TIME_CHIPS.map((c) => (
