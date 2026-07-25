@@ -21,6 +21,8 @@ responder.py  챗봇 질문을 읽고 대본에서 답을 고르는 질문-매�
 runner.py     TestClient 로 세션을 끝까지 굴려 Transcript 수집 (서버 불필요)
 scorer.py     Transcript × 기대치 → ScoreCard
 run_eval.py   엔트리포인트
+judge.py      정답표 없이 (대본+추출 결과)만 보고 3차원 채점하는 LLM judge
+run_judge_corr.py  P1-7 — 정답표 점수 vs judge 점수 피어슨 상관 (골드셋 8개, --real 전용)
 ```
 
 ## 실행
@@ -58,6 +60,7 @@ PYTHONUTF8=1 python -m experiments.chatbot_eval.run_eval --quiet         # 점�
 - [x] 지오코딩 탈락 ↔ 수집 실패 구분 — draft_attractions 대조, 수집률→반영률
 - [x] 가드 토글 6종(interview.GUARDS + retrieval.DENOISE) + `--sweep`/`--guard-off`/`--runs`
 - [x] 가드 스윕 — 무지소진 강력, 부정충족·여부먼저 중간, 나머지 3종 N=3 평균 판정 중
+- [x] P1-7 judge 상관 실측 (2026-07-26, `results/judge_corr.{md,json}`) — 2런: 1차 단독 collection 0.978 · evidence 0.982 · axis 0.328 → 2차(같은 전사에 judge 입력 2방식 통제) v1 축이름만 0.867/0.806/0.534 · v2 근거원문 0.710/0.519/0.564. **판정 = 도입 보류**: n=6~8에서 런간 r 변동이 기준(0.7) 근방을 넘나들어 확정 불가. 입력 보강(v2)은 axis 개선 없음(+0.03)에 무관 차원 점수까지 흔듦(judge 취약성) → v1 입력 유지. 경향은 collection·evidence 우세, axis 일관 열세. 골드셋 확장이 선행 조건 + judge=Mi:dm self-bias 한계.
 - [ ] 발달장애 시나리오
 
 ## 가드 스윕 사용법
