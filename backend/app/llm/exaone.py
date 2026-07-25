@@ -16,6 +16,8 @@ from __future__ import annotations
 
 import json
 import urllib.request
+from datetime import datetime
+from time import perf_counter
 
 from app.config import settings
 from app.llm.base import LLMClient
@@ -250,8 +252,12 @@ class ExaoneClient(LLMClient):
         # 보여주는 유일한 통로 (스텁 모드에서는 기록 없음). 최근 것만 유지.
         self.call_log: list[dict] = []
 
-    def _log_call(self, kind: str, prompt: str, response: str) -> None:
-        self.call_log.append({"kind": kind, "prompt": prompt, "response": response})
+    def _log_call(self, kind: str, prompt: str, response: str,
+                  elapsed_ms: float | None = None) -> None:
+        # ts·elapsed_ms — P1-5 소요시간 실측용 (P2-1 budget 스윕이 이 값을 집계)
+        self.call_log.append({"kind": kind, "prompt": prompt, "response": response,
+                              "ts": datetime.now().isoformat(),
+                              "elapsed_ms": round(elapsed_ms, 1) if elapsed_ms is not None else None})
         del self.call_log[:-50]
 
     @property
@@ -326,6 +332,7 @@ class ExaoneClient(LLMClient):
         else:
             prior_input = _build_prior_input(persona, report)
             try:
+                _t = perf_counter()
                 raw = self.chat(
                     [
                         {"role": "system", "content": _PRIOR_SYSTEM},
@@ -336,7 +343,8 @@ class ExaoneClient(LLMClient):
                     temperature=0.2,
                     max_tokens=700,
                 )
-                self._log_call("prior", prior_input, raw)
+                self._log_call("prior", prior_input, raw,
+                               elapsed_ms=(perf_counter() - _t) * 1000)
                 data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
                 prior = guardrail.sanitize_prior(data, persona, default)
             except Exception as e:  # noqa: BLE001 — LLM 실패가 예측 자체를 막으면 안 됨
@@ -392,6 +400,7 @@ class ExaoneClient(LLMClient):
             return fallback
         mind_input = _build_mind_input(persona, gauge_report, labels, prior, scene)
         try:
+            _t = perf_counter()
             raw = self.chat(
                 [
                     {"role": "system", "content": _MIND_SYSTEM},
@@ -400,7 +409,8 @@ class ExaoneClient(LLMClient):
                 temperature=0.3,
                 max_tokens=400,
             )
-            self._log_call("mind", mind_input, raw)
+            self._log_call("mind", mind_input, raw,
+                           elapsed_ms=(perf_counter() - _t) * 1000)
             data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
         except Exception:  # noqa: BLE001 — LLM 실패가 시뮬레이션을 막으면 안 됨
             return fallback
