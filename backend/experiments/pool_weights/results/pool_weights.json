@@ -1,0 +1,105 @@
+{
+  "alpha": [
+    {
+      "alpha_bu": 0.5,
+      "coverage80": 15,
+      "attraction_share": 0.5572,
+      "js_vs_default": 0.00251
+    },
+    {
+      "alpha_bu": 0.6,
+      "coverage80": 15,
+      "attraction_share": 0.556,
+      "js_vs_default": 0.00065
+    },
+    {
+      "alpha_bu": 0.7,
+      "coverage80": 15,
+      "attraction_share": 0.5548,
+      "js_vs_default": -0.0
+    },
+    {
+      "alpha_bu": 0.8,
+      "coverage80": 14.7,
+      "attraction_share": 0.5536,
+      "js_vs_default": 0.00077
+    },
+    {
+      "alpha_bu": 0.9,
+      "coverage80": 14.7,
+      "attraction_share": 0.5523,
+      "js_vs_default": 0.00363
+    }
+  ],
+  "topdown_replica_max_diff": 0.0,
+  "topdown": [
+    {
+      "ring_w": 0.5,
+      "sigma_km": 0.2,
+      "coverage80": 1954,
+      "attraction_share": 0.0441,
+      "peak_prob": 0.0063
+    },
+    {
+      "ring_w": 0.5,
+      "sigma_km": 0.3,
+      "coverage80": 1936,
+      "attraction_share": 0.0514,
+      "peak_prob": 0.007
+    },
+    {
+      "ring_w": 0.5,
+      "sigma_km": 0.5,
+      "coverage80": 1887,
+      "attraction_share": 0.0578,
+      "peak_prob": 0.0078
+    },
+    {
+      "ring_w": 0.6,
+      "sigma_km": 0.2,
+      "coverage80": 1960,
+      "attraction_share": 0.0408,
+      "peak_prob": 0.0054
+    },
+    {
+      "ring_w": 0.6,
+      "sigma_km": 0.3,
+      "coverage80": 1947,
+      "attraction_share": 0.0458,
+      "peak_prob": 0.0062
+    },
+    {
+      "ring_w": 0.6,
+      "sigma_km": 0.5,
+      "coverage80": 1914,
+      "attraction_share": 0.0502,
+      "peak_prob": 0.0068
+    },
+    {
+      "ring_w": 0.7,
+      "sigma_km": 0.2,
+      "coverage80": 1964,
+      "attraction_share": 0.0385,
+      "peak_prob": 0.0051
+    },
+    {
+      "ring_w": 0.7,
+      "sigma_km": 0.3,
+      "coverage80": 1956,
+      "attraction_share": 0.0417,
+      "peak_prob": 0.0056
+    },
+    {
+      "ring_w": 0.7,
+      "sigma_km": 0.5,
+      "coverage80": 1934,
+      "attraction_share": 0.0446,
+      "peak_prob": 0.0061
+    }
+  ],
+  "mode_contrast": {
+    "coverage80_linear": 15,
+    "coverage80_log_linear": 9.7,
+    "shrink_pct": 35.6
+  }
+}

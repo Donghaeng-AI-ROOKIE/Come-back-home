@@ -18,7 +18,6 @@
   물리삭제/익명화 정책의 단일 진입점이 된다.
 """
 
-import json
 from datetime import datetime, timedelta
 from pathlib import Path
 

@@ -10,18 +10,23 @@ bottom-up·statistical 양쪽에 반영되고 있어 별도 POA로 다시 더하
 """
 
 from datetime import datetime
+from time import perf_counter
 
 from app import storage
 from app.config import settings
 from app.llm import exaone
-from app.phase2 import combine, simulation, topdown
+from app.phase2 import combine, radius, simulation, topdown
 from app.schemas.case import Case, CaseStatus
 from app.schemas.debug import PredictionDebug, SimTrace
 from app.schemas.prediction import MindState, POA, PredictionResult
 
 
-def _load_roadnet(case: Case):
+def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | None = None):
     """도로망 로딩 (설정 시) — 실패해도 예측은 연속 공간 폴백으로 계속.
+
+    반경은 P1-3 동적 스케일: prior 의 개인화 lognormal + 물리 상한의 p90 지원을
+    덮는다 (radius.roadnet_radius_m — 하한 3km·상한 클램프·1km 양자화).
+    prior 가 없으면(선로딩 등) 기존 고정 반경.
 
     도로망과 환경레이어는 실패를 분리 격리한다: 환경레이어(외부 WMS·의존성)가
     죽어도 도로망 그래프 MC 는 유지 — env() 는 빈 dict 로 동작하게 설계돼 있다.
@@ -29,17 +34,22 @@ def _load_roadnet(case: Case):
     """
     if not settings.use_roadnet:
         return None
+    r = None
+    if (settings.roadnet_dynamic_radius and prior is not None
+            and elapsed_hours is not None):
+        r = radius.roadnet_radius_m(prior.radius_lognormal, elapsed_hours,
+                                    radius.vmax_kmh(persona))
     try:
         from app.geo import roadnet
 
-        net = roadnet.get_network(case.lkp)
+        net = roadnet.get_network(case.lkp, radius_m=r)
     except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
         print(f"[roadnet] 로딩 실패 → 연속 공간 폴백: {e}")
         return None
     try:
         from app.geo import envlayer
 
-        envlayer.attach(net, case.lkp)  # 환경 속성 — 게이지·트리거가 사용
+        envlayer.attach(net, case.lkp, radius_m=r)  # 환경 속성 — 게이지·트리거가 사용
     except Exception as e:  # noqa: BLE001 — 환경레이어 실패는 도로망을 죽이지 않는다
         print(f"[envlayer] 부착 실패 → 환경 속성 없이 도로망 MC 계속: {e}")
     return net
@@ -80,8 +90,19 @@ def run_prediction(
     now = now or datetime.now()
     elapsed_hours = max((now - case.lkp_time).total_seconds() / 3600.0, 0.05)
 
+    # 스테이지 타이머 (P1-5) — 시연 목표 초 결정·P2-1 budget 스윕의 실측 기반.
+    # 결과에 영향 없는 계측 전용. exaone.call_log 의 elapsed_ms 와 합쳐 읽는다.
+    timings: dict[str, float] = {}
+    _t0 = _t = perf_counter()
+
+    def _lap(stage: str) -> None:
+        nonlocal _t
+        timings[stage] = round((perf_counter() - _t) * 1000, 1)
+        _t = perf_counter()
+
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     persona = _merge_preferred_pois(persona, case)
+    _lap("prepare_ms")
 
     # ① Few-shot CoT → prior (EXAONE, 좌표 아님)
     last_call = exaone.call_log[-1] if exaone.call_log else None
@@ -89,20 +110,25 @@ def run_prediction(
     prior_call = (exaone.call_log[-1]
                   if exaone.call_log and exaone.call_log[-1] is not last_call
                   and exaone.call_log[-1]["kind"] == "prior" else None)
+    _lap("prior_ms")
 
     # 마음 상태 초기화 (이후 제보의 심리 단서로 갱신됨)
     mind = case.mind or MindState()
 
     # ② 예측 — 도로망이 있으면 두 MC 모두 그래프 위를 걷는다
     #    (통계 MC 도 같은 지형 제약이어야 "AI 기여도" 비교가 공정)
-    net = _load_roadnet(case)
+    net = _load_roadnet(case, prior, persona, elapsed_hours)
+    _lap("roadnet_ms")
     sim_trace = SimTrace() if trace else None
     poa_td = topdown.topdown_poa(case.lkp, prior, persona, elapsed_hours)  # 디버그·시각화 전용
+    _lap("topdown_ms")
     poa_bu = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed,
         trace=sim_trace)
+    _lap("bottomup_ms")
     poa_stat = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed)
+    _lap("statistical_ms")
 
     # ③ α-pool 통합 — bottom-up·statistical 2-way. bottom-up 이 AI 개인화가 있는
     #    쪽이라 더 큰 가중(0.7 : 0.3, 기존 3-way 비율 0.5:0.2 을 그대로 재정규화한 값).
@@ -129,6 +155,10 @@ def run_prediction(
         poa_combined=POA(cells=combined, source="combined"),
     )
 
+    _lap("combine_ms")
+    timings["total_ms"] = round((perf_counter() - _t0) * 1000, 1)
+    print("[timing] " + " ".join(f"{k}={v:.0f}" for k, v in timings.items()))
+
     if sim_trace is not None:
         storage.debug_traces.save(case.id, PredictionDebug(
             case_id=case.id,
@@ -140,6 +170,7 @@ def run_prediction(
             walkers=sim_trace.walkers,
             mind_events=sim_trace.mind_events,
             result=result,
+            timings=timings,
         ))
 
     return result

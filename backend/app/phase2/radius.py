@@ -31,6 +31,9 @@ from app.schemas.prediction import LognormalParams
 
 # 표준정규 95% 분위 — topdown 원판 컷과 동일한 z (PR #20).
 Z_P95 = 1.645
+# 표준정규 90% 분위 — 도로망 로딩 반경(P1-3)용. 로딩은 지원 전체(p95)가 아니라
+# 질량 대부분(p90)을 덮으면 충분하고, 반경이 커질수록 다운로드·메모리가 비싸다.
+Z_P90 = 1.2816
 # 절단 표집 재시도 상한. 물리 상한이 낮은 초기 시각에는 절단 질량이 커질 수
 # 있어(t=0.5h 에 31%) 넉넉히 잡는다. 초과 시 상한 클램프.
 _TRUNC_MAX_RESAMPLE = 24
@@ -71,6 +74,39 @@ def p95_km(
         return stat
     reach = max(_MIN_REACH_KM, v_max_kmh * max(0.0, elapsed_hours))
     return min(stat, reach)
+
+
+def p90_km(
+    params: LognormalParams,
+    elapsed_hours: float,
+    v_max_kmh: float | None = None,
+) -> float:
+    """통계 p90 과 물리 상한의 min — p95_km 와 같은 구조, z 만 90% 분위."""
+    stat = math.exp(params.mu + Z_P90 * params.sigma)
+    if v_max_kmh is None:
+        return stat
+    reach = max(_MIN_REACH_KM, v_max_kmh * max(0.0, elapsed_hours))
+    return min(stat, reach)
+
+
+def roadnet_radius_m(
+    params: LognormalParams,
+    elapsed_hours: float,
+    v_max_kmh: float | None = None,
+) -> int:
+    """도로망 로딩 반경(m) — P1-3.
+
+    고정 3km 로딩은 치매 6h Koester 중앙값(3.9km)이 그래프 밖이라 이탈거리가
+    체계적으로 미달했다(sim_testset 실측: 3h/6h dist_ratio 저하). p90 지원을
+    덮도록 스케일하되,
+      - 하한 = 기존 `roadnet_radius_m`(3km) — 반경이 절대 줄지 않는다
+      - 상한 = `roadnet_radius_max_m` — 다운로드·메모리 폭주 방지
+      - 1km 올림 양자화 — LKP당 캐시 항목을 최대 4개(3~6km)로 제한
+    """
+    dyn_m = p90_km(params, elapsed_hours, v_max_kmh) * 1000.0
+    quantized = math.ceil(dyn_m / 1000.0) * 1000
+    return int(max(settings.roadnet_radius_m,
+                   min(settings.roadnet_radius_max_m, quantized)))
 
 
 def sample_distance_km(
