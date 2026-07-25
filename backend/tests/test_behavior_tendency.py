@@ -178,10 +178,12 @@ def test_tilt_hide_weaker_than_stay():
     assert hide_out["staying_put"] < stay_out["staying_put"]
 
 
-def test_tilt_move_boosts_both_strategies():
+def test_tilt_move_boosts_random_walk():
+    # move(길 잃으면 계속 이동)는 익숙함/목적지 정보가 없는 "안 멈추고 배회"이므로
+    # route_following(=route_familiarity 소비 창구)이 아니라 random_walk 로 소비한다.
     out = guardrail._tilt_by_tendency(DEFAULT_STRATEGY, "move")
-    assert out["route_following"] > DEFAULT_STRATEGY["route_following"]
-    assert out["direction_keeping"] > DEFAULT_STRATEGY["direction_keeping"]
+    assert out["random_walk"] > DEFAULT_STRATEGY["random_walk"]
+    assert out["route_following"] < DEFAULT_STRATEGY["route_following"]  # 재정규화로 상대 하락
     assert abs(sum(out.values()) - 1.0) < 1e-9
 
 

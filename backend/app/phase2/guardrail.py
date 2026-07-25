@@ -41,7 +41,7 @@ REASONING_MAX_CHARS = 500
 # 여기서 다루지 않는다.
 TENDENCY_BOOST = {
     "stay":      {"staying_put": 3.0},
-    "move":      {"route_following": 2.0, "direction_keeping": 2.0},
+    "move":      {"random_walk": 2.0},
     "backtrack": {"backtracking": 3.0},
     "hide":      {"staying_put": 1.8},
 }

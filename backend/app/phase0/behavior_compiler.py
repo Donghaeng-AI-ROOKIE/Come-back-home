@@ -51,13 +51,29 @@ quote 는 빈 문자열로 한다.
 - 장소 언급만 있고 행동 묘사가 없으면 "해당없음"으로 판정한다 \
 (장소 정보는 다른 경로가 처리한다)."""
 
-_FEWSHOT_USER = """\
-[보호자 발화]
-두 번 모두 집에서 약 1km 떨어진 시장 근처에서 발견됐고, 주변을 계속 반복해서 \
-걷고 있었습니다."""
-
-_FEWSHOT_ASSISTANT = """\
-{"tendency": "왕복", "quote": "주변을 계속 반복해서 걷고 있었습니다"}"""
+# 4개 라벨 각각 1개씩 — 예시를 하나만 주면(과거엔 "왕복"만 있었음) LLM 이 그 라벨로
+# 쏠릴 위험이 있다(2026-07-26 셀프리뷰 지적). 라벨당 균등하게 노출한다.
+_FEWSHOT_EXAMPLES = [
+    (
+        "[보호자 발화]\n예전에 한 번 길을 잃었을 때, 파출소에서 발견될 때까지 그 자리에 "
+        "가만히 앉아만 계셨다고 들었습니다.",
+        '{"tendency": "머무름", "quote": "그 자리에 가만히 앉아만 계셨다"}',
+    ),
+    (
+        "[보호자 발화]\n집 근처에서 없어지신 뒤로 발견될 때까지 계속 같은 방향으로 "
+        "걸어가고 계셨답니다.",
+        '{"tendency": "이동", "quote": "계속 같은 방향으로 걸어가고 계셨답니다"}',
+    ),
+    (
+        "[보호자 발화]\n두 번 모두 집에서 약 1km 떨어진 시장 근처에서 발견됐고, 주변을 "
+        "계속 반복해서 걷고 있었습니다.",
+        '{"tendency": "왕복", "quote": "주변을 계속 반복해서 걷고 있었습니다"}',
+    ),
+    (
+        "[보호자 발화]\n실종 당시 건물 뒤편 구석에 몸을 숨기고 계신 걸 발견했다고 합니다.",
+        '{"tendency": "은신", "quote": "몸을 숨기고 계신 걸 발견했다고 합니다"}',
+    ),
+]
 
 
 def compile_behavior_tendency(
@@ -93,12 +109,11 @@ def compile_behavior_tendency(
 
 def _classify(evidence_text: str, client, runs: int) -> str | None:
     """근거 텍스트 하나 → quote 검증·다수결을 거친 tendency (또는 판정 불가 None)."""
-    messages = [
-        {"role": "system", "content": _SYSTEM},
-        {"role": "user", "content": _FEWSHOT_USER},
-        {"role": "assistant", "content": _FEWSHOT_ASSISTANT},
-        {"role": "user", "content": "[보호자 발화]\n" + evidence_text},
-    ]
+    messages = [{"role": "system", "content": _SYSTEM}]
+    for user_turn, assistant_turn in _FEWSHOT_EXAMPLES:
+        messages.append({"role": "user", "content": user_turn})
+        messages.append({"role": "assistant", "content": assistant_turn})
+    messages.append({"role": "user", "content": "[보호자 발화]\n" + evidence_text})
 
     votes: list[str | None] = []
     for _ in range(runs):
