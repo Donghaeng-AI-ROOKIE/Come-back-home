@@ -29,7 +29,7 @@ from app.llm.exaone import _KOESTER_PARAMS
 from app.phase2 import simulation
 from app.schemas.common import GeoPoint
 from app.schemas.persona import AttractionPoint, Persona, PersonaType
-from app.schemas.prediction import LognormalParams, PriorParams
+from app.schemas.prediction import PriorParams
 
 LKP = GeoPoint(lat=37.6061, lng=127.0106)          # 정릉동 데모 LKP
 ATTRACTION = GeoPoint(lat=37.6015, lng=127.0088)   # 옛집(아리랑고개)
