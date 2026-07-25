@@ -32,6 +32,20 @@ ATTRACTION_CAP = 0.6
 RADIUS_MU_ADJUST = {"상": 0.4, "중": 0.0, "하": -0.4}
 REASONING_MAX_CHARS = 500
 
+# behavior_tendency(작업 P1-3, behavior_compiler 산출) → 부양 전략과 배율.
+# LEVEL_WEIGHTS(상3/중2/하1) 규약에 앵커링한 잠정 곱셈 계수 — 신규 튜닝 대상 아님
+# (재정규화+EPSILON floor를 거치므로 정확한 값보다 방향·매핑이 결과를 지배한다).
+# 은신(hide)은 머무름(stay)보다 약하게 — 은신은 짧게 이동한 뒤 정지라 LKP 근처에
+# 집중되지만 점질량은 아니다(반경 표집의 소량 퍼짐을 남겨 그 이동분을 근사한다).
+# 은신의 "발견 난이도"(은폐)는 위치 확률이 아니라 알람/수색안내 레이어의 몫이라
+# 여기서 다루지 않는다.
+TENDENCY_BOOST = {
+    "stay":      {"staying_put": 3.0},
+    "move":      {"random_walk": 2.0},
+    "backtrack": {"backtracking": 3.0},
+    "hide":      {"staying_put": 1.8},
+}
+
 
 def sanitize_prior(data: dict, persona: Persona | None, default: PriorParams) -> PriorParams:
     """LLM JSON 출력 → 검증된 PriorParams. default = 프로파일 통계 기본값."""
@@ -137,12 +151,15 @@ def apply_axis_scores(
         mu = base_radius.mu + RADIUS_MU_ADJUST[level]
         updates["radius_lognormal"] = LognormalParams(mu=mu, sigma=base_radius.sigma)
 
-    # 2) 전략확률 — elopement_pattern_consistency (발달장애 전용 행동축)
+    # 2) 전략확률 — elopement_pattern_consistency (발달장애 전용 행동축).
+    # floor=0 — 4)의 behavior_tendency 틸트와 합성될 수 있어 floor 는 아래에서
+    # 한 번만 적용한다(각자 내부에서 floor 하면 순서에 따라 결과가 벌어진다,
+    # 아래 4) 주석 참고).
     if (persona and persona.type == PersonaType.intellectual_disability
             and "elopement_pattern_consistency" in axis_scores):
         updates["strategy_probs"] = _sharpen(
             prior.strategy_probs, axis_scores["elopement_pattern_consistency"],
-            floor=EPSILON)
+            floor=0.0)
 
     # 3) 끌림점가중치 — autobiographical_destination_pull(치매) / preferred_target_seeking(발달)
     axis_key = {
@@ -153,7 +170,37 @@ def apply_axis_scores(
         sharpened = _sharpen(prior.attraction_weights, axis_scores[axis_key], floor=0.0)
         updates["attraction_weights"] = _apply_cap(sharpened, ATTRACTION_CAP)
 
+    # 4) 전략확률 — behavior_tendency 방향 틸트 (lost_behavior/dementia_wandering,
+    # 치매·발달 공통, behavior_compiler 산출). 2)의 elopement sharpen 위에 곱셈
+    # 합성 — 두 신호 모두 strategy_probs 를 건드리므로 updates 에 이미 반영된
+    # 값을 base 로 쓴다(덮어쓰기 아님). floor=0 — 아래에서 한 번만 적용.
+    #
+    # 순서(elopement 먼저 → behavior_tendency 나중)는 의도적이다: behavior_tendency
+    # 는 실관측 행동(과거 실종 이력 등)이라 마지막에 적용해 최종 분포에 더 직접적인
+    # 영향을 주도록 한다. power-law 쏠림(_sharpen)과 곱셈 틸트(_tilt_by_tendency)는
+    # 수학적으로 교환되지 않는다 — 순서를 바꾸면 예: elopement=0.9·tendency=stay
+    # 조합에서 staying_put 최종 확률이 약 0.15 → 0.30 으로 거의 2배 차이 난다
+    # (2026-07-25 셀프리뷰 실측). 그래서 이 순서를 고정하고 여기 문서화한다.
+    if persona and persona.behavior_tendency:
+        base = updates.get("strategy_probs", prior.strategy_probs)
+        updates["strategy_probs"] = _tilt_by_tendency(
+            base, persona.behavior_tendency, floor=0.0)
+
+    # strategy_probs 를 건드린 브랜치(2·4)가 있으면 ε-floor 는 여기서 딱 한 번만
+    # 적용한다 — 각 브랜치가 내부에서 개별적으로 floor 하면, 이미 floor 된 값이
+    # 다음 브랜치에서 다시 배율을 받아 최종 결과가 브랜치 실행 순서에 더 민감해진다.
+    if "strategy_probs" in updates:
+        updates["strategy_probs"] = _floor_renormalize(updates["strategy_probs"], EPSILON)
+
     return prior.model_copy(update=updates) if updates else prior
+
+
+def _floor_renormalize(dist: dict[str, float], floor: float) -> dict[str, float]:
+    """재정규화된 분포에 ε-floor 보장 + 재정규화 (0 확률 금지 원칙). 여러 틸트가
+    strategy_probs 에 겹칠 때(2+4) 각자 floor 하지 않고 이 함수로 한 번만 적용한다."""
+    floored = {k: max(v, floor) for k, v in dist.items()}
+    total = sum(floored.values())
+    return {k: v / total for k, v in floored.items()}
 
 
 def _sharpen(dist: dict[str, float], score: float, *, floor: float) -> dict[str, float]:
@@ -169,11 +216,29 @@ def _sharpen(dist: dict[str, float], score: float, *, floor: float) -> dict[str,
     if total <= 0:
         return dict(dist)  # 방어 — 입력에 0 이 없다는 전제라 이론상 도달 안 함
     normed = {k: v / total for k, v in powered.items()}
-    if floor > 0:  # 전략확률용 — 재정규화 후 다시 floor 보장 (0 확률 금지 원칙 유지)
-        floored = {k: max(v, floor) for k, v in normed.items()}
-        t2 = sum(floored.values())
-        normed = {k: v / t2 for k, v in floored.items()}
-    return normed
+    return _floor_renormalize(normed, floor) if floor > 0 else normed
+
+
+def _tilt_by_tendency(
+    dist: dict[str, float], tendency: str | None, *, floor: float = EPSILON,
+) -> dict[str, float]:
+    """behavior_tendency 에 해당하는 전략(들)에 TENDENCY_BOOST 배율을 곱하고 재정규화.
+
+    모르는 tendency(닫힌 어휘 밖)면 원본을 그대로 반환 — persona.behavior_tendency 는
+    behavior_compiler.TENDENCY_LABELS 값만 채워지지만, 방어적으로 한 번 더 검증한다.
+    floor 기본값은 EPSILON(단독 호출 시 즉시 0 확률 금지 보장) — apply_axis_scores
+    는 elopement sharpen 과 합성될 수 있어 floor=0 으로 호출하고 최종 floor 를
+    한 번만 별도로 적용한다.
+    """
+    boosts = TENDENCY_BOOST.get(tendency)
+    if not boosts:
+        return dict(dist)
+    boosted = {k: v * boosts.get(k, 1.0) for k, v in dist.items()}
+    total = sum(boosted.values())
+    if total <= 0:
+        return dict(dist)  # 방어 — 입력에 0 이 없다는 전제라 이론상 도달 안 함
+    normed = {k: v / total for k, v in boosted.items()}
+    return _floor_renormalize(normed, floor) if floor > 0 else normed
 
 
 def sanitize_radius(raw_level, profile: LognormalParams) -> LognormalParams:

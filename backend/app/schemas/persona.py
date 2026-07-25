@@ -138,6 +138,11 @@ class Persona(BaseModel):
     # 개인 환경 반응 — behavior_notes 자유 텍스트에서 컴파일 (EnvResponse 참고).
     # 축은 "얼마나" 반응하는지의 눈금이라 "무엇에" 반응하는지를 못 담는다.
     env_responses: list[EnvResponse] = []
+    # 길 잃음/과거 배회 행동 경향 — behavior_compiler 가 채움.
+    # "stay"|"move"|"backtrack"|"hide"|None. lost_behavior + dementia_wandering_pattern
+    # 두 행동 슬롯을 우선순위(과거 실종이력 > 일반 경향)로 해소한 단일 신호.
+    # Phase2 guardrail 이 strategy_probs 방향 틸트로 소비한다.
+    behavior_tendency: str | None = None
     created_at: datetime = Field(default_factory=datetime.now)
 
 
