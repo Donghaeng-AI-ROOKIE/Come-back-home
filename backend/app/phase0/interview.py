@@ -1485,6 +1485,16 @@ def _score_and_save(persona_id: str) -> None:
         persona.env_responses = compile_env_responses(persona)
     except Exception:  # noqa: BLE001 — 실패해도 앞선 결과 저장은 계속 진행
         pass
+    # 행동 경향 컴파일(작업 P1-3) — lost_behavior + dementia_wandering_pattern 을
+    # 단일 신호로 합쳐 Phase2 strategy_probs 틸트에 연결한다. 실패는 None 유지로
+    # 흡수되고, 소비처(guardrail)가 None 이면 무변화를 돌려주므로 예측이
+    # 도입 이전과 같아진다.
+    try:
+        from app.phase0.behavior_compiler import compile_behavior_tendency
+
+        persona.behavior_tendency = compile_behavior_tendency(persona)
+    except Exception:  # noqa: BLE001 — 실패해도 앞선 결과 저장은 계속 진행
+        pass
     # 채점(최대 수십 초) 도중 보호자가 삭제를 요청했을 수 있다 — 삭제된 persona 를
     # 되살리지 않도록 저장 직전 재확인(개인정보 파기 경합 방지, 셀프리뷰 발견).
     if storage.personas.get(persona_id) is None:
