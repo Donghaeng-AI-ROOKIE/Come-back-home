@@ -5,6 +5,7 @@ import {
   type AttractionPoint,
   type CaseDetail,
   type Persona,
+  type PoaCell,
   type PoaResponse,
   type RerunCheck,
   type GeoPoint,
@@ -51,6 +52,19 @@ const TAG_TONE: Record<string, string> = {
   green: T.green,
   accent: T.accent,
   gray: T.tierDiscard,
+};
+
+/** bundle poa_layers 키 → 프론트 레이어 키 */
+const BUNDLE_KEY: Record<string, PoaLayer> = {
+  combined: "combined",
+  topdown: "top_down",
+  bottomup: "bottom_up",
+  statistical: "statistical",
+};
+
+const fmtDur = (sec: number): string => {
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `${p(Math.floor(sec / 3600))}:${p(Math.floor((sec % 3600) / 60))}:${p(sec % 60)}`;
 };
 
 /** 위경도 → SVG viewBox 등장방형 투영 (경도에 cos(lat) 보정) */
@@ -139,9 +153,22 @@ export default function ControlDetail({ live }: { live: LiveState }) {
   const [liveLog, setLiveLog] = useState<string[]>([]);
   // 이 세션에서 발송한 알림 — 백엔드에 알림 이력 API가 없어 타임라인은 세션분만 표시
   const [sessionAlerts, setSessionAlerts] = useState<{ ts: number; cells: number }[]>([]);
+  // 4층 POA (bundle) — 트레이스 예측을 돌린 케이스만 4층이 다 찬다
+  const [liveLayers, setLiveLayers] = useState<Partial<Record<PoaLayer, PoaCell[]>> | null>(null);
+  const [layersPreparing, setLayersPreparing] = useState(false);
+  // 마지막 발송 알림의 대상 셀 — 지도 외곽선 표시용
+  const [alertCells, setAlertCells] = useState<Set<string>>(new Set());
   const [tipOpen, setTipOpen] = useState(false);
   const [closeOpen, setCloseOpen] = useState(false);
   const predStart = useRef(0);
+  const autoTraceRan = useRef(false);
+  // 경과시간 타이머(1초 틱) — 관제에서 가장 중요한 숫자
+  const [clock, setClock] = useState(() => Date.now());
+  const mountTs = useRef(Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setClock(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, []);
 
   const isLive = live.live;
 
@@ -150,9 +177,34 @@ export default function ControlDetail({ live }: { live: LiveState }) {
     api.getCase(live.caseId).then(setCaseDetail).catch(() => setCaseDetail(null));
     api.poa(live.caseId, 80).then(setPoa).catch(() => setPoa(null));
     api.rerunCheck(live.caseId).then(setRerun).catch(() => setRerun(null));
+    api
+      .bundle(live.caseId)
+      .then((b) => {
+        const m: Partial<Record<PoaLayer, PoaCell[]>> = {};
+        Object.entries(b.poa_layers ?? {}).forEach(([k, v]) => {
+          const key = BUNDLE_KEY[k];
+          if (key) m[key] = v.cells;
+        });
+        setLiveLayers(m);
+      })
+      .catch(() => setLiveLayers(null));
   };
 
   useEffect(loadLive, [isLive, live.caseId]);
+
+  // 4층 분해 자동 준비 — 부팅 시드는 트레이스 없이 예측돼 combined만 있으므로,
+  // 트레이스 재예측을 1회 백그라운드 실행해 top-down/bottom-up/statistical을 채운다.
+  useEffect(() => {
+    if (!isLive || !liveLayers || liveLayers.top_down || autoTraceRan.current) return;
+    autoTraceRan.current = true;
+    setLayersPreparing(true);
+    api
+      .predictTraced(live.caseId)
+      .then(() => loadLive())
+      .catch(() => {})
+      .finally(() => setLayersPreparing(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLive, liveLayers]);
 
   useEffect(() => {
     if (caseDetail?.report?.persona_id) {
@@ -174,7 +226,8 @@ export default function ControlDetail({ live }: { live: LiveState }) {
     setElapsed(0);
     predStart.current = Date.now();
     try {
-      await api.predict(live.caseId);
+      // 트레이스 모드 — 같은 파이프라인(결과 불변)이지만 4층 분해가 함께 갱신된다
+      await api.predictTraced(live.caseId);
       const took = ((Date.now() - predStart.current) / 1000).toFixed(1);
       setLiveLog((l) => [...l, `AI 예측 완료 — 실측 ${took}초`]);
     } catch (e) {
@@ -194,6 +247,7 @@ export default function ControlDetail({ live }: { live: LiveState }) {
         `알림 발송(시뮬) — target_cells=${r.target_cells.length}셀, sent=${r.sent}`,
       ]);
       setSessionAlerts((s) => [...s, { ts: Date.now(), cells: r.target_cells.length }]);
+      setAlertCells(new Set(r.target_cells));
       loadLive();
     } catch (e) {
       setLiveLog((l) => [...l, `알림 실패: ${String(e).slice(0, 120)}`]);
@@ -203,7 +257,13 @@ export default function ControlDetail({ live }: { live: LiveState }) {
   // ── 지도 셀·핀 (데모 vs 라이브) ────────────────────────────────
   const projector = useMemo(() => {
     if (!isLive || !poa || poa.top_cells.length === 0) return null;
+    // 레이어 전환 시 화면이 튀지 않도록 로드된 모든 레이어를 경계에 포함
     const pts: GeoPoint[] = poa.top_cells.flatMap((c) => c.polygon);
+    if (liveLayers) {
+      Object.values(liveLayers).forEach((cells) =>
+        cells?.forEach((c) => c.polygon.forEach((p) => pts.push(p))),
+      );
+    }
     if (caseDetail) pts.push(caseDetail.lkp);
     if (persona) {
       pts.push(persona.home);
@@ -212,12 +272,14 @@ export default function ControlDetail({ live }: { live: LiveState }) {
       });
     }
     return makeProjector(pts);
-  }, [isLive, poa, caseDetail, persona]);
+  }, [isLive, poa, caseDetail, persona, liveLayers]);
 
   const liveCells = useMemo(() => {
-    if (!projector || !poa) return [];
-    const maxP = Math.max(...poa.top_cells.map((c) => c.prob), 1e-9);
-    return poa.top_cells.map((c) => {
+    if (!projector) return [];
+    const src: PoaCell[] = liveLayers?.[layer] ?? poa?.top_cells ?? [];
+    if (src.length === 0) return [];
+    const maxP = Math.max(...src.map((c) => c.prob), 1e-9);
+    return src.map((c) => {
       const rel = c.prob / maxP;
       const { fill, opacity } = probColor(rel);
       return {
@@ -228,9 +290,10 @@ export default function ControlDetail({ live }: { live: LiveState }) {
         fill,
         opacity,
         prob: c.prob,
+        alerted: alertCells.has(c.cell),
       };
     });
-  }, [projector, poa]);
+  }, [projector, poa, liveLayers, layer, alertCells]);
 
   const liveLkp = useMemo(() => {
     if (!projector || !caseDetail) return null;
@@ -352,6 +415,45 @@ export default function ControlDetail({ live }: { live: LiveState }) {
     ? caseDetail?.report?.appearance?.summary ??
       "인상착의 미등록 — 사진 접수 시 추출(VARCO)"
     : DEMO_APPEARANCE;
+  const reporter = isLive
+    ? caseDetail?.report?.reporter ?? null
+    : { name: "김보호", relation: "자녀", phone: "010-0000-0000 (데모)" };
+
+  // 실종 경과시간 — LKP 시각 기준, 종결 시 동결
+  const missingSec = (() => {
+    if (isLive) {
+      if (!caseDetail) return null;
+      const end = caseDetail.closed_at ? +new Date(caseDetail.closed_at) : clock;
+      return Math.max(0, Math.floor((end - +new Date(caseDetail.lkp_time)) / 1000));
+    }
+    if (view === "closed") return null;
+    return 9680 + Math.floor((clock - mountTs.current) / 1000);
+  })();
+  const lkpClock = isLive
+    ? caseDetail
+      ? new Date(caseDetail.lkp_time).toTimeString().slice(0, 5)
+      : "—"
+    : "08:00";
+
+  // 수색 우선순위 — POA 상위 셀 (순찰 지시용 요약)
+  const priorityRows = useMemo(() => {
+    if (!isLive)
+      return [
+        { rank: 1, name: "정릉시장 일대 (데모)", prob: 0.24, rel: 1 },
+        { rank: 2, name: "정릉천 산책로 (데모)", prob: 0.18, rel: 0.75 },
+        { rank: 3, name: "북한산 입구 (데모)", prob: 0.15, rel: 0.62 },
+      ];
+    const src = liveLayers?.combined ?? poa?.top_cells ?? [];
+    const top = src.slice(0, 5);
+    const maxP = top[0]?.prob ?? 1;
+    return top.map((c, i) => ({
+      rank: i + 1,
+      name: `셀 …${c.cell.slice(-7)}`,
+      prob: c.prob,
+      rel: c.prob / maxP,
+    }));
+  }, [isLive, liveLayers, poa]);
+  const priorityCum = priorityRows.reduce((s, r) => s + r.prob, 0);
 
   // ── 스타일 헬퍼 ────────────────────────────────────────────────
   const seg = (on: boolean): React.CSSProperties => ({
@@ -500,8 +602,10 @@ export default function ControlDetail({ live }: { live: LiveState }) {
                       points={c.points}
                       fill={c.fill}
                       opacity={c.opacity}
-                      stroke="#0e1017"
-                      strokeWidth={0.6}
+                      stroke={c.alerted ? "#cfe4ff" : "#0e1017"}
+                      strokeWidth={c.alerted ? 1.4 : 0.6}
+                      strokeOpacity={c.alerted ? 0.72 : 1}
+                      style={c.alerted ? { strokeDasharray: "3 3" } : undefined}
                     >
                       <title>{`${c.prob.toFixed(4)}`}</title>
                     </polygon>
@@ -615,23 +719,37 @@ export default function ControlDetail({ live }: { live: LiveState }) {
                 결합 POA
                 <span style={{ marginLeft: "auto", fontSize: 10, color: T.faint }}>기본</span>
               </button>
-              <button style={ly(layer === "top_down", isLive)} disabled={isLive} onClick={() => setLayer("top_down")}>
+              <button
+                style={ly(layer === "top_down", isLive && !liveLayers?.top_down)}
+                disabled={isLive && !liveLayers?.top_down}
+                onClick={() => setLayer("top_down")}
+              >
                 <span style={{ width: 8, height: 8, borderRadius: 2, background: "#c98a3a" }} />
                 top-down
               </button>
-              <button style={ly(layer === "bottom_up", isLive)} disabled={isLive} onClick={() => setLayer("bottom_up")}>
+              <button
+                style={ly(layer === "bottom_up", isLive && !liveLayers?.bottom_up)}
+                disabled={isLive && !liveLayers?.bottom_up}
+                onClick={() => setLayer("bottom_up")}
+              >
                 <span style={{ width: 8, height: 8, borderRadius: 2, background: "#e5764a" }} />
                 bottom-up
                 <span style={{ marginLeft: "auto", fontSize: 9.5, color: "#8a7ad9", fontWeight: 700 }}>AI</span>
               </button>
-              <button style={ly(layer === "statistical", isLive)} disabled={isLive} onClick={() => setLayer("statistical")}>
+              <button
+                style={ly(layer === "statistical", isLive && !liveLayers?.statistical)}
+                disabled={isLive && !liveLayers?.statistical}
+                onClick={() => setLayer("statistical")}
+              >
                 <span style={{ width: 8, height: 8, borderRadius: 2, background: "#8a6a3a" }} />
                 statistical
               </button>
             </div>
-            {isLive && (
+            {isLive && !liveLayers?.top_down && (
               <div style={{ fontSize: 9.5, color: T.faint, marginTop: 8, lineHeight: 1.5 }}>
-                라이브는 결합 POA만 — 4층 분해는 debug bundle 연동 예정
+                {layersPreparing
+                  ? "4층 분해 준비 중 — 트레이스 재예측 실행(17–27초)…"
+                  : "4층 분해 미준비 — 재예측 실행 시 활성화"}
               </div>
             )}
           </div>
@@ -719,6 +837,10 @@ export default function ControlDetail({ live }: { live: LiveState }) {
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <span style={{ width: 12, height: 12, borderRadius: "50%", background: T.tierDiscard, border: `1.5px dashed ${T.sub}` }} />
                 제보 · 파기(p&lt;0.2)
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ width: 12, height: 12, borderRadius: 2, border: "1.5px dashed #cfe4ff", opacity: 0.8 }} />
+                알림 발송 구역
               </div>
               {(!isLive || liveHome != null || liveAttractions.length > 0) && (
                 <>
@@ -913,23 +1035,25 @@ export default function ControlDetail({ live }: { live: LiveState }) {
         >
           <div style={{ padding: "16px 18px", borderBottom: `1px solid rgba(233,233,237,.08)` }}>
             <div style={{ display: "flex", gap: 13, alignItems: "center" }}>
-              <div
-                style={{
-                  width: 54,
-                  height: 54,
-                  borderRadius: 10,
-                  background: "linear-gradient(160deg,#2a2e3d,#20232f)",
-                  border: `1px solid rgba(233,233,237,.12)`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                  fontSize: 20,
-                  fontWeight: 700,
-                  color: T.dim,
-                }}
-              >
-                {personaName.slice(0, 1)}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3, flexShrink: 0 }}>
+                <div
+                  style={{
+                    width: 54,
+                    height: 54,
+                    borderRadius: 10,
+                    background: "linear-gradient(160deg,#2a2e3d,#20232f)",
+                    border: `1px solid rgba(233,233,237,.12)`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 20,
+                    fontWeight: 700,
+                    color: T.dim,
+                  }}
+                >
+                  {personaName.slice(0, 1)}
+                </div>
+                <span style={{ fontSize: 8.5, color: T.faint }}>사진 미등록</span>
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -953,8 +1077,23 @@ export default function ControlDetail({ live }: { live: LiveState }) {
                     {personaType}
                   </span>
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6, flexWrap: "wrap" }}>
                   <StatusChip label={st.l} color={st.c} bg={st.bg} />
+                  {missingSec != null && (
+                    <span
+                      className="mono"
+                      style={{
+                        fontSize: 12.5,
+                        fontWeight: 700,
+                        color: missingSec > 10800 ? T.redText : missingSec > 3600 ? T.amberText : T.sub,
+                      }}
+                    >
+                      경과 {fmtDur(missingSec)}
+                    </span>
+                  )}
+                  <span style={{ fontSize: 11, color: T.dim, whiteSpace: "nowrap" }}>
+                    최종 목격 {lkpClock}
+                  </span>
                 </div>
               </div>
             </div>
@@ -983,6 +1122,37 @@ export default function ControlDetail({ live }: { live: LiveState }) {
                   }}
                 >
                   {appearance}
+                </div>
+
+                <SectionLabel>신고자(보호자)</SectionLabel>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 9,
+                    padding: "11px 13px",
+                    borderRadius: 8,
+                    background: "#1e2130",
+                    border: `1px solid rgba(233,233,237,.07)`,
+                    marginBottom: 20,
+                  }}
+                >
+                  {reporter ? (
+                    <>
+                      <span style={{ fontSize: 13, color: "#dfe2ec" }}>
+                        {reporter.name}{" "}
+                        <span style={{ fontSize: 11, color: T.dim }}>({reporter.relation})</span>
+                      </span>
+                      <span className="mono" style={{ fontSize: 12, color: T.amberText, whiteSpace: "nowrap" }}>
+                        {reporter.phone}
+                      </span>
+                    </>
+                  ) : (
+                    <span style={{ fontSize: 12, color: T.dim }}>
+                      신고자 정보 미등록 — 신고서(문서) 접수 시 추출(Upstage)
+                    </span>
+                  )}
                 </div>
 
                 <div
@@ -1228,6 +1398,56 @@ export default function ControlDetail({ live }: { live: LiveState }) {
                             : "제보 #3(p=0.87) 층2 판정 — POA 재예측 완료, 신규 알림 검토"}
                       </div>
                     </div>
+                  </div>
+                )}
+
+                <SectionLabel>수색 우선순위 — POA 상위 셀</SectionLabel>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 8 }}>
+                  {priorityRows.length === 0 && (
+                    <div style={{ fontSize: 12, color: T.dim }}>POA 없음 — 예측을 먼저 실행</div>
+                  )}
+                  {priorityRows.map((r) => (
+                    <div
+                      key={r.rank}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 9,
+                        padding: "8px 11px",
+                        borderRadius: 8,
+                        background: "#1e2130",
+                        border: `1px solid rgba(233,233,237,.07)`,
+                      }}
+                    >
+                      <span
+                        className="mono"
+                        style={{
+                          width: 18,
+                          textAlign: "center",
+                          fontSize: 11,
+                          fontWeight: 700,
+                          color: r.rank === 1 ? T.redText : T.amberText,
+                        }}
+                      >
+                        {r.rank}
+                      </span>
+                      <span className="mono" style={{ flex: 1, fontSize: 11.5, color: "#dfe2ec" }}>
+                        {r.name}
+                      </span>
+                      <PBar p={r.rel} color={T.amber} />
+                      <span
+                        className="mono"
+                        style={{ fontSize: 11, color: T.text, width: 46, textAlign: "right", flexShrink: 0 }}
+                      >
+                        {(r.prob * 100).toFixed(1)}%
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                {priorityRows.length > 0 && (
+                  <div style={{ fontSize: 10, color: T.faint, lineHeight: 1.5, marginBottom: 20 }}>
+                    상위 {priorityRows.length}셀 누적 {(priorityCum * 100).toFixed(0)}% —
+                    셀→장소명 매핑(역지오코딩)은 후속, 라이브는 H3 셀 ID 기준
                   </div>
                 )}
 

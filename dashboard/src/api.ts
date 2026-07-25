@@ -93,6 +93,13 @@ export interface RerunCheck {
   reason: string | null;
 }
 
+/** 신고자(보호자) — 신고서(문서) 접수 시 Upstage 추출(스텁은 "[스텁]" 접두), 미접수면 null */
+export interface ReporterInfo {
+  name: string;
+  relation: string;
+  phone: string;
+}
+
 /** 인상착의 — 사진 접수 시 VARCO 추출(스텁 모드는 "[스텁]" 접두 고정값), 미접수면 null */
 export interface Appearance {
   top: string;
@@ -134,7 +141,21 @@ export interface CaseDetail {
     persona_id?: string | null;
     missing_type?: string;
     appearance?: Appearance | null;
+    reporter?: ReporterInfo | null;
   };
+}
+
+/** GET /debug/cases/{id}/bundle 중 대시보드가 쓰는 부분 — 4층 POA 레이어.
+ *  트레이스 예측(POST /debug/.../predict)을 돌린 케이스만 4층이 다 차고,
+ *  아니면 combined 만 온다(레이어당 상위 400셀 + coverage). */
+export interface LayerCells {
+  total_cells: number;
+  coverage: number;
+  cells: PoaCell[];
+}
+
+export interface Bundle {
+  poa_layers: Record<string, LayerCells>;
 }
 
 // ── fetch 헬퍼 ──────────────────────────────────────────────────────
@@ -188,6 +209,17 @@ export const api = {
     ),
 
   poa: (id: string, top = 80) => req<PoaResponse>(`/phase3/cases/${id}/poa?top=${top}`),
+
+  bundle: (id: string) => req<Bundle>(`/debug/cases/${id}/bundle`, undefined, 15000),
+
+  /** 트레이스 예측 — phase2 와 같은 파이프라인(trace=True, 결과 불변)이지만
+   *  4층 POA 분해가 bundle 로 조회 가능해진다. 17~27초 — 호출측 로딩 UI 필수 */
+  predictTraced: (id: string, seed?: number) =>
+    req<unknown>(
+      `/debug/cases/${id}/predict${seed != null ? `?seed=${seed}` : ""}`,
+      { method: "POST" },
+      60000,
+    ),
 
   // D1 반경 경보는 신고 접수 시 백엔드가 자동 발송(reflex_alert_on_intake=True 기본)
   // — 수동 재발송 엔드포인트(/reflex-alerts)는 UI에서 안 쓰므로 클라이언트 미노출.
