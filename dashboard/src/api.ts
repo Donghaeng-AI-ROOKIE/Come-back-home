@@ -65,10 +65,12 @@ export interface Tip {
   created_at: string;
 }
 
-/** POST /tips 는 Tip 또는 되묻기 응답 두 형태 — status 키 유무로 분기(계약 경고 박스) */
+/** POST /tips 는 Tip 또는 되묻기 응답 두 형태 — status 키 유무로 분기(계약 경고 박스).
+ *  reason 은 시각 분기에서만 오는 사유 코드(현재 "layer2_needs_time" 뿐), 위치 분기엔 없음. */
 export interface NeedMore {
   status: "need_more";
   missing: ("location" | "time")[];
+  reason?: string;
 }
 
 export type TipResult = Tip | NeedMore;
@@ -126,6 +128,7 @@ export interface CaseDetail {
   lkp_time: string;
   created_at: string;
   closed_at: string | null;
+  last_sim_at: string | null;
   tips: Tip[];
   report: {
     persona_id?: string | null;
@@ -186,9 +189,8 @@ export const api = {
 
   poa: (id: string, top = 80) => req<PoaResponse>(`/phase3/cases/${id}/poa?top=${top}`),
 
-  reflexAlert: (id: string) =>
-    req<AlertResult>(`/phase3/cases/${id}/reflex-alerts`, { method: "POST" }),
-
+  // D1 반경 경보는 신고 접수 시 백엔드가 자동 발송(reflex_alert_on_intake=True 기본)
+  // — 수동 재발송 엔드포인트(/reflex-alerts)는 UI에서 안 쓰므로 클라이언트 미노출.
   alert: (id: string) => req<AlertResult>(`/phase3/cases/${id}/alerts`, { method: "POST" }),
 
   submitTip: (

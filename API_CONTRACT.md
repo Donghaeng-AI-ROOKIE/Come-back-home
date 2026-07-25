@@ -121,7 +121,7 @@ Tip {
 > ⚠️ `POST /tips` 는 두 가지 형태를 반환한다. 프론트는 `status` 키 유무로 분기해야 한다.
 >
 > - **Tip 객체** — 정상 접수. 저장·POA 갱신까지 완료됨
-> - **`{ "status": "need_more", "missing": ["location"|"time"], "reason": str }`** — 저장하지 않고 되묻기를 요청. 프론트가 부족한 항목만 받아 **합친 전체 텍스트로 재제출**하거나 `force: true` 로 그대로 확정한다
+> - **`{ "status": "need_more", "missing": ["location"|"time"], "reason"?: str }`** — 저장하지 않고 되묻기를 요청. 프론트가 부족한 항목만 받아 **합친 전체 텍스트로 재제출**하거나 `force: true` 로 그대로 확정한다. `reason` 은 시각 분기에서만 오는 사유 코드(현재 `"layer2_needs_time"` 뿐) — 위치 분기 응답에는 없음
 >
 > `text` 는 자유 텍스트 한 덩어리다. 위치·시각은 별도 필드가 아니라 이 텍스트에서 구조화·지오코딩·시각 변환으로 뽑는다(`location`·`seen_at` 은 지도 핀 등 명시값이 있을 때만 사용).
 | GET | `/phase3/cases/{case_id}/poa` | `?top=20` | `{ case_id, total_cells, top_cells: [{ cell, prob, polygon:[{lat,lng}×6] }] }` |
