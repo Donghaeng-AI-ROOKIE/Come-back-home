@@ -43,7 +43,9 @@ npm run dev          # http://localhost:5173
 ## 현재 한계 (후속 작업)
 
 - 지도는 도로망 플레이스홀더 SVG 위에 실 POA 폴리곤을 등장방형 투영으로 렌더 — 실 지도 타일
-  (MapLibre/Leaflet)은 후속. 라이브 4층 POA 분해(top-down/bottom-up/statistical)는 debug bundle 연동 예정.
+  (MapLibre/Leaflet)은 후속. 라이브 4층 POA 분해는 debug bundle 연동 — 부팅 시드는 트레이스가
+  없어 진입 시 트레이스 재예측을 백그라운드 1회 자동 실행해 채운다.
+- 수색 우선순위 목록은 셀→장소명 매핑(역지오코딩) 전이라 라이브에서 H3 셀 ID로 표기.
 - 케이스 목록은 `GET /debug/overview` 재사용 — 관제 전용 목록 API 승격은 별도 PR.
 - 알림 이력은 라이브에서 이 세션 발송분만 표시(백엔드에 알림 이력 조회 API 없음). 라이브
   타임라인의 접수·예측·제보 이벤트는 실데이터(`created_at`·`last_sim_at`·`tips`) 기준.

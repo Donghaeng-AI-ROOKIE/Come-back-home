@@ -8,7 +8,7 @@
 from datetime import datetime, timedelta
 
 from app import storage
-from app.llm import varco
+from app.llm import upstage, varco
 from app.phase2 import pipeline
 from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
@@ -74,6 +74,7 @@ def seed_demo() -> None:
         lkp=home,
         lkp_time=datetime.now() - timedelta(hours=1),
         appearance=varco.extract_appearance(b"stub"),
+        reporter=upstage.parse_document(b"stub"),  # 관제 화면 신고자 카드용 — 실 접수 시 신고서 파싱으로 대체
     )
     case = Case(
         id=DEMO_CASE_ID,
