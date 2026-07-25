@@ -65,6 +65,7 @@ class PredictionDebug(BaseModel):
     walkers: list[WalkerTrace] = []
     mind_events: list[MindEvent] = []
     result: PredictionResult | None = None   # 4층 POA — 대시보드 레이어 전환용
+    timings: dict[str, float] = {}           # 스테이지별 소요 ms (P1-5) — prepare/prior/roadnet/topdown/bottomup/statistical/combine/total
 
     @property
     def prior(self) -> PriorParams | None:

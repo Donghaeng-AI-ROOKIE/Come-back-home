@@ -10,6 +10,7 @@ bottom-up·statistical 양쪽에 반영되고 있어 별도 POA로 다시 더하
 """
 
 from datetime import datetime
+from time import perf_counter
 
 from app import storage
 from app.config import settings
@@ -80,8 +81,19 @@ def run_prediction(
     now = now or datetime.now()
     elapsed_hours = max((now - case.lkp_time).total_seconds() / 3600.0, 0.05)
 
+    # 스테이지 타이머 (P1-5) — 시연 목표 초 결정·P2-1 budget 스윕의 실측 기반.
+    # 결과에 영향 없는 계측 전용. exaone.call_log 의 elapsed_ms 와 합쳐 읽는다.
+    timings: dict[str, float] = {}
+    _t0 = _t = perf_counter()
+
+    def _lap(stage: str) -> None:
+        nonlocal _t
+        timings[stage] = round((perf_counter() - _t) * 1000, 1)
+        _t = perf_counter()
+
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     persona = _merge_preferred_pois(persona, case)
+    _lap("prepare_ms")
 
     # ① Few-shot CoT → prior (EXAONE, 좌표 아님)
     last_call = exaone.call_log[-1] if exaone.call_log else None
@@ -89,6 +101,7 @@ def run_prediction(
     prior_call = (exaone.call_log[-1]
                   if exaone.call_log and exaone.call_log[-1] is not last_call
                   and exaone.call_log[-1]["kind"] == "prior" else None)
+    _lap("prior_ms")
 
     # 마음 상태 초기화 (이후 제보의 심리 단서로 갱신됨)
     mind = case.mind or MindState()
@@ -96,13 +109,17 @@ def run_prediction(
     # ② 예측 — 도로망이 있으면 두 MC 모두 그래프 위를 걷는다
     #    (통계 MC 도 같은 지형 제약이어야 "AI 기여도" 비교가 공정)
     net = _load_roadnet(case)
+    _lap("roadnet_ms")
     sim_trace = SimTrace() if trace else None
     poa_td = topdown.topdown_poa(case.lkp, prior, persona, elapsed_hours)  # 디버그·시각화 전용
+    _lap("topdown_ms")
     poa_bu = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed,
         trace=sim_trace)
+    _lap("bottomup_ms")
     poa_stat = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed)
+    _lap("statistical_ms")
 
     # ③ α-pool 통합 — bottom-up·statistical 2-way. bottom-up 이 AI 개인화가 있는
     #    쪽이라 더 큰 가중(0.7 : 0.3, 기존 3-way 비율 0.5:0.2 을 그대로 재정규화한 값).
@@ -129,6 +146,10 @@ def run_prediction(
         poa_combined=POA(cells=combined, source="combined"),
     )
 
+    _lap("combine_ms")
+    timings["total_ms"] = round((perf_counter() - _t0) * 1000, 1)
+    print("[timing] " + " ".join(f"{k}={v:.0f}" for k, v in timings.items()))
+
     if sim_trace is not None:
         storage.debug_traces.save(case.id, PredictionDebug(
             case_id=case.id,
@@ -140,6 +161,7 @@ def run_prediction(
             walkers=sim_trace.walkers,
             mind_events=sim_trace.mind_events,
             result=result,
+            timings=timings,
         ))
 
     return result
