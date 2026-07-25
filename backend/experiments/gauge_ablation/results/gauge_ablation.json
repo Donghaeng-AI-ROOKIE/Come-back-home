@@ -1,0 +1,335 @@
+{
+  "road": [
+    {
+      "persona": "치매",
+      "strength": 0.0,
+      "avoid_share": [
+        0.0422,
+        0.04,
+        0.0433
+      ],
+      "prefer_share": [
+        0.8911,
+        0.8767,
+        0.9033
+      ],
+      "dist_ratio": [
+        0.3008,
+        0.3008,
+        0.3008
+      ]
+    },
+    {
+      "persona": "치매",
+      "strength": 0.5,
+      "avoid_share": [
+        0.0367,
+        0.0267,
+        0.0433
+      ],
+      "prefer_share": [
+        0.9056,
+        0.89,
+        0.9167
+      ],
+      "dist_ratio": [
+        0.3008,
+        0.3008,
+        0.3008
+      ]
+    },
+    {
+      "persona": "치매",
+      "strength": 1.0,
+      "avoid_share": [
+        0.0289,
+        0.02,
+        0.0467
+      ],
+      "prefer_share": [
+        0.9178,
+        0.89,
+        0.9367
+      ],
+      "dist_ratio": [
+        0.3008,
+        0.3008,
+        0.3008
+      ]
+    },
+    {
+      "persona": "치매",
+      "strength": 1.5,
+      "avoid_share": [
+        0.0311,
+        0.0233,
+        0.0433
+      ],
+      "prefer_share": [
+        0.9211,
+        0.9133,
+        0.9267
+      ],
+      "dist_ratio": [
+        0.3008,
+        0.3008,
+        0.3008
+      ]
+    },
+    {
+      "persona": "치매",
+      "strength": 2.0,
+      "avoid_share": [
+        0.0178,
+        0.01,
+        0.0233
+      ],
+      "prefer_share": [
+        0.9311,
+        0.9233,
+        0.94
+      ],
+      "dist_ratio": [
+        0.3008,
+        0.3008,
+        0.3008
+      ]
+    },
+    {
+      "persona": "ID",
+      "strength": 0.0,
+      "avoid_share": [
+        0.0356,
+        0.0167,
+        0.0467
+      ],
+      "prefer_share": [
+        0.8967,
+        0.88,
+        0.9133
+      ],
+      "dist_ratio": [
+        0.1358,
+        0.1358,
+        0.1358
+      ]
+    },
+    {
+      "persona": "ID",
+      "strength": 0.5,
+      "avoid_share": [
+        0.0356,
+        0.0167,
+        0.0467
+      ],
+      "prefer_share": [
+        0.8967,
+        0.88,
+        0.9133
+      ],
+      "dist_ratio": [
+        0.1358,
+        0.1358,
+        0.1358
+      ]
+    },
+    {
+      "persona": "ID",
+      "strength": 1.0,
+      "avoid_share": [
+        0.0356,
+        0.0167,
+        0.0467
+      ],
+      "prefer_share": [
+        0.8967,
+        0.88,
+        0.9133
+      ],
+      "dist_ratio": [
+        0.1358,
+        0.1358,
+        0.1358
+      ]
+    },
+    {
+      "persona": "ID",
+      "strength": 1.5,
+      "avoid_share": [
+        0.0356,
+        0.0167,
+        0.0467
+      ],
+      "prefer_share": [
+        0.8967,
+        0.88,
+        0.9133
+      ],
+      "dist_ratio": [
+        0.1358,
+        0.1358,
+        0.1358
+      ]
+    },
+    {
+      "persona": "ID",
+      "strength": 2.0,
+      "avoid_share": [
+        0.0356,
+        0.0167,
+        0.0467
+      ],
+      "prefer_share": [
+        0.8967,
+        0.88,
+        0.9133
+      ],
+      "dist_ratio": [
+        0.1358,
+        0.1358,
+        0.1358
+      ]
+    }
+  ],
+  "env": [
+    {
+      "strength": 0.0,
+      "water_share": [
+        0.0444,
+        0.04,
+        0.0467
+      ],
+      "dist_ratio": [
+        0.3008,
+        0.3008,
+        0.3008
+      ]
+    },
+    {
+      "strength": 0.5,
+      "water_share": [
+        0.0456,
+        0.04,
+        0.05
+      ],
+      "dist_ratio": [
+        0.3008,
+        0.3008,
+        0.3008
+      ]
+    },
+    {
+      "strength": 1.0,
+      "water_share": [
+        0.0478,
+        0.0367,
+        0.0567
+      ],
+      "dist_ratio": [
+        0.3008,
+        0.3008,
+        0.3008
+      ]
+    },
+    {
+      "strength": 1.5,
+      "water_share": [
+        0.0567,
+        0.04,
+        0.07
+      ],
+      "dist_ratio": [
+        0.3008,
+        0.3008,
+        0.3008
+      ]
+    },
+    {
+      "strength": 2.0,
+      "water_share": [
+        0.0522,
+        0.04,
+        0.0733
+      ],
+      "dist_ratio": [
+        0.3008,
+        0.3008,
+        0.3008
+      ]
+    }
+  ],
+  "grid": [
+    {
+      "road": 0.0,
+      "env": 0.0,
+      "monotonic": true,
+      "band_1h": true,
+      "mean_km_1h": 0.53,
+      "mean_km_6h": 0.578
+    },
+    {
+      "road": 0.0,
+      "env": 1.0,
+      "monotonic": true,
+      "band_1h": true,
+      "mean_km_1h": 0.525,
+      "mean_km_6h": 0.533
+    },
+    {
+      "road": 0.0,
+      "env": 2.0,
+      "monotonic": true,
+      "band_1h": true,
+      "mean_km_1h": 0.55,
+      "mean_km_6h": 0.56
+    },
+    {
+      "road": 1.0,
+      "env": 0.0,
+      "monotonic": true,
+      "band_1h": true,
+      "mean_km_1h": 0.524,
+      "mean_km_6h": 0.601
+    },
+    {
+      "road": 1.0,
+      "env": 1.0,
+      "monotonic": true,
+      "band_1h": true,
+      "mean_km_1h": 0.542,
+      "mean_km_6h": 0.595
+    },
+    {
+      "road": 1.0,
+      "env": 2.0,
+      "monotonic": true,
+      "band_1h": true,
+      "mean_km_1h": 0.538,
+      "mean_km_6h": 0.595
+    },
+    {
+      "road": 2.0,
+      "env": 0.0,
+      "monotonic": true,
+      "band_1h": true,
+      "mean_km_1h": 0.507,
+      "mean_km_6h": 0.55
+    },
+    {
+      "road": 2.0,
+      "env": 1.0,
+      "monotonic": true,
+      "band_1h": true,
+      "mean_km_1h": 0.512,
+      "mean_km_6h": 0.55
+    },
+    {
+      "road": 2.0,
+      "env": 2.0,
+      "monotonic": true,
+      "band_1h": true,
+      "mean_km_1h": 0.501,
+      "mean_km_6h": 0.553
+    }
+  ]
+}
