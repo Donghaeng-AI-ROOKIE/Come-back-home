@@ -46,6 +46,20 @@ TENDENCY_BOOST = {
     "hide":      {"staying_put": 1.8},
 }
 
+# 발달 탐험형 배회 폴백(P1-3B) — 발달 4축이 전부 미검출/낮음일 때 부양할 전략과 배율.
+# Rice 2016: 발달 이탈의 53%가 이유 없는 탐험형인데, 4축은 전부 "이유 있는 이탈"만
+# 잡아 탐험형을 놓친다. random_walk 를 올려 "혹시 배회할 수도"로 넓게 잡는다(SAR 안전측).
+# 계수는 신규 튜닝 대상 아님 — LEVEL_WEIGHTS "중"(2.0)에 앵커링한 잠정값(재정규화+floor로 흡수).
+EXPLORATORY_FALLBACK_BOOST = {"random_walk": 2.0}
+
+# 발달 4축(전부 "이유 있는 이탈" 신호). 넷 다 침묵하면 탐험형으로 간주한다.
+_DEV_AXES = (
+    "preferred_target_seeking",
+    "aversive_context_escape",
+    "transition_routine_disruption",
+    "elopement_pattern_consistency",
+)
+
 
 def sanitize_prior(data: dict, persona: Persona | None, default: PriorParams) -> PriorParams:
     """LLM JSON 출력 → 검증된 PriorParams. default = 프로파일 통계 기본값."""
@@ -186,7 +200,18 @@ def apply_axis_scores(
         updates["strategy_probs"] = _tilt_by_tendency(
             base, persona.behavior_tendency, floor=0.0)
 
-    # strategy_probs 를 건드린 브랜치(2·4)가 있으면 ε-floor 는 여기서 딱 한 번만
+    # 5) 전략확률 — 발달 탐험형 배회 폴백(P1-3B). 발달 4축이 전부 침묵하면(이유 있는
+    # 이탈 신호 전무) random_walk 를 올려 탐험형을 놓치지 않는다. 2)/4) 와 같은 곱셈
+    # 틸트라 이미 반영된 값 위에 합성한다(base = updates 우선). floor=0 — 아래에서 한 번만.
+    # 순서: 반드시 2)(elopement power-law sharpen) 다음이어야 한다 — 곱셈 틸트와 거듭제곱
+    # 쏠림은 교환되지 않기 때문(4) 주석의 순서 논거와 동일). 4)와는 둘 다 곱셈이라
+    # 최종 재정규화 기준 교환 가능하지만, 모든 곱셈 틸트를 sharpen 뒤에 모아 둔다.
+    if _is_exploratory_fallback(persona, axis_scores):
+        base = updates.get("strategy_probs", prior.strategy_probs)
+        updates["strategy_probs"] = _boost_strategies(
+            base, EXPLORATORY_FALLBACK_BOOST, floor=0.0)
+
+    # strategy_probs 를 건드린 브랜치(2·4·5)가 있으면 ε-floor 는 여기서 딱 한 번만
     # 적용한다 — 각 브랜치가 내부에서 개별적으로 floor 하면, 이미 floor 된 값이
     # 다음 브랜치에서 다시 배율을 받아 최종 결과가 브랜치 실행 순서에 더 민감해진다.
     if "strategy_probs" in updates:
@@ -219,6 +244,20 @@ def _sharpen(dist: dict[str, float], score: float, *, floor: float) -> dict[str,
     return _floor_renormalize(normed, floor) if floor > 0 else normed
 
 
+def _boost_strategies(
+    dist: dict[str, float], boosts: dict[str, float], *, floor: float,
+) -> dict[str, float]:
+    """dist 의 특정 전략(들)에 boosts 배율을 곱하고 재정규화(+선택적 floor). 여러 틸트가
+    strategy_probs 에 겹칠 때(elopement sharpen·behavior_tendency·탐험형 폴백) 각자
+    내부 floor 하지 않도록 floor=0 으로 호출하고, 최종 floor 는 호출부에서 한 번만 준다."""
+    boosted = {k: v * boosts.get(k, 1.0) for k, v in dist.items()}
+    total = sum(boosted.values())
+    if total <= 0:
+        return dict(dist)  # 방어 — 입력에 0 이 없다는 전제라 이론상 도달 안 함
+    normed = {k: v / total for k, v in boosted.items()}
+    return _floor_renormalize(normed, floor) if floor > 0 else normed
+
+
 def _tilt_by_tendency(
     dist: dict[str, float], tendency: str | None, *, floor: float = EPSILON,
 ) -> dict[str, float]:
@@ -233,12 +272,15 @@ def _tilt_by_tendency(
     boosts = TENDENCY_BOOST.get(tendency)
     if not boosts:
         return dict(dist)
-    boosted = {k: v * boosts.get(k, 1.0) for k, v in dist.items()}
-    total = sum(boosted.values())
-    if total <= 0:
-        return dict(dist)  # 방어 — 입력에 0 이 없다는 전제라 이론상 도달 안 함
-    normed = {k: v / total for k, v in boosted.items()}
-    return _floor_renormalize(normed, floor) if floor > 0 else normed
+    return _boost_strategies(dist, boosts, floor=floor)
+
+
+def _is_exploratory_fallback(persona: Persona | None, axis_scores: dict[str, float]) -> bool:
+    """발달장애이고 발달 4축이 전부 미검출(키 없음) 또는 낮음(<0.3)인가.
+    0.3 은 반경 등급의 하/중 경계(apply_axis_scores 1번, score<0.3='하')와 같은 값."""
+    if not persona or persona.type != PersonaType.intellectual_disability:
+        return False
+    return all(axis_scores.get(k, 0.0) < 0.3 for k in _DEV_AXES)
 
 
 def sanitize_radius(raw_level, profile: LognormalParams) -> LognormalParams:

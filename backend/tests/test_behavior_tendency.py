@@ -261,3 +261,71 @@ def test_strategy_tilt_order_is_fixed_by_design_and_not_commutative():
         _persona_full(ptype=PersonaType.intellectual_disability, tendency="stay"),
         LognormalParams(mu=0.89, sigma=1.50))
     assert composed.strategy_probs["staying_put"] == pytest.approx(forward["staying_put"])
+
+
+# ── P1-3B 발달 탐험형 배회 폴백 ──────────────────────────────────────
+def test_exploratory_fallback_boosts_random_walk_for_id_with_no_axes():
+    """발동: 발달장애 + 4축 전무 → random_walk↑, 합=1.0, 0확률 없음."""
+    base = LognormalParams(mu=0.89, sigma=1.50)
+    persona = _persona_full(ptype=PersonaType.intellectual_disability, tendency=None)
+    out = guardrail.apply_axis_scores(_prior(), {}, persona, base)
+    assert out.strategy_probs["random_walk"] > DEFAULT_STRATEGY["random_walk"]
+    assert abs(sum(out.strategy_probs.values()) - 1.0) < 1e-9
+    assert all(v > 0 for v in out.strategy_probs.values())
+
+
+def test_exploratory_fallback_suppressed_when_any_axis_present():
+    """오발동 차단: 4축 중 하나라도 ≥0.3이면(=이탈 사유 설명됨) 폴백 미발동.
+    aversive_context_escape 는 어느 전략틸트 브랜치도 소비하지 않으므로 폴백 예측만 격리한다."""
+    base = LognormalParams(mu=0.89, sigma=1.50)
+    persona = _persona_full(ptype=PersonaType.intellectual_disability, tendency=None)
+    out = guardrail.apply_axis_scores(
+        _prior(), {"aversive_context_escape": 0.5}, persona, base)
+    assert out.strategy_probs["random_walk"] == pytest.approx(DEFAULT_STRATEGY["random_walk"])
+
+
+def test_exploratory_fallback_not_applied_to_dementia():
+    """유형 격리: 치매 Persona 엔 폴백 안 걸림(발달 전용 공백)."""
+    base = LognormalParams(mu=0.095, sigma=1.48)
+    persona = _persona_full(ptype=PersonaType.dementia, tendency=None)
+    out = guardrail.apply_axis_scores(_prior(), {}, persona, base)
+    assert out.strategy_probs == DEFAULT_STRATEGY
+
+
+def test_exploratory_fallback_order_is_fixed_relative_to_elopement_sharpen():
+    """branch2(elopement_pattern_consistency 낮은 값으로 present)와 branch5(탐험형
+    폴백)는 동시에 발동할 수 있다(elopement<0.3 이면서 키는 존재) — 이때도 branch4
+    때와 같은 이유로 power-law sharpen 과 곱셈 부양(boost)은 교환되지 않는다
+    (2026-07-26 셀프리뷰 발견: branch5 에는 branch4 의
+    test_strategy_tilt_order_is_fixed_by_design_and_not_commutative 에 해당하는
+    순서 고정 회귀 테스트가 없었음). apply_axis_scores 가 forward(sharpen→boost)
+    순서를 쓰는지까지 재확인한다."""
+    forward = guardrail._floor_renormalize(
+        guardrail._boost_strategies(
+            guardrail._sharpen(DEFAULT_STRATEGY, 0.1, floor=0.0),
+            guardrail.EXPLORATORY_FALLBACK_BOOST, floor=0.0),
+        guardrail.EPSILON)
+    reverse = guardrail._floor_renormalize(
+        guardrail._sharpen(
+            guardrail._boost_strategies(
+                DEFAULT_STRATEGY, guardrail.EXPLORATORY_FALLBACK_BOOST, floor=0.0),
+            0.1, floor=0.0),
+        guardrail.EPSILON)
+    assert forward["random_walk"] > reverse["random_walk"] * 1.2   # 순서 고정 확인
+
+    composed = guardrail.apply_axis_scores(
+        _prior(), {"elopement_pattern_consistency": 0.1},
+        _persona_full(ptype=PersonaType.intellectual_disability, tendency=None),
+        LognormalParams(mu=0.89, sigma=1.50))
+    assert composed.strategy_probs["random_walk"] == pytest.approx(forward["random_walk"])
+
+
+def test_exploratory_fallback_coexists_with_staying_put_tilt():
+    """P1-3 상쇄(짝 신호): ID + 4축 전무 + lost_behavior=머무름 →
+    random_walk↑(폴백)와 staying_put↑(tendency=stay)가 공존, 어느 쪽으로도 안 쏠림."""
+    base = LognormalParams(mu=0.89, sigma=1.50)
+    persona = _persona_full(ptype=PersonaType.intellectual_disability, tendency="stay")
+    out = guardrail.apply_axis_scores(_prior(), {}, persona, base)
+    assert out.strategy_probs["random_walk"] > DEFAULT_STRATEGY["random_walk"]
+    assert out.strategy_probs["staying_put"] > DEFAULT_STRATEGY["staying_put"]
+    assert abs(sum(out.strategy_probs.values()) - 1.0) < 1e-9
