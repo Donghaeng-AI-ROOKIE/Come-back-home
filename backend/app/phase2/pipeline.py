@@ -15,14 +15,18 @@ from time import perf_counter
 from app import storage
 from app.config import settings
 from app.llm import exaone
-from app.phase2 import combine, simulation, topdown
+from app.phase2 import combine, radius, simulation, topdown
 from app.schemas.case import Case, CaseStatus
 from app.schemas.debug import PredictionDebug, SimTrace
 from app.schemas.prediction import MindState, POA, PredictionResult
 
 
-def _load_roadnet(case: Case):
+def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | None = None):
     """도로망 로딩 (설정 시) — 실패해도 예측은 연속 공간 폴백으로 계속.
+
+    반경은 P1-3 동적 스케일: prior 의 개인화 lognormal + 물리 상한의 p90 지원을
+    덮는다 (radius.roadnet_radius_m — 하한 3km·상한 클램프·1km 양자화).
+    prior 가 없으면(선로딩 등) 기존 고정 반경.
 
     도로망과 환경레이어는 실패를 분리 격리한다: 환경레이어(외부 WMS·의존성)가
     죽어도 도로망 그래프 MC 는 유지 — env() 는 빈 dict 로 동작하게 설계돼 있다.
@@ -30,17 +34,22 @@ def _load_roadnet(case: Case):
     """
     if not settings.use_roadnet:
         return None
+    r = None
+    if (settings.roadnet_dynamic_radius and prior is not None
+            and elapsed_hours is not None):
+        r = radius.roadnet_radius_m(prior.radius_lognormal, elapsed_hours,
+                                    radius.vmax_kmh(persona))
     try:
         from app.geo import roadnet
 
-        net = roadnet.get_network(case.lkp)
+        net = roadnet.get_network(case.lkp, radius_m=r)
     except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
         print(f"[roadnet] 로딩 실패 → 연속 공간 폴백: {e}")
         return None
     try:
         from app.geo import envlayer
 
-        envlayer.attach(net, case.lkp)  # 환경 속성 — 게이지·트리거가 사용
+        envlayer.attach(net, case.lkp, radius_m=r)  # 환경 속성 — 게이지·트리거가 사용
     except Exception as e:  # noqa: BLE001 — 환경레이어 실패는 도로망을 죽이지 않는다
         print(f"[envlayer] 부착 실패 → 환경 속성 없이 도로망 MC 계속: {e}")
     return net
@@ -108,7 +117,7 @@ def run_prediction(
 
     # ② 예측 — 도로망이 있으면 두 MC 모두 그래프 위를 걷는다
     #    (통계 MC 도 같은 지형 제약이어야 "AI 기여도" 비교가 공정)
-    net = _load_roadnet(case)
+    net = _load_roadnet(case, prior, persona, elapsed_hours)
     _lap("roadnet_ms")
     sim_trace = SimTrace() if trace else None
     poa_td = topdown.topdown_poa(case.lkp, prior, persona, elapsed_hours)  # 디버그·시각화 전용
