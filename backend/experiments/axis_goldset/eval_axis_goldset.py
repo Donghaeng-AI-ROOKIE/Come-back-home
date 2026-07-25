@@ -109,13 +109,13 @@ def quad_kappa(pairs: list[tuple[int, int]]) -> float | None:
     cats = [1, 2, 3, 4, 5]
     idx = {c: i for i, c in enumerate(cats)}
     n = len(pairs)
-    O = [[0] * 5 for _ in range(5)]
+    obs = [[0] * 5 for _ in range(5)]
     for g, p in pairs:
-        O[idx[g]][idx[p]] += 1
-    gr = [sum(O[i]) for i in range(5)]
-    pr = [sum(O[i][j] for i in range(5)) for j in range(5)]
+        obs[idx[g]][idx[p]] += 1
+    gr = [sum(obs[i]) for i in range(5)]
+    pr = [sum(obs[i][j] for i in range(5)) for j in range(5)]
     W = [[((i - j) ** 2) / 16 for j in range(5)] for i in range(5)]
-    num = sum(W[i][j] * O[i][j] for i in range(5) for j in range(5))
+    num = sum(W[i][j] * obs[i][j] for i in range(5) for j in range(5))
     den = sum(W[i][j] * gr[i] * pr[j] / n for i in range(5) for j in range(5))
     if den == 0:
         return 1.0

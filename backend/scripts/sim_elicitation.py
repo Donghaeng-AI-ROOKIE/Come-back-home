@@ -14,7 +14,6 @@ retrieval.py 실코드로 돌려 확인한다. Mi:dm 문장화는 PHRASING 목�
 from __future__ import annotations
 
 from app.phase0 import retrieval
-from app.phase0.slots import slot_by_key, slots_for
 from app.schemas.persona import PersonaType
 
 EMB = retrieval.get_embedder()   # EMBED_MODEL 설정 시 로컬 한국어 임베더, 없으면 해시 스텁

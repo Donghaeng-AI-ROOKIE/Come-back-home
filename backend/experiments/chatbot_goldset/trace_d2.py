@@ -57,7 +57,7 @@ def main() -> int:
         if new:
             print(f"        ▶ 새 끌림점 추가: {new}")
             if "신수동" in " ".join(new):
-                print(f"        ★★★ 신수동 누수 발생! 위 pending_area/prev 상태 확인 ★★★")
+                print("        ★★★ 신수동 누수 발생! 위 pending_area/prev 상태 확인 ★★★")
         prev_drafts = cur
     return 0
 

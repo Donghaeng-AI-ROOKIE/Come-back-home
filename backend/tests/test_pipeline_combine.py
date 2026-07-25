@@ -30,7 +30,7 @@ def test_combine_uses_bottomup_statistical_only(monkeypatch):
         return real_alpha_pool(distributions, alphas=alphas, mode=mode)
 
     monkeypatch.setattr(combine, "alpha_pool", spy)
-    result = pipeline.run_prediction(_case(), seed=1)
+    pipeline.run_prediction(_case(), seed=1)
 
     assert captured["n"] == 2
     assert captured["alphas"] == [0.7, 0.3]

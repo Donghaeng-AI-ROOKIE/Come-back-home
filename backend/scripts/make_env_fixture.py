@@ -40,7 +40,7 @@ out.write_text(json.dumps(env, ensure_ascii=False, indent=1), encoding="utf-8")
 print(f"저장 완료: {out}")
 
 # 요약 출력 — 사람이 훑어보고 상식 검증
-from collections import Counter
+from collections import Counter  # noqa: E402 — 픽스처 생성 후 요약 전용
 
 lc = Counter(v.get("landcover_l3") for v in env.values())
 print("피복 세분류 분포:", dict(lc.most_common(8)))
