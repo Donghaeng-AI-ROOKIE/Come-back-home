@@ -51,9 +51,13 @@ class Settings(BaseSettings):
     # Phase 0 온보딩 — 한국어 문장 임베더 (히스토리-어웨어 슬롯 검색용)
     #   embed_base_url 있으면 원격 OpenAI 호환 /embeddings, 없으면 embed_model 을
     #   로컬 sentence-transformers 로 로드. 완전히 비우면 해시 스텁(의미검색 불가).
-    #   기본 = 가벼운 한국어 STS 모델. 품질 업그레이드: nlpai-lab/KURE-v1 (bge-m3 기반, ~2.2GB).
+    #   KURE-v1(bge-m3 기반) — 이전 jhgan/ko-sroberta-multitask 대비 실측 우위:
+    #   슬롯 argmax 적중률 75.9%→93.1%, 실 Mi:dm 질문수 168.3→164.2(SD 0.6).
+    #   비용: 상주 메모리 +367MB→+1137MB, 쿼리 인코딩 44ms→169ms(LLM 호출에 흡수됨).
+    #   ⚠ 이 모델을 바꾸면 retrieval.py 의 절대 임계 3개를 반드시 재보정할 것 —
+    #     코사인 분포가 통째로 이동한다(ko-sroberta 기준값을 KURE 에 쓰면 디노이즈가 꺼짐).
     embed_base_url: str = ""
-    embed_model: str = "jhgan/ko-sroberta-multitask"
+    embed_model: str = "nlpai-lab/KURE-v1"
     embed_api_key: str = ""
 
     # 카카오 Local API — Phase 0 끌림점 지오코딩(키워드 장소검색으로 건물 단위 POI).
