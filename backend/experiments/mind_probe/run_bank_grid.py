@@ -1,6 +1,6 @@
 """실추출 페르소나 뱅크 기반 마음 재해석 그리드 — 수정 전/후 공용 측정기.
 
-persona_bank.json(실 Mi:dm 추출 산출물)을 Persona 로 복원해 reinterpret_mind 를
+mind_probe_dev_fixture_v1.json(실 Mi:dm 추출 산출물)을 Persona 로 복원해 reinterpret_mind 를
 실호출한다. 손제작 페르소나 그리드(run_persona_grid.py)와 달리 라벨 품질·중복
 노트·근거 등급이 전부 실사용 형태다.
 
@@ -44,7 +44,7 @@ GAUGES = {
 
 
 def load_bank() -> dict[str, Persona]:
-    raw = json.loads((RESULTS / "persona_bank.json").read_text(encoding="utf-8"))
+    raw = json.loads((RESULTS / "mind_probe_dev_fixture_v1.json").read_text(encoding="utf-8"))
     out = {}
     for k, v in raw.items():
         if v.get("ok") and v.get("persona"):

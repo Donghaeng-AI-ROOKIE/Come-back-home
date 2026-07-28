@@ -63,3 +63,32 @@ RAG: 운영 기본값 그대로 (인덱스 있으면 켜짐). 시작 시 활성 
 
 - `results/probe_raw_<ts>.jsonl` — 콜별 원본 (조건, 프롬프트, 원 JSON, 소요 ms)
 - `results/probe_summary_<ts>.md` — 조건별 집계표 + 사전 기준 대조 판정
+
+---
+
+## ⚠️ fixture 의 정체와 한계 (2026-07-29 외부 리뷰 반영)
+
+`results/mind_probe_dev_fixture_v1.json`(구 persona_bank.json)은 **골드셋이 아니다**.
+정확한 명칭: **실 Mi:dm 추출을 거친 반합성 Persona 개발·회귀 fixture**.
+
+- 대본은 결함 가설(B1~B3)을 알고 설계한 **표적 프로브** — 실사용 분포 표집이 아님.
+- Persona 는 정답이 아니라 **모델 출력**(Mi:dm 추출 + EXAONE 축 백필 = pseudo-label).
+  중간 추출 오류가 그대로 실림(대조쌍 뒤집힘·비장소 라벨 등 — JSON `_meta.known_defects`).
+- 이미 개발(수정 전/후 비교)에 사용됨 → **최종 평가셋 불가**(개발셋 오염).
+- 좌표는 신뢰 불가 — 생성 시 카카오 키 부재로 동 중심 폴백.
+
+**허용 용도**: 정답 좌표가 필요 없는 불변조건·안전성 회귀 —
+순서 뒤집어도 고착 없는가 / 유형 서사 오염 없는가 / 강근거>약근거 우선인가 /
+빈약이면 null 유지하는가 / 없는 후보를 지어내지 않는가.
+
+**금지 용도**: 마음 추론 정확도 검증, 개인화 성능 증명, 튜닝 최종 성능 보고,
+위치·알림 효과 평가. 제안서 표기는 "실 Mi:dm 파이프라인을 통과한 반합성 Persona
+회귀 세트 7종"까지만.
+
+## 골드셋 승격 요건 (향후)
+
+3층 분리: ① raw_dialogues(독립 작성 발화) ② gold_personas(모델 출력을 보지 않은
+판정자 2인+ 확정: 장소/추상선호 구분·evidence 정답·축 허용범위) ③ system_outputs.
+마음 출력은 단일 정답 대신 **범위 라벨**:
+`{allowed_goals, forbidden_goals, confusion_range, expected_relation}` +
+판정자 합의 과정·provenance(모델/프롬프트/SHA/지오코더) 기록.

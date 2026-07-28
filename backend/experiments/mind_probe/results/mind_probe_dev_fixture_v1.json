@@ -1818,5 +1818,32 @@
     }
    }
   }
+ },
+ "_meta": {
+  "name": "mind_probe_dev_fixture_v1",
+  "kind": "반합성 Persona 개발·회귀 fixture — 골드셋 아님",
+  "provenance": {
+   "authored_scenarios": "bank_scenarios.py (Claude 작성 대본, 결함 가설 인지 후 설계 = 표적 프로브)",
+   "extraction": "실 Mi:dm (FriendliAI dep0y7dit3r77da), 2026-07-29 02시경, 각 1회 추출(분산 미측정)",
+   "axis_backfill": "K-EXAONE-236B (depmkuykpfon9lg), B-P1 3회 다수결",
+   "geocoding": "카카오 키 부재 — nominatim/gazetteer 폴백. 동일 동 중심 좌표 다수(복지관=경로당), '조용한 데' 오좌표. 좌표는 신뢰 불가",
+   "git_sha_at_generation": "b369277",
+   "known_defects": [
+    "MB_dem_biased: 시장 추출 탈락 → 후보 1개 퇴화",
+    "MB_dem_pair_hi: 강근거 방앗간 끌림점 미등록(노트로만) → 대조쌍 감도 검사 불능",
+    "MB_dd_avoid: 비장소 라벨 '조용한 데' evidence 0.9",
+    "MB_dd_fix: 발견 2회인데 caregiver_report 0.5로 저장"
+   ]
+  },
+  "valid_uses": [
+   "순서 편향·유형 오염·빈약 절제·후보 날조 등 불변조건 회귀 테스트",
+   "Phase 0 추출 실형태의 다운스트림 공급(제한적)"
+  ],
+  "invalid_uses": [
+   "마음 추론 정확도 골드셋",
+   "개인화 성능 증명",
+   "튜닝 최종 성능 보고",
+   "위치·알림 효과 평가"
+  ]
  }
 }

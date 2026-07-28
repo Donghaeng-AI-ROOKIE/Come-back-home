@@ -24,7 +24,7 @@ def main() -> None:
     from app.phase0.axis_scoring import score_axes_for
     from app.schemas.persona import Persona
 
-    path = RESULTS / "persona_bank.json"
+    path = RESULTS / "mind_probe_dev_fixture_v1.json"
     bank = json.loads(path.read_text(encoding="utf-8"))
     client = ExaoneClient()
 
