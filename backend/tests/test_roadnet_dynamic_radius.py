@@ -10,7 +10,7 @@ from app.schemas.prediction import LognormalParams
 
 # 치매 Urban (radius.py 문서 기준: p95=12.55km, Koester 12.6km 일치)
 DEMENTIA = LognormalParams(mu=0.095, sigma=1.48)
-VMAX = 4.5  # reach_vmax_dementia_kmh 기본값
+VMAX = 4.32  # reach_vmax_dementia_kmh 기본값
 
 
 def test_p90_below_p95():

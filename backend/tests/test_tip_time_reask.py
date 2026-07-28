@@ -18,7 +18,7 @@ from app.schemas.persona import AttractionPoint, PersonaType
 from app.schemas.tip import Tip, TipDecision
 
 LKP = GeoPoint(lat=37.5511, lng=126.9410)
-PARK = GeoPoint(lat=37.5480, lng=126.9350)  # LKP 에서 약 0.6km — 도보 상한(4.5km/h) 안쪽
+PARK = GeoPoint(lat=37.5480, lng=126.9350)  # LKP 에서 약 0.6km — 도보 상한(4.32km/h) 안쪽
 
 
 @pytest.fixture()
