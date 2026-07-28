@@ -15,6 +15,7 @@ generate_prior 는 실프롬프트 연동됨 — 출력은 phase2.guardrail 검�
 from __future__ import annotations
 
 import json
+import logging
 import urllib.request
 from datetime import datetime
 from time import perf_counter
@@ -25,6 +26,8 @@ from app.phase2 import guardrail
 from app.schemas.persona import Persona, PersonaType
 from app.schemas.prediction import LognormalParams, MindState, PriorParams
 from app.schemas.report import MissingReport
+
+log = logging.getLogger(__name__)
 
 # Koester 프로파일별 이동 거리 lognormal 파라미터 (km).
 # 치매 = ISRID **Urban** 도메인 원표 정합 (2026-07-12 재교정, 출처 대조 완료):
@@ -241,13 +244,73 @@ def _build_prior_input(persona: Persona | None, report: MissingReport) -> str:
     return "\n".join(lines)
 
 
+def _build_rag_query(persona: Persona | None, missing_type=None) -> str:
+    """검색 질의 — 페르소나에서만 만든다.
+
+    시각·좌표처럼 케이스 안에서 변하는 값을 넣지 않는 이유: prior 와 mind 가
+    같은 질의를 만들어야 검색기 캐시에 적중한다(`reinterpret_mind` 는 한 예측에서
+    최대 mind_call_budget 회 호출된다). 페르소나는 케이스 동안 불변이라 질의로 적합.
+    """
+    if persona is None:
+        label = _TYPE_LABEL.get(missing_type, "실종자") if missing_type else "실종자"
+        return f"{label} 실종 시 이동 성향과 수색 범위"
+    parts = [f"{_TYPE_LABEL[persona.type]} 실종자의 이동 성향, 배회 행동, 길찾기"]
+    if persona.attraction_points:
+        parts.append("자주 가던 장소: "
+                     + ", ".join(ap.label for ap in persona.attraction_points[:4]))
+    if getattr(persona, "behavior_notes", None):
+        parts.append(" ".join(persona.behavior_notes[:3]))
+    return " / ".join(parts)
+
+
+def _rag_passages(persona: Persona | None, missing_type=None) -> list[str]:
+    """검색된 발췌 원문 리스트. 실패·비활성이면 빈 리스트."""
+    try:
+        from app.rag import get_retriever
+
+        r = get_retriever()
+        if r is None:
+            return []
+        return [p.text for p in r.search(_build_rag_query(persona, missing_type))]
+    except Exception:  # noqa: BLE001 — 검색 실패가 예측을 막으면 안 됨
+        return []
+
+
+def _rag_block(persona: Persona | None, missing_type=None) -> str:
+    """`[참고 지식]` 블록. RAG 가 꺼져 있거나 인덱스가 없으면 빈 문자열."""
+    try:
+        from app.rag import format_block
+
+        return format_block_from_texts(_rag_passages(persona, missing_type))
+    except Exception:  # noqa: BLE001
+        return ""
+
+
+def format_block_from_texts(texts: list[str]) -> str:
+    """format_block 이 Passage 를 받으므로 문자열 리스트용 얇은 어댑터."""
+    if not texts:
+        return ""
+    from app.rag.retriever import Passage
+    from app.rag import format_block
+
+    return format_block([Passage(text=t, source="", kind="paper", score=0.0)
+                         for t in texts])
+
+
 class ExaoneClient(LLMClient):
     name = "LG EXAONE"
 
-    def __init__(self) -> None:
+    def __init__(self, model: str | None = None) -> None:
+        """model 을 주면 그 모델로 호출한다 — 경로별 모델 분리용.
+
+        왜 필요한가(2026-07-28 실측): 지식 주입 LoRA(`exaone-sar`)를 전역으로 쓰면
+        축 채점 정확도가 골드셋 대비 0.88 → 0.74 로 떨어진다. 학습에 쓰지도 않은
+        과제가 손상된 것으로, JSON 파싱은 멀쩡해서 형식 검사로는 안 잡힌다.
+        그래서 prior·마음 예측은 파인튜닝본, 축 채점은 base 로 나눈다.
+        """
         super().__init__(settings.exaone_api_key)
         self.base_url = settings.exaone_base_url.rstrip("/")
-        self.model = settings.exaone_model
+        self.model = model or settings.exaone_model
         # 실호출 입·출력 기록 — E2E 대시보드가 "EXAONE 이 뭘 받고 뭘 뱉었나"를
         # 보여주는 유일한 통로 (스텁 모드에서는 기록 없음). 최근 것만 유지.
         self.call_log: list[dict] = []
@@ -259,6 +322,29 @@ class ExaoneClient(LLMClient):
                               "ts": datetime.now().isoformat(),
                               "elapsed_ms": round(elapsed_ms, 1) if elapsed_ms is not None else None})
         del self.call_log[:-50]
+
+    def _log_grounding(self, kind: str, answer: str, passages: list[str],
+                       extra_context: str = "") -> dict | None:
+        """RAG 정합 검사 결과를 직전 call_log 항목에 붙인다.
+
+        출력을 막지 않는 이유: 수치 대조는 환각 탐지기가 아니라 신호다. 근거 없는
+        수치가 있다고 예측을 중단하면, 상식적 수치 하나에 파이프라인이 멈춘다.
+        기록해 두면 대시보드와 평가에서 드러나고, 사람이 판단할 수 있다.
+        """
+        if not passages:
+            return None
+        try:
+            from app.rag import check_numeric_grounding, summarize
+
+            rep = check_numeric_grounding(answer or "", passages, extra_context)
+            rep["summary"] = summarize(rep)
+            if self.call_log and self.call_log[-1]["kind"] == kind:
+                self.call_log[-1]["grounding"] = rep
+            if rep["flagged"]:
+                log.warning("%s: %s", self.name, rep["summary"])
+            return rep
+        except Exception:  # noqa: BLE001 — 검사 실패가 예측을 막으면 안 됨
+            return None
 
     @property
     def is_stub(self) -> bool:
@@ -331,15 +417,24 @@ class ExaoneClient(LLMClient):
             prior = default
         else:
             prior_input = _build_prior_input(persona, report)
+            # RAG 발췌는 few-shot 뒤·실제 입력 앞에 별도 user 턴으로 넣는다.
+            # few-shot 앞에 두면 예시가 발췌를 인용하는 것처럼 학습되고,
+            # prior_input 에 합치면 "실종자 정보"와 "논문 발췌"의 경계가 흐려진다.
+            passages = _rag_passages(persona, report.missing_type)
+            rag = format_block_from_texts(passages)
+            msgs = [
+                {"role": "system", "content": _PRIOR_SYSTEM},
+                {"role": "user", "content": _PRIOR_FEWSHOT_USER},
+                {"role": "assistant", "content": _PRIOR_FEWSHOT_ASSISTANT},
+            ]
+            if rag:
+                msgs.append({"role": "user", "content": rag})
+                msgs.append({"role": "assistant", "content": "확인했다. 실종자 정보를 주면 JSON 으로 답하겠다."})
+            msgs.append({"role": "user", "content": prior_input})
             try:
                 _t = perf_counter()
                 raw = self.chat(
-                    [
-                        {"role": "system", "content": _PRIOR_SYSTEM},
-                        {"role": "user", "content": _PRIOR_FEWSHOT_USER},
-                        {"role": "assistant", "content": _PRIOR_FEWSHOT_ASSISTANT},
-                        {"role": "user", "content": prior_input},
-                    ],
+                    msgs,
                     temperature=0.2,
                     max_tokens=700,
                 )
@@ -347,6 +442,9 @@ class ExaoneClient(LLMClient):
                                elapsed_ms=(perf_counter() - _t) * 1000)
                 data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
                 prior = guardrail.sanitize_prior(data, persona, default)
+                # RAG 정합 검사 — 모델이 말한 수치가 발췌·입력에 실재하는지 대조.
+                # 어긋남을 출력 차단이 아니라 '검증신호'로 기록한다(노션 P1-4).
+                self._log_grounding("prior", prior.reasoning, passages, prior_input)
             except Exception as e:  # noqa: BLE001 — LLM 실패가 예측 자체를 막으면 안 됨
                 prior = default.model_copy(update={
                     "reasoning": f"[폴백] EXAONE prior 실패({type(e).__name__}) — 통계 기본값 사용"})
@@ -399,13 +497,17 @@ class ExaoneClient(LLMClient):
         if self.is_stub:
             return fallback
         mind_input = _build_mind_input(persona, gauge_report, labels, prior, scene)
+        # generate_prior 와 같은 질의를 쓰므로 검색기 캐시에 적중한다(임베딩 왕복 없음).
+        rag = _rag_block(persona)
+        mind_msgs = [{"role": "system", "content": _MIND_SYSTEM}]
+        if rag:
+            mind_msgs.append({"role": "user", "content": rag})
+            mind_msgs.append({"role": "assistant", "content": "확인했다. 상황을 주면 JSON 으로 답하겠다."})
+        mind_msgs.append({"role": "user", "content": mind_input})
         try:
             _t = perf_counter()
             raw = self.chat(
-                [
-                    {"role": "system", "content": _MIND_SYSTEM},
-                    {"role": "user", "content": mind_input},
-                ],
+                mind_msgs,
                 temperature=0.3,
                 max_tokens=400,
             )
