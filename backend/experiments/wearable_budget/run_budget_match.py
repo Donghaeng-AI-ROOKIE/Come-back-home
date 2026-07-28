@@ -9,7 +9,7 @@
   2. 활동 시간 구조   — 하루 활동분(low+med+high)·활동 중 이동률(m/분)·보폭
   3. 연속 활동 bout   — 5분 클래스(≥3) 연속 구간 길이 분포 (배회 중 정지 모델 근거)
   4. 시간대 프로파일  — 시간대별 활동 비율, 야간(22~06시) 활동 점유율
-  5. 정합 판정        — WALK_SPEED 48m/분·피로 1.3·v_max 4.5km/h·Koester 1h 앵커 대조
+  5. 정합 판정        — WALK_SPEED 48m/분·피로 1.3·v_max 4.32km/h·Koester 1h 앵커 대조
 
 주의: 웨어러블은 위치가 없다 — 발견거리 분포·μ/σ 검증에는 못 쓴다(그건 ISRID 몫).
 여기서 재는 것은 "하루 이동 총량·연속 활동 구조"라는 워커 동역학의 상식 범위다.
@@ -39,7 +39,7 @@ DAY_START_HOUR = 4        # activity_day_start 04:00 KST — 블록 0 의 시각
 # 대조할 설계 상수 (backend 코드 실값 — 바뀌면 여기도 갱신)
 WALK_SPEED_M_PER_MIN_DEM = 48.0     # app/phase2/gauges.py WALK_SPEED_M_PER_MIN
 FATIGUE_MULT_DEM = 1.3              # app/phase2/gauges.py _FATIGUE_MULT
-VMAX_DEM_KMH = 4.5                  # app/config.py reach_vmax_dementia_kmh
+VMAX_DEM_KMH = 4.32                 # app/config.py reach_vmax_dementia_kmh
 KOESTER_1H_P50_KM = 1.1             # ISRID Dementia Urban p50 (Laing 2013 Table 1)
 
 
@@ -183,7 +183,7 @@ def analyze(days: dict[str, list[dict]]) -> dict:
     return res
 
 
-def write_report(res: dict, dropped: dict, csv_path: str) -> str:
+def write_report(res: dict, dropped: dict, csv_name: str) -> str:
     dem, cn = res["Dem"], res["CN"]
     # 정합 지표
     budget_h = dem["move_m"]["p50"] / (WALK_SPEED_M_PER_MIN_DEM * 60)
@@ -191,7 +191,7 @@ def write_report(res: dict, dropped: dict, csv_path: str) -> str:
     tortuosity = path_1h_km / KOESTER_1H_P50_KM
 
     L = ["# P1-2 — 국내 치매군 이동 예산 실측 vs 워커 설계 상수", "",
-         f"입력: `{csv_path}` (레포 외부). 유효일 필터 = 288블록 완전기록 + "
+         f"입력: `{csv_name}` (레포 외부). 유효일 필터 = 288블록 완전기록 + "
          "비착용 2h 미만 + 보행 존재. 제외 내역: "
          + ", ".join(f"{k} {v}" for k, v in dropped.items()) + ".", "",
          "## 1. 일일 이동 예산 (person-day 풀 / [피험자 중앙값])", "",
@@ -259,7 +259,7 @@ def main() -> int:
     OUT_DIR.mkdir(exist_ok=True)
     (OUT_DIR / "budget_match.json").write_text(
         json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
-    md = write_report(res, dropped, str(csv_path))
+    md = write_report(res, dropped, csv_path.name)  # 파일명만 — 개인 절대경로 유출 방지
     (OUT_DIR / "budget_match.md").write_text(md, encoding="utf-8")
     print(md)
     return 0

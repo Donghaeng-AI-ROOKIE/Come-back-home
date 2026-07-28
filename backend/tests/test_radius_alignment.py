@@ -23,7 +23,7 @@ LKP = GeoPoint(lat=37.6061, lng=127.0106)
 
 # ISRID Dementia Urban 재교정값 (PR #20)
 DEMENTIA = LognormalParams(mu=0.095, sigma=1.48)
-V_WALK = settings.reach_vmax_dementia_kmh          # 4.5
+V_WALK = settings.reach_vmax_dementia_kmh          # 4.32
 
 
 @pytest.fixture(scope="module")
@@ -61,10 +61,10 @@ def test_kinematic_cap_binds_early_statistical_binds_late():
     11.2배 초과였다. 골든타임 전 구간이 도달 불가능 영역이었다.
     """
     stat = radius.statistical_p95_km(DEMENTIA)
-    assert radius.p95_km(DEMENTIA, 0.25, V_WALK) == pytest.approx(1.125)
-    assert radius.p95_km(DEMENTIA, 1.0, V_WALK) == pytest.approx(4.5)
-    assert radius.p95_km(DEMENTIA, 2.0, V_WALK) == pytest.approx(9.0)
-    # 교차점(12.55/4.5 ≈ 2.79h) 이후는 통계 상한이 지배 — 무한 확장 없음
+    assert radius.p95_km(DEMENTIA, 0.25, V_WALK) == pytest.approx(1.08)
+    assert radius.p95_km(DEMENTIA, 1.0, V_WALK) == pytest.approx(4.32)
+    assert radius.p95_km(DEMENTIA, 2.0, V_WALK) == pytest.approx(8.64)
+    # 교차점(12.55/4.32 ≈ 2.90h) 이후는 통계 상한이 지배 — 무한 확장 없음
     assert radius.p95_km(DEMENTIA, 4.0, V_WALK) == pytest.approx(stat)
     assert radius.p95_km(DEMENTIA, 24.0, V_WALK) == pytest.approx(stat)
 
@@ -95,7 +95,7 @@ def test_sample_never_exceeds_cap_and_keeps_body():
 
 
 def test_sample_respects_kinematic_cap():
-    """t=1h 도보면 4.5km 초과 표본이 나오지 않는다."""
+    """t=1h 도보면 4.32km 초과 표본이 나오지 않는다."""
     rng = random.Random(7)
     cap = radius.p95_km(DEMENTIA, 1.0, V_WALK)
     samples = [radius.sample_distance_km(rng, DEMENTIA, 1.0, V_WALK)
@@ -128,7 +128,7 @@ def test_continuous_walkers_within_kinematic_cap():
     """
     poa = simulation.run_monte_carlo(LKP, _prior(), None, 1.0, mode="statistical",
                                      n_walkers=300, seed=13)
-    cap = radius.p95_km(DEMENTIA, 1.0, V_WALK)      # 4.5km
+    cap = radius.p95_km(DEMENTIA, 1.0, V_WALK)      # 4.32km
     worst = max(h3grid.haversine_km(LKP, h3grid.cell_center(c)) for c in poa)
     assert worst <= cap + 0.5                        # 셀 중심 이산화 여유
 

@@ -31,21 +31,21 @@ def _tip(location=None, seen_at=None, created_at=None):
 
 # ── kinematic 개연성 ────────────────────────────────────────────────
 def test_plausibility_within_envelope_is_one():
-    # 치매 1h(seen_at) → d_max = 4.5km. 2km 제보는 반경 안 → 1.0
+    # 치매 1h(seen_at) → d_max = 4.32km. 2km 제보는 반경 안 → 1.0
     p = reachability.plausibility(LKP, T0, _pt_km_north(2.0), PersonaType.dementia,
                                   seen_at=T0 + timedelta(hours=1), created_at=T0 + timedelta(hours=1))
     assert p == 1.0
 
 
 def test_plausibility_beyond_envelope_decays():
-    # 1h 에 10km 는 걷기 상한(4.5km) 초과 → 0 < p < 1
+    # 1h 에 10km 는 걷기 상한(4.32km) 초과 → 0 < p < 1
     p = reachability.plausibility(LKP, T0, _pt_km_north(10.0), PersonaType.dementia,
                                   seen_at=T0 + timedelta(hours=1), created_at=T0 + timedelta(hours=1))
     assert 0.0 < p < 1.0
 
 
 def test_created_at_fallback_when_no_seen_at():
-    # seen_at 없음 → created_at(2h) 상한 fallback → d_max 9km → 5km 제보 정상
+    # seen_at 없음 → created_at(2h) 상한 fallback → d_max 8.64km → 5km 제보 정상
     p = reachability.plausibility(LKP, T0, _pt_km_north(5.0), PersonaType.dementia,
                                   seen_at=None, created_at=T0 + timedelta(hours=2))
     assert p == 1.0
