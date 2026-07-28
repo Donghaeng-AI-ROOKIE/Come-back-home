@@ -158,8 +158,10 @@ def cosine(a: list[float], b: list[float]) -> float:
 DENOISE = True
 
 # 현재 답변과 이 임계 미만으로 유사한 과거 턴은 topic drift 로 보고 버린다.
-COHERENCE_THRESHOLD = 0.15
+# ⚠ 임베더 종속 — 아래 "절대 임계 보정" 주석 참조.
+COHERENCE_THRESHOLD = 0.45
 # 과거 턴 기여를 거리(턴 수)에 따라 감쇠 — 최근 맥락일수록 크게.
+# 유사도 스케일 무관이라 임베더를 바꿔도 유지.
 RECENCY_DECAY = 0.6
 
 
@@ -202,11 +204,33 @@ def build_history_aware_query(
 # 슬롯 정의 순서 인덱스 (템플릿 모드 tie-break 용).
 _SLOT_INDEX = {s.key: i for i, s in enumerate(SLOTS)}
 
+# ── 절대 임계 보정 (COHERENCE_THRESHOLD · PIVOT_SIM · RISK_GATE) ──────
+#
+# 이 셋은 **코사인 유사도 절대값**이라 임베더에 종속된다. 임베더를 바꾸면
+# 유사도 분포가 통째로 이동하므로 값을 그대로 두면 가드가 조용히 무력화된다.
+# 실측 예: ko-sroberta 기준 COHERENCE_THRESHOLD=0.15 를 KURE 에 그대로 쓰면
+# 과거 턴을 **0% 잘라내** 디노이즈가 사실상 꺼진다(KURE 는 본론 턴끼리 코사인
+# 최솟값이 0.322). PIVOT_SIM=0.32 도 KURE 에선 100% 발동해 템플릿 모드가 죽는다.
+#
+# 현재 값은 nlpai-lab/KURE-v1 기준 (2026-07-27 재보정, P1-1).
+#   보정 방법: 실제 대화에서 rank_next_slots 가 만든 융합 쿼리의 max-sim 분포를
+#   수집해, 정보성 턴은 살리고 무정보 턴("잘 모르겠어요" 등)은 거르는 지점을 택함.
+#   ⚠ 코퍼스 유사도로 대신 뽑으면 안 된다 — 융합 쿼리는 과거 턴 이어붙이기로
+#     희석돼 단일 발화보다 유사도가 낮게 나온다.
+#   ⚠ 스텁 모드 스윕으로 확정하면 안 된다 — 스텁은 질문 문구가 고정 템플릿이라
+#     대화 궤적이 실 Mi:dm 과 다르고, 실측에서 세 번 모두 결론이 뒤집혔다.
+#
+# 실키 검증 근거 (시나리오 9개 × runs=3):
+#   PIVOT_SIM            라이브 분포(n=273)에서 직접 선택
+#   COHERENCE_THRESHOLD  0.40 과 1:1 대조 → 차이 없음(0.40~0.45 무차별). 0.15 는 불가
+#   RISK_GATE            0.45 와 1:1 대조 + 재현 검증 → 이득 없음, 0.30 유지
+#
 # 두 모드 전환:
 #   sim ≥ PIVOT_SIM  → 피벗 모드(보호자 말이 강하게 이끈 슬롯으로 재정렬)
 #   그 미만          → 템플릿 모드(tier·정의순으로 다음 슬롯 진행)
-PIVOT_SIM = 0.32
+PIVOT_SIM = 0.45
 RISK_GATE = 0.30                # 위험 부스트는 화제가 실제 관련될 때(sim≥게이트)만 적용
+# 아래 둘은 유사도 스케일 무관 — 임베더를 바꿔도 재보정 불필요.
 _TIER_BONUS = {1: 0.06, 2: 0.03, 3: 0.0}
 ASKED_PENALTY = 0.12            # 물었는데 안 채워진 슬롯 1회당 감점 → 반복 탈출
 
