@@ -4,7 +4,7 @@
   .venv/bin/python -m experiments.mind_probe.build_persona_bank
   .venv/bin/python -m experiments.mind_probe.build_persona_bank --scenario MB_dem_bal
 
-산출: experiments/mind_probe/results/persona_bank.json
+산출: experiments/mind_probe/results/mind_probe_dev_fixture_v1.json
   { scenario_id: {"persona": {...}, "turns": n, "degraded": bool} }
 
 좌표 정밀도는 뱅크 목적(마음 입력 생성)에 영향 없음 — 마음 입력은 라벨·근거·
@@ -51,7 +51,7 @@ def main(only: str | None) -> None:
                       "dialogue": t.turns}
 
     RESULTS.mkdir(exist_ok=True)
-    path = RESULTS / "persona_bank.json"
+    path = RESULTS / "mind_probe_dev_fixture_v1.json"
     existing = json.loads(path.read_text(encoding="utf-8")) if (path.exists() and only) else {}
     existing.update(out)
     path.write_text(json.dumps(existing, ensure_ascii=False, indent=1), encoding="utf-8")
