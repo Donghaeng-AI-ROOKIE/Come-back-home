@@ -36,7 +36,16 @@ class Settings(BaseSettings):
     # Phase 0 축 점수 컴파일 (phase0.axis_scoring) — 골드셋 실험으로 검증된 B×P1 채점.
     # 기본 off: 회의에서 채점 방식 채택 시 켠다. runs = 축당 호출 수(3회 다수결 권장).
     axis_scoring_enabled: bool = False
+    # ⚠ 이 값은 축 채점만 쓰는 게 아니다 — behavior_compiler,
+    #   env_response_compiler, route_familiarity_compiler 가 같이 읽는다.
+    #   이름이 축 채점처럼 보여도 낮추면 네 경로의 다수결이 한꺼번에 꺼진다.
     axis_scoring_runs: int = 3
+    # 축 채점(P1) 전용 호출 수 — 0이면 위 공유값을 따른다.
+    #   2026-07-28 실측으로 축 채점만 1회로 낮출 근거가 나왔다(골드셋 90셀에서
+    #   runs=3·1 정확일치 0.88 동일, 반복 3회 분산 0, 동시성 8에서 30셀 중 1셀만
+    #   흔들림 → 기대 손실 0.27%p, 호출 21회 → 7회).
+    #   나머지 세 컴파일러는 측정하지 않았으므로 공유값(3)을 그대로 둔다.
+    axis_scoring_p1_runs: int = 0
     axis_rubric_path: str = "app/phase0/axis_rubric.md"   # 기준표 단일 소스 (md)
     # 비동기 채점(기본): 보호자의 마지막 확인 응답을 채점(EXAONE 21회, 40초~1분)이
     # 막지 않게 등록을 먼저 확정하고 점수는 백그라운드로 채운다. 테스트·디버깅은 false.
@@ -59,6 +68,24 @@ class Settings(BaseSettings):
     embed_base_url: str = ""
     embed_model: str = "nlpai-lab/KURE-v1"
     embed_api_key: str = ""
+
+    # 축 채점 전용 모델 — 비우면 exaone_model 을 그대로 쓴다.
+    #   2026-07-28 실측: 지식 주입 LoRA(exaone-sar)를 전역으로 쓰면 축 채점이
+    #   골드셋 정확일치 0.88 → 0.74, κ_qw 0.96 → 0.86 으로 떨어진다.
+    #   특히 distress_induced_movement_reactivity 0.86 → 0.29.
+    #   학습에 안 쓴 과제가 손상된 것이고 JSON 파싱은 통과하므로 형식 검사로는
+    #   안 잡힌다. prior·마음은 파인튜닝본, 축 채점은 base 로 나눈다.
+    axis_scoring_model: str = ""
+
+    # RAG — 논문 코퍼스 검색으로 EXAONE 추론에 근거를 붙인다 (P1-4).
+    #   인덱스는 sar-finetune/build_rag.py 산출물(npz 한 개: 벡터+메타+임베더명).
+    #   임베더는 인덱스에 기록된 것을 따른다(질의·문서 모델이 다르면 검색이 무의미).
+    #   rag_max_per_source: 한 논문이 top-k 를 독식하지 못하게 하는 출처당 상한.
+    rag_enabled: bool = True
+    rag_index_path: str = "data/rag_index.npz"
+    rag_top_k: int = 4
+    rag_max_per_source: int = 2
+    rag_max_chars: int = 1800
 
     # 카카오 Local API — Phase 0 끌림점 지오코딩(키워드 장소검색으로 건물 단위 POI).
     #   있으면 KakaoGeocoder 우선 사용, 없으면 gazetteer/nominatim 폴백.

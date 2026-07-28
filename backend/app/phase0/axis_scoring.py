@@ -238,11 +238,16 @@ def score_axes_for(persona: Persona, client=None, runs: int | None = None) -> tu
     """
     if client is None:
         from app.llm.exaone import ExaoneClient
-        client = ExaoneClient()
+        # 축 채점은 별도 모델을 쓸 수 있다 — settings.axis_scoring_model 참고.
+        # 지식 주입 LoRA 가 이 과제를 손상시키는 것이 실측돼 분리했다(2026-07-28).
+        client = ExaoneClient(model=settings.axis_scoring_model or None)
     if getattr(client, "is_stub", False):
         return {}, {"skipped": "EXAONE 스텁 모드 — 채점 생략"}
 
-    runs = runs or settings.axis_scoring_runs
+    # 축 채점 전용 호출 수가 있으면 그걸 쓴다 — 공유 설정(axis_scoring_runs)을
+    # 낮추면 behavior/env_response/route_familiarity 컴파일러의 다수결까지 같이
+    # 꺼진다. 2026-07-28 실측 근거는 축 채점 경로에만 있으므로 여기만 좁혀 적용.
+    runs = runs or settings.axis_scoring_p1_runs or settings.axis_scoring_runs
     rubrics, directions = load_rubrics()
     info = f"{_TYPE_LABEL.get(persona.type, persona.type)}, {persona.age}세"
 
