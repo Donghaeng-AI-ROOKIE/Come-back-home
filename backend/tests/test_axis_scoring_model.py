@@ -5,7 +5,6 @@
 형식 검사로는 안 잡히고, 판단 품질을 따로 재야 드러난다.
 """
 
-import pytest
 
 from app.config import settings
 from app.llm.exaone import ExaoneClient

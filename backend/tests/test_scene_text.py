@@ -83,7 +83,7 @@ def test_walker_passes_scene_of_current_node(net, monkeypatch):
 
     received: list = []
 
-    def fake(persona, current, report, labels, prior=None, scene=None):
+    def fake(persona, current, report, labels, prior=None, scene=None, rng=None):
         received.append(scene)
         return MindState(status="이동 중", confusion=0.3, changed=True), None
 

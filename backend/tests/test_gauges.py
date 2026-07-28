@@ -132,7 +132,7 @@ def test_mind_trigger_switches_target_and_calls_once(net, monkeypatch):
     """H/A 발동 → reinterpret_mind 1회 호출, 목표가 재주입한 끌림점으로 전환."""
     calls = []
 
-    def fake_reinterpret(persona, current, report, labels, prior=None, scene=None):
+    def fake_reinterpret(persona, current, report, labels, prior=None, scene=None, rng=None):
         calls.append(report)
         return MindState(status="옛집으로", confusion=0.3, changed=True), "시장"
 
@@ -166,7 +166,7 @@ def test_statistical_mode_never_calls_exaone(net, monkeypatch):
 def test_case_mind_not_mutated_by_rollouts(net, monkeypatch):
     """롤아웃별 mind 사본 — 케이스의 MindState 가 시뮬레이션 부작용으로 안 바뀐다."""
     monkeypatch.setattr(llm.exaone, "reinterpret_mind",
-                        lambda *a: (MindState(status="바뀜", confusion=0.99, changed=True), None))
+                        lambda *a, **k: (MindState(status="바뀜", confusion=0.99, changed=True), None))
     monkeypatch.setattr(gauges.Gauges, "mind_fired", lambda self, rng: "불안")
     case_mind = MindState(confusion=0.5)
     prior = _prior({"random_walk": 1.0}, mu=0.8)

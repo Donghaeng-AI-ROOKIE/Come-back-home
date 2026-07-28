@@ -62,7 +62,7 @@ def _force_fire(monkeypatch):
 def _fake_exaone(monkeypatch, calls: list):
     from app import llm
 
-    def fake(persona, current, report, labels, prior=None, scene=None):
+    def fake(persona, current, report, labels, prior=None, scene=None, rng=None):
         calls.append(report)
         return MindState(status="옛집으로", confusion=0.4, changed=True), "시장"
 
