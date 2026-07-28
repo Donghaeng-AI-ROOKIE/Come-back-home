@@ -1,0 +1,29 @@
+C:\AIRookie\Come-back-home\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+═══ 챗봇 평가 하네스 · 모드: 실 Mi:dm ═══
+시나리오 2개 × 7개 설정 × 3회 스윕 시작…
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/391 [00:00<?, ?it/s]Loading weights: 100%|██████████| 391/391 [00:00<00:00, 7579.59it/s]
+  · baseline(전부켜짐)         완료(×3) — 질문36.7 중복0.0 전제Q2.3 부정조건Q2.7
+  · ~ignorance_exhaust     완료(×3) — 질문41.3 중복0.0 전제Q2.3 부정조건Q2.7
+  · ~negation_fill         완료(×3) — 질문38.3 중복0.0 전제Q2.0 부정조건Q2.7
+  · ~presupposition        완료(×3) — 질문36.7 중복0.0 전제Q1.7 부정조건Q2.0
+  · ~existence_first       완료(×3) — 질문37.0 중복0.0 전제Q1.0 부정조건Q0.7
+  · ~dedup                 완료(×3) — 질문36.0 중복1.3 전제Q1.0 부정조건Q2.0
+  · ~topic_grounding       완료(×3) — 질문37.0 중복0.0 전제Q1.0 부정조건Q2.3
+
+════════════════════════════════════════════════════════════════════════════════════════════════
+가드 스윕 결과 · 설정당 3회 평균 (가드 OFF 시 baseline 대비 변화 = 실효성)
+════════════════════════════════════════════════════════════════════════════════════════════════
+설정                          종료        질문수        중복    폴백       전제Q       부정조건Q    수집     축
+────────────────────────────────────────────────────────────────────────────────────────────────
+baseline(전부켜짐)           2.0/2   36.7         0.0         4.3 2.3        2.7        100%   96%
+~ignorance_exhaust       2.0/2   41.3  (+4.7) 0.0 (+0.0)  8.3 2.3(+0.0)  2.7(+0.0)   78%  100%
+~negation_fill           2.0/2   38.3  (+1.7) 0.0 (+0.0)  6.0 2.0(-0.3)  2.7(+0.0)   89%   85%
+~presupposition          2.0/2   36.7  (+0.0) 0.0 (+0.0)  6.3 1.7(-0.7)  2.0(-0.7)  100%   96%
+~existence_first         2.0/2   37.0  (+0.3) 0.0 (+0.0)  5.3 1.0(-1.3)  0.7(-2.0)  100%  100%
+~dedup                   2.0/2   36.0  (-0.7) 1.3 (+1.3)  5.7 1.0(-1.3)  2.0(-0.7)  100%   93%
+~topic_grounding         2.0/2   37.0  (+0.3) 0.0 (+0.0)  5.3 1.0(-1.3)  2.3(-0.3)   89%   93%
+────────────────────────────────────────────────────────────────────────────────────────────────
+해석: OFF 시 질문수·중복·전제Q·부정조건Q↑ 또는 종료↓·수집/축↓ = 그 가드가 실효.
+      전제Q=presupposition 대상, 부정조건Q=existence_first 대상, 중복=dedup 대상.
