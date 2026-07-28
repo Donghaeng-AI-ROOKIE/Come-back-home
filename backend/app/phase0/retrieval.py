@@ -105,11 +105,21 @@ class LocalSTEmbedder:
 
     embed_model 에 HF 모델명(예: jhgan/ko-sroberta-multitask, nlpai-lab/KURE-v1)을
     주면 그 모델을 로드해 인코딩한다. 모델은 최초 1회 lazy 로드 후 캐시.
+
+    **문장 임베딩도 캐시한다.** `build_history_aware_query` 가 매 턴 대화 히스토리
+    전체를 다시 인코딩하는 구조라, 캐시가 없으면 N 턴 대화에서 인코딩이 N²/2 회로
+    늘어난다. KURE-v1(bge-m3, 2.2GB)로 바꾼 뒤 이 비용이 4배가 되어 긴 인터뷰에서
+    체감된다(2026-07-28 실측: 호출당 고정비 ~900ms). 같은 문장은 항상 같은 벡터라
+    캐시해도 결과는 비트 단위로 동일하다.
     """
+
+    # 세션 하나가 남기는 턴 수의 수십 배 — 오래 뜬 프로세스에서 무한히 자라지 않게
+    _CACHE_MAX = 4096
 
     def __init__(self, model_name: str) -> None:
         self.model_name = model_name
         self._model = None
+        self._cache: dict[str, list[float]] = {}
 
     def _load(self):
         if self._model is None:
@@ -119,8 +129,14 @@ class LocalSTEmbedder:
         return self._model
 
     def encode(self, texts: list[str]) -> list[list[float]]:
-        vecs = self._load().encode(texts, normalize_embeddings=True)
-        return [v.tolist() for v in vecs]
+        missing = [t for t in dict.fromkeys(texts) if t not in self._cache]
+        if missing:
+            vecs = self._load().encode(missing, normalize_embeddings=True)
+            if len(self._cache) + len(missing) > self._CACHE_MAX:
+                self._cache.clear()          # 단순 비우기 — LRU 유지비가 이득보다 크다
+            for t, v in zip(missing, vecs):
+                self._cache[t] = v.tolist()
+        return [self._cache[t] for t in texts]
 
 
 def get_embedder() -> Embedder:
