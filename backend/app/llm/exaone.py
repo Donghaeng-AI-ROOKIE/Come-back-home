@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import logging
+import random
 import urllib.request
 from datetime import datetime
 from time import perf_counter
@@ -117,19 +118,37 @@ _TYPE_LABEL = {
 # ── 마음 재해석 (H·A 트리거 발동 시) 프롬프트 ──────────────────────
 # 회의 원칙: 게이지를 자연어로 번역해 주고 좌표는 주지 않는다.
 # 출력도 자연어 판단 + 정성 등급만 — 수치화는 guardrail 이 한다.
-_MIND_SYSTEM = """\
+#
+# 유형 조건부 예시 (2026-07-29 프로브 실측): 치매 예시 하나만 두면 그 예시가
+# status 문구를 지배해 발달장애 응답에도 "옛집" 서사가 섞여 나온다(그리드
+# 실측 4/20). 한 프롬프트에 두 유형 예시를 다 넣으면 교차 오염이 남으므로
+# 페르소나 유형에 맞는 예시만 보여준다.
+_MIND_RULES = """\
 너는 실종자 수색(SAR) 행동 분석 전문가다. 이동 중인 실종자의 내면 상태가 \
 임계를 넘었다는 보고를 받고, 지금 이 사람의 마음 상태와 목표를 재해석한다.
-예: 치매 노인이라면 현재를 과거로 착각(time-shifting)해 '집'이 현재 집이 아니라 \
-옛집을 뜻하게 될 수 있다.
+{example}
 
 출력 규칙:
 - JSON 객체 하나만 출력한다. JSON 밖에 어떤 문장도 쓰지 않는다.
-- status: 현재 마음 상태 한 구절 (예: "옛집으로 돌아가려 함", "불안해서 큰길을 찾음")
+- status: 현재 마음 상태 한 구절 (예: "익숙한 장소로 돌아가려 함", "불안해서 조용한 곳을 찾음")
 - confusion_level: 혼란 정도 "상"/"중"/"하"
 - goal_label: 주어진 끌림점 후보 중 지금 향할 곳 하나. 방향을 바꿀 이유가 없거나 \
-후보에 없는 곳이면 null. 후보에 없는 장소를 지어내지 않는다.
-- reasoning: 근거 1~2문장 (한국어)."""
+후보에 없는 곳이면 null. 후보에 없는 장소를 지어내지 않는다. \
+라벨 원문만 쓴다(뒤에 붙은 중요도·근거 주석은 제외).
+- reasoning: 근거 1~2문장 (한국어). 이 사람의 평소 행동 사실과 근거 등급을 우선한다."""
+
+_MIND_EXAMPLE = {
+    PersonaType.dementia:
+        "예: 치매 노인이라면 현재를 과거로 착각(time-shifting)해 '집'이 현재 집이 "
+        "아니라 옛집을 뜻하게 될 수 있다.",
+    PersonaType.intellectual_disability:
+        "예: 발달장애인이라면 좋아하는 대상(기차·자동문 등)에 강하게 이끌려 경로를 "
+        "이탈하거나, 시끄러운 자극을 피해 조용한 곳으로 숨으려 할 수 있다.",
+}
+
+
+def _mind_system_for(ptype: PersonaType) -> str:
+    return _MIND_RULES.format(example=_MIND_EXAMPLE.get(ptype, ""))
 
 
 # 마음 재해석에 텍스트로만 반영할 취약성 축(2-B) — PriorParams 3필드 어디에도
@@ -184,12 +203,54 @@ def build_scene_text(env: dict | None) -> str | None:
     return ", ".join(parts) if parts else None
 
 
+def _weight_grade(w: float) -> str:
+    """정규화 가중치 → 정성 등급. 수치를 직접 주지 않는 회의 원칙 유지."""
+    return "상" if w >= 0.45 else ("중" if w >= 0.25 else "하")
+
+
+def _candidate_lines(
+    persona: Persona,
+    labels: list[str],
+    prior: PriorParams | None,
+    rng: random.Random | None,
+) -> list[str]:
+    """끌림점 후보 블록 — argmax 앵커 대신 전 후보를 등급·근거와 함께 제시.
+
+    왜 앵커를 없앴나 (2026-07-29 프로브 실측): 구현이 `[유력 목적지 후보]` 한 줄을
+    prior argmax 로 뽑아 보여줬는데, 가중치가 균형이면 argmax 가 dict 순서로
+    결정되고 모델은 그 앵커를 100% 따라갔다(후보 순서를 뒤집으면 결과도 뒤집힘).
+    "argmax 금지, 롤아웃마다 샘플링" 원칙 위반이기도 하다. 후보 전체를 주고
+    순서는 rng 로 섞는다 — 풀 엔트리마다 순서가 달라져 분포 표집이 실질화된다.
+
+    근거 등급 병기 (같은 실측, 대조쌍 감도 부족): prior 입력은 "— 근거: 과거
+    실종 때 실제 발견된 곳"을 병기하는데 마음 입력은 라벨만 줘서 근거 강약이
+    판단에 반영되지 않았다. prior 와 같은 형식으로 병기한다.
+    """
+    if not labels:
+        return ["[끌림점 후보] (없음)"]
+    ev_by_label = {ap.label: ap.evidence for ap in persona.attraction_points}
+    weights = (prior.attraction_weights or {}) if prior is not None else {}
+    order = list(labels)
+    (rng or random).shuffle(order)
+    out = ["[끌림점 후보] (나열 순서는 무작위 — 중요도·근거로 판단할 것)"]
+    for lb in order:
+        parts = [lb]
+        if lb in weights:
+            parts.append(f"중요도 {_weight_grade(weights[lb])}")
+        ev = _EVIDENCE_KO.get(ev_by_label.get(lb, ""), None)
+        if ev:
+            parts.append(f"근거: {ev}")
+        out.append("  - " + " — ".join(parts))
+    return out
+
+
 def _build_mind_input(
     persona: Persona,
     gauge_report: str,
     labels: list[str],
     prior: PriorParams | None = None,
     scene: str | None = None,
+    rng: random.Random | None = None,
 ) -> str:
     lines = [
         "[실종자]",
@@ -206,13 +267,10 @@ def _build_mind_input(
     if prior is not None:
         top_strategy = max(prior.strategy_probs, key=prior.strategy_probs.get)
         lines.append(f"[예측된 이동 성향] 주 전략: {top_strategy}")
-        if prior.attraction_weights:
-            top_label = max(prior.attraction_weights, key=prior.attraction_weights.get)
-            lines.append(f"[유력 목적지 후보] {top_label}")
     lines.append(f"[현재 상태] {gauge_report}")
     if scene:
         lines.append(f"[주변 장면] {scene}")
-    lines.append(f"[끌림점 후보] {', '.join(labels) if labels else '(없음)'}")
+    lines += _candidate_lines(persona, labels, prior, rng)
     lines.append("[질문] 이 사람은 지금 어떤 마음 상태이고, 어디로 향하려 하는가?")
     return "\n".join(lines)
 
@@ -279,7 +337,6 @@ def _rag_passages(persona: Persona | None, missing_type=None) -> list[str]:
 def _rag_block(persona: Persona | None, missing_type=None) -> str:
     """`[참고 지식]` 블록. RAG 가 꺼져 있거나 인덱스가 없으면 빈 문자열."""
     try:
-        from app.rag import format_block
 
         return format_block_from_texts(_rag_passages(persona, missing_type))
     except Exception:  # noqa: BLE001
@@ -480,6 +537,7 @@ class ExaoneClient(LLMClient):
         labels: list[str],
         prior: PriorParams | None = None,
         scene: str | None = None,
+        rng: random.Random | None = None,
     ) -> tuple[MindState, str | None]:
         """H·A 게이지 발동 시 마음·목표 재해석 — 시뮬레이션 워커가 호출.
 
@@ -487,6 +545,8 @@ class ExaoneClient(LLMClient):
         "예측된 이동 성향"을 참고 문맥으로 쓸 수 있게 전달(작업 3). 없어도 동작.
         scene: 현재 노드의 주변 장면 텍스트(`build_scene_text`) — 외인성 자극을
         마음 재해석에 공급한다(PR #21 과제2 1단계). 없어도 동작.
+        rng: 후보 나열 순서 셔플용(시드 재현성) — _MindPool 이 롤아웃 rng 를
+        넘긴다. 없으면 모듈 random 사용.
 
         반환: (검증된 MindState, 새 목표 끌림점 라벨 또는 None).
         스텁 모드·실패 시: 혼란도 +0.2 휴리스틱, 목표 유지.
@@ -496,10 +556,10 @@ class ExaoneClient(LLMClient):
                               changed=True), None)
         if self.is_stub:
             return fallback
-        mind_input = _build_mind_input(persona, gauge_report, labels, prior, scene)
+        mind_input = _build_mind_input(persona, gauge_report, labels, prior, scene, rng)
         # generate_prior 와 같은 질의를 쓰므로 검색기 캐시에 적중한다(임베딩 왕복 없음).
         rag = _rag_block(persona)
-        mind_msgs = [{"role": "system", "content": _MIND_SYSTEM}]
+        mind_msgs = [{"role": "system", "content": _mind_system_for(persona.type)}]
         if rag:
             mind_msgs.append({"role": "user", "content": rag})
             mind_msgs.append({"role": "assistant", "content": "확인했다. 상황을 주면 JSON 으로 답하겠다."})
@@ -509,7 +569,9 @@ class ExaoneClient(LLMClient):
             raw = self.chat(
                 mind_msgs,
                 temperature=0.3,
-                max_tokens=400,
+                # 400 에서 K-EXAONE 장황 reasoning 이 잘려 조용한 폴백(실측 1/60) —
+                # 잘림은 데이터 손실이므로 여유를 둔다.
+                max_tokens=500,
             )
             self._log_call("mind", mind_input, raw,
                            elapsed_ms=(perf_counter() - _t) * 1000)

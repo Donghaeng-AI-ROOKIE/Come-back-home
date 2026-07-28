@@ -170,7 +170,7 @@ def test_agent_mode_full_walkers_budgeted_mind_calls(net, monkeypatch):
 
     calls = []
 
-    def fake_reinterpret(persona, current, report, labels, prior=None, scene=None):
+    def fake_reinterpret(persona, current, report, labels, prior=None, scene=None, rng=None):
         calls.append(report)
         return MindState(status="옛집으로", confusion=0.3, changed=True), "시장"
 
@@ -201,7 +201,7 @@ def test_mind_trigger_receives_prior_for_context(net, monkeypatch):
 
     received = []
 
-    def fake_reinterpret(persona, current, report, labels, prior=None, scene=None):
+    def fake_reinterpret(persona, current, report, labels, prior=None, scene=None, rng=None):
         received.append(prior)
         return MindState(status="이동 중", confusion=0.3, changed=True), None
 

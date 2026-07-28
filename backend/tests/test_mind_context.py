@@ -46,11 +46,29 @@ def test_no_axis_scores_omits_section():
 
 
 # ── 작업 3: prior 컨텍스트 ───────────────────────────────────────────
+# 2026-07-29 앵커 제거: "[유력 목적지 후보]"(argmax 한 줄)는 균형 가중치에서
+# 순서 편향을 만들어 폐기 — 대신 후보 전체를 중요도 등급과 함께 나열한다.
 def test_prior_context_included_when_given():
     persona = _persona()
     text = _build_mind_input(persona, "보고", ["시장", "공원"], _prior())
     assert "[예측된 이동 성향] 주 전략: route_following" in text
-    assert "[유력 목적지 후보] 시장" in text
+    assert "[유력 목적지 후보]" not in text          # argmax 앵커 없음
+    assert "시장 — 중요도 상" in text                # 전 후보 + 등급 병기
+    assert "공원 — 중요도 중" in text
+
+
+def test_candidate_order_shuffled_by_rng():
+    """같은 입력이라도 rng 에 따라 후보 나열 순서가 달라진다 (순서 편향 제거)."""
+    import random
+
+    persona = _persona()
+    orders = set()
+    for seed in range(8):
+        text = _build_mind_input(persona, "보고", ["시장", "공원"], _prior(),
+                                 rng=random.Random(seed))
+        i, j = text.index("시장 — "), text.index("공원 — ")
+        orders.add(i < j)
+    assert orders == {True, False}
 
 
 def test_prior_none_omits_context():

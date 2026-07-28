@@ -87,8 +87,10 @@ class _MindPool:
             self.remaining -= 1
             from app import llm  # 지연 임포트 (테스트에서 모킹 지점)
 
+            # rng 전달 — 후보 나열 순서를 풀 엔트리마다 섞는다(순서 편향 제거,
+            # 시드 재현성은 롤아웃 rng 로 유지).
             out = llm.exaone.reinterpret_mind(persona, current, gauge_report, labels,
-                                              prior, scene)
+                                              prior, scene, rng=rng)
             self.results.append(out)
             return out[0], out[1], ("stub" if llm.exaone.is_stub else "exaone")
         return self.sample_only(rng)
