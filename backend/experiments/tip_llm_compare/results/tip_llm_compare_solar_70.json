@@ -1,0 +1,1734 @@
+{
+  "summary": {
+    "vendor": "solar-mini(Upstage)",
+    "n": 70,
+    "call_failures": 0,
+    "specificity_agreement": 0.4,
+    "field_extraction_accuracy": 0.896,
+    "avg_latency_ms": 996.7
+  },
+  "category_breakdown": {
+    "기본": {
+      "n": 20,
+      "specificity_agreement": 0.45,
+      "field_extraction_accuracy": 0.912
+    },
+    "장황": {
+      "n": 10,
+      "specificity_agreement": 0.4,
+      "field_extraction_accuracy": 0.875
+    },
+    "모순": {
+      "n": 10,
+      "specificity_agreement": 0.3,
+      "field_extraction_accuracy": 0.95
+    },
+    "과신": {
+      "n": 10,
+      "specificity_agreement": 0.5,
+      "field_extraction_accuracy": 0.8
+    },
+    "복수대상": {
+      "n": 10,
+      "specificity_agreement": 0.4,
+      "field_extraction_accuracy": 0.9
+    },
+    "구어체잡음": {
+      "n": 10,
+      "specificity_agreement": 0.3,
+      "field_extraction_accuracy": 0.925
+    }
+  },
+  "detail": [
+    {
+      "id": "s01",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "상",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1263.9,
+      "raw": {
+        "location_text": "OO아파트 정문 앞",
+        "time_text": "방금 전에",
+        "time_kind": "relative",
+        "time_minutes_ago": 0,
+        "time_clock": null,
+        "appearance_cues": [
+          "남색 조끼",
+          "회색 모자"
+        ],
+        "direction": "편의점 쪽으로",
+        "specificity": "상"
+      }
+    },
+    {
+      "id": "s02",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "상",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1115.3,
+      "raw": {
+        "location_text": "지하철역 3번 출구 근처",
+        "time_text": "10분 전쯤",
+        "time_kind": "relative",
+        "time_minutes_ago": 10,
+        "time_clock": null,
+        "appearance_cues": [
+          "빨간 패딩"
+        ],
+        "direction": "역 반대편으로",
+        "specificity": "상"
+      }
+    },
+    {
+      "id": "s03",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1205.7,
+      "raw": {
+        "location_text": "시장 골목",
+        "time_text": "오후 3시쯤",
+        "time_kind": "absolute",
+        "time_minutes_ago": null,
+        "time_clock": "15:00",
+        "appearance_cues": [
+          "체크무늬 남방",
+          "검은 바지"
+        ],
+        "direction": "시장 안쪽으로",
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "s04",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "상",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": false,
+      "elapsed_ms": 1010.4,
+      "raw": {
+        "location_text": "OO초등학교 담벼락 옆",
+        "time_text": "30분 전",
+        "time_kind": "relative",
+        "time_minutes_ago": 30,
+        "time_clock": null,
+        "appearance_cues": [
+          "노란 우산",
+          "파란 우비"
+        ],
+        "direction": null,
+        "specificity": "상"
+      }
+    },
+    {
+      "id": "s05",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1058.0,
+      "raw": {
+        "location_text": "버스정류장 벤치",
+        "time_text": "1시간 전쯤",
+        "time_kind": "relative",
+        "time_minutes_ago": 60,
+        "time_clock": null,
+        "appearance_cues": [
+          "흰머리",
+          "갈색 카디건"
+        ],
+        "direction": null,
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "s06",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1121.7,
+      "raw": {
+        "location_text": "편의점",
+        "time_text": "방금",
+        "time_kind": "relative",
+        "time_minutes_ago": 0,
+        "time_clock": null,
+        "appearance_cues": [
+          "초록색 조끼"
+        ],
+        "direction": "큰길 쪽",
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "s07",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 978.6,
+      "raw": {
+        "location_text": "편의점 앞",
+        "time_text": "새벽 2시쯤",
+        "time_kind": "absolute",
+        "time_minutes_ago": null,
+        "time_clock": "02:00",
+        "appearance_cues": [
+          "검은 패딩"
+        ],
+        "direction": null,
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "s08",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 620.7,
+      "raw": {
+        "location_text": "공원 근처",
+        "time_text": null,
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "파란 옷"
+        ],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "s09",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": false,
+      "elapsed_ms": 1140.3,
+      "raw": {
+        "location_text": "어디 골목",
+        "time_text": "20분 전",
+        "time_kind": "relative",
+        "time_minutes_ago": 20,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": "걸어가고 계셨어요",
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "s10",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": false,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1070.3,
+      "raw": {
+        "location_text": "역 앞",
+        "time_text": "잘 모르겠어요",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "회색 옷"
+        ],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "s11",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": false,
+      "elapsed_ms": 1089.7,
+      "raw": {
+        "location_text": "사거리 쪽",
+        "time_text": "방금",
+        "time_kind": "relative",
+        "time_minutes_ago": 0,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": "사거리 쪽에서",
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "s12",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": false,
+      "direction_match": true,
+      "elapsed_ms": 1058.0,
+      "raw": {
+        "location_text": "시장에서",
+        "time_text": "낮에",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "편한 복장"
+        ],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "s13",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 990.6,
+      "raw": {
+        "location_text": "이 근처",
+        "time_text": null,
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "s14",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 969.4,
+      "raw": {
+        "location_text": null,
+        "time_text": null,
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "s15",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 970.8,
+      "raw": {
+        "location_text": null,
+        "time_text": null,
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "s16",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": false,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 999.1,
+      "raw": {
+        "location_text": "동네",
+        "time_text": null,
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "s17",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": false,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1041.8,
+      "raw": {
+        "location_text": null,
+        "time_text": "어디서 봤던 거 같아요",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "s18",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 287.4,
+      "raw": {
+        "location_text": null,
+        "time_text": null,
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "s19",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 721.6,
+      "raw": {
+        "location_text": null,
+        "time_text": null,
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "s20",
+      "category": "기본",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 949.1,
+      "raw": {
+        "location_text": null,
+        "time_text": null,
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "l01",
+      "category": "장황",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "상",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1180.5,
+      "raw": {
+        "location_text": "롯데마트 정문 앞",
+        "time_text": "10분 전",
+        "time_kind": "relative",
+        "time_minutes_ago": 10,
+        "time_clock": null,
+        "appearance_cues": [
+          "갈색 코트",
+          "빨간 목도리"
+        ],
+        "direction": "지하철역 쪽으로",
+        "specificity": "상"
+      }
+    },
+    {
+      "id": "l02",
+      "category": "장황",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1050.8,
+      "raw": {
+        "location_text": "편의점 앞",
+        "time_text": "아까",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "l03",
+      "category": "장황",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1040.0,
+      "raw": {
+        "location_text": "큰길 어디쯤",
+        "time_text": "30분 전",
+        "time_kind": "relative",
+        "time_minutes_ago": 30,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "l04",
+      "category": "장황",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": false,
+      "direction_match": false,
+      "elapsed_ms": 1118.9,
+      "raw": {
+        "location_text": "공원 근처",
+        "time_text": "아까",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": "그 근처에서",
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "l05",
+      "category": "장황",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": false,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1070.2,
+      "raw": {
+        "location_text": null,
+        "time_text": "언제였는지 기억이 잘 안 나네요",
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "l06",
+      "category": "장황",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "상",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1169.3,
+      "raw": {
+        "location_text": "파출소 앞",
+        "time_text": "3시쯤",
+        "time_kind": "absolute",
+        "time_minutes_ago": null,
+        "time_clock": "15:00",
+        "appearance_cues": [
+          "검은 패딩",
+          "회색 운동화"
+        ],
+        "direction": "골목 안으로 뛰어 들어가셨어요",
+        "specificity": "상"
+      }
+    },
+    {
+      "id": "l07",
+      "category": "장황",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": false,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1220.5,
+      "raw": {
+        "location_text": "세븐일레븐 앞",
+        "time_text": "글쎄, 기억이 안 나네",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "파란 조끼"
+        ],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "l08",
+      "category": "장황",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 989.7,
+      "raw": {
+        "location_text": "골목 쪽",
+        "time_text": "한 시간 전",
+        "time_kind": "relative",
+        "time_minutes_ago": 60,
+        "time_clock": null,
+        "appearance_cues": [
+          "평범한 옷차림"
+        ],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "l09",
+      "category": "장황",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": false,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1040.4,
+      "raw": {
+        "location_text": null,
+        "time_text": "좀 전",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "l10",
+      "category": "장황",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1080.5,
+      "raw": {
+        "location_text": "참새슈퍼 앞",
+        "time_text": "시간이 기억이 안 나요",
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "c01",
+      "category": "모순",
+      "note": "시각: 처음 3시라 했다가 4시로 정정(최종 4시)",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1028.8,
+      "raw": {
+        "location_text": "은행 앞",
+        "time_text": "4시",
+        "time_kind": "absolute",
+        "time_minutes_ago": null,
+        "time_clock": "16:00",
+        "appearance_cues": [
+          "남색 점퍼"
+        ],
+        "direction": "시장 쪽으로",
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "c02",
+      "category": "모순",
+      "note": "장소: 편의점 앞 vs 우체국 앞 — 둘 중 하나로 미확정(앞뒤 안 맞아 상 아님)",
+      "gold_specificity": "중",
+      "pred_specificity": "중",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 979.7,
+      "raw": {
+        "location_text": "편의점 앞 또는 우체국 앞",
+        "time_text": "10분 전",
+        "time_kind": "relative",
+        "time_minutes_ago": 10,
+        "time_clock": null,
+        "appearance_cues": [
+          "빨간 모자"
+        ],
+        "direction": null,
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "c03",
+      "category": "모순",
+      "note": "시각: 20분 전 → 40분 전으로 정정(최종 40분)",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 979.7,
+      "raw": {
+        "location_text": "놀이터 앞",
+        "time_text": "40분 전",
+        "time_kind": "relative",
+        "time_minutes_ago": 40,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "c04",
+      "category": "모순",
+      "note": "외모: 파랑 → 초록으로 정정(최종 초록)",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1170.5,
+      "raw": {
+        "location_text": "지하철역 2번 출구",
+        "time_text": "방금",
+        "time_kind": "relative",
+        "time_minutes_ago": 0,
+        "time_clock": null,
+        "appearance_cues": [
+          "초록색 옷"
+        ],
+        "direction": null,
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "c05",
+      "category": "모순",
+      "note": "장소: '동네'라 했다가 '약국 앞'으로 구체화(모순 아닌 정제)",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1029.8,
+      "raw": {
+        "location_text": "우리 아파트 상가 1층 약국 앞",
+        "time_text": "5분 전",
+        "time_kind": "relative",
+        "time_minutes_ago": 5,
+        "time_clock": null,
+        "appearance_cues": [
+          "흰 셔츠"
+        ],
+        "direction": "지하주차장 쪽으로",
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "c06",
+      "category": "모순",
+      "note": "전 요소 미확정: 시각 아까/좀전, 장소 공원/놀이터 헷갈림",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": false,
+      "direction_match": true,
+      "elapsed_ms": 1160.4,
+      "raw": {
+        "location_text": "공원인지 놀이터인지 헷갈림",
+        "time_text": "아까였나 좀 전이었나",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "c07",
+      "category": "모순",
+      "note": "시각: 1시간 전 → 2시간 전으로 정정(최종 2시간)",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 968.6,
+      "raw": {
+        "location_text": null,
+        "time_text": "한 시간 전... 아니 두 시간 전이요",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "c08",
+      "category": "모순",
+      "note": "방향: 북 ↔ 남 모순(방향은 등급 판정 제외 필드)",
+      "gold_specificity": "중",
+      "pred_specificity": "중",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": false,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1150.6,
+      "raw": {
+        "location_text": "병원 앞",
+        "time_text": "아까",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "검은 코트"
+        ],
+        "direction": "북쪽으로 갔어요, 아니 남쪽인가",
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "c09",
+      "category": "모순",
+      "note": "시각 2→3시·장소 학교→학원 각각 정정, 최종값 명확",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1151.5,
+      "raw": {
+        "location_text": "학원 앞",
+        "time_text": "2시... 3시요",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "노란 가방"
+        ],
+        "direction": "정문 쪽으로",
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "c10",
+      "category": "모순",
+      "note": "장소: 편의점 앞 → '그 근처'로 후퇴(정정이 오히려 모호해짐)",
+      "gold_specificity": "중",
+      "pred_specificity": "중",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 599.0,
+      "raw": {
+        "location_text": "편의점 앞 또는 근처",
+        "time_text": null,
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "평범한 옷차림"
+        ],
+        "direction": null,
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "o01",
+      "category": "과신",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "상",
+      "specificity_match": false,
+      "location_match": false,
+      "time_match": false,
+      "appearance_match": false,
+      "direction_match": false,
+      "elapsed_ms": 1199.5,
+      "raw": {
+        "location_text": "편의점",
+        "time_text": "방금",
+        "time_kind": "relative",
+        "time_minutes_ago": 0,
+        "time_clock": null,
+        "appearance_cues": [
+          "검은 패딩",
+          "회색 바지"
+        ],
+        "direction": "골목 쪽으로",
+        "specificity": "상"
+      }
+    },
+    {
+      "id": "o02",
+      "category": "과신",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": false,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1013.3,
+      "raw": {
+        "location_text": "우리 동네",
+        "time_text": "방금",
+        "time_kind": "relative",
+        "time_minutes_ago": 0,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "o03",
+      "category": "과신",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "중",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": false,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1016.7,
+      "raw": {
+        "location_text": "농협 앞",
+        "time_text": "딱 봤어요",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "o04",
+      "category": "과신",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1042.0,
+      "raw": {
+        "location_text": "시청 앞",
+        "time_text": "방금",
+        "time_kind": "relative",
+        "time_minutes_ago": 0,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "o05",
+      "category": "과신",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 688.0,
+      "raw": {
+        "location_text": null,
+        "time_text": "아까",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "o06",
+      "category": "과신",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1080.2,
+      "raw": {
+        "location_text": "공원 근처",
+        "time_text": "아까쯤",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "어두운 색 옷"
+        ],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "o07",
+      "category": "과신",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "상",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1139.9,
+      "raw": {
+        "location_text": "우리은행 앞",
+        "time_text": "15분 전",
+        "time_kind": "relative",
+        "time_minutes_ago": 15,
+        "time_clock": null,
+        "appearance_cues": [
+          "빨간 패딩",
+          "검은 바지"
+        ],
+        "direction": "버스정류장 쪽으로",
+        "specificity": "상"
+      }
+    },
+    {
+      "id": "o08",
+      "category": "과신",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 969.6,
+      "raw": {
+        "location_text": "근처 어디",
+        "time_text": "30분 전",
+        "time_kind": "relative",
+        "time_minutes_ago": 30,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "o09",
+      "category": "과신",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": false,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 972.7,
+      "raw": {
+        "location_text": null,
+        "time_text": null,
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "o10",
+      "category": "과신",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": false,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1156.4,
+      "raw": {
+        "location_text": "명동성당 앞",
+        "time_text": "모르겠지만",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "초록 점퍼"
+        ],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "m01",
+      "category": "복수대상",
+      "note": "외모: 두 사람(빨강/파랑) 중 대상 미확정",
+      "gold_specificity": "중",
+      "pred_specificity": "중",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 862.5,
+      "raw": {
+        "location_text": "시장 앞",
+        "time_text": "3시쯤",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "빨간 옷",
+          "파란 옷"
+        ],
+        "direction": null,
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "m02",
+      "category": "복수대상",
+      "note": "복수지만 대상(검은 모자 남자) 명확히 지목",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1089.3,
+      "raw": {
+        "location_text": "편의점 앞",
+        "time_text": "방금",
+        "time_kind": "relative",
+        "time_minutes_ago": 0,
+        "time_clock": null,
+        "appearance_cues": [
+          "검은 모자"
+        ],
+        "direction": "골목으로",
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "m03",
+      "category": "복수대상",
+      "note": "대상=뒷사람으로 지목됐으나 그 대상 정보는 위치뿐",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1037.3,
+      "raw": {
+        "location_text": "롯데리아 앞",
+        "time_text": "기억 안 나요",
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "m04",
+      "category": "복수대상",
+      "note": "외모: 모자 착용 여부가 사람마다 뒤섞여 미확정",
+      "gold_specificity": "중",
+      "pred_specificity": "중",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": false,
+      "direction_match": true,
+      "elapsed_ms": 512.8,
+      "raw": {
+        "location_text": "그 근처",
+        "time_text": null,
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "m05",
+      "category": "복수대상",
+      "note": "대상(지팡이 할아버지) 지목·외모 구체, 장소는 모호",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1039.0,
+      "raw": {
+        "location_text": "동네 어디쯤",
+        "time_text": "10분 전",
+        "time_kind": "relative",
+        "time_minutes_ago": 10,
+        "time_clock": null,
+        "appearance_cues": [
+          "지팡이 짚은",
+          "할아버지"
+        ],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "m06",
+      "category": "복수대상",
+      "note": "복수지만 대상(흰머리 할머니) 명확 + 3요소 구체",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1211.2,
+      "raw": {
+        "location_text": "우체국 앞",
+        "time_text": "오후 2시쯤",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "흰머리 할머니"
+        ],
+        "direction": "큰길 쪽",
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "m07",
+      "category": "복수대상",
+      "note": "대상 2인 전혀 미특정, 위치도 모호",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 667.0,
+      "raw": {
+        "location_text": "정류장 근처",
+        "time_text": null,
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "m08",
+      "category": "복수대상",
+      "note": "'키 큰'은 옷차림 단서 아님(외모 미언급 처리)",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 970.8,
+      "raw": {
+        "location_text": "학교 앞",
+        "time_text": "3시 반쯤",
+        "time_kind": "absolute",
+        "time_minutes_ago": null,
+        "time_clock": "15:30",
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "m09",
+      "category": "복수대상",
+      "note": "외모: 검정/베이지 두 명 중 대상 미확정 → 장소만 구체",
+      "gold_specificity": "중",
+      "pred_specificity": "중",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": false,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 799.4,
+      "raw": {
+        "location_text": "백화점 앞",
+        "time_text": null,
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "검은 코트",
+          "베이지 코트"
+        ],
+        "direction": null,
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "m10",
+      "category": "복수대상",
+      "note": "대상 미특정 + 전 요소 모호",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": false,
+      "direction_match": false,
+      "elapsed_ms": 1070.5,
+      "raw": {
+        "location_text": "저 아래쪽",
+        "time_text": "아까",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": "아래쪽",
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "n01",
+      "category": "구어체잡음",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1148.9,
+      "raw": {
+        "location_text": "지하철역 1번출구 앞",
+        "time_text": "아까 막",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "빨간 잠바"
+        ],
+        "direction": "시장쪽으로",
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "n02",
+      "category": "구어체잡음",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1032.7,
+      "raw": {
+        "location_text": "편의점 앞",
+        "time_text": "방금",
+        "time_kind": "relative",
+        "time_minutes_ago": 0,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "n03",
+      "category": "구어체잡음",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1058.7,
+      "raw": {
+        "location_text": "어디 골목",
+        "time_text": "한시간쯤 됐을낀데",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "n04",
+      "category": "구어체잡음",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "중",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": false,
+      "direction_match": true,
+      "elapsed_ms": 508.5,
+      "raw": {
+        "location_text": "그... 머시기 거기서",
+        "time_text": null,
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "n05",
+      "category": "구어체잡음",
+      "note": "",
+      "gold_specificity": "상",
+      "pred_specificity": "중",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1191.7,
+      "raw": {
+        "location_text": "우리은행앞",
+        "time_text": "3시쯤",
+        "time_kind": "absolute",
+        "time_minutes_ago": null,
+        "time_clock": "15:00",
+        "appearance_cues": [
+          "검정패딩",
+          "회색바지"
+        ],
+        "direction": "골목안으로 뛰어가는",
+        "specificity": "중"
+      }
+    },
+    {
+      "id": "n06",
+      "category": "구어체잡음",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": false,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 682.6,
+      "raw": {
+        "location_text": "세븐일레븐 앞",
+        "time_text": null,
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [
+          "파란 조끼"
+        ],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "n07",
+      "category": "구어체잡음",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": false,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1076.3,
+      "raw": {
+        "location_text": "동네",
+        "time_text": "비스무리한 사람 스쳐본거같은데",
+        "time_kind": "vague",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "n08",
+      "category": "구어체잡음",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 599.8,
+      "raw": {
+        "location_text": "파리바게뜨 앞",
+        "time_text": null,
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "n09",
+      "category": "구어체잡음",
+      "note": "",
+      "gold_specificity": "하",
+      "pred_specificity": "하",
+      "specificity_match": true,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1051.4,
+      "raw": {
+        "location_text": null,
+        "time_text": null,
+        "time_kind": "none",
+        "time_minutes_ago": null,
+        "time_clock": null,
+        "appearance_cues": [],
+        "direction": null,
+        "specificity": "하"
+      }
+    },
+    {
+      "id": "n10",
+      "category": "구어체잡음",
+      "note": "",
+      "gold_specificity": "중",
+      "pred_specificity": "하",
+      "specificity_match": false,
+      "location_match": true,
+      "time_match": true,
+      "appearance_match": true,
+      "direction_match": true,
+      "elapsed_ms": 1038.4,
+      "raw": {
+        "location_text": "그 근처",
+        "time_text": "20분 전쯤",
+        "time_kind": "relative",
+        "time_minutes_ago": 20,
+        "time_clock": null,
+        "appearance_cues": [
+          "노란 우산"
+        ],
+        "direction": "어디 쪽",
+        "specificity": "하"
+      }
+    }
+  ]
+}
