@@ -157,12 +157,13 @@ def build_fp_mind_input(
     return "\n".join(lines)
 
 
-def patch(ex, contract: str = "v1") -> None:
+def patch(ex, keep_rag: bool = False, contract: str = "v1") -> None:
     """app.llm.exaone 모듈에 1인칭 변형 적용 (프로세스 한정, 운영 코드 불변).
 
-    _rag_block 도 비운다 — 1인칭 프레임에 논문 발췌는 이물질이고,
+    기본은 _rag_block 도 비운다 — 1인칭 프레임에 논문 발췌는 이물질이고,
     G02 치명(문헌 지식이 케이스 근거 침범)의 원인 경로이기도 하다.
     8조합 비교(#97)에서도 RAG-on 이 confusion 분산을 붕괴시켜 RAG-off 가 승자.
+    keep_rag=True 는 그 가정 자체를 재는 대조 셀용(1인칭+RAG 궁합 실측).
 
     contract="v2": 출력 1차 필드를 목적지에서 행동 의도(닫힌 4종)로 —
     골드셋 v1.1 행동 라벨(allowed/forbidden_behaviors)과 짝을 이룬다.
@@ -172,4 +173,5 @@ def patch(ex, contract: str = "v1") -> None:
     _CONTRACT = contract
     ex._mind_system_for = _fp_system_v2_for if contract == "v2" else _fp_system_for
     ex._build_mind_input = build_fp_mind_input
-    ex._rag_block = lambda *a, **k: ""
+    if not keep_rag:
+        ex._rag_block = lambda *a, **k: ""

@@ -102,7 +102,8 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
     ex = importlib.import_module("app.llm.exaone")
     if variant.startswith("first_person"):
         import first_person
-        first_person.patch(ex, contract="v2" if variant.endswith("_v2") else "v1")
+        first_person.patch(ex, keep_rag=variant.endswith("_rag"),
+                           contract="v2" if variant.endswith("_v2") else "v1")
     client = ex.ExaoneClient(model=model)
     print(f"[goldset-eval] split={split} 시나리오 {len(ids)} × 상황 2 × {n} = "
           f"{len(ids) * 2 * n}콜  model={client.model} variant={variant}")
@@ -205,7 +206,8 @@ if __name__ == "__main__":
     ap.add_argument("--n", type=int, default=4)
     ap.add_argument("--unseal", action="store_true")
     ap.add_argument("--variant", default="analyst",
-                    choices=["analyst", "first_person", "first_person_v2"])
+                    choices=["analyst", "first_person", "first_person_rag",
+                             "first_person_v2"])
     ap.add_argument("--model", default=None, help="EXAONE_MODEL 오버라이드 (예: exaone-base)")
     a = ap.parse_args()
     main(a.split, a.n, a.unseal, a.variant, a.model)
