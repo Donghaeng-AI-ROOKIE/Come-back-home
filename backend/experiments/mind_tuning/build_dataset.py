@@ -111,12 +111,32 @@ GOLD_LABELS = {
     "무악재역", "문구점", "홍제역",
 }
 
-TRIGGERS = [
-    ("귀소", "집을 나선 지 90분 경과. 피로도: 중간, 혼란도: 중간, 귀소 충동: 높음, 불안: 낮음. 방금 귀소 게이지가 임계를 넘었다."),
-    ("불안", "집을 나선 지 60분 경과. 피로도: 중간, 혼란도: 중간, 귀소 충동: 낮음, 불안: 높음. 방금 불안 게이지가 임계를 넘었다."),
-    ("혼란", "집을 나선 지 75분 경과. 피로도: 낮음, 혼란도: 높음, 귀소 충동: 중간, 불안: 중간. 방금 혼란 게이지가 임계를 넘었다."),
-    ("피로", "집을 나선 지 120분 경과. 피로도: 높음, 혼란도: 중간, 귀소 충동: 중간, 불안: 중간. 방금 피로 게이지가 임계를 넘었다."),
-]
+# 상황은 고정 4종이 아니라 게이지 공간에서 생성한다. 운영에서 마음 재해석을
+# 부르는 트리거는 귀소·불안뿐이므로(simulation.py — 피로는 EXAONE 미호출)
+# 그 둘만 쓴다. 골드셋 표준 상황 2종과 동일한 조합은 제외(누수 차단).
+_LV = ["낮음", "중간", "높음"]
+_GOLDSET_COMBOS = {(90, "중간", "중간", "높음", "낮음", "귀소"),
+                   (60, "중간", "중간", "낮음", "높음", "불안")}
+
+
+def gauge_situation(rng: random.Random) -> tuple[str, dict, str]:
+    """(트리거, 게이지 수준 dict, 보고 문자열) — 운영 g.report() 형식 그대로."""
+    while True:
+        fired = rng.choice(["귀소", "불안"])
+        lv = {
+            "피로도": rng.choice(_LV),
+            "혼란도": rng.choice(_LV),
+            "귀소": "높음" if fired == "귀소" else rng.choice(["낮음", "중간"]),
+            "불안": "높음" if fired == "불안" else rng.choice(["낮음", "중간"]),
+        }
+        elapsed = rng.choice([30, 45, 60, 75, 90, 105, 120, 150, 180])
+        key = (elapsed, lv["피로도"], lv["혼란도"], lv["귀소"], lv["불안"], fired)
+        if key in _GOLDSET_COMBOS:
+            continue
+        report = (f"집을 나선 지 {elapsed}분 경과. 피로도: {lv['피로도']}, "
+                  f"혼란도: {lv['혼란도']}, 귀소 충동: {lv['귀소']}, "
+                  f"불안: {lv['불안']}. 방금 {fired} 게이지가 임계를 넘었다.")
+        return fired, lv, report
 
 SCENES = [
     "골목 입구의 빨간 우체통", "횡단보도 건너편의 약국 간판", "버스 정류장의 파란 표지",
@@ -146,6 +166,15 @@ NULL_VOICES = [
     ("갈 곳이 떠오르지 않아 막막해한다.", "머릿속이 하얘져서 아무 데도 생각나지 않는다."),
     ("방향 감각을 잃은 채 걸음을 잇는다.", "길이 다 비슷비슷해 보인다."),
     ("정한 곳 없이 눈에 띄는 쪽으로 움직인다.", "저쪽이 조금 익숙한 것 같기도 하다."),
+]
+
+HOME_VOICES = [
+    ("집으로 돌아가려는 마음이 강해진다.", "집에 가야겠다. 어느 쪽이 집이더라."),
+    ("집 방향을 찾으며 걸음을 옮긴다.", "집에 가야 하는데 길이 헷갈린다."),
+    ("집에 돌아가야 한다는 생각뿐이다.", "다른 데는 됐고 집에 가고 싶다."),
+    ("집을 향해 가려 하지만 방향이 불확실하다.", "집이 이쪽인 것 같은데, 맞나."),
+    ("집으로 가려는 의지가 앞선다.", "얼른 집에 돌아가야지."),
+    ("집 생각에 발걸음을 돌린다.", "집에 가면 마음이 놓일 텐데."),
 ]
 
 GOAL_VOICES = [
@@ -189,17 +218,22 @@ def place_bucket(behavior_class: str) -> str:
     return "goal"
 
 
-def confusion_for(claim: dict, archetype: str, variant: int) -> str:
-    cls = claim["behavior_class"]
-    if archetype in {"population_only", "contradiction"}:
-        return ("중", "하", "중")[variant % 3]
-    if archetype == "unlisted_intent":
-        return ("중", "상", "중")[variant % 3]
-    if cls in HIGH_CONFUSION:
-        return ("상", "중", "상")[variant % 3]
-    if cls in {"familiar_route", "goal_seeking", "repetitive_route"}:
-        return ("하", "중", "중")[variant % 3]
-    return ("중", "상", "하")[variant % 3]
+def confusion_for(claim: dict, archetype: str, rng: random.Random,
+                  gauge_confusion: str) -> str:
+    """정답 혼란도를 게이지 보고의 혼란도에서 유도한다 — 입력·정답 모순 쌍 차단.
+
+    v2 생성본까지는 정답 혼란이 보고와 독립이라 "혼란도: 중간"인데 답이 "상"인
+    모순 학습쌍이 가능했다. 기본값 = 보고 수준, 행동류·아키타입이 한 단계 보정.
+    """
+    order = ["하", "중", "상"]
+    idx = {"낮음": 0, "중간": 1, "높음": 2}[gauge_confusion]
+    if claim["behavior_class"] in HIGH_CONFUSION and rng.random() < 0.6:
+        idx = min(2, idx + 1)          # 길잃음·무목적 계열은 혼란이 위로 치우침
+    elif archetype in {"confirmed_history", "caregiver_observed"} \
+            and claim["behavior_class"] in {"familiar_route", "goal_seeking", "repetitive_route"} \
+            and rng.random() < 0.5:
+        idx = max(0, idx - 1)          # 강근거 익숙 행동은 상대적으로 명료
+    return order[idx]
 
 
 def scenario(claim: dict, archetype: str, variant: int) -> dict:
@@ -213,7 +247,7 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
     alt = PLACES[bucket][(variant + 4) % len(PLACES[bucket])]
     if len({target, routine, distractor, alt}) < 4:
         alt = PLACES["goal"][(variant + 5) % len(PLACES["goal"])]
-    trigger_name, report = TRIGGERS[rng.randrange(len(TRIGGERS))]
+    trigger_name, gauge_lv, report = gauge_situation(rng)
     scene = SCENES[rng.randrange(len(SCENES))]
 
     targetable = claim["behavior_class"] in TARGETABLE
@@ -337,7 +371,7 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
 
     labels = list(evidence)
     rng.shuffle(labels)
-    conf = confusion_for(claim, archetype, variant)
+    conf = confusion_for(claim, archetype, rng, gauge_lv["혼란도"])
     positive_behavior = archetype in {"confirmed_history", "caregiver_observed", "balanced"}
     null_voice = NULL_VOICES[rng.randrange(len(NULL_VOICES))]
     if goal is None:
@@ -357,13 +391,22 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
         status, inner = status_t.format(goal=goal), inner_t.format(goal=goal)
     # 계약 v2 행동 의도 — goal 이 있으면 끌림점 접근, null 이면 시나리오 의미로 결정.
     # unlisted_intent 는 "집·보호자를 찾는 의도 + 후보 없음" = 귀소 시도의 정의 그대로.
-    if goal is not None:
+    # 귀소 트리거에서는 강근거가 있어도 일부는 귀소 시도가 자연 — 골드셋 라벨도
+    # A_귀소에서 둘 다 허용한다. 전부 끌림으로 가르치면 "게이지 무시" 편향 재생산.
+    if goal is not None and trigger_name == "귀소" and rng.random() < 0.3:
+        goal = None
+        hv = HOME_VOICES[rng.randrange(len(HOME_VOICES))]
+        status, inner = hv
+        rationale = "귀소 충동이 임계를 넘어 익숙한 장소보다 집으로 향하려 한다. " + rationale
+        behavior = "귀소 시도"
+    elif goal is not None:
         behavior = "끌림점 접근"
     elif archetype == "unlisted_intent":
         behavior = "귀소 시도"
-    elif claim["behavior_class"] in {"hiding_or_staying", "hazard_avoidance", "escape_behavior"} \
-            or trigger_name == "피로":
+    elif claim["behavior_class"] in {"hiding_or_staying", "hazard_avoidance", "escape_behavior"}:
         behavior = "은신·멈춤"
+    elif gauge_lv["피로도"] == "높음" and rng.random() < 0.5:
+        behavior = "은신·멈춤"          # 탈진 정지 — 일부만 (전부 멈추면 과대)
     else:
         behavior = "계속 배회"
 
