@@ -15,16 +15,17 @@
 7. 치매의 time-shift 서사를 발달장애 사례에 자동 전이하지 않는다.
 8. GitHub `mind_goldset`의 G01-G20은 평가 전용이며 학습에 포함하지 않는다.
 
-## 산출물
+## 산출물 (v4)
 
 - `corpus/manifest.jsonl`: PDF 파일 메타데이터와 추출 품질
-- `corpus/pages/*.jsonl`: 페이지별 텍스트(로컬 작업용)
-- `candidates.jsonl`: 키워드 기반 행동 문장 후보
-- `claims/claims.jsonl`: 검수된 조건→행동 진술
-- `dataset/train_analyst.jsonl`: 분석가 시점 학습셋
-- `dataset/train_first_person.jsonl`: 1인칭 시점 학습셋
-- `dataset/train_mixed.jsonl`: 두 시점 혼합 학습셋
-- `dataset/report.json`: 출처·유형·행동·라벨 분포와 검증 결과
+- `corpus/pages/*.jsonl`: 페이지별 텍스트(로컬 작업용, git 미포함)
+- `candidates.jsonl`: 키워드 기반 행동 문장 후보(로컬, git 미포함)
+- `claims/claims.jsonl`: 검수된 조건→행동 진술 63개 (원문 인용·쪽수·해시)
+- `dataset/train_first_person.jsonl` + `val_first_person.jsonl`: **계약 v2, 학습 1순위**
+- `dataset/train_analyst.jsonl` + `val_analyst.jsonl`: v1 대조용 (운영 파서 미전환 시)
+- `dataset/report.json`: 분포·검증 결과
+- (mixed 는 v4에서 폐기 — 두 계약 혼합은 학습 부적합)
+- 학습 인계 조건은 `HANDOFF_학습조건.md`
 
 페이지 번호는 별도 표기가 없으면 PDF 뷰어 기준 1부터 시작하는
 `pdf_page`이다. 인쇄 페이지 번호를 확인한 경우에만 `printed_page`를 추가한다.

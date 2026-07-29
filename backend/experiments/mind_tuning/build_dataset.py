@@ -516,10 +516,10 @@ def main(variants: int = 5, goal_variants: int = 16) -> None:
         and claim["claim_id"] not in SKIP_TUNING_CLAIMS
     ]
     # 논문 단위 분할 — 같은 claim 의 변형이 train/val 양쪽에 들어가는 누수 차단.
-    papers = sorted({c["source"]["paper_id"] for c in claims})
-    val_papers = {pid for pid in papers
-                  if int(hashlib.sha256(pid.encode()).hexdigest(), 16) % 6 == 0}
-    print(f"validation 논문 {len(val_papers)}/{len(papers)}: {sorted(val_papers)}")
+    # 해시 선정은 발달 89%·클래스 3종 편중이 나와(외부 리뷰 지적 2) 명시 지정으로
+    # 교체: 치매 2종 + 발달 2종, 행동 클래스 7종 커버, 전체의 약 14%.
+    val_papers = {"DEM-32", "DEM-33", "DEV-13", "DEV-17"}
+    print(f"validation 논문(명시 지정): {sorted(val_papers)}")
 
     outputs = {"analyst": [], "first_person": []}
     for claim in claims:
