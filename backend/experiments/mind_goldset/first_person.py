@@ -129,12 +129,14 @@ def build_fp_mind_input(
     return "\n".join(lines)
 
 
-def patch(ex) -> None:
+def patch(ex, keep_rag: bool = False) -> None:
     """app.llm.exaone 모듈에 1인칭 변형 적용 (프로세스 한정, 운영 코드 불변).
 
-    _rag_block 도 비운다 — 1인칭 프레임에 논문 발췌는 이물질이고,
+    기본은 _rag_block 도 비운다 — 1인칭 프레임에 논문 발췌는 이물질이고,
     G02 치명(문헌 지식이 케이스 근거 침범)의 원인 경로이기도 하다.
+    keep_rag=True 는 그 가정 자체를 재는 대조 셀용(1인칭+RAG 궁합 실측).
     """
     ex._mind_system_for = _fp_system_for
     ex._build_mind_input = build_fp_mind_input
-    ex._rag_block = lambda *a, **k: ""
+    if not keep_rag:
+        ex._rag_block = lambda *a, **k: ""
