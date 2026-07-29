@@ -4,9 +4,9 @@
 
 ## 데이터
 
-- 학습: `dataset/train_first_person.jsonl` (2,380행) — **이것만 학습에 사용**
-- 검증(loss 감시): `dataset/val_first_person.jsonl` (298행 — 별도 논문 4종:
-  치매 2·발달 2, 행동 4종 전부 포함)
+- 학습: `dataset/train_first_person.jsonl` (2,232행) — **이것만 학습에 사용**
+- 검증(loss 감시): `dataset/val_first_person.jsonl` (446행 — 별도 논문 4종:
+  DEM-32·DEM-33·DEV-04·DEV-17, 행동 4종·클래스 7종 포함)
 - `train_analyst.jsonl`/`val_analyst.jsonl` 은 대조 실험용 — 기본 계획에서는 미사용
 - 행의 최상위 `metadata` 필드는 학습 입력에 넣지 않는다. `messages` 만 사용.
 
@@ -15,6 +15,11 @@
 - base 모델: 지금 서버에 `exaone-base` 로 서빙 중인 것과 **동일 가중치** 위에
   LoRA 어댑터 (sar 학습 때와 같은 파이프라인). 다른 체크포인트 금지 —
   서빙 모델과 다르면 어댑터가 안 맞는다.
+- **정확한 체크포인트를 기입할 것** (별칭 `exaone-base` 만으로는 부족):
+  서버의 vLLM 기동 스크립트에서 `--model` 값(HF ID 또는 로컬 경로)·revision·
+  tokenizer revision 을 확인해 아래에 기록하고 학습·서빙 양쪽에 동일 적용.
+  - base 체크포인트: (민아 기입: __________)
+  - revision / tokenizer: (민아 기입: __________)
 - `messages` 에 모델 공식 chat template 적용.
 - **loss 는 assistant 답변 토큰에만** (system·user 토큰 마스킹).
 - 산출 어댑터 이름 제안: `exaone-mind` (prior 용 sar, 축 채점용 base 와 구분).

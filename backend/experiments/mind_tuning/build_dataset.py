@@ -222,7 +222,7 @@ def load_claims() -> list[dict]:
     out = []
     for line in (HERE / "claims" / "claims.jsonl").read_text(encoding="utf-8").splitlines():
         c = json.loads(line)
-        # 노트에 삽입될 때 "'계속 걷는다.'는 행동" 식으로 어색해지는 끝 마침표 정리
+        # 노트에 삽입될 때 "'계속 걷는다.'라는 행동" 식으로 어색해지는 끝 마침표 정리
         c["behavior"] = c["behavior"].rstrip(". ")
         c["condition"] = c["condition"].rstrip(". ")
         out.append(c)
@@ -288,7 +288,7 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
     if archetype == "confirmed_history":
         notes = [
             f"과거 두 차례 없어졌을 때 모두 {target}에서 발견됐다.",
-            f"보호자는 특정 상황에서 '{claim['behavior']}'는 행동을 반복해서 관찰했다.",
+            f"보호자는 특정 상황에서 '{claim['behavior']}'라는 행동을 반복해서 관찰했다.",
             f"{routine}도 평소 다니지만 실종 때 발견된 적은 없다.",
         ]
         evidence = {target: "previous_missing_found", routine: "caregiver_report"}
@@ -307,7 +307,7 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
         notes = [
             "보호자는 과거 실종이나 반복 지향 장소를 확인하지 못했다.",
             f"{target}과 관련된 개인 행동은 관찰된 적이 없다.",
-            f"특히 '{claim['behavior']}'는 행동도 이 사람에게 나타난 적이 없다고 했다.",
+            f"특히 '{claim['behavior']}'라는 행동도 이 사람에게 나타난 적이 없다고 했다.",
             "지금 어디를 향하는지는 알 수 없다고 했다.",
         ]
         evidence = {target: "mention_only", distractor: "mention_only"}
@@ -317,7 +317,7 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
         notes = [
             f"{distractor} 이야기를 한 적은 있지만 가려고 한 적은 없다고 보호자가 명시했다.",
             f"{routine}은 매주 같은 시간에 다니는 유일하게 확인된 일상 장소다.",
-            f"보호자는 '{claim['behavior']}'는 일반적 설명을 이 사람에게 그대로 적용하지 말라고 했다.",
+            f"보호자는 '{claim['behavior']}'라는 일반적 설명을 이 사람에게 그대로 적용하지 말라고 했다.",
             f"보호자는 {distractor} 선택을 추측하지 말라고 정정했다.",
         ]
         evidence = {routine: "caregiver_report", distractor: "mention_only"}
@@ -337,7 +337,7 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
         notes = [
             f"{target}, {alt} 두 곳을 비슷한 빈도로 다녔고 어느 쪽을 더 선호하는지 확인되지 않았다.",
             "과거 실종 발견 이력은 없으며 두 장소의 개인 근거 강도는 같다.",
-            f"두 장소 모두에서 '{claim['behavior']}'는 행동이 같은 정도로 관찰됐다.",
+            f"두 장소 모두에서 '{claim['behavior']}'라는 행동이 같은 정도로 관찰됐다.",
             f"현재 장면에는 {target if variant % 2 == 0 else alt} 쪽의 익숙한 표지가 보인다.",
         ]
         evidence = {target: "caregiver_report", alt: "caregiver_report"}
@@ -351,14 +351,14 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
     if not targetable:
         if archetype == "confirmed_history":
             notes = [
-                f"과거 실종 때 '{claim['behavior']}'는 행동이 확인됐지만 장소는 매번 달랐다.",
+                f"과거 실종 때 '{claim['behavior']}'라는 행동이 확인됐지만 장소는 매번 달랐다.",
                 "보호자는 일관된 목적지나 선호 장소가 없었다고 했다.",
                 f"{target}, {distractor} 두 곳은 이름만 언급됐을 뿐 이동 근거가 없다.",
             ]
             rationale = "과거 행동 이력은 강하지만 특정 장소와 연결된 이력은 아니므로 목적지를 만들 수 없다."
         elif archetype == "caregiver_observed":
             notes = [
-                f"보호자는 '{claim['condition']}'에 '{claim['behavior']}'는 모습을 반복 관찰했다.",
+                f"보호자는 '{claim['condition']}'에 '{claim['behavior']}'라는 모습을 반복 관찰했다.",
                 "행동이 나타난 장소는 매번 달라 일관된 목적지가 없었다.",
                 f"{target}, {distractor} 두 후보를 향한 개인 이력은 없다.",
             ]
@@ -366,13 +366,13 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
         elif archetype == "population_only":
             notes = [
                 "보호자는 과거 실종이나 반복 지향 장소를 확인하지 못했다.",
-                f"'{claim['behavior']}'는 행동도 이 사람에게 나타난 적이 없다고 했다.",
+                f"'{claim['behavior']}'라는 행동도 이 사람에게 나타난 적이 없다고 했다.",
                 f"{target}, {distractor} 두 후보와 관련된 개인 행동은 관찰되지 않았다.",
             ]
             rationale = "집단 경향과 후보 이름만으로 개인의 행동이나 목적지를 단정할 수 없다."
         elif archetype == "contradiction":
             notes = [
-                f"보호자는 이 사람에게 '{claim['behavior']}'는 행동이 나타난 적 없다고 명시했다.",
+                f"보호자는 이 사람에게 '{claim['behavior']}'라는 행동이 나타난 적 없다고 명시했다.",
                 "비슷해 보이는 집단 설명을 개인 사실로 바꾸지 말라고 정정했다.",
                 f"{target}, {distractor} 두 후보 모두 언급만 됐고 이동 이력은 없다.",
             ]
@@ -380,13 +380,13 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
         elif archetype == "unlisted_intent":
             notes = [
                 "집이나 보호자를 찾아야 한다는 의도는 표현하지만 구체 위치는 후보에 없다.",
-                f"동시에 '{claim['behavior']}'는 행동이 관찰됐으나 일관된 장소는 없었다.",
+                f"동시에 '{claim['behavior']}'라는 행동이 관찰됐으나 일관된 장소는 없었다.",
                 f"{target}, {distractor} 두 후보를 향한 이력은 없다.",
             ]
             rationale = "행동과 의도는 있어도 목적지가 후보에 없으므로 goal_label은 null이어야 한다."
         elif archetype == "balanced":
             notes = [
-                f"'{claim['behavior']}'는 행동이 여러 장소에서 같은 정도로 관찰됐다.",
+                f"'{claim['behavior']}'라는 행동이 여러 장소에서 같은 정도로 관찰됐다.",
                 "그 행동이 특정 목적지를 뜻하지는 않는다고 보호자가 설명했다.",
                 f"{target}, {alt} 두 후보 모두 이름만 언급됐고 우열 근거가 없다.",
             ]
@@ -516,9 +516,10 @@ def main(variants: int = 5, goal_variants: int = 16) -> None:
         and claim["claim_id"] not in SKIP_TUNING_CLAIMS
     ]
     # 논문 단위 분할 — 같은 claim 의 변형이 train/val 양쪽에 들어가는 누수 차단.
-    # 해시 선정은 발달 89%·클래스 3종 편중이 나와(외부 리뷰 지적 2) 명시 지정으로
-    # 교체: 치매 2종 + 발달 2종, 행동 클래스 7종 커버, 전체의 약 14%.
-    val_papers = {"DEM-32", "DEM-33", "DEV-13", "DEV-17"}
+    # 해시 선정은 발달 89%·클래스 3종 편중이 나와(외부 리뷰) 명시 지정으로 교체.
+    # DEV-13 은 유일 claim(CLM-0042)이 학습 제외 대상이라 실효가 없어(3차 리뷰)
+    # DEV-04(escape 2건)로 교체 — 치매 2 + 발달 2, 행동 클래스 7종 커버.
+    val_papers = {"DEM-32", "DEM-33", "DEV-04", "DEV-17"}
     print(f"validation 논문(명시 지정): {sorted(val_papers)}")
 
     outputs = {"analyst": [], "first_person": []}
