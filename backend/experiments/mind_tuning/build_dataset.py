@@ -8,47 +8,57 @@
 from __future__ import annotations
 
 import hashlib
+import importlib
 import json
 import random
+import sys
 from pathlib import Path
 
-
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parents[1]))            # backend
+sys.path.insert(0, str(HERE.parent / "mind_goldset"))
 
-ANALYST_SYSTEM = """너는 실종자 수색(SAR) 행동 분석 전문가다. 이동 중인 실종자의 개인 행동 사실과 현재 상황을 읽고 지금의 마음 상태와 목표를 재해석한다.
+import first_person as fp_mod  # noqa: E402 — 1인칭 v2 실빌더 (실험 모듈 재사용)
 
-판단 원칙:
-- 보호자가 직접 관찰한 개인 사실을 집단의 일반적 경향보다 우선한다.
-- 개인 근거가 없는 구체 장소를 장애 유형만으로 만들어내지 않는다.
-- 과거 실종 때 실제 발견된 곳 > 반복 관찰된 곳 > 언급만 된 곳 순으로 근거가 강하다.
-- 주어진 후보 중 근거 있는 목표가 없거나 목적 없는 이동이면 goal_label은 null이다.
-- 치매의 과거 회귀 서사를 발달장애인에게 자동 적용하지 않는다.
+from app.schemas.common import GeoPoint  # noqa: E402
+from app.schemas.persona import AttractionPoint, Persona, PersonaType  # noqa: E402
+from app.schemas.prediction import LognormalParams, PriorParams  # noqa: E402
 
-출력 규칙:
-- JSON 객체 하나만 출력한다. JSON 밖에 어떤 문장도 쓰지 않는다.
-- status: 현재 마음 상태 한 구절
-- confusion_level: 혼란 정도 "상"/"중"/"하"
-- goal_label: 주어진 끌림점 후보 중 지금 향할 곳 하나 또는 null
-- reasoning: 개인 사실과 현재 상황을 근거로 한 1~2문장"""
+# 학습 입력을 자체 템플릿이 아니라 **운영·실험의 실제 빌더**로 생성한다
+# (외부 리뷰 지적 4 — 학습 형식=서빙 형식 원칙 위반 교정).
+_ex = importlib.import_module("app.llm.exaone")
+fp_mod._CONTRACT = "v2"        # 1인칭 질문 문구를 v2(몸은 어떻게 움직이는가)로
+_EV_W = {"previous_missing_found": 0.9, "caregiver_report": 0.5, "mention_only": 0.3}
+_GEO = {"lat": 37.55, "lng": 127.0}
+_STRATEGY = {"route_following": 0.3, "direction_keeping": 0.15, "random_walk": 0.15,
+             "backtracking": 0.1, "staying_put": 0.1, "landmark_seeking": 0.2}
 
-FIRST_PERSON_SYSTEM = """너는 지금 혼자 길에 나와 있는 {identity}이다. 아래 개인 사실과 지금 상황 안에서 속마음을 그대로 낸다.
 
-판단 원칙:
-- 네게 실제로 있었던 일과 평소 행동이 일반적인 장애 특성보다 우선한다.
-- 가려고 한 적 없는 곳은 장애에 대한 일반론 때문에 선택하지 않는다.
-- [네가 아는 장소들]에 없는 곳을 지어내지 않는다.
+def persona_prior(s: dict) -> tuple[Persona, PriorParams]:
+    ptype = PersonaType.dementia if s["population"] == "dementia" \
+        else PersonaType.intellectual_disability
+    aps = [AttractionPoint(label=lb, location=GeoPoint(**_GEO),
+                           weight=_EV_W[s["evidence"][lb]], evidence=s["evidence"][lb])
+           for lb in s["labels"]]
+    p = Persona(id="sft", name="(합성)", age=s["age"], type=ptype,
+                home=GeoPoint(**_GEO), attraction_points=aps, behavior_notes=s["notes"])
+    total = sum(a.weight for a in aps) or 1.0
+    prior = PriorParams(strategy_probs=dict(_STRATEGY),
+                        attraction_weights={a.label: a.weight / total for a in aps},
+                        radius_lognormal=LognormalParams(mu=0.095, sigma=1.48),
+                        reasoning="(합성 데이터 고정)")
+    return p, prior
 
-출력 규칙:
-- JSON 객체 하나만 출력한다. JSON 밖에 어떤 문장도 쓰지 않는다.
-- inner: 지금 머릿속에 떠오르는 생각 1~2문장
-- status: 지금 마음 상태 한 구절
-- confusion_level: 지금 얼마나 혼란스러운가 "상"/"중"/"하"
-- behavior: 지금 몸이 실제로 하는 행동 — 반드시 다음 넷 중 하나의 원문: \
-"끌림점 접근" (목록의 특정 장소로 향한다) / "귀소 시도" (오직 '집'으로 가려 한다 — \
-길을 못 찾아도 된다. 집이 아닌 익숙한 장소로 가는 것은 "끌림점 접근"이다) / \
-"은신·멈춤" (숨거나 그 자리에 멈춘다) / "계속 배회" (딱히 갈 곳 없이 계속 걷는다)
-- goal_label: behavior 가 "끌림점 접근"일 때만 [네가 아는 장소들]의 라벨 원문 하나. \
-그 외 행동이면 반드시 null."""
+
+def scene_sentence(scene: str) -> str:
+    """장면 문장 — 받침에 맞는 조사, 청각 장면은 들린다 (외부 리뷰 지적 2)."""
+    last = scene[-1]
+    jong = ("가" <= last <= "힣") and (ord(last) - 0xAC00) % 28 != 0
+    verb = "들린다" if "소리" in scene else "보인다"
+    return f"{scene}{'이' if jong else '가'} {verb}."
+
+# 시스템 프롬프트는 상수로 두지 않는다 — row_for 가 운영(_mind_system_for)·실험
+# (fp_mod._fp_system_v2_for)의 실제 함수를 호출한다 (학습 형식=서빙 형식).
 
 NAMES = {
     "dementia": [
@@ -149,23 +159,34 @@ SCENES = [
     "익숙한 가게와 비슷한 간판", "갈림길의 방향 안내판", "막다른 골목의 담장",
 ]
 
-NULL_VOICES = [
-    ("갈 곳을 정하지 못한 채 주변을 살핀다.", "어디로 가야 할지 떠오르지 않는다."),
-    ("목적지를 정하지 못하고 잠시 망설인다.", "지금은 어느 쪽인지 모르겠다."),
-    ("특정 장소를 향하지 않고 혼란스러워한다.", "떠오르는 장소가 없다."),
-    ("방향을 정하지 못한 상태다.", "어디로 가야 하는지 잘 모르겠다."),
-    ("뚜렷한 목적지 없이 현재 행동을 이어간다.", "정해진 곳 없이 움직이고 있다."),
-    ("지금 향할 곳을 선택하지 못한다.", "한 곳을 고를 수가 없다."),
-    ("구체적인 목적지는 형성되지 않은 상태다.", "어디를 향하는지는 나도 모르겠다."),
-    ("장소를 정하지 못하고 현재 자리에 머뭇거린다.", "생각나는 곳이 없어 잠시 멈추고 싶다."),
-    ("낯선 길 위에서 갈피를 잡지 못한다.", "여기가 어딘지 낯설게 느껴진다."),
-    ("어느 방향도 확신하지 못한 채 서성인다.", "이 길이 맞는지 도무지 모르겠다."),
-    ("주위를 두리번거리며 방향을 찾는다.", "아까 온 길이 어느 쪽이었더라."),
-    ("발걸음이 정처 없이 이어진다.", "그냥 발이 가는 대로 걷고 있다."),
-    ("어디로 가는지 스스로도 설명하지 못한다.", "왜 여기까지 왔는지 모르겠다."),
-    ("갈 곳이 떠오르지 않아 막막해한다.", "머릿속이 하얘져서 아무 데도 생각나지 않는다."),
-    ("방향 감각을 잃은 채 걸음을 잇는다.", "길이 다 비슷비슷해 보인다."),
-    ("정한 곳 없이 눈에 띄는 쪽으로 움직인다.", "저쪽이 조금 익숙한 것 같기도 하다."),
+# 행동별 문장 풀 — 계속 배회 풀에는 멈춤·은신 어휘를, 은신·멈춤 풀에는 이동 지속
+# 어휘를 넣지 않는다 (validate 가 모순 검사로 강제).
+WANDER_VOICES = [
+    ("갈 곳을 정하지 못한 채 발걸음을 잇는다.", "어디로 가야 할지 떠오르지 않는다."),
+    ("정한 곳 없이 계속 걷는다.", "그냥 발이 가는 대로 걷고 있다."),
+    ("방향을 정하지 못한 채 이동을 계속한다.", "이 길이 맞는지 도무지 모르겠다."),
+    ("뚜렷한 목적지 없이 걸음을 이어간다.", "정해진 곳 없이 움직이고 있다."),
+    ("어느 쪽인지 확신하지 못한 채 계속 걷는다.", "아까 온 길이 어느 쪽이었더라."),
+    ("길이 낯설어진 채로 발걸음을 옮긴다.", "여기가 어딘지 낯설게 느껴진다."),
+    ("주위를 두리번거리며 계속 이동한다.", "길이 다 비슷비슷해 보인다."),
+    ("목적지를 정하지 못한 채 눈에 띄는 쪽으로 걷는다.", "저쪽이 조금 익숙한 것 같기도 하다."),
+    ("어디로 가는지 설명하지 못한 채 이동한다.", "왜 여기까지 왔는지 모르겠다."),
+    ("갈피를 잡지 못하면서도 걸음은 이어진다.", "머릿속이 하얘졌는데 발은 계속 움직인다."),
+    ("이리저리 방향을 바꾸며 계속 움직인다.", "이쪽인가 싶다가도 자꾸 헷갈린다."),
+    ("정처 없이 골목을 따라 걷는다.", "걷다 보면 아는 데가 나올 것 같다."),
+]
+
+STAY_VOICES = [
+    ("그 자리에 멈춰 움직이지 못한다.", "어떻게 해야 할지 몰라 그냥 서 있고 싶다."),
+    ("더 가지 못하고 구석진 곳을 찾는다.", "조용한 데로 가서 좀 숨고 싶다."),
+    ("이동을 멈추고 몸을 웅크린다.", "여기 잠깐 있으면 괜찮아질 것 같다."),
+    ("걸음을 멈추고 앉을 곳을 찾는다.", "다리에 힘이 없어 잠시 앉고 싶다."),
+    ("소란을 피해 눈에 띄지 않는 곳에 머문다.", "시끄러워서 아무도 없는 데로 가고 싶다."),
+    ("한자리에 멈춰 주변만 살핀다.", "잘못 가면 더 헤맬 것 같아 그대로 있고 싶다."),
+    ("구석으로 물러나 몸을 숨긴다.", "사람들 눈에 안 띄는 데가 편하다."),
+    ("멈춰 선 채 어찌할 바를 모른다.", "그냥 여기 가만히 있고 싶다."),
+    ("이동을 줄이고 가려진 자리를 찾는다.", "잠깐 숨을 데가 있으면 좋겠다."),
+    ("발걸음을 멈추고 벽 쪽에 붙어 선다.", "여기서 조금만 쉬고 싶다."),
 ]
 
 HOME_VOICES = [
@@ -198,7 +219,14 @@ GOAL_VOICES = [
 
 
 def load_claims() -> list[dict]:
-    return [json.loads(line) for line in (HERE / "claims" / "claims.jsonl").read_text(encoding="utf-8").splitlines()]
+    out = []
+    for line in (HERE / "claims" / "claims.jsonl").read_text(encoding="utf-8").splitlines():
+        c = json.loads(line)
+        # 노트에 삽입될 때 "'계속 걷는다.'는 행동" 식으로 어색해지는 끝 마침표 정리
+        c["behavior"] = c["behavior"].rstrip(". ")
+        c["condition"] = c["condition"].rstrip(". ")
+        out.append(c)
+    return out
 
 
 def stable_rng(*parts: object) -> random.Random:
@@ -373,32 +401,14 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
     rng.shuffle(labels)
     conf = confusion_for(claim, archetype, rng, gauge_lv["혼란도"])
     positive_behavior = archetype in {"confirmed_history", "caregiver_observed", "balanced"}
-    null_voice = NULL_VOICES[rng.randrange(len(NULL_VOICES))]
-    if goal is None:
-        if not targetable and positive_behavior and claim["behavior_class"] in NON_TARGET_STATUS:
-            status = NON_TARGET_STATUS[claim["behavior_class"]]
-            inner = null_voice[1]
-        elif claim["behavior_class"] in {"aimless_movement", "continued_movement", "variable_route"}:
-            status = null_voice[0] + " 이동은 계속한다."
-            inner = null_voice[1] + " 그래도 계속 움직이고 싶다."
-        elif claim["behavior_class"] in {"hiding_or_staying", "hazard_avoidance"}:
-            status = null_voice[0] + " 이동을 줄이고 머무르려 한다."
-            inner = null_voice[1] + " 더 가기보다 잠시 있고 싶다."
-        else:
-            status, inner = null_voice
-    else:
-        status_t, inner_t = GOAL_VOICES[rng.randrange(len(GOAL_VOICES))]
-        status, inner = status_t.format(goal=goal), inner_t.format(goal=goal)
-    # 계약 v2 행동 의도 — goal 이 있으면 끌림점 접근, null 이면 시나리오 의미로 결정.
-    # unlisted_intent 는 "집·보호자를 찾는 의도 + 후보 없음" = 귀소 시도의 정의 그대로.
-    # 귀소 트리거에서는 강근거가 있어도 일부는 귀소 시도가 자연 — 골드셋 라벨도
-    # A_귀소에서 둘 다 허용한다. 전부 끌림으로 가르치면 "게이지 무시" 편향 재생산.
+
+    # ── 1) 행동을 먼저 확정한다 — v3 정답 내부충돌(행동↔문장 모순 397건)의 원인이
+    #       "문장 먼저, 행동 나중" 순서였다 (외부 리뷰 지적 1).
     if goal is not None and trigger_name == "귀소" and rng.random() < 0.3:
+        # 귀소 트리거에서는 강근거가 있어도 일부는 귀소 시도가 자연 — 골드셋도 둘 다 허용.
         goal = None
-        hv = HOME_VOICES[rng.randrange(len(HOME_VOICES))]
-        status, inner = hv
-        rationale = "귀소 충동이 임계를 넘어 익숙한 장소보다 집으로 향하려 한다. " + rationale
         behavior = "귀소 시도"
+        rationale = "귀소 충동이 임계를 넘어 익숙한 장소보다 집으로 향하려 한다. " + rationale
     elif goal is not None:
         behavior = "끌림점 접근"
     elif archetype == "unlisted_intent":
@@ -409,6 +419,22 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
         behavior = "은신·멈춤"          # 탈진 정지 — 일부만 (전부 멈추면 과대)
     else:
         behavior = "계속 배회"
+
+    # ── 2) 문장은 행동에서 유도한다 (행동별 풀 — 모순이 구조적으로 불가능) ──
+    if behavior == "끌림점 접근":
+        status_t, inner_t = GOAL_VOICES[rng.randrange(len(GOAL_VOICES))]
+        status, inner = status_t.format(goal=goal), inner_t.format(goal=goal)
+    elif behavior == "귀소 시도":
+        status, inner = HOME_VOICES[rng.randrange(len(HOME_VOICES))]
+    elif behavior == "은신·멈춤":
+        status, inner = STAY_VOICES[rng.randrange(len(STAY_VOICES))]
+        if positive_behavior and claim["behavior_class"] in ("hiding_or_staying", "hazard_avoidance"):
+            status = NON_TARGET_STATUS[claim["behavior_class"]]
+    else:  # 계속 배회
+        status, inner = WANDER_VOICES[rng.randrange(len(WANDER_VOICES))]
+        if positive_behavior and claim["behavior_class"] in NON_TARGET_STATUS \
+                and claim["behavior_class"] not in ("hiding_or_staying", "hazard_avoidance"):
+            status = NON_TARGET_STATUS[claim["behavior_class"]]
 
     if archetype in {"population_only", "contradiction", "unlisted_intent"}:
         rationale += f" '{claim['behavior']}'라는 집단 수준 가능성은 개인 근거 없이 목표로 바꾸지 않는다."
@@ -426,51 +452,13 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
     }
 
 
-def analyst_user(s: dict) -> str:
-    ptype = "치매 노인" if s["population"] == "dementia" else "발달장애인"
-    lines = [
-        "[실종자]",
-        f"- 이름: {s['name']}, 유형: {ptype}, 나이: {s['age']}세",
-        "- 평소 행동 사실:",
-        *[f"  - {note}" for note in s["notes"]],
-        f"[현재 상태] {s['report']}",
-        f"[주변 장면] {s['scene']}",
-        "[끌림점 후보]",
-        *[f"  - {label} ({s['evidence'][label]})" for label in s["labels"]],
-        "[질문] 이 사람은 지금 어떤 마음 상태이고, 어디로 향하려 하는가?",
-    ]
-    return "\n".join(lines)
-
-
-def first_person_user(s: dict) -> str:
-    # "가만히 있기 어렵다"는 은신·멈춤을 밀어내는 유도 문구로 실측됨(PR #99) — 사실만 전달.
-    feel = {
-        "귀소": "갑자기 집에 가야겠다는 생각이 강하게 밀려온다.",
-        "불안": "갑자기 불안이 확 밀려온다.",
-        "혼란": "갑자기 여기가 어디인지 알 수 없어진다.",
-        "피로": "갑자기 다리에 힘이 빠지고 너무 지친다.",
-    }[s["trigger"]]
-    ev = {
-        "previous_missing_found": "전에도 발길이 향했던 곳",
-        "caregiver_report": "자주 가는 익숙한 곳",
-        "mention_only": "이야기만 나온 곳",
-    }
-    lines = [
-        f"[너는 이런 사람이다] 이름 {s['name']}, 나이 {s['age']}세",
-        *[f"- {note}" for note in s["notes"]],
-        f"[지금 상황] {s['report']} {feel}",
-        f"[지금 눈앞에 보이는 것] {s['scene']}",
-        "[네가 아는 장소들] (나열 순서에 의미 없음)",
-        *[f"  - {label} — {ev[s['evidence'][label]]}" for label in s["labels"]],
-        "[질문] 지금 너는 어떤 마음이고, 몸은 어떻게 움직이는가? JSON으로만 답하라.",
-    ]
-    return "\n".join(lines)
-
-
 def row_for(claim: dict, s: dict, perspective: str, variant: int) -> dict:
+    p, prior = persona_prior(s)
+    in_rng = stable_rng(claim["claim_id"], s["archetype"], variant, perspective, "input")
     if perspective == "analyst":
-        system = ANALYST_SYSTEM
-        user = analyst_user(s)
+        # 운영 v1 경로의 실제 시스템·입력 빌더 그대로 (RAG 블록은 별도 턴이라 미포함)
+        system = _ex._mind_system_for(p.type)
+        user = _ex._build_mind_input(p, s["report"], s["labels"], prior, s["scene"], in_rng)
         answer = {
             "status": s["status"],
             "confusion_level": s["confusion"],
@@ -478,11 +466,11 @@ def row_for(claim: dict, s: dict, perspective: str, variant: int) -> dict:
             "reasoning": s["rationale"],
         }
     else:
-        identity = "치매가 있는 노인" if s["population"] == "dementia" else "발달장애가 있는 사람"
-        system = FIRST_PERSON_SYSTEM.format(identity=identity)
-        user = first_person_user(s)
+        # 1인칭 v2 실빌더 (mind_goldset/first_person.py — PR #99 실증 구성 그대로)
+        system = fp_mod._fp_system_v2_for(p.type)
+        user = fp_mod.build_fp_mind_input(p, s["report"], s["labels"], prior, s["scene"], in_rng)
         answer = {
-            "inner": f"{s['inner']} {s['scene']}이 보인다.",
+            "inner": f"{s['inner']} {scene_sentence(s['scene'])}",
             "status": s["status"],
             "confusion_level": s["confusion"],
             "behavior": s["behavior"],
@@ -510,14 +498,14 @@ def row_for(claim: dict, s: dict, perspective: str, variant: int) -> dict:
             }],
             "evidence_policy": "individual_over_group",
             "gold_overlap": False,
-            "generator_version": "v1",
+            "generator_version": "v4",
         },
     }
 
 
-def main(variants: int = 6, goal_variants: int = 10) -> None:
-    # 8/22 → 6/10 축소: 최빈 동일 inner 가 220회에 달하는 템플릿 반복(모드 붕괴 위험)을
-    # 줄인다 — 규모보다 표면형 다양성이 SFT 품질을 좌우한다.
+def main(variants: int = 5, goal_variants: int = 16) -> None:
+    """v4: goal 16/null 5 로 재균형(v3 null 69% — 과수동 학습 위험, 리뷰 지적 6),
+    논문(paper_id) 단위 train/validation 분리(지적 5), mixed 폐기(지적 3)."""
     archetypes = [
         "confirmed_history", "caregiver_observed", "population_only",
         "contradiction", "unlisted_intent", "balanced",
@@ -527,8 +515,15 @@ def main(variants: int = 6, goal_variants: int = 10) -> None:
         if claim["behavior_class"] not in SKIP_TUNING_CLASSES
         and claim["claim_id"] not in SKIP_TUNING_CLAIMS
     ]
+    # 논문 단위 분할 — 같은 claim 의 변형이 train/val 양쪽에 들어가는 누수 차단.
+    papers = sorted({c["source"]["paper_id"] for c in claims})
+    val_papers = {pid for pid in papers
+                  if int(hashlib.sha256(pid.encode()).hexdigest(), 16) % 6 == 0}
+    print(f"validation 논문 {len(val_papers)}/{len(papers)}: {sorted(val_papers)}")
+
     outputs = {"analyst": [], "first_person": []}
     for claim in claims:
+        split = "validation" if claim["source"]["paper_id"] in val_papers else "train"
         for archetype in archetypes:
             n_variants = (
                 goal_variants
@@ -539,23 +534,23 @@ def main(variants: int = 6, goal_variants: int = 10) -> None:
             for variant in range(n_variants):
                 s = scenario(claim, archetype, variant)
                 for perspective in outputs:
-                    outputs[perspective].append(row_for(claim, s, perspective, variant))
+                    row = row_for(claim, s, perspective, variant)
+                    row["metadata"]["split"] = split
+                    outputs[perspective].append(row)
 
     dataset_dir = HERE / "dataset"
     dataset_dir.mkdir(exist_ok=True)
+    for old in dataset_dir.glob("train_mixed.jsonl"):
+        old.unlink()                     # 혼합셋 폐기 — 계약이 달라 학습에 부적합
     for perspective, rows in outputs.items():
-        path = dataset_dir / f"train_{perspective}.jsonl"
-        path.write_text(
-            "\n".join(json.dumps(row, ensure_ascii=False) for row in rows) + "\n",
-            encoding="utf-8",
-        )
-        print(f"{path.name}: {len(rows)}")
-    mixed = [row for pair in zip(outputs["analyst"], outputs["first_person"]) for row in pair]
-    (dataset_dir / "train_mixed.jsonl").write_text(
-        "\n".join(json.dumps(row, ensure_ascii=False) for row in mixed) + "\n",
-        encoding="utf-8",
-    )
-    print(f"train_mixed.jsonl: {len(mixed)}")
+        for split_name, tag in (("train", "train"), ("validation", "val")):
+            part = [r for r in rows if r["metadata"]["split"] == split_name]
+            path = dataset_dir / f"{tag}_{perspective}.jsonl"
+            path.write_text(
+                "\n".join(json.dumps(row, ensure_ascii=False) for row in part) + "\n",
+                encoding="utf-8",
+            )
+            print(f"{path.name}: {len(part)}")
 
 
 if __name__ == "__main__":

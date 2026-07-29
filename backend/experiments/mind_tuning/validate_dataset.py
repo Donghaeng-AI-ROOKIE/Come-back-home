@@ -36,8 +36,8 @@ def main() -> None:
         assert canonical(src["quote"]) in canonical(page_cache[(src["paper_id"], src["pdf_page"])])
 
     report = {"claims": len(claims), "datasets": {}}
-    for name in ("analyst", "first_person", "mixed"):
-        rows = load(HERE / "dataset" / f"train_{name}.jsonl")
+    for name in ("train_analyst", "val_analyst", "train_first_person", "val_first_person"):
+        rows = load(HERE / "dataset" / f"{name}.jsonl")
         ids = [row["id"] for row in rows]
         # mixed는 같은 의미 샘플의 perspective별 id가 다르다.
         assert len(ids) == len(set(ids))
@@ -52,6 +52,17 @@ def main() -> None:
                 assert answer["behavior"] in {"끌림점 접근", "귀소 시도", "은신·멈춤", "계속 배회"}
                 assert (answer["behavior"] == "끌림점 접근") == (answer["goal_label"] is not None)
                 counter["behavior:" + answer["behavior"]] += 1
+                # 행동↔문장 모순 검사 (외부 리뷰 지적 1 — v3에서 397건 검출된 유형)
+                text = answer.get("inner", "") + " " + answer["status"]
+                if answer["behavior"] == "은신·멈춤":
+                    assert not re.search(r"이동을 계속|계속 걷|계속 이동|계속 움직", text), text
+                elif answer["behavior"] == "계속 배회":
+                    assert not re.search(r"멈춰|멈추고|머무|숨기|숨는다|숨고", text), text
+                elif answer["behavior"] == "귀소 시도":
+                    assert "집" in text, text
+                # 조사 오류 검사 (지적 2 — "표지이 보인다" 유형)
+                for m in re.finditer(r"([가-힣])이 (보인다|들린다)", text):
+                    assert (ord(m.group(1)) - 0xAC00) % 28 != 0, text
             assert row["metadata"]["gold_overlap"] is False
             for claim_id in row["metadata"]["claim_ids"]:
                 assert claim_id in claim_by_id
