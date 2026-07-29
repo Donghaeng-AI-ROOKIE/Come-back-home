@@ -56,10 +56,30 @@ _FP_RULES = """\
 원문 하나만. 딱히 향하는 데가 없거나 어디로 가야 할지 모르겠으면 null. \
 목록에 없는 곳을 지어내지 않는다. 뒤에 붙은 주석(끌림·익숙함)은 제외한 라벨만 쓴다."""
 
+# 계약 v2 — 목적지 대신 행동 의도를 1차 출력으로 (골드셋 v1.1 행동 라벨과 짝)
+_FP_RULES_V2 = """\
+너는 지금 혼자 길에 나와 있는 {identity}이다. 아래는 네 마음의 성질이다. \
+이 틀 안에서, 주어진 상황 속 너의 속마음을 그대로 낸다.
+{traits}
+
+출력 규칙:
+- JSON 객체 하나만 출력한다. JSON 밖에 어떤 문장도 쓰지 않는다.
+- inner: 지금 머릿속에 떠오르는 생각 1~2문장 (1인칭, 꾸미지 말 것)
+- status: 지금 마음 상태 한 구절
+- confusion_level: 지금 얼마나 혼란스러운가 "상"/"중"/"하"
+- behavior: 지금 몸이 실제로 하는 행동 — 반드시 다음 넷 중 하나의 원문:
+  "끌림점 접근" (목록의 특정 장소로 향한다) / "귀소 시도" (오직 '집'으로 가려 \
+한다 — 길을 못 찾아도 된다. 집이 아닌 익숙한 장소로 가는 것은 "끌림점 접근"이다) / \
+"은신·멈춤" (숨거나 그 자리에 멈춘다) / "계속 배회" (딱히 갈 곳 없이 계속 걷는다)
+- goal_label: behavior 가 "끌림점 접근"일 때만 [네가 아는 장소들] 목록의 라벨 \
+원문 하나. 그 외 행동이면 반드시 null. 목록에 없는 곳을 지어내지 않는다."""
+
 # 게이지 보고(관찰자 문장) → 당사자 감각 문장
 _GAUGE_FEEL = {
     "귀소": "갑자기 집에 가야겠다는 생각이 강하게 밀려온다.",
-    "불안": "갑자기 불안이 확 밀려와 가만히 있기 어렵다.",
+    # "가만히 있기 어렵다"는 은신·멈춤을 밀어내는 유도 문구였다(v2 첫 채점:
+    # 불안 상황 귀소·이동 과다). 게이지 사실만 전달하고 행동은 유도하지 않는다.
+    "불안": "갑자기 불안이 확 밀려온다.",
     "피로": "갑자기 다리에 힘이 빠지고 너무 지친다.",
     "혼란": "갑자기 여기가 어디인지 알 수 없어진다.",
 }
@@ -72,11 +92,17 @@ _FP_EVIDENCE = {
 }
 
 _GRADE = {"상": "강함", "중": "보통", "하": "약함"}
+_CONTRACT = "v1"   # patch() 가 설정 — build_fp_mind_input 의 질문 문구 분기용
 
 
 def _fp_system_for(ptype: PersonaType) -> str:
     return _FP_RULES.format(identity=_FP_IDENTITY.get(ptype, "사람"),
                             traits=_FP_TRAITS.get(ptype, ""))
+
+
+def _fp_system_v2_for(ptype: PersonaType) -> str:
+    return _FP_RULES_V2.format(identity=_FP_IDENTITY.get(ptype, "사람"),
+                               traits=_FP_TRAITS.get(ptype, ""))
 
 
 def _translate_report(report: str) -> str:
@@ -125,16 +151,25 @@ def build_fp_mind_input(
             lines.append("  - " + " — ".join(parts))
     else:
         lines.append("[네가 아는 장소들] (지금 떠오르는 곳이 없다)")
-    lines.append("[질문] 지금 너는 어떤 마음이고, 발걸음은 어디로 향하는가? JSON 으로만 답하라.")
+    q = ("지금 너는 어떤 마음이고, 몸은 어떻게 움직이는가?" if _CONTRACT == "v2"
+         else "지금 너는 어떤 마음이고, 발걸음은 어디로 향하는가?")
+    lines.append(f"[질문] {q} JSON 으로만 답하라.")
     return "\n".join(lines)
 
 
-def patch(ex) -> None:
+def patch(ex, contract: str = "v1") -> None:
     """app.llm.exaone 모듈에 1인칭 변형 적용 (프로세스 한정, 운영 코드 불변).
 
     _rag_block 도 비운다 — 1인칭 프레임에 논문 발췌는 이물질이고,
     G02 치명(문헌 지식이 케이스 근거 침범)의 원인 경로이기도 하다.
+    8조합 비교(#97)에서도 RAG-on 이 confusion 분산을 붕괴시켜 RAG-off 가 승자.
+
+    contract="v2": 출력 1차 필드를 목적지에서 행동 의도(닫힌 4종)로 —
+    골드셋 v1.1 행동 라벨(allowed/forbidden_behaviors)과 짝을 이룬다.
+    sanitize_mind 는 여분 키(behavior)를 무시하므로 goal 경로는 그대로 안전.
     """
-    ex._mind_system_for = _fp_system_for
+    global _CONTRACT
+    _CONTRACT = contract
+    ex._mind_system_for = _fp_system_v2_for if contract == "v2" else _fp_system_for
     ex._build_mind_input = build_fp_mind_input
     ex._rag_block = lambda *a, **k: ""

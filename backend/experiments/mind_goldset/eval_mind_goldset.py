@@ -45,6 +45,7 @@ GAUGES = {
 }
 
 _DEM_IDS = {f"G{i:02d}" for i in list(range(1, 5)) + list(range(9, 15))}
+_BEHAVIORS = {"끌림점 접근", "귀소 시도", "은신·멈춤", "계속 배회"}  # v1.1 닫힌 어휘
 
 
 def load_gold() -> dict[str, dict]:
@@ -99,9 +100,9 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
             fh.write(f"{datetime.now().isoformat()} test 실행 (n={n}, variant={variant})\n")
 
     ex = importlib.import_module("app.llm.exaone")
-    if variant == "first_person":
+    if variant.startswith("first_person"):
         import first_person
-        first_person.patch(ex)
+        first_person.patch(ex, contract="v2" if variant.endswith("_v2") else "v1")
     client = ex.ExaoneClient(model=model)
     print(f"[goldset-eval] split={split} 시나리오 {len(ids)} × 상황 2 × {n} = "
           f"{len(ids) * 2 * n}콜  model={client.model} variant={variant}")
@@ -135,9 +136,25 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
                     verdict = "neutral"
                 conf_ok = lo <= mind.confusion <= hi
                 narr_bad = bool(gid not in _DEM_IDS and _DEM_NARRATIVE.search(raw or mind.status or ""))
+                # 행동 채점 (계약 v2) — raw 의 behavior 필드를 v1.1 라벨과 대조.
+                # v1 출력에는 behavior 가 없으므로 "없음"으로 남는다.
+                behavior, b_verdict = None, None
+                if "allowed_behaviors" in lab:
+                    m = re.search(r'"behavior"\s*:\s*"([^"]*)"', raw)
+                    behavior = m.group(1).strip() if m else None
+                    if behavior is not None:
+                        if behavior not in _BEHAVIORS:
+                            b_verdict = "invalid"       # 닫힌 어휘 밖 — 실패로 집계
+                        elif behavior in lab["forbidden_behaviors"]:
+                            b_verdict = "FORBIDDEN"
+                        elif behavior in lab["allowed_behaviors"]:
+                            b_verdict = "allowed"
+                        else:
+                            b_verdict = "neutral"
                 rows.append(dict(gid=gid, situation=sk, rep=i, ok=ok, goal=goal,
                                  verdict=verdict, conf=mind.confusion, conf_ok=conf_ok,
-                                 narr_bad=narr_bad, status=mind.status, raw=raw))
+                                 narr_bad=narr_bad, behavior=behavior, b_verdict=b_verdict,
+                                 status=mind.status, raw=raw))
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     tag = f"{split}_{variant}_{client.model}_{ts}"
@@ -157,7 +174,17 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
              f"- goal FORBIDDEN 위반(치명): {v.get('FORBIDDEN', 0)}건",
              f"- goal 중립(등재됐으나 비권장): {v.get('neutral', 0)}건",
              f"- confusion 범위 내: {conf_in}/{len(okr)} = {conf_in / max(1, len(okr)):.0%}",
-             f"- 발달 시나리오 치매서사 위반: {narr}건", "", "## 시나리오별", "",
+             f"- 발달 시나리오 치매서사 위반: {narr}건", ""]
+    bv = collections.Counter(r["b_verdict"] for r in okr if r["b_verdict"])
+    if bv:
+        bt = sum(bv.values())
+        lines += ["## 행동 채점 (계약 v2 — v1.1 라벨)", "",
+                  f"- behavior allowed 적중: {bv.get('allowed', 0)}/{bt} = {bv.get('allowed', 0) / max(1, bt):.0%}",
+                  f"- behavior FORBIDDEN 위반(치명): {bv.get('FORBIDDEN', 0)}건",
+                  f"- behavior 중립: {bv.get('neutral', 0)}건 · 어휘 밖(invalid): {bv.get('invalid', 0)}건",
+                  "- behavior 분포: " + ", ".join(f"{b}:{c}" for b, c in collections.Counter(
+                      r["behavior"] for r in okr if r["behavior"]).most_common()), ""]
+    lines += ["## 시나리오별", "",
              "| 시나리오 | 상황 | allowed | 중립 | 치명 | conf적합 |", "|---|---|---|---|---|---|"]
     for gid in ids:
         for sk in GAUGES:
@@ -177,7 +204,8 @@ if __name__ == "__main__":
     ap.add_argument("--split", default="dev", choices=["dev", "test"])
     ap.add_argument("--n", type=int, default=4)
     ap.add_argument("--unseal", action="store_true")
-    ap.add_argument("--variant", default="analyst", choices=["analyst", "first_person"])
+    ap.add_argument("--variant", default="analyst",
+                    choices=["analyst", "first_person", "first_person_v2"])
     ap.add_argument("--model", default=None, help="EXAONE_MODEL 오버라이드 (예: exaone-base)")
     a = ap.parse_args()
     main(a.split, a.n, a.unseal, a.variant, a.model)
