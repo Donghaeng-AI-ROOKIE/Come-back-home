@@ -87,7 +87,8 @@ def prior_for(p: Persona) -> PriorParams:
                        reasoning="(골드 평가 고정)")
 
 
-def main(split: str, n: int, unseal: bool) -> None:
+def main(split: str, n: int, unseal: bool, variant: str = "analyst",
+         model: str | None = None) -> None:
     gold = load_gold()
     answers = load_scenario_answers()
     ids = sorted(g for g, d in gold.items() if d["split"] == split)
@@ -95,12 +96,15 @@ def main(split: str, n: int, unseal: bool) -> None:
         if not unseal:
             sys.exit("test 는 봉인됨 — 최종 측정에만 --unseal 로 실행 (README 규칙)")
         with (RESULTS / "test_usage.log").open("a", encoding="utf-8") as fh:
-            fh.write(f"{datetime.now().isoformat()} test 실행 (n={n})\n")
+            fh.write(f"{datetime.now().isoformat()} test 실행 (n={n}, variant={variant})\n")
 
     ex = importlib.import_module("app.llm.exaone")
-    client = ex.ExaoneClient()
+    if variant == "first_person":
+        import first_person
+        first_person.patch(ex)
+    client = ex.ExaoneClient(model=model)
     print(f"[goldset-eval] split={split} 시나리오 {len(ids)} × 상황 2 × {n} = "
-          f"{len(ids) * 2 * n}콜  model={client.model}")
+          f"{len(ids) * 2 * n}콜  model={client.model} variant={variant}")
 
     rows: list[dict] = []
     for gid in ids:
@@ -136,8 +140,9 @@ def main(split: str, n: int, unseal: bool) -> None:
                                  narr_bad=narr_bad, status=mind.status, raw=raw))
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    tag = f"{split}_{variant}_{client.model}_{ts}"
     RESULTS.mkdir(exist_ok=True)
-    (RESULTS / f"goldset_eval_{split}_{ts}.jsonl").write_text(
+    (RESULTS / f"goldset_eval_{tag}.jsonl").write_text(
         "\n".join(json.dumps(r, ensure_ascii=False) for r in rows), encoding="utf-8")
 
     okr = [r for r in rows if r["ok"]]
@@ -146,7 +151,8 @@ def main(split: str, n: int, unseal: bool) -> None:
     conf_in = sum(1 for r in okr if r["conf_ok"])
     narr = sum(1 for r in okr if r["narr_bad"])
     lines = [f"# 골드셋 평가 [{split}] — {ts}",
-             f"모델 {client.model} · n={n}/상황 · 유효 {len(okr)}/{len(rows)} (호출실패 {fails})", "",
+             f"모델 {client.model} · variant={variant} · n={n}/상황 · "
+             f"유효 {len(okr)}/{len(rows)} (호출실패 {fails})", "",
              f"- goal allowed 적중: {v.get('allowed', 0)}/{len(okr)} = {v.get('allowed', 0) / max(1, len(okr)):.0%}",
              f"- goal FORBIDDEN 위반(치명): {v.get('FORBIDDEN', 0)}건",
              f"- goal 중립(등재됐으나 비권장): {v.get('neutral', 0)}건",
@@ -160,7 +166,7 @@ def main(split: str, n: int, unseal: bool) -> None:
             ci = sum(1 for r in rs if r["conf_ok"])
             lines.append(f"| {gid} | {sk} | {c.get('allowed', 0)} | {c.get('neutral', 0)} "
                          f"| {c.get('FORBIDDEN', 0)} | {ci}/{len(rs)} |")
-    out = RESULTS / f"goldset_eval_{split}_{ts}.md"
+    out = RESULTS / f"goldset_eval_{tag}.md"
     out.write_text("\n".join(lines), encoding="utf-8")
     print("\n".join(lines[:10]))
     print(f"[goldset-eval] 저장: {out}")
@@ -171,5 +177,7 @@ if __name__ == "__main__":
     ap.add_argument("--split", default="dev", choices=["dev", "test"])
     ap.add_argument("--n", type=int, default=4)
     ap.add_argument("--unseal", action="store_true")
+    ap.add_argument("--variant", default="analyst", choices=["analyst", "first_person"])
+    ap.add_argument("--model", default=None, help="EXAONE_MODEL 오버라이드 (예: exaone-base)")
     a = ap.parse_args()
-    main(a.split, a.n, a.unseal)
+    main(a.split, a.n, a.unseal, a.variant, a.model)
