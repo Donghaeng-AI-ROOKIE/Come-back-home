@@ -92,6 +92,9 @@ def test_prior_with_no_attraction_weights_skips_destination_line():
 
 
 # ── reinterpret_mind 통합 — prior 가 실제 프롬프트까지 전달되는지 ─────
+# 기본 계약이 1인칭 v2 로 승격(2026-07-30)되면서 prior 는 "[예측된 이동 성향]"
+# 문단이 아니라 후보별 "끌림 강함/보통/약함" 주석으로 나타난다. v1 문구는
+# 롤백 경로 테스트(test_mind_v2_integration)와 아래 v1 강제 케이스가 지킨다.
 def test_reinterpret_mind_threads_prior_into_prompt(monkeypatch):
     live = ExaoneClient()
     live.api_key, live.base_url, live.model = "k", "https://x", "m"
@@ -102,5 +105,10 @@ def test_reinterpret_mind_threads_prior_into_prompt(monkeypatch):
         return '{"status": "이동 중", "confusion_level": "중", "goal_label": null}'
 
     monkeypatch.setattr(live, "chat", fake_chat)
+    live.reinterpret_mind(_persona(), MindState(), "보고", ["시장"], _prior())
+    assert "시장 — 끌림 강함" in captured["user"]      # prior 가중치 0.7 → 상 → 강함
+
+    from app.config import settings as _s
+    monkeypatch.setattr(_s, "mind_contract", "v1")
     live.reinterpret_mind(_persona(), MindState(), "보고", ["시장"], _prior())
     assert "[예측된 이동 성향] 주 전략: route_following" in captured["user"]

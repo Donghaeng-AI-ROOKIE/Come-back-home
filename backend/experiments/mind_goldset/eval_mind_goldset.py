@@ -100,6 +100,11 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
             fh.write(f"{datetime.now().isoformat()} test 실행 (n={n}, variant={variant})\n")
 
     ex = importlib.import_module("app.llm.exaone")
+    # 실험은 어떤 variant 든 빌더를 스스로 제어한다 — 운영 기본이 v2 계약으로
+    # 승격(2026-07-30)된 뒤에도 analyst/first_person* monkeypatch 가 그대로
+    # 작동하도록 운영 분기(v2)를 끄고 v1 경로 위에서 패치한다.
+    from app.config import settings as _settings
+    _settings.mind_contract = "v1"
     if variant.startswith("first_person"):
         import first_person
         first_person.patch(ex, keep_rag=variant.endswith("_rag"),
