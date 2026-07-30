@@ -196,10 +196,14 @@ class Settings(BaseSettings):
 
     # ── Phase 3 제보 신뢰도 p (docs: "제보 신뢰도 p 계산 방식") ─────────
     # p = 가중평균(시공간개연성·구체성). 없는 신호는 가중치 재정규화.
-    # 초기값은 도메인 판단, 합성 시나리오(진짜 vs 가짜 제보 분리)로 튜닝 대상.
-    trust_weight_plausibility: float = 0.40  # 시공간 개연성 (kinematic, 알고리즘)
-    trust_weight_specificity: float = 0.25   # 구체성 (제보 구조화 LLM, tip_llm)
-    trust_base_p: float = 0.3                # 아무 신호도 없을 때의 사전 신뢰
+    # r = plausibility/specificity 비율만 결과에 영향(재정규화 구조, 절대값 무의미).
+    # P1-5 실험(2026-07-31, experiments/trust_weight/)으로 r=1.6(구설정 0.40/0.25) →
+    # r=2.3 확정 — 4파전 70개 재활용 경계케이스 정답률 스윕에서 gold/Mi:dm실측 두 스테이지
+    # 모두 r=2.3 에서 최고점(85.7%/78.6%, 현행1.6은 72.9%/67.1%). specificity 값은 그대로
+    # 두고 plausibility 만 올려 비율 맞춤(0.575/0.25=2.3).
+    trust_weight_plausibility: float = 0.575  # 시공간 개연성 (kinematic, 알고리즘)
+    trust_weight_specificity: float = 0.25    # 구체성 (제보 구조화 LLM, tip_llm)
+    trust_base_p: float = 0.3                 # 아무 신호도 없을 때의 사전 신뢰
 
     # kinematic 상한 — v_max(km/h) × Δt = 도달 가능 반경. 넘으면 지수 감쇠.
     #
@@ -232,6 +236,9 @@ class Settings(BaseSettings):
     reach_vmax_dementia_kmh: float = 4.32
     reach_vmax_id_kmh: float = 5.0
     reach_min_dt_hours: float = 0.05         # Δt 하한 — 0 나누기·동시목격 방지
+    # 초과거리 감쇠 계수 — plausibility() 의 exp(-k·(d-d_max)/d_max). 1.0 = 기존 암묵값.
+    # 값이 클수록 d_max 를 살짝만 넘어도 급감쇠(엄격), 작을수록 완만(관대). P1-6 튜닝 대상.
+    reach_decay_k: float = 1.0
 
     # ── 개인정보 파기 (개인정보 보호법 §21 + 표준 개인정보 보호지침) ─────
     # 종결(발견/철회) 후 이 일수가 지나면 purge_expired 가 케이스를 파기한다.

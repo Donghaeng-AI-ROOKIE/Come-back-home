@@ -91,8 +91,10 @@ def test_score_weighted_average():
     tip = _tip(location=_pt_km_north(2.0), seen_at=T0 + timedelta(hours=1))
     p = trust.score_tip(tip, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
                         structured={"specificity": "상"})
-    # 개연성1·구체성0.9 의 가중평균 (0.4/0.25)
-    expected = (0.4 * 1.0 + 0.25 * 0.9) / (0.4 + 0.25)
+    # 개연성1·구체성0.9 의 가중평균. 가중치는 config.py 값 그대로 참조(하드코딩하면
+    # P1-5 실험으로 r 이 바뀔 때마다 깨짐 — 2026-07-31 r=1.6→2.3 반영 때 실제로 깨졌었음).
+    w1, w2 = settings.trust_weight_plausibility, settings.trust_weight_specificity
+    expected = (w1 * 1.0 + w2 * 0.9) / (w1 + w2)
     assert abs(p - expected) < 1e-9
 
 

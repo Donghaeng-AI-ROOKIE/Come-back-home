@@ -77,6 +77,17 @@ def _distance_km(
         return haversine_km(lkp, tip_location), "fallback_disabled"
 
 
+def decay_factor(d: float, d_max: float, k: float) -> float:
+    """d_max 초과분의 지수 감쇠 계수 exp(-k·(d-d_max)/d_max). d ≤ d_max 는 호출측(1.0)에서 처리.
+
+    k 가 클수록 초과분에 더 가혹(급감쇠), 작을수록 관대(완만). P1-6 튜닝 대상 — 순수
+    함수로 분리해 plausibility() 없이도(거리·시간 없이 비율만으로) 스윕 가능하게 한다.
+    """
+    if d_max <= 0:            # 방어 — dt 하한이 있어 정상 경로에선 도달 안 함
+        return 0.0
+    return math.exp(-k * (d - d_max) / d_max)
+
+
 def plausibility(
     lkp: GeoPoint,
     lkp_time: datetime,
@@ -86,20 +97,22 @@ def plausibility(
     seen_at: datetime | None = None,
     created_at: datetime,
     use_roadnet: bool | None = None,
+    decay_k: float | None = None,
 ) -> float:
     """제보 위치의 시공간 개연성 ∈ [0, 1].
 
-    d ≤ d_max → 1.0, 아니면 exp(−(d−d_max)/d_max).
-    거리는 기본 직선(haversine). use_roadnet=True(또는 config.use_roadnet)면
-    도로망 최단경로를 쓰되, 그래프 밖·경로 없음 등으로 실패하면 직선으로
-    폴백한다 — 직선은 실제거리의 하한이라 폴백해도 "직선으로도 상한을
-    넘으면 확실히 불가능"이라는 판정 안전성은 유지된다.
+    d ≤ d_max → 1.0, 아니면 decay_factor(d, d_max, k). 거리는 기본 직선(haversine).
+    use_roadnet=True(또는 config.use_roadnet)면 도로망 최단경로를 쓰되, 그래프 밖·
+    경로 없음 등으로 실패하면 직선으로 폴백한다 — 직선은 실제거리의 하한이라 폴백해도
+    "직선으로도 상한을 넘으면 확실히 불가능"이라는 판정 안전성은 유지된다.
+
+    decay_k: 미지정 시 config.reach_decay_k. 실험(P1-6 k 스윕)에서 전역 설정을
+    건드리지 않고 값을 바꿔보기 위한 오버라이드 — use_roadnet 과 동일 패턴.
     """
     dt_h = elapsed_hours(lkp_time, seen_at, created_at)
     d_max = vmax_kmh(persona_type) * dt_h
     d, _dist_mode = _distance_km(lkp, tip_location, use_roadnet)
     if d <= d_max:
         return 1.0
-    if d_max <= 0:            # 방어 — dt 하한이 있어 정상 경로에선 도달 안 함
-        return 0.0
-    return math.exp(-(d - d_max) / d_max)
+    k = settings.reach_decay_k if decay_k is None else decay_k
+    return decay_factor(d, d_max, k)
