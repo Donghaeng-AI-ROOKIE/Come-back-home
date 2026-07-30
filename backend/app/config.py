@@ -77,6 +77,20 @@ class Settings(BaseSettings):
     #   안 잡힌다. prior·마음은 파인튜닝본, 축 채점은 base 로 나눈다.
     axis_scoring_model: str = ""
 
+    # 마음 재해석 전용 — 2026-07-30 모델 확정 (근거·전 과정:
+    #   experiments/mind_tuning/결과_20260730_행동LoRA_게이트_8셀비교.md).
+    #   mind_model: 비우면 exaone_model. 운영 확정값 = "exaone-mind-v5"
+    #     (vLLM --lora-modules 이름 — 행동 95%·goal 100%·치명 0).
+    #     어댑터는 마음 재해석에만 라우팅한다 — prior(sar)·축 채점(axis) 경로
+    #     오적용 금지 (경로 교차 시 형식·성능 손상 실측).
+    #   mind_contract: "v2" = 1인칭 행동 계약 + guided decoding (확정 기본) /
+    #     "v1" = 분석가형 (롤백용 — 어댑터 없이 base 프롬프트-온리와 짝).
+    #   기본값을 확정값으로 명시 — 비워 두면 exaone_model(현 운영값 sar)로
+    #   폴백돼 마음 경로가 조용히 오라우팅되는 함정이 있다. 어댑터 미마운트
+    #   환경에서는 호출 실패 → 기존 휴리스틱 폴백으로 안전 저하.
+    mind_model: str = "exaone-mind-v5"
+    mind_contract: str = "v2"
+
     # RAG — 논문 코퍼스 검색으로 EXAONE 추론에 근거를 붙인다 (P1-4).
     #   인덱스는 sar-finetune/build_rag.py 산출물(npz 한 개: 벡터+메타+임베더명).
     #   임베더는 인덱스에 기록된 것을 따른다(질의·문서 모델이 다르면 검색이 무의미).

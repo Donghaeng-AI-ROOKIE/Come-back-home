@@ -22,6 +22,7 @@ from datetime import datetime
 from time import perf_counter
 
 from app.config import settings
+from app.llm import mind_v2
 from app.llm.base import LLMClient
 from app.phase2 import guardrail
 from app.schemas.persona import Persona, PersonaType
@@ -446,6 +447,7 @@ class ExaoneClient(LLMClient):
         enable_thinking: bool = False,
         guided_json: dict | None = None,
         repetition_penalty: float | None = None,
+        model: str | None = None,
     ) -> str:
         """messages=[{role, content}...] → assistant content 문자열.
 
@@ -455,7 +457,7 @@ class ExaoneClient(LLMClient):
         짧은 구조화 출력을 자주 받는 용도라 기본 꺼둔다.
         """
         body: dict = {
-            "model": self.model,
+            "model": model or self.model,
             "messages": messages,
             "temperature": temperature,
             "max_tokens": max_tokens,
@@ -586,14 +588,27 @@ class ExaoneClient(LLMClient):
                               changed=True), None)
         if self.is_stub:
             return fallback
-        mind_input = _build_mind_input(persona, gauge_report, labels, prior, scene, rng)
-        # generate_prior 와 같은 질의를 쓰므로 검색기 캐시에 적중한다(임베딩 왕복 없음).
-        rag = _rag_block(persona)
-        mind_msgs = [{"role": "system", "content": _mind_system_for(persona.type)}]
-        if rag:
-            mind_msgs.append({"role": "user", "content": rag})
-            mind_msgs.append({"role": "assistant", "content": "확인했다. 상황을 주면 JSON 으로 답하겠다."})
-        mind_msgs.append({"role": "user", "content": mind_input})
+        # 계약 분기 (2026-07-30 모델 확정 — app/llm/mind_v2.py 모듈 주석 참조):
+        #   v2 = 1인칭 행동 계약 × mind 전용 어댑터 × RAG 제외 × 구조 guided.
+        #   v1 = 분석가형 롤백 경로 (실험 모듈의 monkeypatch 대상이기도 함 —
+        #        골드셋 평가기는 mind_contract 를 "v1"로 내려 직접 제어한다).
+        if settings.mind_contract == "v2":
+            mind_input = mind_v2.build_input(persona, gauge_report, labels, prior, scene, rng)
+            mind_msgs = [{"role": "system", "content": mind_v2.system_for(persona.type)},
+                         {"role": "user", "content": mind_input}]
+            guided, rep_penalty = mind_v2.GUIDED_JSON, mind_v2.REP_PENALTY
+            mind_model = settings.mind_model or self.model
+        else:
+            mind_input = _build_mind_input(persona, gauge_report, labels, prior, scene, rng)
+            # generate_prior 와 같은 질의를 쓰므로 검색기 캐시에 적중한다(임베딩 왕복 없음).
+            rag = _rag_block(persona)
+            mind_msgs = [{"role": "system", "content": _mind_system_for(persona.type)}]
+            if rag:
+                mind_msgs.append({"role": "user", "content": rag})
+                mind_msgs.append({"role": "assistant", "content": "확인했다. 상황을 주면 JSON 으로 답하겠다."})
+            mind_msgs.append({"role": "user", "content": mind_input})
+            guided, rep_penalty = _MIND_GUIDED_JSON, _MIND_REP_PENALTY
+            mind_model = None
         try:
             _t = perf_counter()
             raw = self.chat(
@@ -602,15 +617,14 @@ class ExaoneClient(LLMClient):
                 # 400 에서 K-EXAONE 장황 reasoning 이 잘려 조용한 폴백(실측 1/60) —
                 # 잘림은 데이터 손실이므로 여유를 둔다.
                 max_tokens=500,
-                # 기본 None(운영 무변경). 실험 모듈이 계약 스키마를 주입하면
-                # guided decoding 활성 (형식 붕괴 원천 차단).
-                guided_json=_MIND_GUIDED_JSON,
-                repetition_penalty=_MIND_REP_PENALTY,
+                guided_json=guided,
+                repetition_penalty=rep_penalty,
+                model=mind_model,
             )
             self._log_call("mind", mind_input, raw,
                            elapsed_ms=(perf_counter() - _t) * 1000)
             data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
-            if _MIND_GUIDED_JSON is not None:
+            if guided is not None:
                 data = {k: _fix_mojibake(v) for k, v in data.items()}
         except Exception:  # noqa: BLE001 — LLM 실패가 시뮬레이션을 막으면 안 됨
             return fallback
