@@ -1,0 +1,25 @@
+C:\AIRookie\Come-back-home\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+═══ 챗봇 온도 스윕 · 설정 1개 × 시나리오 8개 × 3회 ═══
+    추출·정정 [0.0] × 작문 [0.4]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/391 [00:00<?, ?it/s]Loading weights: 100%|##########| 391/391 [00:00<00:00, 8998.23it/s]
+[phase0] 끌림점 좌표화 실패 → 예측 제외: 예전에 살던 집(마포구 신수동이요.)
+[phase0] 끌림점 좌표화 실패 → 예측 제외: 예전에 살던 집(마포구 신수동이요.)
+[phase0] 끌림점 좌표화 실패 → 예측 제외: 예전에 살던 집(마포구 신수동이요.)
+  · ex0.0/ph0.4    완료 (6.3분) — 수집  67% evidence  61% 과다추출 0.3 중복 4.8
+
+════════════════════════════════════════════════════════════════════════════════════════════════════════
+[추출계]
+설정                 수집     선호  evidence      축     과다추출    이름    나이     삭제반영     지역정정     원점
+────────────────────────────────────────────────────────────────────────────────────────────────────────
+ex0.0/ph0.4       67%    67%       61%    54%     0.33  100%  100%        —        —      —
+
+[작문계 · 배관]
+설정                 질문수     중복질문     전제질문     부정조건     종료    LLM열화
+────────────────────────────────────────────────────────────────────────────────────────────────────────
+ex0.0/ph0.4       20.2     4.75     0.25     0.54    88%       0%
+════════════════════════════════════════════════════════════════════════════════════════════════════════
+수집=골드 끌림점 재현율 · 과다추출=골드 외 추출(환각, 낮을수록 좋음)
+전제질문/부정조건=가드가 막는 패턴이 질문에 샌 횟수(낮을수록 좋음)
+원본 저장: C:\AIRookie\Come-back-home\backend\experiments\temp_sweep\results\chatbot_temp_noise_runs3.json
