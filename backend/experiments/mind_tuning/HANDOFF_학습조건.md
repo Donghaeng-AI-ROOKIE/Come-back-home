@@ -18,8 +18,12 @@
 - **정확한 체크포인트를 기입할 것** (별칭 `exaone-base` 만으로는 부족):
   서버의 vLLM 기동 스크립트에서 `--model` 값(HF ID 또는 로컬 경로)·revision·
   tokenizer revision 을 확인해 아래에 기록하고 학습·서빙 양쪽에 동일 적용.
-  - base 체크포인트: (민아 기입: __________)
-  - revision / tokenizer: (민아 기입: __________)
+  - base 체크포인트: `LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct`
+    (2026-07-30 서버 vLLM 기동 인자에서 확인 — `--served-model-name exaone-base`)
+  - code-revision: `0ff6b5ec7c13b049b253a16a889aa269e6b79a94` (기동 인자 그대로)
+  - 서버 vLLM 은 이미 `--enable-lora --max-loras 2 --max-lora-rank 16` 으로
+    sar·axis 어댑터를 서빙 중 — exaone-mind 추가 시 `--max-loras 3` 으로 재시작.
+    학습 LoRA rank 는 16 유지(서버 상한과 일치).
 - `messages` 에 모델 공식 chat template 적용.
 - **loss 는 assistant 답변 토큰에만** (system·user 토큰 마스킹).
 - 산출 어댑터 이름 제안: `exaone-mind` (prior 용 sar, 축 채점용 base 와 구분).
