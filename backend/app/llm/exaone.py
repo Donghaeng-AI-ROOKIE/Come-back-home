@@ -147,6 +147,26 @@ _MIND_EXAMPLE = {
 }
 
 
+# 마음 재해석 guided decoding 설정 — 기본 None(운영 종전 동작). 실험/전환 시
+# 계약별 JSON 스키마와 반복 페널티를 모듈 속성으로 주입한다 (first_person.patch).
+_MIND_GUIDED_JSON: dict | None = None
+_MIND_REP_PENALTY: float | None = None
+
+
+def _fix_mojibake(v):
+    """xgrammar 가 한글 enum/const 를 UTF-8 바이트 단위 \\u00XX 로 이스케이프하는
+    이슈 보정 (실측: "중" → "\\u00ec\\u00a4\\u0091"). latin-1→UTF-8 왕복은
+    바이트 이스케이프 문자열에만 성립하고 정상 한글은 latin-1 인코딩 자체가
+    불가능(ord>0xFF)해 오탐이 구조적으로 없다."""
+    if (isinstance(v, str) and v
+            and all(ord(c) <= 0xFF for c in v) and any(ord(c) > 0x7F for c in v)):
+        try:
+            return v.encode("latin-1").decode("utf-8")
+        except (UnicodeDecodeError, UnicodeEncodeError):
+            return v
+    return v
+
+
 def _mind_system_for(ptype: PersonaType) -> str:
     return _MIND_RULES.format(example=_MIND_EXAMPLE.get(ptype, ""))
 
@@ -424,6 +444,8 @@ class ExaoneClient(LLMClient):
         temperature: float = 0.3,
         max_tokens: int = 512,
         enable_thinking: bool = False,
+        guided_json: dict | None = None,
+        repetition_penalty: float | None = None,
     ) -> str:
         """messages=[{role, content}...] → assistant content 문자열.
 
@@ -432,13 +454,21 @@ class ExaoneClient(LLMClient):
         있다 (실측: 512토큰 전부 reasoning, finish_reason=length). 우리 파이프라인은
         짧은 구조화 출력을 자주 받는 용도라 기본 꺼둔다.
         """
-        payload = json.dumps({
+        body: dict = {
             "model": self.model,
             "messages": messages,
             "temperature": temperature,
             "max_tokens": max_tokens,
             "chat_template_kwargs": {"enable_thinking": enable_thinking},
-        }).encode("utf-8")
+        }
+        # vLLM 확장 — guided_json: 스키마 강제 디코딩(깨진 JSON·어휘 밖 값이
+        # 문법적으로 생성 불가), repetition_penalty: 반복 루프 억제.
+        # (마음 재해석 형식 붕괴 실측 2/64 의 처방 — 미지정이면 종전과 동일)
+        if guided_json is not None:
+            body["guided_json"] = guided_json
+        if repetition_penalty is not None:
+            body["repetition_penalty"] = repetition_penalty
+        payload = json.dumps(body).encode("utf-8")
         req = urllib.request.Request(
             self._chat_url(),
             data=payload,
@@ -572,10 +602,16 @@ class ExaoneClient(LLMClient):
                 # 400 에서 K-EXAONE 장황 reasoning 이 잘려 조용한 폴백(실측 1/60) —
                 # 잘림은 데이터 손실이므로 여유를 둔다.
                 max_tokens=500,
+                # 기본 None(운영 무변경). 실험 모듈이 계약 스키마를 주입하면
+                # guided decoding 활성 (형식 붕괴 원천 차단).
+                guided_json=_MIND_GUIDED_JSON,
+                repetition_penalty=_MIND_REP_PENALTY,
             )
             self._log_call("mind", mind_input, raw,
                            elapsed_ms=(perf_counter() - _t) * 1000)
             data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
+            if _MIND_GUIDED_JSON is not None:
+                data = {k: _fix_mojibake(v) for k, v in data.items()}
         except Exception:  # noqa: BLE001 — LLM 실패가 시뮬레이션을 막으면 안 됨
             return fallback
         return guardrail.sanitize_mind(data, current, labels)
