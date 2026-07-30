@@ -1,0 +1,320 @@
+{
+  "n": 5,
+  "temps": [
+    0.0,
+    0.2,
+    0.4
+  ],
+  "rows": [
+    {
+      "call": "extract",
+      "case": "autobiographical_destination_pull",
+      "note": "과거 일터 회귀 — 장소 1개 + 반복 행동",
+      "temp": 0.0,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "attraction_points": [
+          "{\"area_text\": \"면목동\", \"evidence\": \"mention_only\", \"label\": \"방앗간\", \"place_type\": \"workplace\"}"
+        ],
+        "behavior_notes": [],
+        "fields": {
+          "type": "dementia"
+        },
+        "preferred_targets": [],
+        "slot_filled": true
+      }
+    },
+    {
+      "call": "extract",
+      "case": "dementia_wandering_pattern",
+      "note": "과거 실종 이력 — 새 장소(발견지)를 이전 턴 장소와 구분해야 함",
+      "temp": 0.0,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "attraction_points": [
+          "{\"area_text\": \"면목동 버스정류장\", \"evidence\": \"previous_missing_found\", \"label\": \"면목동 버스정류장\", \"place_type\": \"bus_stop\"}"
+        ],
+        "behavior_notes": [
+          "\"면목동 버스정류장 근처에서 계속 서성이는 편\""
+        ],
+        "fields": {
+          "type": "dementia"
+        },
+        "preferred_targets": [],
+        "slot_filled": true
+      }
+    },
+    {
+      "call": "extract",
+      "case": "mobility_transport_capacity",
+      "note": "축 근거만 있고 장소는 없음 — 과다추출(환각) 검출용",
+      "temp": 0.0,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "attraction_points": [],
+        "behavior_notes": [
+          "\"쉬지 않고 30분은 걸으세요\""
+        ],
+        "fields": {
+          "age": "65세",
+          "type": "dementia"
+        },
+        "preferred_targets": [],
+        "slot_filled": true
+      }
+    },
+    {
+      "call": "correction",
+      "case": "방앗간이 아니라 떡집이에요.",
+      "note": "이름 정정 — 삭제가 아니라 교체",
+      "temp": 0.0,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "fields": {},
+        "place_ops": [
+          "{\"op\": \"rename\", \"target\": \"방앗간\", \"value\": \"떡집\"}"
+        ]
+      }
+    },
+    {
+      "call": "correction",
+      "case": "방앗간은 면목동에 있어요.",
+      "note": "장소 지역 지정",
+      "temp": 0.0,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "fields": {},
+        "place_ops": [
+          "{\"op\": \"set_area\", \"target\": \"방앗간\", \"value\": \"면목동\"}"
+        ]
+      }
+    },
+    {
+      "call": "correction",
+      "case": "버스정류장은 빼주세요.",
+      "note": "삭제 지시",
+      "temp": 0.0,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "fields": {},
+        "place_ops": [
+          "{\"op\": \"remove\", \"target\": \"버스정류장\", \"value\": \"\"}"
+        ]
+      }
+    },
+    {
+      "call": "extract",
+      "case": "autobiographical_destination_pull",
+      "note": "과거 일터 회귀 — 장소 1개 + 반복 행동",
+      "temp": 0.2,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "attraction_points": [
+          "{\"area_text\": \"면목동\", \"evidence\": \"mention_only\", \"label\": \"방앗간\", \"place_type\": \"workplace\"}"
+        ],
+        "behavior_notes": [],
+        "fields": {
+          "type": "dementia"
+        },
+        "preferred_targets": [],
+        "slot_filled": true
+      }
+    },
+    {
+      "call": "extract",
+      "case": "dementia_wandering_pattern",
+      "note": "과거 실종 이력 — 새 장소(발견지)를 이전 턴 장소와 구분해야 함",
+      "temp": 0.2,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "attraction_points": [
+          "{\"area_text\": \"면목동 버스정류장\", \"evidence\": \"previous_missing_found\", \"label\": \"면목동 버스정류장\", \"place_type\": \"bus_stop\"}"
+        ],
+        "behavior_notes": [
+          "\"면목동 버스정류장 근처에서 계속 서성이는 편\""
+        ],
+        "fields": {
+          "type": "dementia"
+        },
+        "preferred_targets": [],
+        "slot_filled": true
+      }
+    },
+    {
+      "call": "extract",
+      "case": "mobility_transport_capacity",
+      "note": "축 근거만 있고 장소는 없음 — 과다추출(환각) 검출용",
+      "temp": 0.2,
+      "mode_rate": 0.6,
+      "variants": 2,
+      "sample": {
+        "attraction_points": [],
+        "behavior_notes": [
+          "\"쉬지 않고 30분은 걸으세요\""
+        ],
+        "fields": {
+          "age": "65세",
+          "type": "dementia"
+        },
+        "preferred_targets": [],
+        "slot_filled": true
+      }
+    },
+    {
+      "call": "correction",
+      "case": "방앗간이 아니라 떡집이에요.",
+      "note": "이름 정정 — 삭제가 아니라 교체",
+      "temp": 0.2,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "fields": {},
+        "place_ops": [
+          "{\"op\": \"rename\", \"target\": \"방앗간\", \"value\": \"떡집\"}"
+        ]
+      }
+    },
+    {
+      "call": "correction",
+      "case": "방앗간은 면목동에 있어요.",
+      "note": "장소 지역 지정",
+      "temp": 0.2,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "fields": {},
+        "place_ops": [
+          "{\"op\": \"set_area\", \"target\": \"방앗간\", \"value\": \"면목동\"}"
+        ]
+      }
+    },
+    {
+      "call": "correction",
+      "case": "버스정류장은 빼주세요.",
+      "note": "삭제 지시",
+      "temp": 0.2,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "fields": {},
+        "place_ops": [
+          "{\"op\": \"remove\", \"target\": \"버스정류장\", \"value\": \"\"}"
+        ]
+      }
+    },
+    {
+      "call": "extract",
+      "case": "autobiographical_destination_pull",
+      "note": "과거 일터 회귀 — 장소 1개 + 반복 행동",
+      "temp": 0.4,
+      "mode_rate": 0.2,
+      "variants": 5,
+      "sample": {
+        "attraction_points": [
+          "{\"area_text\": \"면목동\", \"evidence\": \"mention_only\", \"label\": \"방앗간\", \"place_type\": \"workplace\"}"
+        ],
+        "behavior_notes": [],
+        "fields": {
+          "age": null,
+          "home": null,
+          "name": null,
+          "type": null
+        },
+        "preferred_targets": [],
+        "slot_filled": false
+      }
+    },
+    {
+      "call": "extract",
+      "case": "dementia_wandering_pattern",
+      "note": "과거 실종 이력 — 새 장소(발견지)를 이전 턴 장소와 구분해야 함",
+      "temp": 0.4,
+      "mode_rate": 0.4,
+      "variants": 4,
+      "sample": {
+        "attraction_points": [
+          "{\"area_text\": \"면목동 버스정류장\", \"evidence\": \"previous_missing_found\", \"label\": \"면목동 버스정류장\", \"place_type\": \"bus_stop\"}"
+        ],
+        "behavior_notes": [
+          "\"계속 서성이는 편\""
+        ],
+        "fields": {
+          "type": "dementia"
+        },
+        "preferred_targets": [],
+        "slot_filled": true
+      }
+    },
+    {
+      "call": "extract",
+      "case": "mobility_transport_capacity",
+      "note": "축 근거만 있고 장소는 없음 — 과다추출(환각) 검출용",
+      "temp": 0.4,
+      "mode_rate": 0.2,
+      "variants": 5,
+      "sample": {
+        "attraction_points": [],
+        "behavior_notes": [],
+        "fields": {
+          "age": "모름",
+          "home": "모름",
+          "type": "dementia"
+        },
+        "preferred_targets": [
+          "{\"evidence\": \"caregiver_report\", \"label\": \"지하철\", \"target_type\": \"transport\"}"
+        ],
+        "slot_filled": true
+      }
+    },
+    {
+      "call": "correction",
+      "case": "방앗간이 아니라 떡집이에요.",
+      "note": "이름 정정 — 삭제가 아니라 교체",
+      "temp": 0.4,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "fields": {},
+        "place_ops": [
+          "{\"op\": \"rename\", \"target\": \"방앗간\", \"value\": \"떡집\"}"
+        ]
+      }
+    },
+    {
+      "call": "correction",
+      "case": "방앗간은 면목동에 있어요.",
+      "note": "장소 지역 지정",
+      "temp": 0.4,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "fields": {},
+        "place_ops": [
+          "{\"op\": \"set_area\", \"target\": \"방앗간\", \"value\": \"면목동\"}"
+        ]
+      }
+    },
+    {
+      "call": "correction",
+      "case": "버스정류장은 빼주세요.",
+      "note": "삭제 지시",
+      "temp": 0.4,
+      "mode_rate": 1.0,
+      "variants": 1,
+      "sample": {
+        "fields": {},
+        "place_ops": [
+          "{\"op\": \"remove\", \"target\": \"버스정류장\", \"value\": \"\"}"
+        ]
+      }
+    }
+  ]
+}

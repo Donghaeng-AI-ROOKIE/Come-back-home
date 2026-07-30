@@ -90,7 +90,7 @@ class MidmClient(LLMClient):
                     {"role": "system", "content": prompts.EXTRACT_SYSTEM},
                     {"role": "user", "content": prompts.build_extract_input(target_slot, conversation)},
                 ],
-                temperature=0.1,
+                temperature=settings.midm_temp_extract,
                 max_tokens=400,
             )
         except Exception:  # noqa: BLE001 — 호출 실패(엔드포인트 만료 등)가 인터뷰를 죽이면 안 됨.
@@ -118,7 +118,7 @@ class MidmClient(LLMClient):
                     {"role": "user", "content": prompts.build_correction_input(
                         place_labels, utterance)},
                 ],
-                temperature=0.1,
+                temperature=settings.midm_temp_correction,
                 max_tokens=400,
             )
         except Exception:  # noqa: BLE001 — 정정 실패가 등록 흐름을 죽이면 안 된다
@@ -149,7 +149,7 @@ class MidmClient(LLMClient):
                     {"role": "user", "content": prompts.build_phrase_input(
                         ptype, target_slot, is_followup, conversation, known, collected)},
                 ],
-                temperature=0.4,
+                temperature=settings.midm_temp_phrase,
                 max_tokens=160,
             )
         except Exception:  # noqa: BLE001 — 호출 실패 시 씨앗 질문으로 폴백 (스텁과 동일)

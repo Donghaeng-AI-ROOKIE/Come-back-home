@@ -91,7 +91,7 @@ class TipLLMClient(LLMClient):
                     {"role": "system", "content": _TIP_STRUCTURE_SYSTEM},
                     {"role": "user", "content": text},
                 ],
-                temperature=0.1,
+                temperature=settings.tip_llm_temp_structure,
                 max_tokens=400,
             )
             data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
