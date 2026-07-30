@@ -61,7 +61,8 @@ def mc_metrics(prior: PriorParams, persona: Persona, elapsed: float) -> dict:
                          for c, p in poa.items()))
         acc, n = 0.0, 0
         for _, p in sorted(poa.items(), key=lambda kv: kv[1], reverse=True):
-            acc += p; n += 1
+            acc += p
+            n += 1
             if acc >= 0.8:
                 break
         covs.append(n)
