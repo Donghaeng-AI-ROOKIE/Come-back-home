@@ -26,8 +26,10 @@ if hasattr(sys.stdout, "reconfigure"):
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))  # backend/ — scenarios_70.py 의 app.* import 용
 sys.path.insert(0, str(Path(__file__).parent))
 
+from app.config import settings  # noqa: E402 — 하드코딩 대신 실제 config 값 참조(안 그러면 r 바뀔 때마다 낡음)
+
 RESULTS_PATH = Path(__file__).parent / "results" / "trust_weight_sweep.json"
-CURRENT_R = 1.6  # config.py trust_weight_plausibility(0.40)/specificity(0.25)
+CURRENT_R = round(settings.trust_weight_plausibility / settings.trust_weight_specificity, 4)
 
 
 def flip_points(sweep: list[dict], scenario_id: str) -> list[dict]:
@@ -53,7 +55,7 @@ def print_accuracy_peak(stage: dict, stage_name: str) -> None:
     print(f"  {stage_name}: 최고 정답률={best['accuracy']:.1%} (n={best['n']}), "
           f"r={peak_rs if not flat else f'{peak_rs[0]}~{peak_rs[-1]} 등 {len(peak_rs)}개 동률'}")
     if at_current:
-        print(f"    현재 r=1.6 정답률: {at_current['accuracy']:.1%}")
+        print(f"    현재 r={CURRENT_R} 정답률: {at_current['accuracy']:.1%}")
     if flat:
         print("    ⚠ 봉우리가 평평함 — '최적 r 못 찾음'이 아니라 'r 에 둔감 = 현행 유지도 정당'일 수 있음")
 

@@ -35,7 +35,8 @@ def score_tip(
     persona_type: PersonaType,
     structured: dict | None = None,
 ) -> float:
-    """제보 신뢰도 p 산출. 가중치는 예시값 — 합성 시나리오로 튜닝.
+    """제보 신뢰도 p 산출. 가중치 r=w1/w2=2.3 확정(P1-5, 2026-07-31) — 근거는 config.py
+    trust_weight_plausibility 주석 및 experiments/trust_weight/ 참고.
 
     structured: 제보 구조화 결과(specificity 등급 등).
     없으면 tip.text 로 즉석 구조화.

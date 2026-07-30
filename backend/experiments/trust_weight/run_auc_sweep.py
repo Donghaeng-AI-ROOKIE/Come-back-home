@@ -20,6 +20,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 from sklearn.metrics import roc_auc_score  # noqa: E402
 
+from app.config import settings  # noqa: E402
 from app.geo import reachability  # noqa: E402
 from app.llm import tip_llm as tip_llm_client  # noqa: E402
 from app.phase3.trust import SPECIFICITY_LEVELS  # noqa: E402
@@ -28,6 +29,9 @@ from genuine_scenarios import CREATED_AT, GENUINE_SCENARIOS, LKP, LKP_TIME, PERS
 
 RESULTS_DIR = Path(__file__).parent / "results"
 R_RANGE = [round(1.0 + 0.1 * i, 1) for i in range(21)]  # 1.0~3.0
+# 하드코딩 대신 config 값 참조 — 안 그러면 r 확정치가 바뀔 때마다 "현재" 표시가 낡는다
+# (2026-07-31 셀프리뷰에서 발견: r=1.6→2.3 반영 후에도 이 파일이 1.6을 "현재"로 표시하던 버그).
+CURRENT_R = round(settings.trust_weight_plausibility / settings.trust_weight_specificity, 4)
 
 
 def compute_p(plaus: float, level: str, r: float) -> float:
@@ -110,12 +114,12 @@ def main() -> None:
 
     print("\n=== r별 AUC (Stage A) ===")
     for row in stage_a_rows:
-        marker = " <-- 현재" if row["r"] == 1.6 else ""
+        marker = " <-- 현재" if row["r"] == CURRENT_R else ""
         print(f"  r={row['r']}: AUC={row['auc']}{marker}")
     if not result["stage_b"].get("skipped"):
         print("\n=== r별 AUC (Stage B) ===")
         for row in result["stage_b"]["sweep"]:
-            marker = " <-- 현재" if row["r"] == 1.6 else ""
+            marker = " <-- 현재" if row["r"] == CURRENT_R else ""
             print(f"  r={row['r']}: AUC={row['auc']}{marker}")
 
 
