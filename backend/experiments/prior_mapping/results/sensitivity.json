@@ -1,0 +1,144 @@
+{
+  "epsilon": [
+    {
+      "eps": 0.005,
+      "p_seek_floor후": 0.976,
+      "d_seek": 0.245,
+      "d_rand": 0.811,
+      "pull_gap_km": 0.566,
+      "seed_spread": 0.042
+    },
+    {
+      "eps": 0.02,
+      "p_seek_floor후": 0.909,
+      "d_seek": 0.281,
+      "d_rand": 0.802,
+      "pull_gap_km": 0.521,
+      "seed_spread": 0.031
+    },
+    {
+      "eps": 0.05,
+      "p_seek_floor후": 0.8,
+      "d_seek": 0.314,
+      "d_rand": 0.774,
+      "pull_gap_km": 0.46,
+      "seed_spread": 0.029
+    },
+    {
+      "eps": 0.1,
+      "p_seek_floor후": 0.667,
+      "d_seek": 0.368,
+      "d_rand": 0.697,
+      "pull_gap_km": 0.329,
+      "seed_spread": 0.06
+    }
+  ],
+  "level_weights": [
+    {
+      "ratio": "3:2:1(현행)",
+      "w_배분": {
+        "옛집": 0.5,
+        "정릉시장": 0.333,
+        "문구점": 0.167
+      },
+      "w_top": 0.5,
+      "d_top_km": 0.609,
+      "d_top_spread": 0.024,
+      "coverage80": 11.7,
+      "cov_spread": 4
+    },
+    {
+      "ratio": "4:2:1",
+      "w_배분": {
+        "옛집": 0.571,
+        "정릉시장": 0.286,
+        "문구점": 0.143
+      },
+      "w_top": 0.571,
+      "d_top_km": 0.592,
+      "d_top_spread": 0.013,
+      "coverage80": 12.7,
+      "cov_spread": 3
+    },
+    {
+      "ratio": "5:2:1",
+      "w_배분": {
+        "옛집": 0.6,
+        "정릉시장": 0.267,
+        "문구점": 0.133
+      },
+      "w_top": 0.6,
+      "d_top_km": 0.571,
+      "d_top_spread": 0.058,
+      "coverage80": 10,
+      "cov_spread": 3
+    }
+  ],
+  "attraction_cap": [
+    {
+      "cap": 0.4,
+      "w_top": 0.462,
+      "w_배분": {
+        "옛집": 0.4,
+        "정릉시장": 0.462,
+        "문구점": 0.138
+      },
+      "d_top_km": 0.64,
+      "d_top_spread": 0.033,
+      "coverage80": 11.3,
+      "cov_spread": 1
+    },
+    {
+      "cap": 0.5,
+      "w_top": 0.5,
+      "w_배분": {
+        "옛집": 0.5,
+        "정릉시장": 0.385,
+        "문구점": 0.115
+      },
+      "d_top_km": 0.599,
+      "d_top_spread": 0.01,
+      "coverage80": 10.7,
+      "cov_spread": 3
+    },
+    {
+      "cap": 0.6,
+      "w_top": 0.6,
+      "w_배분": {
+        "옛집": 0.6,
+        "정릉시장": 0.308,
+        "문구점": 0.092
+      },
+      "d_top_km": 0.557,
+      "d_top_spread": 0.05,
+      "coverage80": 10,
+      "cov_spread": 2
+    },
+    {
+      "cap": 0.7,
+      "w_top": 0.675,
+      "w_배분": {
+        "옛집": 0.675,
+        "정릉시장": 0.25,
+        "문구점": 0.075
+      },
+      "d_top_km": 0.539,
+      "d_top_spread": 0.032,
+      "coverage80": 10,
+      "cov_spread": 2
+    },
+    {
+      "cap": 0.8,
+      "w_top": 0.675,
+      "w_배분": {
+        "옛집": 0.675,
+        "정릉시장": 0.25,
+        "문구점": 0.075
+      },
+      "d_top_km": 0.539,
+      "d_top_spread": 0.032,
+      "coverage80": 10,
+      "cov_spread": 2
+    }
+  ]
+}
