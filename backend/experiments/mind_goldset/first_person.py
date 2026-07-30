@@ -175,3 +175,21 @@ def patch(ex, keep_rag: bool = False, contract: str = "v1") -> None:
     ex._build_mind_input = build_fp_mind_input
     if not keep_rag:
         ex._rag_block = lambda *a, **k: ""
+    if contract == "v2":
+        # 형식 붕괴 실측(v5 게이트 2/64: inner 내 개행→유사 JSON 붕괴 1, 반복
+        # 루프 1)의 처방 — vLLM guided decoding 으로 JSON 구조·필수 필드를
+        # 강제한다. 값은 자유 문자열: 한글 enum 강제는 xgrammar 가 UTF-8 바이트
+        # 이스케이프(\u00XX)로 문법을 컴파일해 모델이 학습 토큰을 못 쓰고 확률이
+        # 붕괴하는 것을 실측(behavior 은신 57/64 왜곡) — 구조만 강제가 정답.
+        ex._MIND_GUIDED_JSON = {
+            "type": "object",
+            "properties": {
+                "inner": {"type": "string"},
+                "status": {"type": "string"},
+                "confusion_level": {"type": "string"},
+                "behavior": {"type": "string"},
+                "goal_label": {"type": ["string", "null"]},
+            },
+            "required": ["inner", "status", "confusion_level", "behavior", "goal_label"],
+        }
+        ex._MIND_REP_PENALTY = 1.05

@@ -148,6 +148,47 @@ def gauge_situation(rng: random.Random) -> tuple[str, dict, str]:
                   f"불안: {lv['불안']}. 방금 {fired} 게이지가 임계를 넘었다.")
         return fired, lv, report
 
+# 기능 수준(중증도) 축 — v3 어댑터 confusion 미스 12건 중 11건의 원인이
+# 이 축의 부재였다 (dev G03·G07: 경증 신호가 입력에 가득한데 학습 데이터에는
+# 경증/중증 어휘가 0회 → 모델이 조건화할 수 없음). 문장은 조각 조합으로 생성해
+# 템플릿 암기를 막는다. unspecified 는 문장을 넣지 않는다 — 신호 부재도 학습 대상.
+SEVERITY_FRAGMENTS = {
+    "dementia": {
+        "mild": {
+            "진단": ["작년에 진단을 받았다", "진단받은 지 얼마 안 됐다", "초기 처방 단계다"],
+            "소통": ["대화는 아직 원활하다.", "말씀은 또렷하게 하신다.", "의사소통에 어려움이 없다."],
+            "이동": ["혼자 마을버스도 탄다.", "동네 길은 정정하게 혼자 다닌다.", "가까운 곳은 혼자 다녀오신다."],
+        },
+        "severe": {
+            "진단": ["진단받은 지 여러 해 됐다", "증상이 많이 진행됐다", "최근 부쩍 나빠지셨다"],
+            "소통": ["요즘은 대화가 잘 안 된다.", "가족도 잘 못 알아보실 때가 있다.", "말씀이 자주 끊기고 뒤섞인다."],
+            "이동": ["외출은 늘 동행이 필요했다.", "혼자 나가신 적이 거의 없다.", "집 앞도 혼자는 못 다니신다."],
+        },
+    },
+    "developmental_disability": {
+        "mild": {
+            "진단": ["경증이라는 판정을 받았다", "일상 기능은 좋은 편이다", "경증이에요"],
+            "소통": ["이름과 동네를 또박또박 말한다.", "필요한 말은 스스로 한다.", "간단한 대화는 잘 통한다."],
+            "이동": ["동네에서는 혼자 익숙하게 다닌다.", "늘 다니는 노선은 혼자 탄다.", "익숙한 길은 혼자 잘 다닌다."],
+        },
+        "severe": {
+            "진단": ["중증 판정을 받았다", "지원이 많이 필요한 편이다", "중증이에요"],
+            "소통": ["말로 의사표현이 거의 안 된다.", "낯선 사람과는 대화가 안 된다.", "이름을 물어도 답하지 못한다."],
+            "이동": ["혼자 다녀본 적이 거의 없다.", "이동에는 항상 동행이 있었다.", "낯선 곳에서는 크게 동요한다."],
+        },
+    },
+}
+
+
+def severity_sentence(population: str, severity: str, rng: random.Random) -> str | None:
+    if severity == "unspecified":
+        return None
+    frag = SEVERITY_FRAGMENTS[population][severity]
+    return (f"{frag['진단'][rng.randrange(len(frag['진단']))]}. "
+            f"{frag['소통'][rng.randrange(len(frag['소통']))]} "
+            f"{frag['이동'][rng.randrange(len(frag['이동']))]}")
+
+
 SCENES = [
     "골목 입구의 빨간 우체통", "횡단보도 건너편의 약국 간판", "버스 정류장의 파란 표지",
     "공원 입구의 큰 느티나무", "상가 앞의 노란 차양", "주택가 모퉁이의 편의점 불빛",
@@ -247,21 +288,67 @@ def place_bucket(behavior_class: str) -> str:
 
 
 def confusion_for(claim: dict, archetype: str, rng: random.Random,
-                  gauge_confusion: str) -> str:
-    """정답 혼란도를 게이지 보고의 혼란도에서 유도한다 — 입력·정답 모순 쌍 차단.
+                  gauge_confusion: str, severity: str = "unspecified") -> str:
+    """정답 혼란도 = 행동류·근거 상황(주) + 기능 수준(주) + 게이지(보조).
 
-    v2 생성본까지는 정답 혼란이 보고와 독립이라 "혼란도: 중간"인데 답이 "상"인
-    모순 학습쌍이 가능했다. 기본값 = 보고 수준, 행동류·아키타입이 한 단계 보정.
+    v4(게이지 반향)의 실패 실측(exaone-mind 1차 게이트): 게이지 혼란을 그대로
+    되돌리도록 학습돼 dev(게이지 항상 '중간')에서 중 63/64 붕괴 — 게이트 미달.
+    게이지 값을 반향하는 LLM 은 정보를 추가하지 않는다. 골드셋 판정자들의 기대
+    (인지 손상 심하거나 근거 빈약할수록 혼란↑, 강근거 익숙 행동은 명료)를 주축으로
+    바꾸고, 게이지는 한 단계 보정으로 강등한다. 모순 차단은 유지 — 게이지 '높음'
+    에서 하 금지, '낮음'에서 상 금지.
+
+    기능 수준(v3 어댑터 실측 보강): 경증(대화 원활·단독 이동)은 한 단계 명료 쪽,
+    중증은 한 단계 혼란 쪽. 단 정보 빈약(population_only)에서는 경증 하향을 막는다
+    — 판단 근거 자체가 부족하면 명료 단정도 못 한다(dev G08 기대와 일치).
+    빈약→상 비율도 40%→25%로 완화(G08 상 과잉 실측).
     """
     order = ["하", "중", "상"]
-    idx = {"낮음": 0, "중간": 1, "높음": 2}[gauge_confusion]
-    if claim["behavior_class"] in HIGH_CONFUSION and rng.random() < 0.6:
-        idx = min(2, idx + 1)          # 길잃음·무목적 계열은 혼란이 위로 치우침
+    if claim["behavior_class"] in HIGH_CONFUSION:
+        idx = 2 if rng.random() < 0.6 else 1       # 길잃음·무목적 계열 = 혼란 우세
     elif archetype in {"confirmed_history", "caregiver_observed"} \
-            and claim["behavior_class"] in {"familiar_route", "goal_seeking", "repetitive_route"} \
-            and rng.random() < 0.5:
-        idx = max(0, idx - 1)          # 강근거 익숙 행동은 상대적으로 명료
+            and claim["behavior_class"] in {"familiar_route", "goal_seeking", "repetitive_route"}:
+        idx = 0 if rng.random() < 0.6 else 1       # 강근거 익숙 행동 = 명료 우세
+    elif archetype in {"population_only", "contradiction", "unlisted_intent"}:
+        idx = 1 if rng.random() < 0.75 else 2      # 근거 빈약·상충 = 중 우세
+    else:
+        idx = rng.choice([0, 1, 2])                # 그 외 = 전 구간 표집
+    if severity == "mild" and archetype != "population_only":
+        idx = max(idx - 1, 0)
+    elif severity == "severe":
+        idx = min(idx + 1, 2)
+    g = {"낮음": 0, "중간": 1, "높음": 2}[gauge_confusion]
+    if g == 2:
+        idx = max(idx, 1)                          # 게이지 높음이면 최소 중
+    elif g == 0:
+        idx = min(idx, 1)                          # 게이지 낮음이면 최대 중
     return order[idx]
+
+
+def confusion_teacher(severity: str, archetype: str, trigger: str,
+                      gauge_confusion: str) -> str:
+    """정답 혼란도 = 검증된 규칙의 증류 (생성기 v6 — 결정론 교사).
+
+    v1~v4 라벨은 rng 60/40 표집이라 같은 조건에 다른 정답이 붙었다 — 라벨
+    노이즈가 '중 고착'(가장 안전한 답으로 도피)의 구조적 원인. dev 16/16 을
+    실측한 rule_confusion.py 의 판정 구조를 3단 계약으로 증류해 라벨을 입력
+    가시 신호(기능수준 문장·정보빈약 노트·트리거)의 순수 함수로 만든다:
+      경증(비빈약) × 귀소 → 하 / 중증 × 불안 → 상 / 그 외 → 중.
+    게이지 극단값과의 모순 차단만 유지(하한·상한 클램프 — 역시 결정론).
+    """
+    poor = archetype == "population_only"
+    if severity == "mild" and not poor and trigger == "귀소":
+        idx = 0
+    elif severity == "severe" and trigger == "불안":
+        idx = 2
+    else:
+        idx = 1
+    g = {"낮음": 0, "중간": 1, "높음": 2}[gauge_confusion]
+    if g == 2:
+        idx = max(idx, 1)
+    elif g == 0:
+        idx = min(idx, 1)
+    return ["하", "중", "상"][idx]
 
 
 def scenario(claim: dict, archetype: str, variant: int) -> dict:
@@ -277,6 +364,7 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
         alt = PLACES["goal"][(variant + 5) % len(PLACES["goal"])]
     trigger_name, gauge_lv, report = gauge_situation(rng)
     scene = SCENES[rng.randrange(len(SCENES))]
+    severity = rng.choices(["mild", "unspecified", "severe"], weights=[3, 4, 3])[0]
 
     targetable = claim["behavior_class"] in TARGETABLE
     notes: list[str]
@@ -397,9 +485,13 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
         }
         goal = None
 
+    sev_sentence = severity_sentence(population, severity, rng)
+    if sev_sentence:
+        notes.insert(0, sev_sentence)
+
     labels = list(evidence)
     rng.shuffle(labels)
-    conf = confusion_for(claim, archetype, rng, gauge_lv["혼란도"])
+    conf = confusion_teacher(severity, archetype, trigger_name, gauge_lv["혼란도"])
     positive_behavior = archetype in {"confirmed_history", "caregiver_observed", "balanced"}
 
     # ── 1) 행동을 먼저 확정한다 — v3 정답 내부충돌(행동↔문장 모순 397건)의 원인이
@@ -447,7 +539,7 @@ def scenario(claim: dict, archetype: str, variant: int) -> dict:
         "report": report, "trigger": trigger_name,
         "scene": scene,
         "goal": goal, "behavior": behavior, "confusion": conf,
-        "status": status, "inner": inner,
+        "status": status, "inner": inner, "severity": severity,
         "rationale": rationale, "target": target, "archetype": archetype,
     }
 
@@ -496,9 +588,10 @@ def row_for(claim: dict, s: dict, perspective: str, variant: int) -> dict:
                 "paper_id": claim["source"]["paper_id"],
                 "pdf_page": claim["source"]["pdf_page"],
             }],
+            "severity": s["severity"],
             "evidence_policy": "individual_over_group",
             "gold_overlap": False,
-            "generator_version": "v4",
+            "generator_version": "v7",
         },
     }
 
@@ -534,10 +627,18 @@ def main(variants: int = 5, goal_variants: int = 16) -> None:
             )
             for variant in range(n_variants):
                 s = scenario(claim, archetype, variant)
+                # v7: '하' 라벨 train 행 3배 오버샘플 — v5 실측에서 소수 클래스
+                # (8%)가 '중'으로 통째 흡수(하 출력 0/64)된 것의 표준 처방.
+                # val 은 증량하지 않는다(감시 지표 왜곡 방지).
+                reps = 3 if (split == "train" and s["confusion"] == "하") else 1
                 for perspective in outputs:
                     row = row_for(claim, s, perspective, variant)
                     row["metadata"]["split"] = split
                     outputs[perspective].append(row)
+                    for k in range(1, reps):
+                        dup = json.loads(json.dumps(row, ensure_ascii=False))
+                        dup["id"] = f"{row['id']}-O{k}"
+                        outputs[perspective].append(dup)
 
     dataset_dir = HERE / "dataset"
     dataset_dir.mkdir(exist_ok=True)

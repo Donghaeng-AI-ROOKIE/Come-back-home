@@ -68,14 +68,24 @@ def main() -> None:
     ap.add_argument("--accum", type=int, default=8)
     ap.add_argument("--qlora", action="store_true",
                     help="4bit 로드 (vLLM 과 GPU 공유 시 VRAM 절약)")
+    ap.add_argument("--dora", action="store_true",
+                    help="DoRA (use_dora=True) — 소규모 SFT 과적합 완화. "
+                         "vLLM 서빙이 DoRA 어댑터를 지원하는지 별도 확인 필요")
+    ap.add_argument("--neftune", type=float, default=0.0,
+                    help="NEFTune 노이즈 alpha (0=끔, 권장 5)")
+    ap.add_argument("--code-revision", default="0ff6b5ec7c13b049b253a16a889aa269e6b79a94",
+                    help="EXAONE 원격 코드 고정 — 서버 vLLM 과 동일 (최신 원격 코드는 "
+                         "transformers 4.56 과 비호환: RopeParameters ImportError)")
     a = ap.parse_args()
 
     from peft import LoraConfig, get_peft_model
     from transformers import (AutoModelForCausalLM, AutoTokenizer, Trainer,
                               TrainingArguments)
 
-    tok = AutoTokenizer.from_pretrained(a.model, trust_remote_code=True)
-    load_kw: dict = {"torch_dtype": torch.bfloat16, "trust_remote_code": True}
+    tok = AutoTokenizer.from_pretrained(a.model, trust_remote_code=True,
+                                        code_revision=a.code_revision)
+    load_kw: dict = {"torch_dtype": torch.bfloat16, "trust_remote_code": True,
+                     "code_revision": a.code_revision}
     if a.qlora:
         from transformers import BitsAndBytesConfig
         load_kw["quantization_config"] = BitsAndBytesConfig(
@@ -83,9 +93,14 @@ def main() -> None:
             bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True)
     model = AutoModelForCausalLM.from_pretrained(a.model, **load_kw)
     model.config.use_cache = False
+    # gradient checkpointing + LoRA 조합 필수 — 없으면 backward 에서
+    # "element 0 of tensors does not require grad" (베이스가 전부 동결이라
+    # 체크포인트 입력에 grad 경로가 안 생김)
+    model.enable_input_require_grads()
 
     lora = LoraConfig(
         r=16, lora_alpha=32, lora_dropout=0.05, task_type="CAUSAL_LM",
+        use_dora=a.dora,
         target_modules=["q_proj", "k_proj", "v_proj", "o_proj",
                         "gate_proj", "up_proj", "down_proj"])
     model = get_peft_model(model, lora)
@@ -100,8 +115,10 @@ def main() -> None:
         per_device_train_batch_size=a.batch, gradient_accumulation_steps=a.accum,
         per_device_eval_batch_size=a.batch, eval_strategy="steps",
         eval_steps=50, logging_steps=10, save_strategy="epoch",
-        bf16=True, gradient_checkpointing=True, report_to=[],
+        bf16=True, gradient_checkpointing=True,
+        gradient_checkpointing_kwargs={"use_reentrant": False}, report_to=[],
         lr_scheduler_type="cosine", warmup_ratio=0.03,
+        neftune_noise_alpha=(a.neftune if a.neftune > 0 else None),
     )
     pad_id = tok.pad_token_id if tok.pad_token_id is not None else tok.eos_token_id
     trainer = Trainer(model=model, args=args, train_dataset=train_ds,
