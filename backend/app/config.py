@@ -33,6 +33,32 @@ class Settings(BaseSettings):
     tip_llm_base_url: str = ""
     tip_llm_model: str = ""
 
+    # LLM 호출 온도 — 목적별로 분리한다.
+    #   2026-07-30 P1-3 실측으로 확정 (전 과정·수치:
+    #   experiments/temp_sweep/결과_20260730_온도스윕.md).
+    #
+    #   실측의 핵심은 "정확도로는 온도를 고를 수 없다" 였다. 골드셋 정확도는
+    #   0.0~0.4 구간에서 평평했고(수집 2%p·evidence 0%p 차이), 같은 설정을 그대로
+    #   재실행했을 때의 흔들림이 6~7%p 로 그보다 3배 컸다. 반면 결정성은 온도에
+    #   또렷하게 반응했다(같은 입력 5회 완전일치: 0.0 = 100% / 0.2 = 87% / 0.4 = 27%).
+    #   → 추출·구조화는 정확도를 잃지 않고 결정성을 얻는 0.0 이 정답이다.
+    #     ⚠ 이 값을 올리면 평가 노이즈가 커져 다른 실험의 판정력까지 같이 떨어진다.
+    #
+    #   ⚠ exaone 호출부(prior 0.2)의 온도는 P2-1 범위라 아직 여기 없다.
+    #     마음 재해석 0.3 은 FT 골드셋을 그 온도로 채점해 확정한 값이므로 대상 아님.
+    midm_temp_extract: float = 0.0        # extract_answer — 슬롯 추출
+    midm_temp_correction: float = 0.0     # extract_correction — 정정 지시 해석
+    # 질문 작문은 0.0~0.4 전 구간에서 지표가 평평했다 — 중복질문이 4.75/4.75/4.79 로
+    # 사실상 동일해 "온도를 낮추면 질문이 반복된다"는 가설이 반증됐다(중복의 원인은
+    # 온도가 아니라 같은 슬롯 재질문 로직). 자연스러움은 이 하네스로 못 재므로
+    # 근거 없이 바꾸지 않고 현행값을 유지한다 — 변경하려면 사람 평가가 선행돼야 한다.
+    midm_temp_phrase: float = 0.4         # phrase_question — 질문 작문
+    # tip 구조화도 같은 결론(정확도 평평, 결정성 98.6%→73.3%). 다만 이 측정은 KT 발급
+    # 엔드포인트 기준이고 tip_llm 확정 모델(Mi:dm 2.0 Mini)은 아직 서빙 전이다.
+    # 4파전의 Mini 측정이 greedy(do_sample=False)였으므로 0.0 은 양쪽 근거와 정합하나,
+    # Mini 서빙 후 재측정 대상으로 남긴다.
+    tip_llm_temp_structure: float = 0.0   # structure_tip — 제보 구조화 + 등급판정
+
     # Phase 0 축 점수 컴파일 (phase0.axis_scoring) — 골드셋 실험으로 검증된 B×P1 채점.
     # 기본 off: 회의에서 채점 방식 채택 시 켠다. runs = 축당 호출 수(3회 다수결 권장).
     axis_scoring_enabled: bool = False
