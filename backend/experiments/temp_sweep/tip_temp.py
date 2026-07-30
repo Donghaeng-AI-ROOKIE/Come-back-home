@@ -57,6 +57,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="tip_llm 제보 구조화 온도 스윕")
     ap.add_argument("--runs", type=int, default=3, help="시나리오당 반복(정확도 평균 + 결정성)")
     ap.add_argument("--temps", default="0.0,0.2,0.4")
+    # 자격증명 직접 지정 — .env 를 건드리지 않고 임시 서빙(터널 너머 vLLM 등)을 겨냥한다.
+    ap.add_argument("--base-url", help="OpenAI 호환 엔드포인트 (예: http://localhost:18001/v1)")
+    ap.add_argument("--model", help="served-model-name (예: mini)")
+    ap.add_argument("--api-key", default="", help="없으면 빈 문자열 대신 placeholder 를 넣는다")
+    ap.add_argument("--tag", default="", help="결과 파일 접미사")
     args = ap.parse_args()
     temps = [float(t) for t in args.temps.split(",")]
 
@@ -64,9 +69,16 @@ def main() -> int:
     from app.llm.tip_llm import TipLLMClient
     from scenarios import SCENARIOS  # type: ignore[import-not-found]
 
-    # tip_llm 전용 자격증명이 없으면 Mi:dm endpoint 를 빌려 쓴다(run_compare.py 와 동일).
+    # 우선순위: CLI 인자 > .env 의 tip_llm_* > Mi:dm endpoint 대여(run_compare.py 와 동일).
     source = "tip_llm_*"
-    if not (settings.tip_llm_api_key and settings.tip_llm_base_url and settings.tip_llm_model):
+    if args.base_url and args.model:
+        settings.tip_llm_base_url = args.base_url
+        settings.tip_llm_model = args.model
+        # vLLM 은 --api-key 없이 띄우면 아무 값이나 받는다. TipLLMClient.is_stub 이
+        # 키 공백을 스텁으로 판정하므로 placeholder 를 채워 실호출 경로를 유지한다.
+        settings.tip_llm_api_key = args.api_key or "no-key"
+        source = f"CLI ({args.model} @ {args.base_url})"
+    elif not (settings.tip_llm_api_key and settings.tip_llm_base_url and settings.tip_llm_model):
         settings.tip_llm_api_key = settings.midm_api_key
         settings.tip_llm_base_url = settings.midm_base_url
         settings.tip_llm_model = settings.midm_model
@@ -150,7 +162,7 @@ def main() -> int:
     print("결정성 = 같은 제보 N회 중 최빈 출력 비율(1.0 = 완전 결정론)")
 
     RESULTS.mkdir(exist_ok=True)
-    out = RESULTS / f"tip_temp_runs{args.runs}.json"
+    out = RESULTS / f"tip_temp_{args.tag or 'kt'}_runs{args.runs}.json"
     out.write_text(json.dumps({"runs": args.runs, "temps": temps, "credential_source": source,
                                "summary": {str(k): v for k, v in per_temp.items()},
                                "rows": all_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
