@@ -44,6 +44,40 @@ def test_plausibility_beyond_envelope_decays():
     assert 0.0 < p < 1.0
 
 
+# ── P1-6 감쇠계수 k (decay_factor, 2026-07-31 신설 — 셀프리뷰에서 테스트 부재 발견) ──
+def test_decay_factor_k1_matches_legacy_formula():
+    # k=1.0(기본값)은 옛 exp(-(d-d_max)/d_max) 공식과 수치가 완전히 같아야 함(회귀 방지)
+    d, d_max = 8.0, 4.0  # d/d_max = 2.0
+    assert reachability.decay_factor(d, d_max, k=1.0) == math.exp(-(d - d_max) / d_max)
+
+
+def test_decay_factor_larger_k_is_stricter():
+    # k 가 클수록 초과거리에 더 가혹(값이 작음), 작을수록 관대(값이 큼) — 단조성 확인
+    d, d_max = 8.0, 4.0  # d/d_max = 2.0
+    lenient = reachability.decay_factor(d, d_max, k=0.5)
+    default = reachability.decay_factor(d, d_max, k=1.0)
+    strict = reachability.decay_factor(d, d_max, k=2.0)
+    assert lenient > default > strict
+    # 설계문서 표(2026-07-30) 수치와 대조 — d/d_max=2.0 일 때 k=0.5→0.6065·k=1.0→0.3679·k=2.0→0.1353
+    assert abs(lenient - 0.6065) < 1e-4
+    assert abs(default - 0.3679) < 1e-4
+    assert abs(strict - 0.1353) < 1e-4
+
+
+def test_decay_factor_guards_zero_d_max():
+    assert reachability.decay_factor(d=5.0, d_max=0.0, k=1.0) == 0.0
+
+
+def test_plausibility_decay_k_override_changes_result():
+    # plausibility() 의 decay_k 파라미터가 실제로 전역 설정과 다른 값으로 override 되는지 확인
+    # (P1-6 스윕 실험에서 config 를 안 건드리고 값만 바꿔보는 용도 — 배관이 살아있는지 검증)
+    far = _pt_km_north(10.0)  # 1h 상한(4.32km) 확실히 초과
+    kwargs = dict(seen_at=T0 + timedelta(hours=1), created_at=T0 + timedelta(hours=1))
+    p_strict = reachability.plausibility(LKP, T0, far, PersonaType.dementia, decay_k=3.0, **kwargs)
+    p_lenient = reachability.plausibility(LKP, T0, far, PersonaType.dementia, decay_k=0.3, **kwargs)
+    assert p_lenient > p_strict
+
+
 def test_created_at_fallback_when_no_seen_at():
     # seen_at 없음 → created_at(2h) 상한 fallback → d_max 8.64km → 5km 제보 정상
     p = reachability.plausibility(LKP, T0, _pt_km_north(5.0), PersonaType.dementia,
@@ -91,8 +125,10 @@ def test_score_weighted_average():
     tip = _tip(location=_pt_km_north(2.0), seen_at=T0 + timedelta(hours=1))
     p = trust.score_tip(tip, lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia,
                         structured={"specificity": "상"})
-    # 개연성1·구체성0.9 의 가중평균 (0.4/0.25)
-    expected = (0.4 * 1.0 + 0.25 * 0.9) / (0.4 + 0.25)
+    # 개연성1·구체성0.9 의 가중평균. 가중치는 config.py 값 그대로 참조(하드코딩하면
+    # P1-5 실험으로 r 이 바뀔 때마다 깨짐 — 2026-07-31 r=1.6→2.3 반영 때 실제로 깨졌었음).
+    w1, w2 = settings.trust_weight_plausibility, settings.trust_weight_specificity
+    expected = (w1 * 1.0 + w2 * 0.9) / (w1 + w2)
     assert abs(p - expected) < 1e-9
 
 
