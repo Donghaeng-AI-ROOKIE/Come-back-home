@@ -4,7 +4,7 @@
 
 돌아오길은 실종자의 이동을 하나의 정답 경로로 단정하지 않습니다. 보호자가 사전 등록한 생활사·행동 특성, 마지막 목격 위치와 시각, 고전 수색구조(SAR) 통계, 도로망과 주변 환경을 결합해 `P(위치 | 경과시간)` 형태의 위치 확률 분포(POA, Probability of Area)를 만듭니다.
 
-> 구현 확인 기준: `origin/develop` [`31ae401`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/31ae401), 2026-07-22 (PR #62 병합)
+> 구현 확인 기준: `origin/develop` [`3d92678`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/3d926783c60537f9ec93f0ff03e7660d4077b074), 2026-07-31
 >
 > 상세 구현 문서: [`docs/IMPLEMENTATION_ARCHITECTURE.md`](docs/IMPLEMENTATION_ARCHITECTURE.md)
 
@@ -15,13 +15,32 @@
 | Phase 0 보호자 온보딩 | 구현, 일부 기능 플래그 | 적응형 슬롯 인터뷰, Mi:dm 추출·질문 문장화, 지오코딩, Persona 확정 |
 | Phase 0 축 컴파일 | 구현, 기본 비활성 | EXAONE 축 채점, 경로별 익숙함, 개인 환경 반응 컴파일. `AXIS_SCORING_ENABLED=false`가 기본 |
 | Phase 1 실종 신고 | 백본 구현 | Case 생성, 즉시 안전반경 알림, 선택적 도로망 사전 로딩 |
-| Phase 2 위치 예측 | 구현 | Koester, 6전략, 500 워커 MC 2종, 조건부 OSMnx, 인지 게이지, 물리 도달 상한, 개인화 틸트, H3 POA |
+| Phase 2 위치 예측 | 구현 | `exaone-sar` 지식 LoRA와 RAG로 prior 생성, `exaone-mind-v5`로 선택적 마음 재해석, Koester·MC·H3로 POA 계산 |
 | Phase 3 알림·제보 | 로직 구현 | 타겟 셀 선택, 자유텍스트 제보 구조화·지오코딩·시각 변환, 되묻기 게이트, 신뢰도 `p`, 층1 갱신, 층2 재실행, D3 새 지역 알림 |
 | 개인정보 수명주기 | 백본 구현 | 종결, TTL, 명시 삭제, 연쇄 파기, 비식별 감사로그 |
 | 프런트엔드 | 목 중심 구현 | 3역할·산책/수색 모드·11개 화면. POA 조회 일부만 실백엔드 연결 |
 | 운영 인프라 | 미구현 | 영속 DB, FCM/APNs, 사용자 위치 인덱스, 자동 스케줄러 |
 
 현재 지원 Persona 유형은 `dementia`와 `intellectual_disability` 두 종류입니다. 아동 Persona는 PR #47에서 백엔드 스키마·알고리즘·테스트에서, PR #49에서 E2E 대시보드에서 제거됐습니다.
+
+## AI 모델 구성 한눈에 보기
+
+돌아오길은 하나의 모델에 모든 판단을 맡기지 않습니다. 자연어를 해석하는 모델과 위치 확률을 계산하는 알고리즘을 분리하고, EXAONE도 작업별 전용 경로로 나눕니다.
+
+| 사용 단계 | 모델 경로 | 역할 | 비고 |
+|---|---|---|---|
+| Phase 0 인터뷰 | Mi:dm | 보호자 답변 추출, 질문 문장화 | 다음 질문 대상은 코드가 선택 |
+| Phase 0 축 컴파일 | EXAONE 기본 모델 (`AXIS_SCORING_MODEL`) | 보호자 근거를 A~F 성향 등급으로 분류 | SAR·mind LoRA 미사용 |
+| Phase 2 초기 prior | 지식 LoRA (`EXAONE_MODEL`, 운영명 `exaone-sar`) | 이동 전략·장소 끌림·이동 반경 등급 생성 | 논문 RAG 사용 |
+| Phase 2 마음 재해석 | 행동 LoRA (`MIND_MODEL=exaone-mind-v5`) | 게이지 발동 시 행동·목표·혼란 등급 재해석 | 현재 목표·혼란은 반영, 행동→이동 전략 연결은 미구현 |
+| Phase 3 제보 구조화 | 별도 `tip_llm` 엔드포인트 | 위치 문구·시각 표현·구체성 구조화 | 실험 선택 모델은 Mi:dm 2.0 Mini, 미설정 시 규칙 스텁 |
+
+`EXAONE_MODEL`과 `AXIS_SCORING_MODEL`은 저장소 기본값이 비어 있어 배포 환경에서 지정해야 합니다. 특히 `EXAONE_MODEL=exaone-sar`를 사용할 때 `AXIS_SCORING_MODEL`도 비워 두면 축 채점이 지식 LoRA로 잘못 라우팅되므로, EXAONE 기본 모델 ID를 별도로 설정해야 합니다.
+
+현재 모델 연결 범위에는 두 가지 중요한 경계가 있습니다.
+
+- `exaone-mind-v5`의 v2 계약은 `behavior`, `goal_label`, `confusion_level`을 출력하지만 시뮬레이션은 현재 검증된 목표와 혼란 상태만 소비합니다. `behavior`를 6개 이동 전략에 연결하는 작업은 남아 있습니다.
+- Phase 3 실모델 실험에서는 시각 언급이 없는 제보 26건 중 20건에서 모델이 시간을 만들어 냈습니다. 현재 코드는 시각 값의 형식과 `[lkp_time, now]` 범위만 검사하고, 시민 원문에 실제 시각 표현이 있는지는 대조하지 않습니다.
 
 ## 서비스 흐름
 
@@ -51,6 +70,7 @@ flowchart LR
 ## 핵심 설계 원칙
 
 - **LLM은 좌표와 전역 경로를 직접 만들지 않습니다.** Mi:dm과 EXAONE은 제한된 스키마 안에서 질문 문장화, 정보 추출, 이동 성향과 마음 상태 판단만 담당합니다.
+- **EXAONE은 작업별로 분리합니다.** prior는 지식 LoRA와 RAG, 마음 재해석은 행동 LoRA, 축 채점은 기본 모델을 사용합니다.
 - **위치와 이동은 알고리즘이 소유합니다.** Koester 이동거리 분포, 6개 이동 전략, OSMnx 보행망, 환경 레이어, 몬테카를로 시뮬레이션이 실제 좌표 분포를 만듭니다.
 - **출력은 선이 아니라 확률 구름입니다.** POA는 H3 resolution 9 셀별 확률이며 합은 1입니다.
 - **외부 장애는 격리합니다.** 모델·지도 API가 실패해도 통계 기본값, 안전 질문, 오프라인 지명 사전, 연속 공간 시뮬레이션으로 흐름을 유지합니다.
@@ -122,7 +142,7 @@ flowchart TD
 
 ### 축 점수와 경로 익숙함
 
-`AXIS_SCORING_ENABLED=true`일 때 Persona 확정 후 EXAONE이 축별 A~F 정성 분류를 수행합니다.
+`AXIS_SCORING_ENABLED=true`일 때 Persona 확정 후 `AXIS_SCORING_MODEL`로 지정한 EXAONE 기본 모델이 축별 A~F 정성 분류를 수행합니다. 지식 LoRA(`exaone-sar`)를 축 채점에 적용했을 때 골드셋 정확일치가 `0.88 → 0.74`로 낮아졌기 때문에 prior용 어댑터와 분리합니다.
 
 - 기준표는 [`backend/app/phase0/axis_rubric.md`](backend/app/phase0/axis_rubric.md)가 단일 소스입니다.
 - 코드가 A~E를 `0.1/0.3/0.5/0.7/0.9`로 변환합니다.
@@ -168,7 +188,7 @@ Phase 1은 실종 당시 정보를 받아 수색의 중심 객체인 `Case`를 �
 ```mermaid
 flowchart TD
     IN["Case + Persona + 경과시간"] --> POI["카테고리 선호를<br/>LKP 주변 POI로 매칭"]
-    POI --> PR["EXAONE prior 생성"]
+    POI --> PR["exaone-sar 지식 LoRA + RAG<br/>prior 생성"]
     PR --> GD["prior 가드레일 + 축 점수 반영"]
     GD --> TD["Top-down POA<br/>디버그용"]
     GD --> ROAD{"USE_ROADNET?"}
@@ -185,7 +205,17 @@ flowchart TD
     POOL --> OUT["baseline_poa = current_poa"]
 ```
 
-### EXAONE prior
+### 작업별 EXAONE 라우팅
+
+| 작업 | 설정·운영 모델 | RAG | 실패·미설정 시 |
+|---|---|---|---|
+| 초기 prior | `EXAONE_MODEL` / `exaone-sar` | 사용 | 유형별 SAR 통계 prior |
+| 마음 재해석 | `MIND_MODEL=exaone-mind-v5` | 미사용 | 혼란 증가 휴리스틱 |
+| Phase 0 축 컴파일 | `AXIS_SCORING_MODEL` / EXAONE 기본 모델 | 미사용 | 미채점 상태로 두고 Phase 2 기본값 사용 |
+
+지식 LoRA는 prior에 필요한 수색 지식을, 행동 LoRA는 시뮬레이션 도중의 행동·목표 재해석을 담당합니다. 마음 어댑터에 RAG를 함께 넣으면 JSON 필드 누락이 늘어난 실험 결과가 있어 두 입력 경로를 분리했습니다. 실제 모델 호출 여부는 vLLM의 모델·LoRA 마운트와 환경변수 설정에 따라 결정됩니다.
+
+### 지식 LoRA와 RAG로 prior 생성
 
 EXAONE은 좌표를 만들지 않고 다음 값만 반환합니다.
 
@@ -193,6 +223,8 @@ EXAONE은 좌표를 만들지 않고 다음 값만 반환합니다.
 - Persona에 존재하는 끌림점별 상·중·하
 - 유형 평균 대비 이동 반경 상·중·하
 - 판단 근거
+
+RAG는 실종자 수색 논문 인덱스에서 기본 상위 4개 발췌를 검색합니다. 한 출처가 결과를 독점하지 않도록 출처당 최대 2개, 전체 1,800자로 제한합니다. RAG 인덱스가 없거나 검색이 실패하면 발췌 없이 prior 생성을 계속합니다.
 
 가드레일은 알려진 전략만 남기고 각 전략에 `0.02` floor를 적용합니다. 끌림점 등급은 `3:2:1`로 수치화한 뒤, 보호자 발화에서 분류된 근거 태그(`evidence`) 계수 `0.9`(과거 실제 발견지) / `0.5`(보호자 관찰) / `0.3`(언급만)과 **곱셈 병합**하고 한 장소의 비중을 60%로 제한합니다. 곱이므로 어느 한쪽이 다른 쪽을 지우지 않습니다 — LLM이 언급뿐인 장소를 '상'으로 올려도 `0.3`배로 눌리고, 과거 발견지를 '하'로 깎아도 `0.9`배가 남습니다. 반경 등급은 Koester 로그정규 분포의 `mu`만 최대 `±0.4` 조정하고 `sigma`는 고정합니다.
 
@@ -215,7 +247,9 @@ p95 = min(ISRID p95, v_max × 경과시간)
 - **Agent MC:** 기본 500 워커가 prior에서 전략을 샘플링해 이동합니다. 도로망 모드에서는 F/C/E 게이지와 H/A 파생 게이지를 로지스틱 hazard로 갱신합니다.
 - **Statistical MC:** 기본 500 워커가 동일한 Koester·전략 prior·도로망을 사용하되 이동 중 마음 재해석은 하지 않습니다.
 
-Agent MC의 피로 발동은 알고리즘이 휴식과 남은 거리를 조정합니다. 귀소·불안 발동은 워커당 최대 `MIND_TRANSITIONS_PER_WALKER`회(기본 2, 전환 사이 30스텝 불응기) 마음을 재해석합니다. 실제 EXAONE 호출은 예측당 10회로 제한하며, **1회차 전환만 이 예산을 쓰고 2회차부터는 풀 표집 전용**이라 다회 전환이 호출 비용을 늘리지 않습니다.
+Agent MC의 피로 발동은 알고리즘이 휴식과 남은 거리를 조정합니다. 귀소·불안 발동은 워커당 최대 `MIND_TRANSITIONS_PER_WALKER`회(기본 2, 전환 사이 30스텝 불응기) `exaone-mind-v5`로 마음을 재해석합니다. 실제 모델 호출은 예측당 5회로 제한하며, **1회차 전환만 이 예산을 쓰고 2회차부터는 풀 표집 전용**이라 다회 전환이 호출 비용을 늘리지 않습니다. 마음 경로에는 RAG를 전달하지 않습니다.
+
+마음 모델의 출력 중 현재 하류에서 사용하는 값은 검증된 `goal_label`과 `confusion_level`/`status`입니다. v2 계약의 `behavior`는 아직 이동 전략 변경에 연결되지 않았으며, 혼란도도 규칙 기반 산정으로 완전히 교체되기 전까지는 LLM 등급을 고정 수치로 변환해 사용합니다.
 
 ### 갈림길 선택에 반영되는 것
 
@@ -297,12 +331,12 @@ flowchart TD
 - `location` — 텍스트에서도 명시 좌표에서도 위치를 못 얻은 경우. 위치 없는 제보는 POA를 기울일 수 없으므로 저장하지 않습니다.
 - `time` — 위치는 있고 시각만 없는데 **폴백(`created_at`) 기준 `p`가 이미 층2 문턱 `0.8`을 넘은** 경우에만 되묻습니다. 폴백 `p`가 문턱 미만이면 실제 시각을 받아도 층2가 될 수 없어 되물어도 무의미하므로 그대로 층1로 진행합니다.
 
-**시각 변환.** LLM은 시민이 말한 표현(`"30분 전"`, `"3시쯤"`)만 뽑고, 상대→절대 시각 산술은 [`phase3/time_resolve.py`](backend/app/phase3/time_resolve.py)가 결정론적으로 계산합니다. 계산 결과가 `[lkp_time, now]` 창을 벗어나면 버립니다. `seen_at`은 층2에서 새 LKP 시각으로 그대로 쓰이므로, 실종 이전이나 미래 목격 같은 오추출이 앵커를 오염시키지 않게 막는 안전장치입니다.
+**시각 변환.** 설계 계약상 LLM은 시민이 말한 표현(`"30분 전"`, `"3시쯤"`)만 추출하고, 상대→절대 시각 산술은 [`phase3/time_resolve.py`](backend/app/phase3/time_resolve.py)가 결정론적으로 계산합니다. 계산 결과가 `[lkp_time, now]` 창을 벗어나면 버립니다. 다만 현재 실모델은 원문에 없는 시각을 만들 수 있고, 이를 원문과 대조하는 가드는 아직 없습니다. 따라서 범위 클램프는 구현된 안전장치지만 시각 환각을 완전히 막지는 못합니다.
 
 신뢰도 `p`는 다음 항의 가중평균입니다.
 
-- 시공간 개연성: 유형별 최대속도와 경과시간으로 계산, 기본 가중치 0.40
-- 구체성: Mi:dm 상·중·하를 `0.9/0.6/0.3`으로 변환, 기본 가중치 0.25
+- 시공간 개연성: 유형별 최대속도와 경과시간으로 계산, 기본 가중치 0.575
+- 구체성: `tip_llm`이 반환한 상·중·하를 `0.9/0.6/0.3`으로 변환, 기본 가중치 0.25. 현재 실험 선택 모델은 Mi:dm 2.0 Mini입니다.
 - 신호가 하나 없으면 남은 가중치로 재정규화하고, 신호가 전혀 없으면 `0.3`을 사용
 
 층1 갱신식:
@@ -356,8 +390,10 @@ stateDiagram-v2
 | 구성 요소 | 담당 | 담당하지 않는 것 | 장애·미설정 시 |
 |---|---|---|---|
 | Mi:dm | 온보딩 답변 추출, 질문 문장화 | 다음 슬롯 자율 선택, 좌표·경로 생성 | 규칙 추출·씨앗 질문 |
-| tip_llm | 제보 구조화, 구체성·일관성 등급 | 좌표 확정, 상대→절대 시각 산술 | 결정적 스텁 (모델 미정) |
-| EXAONE | prior, 선택적 축 채점, 경로 익숙함, 개인 환경 반응, 마음·목표 재해석 | 좌표·전역 경로, 미등록 목적지 생성, 계수 숫자 직접 결정 | 유형별 SAR prior·혼란 증가 휴리스틱 |
+| `tip_llm` | 제보 구조화, 구체성·일관성 등급 | 좌표 확정, 상대→절대 시각 산술 | Mi:dm 2.0 Mini 선택, 엔드포인트 미설정 시 결정적 스텁 |
+| EXAONE 기본 모델 | 축 채점, 경로 익숙함, 개인 환경 반응 | prior·마음 재해석, 좌표 생성 | 미채점 상태로 두고 기본값 사용 |
+| `exaone-sar` 지식 LoRA | 논문 RAG와 Persona를 이용한 prior 생성 | 좌표·전역 경로, 마음 재해석 | 유형별 SAR 통계 prior |
+| `exaone-mind-v5` 행동 LoRA | 게이지 발동 시 행동·목표·혼란 등급 재해석 | prior·축 채점, 좌표 생성 | 혼란 증가 휴리스틱 |
 | Koester + 6전략 MC | 이동거리와 워커 이동, 위치 분포 | 자연어 해석 | 항상 실행 |
 | OSMnx + 환경 레이어 | 도로 제약, 환경 거리·토지피복 | 마음·목표 판단 | 연속 공간 폴백 또는 빈 환경 |
 | Kakao·Nominatim·Gazetteer | 자연어 장소 좌표화 | 경로 예측 | 다음 지오코더 또는 미해결 |
@@ -412,7 +448,7 @@ USE_ROADNET=true
 ROADNET_PRELOAD=true
 ```
 
-Mi:dm, EXAONE, Kakao Local 설정은 [`backend/.env.example`](backend/.env.example)을 참고하십시오.
+Mi:dm, 작업별 EXAONE 모델, RAG, `tip_llm`, Kakao Local 설정은 [`backend/.env.example`](backend/.env.example)을 참고하십시오.
 
 ### 프런트엔드
 
@@ -430,12 +466,18 @@ npm start
 
 | 설정 | 기본값 | 의미 |
 |---|---:|---|
+| `EXAONE_MODEL` | 빈 값 | Phase 2 prior 모델. 운영 시 `exaone-sar` 모델 ID 지정 |
+| `MIND_MODEL` | `exaone-mind-v5` | Phase 2 행동·목표 재해석 전용 LoRA |
+| `AXIS_SCORING_MODEL` | 빈 값 | Phase 0 축 컴파일 전용 EXAONE 기본 모델. 비우면 `EXAONE_MODEL` 사용 |
+| `RAG_ENABLED` | `true` | prior 경로의 논문 검색 사용 여부 |
+| `RAG_TOP_K` | `4` | prior에 제공할 RAG 발췌 수 |
+| `TIP_LLM_MODEL` | 빈 값 | Phase 3 제보 구조화 모델 ID. 미설정 시 스텁 |
 | `AXIS_SCORING_ENABLED` | `false` | 축 점수·경로 익숙함 컴파일 |
 | `AXIS_SCORING_ASYNC` | `true` | Persona 확정 후 백그라운드 채점 |
 | `USE_ROADNET` | `false` | OSMnx 도로망 기반 MC |
 | `ROADNET_PRELOAD` | `false` | Phase 1 도로망 사전 로딩 |
 | `MC_NUM_WALKERS` | `500` | Agent·Statistical 공통 워커 수 |
-| `MIND_CALL_BUDGET` | `10` | 예측당 실제 EXAONE 마음 호출 상한 |
+| `MIND_CALL_BUDGET` | `5` | 예측당 실제 EXAONE 마음 호출 상한 |
 | `MIND_TRANSITIONS_PER_WALKER` | `2` | 워커당 마음 전환 최대 횟수. 2회차부터는 풀 표집이라 호출 예산 불변 |
 | `ROAD_PREFERENCE_STRENGTH` | `1.0` | 도로 위계 선호 세기(지수). `0`이면 끔 |
 | `ENV_RESPONSE_STRENGTH` | `1.0` | 개인 환경 반응 세기. `0`이면 끔 |
@@ -470,7 +512,7 @@ python scripts/sim_testset.py --fixture
 python scripts/e2e_smoke.py
 ```
 
-현재 `backend/tests`는 **441개**를 수집하며 439 passed / 2 skipped입니다(2건은 카카오 라이브 키가 없어 건너뛰는 실호출 지오코딩). E2E, D3, Phase 0 인터뷰, evidence 등급 판정, 장소 좌표 복구, probes 꼬리질문, 축 채점, 경로 익숙함, 개인 환경 반응, 유효 반경, 도로 위계, 게이지 개인화, 도로망 MC, 인지 게이지, 제보 신뢰도, 제보 시각 변환, 되묻기 게이트, 개인정보 파기를 다룹니다.
+테스트는 E2E, D3, Phase 0 인터뷰, evidence 등급 판정, 장소 좌표 복구, probes 꼬리질문, 축 채점, 작업별 모델 라우팅, RAG, 경로 익숙함, 개인 환경 반응, 유효 반경, 도로 위계, 게이지 개인화, 도로망 MC, 인지 게이지, 제보 신뢰도, 제보 시각 변환, 되묻기 게이트, 개인정보 파기를 다룹니다. 정확한 테스트 수와 통과 결과는 변경될 수 있으므로 위 명령 또는 최신 CI 결과를 기준으로 확인합니다.
 
 ## 현재 제한과 다음 작업
 
@@ -482,10 +524,13 @@ python scripts/e2e_smoke.py
 6. 주기 재예측과 TTL 파기를 호출할 운영 스케줄러
 7. `USE_ROADNET=true` 운영 프로필과 공간 데이터 캐시 배포
 8. Statistical MC의 통계 전용 prior 분리 여부 결정
-9. **합성 시나리오 평가 하네스** — 정답 위치를 아는 케이스로 `x:알림 수, y:발견율` 곡선을 만들어 알림 없음·무차별·목적지만·현재 구성 네 비교군을 비교합니다. 아래 잠정값들이 모두 여기에 걸려 있습니다
-10. 잠정값 튜닝: 지적장애 Koester 파라미터, 게이지 계수와 hazard `theta`·`beta`, 알림 임계값, 도로 위계 배수, 개인 환경 반응 인식 범위와 강도
+9. Mind v2의 `behavior` 출력을 6개 이동 전략에 연결하고 혼란도를 규칙 기반으로 산정
+10. 제보 구조화 모델이 추출한 시각을 시민 원문과 대조하는 가드
+11. 주기-only와 주기+KL 재실행 정책 결정. 합성 실험에서는 탐지율이 같고 주기-only의 재실행 수가 적었지만 코드는 아직 주기+KL을 유지
+12. **합성 시나리오 평가 하네스** — 정답 위치를 아는 케이스로 `x:알림 수, y:발견율` 곡선을 만들어 알림 없음·무차별·목적지만·현재 구성 네 비교군을 비교합니다. 아래 잠정값들이 모두 여기에 걸려 있습니다
+13. 잠정값 튜닝: 지적장애 Koester 파라미터, 게이지 계수와 hazard `theta`·`beta`, 알림 임계값, 도로 위계 배수, 개인 환경 반응 인식 범위와 강도
 
-9번이 선행조건입니다. 각 기능은 `*_STRENGTH`·`MIND_TRANSITIONS_PER_WALKER` 같은 ablation 노브를 두어 하네스가 켬·끔을 비교할 수 있게 해두었습니다.
+12번이 선행조건입니다. 각 기능은 `*_STRENGTH`·`MIND_TRANSITIONS_PER_WALKER` 같은 ablation 노브를 두어 하네스가 켬·끔을 비교할 수 있게 해두었습니다.
 
 ## 저장소 구조
 

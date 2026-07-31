@@ -91,7 +91,7 @@
     <rect x="72" y="382" width="316" height="9" rx="5" fill="#1DA35C"/>
     <text x="98" y="432" class="phase">Phase 0 · 온보딩</text>
     <text x="98" y="468" class="body">적응형 보호자 인터뷰</text>
-    <text x="98" y="498" class="small">• 22개 슬롯 히스토리-어웨어 검색</text>
+    <text x="98" y="498" class="small">• 전체 16개 · 유형별 12개 슬롯 검색</text>
     <text x="98" y="525" class="small">• Mi:dm 답변 추출 · 질문 문장화</text>
     <text x="98" y="552" class="small">• 요약 확인 · 장소 지오코딩</text>
     <rect x="98" y="580" width="116" height="34" rx="17" fill="#E6F5EC"/>
@@ -113,11 +113,11 @@
   <g filter="url(#shadow)">
     <rect x="728" y="350" width="516" height="324" rx="24" fill="url(#phase2)"/>
     <text x="758" y="401" class="phaseLight">Phase 2 · 위치 확률 예측</text>
-    <text x="758" y="435" class="bodyLight">LLM은 prior와 마음만, 좌표·이동은 알고리즘이 담당</text>
+    <text x="758" y="435" class="bodyLight">작업별 EXAONE · 좌표와 이동은 알고리즘이 담당</text>
 
     <rect x="758" y="463" width="214" height="74" rx="14" fill="#315F56"/>
-    <text x="776" y="491" class="chipLight">EXAONE</text>
-    <text x="776" y="517" class="smallLight">6전략 · 끌림점 · 반경 등급</text>
+    <text x="776" y="491" class="chipLight">exaone-sar + RAG</text>
+    <text x="776" y="517" class="smallLight">prior · 전략 · 끌림점 · 반경</text>
 
     <rect x="990" y="463" width="224" height="74" rx="14" fill="#315F56"/>
     <text x="1008" y="491" class="chipLight">OSMnx + 환경</text>
@@ -128,12 +128,12 @@
     <text x="827" y="600" text-anchor="middle" class="small">해석적 POA</text>
     <rect x="910" y="555" width="138" height="57" rx="13" fill="#F4FAF8"/>
     <text x="979" y="580" text-anchor="middle" class="chip">Agent MC</text>
-    <text x="979" y="600" text-anchor="middle" class="small">10 rollouts</text>
+    <text x="979" y="600" text-anchor="middle" class="small">500 · mind-v5</text>
     <rect x="1062" y="555" width="152" height="57" rx="13" fill="#F4FAF8"/>
     <text x="1138" y="580" text-anchor="middle" class="chip">Statistical MC</text>
     <text x="1138" y="600" text-anchor="middle" class="small">500 walkers</text>
 
-    <text x="986" y="647" text-anchor="middle" class="chipLight">α-pool 0.3 / 0.5 / 0.2 → H3 Current POA</text>
+    <text x="986" y="647" text-anchor="middle" class="chipLight">Agent 0.7 + Statistical 0.3 → H3 Current POA</text>
   </g>
 
   <g filter="url(#shadow)">
@@ -169,5 +169,5 @@
   <rect x="1071" y="684" width="234" height="34" rx="17" fill="#FFF0EB"/>
   <text x="1188" y="706" text-anchor="middle" class="chip">고신뢰 제보 → 새 LKP 재예측</text>
 
-  <text x="1528" y="892" text-anchor="end" class="small">기준: origin/develop · 2026-07-12</text>
+  <text x="1528" y="892" text-anchor="end" class="small">기준: origin/develop · 2026-07-31</text>
 </svg>

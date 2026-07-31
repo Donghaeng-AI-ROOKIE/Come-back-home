@@ -2,7 +2,7 @@
 
 > 기준 브랜치: `origin/develop`
 >
-> 기준 커밋: [`31ae401`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/31ae401) (`2026-07-22`, PR #62 병합)
+> 기준 커밋: [`3d92678`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/3d926783c60537f9ec93f0ff03e7660d4077b074) (`2026-07-31`, PR #107 병합)
 >
 > 조사 방식: API 라우터, 도메인 스키마, Phase별 서비스 모듈, 프런트엔드 클라이언트와 테스트 코드를 정적 추적
 >
@@ -16,7 +16,7 @@
 |---|---|---|
 | Phase 0 보호자 온보딩 | 구현, 일부 기능 플래그 | 백엔드 적응형 인터뷰·지오코딩·Persona 확정 구현. 축 점수·경로 익숙함 컴파일은 기본 비활성 |
 | Phase 1 실종 신고 | 백본 구현 | Case 생성, 선택적 인상착의·문서 추출 경로, 즉시 안전반경 알림, 도로망 사전 로딩 구현. 파일 입력과 외부 추출 모델은 스텁 |
-| Phase 2 위치 예측 | 알고리즘 파이프라인 구현 | EXAONE prior, Koester, 6전략, H3, 500 워커 MC, 조건부 OSMnx, 인지 게이지, 2-way 결합 구현 |
+| Phase 2 위치 예측 | 알고리즘 파이프라인 구현 | `exaone-sar`+RAG prior, `exaone-mind-v5` 마음 재해석, Koester, 6전략, H3, 500 워커 MC, 조건부 OSMnx, 2-way 결합 구현 |
 | Phase 3 알림·제보 | 로직 구현, 외부 발송 미연동 | POA 타겟 셀, 자유텍스트 제보 구조화·지오코딩·시각 변환·되묻기 게이트, 신뢰도 `p`, 층1 갱신, 층2 재실행, D3 새 지역 알림 구현. FCM·사용자 위치 인덱스는 스텁 |
 | 개인정보 수명주기 | 백본 구현 | 종결·TTL·명시 삭제·연쇄 파기·감사로그 구현. 실제 서비스 DB가 아닌 인메모리 저장소 |
 | 프런트엔드 | 목 중심 UI 구현 | 3역할·2모드·11개 화면과 POA 조회 일부 배선. Phase 0·3 챗봇은 백엔드 챗봇과 별개의 로컬 고정 흐름 |
@@ -28,6 +28,8 @@
 3. Agent MC와 Statistical MC는 모두 500 워커지만 동일한 EXAONE prior를 공유한다. 따라서 Statistical MC는 “동적 마음 재해석 제외 비교군”이지 완전한 비-AI 비교군은 아니다.
 4. 알림 대상 셀 계산은 구현됐지만 실제 푸시 발송과 셀 내 사용자 조회는 구현되지 않았다.
 5. 프런트 기본값은 `USE_MOCK=true`이고, 실백엔드 제보 응답 매핑은 아직 예외를 발생시킨다.
+6. `exaone-mind-v5`의 v2 계약은 행동·목표·혼란을 출력하지만 현재 시뮬레이션은 검증된 목표와 혼란/상태만 사용한다. 행동 출력을 이동 전략에 연결하는 작업은 미구현이다.
+7. 제보 구조화 모델은 실험에서 원문에 없는 시각을 생성했다. 현재 코드는 형식과 시간 범위만 검사하며 원문 대조 가드는 없다.
 
 ## 2. 전체 시스템 아키텍처
 
@@ -51,7 +53,9 @@ flowchart LR
     subgraph MODEL["모델·외부 데이터"]
         MIDM["Mi:dm<br/>온보딩 질문 문장화·추출"]
         TIPL["tip_llm<br/>제보 구조화·구체성 등급"]
-        EXA["EXAONE<br/>prior·축 채점·마음 재해석"]
+        AXM["EXAONE 기본 모델<br/>축 채점"]
+        SARM["exaone-sar + RAG<br/>prior"]
+        MINDM["exaone-mind-v5<br/>마음 재해석"]
         GEO["Kakao / Nominatim / Gazetteer"]
         OSM["OSMnx / OSM / EGIS"]
         OPT["VARCO / Upstage<br/>현재 스텁"]
@@ -68,11 +72,12 @@ flowchart LR
     FO --> DBG
     P0 --> P1 --> P2 --> P3
     P0 <--> MIDM
-    P0 <--> EXA
+    P0 <--> AXM
     P0 <--> GEO
     P1 <--> OPT
     P1 --> OSM
-    P2 <--> EXA
+    P2 <--> SARM
+    P2 <--> MINDM
     P2 <--> OSM
     P3 <--> TIPL
     P0 --> MEM
@@ -298,7 +303,18 @@ flowchart LR
 
 - 프런트 [`RegChatScreen.tsx`](../frontend/src/screens/RegChatScreen.tsx)는 백엔드 Phase 0 API가 아니라 로컬 6단계 스크립트를 사용한다.
 - 직접 등록 API는 인터뷰의 축 근거·선호 카테고리·경로 익숙함 생성 흐름을 거치지 않는다.
-- 기본 로컬 임베더는 `jhgan/ko-sroberta-multitask`이며 최초 실행 시 모델 준비가 필요하다. 모델명을 비우면 의미 임베딩이 아닌 해시 어휘 중첩으로 폴백한다.
+- 기본 로컬 임베더는 `nlpai-lab/KURE-v1`이다. 슬롯 선택 골드셋 적중률이 이전 모델의 75.9%에서 93.1%로 높아져 교체했지만, 프로세스 메모리 증가량 약 1.1GB와 최초 약 2.2GB 다운로드가 필요하다. 모델명을 비우면 의미 임베딩이 아닌 해시 어휘 중첩으로 폴백한다.
+- KURE-v1의 코사인 분포가 이전 모델과 달라 디노이즈 임계값도 함께 조정됐다. 이전 모델의 임계값을 그대로 재사용하면 히스토리 필터가 사실상 꺼진다.
+
+### 4.7 PR 실험에서 확정·보류한 결정
+
+| 실험 | 관측 | 코드 상태 |
+|---|---|---|
+| 인터뷰 추출 ([#68](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/68)) | 8개 사람 정답 시나리오에서 이름·나이·완료율 100%, 주요 장소 67%, 선호 대상 78%, 환각 0 | **잠정 반영:** 추출과 질문 표현에 Mi:dm 사용. 실제 보호자 검증 필요 |
+| 대화 가드 ([#89](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/89)) | 82회 실모델 인터뷰에서 규칙을 끄면 질문 수·중복·조건 불일치가 증가 | **반영:** 6개 안전 규칙 유지 |
+| 슬롯 임베더 ([#84](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/84)) | 선택 적중률 75.9%→93.1%, 메모리·다운로드 비용 증가 | **반영:** KURE-v1. 운영 자원 재검토 필요 |
+| LLM 평가자 ([#83](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/83)) | 소표본 반복에서 사람 평가와의 상관이 항목·실행별로 변동 | **보류:** 출시 판정은 사람 평가 우선 |
+| 온도 ([#105](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/105)) | 동일 입력 전체 일치율 0.0=100%, 0.2=87%, 0.4=27% | **반영:** 추출·수정 0.0, 질문 문장화 0.4 |
 
 ---
 
@@ -357,6 +373,13 @@ flowchart TD
 - 즉시 알림은 대상 셀 계산까지만 실제이며 푸시 발송은 하지 않는다.
 - Persona ID의 존재 여부나 신고 유형과 Persona 유형의 일치 여부를 API에서 강제하지 않는다.
 
+### 5.5 운영 경로 실험
+
+| 실험 | 관측 | 코드 상태 |
+|---|---|---|
+| 도로망 범위 ([#78](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/78)) | 고정 3km는 치매 6시간 이동 중앙값 3.9km를 덮지 못함 | **반영:** Phase 2에서 경과시간·prior p90에 따라 3~6km로 확대. Phase 1 preload는 3km 하한 캐시 |
+| 첫 예측 지연 ([#103](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/103)) | 한 라이브 시나리오에서 준비된 도로망은 약 10초, 최초 다운로드 포함은 약 63초 | **잠정:** preload·warm cache 권장. 단일 시나리오라 SLA로 사용하지 않음 |
+
 ---
 
 ## 6. Phase 2 — 위치 확률 분포 예측
@@ -381,7 +404,7 @@ flowchart TD
 
     AXIS --> TD["Top-down POA<br/>디버그·시각화 전용"]
     AXIS --> ROAD{"USE_ROADNET?"}
-    ROAD -- "예" --> NET["OSMnx 보행망"]
+    ROAD -- "예" --> NET["OSMnx 보행망<br/>경과시간별 3~6km"]
     NET --> ENV["OSM·EGIS 환경 레이어<br/>실패 시 빈 환경으로 계속"]
     ROAD -- "아니오 또는 로딩 실패" --> CONT["연속 공간 폴백"]
 
@@ -407,7 +430,19 @@ flowchart TD
 
 ### 6.4 2단계: EXAONE prior와 가드레일
 
-EXAONE 출력은 좌표가 아니라 다음 `PriorParams`이다.
+EXAONE은 작업별 경로를 분리한다.
+
+| 작업 | 설정·운영 모델 | 입력 | RAG | 현재 하류 소비 |
+|---|---|---|---|---|
+| Phase 0 축 채점 | `AXIS_SCORING_MODEL` / EXAONE 기본 모델 | 해당 축의 보호자 근거 | 미사용 | A~F 등급과 검증된 근거 |
+| Phase 2 prior | `EXAONE_MODEL` / `exaone-sar` | Persona·신고·논문 발췌 | 사용 | 전략·끌림점·반경 등급 |
+| Phase 2 마음 재해석 | `MIND_MODEL=exaone-mind-v5` | 현재 장면·게이지·Persona | 미사용 | 목표와 혼란/상태. `behavior`는 아직 미사용 |
+
+`EXAONE_MODEL`과 `AXIS_SCORING_MODEL`의 저장소 기본값은 비어 있다. prior에 `exaone-sar`를 배포하면서 축 채점 모델을 비워 두면 축 채점도 지식 LoRA로 라우팅될 수 있으므로 EXAONE 기본 모델 ID를 별도로 지정해야 한다.
+
+prior 경로의 RAG는 46개 논문에서 만든 인덱스를 검색하며 기본 상위 4개 발췌를 사용한다. 한 출처가 독점하지 않도록 출처당 최대 2개, 전체 1,800자로 제한한다. 인덱스가 없거나 검색에 실패하면 발췌 없이 prior 생성을 계속한다.
+
+prior 모델의 출력은 좌표가 아니라 다음 `PriorParams`이다.
 
 | 필드 | 모델 출력 | 코드 검증·수치화 |
 |---|---|---|
@@ -452,12 +487,14 @@ flowchart LR
     FCE --> HA["H 귀소 / A 불안 파생"]
     HA --> HAZ["로지스틱 hazard 표집"]
     HAZ -- "F 발동" --> ALG["휴식·남은 이탈거리 축소<br/>알고리즘 처리"]
-    HAZ -- "H 또는 A 발동" --> LLM["EXAONE 마음·목표 재해석<br/>워커당 최대 2회, 불응기 30스텝<br/>2회차부터 풀 표집 전용"]
+    HAZ -- "H 또는 A 발동" --> LLM["exaone-mind-v5 마음 재해석<br/>워커당 최대 2회, 불응기 30스텝<br/>2회차부터 풀 표집 전용"]
     LLM --> SAFE["상·중·하 혼란도 수치화<br/>기존 끌림점 라벨만 허용"]
     SAFE --> MOVE["kappa·target 갱신"]
 ```
 
-실제 EXAONE 마음 호출은 예측당 최대 10회이다. 이후 발동은 앞선 결과 풀에서 독립 표집한다. 풀도 비어 있으면 혼란도 `+0.2` 휴리스틱을 사용한다.
+실제 `exaone-mind-v5` 호출은 예측당 최대 5회이다. 실 EXAONE 실험에서 상한 10회는 약 15초, 5회는 약 10초였고 해당 비교의 POA 차이는 시드 변동 범위였다. 이후 발동은 앞선 결과 풀에서 독립 표집한다. 풀도 비어 있으면 혼란도 `+0.2` 휴리스틱을 사용한다.
+
+v2 계약은 `behavior`, `goal_label`, `confusion_level`, `status`를 반환한다. 현재 `sanitize_mind()`와 시뮬레이션은 검증된 목표와 혼란/상태를 사용해 `target_node`와 `kappa`를 갱신하지만, `behavior`는 6개 이동 전략에 연결하지 않는다. 혼란도도 완전한 규칙 산정으로 전환되기 전까지 LLM 상·중·하를 고정 수치로 변환한다.
 
 `route_familiarity`가 있으면 목표 경로의 낯섦도를 `1 - familiarity`로 계산한다. 자주 가는 목적지는 `0.8`, 그 외에는 현재 위치와 익숙한 장소의 거리 기반 근사로 폴백한다.
 
@@ -491,6 +528,20 @@ final POA = 0.7 × Agent MC + 0.3 × Statistical MC
 - OSM·EGIS·Kakao 호출은 네트워크와 캐시 상태에 영향을 받는다.
 - 게이지 계수와 일부 유형별 SAR prior는 잠정값이다.
 - 최종 결합 가중치 `0.7/0.3`은 설정 파일이 아니라 파이프라인 코드에 고정돼 있다.
+
+### 6.8 PR 실험에서 확정·보류한 결정
+
+| 실험 | 관측 | 코드 상태 |
+|---|---|---|
+| 축 채점 모델 분리 ([#86](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/86)) | 기본 모델 정확일치 0.88·가중 일치도 0.96, `exaone-sar` 0.74·0.86 | **반영:** 축=기본 모델, prior=`exaone-sar` |
+| Mind 8-way와 v5 ([#97](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/97), [#101](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/101)) | 1인칭·기본·RAG-off가 가장 안정적. 분리 테스트 96회에서 행동 83%, 목표 96%, LLM 혼란 92%, 치명·형식 오류 0 | **반영:** v5·v2 계약·RAG-off. 행동 하류 연결은 미구현 |
+| 반경 보정 ([#79](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/79)) | `mu=-0.8`은 80% 범위를 41% 줄여 과도한 확신 위험 | **반영:** `±0.4` 제한 |
+| 도로·환경 강도 ([#74](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/74)) | 도로 효과는 단조롭고 강했지만 환경의 전역 효과는 약 0.8%p로 시드 잡음과 겹침 | **부분 반영:** 도로 유지, 환경 효과 크기는 잠정 |
+| 풀 결합 ([#75](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/75)) | 유효 제보 3건 뒤 log-linear는 80% 범위를 35.6% 축소 | **반영:** 초기 linear, 3건 이후 log-linear. `0.7/0.3`은 실모델 재튜닝 필요 |
+| prior 상수 ([#104](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/104)) | 최소확률 0.02는 활성, 장소 상한 0.4는 순위 역전, 0.7 이상은 비활성 | **반영:** floor 0.02, cap 0.6 |
+| 게이지 민감도 ([#106](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/106)) | 발동 수는 변했지만 호출 예산 때문에 POA 차이는 시드 잡음 범위 | **잠정:** 현재값 유지, 정답 위치 데이터 필요 |
+
+실험은 합성 시나리오·개발 골드셋·제한된 실모델 호출을 기준으로 한다. 실제 발견률이나 현장 성능을 확정한 수치가 아니다.
 
 ---
 
@@ -554,12 +605,12 @@ flowchart TD
 
 | 항 | 계산 | 기본 가중치 |
 |---|---|---|
-| 시공간 개연성 | 유형별 최대속도 × 경과시간 도달권, 초과 시 감쇠 | 0.40 |
+| 시공간 개연성 | 유형별 최대속도 × 경과시간 도달권, 초과 시 감쇠 | 0.575 |
 | 구체성 | `tip_llm` `상/중/하` → `0.9/0.6/0.3` | 0.25 |
 
-없는 신호는 제외하고 남은 가중치만 재정규화한다. 아무 신호도 없으면 사전값 `0.3`을 사용한다. 이동수단은 전부 도보 기준(2026-07-24 안1 — 대중교통 미반영)이다. 시민 제보 사진 대조는 코드에서 제거됐다.
+없는 신호는 제외하고 남은 가중치만 재정규화한다. 두 가중치의 상대 비율은 약 `2.3:1`이며 PR #107의 정책 정답표 실험과 좌표 규칙 기반 진짜/가짜 분리 실험이 비슷한 비율로 수렴해 기존 `1.6:1`에서 변경했다. 아무 신호도 없으면 사전값 `0.3`을 사용한다. 이동수단은 전부 도보 기준(2026-07-24 안1 — 대중교통 미반영)이다. 시민 제보 사진 대조는 코드에서 제거됐다.
 
-`tip_llm`에는 “위치 → 시각 → 인상착의 → 방향 → 조건부 이동수단” 질문 순서를 반환하는 헬퍼(`next_tip_question`)가 있지만, 현재 REST API는 다중 턴 제보 세션을 제공하지 않는다. API에서는 제보 텍스트 한 건을 받아 한 번 구조화한다.
+`tip_llm`에는 “위치 → 시각 → 인상착의 → 방향” 질문 순서를 반환하는 헬퍼(`next_tip_question`)가 있지만, 현재 REST API는 다중 턴 제보 세션을 제공하지 않는다. API에서는 제보 텍스트 한 건을 받아 한 번 구조화한다.
 
 ### 7.4-1 되묻기 게이트 (PR #59)
 
@@ -572,9 +623,9 @@ flowchart TD
 
 ### 7.4-2 시각 변환 (PR #58)
 
-`phase3/time_resolve.py`가 구조화 결과(`time_kind`/`time_minutes_ago`/`time_clock`)를 실제 `seen_at`으로 바꾼다. 가드레일 패턴은 다른 모듈과 같다 — LLM은 시민이 명시한 표현(`"30분 전"`, `"3시쯤"`)만 뽑고, 상대→절대 산술은 코드가 결정론적으로 계산한다.
+`phase3/time_resolve.py`가 구조화 결과(`time_kind`/`time_minutes_ago`/`time_clock`)를 실제 `seen_at`으로 바꾼다. 설계 계약은 LLM이 시민이 명시한 표현(`"30분 전"`, `"3시쯤"`)만 뽑고, 상대→절대 산술은 코드가 결정론적으로 계산하는 구조다.
 
-안전 클램프: 계산된 시각이 `[lkp_time, now]` 창을 벗어나면 버리고 `None`을 반환한다. `seen_at`은 층2에서 새 LKP 시각으로 그대로 쓰이므로, 실종 이전 목격이나 미래 목격 같은 오추출·산술 오류가 새 앵커를 오염시키지 않게 막고 층1로 안전하게 강등한다.
+하지만 PR #105 실모델 실험에서는 시각 언급이 없는 26건 중 20건에서 모델이 시각을 만들어 냈다. 현재 `tip_llm.py`는 enum·정수·시계 형식만 검사하고 시민 원문에 실제 시각 표현이 있는지는 확인하지 않는다. 계산된 시각을 `[lkp_time, now]` 창으로 제한하는 클램프는 구현돼 있지만, 창 안쪽의 환각 시각은 통과할 수 있다. 원문 대조 가드는 현장 사용 전 필수 보완 항목이다.
 
 ### 7.5 층1과 층2
 
@@ -612,7 +663,17 @@ posterior(cell) ∝ current_poa(cell) × [p × L(tip | cell) + (1 - p) × 1]
 - `send_alerts`는 FCM·APNs·사용자 위치 인덱스를 호출하지 않고 `sent=false`를 반환한다.
 - 주기·KL 재실행은 별도 스케줄러가 자동 호출하지 않는다. 제보 흐름에서 검사하거나 조회 API로 상태만 확인한다.
 - 프런트 제보 화면은 로컬 고정 4단계이며 백엔드의 `Tip` 응답을 `TipResult`로 변환하는 코드가 없어 실모드에서 의도적으로 예외를 낸다. 되묻기 응답(`status: "need_more"`) 분기도 프런트에 없다.
-- `tip_llm`은 모델 미정 상태다. `tip_llm_base_url`·`tip_llm_model`·`tip_llm_api_key`를 채우면 실동작하고, 비어 있으면 결정적 스텁으로 폴백한다.
+- `tip_llm`의 실험 선택 모델은 Mi:dm 2.0 Mini다. `tip_llm_base_url`·`tip_llm_model`·`tip_llm_api_key`를 채우면 실동작하고, 비어 있으면 결정적 스텁으로 폴백한다.
+
+### 7.8 PR 실험에서 확정·보류한 결정
+
+| 실험 | 관측 | 코드 상태 |
+|---|---|---|
+| 제보 모델 4-way ([#100](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/100)) | 잡음이 섞인 70개 골드셋에서 Mi:dm 2.0 Mini 균형정확도 76.4%, 필드 추출 86.1% | **반영:** Mini 선택. 팀 작성 합성 제보라 현장 재검증 필요 |
+| 온도·시각 추출 ([#105](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/105)) | 온도 0.0이 가장 재현적이지만 무시각 26건 중 20건에서 시각 환각 | **부분 반영:** 온도 0.0. 원문 대조 가드 미구현 |
+| 신뢰도 가중치 ([#107](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/107)) | 두 독립 실험이 개연성:구체성 약 2.2~2.3에서 수렴 | **반영:** `0.575:0.25` |
+| D3 임계값 ([#87](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/87)) | 3,800개 합성 타임라인에서 탐지율 95%의 헛알림 25.9%, 탐지율 99%의 헛알림 93.4% | **잠정:** 운영 데이터로 목표 구간 결정 필요 |
+| 재실행 트리거 ([#88](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/88)) | 주기+KL과 주기-only 탐지율은 모두 88%, 평균 지연 20.4/20.5분, 이동 중 재실행 0.90/0.58회 | **보류:** 실험은 주기-only를 지지하지만 코드는 주기+KL 유지 |
 
 ---
 
@@ -712,8 +773,10 @@ stateDiagram-v2
 | 구성요소 | 현재 담당 | 금지·비담당 | 실패·미설정 시 |
 |---|---|---|---|
 | Mi:dm | 온보딩 답변 추출, 질문 문장화 | 좌표·전역 경로, 다음 온보딩 슬롯 자율 선택 | 규칙 추출·씨앗 질문 |
-| tip_llm | 제보 구조화, 구체성·일관성 등급 | 좌표 확정, 상대→절대 시각 산술 | 결정적 스텁(모델 미정) |
-| EXAONE | prior, 선택적 축 채점, 경로 익숙함, 마음·목표 재해석 | 좌표·전역 경로, 미등록 목적지 생성 | 유형별 SAR prior·혼란 증가 휴리스틱 |
+| tip_llm | 제보 구조화, 구체성·일관성 등급 | 좌표 확정, 상대→절대 시각 산술 | Mi:dm 2.0 Mini 선택, 미설정 시 결정적 스텁 |
+| EXAONE 기본 모델 | 선택적 축 채점, 경로 익숙함, 개인 환경 반응 | prior·마음 재해석, 좌표 생성 | 미채점 상태로 두고 기본값 사용 |
+| `exaone-sar` 지식 LoRA | 논문 RAG와 Persona를 이용한 prior | 좌표·전역 경로, 마음 재해석 | 유형별 SAR 통계 prior |
+| `exaone-mind-v5` 행동 LoRA | 행동·목표·혼란 출력. 현재 목표·혼란/상태를 하류에서 사용 | prior·축 채점, 좌표 생성 | 혼란 증가 휴리스틱 |
 | Koester | 유형별 이동거리 확률 | 자연어 해석 | 항상 알고리즘 경로에 존재 |
 | 6전략 MC | 확률적 이동과 종착점 분포 | 보호자 발화 해석 | 항상 실행 |
 | OSMnx | 보행 도로망 제약 | 마음·목적 | 연속 공간 워커 |
@@ -726,12 +789,19 @@ stateDiagram-v2
 
 | 환경 설정 | 기본값 | 효과 |
 |---|---:|---|
+| `EXAONE_MODEL` | 빈 값 | Phase 2 prior 모델. 운영 시 `exaone-sar` ID 지정 |
+| `MIND_MODEL` | `exaone-mind-v5` | Phase 2 마음 재해석 전용 LoRA |
+| `AXIS_SCORING_MODEL` | 빈 값 | Phase 0 축 채점 모델. 비우면 `EXAONE_MODEL` 사용 |
+| `RAG_ENABLED` | `true` | prior 경로의 논문 검색 |
+| `RAG_TOP_K` | `4` | prior에 제공할 발췌 수 |
+| `EMBED_MODEL` | `nlpai-lab/KURE-v1` | Phase 0 다음 슬롯 검색 임베더 |
+| `TIP_LLM_TEMP_STRUCTURE` | `0.0` | 제보 구조화 재현성 우선 |
 | `AXIS_SCORING_ENABLED` | `false` | 축 점수와 route familiarity 컴파일 비활성 |
 | `AXIS_SCORING_ASYNC` | `true` | Persona 확정 응답을 막지 않고 백그라운드 채점 |
 | `USE_ROADNET` | `false` | 기본은 연속 공간 MC |
 | `ROADNET_PRELOAD` | `false` | Phase 1에서 도로망 미리 받지 않음 |
 | `MC_NUM_WALKERS` | `500` | Agent·Statistical 공통 워커 수 |
-| `MIND_CALL_BUDGET` | `10` | 예측당 실제 EXAONE 마음 재해석 상한 |
+| `MIND_CALL_BUDGET` | `5` | 예측당 실제 EXAONE 마음 재해석 상한 |
 | `REFLEX_ALERT_ON_INTAKE` | `true` | 신고 직후 안전반경 알림 경로 실행 |
 | `REFLEX_KRING` | `2` | H3 중심 포함 19셀 |
 | `ALERT_COVERAGE` | `0.8` | POA·D3 타겟 누적 커버리지 |
@@ -762,28 +832,21 @@ API 요청·응답의 상세 형식은 [`API_CONTRACT.md`](../API_CONTRACT.md)�
 
 ## 14. 테스트와 검증 자산
 
-- `backend/tests`는 441개를 수집하며 439 passed / 2 skipped 이다(2건은 카카오 라이브 키 없는 실호출 지오코딩).
 - E2E 흐름, D3, Phase 0 인터뷰, evidence 등급 판정, 장소 좌표 복구, probes 꼬리질문, 축 채점, route familiarity, 도로망 MC, 인지 게이지, 제보 신뢰도, 개인정보 파기 등을 각각 테스트한다.
 - 정릉동 도로망·환경·건물 fixture가 포함돼 있다.
-- `backend/experiments/axis_goldset`에는 축 채점 골드셋 실험 스크립트와 결과가 있다.
+- `backend/experiments`에는 축 채점, 인터뷰, 슬롯 검색, Mind 어댑터, 풀 결합, 호출 예산, 제보 모델, 신뢰도 가중치 등 PR 실험 스크립트와 결과가 있다.
 - `/dashboard`와 Debug API는 워커 궤적, 마음 이벤트, EXAONE 입력·출력, 네 POA 레이어를 시각화한다.
 
-테스트 개수는 2026-07-22 develop 1be16fa(PR #64 머지 직후) 에서 pytest 를 직접 실행해 확인한 값이다.
+정확한 테스트 수와 통과 결과는 변경될 수 있으므로 `cd backend && python -m pytest` 또는 최신 CI를 기준으로 확인한다.
 
 ## 15. develop 기준 구현·문서 불일치와 우선 정리 항목
 
-### 문서·주석 불일치
+### 현재 문서에서 의도적으로 강조하는 코드 경계
 
-**해소됨 (2026-07-21)**
-
-- ~~`API_CONTRACT.md`가 route familiarity 컴파일러를 미구현으로 설명~~ → 갱신, `env_responses` 필드도 추가
-- ~~`backend/README.md`가 OSMnx 도로망을 미구현으로 설명~~ → "구현됨, 운영 프로필·캐시 배포가 남음"으로 정정
-- ~~스키마·축 기준표 주석의 route familiarity 미구현 표기~~ → `schemas/persona.py`·`phase0/axis_scoring.py`·`axis_rubric.md` 3곳 정정
-- ~~PR #47 이후 E2E 대시보드에 남은 아동 문자열~~ → PR #49에서 제거
-
-**남음**
-
-1. `simulation.py` 문서 문자열은 Statistical MC를 "AI 없음"이라 표현하지만 실제 파이프라인은 동일 EXAONE prior를 전달한다. 정확히는 "동적 마음 재해석 제외 비교군"이다.
+1. Statistical MC도 동일 EXAONE prior를 공유한다. 완전한 비-AI 기준선이 아니라 동적 마음 재해석 제외 비교군이다.
+2. Mind v2의 `behavior`는 계약과 평가에는 포함되지만 현재 이동 전략에 연결되지 않는다.
+3. 제보 시각은 형식·범위 가드만 있고 시민 원문 대조 가드는 없다.
+4. 주기-only 실험이 더 단순했지만 현재 코드에는 주기 45분과 KL 0.5 트리거가 모두 남아 있다.
 
 ### 실서비스 전 핵심 미구현
 
@@ -795,7 +858,10 @@ API 요청·응답의 상세 형식은 [`API_CONTRACT.md`](../API_CONTRACT.md)�
 6. 주기 재실행·TTL 파기를 호출할 운영 스케줄러
 7. `USE_ROADNET=true` 운영 프로필과 도로망·환경 캐시 배포
 8. Statistical MC의 통계 전용 prior 분리 여부 결정
-9. 게이지 계수·알림 임계·유형별 Koester 파라미터의 합성 시나리오 튜닝
+9. Mind `behavior`의 이동 전략 연결과 규칙 기반 혼란 산정
+10. 제보 시각 원문 대조 가드
+11. 주기-only 또는 주기+KL 운영 정책 결정
+12. 게이지 계수·알림 임계·유형별 Koester 파라미터의 합성 시나리오 튜닝
 
 ## 16. 코드 탐색 지도
 

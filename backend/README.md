@@ -1,8 +1,8 @@
-# 돌아오길 백엔드 (백본)
+# 돌아오길 백엔드
 
 실종자(치매 노인·지적장애인) 동선 예측 + 시민 타겟 알림 앱의 FastAPI 백엔드.
 아키텍처 다이어그램(`../architecture/architecture.png`)의 Phase 0~3을 그대로 모듈로 옮겼다.
-**모든 AI 모델은 스텁** — API 키 없이 전체 파이프라인이 end-to-end로 돈다.
+모델 엔드포인트와 API 키가 있으면 실제 모델을 호출하고, 설정이 없거나 호출에 실패하면 통계·규칙 기반 폴백으로 전체 파이프라인을 계속 실행한다.
 
 ## 실행
 
@@ -13,7 +13,7 @@ uvicorn app.main:app --reload
 # http://localhost:8000/docs (Swagger UI)
 ```
 
-테스트: `python -m pytest tests/` (2026-07-22 develop `1be16fa` 기준 **441개 수집 / 439 passed / 2 skipped**. skip 2건은 카카오 라이브 키가 없어 건너뛰는 실호출 지오코딩)
+테스트: `python -m pytest tests/`
 
 ## 구조
 
@@ -23,10 +23,10 @@ app/
 ├── config.py          임계값·튜닝 파라미터 (전부 .env 오버라이드 가능)
 ├── storage.py         인메모리 저장소 (→ DB 교체 지점)
 ├── schemas/           Pydantic 도메인 모델 (persona, report, prediction, tip, case)
-├── llm/               모델 인터페이스 + 스텁 ★API 키 발급 후 _call_api 구현
-│   ├── exaone.py        EXAONE — prior 생성(좌표 아님), 마음 예측, 리포트
+├── llm/               모델 클라이언트 + 설정 누락·장애 시 폴백
+│   ├── exaone.py        EXAONE — 지식 LoRA prior, 행동 LoRA 마음 재해석
 │   ├── midm.py          Mi:dm — 온보딩 인터뷰 전용
-│   ├── tip_llm.py       제보 구조화·구체성 등급 (모델 미정, 스텁 폴백)
+│   ├── tip_llm.py       제보 구조화·구체성 등급 (Mi:dm 2.0 Mini 선택, 스텁 폴백)
 │   ├── varco_vision.py  VARCO-Vision — 인상착의 추출 (생성 아님, 시민 제보 사진 대조는 미수행으로 확정)
 │   └── upstage.py       Solar Pro — 신고서 파싱
 ├── geo/
@@ -36,7 +36,7 @@ app/
 ├── phase1/intake.py     신고 접수: 인상착의·신고자 추출 → Case 생성
 ├── phase2/
 │   ├── topdown.py       2-1 Top-down: prior → POA (MC 없음)
-│   ├── simulation.py    2-2 Bottom-up (agent+MC 500회) / 2-3 통계 MC (AI 없음)
+│   ├── simulation.py    2-2 Bottom-up (agent+MC 500회) / 2-3 통계 MC (동적 마음 재해석 없음)
 │   ├── combine.py       α-pool (linear=넓게 / log-linear=좁게)
 │   └── pipeline.py      3종 계산(top-down은 디버그용) → bottom-up·통계 2-way 통합 → 최종 POA, baseline 저장
 ├── phase3/
@@ -47,6 +47,19 @@ app/
 │   └── alerts.py        POA 상위 셀(누적 80%) 타겟 알림 + 새 지역 선별(D3, 집합차+합산질량임계 후 커버리지 타겟팅)
 └── api/                 phase별 REST 라우터
 ```
+
+## 작업별 모델 라우팅
+
+| 작업 | 설정·운영 모델 | RAG | 폴백 |
+|---|---|---|---|
+| Phase 0 축 컴파일 | `AXIS_SCORING_MODEL` / EXAONE 기본 모델 | 미사용 | 미채점 상태로 두고 기본값 사용 |
+| Phase 2 초기 prior | `EXAONE_MODEL` / `exaone-sar` | 상위 4개 발췌 사용 | 유형별 SAR 통계 prior |
+| Phase 2 마음 재해석 | `MIND_MODEL=exaone-mind-v5` | 미사용 | 혼란 증가 휴리스틱 |
+| Phase 3 제보 구조화 | 별도 `TIP_LLM_*` / Mi:dm 2.0 Mini 선택 | 미사용 | 키워드 기반 결정적 스텁 |
+
+`EXAONE_MODEL`과 `AXIS_SCORING_MODEL`은 기본값이 비어 있어 배포 환경에서 지정한다. `EXAONE_MODEL=exaone-sar`를 사용할 때 축 채점을 기본 모델로 분리하려면 `AXIS_SCORING_MODEL`을 반드시 별도로 지정해야 한다. RAG 인덱스가 없거나 검색이 실패하면 prior는 발췌 없이 계속 생성된다. 마음 재해석은 학습 계약과 출력 형식을 보호하기 위해 RAG를 사용하지 않으며, 실제 모델 호출 상한은 예측당 5회다.
+
+`exaone-mind-v5`의 v2 계약은 행동·목표·혼란을 모두 출력하지만 현재 `guardrail.sanitize_mind()`와 시뮬레이션은 검증된 목표와 혼란/상태만 사용한다. `behavior`를 이동 전략에 연결하는 작업과 완전한 규칙 기반 혼란 산정은 후속 구현이다.
 
 ## POA 갱신 2층 설계 (2026-07-03 확정)
 
@@ -59,7 +72,9 @@ app/
 ```
 
 핵심 기준: **"이 제보가 시뮬 출발점(LKP)을 바꾸는가?"**
-임계값(0.2/0.8/45분/KL 0.5)은 전부 `config.py` — 시뮬레이션 테스트로 튜닝.
+임계값(0.2/0.8/45분/KL 0.5)은 전부 `config.py`에 있다. 45분 주기+KL과 주기-only를 비교한 합성 실험에서는 탐지율이 같고 주기-only의 재실행이 적었지만, 현재 코드는 아직 주기+KL을 유지하며 별도 자동 스케줄러도 없다.
+
+`tip_llm` 구조화 온도는 0.0이다. 다만 실모델 실험에서 시각 언급이 없는 26건 중 20건에 시각이 생성됐다. 현재 구현은 시각 형식과 범위만 검사하고 원문 포함 여부는 확인하지 않으므로, 현장 사용 전 원문 대조 가드가 필요하다.
 
 ## API 흐름 예시
 
@@ -77,9 +92,10 @@ GET  /phase3/cases/{id}/rerun-check    층2 트리거 상태 (스케줄러용)
 
 | 지점 | 파일 | 내용 |
 |---|---|---|
-| 모델 API | `llm/*.py` | 키 발급 후 각 클라이언트 `_call_api` + 메서드 구현 |
+| 모델 배포 설정 | `config.py`, `.env` | Mi:dm·EXAONE 기본 모델·`exaone-sar`·`exaone-mind-v5`·`tip_llm` 엔드포인트와 LoRA 마운트 |
 | 도로망 운영 프로필 | `geo/roadnet.py`, `.env` | OSMnx 자체는 구현됨 — `USE_ROADNET=true` 기본화와 캐시 배포가 남음 |
-| 마음 예측 훅 | `phase2/simulation.py` | agent 모드에서 상태 변화 시에만 EXAONE 호출 |
+| 마음 재해석 운영 연결 | `phase2/simulation.py`, `.env` | `exaone-mind-v5`의 목표·혼란은 반영. 행동→이동 전략 연결과 규칙 기반 혼란 산정은 미구현 |
+| 제보 시각 원문 검증 | `llm/tip_llm.py`, `phase3/time_resolve.py` | 모델이 만든 시각이 시민 원문에 실제로 있는지 대조하는 가드 추가 필요 |
 | DB | `storage.py` | SQLite/Postgres Repository 로 교체 |
 | 푸시 | `phase3/alerts.py` | FCM + 사용자 위치 인덱스 |
 | 파일 업로드 | `api/phase1.py`, `api/phase3.py` | 플래그 → multipart UploadFile |
