@@ -59,6 +59,8 @@ app/
 
 `EXAONE_MODEL`과 `AXIS_SCORING_MODEL`은 기본값이 비어 있어 배포 환경에서 지정한다. `EXAONE_MODEL=exaone-sar`를 사용할 때 축 채점을 기본 모델로 분리하려면 `AXIS_SCORING_MODEL`을 반드시 별도로 지정해야 한다. RAG 인덱스가 없거나 검색이 실패하면 prior는 발췌 없이 계속 생성된다. 마음 재해석은 학습 계약과 출력 형식을 보호하기 위해 RAG를 사용하지 않으며, 실제 모델 호출 상한은 예측당 5회다.
 
+`exaone-mind-v5`의 v2 계약은 행동·목표·혼란을 모두 출력하지만 현재 `guardrail.sanitize_mind()`와 시뮬레이션은 검증된 목표와 혼란/상태만 사용한다. `behavior`를 이동 전략에 연결하는 작업과 완전한 규칙 기반 혼란 산정은 후속 구현이다.
+
 ## POA 갱신 2층 설계 (2026-07-03 확정)
 
 ```
@@ -70,7 +72,9 @@ app/
 ```
 
 핵심 기준: **"이 제보가 시뮬 출발점(LKP)을 바꾸는가?"**
-임계값(0.2/0.8/45분/KL 0.5)은 전부 `config.py` — 시뮬레이션 테스트로 튜닝.
+임계값(0.2/0.8/45분/KL 0.5)은 전부 `config.py`에 있다. 45분 주기+KL과 주기-only를 비교한 합성 실험에서는 탐지율이 같고 주기-only의 재실행이 적었지만, 현재 코드는 아직 주기+KL을 유지하며 별도 자동 스케줄러도 없다.
+
+`tip_llm` 구조화 온도는 0.0이다. 다만 실모델 실험에서 시각 언급이 없는 26건 중 20건에 시각이 생성됐다. 현재 구현은 시각 형식과 범위만 검사하고 원문 포함 여부는 확인하지 않으므로, 현장 사용 전 원문 대조 가드가 필요하다.
 
 ## API 흐름 예시
 
@@ -90,7 +94,8 @@ GET  /phase3/cases/{id}/rerun-check    층2 트리거 상태 (스케줄러용)
 |---|---|---|
 | 모델 배포 설정 | `config.py`, `.env` | Mi:dm·EXAONE 기본 모델·`exaone-sar`·`exaone-mind-v5`·`tip_llm` 엔드포인트와 LoRA 마운트 |
 | 도로망 운영 프로필 | `geo/roadnet.py`, `.env` | OSMnx 자체는 구현됨 — `USE_ROADNET=true` 기본화와 캐시 배포가 남음 |
-| 마음 재해석 운영 연결 | `phase2/simulation.py`, `.env` | agent 모드에서 상태 변화 시 `exaone-mind-v5` 호출, 실패 시 휴리스틱 |
+| 마음 재해석 운영 연결 | `phase2/simulation.py`, `.env` | `exaone-mind-v5`의 목표·혼란은 반영. 행동→이동 전략 연결과 규칙 기반 혼란 산정은 미구현 |
+| 제보 시각 원문 검증 | `llm/tip_llm.py`, `phase3/time_resolve.py` | 모델이 만든 시각이 시민 원문에 실제로 있는지 대조하는 가드 추가 필요 |
 | DB | `storage.py` | SQLite/Postgres Repository 로 교체 |
 | 푸시 | `phase3/alerts.py` | FCM + 사용자 위치 인덱스 |
 | 파일 업로드 | `api/phase1.py`, `api/phase3.py` | 플래그 → multipart UploadFile |
