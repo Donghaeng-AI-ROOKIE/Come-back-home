@@ -53,6 +53,10 @@ _MAX_STEPS = 300  # 그래프 워커 안전 상한 (평균 엣지 ~50m × 300 = 
 # 무의미해진다. 계수 정밀 튜닝은 게이지 그리드서치(트랙 5)와 함께.
 _MIND_REFRACTORY_STEPS = 30
 
+# 은신 체류 중 지형난이도 — 첫 스텝(prev 없음)에만 쓰는 폴백. gauges._DEFAULT_DIFFICULTY
+# 와 같은 값으로, "어느 길인지 모를 때의 평균"이라는 의미가 같다.
+_DEFAULT_DWELL_TERRAIN = 0.4
+
 
 class _MindPool:
     """EXAONE 마음 재해석의 호출 예산 + 결과 분포 공유 (예측 1회 스코프).
@@ -236,6 +240,17 @@ def _walk_graph(
         target_node = rng.choices(list(nodes), weights=list(weights))[0]
         target_label = node_labels.get(target_node)
 
+    # 마음 재해석의 behavior 가 켜졌을 때만 쓰는 보행 모드 (settings.mind_behavior_enabled).
+    #   homing — 집 방향으로 걷는다. **목표 노드를 잡지 않는다**: 집은 전 워커가 공유하는
+    #     단 하나의 지점이라 도달 종료를 걸면 그 한 칸이 흡수벽이 되어 종착 분포가
+    #     인위적으로 뭉친다(끌림점은 워커마다 흩어지지만 집은 하나뿐이다). 방위만 집으로
+    #     주고 종료는 기존 변위 예산·스텝 상한에 맡긴다.
+    #   roaming — 목표를 해제하고 매 스텝 무작위 방위 (random_walk 와 같은 거동).
+    homing = False
+    roaming = False
+    dwell_left = 0
+    home_loc = persona.home if persona is not None else None
+
     # 게이지 준비 — 롤아웃마다 독립 상태
     g = gauge_mod.Gauges(gauge_mod.config_for(persona))
     speed = gauge_mod.walk_speed(persona)
@@ -261,9 +276,24 @@ def _walk_graph(
             break  # 막다른 노드
         here = net.node_location(node)
 
-        if target_node is not None:
+        if dwell_left > 0:
+            # 은신·멈춤 — 이동하지 않고 시간만 흐른다. 거리가 없으므로 고정 dt 를 쓰고,
+            # 지형·낯섦은 지금 서 있는 자리 기준으로 계속 쌓는다(숨어 있어도 피로·혼란은
+            # 진행한다). 스텝 예산(_MAX_STEPS)은 정상적으로 소비된다.
+            dwell_left -= 1
+            g.step(settings.mind_hide_dwell_dt_min,
+                   terrain=gauge_mod.terrain_difficulty(net.edge_attrs(prev, node))
+                   if prev is not None else _DEFAULT_DWELL_TERRAIN,
+                   fatigue_mult=f_mult,
+                   unfamiliarity=gauge_mod.unfamiliarity(here, familiar),
+                   hostile=gauge_mod.hostile_exposure(net.env(node), persona))
+            continue
+
+        if homing and home_loc is not None:
+            desired = _bearing(here, home_loc)
+        elif target_node is not None:
             desired = _bearing(here, net.node_location(target_node))
-        elif strategy == "random_walk":
+        elif roaming or strategy == "random_walk":
             desired = rng.uniform(-math.pi, math.pi)
         else:  # direction_keeping / staying_put / backtracking — 진행 방위 유지
             desired = heading
@@ -337,6 +367,20 @@ def _walk_graph(
                 if goal is not None:
                     target_node = (label_nodes or {})[goal]  # 목표 전환 — 자연어 재주입
                     target_label = goal
+                if settings.mind_behavior_enabled and mind.behavior:
+                    # 닫힌 4종 → 보행 모드. "끌림점 접근"은 위 goal 경로가 이미 처리하므로
+                    # 여기서는 모드만 해제해 이전 발동의 homing/roaming 이 남지 않게 한다.
+                    if mind.behavior == "귀소 시도" and home_loc is not None:
+                        homing, roaming = True, False
+                        target_node = target_label = None   # 집 방향이 목표를 대체
+                    elif mind.behavior == "계속 배회":
+                        homing, roaming = False, True
+                        target_node = target_label = None   # 갈 곳 없이 걷는다
+                    elif mind.behavior == "은신·멈춤":
+                        homing = roaming = False
+                        dwell_left = settings.mind_hide_dwell_steps
+                    elif mind.behavior == "끌림점 접근":
+                        homing = roaming = False
                 if trace is not None:
                     trace.mind_events.append(_mind_event(
                         walker_idx, step, net.node_location(node),

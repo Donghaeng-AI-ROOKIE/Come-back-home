@@ -24,6 +24,9 @@ class MindState(BaseModel):
     status: str = "이동 중"                   # 예: "쉬는 중", "귀가 시도", "갑자기 가고 싶은 곳 생김"
     confusion: float = 0.5                    # 0(명료)~1(극심한 혼란)
     changed: bool = False
+    # 계약 v2 의 닫힌 행동 어휘 (guardrail.BEHAVIORS). 빈 문자열 = 미판정.
+    # 보행 반영은 settings.mind_behavior_enabled 가 켜졌을 때만 — 기본은 기록 전용이다.
+    behavior: str = ""
 
 
 class POA(BaseModel):
