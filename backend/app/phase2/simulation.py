@@ -53,9 +53,14 @@ _MAX_STEPS = 300  # 그래프 워커 안전 상한 (평균 엣지 ~50m × 300 = 
 # 무의미해진다. 계수 정밀 튜닝은 게이지 그리드서치(트랙 5)와 함께.
 _MIND_REFRACTORY_STEPS = 30
 
-# 은신 체류 중 지형난이도 — 첫 스텝(prev 없음)에만 쓰는 폴백. gauges._DEFAULT_DIFFICULTY
-# 와 같은 값으로, "어느 길인지 모를 때의 평균"이라는 의미가 같다.
-_DEFAULT_DWELL_TERRAIN = 0.4
+# 귀소 시도의 목적지가 될 수 있는 장소 유형 (AttractionPoint.place_type).
+# 근거: Rowe et al. 2011(DEM-31) — 지역사회 실종 사건에서 명시적 귀소 의도를 밝힌
+# 8% 는 "과거 거주지·직장·친척 집"으로 가려 했다고 진술했다. 현재 집이 아니다.
+#   "A small percentage of individuals (8%) indicated they were trying to get to
+#    a former residence or work location or a relative's home."
+# 그래서 현재 집(persona.home)은 여기 넣지 않는다. 해당 장소가 등록돼 있지 않으면
+# 귀소 매핑을 적용하지 않는다 — 근거가 가리키지 않는 대상에 임의 폴백을 걸지 않는다.
+_HOMING_PLACE_TYPES = frozenset({"past_residence", "past_home", "workplace", "relative_home"})
 
 
 class _MindPool:
@@ -241,15 +246,20 @@ def _walk_graph(
         target_label = node_labels.get(target_node)
 
     # 마음 재해석의 behavior 가 켜졌을 때만 쓰는 보행 모드 (settings.mind_behavior_enabled).
-    #   homing — 집 방향으로 걷는다. **목표 노드를 잡지 않는다**: 집은 전 워커가 공유하는
-    #     단 하나의 지점이라 도달 종료를 걸면 그 한 칸이 흡수벽이 되어 종착 분포가
-    #     인위적으로 뭉친다(끌림점은 워커마다 흩어지지만 집은 하나뿐이다). 방위만 집으로
-    #     주고 종료는 기존 변위 예산·스텝 상한에 맡긴다.
-    #   roaming — 목표를 해제하고 매 스텝 무작위 방위 (random_walk 와 같은 거동).
-    homing = False
+    # 매핑 근거는 아래 각 분기 주석 참조 — 근거가 없는 라벨은 매핑하지 않는다.
+    #   homing  — 과거 거주지·직장 방향으로 걷되 **도달 판정을 걸지 않는다**.
+    #   roaming — 목표를 해제하고 매 스텝 무작위 방위.
+    homing_loc: GeoPoint | None = None
     roaming = False
-    dwell_left = 0
-    home_loc = persona.home if persona is not None else None
+
+    # 귀소 후보 좌표 — 등록된 끌림점 중 과거 장소 유형만. 없으면 None 이고,
+    # 그 경우 "귀소 시도" 라벨이 와도 보행을 바꾸지 않는다(사용자 결정 2026-08-02).
+    homing_candidate: GeoPoint | None = None
+    if persona is not None:
+        for ap in persona.attraction_points:
+            if ap.place_type in _HOMING_PLACE_TYPES:
+                homing_candidate = ap.location
+                break
 
     # 게이지 준비 — 롤아웃마다 독립 상태
     g = gauge_mod.Gauges(gauge_mod.config_for(persona))
@@ -276,21 +286,13 @@ def _walk_graph(
             break  # 막다른 노드
         here = net.node_location(node)
 
-        if dwell_left > 0:
-            # 은신·멈춤 — 이동하지 않고 시간만 흐른다. 거리가 없으므로 고정 dt 를 쓰고,
-            # 지형·낯섦은 지금 서 있는 자리 기준으로 계속 쌓는다(숨어 있어도 피로·혼란은
-            # 진행한다). 스텝 예산(_MAX_STEPS)은 정상적으로 소비된다.
-            dwell_left -= 1
-            g.step(settings.mind_hide_dwell_dt_min,
-                   terrain=gauge_mod.terrain_difficulty(net.edge_attrs(prev, node))
-                   if prev is not None else _DEFAULT_DWELL_TERRAIN,
-                   fatigue_mult=f_mult,
-                   unfamiliarity=gauge_mod.unfamiliarity(here, familiar),
-                   hostile=gauge_mod.hostile_exposure(net.env(node), persona))
-            continue
-
-        if homing and home_loc is not None:
-            desired = _bearing(here, home_loc)
+        if homing_loc is not None:
+            # 귀소 시도 — 과거 장소 방위로 걷되 도달 판정은 없다. 문헌이 기술하는 것은
+            # 귀가의 성공이 아니라 실패다(DEM-34: "the PWD can fail to return home and
+            # require a search to be located"). 판정 지시서의 라벨 정의도 "길을 제대로
+            # 찾는지는 무관 — 의도 기준"이다. 방향만 기울이고, 얼마나 빗나가는지는
+            # 기존 혼란도 커널(kappa)이 결정한다.
+            desired = _bearing(here, homing_loc)
         elif target_node is not None:
             desired = _bearing(here, net.node_location(target_node))
         elif roaming or strategy == "random_walk":
@@ -368,19 +370,33 @@ def _walk_graph(
                     target_node = (label_nodes or {})[goal]  # 목표 전환 — 자연어 재주입
                     target_label = goal
                 if settings.mind_behavior_enabled and mind.behavior:
-                    # 닫힌 4종 → 보행 모드. "끌림점 접근"은 위 goal 경로가 이미 처리하므로
-                    # 여기서는 모드만 해제해 이전 발동의 homing/roaming 이 남지 않게 한다.
-                    if mind.behavior == "귀소 시도" and home_loc is not None:
-                        homing, roaming = True, False
-                        target_node = target_label = None   # 집 방향이 목표를 대체
+                    # 닫힌 4종 → 보행 모드. 각 매핑의 문헌 근거를 분기마다 남긴다.
+                    # "끌림점 접근"은 위 goal 경로가 이미 처리하므로 모드만 해제한다.
+                    if mind.behavior == "귀소 시도":
+                        if homing_candidate is not None:
+                            homing_loc, roaming = homing_candidate, False
+                            target_node = target_label = None
+                        # 과거 장소 미등록이면 아무것도 하지 않는다 — 현재 집으로 폴백하면
+                        # 문헌(DEM-31)이 말한 대상과 다른 곳을 가리키게 된다.
                     elif mind.behavior == "계속 배회":
-                        homing, roaming = False, True
-                        target_node = target_label = None   # 갈 곳 없이 걷는다
+                        # DEM-33(Algase Wandering Scale)의 random 패턴 정의 —
+                        #   "walking in a haphazard fashion using multiple changes in
+                        #    direction, and no obvious route to the eventual stopping point"
+                        # 매 스텝 무작위 방위가 이 정의에 대응한다. 혼란도가 높을수록
+                        # 무작위성이 커지는 것은 기존 kappa 커널이 이미 처리하며, 그
+                        # 방향성은 DEM-32 가 지지한다(공간 방향상실 ↔ random 패턴
+                        # r=0.19~0.33 양의 상관 / direct 보행 r=-0.23~-0.27 음의 상관).
+                        homing_loc, roaming = None, True
+                        target_node = target_label = None
                     elif mind.behavior == "은신·멈춤":
-                        homing = roaming = False
-                        dwell_left = settings.mind_hide_dwell_steps
+                        # DEM-31 — 26% 가 최종 목격지 0.5마일 이내 자연 공간에서
+                        # 발견되었고 발견될 때까지 거의 이동하지 않았다. 체류가 아니라
+                        # 이동 종료로 옮긴다(그 자리가 곧 발견 지점이 된다).
+                        # 끌림점·집과 달리 은신 지점은 워커마다 흩어져 있으므로 종료를
+                        # 걸어도 특정 셀로 뭉치지 않는다.
+                        break
                     elif mind.behavior == "끌림점 접근":
-                        homing = roaming = False
+                        homing_loc, roaming = None, False
                 if trace is not None:
                     trace.mind_events.append(_mind_event(
                         walker_idx, step, net.node_location(node),
