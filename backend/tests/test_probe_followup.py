@@ -53,7 +53,6 @@ def test_probe_question_actually_asked(monkeypatch):
     storage.interviews.save(s.id, s)
     monkeypatch.setattr(interview.midm, "extract_answer",
                         lambda slot, conv: {"fields": {}, "attraction_points": [],
-                                            "preferred_targets": [],
                                             "behavior_notes": ["혈압약을 저녁에 복용"],
                                             "slot_filled": True})
     monkeypatch.setattr(interview.midm, "phrase_question",
@@ -76,7 +75,6 @@ def test_probe_falls_back_when_llm_repeats_question(monkeypatch):
     storage.interviews.save(s.id, s)
     monkeypatch.setattr(interview.midm, "extract_answer",
                         lambda slot, conv: {"fields": {}, "attraction_points": [],
-                                            "preferred_targets": [],
                                             "behavior_notes": ["혈압약 저녁 복용"],
                                             "slot_filled": True})
     monkeypatch.setattr(interview.midm, "phrase_question",
@@ -93,7 +91,7 @@ def test_empty_answer_is_not_probed(monkeypatch):
     storage.interviews.save(s.id, s)
     monkeypatch.setattr(interview.midm, "extract_answer",
                         lambda slot, conv: {"fields": {}, "attraction_points": [],
-                                            "preferred_targets": [], "behavior_notes": [],
+                                            "behavior_notes": [],
                                             "slot_filled": False})
     monkeypatch.setattr(interview, "_next_slot", lambda *a, **k: None)
     out = interview.answer_interview(s.id, "글쎄요 뭐라고 해야 하나")

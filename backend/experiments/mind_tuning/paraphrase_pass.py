@@ -8,7 +8,7 @@
 검증(통과 못 하면 원문 유지):
   - JSON 파싱, inner·status 비어있지 않음, 길이 상한
   - goal 이 있으면 라벨 원문이 문장에서 사라지지 않았는지 (goal 문장의 정합)
-  - 발달 케이스에 치매 서사 어휘 금지, 골드셋 라벨 혼입 금지
+  - 골드셋 라벨 혼입 금지
 
 실행: cd backend && .venv/bin/python experiments/mind_tuning/paraphrase_pass.py [--limit N]
 입력: dataset/train_first_person.jsonl → 출력: dataset/train_first_person_final.jsonl
@@ -19,7 +19,6 @@ import argparse
 import collections
 import importlib
 import json
-import re
 import sys
 from pathlib import Path
 
@@ -28,7 +27,6 @@ sys.path.insert(0, str(HERE.parents[1]))
 
 from build_dataset import GOLD_LABELS  # noqa: E402
 
-_DEM_NARRATIVE = re.compile(r"치매|time.?shift|옛집|과거로 착각|그 시절")
 _SYSTEM = """\
 너는 문장 다듬기 도우미다. 실종자 마음 시뮬레이션 데이터의 두 문장을 같은 뜻으로
 자연스럽게 다시 쓴다.
@@ -40,7 +38,7 @@ _SYSTEM = """\
 - JSON 객체 {"inner": "...", "status": "..."} 만 출력한다."""
 
 
-def _ok(new: dict, row_answer: dict, ptype: str) -> bool:
+def _ok(new: dict, row_answer: dict) -> bool:
     inner, status = new.get("inner"), new.get("status")
     if not (isinstance(inner, str) and isinstance(status, str)
             and 5 <= len(inner) <= 160 and 5 <= len(status) <= 120):
@@ -49,8 +47,6 @@ def _ok(new: dict, row_answer: dict, ptype: str) -> bool:
     goal = row_answer.get("goal_label")
     if goal and goal not in text:
         return False                      # 목표 문장에서 장소가 사라지면 정합 훼손
-    if ptype == "developmental_disability" and _DEM_NARRATIVE.search(text):
-        return False
     return not any(lb in text for lb in GOLD_LABELS)
 
 
@@ -76,7 +72,7 @@ def main(limit: int | None) -> None:
             new = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
         except Exception:  # noqa: BLE001 — 실패는 원문 유지로 폴백
             new = None
-        if new and _ok(new, answer, row["metadata"]["population"]):
+        if new and _ok(new, answer):
             answer["inner"], answer["status"] = new["inner"].strip(), new["status"].strip()
             row["messages"][2]["content"] = json.dumps(answer, ensure_ascii=False)
             row["metadata"]["paraphrased"] = True

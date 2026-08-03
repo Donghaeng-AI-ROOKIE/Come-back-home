@@ -157,7 +157,7 @@ def build_world(world_id: str, seed: int, rng: random.Random) -> World:
     """세계 생성 — 진짜 궤적 + 제보(p·판정 확정) + 참조 footprint. run_prediction 은
     footprint 계산용으로 딱 1번만 부른다(콤보 재생 단계와 별개 — 재생 단계는 각자
     독립적으로 다시 초기 예측을 돌린다, 아래 replay_world 참고)."""
-    ptype = rng.choice([PersonaType.dementia, PersonaType.intellectual_disability])
+    ptype = PersonaType.dementia   # 대상 유형은 치매 단독 (2026-08-03)
     elapsed_hours = rng.uniform(*ELAPSED_HOURS_RANGE)
     persona = d3gen._make_persona(ptype, rng)
     true_path = d3gen._simulate_truth(ptype, elapsed_hours, seed, persona)

@@ -399,11 +399,7 @@ export default function ControlDetail({ live }: { live: LiveState }) {
 
   const personaName = isLive ? persona?.name ?? "—" : "김순자";
   const personaAge = isLive ? persona?.age ?? 0 : 78;
-  const personaType = isLive
-    ? persona?.type === "intellectual_disability"
-      ? "발달장애"
-      : "치매"
-    : "치매";
+  const personaType = "치매";   // 대상 유형은 치매 단독 (2026-08-03)
   const axisScores = isLive ? persona?.axis_scores ?? {} : DEMO_AXIS_SCORES;
   const attractions = isLive
     ? (persona?.attraction_points ?? []).map((a) => ({ label: a.label, note: a.weight ?? "" }))

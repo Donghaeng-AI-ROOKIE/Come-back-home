@@ -21,7 +21,6 @@
         "fields": {
           "type": "dementia"
         },
-        "preferred_targets": [],
         "slot_filled": true
       }
     },
@@ -42,7 +41,6 @@
         "fields": {
           "type": "dementia"
         },
-        "preferred_targets": [],
         "slot_filled": true
       }
     },
@@ -62,7 +60,6 @@
           "age": "65세",
           "type": "dementia"
         },
-        "preferred_targets": [],
         "slot_filled": true
       }
     },
@@ -123,7 +120,6 @@
         "fields": {
           "type": "dementia"
         },
-        "preferred_targets": [],
         "slot_filled": true
       }
     },
@@ -144,7 +140,6 @@
         "fields": {
           "type": "dementia"
         },
-        "preferred_targets": [],
         "slot_filled": true
       }
     },
@@ -164,7 +159,6 @@
           "age": "65세",
           "type": "dementia"
         },
-        "preferred_targets": [],
         "slot_filled": true
       }
     },
@@ -228,7 +222,6 @@
           "name": null,
           "type": null
         },
-        "preferred_targets": [],
         "slot_filled": false
       }
     },
@@ -249,7 +242,6 @@
         "fields": {
           "type": "dementia"
         },
-        "preferred_targets": [],
         "slot_filled": true
       }
     },
@@ -268,9 +260,6 @@
           "home": "모름",
           "type": "dementia"
         },
-        "preferred_targets": [
-          "{\"evidence\": \"caregiver_report\", \"label\": \"지하철\", \"target_type\": \"transport\"}"
-        ],
         "slot_filled": true
       }
     },

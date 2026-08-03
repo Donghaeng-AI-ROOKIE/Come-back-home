@@ -175,7 +175,7 @@ def test_empty_extraction_on_past_place_slot_is_retried(monkeypatch):
 
     def flaky(slot, conv):
         calls["n"] += 1
-        base = {"fields": {}, "behavior_notes": [], "preferred_targets": [],
+        base = {"fields": {}, "behavior_notes": [],
                 "slot_filled": True, "attraction_points": []}
         if calls["n"] == 1:
             return base                                     # 첫 호출은 빈손
@@ -203,7 +203,7 @@ def test_no_retry_when_answer_has_no_place_cue(monkeypatch):
 
     def counter(slot, conv):
         calls["n"] += 1
-        return {"fields": {}, "behavior_notes": [], "preferred_targets": [],
+        return {"fields": {}, "behavior_notes": [],
                 "slot_filled": True, "attraction_points": []}
 
     monkeypatch.setattr(interview.midm, "extract_answer", counter)

@@ -47,7 +47,6 @@ class ScoreCard:
     # 내용
     attraction_recall: float | None = None     # 최종 페르소나에 반영된 비율(지오코딩 통과분)
     collection_recall: float | None = None      # 챗봇이 수집한 비율(좌표화 이전 draft 포함)
-    preferred_recall: float | None = None       # 선호대상 수집 비율(발달, 좌표화 불가)
     evidence_accuracy: float | None = None
     axis_coverage: float | None = None
     extra_extractions: int = 0                  # 골드에 없는 추출(과다추출·환각 후보) 수
@@ -93,15 +92,6 @@ def score(transcript, scenario) -> ScoreCard:
     sc.details["geocode_dropped"] = [
         w for w in coll_labels if not _in(w, got_labels)]
 
-    # ── 내용: 선호대상 수집(발달, 좌표화 불가라 지오코딩 무관) ──────────
-    got_prefs = [str(p.get("label", "")) for p in (persona.get("preferred_targets") or [])]
-    # draft_preferred 도 있으면 합침(좌표화 대상 아니라 대개 persona 와 동일)
-    got_prefs += [str(p.get("label", "")) for p in (transcript.session or {}).get("draft_preferred", [])]
-    if exp.preferred_labels:
-        pref_hit = [w for w in exp.preferred_labels if _in(w, got_prefs)]
-        sc.preferred_recall = len(pref_hit) / len(exp.preferred_labels)
-        sc.details["preferred_got"] = sorted(set(got_prefs))
-
     # ── 내용: evidence 등급 정확도 (수집분=draft 기준 — 지오코딩 탈락과 분리) ──
     if exp.evidence:
         correct = 0
@@ -131,13 +121,11 @@ def score(transcript, scenario) -> ScoreCard:
         sc.details["axis_missing"] = [ax for ax in exp.axis_fields if ax not in got_axes]
 
     # ── 과다추출(환각 후보) — 골드 라벨에 없는 수집물. 저신호/판정불가 케이스 핵심 ──
-    gold_all = exp.attraction_labels + exp.preferred_labels
+    gold_all = exp.attraction_labels
     extra_attr = [g for g in collected_labels if not _in(g, gold_all) and g]
-    extra_pref = [g for g in got_prefs if not _in(g, gold_all) and g]
     extra_axes = [ax for ax in got_axes if ax not in exp.axis_fields]
-    sc.extra_extractions = len(set(extra_attr)) + len(set(extra_pref))
-    sc.details["extra"] = {"끌림점": sorted(set(extra_attr)), "선호": sorted(set(extra_pref)),
-                           "축": sorted(extra_axes)}
+    sc.extra_extractions = len(set(extra_attr))
+    sc.details["extra"] = {"끌림점": sorted(set(extra_attr)), "축": sorted(extra_axes)}
 
     # ── 정정: 없어야 할 라벨 (삭제·이름정정) ──────────────────────────
     # 수집분(draft)을 기준으로 본다 — 지오코딩이 탈락시켜 persona 에서 사라진 것과
@@ -206,7 +194,7 @@ def format_card(sc: ScoreCard) -> str:
         f"이름={'OK' if sc.name_ok else '✗'}  나이={'OK' if sc.age_ok else '✗'}  "
         f"LLM열화={'예' if sc.llm_degraded else '아니오'}",
         f"│ [내용] 끌림점 수집={pct(sc.collection_recall)}→반영={pct(sc.attraction_recall)}  "
-        f"선호={pct(sc.preferred_recall)}  evidence={pct(sc.evidence_accuracy)}  "
+        f"evidence={pct(sc.evidence_accuracy)}  "
         f"축={pct(sc.axis_coverage)}  과다추출={sc.extra_extractions}",
     ]
     if sc.details.get("geocode_dropped"):

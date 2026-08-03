@@ -1,11 +1,10 @@
-"""골드셋 대화가 하네스를 끝까지 구동하는지 스모크 — 특히 발달장애(미검증) 경로.
+"""골드셋 대화가 하네스를 끝까지 구동하는지 스모크.
 
 expected 가 비어 있어 내용 지표는 0/—. 여기서 보는 것: 페르소나 도달·종료,
-발달장애 슬롯(preferred_target·aversive·transition)이 실제로 질문되고 수집되는가,
-responder 가 대본으로 답을 매칭하는가.
+슬롯이 실제로 질문되고 수집되는가, responder 가 대본으로 답을 매칭하는가.
 
 실행(backend 에서):  python -m experiments.chatbot_goldset.smoke [시나리오id...]
-기본은 P1(자폐)·D4(판정불가) 두 개. 스텁 강제(LLM 키 빈값).
+기본은 D1(표준)·D4(판정불가) 두 개. 스텁 강제(LLM 키 빈값).
 """
 
 from __future__ import annotations
@@ -27,7 +26,7 @@ def main() -> int:
     from experiments.chatbot_eval.scorer import format_card, score
     from experiments.chatbot_goldset.goldset_scenarios import GOLDSET
 
-    ids = sys.argv[1:] or ["G_P1_junho", "G_D4_park"]
+    ids = sys.argv[1:] or ["G_D1_kim", "G_D4_park"]
     client = TestClient(app)
     print("═══ 골드셋 스모크 (스텁) ═══")
     for sid in ids:
@@ -42,10 +41,6 @@ def main() -> int:
         if tr.stopped_reason and tr.stopped_reason != "done":
             print(f"  ⓘ 종료 사유: {tr.stopped_reason}")
         print("\n" + format_card(score(tr, sc_def)))
-        # 발달장애 수집 확인 — 선호 대상(좌표화 불가)도 잡혔나
-        persona = tr.persona or {}
-        prefs = [p.get("label") for p in persona.get("preferred_targets", [])]
-        print(f"  선호대상(preferred_targets): {prefs or '—'}")
         print(f"  수집 끌림점(draft): {[a.get('label') for a in tr.draft_attractions]}")
     return 0
 

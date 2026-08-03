@@ -78,11 +78,11 @@ class MidmClient(LLMClient):
     def extract_answer(self, target_slot: SlotSpec, conversation: list[dict]) -> dict:
         """직전 답변에서 슬롯값 추출 + 충족 판정.
 
-        반환: {"fields", "attraction_points", "preferred_targets", "behavior_notes", "slot_filled"}.
+        반환: {"fields", "attraction_points", "behavior_notes", "slot_filled"}.
         스텁 모드에서는 빈 추출(slot_filled=True 로 진행만 시킴).
         """
         if self.is_stub:
-            return {"fields": {}, "attraction_points": [], "preferred_targets": [],
+            return {"fields": {}, "attraction_points": [],
                     "behavior_notes": [], "slot_filled": True}
         try:
             raw = self.chat(

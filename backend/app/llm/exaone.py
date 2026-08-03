@@ -42,11 +42,8 @@ log = logging.getLogger(__name__)
 # 모집단 prior 는 넓게 유지한다: 개인 이질성(0.3km 배회~대중교통 12km)이 섞인 값이고,
 # 개인화(EXAONE radius_level·끌림점)가 분포를 옮기고 좁히는 방향으로 소비한다.
 # 좁은 σ 는 가드레일(μ±0.4) 위에서 먼 끌림점 페르소나를 구조적으로 표현 불가하게 만든다.
-# ⚠️ 지적장애는 Urban 분위수 원표 미확보 — σ 유지, 원 Koester 표 대조 검증 필요
-#   (현 σ 로는 95%≈28km 로 비현실적).
 _KOESTER_PARAMS: dict[PersonaType, LognormalParams] = {
     PersonaType.dementia: LognormalParams(mu=0.095, sigma=1.48),               # ISRID Urban: 50% 1.1km, 95% 12.6km
-    PersonaType.intellectual_disability: LognormalParams(mu=0.89, sigma=1.50), # 중앙값 ~2.4km — σ 검증 필요
 }
 
 # Hashimoto 2022 6전략 — 프로파일별 기본 확률 (placeholder, 논문 값으로 교체 대상)
@@ -54,10 +51,6 @@ _STRATEGY_PRIORS: dict[PersonaType, dict[str, float]] = {
     PersonaType.dementia: {
         "route_following": 0.30, "direction_keeping": 0.25, "random_walk": 0.15,
         "backtracking": 0.05, "staying_put": 0.10, "landmark_seeking": 0.15,
-    },
-    PersonaType.intellectual_disability: {
-        "route_following": 0.25, "direction_keeping": 0.20, "random_walk": 0.15,
-        "backtracking": 0.10, "staying_put": 0.15, "landmark_seeking": 0.15,
     },
 }
 
@@ -113,17 +106,15 @@ _PRIOR_FEWSHOT_ASSISTANT = """\
 
 _TYPE_LABEL = {
     PersonaType.dementia: "치매 노인",
-    PersonaType.intellectual_disability: "지적장애인",
 }
 
 # ── 마음 재해석 (H·A 트리거 발동 시) 프롬프트 ──────────────────────
 # 회의 원칙: 게이지를 자연어로 번역해 주고 좌표는 주지 않는다.
 # 출력도 자연어 판단 + 정성 등급만 — 수치화는 guardrail 이 한다.
 #
-# 유형 조건부 예시 (2026-07-29 프로브 실측): 치매 예시 하나만 두면 그 예시가
-# status 문구를 지배해 발달장애 응답에도 "옛집" 서사가 섞여 나온다(그리드
-# 실측 4/20). 한 프롬프트에 두 유형 예시를 다 넣으면 교차 오염이 남으므로
-# 페르소나 유형에 맞는 예시만 보여준다.
+# 예시는 유형별 테이블(_MIND_EXAMPLE)에서 주입한다 — 대상이 치매 단독이라
+# 지금은 항목이 하나지만, 예시가 프롬프트 본문에 박히면 status 문구를 지배한다는
+# 프로브 실측(2026-07-29, 그리드 4/20)이 있어 주입 구조를 유지한다.
 _MIND_RULES = """\
 너는 실종자 수색(SAR) 행동 분석 전문가다. 이동 중인 실종자의 내면 상태가 \
 임계를 넘었다는 보고를 받고, 지금 이 사람의 마음 상태와 목표를 재해석한다.
@@ -142,9 +133,6 @@ _MIND_EXAMPLE = {
     PersonaType.dementia:
         "예: 치매 노인이라면 현재를 과거로 착각(time-shifting)해 '집'이 현재 집이 "
         "아니라 옛집을 뜻하게 될 수 있다.",
-    PersonaType.intellectual_disability:
-        "예: 발달장애인이라면 좋아하는 대상(기차·자동문 등)에 강하게 이끌려 경로를 "
-        "이탈하거나, 시끄러운 자극을 피해 조용한 곳으로 숨으려 할 수 있다.",
 }
 
 
@@ -180,8 +168,6 @@ _VULN_AXIS_KO = {
     "communication_approach_vulnerability": "의사소통·낯선사람 반응",
     "wayfinding_error_recovery_deficit": "길찾기·경로회복",
     "distress_induced_movement_reactivity": "불안 시 이동 반응",
-    "aversive_context_escape": "불편 회피 행동",
-    "transition_routine_disruption": "루틴 변화 취약성",
 }
 
 

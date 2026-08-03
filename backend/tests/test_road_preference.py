@@ -54,10 +54,10 @@ def test_arterial_penalised_and_residential_preferred():
 
 
 def test_applies_to_dementia_only():
-    """문헌 근거가 치매 대상 — 발달장애·유형미상은 중립으로 남긴다."""
-    assert gauges.road_preference(
-        {"highway": "primary"}, _persona(PersonaType.intellectual_disability)) == 1.0
+    """문헌 근거가 치매 대상 — 유형미상(persona 없음)은 중립으로 남긴다."""
     assert gauges.road_preference({"highway": "primary"}, None) == 1.0
+    assert gauges.road_preference(
+        {"highway": "primary"}, _persona(PersonaType.dementia)) < 1.0
 
 
 def test_osmnx_list_tag_handled():
@@ -131,8 +131,8 @@ def test_strength_zero_is_a_true_ablation_switch(net, monkeypatch):
 
     평가 하네스가 이 노브로 "위계 선호 없음" 대조군을 만들 수 있어야 하므로,
     끔 상태에서 확률식이 실제로 도입 이전과 동일함을 보장한다.
-    (유형 간 비교로는 검증할 수 없다 — 치매·발달장애는 게이지 계수·보행속도·
-    v_max 가 모두 달라 위계 외 요인으로도 결과가 갈린다.)
+    (persona=None 대조로는 검증할 수 없다 — 페르소나가 없으면 게이지·끌림점
+    경로가 통째로 달라져 위계 외 요인으로도 결과가 갈린다.)
     """
     seen: list[float] = []
     real = gauges.road_preference

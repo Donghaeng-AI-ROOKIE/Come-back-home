@@ -90,7 +90,7 @@ export default function CaseBoard({
           id: c.id,
           name: p?.name ?? c.id,
           age: p?.age ?? 0,
-          type: p?.type === "intellectual_disability" ? "발달장애" : "치매",
+          type: "치매" as const,
           baseSec: elapsed,
           status: st.label,
           tone: st.tone,
@@ -312,17 +312,9 @@ export default function CaseBoard({
                         fontWeight: 600,
                         padding: "2px 8px",
                         borderRadius: 5,
-                        ...(c.type === "발달장애"
-                          ? {
-                              color: T.accentLighter,
-                              background: "rgba(145,132,217,.14)",
-                              border: `1px solid rgba(145,132,217,.28)`,
-                            }
-                          : {
-                              color: T.amberText,
-                              background: "rgba(240,166,60,.12)",
-                              border: `1px solid rgba(240,166,60,.26)`,
-                            }),
+                        color: T.amberText,
+                        background: "rgba(240,166,60,.12)",
+                        border: `1px solid rgba(240,166,60,.26)`,
                       }}
                     >
                       {c.type}

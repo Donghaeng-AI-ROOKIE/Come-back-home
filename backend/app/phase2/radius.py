@@ -26,7 +26,7 @@ import math
 import random
 
 from app.config import settings
-from app.schemas.persona import Persona, PersonaType
+from app.schemas.persona import Persona
 from app.schemas.prediction import LognormalParams
 
 # 표준정규 95% 분위 — topdown 원판 컷과 동일한 z (PR #20).
@@ -48,9 +48,7 @@ def vmax_kmh(persona: Persona | None) -> float:
     미확인 대중교통 이용으로 이 반경 밖에서 발견되는 경우는 Phase 3 가 흡수한다
     (고신뢰 제보 → 새 LKP 재예측 → D3 새 지역 알림) — 도보 상한만 쓰는 안전판.
     """
-    if persona is not None and persona.type == PersonaType.intellectual_disability:
-        return settings.reach_vmax_id_kmh
-    # 유형 미상은 가장 느린 값 — 물리 상한은 보수적으로 잡는다.
+    # 대상은 치매 단독 — 유형 미상(persona=None)도 같은 값을 쓴다.
     return settings.reach_vmax_dementia_kmh
 
 

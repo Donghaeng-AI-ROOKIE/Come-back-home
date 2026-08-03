@@ -93,7 +93,7 @@ const STEPS: Step[] = [
     key: 'cognition',
     label: '인지 상태',
     question: '기억이나 길 찾기에 어려움이 있으세요?',
-    chips: ['초기 치매', '중기 치매', '발달장애', '해당 없음'],
+    chips: ['초기 치매', '중기 치매', '중증 치매', '해당 없음'],
     voiceExample: '중기 치매',
   },
   {

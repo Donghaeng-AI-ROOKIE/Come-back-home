@@ -63,7 +63,6 @@ def match_slot(question: str, persona_type: str) -> str | None:
 _AREA_RE = re.compile(r"['‘]([^'’]+)['’]\s*은?\s*어느\s*동네")
 _SUMMARY_MARK = ("이렇게 등록할게요", "이게 맞나요", "맞나요?")
 _MORE_PLACES = ("또 있을까요", "또 있나요", "자주 가시거나 좋아하시는 곳이 또")
-_TYPE_REASK = ("치매 어르신", "발달장애")
 
 
 def is_summary_gate(question: str) -> bool:
@@ -90,11 +89,7 @@ def respond(question: str, scenario) -> str:
     if any(m in q for m in _MORE_PLACES):
         return scenario.extra_places
 
-    # 4) 유형 되묻기 (identity 에서 유형 미확정 시)
-    if all(t in q for t in _TYPE_REASK) and "해당" in q:
-        return scenario.answers.get("identity", scenario.fallback)
-
-    # 5) 슬롯 화제 매칭
+    # 4) 슬롯 화제 매칭
     key = match_slot(q, scenario.persona_type)
     if key and key in scenario.answers:
         return scenario.answers[key]

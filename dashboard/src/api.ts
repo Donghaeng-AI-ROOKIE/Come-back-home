@@ -31,7 +31,7 @@ export interface OverviewPersona {
   id: string;
   name: string;
   age: number;
-  type: "dementia" | "intellectual_disability";
+  type: "dementia";
   n_attractions: number;
   n_notes: number;
 }
@@ -121,7 +121,7 @@ export interface Persona {
   id: string;
   name: string;
   age: number;
-  type: "dementia" | "intellectual_disability";
+  type: "dementia";
   home: GeoPoint;
   attraction_points: AttractionPoint[];
   behavior_notes: string[];

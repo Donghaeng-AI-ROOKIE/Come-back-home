@@ -187,7 +187,7 @@ def gen_one_timeline(mix_name: str, mix: tuple[float, float, float],
     다시 갱신하지 않는다(순환 방지, 메모리 설계 참고). 정답은 타임라인 종료 시점
     진짜 위치가 이 footprint 밖인지로 사후 결정된다(미리 안 정함).
     """
-    ptype = rng.choice([PersonaType.dementia, PersonaType.intellectual_disability])
+    ptype = PersonaType.dementia   # 대상 유형은 치매 단독 (2026-08-03)
     elapsed_hours = rng.uniform(*ELAPSED_HOURS_RANGE)
     persona = _make_persona(ptype, rng)
     true_path = _simulate_truth(ptype, elapsed_hours, seed, persona)

@@ -9,7 +9,9 @@
 - 행동축: 마음이 실제로 어떤 이동 방식으로 나타나는가 → 도주·정지·회귀 전략 확률
 
 설계 결정(회의록·팀 합의):
-- 대상 유형은 치매 / 발달장애(지적장애·자폐 포함) 2종.
+- 대상 유형은 치매 1종 (2026-08-03 팀 결정 — 대상을 치매 실종자로 단일화).
+  types 필드와 slots_for() 는 유형별 슬롯 분기 구조를 그대로 유지한다: 지금은
+  전 슬롯이 치매용이라 필터가 통과만 하지만, 대상 확장 시 이 자리에 다시 붙는다.
 - 씨앗 질문은 회의록 「실제 질문 형식」 원문 그대로. 어차피 Mi:dm 이 참고용으로만
   받아 매 턴 한 질문으로 재문장화한다(prompts.PHRASE_SYSTEM).
 - 하위변수(walking_endurance, destination_retention 등)는 별도 슬롯이 아니라
@@ -87,17 +89,16 @@ class SlotSpec(BaseModel):
 # 유형 무관 슬롯을 건너뛴다.
 
 _DEM = frozenset({PersonaType.dementia})
-_DD = frozenset({PersonaType.intellectual_disability})   # 발달장애(지적장애·자폐)
 
 SLOTS: list[SlotSpec] = [
     # ── Tier 1 · 장소·경로·과거 이력 ──────────────────────────────
     SlotSpec(
-        key="identity", label="대상자 성함·나이·유형", axis=Axis.profile, tier=Tier.route,
+        key="identity", label="대상자 성함·나이", axis=Axis.profile, tier=Tier.route,
         sink=Sink.field,
-        question="등록하실 분의 성함과 나이, 그리고 어떤 상황이신지(치매 어르신 / 발달장애가 있는 분) 알려주세요.",
-        probes=["나이를 만 나이로 확인", "유형이 모호하면 진단·상황을 한 번 더"],
-        filled_when="이름·나이·유형 3가지가 모두 특정됨",
-        why="유형별 축 세트(치매/발달장애)와 Koester 이동거리 프로파일 선택의 기준.",
+        question="등록하실 어르신의 성함과 나이를 알려주세요.",
+        probes=["나이를 만 나이로 확인"],
+        filled_when="이름·나이 2가지가 모두 특정됨",
+        why="Koester 치매 이동거리 프로파일 적용 대상 식별 — 나이는 보행 능력 추정의 기준.",
     ),
     SlotSpec(
         key="home", label="현재 거주지", axis=Axis.profile, tier=Tier.route, sink=Sink.field,
@@ -157,42 +158,6 @@ SLOTS: list[SlotSpec] = [
         why="개인 재현성 — 과거 발견지는 강력한 사전확률. 반복 행동은 전략 확률(배회·회귀·은신) 직결.",
         keywords=["실종", "발견", "배회", "못 돌아오", "파출소", "경찰서", "지구대"],
         answer_example="두 번 모두 집에서 약 1km 떨어진 시장 근처에서 발견됐고, 주변을 계속 반복해서 걷고 있었습니다.",
-    ),
-    SlotSpec(
-        key="preferred_target_seeking", label="관심·선호 대상 접근성",
-        axis=Axis.mind, axis_field="preferred_target_seeking",
-        tier=Tier.route, sink=Sink.attraction, types=_DD,
-        question="대상자가 보호자와 떨어져서라도 찾아가려고 할 만큼 강하게 좋아하는 장소, 사람, 물건, 교통수단 또는 활동이 있나요?",
-        probes=[
-            "대상 유형 순회 — 교통수단(지하철·버스)/시설(자동문·엘리베이터·편의점)/감각 자극(빛·소리·움직임)/사람/활동",
-            "물가(강·호수·수영장) 접근 성향 — 최우선 확인",
-            "그 대상 때문에 실제로 보호자와 분리된 적이 있는지 (근거 판정)",
-            "대상이 있는 구체 장소",
-        ],
-        filled_when="강한 선호 대상 유무 + 있으면 대상·연관 장소와 분리 경험 여부",
-        why="등록된 선호 대상만 개인별 POI 가중 상향(전 지하철역 일괄 가중 금지). 물가 접근은 최우선 위험 — POA 상향·즉시 알림.",
-        keywords=["물", "강", "호수", "수영장", "분수", "분수대", "기차", "지하철",
-                  "버스", "자동문", "엘리베이터", "자동차", "동물", "편의점",
-                  "집착", "좋아해", "뛰어가", "타러"],
-        risk=0.15,
-        answer_example="지하철을 매우 좋아해서 역이 보이면 혼자서라도 들어가려고 합니다.",
-    ),
-    SlotSpec(
-        key="elopement_pattern_consistency", label="이탈 패턴 반복·고착성",
-        axis=Axis.behavior, axis_field="elopement_pattern_consistency",
-        tier=Tier.route, sink=Sink.behavior, types=_DD,
-        question="과거 이탈이나 실종에서 같은 장소, 경로, 교통수단 또는 행동이 반복됐나요?",
-        probes=[
-            "발견 장소가 반복되는지",
-            "같은 노선·교통수단을 쓰는지",
-            "같은 계기(상황)에서 이탈하는지",
-            "같은 방향·행동이 반복되는지 — 시설 주변 맴돌기·익숙한 구간 왕복",
-            "매번 달랐다면 그것도 명시적으로 확인 (일관성 낮음 근거)",
-        ],
-        filled_when="이력 유무 + 있으면 반복 요소(장소·경로·계기·행동) 또는 '매번 다름' 확인",
-        why="점수 높으면 개인 과거 기록 가중, 낮으면 일반 SAR prior — 개인화 강도 조절 보조축.",
-        keywords=["반복", "매번", "항상", "같은", "노선", "발견", "이탈", "맴돌"],
-        answer_example="세 번 모두 지하철역 방향으로 이동했고, 두 번은 같은 역에서 발견됐습니다.",
     ),
 
     # ── Tier 2 · 능력·취약성 ──────────────────────────────────────
@@ -303,39 +268,6 @@ SLOTS: list[SlotSpec] = [
         keywords=["불안", "초조", "쫓아온다", "훔쳐", "의심", "망상", "도망", "숨",
                   "저항", "화를 내"],
         answer_example="누가 쫓아온다고 생각하면 사람이 없는 골목이나 건물 안쪽으로 숨으려고 합니다.",
-    ),
-    SlotSpec(
-        key="aversive_context_escape", label="불편·감각·상황 회피성",
-        axis=Axis.mind, axis_field="aversive_context_escape",
-        tier=Tier.refine, sink=Sink.behavior, types=_DD,
-        question="대상자가 큰 소리, 밝은 빛, 많은 사람, 낯선 접촉, 요구받는 상황 또는 혼나는 상황을 피하려고 자리를 벗어나나요? 그럴 때 주로 어디로 이동하는지도 알려주세요.",
-        probes=[
-            "어떤 자극·상황인지 — 소음/빛/군중/낯선 접촉/과제·요구/혼나는 상황",
-            "벗어나면 주로 가는 곳 — 화장실·조용한 골목·구석 (은신 장소 유형)",
-            "불편을 표현만 하는지, 실제로 자리를 벗어나는지",
-            "보호자 범위를 벗어난 적이 있는지",
-        ],
-        filled_when="회피 자극·상황과 실제 이탈 여부(표현만 vs 이동)가 드러남",
-        why="시끄러운·혼잡한 엣지 확률 감소, 조용한 은신 장소 가중 — 인터뷰에서 확인된 회피 행동에만 적용.",
-        keywords=["큰 소리", "사이렌", "시끄러", "붐비", "군중", "귀 막", "숨",
-                  "화장실", "골목", "구석", "혼나", "혼이 나", "접촉"],
-        answer_example="사람이 많고 시끄러우면 귀를 막고 화장실이나 조용한 골목으로 이동합니다.",
-    ),
-    SlotSpec(
-        key="transition_routine_disruption", label="루틴·전환 변화 취약성",
-        axis=Axis.mind, axis_field="transition_routine_disruption",
-        tier=Tier.refine, sink=Sink.behavior, types=_DD,
-        question="예정된 일정이나 이동 경로가 바뀌거나, 활동이 끝나거나, 보호자와 갑자기 분리될 때 어떤 행동을 보이나요?",
-        probes=[
-            "어떤 전환 상황인지 — 등하원/활동 종료/보호자 분리/경로 변경/익숙한 장소 폐쇄",
-            "반응 방식 — 멈춤·되돌아감·반대 방향 이탈 중 목격된 것",
-            "실제 분리·이탈로 이어진 사례",
-        ],
-        filled_when="전환 상황에서의 반응 방식이 드러나거나 '변화 없음' 확인",
-        why="실종 직전 상황이 전환·루틴 변화일 때만 활성화 — 귀가 경로·출발지 회귀·정류장 체류 확률 상향.",
-        keywords=["하원", "등교", "일정", "루틴", "바뀌", "분리", "정류장",
-                  "멈춰", "되돌아", "기다"],
-        answer_example="평소 타던 버스를 타지 못하면 정류장에 계속 머물거나 원래 출발 장소로 돌아갑니다.",
     ),
 ]
 

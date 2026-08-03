@@ -7,8 +7,9 @@
   4) Mi:dm 이 그 슬롯을 존댓말 질문으로 문장화 → 2층 가드레일 통과(safety)
   5) 남은 tier1~2 슬롯이 없으면 종료(초안 완성)
 
-'첫 질문은 하드코딩'(identity) — 여기서 유형(persona_type)을 확정해야 이후 유형별
-슬롯을 필터링할 수 있다. 초안(draft_*)은 Phase 2 이전 지오코딩 단계에서 Persona 로 확정.
+'첫 질문은 하드코딩'(identity — 성함·나이). 대상 유형은 치매 단독이라(2026-08-03
+팀 결정) 세션 생성 시점에 PersonaType.dementia 로 고정한다 — 유형을 되묻지 않는다.
+초안(draft_*)은 Phase 2 이전 지오코딩 단계에서 Persona 로 확정.
 """
 
 from __future__ import annotations
@@ -21,7 +22,6 @@ from app.phase0 import retrieval, safety
 from app.geo.geocode import (
     base_place_name,
     clean_area_text,
-    coerce_evidence,
     get_geocoder,
     to_attraction_points,
 )
@@ -33,7 +33,6 @@ from app.schemas.persona import (
     InterviewSession,
     Persona,
     PersonaType,
-    PreferredTarget,
 )
 
 import re
@@ -61,20 +60,9 @@ GUARDS = {
 
 _IDENTITY = slot_by_key("identity")
 
-# 유형 키워드 폴백 (Mi:dm 추출 실패/스텁 시).
-# 축 고도화(2026-07): 발달장애 세트가 자폐를 포함 — '자폐'는 intellectual_disability 로 라우팅한다.
-_TYPE_HINTS = [
-    (PersonaType.dementia, ("치매", "알츠하이머", "어르신", "노인")),
-    (PersonaType.intellectual_disability,
-     ("지적장애", "지적 장애", "발달장애", "발달 장애", "자폐")),
-]
-
-
-def _detect_type(text: str) -> PersonaType | None:
-    for ptype, hints in _TYPE_HINTS:
-        if any(h in text for h in hints):
-            return ptype
-    return None
+# 대상 유형 — 치매 단독 스코프(2026-08-03). 유형 판별·되묻기 경로는 제거했고
+# 세션 생성 시 이 값으로 고정된다.
+DEFAULT_PERSONA_TYPE = PersonaType.dementia
 
 
 def _user_turns(session: InterviewSession) -> list[str]:
@@ -474,7 +462,6 @@ def _merge_rule_fallback(session: InterviewSession, prev_slot: SlotSpec,
 
 _TYPE_KO = {
     PersonaType.dementia: "치매 어르신",
-    PersonaType.intellectual_disability: "지적장애",
 }
 
 # 확인 게이트 긍정 판정 — 발화 '전체'가 이 단어들로만 이뤄져야 긍정.
@@ -551,8 +538,10 @@ def build_summary(session: InterviewSession) -> str:
 
 
 def start_interview(guardian_name: str, persona_type: PersonaType | None = None) -> InterviewSession:
+    # 유형은 치매 단독 — 인자는 API 하위호환으로만 남기고, 미지정이면 기본값으로 고정한다.
     session = InterviewSession(
-        id=storage.new_id(), guardian_name=guardian_name, persona_type=persona_type
+        id=storage.new_id(), guardian_name=guardian_name,
+        persona_type=persona_type or DEFAULT_PERSONA_TYPE,
     )
     session.messages.append({"role": "assistant", "text": _IDENTITY.question})
     session.prev_target_key = _IDENTITY.key
@@ -770,17 +759,6 @@ def _apply_extraction(
             kept["area_text"] = ap["area_text"]
         if not kept.get("origin_slot") and ap.get("origin_slot"):
             kept["origin_slot"] = ap["origin_slot"]   # 어느 슬롯에서 처음 나왔는지도 first-wins
-    # 카테고리 선호 (좌표화 불가 — 지하철·자동문 등) — label 기준 중복 제거 + 근거 승격
-    pref_by_label = {_norm(t.get("label")): t for t in session.draft_preferred}
-    for tg in extracted.get("preferred_targets", []) or []:
-        label = _norm(tg.get("label"))
-        if not label:
-            continue
-        if label not in pref_by_label:
-            pref_by_label[label] = tg
-            session.draft_preferred.append(tg)
-        elif _EVIDENCE_RANK.get(tg.get("evidence"), 9) < _EVIDENCE_RANK.get(pref_by_label[label].get("evidence"), 9):
-            pref_by_label[label]["evidence"] = tg["evidence"]
     got_note = False
     last_q = next((m["text"] for m in reversed(session.messages)
                    if m["role"] == "assistant"), "")
@@ -922,14 +900,13 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
         _merge_rule_fallback(session, prev_slot, extracted, clean)
         got_something = bool(
             extracted.get("fields") or extracted.get("attraction_points")
-            or extracted.get("preferred_targets") or extracted.get("behavior_notes")
+            or extracted.get("behavior_notes")
             or extracted.get("slot_filled")
         )
         if session.pending_area_label:
             # 되묻기 답변("산남동이요")은 주소일 뿐 새 장소가 아니다 — 그대로 두면
             # Mi:dm 이 "산남동"을 별개 끌림점으로 추가한다.
             extracted["attraction_points"] = []
-            extracted["preferred_targets"] = []
         _apply_extraction(session, prev_slot, extracted, utterance=clean)
         _resolve_pending_area(session, clean)
         # 순수 무지 답변("모르겠다니까요")이면 그 슬롯은 즉시 소진 — 같은 것을
@@ -967,18 +944,10 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
             storage.interviews.save(session.id, session)
             return session
 
-    # 2) 유형 확정 (identity 턴). 미확정이면 유형부터 다시 묻는다.
+    # 2) 유형 — 치매 단독이라 되묻지 않는다. 과거 세션(유형 미지정 저장본)이 복원될
+    #    수 있으므로 여기서 한 번 더 기본값을 보장한다(slots_for(None) = 빈 목록 방지).
     if session.persona_type is None:
-        session.persona_type = (
-            _detect_type(clean)
-            or _to_type(session.draft_fields.get("type"))
-        )
-        if session.persona_type is None:
-            q = "어떤 상황이신지 한 번만 더 알려주세요 — 치매 어르신과 발달장애가 있는 분 중 어디에 해당하시나요?"
-            session.messages.append({"role": "assistant", "text": q})
-            session.prev_target_key = _IDENTITY.key
-            storage.interviews.save(session.id, session)
-            return session
+        session.persona_type = DEFAULT_PERSONA_TYPE
 
     # 2.5) 이름 다음 필수 앵커 = 현재 집. 검색에 맡기지 않고 명시적으로 먼저 묻는다
     #      (과거 거주지 답변이 현재 집을 덮어쓰던 혼동 방지 + 수색 원점 정확도).
@@ -1090,8 +1059,6 @@ def _presupposition_grounded(session: InterviewSession, question: str) -> bool:
 _HONORIFIC = {
     PersonaType.dementia: {"대상자가": "어르신이", "대상자는": "어르신은",
                            "대상자를": "어르신을", "대상자의": "어르신의", "대상자에게": "어르신께"},
-    PersonaType.intellectual_disability: {"대상자가": "그분이", "대상자는": "그분은",
-                                          "대상자를": "그분을", "대상자의": "그분의", "대상자에게": "그분께"},
 }
 
 
@@ -1308,13 +1275,6 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
     session.messages.append({"role": "assistant", "text": build_summary(session)})
     storage.interviews.save(session.id, session)
     return session
-
-
-def _to_type(value) -> PersonaType | None:
-    try:
-        return PersonaType(value) if value else None
-    except ValueError:
-        return None
 
 
 _GEO = get_geocoder(use_nominatim=True)   # 카카오 → nominatim → gazetteer
@@ -1538,17 +1498,7 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
             uniq[key] = p
     points = list(uniq.values())
 
-    # ③ 카테고리 선호 — 좌표화 대상이 아니므로 지오코딩 없이 스키마 검증만
-    preferred = [
-        PreferredTarget(
-            label=str(t.get("label")),
-            target_type=str(t.get("target_type") or ""),
-            evidence=coerce_evidence(t.get("evidence")),
-        )
-        for t in session.draft_preferred if t.get("label")
-    ]
-
-    # ④ 축별 근거 — 슬롯별 노트·원발화를 축 DB 필드명으로 묶는다(축 점수 컴파일 입력)
+    # ③ 축별 근거 — 슬롯별 노트·원발화를 축 DB 필드명으로 묶는다(축 점수 컴파일 입력)
     axis_evidence: dict[str, list[str]] = {}
     for key, notes in session.slot_notes.items():
         spec = slot_by_key(key)
@@ -1568,12 +1518,11 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
         home=home,
         attraction_points=points,
         behavior_notes=list(session.draft_behaviors),
-        preferred_targets=preferred,
         axis_evidence=axis_evidence,
         axis_quotes=axis_quotes,
     )
 
-    # ⑤ 축 점수 컴파일 — 기능 플래그(기본 off, 회의에서 B×P1 채택 시 켠다).
+    # ④ 축 점수 컴파일 — 기능 플래그(기본 off, 회의에서 B×P1 채택 시 켠다).
     # 확정(보호자 "네") 이후에만 채점하며, 기본은 비동기: 채점(EXAONE 21회,
     # 실측 40초~1분)이 마지막 확인 응답을 막지 않게 등록을 먼저 저장하고
     # 점수는 백그라운드로 채운다. 실패는 리포트에만 남긴다(등록을 되돌리지 않음).
