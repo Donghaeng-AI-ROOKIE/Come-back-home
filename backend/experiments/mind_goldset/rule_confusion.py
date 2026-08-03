@@ -8,7 +8,7 @@
 규칙 요약 (파라미터 5개, 시나리오 ID 분기 금지 — 어휘는 일반 표현):
   기능수준 s = (손상 신호 수 - 명료 신호 수)   [보호자 진술 전체에서 어휘 매칭]
   정보 빈약 = '모름' 계열 표현 2회 이상
-  A_귀소 기준값: 빈약→0.65(치매)/0.60(발달), s<=-2→0.40, s>=+2→0.70, 그 외 0.60
+  A_귀소 기준값: 빈약→0.65, s<=-2→0.40, s>=+2→0.70, 그 외 0.60
   B_불안: +0.15 (판정자 범위가 불안 상황에서 일관되게 상방)
 
 주의: dev 를 보고 설계한 규칙이므로 dev 적합도는 일반화 증명이 아니다.
@@ -45,7 +45,7 @@ def load_scripts(split: str = "dev") -> dict[str, dict]:
     out: dict[str, dict] = {}
     cur = None
     for line in text.splitlines():
-        m = re.match(rf"## (G\d\d) \({split}\) — (치매|발달)", line)
+        m = re.match(rf"## (G\d\d) \({split}\) — (치매)", line)
         if m:
             cur = m.group(1)
             out[cur] = {"population": m.group(2), "text": ""}
@@ -57,10 +57,10 @@ def load_scripts(split: str = "dev") -> dict[str, dict]:
     return out
 
 
-def rule_confusion(population: str, notes_text: str, situation: str) -> float:
+def rule_confusion(notes_text: str, situation: str) -> float:
     unknown = sum(len(re.findall(p, notes_text)) for p in UNKNOWN)
     if unknown >= 2:
-        base = 0.65 if population == "치매" else 0.60
+        base = 0.65
     else:
         s = (sum(1 for p in IMPAIR if re.search(p, notes_text))
              - sum(1 for p in CLEAR if re.search(p, notes_text)))
@@ -85,7 +85,7 @@ def main(split: str = "dev", unseal: bool = False) -> None:
     for gid in sorted(gold):
         for sit in ("A_귀소", "B_불안"):
             lo, hi = gold[gid]["situations"][sit]["confusion_range"]
-            v = rule_confusion(scripts[gid]["population"], scripts[gid]["text"], sit)
+            v = rule_confusion(scripts[gid]["text"], sit)
             ok = lo <= v <= hi
             hit += ok
             total += 1

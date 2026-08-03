@@ -51,10 +51,6 @@ export const AXIS_LABELS_KO: Record<string, string> = {
   autobiographical_destination_pull: "자전적기억 목적지",
   wayfinding_error_recovery_deficit: "길찾기 오류·회복",
   distress_induced_movement_reactivity: "정서 이동반응성",
-  preferred_target_seeking: "선호대상 추구",
-  aversive_context_escape: "회피성 이탈",
-  transition_routine_disruption: "루틴·전환 취약",
-  elopement_pattern_consistency: "이탈패턴 고착성",
 };
 
 export const axisLabel = (key: string): string => AXIS_LABELS_KO[key] ?? key;

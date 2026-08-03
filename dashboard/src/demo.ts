@@ -9,7 +9,7 @@ export type PoaLayer = "combined" | "top_down" | "bottom_up" | "statistical";
 export interface DemoCard {
   name: string;
   age: number;
-  type: "치매" | "발달장애";
+  type: "치매";
   baseSec: number; // 경과시간 시작값(초) — 틱마다 +1
   status: string;
   tone: "amber" | "red" | "accent" | "green";
@@ -24,7 +24,7 @@ export const DEMO_CARDS: DemoCard[] = [
   { name: "최정자", age: 76, type: "치매", baseSec: 24630, status: "알림발송 · D3", tone: "red", lkp: "정릉3동 북한산 방면", lastAlert: "07:10 · D3", featured: false, closed: false },
   { name: "이말순", age: 82, type: "치매", baseSec: 15165, status: "알림발송 · D2", tone: "red", lkp: "길음동 지하철역", lastAlert: "06:40 · D2", featured: false, closed: false },
   { name: "박영수", age: 71, type: "치매", baseSec: 2292, status: "예측완료", tone: "accent", lkp: "정릉1동 주민센터", lastAlert: "—", featured: false, closed: false },
-  { name: "정도현", age: 24, type: "발달장애", baseSec: 725, status: "접수", tone: "amber", lkp: "돈암동 성신여대입구", lastAlert: "대기", featured: false, closed: false },
+  { name: "한복순", age: 80, type: "치매", baseSec: 725, status: "접수", tone: "amber", lkp: "돈암동 성신여대입구", lastAlert: "대기", featured: false, closed: false },
   { name: "강병철", age: 68, type: "치매", baseSec: 0, status: "종결 · 발견", tone: "green", lkp: "정릉4동 우이천", lastAlert: "09:58 · 발견", featured: false, closed: true },
 ];
 

@@ -35,9 +35,8 @@ from app.phase0 import axis_scoring  # noqa: E402
 SCENARIO_MD = HERE / "10_시나리오_확장.md"
 RESULTS_DIR = HERE / "results"
 ORD = {"A": 1, "B": 2, "C": 3, "D": 4, "E": 5}  # F 제외 (순서형 밖)
-TYPE_KO = {"dementia": "치매", "developmental": "발달장애", "치매": "치매", "발달장애": "발달장애"}
-CONTRAST = [("DAL", "DAH", "autobiographical_destination_pull"),
-            ("PAL", "PAH", "preferred_target_seeking")]
+TYPE_KO = {"dementia": "치매", "치매": "치매"}
+CONTRAST = [("DAL", "DAH", "autobiographical_destination_pull")]
 
 
 # ── 파싱 ────────────────────────────────────────────────────────────
@@ -48,10 +47,9 @@ def load_scenarios() -> dict[str, dict]:
     cur = None
     text = SCENARIO_MD.read_text(encoding="utf-8")
     for line in text.splitlines():
-        h = re.match(r"^#\s+([A-Z0-9]+)\.\s+(치매|발달장애)\s*\((\d+)\s*세", line)
+        h = re.match(r"^#\s+([A-Z0-9]+)\.\s+(치매)\s*\((\d+)\s*세", line)
         if h:
-            cur = {"type": "dementia" if h.group(2) == "치매" else "developmental",
-                   "age": int(h.group(3)), "axis_input": {}}
+            cur = {"type": "dementia", "age": int(h.group(3)), "axis_input": {}}
             out[h.group(1)] = cur
             continue
         if cur is None or not line.startswith("보호자:"):

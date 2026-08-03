@@ -55,62 +55,6 @@
       "truth_collection": null,
       "truth_evidence": null,
       "truth_axis": 0.0
-    },
-    {
-      "scenario": "G_P1_junho",
-      "judge_names_collection": 0.5,
-      "judge_names_evidence": 0.5,
-      "judge_names_axis": 1.0,
-      "judge_names_reasoning": "보호자가 언급한 '지하철'과 '안양천 분수대'는 수집되었으나, '복지관 하원 시간 변경 시 정류장에 그대로 서 있는 행동'은 장소가 아닌 행동 패턴이므로 축 근거로 기록되지 않아 collection 점수가 낮음. 근거등급은 보호자 발화와 일치함. 축 근거는 모두 반영됨.",
-      "judge_texts_collection": 0.8,
-      "judge_texts_evidence": 0.8,
-      "judge_texts_axis": 0.8,
-      "judge_texts_reasoning": "보호자가 언급한 지하철과 안양천 분수대가 모두 수집되었고, 지하철은 'previous_missing_found'로, 안양천 분수대는 'caregiver_report'로 정확히 분류되었다. 축 근거로는 aversive_context_escape와 elopement_pattern_consistency가 모두 반영되었다.",
-      "truth_collection": 1.0,
-      "truth_evidence": 1.0,
-      "truth_axis": 0.8333333333333334
-    },
-    {
-      "scenario": "G_P2_seoyeon",
-      "judge_names_collection": 0.3,
-      "judge_names_evidence": 0.0,
-      "judge_names_axis": 0.0,
-      "judge_names_reasoning": "챗봇이 보호자가 언급한 '편의점'을 장소로 추출하지 못했고, 이동 패턴이나 배회 습관 같은 축 근거도 전혀 반영하지 않았습니다. 보호자가 '6번 버스'와 '종점'을 언급했는데도 축 근거에 반영되지 않았습니다.",
-      "judge_texts_collection": 0.7,
-      "judge_texts_evidence": 0.8,
-      "judge_texts_axis": 0.3,
-      "judge_texts_reasoning": "보호자가 언급한 '편의점'은 추출되었으나 '6번 버스'는 '버스'로만 기록되어 구체성이 부족하고, 이동력 관련 패턴(버스 노선, 종점 발견 등)이 축 근거에 반영되지 않았음",
-      "truth_collection": 0.0,
-      "truth_evidence": 0.0,
-      "truth_axis": 0.6
-    },
-    {
-      "scenario": "G_P3_minsu",
-      "judge_names_collection": 0.8,
-      "judge_names_evidence": 0.8,
-      "judge_names_axis": 1.0,
-      "judge_names_reasoning": "보호자가 말한 '수영장'과 '분수'가 모두 수집되었고, '수영장'은 과거 발견지, '분수'는 단순 언급으로 등급이 정확함. 이동 패턴과 회피 행동 등 모든 축이 반영됨",
-      "judge_texts_collection": 0.8,
-      "judge_texts_evidence": 0.6,
-      "judge_texts_axis": 0.9,
-      "judge_texts_reasoning": "보호자가 언급한 '수영장'과 '분수'는 모두 수집되었으나 분수는 '단순 언급'으로 잘못 분류됨. 이동 패턴과 회피 행동은 축 근거로 잘 기록됨.",
-      "truth_collection": 1.0,
-      "truth_evidence": 1.0,
-      "truth_axis": 0.6
-    },
-    {
-      "scenario": "G_P4_jihun",
-      "judge_names_collection": 0.0,
-      "judge_names_evidence": 0.0,
-      "judge_names_axis": 0.0,
-      "judge_names_reasoning": "보호자 발화에는 장소 관련 정보가 전혀 없음에도 챗봇이 장소 정보를 추출했다고 잘못 표시했고, 축 근거도 실제 발화 내용과 맞지 않게 기록됨",
-      "judge_texts_collection": 0.0,
-      "judge_texts_evidence": 0.0,
-      "judge_texts_axis": 0.0,
-      "judge_texts_reasoning": "보호자가 발화에서 장소에 대한 정보를 전혀 제공하지 않았는데 챗봇이 장소 정보를 추출하지 못한 것은 맞지만, 보호자가 장소에 대해 언급한 내용이 대본에 전혀 없으므로 collection 점수는 0이 맞습니다. 또한 축 근거 기록도 일부만 반영되었으므로 axis 점수도 0입니다. evidence는 장소 관련 정보가 없어 평가할 수 없습니다.",
-      "truth_collection": null,
-      "truth_evidence": null,
-      "truth_axis": 1.0
     }
   ],
   "pearson": {
@@ -128,5 +72,6 @@
     "evidence": 6,
     "axis": 8,
     "pooled": 20
-  }
+  },
+  "_scope_note_20260803": "치매 단독 스코프 전환으로 발달장애 시나리오(G_P1~G_P4) 행을 삭제했다. pearson·n_pairs 는 삭제 전 8개 시나리오로 계산된 값이며 남은 4개로 재계산한 값이 아니다. 치매 전용 상관이 필요하면 재측정해야 한다. 원본은 git 이력."
 }

@@ -52,10 +52,12 @@ def test_gauges_accumulate_and_derive():
 
 
 def test_persona_activation_mapping():
-    """회의 종합 매핑 표 — 유형별로 켜지는 게이지가 다르다."""
-    id_cfg = gauges.config_for(_persona(PersonaType.intellectual_disability, age=14))
-    assert id_cfg.k_a1 == 0.0 and id_cfg.k_h1 == 0.0        # A 는 E 중심, H 는 외인성 대체
-    assert id_cfg.k_c1 == pytest.approx(0.015 * 0.2)        # C 대폭 축소
+    """치매 단독 스코프(2026-08-03) — 유형별 게이지 특례는 없고 기본 구성이 그대로다.
+    (발달장애 특례 k_c1×0.2·k_a1=0·k_h1=0 은 유형과 함께 삭제됨.)"""
+    dem_cfg = gauges.config_for(_persona(PersonaType.dementia, age=78))
+    assert dem_cfg == gauges.GaugeConfig()                   # 축 점수 없으면 기본값 그대로
+    assert dem_cfg.k_c1 == pytest.approx(0.015)
+    assert dem_cfg.k_a1 > 0 and dem_cfg.k_h1 > 0             # 혼란·귀소 경로 모두 활성
 
 
 def test_hazard_is_probabilistic_and_monotonic():

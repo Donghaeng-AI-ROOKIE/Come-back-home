@@ -59,7 +59,7 @@ def test_v2_builders_identical_to_experiment_module():
     """운영 mind_v2 == 실험 first_person(v2 계약) — 시스템·입력 문자열 완전 일치."""
     fp = _load_experiment_module()
     fp._CONTRACT = "v2"
-    for ptype in (PersonaType.dementia, PersonaType.intellectual_disability):
+    for ptype in PersonaType:
         assert mind_v2.system_for(ptype) == fp._fp_system_v2_for(ptype)
     ops = mind_v2.build_input(_persona(), REPORT, ["시장", "약국"], _prior(),
                               scene="골목 입구의 빨간 우체통", rng=random.Random(7))

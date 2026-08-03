@@ -3,12 +3,10 @@
 
 EXAONE 은 가짜 클라이언트로 대체(외부 API 안 침). quote 검증·다수결·우선순위
 (dementia_wandering_pattern > lost_behavior) 및 guardrail 의 _tilt_by_tendency ·
-apply_axis_scores 배선(branch4, branch2 elopement 와의 합성)을 함께 확인한다.
+apply_axis_scores 배선(behavior_tendency 틸트 브랜치)을 함께 확인한다.
 """
 
 import json
-
-import pytest
 
 from app.phase0 import axis_scoring
 from app.phase0.behavior_compiler import compile_behavior_tendency
@@ -197,7 +195,7 @@ def test_tilt_none_or_unknown_is_identity():
     assert guardrail._tilt_by_tendency(DEFAULT_STRATEGY, "지어낸값") == DEFAULT_STRATEGY
 
 
-# ── apply_axis_scores 배선 — branch4 단독 + branch2(elopement)와의 합성 ──
+# ── apply_axis_scores 배선 — behavior_tendency 틸트 ──
 def _prior(**overrides) -> PriorParams:
     base = dict(strategy_probs=dict(DEFAULT_STRATEGY), attraction_weights={},
                 radius_lognormal=LognormalParams(mu=0.095, sigma=1.48), reasoning="")
@@ -224,108 +222,37 @@ def test_apply_axis_scores_no_tendency_is_identity():
     assert prior.strategy_probs == DEFAULT_STRATEGY
 
 
-def test_apply_axis_scores_composes_with_elopement_sharpen():
-    """ID + elopement(branch2) + behavior_tendency(branch4) — 둘 다 strategy_probs 를
-    건드리고 곱셈 합성된다(덮어쓰기 아님)."""
-    base = LognormalParams(mu=0.89, sigma=1.50)
-    persona = _persona_full(ptype=PersonaType.intellectual_disability, tendency="stay")
+def test_apply_axis_scores_composes_with_attraction_sharpen():
+    """자전적기억 축(끌림점 가중 sharpen)과 behavior_tendency 틸트는 서로 다른
+    필드를 건드리므로 간섭 없이 함께 반영된다."""
+    base = LognormalParams(mu=0.095, sigma=1.48)
+    persona = _persona_full(tendency="stay")
     prior = guardrail.apply_axis_scores(
-        _prior(), {"elopement_pattern_consistency": 0.9}, persona, base)
+        _prior(attraction_weights={"옛집": 0.55, "시장": 0.45}),
+        {"autobiographical_destination_pull": 0.9}, persona, base)
+    assert prior.attraction_weights["옛집"] > 0.55                     # 끌림점 쏠림
+    assert prior.strategy_probs["staying_put"] > DEFAULT_STRATEGY["staying_put"]
     assert abs(sum(prior.strategy_probs.values()) - 1.0) < 1e-9
     assert all(v > 0 for v in prior.strategy_probs.values())
 
-    elopement_only = guardrail.apply_axis_scores(
-        _prior(), {"elopement_pattern_consistency": 0.9},
-        _persona_full(ptype=PersonaType.intellectual_disability, tendency=None), base)
-    # branch4 가 branch2 결과 위에 추가로 얹어져 staying_put 이 더 강하게 밀린다
-    assert prior.strategy_probs["staying_put"] > elopement_only.strategy_probs["staying_put"]
+
+def test_tendency_tilt_is_the_only_strategy_branch():
+    """전략확률을 건드리는 브랜치는 behavior_tendency 하나뿐 — 발달장애 전용
+    브랜치(elopement sharpen·탐험형 폴백)는 제거됐다(2026-08-03 치매 단독 스코프).
+    폐기된 축 이름을 넣어도 전략확률은 그대로여야 한다."""
+    base = LognormalParams(mu=0.095, sigma=1.48)
+    persona = _persona_full(tendency=None)
+    for dead_axis in ("elopement_pattern_consistency", "preferred_target_seeking",
+                      "aversive_context_escape", "transition_routine_disruption"):
+        out = guardrail.apply_axis_scores(_prior(), {dead_axis: 0.9}, persona, base)
+        assert out.strategy_probs == DEFAULT_STRATEGY, dead_axis
 
 
-def test_strategy_tilt_order_is_fixed_by_design_and_not_commutative():
-    """power-law 쏠림(_sharpen)과 곱셈 틸트(_tilt_by_tendency)는 수학적으로 교환되지
-    않는다 — apply_axis_scores 가 고정한 순서(elopement 먼저 → behavior_tendency
-    나중)를 문서화하는 회귀 테스트. 순서를 바꾸면 staying_put 최종 확률이 거의
-    2배 차이 난다(2026-07-25 셀프리뷰 실측) — 이 테스트가 깨지면 순서가 바뀐 것."""
-    forward = guardrail._floor_renormalize(
-        guardrail._tilt_by_tendency(
-            guardrail._sharpen(DEFAULT_STRATEGY, 0.9, floor=0.0), "stay", floor=0.0),
-        guardrail.EPSILON)
-    reverse = guardrail._floor_renormalize(
-        guardrail._sharpen(
-            guardrail._tilt_by_tendency(DEFAULT_STRATEGY, "stay", floor=0.0), 0.9, floor=0.0),
-        guardrail.EPSILON)
-    assert forward["staying_put"] < reverse["staying_put"] * 0.6   # 순서 고정 확인(≈2배 차이)
-    # apply_axis_scores 가 실제로 forward(elopement→tendency) 순서를 쓰는지 재확인
-    composed = guardrail.apply_axis_scores(
-        _prior(), {"elopement_pattern_consistency": 0.9},
-        _persona_full(ptype=PersonaType.intellectual_disability, tendency="stay"),
-        LognormalParams(mu=0.89, sigma=1.50))
-    assert composed.strategy_probs["staying_put"] == pytest.approx(forward["staying_put"])
-
-
-# ── P1-3B 발달 탐험형 배회 폴백 ──────────────────────────────────────
-def test_exploratory_fallback_boosts_random_walk_for_id_with_no_axes():
-    """발동: 발달장애 + 4축 전무 → random_walk↑, 합=1.0, 0확률 없음."""
-    base = LognormalParams(mu=0.89, sigma=1.50)
-    persona = _persona_full(ptype=PersonaType.intellectual_disability, tendency=None)
-    out = guardrail.apply_axis_scores(_prior(), {}, persona, base)
-    assert out.strategy_probs["random_walk"] > DEFAULT_STRATEGY["random_walk"]
+def test_strategy_tilt_stays_normalized_with_epsilon_floor():
+    """틸트 후에도 합=1.0 과 ε-floor(0 확률 금지)가 유지된다."""
+    base = LognormalParams(mu=0.095, sigma=1.48)
+    out = guardrail.apply_axis_scores(
+        _prior(), {}, _persona_full(tendency="backtrack"), base)
     assert abs(sum(out.strategy_probs.values()) - 1.0) < 1e-9
     assert all(v > 0 for v in out.strategy_probs.values())
-
-
-def test_exploratory_fallback_suppressed_when_any_axis_present():
-    """오발동 차단: 4축 중 하나라도 ≥0.3이면(=이탈 사유 설명됨) 폴백 미발동.
-    aversive_context_escape 는 어느 전략틸트 브랜치도 소비하지 않으므로 폴백 예측만 격리한다."""
-    base = LognormalParams(mu=0.89, sigma=1.50)
-    persona = _persona_full(ptype=PersonaType.intellectual_disability, tendency=None)
-    out = guardrail.apply_axis_scores(
-        _prior(), {"aversive_context_escape": 0.5}, persona, base)
-    assert out.strategy_probs["random_walk"] == pytest.approx(DEFAULT_STRATEGY["random_walk"])
-
-
-def test_exploratory_fallback_not_applied_to_dementia():
-    """유형 격리: 치매 Persona 엔 폴백 안 걸림(발달 전용 공백)."""
-    base = LognormalParams(mu=0.095, sigma=1.48)
-    persona = _persona_full(ptype=PersonaType.dementia, tendency=None)
-    out = guardrail.apply_axis_scores(_prior(), {}, persona, base)
-    assert out.strategy_probs == DEFAULT_STRATEGY
-
-
-def test_exploratory_fallback_order_is_fixed_relative_to_elopement_sharpen():
-    """branch2(elopement_pattern_consistency 낮은 값으로 present)와 branch5(탐험형
-    폴백)는 동시에 발동할 수 있다(elopement<0.3 이면서 키는 존재) — 이때도 branch4
-    때와 같은 이유로 power-law sharpen 과 곱셈 부양(boost)은 교환되지 않는다
-    (2026-07-26 셀프리뷰 발견: branch5 에는 branch4 의
-    test_strategy_tilt_order_is_fixed_by_design_and_not_commutative 에 해당하는
-    순서 고정 회귀 테스트가 없었음). apply_axis_scores 가 forward(sharpen→boost)
-    순서를 쓰는지까지 재확인한다."""
-    forward = guardrail._floor_renormalize(
-        guardrail._boost_strategies(
-            guardrail._sharpen(DEFAULT_STRATEGY, 0.1, floor=0.0),
-            guardrail.EXPLORATORY_FALLBACK_BOOST, floor=0.0),
-        guardrail.EPSILON)
-    reverse = guardrail._floor_renormalize(
-        guardrail._sharpen(
-            guardrail._boost_strategies(
-                DEFAULT_STRATEGY, guardrail.EXPLORATORY_FALLBACK_BOOST, floor=0.0),
-            0.1, floor=0.0),
-        guardrail.EPSILON)
-    assert forward["random_walk"] > reverse["random_walk"] * 1.2   # 순서 고정 확인
-
-    composed = guardrail.apply_axis_scores(
-        _prior(), {"elopement_pattern_consistency": 0.1},
-        _persona_full(ptype=PersonaType.intellectual_disability, tendency=None),
-        LognormalParams(mu=0.89, sigma=1.50))
-    assert composed.strategy_probs["random_walk"] == pytest.approx(forward["random_walk"])
-
-
-def test_exploratory_fallback_coexists_with_staying_put_tilt():
-    """P1-3 상쇄(짝 신호): ID + 4축 전무 + lost_behavior=머무름 →
-    random_walk↑(폴백)와 staying_put↑(tendency=stay)가 공존, 어느 쪽으로도 안 쏠림."""
-    base = LognormalParams(mu=0.89, sigma=1.50)
-    persona = _persona_full(ptype=PersonaType.intellectual_disability, tendency="stay")
-    out = guardrail.apply_axis_scores(_prior(), {}, persona, base)
-    assert out.strategy_probs["random_walk"] > DEFAULT_STRATEGY["random_walk"]
-    assert out.strategy_probs["staying_put"] > DEFAULT_STRATEGY["staying_put"]
-    assert abs(sum(out.strategy_probs.values()) - 1.0) < 1e-9
+    assert out.strategy_probs["backtracking"] > DEFAULT_STRATEGY["backtracking"]

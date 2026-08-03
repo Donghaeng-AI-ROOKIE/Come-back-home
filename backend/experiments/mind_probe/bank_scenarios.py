@@ -5,7 +5,8 @@ axis_goldset(1문1축, 무균실)과 달리 실사용 분포를 겨냥한다:
   - 노이즈 포함 (정정 발화, 유사 중복 답, "잘 모르겠어요" 다수)
   - 빈약(콜드스타트급) 케이스 포함
 
-7명 = 치매 편중/균형/빈약 + 발달 고착/회피 + 치매 대조쌍(자전 강/약).
+5명 = 치매 편중/균형/빈약 + 치매 대조쌍(자전 강/약).
+(발달 고착/회피 2명은 2026-08-03 치매 단독 스코프 전환으로 삭제.)
 대조쌍은 autobiographical 답만 다르고 나머지 동일 — 근거 감도(B3) 검정용.
 
 형식·소비자: experiments/chatbot_eval 의 Scenario/responder/runner 를 그대로 쓴다.
@@ -84,52 +85,7 @@ MB_DEM_POOR = Scenario(
     expected=Expected(name="오말순", age=82),
 )
 
-# ── 4. 발달 고착 — 기차역 강근거(발견 2회) vs PC방 언급만 (B2 오염 검정) ──
-MB_DD_FIX = Scenario(
-    id="MB_dd_fix", title="뱅크 · 발달 고착(기차역 발견 2회)",
-    guardian_name="강보호", persona_type="intellectual_disability",
-    answers={
-        "identity": "아들 강민재예요. 스물한 살이고 자폐성 발달장애가 있어요.",
-        "home": "성북구 정릉동 살아요.",
-        "preferred_target_seeking": "기차를 정말 좋아해요. 기차 영상만 하루종일 보고, 역 근처만 가면 무조건 들어가려고 해요.",
-        "elopement_pattern_consistency": "두 번 없어졌는데 두 번 다 청량리역에서 찾았어요. 늘 기차 보러 가는 거예요.",
-        "routine_destinations": "PC방 얘기도 가끔 하는데 자주 가진 않아요.",
-        "mobility_transport_capacity": "혼자 40분은 걸어요. 지하철은 아는 길만 타요.",
-        "hazard_awareness_vulnerability": "찻길은 조심하는 편인데 역 안에서는 앞만 보고 걸어요.",
-        "communication_approach_vulnerability": "이름은 말해요. 낯선 사람이 말 걸면 대답 안 하고 굳어요.",
-        "aversive_context_escape": "시끄러운 건 싫어해도 자리를 뜨진 않아요.",
-        "transition_routine_disruption": "일정이 바뀌면 불안해하는데 감당은 돼요.",
-        "medication": _FB,
-        "lost_behavior": "길을 잃으면 그 자리에 서 있지 않고 아는 방향으로 계속 걸어요.",
-    },
-    area_answers={"청량리역": "동대문구요.", "PC방": "정릉동이요."},
-    expected=Expected(name="강민재", age=21, attraction_labels=["청량리역"],
-                      evidence={"청량리역": "previous_missing_found"}),
-)
-
-# ── 5. 발달 회피 — 소음 회피·숨는 패턴, 선호 약함 (B2 서사 다양성 검정) ──
-MB_DD_AVOID = Scenario(
-    id="MB_dd_avoid", title="뱅크 · 발달 회피(소음→숨기)",
-    guardian_name="윤보호", persona_type="intellectual_disability",
-    answers={
-        "identity": "딸 윤하은이에요. 열여덟이고 지적장애가 있어요.",
-        "home": "성북구 정릉동이에요.",
-        "preferred_target_seeking": "특별히 쫓아다니는 건 없어요.",
-        "aversive_context_escape": "사이렌이나 공사 소리가 나면 귀를 막고 그 자리를 벗어나요. 한번은 그렇게 사라져서 도서관 구석에서 찾았어요.",
-        "elopement_pattern_consistency": "없어질 때는 꼭 조용한 데로 가요. 도서관 아니면 아파트 지하주차장요.",
-        "routine_destinations": "학교랑 집이 거의 전부예요.",
-        "mobility_transport_capacity": "혼자 다니는 건 동네 안에서만요. 대중교통은 못 타요.",
-        "hazard_awareness_vulnerability": "위험한 건 잘 몰라서 늘 봐야 해요.",
-        "communication_approach_vulnerability": "말을 잘 안 해요. 이름 물어봐도 대답 못 할 때가 많아요.",
-        "transition_routine_disruption": "갑자기 일정이 바뀌면 주저앉아서 울어요.",
-        "medication": "경련약 먹어요.",
-        "lost_behavior": "무서우면 숨어요. 사람 없는 데로요.",
-    },
-    area_answers={"도서관": "정릉도서관이요.", "지하주차장": "저희 아파트요."},
-    expected=Expected(name="윤하은", age=18, attraction_labels=["도서관"]),
-)
-
-# ── 6·7. 치매 대조쌍 — autobiographical 강/약만 다름 (B3 근거 감도 검정) ──
+# ── 4·5. 치매 대조쌍 — autobiographical 강/약만 다름 (B3 근거 감도 검정) ──
 _PAIR_BASE = dict(
     identity="아버지 정재호, 76세예요. 치매 중기세요.",
     home="성북구 정릉동입니다.",
@@ -158,4 +114,4 @@ MB_DEM_PAIR_LO = Scenario(
 )
 
 BANK_SCENARIOS = [MB_DEM_BIASED, MB_DEM_BAL, MB_DEM_POOR,
-                  MB_DD_FIX, MB_DD_AVOID, MB_DEM_PAIR_HI, MB_DEM_PAIR_LO]
+                  MB_DEM_PAIR_HI, MB_DEM_PAIR_LO]

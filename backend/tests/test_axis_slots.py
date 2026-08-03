@@ -1,7 +1,7 @@
 """Phase 0 축 기반 슬롯 카탈로그 — 회의록(2026-07 페르소나 축 고도화) 반영 검증.
 
 검증 항목:
-  1) 카탈로그 무결성 — 16개, 키 유일, 필수 필드, 유형별 세트(치매 12 / 발달 12)
+  1) 카탈로그 무결성 — 12개, 키 유일, 필수 필드, 치매 슬롯 세트
   2) 회의록 「실제 질문 형식」 원문이 씨앗 질문에 그대로 들어갔는지 (팀 결정 사항)
   3) 하위변수 → probes 이관 (꼬리질문 각도로 내려간 회의록 하위변수)
   4) 검색 피벗 — 보호자 발화가 해당 축 슬롯을 꼬리질문으로 끌어오는지 (해시 임베더)
@@ -21,7 +21,7 @@ EMB = retrieval.HashingEmbedder()   # 결정적 스텁 — 어휘 중첩 기반
 # ── 1) 카탈로그 무결성 ───────────────────────────────────────────────
 
 def test_catalog_size_and_unique_keys():
-    assert len(SLOTS) == 16
+    assert len(SLOTS) == 12
     keys = [s.key for s in SLOTS]
     assert len(keys) == len(set(keys))
 
@@ -41,27 +41,27 @@ def test_axis_slots_have_axis_field():
     assert slot_by_key("medication").axis_field == ""   # 회의록 축 밖 — 의도된 공백
 
 
-def test_type_specific_sets():
+def test_dementia_slot_set():
+    """치매 단독 스코프(2026-08-03) — 전 슬롯이 치매 대상, 발달장애 4축은 삭제됨."""
     dem = {s.key for s in slots_for(PersonaType.dementia)}
-    dd = {s.key for s in slots_for(PersonaType.intellectual_disability)}
-
-    common = {
+    assert dem == {
         "identity", "home", "routine_destinations", "mobility_transport_capacity",
         "hazard_awareness_vulnerability", "communication_approach_vulnerability",
         "medication", "lost_behavior",
-    }
-    assert dem == common | {
         "autobiographical_destination_pull", "dementia_wandering_pattern",
         "wayfinding_error_recovery_deficit", "distress_induced_movement_reactivity",
     }
-    assert dd == common | {
-        "preferred_target_seeking", "elopement_pattern_consistency",
-        "aversive_context_escape", "transition_routine_disruption",
-    }
+    assert dem == {s.key for s in SLOTS}   # 유형 필터가 아무것도 떨어뜨리지 않는다
+
+
+def test_removed_developmental_slots_are_gone():
+    """발달장애 전용 4축은 카탈로그에서 완전히 제거됐다."""
+    for key in ("preferred_target_seeking", "elopement_pattern_consistency",
+                "aversive_context_escape", "transition_routine_disruption"):
+        assert slot_by_key(key) is None, f"{key} 가 아직 남아 있음"
 
 
 def test_risk_boost_placement():
-    assert slot_by_key("preferred_target_seeking").risk == 0.15   # 물가 접근 (구 sensory_attraction 이관)
     assert slot_by_key("lost_behavior").risk == 0.10
     assert slot_by_key("hazard_awareness_vulnerability").risk == 0.10
 
@@ -88,17 +88,6 @@ _MEETING_QUESTIONS = {
     "dementia_wandering_pattern":
         "과거에 길을 잃거나 실종된 적이 있다면, 어디에서 발견됐고 "
         "어떤 행동을 하고 있었는지 알려주세요.",
-    "preferred_target_seeking":
-        "대상자가 보호자와 떨어져서라도 찾아가려고 할 만큼 강하게 좋아하는 "
-        "장소, 사람, 물건, 교통수단 또는 활동이 있나요?",
-    "aversive_context_escape":
-        "대상자가 큰 소리, 밝은 빛, 많은 사람, 낯선 접촉, 요구받는 상황 또는 "
-        "혼나는 상황을 피하려고 자리를 벗어나나요? 그럴 때 주로 어디로 이동하는지도 알려주세요.",
-    "transition_routine_disruption":
-        "예정된 일정이나 이동 경로가 바뀌거나, 활동이 끝나거나, 보호자와 갑자기 "
-        "분리될 때 어떤 행동을 보이나요?",
-    "elopement_pattern_consistency":
-        "과거 이탈이나 실종에서 같은 장소, 경로, 교통수단 또는 행동이 반복됐나요?",
 }
 
 
@@ -133,8 +122,6 @@ def test_absorbed_legacy_slots_survive_as_probes_or_keywords():
     assert "남의 집" in surface        # 구 home_recognition
     assert "젊은 시절" in surface      # 구 time_perception
 
-    pref = slot_by_key("preferred_target_seeking")
-    assert "수영장" in pref.embed_text  # 구 sensory_attraction 물가 키워드
     comm = slot_by_key("communication_approach_vulnerability")
     assert "경찰" in comm.embed_text    # 구 uniform_response
     assert "따라가" in comm.embed_text  # 구 follows_strangers
@@ -162,13 +149,6 @@ def _assert_pivots_to(key: str, ptype: PersonaType, turns: list[str]) -> None:
     assert sims[key] > sims["routine_destinations"]   # 템플릿 기본 슬롯보다 강한 신호
 
 
-def test_pivot_to_preferred_target_on_subway_mention():
-    _assert_pivots_to(
-        "preferred_target_seeking", PersonaType.intellectual_disability,
-        ["아들 19살 자폐예요", "화곡동 살아요", "지하철만 보이면 혼자라도 타러 뛰어가요"],
-    )
-
-
 def test_pivot_to_autobiographical_on_old_home_mention():
     _assert_pivots_to(
         "autobiographical_destination_pull", PersonaType.dementia,
@@ -176,21 +156,23 @@ def test_pivot_to_autobiographical_on_old_home_mention():
     )
 
 
-def test_pivot_to_aversive_escape_on_noise_hiding():
+def test_pivot_to_wandering_pattern_on_past_missing_mention():
     _assert_pivots_to(
-        "aversive_context_escape", PersonaType.intellectual_disability,
-        ["사이렌 큰 소리 나면 귀 막고 화장실로 숨어버려요"],
+        "dementia_wandering_pattern", PersonaType.dementia,
+        ["작년에 실종되셨다가 파출소에서 발견되셨어요"],
     )
 
 
-def test_type_filter_blocks_other_persona_slots():
-    """치매 발화가 발달장애 전용 슬롯으로 새지 않는다 (유형 필터)."""
+def test_removed_slots_never_ranked():
+    """삭제된 발달장애 슬롯은 검색 결과에 등장할 수 없다."""
     ranked, _ = retrieval.rank_next_slots(
-        PersonaType.dementia, ["자꾸 옛날 집 얘기를 하세요"], set(), EMB, top_k=16
+        PersonaType.dementia, ["지하철만 보이면 혼자라도 타러 뛰어가요"], set(), EMB, top_k=16
     )
     keys = {r.slot.key for r in ranked}
     assert "preferred_target_seeking" not in keys
     assert "transition_routine_disruption" not in keys
+    assert "aversive_context_escape" not in keys
+    assert "elopement_pattern_consistency" not in keys
 
 
 # ── 5) answer_example — 꼬리질문 모드 전용 ──────────────────────────
@@ -207,8 +189,8 @@ def test_answer_example_only_in_followup_prompt():
 
 def test_answer_example_excluded_from_embed_text():
     """예시 속 고유명사가 검색 코퍼스를 오염시키지 않는다."""
-    slot = slot_by_key("elopement_pattern_consistency")
-    assert "지하철역 방향으로 이동했고" not in slot.embed_text
+    slot = slot_by_key("dementia_wandering_pattern")
+    assert "시장 근처에서 발견됐고" not in slot.embed_text
 
 
 # ── 6) finalize — 축별 근거(axis_evidence) 조립 ─────────────────────
@@ -237,14 +219,14 @@ def test_finalize_groups_notes_by_axis_field():
 
 def test_apply_extraction_records_slot_notes():
     s = InterviewSession(id="axis2", guardian_name="보호자",
-                         persona_type=PersonaType.intellectual_disability)
-    slot = slot_by_key("aversive_context_escape")
+                         persona_type=PersonaType.dementia)
+    slot = slot_by_key("distress_induced_movement_reactivity")
     interview._apply_extraction(s, slot, {
         "fields": {}, "attraction_points": [],
-        "behavior_notes": ["시끄러우면 화장실로 숨음"], "slot_filled": True,
+        "behavior_notes": ["불안하면 골목으로 숨음"], "slot_filled": True,
     })
-    assert s.slot_notes["aversive_context_escape"] == ["시끄러우면 화장실로 숨음"]
-    assert "aversive_context_escape" in s.filled_keys
+    assert s.slot_notes["distress_induced_movement_reactivity"] == ["불안하면 골목으로 숨음"]
+    assert "distress_induced_movement_reactivity" in s.filled_keys
 
 
 # ── 7) 가드레일 — 차단 시 회의록 원문 폴백 ──────────────────────────
@@ -257,6 +239,7 @@ def test_guard_falls_back_to_meeting_question():
     assert out == slot.question   # 폴백 = 회의록 원문
 
 
-def test_autism_routes_to_developmental_disability():
-    """'자폐' 발화는 발달장애 세트로 라우팅 (축 고도화 결정)."""
-    assert interview._detect_type("아들이 자폐 스펙트럼이에요") == PersonaType.intellectual_disability
+def test_persona_type_defaults_to_dementia():
+    """유형을 지정하지 않아도 세션은 치매로 고정된다 (치매 단독 스코프)."""
+    s = interview.start_interview("보호자")
+    assert s.persona_type == PersonaType.dementia

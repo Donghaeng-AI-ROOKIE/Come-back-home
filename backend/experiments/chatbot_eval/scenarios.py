@@ -20,7 +20,6 @@ class Expected:
     name: str = ""
     age: int = 0
     attraction_labels: list[str] = field(default_factory=list)   # 있어야 할 끌림점(부분매칭)
-    preferred_labels: list[str] = field(default_factory=list)    # 있어야 할 선호대상(발달, 좌표화 불가)
     absent_labels: list[str] = field(default_factory=list)       # 없어야 할 끌림점(삭제·이름정정)
     evidence: dict[str, str] = field(default_factory=dict)       # 라벨 → 기대 evidence enum
     area: dict[str, str] = field(default_factory=dict)           # 라벨 → 기대 지역(정정 검증)
@@ -34,7 +33,7 @@ class Scenario:
     id: str
     title: str
     guardian_name: str
-    persona_type: str                    # "dementia" | "intellectual_disability"
+    persona_type: str                    # "dementia" (치매 단독 스코프, 2026-08-03)
     answers: dict[str, str]              # slot.key → 보호자 답변 (responder 가 질문을 역매칭)
     expected: Expected
     area_answers: dict[str, str] = field(default_factory=dict)   # 라벨 → 되묻기 주소 답
@@ -278,187 +277,7 @@ PROBE_RICH = Scenario(
 )
 
 
-# ── 발달장애 시나리오 ────────────────────────────────────────────────
-# DD1~DD3 은 chatbot_goldset/goldset_scenarios.py 의 발달 대화(G_P1~G_P3)에서
-# 가져왔다. **골드셋 쪽은 사람 판정 증적이라 동결** — 하네스 사정으로 대본을
-# 손볼 일이 생기면 여기만 고치고 골드셋은 건드리지 않는다(그래서 복사본이다).
-#
-# 발달 특화 슬롯 4종(preferred_target_seeking · elopement_pattern_consistency ·
-# aversive_context_escape · transition_routine_disruption)이 모두 자극되도록
-# 배치했다 — transition 은 DD1·DD_RICH 에서만 나온다(대상자 특성상 드물다).
-
-_DD_AXES = [
-    "route_environment_familiarity", "preferred_target_seeking",
-    "elopement_pattern_consistency", "mobility_transport_capacity",
-    "hazard_awareness_vulnerability", "communication_approach_vulnerability",
-    "lost_behavior", "aversive_context_escape", "transition_routine_disruption",
-]
-
-DD1_JUNHO = Scenario(
-    id="DD1_junho", title="발달 · 준호(지하철 선호·물 위험·감각회피)",
-    guardian_name="준호모", persona_type="intellectual_disability",
-    answers={
-        "identity": "아들 준호예요. 열아홉 살이고 자폐성 발달장애가 있어요.",
-        "home": "강서구 화곡동에 살아요.",
-        "preferred_target_seeking": "지하철을 정말 좋아해요. 특히 5호선요. 역만 보이면 혼자라도 들어가려고 해요.",
-        "hazard_awareness_vulnerability": "물도 좋아해서 안양천 분수대 쪽으로 자꾸 가려고 해요. 물가 위험한 건 잘 몰라요.",
-        "elopement_pattern_consistency": "작년에 저랑 떨어져서 혼자 지하철 타고 세 정거장 갔다가 발견된 적 있어요.",
-        "aversive_context_escape": "사이렌이나 큰 소리가 나면 귀 막고 화장실 같은 데로 숨어버려요.",
-        "transition_routine_disruption": "복지관 하원 시간이 바뀌면 정류장에 그대로 서서 원래 버스만 기다려요.",
-        # 골드셋 원본엔 없던 답변 — 기대 축(mobility)에 대응하는 답이 없으면
-        # 리스폰더가 폴백("잘 모르겠어요")을 내서 축 커버리지가 부당하게 깎인다.
-        "mobility_transport_capacity":
-            "혼자 30분 넘게 걸어요. 버스는 못 타고 지하철은 아는 노선만 혼자 타요.",
-    },
-    area_answers={"안양천": "강서구요.", "분수대": "안양천이요."},
-    expected=Expected(
-        name="준호", age=19,
-        attraction_labels=["분수대"],
-        preferred_labels=["지하철"],
-        evidence={"분수대": "caregiver_report"},
-        axis_fields=["mobility_transport_capacity", "hazard_awareness_vulnerability",
-                     "preferred_target_seeking", "elopement_pattern_consistency",
-                     "aversive_context_escape", "transition_routine_disruption"],
-    ),
-)
-
-DD2_SEOYEON = Scenario(
-    id="DD2_seoyeon", title="발달 · 서연(편의점 선호·고정 버스노선)",
-    guardian_name="서연모", persona_type="intellectual_disability",
-    answers={
-        "identity": "딸 서연이고 스물둘이에요. 지적장애 2급이에요.",
-        "home": "관악구 신림동 살아요.",
-        "preferred_target_seeking":
-            "편의점을 엄청 좋아해요. 자동문 열리는 걸 계속 보고 싶어 해서 편의점마다 들어가려고 해요.",
-        "elopement_pattern_consistency": "혼자 나가면 꼭 6번 버스를 타요. 늘 같은 노선이에요. 두 번 다 종점에서 발견됐어요.",
-        "communication_approach_vulnerability":
-            "이름은 말하는데 주소는 잘 몰라요. 누가 뭐 사준다고 하면 따라가서 그게 제일 걱정이에요.",
-        "aversive_context_escape": "사람 많고 시끄러운 데는 싫어하는데, 그렇다고 도망가거나 하진 않아요.",
-        "mobility_transport_capacity": "버스는 혼자 타요. 근데 길은 잘 몰라서 늘 타던 것만 타요.",
-        # 골드셋 원본엔 없던 답변 — 기대 축(hazard)에 대응하는 답 보강.
-        "hazard_awareness_vulnerability":
-            "찻길 신호는 보는 편인데, 편의점 자동문만 보이면 앞뒤 안 보고 뛰어들어가요. "
-            "주차장에서 차 오는 것도 잘 못 봐요.",
-    },
-    expected=Expected(
-        name="서연", age=22,
-        attraction_labels=["종점"],
-        preferred_labels=["편의점"],
-        evidence={"종점": "previous_missing_found"},
-        axis_fields=["mobility_transport_capacity", "hazard_awareness_vulnerability",
-                     "communication_approach_vulnerability", "preferred_target_seeking",
-                     "elopement_pattern_consistency"],
-    ),
-)
-
-DD3_MINSU = Scenario(
-    id="DD3_minsu", title="발달 · 민수(물 최우선 위험·반복 경로)",
-    guardian_name="민수모", persona_type="intellectual_disability",
-    answers={
-        "identity": "민수예요. 열여섯이고 자폐예요. 말은 거의 안 해요.",
-        "home": "중랑구 면목동에 살아요.",
-        "preferred_target_seeking": "물을 너무 좋아해서 수영장이나 분수만 보면 뛰어들어요. 이게 제일 무서워요. 깊이를 몰라요.",
-        # 발달엔 dementia_wandering_pattern 이 없어 '과거 발견'을 elopement 에 병합한다
-        # (안 그러면 그 슬롯이 안 물어져 수영장 발견 근거가 유실됨 — 골드셋 스모크에서 확인).
-        "elopement_pattern_consistency":
-            "나가면 늘 같은 길로 동네 수영장 쪽으로 가요. 매번 그 방향이에요. "
-            "재작년엔 수영장 앞에서 혼자 거기까지 가서 발견된 적도 있어요.",
-        "aversive_context_escape": "큰 소리 나면 귀 막고 구석으로 가서 웅크려요.",
-        "communication_approach_vulnerability": "이름 불러도 잘 안 쳐다봐요. 자기 이름이나 주소는 말 못 해요.",
-        # 골드셋 원본엔 없던 답변 — 기대 축(mobility·hazard)에 대응하는 답 보강.
-        "mobility_transport_capacity": "걷는 건 한참 걸어요. 버스나 지하철은 혼자 못 타요.",
-        "hazard_awareness_vulnerability":
-            "물 깊이를 몰라서 그냥 들어가요. 찻길도 신호 안 보고 뛰어서 건너요.",
-    },
-    area_answers={"수영장": "면목동이요.", "분수": "면목동이요."},
-    expected=Expected(
-        name="민수", age=16,
-        attraction_labels=["수영장"],
-        preferred_labels=["물"],
-        evidence={"수영장": "previous_missing_found"},
-        axis_fields=["mobility_transport_capacity", "hazard_awareness_vulnerability",
-                     "preferred_target_seeking", "elopement_pattern_consistency",
-                     "aversive_context_escape"],
-    ),
-)
-
-# ── 발달 프로브 2종 — 가드 스윕용(치매 PROBE_sparse/rich 와 같은 역할) ──
-# 희소: 위탁 초기라 대부분 판정불가. 효율 가드(무지소진·부정충족·중복)를 자극한다.
-DD_SPARSE = Scenario(
-    id="DD_sparse", title="가드 스윕 프로브 · 희소응답(발달)",
-    guardian_name="지훈위탁", persona_type="intellectual_disability",
-    answers={
-        "identity": "지훈이고 스물다섯이에요. 지적장애가 있다고만 알고 있어요.",
-        "home": "저희가 위탁으로 최근에 맡아서, 원래 어디 살았는지는 잘 몰라요. 지금은 동대문구요.",
-        "routine_destinations": "딱히 없어요.",
-        "preferred_target_seeking": "뭘 특별히 좋아하는지 아직 잘 모르겠어요. 온 지 얼마 안 돼서요.",
-        "elopement_pattern_consistency": "혼자 나간 적은 아직 없어서 그런 이력은 몰라요.",
-        "mobility_transport_capacity": "걷는 건 잘 걸어요. 그 외엔 잘 모르겠어요.",
-        "hazard_awareness_vulnerability": "잘 모르겠어요.",
-        "communication_approach_vulnerability": "이름은 대답해요. 나머지는 아직 잘 모르겠어요.",
-        "medication": "없어요.",
-        "lost_behavior": "잘 모르겠어요.",
-        "aversive_context_escape": "글쎄요, 아직 파악 중이라 뭐라 말씀드리기가…",
-        "transition_routine_disruption": "잘 모르겠어요.",
-    },
-    # 치매 PROBE_sparse 와 같이 내용 지표를 기대하지 않는다 — 프로브의 역할은
-    # 효율 가드 자극이고, 무지 답변에 섞인 단편("걷는 건 잘 걸어요")은 노트 품질
-    # 필터에 걸려 축으로 안 남는 게 정상이다(실측 축 0%).
-    expected=Expected(name="지훈", age=25),
-)
-
-# 풍부: 답이 길고 화제가 다양해 전제질문·부정조건질문·화제 드리프트를 유발한다.
-# 발달 12개 슬롯을 전부 채워 유형-슬롯 정합(치매 전용 슬롯 미출현)도 같이 본다.
-DD_RICH = Scenario(
-    id="DD_rich", title="가드 스윕 프로브 · 풍부/드리프트(발달)",
-    guardian_name="하늘모", persona_type="intellectual_disability",
-    answers={
-        "identity": "아들 이하늘이고 스물셋이에요. 자폐성 장애가 있어요.",
-        "home": "마포구 성산동이요. 저희랑 같이 살아요.",
-        "routine_destinations":
-            "혼자 나가면 늘 망원시장하고 동네 도서관에 가요. 가는 길이 정해져 있어서 "
-            "늘 같은 골목으로만 다녀요.",
-        "preferred_target_seeking":
-            "버스를 정말 좋아해요. 특히 빨간 광역버스요. 정류장에 서서 몇 시간이고 "
-            "버스 들어오는 걸 봐요. 차고지까지 따라간 적도 있어요.",
-        "elopement_pattern_consistency":
-            "혼자 나가면 늘 합정역 쪽으로 가요. 세 번 다 그 방향이었어요. "
-            "두 번은 합정역 버스 정류장에서 발견됐어요.",
-        "mobility_transport_capacity":
-            "걷는 건 한 시간도 걸어요. 버스는 늘 타던 노선만 혼자 타고, 지하철은 "
-            "환승을 못 해서 혼자는 안 태워요.",
-        "hazard_awareness_vulnerability":
-            "신호는 지키는데 차도랑 인도 구분을 잘 못 할 때가 있어요. 한강 쪽으로 "
-            "가면 난간 넘어가려고 해서 겁이 나요.",
-        "communication_approach_vulnerability":
-            "이름은 말해요. 주소는 외웠는데 긴장하면 말이 안 나와요. 낯선 사람이 "
-            "버스 얘기 꺼내면 그냥 따라가요.",
-        "medication":
-            "항경련제를 아침저녁으로 먹어요. 약을 거르면 그날은 예민해져서 "
-            "밖으로 나가려고 해요.",
-        "lost_behavior": "길을 잃으면 제자리에 안 있고 아는 정류장 찾을 때까지 계속 걸어요.",
-        "aversive_context_escape":
-            "형광등 깜빡이는 소리나 아기 우는 소리를 못 견뎌요. 그러면 그 자리를 "
-            "바로 벗어나서 조용한 데로 가버려요.",
-        "transition_routine_disruption":
-            "주간보호센터 차량 시간이 바뀌거나 늘 타던 버스 노선이 우회하면 "
-            "그 자리에 계속 서 있거나 원래 가던 길로 혼자 걸어가요.",
-    },
-    area_answers={
-        "망원시장": "마포구요.", "시장": "마포구요.", "도서관": "성산동이요.",
-        "합정역": "마포구요.", "차고지": "마포구요.",
-    },
-    expected=Expected(
-        name="이하늘", age=23,
-        attraction_labels=["망원시장", "도서관", "합정역"],
-        preferred_labels=["버스"],
-        axis_fields=_DD_AXES,
-    ),
-)
-
-
 SCENARIOS: dict[str, Scenario] = {
     s.id: s for s in (D1_KIM, D2_DAEHEUNG, COR_AGE, COR_AREA, COR_RENAME,
-                      COR_REMOVE, COR_ADD, PROBE_SPARSE, PROBE_RICH,
-                      DD1_JUNHO, DD2_SEOYEON, DD3_MINSU, DD_SPARSE, DD_RICH)
+                      COR_REMOVE, COR_ADD, PROBE_SPARSE, PROBE_RICH)
 }

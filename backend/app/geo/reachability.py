@@ -21,7 +21,6 @@ from app.schemas.persona import PersonaType
 
 _VMAX_KMH = {
     PersonaType.dementia: lambda: settings.reach_vmax_dementia_kmh,
-    PersonaType.intellectual_disability: lambda: settings.reach_vmax_id_kmh,
 }
 
 

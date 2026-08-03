@@ -104,11 +104,10 @@ def mean_over_seeds(fn) -> dict[str, float]:
 # ── 실험 ─────────────────────────────────────────────────────────────
 
 def sweep_road() -> list[dict]:
-    """road_preference_strength 1-D 스윕 — 치매(적용, 다중 seed) vs ID(중립 검증)."""
+    """road_preference_strength 1-D 스윕 — 치매(적용, 다중 seed)."""
     rows = []
-    for ptype, label in [(PersonaType.dementia, "치매"),
-                         (PersonaType.intellectual_disability, "ID")]:
-        persona = make_persona(ptype, 78 if ptype == PersonaType.dementia else 14, True)
+    for ptype, label in [(PersonaType.dementia, "치매")]:
+        persona = make_persona(ptype, 78, True)
         prior = make_prior(ptype, True)
         for s in SWEEP:
             settings.road_preference_strength = s

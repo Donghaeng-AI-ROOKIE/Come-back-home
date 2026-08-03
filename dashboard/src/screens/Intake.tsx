@@ -16,7 +16,6 @@ export default function Intake({
   live: LiveState;
   onDone: (caseId: string) => void;
 }) {
-  const [mtype, setMtype] = useState<"dementia" | "intellectual_disability">("dementia");
   const [lat, setLat] = useState(String(JEONGNEUNG.lat));
   const [lng, setLng] = useState(String(JEONGNEUNG.lng));
   const [lkpTime, setLkpTime] = useState(() => {
@@ -41,7 +40,7 @@ export default function Intake({
     setError(null);
     try {
       const c = await api.createReport({
-        missing_type: mtype,
+        missing_type: "dementia",   // 대상 유형은 치매 단독 (2026-08-03)
         lkp: { lat: parseFloat(lat), lng: parseFloat(lng) },
         lkp_time: lkpTime.replace("T", " "),
         persona_id: personaId || undefined,
@@ -72,17 +71,6 @@ export default function Intake({
     color: T.text,
     outline: "none",
   };
-  const ty = (on: boolean): React.CSSProperties => ({
-    whiteSpace: "nowrap",
-    padding: "8px 18px",
-    borderRadius: 6,
-    border: "none",
-    fontSize: 13,
-    fontWeight: 600,
-    cursor: "pointer",
-    background: on ? T.amber : "transparent",
-    color: on ? "#1a1200" : T.sub,
-  });
 
   if (doneCase) {
     return (
@@ -247,38 +235,13 @@ export default function Intake({
 
         <div style={{ padding: "24px 26px", display: "flex", flexDirection: "column", gap: 20 }}>
           <div>
-            <div style={label}>실종 유형</div>
-            <div
-              style={{
-                display: "flex",
-                gap: 3,
-                padding: 3,
-                background: T.inset,
-                border: `1px solid rgba(233,233,237,.1)`,
-                borderRadius: 9,
-                width: "fit-content",
-              }}
-            >
-              <button style={ty(mtype === "dementia")} onClick={() => setMtype("dementia")}>
-                치매
-              </button>
-              <button
-                style={ty(mtype === "intellectual_disability")}
-                onClick={() => setMtype("intellectual_disability")}
-              >
-                발달장애
-              </button>
-            </div>
-          </div>
-
-          <div>
             <div style={label}>사전등록 페르소나 연결</div>
             {live.live ? (
               <select style={{ ...field, cursor: "pointer" }} value={personaId} onChange={(e) => setPersonaId(e.target.value)}>
                 <option value="">연결 안 함</option>
                 {personas.map((p) => (
                   <option key={p.id} value={p.id}>
-                    {p.name} ({p.age} · {p.type === "intellectual_disability" ? "발달장애" : "치매"}) — 끌림점{" "}
+                    {p.name} ({p.age} · 치매) — 끌림점{" "}
                     {p.n_attractions}곳
                   </option>
                 ))}

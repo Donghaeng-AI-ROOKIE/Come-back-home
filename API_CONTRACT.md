@@ -24,7 +24,7 @@
 
 ```jsonc
 GeoPoint            { "lat": 37.61, "lng": 127.01 }
-PersonaType         "dementia" | "intellectual_disability"
+PersonaType         "dementia"
 CaseStatus          "intake" | "predicted" | "searching" | "found" | "closed"
 TipDecision         "discard" | "layer1" | "layer2"
 

@@ -225,9 +225,7 @@
           이미 케이스에 연결된 인터뷰 기록을 봅니다.</div>
         <input id="guardian" type="text" placeholder="보호자 이름 (예: 김보호)">
         <select id="ptype">
-          <option value="">유형 미지정 (첫 답에서 확정)</option>
           <option value="dementia">치매 노인</option>
-          <option value="intellectual_disability">지적장애인</option>
         </select>
         <button id="btn-start" class="primary">새 인터뷰 시작</button>
       </div>
@@ -294,7 +292,7 @@ const STRATEGY_KO = {
   random_walk: "무작위 배회", backtracking: "되돌아가기",
   staying_put: "제자리 머무름", landmark_seeking: "끌림점 지향",
 };
-const TYPE_KO = { dementia: "치매 노인", intellectual_disability: "지적장애인" };
+const TYPE_KO = { dementia: "치매 노인" };
 const SRC_KO = { exaone: "EXAONE 실호출", stub: "스텁 (키 없음)", pool: "풀 표집", heuristic: "휴리스틱" };
 const SEQ = ["#cde2fb","#9ec5f4","#6da7ec","#3987e5","#256abf","#184f95","#0d366b"];
 
@@ -538,9 +536,6 @@ async function renderPersona() {
           <span class="val">${ap.weight.toFixed(2)}</span>
         </div>`).join("") || `<div class="note" style="padding:0">없음</div>`}
     </div>
-    ${(p.preferred_targets || []).length ? `<div class="section"><h3>카테고리 선호 (좌표 미특정)</h3>
-      ${p.preferred_targets.map((t) => `<div style="padding:2px 0;color:var(--ink-2)">· ${esc(t.label)} <span style="color:var(--muted)">(${esc(t.target_type || "-")}, ${esc(t.evidence)})</span></div>`).join("")}
-    </div>` : ""}
     ${slots.length
       ? AXIS_ORDER.map(axisSection).join("")
       : `<div class="section"><h3>행동 사실 (인터뷰 추출)</h3>

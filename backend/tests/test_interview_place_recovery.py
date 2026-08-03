@@ -69,7 +69,7 @@ def test_past_place_label_created_when_model_misses_it(monkeypatch):
                  prev_target_key="autobiographical_destination_pull")
     storage.interviews.save(s.id, s)
     monkeypatch.setattr(interview.midm, "extract_answer",
-                        lambda slot, conv: {"fields": {}, "preferred_targets": [],
+                        lambda slot, conv: {"fields": {},
                                             "attraction_points": [],     # 장소 못 뽑음
                                             "behavior_notes": ["예전에 살던 집 이야기를 자주 함"],
                                             "slot_filled": True})
@@ -89,7 +89,7 @@ def test_no_area_question_when_label_geocodes(monkeypatch):
                  prev_target_key="dementia_wandering_pattern")
     storage.interviews.save(s.id, s)
     monkeypatch.setattr(interview.midm, "extract_answer",
-                        lambda slot, conv: {"fields": {}, "preferred_targets": [],
+                        lambda slot, conv: {"fields": {},
                                             "behavior_notes": [], "slot_filled": True,
                                             "attraction_points": [
                                                 {"label": "대흥역 2번 출구", "area_text": ""}]})
@@ -111,7 +111,7 @@ def test_past_place_area_asked_immediately(monkeypatch):
     storage.interviews.save(s.id, s)
     monkeypatch.setattr(interview.midm, "extract_answer",
                         lambda slot, conv: {"fields": {}, "behavior_notes": [],
-                                            "preferred_targets": [], "slot_filled": True,
+                                            "slot_filled": True,
                                             "attraction_points": [
                                                 {"label": "예전에 살던 집",
                                                  "area_text": "청주시 서원구 분평동"}]})
@@ -137,7 +137,7 @@ def test_past_place_area_not_asked_when_guardian_said_it(monkeypatch):
     storage.interviews.save(s.id, s)
     monkeypatch.setattr(interview.midm, "extract_answer",
                         lambda slot, conv: {"fields": {}, "behavior_notes": [],
-                                            "preferred_targets": [], "slot_filled": True,
+                                            "slot_filled": True,
                                             "attraction_points": [
                                                 {"label": "예전에 살던 집",
                                                  "area_text": "산남동"}]})
@@ -173,7 +173,7 @@ def test_summary_gate_asks_for_missing_area(monkeypatch):
     # LLM 없이 결정론적으로 — 추출은 빈손, 다음 슬롯 없음(= 종료 판정 진입)
     monkeypatch.setattr(interview.midm, "extract_answer",
                         lambda slot, conv: {"fields": {}, "attraction_points": [],
-                                            "preferred_targets": [], "behavior_notes": [],
+                                            "behavior_notes": [],
                                             "slot_filled": True})
     monkeypatch.setattr(interview, "_next_slot", lambda *a, **k: None)
 
