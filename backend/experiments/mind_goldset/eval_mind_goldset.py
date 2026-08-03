@@ -3,7 +3,7 @@
 마음 단독 평가: 입력 페르소나를 (추출이 아니라) 골드 라벨 + 대본 답변으로 구성해
 추출 오류와 마음 오류를 분리한다. (E2E 평가는 별도 — Phase 0 통과본으로 실행)
 
-기본은 dev(G01~G08)만 실행한다. test(G09~G20)는 봉인 — `--split test --unseal` 을
+기본은 dev(G01~G04)만 실행한다. test(G09~G14)는 봉인 — `--split test --unseal` 을
 명시해야 돌고, 실행 사실이 results/test_usage.log 에 기록된다(README 봉인 규칙).
 
 채점:

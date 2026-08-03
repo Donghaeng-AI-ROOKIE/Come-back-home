@@ -592,9 +592,18 @@ def main(variants: int = 5, goal_variants: int = 16) -> None:
         and claim["claim_id"] not in SKIP_TUNING_CLAIMS
     ]
     # 논문 단위 분할 — 같은 claim 의 변형이 train/val 양쪽에 들어가는 누수 차단.
-    # 2026-08-03 치매 단독 스코프 전환으로 DEV 계열 논문·claim 이 코퍼스에서
-    # 삭제됨 → validation 논문도 치매 논문만으로 재지정한다.
-    val_papers = {"DEM-32", "DEM-33"}
+    #
+    # 2026-08-03 치매 단독 스코프 전환으로 DEV 계열 논문·claim 이 코퍼스에서 삭제됐다.
+    # 기존 val(DEM-32·DEM-33)을 그대로 두면 **val 이 감시 지표로 쓸 수 없게 된다**:
+    # DEM-32 는 repetitive_route·variable_route 의 유일한 출처라 val 로 빼면 그 두
+    # 클래스가 train 에 아예 없어지고, val 194행 중 104행(54%)이 "학습된 적 없는
+    # 클래스"가 된다. val loss 는 과적합 감시용인데 OOD 측정이 절반을 넘으면 그
+    # 역할을 못 한다(HANDOFF_학습조건.md 평가 절).
+    #
+    # 그래서 DEM-32 는 train 으로 되돌리고 val 은 DEM-23+DEM-33 으로 재지정한다.
+    # 후보 전수 비교(2026-08-03) 결과 이 조합만 (a) val 클래스가 전부 train 에 있고
+    # (b) 행동 라벨 4종을 모두 덮으며 (c) val 비율 9%(134행)로 적정하다.
+    val_papers = {"DEM-23", "DEM-33"}
     print(f"validation 논문(명시 지정): {sorted(val_papers)}")
 
     outputs = {"analyst": [], "first_person": []}
