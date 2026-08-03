@@ -1,12 +1,23 @@
-# 행동 LoRA 학습 인계 조건 (민아용, v4.2 기준)
+# 행동 LoRA 학습 인계 조건 (민아용, 치매 단독 v5 기준)
+
+> **2026-08-03 개정 — 치매 단독 재학습.** 대상 단일화로 발달장애(DEV) 코퍼스·클레임이
+> 삭제돼 데이터셋을 재생성했다. 아래 수치는 전부 재생성본 기준이며, 기존 `mind-v5`
+> 어댑터는 삭제 전 혼합 코퍼스 학습본이라 **재사용하지 않고 새로 학습한다**.
 
 데이터 파일 두 개만이 아니라 아래 조건이 같이 지켜져야 학습-서빙이 정렬된다.
 
 ## 데이터
 
-- 학습: `dataset/train_first_person.jsonl` (2,232행) — **이것만 학습에 사용**
-- 검증(loss 감시): `dataset/val_first_person.jsonl` (446행 — 별도 논문 4종:
-  DEM-32·DEM-33·DEV-04·DEV-17, 행동 4종·클래스 7종 포함)
+- 학습: `dataset/train_first_person.jsonl` (**1,332행**) — **이것만 학습에 사용**
+- 검증(loss 감시): `dataset/val_first_person.jsonl` (**134행** — 별도 논문 2종:
+  **DEM-23·DEM-33**, 행동 라벨 4종 전부 포함, val 비율 9%)
+- **val 논문이 바뀐 이유**: 종전 val(DEM-32·DEM-33)을 그대로 두면 DEM-32 가 유일
+  출처인 `repetitive_route`·`variable_route` 가 train 에서 사라져 val 194행 중
+  104행(54%)이 "학습된 적 없는 클래스"가 된다. val loss 가 과적합 감시가 아니라
+  OOD 측정이 돼버려 후보 전수 비교 후 DEM-23+DEM-33 으로 재지정했다
+  (`build_dataset.py` 의 `val_papers` 주석에 근거 기록).
+- 재생성 명령: `PYTHONPATH=. .venv/bin/python experiments/mind_tuning/build_dataset.py`
+  → 검증: `... validate_dataset.py` (assert 통과 = 인용 검증·누수·형식 OK)
 - `train_analyst.jsonl`/`val_analyst.jsonl` 은 대조 실험용 — 기본 계획에서는 미사용
 - 행의 최상위 `metadata` 필드는 학습 입력에 넣지 않는다. `messages` 만 사용.
 
@@ -26,7 +37,9 @@
     학습 LoRA rank 는 16 유지(서버 상한과 일치).
 - `messages` 에 모델 공식 chat template 적용.
 - **loss 는 assistant 답변 토큰에만** (system·user 토큰 마스킹).
-- 산출 어댑터 이름 제안: `exaone-mind` (prior 용 sar, 축 채점용 base 와 구분).
+- 산출 어댑터 이름 제안: **`exaone-mind-dem`** — 기존 `exaone-mind-v5`(혼합 코퍼스)와
+  반드시 다른 이름을 쓴다. 같은 이름으로 덮으면 어느 코퍼스로 학습한 것인지 사후에
+  구분할 수 없다.
 
 ## 서빙 전제 (중요)
 
@@ -46,11 +59,16 @@
 
 ## 평가 (학습 후)
 
-- 개발 중 평가는 골드셋 **dev G01~G08 만** (`experiments/mind_goldset/eval_mind_goldset.py
-  --variant first_person_v2 --model <어댑터>`). G09~G20 은 봉인 — 실행 금지.
-- 사전 등록 성공 기준: confusion 적합 83%→90%+, B_불안 행동 적중 개선,
-  치명 0·어휘 밖 0·A_귀소 비퇴행 유지. val loss 는 과적합 감시용이지 성능 지표가
-  아니다 (val 은 논문 4종·행동 7클래스라 전체 대표성이 제한적).
+- 개발 중 평가는 골드셋 **dev G01~G04 만** (`experiments/mind_goldset/eval_mind_goldset.py
+  --variant first_person_v2 --model <어댑터>`). **G09~G14 는 봉인 — 실행 금지.**
+  (치매 단독 전환으로 dev 8 → 4종, test 12 → 6종이 됐다.)
+- **사전 등록 성공 기준은 재설정이 필요하다.** 종전 기준(confusion 83%→90%+ 등)은
+  발달장애를 포함한 dev 8종에서 나온 값이라 dev 4종에 그대로 옮길 수 없다.
+  학습 전에 치매 단독 base 프롬프트-온리 기준선을 먼저 1회 측정해 그 값을
+  기준선으로 등록하고, 어댑터는 그 대비로 판정한다.
+- dev 가 4종(8셀)뿐이라 통계적 힘이 약하다. 판정이 갈리면 셀 수를 늘리는 것
+  (치매 시나리오 신규 작성)이 먼저다 — 반복 측정으로 밀어붙이지 않는다.
+- val loss 는 과적합 감시용이지 성능 지표가 아니다 (val 은 논문 2종·134행).
 
 ## 알려진 한계 (학습 차단 아님)
 
