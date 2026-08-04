@@ -31,9 +31,13 @@ from app.schemas.persona import PersonaType
 
 
 class Embedder(Protocol):
-    """문장 → 벡터. 실제 한국어 임베더로 교체하는 지점."""
+    """문장 → 벡터. 실제 한국어 임베더로 교체하는 지점.
 
-    def encode(self, texts: list[str]) -> list[list[float]]: ...
+    role: "query"(검색하는 쪽 — 발화·질문) 또는 "passage"(검색되는 쪽 — 슬롯뱅크·문서).
+    Upstage 처럼 role별로 다른 모델을 쓰는 API에서만 의미가 있다. 로컬 임베더는 무시.
+    """
+
+    def encode(self, texts: list[str], role: str = "query") -> list[list[float]]: ...
 
 
 class HashingEmbedder:
@@ -50,7 +54,7 @@ class HashingEmbedder:
     def _tokens(self, text: str) -> list[str]:
         return re.findall(r"[가-힣]+|[a-zA-Z]+|[0-9]+", text.lower())
 
-    def encode(self, texts: list[str]) -> list[list[float]]:
+    def encode(self, texts: list[str], role: str = "query") -> list[list[float]]:
         out: list[list[float]] = []
         for text in texts:
             vec = [0.0] * self.dim
@@ -69,11 +73,18 @@ class OpenAICompatEmbedder:
 
     KT 믿음/기타 서빙이 embeddings 를 제공하면 settings 로 붙인다. 없으면
     한국어 문장 임베더(KURE-v1, BGE-m3-ko 등)를 vLLM/TEI 로 띄워 이 형식으로 노출.
+
+    model_passage: query/passage 를 별도 모델로 받는 제공자(Upstage 등)용.
+    비우면 model 을 그대로 양쪽에 쓴다(그런 구분이 없는 제공자와 하위호환).
     """
 
-    def __init__(self, base_url: str, model: str, api_key: str, timeout: float = 30.0) -> None:
+    def __init__(
+        self, base_url: str, model: str, api_key: str, timeout: float = 30.0,
+        model_passage: str = "",
+    ) -> None:
         self.base_url = base_url.rstrip("/")
         self.model = model
+        self.model_passage = model_passage or model
         self.api_key = api_key
         self.timeout = timeout
 
@@ -82,11 +93,12 @@ class OpenAICompatEmbedder:
             return self.base_url
         return f"{self.base_url}/embeddings"
 
-    def encode(self, texts: list[str]) -> list[list[float]]:
+    def encode(self, texts: list[str], role: str = "query") -> list[list[float]]:
         import json
         import urllib.request
 
-        payload = json.dumps({"model": self.model, "input": texts}).encode("utf-8")
+        model = self.model_passage if role == "passage" else self.model
+        payload = json.dumps({"model": model, "input": texts}).encode("utf-8")
         req = urllib.request.Request(
             self._url(),
             data=payload,
@@ -128,7 +140,8 @@ class LocalSTEmbedder:
             self._model = SentenceTransformer(self.model_name)
         return self._model
 
-    def encode(self, texts: list[str]) -> list[list[float]]:
+    def encode(self, texts: list[str], role: str = "query") -> list[list[float]]:
+        # role 무시 — 로컬 임베더는 query/passage 구분이 없어 결과가 동일하다.
         missing = [t for t in dict.fromkeys(texts) if t not in self._cache]
         if missing:
             vecs = self._load().encode(missing, normalize_embeddings=True)
@@ -152,6 +165,7 @@ def get_embedder() -> Embedder:
         return OpenAICompatEmbedder(
             settings.embed_base_url, settings.embed_model,
             settings.embed_api_key, settings.llm_timeout,
+            model_passage=settings.embed_model_passage,
         )
     if settings.embed_model:
         return LocalSTEmbedder(settings.embed_model)
@@ -197,7 +211,8 @@ def build_history_aware_query(
         return anchor, []
 
     history = user_turns[:-1]
-    embs = embedder.encode([anchor, *history])
+    # 둘 다 보호자 발화(검색 대상 문서가 아님) — query 로 통일.
+    embs = embedder.encode([anchor, *history], role="query")
     anchor_emb, hist_embs = embs[0], embs[1:]
 
     kept: list[int] = []
@@ -305,8 +320,8 @@ def rank_next_slots(
     if not query_text.strip():
         return template_order()[:top_k], kept_turns
 
-    slot_embs = embedder.encode([s.embed_text for s in candidates])
-    query_emb = embedder.encode([query_text])[0]
+    slot_embs = embedder.encode([s.embed_text for s in candidates], role="passage")
+    query_emb = embedder.encode([query_text], role="query")[0]
     scored = [
         SlotScore(s, cosine(query_emb, se), asked_counts.get(s.key, 0))
         for s, se in zip(candidates, slot_embs)

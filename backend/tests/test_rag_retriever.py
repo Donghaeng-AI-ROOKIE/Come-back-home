@@ -26,7 +26,7 @@ class _FakeEmbedder:
     def __init__(self, vec):
         self.vec = vec
 
-    def encode(self, texts):
+    def encode(self, texts, role: str = "query"):
         return [self.vec for _ in texts]
 
 
@@ -83,7 +83,7 @@ def test_같은_질의는_캐시에서_나온다(tmp_path):
     first = r.search("같은 질의")
 
     class _Boom:
-        def encode(self, texts):
+        def encode(self, texts, role: str = "query"):
             raise AssertionError("캐시가 있으면 임베딩을 다시 하면 안 된다")
 
     r._embedder = _Boom()

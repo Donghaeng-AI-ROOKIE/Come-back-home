@@ -52,7 +52,10 @@ def passes_rules(text: str) -> bool:
 
 def is_grounded(question: str, slot: SlotSpec, embedder: Embedder) -> bool:
     """층② — 생성 질문이 타깃 슬롯 표면과 의미적으로 붙어 있으면 통과."""
-    q_emb, s_emb = embedder.encode([question, slot.embed_text])
+    # question=검색하는 쪽(query), slot.embed_text=검색되는 쪽(passage) — role이 달라
+    # API 임베더에서는 한 번에 못 묶고 따로 인코딩해야 한다.
+    q_emb = embedder.encode([question], role="query")[0]
+    s_emb = embedder.encode([slot.embed_text], role="passage")[0]
     return cosine(q_emb, s_emb) >= GROUNDING_THRESHOLD
 
 
@@ -86,9 +89,11 @@ def guard_question(
         return single_question(slot.question), True
     if bank:
         others = [s for s in bank if s.key != slot.key]
-        embs = embedder.encode(
-            [question, slot.embed_text, *[s.embed_text for s in others]])
-        q_emb, target_emb, other_embs = embs[0], embs[1], embs[2:]
+        # question=query, 슬롯 표면들=passage — role이 달라 따로 인코딩.
+        q_emb = embedder.encode([question], role="query")[0]
+        passage_embs = embedder.encode(
+            [slot.embed_text, *[s.embed_text for s in others]], role="passage")
+        target_emb, other_embs = passage_embs[0], passage_embs[1:]
         target_sim = cosine(q_emb, target_emb)
         if target_sim < GROUNDING_THRESHOLD or any(
                 cosine(q_emb, oe) > target_sim for oe in other_embs):
