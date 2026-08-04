@@ -60,11 +60,23 @@ export type PoaGrid = {
 };
 
 // ── 경찰 실종경보 ─────────────────────────────────────
+/**
+ * 알림 종류 — 백엔드 `send_alerts(kind=...)`와 동일한 3종.
+ *  - reflex     : D1 골든타임 1차 안전반경(POA 이전, 신고 직후)
+ *  - poa        : 예측 기반 타겟 알림
+ *  - new_region : D3, 새 지역에서 목격 가능성
+ *
+ * 프론트에서 이 값이 필요한 이유: "안볼래요" 억제를 어디까지 존중할지 가른다.
+ * reflex·new_region 은 진짜 새로운 위험이라 억제를 뚫고 다시 알린다.
+ */
+export type AlertKind = 'reflex' | 'poa' | 'new_region';
+
 export type PoliceAlert = {
   caseId: string;
   issuedAt: string; // ISO
   area: string;
   severity: Severity;
+  kind: AlertKind;
   /** 내 위치로부터 거리(m) — '내 주변' 타겟 근거. */
   distanceM: number;
   summary: string;

@@ -164,6 +164,7 @@ export function buildAlert(): PoliceAlert {
     issuedAt: new Date(Date.now() - 42 * 60 * 1000).toISOString(), // 42분 전 발령
     area: MISSING.area,
     severity: 'critical',
+    kind: 'poa',
     distanceM: 320,
     summary: MISSING.label,
     matchedPersonId: MISSING.id,

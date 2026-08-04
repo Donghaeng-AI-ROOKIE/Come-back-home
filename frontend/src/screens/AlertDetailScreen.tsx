@@ -23,13 +23,15 @@ import { color, radius, space, type, HIT } from '../theme/tokens';
 import CTAButton from '../components/CTAButton';
 import MissingPersonCard from '../components/MissingPersonCard';
 import GoldenTimeChip from '../components/GoldenTimeChip';
+import PresenceBadge from '../components/PresenceBadge';
 import BaseMap from '../components/BaseMap';
 import MapPin from '../components/MapPin';
 import { useAppModeStore } from '../store/appModeStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
+import { useMyLocation } from '../hooks/useMyLocation';
+import { distanceM, formatDistance } from '../utils/geo';
 import { DEMO_CASE_ID, LAST_SEEN } from '../data/missing';
 import { hexToRgba, toLatLng } from '../utils/color';
-import type { GeoPoint } from '../types/domain';
 import type { RootStackParamList } from '../navigation/types';
 
 // 온-컬러(빨강 필 위) 텍스트 — GoldenTimeChip/CTAButton과 동일 idiom.
@@ -39,14 +41,13 @@ const SEEN_GRADIENT = [color.critical, color.criticalInk] as const;
 // 대표 실루엣 배경 — 사진 없음 플레이스홀더(중립 그레이, 심각도색 아님).
 const SILHOUETTE_GRADIENT = [color.textBody, color.text] as const;
 
-// 데모 지도용 좌표: 최종 목격 = 예상 이동 반경 중심, 내 위치는 인근 오프셋.
+// 최종 목격 = 예상 이동 반경 중심.
 const MAP_REGION = {
   latitude: LAST_SEEN.lat,
   longitude: LAST_SEEN.lng,
   latitudeDelta: 0.012,
   longitudeDelta: 0.012,
 };
-const MY_LOCATION: GeoPoint = { lat: LAST_SEEN.lat - 0.0022, lng: LAST_SEEN.lng - 0.0016 };
 const PREDICT_RADIUS_M = 260;
 
 export default function AlertDetailScreen() {
@@ -62,8 +63,39 @@ export default function AlertDetailScreen() {
     enterSearch(DEMO_CASE_ID, 'critical');
   }, [enterSearch]);
 
+  // 내 위치 — 지도의 OS 마커와 거리 문구에 함께 쓴다. 좌표는 기기 밖으로 나가지 않는다.
+  const { point: myPoint, accuracyM, status: locStatus } = useMyLocation();
+  const located = locStatus === 'granted' && myPoint != null;
+  const meters = myPoint ? distanceM(myPoint, LAST_SEEN) : null;
+  const distanceLabel = meters == null ? null : formatDistance(meters, accuracyM);
+
+  // 지도는 시각 정보라 스크린리더에는 거리를 말로 대신 준다.
+  const mapA11yLabel = [
+    `내 주변 지도. ${profile.area} 최종 목격 위치와 예상 이동 반경을 표시합니다.`,
+    located ? '내 위치도 함께 표시됩니다.' : '위치 권한이 없어 내 위치는 표시되지 않습니다.',
+    distanceLabel ? `최종 목격 장소까지 ${distanceLabel}.` : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  // 진입 관문으로 떠 있는가 = 뒤로 갈 곳이 없는가. 관문일 때 이 화면이 스택의
+  // 루트라 goBack 이 아무 일도 안 하므로, 통과 경로를 명시적으로 만들어야 한다.
+  const isGate = !navigation.canGoBack();
+  const dismissCase = useAppModeStore((s) => s.dismissCase);
+  const leaveGate = () => navigation.reset({ index: 0, routes: [{ name: 'CitizenTabs' }] });
+
   const onSeen = () => navigation.navigate('ReportChat', { caseId: DEMO_CASE_ID });
-  const onNotSeen = () => navigation.goBack();
+
+  // "못 봤어요" = 목격 여부에 답한 것일 뿐 "그만 보겠다"가 아니다. 억제로 치지
+  // 않으므로 앱을 다시 켜면 관문이 또 선다 — 넛지를 유지하는 압력이 이쪽이다.
+  const onNotSeen = () => (isGate ? leaveGate() : navigation.goBack());
+
+  // "그만 볼래요" = 명시적 영구 억제. 관문을 통과하는 유일한 '끄는' 경로.
+  const onDismissCase = () => {
+    dismissCase(caseId);
+    if (isGate) leaveGate();
+    else navigation.goBack();
+  };
 
   const recallCopy = `지난 한 시간, ${profile.area} 인근에서 ${profile.appearance.join(
     ', ',
@@ -75,24 +107,30 @@ export default function AlertDetailScreen() {
 
       {/* 헤더: 뒤로 + 타이틀 + 실종 경보 배지(§4.1 빨강) */}
       <View style={styles.header}>
-        <Pressable
-          onPress={onNotSeen}
-          accessibilityRole="button"
-          accessibilityLabel="뒤로"
-          hitSlop={space.sm}
-          style={styles.back}
-        >
-          <Svg width={24} height={24} viewBox="0 0 24 24">
-            <Path
-              d="M15 5l-7 7 7 7"
-              stroke={color.text}
-              strokeWidth={2.2}
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </Svg>
-        </Pressable>
+        {/* 관문일 때는 뒤로 화살표를 감춘다 — 돌아갈 곳이 없어 눌러도 아무 일이
+            없는 버튼은 고장으로 읽힌다. 통과는 하단 두 버튼으로만 한다. */}
+        {isGate ? (
+          <View style={styles.back} />
+        ) : (
+          <Pressable
+            onPress={onNotSeen}
+            accessibilityRole="button"
+            accessibilityLabel="뒤로"
+            hitSlop={space.sm}
+            style={styles.back}
+          >
+            <Svg width={24} height={24} viewBox="0 0 24 24">
+              <Path
+                d="M15 5l-7 7 7 7"
+                stroke={color.text}
+                strokeWidth={2.2}
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </Svg>
+          </Pressable>
+        )}
 
         <Text
           style={styles.headerTitle}
@@ -153,9 +191,10 @@ export default function AlertDetailScreen() {
           </LinearGradient>
         </View>
 
-        {/* 골든타임(§4.1 빨강) */}
+        {/* 골든타임(§4.1 빨강) + 익명 동시 참여자(중립 — 심각도색 아님) */}
         <View style={styles.goldenRow}>
           <GoldenTimeChip emphasis="critical" />
+          <PresenceBadge caseId={caseId} />
         </View>
 
         {/* 실종자 카드 — 단일 소스(익명, 인상착의 칩) */}
@@ -201,7 +240,8 @@ export default function AlertDetailScreen() {
             region={MAP_REGION}
             scrollEnabled={false}
             style={styles.map}
-            accessibilityLabel={`내 주변 지도. ${profile.area} 최종 목격 위치와 예상 이동 반경, 내 위치를 표시합니다.`}
+            showsUserLocation={located}
+            accessibilityLabel={mapA11yLabel}
           >
             <Circle
               center={toLatLng(LAST_SEEN)}
@@ -211,7 +251,9 @@ export default function AlertDetailScreen() {
               fillColor={hexToRgba(color.critical, 0.13)}
             />
             <MapPin kind="lastSeen" coordinate={LAST_SEEN} title="최종 목격 위치" description={profile.area} />
-            <MapPin kind="me" coordinate={MY_LOCATION} title="내 위치" />
+            {/* 내 위치는 OS 기본 마커(showsUserLocation)가 그린다 — 직접 핀을 찍으면
+                방향·불확실성 표현을 잃고, 무엇보다 측위 실패 시 가짜 좌표를 찍게 된다.
+                권한이 없을 때만 아무것도 안 보이는 게 정직한 동작. */}
           </BaseMap>
 
           {/* 지도 배지(§4.1 빨강) — 정보성, 지도 위 오버레이 */}
@@ -222,8 +264,10 @@ export default function AlertDetailScreen() {
                 fill={ON_CRITICAL}
               />
             </Svg>
+            {/* "내 주변"이라는 주장을 실제 거리로 대체 — 근거를 보여주는 게 낫다.
+                측위 실패 시에만 기존 문구로 물러난다. */}
             <Text style={styles.mapBadgeText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              내 주변 · 예상 동선
+              {`${distanceLabel ?? '내 주변'} · 예상 동선`}
             </Text>
           </View>
         </View>
@@ -296,20 +340,41 @@ export default function AlertDetailScreen() {
             </LinearGradient>
           </Pressable>
 
-          {/* '못 봤어요' — 아웃라인, goBack */}
+          {/* '못 봤어요' — 관문일 땐 이번 진입만 통과(억제 아님) */}
           <CTAButton
             label="못 봤어요"
             onPress={onNotSeen}
             variant="ghost"
             fullWidth={false}
             style={styles.notSeenBtn}
-            accessibilityHint="경보를 닫고 이전 화면으로 돌아갑니다"
+            accessibilityHint={
+              isGate
+                ? '이번에는 넘어갑니다. 앱을 다시 열면 이 경보가 먼저 보여요'
+                : '경보를 닫고 이전 화면으로 돌아갑니다'
+            }
           />
         </View>
 
         <Text style={styles.helperText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
           ‘봤어요’를 누르면 목격 내용을 대화로 편하게 남길 수 있어요
         </Text>
+
+        {/* 영구 억제 — 관문을 끄는 유일한 경로. 저강조로 두되 반드시 도달 가능해야
+            한다(한 번의 명시적 선택을 요구하는 것이 넛지, 못 빠져나가게 하는 건 함정). */}
+        {isGate && (
+          <Pressable
+            onPress={onDismissCase}
+            accessibilityRole="button"
+            accessibilityLabel="이 사건은 그만 볼래요"
+            accessibilityHint="앞으로 이 경보가 먼저 뜨지 않아요. 새로운 긴급 알림은 계속 받습니다"
+            hitSlop={space.sm}
+            style={({ pressed }) => [styles.optOut, pressed && styles.pressed]}
+          >
+            <Text style={styles.optOutLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              이 사건은 그만 볼래요
+            </Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );
@@ -370,7 +435,8 @@ const styles = StyleSheet.create({
   },
   heroFill: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 
-  goldenRow: { marginTop: space.lg, flexDirection: 'row' },
+  // 참여자 배지가 붙어 두 칩이 되므로 줄바꿈 허용 — 큰 글자 설정에서 잘리면 안 된다.
+  goldenRow: { marginTop: space.lg, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: space.sm },
 
   block: { marginTop: space.lg },
 
@@ -504,5 +570,13 @@ const styles = StyleSheet.create({
     color: color.textCaption,
     fontFamily: type.family,
     lineHeight: 18,
+  },
+  optOut: { marginTop: space.sm, minHeight: HIT, alignItems: 'center', justifyContent: 'center' },
+  optOutLabel: {
+    fontSize: type.size.label,
+    fontWeight: type.weight.medium,
+    color: color.textCaption,
+    fontFamily: type.family,
+    textDecorationLine: 'underline',
   },
 });

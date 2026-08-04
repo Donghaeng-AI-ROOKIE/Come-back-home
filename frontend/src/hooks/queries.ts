@@ -7,6 +7,7 @@ import {
   getFoundSummary,
   getPoaPrediction,
   getValidation,
+  touchPresence,
 } from '../api/client';
 import { useAppModeStore } from '../store/appModeStore';
 import type { TimeAxis } from '../types/domain';
@@ -37,6 +38,29 @@ export function useValidation(caseId: string) {
 
 export function useFoundSummary(caseId: string) {
   return useQuery({ queryKey: ['found', caseId], queryFn: () => getFoundSummary(caseId), enabled: !!caseId });
+}
+
+/**
+ * 익명 동시 참여자 수 (알림 개인화 #4) — 폴링이 곧 하트비트다.
+ *
+ * 주기는 서버 TTL(90s)의 1/3 — 한두 번 놓쳐도 내가 참여자 목록에서 사라지지 않는다.
+ * refetchIntervalInBackground 는 기본값 false 그대로 둔다: 백그라운드에서까지
+ * 폴링하면 화면을 안 보는 사람이 "함께 보고 있는 사람"으로 계속 세어져 거짓말이 된다.
+ *
+ * retry:false 인 이유 — 이 값은 실패해도 배지 하나가 안 뜨는 게 전부다.
+ * 수색 화면의 본질 정보(지도·인상착의)를 재시도 폭풍으로 방해할 가치가 없다.
+ */
+export const PRESENCE_POLL_MS = 30_000;
+
+export function usePresence(caseId: string, enabled = true) {
+  return useQuery({
+    queryKey: ['presence', caseId],
+    queryFn: () => touchPresence(caseId),
+    enabled: enabled && !!caseId,
+    refetchInterval: PRESENCE_POLL_MS,
+    staleTime: 0,
+    retry: false,
+  });
 }
 
 /** 골든타임 — enteredSearchAt 기준 파생 카운트다운(초는 스토어에 저장 안 함). */

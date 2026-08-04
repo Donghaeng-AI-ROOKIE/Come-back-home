@@ -25,7 +25,7 @@ import dayjs from 'dayjs';
 import { color, radius, space, type, HIT } from '../theme/tokens';
 import { WALK_COURSES, WALK_STATS, WALKER_NAME } from '../data/mock';
 import { DEMO_CASE_ID } from '../data/missing';
-import { useAppModeStore } from '../store/appModeStore';
+import { useAppModeStore, useIsCaseDismissed } from '../store/appModeStore';
 import { hexToRgba, toLatLng } from '../utils/color';
 import BaseMap from '../components/BaseMap';
 import MapPin from '../components/MapPin';
@@ -73,6 +73,9 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const enterSearch = useAppModeStore((s) => s.enterSearch);
+  // "안볼래요" 처리된 사건이면 벨의 미확인 배지(재촉)를 끈다. 벨 자체는 살려둬
+  // 접근 경로는 유지 — 억제하는 건 재촉이지 정보가 아니다.
+  const alertDismissed = useIsCaseDismissed(DEMO_CASE_ID);
 
   const [walking, setWalking] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
@@ -131,7 +134,7 @@ export default function HomeScreen() {
           <Pressable
             onPress={openAlerts}
             accessibilityRole="button"
-            accessibilityLabel="알림"
+            accessibilityLabel={alertDismissed ? '알림' : '알림, 확인하지 않은 경보 있음'}
             accessibilityHint="경찰 실종경보 알림 화면을 엽니다"
             hitSlop={8}
             style={({ pressed }) => [styles.bellBtn, pressed && styles.pressed]}
@@ -154,7 +157,7 @@ export default function HomeScreen() {
                 strokeLinejoin="round"
               />
             </Svg>
-            <View style={styles.bellBadge} />
+            {!alertDismissed && <View style={styles.bellBadge} />}
           </Pressable>
         </View>
 
