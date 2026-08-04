@@ -61,7 +61,7 @@ def main() -> int:
     from app.config import settings
 
     model = args.model or settings.embed_model
-    emb = R.LocalSTEmbedder(model)
+    emb = R.LocalSTEmbedder(args.model) if args.model else R.get_embedder()
     ptype = PersonaType(args.persona)
     slots = slots_for(ptype)
     keys = [s.key for s in slots]
