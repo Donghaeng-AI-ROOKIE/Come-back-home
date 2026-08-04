@@ -3,8 +3,11 @@
 워커 n명이 LKP 에서 출발해 Hashimoto 전략에 따라 이동, 종착 셀을
 히스토그램으로 집계해 POA 를 만든다.
 
-- statistical 모드: 전략 확률·Koester 거리만 사용 (AI 없음) → 베이스라인.
-  Bottom-up 과의 성능 차이 = AI 개인화 기여도.
+- statistical 모드: 마음 재해석만 끈 베이스라인. **"AI 없음"이 아니다** —
+  prior(전략 확률·끌림점 가중치·거리 분포)는 EXAONE 이 만든 값이고 pipeline 이
+  두 모드에 같은 객체를 넘긴다. 따라서 bottom-up 과의 차이는 "AI 개인화
+  기여도"가 아니라 **마음 재해석 층의 기여도**다. 대외 서술에서 전자로 쓰면
+  과대 주장이 된다 (2026-08-04 정정).
 - agent 모드: 마음 예측 훅 활성화 — 심리 상태가 바뀔 때만 EXAONE 호출.
   워커 수는 두 모드 공통 500 (보행은 순수 알고리즘이라 공짜), EXAONE 실호출만
   예측당 예산(mind_call_budget)으로 제한한다: 예산 내 발동 = 실호출 + 풀 저장,
@@ -184,8 +187,44 @@ def run_monte_carlo(
 
 # ── 그래프 워커 (도로망 위) ─────────────────────────────────────────
 def _kappa(confusion: float) -> float:
-    """혼란도 → 방향 집중도 κ: 혼란할수록 갈림길 선택이 랜덤에 가까워진다."""
+    """혼란도 → 방향 집중도 κ: 혼란할수록 갈림길 선택이 랜덤에 가까워진다.
+
+    ⚠ 이 경로만으로는 집계 POA 가 안 움직인다 (2026-08-04 채널별 ablation,
+    500워커×seed5): 혼란 "상"(κ=0.375)과 "하"(κ=1.625)의 종착 분포 차이가
+    seed 노이즈의 1.12배 — 각도 집중도는 워커를 모으면 상쇄되고, 종료는
+    prior 가 뽑은 직선 변위가 정하기 때문이다. 그래서 문헌이 실제로 지지하는
+    소비처(_recognizes_destination)를 따로 뒀다. κ 는 개별 궤적의 사실성
+    담당으로 남긴다 — 대시보드 궤적과 시연 설명이 이 값에 걸려 있다.
+    """
     return max(0.2, 2.5 * (1.0 - confusion))
+
+
+def _recognizes_destination(rng: random.Random, confusion: float) -> bool:
+    """끌림점에 닿았을 때 그곳을 목적지로 알아보는가.
+
+    근거(코퍼스 원문 대조):
+    - CLM-0023 (DEM-34 p6) — "if a PWD was driving a routine route but became
+      distracted and drove past their destination, they might have a difficult
+      time recognizing their destination when they turned around and approached
+      the location from a different direction." 즉 도착이 곧 인지가 아니다.
+    - CLM-0022 (DEM-34 p6) — 진행되면 익숙한 주변에서도 길찾기가 어려워진다.
+    - CLM-0008 (DEM-24 p6) — 익숙한 장소에서도 길찾기 표시를 못 알아볼 수 있다.
+    호출부는 실패 시 목표를 되찾지 않는다 — CLM-0015 (DEM-31 p6) "unable to
+    recover from way finding errors".
+
+    파생 효과로 DEM-32 p8 의 "길찾기 효과 저하 → 지속 보행(PW) 증가"(CLM-0028)
+    가 별도 계수 없이 따라온다: 목적지를 못 알아본 워커는 변위 상한까지 계속
+    걷는다. 그래서 지속 보행을 위한 파라미터를 따로 두지 않는다(이중계상 방지).
+
+    실패확률 = confusion × strength. 인식 실패율을 보고한 연구가 코퍼스 13편에
+    없어 "혼란도를 그대로 실패확률로 읽는다"는 최소가정을 쓴다 — κ 계수 2.5 와
+    같은 지위의 잠정값이다(docs/혼란도_수치_근거_정리.md 2절). 최적값 주장 금지,
+    settings.confusion_miss_strength 는 민감도 노브다.
+    """
+    strength = settings.confusion_miss_strength
+    if strength <= 0.0:
+        return True
+    return rng.random() >= min(1.0, confusion * strength)
 
 
 def _walk_graph(
@@ -230,6 +269,16 @@ def _walk_graph(
 
     confusion = (mind.confusion if (use_mind and mind) else 0.5)
     kappa = _kappa(confusion)
+
+    # 혼란도가 "실제 판단에서 나온 값"인가. MindState 기본값 0.5 는 신호가 아니라
+    # 중립 플레이스홀더라, 그 값으로 도달 실패를 걸면 근거 없는 페널티가 된다.
+    #   실측(2026-08-04, dem3 실호출): 전 워커에 걸면 알림셀 1h 14.0→19.3 / 4h
+    #   16.7→23.0 인데, 발동한 워커에만 걸면 15.7 / 17.3 이다. 즉 증가분의 2/3 이상이
+    #   플레이스홀더가 만든 가짜였다. statistical 모드를 제외한 것과 같은 이유다.
+    # changed=True 는 (a) 마음 재해석이 실제로 판정했거나 (b) 상류가 페르소나 단위
+    # 혼란도를 채워 넣은 경우다. 혼란도 규칙 산정이 들어오면 (b) 로 전 워커·전 구간
+    # 적용이 자동으로 정당해진다 — 그때 이 게이트를 손댈 필요가 없다.
+    confusion_known = bool(use_mind and mind and mind.changed)
 
     # route_familiarity(작업4) 폴백 준비 — 목표 끌림점의 라벨을 알아야 known_score 를
     # 찾을 수 있는데, 지금까지는 target_node(노드 ID)만 추적하고 라벨을 버리고 있었다.
@@ -280,7 +329,19 @@ def _walk_graph(
 
     for step in range(_MAX_STEPS):
         if target_node is not None and node == target_node:
-            break  # 끌림점 도달
+            # 인식 판정은 혼란도가 실제 판단일 때만 건다(confusion_known 주석 참조).
+            # statistical 모드가 빠지는 것도 같은 이유다 — 그쪽 confusion 은 신호가
+            # 아니라 중립 기본값이고, 걸면 두 모드의 비교 자체가 무의미해진다.
+            # (실측: 기준선에 걸면 route_familiarity 의 known_score 가 게이지에
+            # 도달하지 못해 기존 계약 2건이 깨진다.)
+            if not confusion_known or _recognizes_destination(rng, confusion):
+                break  # 끌림점 도달 — 알아보고 멈춘다
+            # 못 알아보고 지나친다 (CLM-0023). 목표를 되찾지 않는 것이 핵심 —
+            # CLM-0015 "스스로 회복하지 못한다". target_label 도 함께 비워
+            # 익숙함 점수(known_score) 조회도 끊는다: 목적지를 잃은 워커에게
+            # 그 경로가 익숙하다는 가정을 계속 줄 근거가 없다. 부작용으로
+            # 낯섦도가 올라 혼란 게이지 C 가 빨리 차고 다음 재해석이 앞당겨진다.
+            target_node = target_label = None
         nbrs = net.neighbors(node)
         if not nbrs:
             break  # 막다른 노드
@@ -365,7 +426,12 @@ def _walk_graph(
                                         confusion=min(1.0, base + 0.2),
                                         changed=True), None, "heuristic")
                 mind, goal, source = result
-                kappa = _kappa(mind.confusion)
+                # confusion 을 함께 갱신한다 — κ 뿐 아니라 목적지 인식 판정
+                # (_recognizes_destination)도 이 값을 읽는다. 예전엔 κ 만
+                # 다시 계산하고 이 지역변수는 초기값에 머물러 있었다.
+                confusion = mind.confusion
+                confusion_known = True   # 이제부터는 실제 판정값이다
+                kappa = _kappa(confusion)
                 if goal is not None:
                     target_node = (label_nodes or {})[goal]  # 목표 전환 — 자연어 재주입
                     target_label = goal
@@ -382,10 +448,14 @@ def _walk_graph(
                         # DEM-33(Algase Wandering Scale)의 random 패턴 정의 —
                         #   "walking in a haphazard fashion using multiple changes in
                         #    direction, and no obvious route to the eventual stopping point"
-                        # 매 스텝 무작위 방위가 이 정의에 대응한다. 혼란도가 높을수록
-                        # 무작위성이 커지는 것은 기존 kappa 커널이 이미 처리하며, 그
-                        # 방향성은 DEM-32 가 지지한다(공간 방향상실 ↔ random 패턴
-                        # r=0.19~0.33 양의 상관 / direct 보행 r=-0.23~-0.27 음의 상관).
+                        # 매 스텝 무작위 방위가 이 정의에 대응한다.
+                        # ⚠ 인용 정정(2026-08-04 원문 재확인): DEM-32 p8 의
+                        # r=0.19~0.33 / -0.23~-0.27 은 **각도 분산이 아니라**
+                        # "percent of cycles per hour, mean cycles per hour,
+                        #  proportion of time locomoting" 과 direct ambulation
+                        # 파라미터에 대한 상관이다. 즉 이 논문은 κ(방향 집중도)의
+                        # 근거가 될 수 없다 — 빈도·이동시간·패턴 유형의 근거다.
+                        # 혼란도의 문헌 정합 소비처는 _recognizes_destination 쪽이다.
                         homing_loc, roaming = None, True
                         target_node = target_label = None
                     elif mind.behavior == "은신·멈춤":

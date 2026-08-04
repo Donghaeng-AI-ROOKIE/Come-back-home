@@ -219,11 +219,31 @@ class Gauges:
         return rng.random() < p_trigger(self.F, self.cfg.theta_f, self.cfg.beta_f)
 
     def mind_fired(self, rng: random.Random) -> str | None:
-        """H·A 중 발동한 게이지 이름 (EXAONE 호출 사유). 없으면 None."""
-        for name, value in (("귀소", self.H), ("불안", self.A)):
-            if value > 0 and rng.random() < p_trigger(value, self.cfg.theta_mind, self.cfg.beta_mind):
-                return name
-        return None
+        """H·A 중 발동한 게이지 이름 (EXAONE 호출 사유). 없으면 None.
+
+        ⚠ 순서로 우선순위를 만들지 않는다. 예전 구현은 (귀소, 불안) 순으로 검사하고
+        먼저 걸리면 즉시 반환했다. H = k_h1·집떠난시간 + k_h2·C 는 경과에 정비례해
+        자라므로 시간이 길수록 H 가 항상 먼저 걸렸고, **불안은 검사 기회조차 얻지
+        못했다.**
+
+        그 편향은 게이지에서 끝나지 않는다. report() 가 "방금 귀소 게이지가 임계를
+        넘었다"로 나가면 마음 모델은 그대로 "귀소 시도"라고 답한다 — 유도신문이다.
+        실측(2026-08-04, dem3 실호출, 500워커×seed3): 4h 시점 워커의 **88.7%** 가
+        귀소 시도를 받았다. 같은 모델의 봉인 test 분포는 끌림점 접근 98 / 귀소 32 /
+        배회 7 / 은신 3 이었으므로 모델 탓이 아니라 질문 탓이다. 문헌(DEM-31)은
+        명시적 귀소 의도를 **8%** 로 보고한다.
+
+        이제 둘을 독립으로 판정하고 둘 다 걸리면 rng 로 고른다. "초과폭이 큰 쪽"을
+        고르는 규칙은 쓰지 않는다 — H 가 체계적으로 크므로 편향을 그대로 남긴다.
+        ⚠ 두 게이지 모두 매번 난수를 뽑게 되어 rng 소비 패턴이 바뀐다. 같은 seed 라도
+        이전과 종착 분포가 다르다(회귀가 아니라 의도된 변화).
+        """
+        fired = [name for name, value in (("귀소", self.H), ("불안", self.A))
+                 if value > 0 and rng.random() < p_trigger(
+                     value, self.cfg.theta_mind, self.cfg.beta_mind)]
+        if not fired:
+            return None
+        return fired[0] if len(fired) == 1 else rng.choice(fired)
 
     def report(self, reason: str) -> str:
         """게이지를 자연어로 번역 — EXAONE 프롬프트용 (좌표 없음, 회의 원칙)."""
