@@ -151,12 +151,12 @@ export default function AlertSyncScreen() {
     };
   }, []);
 
-  const goSearch = () => navigation.navigate('CitizenTabs', { screen: 'Search' });
+  const goSearch = () => navigation.navigate('CitizenTabs', { screen: 'Alerts' });
 
   // 무조작 시 자동으로 수색 현황(Search) 진입.
   useEffect(() => {
     if (remaining === 0) {
-      navigation.navigate('CitizenTabs', { screen: 'Search' });
+      navigation.navigate('CitizenTabs', { screen: 'Alerts' });
     }
   }, [remaining, navigation]);
 

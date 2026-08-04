@@ -1,20 +1,13 @@
 /** 서버 동기화 훅 (TanStack Query v5) + 파생 골든타임 (spec §2.4). */
 import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import {
-  getActiveAlerts,
-  getCrossValidation,
-  getFoundSummary,
-  getPoaPrediction,
-  getValidation,
-} from '../api/client';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getPoaPrediction } from '../api/client';
+import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
+import { getCase, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
 import type { TimeAxis } from '../types/domain';
 
-export function useActiveAlerts() {
-  return useQuery({ queryKey: ['alerts'], queryFn: getActiveAlerts });
-}
-
+// ── 수색 ──────────────────────────────────────────────────────────
 export function usePoaPrediction(caseId: string, t: TimeAxis) {
   return useQuery({
     queryKey: ['poa', caseId, t],
@@ -23,20 +16,51 @@ export function usePoaPrediction(caseId: string, t: TimeAxis) {
   });
 }
 
-export function useCrossValidation(caseId: string) {
-  return useQuery({
-    queryKey: ['crossval', caseId],
-    queryFn: () => getCrossValidation(caseId),
-    enabled: !!caseId,
+export function useCase(caseId: string) {
+  return useQuery({ queryKey: ['case', caseId], queryFn: () => getCase(caseId), enabled: !!caseId });
+}
+
+/**
+ * 예측 실행. 10초 안팎 걸리므로 화면은 반드시 진행 표시를 띄운다.
+ * 성공하면 POA 캐시를 버려 다음 조회가 새 예측을 읽게 한다.
+ */
+export function useRunPrediction(caseId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () => runPrediction(caseId),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['poa', caseId] }),
   });
 }
 
-export function useValidation(caseId: string) {
-  return useQuery({ queryKey: ['validation', caseId], queryFn: () => getValidation(caseId), enabled: !!caseId });
+// ── 산책 ──────────────────────────────────────────────────────────
+export function useWalkStats() {
+  return useQuery({ queryKey: ['walkStats'], queryFn: () => getWalkStats() });
 }
 
-export function useFoundSummary(caseId: string) {
-  return useQuery({ queryKey: ['found', caseId], queryFn: () => getFoundSummary(caseId), enabled: !!caseId });
+/** 앱 재시작 시 진행 중이던 산책 복원 (없으면 null). */
+export function useActiveWalk() {
+  return useQuery({ queryKey: ['activeWalk'], queryFn: () => getActiveWalk() });
+}
+
+export function useStartWalk() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (areaLabel?: string) => startWalk(areaLabel ?? ''),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['activeWalk'] }),
+  });
+}
+
+export function useEndWalk() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: { sessionId: string; distanceKm: number; durationMin: number }) =>
+      endWalk(v.sessionId, v.distanceKm, v.durationMin),
+    onSuccess: () => {
+      // 종료하면 누적·레벨·배지가 전부 바뀐다 — 둘 다 무효화한다.
+      qc.invalidateQueries({ queryKey: ['walkStats'] });
+      qc.invalidateQueries({ queryKey: ['activeWalk'] });
+    },
+  });
 }
 
 /** 골든타임 — enteredSearchAt 기준 파생 카운트다운(초는 스토어에 저장 안 함). */

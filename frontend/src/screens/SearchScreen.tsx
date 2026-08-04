@@ -27,7 +27,6 @@ import { useModeTheme } from '../theme/theme';
 import { usePoaPrediction, useGoldenTime } from '../hooks/queries';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING } from '../data/missing';
 import { hexToRgba } from '../utils/color';
-import { useAuthStore } from '../store/authStore';
 import type { GeoPoint } from '../types/domain';
 import type { RootStackParamList } from '../navigation/types';
 
@@ -48,7 +47,6 @@ export default function SearchScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const theme = useModeTheme();
-  const role = useAuthStore((s) => s.role);
   const golden = useGoldenTime();
   const poa = usePoaPrediction(DEMO_CASE_ID, 1);
 
@@ -238,17 +236,8 @@ export default function SearchScreen() {
           </LinearGradient>
         </Pressable>
 
-        {role === 'operator' ? (
-          <View
-            style={styles.operatorNote}
-            accessible
-            accessibilityLabel="운영자 전용 안내. AI 예측 지도 전체보기는 관제 콘솔에서 제공돼요."
-          >
-            <Text style={styles.operatorText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              운영자 · AI 예측 지도 전체보기는 관제 콘솔에서 제공돼요
-            </Text>
-          </View>
-        ) : null}
+        {/* 운영자 안내는 제거됐다 — 관제는 앱이 아니라 백엔드 /dashboard 웹 화면이 맡는다
+            (와이어프레임 2026-08-05, 역할은 시민·보호자 둘). */}
       </View>
     </View>
   );
@@ -442,20 +431,6 @@ const styles = StyleSheet.create({
     fontSize: type.size.cardTitle,
     fontWeight: type.weight.black,
     color: color.surface,
-    fontFamily: type.family,
-  },
-
-  operatorNote: {
-    backgroundColor: color.surfaceAlt,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: color.border,
-    padding: space.md,
-  },
-  operatorText: {
-    fontSize: type.size.caption,
-    fontWeight: type.weight.bold,
-    color: color.textBody,
     fontFamily: type.family,
   },
 

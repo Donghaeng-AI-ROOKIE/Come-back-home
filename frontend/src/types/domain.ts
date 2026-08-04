@@ -6,7 +6,9 @@
 // ── 공통 ──────────────────────────────────────────────
 export type GeoPoint = { lat: number; lng: number };
 
-export type Role = 'citizen' | 'guardian' | 'operator';
+/** 역할 — 와이어프레임(2026-08-05)의 두 트리. 운영자는 앱에서 제거됐다
+ *  (관제는 백엔드 /dashboard 웹 화면이 맡는다). */
+export type Role = 'citizen' | 'guardian';
 
 /** 앱 전역 모드 — 화면이 아니라 상태. 경찰 실종경보 연동만이 walk→search 트리거. */
 export type AppMode = 'walk' | 'search';

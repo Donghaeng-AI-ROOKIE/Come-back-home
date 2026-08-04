@@ -20,6 +20,10 @@ class TipIn(BaseModel):
     location: GeoPoint | None = None   # 명시 좌표(향후 지도 핀 등). 없으면 텍스트에서 지오코딩.
     seen_at: datetime | None = None
     force: bool = False                 # 위치 미확보 되묻기를 건너뛰고 그대로 확정
+    # 마이페이지 "제보 N건" 배지용. **Tip 에 저장하지 않고 카운터만 올린다** —
+    # 시민 신원과 사건을 잇는 기록을 남기면 케이스 파기 후에도 연결이 남는다
+    # (storage.walk_tip_counts 주석 참조). 없으면 세지 않는다.
+    reporter_user_id: str | None = None
 
 
 def _get_case(case_id: str):
@@ -88,13 +92,21 @@ def submit_tip(case_id: str, body: TipIn):
     _require_active(case)
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
-    return tip_flow.process_tip(
+    result = tip_flow.process_tip(
         case,
         text=body.text,
         location=body.location,
         seen_at=body.seen_at,
         force=body.force,
     )
+    # process_tip 은 되묻기면 dict, 접수되면 Tip 객체를 준다 — 형이 갈리므로
+    # dict 일 때만 status 를 본다. 되묻기(need_more)는 아직 접수가 아니라서
+    # 세지 않는다: 위치를 못 준 채 여러 번 시도한 것이 제보 건수로 부풀면 안 된다.
+    accepted = not (isinstance(result, dict) and result.get("status") == "need_more")
+    if body.reporter_user_id and accepted:
+        prev = storage.walk_tip_counts.get(body.reporter_user_id) or 0
+        storage.walk_tip_counts.save(body.reporter_user_id, prev + 1)
+    return result
 
 
 @router.get("/cases/{case_id}/poa")

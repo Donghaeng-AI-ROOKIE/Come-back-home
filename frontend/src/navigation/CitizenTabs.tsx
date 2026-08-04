@@ -1,6 +1,9 @@
 /**
- * 시민/보호자 소비자 앱 (라이트). 하단 3탭 홈/수색/등록 (spec §2.2).
+ * 시민 하단 4탭 (와이어프레임): 안심 홈 / 산책하기 / 긴급알림 / 내 기록.
  * 탭 활성색 = 현재 AppMode 토큰(walk=green / search=amber).
+ *
+ * 산책 탭은 화면을 갖지 않고 홈으로 되돌린다 — 산책은 "시작"이라는 동작이지
+ * 상시 열어 두는 탭이 아니다. 진행 중이면 홈이 이어가기 버튼을 띄운다.
  */
 import React from 'react';
 import { Text } from 'react-native';
@@ -8,9 +11,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { CitizenTabParamList } from './types';
 import { color, type } from '../theme/tokens';
 import { useModeTheme } from '../theme/theme';
-import HomeScreen from '../screens/HomeScreen';
+import CitizenHomeScreen from '../screens/CitizenHomeScreen';
 import SearchScreen from '../screens/SearchScreen';
-import RegChatScreen from '../screens/RegChatScreen';
+import RecordsScreen from '../screens/RecordsScreen';
 
 const Tab = createBottomTabNavigator<CitizenTabParamList>();
 
@@ -43,26 +46,36 @@ export default function CitizenTabs() {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={CitizenHomeScreen}
         options={{
-          tabBarLabel: '홈',
+          tabBarLabel: '안심 홈',
           tabBarIcon: ({ focused }) => <TabIcon label="🏠" focused={focused} activeColor={t.accent} />,
         }}
       />
       <Tab.Screen
-        name="Search"
-        component={SearchScreen}
+        name="Walk"
+        component={CitizenHomeScreen}
         options={{
-          tabBarLabel: '수색',
-          tabBarIcon: ({ focused }) => <TabIcon label="🔍" focused={focused || t.mode === 'search'} activeColor={t.accent} />,
+          tabBarLabel: '산책하기',
+          tabBarIcon: ({ focused }) => <TabIcon label="🚶" focused={focused} activeColor={t.accent} />,
         }}
       />
       <Tab.Screen
-        name="Reg"
-        component={RegChatScreen}
+        name="Alerts"
+        component={SearchScreen}
         options={{
-          tabBarLabel: '등록',
-          tabBarIcon: ({ focused }) => <TabIcon label="👪" focused={focused} activeColor={t.accent} />,
+          tabBarLabel: '긴급알림',
+          tabBarIcon: ({ focused }) => (
+            <TabIcon label="🔔" focused={focused || t.mode === 'search'} activeColor={t.accent} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Records"
+        component={RecordsScreen}
+        options={{
+          tabBarLabel: '내 기록',
+          tabBarIcon: ({ focused }) => <TabIcon label="👤" focused={focused} activeColor={t.accent} />,
         }}
       />
     </Tab.Navigator>

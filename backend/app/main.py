@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
-from app.api import debug, phase0, phase1, phase2, phase3, privacy
+from app.api import debug, phase0, phase1, phase2, phase3, privacy, walk
 
 
 @asynccontextmanager
@@ -44,6 +44,7 @@ app.include_router(phase2.router)
 app.include_router(phase3.router)
 app.include_router(privacy.router)
 app.include_router(debug.router)
+app.include_router(walk.router)
 
 
 @app.get("/dashboard", include_in_schema=False)
