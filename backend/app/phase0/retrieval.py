@@ -12,9 +12,8 @@ HAConvDR (Mo et al., Findings ACL 2024) 를 슬롯 선택 문제로 각색:
   ② 임팩트 기반 관련성 — 여기서는 온라인 heuristic (recency×coherence) 로 근사.
      라벨링된 eval 셋이 생기면 turn-impact 의사라벨로 교체 가능(TODO).
 
-임베더는 교체형 인터페이스. 실제로는 한국어 문장 임베더
-(예: nlpai-lab/KURE-v1, dragonkue/BGE-m3-ko) 를 붙인다. 키/모델 없이도
-파이프라인이 돌도록 결정적 해시 스텁을 기본 제공한다.
+임베더는 교체형 인터페이스. 실제로는 API 임베더(현재 Upstage)를 붙인다.
+키/모델 없이도 파이프라인이 돌도록 결정적 해시 스텁을 기본 제공한다.
 """
 
 from __future__ import annotations
@@ -69,10 +68,7 @@ class HashingEmbedder:
 
 
 class OpenAICompatEmbedder:
-    """OpenAI 호환 /embeddings 엔드포인트 임베더 (실동작용).
-
-    KT 믿음/기타 서빙이 embeddings 를 제공하면 settings 로 붙인다. 없으면
-    한국어 문장 임베더(KURE-v1, BGE-m3-ko 등)를 vLLM/TEI 로 띄워 이 형식으로 노출.
+    """OpenAI 호환 /embeddings 엔드포인트 임베더 (실동작용, 현재 Upstage).
 
     model_passage: query/passage 를 별도 모델로 받는 제공자(Upstage 등)용.
     비우면 model 을 그대로 양쪽에 쓴다(그런 구분이 없는 제공자와 하위호환).
@@ -109,20 +105,28 @@ class OpenAICompatEmbedder:
             data = json.loads(resp.read().decode("utf-8"))
         # 입력 순서 보장 위해 index 정렬
         rows = sorted(data["data"], key=lambda r: r["index"])
-        return [r["embedding"] for r in rows]
+        vecs = [r["embedding"] for r in rows]
+        # 정규화 — LocalSTEmbedder(normalize_embeddings=True)와 동일하게 맞춘다.
+        # Phase2 검색기(retriever.py)가 내적을 코사인으로 바로 쓰는 구조라, 여기서
+        # 정규화 안 하면 순위는 안 바뀌어도(질의마다 상수배) score 값이 진짜 코사인이 아니게 된다.
+        return [self._normalize(v) for v in vecs]
+
+    @staticmethod
+    def _normalize(v: list[float]) -> list[float]:
+        norm = sum(x * x for x in v) ** 0.5
+        return [x / norm for x in v] if norm else v
 
 
 class LocalSTEmbedder:
     """로컬 sentence-transformers 한국어 임베더 (자체완결, 오프라인).
 
-    embed_model 에 HF 모델명(예: jhgan/ko-sroberta-multitask, nlpai-lab/KURE-v1)을
-    주면 그 모델을 로드해 인코딩한다. 모델은 최초 1회 lazy 로드 후 캐시.
+    embed_model 에 HF 모델명을 주면 그 모델을 로드해 인코딩한다.
+    모델은 최초 1회 lazy 로드 후 캐시.
 
     **문장 임베딩도 캐시한다.** `build_history_aware_query` 가 매 턴 대화 히스토리
     전체를 다시 인코딩하는 구조라, 캐시가 없으면 N 턴 대화에서 인코딩이 N²/2 회로
-    늘어난다. KURE-v1(bge-m3, 2.2GB)로 바꾼 뒤 이 비용이 4배가 되어 긴 인터뷰에서
-    체감된다(2026-07-28 실측: 호출당 고정비 ~900ms). 같은 문장은 항상 같은 벡터라
-    캐시해도 결과는 비트 단위로 동일하다.
+    늘어난다. 로컬 임베더는 모델이 클수록 호출당 고정비가 커서 긴 인터뷰에서
+    체감된다. 같은 문장은 항상 같은 벡터라 캐시해도 결과는 비트 단위로 동일하다.
     """
 
     # 세션 하나가 남기는 턴 수의 수십 배 — 오래 뜬 프로세스에서 무한히 자라지 않게
@@ -239,11 +243,11 @@ _SLOT_INDEX = {s.key: i for i, s in enumerate(SLOTS)}
 #
 # 이 셋은 **코사인 유사도 절대값**이라 임베더에 종속된다. 임베더를 바꾸면
 # 유사도 분포가 통째로 이동하므로 값을 그대로 두면 가드가 조용히 무력화된다.
-# 실측 예: ko-sroberta 기준 COHERENCE_THRESHOLD=0.15 를 KURE 에 그대로 쓰면
-# 과거 턴을 **0% 잘라내** 디노이즈가 사실상 꺼진다(KURE 는 본론 턴끼리 코사인
-# 최솟값이 0.322). PIVOT_SIM=0.32 도 KURE 에선 100% 발동해 템플릿 모드가 죽는다.
+# 실측 예: 이전 임베더 기준 COHERENCE_THRESHOLD=0.15 를 그다음 임베더에 그대로
+# 쓰면 과거 턴을 **0% 잘라내** 디노이즈가 사실상 꺼진 사례가 있었다.
 #
-# 현재 값은 nlpai-lab/KURE-v1 기준 (2026-07-27 재보정, P1-1).
+# ⚠ 현재 값(2026-07-27 재보정, P1-1)은 이전 로컬 임베더 기준이다 — Upstage로
+#   전환하며 아직 재보정 전(예정 작업).
 #   보정 방법: 실제 대화에서 rank_next_slots 가 만든 융합 쿼리의 max-sim 분포를
 #   수집해, 정보성 턴은 살리고 무정보 턴("잘 모르겠어요" 등)은 거르는 지점을 택함.
 #   ⚠ 코퍼스 유사도로 대신 뽑으면 안 된다 — 융합 쿼리는 과거 턴 이어붙이기로
