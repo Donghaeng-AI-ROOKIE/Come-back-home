@@ -1523,7 +1523,7 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     )
 
     # ④ 축 점수 컴파일 — 기능 플래그(기본 off, 회의에서 B×P1 채택 시 켠다).
-    # 확정(보호자 "네") 이후에만 채점하며, 기본은 비동기: 채점(EXAONE 21회,
+    # 확정(보호자 "네") 이후에만 채점하며, 기본은 비동기: 채점(EXAONE 18회,
     # 실측 40초~1분)이 마지막 확인 응답을 막지 않게 등록을 먼저 저장하고
     # 점수는 백그라운드로 채운다. 실패는 리포트에만 남긴다(등록을 되돌리지 않음).
     from app.config import settings

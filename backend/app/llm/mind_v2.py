@@ -7,12 +7,13 @@
 어댑터를 재학습·재게이트해야 한다.
 
 확정 근거(전 과정): experiments/mind_tuning/결과_20260730_행동LoRA_게이트_8셀비교.md
-- 어댑터 = exaone-mind-v5 (행동 95%·goal 100%·치명 0, dev)
+- 어댑터 = **exaone-mind-dem3** (2026-08-04 치매 단독 재학습본으로 교체.
+  봉인 test 144회: 행동 98%·목표 89%·혼란도 88%·치명 0·어휘 밖 0).
+  종전 exaone-mind-v5 는 치매+발달장애 혼합 학습본이라 대상 축소와 함께 폐기.
+  **이 계약 문구는 dem 계열도 그대로 물려받았다** — 여기를 고치면 dem3 도 무효다.
 - RAG 는 마음 경로에서 제외 (형식 파괴·가짜 점수 실측)
 - guided decoding 은 JSON 구조·필수 필드만 강제 (한글 enum 문법 강제 금지 —
   xgrammar 가 UTF-8 바이트 단위로 컴파일해 출력 분포가 붕괴한다)
-- 혼란도 수치의 하류 소비는 규칙 산정으로 전환 예정(등록 챗봇 구조화 필드
-  필요 — 후속 PR). 그 전까지 LLM confusion 사용(봉인 test 92%).
 """
 from __future__ import annotations
 
