@@ -43,6 +43,10 @@ class Retriever:
         self._ok = False
         self._vecs = None
         self._meta: list[dict] = []
+        # embed_model: 불일치 감지용 비교값(현재 설정의 passage 모델 식별자)일 뿐,
+        # 실제로 어떤 임베더를 쓸지는 get_embedder()(전역 설정)가 결정한다 — API
+        # 임베더는 이름만으론 재구성 못 해서(base_url·키 필요) 예전처럼 인덱스에
+        # 적힌 이름으로 임베더를 새로 만드는 방식을 못 쓴다.
         self._model_name = embed_model
         self._embedder = None
         self._cache: dict[str, list[Passage]] = {}
@@ -67,15 +71,15 @@ class Retriever:
                 index_model = str(z["model"])
                 if self._model_name and self._model_name != index_model:
                     log.warning(
-                        "RAG 임베더 불일치 — 인덱스=%s, 설정=%s. 인덱스 쪽을 따른다.",
+                        "RAG 임베더 불일치 — 인덱스=%s, 설정=%s. 설정 쪽을 따른다 "
+                        "(재검색 결과가 인덱스 구축 당시와 달라질 수 있음).",
                         index_model, self._model_name)
-                self._model_name = index_model
 
-                from app.phase0.retrieval import LocalSTEmbedder
-                self._embedder = LocalSTEmbedder(self._model_name)
+                from app.phase0.retrieval import get_embedder
+                self._embedder = get_embedder()
                 self._ok = True
-                log.info("RAG 인덱스 로드 — 청크 %d개, 임베더 %s",
-                         len(self._meta), self._model_name)
+                log.info("RAG 인덱스 로드 — 청크 %d개, 인덱스 임베더=%s",
+                         len(self._meta), index_model)
             except Exception as e:  # noqa: BLE001 — 검색 실패가 예측을 막으면 안 됨
                 log.warning("RAG 인덱스 로드 실패 — 검색 비활성: %r", e)
                 self._ok = False
@@ -167,5 +171,9 @@ def get_retriever() -> Retriever | None:
     if _singleton is None:
         with _singleton_lock:
             if _singleton is None:
-                _singleton = Retriever(settings.rag_index_path, settings.embed_model)
+                # 인덱스는 passage(문서) 벡터라 비교도 passage 모델 기준으로.
+                _singleton = Retriever(
+                    settings.rag_index_path,
+                    settings.embed_model_passage or settings.embed_model,
+                )
     return _singleton

@@ -90,13 +90,16 @@ def test_같은_질의는_캐시에서_나온다(tmp_path):
     assert r.search("같은 질의") == first
 
 
-def test_임베더_불일치는_인덱스_쪽을_따른다(tmp_path, caplog):
-    """질의와 문서가 다른 모델이면 코사인이 의미를 잃는데 조용히 나빠지기만 한다."""
+def test_임베더_불일치는_설정_쪽을_따른다(tmp_path, caplog):
+    """API 임베더는 이름만으론 재구성 못 해(base_url·키 필요) — 인덱스가 아니라
+    항상 현재 설정(get_embedder())을 쓰고, 불일치는 경고만 남긴다."""
     idx = tmp_path / "i.npz"
     _write_index(idx, [("A", "가" * 300, [1.0, 0.0])], model="인덱스모델")
     r = Retriever(str(idx), "설정모델")
     assert r.available
-    assert r._model_name == "인덱스모델"
+    # 생성자에 준 값이 그대로 유지된다 — 인덱스 쪽 이름으로 덮어써지지 않음.
+    assert r._model_name == "설정모델"
+    assert "임베더 불일치" in caplog.text
 
 
 def test_빈_발췌는_블록을_만들지_않는다():
