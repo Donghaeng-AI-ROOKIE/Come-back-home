@@ -65,7 +65,7 @@ def main() -> int:
     ptype = PersonaType(args.persona)
     slots = slots_for(ptype)
     keys = [s.key for s in slots]
-    slot_embs = emb.encode([s.embed_text for s in slots])
+    slot_embs = emb.encode([s.embed_text for s in slots], role="passage")
 
     on, off = build_corpus(args.persona)
     print(f"### 임베더: {model}")

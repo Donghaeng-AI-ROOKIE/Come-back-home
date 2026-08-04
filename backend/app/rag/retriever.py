@@ -99,7 +99,7 @@ class Retriever:
         import numpy as np
 
         try:
-            qv = np.asarray(self._embedder.encode([query])[0], dtype="float32")
+            qv = np.asarray(self._embedder.encode([query], role="query")[0], dtype="float32")
         except Exception as e:  # noqa: BLE001
             log.warning("RAG 질의 임베딩 실패: %r", e)
             return []

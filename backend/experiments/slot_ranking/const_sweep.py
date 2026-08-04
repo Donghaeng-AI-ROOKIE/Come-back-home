@@ -69,14 +69,16 @@ class _Cached:
     def __init__(self, inner):
         self.inner, self.c, self.hit, self.miss = inner, {}, 0, 0
 
-    def encode(self, texts):
-        need = [t for t in texts if t not in self.c]
+    def encode(self, texts, role: str = "query"):
+        # 캐시 키에 role 포함 — API 임베더는 role별로 다른 모델(다른 벡터공간)을
+        # 쓰므로, 같은 텍스트라도 role이 다르면 값을 공유하면 안 된다.
+        need = [t for t in texts if (role, t) not in self.c]
         self.hit += len(texts) - len(need)
         self.miss += len(need)
         if need:
-            for t, v in zip(need, self.inner.encode(need)):
-                self.c[t] = v
-        return [self.c[t] for t in texts]
+            for t, v in zip(need, self.inner.encode(need, role=role)):
+                self.c[(role, t)] = v
+        return [self.c[(role, t)] for t in texts]
 
 
 def main() -> int:

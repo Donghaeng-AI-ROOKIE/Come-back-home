@@ -98,6 +98,10 @@ class Settings(BaseSettings):
     embed_base_url: str = ""
     embed_model: str = "nlpai-lab/KURE-v1"
     embed_api_key: str = ""
+    # API 임베더 중 query/passage 를 별도 모델로 받는 곳(예: Upstage embedding-query
+    # vs embedding-passage)용 — 비우면 embed_model 을 그대로 양쪽에 쓴다. 로컬
+    # 임베더(KURE 등)는 이 구분이 없어 무시된다.
+    embed_model_passage: str = ""
 
     # 축 채점 전용 모델 — 비우면 exaone_model 을 그대로 쓴다.
     #   2026-07-28 실측: 지식 주입 LoRA(exaone-sar)를 전역으로 쓰면 축 채점이
