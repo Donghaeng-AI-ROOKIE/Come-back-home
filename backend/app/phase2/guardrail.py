@@ -239,11 +239,18 @@ def sanitize_radius(raw_level, profile: LognormalParams) -> LognormalParams:
 CONFUSION_LEVELS = {"상": 0.85, "중": 0.6, "하": 0.35}
 STATUS_MAX_CHARS = 50
 
+# 계약 v2 의 닫힌 행동 어휘 — mind_v2._FP_RULES_V2 의 원문과 글자 단위로 같아야 한다
+# (다르면 모델 출력이 전부 어휘 밖으로 떨어져 조용히 버려진다).
+# goal_label 의 "실존 라벨만 인정"과 같은 원칙 — 어휘 밖은 미판정으로 버린다.
+BEHAVIORS = ("끌림점 접근", "귀소 시도", "은신·멈춤", "계속 배회")
+
 
 def sanitize_mind(data: dict, current: MindState, labels: list[str]) -> tuple[MindState, str | None]:
     """LLM 재해석 JSON → (검증된 MindState, 목표 끌림점 라벨 또는 None).
 
     goal_label 은 실존 끌림점 라벨일 때만 인정 — 지어낸 목적지 차단.
+    behavior 도 같은 원칙으로 닫힌 어휘만 인정하고, 어휘 밖이면 빈 문자열로 둔다.
+    보행에 실제로 반영할지는 시뮬레이션이 설정으로 결정한다 (여기서는 검증만).
     """
     status = data.get("status")
     status = status.strip()[:STATUS_MAX_CHARS] if isinstance(status, str) and status.strip() \
@@ -251,7 +258,9 @@ def sanitize_mind(data: dict, current: MindState, labels: list[str]) -> tuple[Mi
     confusion = CONFUSION_LEVELS.get(data.get("confusion_level"), current.confusion)
     goal = data.get("goal_label")
     goal = goal if isinstance(goal, str) and goal in labels else None
-    mind = MindState(status=status, confusion=confusion, changed=True)
+    behavior = data.get("behavior")
+    behavior = behavior if isinstance(behavior, str) and behavior in BEHAVIORS else ""
+    mind = MindState(status=status, confusion=confusion, changed=True, behavior=behavior)
     return mind, goal
 
 
