@@ -1,0 +1,7 @@
+# macOS Finder 메타파일 — 하위 패키지(frontend·dashboard·mind_tuning)에는 이미 있으나
+# backend/experiments 등 나머지 경로에서 매번 미추적으로 잡혀 저장소 전역으로 올린다.
+.DS_Store
+
+# 파인튜닝 임베딩 모델 가중치 — 용량이 커서(수백MB) git에 올리지 않음
+backend/axencoder-sar-ft.zip
+backend/axencoder-sar-ft/

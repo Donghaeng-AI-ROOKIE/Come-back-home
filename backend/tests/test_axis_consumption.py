@@ -83,26 +83,6 @@ def test_mobility_overrides_llm_radius_no_double_counting():
     assert prior.radius_lognormal.mu == pytest.approx(base.mu - 0.4)
 
 
-# ── 전략확률 틸트 (elopement_pattern_consistency, 발달장애 전용) ──────
-def test_elopement_pattern_sharpens_strategy_for_id_persona():
-    base = LognormalParams(mu=0.89, sigma=1.50)
-    persona = _persona(PersonaType.intellectual_disability)
-    prior = guardrail.apply_axis_scores(
-        _prior(), {"elopement_pattern_consistency": 0.9}, persona, base)
-    top = max(DEFAULT_STRATEGY, key=DEFAULT_STRATEGY.get)  # route_following (0.30, 최댓값)
-    assert prior.strategy_probs[top] > DEFAULT_STRATEGY[top]
-    assert abs(sum(prior.strategy_probs.values()) - 1.0) < 1e-9
-    assert all(v > 0 for v in prior.strategy_probs.values())  # ε-floor 유지(0 확률 금지 원칙)
-
-
-def test_elopement_pattern_ignored_for_dementia_persona():
-    base = LognormalParams(mu=0.095, sigma=1.48)
-    persona = _persona(PersonaType.dementia)
-    prior = guardrail.apply_axis_scores(
-        _prior(), {"elopement_pattern_consistency": 0.9}, persona, base)
-    assert prior.strategy_probs == DEFAULT_STRATEGY  # 치매엔 해당 없는 축(행동축 전용 매핑)
-
-
 # ── 끌림점가중치 틸트 ────────────────────────────────────────────────
 def test_autobiographical_pull_sharpens_attraction_for_dementia():
     base = LognormalParams(mu=0.095, sigma=1.48)
@@ -114,20 +94,13 @@ def test_autobiographical_pull_sharpens_attraction_for_dementia():
     assert abs(sum(prior.attraction_weights.values()) - 1.0) < 1e-9
 
 
-def test_preferred_target_seeking_sharpens_attraction_for_id():
-    base = LognormalParams(mu=0.89, sigma=1.50)
-    persona = _persona(PersonaType.intellectual_disability)
+def test_unknown_axis_leaves_attraction_weights_untouched():
+    """기준표에 없는 축 이름은 끌림점 가중치를 건드리지 않는다(오타·폐기 축 방어)."""
+    base = LognormalParams(mu=0.095, sigma=1.48)
+    persona = _persona(PersonaType.dementia)
     prior = guardrail.apply_axis_scores(
         _prior(), {"preferred_target_seeking": 0.9}, persona, base)
-    assert prior.attraction_weights["장소0"] > 0.55
-
-
-def test_autobiographical_pull_ignored_for_id_persona():
-    base = LognormalParams(mu=0.89, sigma=1.50)
-    persona = _persona(PersonaType.intellectual_disability)
-    prior = guardrail.apply_axis_scores(
-        _prior(), {"autobiographical_destination_pull": 0.9}, persona, base)
-    assert prior.attraction_weights == {"장소0": 0.55, "장소1": 0.45}  # 유형 불일치라 무변화
+    assert prior.attraction_weights == {"장소0": 0.55, "장소1": 0.45}
 
 
 def test_empty_attraction_weights_skipped_no_crash():

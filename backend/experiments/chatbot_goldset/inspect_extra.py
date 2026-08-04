@@ -1,7 +1,7 @@
 """과다추출 내용 확인 — LLM 이 골드에 없는 무엇을 더 뽑았는지 원문 그대로 찍는다.
 
 실행:  python -m experiments.chatbot_goldset.inspect_extra [id...] [--runs N]
-기본: G_D2_lee G_P2_seoyeon G_P3_minsu, 각 2회. 실 Mi:dm(키 있으면).
+기본: G_D1_kim G_D2_lee G_D3_choi, 각 2회. 실 Mi:dm(키 있으면).
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ def main() -> int:
         i = args.index("--runs")
         runs = int(args[i + 1])
         del args[i:i + 2]
-    ids = args or ["G_D2_lee", "G_P2_seoyeon", "G_P3_minsu"]
+    ids = args or ["G_D1_kim", "G_D2_lee", "G_D3_choi"]
 
     os.environ["AXIS_SCORING_ENABLED"] = "false"
     from fastapi.testclient import TestClient
@@ -35,21 +35,17 @@ def main() -> int:
         exp = sc_def.expected
         print("\n" + "═" * 72)
         print(f"▶ {sid} — {sc_def.title}")
-        print(f"  골드 끌림점: {exp.attraction_labels or '없음'} · "
-              f"선호: {exp.preferred_labels or '없음'}")
+        print(f"  골드 끌림점: {exp.attraction_labels or '없음'}")
         print(f"  골드 축: {exp.axis_fields}")
         for r in range(runs):
             tr = run_scenario(sc_def, client, verbose=False)
             sc = score(tr, sc_def)
             draft = [(a.get("label"), a.get("evidence"), a.get("area_text") or "지역없음")
                      for a in (tr.draft_attractions or [])]
-            prefs = [(p.get("label"), p.get("evidence"))
-                     for p in ((tr.persona or {}).get("preferred_targets") or [])]
             axes = sorted((tr.persona or {}).get("axis_evidence", {}).keys())
             extra = sc.details.get("extra", {})
             print(f"\n  [run {r+1}] 과다추출={sc.extra_extractions}")
             print(f"    수집 끌림점(라벨·evidence·지역): {draft or '—'}")
-            print(f"    수집 선호대상: {prefs or '—'}")
             print(f"    수집 축: {axes}")
             print(f"    ⚠ 골드 외 → 끌림점:{extra.get('끌림점') or '—'} · "
                   f"선호:{extra.get('선호') or '—'} · 축:{extra.get('축') or '—'}")

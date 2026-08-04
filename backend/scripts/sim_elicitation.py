@@ -5,8 +5,8 @@ retrieval.py 실코드로 돌려 확인한다. Mi:dm 문장화는 PHRASING 목�
 보호자 답변의 슬롯 충족(extraction)은 시나리오에 주석으로 스크립트한다
 (실제로는 Mi:dm 이 slot_filled 로 반환).
 
-축 고도화(2026-07) 반영: 슬롯 = 몸축·마음축·행동축 16개 카탈로그.
-시나리오 B 는 발달장애(자폐 포함) 케이스.
+축 고도화(2026-07) 반영: 슬롯 = 몸축·마음축·행동축 12개 카탈로그
+(2026-08-03 치매 단독 스코프 — 발달장애 4슬롯·시나리오 삭제).
 
 실행:  PYTHONPATH=. python3 scripts/sim_elicitation.py
 """
@@ -35,12 +35,6 @@ PHRASING: dict[str, tuple[str, str]] = {
     "dementia_wandering_pattern": (
         "과거에 길을 잃거나 실종되신 적이 있다면 어디에서 발견되셨나요?",
         "그때 '시장 근처에서 계속 걷고 계셨다'처럼 발견 당시 어떤 행동을 하고 계셨는지 알려주시겠어요?"),
-    "preferred_target_seeking": (
-        "보호자와 떨어져서라도 찾아가려 할 만큼 강하게 좋아하는 장소나 물건, 교통수단이 있나요?",
-        "그 대상 때문에 실제로 보호자와 떨어진 적이 있었는지, 주로 어디로 가는지 알려주시겠어요?"),
-    "elopement_pattern_consistency": (
-        "과거 이탈이나 실종에서 같은 장소, 경로, 교통수단 또는 행동이 반복됐나요?",
-        "'세 번 모두 같은 역 방향'처럼 반복된 장소나 노선이 있었는지 알려주시겠어요?"),
     "mobility_transport_capacity": (
         "평소 보호자 도움 없이 얼마나 오래, 얼마나 멀리 걸으실 수 있나요?",
         "'쉬지 않고 30분, 1km 정도'처럼 시간이나 거리로 알려주시겠어요? 버스·지하철은 혼자 타시나요?"),
@@ -60,12 +54,6 @@ PHRASING: dict[str, tuple[str, str]] = {
     "distress_induced_movement_reactivity": (
         "불안하거나 초조해지시면 이동 행동이 어떻게 달라지나요?",
         "그럴 때 도망가기·숨기·계속 걷기·멈추기 중 실제로 보신 행동은 무엇인가요?"),
-    "aversive_context_escape": (
-        "큰 소리나 사람 많은 곳처럼 불편한 상황이 되면 자리를 벗어나려 하나요?",
-        "그렇게 벗어나면 화장실이나 조용한 골목처럼 주로 가는 곳이 있나요?"),
-    "transition_routine_disruption": (
-        "예정된 일정이나 이동 경로가 바뀌면 어떤 행동을 보이나요?",
-        "그럴 때 멈춰 서나요, 원래 출발한 곳으로 되돌아가나요?"),
 }
 
 
@@ -128,17 +116,5 @@ DEMENTIA = [
     {"answer": "길 잃으면 절대 안 멈추고 계속 걸으세요. 한번 방향 잡으면 쭉 가요.", "fills": ["lost_behavior"]},
 ]
 
-DEVELOPMENTAL = [
-    {"answer": "아들 준호, 19살이요. 자폐성 발달장애예요.", "fills": ["identity"]},
-    {"answer": "강서구 화곡동 살아요.", "fills": ["home"]},
-    {"answer": "지하철을 정말 좋아해서 역만 보이면 혼자라도 들어가려고 해요.", "fills": []},
-    {"answer": "네, 5호선을 특히 좋아해요. 분수대 물 보는 것도 좋아해서 안양천 쪽으로도 가려고 해요.",
-     "fills": ["preferred_target_seeking"]},
-    {"answer": "사이렌이나 큰 소리 나면 귀 막고 화장실 같은 데로 숨어버려요.", "fills": ["aversive_context_escape"]},
-    {"answer": "복지관 하원 시간이 바뀌면 정류장에 그대로 서서 원래 버스를 기다려요.",
-     "fills": ["transition_routine_disruption"]},
-]
-
 if __name__ == "__main__":
     run("시나리오 A — 치매 어르신 (정릉동 김순자)", PersonaType.dementia, DEMENTIA)
-    run("시나리오 B — 발달장애 청년 (화곡동 19세)", PersonaType.intellectual_disability, DEVELOPMENTAL)

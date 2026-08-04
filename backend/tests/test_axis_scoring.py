@@ -44,25 +44,23 @@ def _resp(choice, quote="", reason="근거"):
 # ── 1) 기준표 로드·채점 축 집합 ─────────────────────────────────────
 
 def test_rubric_loads_all_axes_with_directions():
-    # 2026-07-17 축 구조 개정: route_environment_familiarity 제외로 10축(방향표는
-    # 관계변수 제외라 마찬가지로 10) — 공통3+치매3+발달4
+    # 축 구조: 공통3+치매3 = 6축 (2026-08-03 치매 단독 스코프로 발달 4축 삭제).
+    # route_environment_familiarity 는 관계 변수라 기준표에서 제외(2026-07-17 개정).
     rubrics, directions = axis_scoring.load_rubrics()
-    assert len(rubrics) == 10 and len(directions) == 10
+    assert len(rubrics) == 6 and len(directions) == 6
     assert "route_environment_familiarity" not in rubrics   # 관계 변수로 분리됨
     for r in rubrics.values():
         assert set(r["anchors"]) == {"0.1", "0.3", "0.5", "0.7", "0.9"}
 
 
-def test_scored_axes_dementia_six_developmental_seven():
-    # 치매: 공통3+특화3(길찾기·자전적기억·정서반응)=6, 발달: 공통3+특화4=7
+def test_scored_axes_dementia_six():
+    # 치매: 공통3(이동능력·위험인식·의사소통) + 특화3(길찾기·자전적기억·정서반응) = 6
     rubrics, _ = axis_scoring.load_rubrics()
     dem = axis_scoring.scored_axes(PersonaType.dementia, rubrics)
-    dd = axis_scoring.scored_axes(PersonaType.intellectual_disability, rubrics)
-    assert len(dem) == 6 and len(dd) == 7
+    assert len(dem) == 6
     # 관찰 지표(점수 없음)·경로 관계변수는 기준표에 없어 자동 제외
     assert "lost_behavior" not in dem and "dementia_wandering_pattern" not in dem
     assert "route_environment_familiarity" not in dem
-    assert "elopement_pattern_consistency" in dd   # 행동축이지만 채점 대상
 
 
 # ── 2) 다수결·중앙값·F ──────────────────────────────────────────────

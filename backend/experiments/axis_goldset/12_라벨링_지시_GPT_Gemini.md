@@ -33,10 +33,6 @@
 - wayfinding_error_recovery_deficit: 길찾기·복귀 손상 심함 (취약)
 - autobiographical_destination_pull: 과거 장소 지향이 실종과 반복 연결 (강함)
 - distress_induced_movement_reactivity: 불안이 실제 이탈로 전환됨 (강함)
-- preferred_target_seeking: 선호 대상이 실종과 반복 연결 (강함)
-- aversive_context_escape: 회피가 실제 이탈로 전환됨 (강함)
-- transition_routine_disruption: 전환 상황이 실종과 반복 연결 (취약)
-- elopement_pattern_consistency: 이탈 패턴 고착 (개인화 가중 — 위험 크기보다 예측력)
 
 # 기준표 (A=0.1 / B=0.3 / C=0.5 / D=0.7 / E=0.9)
 
@@ -82,36 +78,6 @@ C 불안·의심 시 걷기 증가·자리 이동·출입구 접근이 가끔 �
 D 불안·초조·망상 상황에서 도주·숨기·반복보행·외출 시도 등 뚜렷한 이동 변화
 E 불안·망상·공포로 실제 이탈·실종이 발생했거나 같은 반응이 반복 확인됨
 
-## preferred_target_seeking
-A 선호 대상 때문에 이동 방향을 바꾼 적이 거의 없음 (관련 이력 자체가 없으면 F)
-B 관심을 보이지만 보호자 범위를 벗어나지는 않음
-C 선호 대상으로 이동하거나 보호자와 분리된 경험이 있음
-D 특정 대상을 향해 반복적으로 이탈함
-E 실제 실종이 동일한 선호 대상과 반복적으로 연결됨
-
-## aversive_context_escape
-A 불편 자극·상황이 이동에 거의 영향을 주지 않음 (관련 이력 자체가 없으면 F)
-B 불편을 표현하지만 장소를 벗어나지는 않음
-C 특정 상황에서 자리를 피하거나 이동함
-D 불편 상황에서 실제로 보호자 범위를 벗어난 적이 1회 있음
-E 같은 회피 상황에서 실제 이탈이 2회 이상 반복됨
-
-## transition_routine_disruption
-A 일정·장소 변화에 비교적 잘 적응 (관련 이력 자체가 없으면 F)
-B 변화 시 불안하지만 이동 통제가 가능
-C 전환 상황에서 멈춤·거부·되돌아감이 발생
-D 루틴 변화 시 보호자와 분리되거나 이탈한 적이 1회 있음
-E 특정 전환 상황에서 실종·이탈이 2회 이상 반복됨
-
-## elopement_pattern_consistency
-A 이탈 장소·계기·경로가 매번 다름 (관련 이력 자체가 없으면 F)
-B 일부 유사한 행동이 있으나 일관성이 낮음
-C 비슷한 장소나 계기가 반복됨
-D 동일한 목적지·경로·행동이 여러 번 반복됨
-E 실제 실종에서 거의 동일한 패턴이 반복적으로 확인됨
-
-# 채점 대상 (축: 근거 발화)
-
 ## D1 (치매, 74세)
 mobility_transport_capacity: 매일 약수터까지 왕복 한 시간 넘게 걷고, 시내버스도 노선 아시는 건 혼자 타세요
 hazard_awareness_vulnerability: 신호랑 횡단보도는 꼬박꼬박 지키시고 물가나 공사장은 알아서 피하세요
@@ -152,51 +118,6 @@ wayfinding_error_recovery_deficit: 익숙한 데서도 가끔 목적지를 헷�
 autobiographical_destination_pull: 가끔 시장 가야 한다고 그 방향으로 가시려 한 적은 있어요
 distress_induced_movement_reactivity: 불안하면 걷기가 늘고 출입구 쪽으로 가실 때가 가끔 있어요
 
-## P1 (발달장애, 19세)
-mobility_transport_capacity: 익숙한 버스는 혼자 타고 복지관까지 잘 다녀와요
-hazard_awareness_vulnerability: 신호랑 횡단보도 잘 지키고 위험한 데는 알아서 피해요
-communication_approach_vulnerability: 이름이랑 다니는 복지관 이름 말하고 도움도 받을 수 있어요
-preferred_target_seeking: 좋아하는 건 있어도 그거 따라 어디 가버린 적은 없어요
-aversive_context_escape: 시끄러우면 싫어하지만 자리를 벗어나진 않아요
-transition_routine_disruption: 조금 당황해도 금방 적응하는 편이에요
-elopement_pattern_consistency: 벗어난 적이 거의 없어서 딱히 패턴이랄 게 없어요
-
-## P2 (발달장애, 23세)
-mobility_transport_capacity: 혼자선 집 앞 정도만 가능하고 길게는 못 걸어요
-hazard_awareness_vulnerability: 차도로 뛰어든 적이 있고 물가도 위험한 줄 몰라요
-communication_approach_vulnerability: 이름도 못 말하고 다가오면 밀치고 도망가요
-preferred_target_seeking: 기차만 보면 무조건 따라가고 실종될 때마다 기차역에서 찾아요
-aversive_context_escape: 큰 소리 나면 그 자리에서 뛰쳐나가 없어진 적이 여러 번이에요
-transition_routine_disruption: 갑자기 바뀌면 주저앉거나 반대로 확 나가버려서 몇 번 잃어버렸어요
-elopement_pattern_consistency: 나갈 때마다 거의 같은 길로 같은 기차역에 가 있어요
-
-## P3 (발달장애, 17세)
-mobility_transport_capacity: 동네 안에서 30분 정도는 혼자 다니는데 대중교통은 혼자 못 타요
-hazard_awareness_vulnerability: 위험한 건 일부 알지만 확인이 필요해요
-communication_approach_vulnerability: 이름은 말하는데 자세한 설명은 어렵고 상황 봐야 해요
-preferred_target_seeking: 게임 오락실만 보이면 무조건 그리로 가고 실종될 때마다 오락실에서 찾아요
-aversive_context_escape: 싫은 소리 나도 자리를 벗어나진 않아요
-transition_routine_disruption: 바뀌어도 불안해하는 정도지 통제는 돼요
-elopement_pattern_consistency: 나가는 계기가 매번 달라서 일정하진 않아요
-
-## P4 (발달장애, 21세)
-mobility_transport_capacity: 익숙한 길은 혼자 걷는데 대중교통은 혼자 못 타요
-hazard_awareness_vulnerability: 기본적인 위험은 아는데 낯선 데선 판단이 흔들려요
-communication_approach_vulnerability: 이름 부르면 반응하는데 낯선 사람 도움 받을진 불확실해요
-preferred_target_seeking: 좋아하는 게 있어도 그것 때문에 이탈한 적은 없어요
-aversive_context_escape: 사람 많고 시끄러우면 그 자리를 못 견디고 뛰쳐나가 없어진 적이 두세 번 있어요
-transition_routine_disruption: 바뀌면 불안해하는데 자리를 뜨진 않아요
-elopement_pattern_consistency: 없어질 때마다 늘 같은 공원 같은 벤치에 가 있어요
-
-## P5 (발달장애, 20세)
-mobility_transport_capacity: 생활권 안에서 30분쯤 혼자 다니고 대중교통은 혼자 어려워요
-hazard_awareness_vulnerability: 위험을 일부 알지만 반복해서 알려주고 확인해야 해요
-communication_approach_vulnerability: 이름 반응이 일관되지 않고 도움을 받을지 불확실해요
-preferred_target_seeking: 좋아하는 편의점 쪽으로 가려다 보호자랑 떨어진 적이 있어요
-aversive_context_escape: 특정 상황에서 자리를 피하거나 이동한 적이 있어요
-transition_routine_disruption: 전환 상황에서 멈춤·거부·되돌아감이 발생함
-elopement_pattern_consistency: 비슷한 장소나 계기가 반복되는 편이에요
-
 ## DAL (치매, 76세)
 mobility_transport_capacity: 동네 안에서 30분 정도 혼자 걷고 버스는 혼자 못 타세요
 hazard_awareness_vulnerability: 일부는 아시는데 옆에서 확인해줘야 해요
@@ -213,32 +134,11 @@ wayfinding_error_recovery_deficit: 익숙한 데서도 가끔 목적지를 헷�
 autobiographical_destination_pull: 옛집 있던 신수동에 가야 한다며 몇 번이나 혼자 나가셨고 지난 실종 때도 신수동에서 찾았어요
 distress_induced_movement_reactivity: 불안하면 서성이는 정도고 크게 벗어나진 않아요
 
-## PAL (발달장애, 18세)
-mobility_transport_capacity: 생활권 안에서 30분쯤 혼자 다니고 대중교통은 혼자 어려워요
-hazard_awareness_vulnerability: 위험을 일부 알지만 확인이 필요해요
-communication_approach_vulnerability: 이름 반응이 일관되지 않고 도움 받을지 불확실해요
-aversive_context_escape: 특정 상황에서 자리를 피하거나 이동한 적이 있어요
-transition_routine_disruption: 전환 상황에서 멈추거나 거부하고 되돌아가려 해요
-elopement_pattern_consistency: 비슷한 장소나 계기가 반복되는 편이에요
-preferred_target_seeking: 좋아하는 게 있어도 그것 때문에 따라가 이탈한 적은 없어요
-
-## PAH (발달장애, 18세)
-mobility_transport_capacity: 생활권 안에서 30분쯤 혼자 다니고 대중교통은 혼자 어려워요
-hazard_awareness_vulnerability: 위험을 일부 알지만 확인이 필요해요
-communication_approach_vulnerability: 이름 반응이 일관되지 않고 도움 받을지 불확실해요
-aversive_context_escape: 특정 상황에서 자리를 피하거나 이동한 적이 있어요
-transition_routine_disruption: 전환 상황에서 멈추거나 거부하고 되돌아가려 해요
-elopement_pattern_consistency: 비슷한 장소나 계기가 반복되는 편이에요
-preferred_target_seeking: 놀이터만 보이면 무조건 그리로 달려가고 실종될 때마다 놀이터에서 찾아요
-
-# 출력 형식 (이 형식만, 다른 말 없이)
-각 대상자마다 아래처럼. CHOICE는 A~F, quote는 근거 발화(F면 빈칸).
-
 ## D1 (dementia)
 mobility_transport_capacity: D | 매일 약수터까지 왕복 한 시간 넘게 걷고...
 hazard_awareness_vulnerability: A | 신호랑 횡단보도는 꼬박꼬박...
 ...(그 대상자의 모든 축)
 
-(대상자 14명: D1~D5, P1~P5, DAL, DAH, PAL, PAH. 치매는 6축, 발달장애는 7축.)
+(대상자 7명: D1~D5, DAL, DAH. 치매 6축.)
 
 === 프롬프트 끝 ===

@@ -3,14 +3,14 @@
 마음 단독 평가: 입력 페르소나를 (추출이 아니라) 골드 라벨 + 대본 답변으로 구성해
 추출 오류와 마음 오류를 분리한다. (E2E 평가는 별도 — Phase 0 통과본으로 실행)
 
-기본은 dev(G01~G08)만 실행한다. test(G09~G20)는 봉인 — `--split test --unseal` 을
+기본은 dev(G01~G04)만 실행한다. test(G09~G14)는 봉인 — `--split test --unseal` 을
 명시해야 돌고, 실행 사실이 results/test_usage.log 에 기록된다(README 봉인 규칙).
 
 채점:
   goal:      allowed 적중률 / forbidden 위반(치명) / 중립(등재됐으나 allowed 밖)
   confusion: confusion_range 안 비율
-  서사:      발달 시나리오에서 치매 서사(regex) = forbidden_narratives 위반
-  (expected_relation·대조쌍은 test 전용 — G09/G10·G15/G16 쌍 비교로 채점)
+  (expected_relation·대조쌍은 test 전용 — G09/G10 쌍 비교로 채점)
+  (발달 시나리오 대비 '치매 서사 오염' 검정은 2026-08-03 치매 단독 스코프로 폐기)
 
 실행: cd backend && .venv/bin/python experiments/mind_goldset/eval_mind_goldset.py --n 4
 """
@@ -37,14 +37,12 @@ RESULTS = HERE / "results"
 _EV_W = {"previous_missing_found": 0.9, "caregiver_report": 0.5, "mention_only": 0.3}
 _STRATEGY = {"route_following": 0.3, "direction_keeping": 0.15, "random_walk": 0.15,
              "backtracking": 0.1, "staying_put": 0.1, "landmark_seeking": 0.2}
-_DEM_NARRATIVE = re.compile(r"치매|time.?shift|옛집|과거로 착각|그 시절")
 _P = {"lat": 37.55, "lng": 127.0}
 GAUGES = {
     "A_귀소": "집을 나선 지 90분 경과. 피로도: 중간, 혼란도: 중간, 귀소 충동: 높음, 불안: 낮음. 방금 귀소 게이지가 임계를 넘었다.",
     "B_불안": "집을 나선 지 60분 경과. 피로도: 중간, 혼란도: 중간, 귀소 충동: 낮음, 불안: 높음. 방금 불안 게이지가 임계를 넘었다.",
 }
 
-_DEM_IDS = {f"G{i:02d}" for i in list(range(1, 5)) + list(range(9, 15))}
 _BEHAVIORS = {"끌림점 접근", "귀소 시도", "은신·멈춤", "계속 배회"}  # v1.1 닫힌 어휘
 
 
@@ -70,9 +68,9 @@ def load_scenario_answers() -> dict[str, list[str]]:
 
 
 def persona_for(gid: str, gold: dict, answers: list[str]) -> Persona:
-    ptype = PersonaType.dementia if gid in _DEM_IDS else PersonaType.intellectual_disability
+    ptype = PersonaType.dementia
     return Persona(
-        id=f"gold-{gid}", name="(골드)", age=78 if ptype == PersonaType.dementia else 19,
+        id=f"gold-{gid}", name="(골드)", age=78,
         type=ptype, home=GeoPoint(**_P),
         attraction_points=[AttractionPoint(label=a["label"], location=GeoPoint(**_P),
                                            weight=_EV_W[a["evidence"]], evidence=a["evidence"])
@@ -141,7 +139,6 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
                 else:
                     verdict = "neutral"
                 conf_ok = lo <= mind.confusion <= hi
-                narr_bad = bool(gid not in _DEM_IDS and _DEM_NARRATIVE.search(raw or mind.status or ""))
                 # 행동 채점 (계약 v2) — raw 의 behavior 필드를 v1.1 라벨과 대조.
                 # v1 출력에는 behavior 가 없으므로 "없음"으로 남는다.
                 behavior, b_verdict = None, None
@@ -159,7 +156,7 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
                             b_verdict = "neutral"
                 rows.append(dict(gid=gid, situation=sk, rep=i, ok=ok, goal=goal,
                                  verdict=verdict, conf=mind.confusion, conf_ok=conf_ok,
-                                 narr_bad=narr_bad, behavior=behavior, b_verdict=b_verdict,
+                                 behavior=behavior, b_verdict=b_verdict,
                                  status=mind.status, raw=raw))
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -172,7 +169,6 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
     fails = len(rows) - len(okr)
     v = collections.Counter(r["verdict"] for r in okr)
     conf_in = sum(1 for r in okr if r["conf_ok"])
-    narr = sum(1 for r in okr if r["narr_bad"])
     lines = [f"# 골드셋 평가 [{split}] — {ts}",
              f"모델 {client.model} · variant={variant} · n={n}/상황 · "
              f"유효 {len(okr)}/{len(rows)} (호출실패 {fails})", "",
@@ -180,7 +176,7 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
              f"- goal FORBIDDEN 위반(치명): {v.get('FORBIDDEN', 0)}건",
              f"- goal 중립(등재됐으나 비권장): {v.get('neutral', 0)}건",
              f"- confusion 범위 내: {conf_in}/{len(okr)} = {conf_in / max(1, len(okr)):.0%}",
-             f"- 발달 시나리오 치매서사 위반: {narr}건", ""]
+             ""]
     bv = collections.Counter(r["b_verdict"] for r in okr if r["b_verdict"])
     if bv:
         bt = sum(bv.values())

@@ -29,7 +29,6 @@ from app.schemas.persona import PersonaType
 
 _TYPE_LABEL = {
     PersonaType.dementia: "치매 어르신",
-    PersonaType.intellectual_disability: "지적장애가 있는 분",
 }
 
 
@@ -62,9 +61,8 @@ evidence — 그 장소가 왜 중요한지의 근거 강도. 위에서부터 �
 
 반드시 아래 JSON 하나만 출력:
 {
-  "fields": {},               // name/age/type/home 중 이번 답에서 확인된 것만. type ∈ {dementia,intellectual_disability}
+  "fields": {},               // name/age/home 중 이번 답에서 확인된 것만
   "attraction_points": [],    // [{"label":"옛 직장","area_text":"면목동","place_type":"workplace","evidence":"previous_missing_found"}] 좌표로 특정 가능한 장소 단서
-  "preferred_targets": [],    // [{"label":"지하철","target_type":"transport","evidence":"caregiver_report"}] 특정 장소가 아닌 카테고리 선호(지하철·자동문·편의점류). 특정 장소면 attraction_points 로.
   "behavior_notes": [],       // ["길 잃으면 계속 걷는 편"] 관찰된 행동 사실(짧게)
   "slot_filled": false        // 아래 지정된 슬롯의 '충족 기준'을 이 답이 만족하면 true
 }
@@ -200,11 +198,10 @@ def parse_extract(raw: str) -> dict:
     try:
         data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
     except (ValueError, json.JSONDecodeError):
-        return {"fields": {}, "attraction_points": [], "preferred_targets": [],
+        return {"fields": {}, "attraction_points": [],
                 "behavior_notes": [], "slot_filled": False}
     data.setdefault("fields", {})
     data.setdefault("attraction_points", [])
-    data.setdefault("preferred_targets", [])
     data.setdefault("behavior_notes", [])
     data.setdefault("slot_filled", False)
     return data

@@ -3,7 +3,7 @@
 실행(backend 에서):
   python -m experiments.chatbot_goldset.evaluate --runs 3          # 실 Mi:dm(기본)
   python -m experiments.chatbot_goldset.evaluate --stub            # 배관 확인용
-  python -m experiments.chatbot_goldset.evaluate --runs 3 --scenario G_P1_junho
+  python -m experiments.chatbot_goldset.evaluate --runs 3 --scenario G_D1_kim
 
 성능은 **수집률**로 읽는다(지오코딩 혼입 회피). 저신호 시나리오(D3·D4·P4)는
 **과다추출**(골드 외 추출 = 환각)이 핵심 지표. 각 설정 N회 평균으로 Mi:dm 노이즈를 줄인다.
@@ -65,7 +65,6 @@ def main() -> int:
             "type": sc_def.persona_type,
             "done": _mean([1.0 if c.done else 0.0 for c in cards]),
             "collection": _mean([c.collection_recall for c in cards]),
-            "preferred": _mean([c.preferred_recall for c in cards]),
             "evidence": _mean([c.evidence_accuracy for c in cards]),
             "axis": _mean([c.axis_coverage for c in cards]),
             "extra": _mean([float(c.extra_extractions) for c in cards]),
@@ -78,14 +77,13 @@ def main() -> int:
     print("\n" + "═" * 92)
     print("골드셋 성능 (시나리오별, N회 평균) — 수집률로 읽음, 과다추출=환각 지표")
     print("═" * 92)
-    print(f"{'시나리오':14} {'유형':6} {'종료':>5} {'수집':>6} {'선호':>6} "
+    print(f"{'시나리오':14} {'유형':6} {'종료':>5} {'수집':>6} "
           f"{'evidence':>9} {'축':>6} {'과다추출':>7} {'이름':>5} {'나이':>5}")
     print("─" * 92)
     for sid in ids:
         p = per[sid]
-        t = "치매" if p["type"] == "dementia" else "발달"
-        print(f"{sid:14} {t:6} {_pct(p['done']):>5} {_pct(p['collection']):>6} "
-              f"{_pct(p['preferred']):>6} {_pct(p['evidence']):>9} {_pct(p['axis']):>6} "
+        print(f"{sid:14} {'치매':6} {_pct(p['done']):>5} {_pct(p['collection']):>6} "
+              f"{_pct(p['evidence']):>9} {_pct(p['axis']):>6} "
               f"{p['extra']:>7.1f} {_pct(p['name_ok']):>5} {_pct(p['age_ok']):>5}")
     print("─" * 92)
 
@@ -94,24 +92,18 @@ def main() -> int:
         return {
             "done": _mean([per[s]["done"] for s in subset]),
             "collection": _mean([per[s]["collection"] for s in subset]),
-            "preferred": _mean([per[s]["preferred"] for s in subset]),
             "evidence": _mean([per[s]["evidence"] for s in subset]),
             "axis": _mean([per[s]["axis"] for s in subset]),
             "extra": _mean([per[s]["extra"] for s in subset]),
         }
 
-    dem = [s for s in ids if per[s]["type"] == "dementia"]
-    dev = [s for s in ids if per[s]["type"] != "dementia"]
-    for label, subset in (("전체", ids), ("치매", dem), ("발달", dev)):
-        if not subset:
-            continue
-        a = agg(subset)
-        print(f"{label:14} {'':6} {_pct(a['done']):>5} {_pct(a['collection']):>6} "
-              f"{_pct(a['preferred']):>6} {_pct(a['evidence']):>9} {_pct(a['axis']):>6} "
-              f"{a['extra']:>7.1f}")
+    a = agg(ids)
+    print(f"{'전체':14} {'':6} {_pct(a['done']):>5} {_pct(a['collection']):>6} "
+          f"{_pct(a['evidence']):>9} {_pct(a['axis']):>6} "
+          f"{a['extra']:>7.1f}")
     print("═" * 92)
-    print("수집=골드 끌림점 재현율 · 선호=선호대상 재현율 · evidence=근거등급 정확도(수집분 기준)")
-    print("축=골드 축근거 커버리지 · 과다추출=골드에 없는 추출 평균(저신호 D3/D4/P4 는 0 이 목표)")
+    print("수집=골드 끌림점 재현율 · evidence=근거등급 정확도(수집분 기준)")
+    print("축=골드 축근거 커버리지 · 과다추출=골드에 없는 추출 평균(저신호 D3/D4 는 0 이 목표)")
     return 0
 
 

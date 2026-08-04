@@ -105,3 +105,10 @@ python -m experiments.chatbot_eval.run_eval --real --sweep \
 - 프로브: `PROBE_sparse`(희소응답 → 무지소진·부정충족·여부먼저 자극), `PROBE_rich`(풍부/드리프트 → 전제·중복·grounding 자극).
 - 지표: 질문수·중복·전제Q·부정조건Q 가 OFF 시 오르면 그 가드가 실효.
 - **--runs 3+ 필수**: 단일 실행은 Mi:dm 비결정성 노이즈(±1~2질문)에 지배돼 작은 효과를 못 가른다.
+
+## ⚠ 2026-08-03 치매 단독 스코프 전환
+
+발달장애 시나리오(DD1~DD3·DD_sparse·DD_rich)를 `scenarios.py` 에서 삭제했다(원본은 git 이력).
+위 "발달 가드 스윕" 절의 수치와 `results/dd_sweep_20260728.log` 는 **삭제 전 구성**에서
+나온 측정값이며, 지금 하네스로는 재현되지 않는다 — 가드 실효성 판단의 근거로 인용할 때
+이 사실을 함께 밝힌다.

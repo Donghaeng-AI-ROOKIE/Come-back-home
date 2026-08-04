@@ -42,9 +42,6 @@ _STRATEGY_MIX = {  # 통계 프로파일 (exaone._STRATEGY_PRIORS 와 동일 값
     PersonaType.dementia: {"route_following": 0.30, "direction_keeping": 0.25,
                            "random_walk": 0.15, "backtracking": 0.05,
                            "staying_put": 0.10, "landmark_seeking": 0.15},
-    PersonaType.intellectual_disability: {"route_following": 0.25, "direction_keeping": 0.20,
-                                          "random_walk": 0.15, "backtracking": 0.10,
-                                          "staying_put": 0.15, "landmark_seeking": 0.15},
 }
 
 
@@ -67,7 +64,7 @@ def make_prior(ptype: PersonaType, with_attraction: bool,
 
 SCENARIOS = [
     ("치매 78세", make_persona(PersonaType.dementia, 78, True)),
-    ("ID 14세", make_persona(PersonaType.intellectual_disability, 14, True)),
+    ("치매 84세", make_persona(PersonaType.dementia, 84, True)),
     ("치매 78세·끌림점없음", make_persona(PersonaType.dementia, 78, False)),
 ]
 

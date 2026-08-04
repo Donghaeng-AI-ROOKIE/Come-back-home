@@ -18,7 +18,6 @@ from pathlib import Path
 
 ROOTS = (
     Path("/Users/damisoda/Downloads/치매"),
-    Path("/Users/damisoda/Downloads/발달장애"),
 )
 HERE = Path(__file__).resolve().parent
 
@@ -78,7 +77,7 @@ def discover() -> list[Paper]:
     papers = []
     for index, path in enumerate(paths, 1):
         parts = [nfc(x) for x in path.parts]
-        population = "dementia" if "치매" in parts else "developmental_disability"
+        population = "dementia"   # 코퍼스는 치매 단독 (2026-08-03)
         region = "domestic" if "국내" in parts else "international"
         title = nfc(path.stem)
         m = re.match(r"^\[([^\]]+)\]", title)

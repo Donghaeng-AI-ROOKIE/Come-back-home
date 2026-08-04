@@ -80,8 +80,7 @@ def test_vmax_is_walk_only_regardless_of_mobility_score():
     assert radius.vmax_kmh(_persona()) == V_WALK                 # 축 없음 → 도보
     assert radius.vmax_kmh(_persona(mobility_transport_capacity=0.5)) == V_WALK
     assert radius.vmax_kmh(_persona(mobility_transport_capacity=0.9)) == V_WALK
-    assert radius.vmax_kmh(
-        _persona(PersonaType.intellectual_disability)) == settings.reach_vmax_id_kmh
+    assert radius.vmax_kmh(_persona(PersonaType.dementia)) == settings.reach_vmax_dementia_kmh
 
 
 # ── 절단 표집 ────────────────────────────────────────────────────────

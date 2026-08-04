@@ -9,8 +9,13 @@ from app.schemas.common import GeoPoint
 
 
 class PersonaType(str, Enum):
+    """대상 유형 — 치매 단독 스코프(2026-08-03 팀 결정).
+
+    본선 방향 확정으로 대상을 치매 실종자 하나로 좁혔다. enum 을 유지하는 이유는
+    저장 데이터·API 계약(`type: "dementia"`)의 하위호환과, 유형별 상수 테이블
+    (Koester 프로파일·보행속도·피로배수)의 조회 키가 이미 이 타입이기 때문이다.
+    """
     dementia = "dementia"                          # 치매 노인
-    intellectual_disability = "intellectual_disability"  # 지적장애인
 
 
 class AttractionEvidence(str, Enum):
@@ -73,18 +78,6 @@ class AttractionPoint(BaseModel):
         return data
 
 
-class PreferredTarget(BaseModel):
-    """발달장애 선호 대상 중 좌표로 특정되지 않는 카테고리 선호 — '지하철', '자동문' 등.
-
-    좌표가 특정되는 대상(단골 역)은 attraction_points 경로로 간다. 카테고리 선호는
-    지오코딩이 불가능하므로 여기 저장했다가 Phase 2 에서 LKP 주변의 해당 카테고리
-    POI 만 매칭한다 (회의록: 모든 지하철역 일괄 가중치 금지, 등록된 대상만 반영).
-    """
-    label: str            # "지하철", "자동문", "편의점" 등 보호자 표현
-    target_type: str = "" # transport/facility/sensory/person/activity (LLM 분류, 자유)
-    evidence: AttractionEvidence = AttractionEvidence.mention_only
-
-
 class RouteFamiliarity(BaseModel):
     """경로·환경 익숙함 — 사람이 아니라 (사람, 경로) 쌍의 속성이라 axis_scores 와
     분리된 장소별 관계 변수 (축 방향 개정, 2026-07-17: app/phase0/axis_rubric.md 참고).
@@ -115,8 +108,6 @@ class Persona(BaseModel):
     home: GeoPoint
     attraction_points: list[AttractionPoint] = []
     behavior_notes: list[str] = []   # "해질녘에 옛 직장 방향으로 걷는 습관" 등 인터뷰 추출 사실
-    # 카테고리 선호 (발달장애) — 좌표화 불가 대상. Phase 2 가 LKP 주변 POI 매칭에 사용.
-    preferred_targets: list[PreferredTarget] = []
     # 축별 근거 — {축 DB 필드명(slots.SlotSpec.axis_field): 관찰 사실 노트}.
     # 인터뷰가 수집한 사실을 몸축·마음축·행동축 필드로 묶어둔 것. 이후 축 점수
     # (0.1~0.9) 컴파일 단계의 입력이 된다. behavior_notes 의 부분집합 재구성이라
@@ -162,7 +153,6 @@ class InterviewSession(BaseModel):
     # 누적 추출 (종료 시 Persona 로 변환)
     draft_fields: dict = {}                       # name/age/home
     draft_attractions: list[dict] = []            # [{"label","area_text","place_type","evidence"}]
-    draft_preferred: list[dict] = []              # [{"label","target_type","evidence"}] 좌표화 불가 선호
     draft_behaviors: list[str] = []
     # 어느 슬롯을 겨냥했을 때 나온 노트인지 — {slot_key: [노트...]}.
     # finalize 에서 슬롯의 axis_field 로 묶어 Persona.axis_evidence 가 된다.

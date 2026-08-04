@@ -203,8 +203,8 @@ sequenceDiagram
 #### 슬롯 카탈로그
 
 - 전체 16개 슬롯이다.
-- 공통 8개, 치매 특화 4개, 발달장애 특화 4개이다.
-- 지원 Persona 유형은 치매와 지적장애 두 종류이며, 아동 Persona는 PR #47에서 제거됐다.
+- 공통 8개, 치매 특화 4개이다.
+- 지원 Persona 유형은 치매 하나다. 아동 Persona는 PR #47에서, 발달장애 Persona는 2026-08-03 대상 단일화 결정으로 제거됐다.
 - 각 슬롯은 `axis`, `axis_field`, `tier`, `sink`, `question`, `probes`, `filled_when`, `why`, `keywords`, `risk`, `answer_example`을 가진다.
 - 저장 대상은 기본 필드, 좌표화할 끌림점, 행동·축 근거로 구분한다.
 
@@ -262,7 +262,6 @@ score = similarity + tier_bonus + gated_risk - asked_penalty
 3. 결과 정밀도는 `poi > address > dong > approx > unknown` 순으로 관리한다.
 4. 같은 장소가 다시 언급되면 근거를 `mention_only → caregiver_report → previous_missing_found` 방향으로만 승격한다.
 4-1. `AttractionPoint.weight`는 명시하지 않으면 evidence 계수(`0.9` / `0.5` / `0.3`)로 채워진다(스키마 검증자). 이 값은 Phase 2에서 EXAONE 등급과 곱셈 병합된다.
-5. “지하철”, “자동문”처럼 특정 좌표가 아닌 선호는 `preferred_targets`로 저장하고 Phase 2에서 LKP 주변 POI와 매칭한다.
 
 ### 4.5 축 점수와 경로 익숙함 컴파일
 
@@ -281,8 +280,7 @@ flowchart LR
     RQV --> RFS["Persona.route_familiarity"]
 ```
 
-- 치매는 기준표가 있는 6개 축, 발달장애는 7개 축을 채점한다(기준표 총 10축, 코드로 확인).
-- 기준표는 2026-07-21에 발달 4축 세 항목이 보완됐다(PR #60): 관련 이력 자체가 없으면 최저점이 아니라 `F`로 분류, 인계 가능 정보에 소속 기관명 포함, 반복 이탈 기준을 "1회 있음(0.7) / 2회 이상 반복(0.9)"으로 정량화. 앞의 둘은 F 비율을 올려 미채점 축을 늘리므로 `axis_scoring_report`의 F율 지표 해석에 영향을 준다.
+- 치매는 기준표가 있는 6개 축을 채점한다(기준표 총 6축, 코드로 확인).
 - `F` 또는 근거 없음은 0점이 아니라 **키 부재**로 저장해 Phase 2 기본값 폴백을 허용한다.
 - 축 채점은 기본 비동기이며 진행·완료·오류·스텁 상태와 stale 재시도 마커를 관리한다.
 - 경로 익숙함은 `autobiographical_destination_pull`에서 생긴 끌림점만 채점한다.
@@ -397,8 +395,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    IN["Case + Persona + elapsed time"] --> POI["preferred_targets를<br/>LKP 3km 주변 POI로 임시 매칭"]
-    POI --> PRIOR["EXAONE generate_prior"]
+    IN["Case + Persona + elapsed time"] --> PRIOR["EXAONE generate_prior"]
     PRIOR --> GUARD["6전략·끌림점·반경 가드레일"]
     GUARD --> AXIS["Persona axis_scores 결정론적 반영"]
 
@@ -424,11 +421,7 @@ flowchart TD
     LOG --> SAVE
 ```
 
-### 6.3 1단계: 카테고리 선호를 실제 POI로 변환
-
-`preferred_targets`는 “지하철”, “편의점”처럼 좌표가 없는 선호이다. 예측 시 Kakao Local에서 LKP 반경 3km, 선호당 최대 3곳을 검색해 Persona 사본의 끌림점으로 합친다. 저장된 Persona는 바꾸지 않으므로 새 LKP 재실행 때 다시 검색한다. 키·검색 실패 시 기존 끌림점만 사용한다.
-
-### 6.4 2단계: EXAONE prior와 가드레일
+### 6.3 1단계: EXAONE prior와 가드레일
 
 EXAONE은 작업별 경로를 분리한다.
 
@@ -454,13 +447,13 @@ prior 모델의 출력은 좌표가 아니라 다음 `PriorParams`이다.
 축 점수가 있으면 prior 위에 다시 반영한다.
 
 - `mobility_transport_capacity`: 반경 등급을 결정론적으로 재계산한다.
-- 발달장애 `elopement_pattern_consistency`: 전략 분포를 더 뾰족하거나 평평하게 만든다.
-- 치매 `autobiographical_destination_pull`, 발달장애 `preferred_target_seeking`: 끌림점 분포의 sharpness를 조정한다.
+- `autobiographical_destination_pull`: 끌림점 분포의 sharpness를 조정한다.
+- `behavior_tendency`(관찰 행동 경향): 전략 분포를 방향대로 곱셈 틸트한다.
 - 마음 취약성 축은 마음 재해석 프롬프트의 자연어 문맥으로 전달된다.
 
-EXAONE 미설정·실패 시 유형별 Koester·6전략 기본값으로 폴백한다. 현재 코드에서 치매 Koester는 Urban 분위수에 맞춘 `mu=0.095`, `sigma=1.48`이다. 지적장애 파라미터는 코드 주석상 추가 검증 대상이다.
+EXAONE 미설정·실패 시 Koester·6전략 기본값으로 폴백한다. 현재 코드에서 치매 Koester는 Urban 분위수에 맞춘 `mu=0.095`, `sigma=1.48`이다.
 
-### 6.5 3단계: 예측기 3종
+### 6.4 2단계: 예측기 3종
 
 #### A. Top-down POA
 
@@ -505,7 +498,7 @@ v2 계약은 `behavior`, `goal_label`, `confusion_level`, `status`를 반환한�
 - 워커 이동 중 인지 게이지에 의한 EXAONE 마음 재해석은 수행하지 않는다.
 - 그러나 파이프라인 앞단의 **동일한 EXAONE prior는 공유**한다. 완전한 비-AI 통계 베이스라인은 아니다.
 
-### 6.6 4단계: 분포 결합과 Case 저장
+### 6.5 3단계: 분포 결합과 Case 저장
 
 ```text
 final POA = 0.7 × Agent MC + 0.3 × Statistical MC
@@ -515,7 +508,7 @@ final POA = 0.7 × Agent MC + 0.3 × Statistical MC
 - Tip이 3건 이상이면 log-linear pool로 두 분포가 함께 지지한 지역에 집중한다.
 - 결과를 `baseline_poa`와 `current_poa`에 동시에 저장하고 Case 상태를 `predicted`로 바꾼다.
 
-### 6.7 API와 현재 제한
+### 6.6 API와 현재 제한
 
 | 메서드 | 경로 | 구현 |
 |---|---|---|
@@ -529,7 +522,7 @@ final POA = 0.7 × Agent MC + 0.3 × Statistical MC
 - 게이지 계수와 일부 유형별 SAR prior는 잠정값이다.
 - 최종 결합 가중치 `0.7/0.3`은 설정 파일이 아니라 파이프라인 코드에 고정돼 있다.
 
-### 6.8 PR 실험에서 확정·보류한 결정
+### 6.7 PR 실험에서 확정·보류한 결정
 
 | 실험 | 관측 | 코드 상태 |
 |---|---|---|

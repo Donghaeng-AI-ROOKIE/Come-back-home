@@ -2,13 +2,13 @@
 
 run_probe.py(단일 페르소나 통제실험)의 한계 보완: 단일 페르소나 결론은 일반화
 불가("옛집 100%"는 편중 페르소나에선 정답일 수 있음). 실사용에서 변하는 축 —
-끌림점 균형도·유형(치매/발달)·정보 풍부도·특성 대조쌍 — 을 그리드로 돌린다.
+끌림점 균형도·정보 풍부도·특성 대조쌍 — 을 그리드로 돌린다.
 
 검증 질문 (사전 등록):
   Q1 argmax 붕괴: 끌림점 가중치가 균형(0.35/0.35)이어도 한쪽 100% 고착이면 과합리.
      기대(분포 표집이 살아있다면): 두 후보로 갈라짐.
-  Q2 유형 오염: 발달장애 페르소나 응답에 치매 서사(time-shift·옛집·과거 착각)가
-     나오면 심각 — 학습·프롬프트의 치매 편향이 유형 경계를 넘은 것.
+  (Q2 유형 오염 검정은 2026-08-03 치매 단독 스코프 전환으로 폐기 — 비교 대상
+   유형이 없어졌다.)
   Q3 빈약 절제: 끌림점 0·노트 최소(콜드스타트급) 페르소나에서 없는 장소·사실을
      지어내면 환각. goal null + 보수적 서사가 정답.
   Q4 대조쌍 감도: 자전적 목적지 강/약 한 끗 차이가 goal 분포 차이로 드러나야 개인화.
@@ -67,14 +67,6 @@ BANK: list[dict] = [
          p=mk("g-dem-lo", PersonaType.dementia, 76,
               [ap("고향 방앗간 터", 0.5), ap("경로당", 0.3)],
               ["고향 얘기는 지나가듯 한 번 언급", "주로 경로당에서 소일"])),
-    dict(key="dd_fixation", q="Q2 발달·고착",
-         p=mk("g-dd-fix", PersonaType.intellectual_disability, 21,
-              [ap("지하철 2호선 성수역", 0.5), ap("동네 PC방", 0.3)],
-              ["지하철 노선도에 강한 집착 — 역만 보이면 들어가려 함",
-               "낯선 사람이 말 걸면 그 자리에서 굳음"])),
-    dict(key="dd_sparse", q="Q2+Q3 발달·빈약",
-         p=mk("g-dd-sparse", PersonaType.intellectual_disability, 19, [],
-              ["중등도 지적장애 — 보호자가 이동 습관을 잘 모름"])),
 ]
 
 GAUGES = {
@@ -150,15 +142,10 @@ def main(n: int) -> None:
     bal_goals = collections.Counter(str(r["goal"]) for r in bal)
     hi = collections.Counter(str(r["goal"]) for r in by.get("dem_autobio_hi", []))
     lo = collections.Counter(str(r["goal"]) for r in by.get("dem_autobio_lo", []))
-    dd_dem = sum(1 for k in ("dd_fixation", "dd_sparse")
-                 for r in by.get(k, []) if _DEM_NARRATIVE.search(r["raw"] or ""))
-    poor_halluc = [r["goal"] for r in by.get("dem_poor", []) + by.get("dd_sparse", [])
-                   if r["goal"] is not None]
+    poor_halluc = [r["goal"] for r in by.get("dem_poor", []) if r["goal"] is not None]
     lines += ["", "## 사전 질문 판정", "",
               f"- Q1 argmax 붕괴: 균형 페르소나 goal 분포 = {dict(bal_goals)} — "
               f"{'⚠ 한쪽 90%+ 고착' if bal_goals and bal_goals.most_common(1)[0][1] >= 0.9 * max(1, len(bal)) else '분산됨(통과)'}",
-              f"- Q2 유형 오염: 발달 페르소나 응답 중 치매서사 {dd_dem}건 — "
-              f"{'⚠ 오염' if dd_dem else '없음(통과)'}",
               f"- Q3 빈약 절제: 정보 빈약 페르소나의 비-null goal {len(poor_halluc)}건"
               f"{' (후보 자체가 없으므로 0이어야 정상)' if not poor_halluc else ' ⚠ 내용 검수 필요'}",
               f"- Q4 대조쌍 감도: 자전강 {dict(hi)} vs 자전약 {dict(lo)} — 분포가 다르면 개인화 감도 있음", ""]

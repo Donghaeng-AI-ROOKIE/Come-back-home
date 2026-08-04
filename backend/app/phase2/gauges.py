@@ -56,13 +56,11 @@ _ROAD_PREFERENCE = {
 # 페르소나별 피로 체감 배수 (회의: persona_fatigue_mult)
 _FATIGUE_MULT = {
     PersonaType.dementia: 1.3,
-    PersonaType.intellectual_disability: 1.0,
 }
 
 # 보행 속도 (m/분) — 연령별 보행속도 문헌 기반 잠정값 (고령자 데이터 공백은 회의록 명시)
 WALK_SPEED_M_PER_MIN = {
     PersonaType.dementia: 48.0,                  # ~0.8 m/s
-    PersonaType.intellectual_disability: 66.0,   # ~1.1 m/s
 }
 
 # 낯섦도 정규화 반경 (회의: D_max = 페르소나 생활권 또는 고정 1km)
@@ -77,7 +75,6 @@ ROUTINE_DEFAULT_FAMILIARITY = 0.8
 # 혐오환경 — 유형별 (env 키, 임계 m, 심각도)
 _AVERSION = {
     PersonaType.dementia: [("forest_m", 30.0, 0.5)],                  # 수풀 — 낯섦·위험
-    PersonaType.intellectual_disability: [("market_m", 50.0, 1.0)],   # 혼잡·소음 (Rice 2016)
 }
 
 
@@ -127,10 +124,6 @@ _GAUGE_OVERRIDES: tuple[OverrideSpec, ...] = (
         "k_a1", "distress_induced_movement_reactivity", PersonaType.dementia, 0.6, 1.4,
         "축 0.1='불안·초조가 나타나도 이동 행동 거의 변화 없음' ↔ k_a1='혼란이 "
         "불안으로 전환되는 속도'. 불안이 곧 이동으로 이어지는 사람일수록 크다."),
-    OverrideSpec(
-        "k_e", "aversive_context_escape", PersonaType.intellectual_disability, 0.6, 1.4,
-        "축 0.1='불편한 자극이 이동에 거의 영향 없음' ↔ k_e='혐오 노출 누적 속도'. "
-        "감각·상황 회피성이 강할수록 같은 자극이 더 빨리 쌓인다."),
 )
 
 # 금지 목록 — 왜 안 여는지까지 코드에 남긴다 (테스트가 이 목록을 강제한다).
@@ -152,7 +145,10 @@ DENIED_OVERRIDES: dict[str, str] = {
     "k_f": "피로 누적 — mobility_transport_capacity 축이 이미 반경과 v_max 로 "
            "두 번 소비 중이라 여기까지 열면 같은 축이 세 곳에 반영된다",
     "k_h1": "귀소의 경과시간 항 — 개인화하려면 '귀가 욕구' 축이 따로 있어야 하는데 "
-            "현재 기준표 10축에 해당 항목이 없다",
+            "현재 기준표 6축에 해당 항목이 없다",
+    "k_e": "혐오노출 누적 — 대응하던 축(aversive_context_escape)이 발달장애 전용이라 "
+           "치매 단독 스코프(2026-08-03)로 좁히면서 함께 삭제됐다. 치매 기준표 6축에 "
+           "'혐오 자극 민감도'에 해당하는 축이 없어 근거 없는 개인화가 되므로 고정한다",
 }
 
 
@@ -185,15 +181,7 @@ def config_for(persona: Persona | None) -> GaugeConfig:
     """페르소나별 활성화 매핑 (회의 종합 매핑 표) + 축점수 개인화."""
     if persona is None:
         return GaugeConfig()
-    cfg = GaugeConfig()
-    if persona.type == PersonaType.intellectual_disability:
-        # ID: C 대폭 축소(이탈 53%가 혼란 무관 탐험, Rice 2016),
-        # A 는 E(혼잡·소음) 중심, H 는 attractor 추구로 대체(외인성 → 게이지 밖)
-        cfg.k_c1 *= 0.2
-        cfg.k_c2 *= 0.2
-        cfg.k_a1 = 0.0
-        cfg.k_h1 = cfg.k_h2 = 0.0
-    return apply_personal_overrides(cfg, persona)
+    return apply_personal_overrides(GaugeConfig(), persona)
 
 
 class Gauges:
@@ -300,9 +288,8 @@ def env_response_weight(env: dict | None, persona: Persona | None) -> float:
 def road_preference(edge_attrs: dict, persona: Persona | None) -> float:
     """도로 위계 선호 배수 — 갈림길 선택 확률에 곱한다 (1.0 = 중립).
 
-    치매 한정으로 적용한다. 근거 문헌(_ROAD_PREFERENCE 주석)이 치매 실종자
-    대상이고, 발달장애의 도로 선택 성향은 기획팀 조사 범위 밖이라 중립으로
-    남긴다 — 근거 없이 확장하면 "그럴듯하지만 틀린 확신"이 된다.
+    근거 문헌(_ROAD_PREFERENCE 주석)이 치매 실종자 대상이라 치매 페르소나에만
+    적용한다 — 근거 없이 확장하면 "그럴듯하지만 틀린 확신"이 된다.
 
     `road_preference_strength` 는 지수로 들어가 ablation 노브가 된다:
     0 이면 전부 1.0(기능 끔), 1 이면 표 그대로, 2 이면 대비 강화.

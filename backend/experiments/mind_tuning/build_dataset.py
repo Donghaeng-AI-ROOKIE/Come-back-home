@@ -35,8 +35,7 @@ _STRATEGY = {"route_following": 0.3, "direction_keeping": 0.15, "random_walk": 0
 
 
 def persona_prior(s: dict) -> tuple[Persona, PriorParams]:
-    ptype = PersonaType.dementia if s["population"] == "dementia" \
-        else PersonaType.intellectual_disability
+    ptype = PersonaType.dementia
     aps = [AttractionPoint(label=lb, location=GeoPoint(**_GEO),
                            weight=_EV_W[s["evidence"][lb]], evidence=s["evidence"][lb])
            for lb in s["labels"]]
@@ -64,10 +63,6 @@ NAMES = {
     "dementia": [
         ("김정희", 78), ("박영수", 82), ("이명자", 75), ("최도식", 80),
         ("윤옥분", 84), ("한재호", 72), ("오순덕", 86), ("장태식", 77),
-    ],
-    "developmental_disability": [
-        ("김하준", 19), ("박서윤", 24), ("이도현", 17), ("최지우", 29),
-        ("윤민석", 22), ("한수빈", 16), ("오지훈", 31), ("장예린", 20),
     ],
 }
 
@@ -163,18 +158,6 @@ SEVERITY_FRAGMENTS = {
             "진단": ["진단받은 지 여러 해 됐다", "증상이 많이 진행됐다", "최근 부쩍 나빠지셨다"],
             "소통": ["요즘은 대화가 잘 안 된다.", "가족도 잘 못 알아보실 때가 있다.", "말씀이 자주 끊기고 뒤섞인다."],
             "이동": ["외출은 늘 동행이 필요했다.", "혼자 나가신 적이 거의 없다.", "집 앞도 혼자는 못 다니신다."],
-        },
-    },
-    "developmental_disability": {
-        "mild": {
-            "진단": ["경증이라는 판정을 받았다", "일상 기능은 좋은 편이다", "경증이에요"],
-            "소통": ["이름과 동네를 또박또박 말한다.", "필요한 말은 스스로 한다.", "간단한 대화는 잘 통한다."],
-            "이동": ["동네에서는 혼자 익숙하게 다닌다.", "늘 다니는 노선은 혼자 탄다.", "익숙한 길은 혼자 잘 다닌다."],
-        },
-        "severe": {
-            "진단": ["중증 판정을 받았다", "지원이 많이 필요한 편이다", "중증이에요"],
-            "소통": ["말로 의사표현이 거의 안 된다.", "낯선 사람과는 대화가 안 된다.", "이름을 물어도 답하지 못한다."],
-            "이동": ["혼자 다녀본 적이 거의 없다.", "이동에는 항상 동행이 있었다.", "낯선 곳에서는 크게 동요한다."],
         },
     },
 }
@@ -609,10 +592,18 @@ def main(variants: int = 5, goal_variants: int = 16) -> None:
         and claim["claim_id"] not in SKIP_TUNING_CLAIMS
     ]
     # 논문 단위 분할 — 같은 claim 의 변형이 train/val 양쪽에 들어가는 누수 차단.
-    # 해시 선정은 발달 89%·클래스 3종 편중이 나와(외부 리뷰) 명시 지정으로 교체.
-    # DEV-13 은 유일 claim(CLM-0042)이 학습 제외 대상이라 실효가 없어(3차 리뷰)
-    # DEV-04(escape 2건)로 교체 — 치매 2 + 발달 2, 행동 클래스 7종 커버.
-    val_papers = {"DEM-32", "DEM-33", "DEV-04", "DEV-17"}
+    #
+    # 2026-08-03 치매 단독 스코프 전환으로 DEV 계열 논문·claim 이 코퍼스에서 삭제됐다.
+    # 기존 val(DEM-32·DEM-33)을 그대로 두면 **val 이 감시 지표로 쓸 수 없게 된다**:
+    # DEM-32 는 repetitive_route·variable_route 의 유일한 출처라 val 로 빼면 그 두
+    # 클래스가 train 에 아예 없어지고, val 194행 중 104행(54%)이 "학습된 적 없는
+    # 클래스"가 된다. val loss 는 과적합 감시용인데 OOD 측정이 절반을 넘으면 그
+    # 역할을 못 한다(HANDOFF_학습조건.md 평가 절).
+    #
+    # 그래서 DEM-32 는 train 으로 되돌리고 val 은 DEM-23+DEM-33 으로 재지정한다.
+    # 후보 전수 비교(2026-08-03) 결과 이 조합만 (a) val 클래스가 전부 train 에 있고
+    # (b) 행동 라벨 4종을 모두 덮으며 (c) val 비율 9%(134행)로 적정하다.
+    val_papers = {"DEM-23", "DEM-33"}
     print(f"validation 논문(명시 지정): {sorted(val_papers)}")
 
     outputs = {"analyst": [], "first_person": []}

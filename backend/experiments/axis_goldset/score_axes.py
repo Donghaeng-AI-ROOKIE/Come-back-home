@@ -56,12 +56,6 @@ DEMENTIA_AXES = COMMON_AXES + [
     "wayfinding_error_recovery_deficit",
     "distress_induced_movement_reactivity",
 ]
-DD_AXES = COMMON_AXES + [
-    "preferred_target_seeking",
-    "aversive_context_escape",
-    "transition_routine_disruption",
-    "elopement_pattern_consistency",
-]
 
 
 # ── md 파싱: 시나리오 ───────────────────────────────────────────────
@@ -74,15 +68,14 @@ def load_scenarios() -> dict[str, dict]:
     pending_q: str | None = None
 
     for line in text.splitlines():
-        m = re.match(r"^#\s+([DP]\d)\.\s+(.+)$", line)
+        m = re.match(r"^#\s+(D\d)\.\s+(.+)$", line)
         if m:
             sid, title = m.group(1), m.group(2)
-            is_dem = "치매" in title
             info = re.search(r"\(([^)]*)\)", title)
             cur = {
                 "title": title,
                 "info": info.group(1) if info else "",
-                "axes": DEMENTIA_AXES if is_dem else DD_AXES,
+                "axes": DEMENTIA_AXES,
                 "turns": [],
             }
             scenarios[sid] = cur

@@ -38,32 +38,20 @@ def test_distress_axis_scales_anxiety_derivation():
     assert high == pytest.approx(base * 1.4)
 
 
-def test_aversive_axis_scales_hostile_accumulation():
-    """발달장애 전용 축 — 혐오 노출 누적(k_e)."""
-    p = PersonaType.intellectual_disability
-    base = gauges.config_for(_persona(p)).k_e
-    high = gauges.config_for(_persona(p, aversive_context_escape=0.9)).k_e
-    assert high == pytest.approx(base * 1.4)
+def test_removed_axes_do_not_personalize_anything():
+    """삭제된 발달장애 축(2026-08-03)은 어떤 계수도 움직이지 않는다."""
+    plain = gauges.config_for(_persona())
+    for dead_axis in ("aversive_context_escape", "transition_routine_disruption",
+                      "preferred_target_seeking", "elopement_pattern_consistency"):
+        loaded = gauges.config_for(_persona(**{dead_axis: 0.9}))
+        assert loaded == plain, dead_axis
 
 
-def test_type_mismatch_is_ignored():
-    """치매 축이 발달장애 페르소나에 새지 않는다 (그 반대도)."""
-    p = PersonaType.intellectual_disability
-    assert gauges.config_for(
-        _persona(p, wayfinding_error_recovery_deficit=0.9)).k_c1 == \
-        pytest.approx(gauges.config_for(_persona(p)).k_c1)
-    assert gauges.config_for(
-        _persona(aversive_context_escape=0.9)).k_e == \
-        pytest.approx(gauges.config_for(_persona()).k_e)
-
-
-def test_type_baseline_is_preserved_not_overwritten():
-    """유형 특례(ID k_c1 ×0.2) 위에 곱한다 — 유형 구조가 개인화로 지워지지 않는다."""
-    p = PersonaType.intellectual_disability
-    plain = gauges.config_for(_persona(p))
-    assert plain.k_c1 == pytest.approx(gauges.GaugeConfig().k_c1 * 0.2)
-    personalised = gauges.config_for(_persona(p, aversive_context_escape=0.9))
-    assert personalised.k_c1 == pytest.approx(plain.k_c1)   # 다른 계수는 불변
+def test_unmapped_axis_does_not_leak_into_other_coefficients():
+    """허용 목록에 없는 축은 다른 계수로 새지 않는다 — 매핑은 1:1 만."""
+    plain = gauges.config_for(_persona())
+    loaded = gauges.config_for(_persona(hazard_awareness_vulnerability=0.9))
+    assert loaded == plain
 
 
 def test_out_of_range_scores_are_clamped():
@@ -81,18 +69,16 @@ def test_denied_fields_never_change():
     every_axis = {
         "wayfinding_error_recovery_deficit": 0.9,
         "distress_induced_movement_reactivity": 0.9,
-        "aversive_context_escape": 0.9,
         "hazard_awareness_vulnerability": 0.9,
         "communication_approach_vulnerability": 0.9,
-        "transition_routine_disruption": 0.9,
         "mobility_transport_capacity": 0.9,
     }
-    for ptype in (PersonaType.dementia, PersonaType.intellectual_disability):
-        plain = gauges.config_for(_persona(ptype))
-        loaded = gauges.config_for(_persona(ptype, **every_axis))
-        for field in gauges.DENIED_OVERRIDES:
-            assert getattr(loaded, field) == pytest.approx(getattr(plain, field)), \
-                f"{ptype.value}: 금지 계수 {field} 가 개인화로 변경됨"
+    ptype = PersonaType.dementia
+    plain = gauges.config_for(_persona(ptype))
+    loaded = gauges.config_for(_persona(ptype, **every_axis))
+    for field in gauges.DENIED_OVERRIDES:
+        assert getattr(loaded, field) == pytest.approx(getattr(plain, field)), \
+            f"{ptype.value}: 금지 계수 {field} 가 개인화로 변경됨"
 
 
 def test_allow_and_deny_lists_cover_every_gauge_field():

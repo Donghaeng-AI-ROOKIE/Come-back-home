@@ -55,31 +55,6 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
     return net
 
 
-def _merge_preferred_pois(persona, case: Case):
-    """카테고리 선호(preferred_targets) → LKP 주변 POI 매칭 → 예측 스코프 끌림점 합류.
-
-    좌표형 끌림점(attraction_points)과 달리 카테고리 선호는 LKP 가 정해져야
-    좌표가 생긴다. 매칭 결과는 사본 페르소나에만 합류 — 저장된 Persona 는 불변
-    (LKP 가 바뀌는 재실행마다 새로 매칭). 합류 후에는 prior 등급·top-down 범프·
-    MC 목표까지 기존 끌림점과 같은 경로로 소비된다. 외부 API 실패는 격리 —
-    매칭 없이 예측 계속 (도로망 로딩과 같은 원칙).
-    """
-    if persona is None or not persona.preferred_targets:
-        return persona
-    try:
-        from app.geo import poi
-
-        matched = poi.match_preferred_targets(persona.preferred_targets, case.lkp)
-    except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
-        print(f"[poi] 선호 대상 매칭 실패 → 기존 끌림점만 사용: {e}")
-        return persona
-    if not matched:
-        return persona
-    existing = {ap.label for ap in persona.attraction_points}
-    merged = list(persona.attraction_points) + [m for m in matched if m.label not in existing]
-    return persona.model_copy(update={"attraction_points": merged})
-
-
 def run_prediction(
     case: Case,
     *,
@@ -101,7 +76,6 @@ def run_prediction(
         _t = perf_counter()
 
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
-    persona = _merge_preferred_pois(persona, case)
     _lap("prepare_ms")
 
     # ① Few-shot CoT → prior (EXAONE, 좌표 아님)

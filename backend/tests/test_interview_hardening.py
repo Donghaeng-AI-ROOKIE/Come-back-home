@@ -131,7 +131,6 @@ def test_reask_never_repeats_verbatim(monkeypatch):
     # 뭐라도 건졌지만 미충족 — 같은 슬롯 꼬리질문(재선택 허용) 경로
     monkeypatch.setattr(interview.midm, "extract_answer",
                         lambda slot, conv: {"fields": {}, "attraction_points": [],
-                                            "preferred_targets": [],
                                             "behavior_notes": ["시장 근처를 좋아함"],
                                             "slot_filled": False})
     s = interview.start_interview("보호자", PersonaType.dementia)
@@ -161,7 +160,7 @@ def test_empty_extraction_avoids_immediate_same_slot():
     import unittest.mock as mock
     with mock.patch.object(interview.midm, "extract_answer",
                            return_value={"fields": {}, "attraction_points": [],
-                                         "preferred_targets": [], "behavior_notes": [],
+                                         "behavior_notes": [],
                                          "slot_filled": False}):
         out = interview.answer_interview(s.id, "글쎄요")
     assert out.prev_target_key != "routine_destinations"
@@ -413,7 +412,7 @@ def test_conditional_detail_requires_base_fact(monkeypatch):
                         lambda *a, **k: ([_Hit()], []))
     monkeypatch.setattr(interview.midm, "extract_answer",
                         lambda *a, **k: {"fields": {}, "attraction_points": [],
-                                         "preferred_targets": [], "behavior_notes": [],
+                                         "behavior_notes": [],
                                          "slot_filled": False})
     monkeypatch.setattr(interview.midm, "phrase_question",
                         lambda *a, **k: "약을 드시지 않으면 밖에 나가려고 하시나요?")
@@ -468,7 +467,7 @@ def test_pure_ignorance_exhausts_slot():
     import unittest.mock as mock
     with mock.patch.object(interview.midm, "extract_answer",
                            return_value={"fields": {}, "attraction_points": [],
-                                         "preferred_targets": [], "behavior_notes": [],
+                                         "behavior_notes": [],
                                          "slot_filled": False}):
         out = interview.answer_interview(s.id, "모르겠다니까요")
     assert out.asked_counts["hazard_awareness_vulnerability"] >= interview.MAX_ASKS_PER_SLOT
@@ -491,7 +490,7 @@ def test_sentence_like_home_rejected():
     import unittest.mock as mock
     with mock.patch.object(interview.midm, "extract_answer",
                            return_value={"fields": {"home": "집에 주로 계세요"},
-                                         "attraction_points": [], "preferred_targets": [],
+                                         "attraction_points": [],
                                          "behavior_notes": [], "slot_filled": True}):
         out = interview.answer_interview(s.id, "집에 주로 계세요")
     assert "home" not in out.draft_fields      # 문장형 home 거부
@@ -559,7 +558,7 @@ def test_negative_answer_resolves_slot():
     import unittest.mock as mock
     with mock.patch.object(interview.midm, "extract_answer",
                            return_value={"fields": {}, "attraction_points": [],
-                                         "preferred_targets": [], "behavior_notes": [],
+                                         "behavior_notes": [],
                                          "slot_filled": False}):
         out = interview.answer_interview(s.id, "아니요")
     assert "medication" in out.filled_keys      # '해당 없음'으로 충족 — 약 후속질문 금지
@@ -569,7 +568,6 @@ def test_seed_question_personalized_by_type():
     """폴백 씨앗 질문의 '대상자' 문체를 유형 호칭으로 바꾼다."""
     q = "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요?"
     assert interview._personalize(q, PersonaType.dementia).startswith("어르신이")
-    assert interview._personalize(q, PersonaType.intellectual_disability).startswith("그분이")
     assert interview._personalize(q, None) == q
 
 

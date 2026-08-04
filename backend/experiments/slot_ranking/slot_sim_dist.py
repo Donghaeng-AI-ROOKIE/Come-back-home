@@ -55,14 +55,13 @@ def _histogram(name: str, vals: list[float], lo=-0.10, hi=0.90, w=0.05) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description="임베더의 슬롯 검색 품질 측정 (코퍼스 기준)")
     ap.add_argument("--model", help="HF 모델명 또는 로컬 경로. 기본=settings.embed_model")
-    ap.add_argument("--persona", default="dementia",
-                    choices=["dementia", "intellectual_disability"])
+    ap.add_argument("--persona", default="dementia", choices=["dementia"])
     args = ap.parse_args()
 
     from app.config import settings
 
     model = args.model or settings.embed_model
-    emb = R.LocalSTEmbedder(model)
+    emb = R.LocalSTEmbedder(args.model) if args.model else R.get_embedder()
     ptype = PersonaType(args.persona)
     slots = slots_for(ptype)
     keys = [s.key for s in slots]
