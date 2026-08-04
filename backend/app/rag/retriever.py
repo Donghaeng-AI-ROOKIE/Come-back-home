@@ -104,10 +104,10 @@ class Retriever:
 
         try:
             qv = np.asarray(self._embedder.encode([query], role="query")[0], dtype="float32")
-        except Exception as e:  # noqa: BLE001
-            log.warning("RAG 질의 임베딩 실패: %r", e)
+            sims = self._vecs @ qv                  # 문서·질의 모두 정규화되어 있음
+        except Exception as e:  # noqa: BLE001 — 임베더·인덱스 차원 불일치 등도 여기서 잡는다
+            log.warning("RAG 검색 실패(임베더/인덱스 불일치 가능성) — 검색 비활성: %r", e)
             return []
-        sims = self._vecs @ qv                      # 문서·질의 모두 정규화되어 있음
         idx = np.argsort(-sims)[: top_k * 3]        # 출처 다양화 여유분
 
         out: list[Passage] = []
@@ -172,8 +172,12 @@ def get_retriever() -> Retriever | None:
         with _singleton_lock:
             if _singleton is None:
                 # 인덱스는 passage(문서) 벡터라 비교도 passage 모델 기준으로.
-                _singleton = Retriever(
-                    settings.rag_index_path,
-                    settings.embed_model_passage or settings.embed_model,
+                # build_index.py가 인덱스에 적는 식별자 형식과 맞춰야 불일치 경고가
+                # 실제 불일치일 때만 뜬다(base_url 있으면 "url:모델명" 합성 문자열).
+                passage_model = settings.embed_model_passage or settings.embed_model
+                identity = (
+                    f"{settings.embed_base_url}:{passage_model}"
+                    if settings.embed_base_url else passage_model
                 )
+                _singleton = Retriever(settings.rag_index_path, identity)
     return _singleton
