@@ -1,7 +1,8 @@
-"""절대 임계 3개 스윕 — chatbot_eval 하네스를 굴리며 상수만 갈아끼운다.
+"""절대 임계 4개 스윕 — chatbot_eval 하네스를 굴리며 상수만 갈아끼운다.
 
 `run_eval.py` 의 가드 스윕과 같은 원리. 재는 대상이 가드가 아니라
-`retrieval.PIVOT_SIM` · `RISK_GATE` · `COHERENCE_THRESHOLD` 다.
+`retrieval.PIVOT_SIM` · `RISK_GATE` · `COHERENCE_THRESHOLD` ·
+`safety.GROUNDING_THRESHOLD` 다(2026-08-04, 임베더 교체로 4번째 추가).
 
 이 셋은 **코사인 유사도 절대값**이라 임베더에 종속된다. 임베더를 바꾸면
 분포가 통째로 이동해 값을 그대로 두면 가드가 조용히 무력화되므로,
@@ -28,13 +29,13 @@
   # 현재 상수만 (베이스라인 확인)
   PYTHONUTF8=1 PYTHONPATH=. python -m experiments.slot_ranking.const_sweep
 
-  # 후보 비교 — 라벨:PIVOT/RISK/COH
+  # 후보 비교 — 라벨:PIVOT/RISK/COH/GROUND
   PYTHONUTF8=1 PYTHONPATH=. python -m experiments.slot_ranking.const_sweep \
-      --config "PIVOT 0.45:0.45/0.30/0.15" --config "COH 0.45:0.32/0.30/0.45"
+      --config "PIVOT 0.45:0.45/0.30/0.15/0.12" --config "COH 0.45:0.32/0.30/0.45/0.12"
 
   # 실 Mi:dm 확정 (쿼터 소모 — 설정당 시나리오수 × runs 회 대화)
   PYTHONUTF8=1 PYTHONPATH=. python -m experiments.slot_ranking.const_sweep \
-      --real --runs 3 --config "후보:0.45/0.30/0.45"
+      --real --runs 3 --config "후보:0.45/0.30/0.45/0.12"
 """
 
 from __future__ import annotations
@@ -47,14 +48,14 @@ import time
 from .corpus import is_noinfo
 
 
-def _parse_config(spec: str, base: tuple[float, float, float]):
-    """'라벨:PIVOT/RISK/COH' 파싱. 값 자리를 비우면 현재값 유지."""
+def _parse_config(spec: str, base: tuple[float, float, float, float]):
+    """'라벨:PIVOT/RISK/COH/GROUND' 파싱. 값 자리를 비우면 현재값 유지."""
     label, _, vals = spec.partition(":")
     if not vals:
-        raise ValueError(f"설정 형식 오류: {spec!r} — '라벨:0.45/0.30/0.45' 처럼")
+        raise ValueError(f"설정 형식 오류: {spec!r} — '라벨:0.45/0.30/0.45/0.12' 처럼")
     parts = vals.split("/")
-    if len(parts) != 3:
-        raise ValueError(f"설정 형식 오류: {spec!r} — 값 3개(PIVOT/RISK/COH) 필요")
+    if len(parts) != 4:
+        raise ValueError(f"설정 형식 오류: {spec!r} — 값 4개(PIVOT/RISK/COH/GROUND) 필요")
     out = tuple(base[i] if not p.strip() else float(p) for i, p in enumerate(parts))
     return label.strip(), out
 
@@ -103,7 +104,7 @@ def main() -> int:
 
     from app.llm import midm as midm_client
     from app.main import app
-    from app.phase0 import interview, retrieval
+    from app.phase0 import interview, retrieval, safety
     from experiments.chatbot_eval.run_eval import _aggregate_runs, _reset_guards
     from experiments.chatbot_eval.runner import run_scenario
     from experiments.chatbot_eval.scenarios import SCENARIOS
@@ -141,6 +142,28 @@ def main() -> int:
 
     retrieval.rank_next_slots = _instrumented
 
+    # ── 계측: 생성 질문의 grounding 유사도(GROUNDING_THRESHOLD 보정용) ──────
+    # guard_question 내부와 같은 계산을 여기서도 하지만, embedder 캐시(_Cached)를
+    # 타므로 추가 API 호출은 없다 — 실제 판정에 쓰인 것과 동일한 벡터를 재사용.
+    ground_target: list[float] = []
+    ground_distractor: list[float] = []
+    _orig_guard = safety.guard_question
+
+    def _instrumented_guard(question, slot, embedder, bank=None):
+        if bank:
+            others = [s for s in bank if s.key != slot.key]
+            q_emb = embedder.encode([question], role="query")[0]
+            passage_embs = embedder.encode(
+                [slot.embed_text, *[s.embed_text for s in others]], role="passage")
+            target_emb, other_embs = passage_embs[0], passage_embs[1:]
+            ground_target.append(retrieval.cosine(q_emb, target_emb))
+            if other_embs:
+                ground_distractor.append(
+                    max(retrieval.cosine(q_emb, oe) for oe in other_embs))
+        return _orig_guard(question, slot, embedder, bank=bank)
+
+    safety.guard_question = _instrumented_guard
+
     client = TestClient(app)
     if args.scenario:
         ids = [s.strip() for s in args.scenario.split(",") if s.strip()]
@@ -152,7 +175,8 @@ def main() -> int:
     else:
         targets = list(SCENARIOS.values())
 
-    base = (retrieval.PIVOT_SIM, retrieval.RISK_GATE, retrieval.COHERENCE_THRESHOLD)
+    base = (retrieval.PIVOT_SIM, retrieval.RISK_GATE, retrieval.COHERENCE_THRESHOLD,
+             safety.GROUNDING_THRESHOLD)
     try:
         configs = [_parse_config(c, base) for c in args.config] or [("현재값", base)]
     except ValueError as e:
@@ -161,27 +185,33 @@ def main() -> int:
 
     print(f"시나리오 {len(targets)}개 × 설정 {len(configs)}개 × {args.runs}회\n")
     rows = []
-    for label, (piv, risk, coh) in configs:
+    for label, (piv, risk, coh, ground) in configs:
         _reset_guards(interview, retrieval)
         retrieval.PIVOT_SIM, retrieval.RISK_GATE, retrieval.COHERENCE_THRESHOLD = piv, risk, coh
+        safety.GROUNDING_THRESHOLD = ground
         for k in stats:
             stats[k] = 0
         sims["info"], sims["noinfo"] = [], []
+        ground_target.clear()
+        ground_distractor.clear()
         t0 = time.time()
         agg = _aggregate_runs(targets, client, run_scenario, score, args.max_turns, args.runs)
         agg["good"] = stats["piv_info"] / stats["info"] if stats["info"] else None
         agg["bad"] = stats["piv_noinfo"] / stats["noinfo"] if stats["noinfo"] else None
         agg["n_noinfo"] = stats["noinfo"]
         agg["sims"] = {k: sorted(v) for k, v in sims.items()}
+        agg["ground"] = {"target": sorted(ground_target), "distractor": sorted(ground_distractor)}
         agg["sec"] = (time.time() - t0) / (len(targets) * args.runs)
-        rows.append((label, piv, risk, coh, agg))
+        rows.append((label, piv, risk, coh, ground, agg))
         print(f"  · {label:24} 질문{agg['questions']:.1f} 중복{agg['dups']:.1f} "
               f"정상피벗{(agg['good'] or 0):.0%} 헛피벗{(agg['bad'] or 0):.0%}")
 
-    retrieval.PIVOT_SIM, retrieval.RISK_GATE, retrieval.COHERENCE_THRESHOLD = base
+    retrieval.PIVOT_SIM, retrieval.RISK_GATE, retrieval.COHERENCE_THRESHOLD = base[:3]
+    safety.GROUNDING_THRESHOLD = base[3]
     retrieval.rank_next_slots = _orig_rank
+    safety.guard_question = _orig_guard
 
-    ref = rows[0][4]
+    ref = rows[0][5]
 
     def d(agg, key):
         return "" if agg is ref else f"({agg[key] - ref[key]:+.1f})"
@@ -192,11 +222,11 @@ def main() -> int:
     print("\n" + "═" * 104)
     print(f"상수 스윕 결과 · 설정당 {args.runs}회 평균 · 시나리오 {len(targets)}개")
     print("═" * 104)
-    print(f"{'설정':24} {'PIV':>5} {'RSK':>5} {'COH':>5} {'종료':>6} {'질문수':>11} "
+    print(f"{'설정':24} {'PIV':>5} {'RSK':>5} {'COH':>5} {'GRD':>5} {'종료':>6} {'질문수':>11} "
           f"{'중복':>9} {'정상피벗':>8} {'헛피벗':>7} {'수집':>6} {'축':>5}")
     print("─" * 104)
-    for label, piv, risk, coh, agg in rows:
-        print(f"{label:24} {piv:>5.2f} {risk:>5.2f} {coh:>5.2f} "
+    for label, piv, risk, coh, ground, agg in rows:
+        print(f"{label:24} {piv:>5.2f} {risk:>5.2f} {coh:>5.2f} {ground:>5.2f} "
               f"{agg['done']:>3.1f}/{agg['n']:<2} "
               f"{agg['questions']:>6.1f}{d(agg,'questions'):>7} "
               f"{agg['dups']:>4.1f}{d(agg,'dups'):>6} "
@@ -204,7 +234,7 @@ def main() -> int:
               f"{p(agg['collection']):>6} {p(agg['axis']):>5}")
     print("─" * 104)
     print(f"임베딩 캐시 적중률 {cache.hit / (cache.hit + cache.miss):.1%}  ·  "
-          + " · ".join(f"{lab}={agg['sec']:.1f}s/시나리오" for lab, _, _, _, agg in rows))
+          + " · ".join(f"{lab}={agg['sec']:.1f}s/시나리오" for lab, _, _, _, _, agg in rows))
     print(f"해석: 정상피벗은 높을수록, 헛피벗(n={ref['n_noinfo']})은 낮을수록 좋다.")
     print("⚠ 수집률·축 커버리지는 분모가 작아 노이즈가 크다(P1-1 실측 8pp/4pp) —")
     print("  몇 %p 차이로 판단하지 말 것. 질문수(SD≈0.6)가 신뢰할 수 있는 지표.")
@@ -213,7 +243,7 @@ def main() -> int:
 
     # ── 라이브 융합 쿼리 분포 — 임계는 여기서 고른다 ──────────────────
     seen: dict[float, tuple[str, dict]] = {}
-    for label, _, _, coh, agg in rows:
+    for label, _, _, coh, _, agg in rows:
         seen.setdefault(coh, (label, agg))
 
     print("\n" + "═" * 104)
@@ -236,6 +266,34 @@ def main() -> int:
                 a = sum(1 for v in info if v >= t) / len(info)
                 b = sum(1 for v in noinfo if v >= t) / len(noinfo)
                 print(f"  {t:>6.2f} {a:>12.1%} {b:>11.1%}   {a-b:+.2f}")
+
+    # ── 생성 질문의 grounding 분포 — GROUNDING_THRESHOLD 는 여기서 고른다 ──
+    seen_g: dict[float, tuple[str, dict]] = {}
+    for label, _, _, _, ground, agg in rows:
+        seen_g.setdefault(ground, (label, agg))
+
+    print("\n" + "═" * 104)
+    print("생성 질문의 grounding 분포 — GROUNDING_THRESHOLD 는 이 위에서 고른다")
+    print("(target=생성 질문과 겨냥 슬롯의 유사도, distractor=같은 질문과 다른 슬롯 중 최댓값)")
+    print("═" * 104)
+    for ground in sorted(seen_g):
+        label, agg = seen_g[ground]
+        target, distractor = agg["ground"]["target"], agg["ground"]["distractor"]
+        print(f"\n▶ GROUNDING_THRESHOLD = {ground:.2f}  (설정: {label})")
+        for bucket, ko, s in (("target", "겨냥 슬롯(target)", target),
+                               ("distractor", "다른 슬롯 중 최고(distractor)", distractor)):
+            if s:
+                i = lambda q: s[min(len(s) - 1, max(0, int(round((len(s) - 1) * q / 100))))]  # noqa: E731
+                print(f"  {ko}  n={len(s):<4} min={s[0]:.3f} p25={i(25):.3f} "
+                      f"med={i(50):.3f} p75={i(75):.3f} max={s[-1]:.3f}")
+        if target and distractor:
+            print(f"  {'임계':>6} {'target 통과':>11} {'distractor 오통과':>16}   분리도")
+            for t in [0.30, 0.35, 0.40, 0.42, 0.45, 0.48, 0.50, 0.55, 0.60]:
+                a = sum(1 for v in target if v >= t) / len(target)
+                b = sum(1 for v in distractor if v >= t) / len(distractor)
+                print(f"  {t:>6.2f} {a:>10.1%} {b:>15.1%}   {a-b:+.2f}")
+        else:
+            print("  (수집된 질문 없음 — 시나리오가 이 임계로 꼬리질문을 안 만들었을 수 있음)")
     return 0
 
 
