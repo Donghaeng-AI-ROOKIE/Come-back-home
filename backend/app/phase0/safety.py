@@ -34,7 +34,12 @@ _PII_PATTERNS = [
 ]
 
 # 층② grounding 최소 코사인 — 생성 질문이 타깃 슬롯과 이만큼은 붙어 있어야 통과.
-GROUNDING_THRESHOLD = 0.12
+# 2026-08-04 Upstage 실키 재보정(experiments/slot_ranking/const_sweep.py,
+# 시나리오 9개×runs 3). 스텁 예측(0.45~0.50)과 실측이 갈린 값 — 실 Mi:dm이
+# 만드는 질문은 스텁 고정문구보다 표현이 다양해 target 유사도가 낮고 겹침이
+# 있어서, 스텁 기준대로 뒀으면 정상 질문의 91%가 부당히 걸러질 뻔했다
+# (0.48에서 target 통과율 8.9% → 0.40에서 73.4%로 확인 후 확정).
+GROUNDING_THRESHOLD = 0.40
 
 
 def sanitize_input(text: str) -> str:

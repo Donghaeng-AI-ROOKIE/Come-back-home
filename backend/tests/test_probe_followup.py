@@ -57,6 +57,11 @@ def test_probe_question_actually_asked(monkeypatch):
                                             "slot_filled": True})
     monkeypatch.setattr(interview.midm, "phrase_question",
                         lambda *a, **k: "약을 거르시면 어떤 증상이 나타나시나요?")
+    # 이 테스트는 꼬리질문 흐름을 검증하는 것이지 grounding 판정이 아니다 —
+    # 임베더 교체로 이 특정 문구의 절대 유사도가 임계를 살짝 밑돌 수 있어(관련
+    # 슬롯 중엔 압도적으로 가장 가깝지만) 가드는 통과시킨다.
+    monkeypatch.setattr(interview.safety, "guard_question",
+                        lambda q, slot, emb, bank=None: (q, False))
     out = interview.answer_interview(s.id, "혈압약을 저녁에만 드세요")
     assert "거르" in out.messages[-1]["text"]
     assert out.prev_target_key == "medication"      # 같은 슬롯을 이어서 판다
