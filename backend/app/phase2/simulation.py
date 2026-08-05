@@ -66,19 +66,130 @@ _MIND_REFRACTORY_STEPS = 30
 _HOMING_PLACE_TYPES = frozenset({"past_residence", "past_home", "workplace", "relative_home"})
 
 
+# ── 마음 호출 예산의 층화 배분 ───────────────────────────────────────
+# 층(stratum) = 트리거 문맥의 동치류. 임의로 고른 축이 아니라 **프롬프트를 실제로
+# 바꾸는 필드**에서 뽑았다: mind_v2.build_input 이 예측 1회 동안 바꾸는 것은
+# gauge_report 와 scene 뿐이고, Gauges.report 는 F/C/H/A 를 3등급으로 이산화한 뒤
+# 발동 사유를 붙인다. 즉 트리거 문맥은 이미 유한 이산 공간이고, 같은 서명이면
+# 같은 질의다 — 재사용이 임의 근사가 아니라 동치 질의의 재사용이 된다.
+#
+# 축 선택 근거:
+#   사유(귀소/불안) — report 의 사유 한 단어가 응답을 몰아가는 것이 실측됐다
+#     (2026-08-04: 4h 워커의 88.7% 가 "귀소 시도"). 게이지 층은 독립 판정으로
+#     고쳤지만 풀이 균등 표집이면 그 편향이 풀 층에서 원상복구된다.
+#   혼란 등급(고/저) — C 는 스텝마다 단조 누적이라 이 축이 "얼마나 오래·낯선 곳을
+#     걸었는가"의 대리 축을 겸한다. 축을 늘리지 않고 경과를 흡수한다.
+#   전환 회차(1회차 / 2회차+) — 현행 규칙에서 2회차의 실호출 확률은 구조적으로 0이다.
+#     층에 넣어 그 배제를 없앤다.
+#
+# 층 수 5 = 기본 예산 5 (층당 1). 2회차를 사유·혼란으로 더 쪼개지 않는 이유는
+# 층 수가 예산을 넘으면 "층마다 실사례 1건" 보장 자체가 성립하지 않기 때문이다.
+_STRATA: tuple[tuple, ...] = (("귀소", 0), ("귀소", 1), ("불안", 0), ("불안", 1), ("later",))
+
+_LATER = ("later",)
+
+
+def _confusion_level(value: float) -> int:
+    """Gauges.report 와 같은 눈금(0.4/0.7) — 층 키가 프롬프트 문장과 어긋나지 않게."""
+    return 2 if value >= 0.7 else (1 if value >= 0.4 else 0)
+
+
+def stratum_key(confusion_gauge: float, reason: str, transitions: int) -> tuple:
+    """트리거 문맥의 층. transitions 는 이번 전환을 포함한 회차(1부터)."""
+    if transitions >= 2:
+        return _LATER
+    return (reason, 1 if _confusion_level(confusion_gauge) == 2 else 0)
+
+
+def _stratum_distance(a: tuple, b: tuple) -> float:
+    """층 사이 거리 — 재사용 가중치의 입력. 값의 서열만 의미가 있다."""
+    if a == b:
+        return 0.0
+    a_late, b_late = a[0] == "later", b[0] == "later"
+    if a_late != b_late:
+        return 2.0          # 마음이 바뀌기 전/후 — 가장 먼 축
+    if a_late:
+        return 0.0
+    return (2.0 if a[0] != b[0] else 0.0) + (1.0 if a[1] != b[1] else 0.0)
+
+
 class _MindPool:
     """EXAONE 마음 재해석의 호출 예산 + 결과 분포 공유 (예측 1회 스코프).
 
-    예산 내 발동은 실호출하고 (MindState, goal) 을 풀에 저장, 예산 소진 후
-    발동은 풀에서 rng 로 독립 표집한다 — 워커마다 같은 값을 박제하는
-    결정론적 캐시가 아니라 "분포 저장 + 매 진입 독립 표집" (아키텍처 원칙).
-    정밀화 여지: 지금은 게이지 상태와 무관하게 풀 전체에서 표집 —
-    발동 사유(귀소/불안)별 풀 분리는 후속 튜닝 항목.
+    예산 내 발동은 실호출하고 (층키, MindState, goal) 을 풀에 저장, 예산이 없는
+    발동은 풀에서 rng 로 독립 표집한다 — 워커마다 같은 값을 박제하는 결정론적
+    캐시가 아니라 "분포 저장 + 매 진입 독립 표집" (아키텍처 원칙).
+
+    ## 선착순 배분을 층화로 바꾼 이유 (2026-08-05 실측)
+
+    구버전은 예산을 **도착 순서대로** 내줬다. 워커는 i.i.d. 라 "앞쪽 워커라서
+    초기 시간대만 본다"는 서술은 정확하지 않다 — 워커 0 도 자기 궤적의 끝까지
+    걷는다. 실제 결함은 셋이었다 (정릉·500워커·seed 42/43/44, LLM 스텁):
+
+      D1 구조적 배제 — 1회차 전환만 예산을 쓸 수 있어 **실호출의 100% 가 1회차**인데
+         소비의 38~42% 는 2회차다. 2회차는 정의상 게이지가 더 찬 문맥이라,
+         실호출 문맥의 혼란 등급이 체계적으로 낮다(18런 중 "높음" 1건, 전체는 13~24%).
+      D2 꼬리 층 누락 — 5개는 편향된 주변분포에서의 i.i.d. 표본이다. H 는 경과에
+         정비례해 자라고 A 는 E 가 없으면 작아서, 5표본에 "불안"이 한 건도 안
+         들어가는 seed 가 나온다.
+      D3 매칭 부재 — sample_only 가 균등 표집이라 불안으로 발동한 워커가 귀소
+         문맥의 답을 받는다. 게이지 층에서 고친 유도신문 편향의 원상복구다.
+
+    결정적 관찰: **예산을 5→10 으로 두 배 늘려도** "실호출이 한 건도 없는
+    (회차·혼란) 조합에 속한 트리거" 비율이 43.1% → 41.6% 로 거의 안 줄었다.
+    예산 크기 문제가 아니라 배분 규칙 문제라는 뜻이다. PR #103 이 b10 vs b5 의
+    POA JS 로 "품질 손실 없음"을 판정한 것은 옳지만, 두 조건이 같은 방향의
+    편향을 공유하므로 **그 실험 설계로는 이 결함을 볼 수 없었다.**
+
+    D1·D2 는 층당 쿼터가, D3 는 거리 가중 표집이 고친다. 둘은 반드시 함께
+    가야 한다 — 층화만 하고 재사용이 균등이면 힘들게 다양화한 풀을 문맥과
+    무관하게 섞어 써서 다양화 이득을 즉시 잃고, 재사용만 고치면 선착순 풀에
+    고를 것 자체가 없다.
     """
 
-    def __init__(self, budget: int) -> None:
-        self.remaining = budget
-        self.results: list[tuple[MindState, str | None]] = []
+    def __init__(self, budget: int, n_walkers: int = 1) -> None:
+        # 층별 전용 쿼터. 예산이 층 수보다 적으면 앞쪽 층만 전용 슬롯을 갖고,
+        # 나머지 층은 회수된 공용 예비(free)로 커버된다.
+        base, extra = divmod(max(0, budget), len(_STRATA))
+        self.quota = {s: base + (1 if i < extra else 0) for i, s in enumerate(_STRATA)}
+        self.free = 0
+        self.n_walkers = max(1, n_walkers)
+        self.entries: list[tuple[tuple, MindState, str | None]] = []
+
+    @property
+    def remaining(self) -> int:
+        """남은 실호출 슬롯 총량 — 기존 계측·테스트가 읽는 이름을 유지한다."""
+        return sum(self.quota.values()) + self.free
+
+    # ── 배분 ────────────────────────────────────────────────────────
+    def _reclaim(self, progress: float) -> None:
+        """미사용 전용 쿼터를 공용 예비로 회수 — 예산을 남기지 않기 위해.
+
+        워커가 i.i.d. 라 층 도착은 정상과정이다. 진행률 임계 이후까지 나타나지
+        않은 층을 계속 기다리면 얻는 것은 거의 없고 남은 워커가 쓸 풀만 얇아진다.
+        """
+        if progress < settings.mind_pool_release_p:
+            return
+        for s, q in self.quota.items():
+            if q > 0:
+                self.free += q
+                self.quota[s] = 0
+
+    def _grant(self, key: tuple, progress: float) -> bool:
+        """슬롯을 내줄지 판정. 회수는 여기서 한다 — 슬롯 배분의 유일한 입구라
+        호출자가 _reclaim 을 빠뜨려 예산이 남는 경로를 만들 수 없다."""
+        self._reclaim(progress)
+        if self.quota.get(key, 0) > 0:
+            self.quota[key] -= 1
+            return True
+        if self.free > 0:
+            covered = any(k == key for k, _, _ in self.entries)
+            # 미커버 층이면 즉시. 이미 대표가 있는 층의 2번째 표본은 진행률
+            # 임계 이후에만 — 빈발 층이 예비를 먼저 삼키는 것을 늦춘다.
+            if not covered or progress >= settings.mind_pool_widen_p:
+                self.free -= 1
+                return True
+        return False
 
     def reinterpret(
         self,
@@ -89,34 +200,52 @@ class _MindPool:
         labels: list[str],
         prior: PriorParams | None = None,
         scene: str | None = None,
+        *,
+        key: tuple | None = None,
+        walker_idx: int = 0,
     ) -> tuple[MindState, str | None, str] | None:
         """(MindState, goal, source) 또는 None(예산 0 + 풀 비어있음 → 호출자 휴리스틱).
 
         source = "exaone"(실호출) / "stub"(예산 내 발동이나 키 없음) / "pool"(풀 표집)
         — 대시보드가 점 색을 구분하는 데 쓴다. 로직 분기에는 쓰지 않는다.
+
+        key=None 이면 층화 없이 총량만 보는 구버전 동작으로 떨어진다(하위호환).
         """
-        if self.remaining > 0:
-            self.remaining -= 1
+        stratum = key if key is not None else _STRATA[0]
+        if self._grant(stratum, walker_idx / self.n_walkers):
             from app import llm  # 지연 임포트 (테스트에서 모킹 지점)
 
             # rng 전달 — 후보 나열 순서를 풀 엔트리마다 섞는다(순서 편향 제거,
             # 시드 재현성은 롤아웃 rng 로 유지).
             out = llm.exaone.reinterpret_mind(persona, current, gauge_report, labels,
                                               prior, scene, rng=rng)
-            self.results.append(out)
+            self.entries.append((stratum, out[0], out[1]))
             return out[0], out[1], ("stub" if llm.exaone.is_stub else "exaone")
-        return self.sample_only(rng)
+        return self.sample_only(rng, key=key)
 
-    def sample_only(self, rng: random.Random) -> tuple[MindState, str | None, str] | None:
-        """풀 표집 전용 — 워커의 2회차 이후 전환은 예산을 건드리지 않는다 (과제3).
+    # ── 재사용 매칭 ─────────────────────────────────────────────────
+    def sample_only(
+        self, rng: random.Random, *, key: tuple | None = None,
+    ) -> tuple[MindState, str | None, str] | None:
+        """풀 표집 — 현재 문맥과 가까운 층의 엔트리에 더 큰 확률을 준다.
 
-        1회차만 reinterpret(예산 소비 가능)를 타게 해서, 예산 슬롯이 서로 다른
-        워커의 첫 발동 문맥에 고르게 쓰이도록 유지한다 (풀 다양성 보존).
+        가중치 w = exp(-λ·거리), λ = settings.mind_pool_match_strength.
+        λ=0 이면 구버전(문맥 무관 균등)과 완전히 같아 ablation 끔 상태가 된다.
+        λ 를 무한대(하드 매칭)로 두지 않는 것이 아키텍처 원칙 준수다 — 층당
+        엔트리가 1개일 때 하드 매칭은 사실상 결정론적 마음 캐시가 된다. 유한 λ 는
+        "분포 저장 + 매 진입 독립 표집"을 유지하면서 기대값만 문맥에 맞춘다.
+        표집된 값에 노이즈를 주입하지 않는다(LLM 출력 위조 금지).
         """
-        if self.results:
-            mind, goal = rng.choice(self.results)
-            return mind.model_copy(), goal, "pool"   # 표집된 상태도 워커별 사본
-        return None
+        if not self.entries:
+            return None
+        lam = settings.mind_pool_match_strength
+        if key is None or lam <= 0.0:
+            _, mind, goal = rng.choice(self.entries)
+        else:
+            weights = [math.exp(-lam * _stratum_distance(key, k))
+                       for k, _, _ in self.entries]
+            _, mind, goal = rng.choices(self.entries, weights=weights)[0]
+        return mind.model_copy(), goal, "pool"   # 표집된 상태도 워커별 사본
 
 
 def run_monte_carlo(
@@ -135,7 +264,8 @@ def run_monte_carlo(
     rng = random.Random(seed)
     n = n_walkers or settings.mc_num_walkers
     # EXAONE 호출 예산은 예측 1회 스코프 — 모든 워커가 공유
-    mind_pool = _MindPool(settings.mind_call_budget) if mode == "agent" else None
+    mind_pool = (_MindPool(settings.mind_call_budget, n)
+                 if mode == "agent" else None)   # n = 진행률 기반 쿼터 회수의 분모
 
     names = list(prior.strategy_probs.keys())
     probs = list(prior.strategy_probs.values())
@@ -406,19 +536,20 @@ def _walk_graph(
                 mind_transitions += 1
                 last_mind_step = step
                 gauge_report = g.report(fired)
+                # 층 = 이 트리거 문맥의 동치류. 회차를 층 축에 넣었으므로 2회차도
+                # 예산 경쟁에 참여한다 — 구버전은 여기서 회차로 분기해 2회차의
+                # 실호출 확률을 구조적으로 0 으로 만들었다(_MindPool 독스트링 D1).
+                stratum = stratum_key(g.C, fired, mind_transitions)
                 if mind_pool is None:
                     result = None
-                elif mind_transitions == 1:
-                    # 1회차만 예산 소비 가능 — 풀 다양성(서로 다른 워커의 첫 문맥) 보존
+                else:
                     # 장면 텍스트: 지금 이 노드에서 무엇이 보이는가 (외인성 자극)
                     from app.llm.exaone import build_scene_text  # 지연 — 순환 임포트
 
                     result = mind_pool.reinterpret(
                         rng, persona, mind or MindState(), gauge_report,
-                        list(label_nodes or {}), prior, build_scene_text(env))
-                else:
-                    # 2회차부터 풀 표집 전용 — 실호출 예산 불변 (과제3 다회전환)
-                    result = mind_pool.sample_only(rng)
+                        list(label_nodes or {}), prior, build_scene_text(env),
+                        key=stratum, walker_idx=walker_idx)
                 if result is None:
                     # 예산 0 + 풀 비어있음 — 스텁과 같은 혼란 심화 휴리스틱
                     base = mind.confusion if mind else 0.5
