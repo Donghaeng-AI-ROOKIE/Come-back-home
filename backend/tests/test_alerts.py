@@ -75,7 +75,7 @@ class TestSelectNewRegionCells:
 
     def test_new_cells_below_aggregate_threshold_ignored(self):
         last_alert = {"a": 1.0}
-        current = {"a": 0.99, "tiny": 0.01}  # 새 셀 합산 질량(0.01)이 임계(기본 0.05) 미달
+        current = {"a": 0.99, "tiny": 0.01}  # 새 셀 합산 질량(0.01)이 임계(기본 0.0664) 미달
         assert alerts.select_new_region_cells(current, last_alert) == []
 
     def test_explicit_mass_threshold_overrides(self):
@@ -97,7 +97,7 @@ class TestSelectNewRegionCells:
         last_alert = {"old": 0.79}
         current = {"old": 0.79, **{k: 0.007 for k in new_keys}}  # 합산 0.21, 개별 0.007
         result = alerts.select_new_region_cells(current, last_alert)
-        assert result  # 개별 질량(0.007) < 임계(0.05)여도 합산 초과로 발동
+        assert result  # 개별 질량(0.007) < 임계(0.0664)여도 합산 초과로 발동
         assert set(result) <= set(new_keys)
 
     def test_max_cells_caps_new_region_target(self):

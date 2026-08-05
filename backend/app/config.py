@@ -253,9 +253,22 @@ class Settings(BaseSettings):
     # Phase 3 — D3(3차 알림, 새 지역 한정) — JS는 예비스크린, 집합차+질량임계가 최종판정.
     # new_region_mass_threshold 는 새 셀 "하나"가 아니라 새 셀 전체 합산 질량 기준
     # (셀 단위로 재면 넓게 퍼지는 실제 분포에서 항상 무반응이라 D3 의 존재 이유와
-    # 모순됨 — 실측으로 확인됨). 두 값 모두 완전 잠정 — 팀 확인 필요(작업6 설계 노션 문서 참고)
-    js_divergence_threshold: float = 0.05
-    new_region_mass_threshold: float = 0.05
+    # 모순됨 — 실측으로 확인됨).
+    #
+    # 값 근거 (PR#87, experiments/d3_threshold/, 3,800개 합성 타임라인 결정표):
+    #   목표 탐지율 95% · baseline 제보 혼합(고신뢰30/저신뢰50/허위20)의 동작점 채택.
+    #   그 행이 mass_thr=0.0664 · js_thr=0.0617 이며 이때 헛알림율 25.9%,
+    #   놓침(임계탓) 42/3800. 95%를 고른 이유: 결정표에서 mass_thr 가 가장 높은
+    #   (=가장 보수적) 행이라 헛알림이 최소고, 스텁 실험이 낙관했을 수 있는
+    #   "허위 제보의 층2 오도달"이 실호출에서 늘어나도 이미 흡수돼 있다.
+    #   js_thr 는 결정권이 아니라 "mass 가 발송 판정한 케이스를 하나도 안 거르는
+    #   최댓값"으로 따로 산출된 예비 게이트 값이다(mass 보다 항상 헐거움).
+    #   ⚠ 전제 2가지: (1) baseline 혼합을 가정한 값 — 실제 제보가 부실하면
+    #     (low_quality 환경) 더 낮은 문턱(~0.033)이 필요하다. (2) 구체성 판정은
+    #     tip_llm 스텁을 우회해 직접 주입한 상한선 결과 — 실호출 파일럿 재확인은
+    #     미실시(P2-D3-2 설계 있음). 운영 알림 로그가 쌓이면 실제 제보 환경으로 재보정.
+    js_divergence_threshold: float = 0.0617
+    new_region_mass_threshold: float = 0.0664
 
     # 층1 혼합 likelihood 커널
     likelihood_l_max: float = 5.0        # 목격 지점 셀의 L
