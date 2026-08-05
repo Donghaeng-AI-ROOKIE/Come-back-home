@@ -12,8 +12,12 @@ seed 42/43/44, LLM 스텁)에서 드러난 결함 셋:
      seed 가 나온다.
   D3 매칭 부재 — 균등 표집이라 불안으로 발동한 워커가 귀소 문맥의 답을 받는다.
 
-결정적 근거: **예산을 5→10 으로 두 배 늘려도** 미커버 비율이 43.1%→41.6% 로
-거의 안 줄었다. 예산 크기가 아니라 배분 규칙 문제라는 뜻이다.
+효과 귀속 (적대검증 2026-08-06, n12 재측정): 미커버(회차×혼란) 축의 개선은 거의
+전부 D1 게이트 제거 몫이고(45.6%→27.9%, 층화를 더해도 27.8% 로 순증 노이즈 안),
+**층화 고유 기여는 D2 꼬리 층 보장**이다 — "불안 층 실호출 0건" seed 비율이
+42% → 0% 인데, 게이트만 제거하면 오히려 67% 로 악화한다(2회차가 예산 경쟁에
+들어와 희소 층을 밀어낸다). D3 효과는 미측정 — 스텁이 층과 무관하게 같은
+MindState 를 반환하므로 배달되는 마음이 상수다.
 
 ## 여기서 고정하는 계약
 
@@ -100,6 +104,30 @@ def test_quota_sums_to_budget():
 def test_default_budget_gives_every_stratum_one_slot():
     """예산 5 = 층당 정확히 1 — 어느 층도 구조적으로 배제되지 않는다."""
     assert set(_MindPool(5, 500).quota.values()) == {1}
+
+
+def test_reduced_budget_keeps_slot_for_later_stratum():
+    """예산을 조여도 2회차(later) 층은 쿼터를 잃지 않는다.
+
+    적대검증 2026-08-06 회귀: 층 선언 순서가 정의 순(귀소·불안·later)이던 동안
+    budget 3·4 에서 later 가 맨 뒤로 밀려 쿼터 0 이 됐다. later 는 트리거의 40%
+    를 차지하는 **두 번째로 흔한 층**이고, 쿼터 0 이면 앞 층들이 초반에 쿼터를
+    소진해 free 가 영구 0 이라 실호출을 한 번도 못 받는다 — 이 배분이 없애려던
+    D1(2회차 구조적 배제)의 재발이다. 실측: budget 3 에서 12 seed 중 8개가
+    2회차 실호출 0건. config.py 가 budget 3 을 예비 카드로 명시하므로 실사용 구간.
+    """
+    for budget in (2, 3, 4, 5):
+        quota = _MindPool(budget, 500).quota
+        assert quota[_LATER] >= 1, f"budget {budget} 에서 later 층 쿼터 0 (구버전 회귀)"
+
+
+def test_strata_declared_in_observed_frequency_order():
+    """층 선언 순서 = 관측 빈도 내림차순 — divmod 가 순서대로 쿼터를 나누기 때문.
+
+    빈도(정릉·500워커·seed 42~53): 귀소저 .441 > later .405 > 불안저 .110
+    > 귀소고 .030 > 불안고 .005. 이 순서가 곧 예산 부족 시의 우선순위다.
+    """
+    assert simulation._STRATA == (("귀소", 0), _LATER, ("불안", 0), ("귀소", 1), ("불안", 1))
 
 
 def test_zero_budget_grants_nothing():
