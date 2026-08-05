@@ -30,7 +30,7 @@ import { useAppModeStore } from '../store/appModeStore';
 import { useEngagementStore } from '../store/engagementStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
 import { useMyLocation } from '../hooks/useMyLocation';
-import { distanceM, formatDistance } from '../utils/geo';
+import { useAreaStatus } from '../hooks/useAreaStatus';
 import { DEMO_CASE_ID, LAST_SEEN } from '../data/missing';
 import { alertToView, toCitizenView } from '../data/missingView';
 import { useGoldenTime, usePresenceCount, useActiveAlerts } from '../hooks/queries';
@@ -83,16 +83,16 @@ export default function AlertDetailScreen() {
   const watching = usePresenceCount(caseId);
 
   // 내 위치 — 지도의 OS 마커와 거리 문구에 함께 쓴다. 좌표는 기기 밖으로 나가지 않는다.
-  const { point: myPoint, accuracyM, status: locStatus } = useMyLocation();
+  const { point: myPoint, status: locStatus } = useMyLocation();
   const located = locStatus === 'granted' && myPoint != null;
-  const meters = myPoint ? distanceM(myPoint, LAST_SEEN) : null;
-  const distanceLabel = meters == null ? null : formatDistance(meters, accuracyM);
+  // 거리(m·분) 대신 "예측 구역 안/밖 + 확률 등급" — 근거는 utils/areaStatus.ts.
+  const area = useAreaStatus(caseId);
 
   // 지도는 시각 정보라 스크린리더에는 거리를 말로 대신 준다.
   const mapA11yLabel = [
     `내 주변 지도. ${profile.area} 최종 목격 위치와 예상 이동 반경을 표시합니다.`,
     located ? '내 위치도 함께 표시됩니다.' : '위치 권한이 없어 내 위치는 표시되지 않습니다.',
-    distanceLabel ? `최종 목격 장소까지 ${distanceLabel}.` : '',
+    area.label,
   ]
     .filter(Boolean)
     .join(' ');
@@ -290,13 +290,18 @@ export default function AlertDetailScreen() {
                 fill={ON_CRITICAL}
               />
             </Svg>
-            {/* "내 주변"이라는 주장을 실제 거리로 대체 — 근거를 보여주는 게 낫다.
-                측위 실패 시에만 기존 문구로 물러난다. */}
+            {/* 배지는 좁으니 안/밖까지만. 등급은 아래 캡션이 말한다. */}
             <Text style={styles.mapBadgeText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              {`${distanceLabel ?? '내 주변'} · 예상 동선`}
+              {area.short ? `${area.short} · 예상 동선` : '예상 동선'}
             </Text>
           </View>
         </View>
+
+        {/* 이 미니 지도에는 히트맵이 없다(예상 반경 원만 있음) — 내가 얼마나 유력한
+            구역에 있는지는 색으로 안 보이므로 문장으로 말해준다. */}
+        <Text style={styles.areaCaption} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+          {area.label}
+        </Text>
 
         {/* 회상 유도(§4.1 빨강 워시) */}
         <View style={styles.recallCard} accessible accessibilityLabel={`혹시 이런 분, 스쳐 지나가지 않으셨어요? ${recallCopy}`}>
@@ -588,6 +593,14 @@ const styles = StyleSheet.create({
   },
   pressed: { opacity: 0.9 },
 
+  areaCaption: {
+    marginTop: space.sm,
+    fontSize: type.size.label,
+    fontWeight: type.weight.medium,
+    color: color.textBody,
+    fontFamily: type.family,
+    lineHeight: 21,
+  },
   helperText: {
     marginTop: space.md,
     textAlign: 'center',
