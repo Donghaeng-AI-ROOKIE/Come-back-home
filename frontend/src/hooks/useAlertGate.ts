@@ -22,17 +22,18 @@ import { useActiveAlerts } from './queries';
 import { useMyLocation, isLocationSettled } from './useMyLocation';
 import { useAppModeStore } from '../store/appModeStore';
 import { useDebugStore } from '../store/debugStore';
+import { useEngagementLevel } from '../store/engagementStore';
 import { alertsForMe, pickGateCase } from '../utils/alertGate';
 import type { GeoPoint, PoliceAlert } from '../types/domain';
 
 /**
- * 측위를 이만큼 기다렸는데도 결론이 없으면 그냥 진행한다.
+ * 측위를 이만큼 기다렸는데도 결론이 없으면 그냥 진행한다(= 위치 없음으로 확정).
  *
- * 기다리는 이유: 위치를 모른 채 판정하면 fail-open 으로 관문이 떴다가, 잠시 뒤
- * "구역 밖"으로 밝혀지며 사라진다 — 긴급 화면이 깜빡이는 최악의 경험.
- * 그렇다고 무한정 기다리면 권한 팝업을 안 누른 사용자에게 앱이 영영 안 열린다.
+ * 기다리는 이유: 위치를 모른 채 판정하면 fail-closed 로 "경보 없음"이 확정돼,
+ * 잠시 뒤 측위가 끝나도 관문이 서지 않는다. 그렇다고 무한정 기다리면 권한
+ * 팝업을 안 누른 사용자에게 앱이 영영 안 열린다.
  */
-const LOCATION_WAIT_MS = 4000;
+const BOOT_WAIT_MS = 6000;
 
 export type AlertGate =
   | { pending: true; caseId: null }
@@ -48,20 +49,19 @@ export function useAlertsForMe(enabled = true): {
   const { point, status } = useMyLocation(enabled);
   const forceInArea = useDebugStore((s) => s.forceInAlertArea);
 
-  const [waitedForLocation, setWaitedForLocation] = useState(false);
+  const [waited, setWaited] = useState(false);
   useEffect(() => {
-    const id = setTimeout(() => setWaitedForLocation(true), LOCATION_WAIT_MS);
+    const id = setTimeout(() => setWaited(true), BOOT_WAIT_MS);
     return () => clearTimeout(id);
   }, []);
 
   if (!enabled) return { pending: false, alerts: [], myPoint: null };
 
-  const locationReady = isLocationSettled(status) || waitedForLocation;
+  const locationReady = isLocationSettled(status) || waited;
   if (isPending || !locationReady) return { pending: true, alerts: [], myPoint: point };
 
-  const all = data ?? [];
-  // 데모 오버라이드는 지오펜스만 건너뛴다 — 억제·재무장 규칙은 그대로 탄다.
-  return { pending: false, alerts: forceInArea ? [...all] : alertsForMe(all, point), myPoint: point };
+  // 데모 오버라이드는 지오펜스만 건너뛴다 — 확률 문턱·억제·재무장은 그대로 탄다.
+  return { pending: false, alerts: alertsForMe(data ?? [], point, forceInArea), myPoint: point };
 }
 
 /**
@@ -72,10 +72,14 @@ export function useAlertGate(enabled = true): AlertGate {
   const { point, status } = useMyLocation(enabled);
   const dismissedCases = useAppModeStore((s) => s.dismissedCases);
   const forceInArea = useDebugStore((s) => s.forceInAlertArea);
+  // 피로도 예산 — 알림을 눌러보는 사람에겐 넓게, 꺼버리는 사람에겐 중요한 것만.
+  // 신호는 기기 안에만 있으므로 판정도 여기서 한다(utils/alertBudget.ts).
+  const level = useEngagementLevel();
 
-  const [waitedForLocation, setWaitedForLocation] = useState(false);
+
+  const [waited, setWaited] = useState(false);
   useEffect(() => {
-    const id = setTimeout(() => setWaitedForLocation(true), LOCATION_WAIT_MS);
+    const id = setTimeout(() => setWaited(true), BOOT_WAIT_MS);
     return () => clearTimeout(id);
   }, []);
 
@@ -83,13 +87,13 @@ export function useAlertGate(enabled = true): AlertGate {
 
   // 조회가 끝나기 전에 판정하면 "경보 없음"으로 확정돼 관문이 안 선다.
   // 호출부(RootNavigator)는 이 동안 네비게이터를 마운트하지 않고 기다린다.
-  const locationReady = isLocationSettled(status) || waitedForLocation;
+  const locationReady = isLocationSettled(status) || waited;
   if (isPending || !locationReady) return { pending: true, caseId: null };
 
-  // forceInAlertArea 일 때 좌표를 null 로 넘기면 지오펜스가 fail-open 으로
-  // 통과한다 — 판정 경로를 하나로 유지하기 위해 별도 분기를 두지 않는다.
-  const geofencePoint = forceInArea ? null : point;
-  return { pending: false, caseId: pickGateCase(data ?? [], dismissedCases, geofencePoint) };
+  return {
+    pending: false,
+    caseId: pickGateCase(data ?? [], dismissedCases, point, level, forceInArea),
+  };
 }
 
 export default useAlertGate;

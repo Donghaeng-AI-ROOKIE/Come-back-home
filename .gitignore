@@ -5,3 +5,8 @@
 # 파인튜닝 임베딩 모델 가중치 — 용량이 커서(수백MB) git에 올리지 않음
 backend/axencoder-sar-ft.zip
 backend/axencoder-sar-ft/
+
+# 로컬 전용 시연·검증 패널 — 저장소에 올리지 않는다.
+# 판정 로직(debugStore·useAlertGate)은 커밋되며 기본값이 꺼짐이라,
+# 이 폴더가 없어도 앱은 정상 동작한다.
+frontend/src/dev/

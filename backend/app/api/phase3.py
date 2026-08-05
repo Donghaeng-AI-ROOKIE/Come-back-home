@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 from app import storage
 from app.geo import h3grid
-from app.phase3 import alerts, presence, tip_flow, triggers
+from app.phase3 import alerts, presence, storytelling, tip_flow, triggers
 from app.privacy import lifecycle
 from app.schemas.case import CaseStatus
 from app.schemas.common import GeoPoint
@@ -266,6 +266,27 @@ def get_presence(case_id: str):
     '참여자로 세어지면 안 되는' 관찰자용."""
     case = _get_case(case_id)
     return {"case_id": case.id, "watching": presence.count(case.id)}
+
+
+@router.get("/cases/{case_id}/guidance")
+def get_guidance(case_id: str):
+    """수색 안내 문구 — "어디를 봐야 하는지".
+
+    **수색 탭 전용이다.** 푸시 본문에는 넣지 않는다 — 잠금화면은 폰을 집어든 누구나
+    보고 그 알림은 구 단위 수천 명에게 가므로, 같은 문장이라도 노출 범위가 다르다.
+    푸시로 확대할지는 기획 결정 대기(노션 참고).
+
+    페르소나가 없으면(사전 미등록) 경과시간 기반 범위 안내만 나간다.
+    """
+    case = _get_case(case_id)
+    persona = (
+        storage.personas.get(case.report.persona_id) if case.report.persona_id else None
+    )
+    return {
+        "case_id": case.id,
+        "guidance": storytelling.guidance_for(case, persona),
+        "personalized": persona is not None,
+    }
 
 
 @router.get("/cases/{case_id}/rerun-check")

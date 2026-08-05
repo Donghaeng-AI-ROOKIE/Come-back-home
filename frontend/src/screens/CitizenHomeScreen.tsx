@@ -12,7 +12,12 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, radius, space, type } from '../theme/tokens';
-import { useActiveWalk, useStartWalk, useWalkStats } from '../hooks/queries';
+import { useActiveWalk, useStartWalk, usePoaPrediction, useWalkStats } from '../hooks/queries';
+import { useDebugStore } from '../store/debugStore';
+import { useAlertsForMe } from '../hooks/useAlertGate';
+import { useMyLocation } from '../hooks/useMyLocation';
+import { cellProbAt } from '../utils/alertGate';
+import { TIER_LABEL, TIER_RANGE, tierForProb } from '../theme/poa';
 
 /** 추천 루트는 아직 서버 계산이 없다 — 표시용 고정값임을 코드에 남긴다. */
 const ROUTES = [
@@ -25,6 +30,36 @@ export default function CitizenHomeScreen() {
   const { data: stats, refetch, isRefetching } = useWalkStats();
   const { data: active } = useActiveWalk();
   const startWalk = useStartWalk();
+  const forceInAlertArea = useDebugStore((s) => s.forceInAlertArea);
+  const setForceInAlertArea = useDebugStore((s) => s.setForceInAlertArea);
+
+  // 동네 상태 — 지오펜스를 통과한(= 나에게 해당되는) 경보만 본다. 구역 밖이면
+  // alert 가 null 이고 "평온해요"가 맞는 말이다. 경보 중에 평온하다고 쓰는 건
+  // 이 화면에서 가장 눈에 띄는 거짓말이었다.
+  const { alerts: myAlerts } = useAlertsForMe();
+  const activeAlert = myAlerts[0] ?? null;
+  const { point: myPoint, status: locStatus } = useMyLocation();
+  const poa = usePoaPrediction(activeAlert?.caseId ?? '', 1);
+  // "동선 예측 확률과 얼마나 가까운가" — 내 위치가 실제로 POA 셀 안인지까지 본다.
+  const cellProb = cellProbAt(myPoint, poa.data);
+  const tier = cellProb != null && cellProb > 0 ? tierForProb(cellProb) : null;
+
+  // 위치를 모르면 **경보를 아예 못 받는다**(fail-closed). 어느 사건이 이 사람에게
+  // 해당되는지 고를 수 없기 때문인데, 사용자 입장에선 조용한 실패라 반드시 알려야 한다.
+  const locationBlocked = locStatus === 'denied' || locStatus === 'unavailable';
+
+  const statusTitle = locationBlocked
+    ? '위치를 켜야 주변 경보를 받을 수 있어요'
+    : activeAlert
+      ? `${activeAlert.area} 인근에서 실종자를 찾고 있어요`
+      : '우리 동네는 지금 평온해요';
+  const statusSub = locationBlocked
+    ? '실종 경보는 내 주변일 때만 도착해요. 위치를 모르면 어느 사건이 가까운지 알 수 없어 알려드리지 못해요.'
+    : !activeAlert
+      ? '이번 달 이웃들이 무사히 집으로 돌아왔어요'
+      : tier
+        ? `내 위치가 예측 구역 안이에요 · 발견확률 ${TIER_LABEL[tier]} (${TIER_RANGE[tier]})`
+        : '내 위치는 예측 구역 밖이에요';
 
   const onStart = (areaLabel?: string) => {
     if (active) {
@@ -48,6 +83,44 @@ export default function CitizenHomeScreen() {
         <Text style={styles.title} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
           안심 산책
         </Text>
+
+        {/* 동네 상태 — 경보가 나에게 해당될 때만 수색 문구로 바뀐다.
+            색은 심각도 워시(채도 높은 필 아님) — 관문을 통과한 뒤의 홈이라
+            여기서 다시 전면 경보처럼 굴면 사용자의 의사를 뒤집는 셈이다. */}
+        <View
+          style={[
+            styles.statusCard,
+            activeAlert && styles.statusCardAlert,
+            locationBlocked && styles.statusCardBlocked,
+          ]}
+          accessible
+          accessibilityRole="text"
+          accessibilityLabel={`${statusTitle}. ${statusSub}`}
+        >
+          <View
+            style={[
+              styles.statusDot,
+              activeAlert && styles.statusDotAlert,
+              locationBlocked && styles.statusDotBlocked,
+            ]}
+          />
+          <View style={styles.statusText}>
+            <Text
+              style={[
+                styles.statusTitle,
+                activeAlert && styles.statusTitleAlert,
+                locationBlocked && styles.statusTitleBlocked,
+              ]}
+              allowFontScaling
+              maxFontSizeMultiplier={type.maxScale}
+            >
+              {statusTitle}
+            </Text>
+            <Text style={styles.statusSub} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              {statusSub}
+            </Text>
+          </View>
+        </View>
 
         {/* 이번 달 누적 */}
         <View
@@ -103,6 +176,7 @@ export default function CitizenHomeScreen() {
         <Text style={styles.note} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
           산책 경로는 저장하지 않습니다. 시작·종료 시각과 거리 합계만 기록됩니다.
         </Text>
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -110,6 +184,55 @@ export default function CitizenHomeScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: color.surfaceAlt },
+  statusCard: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: space.sm,
+    backgroundColor: color.walkWash,
+    borderRadius: radius.lg,
+    padding: space.md,
+  },
+  statusCardAlert: { backgroundColor: color.criticalWash },
+  // 위치 차단 — 긴급(빨강)도 평시(그린)도 아니다. 주의 환기용 앰버 계열.
+  statusCardBlocked: { backgroundColor: color.searchWash },
+  statusDotBlocked: { backgroundColor: color.search },
+  statusTitleBlocked: { color: color.searchInk },
+  statusDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: color.walk, marginTop: 5 },
+  statusDotAlert: { backgroundColor: color.critical },
+  statusText: { flex: 1, minWidth: 0 },
+  statusTitle: {
+    fontSize: type.size.label,
+    fontWeight: type.weight.black,
+    color: color.walkInk,
+    fontFamily: type.family,
+  },
+  statusTitleAlert: { color: color.criticalInk },
+  statusSub: {
+    marginTop: 2,
+    fontSize: type.size.caption,
+    fontWeight: type.weight.medium,
+    color: color.textBody,
+    fontFamily: type.family,
+    lineHeight: 18,
+  },
+
+  // 데모 전용 칩 — 눈에 띄지 않게 중립 톤. 시연 스위치지 기능이 아니다.
+  debugChip: {
+    alignSelf: 'center',
+    marginTop: space.md,
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+    borderRadius: radius.pill,
+    backgroundColor: color.surface,
+    borderWidth: 1,
+    borderColor: color.border,
+  },
+  debugText: {
+    fontSize: type.size.caption,
+    fontWeight: type.weight.medium,
+    color: color.textCaption,
+    fontFamily: type.family,
+  },
   scroll: { padding: space.xl, gap: space.md, paddingBottom: space.xxl },
   title: { fontSize: type.size.title, fontWeight: type.weight.black, color: color.text, fontFamily: type.family },
   section: { fontSize: type.size.label, fontWeight: type.weight.black, color: color.textCaption, fontFamily: type.family, marginTop: space.sm },

@@ -27,6 +27,7 @@ import { useModeTheme } from '../theme/theme';
 import {
   useActiveAlerts,
   useGoldenTime,
+  useGuidance,
   usePoaPrediction,
   usePresenceCount,
 } from '../hooks/queries';
@@ -36,7 +37,7 @@ import type { GeoPoint, PoaGrid, TimeAxis } from '../types/domain';
 import { useAuthStore } from '../store/authStore';
 import { useAppModeStore } from '../store/appModeStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
-import { alertToView, toAnonView } from '../data/missingView';
+import { alertToView, toCitizenView } from '../data/missingView';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { distanceM, formatWalkTime } from '../utils/geo';
 import type { RootStackParamList } from '../navigation/types';
@@ -134,8 +135,11 @@ export default function SearchScreen() {
   // **살아있는 경보의 케이스를 본다.** 종전에는 DEMO_CASE_ID 가 박혀 있어, 그
   // 데모 케이스를 지우면 화면이 404 를 붙들고 "지도를 불러오지 못했어요"를 띄운
   // 채 프로필은 목업으로 폴백했다(2026-08-05 실측 — 제목 78세·부제 82세 모순).
+  // 수색 안내(#125)도 같은 케이스를 봐야 한다 — 지도는 실제 사건, 안내 문구는
+  // 데모 케이스로 갈리면 "어디를 보라"가 다른 사람 기준이 된다.
   const caseId = liveAlert?.caseId ?? DEMO_CASE_ID;
   const watching = usePresenceCount(caseId);
+  const guidance = useGuidance(caseId).data?.text ?? '';
   const role = useAuthStore((s) => s.role);
   const golden = useGoldenTime();
   const [axis, setAxis] = useState<TimeAxis>(0);
@@ -345,12 +349,37 @@ export default function SearchScreen() {
           {watching != null && <PresenceBadge watching={watching} compact />}
         </View>
 
-        {/* 시민 화면 — 익명 뷰 */}
+        {/* 앱 안 시민 화면 — 실명·나이는 노출, 진단명은 제외(#125).
+            데이터는 실제 경보 우선, 없으면 목업 — 실데이터 경로에는 아직 이름이
+            없다(알림 payload 가 익명화로 이름을 빼고 내려온다). 후속 과제. */}
         <MissingPersonCard
-          view={liveAlert ? alertToView(liveAlert) : toAnonView(profile)}
+          view={liveAlert ? alertToView(liveAlert) : toCitizenView(profile)}
           variant="compact"
           showAppearanceChips
         />
+
+        {/* 수색 안내 — "어디를 봐야 하는지". 이 화면에 없던 정보다(지도와 인상착의는
+            있어도 행동 지시가 없었다). 서버가 페르소나에서 만들어 내려준다.
+            문구가 없거나 조회 실패면 조용히 사라진다 — 지도·인상착의가 본질이고
+            안내는 보탬이라, 이것 때문에 에러 UI 를 띄울 이유가 없다. */}
+        {guidance ? (
+          <View
+            style={[styles.guidanceCard, { backgroundColor: theme.accentWash }]}
+            accessible
+            accessibilityLabel={`수색 안내. ${guidance}`}
+          >
+            <Text style={styles.guidanceIcon} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              🔎
+            </Text>
+            <Text
+              style={[styles.guidanceText, { color: theme.accentInk }]}
+              allowFontScaling
+              maxFontSizeMultiplier={type.maxScale}
+            >
+              {guidance}
+            </Text>
+          </View>
+        ) : null}
 
         <View style={styles.lastSeenRow} accessible accessibilityLabel={`마지막 목격 · ${MISSING.area} 인근`}>
           <Text style={styles.lastSeenIcon} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
@@ -615,6 +644,24 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: space.sm,
   },
+  // 수색 안내 카드 — '수색 진행' 요소라 앰버 계열 워시(§4.1). 심각도색 아님.
+  guidanceCard: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: space.sm,
+    borderRadius: radius.lg,
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+  },
+  guidanceIcon: { fontSize: 15, lineHeight: 21 },
+  guidanceText: {
+    flex: 1,
+    fontSize: type.size.label,
+    fontWeight: type.weight.medium,
+    fontFamily: type.family,
+    lineHeight: 21,
+  },
+
   sheetKicker: {
     fontSize: type.size.label,
     fontWeight: type.weight.black,
