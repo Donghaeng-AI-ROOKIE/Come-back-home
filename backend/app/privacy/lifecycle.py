@@ -14,8 +14,12 @@
 - 얼굴 임베딩은 애초에 생성하지 않는다 (기존 결정 = 최소수집 원칙).
 - 수색 중(활성) 케이스는 명시 삭제 불가 — 철회(withdrawn) 종결이 먼저다.
   오종결·오삭제로 골든타임 수색 데이터가 소실되는 것을 막는 가드레일.
-- 인메모리 백본이라 "파기 = dict 에서 제거". DB 전환 시 이 모듈이
-  물리삭제/익명화 정책의 단일 진입점이 된다.
+- **파기는 디스크까지 닿아야 한다.** 저장소가 SQLite 로 영속화되면서
+  (settings.persist_storage) "dict 에서 제거"만으로는 부족해졌다. SQLite 는
+  DELETE 후에도 페이지에 원본 바이트가 남으므로 파기 트랜잭션 끝에
+  storage.vacuum() 으로 회수한다. 검증은 tests/test_storage_persist.py 가
+  DB 파일을 바이너리로 열어 이름이 남았는지 확인한다.
+  이 모듈이 물리삭제/익명화 정책의 단일 진입점이다.
 """
 
 from datetime import datetime, timedelta
@@ -156,6 +160,7 @@ def purge_case(case: Case, *, cause: str) -> None:
     storage.cases.delete(case.id)
     presence.clear(case.id)  # 종결을 거치지 않고 바로 파기되는 경로(테스트·일괄파기)도 있다
     _audit("case_purged", "case", case.id, cause)
+    storage.vacuum()  # DELETE 만으로는 페이지에 원본이 남는다 (아래 주석 참조)
 
 
 def request_case_deletion(case: Case) -> None:
@@ -188,6 +193,7 @@ def purge_persona(persona_id: str, *, cause: str = "explicit_request") -> None:
             _audit("interview_purged", "interview", s.id, f"persona_purge:{persona_id}")
     storage.personas.delete(persona_id)
     _audit("persona_purged", "persona", persona_id, cause)
+    storage.vacuum()
 
 
 def purge_expired(now: datetime | None = None) -> dict[str, list[str]]:
@@ -214,4 +220,7 @@ def purge_expired(now: datetime | None = None) -> dict[str, list[str]]:
             storage.interviews.delete(s.id)
             _audit("interview_purged", "interview", s.id, "abandoned_ttl")
             purged["interviews"].append(s.id)
+    # 일괄 파기는 끝에 한 번만 회수한다 — 건마다 부르면 전체 DB 를 반복해서 다시 쓴다.
+    if purged["cases"] or purged["interviews"]:
+        storage.vacuum()
     return purged

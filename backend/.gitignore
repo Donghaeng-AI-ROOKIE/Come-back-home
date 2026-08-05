@@ -20,6 +20,10 @@ venv/
 .vscode/
 .idea/
 
+# 테스트 산출물 — 감사로그를 운영 파일과 격리한 결과물 (conftest.py 참조)
+tests/.pytest_audit.jsonl
+
 # 런타임 데이터 (도로망 캐시 등 - 테스트 fixture 는 tests/fixtures 에 커밋)
+# storage.db(개인정보 영속화)도 여기 포함된다 — 절대 커밋 금지.
 data/
 cache/
