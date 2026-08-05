@@ -24,6 +24,7 @@ import { color, radius, space, type, HIT } from '../theme/tokens';
 import { hexToRgba } from '../utils/color';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING, MISSING_ANON } from '../data/missing';
 import { useAppModeStore } from '../store/appModeStore';
+import { useEngagementStore } from '../store/engagementStore';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { distanceM, formatDistance, formatWalkTime } from '../utils/geo';
 import type { RootStackParamList } from '../navigation/types';
@@ -124,13 +125,22 @@ export default function LockScreenAlert() {
   const summaryLine = distanceLabel ? `${SUMMARY_BASE} · ${distanceLabel}` : SUMMARY_BASE;
 
   const dismissCase = useAppModeStore((s) => s.dismissCase);
+  // 피로 신호 — 여러 번 끄면 일반 예측 알림은 관문을 안 세운다(alertBudget).
+  const recordDismissed = useEngagementStore((st) => st.recordDismissed);
+  const recordOpened = useEngagementStore((st) => st.recordOpened);
 
-  const openDetail = () => navigation.navigate('AlertDetail', { caseId });
+  // 잠금화면은 벨·알림 탭으로만 들어온다(관문은 경보 상세로 직행) — 즉 여기
+  // 도달한 것 자체가 자발적 열람이다. 상세로 넘어갈 때 관심 신호로 센다.
+  const openDetail = () => {
+    recordOpened();
+    navigation.navigate('AlertDetail', { caseId });
+  };
   const dismiss = () => navigation.goBack();
   // "안볼래요" — 닫기(✕)와 구분되는 별도 의사표시. ✕는 이번만 넘김,
   // 이쪽은 이 사건의 재촉을 끈다. 경보 재도달·벨 진입 경로는 그대로 남는다.
   const dismissNudge = () => {
     dismissCase(caseId);
+    recordDismissed();
     navigation.goBack();
   };
 

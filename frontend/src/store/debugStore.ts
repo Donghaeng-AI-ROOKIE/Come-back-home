@@ -17,9 +17,21 @@ type DebugState = {
    */
   forceInAlertArea: boolean;
   setForceInAlertArea: (on: boolean) => void;
+
+  /**
+   * 내가 있는 셀의 발견확률을 이 값으로 강제한다(null = 강제 안 함).
+   *
+   * 피로도 예산(참여도별 확률 문턱)은 **정릉동 예측 셀 안에 실제로 서 있어야**
+   * 화면에서 확인할 수 있다. 시연·검증용으로 확률만 갈아끼울 수 있게 둔다.
+   * forceInAlertArea 가 지오펜스만 건너뛰는 것과 짝을 이룬다.
+   */
+  forceCellProb: number | null;
+  setForceCellProb: (prob: number | null) => void;
 };
 
 export const useDebugStore = create<DebugState>((set) => ({
   forceInAlertArea: false,
   setForceInAlertArea: (on) => set({ forceInAlertArea: on }),
+  forceCellProb: null,
+  setForceCellProb: (prob) => set({ forceCellProb: prob }),
 }));

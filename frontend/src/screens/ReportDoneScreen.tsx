@@ -22,6 +22,7 @@ import { poaMeta } from '../theme/poa';
 import { hexToRgba } from '../utils/color';
 import CTAButton from '../components/CTAButton';
 import StatCard from '../components/StatCard';
+import { useEngagementStore } from '../store/engagementStore';
 import { DEMO_CASE_ID, MISSING_ANON } from '../data/missing';
 import { buildFoundSummary } from '../data/mock';
 
@@ -225,6 +226,13 @@ export default function ReportDoneScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'ReportDone'>>();
   const { caseId, beforeAreaKm2, afterAreaKm2, deltaPct } = route.params;
+
+  // 피로도 예산의 가장 강한 관심 신호 — 여는 건 궁금해서일 수 있지만 제보는
+  // 시간을 들여 참여한 것이다. 기기 안에만 쌓이고 서버로 가지 않는다.
+  const recordReported = useEngagementStore((st) => st.recordReported);
+  useEffect(() => {
+    recordReported();
+  }, [recordReported]);
   const targetCaseId = caseId ?? DEMO_CASE_ID;
   const fs = buildFoundSummary();
 
