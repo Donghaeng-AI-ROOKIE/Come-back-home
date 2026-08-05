@@ -70,6 +70,13 @@ export type PoaGrid = {
   priorSource: 'exaone' | 'fallback' | 'stub' | 'unknown';
   /** fallback/stub 일 때의 사유 (운영 진단용). */
   priorFallbackReason?: string;
+  /**
+   * 도로망 위에서 걸은 예측인지. false 면 연속 공간(도로 제약 없음)이다.
+   * `use_roadnet` 기본값이 true 라(PR #122) false 는 대개 로딩 실패를 뜻한다 —
+   * 이 폴백도 조용해서 POA·지도는 정상으로 나온다.
+   */
+  roadnetUsed: boolean;
+  roadnetFallbackReason?: string;
 };
 
 // ── 경찰 실종경보 ─────────────────────────────────────

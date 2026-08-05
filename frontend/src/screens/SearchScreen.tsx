@@ -27,7 +27,7 @@ import { useModeTheme } from '../theme/theme';
 import { usePoaPrediction, useGoldenTime, usePresenceCount } from '../hooks/queries';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING } from '../data/missing';
 import { hexToRgba } from '../utils/color';
-import type { GeoPoint } from '../types/domain';
+import type { GeoPoint, PoaGrid } from '../types/domain';
 import { useAuthStore } from '../store/authStore';
 import { useAppModeStore } from '../store/appModeStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
@@ -48,6 +48,40 @@ import ModeStatusBar from '../components/ModeStatusBar';
 /** '내가 확인할 구역' 반경(m). '수색 진행' 요소 → 앰버 계열. */
 const ZONE_RADIUS_M = 240;
 
+/**
+ * 예측 품질 저하 경고 문구. 두 가지 폴백이 **둘 다 조용히** 일어난다 —
+ * POA 도 지도도 정상으로 나오므로 화면만으로는 구분할 수 없다.
+ *
+ *  - prior 폴백  : AI 호출 실패/미연결 → 연령·유형 평균 (개인화 없음)
+ *  - 도로망 폴백 : 도로망 로딩 실패 → 연속 공간 (도로 제약 없음)
+ *
+ * 개인화 손실이 더 크므로 prior 를 먼저 알린다. 정책이라 표시 컴포넌트가 아니라
+ * 여기(화면)에 둔다 — 컴포넌트 안에 두면 디자인 교체 시 조용히 사라진다.
+ */
+function degradedNotice(grid?: PoaGrid): { label: string; a11y: string } | null {
+  if (!grid) return null;
+  if (grid.priorSource === 'stub') {
+    return {
+      label: '⚠️ AI 미연결 — 연령·유형 평균 지도입니다',
+      a11y: '이 지도는 개인 맞춤 예측이 아닙니다. AI가 연결되지 않아 연령·유형 평균으로 표시됩니다.',
+    };
+  }
+  if (grid.priorSource === 'fallback') {
+    return {
+      label: '⚠️ AI 예측 실패 — 연령·유형 평균 지도입니다',
+      a11y: '이 지도는 개인 맞춤 예측이 아닙니다. AI 예측에 실패해 연령·유형 평균으로 표시됩니다.',
+    };
+  }
+  // 도로망 폴백은 개인화는 살아 있고 지형 제약만 빠진 상태다 — 문구를 구분한다.
+  if (!grid.roadnetUsed && grid.roadnetFallbackReason !== 'off') {
+    return {
+      label: '⚠️ 도로망 미적용 — 길 따라 걷는 제약이 빠진 지도입니다',
+      a11y: '도로망을 불러오지 못해 길 제약 없이 계산된 예측입니다. 실제 이동 가능 범위와 다를 수 있습니다.',
+    };
+  }
+  return null;
+}
+
 export default function SearchScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -60,6 +94,7 @@ export default function SearchScreen() {
   const role = useAuthStore((s) => s.role);
   const golden = useGoldenTime();
   const poa = usePoaPrediction(DEMO_CASE_ID, 1);
+  const degraded = degradedNotice(poa.data);
 
   const grid = poa.data;
   const cumPct = grid ? Math.round(grid.cumulative * 100) : null;
@@ -167,27 +202,21 @@ export default function SearchScreen() {
             <HeatLegend compact />
           </View>
 
-          {/* AI 개인화가 실제로 반영됐는지 — 폴백은 조용히 일어나므로 숨기지 않는다.
-              이걸 안 띄우면 프로파일 통계 평균을 "AI 예측"으로 보여주게 된다. */}
-          {grid.priorSource !== 'exaone' ? (
+          {/* 예측 품질이 떨어진 상태를 숨기지 않는다. 두 폴백 다 조용해서
+              (POA·지도는 정상으로 나온다) 표시하지 않으면 통계 평균이나 도로
+              제약 없는 예측을 "AI 예측"으로 보여주게 된다. */}
+          {degraded ? (
             <View
               style={[styles.degradedBanner, { top: insets.top + 110 }]}
               accessible
-              accessibilityLabel={
-                '주의. 이 지도는 개인 맞춤 예측이 아닙니다. ' +
-                (grid.priorSource === 'stub'
-                  ? 'AI가 연결되지 않아 연령·유형 평균으로 표시됩니다.'
-                  : 'AI 예측에 실패해 연령·유형 평균으로 표시됩니다.')
-              }
+              accessibilityLabel={`주의. ${degraded.a11y}`}
             >
               <Text
                 style={styles.degradedText}
                 allowFontScaling
                 maxFontSizeMultiplier={type.maxScale}
               >
-                {grid.priorSource === 'stub'
-                  ? '⚠️ AI 미연결 — 연령·유형 평균 지도입니다'
-                  : '⚠️ AI 예측 실패 — 연령·유형 평균 지도입니다'}
+                {degraded.label}
               </Text>
             </View>
           ) : null}

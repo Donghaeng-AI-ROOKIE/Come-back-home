@@ -9,6 +9,7 @@ bottom-up·statistical 양쪽에 반영되고 있어 별도 POA로 다시 더하
 재실행 시 case.lkp / case.lkp_time 이 새 LKP 로 교체된 상태여야 한다.
 """
 
+import logging
 from datetime import datetime
 from time import perf_counter
 
@@ -19,6 +20,8 @@ from app.phase2 import combine, radius, simulation, topdown
 from app.schemas.case import Case, CaseStatus
 from app.schemas.debug import PredictionDebug, SimTrace
 from app.schemas.prediction import MindState, POA, PredictionResult
+
+log = logging.getLogger(__name__)
 
 
 def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | None = None):
@@ -33,7 +36,7 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
     (실측: PIL 미설치 하나로 도로망 전체가 연속 공간 폴백되던 문제.)
     """
     if not settings.use_roadnet:
-        return None
+        return None, "off"
     r = None
     if (settings.roadnet_dynamic_radius and prior is not None
             and elapsed_hours is not None):
@@ -44,15 +47,17 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
 
         net = roadnet.get_network(case.lkp, radius_m=r)
     except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
-        print(f"[roadnet] 로딩 실패 → 연속 공간 폴백: {e}")
-        return None
+        # use_roadnet 기본값이 True 가 된 뒤로(PR #122) 이 경로는 실서비스 경로다.
+        # print 만 남기면 "도로망을 안 쓴 예측"이 조용히 나가므로 사유를 반환한다.
+        log.warning("도로망 로딩 실패 → 연속 공간 폴백 — %s: %s", type(e).__name__, e)
+        return None, f"{type(e).__name__}: {e}"[:200]
     try:
         from app.geo import envlayer
 
         envlayer.attach(net, case.lkp, radius_m=r)  # 환경 속성 — 게이지·트리거가 사용
     except Exception as e:  # noqa: BLE001 — 환경레이어 실패는 도로망을 죽이지 않는다
-        print(f"[envlayer] 부착 실패 → 환경 속성 없이 도로망 MC 계속: {e}")
-    return net
+        log.warning("환경레이어 부착 실패 → 환경 속성 없이 도로망 MC 계속 — %s", e)
+    return net, ""
 
 
 def run_prediction(
@@ -91,7 +96,7 @@ def run_prediction(
 
     # ② 예측 — 도로망이 있으면 두 MC 모두 그래프 위를 걷는다
     #    (통계 MC 도 같은 지형 제약이어야 "AI 기여도" 비교가 공정)
-    net = _load_roadnet(case, prior, persona, elapsed_hours)
+    net, roadnet_fallback = _load_roadnet(case, prior, persona, elapsed_hours)
     _lap("roadnet_ms")
     sim_trace = SimTrace() if trace else None
     poa_td = topdown.topdown_poa(case.lkp, prior, persona, elapsed_hours)  # 디버그·시각화 전용
@@ -117,6 +122,8 @@ def run_prediction(
     case.baseline_poa = dict(combined)
     case.current_poa = dict(combined)
     case.last_sim_at = now
+    case.roadnet_used = net is not None
+    case.roadnet_fallback_reason = roadnet_fallback
     case.status = CaseStatus.predicted
     storage.cases.save(case.id, case)
 
