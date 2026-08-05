@@ -1,0 +1,615 @@
+{
+  "raw": {
+    "귀소·낮음": [
+      {
+        "status": "정릉시장 쪽을 떠올리며 그 방향으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.35,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.35,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 떠올리며 그쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 향해 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 기억하며 그쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      }
+    ],
+    "귀소·중간": [
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 떠올리며 그쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 향해 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "뚜렷한 목적지 없이 걷다가 옛집 쪽을 향해 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "다른 데는 두고 이쪽만 찾으며 이동한다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.35,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 떠올리며 그쪽으로 향한다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.35,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      }
+    ],
+    "귀소·높음": [
+      {
+        "status": "다른 데는 몰라도 옛집 쪽은 알겠다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "정릉시장 쪽을 떠올리며 그쪽으로 향한다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집으로 가려는 의지가 앞선다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "정릉시장 쪽을 떠올리며 그쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      }
+    ],
+    "불안·낮음": [
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "아리랑고개 방향을 확인하고 그쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "정릉시장 쪽을 떠올리며 그쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "아리랑고개 방향을 확인하고 그쪽으로 걷기 시작한다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "아리랑고개 쪽을 확인하며 그쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "아리랑고개 방향을 확인하고 그쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "아리랑고개 방향을 확인하고 그쪽으로 걷기 시작한다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.35,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "방향을 옛집 쪽으로 정하고 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "아리랑고개 방향을 확인하고 그쪽으로 걷기 시작한다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "정릉시장 쪽을 떠올리며 그 방향으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "behavior": "계속 배회",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      }
+    ],
+    "불안·중간": [
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "저쪽이 아리랑고개인데 맞는지 확인하며 이동한다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "방향을 잃고 길 찾기를 포기한다.",
+        "confusion": 0.6,
+        "behavior": "은신·멈춤",
+        "goal": null
+      },
+      {
+        "status": "아리랑고개 방향을 확인하고 그쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "옛집 생각에 발걸음이 빨라진다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.85,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "아리랑고개 방향을 확인하고 그쪽으로 걷기 시작한다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "옛집 방향을 떠올리며 그쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "다른 데는 몰라도 옛집 쪽은 안다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      }
+    ],
+    "불안·높음": [
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "옛집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집으로 가려는 의지가 앞선다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+        "confusion": 0.6,
+        "behavior": "계속 배회",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽 사람들이 많아지는 것을 보고 그 방향으로 걷는다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집으로 가려는 의지가 앞선다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 향해 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "옛집 쪽을 얼른 확인하고 그쪽으로 걷는다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "아리랑고개 쪽을 확인하고 그쪽으로 향한다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "아리랑고개 쪽을 확인하며 그쪽으로 향한다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 떠올리며 그쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      }
+    ]
+  },
+  "verdict": {
+    "behavior": {
+      "distinct_across_strata": 1,
+      "per_stratum_mode": {
+        "귀소·낮음": "끌림점 접근",
+        "귀소·중간": "끌림점 접근",
+        "귀소·높음": "끌림점 접근",
+        "불안·낮음": "끌림점 접근",
+        "불안·중간": "끌림점 접근",
+        "불안·높음": "끌림점 접근"
+      }
+    },
+    "goal": {
+      "distinct_across_strata": 2,
+      "per_stratum_mode": {
+        "귀소·낮음": "정릉시장",
+        "귀소·중간": "정릉시장",
+        "귀소·높음": "옛집(아리랑고개)",
+        "불안·낮음": "정릉시장",
+        "불안·중간": "정릉시장",
+        "불안·높음": "정릉시장"
+      }
+    },
+    "status": {
+      "distinct_across_strata": 3,
+      "per_stratum_mode": {
+        "귀소·낮음": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "귀소·중간": "집 생각에 발걸음을 돌린다.",
+        "귀소·높음": "집 방향을 찾으며 걸음을 옮긴다.",
+        "불안·낮음": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "불안·중간": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "불안·높음": "정릉시장 쪽을 목표로 걸음을 옮긴다."
+      }
+    },
+    "confusion_per_stratum": {
+      "귀소·낮음": [
+        0.35,
+        0.6
+      ],
+      "귀소·중간": [
+        0.35,
+        0.6
+      ],
+      "귀소·높음": [
+        0.6
+      ],
+      "불안·낮음": [
+        0.35,
+        0.6
+      ],
+      "불안·중간": [
+        0.6,
+        0.85
+      ],
+      "불안·높음": [
+        0.6
+      ]
+    }
+  }
+}

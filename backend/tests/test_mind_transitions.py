@@ -1,9 +1,15 @@
 """PR #21 과제3 "다회전환" — 워커당 마음 재해석 1회 → N회(기본 2).
 
-핵심 불변식: 실호출 예산은 그대로다. 1회차 전환만 예산을 쓸 수 있고,
-2회차부터는 풀 표집 전용이다. 전환 사이에는 불응기(_MIND_REFRACTORY_STEPS)를
-둔다 — H·A 게이지는 발동 후 리셋되지 않아, 불응기가 없으면 2회차가 1회차
-직후 거의 같은 상태로 발동해 다회전환이 무의미해지기 때문.
+핵심 불변식: **실호출 총량은 예산을 넘지 않는다.** 전환 사이에는 불응기
+(_MIND_REFRACTORY_STEPS)를 둔다 — H·A 게이지는 발동 후 리셋되지 않아,
+불응기가 없으면 2회차가 1회차 직후 거의 같은 상태로 발동해 다회전환이
+무의미해지기 때문.
+
+⚠ 계약 변경 (2026-08-05, 층화 배분): 구버전의 "1회차만 예산을 쓸 수 있다"는
+규칙은 폐기됐다. 그 규칙 때문에 **실호출의 100% 가 1회차에서만** 일어났고
+(소비의 38~42% 는 2회차), 2회차는 정의상 게이지가 더 찬 문맥이라 실호출
+문맥의 혼란 등급이 체계적으로 낮았다. 이제 회차는 층(stratum) 축의 하나이고
+2회차도 자기 층의 예산을 쓴다. 총량 불변식만 남는다.
 """
 
 from pathlib import Path
@@ -69,8 +75,12 @@ def _fake_exaone(monkeypatch, calls: list):
     monkeypatch.setattr(llm.exaone, "reinterpret_mind", fake)
 
 
-def test_second_transition_uses_pool_not_budget(net, monkeypatch):
-    """1워커·매 스텝 발동 강제 — 전환은 2회지만 실호출은 정확히 1회."""
+def test_second_transition_can_use_budget(net, monkeypatch):
+    """1워커·매 스텝 발동 강제 — 2회차도 자기 층(later)의 예산을 쓸 수 있다.
+
+    구버전은 여기서 `len(calls) == 1` 이었다(2회차 예산 미소비). 그 규칙이
+    실호출을 1회차 문맥에 100% 가두던 구조적 배제라 폐기했다.
+    """
     calls: list = []
     _fake_exaone(monkeypatch, calls)
     _force_fire(monkeypatch)
@@ -80,10 +90,26 @@ def test_second_transition_uses_pool_not_budget(net, monkeypatch):
                                net=net, n_walkers=1, seed=21, trace=trace)
     events = trace.mind_events
     assert len(events) == settings.mind_transitions_per_walker == 2
-    assert len(calls) == 1                       # 2회차는 예산 미소비
+    assert len(calls) == 2                       # 1회차·2회차가 서로 다른 층
+    assert all(e.source in ("exaone", "stub") for e in events)
+    assert events[1].goal == "시장"              # 목표 재주입 유지
+
+
+def test_pool_sampling_when_stratum_budget_gone(net, monkeypatch):
+    """예산이 다 나간 뒤의 전환은 풀 표집으로 떨어지고, 목표 재주입도 유지된다."""
+    calls: list = []
+    _fake_exaone(monkeypatch, calls)
+    _force_fire(monkeypatch)
+    monkeypatch.setattr(settings, "mind_call_budget", 1)
+
+    trace = SimTrace()
+    simulation.run_monte_carlo(LKP, _prior(), _persona(), 1.0, mode="agent",
+                               net=net, n_walkers=1, seed=21, trace=trace)
+    events = trace.mind_events
+    assert len(calls) == 1
     assert events[0].source in ("exaone", "stub")
-    assert events[1].source == "pool"            # 자기 1회차 결과의 풀 표집
-    assert events[1].goal == "시장"              # 목표 재주입은 풀 경유로도 유지
+    assert events[1].source == "pool"
+    assert events[1].goal == "시장"              # 풀 경유로도 목표가 실린다
 
 
 def test_refractory_gap_between_transitions(net, monkeypatch):
