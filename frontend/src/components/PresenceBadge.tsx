@@ -20,12 +20,19 @@ export type PresenceBadgeProps = {
   caseId: string;
   /** 다크 트리(운영자·잠금화면)에서 쓸 때. */
   dark?: boolean;
+  /**
+   * 짧은 표기("4명"). 이미 "지금 함께 찾고 있어요" 같은 문맥이 옆에 있어
+   * 전체 문장을 반복하면 같은 말이 두 번 나오는 자리에서 쓴다.
+   * 낭독 문구는 compact 여부와 무관하게 항상 전체 문장이다 — 스크린리더에는
+   * 옆 문맥이 함께 읽힌다는 보장이 없으므로 "4명"만 들리면 뜻이 없다.
+   */
+  compact?: boolean;
 };
 
 /** 이 수 미만이면 표시하지 않는다 (위 주석의 두 가지 이유). */
 export const PRESENCE_MIN_VISIBLE = 2;
 
-export function PresenceBadge({ caseId, dark = false }: PresenceBadgeProps) {
+export function PresenceBadge({ caseId, dark = false, compact = false }: PresenceBadgeProps) {
   // 실패해도 조용히 사라진다 — 에러 UI를 띄우면 배지 하나 때문에
   // 긴급 화면에 "오류"가 뜨는 셈이라 오히려 해롭다.
   const { data } = usePresence(caseId);
@@ -33,6 +40,7 @@ export function PresenceBadge({ caseId, dark = false }: PresenceBadgeProps) {
   if (watching < PRESENCE_MIN_VISIBLE) return null;
 
   const text = `지금 ${watching}명이 함께 찾고 있어요`;
+  const label = compact ? `${watching}명` : text;
 
   return (
     <View
@@ -50,7 +58,7 @@ export function PresenceBadge({ caseId, dark = false }: PresenceBadgeProps) {
         maxFontSizeMultiplier={type.maxScale}
         numberOfLines={1}
       >
-        {text}
+        {label}
       </Text>
     </View>
   );

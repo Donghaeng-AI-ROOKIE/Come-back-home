@@ -38,6 +38,7 @@ import MapPin from '../components/MapPin';
 import PredictionRadius from '../components/PredictionRadius';
 import HeatLegend from '../components/HeatLegend';
 import MissingPersonCard from '../components/MissingPersonCard';
+import PresenceBadge from '../components/PresenceBadge';
 import ModeStatusBar from '../components/ModeStatusBar';
 
 /** '내가 확인할 구역' 반경(m). '수색 진행' 요소 → 앰버 계열. */
@@ -181,9 +182,15 @@ export default function SearchScreen() {
       <View style={[styles.sheet, { paddingBottom: insets.bottom + space.lg }]}>
         <View style={styles.grabber} />
 
-        <Text style={styles.sheetKicker} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          지금 함께 찾고 있어요
-        </Text>
+        {/* 참여자 수는 경보 상세뿐 아니라 수색 탭에서도 보여야 한다 — 경보를
+            지나친 뒤에 이 탭으로 들어와 수색하는 흐름이 오히려 본류다.
+            헤더 문구가 이미 "함께 찾고 있어요"라 배지는 짧은 변형을 쓴다. */}
+        <View style={styles.sheetHead}>
+          <Text style={styles.sheetKicker} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            지금 함께 찾고 있어요
+          </Text>
+          <PresenceBadge caseId={DEMO_CASE_ID} compact />
+        </View>
 
         <MissingPersonCard variant="compact" anon />
 
@@ -394,6 +401,14 @@ const styles = StyleSheet.create({
     backgroundColor: color.border,
     alignSelf: 'center',
     marginBottom: space.xs,
+  },
+  // 큰 글자 설정에서 배지가 밀려 잘리지 않도록 줄바꿈 허용.
+  sheetHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: space.sm,
   },
   sheetKicker: {
     fontSize: type.size.label,
