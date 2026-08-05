@@ -508,6 +508,11 @@ def _group_behaviors(session: InterviewSession) -> tuple[dict[str, list[str]], l
     draft_behaviors 를 그대로 읽는다(slot_notes 가 아니라) — 확인 게이트는 **실제로
     저장될 내용**을 보여주는 자리이고, 시드·구버전 세션처럼 slot_notes 가 없는
     데이터도 빠짐없이 나와야 하기 때문.
+
+    같은 본문은 한 번만 싣는다 — 추출이 한 답변을 두 번 저장하는 경우가 있어
+    (2026-08-05 라이브 실측) 그대로 두면 확인 화면에 같은 줄이 두 번 뜬다.
+    표시용 중복 제거라 draft_behaviors 원본은 건드리지 않는다 — 페르소나에는
+    그대로 들어가고, 보호자가 지우고 싶으면 등록 상세 화면에서 고친다.
     """
     grouped: dict[str, list[str]] = {}
     loose: list[str] = []
@@ -515,10 +520,9 @@ def _group_behaviors(session: InterviewSession) -> tuple[dict[str, list[str]], l
         key, body = _split_tagged_note(str(note))
         if not body:
             continue
-        if key is None:
-            loose.append(body)
-        else:
-            grouped.setdefault(key, []).append(body)
+        bucket = loose if key is None else grouped.setdefault(key, [])
+        if body not in bucket:
+            bucket.append(body)
     return grouped, loose
 
 
@@ -796,7 +800,7 @@ def _apply_extraction(
     # (특히 현재 집을 과거 거주지 답변이 덮어쓰던 버그 방지.)
     # 단 확인 게이트의 '정정' 발화는 보호자가 명시적으로 고치는 것 — overwrite=True 로
     # 덮어쓴다. (라이브 실측 버그: 요약 후 나이 정정이 first-wins 에 막혀 무시됨.)
-    for k, v in (extracted.get("fields", {}) or {}).items():
+    for k, v in _flatten_fields(extracted.get("fields", {}) or {}).items():
         if v:
             if overwrite:
                 session.draft_fields[k] = v
@@ -1390,6 +1394,33 @@ def _korean_age_to_int(value) -> int:
             matched = True
             break
     return total if matched else 0
+
+
+def _flatten_fields(fields: dict) -> dict:
+    """추출 결과의 중첩 dict 를 한 단계 편다.
+
+    Mi:dm 이 슬롯 키를 그대로 감싸 `{"identity": {"name": "김순자", "age": "82세"}}`
+    처럼 돌려주는 경우가 있다. 그대로 넣으면 `draft_fields["name"]` 이 비어
+    **페르소나 이름이 "미상"으로 저장된다**(2026-08-05 라이브 실측 — 대화에서는
+    이름을 정확히 추출했는데 등록 결과에는 안 들어갔다).
+
+    안쪽 값을 우선한다: 바깥 키(`identity`)는 슬롯 이름이고 우리가 원하는 것은
+    그 안의 필드(`name`·`age`)다. 이미 평탄한 키가 있으면 덮지 않는다 —
+    호출부의 first-wins/overwrite 판단을 여기서 가로채면 안 된다.
+    """
+    flat: dict = {}
+    for key, value in fields.items():
+        if isinstance(value, dict):
+            for inner_key, inner_value in value.items():
+                if inner_value:
+                    flat.setdefault(inner_key, inner_value)
+        else:
+            flat[key] = value
+    # 평탄한 키가 나중에 나와도 중첩본을 덮지 않도록 마지막에 한 번 더 채운다.
+    for key, value in fields.items():
+        if not isinstance(value, dict) and value:
+            flat[key] = value
+    return flat
 
 
 def _parse_age(value) -> int:

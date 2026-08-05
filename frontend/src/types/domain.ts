@@ -36,8 +36,13 @@ export type MissingPerson = {
 // ── POA(발견확률) — 지도 렌더용 ───────────────────────
 export type PoaTier = 'high' | 'mid' | 'low' | 'lowest';
 
-/** 예측 시간축 (경과 시간, 시간 단위). */
-export type TimeAxis = 0 | 1 | 3 | 6;
+/**
+ * 예측 시간축 — **경과시간(시간)**. 0 = "지금 실제 경과시간".
+ *
+ * 시작점(최종 목격 위치)은 고정이고 바뀌는 것은 "얼마나 걸을 수 있었나"뿐이다.
+ * 물감 한 방울처럼 떨어뜨린 자리는 그대로고 퍼진 범위만 커진다.
+ */
+export type TimeAxis = 0 | 0.5 | 1 | 2 | 3 | 4 | 6 | 8;
 
 export type PoaCell = {
   id: string;
@@ -77,6 +82,15 @@ export type PoaGrid = {
    */
   roadnetUsed: boolean;
   roadnetFallbackReason?: string;
+  /**
+   * 이 지도가 계산된 시각과, 그때의 경과시간.
+   *
+   * 서버가 45분마다 다시 예측하지만(phase2.refresher) **화면에 안 보이면
+   * 수색대는 지도가 최신인지 알 수 없다.** 갱신이 실패해 오래된 지도를 계속
+   * 보고 있어도 모르게 되므로 반드시 표시한다.
+   */
+  computedAt?: string;
+  elapsedHours?: number;
 };
 
 // ── 경찰 실종경보 ─────────────────────────────────────
@@ -112,6 +126,14 @@ export type PoliceAlert = {
   targetRadiusM: number;
   summary: string;
   matchedPersonId?: string; // 보호자 사전등록 매칭 시
+  /**
+   * 시민 화면이 띄울 최소 신원. **이름은 없다** — 불특정 다수에게 가는 알림이라
+   * 나이·인상착의로 충분하고, 이름까지 뿌리면 목적을 넘는 개인정보 제공이 된다.
+   */
+  age?: number;
+  appearance?: string[];
+  lkp?: GeoPoint;
+  lkpTime?: string;
 };
 
 // ── 시민 제보 (spec / backend tip.py) ─────────────────

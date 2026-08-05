@@ -16,6 +16,8 @@ export type RootStackParamList = {
   // 보호자 플로우 (홈에서 진입)
   RegChat: undefined;
   RegDone: { personaId: string; name: string; age: number };
+  /** 사전 등록 상세 — 저장된 내용 전체 열람·수정. */
+  PersonaDetail: { personaId: string };
   Report: undefined;
   ReportSent: { caseId: string };
 

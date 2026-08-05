@@ -34,6 +34,9 @@ type PoaResponse = {
   /** 도로망 위에서 걸었는지 — 로딩 실패 시 연속 공간 폴백이 조용히 일어난다. */
   roadnet_used?: boolean;
   roadnet_fallback_reason?: string;
+  /** 이 지도가 계산된 시각 · 그때의 경과시간 — "몇 시간 시점 지도"를 말하기 위해. */
+  computed_at?: string;
+  elapsed_hours?: number | null;
 };
 
 /** 백엔드 Tip 원본 (snake_case). */
@@ -89,12 +92,23 @@ function toGrid(caseId: string, t: TimeAxis, data: PoaResponse): PoaGrid {
     priorFallbackReason: data.prior_fallback_reason || undefined,
     roadnetUsed: data.roadnet_used ?? false,
     roadnetFallbackReason: data.roadnet_fallback_reason || undefined,
+    computedAt: data.computed_at,
+    elapsedHours: data.elapsed_hours ?? undefined,
   };
 }
 
+/**
+ * POA 조회. `t` 는 **경과시간(시간)** 이고 0 은 "지금 실제 경과시간"을 뜻한다.
+ *
+ * 0 이 아니면 서버가 "만약 t시간 경과라면"의 지도를 계산해 준다 — 시간축
+ * 슬라이더가 이걸 쓴다. 기존 통계(Koester 링)는 시점과 무관한 하나의 분포지만
+ * 우리는 경과시간이 예측에 들어가므로 시점마다 다르다(30분 상한 1.44km vs
+ * 1시간 2.88km). 첫 조회만 ~7초 걸리고 서버가 캐시한다.
+ */
 export async function getPoaPrediction(caseId: string, t: TimeAxis): Promise<PoaGrid> {
   if (USE_MOCK) return delay(buildPoaGrid(t));
-  const data = await api<PoaResponse>(`/phase3/cases/${caseId}/poa?top=64`);
+  const q = t > 0 ? `&elapsed_hours=${t}` : '';
+  const data = await api<PoaResponse>(`/phase3/cases/${caseId}/poa?top=64${q}`);
   return toGrid(caseId, t, data);
 }
 
@@ -182,14 +196,52 @@ export async function sendAlerts(
   return { targetCells: r.target_cells, sent: r.sent, message: r.message };
 }
 
+type AlertResponse = {
+  case_id: string;
+  issued_at: string;
+  area: string;
+  severity: 'critical' | 'active';
+  kind: 'reflex' | 'poa' | 'new_region';
+  target_center: GeoPoint;
+  target_radius_m: number;
+  summary: string;
+  matched_person_id?: string | null;
+  /** 시민에게 보여줄 최소 신원 — 이름은 오지 않는다(불특정 다수 대상 알림). */
+  age?: number | null;
+  appearance?: string[];
+  lkp?: GeoPoint;
+  lkp_time?: string;
+};
+
 /**
- * 살아있는 경보 목록. **푸시 인프라가 아직 없다** — 실서비스에서는 FCM/Notifee
- * 푸시와 지오펜스 백그라운드 폴링이 이 자리를 대신한다. 지금은 관문(useAlertGate)이
- * 판정할 대상을 주기 위해 데모 경보를 돌려준다.
+ * 살아있는 경보 목록 — 경보 진입 관문(useAlertGate)이 판정 대상으로 쓴다.
+ *
+ * 종전에는 `buildAlert()` 를 **조건 없이** 돌려줘서, 시민이 앱을 열 때마다
+ * 존재하지 않는 사건의 경보가 떴다(실측: 시뮬레이터 기본 위치가 쿠퍼티노라
+ * "약 9023.9km" 라는 거리까지 표시됐다). 이제 서버의 실제 케이스만 본다 —
+ * 신고·예측이 없으면 경보도 없다.
+ *
+ * 푸시 인프라(FCM)가 붙기 전까지는 폴링이다. 서버는 대상 구역만 뿌리고
+ * **내가 그 안에 있는지는 폰이 판단한다**(온디바이스 지오펜싱).
  */
 export async function getActiveAlerts(): Promise<PoliceAlert[]> {
   if (USE_MOCK) return delay([buildAlert()]);
-  return [buildAlert()];
+  const rows = await api<AlertResponse[]>('/phase3/alerts');
+  return rows.map((r) => ({
+    caseId: r.case_id,
+    issuedAt: r.issued_at,
+    area: r.area,
+    severity: r.severity,
+    kind: r.kind,
+    targetCenter: r.target_center,
+    targetRadiusM: r.target_radius_m,
+    summary: r.summary,
+    matchedPersonId: r.matched_person_id ?? undefined,
+    age: r.age ?? undefined,
+    appearance: (r.appearance ?? []).filter(Boolean),
+    lkp: r.lkp,
+    lkpTime: r.lkp_time,
+  }));
 }
 
 /**

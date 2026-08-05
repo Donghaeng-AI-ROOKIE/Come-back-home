@@ -155,3 +155,31 @@ def run_prediction(
         ))
 
     return result
+
+
+def poa_at_elapsed(case: Case, elapsed_hours: float, *, seed: int | None = 42) -> dict[str, float]:
+    """"만약 t시간 경과라면" 의 POA — 시간축 슬라이더용.
+
+    본 예측(run_prediction)과 다른 점:
+    - **케이스 상태를 바꾸지 않는다.** current_poa·status·last_sim_at 전부 그대로다.
+      알림·제보는 계속 실제 경과시간 기준 지도만 쓴다.
+    - prior 를 다시 만들지 않는다. 이미 저장된 case.prior 를 재사용한다 — 같은
+      사람의 성향은 시점이 바뀐다고 달라지지 않고, 시점마다 EXAONE 을 다시 부르면
+      슬라이더 한 번에 LLM 호출이 4배로 는다.
+    - seed 고정이 기본이다. 슬라이더를 좌우로 움직일 때 같은 시점이 매번 다르게
+      보이면 "시간이 바꾼 것"과 "난수가 바꾼 것"을 구분할 수 없다.
+
+    결과는 case.poa_by_hour 에 캐시한다(호출부 책임).
+    """
+    if case.prior is None:
+        raise ValueError("prior 없음 — 먼저 예측을 실행해야 한다")
+    persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
+    elapsed = max(elapsed_hours, 0.05)
+    net, _ = _load_roadnet(case, case.prior, persona, elapsed)
+    mind = case.mind or MindState()
+    bu = simulation.run_monte_carlo(
+        case.lkp, case.prior, persona, elapsed, mode="agent", net=net,
+        mind=mind, seed=seed)
+    stat = simulation.run_monte_carlo(
+        case.lkp, case.prior, persona, elapsed, mode="statistical", net=net, seed=seed)
+    return combine.alpha_pool([bu, stat], alphas=[0.7, 0.3], mode="linear")

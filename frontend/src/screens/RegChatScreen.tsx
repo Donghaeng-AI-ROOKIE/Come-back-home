@@ -45,11 +45,13 @@ import CTAButton from '../components/CTAButton';
 import { ApiError } from '../api/config';
 import {
   answerInterview,
+  getPersona,
   listSlots,
   startInterview,
   type InterviewSession,
   type SlotInfo,
-} from '../api/phase0';
+} from '../api/guardian';
+import { useGuardianStore } from '../store/guardianStore';
 
 const ACCENT = color.walk;
 const AVATAR_GRADIENT = [color.walk, color.walkInk] as const;
@@ -146,18 +148,39 @@ export default function RegChatScreen() {
     begin();
   }, [begin]);
 
-  // 완료 → 서버가 페르소나를 만들고 persona_id 를 채운다. 그 ID 를 다음 단계
-  // (신고·예측)로 넘겨야 하므로 요약을 화면 안에서 끝내지 않고 RegDone 으로 넘긴다.
+  // 완료 → 서버가 페르소나를 만들고 persona_id 를 채운다.
+  //
+  // **draft_fields 에서 이름을 꺼내지 않는다.** 그건 인터뷰 도중의 초안이라
+  // 중첩 구조({identity:{name}})일 수 있고, 최종 정규화는 서버가 한다.
+  // 서버가 만든 페르소나를 다시 읽는 것이 유일하게 믿을 수 있는 값이다
+  // (2026-08-05: 초안에서 꺼내다가 이름이 빈 채로 넘어간 버그).
+  //
+  // 스토어에도 넣는다 — 보호자 홈·신고 화면이 "사전 등록해 둔 정보"를 띄우려면
+  // 이게 있어야 한다. setPersona 를 아무도 부르지 않아 홈이 계속 "등록된 가족
+  // 없음"이던 문제의 원인이었다.
+  const setPersona = useGuardianStore((st) => st.setPersona);
   useEffect(() => {
     if (!session?.done || !session.persona_id) return;
-    const raw = session.draft_fields as Record<string, unknown>;
-    navigation.replace('RegDone', {
-      personaId: session.persona_id,
-      name: String(raw.name ?? ''),
-      // 서버는 "78세" 처럼 단위가 붙은 문자열로 담는다 — 숫자만 뽑는다.
-      age: Number(String(raw.age ?? '').replace(/[^0-9]/g, '')) || 0,
-    });
-  }, [session, navigation]);
+    let cancelled = false;
+    (async () => {
+      try {
+        const persona = await getPersona(session.persona_id!);
+        if (cancelled) return;
+        setPersona(persona);
+        navigation.replace('RegDone', {
+          personaId: persona.id, name: persona.name, age: persona.age,
+        });
+      } catch (e) {
+        if (cancelled) return;
+        // 등록 자체는 성공했다 — 조회만 실패했으므로 진행은 시킨다.
+        setError(e instanceof ApiError ? e.message : String(e));
+        navigation.replace('RegDone', {
+          personaId: session.persona_id!, name: '', age: 0,
+        });
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [session, navigation, setPersona]);
 
   const messages = useMemo<Msg[]>(() => {
     const fromServer = (session?.messages ?? []).map((m, i) => ({

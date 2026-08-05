@@ -38,12 +38,21 @@ const COLS = 7;
 const ROWS = 8;
 
 type PeakCfg = { pi: number; pj: number; sx: number; sy: number; peak: number };
-const PEAK: Record<TimeAxis, PeakCfg> = {
-  0: { pi: 3.0, pj: 3.8, sx: 1.0, sy: 1.1, peak: 0.86 },
-  1: { pi: 3.6, pj: 4.6, sx: 1.5, sy: 1.7, peak: 0.8 },
-  3: { pi: 4.2, pj: 5.3, sx: 2.1, sy: 2.3, peak: 0.72 },
-  6: { pi: 4.7, pj: 5.9, sx: 2.7, sy: 2.9, peak: 0.66 },
-};
+// 목업 전용 — 시간축이 늘어나면 가까운 값으로 보간한다(정확할 필요 없다).
+const PEAK_BY_HOUR: [number, PeakCfg][] = [
+  [0, { pi: 3.0, pj: 3.8, sx: 1.0, sy: 1.1, peak: 0.86 }],
+  [1, { pi: 3.6, pj: 4.6, sx: 1.5, sy: 1.7, peak: 0.8 }],
+  [3, { pi: 4.2, pj: 5.3, sx: 2.1, sy: 2.3, peak: 0.72 }],
+  [6, { pi: 4.7, pj: 5.9, sx: 2.7, sy: 2.9, peak: 0.66 }],
+];
+
+function peakFor(t: TimeAxis): PeakCfg {
+  let best = PEAK_BY_HOUR[0];
+  for (const entry of PEAK_BY_HOUR) {
+    if (Math.abs(entry[0] - t) < Math.abs(best[0] - t)) best = entry;
+  }
+  return best[1];
+}
 
 function cellPolygon(center: GeoPoint): GeoPoint[] {
   return [
@@ -55,7 +64,7 @@ function cellPolygon(center: GeoPoint): GeoPoint[] {
 }
 
 export function buildPoaGrid(t: TimeAxis, seedSalt = 0): PoaGrid {
-  const cfg = PEAK[t];
+  const cfg = peakFor(t);
   const rnd = lcg(1000 + t * 97 + seedSalt * 7);
   type Raw = { i: number; j: number; center: GeoPoint; w: number };
   const raws: Raw[] = [];
@@ -110,6 +119,7 @@ export function buildPoaGrid(t: TimeAxis, seedSalt = 0): PoaGrid {
     priorFallbackReason: '목 데이터 (EXPO_PUBLIC_USE_MOCK=true)',
     roadnetUsed: false,
     roadnetFallbackReason: '목 데이터 — 시뮬레이션을 돌리지 않았다',
+    elapsedHours: t,
   };
 }
 

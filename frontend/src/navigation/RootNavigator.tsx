@@ -40,6 +40,7 @@ import WalkSummaryScreen from '../screens/WalkSummaryScreen';
 // 보호자 — 사전등록·신고
 import RegChatScreen from '../screens/RegChatScreen';
 import RegDoneScreen from '../screens/RegDoneScreen';
+import PersonaDetailScreen from '../screens/PersonaDetailScreen';
 import ReportScreen from '../screens/ReportScreen';
 import ReportSentScreen from '../screens/ReportSentScreen';
 
@@ -88,6 +89,7 @@ export default function RootNavigator() {
           <Stack.Screen name="GuardianTabs" component={GuardianTabs} />
           <Stack.Screen name="RegChat" component={RegChatScreen} />
           <Stack.Screen name="RegDone" component={RegDoneScreen} />
+          <Stack.Screen name="PersonaDetail" component={PersonaDetailScreen} />
           <Stack.Screen name="Report" component={ReportScreen} />
           <Stack.Screen name="ReportSent" component={ReportSentScreen} />
         </Stack.Group>

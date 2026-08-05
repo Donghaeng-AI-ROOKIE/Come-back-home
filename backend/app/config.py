@@ -251,6 +251,13 @@ class Settings(BaseSettings):
 
     # Phase 3 — 층2(Phase 2 재실행) 트리거
     layer2_periodic_minutes: int = 45    # 주기 재실행 (Koester 반경 확장 대응, 30~60분)
+    # POA 자동 갱신 — 위 트리거를 **주기적으로 물어보는** 백그라운드 루프.
+    # 판정 로직은 예전부터 있었지만 호출하는 쪽이 없어서, 신고 시점 지도가 수색
+    # 내내 그대로 남았다(5시간 실종 신고 → 7시간이 돼도 5시간 지도).
+    # 검사 주기와 재실행 주기는 다르다: 자주 묻고(5분) 가끔 돌린다(45분) —
+    # 판정은 싸고 예측은 비싸다(EXAONE 5호출).
+    poa_refresh_enabled: bool = True
+    poa_refresh_interval_seconds: float = 300.0
     kl_divergence_threshold: float = 0.5 # posterior가 baseline에서 이탈했다고 보는 KL 임계
 
     # Phase 3 — D3(3차 알림, 새 지역 한정) — JS는 예비스크린, 집합차+질량임계가 최종판정.
@@ -337,6 +344,13 @@ class Settings(BaseSettings):
     # 초과거리 감쇠 계수 — plausibility() 의 exp(-k·(d-d_max)/d_max). 1.0 = 기존 암묵값.
     # 값이 클수록 d_max 를 살짝만 넘어도 급감쇠(엄격), 작을수록 완만(관대). P1-6 튜닝 대상.
     reach_decay_k: float = 1.0
+
+    # 데모 시드(정릉동 김순자, case-jeongneung-001)를 기동 시 만들지.
+    # **영속화가 붙은 뒤로는 기본 꺼짐** — 껐다 켜도 실제 등록분이 남으므로 시드가
+    # 필요 없고, 오히려 시연·검증에서 진짜 사건과 섞여 혼선을 준다(2026-08-05:
+    # 경보 관문이 새 신고 대신 시드 케이스를 잡았다). 빈 서버에서 앱 화면을 보고
+    # 싶을 때만 켠다.
+    seed_demo_data: bool = False
 
     # ── 저장소 영속화 ───────────────────────────────────────────────
     # 켜면 페르소나·인터뷰·케이스가 SQLite 파일에 남아 재시작을 견딘다.

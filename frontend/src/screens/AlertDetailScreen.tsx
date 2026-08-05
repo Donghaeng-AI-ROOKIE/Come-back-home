@@ -32,8 +32,8 @@ import { useMissingPersonStore } from '../store/missingPersonStore';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { distanceM, formatDistance } from '../utils/geo';
 import { DEMO_CASE_ID, LAST_SEEN } from '../data/missing';
-import { toCitizenView } from '../data/missingView';
-import { useGoldenTime, usePresenceCount } from '../hooks/queries';
+import { alertToView, toCitizenView } from '../data/missingView';
+import { useGoldenTime, usePresenceCount, useActiveAlerts } from '../hooks/queries';
 import { hexToRgba, toLatLng } from '../utils/color';
 import type { RootStackParamList } from '../navigation/types';
 
@@ -60,6 +60,17 @@ export default function AlertDetailScreen() {
   const enterSearch = useAppModeStore((s) => s.enterSearch);
   const profile = useMissingPersonStore((s) => s.profile);
   const caseId = route.params?.caseId ?? DEMO_CASE_ID;
+  // 서버 경보가 진실이다 — 스토어는 목업 상수라 실제 신고와 나이·인상착의가 다르다.
+  const { data: liveAlerts } = useActiveAlerts();
+  const liveAlert = liveAlerts?.find((a) => a.caseId === caseId) ?? liveAlerts?.[0];
+  // 실제 알림이 있으면 그쪽이 진실이다 — 목업 profile 은 "78세 어르신"처럼 값이
+  // 박혀 있어 82세 신고에도 78세가 뜬다(2026-08-05 실측).
+  //
+  // 다만 **실데이터 경로에는 아직 실명이 없다.** #125 는 시민 화면 실명 노출을
+  // 허용했지만(경찰 실종경보 베이스라인 + 호명 반응), 알림 payload 는 익명화
+  // 원칙으로 이름을 빼고 내려온다. 그래서 지금은 실데이터면 이름 없이, 목업이면
+  // toCitizenView 로 이름이 나온다 — 서버가 시민용 이름을 내려주게 하는 것은 후속.
+  const view = liveAlert ? alertToView(liveAlert) : toCitizenView(profile);
 
   // 진입 시 수색 모드(긴급) 보장 — enterSearch는 enteredSearchAt이 있으면 유지(멱등).
   useEffect(() => {
@@ -108,9 +119,11 @@ export default function AlertDetailScreen() {
     else navigation.goBack();
   };
 
-  const recallCopy = `지난 한 시간, ${profile.area} 인근에서 ${profile.appearance.join(
-    ', ',
-  )} 차림의 어르신을 보셨다면 작은 기억도 큰 도움이 돼요.`;
+  // 문구도 실데이터에서 만든다 — 인상착의가 비면 그 대목을 통째로 뺀다.
+  // "  차림의" 처럼 빈 자리가 남으면 신뢰를 잃는다.
+  const recallCopy = view.appearance.length
+    ? `지난 한 시간, ${view.meta}에서 ${view.appearance.join(', ')} 차림의 어르신을 보셨다면 작은 기억도 큰 도움이 돼요.`
+    : `지난 한 시간, ${view.meta}에서 홀로 걷고 계신 어르신을 보셨다면 작은 기억도 큰 도움이 돼요.`;
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
@@ -210,8 +223,9 @@ export default function AlertDetailScreen() {
 
         {/* 실종자 카드 — 단일 소스(익명, 인상착의 칩) */}
         <View style={styles.block}>
-          {/* 앱 안 시민 화면 — 실명·나이는 노출, 진단명은 제외(민감정보) */}
-          <MissingPersonCard view={toCitizenView(profile)} variant="full" showAppearanceChips />
+          {/* 앱 안 시민 화면 — 실명·나이는 노출, 진단명은 제외(민감정보).
+              노출 범위 결정은 #125, 데이터 출처는 실제 알림 우선(view 주석 참고). */}
+          <MissingPersonCard view={view} variant="full" showAppearanceChips />
         </View>
 
         {/* 최종 목격 — 구역·시간만(의료정보 비노출). 단일 소스 profile.lastSeen */}

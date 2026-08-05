@@ -3,14 +3,27 @@ import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getActiveAlerts, getGuidance, getPoaPrediction, touchPresence } from '../api/client';
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
-import { getCase, runPrediction } from '../api/guardian';
+import { getCase, listPersonas, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
 import type { TimeAxis } from '../types/domain';
 
 // ── 수색 ──────────────────────────────────────────────────────────
-/** 살아있는 경보 목록 — 경보 진입 관문(useAlertGate)이 판정 대상으로 쓴다. */
+/**
+ * 살아있는 경보 목록 — 경보 진입 관문(useAlertGate)이 판정 대상으로 쓴다.
+ *
+ * **주기 조회한다.** 푸시(FCM)가 없어서 앱 시작 때만 읽으면, 보호자가 신고해도
+ * 시민 앱을 껐다 켜야 경보가 보인다(개발·시연 내내 이게 병목이었다).
+ * 실서비스에서는 푸시가 이 자리를 대신하고 폴링은 백업으로 남는다.
+ */
+export const ALERT_POLL_MS = 15_000;
+
 export function useActiveAlerts() {
-  return useQuery({ queryKey: ['activeAlerts'], queryFn: () => getActiveAlerts() });
+  return useQuery({
+    queryKey: ['activeAlerts'],
+    queryFn: () => getActiveAlerts(),
+    refetchInterval: ALERT_POLL_MS,
+    refetchOnWindowFocus: true,
+  });
 }
 
 export function usePoaPrediction(caseId: string, t: TimeAxis) {
@@ -148,4 +161,15 @@ export function useGoldenTime(windowMs = GOLDEN_WINDOW_MS): GoldenTime | null {
   const ss = remainingSec % 60;
   const label = `${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
   return { elapsedSec, remainingSec, label, overdue: remainingSec === 0 };
+}
+
+/**
+ * 등록된 가족 목록 — 보호자 홈.
+ *
+ * 스토어(guardianStore)가 아니라 서버에서 읽는다. 스토어는 방금 등록한 것을
+ * 즉시 띄우기 위한 캐시라 앱을 다시 켜면 비어 있는데, 그때도 사전등록한 가족은
+ * 보여야 한다(영속화가 붙어 서버에는 남아 있다).
+ */
+export function usePersonas() {
+  return useQuery({ queryKey: ['personas'], queryFn: () => listPersonas() });
 }
