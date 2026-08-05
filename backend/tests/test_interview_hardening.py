@@ -761,19 +761,26 @@ def test_summary_shows_everything():
         assert f"내용{i}" in out
 
 
-def test_summary_groups_and_dedups_behaviors():
-    """같은 슬롯 항목은 묶고, 같은 문장은 한 번만 — 중복처럼 보이지 않게."""
-    from app.phase0.interview import build_summary
+def test_summary_dedups_repeated_notes():
+    """같은 문장은 한 번만 — 추출이 한 답변을 두 번 저장해도 확인 화면은 한 줄.
 
+    태그 붙은 노트와 접두 없는 노트 양쪽 다 본다. 접두 없는 쪽('그 밖에 알려주신
+    것')이 실제로 중복이 새던 경로다.
+    """
+    from app.phase0.interview import build_summary
+    from app.phase0.slots import slots_for
+
+    slot = slots_for(PersonaType.dementia)[3]
     s = InterviewSession(id="t", guardian_name="보호자", persona_type=PersonaType.dementia)
     s.draft_behaviors = [
-        "이동 반응성: 집 쪽으로 빨리 걸음",
-        "이동 반응성: 집 쪽으로 빨리 걸음",   # 추출이 중복 저장한 경우
-        "이동 반응성: 골목으로 숨음",
-        "복약: 치매약 복용",
+        f"{slot.label}: 집 쪽으로 빨리 걸음",
+        f"{slot.label}: 집 쪽으로 빨리 걸음",   # 추출이 중복 저장한 경우
+        f"{slot.label}: 골목으로 숨음",
+        "접두 없는 관찰",
+        "접두 없는 관찰",
     ]
     out = build_summary(s)
 
-    assert out.count("[이동 반응성]") == 1, "같은 슬롯이 여러 번 제목으로 나온다"
-    assert out.count("집 쪽으로 빨리 걸음") == 1, "중복 문장이 두 번 보인다"
-    assert "(3가지)" in out, "중복 제거 후 개수로 세어야 한다"
+    assert out.count("집 쪽으로 빨리 걸음") == 1, "태그 노트 중복이 두 번 보인다"
+    assert out.count("접두 없는 관찰") == 1, "접두 없는 노트 중복이 두 번 보인다"
+    assert "골목으로 숨음" in out, "중복 제거가 다른 항목까지 지웠다"

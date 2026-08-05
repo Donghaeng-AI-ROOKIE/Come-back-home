@@ -26,7 +26,7 @@ from app.geo.geocode import (
     to_attraction_points,
 )
 from app.phase0.retrieval import get_embedder
-from app.phase0.slots import Axis, Sink, SlotSpec, slot_by_key, slots_for
+from app.phase0.slots import SLOTS, Axis, Sink, SlotSpec, slot_by_key, slots_for
 from app.schemas.common import GeoPoint
 from app.schemas.persona import (
     AttractionPoint,
@@ -489,28 +489,84 @@ def _is_affirmative(text: str) -> bool:
     return bool(words) and all(w in _AFFIRM_WORDS for w in words)
 
 
-# 요약에 보여줄 최대 개수 — 전부 나열하지 않고 핵심만 큐레이션(데이터는 전부 저장됨).
-_MAX_PLACES = 3
-_MAX_BEHAVIORS = 2
+def _split_tagged_note(note: str) -> tuple[str | None, str]:
+    """'{슬롯 라벨}: {노트}' → (슬롯 key, 노트). 접두가 없으면 (None, 원문).
+
+    저장 형식은 _apply_extraction 이 붙이는 라벨 접두(dashboard.html 도 같은 규칙으로
+    귀속시킨다). 접두를 떼야 요약에서 슬롯 제목을 한 번만 쓰고 사실만 나열할 수 있다.
+    """
+    for slot in SLOTS:
+        prefix = f"{slot.label}: "
+        if note.startswith(prefix):
+            return slot.key, note[len(prefix):].strip()
+    return None, note
+
+
+def _group_behaviors(session: InterviewSession) -> tuple[dict[str, list[str]], list[str]]:
+    """행동 노트를 슬롯별로 묶는다. 반환 = ({슬롯 key: 노트들}, 접두 없는 노트들).
+
+    draft_behaviors 를 그대로 읽는다(slot_notes 가 아니라) — 확인 게이트는 **실제로
+    저장될 내용**을 보여주는 자리이고, 시드·구버전 세션처럼 slot_notes 가 없는
+    데이터도 빠짐없이 나와야 하기 때문.
+
+    같은 본문은 한 번만 싣는다 — 추출이 한 답변을 두 번 저장하는 경우가 있어
+    (2026-08-05 라이브 실측) 그대로 두면 확인 화면에 같은 줄이 두 번 뜬다.
+    표시용 중복 제거라 draft_behaviors 원본은 건드리지 않는다 — 페르소나에는
+    그대로 들어가고, 보호자가 지우고 싶으면 등록 상세 화면에서 고친다.
+    """
+    grouped: dict[str, list[str]] = {}
+    loose: list[str] = []
+    for note in session.draft_behaviors:
+        key, body = _split_tagged_note(str(note))
+        if not body:
+            continue
+        bucket = loose if key is None else grouped.setdefault(key, [])
+        if body not in bucket:
+            bucket.append(body)
+    return grouped, loose
+
+
+# 필드 슬롯은 '채움 판정'이 아니라 값 자체로 본다 — Mi:dm 이 slot_filled 를 냈지만
+# 이름이 안 뽑힌 실측(스텁·장애 모드에서도 재현)에서 요약이 이름 없이 등록을 확인받는다.
+_PROFILE_REQUIRED = {"identity": ("name", "age"), "home": ("home",)}
+
+
+def _unfilled_slots(session: InterviewSession, grouped: dict[str, list[str]]) -> list[SlotSpec]:
+    """아직 아무것도 못 받은 슬롯 — 보호자가 보충할 기회를 주기 위해 요약에 노출.
+
+    '못 받았다'의 기준은 filled_keys 만이 아니다. 소진(MAX_ASKS_PER_SLOT)됐거나
+    한 번도 안 물은 슬롯도 비어 있는 것은 같고, 반대로 채움 판정이 없어도 노트·
+    장소가 남았으면 요약 본문에 이미 보이므로 빈칸이 아니다(같은 항목이 위아래에
+    동시에 나오는 모순 방지).
+    """
+    f = session.draft_fields
+    place_slots = {str(a.get("origin_slot")) for a in session.draft_attractions}
+    out: list[SlotSpec] = []
+    for slot in slots_for(session.persona_type):
+        required = _PROFILE_REQUIRED.get(slot.key)
+        if required is not None:
+            if not all(f.get(k) for k in required):
+                out.append(slot)
+            continue
+        if slot.key in session.filled_keys or grouped.get(slot.key) or slot.key in place_slots:
+            continue
+        out.append(slot)
+    return out
 
 
 def build_summary(session: InterviewSession) -> str:
-    """수집 내용 **전부**를 정리해 보여주고 확인을 요청한다.
+    """수집 내용 **전부** + 빈칸 안내 + 확인 요청.
 
-    종전에는 장소 2곳·행동 2개만 보여주고 나머지를 "…외 15가지 저장"으로 접었다.
-    **"이게 맞나요?"라고 물으면서 대부분을 안 보여주는 것은 확인 절차가 아니다** —
-    보호자는 틀린 것이 있어도 알 수가 없었다. 실제로 이 화면을 통과한 등록에서
-    같은 답변이 두 슬롯에 중복 저장되고 과거 발견 장소가 끌림점으로 분류된 것을
-    나중에야 발견했다(2026-08-05).
+    "이게 맞나요?"라고 물으려면 확인할 것을 다 보여줘야 한다 — 접어놓고 묻는 것은
+    확인 절차가 아니다(구버전은 장소 3곳·행동 2개만 보이고 나머지를 '외 N가지 저장'
+    으로 감췄다). 슬롯 12개 규모라 전량 표시해도 길지 않다.
 
-    길이는 문제가 아니다 — 슬롯이 12개라 다 펼쳐도 20줄 안쪽이고, 스크롤 한 번이
-    잘못된 예측 근거보다 싸다.
-
-    행동 노트는 "슬롯라벨: 내용" 형태로 저장되므로 라벨로 묶는다. 안 묶으면 같은
-    슬롯 항목이 흩어져 중복처럼 보인다.
+    행동 노트는 슬롯 단위로 묶어 제목을 한 번만 쓰고, 제목은 내부 라벨이 아니라
+    보호자용 표현(SlotSpec.display_label)을 쓴다. 노트 본문은 보호자 발화/Mi:dm
+    재서술 그대로 — 확인 게이트에서 문장을 다시 지어내면 확인의 근거가 흔들린다.
     """
     f = session.draft_fields
-    lines: list[str] = ["📋 이렇게 등록할게요. 확인해 주세요.", ""]
+    lines: list[str] = ["📋 이렇게 등록할게요. 확인 부탁드려요.", ""]
 
     who: list[str] = []
     if f.get("name"):
@@ -526,44 +582,46 @@ def build_summary(session: InterviewSession) -> str:
 
     places = session.draft_attractions
     if places:
-        lines.append(f"• 가시려 할 만한 곳 ({len(places)}곳)")
+        lines.append("• 가시려 할 만한 곳")
         for ap in places:
             area = ap.get("area_text")
             lines.append(f"   - {ap.get('label', '')}{f' ({area})' if area else ''}")
 
-    grouped = _group_behaviors(session.draft_behaviors)
-    if grouped:
-        total = sum(len(v) for v in grouped.values())
-        lines.append(f"• 알려주신 내용 ({total}가지)")
-        for label, items in grouped.items():
-            lines.append(f"   [{label}]")
-            for item in items:
-                lines.append(f"   - {item}")
+    grouped, loose = _group_behaviors(session)
+
+    def _emit(label: str, notes: list[str]) -> None:
+        if len(notes) == 1:
+            lines.append(f"• {label}: {notes[0]}")      # 하나뿐이면 목록으로 늘리지 않는다
+            return
+        lines.append(f"• {label}")
+        lines.extend(f"   - {n}" for n in notes)
+
+    shown: set[str] = set()
+    for slot in slots_for(session.persona_type):
+        notes = grouped.get(slot.key)
+        if notes:
+            _emit(slot.display_label, notes)
+            shown.add(slot.key)
+    # 유형 밖 슬롯의 노트도 흘리지 않는다 — slots_for 는 유형별로 걸러지므로(치매
+    # 단독인 지금은 전 슬롯 통과) 대상 확장 시 저장된 노트가 요약에서만 조용히
+    # 사라질 수 있다. '전량 표시'가 이 함수의 계약이라 남은 것을 여기서 흡수한다.
+    for key, notes in grouped.items():
+        if key not in shown:
+            slot = slot_by_key(key)
+            _emit(slot.display_label if slot else key, notes)
+    if loose:
+        lines.append("• 그 밖에 알려주신 것")
+        lines.extend(f"   - {n}" for n in loose)
+
+    missing = _unfilled_slots(session, grouped)
+    if missing:
+        lines.append("")
+        lines.append("아직 안 알려주신 것 (지금 말씀하셔도 되고, 나중에 채우셔도 됩니다)")
+        lines.extend(f"   - {s.display_label}" for s in missing)
 
     lines.append("")
     lines.append("등록하신 정보가 이게 맞나요? 틀리거나 빠진 부분이 있으면 편하게 말씀해 주세요.")
     return "\n".join(lines)
-
-
-def _group_behaviors(notes: list[str]) -> dict[str, list[str]]:
-    """"슬롯라벨: 내용" 문장들을 라벨로 묶는다. 같은 내용은 한 번만.
-
-    추출이 같은 문장을 두 번 저장하는 경우가 있어(라이브 실측) 중복을 여기서 걷어낸다.
-    표시용이라 원본 draft_behaviors 는 건드리지 않는다 — 페르소나에는 그대로 들어가고,
-    보호자가 지우고 싶으면 등록 상세 화면에서 고친다.
-    """
-    grouped: dict[str, list[str]] = {}
-    for note in notes:
-        label, _, body = note.partition(":")
-        label, body = label.strip(), body.strip()
-        if not body:                      # 라벨 없이 저장된 관찰
-            label, body = "기타 관찰", note.strip()
-        if not body:
-            continue
-        items = grouped.setdefault(label, [])
-        if body not in items:
-            items.append(body)
-    return grouped
 
 
 def start_interview(guardian_name: str, persona_type: PersonaType | None = None) -> InterviewSession:
