@@ -138,7 +138,7 @@ export default function LockScreenAlert() {
   const a11yDistance = distanceLabel
     ? `최종 목격 장소까지 ${distanceLabel}, ${walkLabel}. `
     : '';
-  const a11ySummary = `긴급 실종경보. ${MISSING.area} 근처 ${MISSING_ANON}. ${MISSING.appearance[0]} 착용. ${a11yDistance}지금 확인 버튼을 누르면 상세를 볼 수 있어요.`;
+  const a11ySummary = `긴급 실종경보. 실종자가 이 근처에 계실 수 있어요. ${MISSING.area} 근처 ${MISSING_ANON}. ${MISSING.appearance[0]} 착용. ${a11yDistance}지금 확인 버튼을 누르면 상세를 볼 수 있어요.`;
 
   return (
     <View style={styles.root}>
@@ -240,8 +240,11 @@ export default function LockScreenAlert() {
                     {nearLabel}
                   </Text>
                 </View>
+                {/* 확정하지 않는다 — "있어요"는 실종자가 여기 있다고 단정하는 말인데
+                    우리가 가진 건 확률분포다. 한 번 틀린 확정 표현이 나가면 이후
+                    모든 경보의 신뢰가 같이 떨어진다. 백엔드 알림 문구도 같은 원칙. */}
                 <Text style={styles.headline} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-                  내 주변에 실종자가 있어요
+                  실종자가 이 근처에 계실 수 있어요
                 </Text>
               </View>
 

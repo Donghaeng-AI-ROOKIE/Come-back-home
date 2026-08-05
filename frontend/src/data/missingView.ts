@@ -30,8 +30,11 @@ export type MissingPersonView = {
 };
 
 /**
- * **시민 노출용.** 실명·나이·인지상태를 넣지 않는다.
- * 경보·수색 등 불특정 다수가 보는 화면은 전부 이 뷰를 쓴다.
+ * **잠금화면·푸시용.** 실명조차 넣지 않는다.
+ *
+ * 앱 밖 표면은 노출 범위가 다르다 — 잠금화면은 폰을 집어든 누구나 보고, 푸시는
+ * 넓은 지역 수천 명에게 간다. 같은 문장이라도 최소성 심사 난이도가 달라지므로,
+ * "앱을 열어 수색에 참여한 사람"보다 한 단계 더 좁힌다.
  */
 export function toAnonView(p: MissingPerson): MissingPersonView {
   return {
@@ -42,7 +45,26 @@ export function toAnonView(p: MissingPerson): MissingPersonView {
 }
 
 /**
- * **보호자·운영자용.** 실명과 인지상태를 포함한다.
+ * **앱 안 시민 화면용.** 실명·나이·성별은 넣고 **인지상태(진단명)는 뺀다.**
+ *
+ * 실명을 넣는 근거: 경찰 실종경보가 이미 실명을 공개해 베이스라인이 "공개"이고,
+ * 무엇보다 **호명하면 반응할 수 있어** 수색 행동을 실제로 바꾼다.
+ *
+ * 진단명을 빼는 근거: 같은 개인정보라도 이쪽은 **알아도 수색이 안 바뀐다.**
+ * "길을 찾지 못하고 계세요"면 행동 지침으로 충분하고, 질환·장애는 제23조
+ * 민감정보라 별도로 더 센 기준을 받는다. 필요성 심사에서 이름과 갈리는 지점.
+ */
+export function toCitizenView(p: MissingPerson): MissingPersonView {
+  const sexLabel = p.sex === 'F' ? '여성' : '남성';
+  return {
+    title: p.name,
+    meta: `${p.age}세 · ${sexLabel} · ${p.area} 인근`,
+    appearance: p.appearance,
+  };
+}
+
+/**
+ * **보호자·운영자용.** 인지상태까지 포함한다.
  * 이미 신원을 아는 사람(가족)이나 직무상 필요한 사람(경찰·관제)만 보는 화면에서만 쓸 것.
  */
 export function toFullView(p: MissingPerson): MissingPersonView {

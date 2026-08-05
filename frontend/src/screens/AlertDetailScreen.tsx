@@ -31,7 +31,7 @@ import { useMissingPersonStore } from '../store/missingPersonStore';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { distanceM, formatDistance } from '../utils/geo';
 import { DEMO_CASE_ID, LAST_SEEN } from '../data/missing';
-import { toAnonView } from '../data/missingView';
+import { toCitizenView } from '../data/missingView';
 import { useGoldenTime, usePresenceCount } from '../hooks/queries';
 import { hexToRgba, toLatLng } from '../utils/color';
 import type { RootStackParamList } from '../navigation/types';
@@ -206,8 +206,8 @@ export default function AlertDetailScreen() {
 
         {/* 실종자 카드 — 단일 소스(익명, 인상착의 칩) */}
         <View style={styles.block}>
-          {/* 시민 화면 — 익명 뷰. 실명·나이·인지상태는 여기서 이미 걸러진다. */}
-          <MissingPersonCard view={toAnonView(profile)} variant="full" showAppearanceChips />
+          {/* 앱 안 시민 화면 — 실명·나이는 노출, 진단명은 제외(민감정보) */}
+          <MissingPersonCard view={toCitizenView(profile)} variant="full" showAppearanceChips />
         </View>
 
         {/* 최종 목격 — 구역·시간만(의료정보 비노출). 단일 소스 profile.lastSeen */}

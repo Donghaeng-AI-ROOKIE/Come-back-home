@@ -1,7 +1,7 @@
 /** 서버 동기화 훅 (TanStack Query v5) + 파생 골든타임 (spec §2.4). */
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getActiveAlerts, getPoaPrediction, touchPresence } from '../api/client';
+import { getActiveAlerts, getGuidance, getPoaPrediction, touchPresence } from '../api/client';
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
 import { getCase, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
@@ -110,6 +110,20 @@ export function usePresenceCount(caseId: string, enabled = true): number | null 
   const { data } = usePresence(caseId, enabled);
   const watching = data ?? 0;
   return watching >= PRESENCE_MIN_VISIBLE ? watching : null;
+}
+
+/**
+ * 수색 안내 문구 (알림 개인화 #5). 사건 중에는 거의 안 바뀌므로 자주 물을 이유가 없다 —
+ * 페르소나는 고정이고 경과시간·POA 집중도만 서서히 변한다.
+ */
+export function useGuidance(caseId: string, enabled = true) {
+  return useQuery({
+    queryKey: ['guidance', caseId],
+    queryFn: () => getGuidance(caseId),
+    enabled: enabled && !!caseId,
+    staleTime: 5 * 60_000,
+    retry: false,
+  });
 }
 
 /** 골든타임 — enteredSearchAt 기준 파생 카운트다운(초는 스토어에 저장 안 함). */
