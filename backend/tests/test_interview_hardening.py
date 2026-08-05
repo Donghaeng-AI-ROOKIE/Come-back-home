@@ -704,3 +704,76 @@ def test_korean_native_age_parsing():
     assert interview._parse_age("여든둘이세요") == 82   # 조사 '세요'가 셋(3)으로 오염 안 됨
     assert interview._parse_age("78세") == 78           # 아라비아 숫자 경로 유지
     assert interview._parse_age("") == 0
+
+
+def test_nested_identity_fields_are_flattened():
+    """Mi:dm 이 슬롯 키로 감싼 중첩 dict 를 돌려줘도 이름이 살아야 한다.
+
+    2026-08-05 라이브 실측 버그: 추출은 `{"identity": {"name": "김순자", "age": "82세"}}`
+    로 정확했는데, 그대로 draft_fields 에 들어가 `f.get("name")` 이 비었고
+    **페르소나가 이름 "미상"으로 등록됐다.** 대화 기록에는 이름이 멀쩡히 남아 있어
+    화면만 보면 원인을 알 수 없다.
+    """
+    from app.phase0.interview import _flatten_fields
+
+    flat = _flatten_fields({"identity": {"name": "김순자", "age": "82세"},
+                            "home": "서울 성북구 정릉동"})
+    assert flat["name"] == "김순자"
+    assert flat["age"] == "82세"
+    assert flat["home"] == "서울 성북구 정릉동"
+
+
+def test_flatten_keeps_flat_keys_authoritative():
+    """평탄한 키가 함께 오면 그쪽이 이긴다 — 중첩본이 나중 정정을 막으면 안 된다."""
+    from app.phase0.interview import _flatten_fields
+
+    flat = _flatten_fields({"identity": {"name": "옛값"}, "name": "정정값"})
+    assert flat["name"] == "정정값"
+
+
+def test_flatten_ignores_empty_nested_values():
+    """빈 값은 넣지 않는다 — 빈 문자열이 first-wins 로 진짜 답변을 막는다."""
+    from app.phase0.interview import _flatten_fields
+
+    assert "name" not in _flatten_fields({"identity": {"name": "", "age": "80세"}})
+
+
+def test_summary_shows_everything():
+    """확인 요약은 접지 않는다.
+
+    종전에는 장소 2곳·행동 2개만 보여주고 "…외 N가지 저장"으로 접었다.
+    **"이게 맞나요?"라고 물으면서 대부분을 안 보여주는 것은 확인 절차가 아니다** —
+    보호자가 틀린 것이 있어도 알 수 없다(2026-08-05 실측: 중복 저장·오분류가
+    이 화면을 그대로 통과했다).
+    """
+    from app.phase0.interview import build_summary
+
+    s = InterviewSession(id="t", guardian_name="보호자", persona_type=PersonaType.dementia)
+    s.draft_fields = {"name": "김순자", "age": "82세", "home": "정릉동"}
+    s.draft_attractions = [{"label": f"장소{i}", "area_text": None} for i in range(5)]
+    s.draft_behaviors = [f"슬롯{i}: 내용{i}" for i in range(9)]
+
+    out = build_summary(s)
+    assert "…외" not in out, "요약이 아직 접히고 있다"
+    for i in range(5):
+        assert f"장소{i}" in out
+    for i in range(9):
+        assert f"내용{i}" in out
+
+
+def test_summary_groups_and_dedups_behaviors():
+    """같은 슬롯 항목은 묶고, 같은 문장은 한 번만 — 중복처럼 보이지 않게."""
+    from app.phase0.interview import build_summary
+
+    s = InterviewSession(id="t", guardian_name="보호자", persona_type=PersonaType.dementia)
+    s.draft_behaviors = [
+        "이동 반응성: 집 쪽으로 빨리 걸음",
+        "이동 반응성: 집 쪽으로 빨리 걸음",   # 추출이 중복 저장한 경우
+        "이동 반응성: 골목으로 숨음",
+        "복약: 치매약 복용",
+    ]
+    out = build_summary(s)
+
+    assert out.count("[이동 반응성]") == 1, "같은 슬롯이 여러 번 제목으로 나온다"
+    assert out.count("집 쪽으로 빨리 걸음") == 1, "중복 문장이 두 번 보인다"
+    assert "(3가지)" in out, "중복 제거 후 개수로 세어야 한다"

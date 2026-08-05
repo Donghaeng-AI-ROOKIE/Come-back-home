@@ -116,6 +116,72 @@ def submit_tip(case_id: str, body: TipIn):
     return result
 
 
+@router.get("/alerts")
+def list_active_alerts():
+    """살아있는 경보 목록 — 시민 앱의 경보 진입 관문이 판정 대상으로 쓴다.
+
+    **앱이 목 경보를 쓰지 않게 하려고 만든 엔드포인트다.** 푸시 인프라(FCM)가
+    아직 없어 프론트가 `buildAlert()` 를 무조건 반환하고 있었고, 그래서 시민이
+    앱을 열 때마다 존재하지 않는 사건의 경보가 떴다.
+
+    반환 대상은 **종결되지 않았고 예측이 끝난** 케이스다. 예측 전(intake)은
+    보낼 구역이 없어 제외한다 — 대상 구역 없는 경보는 무차별 발송이 된다.
+
+    `target_center`·`target_radius_m` 는 온디바이스 지오펜싱용이다. 서버는
+    "이 구역 사람들에게 알려라"만 뿌리고 **내가 그 안에 있는지는 폰이 판단한다** —
+    시민 위치가 서버로 올라가지 않는 것이 이 설계의 전제다.
+    """
+    out = []
+    for case in storage.cases.list():
+        if case.status in (CaseStatus.found, CaseStatus.closed):
+            continue
+        if not case.current_poa:
+            continue
+        cells = alerts.select_alert_cells(case.current_poa)
+        if not cells:
+            continue
+        # 대상 구역을 중심+반경으로 근사한다. 셀 목록을 그대로 보내는 것이 정확하지만
+        # 푸시 페이로드 규격이 정해지기 전이라 앱의 지오펜싱 계약(중심·반경)에 맞춘다.
+        centers = [h3grid.cell_center(c) for c in cells]
+        lat = sum(p.lat for p in centers) / len(centers)
+        lng = sum(p.lng for p in centers) / len(centers)
+        center = GeoPoint(lat=lat, lng=lng)
+        radius_m = max(
+            (h3grid.haversine_km(center, p) * 1000 for p in centers), default=0.0)
+        persona = (storage.personas.get(case.report.persona_id)
+                   if case.report.persona_id else None)
+        out.append({
+            "case_id": case.id,
+            "issued_at": (case.last_alert_at or case.last_sim_at or case.lkp_time),
+            # 구역 표기 — **이름을 넣지 않는다.** 불특정 다수에게 가는 알림이라
+            # 실명은 목적을 넘는 제공이다(missingView.toAnonView 와 같은 원칙).
+            # 역지오코딩이 붙기 전까지는 앱이 좌표로 표시하도록 비워 둔다.
+            "area": "",
+            # 수색 중인 사건은 전부 긴급이다 — 등급 구분은 경보 종류가 생기면 나눈다.
+            "severity": "critical",
+            "kind": "poa",
+            "target_center": {"lat": center.lat, "lng": center.lng},
+            # 셀 반경(≈174m)을 더해 셀 가장자리에 선 사람도 포함시킨다.
+            "target_radius_m": round(radius_m + 174.0),
+            "summary": (case.report.appearance.summary
+                        if case.report.appearance else "인상착의 정보 없음"),
+            "matched_person_id": case.report.persona_id,
+            # 시민 화면이 띄울 최소 신원 — **이름은 보내지 않는다.** 불특정 다수에게
+            # 가는 알림이라 나이·유형·인상착의만으로 충분하고, 이름까지 뿌리면
+            # 목적(발견 제보)을 넘는 개인정보 제공이 된다.
+            "age": persona.age if persona else None,
+            "appearance": ([case.report.appearance.top, case.report.appearance.bottom,
+                            case.report.appearance.shoes, case.report.appearance.physical]
+                           if case.report.appearance else []),
+            "lkp": {"lat": case.lkp.lat, "lng": case.lkp.lng},
+            "lkp_time": case.lkp_time,
+        })
+    # **최신 순.** 관문(useAlertGate)은 목록의 첫 경보를 잡으므로 정렬이 곧 우선순위다.
+    # 저장 순서대로 두면 오래된 사건이 새 사건을 가린다 — 방금 신고된 쪽이 더 급하다.
+    out.sort(key=lambda a: a["issued_at"], reverse=True)
+    return out
+
+
 @router.get("/cases/{case_id}/poa")
 def get_poa(case_id: str, top: int = 20):
     """현재 POA 상위 셀 조회 (지도 시각화용)."""

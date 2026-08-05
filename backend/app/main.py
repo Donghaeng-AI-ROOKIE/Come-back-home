@@ -14,6 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
 from app.api import debug, phase0, phase1, phase2, phase3, privacy, walk
+from app.config import settings
 
 log = logging.getLogger(__name__)
 
@@ -41,10 +42,12 @@ def _warm_exaone() -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # 데모용 정릉동 김순자 케이스를 미리 생성 → 프론트가 case_id="demo" 로 바로 조회
-    from app.seed import seed_demo
+    # 데모 시드 — 기본 꺼짐(settings.seed_demo_data 주석 참조). 켜면 정릉동
+    # 김순자 케이스를 고정 ID로 만든다.
+    if settings.seed_demo_data:
+        from app.seed import seed_demo
 
-    seed_demo()
+        seed_demo()
     # 기동을 막지 않도록 별도 스레드에서 예열한다.
     threading.Thread(target=_warm_exaone, name="exaone-warmup", daemon=True).start()
     yield

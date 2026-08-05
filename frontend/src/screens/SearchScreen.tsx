@@ -24,14 +24,19 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { color, radius, space, type } from '../theme/tokens';
 import { useModeTheme } from '../theme/theme';
-import { usePoaPrediction, useGoldenTime, usePresenceCount } from '../hooks/queries';
+import {
+  useActiveAlerts,
+  useGoldenTime,
+  usePoaPrediction,
+  usePresenceCount,
+} from '../hooks/queries';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING } from '../data/missing';
 import { hexToRgba } from '../utils/color';
 import type { GeoPoint, PoaGrid } from '../types/domain';
 import { useAuthStore } from '../store/authStore';
 import { useAppModeStore } from '../store/appModeStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
-import { toAnonView } from '../data/missingView';
+import { alertToView, toAnonView } from '../data/missingView';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { distanceM, formatWalkTime } from '../utils/geo';
 import type { RootStackParamList } from '../navigation/types';
@@ -90,6 +95,10 @@ export default function SearchScreen() {
   const mode = useAppModeStore((s) => s.mode);
   const severity = useAppModeStore((s) => s.severity);
   const profile = useMissingPersonStore((s) => s.profile);
+  // 서버 경보가 있으면 그쪽이 진실이다 — 스토어는 목업 상수를 들고 있어
+  // 실제 신고가 82세여도 78세로 보인다(2026-08-05 실측).
+  const { data: liveAlerts } = useActiveAlerts();
+  const liveAlert = liveAlerts?.[0];
   const watching = usePresenceCount(DEMO_CASE_ID);
   const role = useAuthStore((s) => s.role);
   const golden = useGoldenTime();
@@ -256,7 +265,11 @@ export default function SearchScreen() {
         </View>
 
         {/* 시민 화면 — 익명 뷰 */}
-        <MissingPersonCard view={toAnonView(profile)} variant="compact" showAppearanceChips />
+        <MissingPersonCard
+          view={liveAlert ? alertToView(liveAlert) : toAnonView(profile)}
+          variant="compact"
+          showAppearanceChips
+        />
 
         <View style={styles.lastSeenRow} accessible accessibilityLabel={`마지막 목격 · ${MISSING.area} 인근`}>
           <Text style={styles.lastSeenIcon} allowFontScaling maxFontSizeMultiplier={type.maxScale}>

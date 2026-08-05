@@ -182,14 +182,52 @@ export async function sendAlerts(
   return { targetCells: r.target_cells, sent: r.sent, message: r.message };
 }
 
+type AlertResponse = {
+  case_id: string;
+  issued_at: string;
+  area: string;
+  severity: 'critical' | 'active';
+  kind: 'reflex' | 'poa' | 'new_region';
+  target_center: GeoPoint;
+  target_radius_m: number;
+  summary: string;
+  matched_person_id?: string | null;
+  /** 시민에게 보여줄 최소 신원 — 이름은 오지 않는다(불특정 다수 대상 알림). */
+  age?: number | null;
+  appearance?: string[];
+  lkp?: GeoPoint;
+  lkp_time?: string;
+};
+
 /**
- * 살아있는 경보 목록. **푸시 인프라가 아직 없다** — 실서비스에서는 FCM/Notifee
- * 푸시와 지오펜스 백그라운드 폴링이 이 자리를 대신한다. 지금은 관문(useAlertGate)이
- * 판정할 대상을 주기 위해 데모 경보를 돌려준다.
+ * 살아있는 경보 목록 — 경보 진입 관문(useAlertGate)이 판정 대상으로 쓴다.
+ *
+ * 종전에는 `buildAlert()` 를 **조건 없이** 돌려줘서, 시민이 앱을 열 때마다
+ * 존재하지 않는 사건의 경보가 떴다(실측: 시뮬레이터 기본 위치가 쿠퍼티노라
+ * "약 9023.9km" 라는 거리까지 표시됐다). 이제 서버의 실제 케이스만 본다 —
+ * 신고·예측이 없으면 경보도 없다.
+ *
+ * 푸시 인프라(FCM)가 붙기 전까지는 폴링이다. 서버는 대상 구역만 뿌리고
+ * **내가 그 안에 있는지는 폰이 판단한다**(온디바이스 지오펜싱).
  */
 export async function getActiveAlerts(): Promise<PoliceAlert[]> {
   if (USE_MOCK) return delay([buildAlert()]);
-  return [buildAlert()];
+  const rows = await api<AlertResponse[]>('/phase3/alerts');
+  return rows.map((r) => ({
+    caseId: r.case_id,
+    issuedAt: r.issued_at,
+    area: r.area,
+    severity: r.severity,
+    kind: r.kind,
+    targetCenter: r.target_center,
+    targetRadiusM: r.target_radius_m,
+    summary: r.summary,
+    matchedPersonId: r.matched_person_id ?? undefined,
+    age: r.age ?? undefined,
+    appearance: (r.appearance ?? []).filter(Boolean),
+    lkp: r.lkp,
+    lkpTime: r.lkp_time,
+  }));
 }
 
 /**

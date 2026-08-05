@@ -112,6 +112,14 @@ export type PoliceAlert = {
   targetRadiusM: number;
   summary: string;
   matchedPersonId?: string; // 보호자 사전등록 매칭 시
+  /**
+   * 시민 화면이 띄울 최소 신원. **이름은 없다** — 불특정 다수에게 가는 알림이라
+   * 나이·인상착의로 충분하고, 이름까지 뿌리면 목적을 넘는 개인정보 제공이 된다.
+   */
+  age?: number;
+  appearance?: string[];
+  lkp?: GeoPoint;
+  lkpTime?: string;
 };
 
 // ── 시민 제보 (spec / backend tip.py) ─────────────────

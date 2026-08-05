@@ -31,8 +31,8 @@ import { useMissingPersonStore } from '../store/missingPersonStore';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { distanceM, formatDistance } from '../utils/geo';
 import { DEMO_CASE_ID, LAST_SEEN } from '../data/missing';
-import { toAnonView } from '../data/missingView';
-import { useGoldenTime, usePresenceCount } from '../hooks/queries';
+import { alertToView, toAnonView } from '../data/missingView';
+import { useGoldenTime, usePresenceCount, useActiveAlerts } from '../hooks/queries';
 import { hexToRgba, toLatLng } from '../utils/color';
 import type { RootStackParamList } from '../navigation/types';
 
@@ -59,6 +59,10 @@ export default function AlertDetailScreen() {
   const enterSearch = useAppModeStore((s) => s.enterSearch);
   const profile = useMissingPersonStore((s) => s.profile);
   const caseId = route.params?.caseId ?? DEMO_CASE_ID;
+  // 서버 경보가 진실이다 — 스토어는 목업 상수라 실제 신고와 나이·인상착의가 다르다.
+  const { data: liveAlerts } = useActiveAlerts();
+  const liveAlert = liveAlerts?.find((a) => a.caseId === caseId) ?? liveAlerts?.[0];
+  const view = liveAlert ? alertToView(liveAlert) : toAnonView(profile);
 
   // 진입 시 수색 모드(긴급) 보장 — enterSearch는 enteredSearchAt이 있으면 유지(멱등).
   useEffect(() => {
@@ -104,9 +108,11 @@ export default function AlertDetailScreen() {
     else navigation.goBack();
   };
 
-  const recallCopy = `지난 한 시간, ${profile.area} 인근에서 ${profile.appearance.join(
-    ', ',
-  )} 차림의 어르신을 보셨다면 작은 기억도 큰 도움이 돼요.`;
+  // 문구도 실데이터에서 만든다 — 인상착의가 비면 그 대목을 통째로 뺀다.
+  // "  차림의" 처럼 빈 자리가 남으면 신뢰를 잃는다.
+  const recallCopy = view.appearance.length
+    ? `지난 한 시간, ${view.meta}에서 ${view.appearance.join(', ')} 차림의 어르신을 보셨다면 작은 기억도 큰 도움이 돼요.`
+    : `지난 한 시간, ${view.meta}에서 홀로 걷고 계신 어르신을 보셨다면 작은 기억도 큰 도움이 돼요.`;
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
@@ -207,7 +213,7 @@ export default function AlertDetailScreen() {
         {/* 실종자 카드 — 단일 소스(익명, 인상착의 칩) */}
         <View style={styles.block}>
           {/* 시민 화면 — 익명 뷰. 실명·나이·인지상태는 여기서 이미 걸러진다. */}
-          <MissingPersonCard view={toAnonView(profile)} variant="full" showAppearanceChips />
+          <MissingPersonCard view={view} variant="full" showAppearanceChips />
         </View>
 
         {/* 최종 목격 — 구역·시간만(의료정보 비노출). 단일 소스 profile.lastSeen */}

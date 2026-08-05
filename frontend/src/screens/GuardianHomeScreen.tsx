@@ -5,7 +5,14 @@
  * 이미 실종 상황이다. 사전등록 안내를 위에 두면 그 순간에 읽히지 않는다.
  */
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
@@ -13,10 +20,15 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, radius, space, type } from '../theme/tokens';
 import { useGuardianStore } from '../store/guardianStore';
+import { usePersonas } from '../hooks/queries';
 
 export default function GuardianHomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const persona = useGuardianStore((s) => s.persona);
+  // 서버가 진실이다. 스토어는 방금 등록한 것을 즉시 띄우기 위한 캐시일 뿐이라,
+  // 앱을 다시 켜면 비어 있다 — 그때도 등록한 가족이 보여야 한다.
+  const { data: personas, isLoading } = usePersonas();
+  const cached = useGuardianStore((s) => s.persona);
+  const list = personas?.length ? personas : cached ? [cached] : [];
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -56,26 +68,43 @@ export default function GuardianHomeScreen() {
           사전 등록된 가족
         </Text>
         <View style={styles.card}>
-          {persona ? (
-            <View style={styles.profileRow}>
-              <View style={styles.avatar}>
-                <Text style={styles.avatarEmoji}>👴</Text>
-              </View>
-              <View style={styles.profileInfo}>
-                <Text style={styles.profileName} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-                  {persona.name} ({persona.age}세)
-                </Text>
-                <View style={styles.statusBadge}>
-                  <Text style={styles.statusText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-                    등록 완료
-                  </Text>
-                </View>
-              </View>
-            </View>
-          ) : (
+          {isLoading && list.length === 0 ? (
+            <ActivityIndicator color={color.walk} />
+          ) : list.length === 0 ? (
             <Text style={styles.empty} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
               아직 등록된 가족이 없습니다. 사전 등록을 먼저 진행해 주세요.
             </Text>
+          ) : (
+            list.map((p) => (
+              <Pressable
+                key={p.id}
+                onPress={() => navigation.navigate('PersonaDetail', { personaId: p.id })}
+                accessibilityRole="button"
+                accessibilityLabel={`${p.name} ${p.age}세 등록 정보 보기`}
+                accessibilityHint="저장된 내용을 확인하고 수정할 수 있어요"
+                style={({ pressed }) => [styles.profileRow, pressed && styles.pressed]}
+              >
+                <View style={styles.avatar}>
+                  <Text style={styles.avatarEmoji}>👴</Text>
+                </View>
+                <View style={styles.profileInfo}>
+                  <Text style={styles.profileName} allowFontScaling
+                        maxFontSizeMultiplier={type.maxScale}>
+                    {p.name} ({p.age}세)
+                  </Text>
+                  <View style={styles.statusBadge}>
+                    <Text style={styles.statusText} allowFontScaling
+                          maxFontSizeMultiplier={type.maxScale}>
+                      등록 완료 · 눌러서 확인
+                    </Text>
+                  </View>
+                </View>
+                <Text style={styles.chevron} allowFontScaling
+                      maxFontSizeMultiplier={type.maxScale}>
+                  ›
+                </Text>
+              </Pressable>
+            ))
           )}
         </View>
 
@@ -91,6 +120,7 @@ export default function GuardianHomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  chevron: { fontSize: 24, color: color.textCaption, fontFamily: type.family },
   safe: { flex: 1, backgroundColor: color.surfaceAlt },
   scroll: { padding: space.xl, gap: space.md, paddingBottom: space.xxl },
   title: { fontSize: type.size.title, fontWeight: type.weight.black, color: color.text, fontFamily: type.family },

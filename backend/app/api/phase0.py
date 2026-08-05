@@ -83,9 +83,50 @@ def register_persona(body: RegisterPersonaIn):
     )
 
 
+@router.get("/personas", response_model=list[Persona], response_model_exclude=_PERSONA_EXCLUDE)
+def list_personas():
+    """등록된 페르소나 목록 — 보호자 홈의 '사전 등록된 가족'.
+
+    인증이 없어 전체를 돌려준다. 보호자↔페르소나 소유 관계가 붙으면 여기서
+    필터링해야 한다 — 지금은 단일 사용자 데모 전제다.
+    """
+    return storage.personas.list()
+
+
 @router.get("/personas/{persona_id}", response_model=Persona, response_model_exclude=_PERSONA_EXCLUDE)
 def get_persona(persona_id: str):
     persona = storage.personas.get(persona_id)
     if persona is None:
         raise HTTPException(404, "페르소나 없음")
     return persona
+
+
+class UpdatePersonaIn(BaseModel):
+    """부분 수정 — 준 필드만 바꾼다(None = 그대로).
+
+    **인터뷰가 추출한 값을 보호자가 고치는 통로다.** Mi:dm 추출은 완벽하지 않고
+    (2026-08-05 실측: 같은 답변이 슬롯 두 곳에 중복 저장, 발견 장소가 끌림점으로
+    분류) 그 오류가 그대로 예측 근거가 된다. 보호자가 직접 고칠 수 있어야 한다.
+
+    축 점수·근거(axis_*)는 여기서 못 고친다 — LLM 채점 결과이고 원발화(quote)와
+    짝을 이뤄야 의미가 있어서, 값만 손대면 근거와 어긋난다.
+    """
+    name: str | None = None
+    age: int | None = None
+    home: GeoPoint | None = None
+    attraction_points: list[AttractionPoint] | None = None
+    behavior_notes: list[str] | None = None
+
+
+@router.patch("/personas/{persona_id}", response_model=Persona,
+              response_model_exclude=_PERSONA_EXCLUDE)
+def update_persona(persona_id: str, body: UpdatePersonaIn):
+    persona = storage.personas.get(persona_id)
+    if persona is None:
+        raise HTTPException(404, "페르소나 없음")
+    updates = body.model_dump(exclude_unset=True, exclude_none=True)
+    if not updates:
+        return persona
+    updated = persona.model_copy(update=updates)
+    storage.personas.save(persona_id, updated)
+    return updated

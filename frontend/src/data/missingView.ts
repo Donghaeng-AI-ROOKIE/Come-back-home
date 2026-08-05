@@ -53,3 +53,29 @@ export function toFullView(p: MissingPerson): MissingPersonView {
     appearance: p.appearance,
   };
 }
+
+/**
+ * **경보(서버 실데이터)에서 바로 만드는 시민 노출용 뷰.**
+ *
+ * `toAnonView` 는 목업 상수 `MISSING` 을 담은 스토어를 전제한다 — 그래서 실제
+ * 신고가 82세인데 화면에는 목업의 78세가 뜨는 일이 있었다(2026-08-05 실측).
+ * 서버 경보에는 애초에 **이름이 오지 않으므로**(백엔드가 안 보낸다) 이 경로는
+ * 익명화를 "지키는" 것이 아니라 구조적으로 보장한다.
+ */
+export function alertToView(a: {
+  age?: number;
+  area?: string;
+  appearance?: string[];
+  summary?: string;
+}): MissingPersonView {
+  const meta = [a.age ? `${a.age}세` : null, a.area ? `${a.area} 인근` : null]
+    .filter(Boolean)
+    .join(' · ');
+  // 구조화 인상착의가 비면 요약 한 줄이라도 보여준다 — 수색의 핵심 단서다.
+  const appearance = (a.appearance ?? []).filter(Boolean);
+  return {
+    title: MISSING_ANON,
+    meta: meta || '위치 확인 중',
+    appearance: appearance.length ? appearance : (a.summary ? [a.summary] : []),
+  };
+}

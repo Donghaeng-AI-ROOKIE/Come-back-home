@@ -495,13 +495,22 @@ _MAX_BEHAVIORS = 2
 
 
 def build_summary(session: InterviewSession) -> str:
-    """수집 내용의 '핵심만' 깔끔히 정리 + 확인 요청. (전부 나열 금지)
+    """수집 내용 **전부**를 정리해 보여주고 확인을 요청한다.
 
-    대상자·집·핵심 장소는 예측의 뼈대라 항상, 행동은 가장 중요한 1~2개만.
-    나머지는 '외 N개 저장' 으로 표시(데이터 자체는 draft_* 에 모두 남는다).
+    종전에는 장소 2곳·행동 2개만 보여주고 나머지를 "…외 15가지 저장"으로 접었다.
+    **"이게 맞나요?"라고 물으면서 대부분을 안 보여주는 것은 확인 절차가 아니다** —
+    보호자는 틀린 것이 있어도 알 수가 없었다. 실제로 이 화면을 통과한 등록에서
+    같은 답변이 두 슬롯에 중복 저장되고 과거 발견 장소가 끌림점으로 분류된 것을
+    나중에야 발견했다(2026-08-05).
+
+    길이는 문제가 아니다 — 슬롯이 12개라 다 펼쳐도 20줄 안쪽이고, 스크롤 한 번이
+    잘못된 예측 근거보다 싸다.
+
+    행동 노트는 "슬롯라벨: 내용" 형태로 저장되므로 라벨로 묶는다. 안 묶으면 같은
+    슬롯 항목이 흩어져 중복처럼 보인다.
     """
     f = session.draft_fields
-    lines: list[str] = ["📋 이렇게 등록할게요. 핵심만 정리했어요.", ""]
+    lines: list[str] = ["📋 이렇게 등록할게요. 확인해 주세요.", ""]
 
     who: list[str] = []
     if f.get("name"):
@@ -517,24 +526,44 @@ def build_summary(session: InterviewSession) -> str:
 
     places = session.draft_attractions
     if places:
-        lines.append("• 가시려 할 만한 곳:")
-        for ap in places[:_MAX_PLACES]:
+        lines.append(f"• 가시려 할 만한 곳 ({len(places)}곳)")
+        for ap in places:
             area = ap.get("area_text")
             lines.append(f"   - {ap.get('label', '')}{f' ({area})' if area else ''}")
-        if len(places) > _MAX_PLACES:
-            lines.append(f"   …외 {len(places) - _MAX_PLACES}곳 저장")
 
-    behaviors = session.draft_behaviors
-    if behaviors:
-        lines.append("• 특히 주의할 점:")
-        for note in behaviors[:_MAX_BEHAVIORS]:
-            lines.append(f"   - {note}")
-        if len(behaviors) > _MAX_BEHAVIORS:
-            lines.append(f"   …외 {len(behaviors) - _MAX_BEHAVIORS}가지 저장")
+    grouped = _group_behaviors(session.draft_behaviors)
+    if grouped:
+        total = sum(len(v) for v in grouped.values())
+        lines.append(f"• 알려주신 내용 ({total}가지)")
+        for label, items in grouped.items():
+            lines.append(f"   [{label}]")
+            for item in items:
+                lines.append(f"   - {item}")
 
     lines.append("")
     lines.append("등록하신 정보가 이게 맞나요? 틀리거나 빠진 부분이 있으면 편하게 말씀해 주세요.")
     return "\n".join(lines)
+
+
+def _group_behaviors(notes: list[str]) -> dict[str, list[str]]:
+    """"슬롯라벨: 내용" 문장들을 라벨로 묶는다. 같은 내용은 한 번만.
+
+    추출이 같은 문장을 두 번 저장하는 경우가 있어(라이브 실측) 중복을 여기서 걷어낸다.
+    표시용이라 원본 draft_behaviors 는 건드리지 않는다 — 페르소나에는 그대로 들어가고,
+    보호자가 지우고 싶으면 등록 상세 화면에서 고친다.
+    """
+    grouped: dict[str, list[str]] = {}
+    for note in notes:
+        label, _, body = note.partition(":")
+        label, body = label.strip(), body.strip()
+        if not body:                      # 라벨 없이 저장된 관찰
+            label, body = "기타 관찰", note.strip()
+        if not body:
+            continue
+        items = grouped.setdefault(label, [])
+        if body not in items:
+            items.append(body)
+    return grouped
 
 
 def start_interview(guardian_name: str, persona_type: PersonaType | None = None) -> InterviewSession:
@@ -713,7 +742,7 @@ def _apply_extraction(
     # (특히 현재 집을 과거 거주지 답변이 덮어쓰던 버그 방지.)
     # 단 확인 게이트의 '정정' 발화는 보호자가 명시적으로 고치는 것 — overwrite=True 로
     # 덮어쓴다. (라이브 실측 버그: 요약 후 나이 정정이 first-wins 에 막혀 무시됨.)
-    for k, v in (extracted.get("fields", {}) or {}).items():
+    for k, v in _flatten_fields(extracted.get("fields", {}) or {}).items():
         if v:
             if overwrite:
                 session.draft_fields[k] = v
@@ -1307,6 +1336,33 @@ def _korean_age_to_int(value) -> int:
             matched = True
             break
     return total if matched else 0
+
+
+def _flatten_fields(fields: dict) -> dict:
+    """추출 결과의 중첩 dict 를 한 단계 편다.
+
+    Mi:dm 이 슬롯 키를 그대로 감싸 `{"identity": {"name": "김순자", "age": "82세"}}`
+    처럼 돌려주는 경우가 있다. 그대로 넣으면 `draft_fields["name"]` 이 비어
+    **페르소나 이름이 "미상"으로 저장된다**(2026-08-05 라이브 실측 — 대화에서는
+    이름을 정확히 추출했는데 등록 결과에는 안 들어갔다).
+
+    안쪽 값을 우선한다: 바깥 키(`identity`)는 슬롯 이름이고 우리가 원하는 것은
+    그 안의 필드(`name`·`age`)다. 이미 평탄한 키가 있으면 덮지 않는다 —
+    호출부의 first-wins/overwrite 판단을 여기서 가로채면 안 된다.
+    """
+    flat: dict = {}
+    for key, value in fields.items():
+        if isinstance(value, dict):
+            for inner_key, inner_value in value.items():
+                if inner_value:
+                    flat.setdefault(inner_key, inner_value)
+        else:
+            flat[key] = value
+    # 평탄한 키가 나중에 나와도 중첩본을 덮지 않도록 마지막에 한 번 더 채운다.
+    for key, value in fields.items():
+        if not isinstance(value, dict) and value:
+            flat[key] = value
+    return flat
 
 
 def _parse_age(value) -> int:
