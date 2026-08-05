@@ -60,6 +60,7 @@ class SlotSpec(BaseModel):
     """수집 슬롯 하나. Mi:dm 이 질문을 만들 grounding 단위."""
     key: str
     label: str
+    guardian_label: str = ""                      # 보호자에게 보여줄 표현 (요약 카드 전용)
     axis: Axis
     axis_field: str = ""                          # 회의록 DB 필드명 — 축 점수 컴파일 대상
     tier: Tier
@@ -72,6 +73,16 @@ class SlotSpec(BaseModel):
     keywords: list[str] = []                      # 검색 부스팅·문맥 매칭용 어휘 (dense 위 lexical 힌트)
     risk: float = 0.0                             # 위험 부스트 — 질문순서(tier)와 별개로 안전상 우선
     answer_example: str = ""                      # 회의록 답변 예시 — 꼬리질문 모드 구체성 눈높이 전용
+
+    @property
+    def display_label(self) -> str:
+        """보호자용 표현. 없으면 내부 라벨로 폴백(요약이 비는 것보다 낫다).
+
+        label 은 내부 식별자 역할을 겸한다 — behavior_notes 의 '라벨: 노트' 접두와
+        대시보드 귀속(static/dashboard.html)이 이 문자열에 걸려 있어 바꿀 수 없다.
+        보호자 화면 문구는 그래서 별도 필드로 둔다.
+        """
+        return self.guardian_label or self.label
 
     @property
     def embed_text(self) -> str:
@@ -93,15 +104,16 @@ _DEM = frozenset({PersonaType.dementia})
 SLOTS: list[SlotSpec] = [
     # ── Tier 1 · 장소·경로·과거 이력 ──────────────────────────────
     SlotSpec(
-        key="identity", label="대상자 성함·나이", axis=Axis.profile, tier=Tier.route,
-        sink=Sink.field,
+        key="identity", label="대상자 성함·나이", guardian_label="성함과 나이",
+        axis=Axis.profile, tier=Tier.route, sink=Sink.field,
         question="등록하실 어르신의 성함과 나이를 알려주세요.",
         probes=["나이를 만 나이로 확인"],
         filled_when="이름·나이 2가지가 모두 특정됨",
         why="Koester 치매 이동거리 프로파일 적용 대상 식별 — 나이는 보행 능력 추정의 기준.",
     ),
     SlotSpec(
-        key="home", label="현재 거주지", axis=Axis.profile, tier=Tier.route, sink=Sink.field,
+        key="home", label="현재 거주지", guardian_label="지내시는 곳",
+        axis=Axis.profile, tier=Tier.route, sink=Sink.field,
         question="지금 살고 계신 집(또는 주로 머무시는 곳)의 주소나 동네를 알려주세요.",
         probes=["동/도로명 수준까지", "요양원·주간보호센터·복지관이면 그 위치도"],
         filled_when="지오코딩 가능한 동네·주소 수준으로 특정됨",
@@ -109,7 +121,8 @@ SLOTS: list[SlotSpec] = [
         answer_example="서울 중랑구 면목동 ○○아파트에 살고, 주중 낮에는 주간보호센터에 계십니다.",
     ),
     SlotSpec(
-        key="routine_destinations", label="혼자 자주 가는 곳·경로", axis=Axis.mind,
+        key="routine_destinations", label="혼자 자주 가는 곳·경로",
+        guardian_label="혼자 다니시는 곳", axis=Axis.mind,
         axis_field="route_environment_familiarity", tier=Tier.route, sink=Sink.attraction,
         question="혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
         probes=[
@@ -124,6 +137,7 @@ SLOTS: list[SlotSpec] = [
     ),
     SlotSpec(
         key="autobiographical_destination_pull", label="자전적 기억 기반 목적지",
+        guardian_label="자꾸 찾으시는 옛 장소",
         axis=Axis.mind, axis_field="autobiographical_destination_pull",
         tier=Tier.route, sink=Sink.attraction, types=_DEM,
         question="대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요? 옛집, 예전 직장, 시장, 병원, 약국, 종교시설처럼 구체적인 장소를 알려주세요.",
@@ -145,6 +159,7 @@ SLOTS: list[SlotSpec] = [
     ),
     SlotSpec(
         key="dementia_wandering_pattern", label="과거 실종·배회 행동 패턴",
+        guardian_label="예전에 길 잃으셨을 때",
         axis=Axis.behavior, axis_field="dementia_wandering_pattern",
         tier=Tier.route, sink=Sink.behavior, types=_DEM,
         question="과거에 길을 잃거나 실종된 적이 있다면, 어디에서 발견됐고 어떤 행동을 하고 있었는지 알려주세요.",
@@ -163,6 +178,7 @@ SLOTS: list[SlotSpec] = [
     # ── Tier 2 · 능력·취약성 ──────────────────────────────────────
     SlotSpec(
         key="mobility_transport_capacity", label="이동·교통 능력",
+        guardian_label="얼마나 걸으실 수 있는지",
         axis=Axis.body, axis_field="mobility_transport_capacity",
         tier=Tier.capacity, sink=Sink.behavior,
         question="대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
@@ -182,6 +198,7 @@ SLOTS: list[SlotSpec] = [
     ),
     SlotSpec(
         key="hazard_awareness_vulnerability", label="환경 위험 취약성",
+        guardian_label="위험한 곳을 피하실 수 있는지",
         axis=Axis.mind, axis_field="hazard_awareness_vulnerability",
         tier=Tier.capacity, sink=Sink.behavior,
         question="대상자는 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요?",
@@ -199,6 +216,7 @@ SLOTS: list[SlotSpec] = [
     ),
     SlotSpec(
         key="communication_approach_vulnerability", label="의사소통·접근 취약성",
+        guardian_label="누가 말을 걸었을 때 반응",
         axis=Axis.mind, axis_field="communication_approach_vulnerability",
         tier=Tier.capacity, sink=Sink.behavior,
         question="대상자는 이름을 부르거나 간단한 질문을 했을 때 어떻게 반응하나요? 자신의 이름, 주소 또는 보호자 연락처를 말할 수 있는지도 알려주세요.",
@@ -214,8 +232,8 @@ SLOTS: list[SlotSpec] = [
         answer_example="이름을 부르면 쳐다보지만 대답은 잘하지 않습니다. 자신의 이름은 말할 수 있지만 주소와 연락처는 말하지 못합니다.",
     ),
     SlotSpec(
-        key="medication", label="복약·건강 상태", axis=Axis.body,
-        tier=Tier.capacity, sink=Sink.behavior,
+        key="medication", label="복약·건강 상태", guardian_label="드시는 약과 건강 상태",
+        axis=Axis.body, tier=Tier.capacity, sink=Sink.behavior,
         question="복용 중인 약이 있나요? 거르면 어떤 증상이 나타나나요? 야간·추위·더위에 이동하기 어려운 상태인가요?",
         probes=["거르면 나타나는 증상", "야간 이동 가능성", "추위·더위 취약성"],
         filled_when="건강 제약(약·야간·기후) 중 유의미한 항목이 드러남",
@@ -225,6 +243,7 @@ SLOTS: list[SlotSpec] = [
     ),
     SlotSpec(
         key="wayfinding_error_recovery_deficit", label="길찾기 오류·경로 회복 취약성",
+        guardian_label="길을 잘못 드셨을 때 돌아오시는지",
         axis=Axis.mind, axis_field="wayfinding_error_recovery_deficit",
         tier=Tier.capacity, sink=Sink.behavior, types=_DEM,
         question="대상자는 익숙한 동네에서도 길을 잘못 들거나 목적지를 잊는 경우가 있나요? 길을 잘못 들었을 때 스스로 알아차리고 돌아올 수 있는지도 알려주세요.",
@@ -243,8 +262,8 @@ SLOTS: list[SlotSpec] = [
 
     # ── Tier 3 · 반응성 정밀화 ────────────────────────────────────
     SlotSpec(
-        key="lost_behavior", label="길 잃었을 때 행동", axis=Axis.behavior,
-        axis_field="lost_behavior", tier=Tier.refine, sink=Sink.behavior,
+        key="lost_behavior", label="길 잃었을 때 행동", guardian_label="길을 잃으시면 하시는 행동",
+        axis=Axis.behavior, axis_field="lost_behavior", tier=Tier.refine, sink=Sink.behavior,
         question="길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
         probes=["머무름·계속 이동·은신 중 우세 경향", "구체적 목격 사례"],
         filled_when="머무름·계속이동·숨음 중 우세 경향이 드러남",
@@ -255,6 +274,7 @@ SLOTS: list[SlotSpec] = [
     ),
     SlotSpec(
         key="distress_induced_movement_reactivity", label="정서적 불편에 따른 이동 반응성",
+        guardian_label="불안하거나 초조하실 때 하시는 행동",
         axis=Axis.mind, axis_field="distress_induced_movement_reactivity",
         tier=Tier.refine, sink=Sink.behavior, types=_DEM,
         question="대상자가 불안하거나 초조해지거나, 누군가 자신을 해친다고 의심할 때 이동 행동이 어떻게 달라지나요?",
