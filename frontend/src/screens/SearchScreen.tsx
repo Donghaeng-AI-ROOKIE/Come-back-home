@@ -24,14 +24,14 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { color, radius, space, type } from '../theme/tokens';
 import { useModeTheme } from '../theme/theme';
-import { usePoaPrediction, useGoldenTime, usePresenceCount } from '../hooks/queries';
+import { usePoaPrediction, useGoldenTime, usePresenceCount, useGuidance } from '../hooks/queries';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING } from '../data/missing';
 import { hexToRgba } from '../utils/color';
 import type { GeoPoint, PoaGrid } from '../types/domain';
 import { useAuthStore } from '../store/authStore';
 import { useAppModeStore } from '../store/appModeStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
-import { toAnonView } from '../data/missingView';
+import { toCitizenView } from '../data/missingView';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { distanceM, formatWalkTime } from '../utils/geo';
 import type { RootStackParamList } from '../navigation/types';
@@ -91,6 +91,7 @@ export default function SearchScreen() {
   const severity = useAppModeStore((s) => s.severity);
   const profile = useMissingPersonStore((s) => s.profile);
   const watching = usePresenceCount(DEMO_CASE_ID);
+  const guidance = useGuidance(DEMO_CASE_ID).data?.text ?? '';
   const role = useAuthStore((s) => s.role);
   const golden = useGoldenTime();
   const poa = usePoaPrediction(DEMO_CASE_ID, 1);
@@ -255,8 +256,31 @@ export default function SearchScreen() {
           {watching != null && <PresenceBadge watching={watching} compact />}
         </View>
 
-        {/* 시민 화면 — 익명 뷰 */}
-        <MissingPersonCard view={toAnonView(profile)} variant="compact" showAppearanceChips />
+        {/* 앱 안 시민 화면 — 실명·나이는 노출, 진단명은 제외 */}
+        <MissingPersonCard view={toCitizenView(profile)} variant="compact" showAppearanceChips />
+
+        {/* 수색 안내 — "어디를 봐야 하는지". 이 화면에 없던 정보다(지도와 인상착의는
+            있어도 행동 지시가 없었다). 서버가 페르소나에서 만들어 내려준다.
+            문구가 없거나 조회 실패면 조용히 사라진다 — 지도·인상착의가 본질이고
+            안내는 보탬이라, 이것 때문에 에러 UI 를 띄울 이유가 없다. */}
+        {guidance ? (
+          <View
+            style={[styles.guidanceCard, { backgroundColor: theme.accentWash }]}
+            accessible
+            accessibilityLabel={`수색 안내. ${guidance}`}
+          >
+            <Text style={styles.guidanceIcon} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              🔎
+            </Text>
+            <Text
+              style={[styles.guidanceText, { color: theme.accentInk }]}
+              allowFontScaling
+              maxFontSizeMultiplier={type.maxScale}
+            >
+              {guidance}
+            </Text>
+          </View>
+        ) : null}
 
         <View style={styles.lastSeenRow} accessible accessibilityLabel={`마지막 목격 · ${MISSING.area} 인근`}>
           <Text style={styles.lastSeenIcon} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
@@ -482,6 +506,24 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: space.sm,
   },
+  // 수색 안내 카드 — '수색 진행' 요소라 앰버 계열 워시(§4.1). 심각도색 아님.
+  guidanceCard: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: space.sm,
+    borderRadius: radius.lg,
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+  },
+  guidanceIcon: { fontSize: 15, lineHeight: 21 },
+  guidanceText: {
+    flex: 1,
+    fontSize: type.size.label,
+    fontWeight: type.weight.medium,
+    fontFamily: type.family,
+    lineHeight: 21,
+  },
+
   sheetKicker: {
     fontSize: type.size.label,
     fontWeight: type.weight.black,

@@ -24,6 +24,7 @@ import { color, radius, space, type, HIT } from '../theme/tokens';
 import { hexToRgba } from '../utils/color';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING, MISSING_ANON } from '../data/missing';
 import { useAppModeStore } from '../store/appModeStore';
+import { useEngagementStore } from '../store/engagementStore';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { distanceM, formatDistance, formatWalkTime } from '../utils/geo';
 import type { RootStackParamList } from '../navigation/types';
@@ -124,13 +125,22 @@ export default function LockScreenAlert() {
   const summaryLine = distanceLabel ? `${SUMMARY_BASE} · ${distanceLabel}` : SUMMARY_BASE;
 
   const dismissCase = useAppModeStore((s) => s.dismissCase);
+  // 피로 신호 — 여러 번 끄면 일반 예측 알림은 관문을 안 세운다(alertBudget).
+  const recordDismissed = useEngagementStore((st) => st.recordDismissed);
+  const recordOpened = useEngagementStore((st) => st.recordOpened);
 
-  const openDetail = () => navigation.navigate('AlertDetail', { caseId });
+  // 잠금화면은 벨·알림 탭으로만 들어온다(관문은 경보 상세로 직행) — 즉 여기
+  // 도달한 것 자체가 자발적 열람이다. 상세로 넘어갈 때 관심 신호로 센다.
+  const openDetail = () => {
+    recordOpened();
+    navigation.navigate('AlertDetail', { caseId });
+  };
   const dismiss = () => navigation.goBack();
   // "안볼래요" — 닫기(✕)와 구분되는 별도 의사표시. ✕는 이번만 넘김,
   // 이쪽은 이 사건의 재촉을 끈다. 경보 재도달·벨 진입 경로는 그대로 남는다.
   const dismissNudge = () => {
     dismissCase(caseId);
+    recordDismissed();
     navigation.goBack();
   };
 
@@ -138,7 +148,7 @@ export default function LockScreenAlert() {
   const a11yDistance = distanceLabel
     ? `최종 목격 장소까지 ${distanceLabel}, ${walkLabel}. `
     : '';
-  const a11ySummary = `긴급 실종경보. ${MISSING.area} 근처 ${MISSING_ANON}. ${MISSING.appearance[0]} 착용. ${a11yDistance}지금 확인 버튼을 누르면 상세를 볼 수 있어요.`;
+  const a11ySummary = `긴급 실종경보. 실종자가 이 근처에 계실 수 있어요. ${MISSING.area} 근처 ${MISSING_ANON}. ${MISSING.appearance[0]} 착용. ${a11yDistance}지금 확인 버튼을 누르면 상세를 볼 수 있어요.`;
 
   return (
     <View style={styles.root}>
@@ -240,8 +250,11 @@ export default function LockScreenAlert() {
                     {nearLabel}
                   </Text>
                 </View>
+                {/* 확정하지 않는다 — "있어요"는 실종자가 여기 있다고 단정하는 말인데
+                    우리가 가진 건 확률분포다. 한 번 틀린 확정 표현이 나가면 이후
+                    모든 경보의 신뢰가 같이 떨어진다. 백엔드 알림 문구도 같은 원칙. */}
                 <Text style={styles.headline} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-                  내 주변에 실종자가 있어요
+                  실종자가 이 근처에 계실 수 있어요
                 </Text>
               </View>
 

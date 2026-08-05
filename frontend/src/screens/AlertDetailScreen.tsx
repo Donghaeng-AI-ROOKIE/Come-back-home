@@ -27,11 +27,12 @@ import PresenceBadge from '../components/PresenceBadge';
 import BaseMap from '../components/BaseMap';
 import MapPin from '../components/MapPin';
 import { useAppModeStore } from '../store/appModeStore';
+import { useEngagementStore } from '../store/engagementStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { distanceM, formatDistance } from '../utils/geo';
 import { DEMO_CASE_ID, LAST_SEEN } from '../data/missing';
-import { toAnonView } from '../data/missingView';
+import { toCitizenView } from '../data/missingView';
 import { useGoldenTime, usePresenceCount } from '../hooks/queries';
 import { hexToRgba, toLatLng } from '../utils/color';
 import type { RootStackParamList } from '../navigation/types';
@@ -89,6 +90,8 @@ export default function AlertDetailScreen() {
   // 루트라 goBack 이 아무 일도 안 하므로, 통과 경로를 명시적으로 만들어야 한다.
   const isGate = !navigation.canGoBack();
   const dismissCase = useAppModeStore((s) => s.dismissCase);
+  // 피로 신호 — 여러 번 끄면 일반 예측 알림은 관문을 안 세운다(alertBudget).
+  const recordDismissed = useEngagementStore((st) => st.recordDismissed);
   const leaveGate = () => navigation.reset({ index: 0, routes: [{ name: 'CitizenTabs' }] });
 
   const onSeen = () => navigation.navigate('ReportChat', { caseId: DEMO_CASE_ID });
@@ -100,6 +103,7 @@ export default function AlertDetailScreen() {
   // "그만 볼래요" = 명시적 영구 억제. 관문을 통과하는 유일한 '끄는' 경로.
   const onDismissCase = () => {
     dismissCase(caseId);
+    recordDismissed();
     if (isGate) leaveGate();
     else navigation.goBack();
   };
@@ -206,8 +210,8 @@ export default function AlertDetailScreen() {
 
         {/* 실종자 카드 — 단일 소스(익명, 인상착의 칩) */}
         <View style={styles.block}>
-          {/* 시민 화면 — 익명 뷰. 실명·나이·인지상태는 여기서 이미 걸러진다. */}
-          <MissingPersonCard view={toAnonView(profile)} variant="full" showAppearanceChips />
+          {/* 앱 안 시민 화면 — 실명·나이는 노출, 진단명은 제외(민감정보) */}
+          <MissingPersonCard view={toCitizenView(profile)} variant="full" showAppearanceChips />
         </View>
 
         {/* 최종 목격 — 구역·시간만(의료정보 비노출). 단일 소스 profile.lastSeen */}

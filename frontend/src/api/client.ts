@@ -220,3 +220,25 @@ export async function touchPresence(caseId: string): Promise<number> {
   });
   return data.watching;
 }
+
+/**
+ * 수색 안내 문구 — "어디를 봐야 하는지" (알림 개인화 #5 템플릿판).
+ *
+ * **수색 탭 전용**이다. 푸시 본문에는 넣지 않는다 — 잠금화면은 폰을 집어든 누구나
+ * 보고 그 알림은 넓은 지역에 가므로, 같은 문장이라도 노출 범위가 달라진다.
+ * 서버 계약: GET /phase3/cases/{id}/guidance → { guidance, personalized }
+ */
+export type Guidance = { text: string; personalized: boolean };
+
+export async function getGuidance(caseId: string): Promise<Guidance> {
+  if (USE_MOCK) {
+    return delay({
+      text: '멀리 가지 못하고 한자리에 머물러 계실 수 있어요. 골목, 벤치, 건물 그늘을 먼저 살펴봐 주세요.',
+      personalized: true,
+    });
+  }
+  const data = await api<{ guidance: string; personalized: boolean }>(
+    `/phase3/cases/${caseId}/guidance`,
+  );
+  return { text: data.guidance, personalized: data.personalized };
+}
