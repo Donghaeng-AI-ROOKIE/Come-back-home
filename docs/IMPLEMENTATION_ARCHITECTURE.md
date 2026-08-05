@@ -855,7 +855,7 @@ API 요청·응답의 상세 형식은 [`API_CONTRACT.md`](../API_CONTRACT.md)�
 4. FCM/APNs, 셀 내 동의 사용자 위치 인덱스, 백그라운드 지오펜스
 5. 인메모리 Repository의 영속 DB 전환
 6. 주기 재실행·TTL 파기를 호출할 운영 스케줄러
-7. `USE_ROADNET=true` 운영 프로필과 도로망·환경 캐시 배포
+7. `USE_ROADNET=true` 운영 프로필과 도로망·환경 캐시 배포 — 코드·테스트 검증 완료(2026-08-05, `feat/use-roadnet-true`: conftest 오프라인 강제, 캐시 없는 환경 폴백 확인, trust_weight r=2.3 재검증 AUC=1.0 유지). 배포 `.env` 반영은 팀 결정 대기
 8. Statistical MC의 통계 전용 prior 분리 여부 결정
 9. Mind `behavior`의 이동 전략 연결과 규칙 기반 혼란 산정
 10. 제보 시각 원문 대조 가드

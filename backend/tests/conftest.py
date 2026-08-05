@@ -13,3 +13,8 @@ for _key in (
     "MIDM_API_KEY", "MIDM_BASE_URL", "MIDM_MODEL",
 ):
     os.environ[_key] = ""
+
+# bool 필드라 pydantic-settings 가 "" 파싱에 실패한다 — 위 문자열 키들과 달리
+# 반드시 "false" 로 강제한다. .env 에서 USE_ROADNET=true 를 켜도 테스트는 항상
+# 오프라인(연속공간 폴백)이어야 한다 — Overpass/OSM 라이브 호출 금지.
+os.environ["USE_ROADNET"] = "false"
