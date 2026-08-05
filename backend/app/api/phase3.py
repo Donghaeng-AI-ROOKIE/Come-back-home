@@ -3,11 +3,11 @@
 from datetime import datetime
 
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app import storage
 from app.geo import h3grid
-from app.phase3 import alerts, tip_flow, triggers
+from app.phase3 import alerts, presence, tip_flow, triggers
 from app.privacy import lifecycle
 from app.schemas.case import CaseStatus
 from app.schemas.common import GeoPoint
@@ -20,6 +20,13 @@ class TipIn(BaseModel):
     location: GeoPoint | None = None   # 명시 좌표(향후 지도 핀 등). 없으면 텍스트에서 지오코딩.
     seen_at: datetime | None = None
     force: bool = False                 # 위치 미확보 되묻기를 건너뛰고 그대로 확정
+
+
+class PresenceIn(BaseModel):
+    # 클라이언트가 생성한 불투명 난수. 서버는 이것이 누구인지 모른다 — 계정·기기·
+    # 위치 어디에도 연결하지 않는다(자세한 근거: phase3/presence.py).
+    # 좌표 필드는 의도적으로 없다: 셀 단위 집계는 곧 위치정보다.
+    token: str = Field(min_length=8, max_length=128)
 
 
 def _get_case(case_id: str):
@@ -117,6 +124,26 @@ def get_poa(case_id: str, top: int = 20):
             for c, p in ranked
         ],
     }
+
+
+@router.post("/cases/{case_id}/presence")
+def touch_presence(case_id: str, body: PresenceIn):
+    """익명 참여 하트비트 + 현재 동시 참여자 수 ("지금 N명이 함께 보고 있어요").
+
+    갱신과 조회를 한 응답에 담는 이유: 프론트는 이것만 주기 호출하면 되고
+    폴링 왕복이 절반으로 준다.
+    """
+    case = _get_case(case_id)
+    _require_active(case)
+    return {"case_id": case.id, "watching": presence.heartbeat(case.id, body.token)}
+
+
+@router.get("/cases/{case_id}/presence")
+def get_presence(case_id: str):
+    """동시 참여자 수 조회만 (하트비트 없음) — 운영 대시보드처럼
+    '참여자로 세어지면 안 되는' 관찰자용."""
+    case = _get_case(case_id)
+    return {"case_id": case.id, "watching": presence.count(case.id)}
 
 
 @router.get("/cases/{case_id}/rerun-check")

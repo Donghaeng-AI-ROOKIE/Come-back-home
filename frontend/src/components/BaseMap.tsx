@@ -21,6 +21,17 @@ export type BaseMapProps = {
   scrollEnabled?: boolean;
   liteMode?: boolean;
   accessibilityLabel?: string;
+  /**
+   * OS 기본 현재위치 마커(+방향 콘) 표시. 위치 권한이 이미 허용된 화면에서만 켠다.
+   *
+   * 상대좌표 안내("2시 방향으로 200m")를 폐기하고 이걸 쓰는 이유: 시계 1칸이 30°인데
+   * 도심 자기간섭으로 나침반 오차가 ±20~40°다. 결정타는 사용자의 자세 — 알림을 볼 때는
+   * 멈춰서 폰을 눕히므로 GPS course 는 죽고(speed 0) 나침반은 하늘을 가리켜
+   * "진행 방향"이라는 개념 자체가 성립하지 않는다. 반면 OS 는 센서융합으로 방향을
+   * 추정하고, **부정확하면 콘을 넓게 그려 불확실성까지 시각화**한다. 우리가 직접
+   * 계산해서 틀린 방향을 단정적으로 말하는 것보다 언제나 낫다.
+   */
+  showsUserLocation?: boolean;
 };
 
 /**
@@ -42,6 +53,7 @@ export function BaseMap({
   scrollEnabled = true,
   liteMode = false,
   accessibilityLabel = '지도',
+  showsUserLocation = false,
 }: BaseMapProps) {
   if (Platform.OS === 'web') {
     return (
@@ -82,6 +94,10 @@ export function BaseMap({
         scrollEnabled={scrollEnabled}
         zoomEnabled={scrollEnabled}
         liteMode={liteMode}
+        showsUserLocation={showsUserLocation}
+        // 위치로 이동 버튼은 끈다 — 지도가 카드 안에 작게 들어가 있어
+        // 컨트롤이 정보(최종 목격 핀·예상 반경)를 가린다.
+        showsMyLocationButton={false}
         customMapStyle={grayscale ? GRAYSCALE_STYLE : undefined}
       >
         {children}

@@ -123,6 +123,38 @@ export async function sendAlerts(caseId: string): Promise<{ delivered: number; c
   return { delivered: 0, cells: 0 };
 }
 
+/**
+ * 익명 참여 토큰 (알림 개인화 #4). 앱 실행마다 새로 만들고 **영속화하지 않는다** —
+ * 서버가 세션을 넘어 같은 사람을 이어붙일 수 없어야 하므로 오히려 이게 맞다.
+ *
+ * 보안 토큰이 아니라 "같은 앱 인스턴스의 반복 폴링을 한 명으로 세기 위한" 중복제거
+ * 키다. 탈취해봐야 참여자 수가 1 흔들리는 게 전부라 crypto 난수까지 갈 이유는 없고,
+ * 충돌만 안 나면 된다(36^11 조합).
+ */
+const PRESENCE_TOKEN = `p-${Math.random().toString(36).slice(2, 13)}${Date.now().toString(36)}`;
+
+/** 목 모드 참여자 수 — 데모에서 "실시간"이 정지화면으로 보이지 않게 소폭 흔든다. */
+let mockWatching = 4;
+
+/**
+ * 하트비트 + 현재 동시 참여자 수. 좌표는 보내지 않는다 (셀 단위 집계 = 위치정보).
+ * 서버 계약: POST /phase3/cases/{id}/presence → { watching: number }
+ */
+export async function touchPresence(caseId: string): Promise<number> {
+  if (USE_MOCK) {
+    mockWatching = Math.min(9, Math.max(2, mockWatching + (Math.random() < 0.5 ? -1 : 1)));
+    return delay(mockWatching, 200);
+  }
+  const res = await fetch(`${API_BASE}/phase3/cases/${caseId}/presence`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: PRESENCE_TOKEN }),
+  });
+  if (!res.ok) throw new Error(`참여자 수 조회 실패: ${res.status}`);
+  const data: { watching: number } = await res.json();
+  return data.watching;
+}
+
 export async function getValidation(caseId: string): Promise<ValidationMetrics> {
   if (USE_MOCK) return delay(buildValidation());
   return buildValidation();

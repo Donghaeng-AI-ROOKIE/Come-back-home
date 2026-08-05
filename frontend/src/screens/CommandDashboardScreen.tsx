@@ -29,7 +29,7 @@ import type { TimeAxis } from '../types/domain';
 import type { OperatorStackParamList } from '../navigation/types';
 import { DEMO_CASE_ID, LAST_SEEN } from '../data/missing';
 import { POIS, REASON_TIMELINE } from '../data/mock';
-import { useCrossValidation, usePoaPrediction } from '../hooks/queries';
+import { useCrossValidation, usePoaPrediction, useGoldenTime } from '../hooks/queries';
 import { useMissingPersonStore } from '../store/missingPersonStore';
 import { useAppModeStore } from '../store/appModeStore';
 
@@ -81,6 +81,8 @@ export default function CommandDashboardScreen() {
 
   const poa = usePoaPrediction(DEMO_CASE_ID, t);
   const cv = useCrossValidation(DEMO_CASE_ID);
+  // 표시 컴포넌트에 넘길 데이터는 화면이 가져온다(디자인 교체 대비).
+  const goldenTime = useGoldenTime();
 
   const grid = poa.data;
   const sexLabel = profile.sex === 'F' ? '여성' : '남성';
@@ -151,7 +153,7 @@ export default function CommandDashboardScreen() {
           </Text>
         </View>
 
-        <GoldenTimeChip dark emphasis="searching" />
+        <GoldenTimeChip goldenTime={goldenTime} dark emphasis="searching" />
       </View>
 
       <SegmentedControl

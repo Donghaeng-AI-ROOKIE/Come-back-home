@@ -22,17 +22,21 @@ import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { color, radius, space, type, HIT } from '../theme/tokens';
 import { hexToRgba } from '../utils/color';
-import { DEMO_CASE_ID, MISSING, MISSING_ANON } from '../data/missing';
+import { DEMO_CASE_ID, LAST_SEEN, MISSING, MISSING_ANON } from '../data/missing';
+import { useAppModeStore } from '../store/appModeStore';
+import { useMyLocation } from '../hooks/useMyLocation';
+import { distanceM, formatDistance, formatWalkTime } from '../utils/geo';
 import type { RootStackParamList } from '../navigation/types';
 
 // 시계 자릿수 흔들림 방지 — 고정폭 숫자.
 const TABULAR: TextStyle = { fontVariant: ['tabular-nums'] };
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'] as const;
-// '내 주변' 근거 — 경보 메타데이터(거리/도보시간), 실종자 프로필 아님. 데모 상수.
-const NEAR_LABEL = '내 주변 · 걸어서 3분';
-const DISTANCE_LABEL = '약 320m';
+// '내 주변' 근거 — 경보 메타데이터(거리/도보시간), 실종자 프로필 아님.
+// 위치 권한 거부·측위 실패·정확도 미달 시의 물러섬 문구. 숫자를 못 믿을 때
+// 대충 지어내지 않고 이걸 쓴다(utils/geo.ts 참고).
+const NEAR_LABEL_FALLBACK = '내 주변';
 // 익명 요약 라인 — 실명·의료정보 비노출, 단일 소스 조합(§5).
-const SUMMARY_LINE = `${MISSING.area} 근처 · ${MISSING_ANON} · ${MISSING.appearance[0]}`;
+const SUMMARY_BASE = `${MISSING.area} 근처 · ${MISSING_ANON} · ${MISSING.appearance[0]}`;
 
 type IconProps = { size: number; color: string };
 
@@ -108,10 +112,33 @@ export default function LockScreenAlert() {
   const clock = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
   const dateLine = `${now.getMonth() + 1}월 ${now.getDate()}일 ${WEEKDAYS[now.getDay()]}요일`;
 
+  // 최종 목격 지점까지의 실거리. 좌표는 기기 밖으로 나가지 않는다(useMyLocation 참고).
+  const { point: myPoint, accuracyM } = useMyLocation();
+  const meters = myPoint ? distanceM(myPoint, LAST_SEEN) : null;
+  const distanceLabel = meters == null ? null : formatDistance(meters, accuracyM);
+  const walkLabel = meters == null ? null : formatWalkTime(meters, accuracyM);
+  // 배지는 거리와 도보시간을 합쳐 쓰되, 못 믿는 값은 통째로 빼고 '내 주변'만 남긴다.
+  const nearLabel = walkLabel ? `${NEAR_LABEL_FALLBACK} · ${walkLabel}` : NEAR_LABEL_FALLBACK;
+  // 거리는 요약 라인에 실제로 노출한다 — "내 주변"이라는 주장의 근거를
+  // 숫자로 보여주는 게 이 기능(#2)의 목적이다.
+  const summaryLine = distanceLabel ? `${SUMMARY_BASE} · ${distanceLabel}` : SUMMARY_BASE;
+
+  const dismissCase = useAppModeStore((s) => s.dismissCase);
+
   const openDetail = () => navigation.navigate('AlertDetail', { caseId });
   const dismiss = () => navigation.goBack();
+  // "안볼래요" — 닫기(✕)와 구분되는 별도 의사표시. ✕는 이번만 넘김,
+  // 이쪽은 이 사건의 재촉을 끈다. 경보 재도달·벨 진입 경로는 그대로 남는다.
+  const dismissNudge = () => {
+    dismissCase(caseId);
+    navigation.goBack();
+  };
 
-  const a11ySummary = `긴급 실종경보. ${MISSING.area} 근처 ${MISSING_ANON}. ${MISSING.appearance[0]} 착용. ${NEAR_LABEL}, ${DISTANCE_LABEL} 거리. 지금 확인 버튼을 누르면 상세를 볼 수 있어요.`;
+  // 낭독에서는 거리가 무엇까지의 거리인지 명시한다(화면은 폭이 좁아 생략).
+  const a11yDistance = distanceLabel
+    ? `최종 목격 장소까지 ${distanceLabel}, ${walkLabel}. `
+    : '';
+  const a11ySummary = `긴급 실종경보. ${MISSING.area} 근처 ${MISSING_ANON}. ${MISSING.appearance[0]} 착용. ${a11yDistance}지금 확인 버튼을 누르면 상세를 볼 수 있어요.`;
 
   return (
     <View style={styles.root}>
@@ -210,7 +237,7 @@ export default function LockScreenAlert() {
                 <View style={styles.nearBadge}>
                   <PinGlyph size={13} color={color.criticalWash} />
                   <Text style={styles.nearBadgeText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-                    {NEAR_LABEL}
+                    {nearLabel}
                   </Text>
                 </View>
                 <Text style={styles.headline} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
@@ -232,7 +259,7 @@ export default function LockScreenAlert() {
 
             {/* 요약 라인 */}
             <Text style={styles.summary} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              {SUMMARY_LINE}
+              {summaryLine}
             </Text>
 
             {/* 주 행동 — "지금 확인" 빨강 그라디언트 CTA(§4.1) */}
@@ -255,6 +282,20 @@ export default function LockScreenAlert() {
                 </Text>
                 <ChevronGlyph size={19} color="#FFFFFF" />
               </View>
+            </Pressable>
+
+            {/* 부차 행동 — "안볼래요"(넛지 억제). 긴급 CTA와 경쟁하지 않도록 저강조 텍스트. */}
+            <Pressable
+              onPress={dismissNudge}
+              accessibilityRole="button"
+              accessibilityLabel="이 사건은 그만 볼래요"
+              accessibilityHint="이 사건의 알림 배지를 끕니다. 경보 자체는 계속 도착할 수 있어요"
+              hitSlop={space.sm}
+              style={({ pressed }) => [styles.optOut, pressed && styles.pressed]}
+            >
+              <Text style={styles.optOutLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+                이 사건은 그만 볼래요
+              </Text>
             </Pressable>
           </View>
         </View>
@@ -433,6 +474,20 @@ const styles = StyleSheet.create({
     letterSpacing: -0.2,
   },
   pressed: { opacity: 0.9 },
+
+  optOut: {
+    marginTop: space.sm,
+    minHeight: HIT,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  optOutLabel: {
+    fontSize: type.size.label,
+    fontWeight: type.weight.medium,
+    color: color.operatorTextSec,
+    fontFamily: type.family,
+    letterSpacing: 0.2,
+  },
 
   footHint: {
     marginTop: space.md,

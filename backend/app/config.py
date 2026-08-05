@@ -277,6 +277,13 @@ class Settings(BaseSettings):
     # 값은 잠정 — 실제 알림 로그 쌓이면 평가곡선(알림수 vs 발견율)으로 튜닝 대상.
     max_alert_cells: int = 500
 
+    # ── Phase 3 익명 동시 참여자 수(presence) ────────────────────────
+    # TTL 은 프론트 폴링 주기(30s)의 3배 — 한두 번 놓쳐도(터널·일시 오프라인)
+    # 참여자가 깜빡이며 사라지지 않게 하는 여유. 늘리면 이탈이 늦게 반영되고
+    # 줄이면 카운트가 불안정해진다.
+    presence_ttl_sec: float = 90.0
+    presence_max_tokens_per_case: int = 10_000  # 메모리 상한 (자세한 근거: presence.py)
+
     # ── Phase 3 제보 신뢰도 p (docs: "제보 신뢰도 p 계산 방식") ─────────
     # p = 가중평균(시공간개연성·구체성). 없는 신호는 가중치 재정규화.
     # r = plausibility/specificity 비율만 결과에 영향(재정규화 구조, 절대값 무의미).

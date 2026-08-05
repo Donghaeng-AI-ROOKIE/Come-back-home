@@ -20,6 +20,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "내 주변에서 실종 경보가 발생했을 때 얼마나 가까운지 알려드리기 위해 위치를 사용해요. 위치는 기기 안에서만 계산되고 서버로 전송되지 않아요."
+        }
+      ]
+    ]
   }
 }
