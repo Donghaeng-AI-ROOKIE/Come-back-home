@@ -11,6 +11,7 @@ from app import storage
 from app.config import settings
 from app.geo import roadnet
 from app.llm import upstage, varco
+from app.phase1.color_extract import extract_color
 from app.phase3 import alerts
 from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
@@ -47,6 +48,14 @@ def create_report(
             report.appearance = varco.extract_appearance(photo_bytes)
         except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
             print(f"[varco] 인상착의 추출 실패 (접수는 계속): {e}")
+
+    # 고정 실루엣 아바타용 색상 추출 — 규칙 기반(모델 없음), 실패할 게 없는 순수
+    # 함수라 try/except 불필요. VARCO 3D 생성 설계 폐기 후속(2026-08-05).
+    if report.appearance is not None:
+        report.appearance.top_color = extract_color(report.appearance.top)
+        report.appearance.bottom_color = extract_color(report.appearance.bottom)
+        report.appearance.shoes_color = extract_color(report.appearance.shoes)
+
     if document_bytes is not None:
         try:
             report.reporter = upstage.parse_document(document_bytes)
