@@ -9,10 +9,12 @@
  * 보호자 플로우(사전등록·신고·예측)는 ./guardian, 산책은 ./walk 에 있다.
  */
 import type {
+  AlertKind,
   GeoPoint,
   PoaCell,
   PoaGrid,
   PoliceAlert,
+  Severity,
   TimeAxis,
   Tip,
   TipInput,
@@ -226,10 +228,11 @@ type AlertResponse = {
   case_id: string;
   issued_at: string;
   area: string;
-  severity: 'critical' | 'active';
-  kind: 'reflex' | 'poa' | 'new_region';
-  target_center: GeoPoint;
-  target_radius_m: number;
+  severity: Severity;
+  kind: AlertKind;
+  /** 대상 H3 셀(res7)과 그 해상도 — 폰이 자기 칸과 대조해 관문 여부를 정한다. */
+  target_cells: string[];
+  target_res: number;
   summary: string;
   matched_person_id?: string | null;
   /** 시민에게 보여줄 최소 신원 — 이름은 오지 않는다(불특정 다수 대상 알림). */
@@ -240,28 +243,39 @@ type AlertResponse = {
 };
 
 /**
- * 살아있는 경보 목록 — 경보 진입 관문(useAlertGate)이 판정 대상으로 쓴다.
+ * 살아있는 경보 목록 — 관문(useAlertGate)이 판정할 대상.
  *
  * 종전에는 `buildAlert()` 를 **조건 없이** 돌려줘서, 시민이 앱을 열 때마다
  * 존재하지 않는 사건의 경보가 떴다(실측: 시뮬레이터 기본 위치가 쿠퍼티노라
- * "약 9023.9km" 라는 거리까지 표시됐다). 이제 서버의 실제 케이스만 본다 —
- * 신고·예측이 없으면 경보도 없다.
+ * "약 9023.9km" 라는 거리까지 표시됐다). 이제 서버의 실제 케이스만 본다.
  *
  * 푸시는 **보내는 그 순간**에만 도달하므로(폰이 꺼져 있었거나 알림을 쓸어 없앴으면
  * 아무것도 안 남는다) 이 조회 경로가 따로 필요하다 — 관문은 사용자가 앱을 **직접
  * 연** 순간에도 판정해야 한다.
+ *
+ * ## 내 칸을 보내고, 서버가 고른다
+ * 전체 목록을 받아 폰이 거르는 구조로 만들면 앱이 전국 실종자 명단을 받게 된다 —
+ * 푸시에서 최소화해 둔 것을 조회 경로가 무효화하는 셈. 발송과 **같은 기준**으로
+ * 서버가 고른다(백엔드 `GET /phase3/alerts`).
+ *
+ * @param cellRes7 내 위치의 res7 셀. **null 이면 서버가 빈 목록을 준다** —
+ *   위치를 모르면 어느 사건이 나에게 해당되는지 고를 수 없기 때문(fail-closed).
  */
-export async function getActiveAlerts(): Promise<PoliceAlert[]> {
-  if (USE_MOCK) return delay([buildAlert()]);
-  const rows = await api<AlertResponse[]>('/phase3/alerts');
+export async function getActiveAlerts(cellRes7: string | null): Promise<PoliceAlert[]> {
+  if (USE_MOCK) return delay(cellRes7 ? [buildAlert()] : []);
+  if (cellRes7 == null) return [];
+  const rows = await api<AlertResponse[]>(
+    `/phase3/alerts?cell_res7=${encodeURIComponent(cellRes7)}`,
+  );
   return rows.map((r) => ({
     caseId: r.case_id,
     issuedAt: r.issued_at,
-    area: r.area,
+    // 서버는 지역명을 모른다(역지오코딩 미연결) — 동 이름을 지어내는 대신 물러난다.
+    area: r.area || '내 주변',
     severity: r.severity,
     kind: r.kind,
-    targetCenter: r.target_center,
-    targetRadiusM: r.target_radius_m,
+    targetCells: r.target_cells,
+    targetRes: r.target_res,
     summary: r.summary,
     matchedPersonId: r.matched_person_id ?? undefined,
     age: r.age ?? undefined,

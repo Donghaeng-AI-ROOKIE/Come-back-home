@@ -5,10 +5,12 @@
 """
 
 import math
+from datetime import datetime
 
 from app.config import settings
 from app.geo import h3grid
 from app.phase3 import devices, push
+from app.schemas.case import Case
 from app.schemas.common import GeoPoint
 
 
@@ -158,6 +160,62 @@ def relative_prob_by_parent(
         if rel > out.get(parent, 0.0):
             out[parent] = rel
     return out
+
+
+def describe_alert(case: Case, now: datetime | None = None) -> dict:
+    """살아 있는 사건 하나 → 앱이 받는 경보 표현.
+
+    **푸시 페이로드와 같은 모양이어야 한다.** 앱은 두 경로로 경보를 알게 되는데
+    (푸시 도착 / 앱 열 때 조회), 관문 판정은 같은 코드가 한다 — 모양이 갈리면
+    "알림으로 온 건 뜨는데 앱을 열면 안 뜬다" 같은 어긋남이 생긴다.
+
+    ## kind 는 예측 유무로 갈린다
+    POA 가 아직 없으면 신고 직후 골든타임 구간이라 `reflex`(1차 안전반경),
+    있으면 `poa`. `new_region`(D3)은 **발송 시점의 판단**이라 여기서는 안 나온다 —
+    "지금 살아 있는 사건"에 새 지역이냐 아니냐는 상태가 아니다.
+
+    ## issued_at 이 관문 억제를 되돌리는 축이다
+    "그만 볼래요"는 억제 시각보다 **나중에 발령된** 경보에만 뚫린다
+    (utils/alertGate.shouldGate). 그래서 마지막 발송 시각이 있으면 그것을 쓴다 —
+    새 알림이 나갔다는 건 새로 알릴 일이 생겼다는 뜻이므로.
+    """
+    from app import storage  # 순환 임포트 회피 (storage → schemas → 여기)
+
+    now = now or datetime.now()
+    if case.current_poa:
+        cells = select_alert_cells(case.current_poa)
+        kind = "poa"
+    else:
+        cells = select_reflex_cells(case.lkp)
+        kind = "reflex"
+
+    elapsed_h = (now - case.lkp_time).total_seconds() / 3600
+    look = case.report.appearance
+    persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
+    return {
+        "case_id": case.id,
+        "issued_at": case.last_alert_at or case.created_at,
+        # 🚫 지역명은 서버가 모른다 — 역지오코딩이 아직 없다(KAKAO 키 대기).
+        # 빈 문자열로 두고 앱이 "내 주변"으로 물러난다. 좌표에서 동 이름을
+        # 지어내느니 안 말하는 게 낫다.
+        "area": "",
+        "severity": "critical" if elapsed_h <= settings.alert_critical_window_h else "active",
+        "kind": kind,
+        "target_cells": sorted(target_parent_cells(cells)) if cells else [],
+        "target_res": settings.push_target_res,
+        "summary": look.summary if look and look.summary else "인상착의 정보 없음",
+        "matched_person_id": case.report.persona_id,
+        # 시민 화면이 띄울 최소 신원 — 🚨 **이름은 보내지 않는다.** 나이·인상착의로
+        # 충분하고, 이름까지 뿌리면 목적(발견 제보)을 넘는 제공이 된다.
+        # (수색 탭 안내 문구에는 이름이 들어가는데, 그건 노출 범위가 다르다 —
+        #  storytelling.ToneParams.name 주석 참고)
+        "age": persona.age if persona else None,
+        "appearance": (
+            [look.top, look.bottom, look.shoes, look.physical] if look else []
+        ),
+        "lkp": {"lat": case.lkp.lat, "lng": case.lkp.lng},
+        "lkp_time": case.lkp_time,
+    }
 
 
 _TITLES = {

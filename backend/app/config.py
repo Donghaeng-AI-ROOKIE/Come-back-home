@@ -376,6 +376,10 @@ class Settings(BaseSettings):
         "normal": 0.45,
         "low": 0.6,      # 확실한 곳만
     }
+    # 실종 경과가 이 시간 안이면 경보를 critical(빨강), 넘으면 active(앰버)로
+    # 내려준다. 프론트 queries.ts 의 GOLDEN_WINDOW_MS(1시간)와 같은 창 —
+    # 화면 카운트다운과 색이 따로 놀면 "긴급이라면서 앰버"가 된다.
+    alert_critical_window_h: float = 1.0
 
     # ── Phase 3 제보 신뢰도 p (docs: "제보 신뢰도 p 계산 방식") ─────────
     # p = 가중평균(시공간개연성·구체성). 없는 신호는 가중치 재정규화.
