@@ -294,9 +294,16 @@ SLOTS: list[SlotSpec] = [
 
 # ── 조회 헬퍼 ────────────────────────────────────────────────────────
 
-def slots_for(ptype: PersonaType) -> list[SlotSpec]:
-    """해당 유형에 유효한 슬롯만, 질문 순서(tier→정의순)대로."""
+def slots_for(ptype: PersonaType, tiers: list[int] | None = None) -> list[SlotSpec]:
+    """해당 유형에 유효한 슬롯만, 질문 순서(tier→정의순)대로.
+
+    tiers: 지정하면 그 tier(들)의 슬롯만 반환 — 신고 전 미니챗([1]만)·보완챗
+    ([2,3]만) 같은 부분 인터뷰에 쓴다. None(기본값)이면 지금까지와 동일하게
+    전체 슬롯을 반환한다(기존 호출부는 전부 인자를 안 넘기므로 동작 불변).
+    """
     relevant = [s for s in SLOTS if ptype in s.types]
+    if tiers is not None:
+        relevant = [s for s in relevant if s.tier.value in tiers]
     return sorted(relevant, key=lambda s: s.tier.value)
 
 

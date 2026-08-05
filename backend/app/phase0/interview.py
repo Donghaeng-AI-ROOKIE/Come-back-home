@@ -26,7 +26,7 @@ from app.geo.geocode import (
     to_attraction_points,
 )
 from app.phase0.retrieval import get_embedder
-from app.phase0.slots import SLOTS, Axis, Sink, SlotSpec, slot_by_key, slots_for
+from app.phase0.slots import SLOTS, Axis, Sink, SlotSpec, Tier, slot_by_key, slots_for
 from app.schemas.common import GeoPoint
 from app.schemas.persona import (
     AttractionPoint,
@@ -265,7 +265,7 @@ def _probe_question(session: InterviewSession, slot: SlotSpec) -> str:
     recent = asked[-3:]
     raw = _phrase_tracked(session, slot, is_followup=True)
     question, _fb = safety.guard_question(
-        raw, slot, _EMB, bank=slots_for(session.persona_type))
+        raw, slot, _EMB, bank=_scoped_slots(session))
     qt = _note_tokens(question)
     too_similar = any(
         pt and qt and len(qt & pt) / len(qt | pt) >= _PROBE_DUP_JACCARD
@@ -624,16 +624,68 @@ def build_summary(session: InterviewSession) -> str:
     return "\n".join(lines)
 
 
-def start_interview(guardian_name: str, persona_type: PersonaType | None = None) -> InterviewSession:
+def start_interview(
+    guardian_name: str,
+    persona_type: PersonaType | None = None,
+    *,
+    mode: str = "create",
+    target_tiers: list[int] | None = None,
+    guardian_id: str = "",
+    skip_confirmation: bool = False,
+    persona_id: str | None = None,
+) -> InterviewSession:
+    """새 인터뷰 세션 시작.
+
+    새 키워드 인자(mode/target_tiers/guardian_id/skip_confirmation/persona_id)는
+    전부 기본값이 기존 동작과 동일 — 인자 없이 호출하면(기존 모든 호출부) 예전과
+    한 글자도 다르지 않다.
+
+    target_tiers 가 Tier1(성함·나이 포함)을 포함하지 않으면(보완챗 — Tier1은 이미
+    다른 세션에서 답했다) 하드코딩된 identity 첫 질문을 건너뛰고 스코프 안에서
+    첫 질문을 고른다. persona_id 를 미리 주면(supplement/update) 세션이 시작부터
+    그 persona 에 연결돼, 완료 시 finalize_persona 가 새로 만들지 않고 병합한다.
+    """
     # 유형은 치매 단독 — 인자는 API 하위호환으로만 남기고, 미지정이면 기본값으로 고정한다.
     session = InterviewSession(
         id=storage.new_id(), guardian_name=guardian_name,
         persona_type=persona_type or DEFAULT_PERSONA_TYPE,
+        mode=mode, target_tiers=target_tiers, guardian_id=guardian_id,
+        skip_confirmation=skip_confirmation, persona_id=persona_id,
     )
-    session.messages.append({"role": "assistant", "text": _IDENTITY.question})
-    session.prev_target_key = _IDENTITY.key
+    if target_tiers is not None and Tier.route.value not in target_tiers:
+        nxt = _next_slot(session)
+        if nxt is not None:
+            target, _ = nxt
+            session.messages.append(
+                {"role": "assistant", "text": safety.single_question(target.question)})
+            session.prev_target_key = target.key
+    else:
+        session.messages.append({"role": "assistant", "text": _IDENTITY.question})
+        session.prev_target_key = _IDENTITY.key
     storage.interviews.save(session.id, session)
     return session
+
+
+# tier 집합만으로 persona 상태를 판정 — 슬롯별 answered/value 세분 저장 없이도
+# "1차 미니챗만 끝났나·전부 끝났나"를 구분하기에 충분하다(설계 스코프 축소).
+_ALL_TIERS = {Tier.route.value, Tier.capacity.value, Tier.refine.value}
+
+
+def persona_status_for(persona: Persona | None) -> tuple[str, str]:
+    """(persona_status, available_mode) — none/create, partial/supplement, complete/update.
+
+    completed_tiers 가 비어 있는데 persona 는 존재하면(예: register_persona 구조화
+    직접등록처럼 이 인터뷰 흐름을 안 거친 persona) 이미 필드가 다 있다고 보고
+    complete 취급한다 — tier 정보가 없다고 재등록을 강요하지 않는다.
+    """
+    if persona is None:
+        return "none", "create"
+    tiers = set(persona.completed_tiers)
+    if not tiers or _ALL_TIERS <= tiers:
+        return "complete", "update"
+    if Tier.route.value in tiers:
+        return "partial", "supplement"
+    return "none", "create"
 
 
 def _norm(s: str) -> str:
@@ -913,6 +965,17 @@ def _blocked_keys(session: InterviewSession) -> set[str]:
     return set(session.filled_keys) | _exhausted_keys(session)
 
 
+def _scoped_slots(session: InterviewSession) -> list[SlotSpec]:
+    """이 세션이 물을 수 있는 슬롯 후보 — session.target_tiers 로 좁힌 slots_for.
+
+    target_tiers 가 None(기본값, 기존 온보딩 전체 흐름)이면 slots_for 와 완전히
+    동일(전체 슬롯) — 신고 전 미니챗([1]만)·보완챗([2,3]만) 같은 부분 인터뷰에서만
+    실제로 좁아진다. 답변 처리·추출·가드 알고리즘 자체는 손대지 않고 후보 목록만
+    제한한다.
+    """
+    return slots_for(session.persona_type, session.target_tiers)
+
+
 def _next_slot(
     session: InterviewSession, *, avoid_prev: bool = False
 ) -> tuple[SlotSpec, bool] | None:
@@ -926,15 +989,30 @@ def _next_slot(
     blocked = _blocked_keys(session)
     avoid = (blocked | {session.prev_target_key}) \
         if (avoid_prev and session.prev_target_key) else blocked
+    # target_tiers 로 좁힌 세션(미니챗·보완챗)이면 그 tier 밖 슬롯은 후보에서 뺀다.
+    # retrieval.rank_next_slots 자체(임베딩 랭킹 알고리즘)는 건드리지 않고, 반환된
+    # 순위 목록만 사후 필터한다 — 매칭되는 슬롯이 아예 없으면(모두 다른 tier)
+    # avoid 로 걸러내는 대신 전부 blocked 취급해 tiers 밖으로 안 넘어가게 한다.
+    allowed_keys = (
+        {s.key for s in _scoped_slots(session)} if session.target_tiers is not None else None
+    )
+
+    def _filter(ranked):
+        if allowed_keys is None:
+            return ranked
+        return [r for r in ranked if r.slot.key in allowed_keys]
+
     ranked, _ = retrieval.rank_next_slots(
         session.persona_type, _user_turns(session), avoid, _EMB,
         top_k=5, asked_counts=session.asked_counts,
     )
+    ranked = _filter(ranked)
     if not ranked and avoid != blocked:
         ranked, _ = retrieval.rank_next_slots(
             session.persona_type, _user_turns(session), blocked, _EMB,
             top_k=5, asked_counts=session.asked_counts,
         )
+        ranked = _filter(ranked)
     if not ranked:
         return None
     top = ranked[0]
@@ -949,7 +1027,7 @@ def _is_complete(session: InterviewSession) -> bool:
     시도 후 소진 처리해 무한루프를 막는다.
     """
     blocked = _blocked_keys(session)
-    return all(s.key in blocked for s in slots_for(session.persona_type))
+    return all(s.key in blocked for s in _scoped_slots(session))
 
 
 def answer_interview(session_id: str, user_text: str) -> InterviewSession:
@@ -1086,6 +1164,28 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
                                           or "autobiographical_destination_pull")
             storage.interviews.save(session.id, session)
             return session
+        # 긴급 미니챗(신고 전 Tier1) 전용 — 요약 확인 왕복을 생략하고 마지막 답변
+        # 직후 바로 확정한다. 그 외 흐름(create/scope=all·supplement·update)은
+        # 아래의 기존 '요약 → 확인' 게이트를 그대로 거친다.
+        if session.skip_confirmation:
+            try:
+                finalize_persona(session)
+                msg = "확인 감사합니다. 신고 화면으로 이동합니다."
+            except ValueError as e:
+                # finalize 실패(예: home 좌표화 실패) — _handle_confirmation 의 동일
+                # 처리와 일관되게 세션을 열어둔 채 home 재질문으로 복귀시킨다.
+                session.draft_fields.pop("home", None)
+                if "home" in session.filled_keys:
+                    session.filled_keys.remove("home")
+                home_slot = slot_by_key("home")
+                session.prev_target_key = home_slot.key
+                session.asked_counts[home_slot.key] = 1
+                msg = (f"등록 중 문제가 있었어요({e}). "
+                       f"{safety.single_question(home_slot.question)}")
+            session.messages.append({"role": "assistant", "text": msg})
+            storage.interviews.save(session.id, session)
+            return session
+
         # 종료 대신 '요약 → 확인' 단계로 진입
         session.awaiting_confirmation = True
         session.messages.append({"role": "assistant", "text": build_summary(session)})
@@ -1096,7 +1196,7 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
     target, is_followup = nxt
     raw_q = _phrase_tracked(session, target, is_followup)
     question, _fallback = safety.guard_question(
-        raw_q, target, _EMB, bank=slots_for(session.persona_type))
+        raw_q, target, _EMB, bank=_scoped_slots(session))
     if GUARDS["presupposition"] and not _presupposition_grounded(session, question):
         question = safety.single_question(target.question)   # 근거 없는 전제 → 씨앗 질문
     if GUARDS["existence_first"] and not _slot_collected(session, target) \
@@ -1585,17 +1685,31 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     무경고로 수색 원점이 되던 치명 버그 (원점 오염). ValueError 는 확인 게이트가
     받아 보호자에게 집 위치를 재질문한다.
     geocoder 미지정 시 모듈 기본(_GEO, 카카오 체인) 사용 — 테스트는 gazetteer 주입.
+
+    session.persona_id 가 **세션 생성 시점부터 이미 설정돼 있으면**(supplement·update —
+    온보딩 없는 신고 흐름, 2026-08) 새로 만들지 않고 그 persona 에 이번 세션에서
+    수집한 것만 병합한다. create(지금까지의 유일한 흐름)는 이 값이 비어 있으므로
+    아래 분기가 지금과 완전히 동일하게 동작한다.
     """
     geo = geocoder or _GEO
     f = session.draft_fields
+    existing = storage.personas.get(session.persona_id) if session.persona_id else None
 
-    # ① home 먼저 — 수색 원점이자 끌림점 근접 검색의 앵커
-    home_res = geo.locate(f["home"]) if f.get("home") else None
-    if home_res is None:
+    # ① home — 이번 세션에서 새로 답했으면 좌표화, 아니면(보완챗처럼 이번엔 안
+    #    물었을 때) 기존 persona 의 home 을 그대로 쓴다. 둘 다 없으면 지금까지와
+    #    같은 ValueError.
+    if f.get("home"):
+        home_res = geo.locate(f["home"])
+        if home_res is None:
+            raise ValueError("집 위치 미확보 — 집 주소/동네를 다시 확인해 주세요")
+        home = home_res.point
+    elif existing is not None:
+        home = existing.home
+    else:
         raise ValueError("집 위치 미확보 — 집 주소/동네를 다시 확인해 주세요")
-    home = home_res.point
 
-    # ② 끌림점 — home 앵커로 반경 내 근접 검색 (전국 키워드 오검색 차단)
+    # ② 끌림점 — home 앵커로 반경 내 근접 검색 (전국 키워드 오검색 차단). 이번
+    #    세션에서 새로 나온 것만 대상 — 기존 끌림점은 아래 병합 단계에서 보존.
     points, unresolved = to_attraction_points(session.draft_attractions, geo, anchor=home)
     if unresolved:
         # 되묻기(_arealess_attractions)까지 거치고도 좌표가 안 나온 장소 — 예측에서
@@ -1610,7 +1724,7 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
         key = _norm(p.label) or (round(p.location.lat, 4), round(p.location.lng, 4))
         if key not in uniq or _rank.get(p.precision, 9) < _rank.get(uniq[key].precision, 9):
             uniq[key] = p
-    points = list(uniq.values())
+    new_points = list(uniq.values())
 
     # ③ 축별 근거 — 슬롯별 노트·원발화를 축 DB 필드명으로 묶는다(축 점수 컴파일 입력)
     axis_evidence: dict[str, list[str]] = {}
@@ -1624,17 +1738,52 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
         if spec is not None and spec.axis_field:
             axis_quotes.setdefault(spec.axis_field, []).extend(quotes)
 
-    persona = Persona(
-        id=storage.new_id(),
-        type=session.persona_type,
-        name=str(f.get("name") or "미상"),
-        age=_parse_age(f.get("age")),
-        home=home,
-        attraction_points=points,
-        behavior_notes=list(session.draft_behaviors),
-        axis_evidence=axis_evidence,
-        axis_quotes=axis_quotes,
-    )
+    if existing is not None:
+        # supplement/update — 같은 id 에 병합. 이번 세션에서 안 건드린 값은 전부
+        # 보존한다(끌림점·행동노트·축근거는 합집합, 이름/나이는 새로 답했을 때만 교체).
+        persona = existing
+        existing_labels = {_norm(p.label) for p in persona.attraction_points}
+        for p in new_points:
+            key = _norm(p.label)
+            if key and key not in existing_labels:
+                persona.attraction_points.append(p)
+                existing_labels.add(key)
+        for note in session.draft_behaviors:
+            if note not in persona.behavior_notes:
+                persona.behavior_notes.append(note)
+        for key, notes in axis_evidence.items():
+            bucket = persona.axis_evidence.setdefault(key, [])
+            bucket.extend(n for n in notes if n not in bucket)
+        for key, quotes in axis_quotes.items():
+            bucket = persona.axis_quotes.setdefault(key, [])
+            bucket.extend(q for q in quotes if q not in bucket)
+        if f.get("name"):
+            persona.name = str(f["name"])
+        if f.get("age"):
+            persona.age = _parse_age(f["age"])
+        if session.guardian_id:
+            persona.guardian_id = session.guardian_id   # 비었으면 기존 값 보존
+        persona.home = home
+        persona.version += 1
+    else:
+        # create — 지금까지와 완전히 동일한 신규 생성 경로(guardian_id 만 추가).
+        persona = Persona(
+            id=storage.new_id(),
+            type=session.persona_type,
+            name=str(f.get("name") or "미상"),
+            age=_parse_age(f.get("age")),
+            guardian_id=session.guardian_id,
+            home=home,
+            attraction_points=new_points,
+            behavior_notes=list(session.draft_behaviors),
+            axis_evidence=axis_evidence,
+            axis_quotes=axis_quotes,
+        )
+
+    # completed_tiers — 이번 세션이 커버한 tier 를 합집합으로 반영. target_tiers 가
+    # None(기존 흐름·create/scope=all)이면 3개 tier 전부 커버한 것으로 본다.
+    covered = session.target_tiers if session.target_tiers is not None else [1, 2, 3]
+    persona.completed_tiers = sorted(set(persona.completed_tiers) | set(covered))
 
     # ④ 축 점수 컴파일 — 기능 플래그(기본 off, 회의에서 B×P1 채택 시 켠다).
     # 확정(보호자 "네") 이후에만 채점하며, 기본은 비동기: 채점(EXAONE 18회,
@@ -1652,6 +1801,15 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
 
     if settings.axis_scoring_enabled:
         _start_scoring(persona.id)
+
+    if existing is not None:
+        # supplement/update 로 이미 있는 persona 를 갱신한 경우만 — 그 persona 로
+        # 진행 중인 case 가 있으면 재예측을 건다(create 는 아직 신고 전이라 case 자체가
+        # 없으므로 호출 불필요). 로컬 import — phase0→phase2/3 순환참조 회피(기존
+        # intake.py 의 phase0_interview 지연 임포트와 같은 이유).
+        from app.phase0 import persona_events
+        persona_events.notify_persona_updated(persona.id, persona.version)
+
     return persona
 
 

@@ -136,6 +136,18 @@ class Persona(BaseModel):
     behavior_tendency: str | None = None
     created_at: datetime = Field(default_factory=datetime.now)
 
+    # 온보딩 없는 신고 흐름(2026-08) — 어느 보호자 소유인지. 로그인 시스템이 아직
+    # 없어 명시적 값으로 받는다(persona_id/case_id 등 기존 식별자들과 같은 전제).
+    guardian_id: str = ""
+    # supplement/update 로 같은 persona 에 병합 저장할 때마다 1씩 증가.
+    # 동시수정 완전방지(버전 충돌 거부)는 하지 않음 — 최소한의 변경 흔적만 남긴다.
+    version: int = 0
+    # 지금까지 이 persona 에 실제로 답변된 슬롯 tier 집합(SlotSpec.tier.value 값,
+    # 1=route/2=capacity/3=refine). 신고 전 미니챗이 Tier1만 채우면 [1]만 들어가고,
+    # 이후 보완챗이 나머지를 채우면 [1,2,3]이 된다 — persona 상태(none/partial/
+    # complete) 판정의 유일한 근거.
+    completed_tiers: list[int] = []
+
 
 class InterviewSession(BaseModel):
     """Mi:dm 챗봇 인터뷰 세션 — 종료 시 Persona 로 변환된다.
@@ -178,3 +190,22 @@ class InterviewSession(BaseModel):
     # 개인정보 파기 — 미완료인 채 방치된 세션(draft 에 이름·주소 초안이 남는다)을
     # TTL 로 쓸어내기 위한 마지막 활동 시각 (privacy/lifecycle.purge_expired)
     last_active_at: datetime = Field(default_factory=datetime.now)
+
+    # ── 온보딩 없는 신고 흐름(2026-08) — 순수 추가 필드, 전부 기본값이면 기존
+    #    동작과 완전히 동일하다. ────────────────────────────────────────
+    # "create"(신규 등록) | "supplement"(보완챗, 나머지 tier만). 이미 등록된 정보를
+    # "고치는" 것은 챗봇 재질문이 아니라 PersonaDetailScreen(구조화 수정 화면,
+    # PATCH /phase0/personas/{id})이 담당한다(2026-08-06 팀 통합 결정 — 챗봇
+    # update 모드는 만들지 않기로 함).
+    # create 가 기본값 — 지금 하나뿐이던 온보딩 흐름과 동일 취급.
+    mode: str = "create"
+    # 이 세션이 물을 슬롯의 tier 집합. None = 전체(기존 동작 그대로).
+    # 신고 전 미니챗은 [1](Tier.route)만, 보완챗은 [2,3]만 넣는다.
+    target_tiers: list[int] | None = None
+    # 어느 보호자의 세션인지 — Persona.guardian_id 와 같은 이유로 명시값.
+    guardian_id: str = ""
+    # True 면 요약 확인("이게 맞나요?") 게이트를 건너뛰고 마지막 답변 직후 바로
+    # finalize_persona 를 호출한다 — 신고 전 긴급 미니챗 전용(왕복 한 번도
+    # 아낀다). 그 외 모든 흐름(create/scope=all, supplement)은 여전히 확인
+    # 게이트를 거친다.
+    skip_confirmation: bool = False
