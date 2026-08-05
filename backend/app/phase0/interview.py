@@ -26,7 +26,7 @@ from app.geo.geocode import (
     to_attraction_points,
 )
 from app.phase0.retrieval import get_embedder
-from app.phase0.slots import Axis, Sink, SlotSpec, slot_by_key, slots_for
+from app.phase0.slots import SLOTS, Axis, Sink, SlotSpec, slot_by_key, slots_for
 from app.schemas.common import GeoPoint
 from app.schemas.persona import (
     AttractionPoint,
@@ -489,19 +489,80 @@ def _is_affirmative(text: str) -> bool:
     return bool(words) and all(w in _AFFIRM_WORDS for w in words)
 
 
-# 요약에 보여줄 최대 개수 — 전부 나열하지 않고 핵심만 큐레이션(데이터는 전부 저장됨).
-_MAX_PLACES = 3
-_MAX_BEHAVIORS = 2
+def _split_tagged_note(note: str) -> tuple[str | None, str]:
+    """'{슬롯 라벨}: {노트}' → (슬롯 key, 노트). 접두가 없으면 (None, 원문).
+
+    저장 형식은 _apply_extraction 이 붙이는 라벨 접두(dashboard.html 도 같은 규칙으로
+    귀속시킨다). 접두를 떼야 요약에서 슬롯 제목을 한 번만 쓰고 사실만 나열할 수 있다.
+    """
+    for slot in SLOTS:
+        prefix = f"{slot.label}: "
+        if note.startswith(prefix):
+            return slot.key, note[len(prefix):].strip()
+    return None, note
+
+
+def _group_behaviors(session: InterviewSession) -> tuple[dict[str, list[str]], list[str]]:
+    """행동 노트를 슬롯별로 묶는다. 반환 = ({슬롯 key: 노트들}, 접두 없는 노트들).
+
+    draft_behaviors 를 그대로 읽는다(slot_notes 가 아니라) — 확인 게이트는 **실제로
+    저장될 내용**을 보여주는 자리이고, 시드·구버전 세션처럼 slot_notes 가 없는
+    데이터도 빠짐없이 나와야 하기 때문.
+    """
+    grouped: dict[str, list[str]] = {}
+    loose: list[str] = []
+    for note in session.draft_behaviors:
+        key, body = _split_tagged_note(str(note))
+        if not body:
+            continue
+        if key is None:
+            loose.append(body)
+        else:
+            grouped.setdefault(key, []).append(body)
+    return grouped, loose
+
+
+# 필드 슬롯은 '채움 판정'이 아니라 값 자체로 본다 — Mi:dm 이 slot_filled 를 냈지만
+# 이름이 안 뽑힌 실측(스텁·장애 모드에서도 재현)에서 요약이 이름 없이 등록을 확인받는다.
+_PROFILE_REQUIRED = {"identity": ("name", "age"), "home": ("home",)}
+
+
+def _unfilled_slots(session: InterviewSession, grouped: dict[str, list[str]]) -> list[SlotSpec]:
+    """아직 아무것도 못 받은 슬롯 — 보호자가 보충할 기회를 주기 위해 요약에 노출.
+
+    '못 받았다'의 기준은 filled_keys 만이 아니다. 소진(MAX_ASKS_PER_SLOT)됐거나
+    한 번도 안 물은 슬롯도 비어 있는 것은 같고, 반대로 채움 판정이 없어도 노트·
+    장소가 남았으면 요약 본문에 이미 보이므로 빈칸이 아니다(같은 항목이 위아래에
+    동시에 나오는 모순 방지).
+    """
+    f = session.draft_fields
+    place_slots = {str(a.get("origin_slot")) for a in session.draft_attractions}
+    out: list[SlotSpec] = []
+    for slot in slots_for(session.persona_type):
+        required = _PROFILE_REQUIRED.get(slot.key)
+        if required is not None:
+            if not all(f.get(k) for k in required):
+                out.append(slot)
+            continue
+        if slot.key in session.filled_keys or grouped.get(slot.key) or slot.key in place_slots:
+            continue
+        out.append(slot)
+    return out
 
 
 def build_summary(session: InterviewSession) -> str:
-    """수집 내용의 '핵심만' 깔끔히 정리 + 확인 요청. (전부 나열 금지)
+    """수집 내용 **전부** + 빈칸 안내 + 확인 요청.
 
-    대상자·집·핵심 장소는 예측의 뼈대라 항상, 행동은 가장 중요한 1~2개만.
-    나머지는 '외 N개 저장' 으로 표시(데이터 자체는 draft_* 에 모두 남는다).
+    "이게 맞나요?"라고 물으려면 확인할 것을 다 보여줘야 한다 — 접어놓고 묻는 것은
+    확인 절차가 아니다(구버전은 장소 3곳·행동 2개만 보이고 나머지를 '외 N가지 저장'
+    으로 감췄다). 슬롯 12개 규모라 전량 표시해도 길지 않다.
+
+    행동 노트는 슬롯 단위로 묶어 제목을 한 번만 쓰고, 제목은 내부 라벨이 아니라
+    보호자용 표현(SlotSpec.display_label)을 쓴다. 노트 본문은 보호자 발화/Mi:dm
+    재서술 그대로 — 확인 게이트에서 문장을 다시 지어내면 확인의 근거가 흔들린다.
     """
     f = session.draft_fields
-    lines: list[str] = ["📋 이렇게 등록할게요. 핵심만 정리했어요.", ""]
+    lines: list[str] = ["📋 이렇게 등록할게요. 확인 부탁드려요.", ""]
 
     who: list[str] = []
     if f.get("name"):
@@ -517,20 +578,42 @@ def build_summary(session: InterviewSession) -> str:
 
     places = session.draft_attractions
     if places:
-        lines.append("• 가시려 할 만한 곳:")
-        for ap in places[:_MAX_PLACES]:
+        lines.append("• 가시려 할 만한 곳")
+        for ap in places:
             area = ap.get("area_text")
             lines.append(f"   - {ap.get('label', '')}{f' ({area})' if area else ''}")
-        if len(places) > _MAX_PLACES:
-            lines.append(f"   …외 {len(places) - _MAX_PLACES}곳 저장")
 
-    behaviors = session.draft_behaviors
-    if behaviors:
-        lines.append("• 특히 주의할 점:")
-        for note in behaviors[:_MAX_BEHAVIORS]:
-            lines.append(f"   - {note}")
-        if len(behaviors) > _MAX_BEHAVIORS:
-            lines.append(f"   …외 {len(behaviors) - _MAX_BEHAVIORS}가지 저장")
+    grouped, loose = _group_behaviors(session)
+
+    def _emit(label: str, notes: list[str]) -> None:
+        if len(notes) == 1:
+            lines.append(f"• {label}: {notes[0]}")      # 하나뿐이면 목록으로 늘리지 않는다
+            return
+        lines.append(f"• {label}")
+        lines.extend(f"   - {n}" for n in notes)
+
+    shown: set[str] = set()
+    for slot in slots_for(session.persona_type):
+        notes = grouped.get(slot.key)
+        if notes:
+            _emit(slot.display_label, notes)
+            shown.add(slot.key)
+    # 유형 밖 슬롯의 노트도 흘리지 않는다 — slots_for 는 유형별로 걸러지므로(치매
+    # 단독인 지금은 전 슬롯 통과) 대상 확장 시 저장된 노트가 요약에서만 조용히
+    # 사라질 수 있다. '전량 표시'가 이 함수의 계약이라 남은 것을 여기서 흡수한다.
+    for key, notes in grouped.items():
+        if key not in shown:
+            slot = slot_by_key(key)
+            _emit(slot.display_label if slot else key, notes)
+    if loose:
+        lines.append("• 그 밖에 알려주신 것")
+        lines.extend(f"   - {n}" for n in loose)
+
+    missing = _unfilled_slots(session, grouped)
+    if missing:
+        lines.append("")
+        lines.append("아직 안 알려주신 것 (지금 말씀하셔도 되고, 나중에 채우셔도 됩니다)")
+        lines.extend(f"   - {s.display_label}" for s in missing)
 
     lines.append("")
     lines.append("등록하신 정보가 이게 맞나요? 틀리거나 빠진 부분이 있으면 편하게 말씀해 주세요.")
