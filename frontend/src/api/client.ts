@@ -31,6 +31,9 @@ type PoaResponse = {
   /** prior 출처 — 폴백(개인화 없음)을 앱이 숨기지 않고 알리기 위한 값. */
   prior_source?: 'exaone' | 'fallback' | 'stub' | 'unknown';
   prior_fallback_reason?: string;
+  /** 도로망 위에서 걸었는지 — 로딩 실패 시 연속 공간 폴백이 조용히 일어난다. */
+  roadnet_used?: boolean;
+  roadnet_fallback_reason?: string;
 };
 
 /** 백엔드 Tip 원본 (snake_case). */
@@ -84,6 +87,8 @@ function toGrid(caseId: string, t: TimeAxis, data: PoaResponse): PoaGrid {
     topLabel: `최고확률 구역 ${peakPct}%`,
     priorSource: data.prior_source ?? 'unknown',
     priorFallbackReason: data.prior_fallback_reason || undefined,
+    roadnetUsed: data.roadnet_used ?? false,
+    roadnetFallbackReason: data.roadnet_fallback_reason || undefined,
   };
 }
 

@@ -108,6 +108,8 @@ export function buildPoaGrid(t: TimeAxis, seedSalt = 0): PoaGrid {
     // 켠 채 "AI 예측"이라고 보여주게 된다.
     priorSource: 'stub',
     priorFallbackReason: '목 데이터 (EXPO_PUBLIC_USE_MOCK=true)',
+    roadnetUsed: false,
+    roadnetFallbackReason: '목 데이터 — 시뮬레이션을 돌리지 않았다',
   };
 }
 

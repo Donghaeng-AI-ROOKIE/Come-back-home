@@ -89,3 +89,62 @@ def test_poa_endpoint_exposes_prior_source():
     body = poa.json()
     assert "prior_source" in body, "폴백 여부를 앱이 알 수 없으면 통계 평균을 AI 예측으로 보여주게 된다"
     assert body["prior_source"] in ("exaone", "fallback", "stub", "unknown")
+
+
+def test_roadnet_fallback_is_visible(monkeypatch):
+    """도로망 로딩이 실패해도 예측은 계속되지만, 폴백 사실이 드러나야 한다.
+
+    use_roadnet 기본값이 True 가 된 뒤로(PR #122) 이 폴백은 실서비스 경로다.
+    Overpass 가 죽거나 느리면 연속 공간으로 조용히 내려앉는데, POA 도 지도도
+    정상으로 나와서 화면만으로는 "도로 제약 없는 예측"임을 알 수 없다.
+    """
+    from app.config import settings
+    from app.phase2 import pipeline
+
+    monkeypatch.setattr(settings, "use_roadnet", True)
+
+    def boom(*a, **k):
+        raise OSError("Overpass timed out")
+
+    # _load_roadnet 은 함수 안에서 import 하므로 모듈 속성을 갈아끼운다.
+    from app.geo import roadnet as roadnet_mod
+
+    monkeypatch.setattr(roadnet_mod, "get_network", boom)
+
+    persona = _persona()
+    storage.personas.save(persona.id, persona)
+    case = client.post("/phase1/reports", json={
+        "persona_id": persona.id,
+        "missing_type": "dementia",
+        "lkp": {"lat": LKP.lat, "lng": LKP.lng},
+        "lkp_time": datetime.now(timezone.utc).isoformat(),
+    }).json()
+
+    result = pipeline.run_prediction(storage.cases.get(case["id"]))
+    assert result.poa_combined.cells, "폴백해도 예측은 나와야 한다"
+
+    body = client.get(f"/phase3/cases/{case['id']}/poa?top=3").json()
+    assert body["roadnet_used"] is False
+    assert "OSError" in body["roadnet_fallback_reason"]
+
+
+def test_roadnet_off_by_setting_is_distinguished(monkeypatch):
+    """설정으로 끈 것과 로딩 실패는 다르다 — 사유로 구분되어야 한다."""
+    from app.config import settings
+    from app.phase2 import pipeline
+
+    monkeypatch.setattr(settings, "use_roadnet", False)
+
+    persona = _persona()
+    storage.personas.save(persona.id, persona)
+    case = client.post("/phase1/reports", json={
+        "persona_id": persona.id,
+        "missing_type": "dementia",
+        "lkp": {"lat": LKP.lat, "lng": LKP.lng},
+        "lkp_time": datetime.now(timezone.utc).isoformat(),
+    }).json()
+
+    pipeline.run_prediction(storage.cases.get(case["id"]))
+    body = client.get(f"/phase3/cases/{case['id']}/poa?top=3").json()
+    assert body["roadnet_used"] is False
+    assert body["roadnet_fallback_reason"] == "off"

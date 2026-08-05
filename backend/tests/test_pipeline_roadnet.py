@@ -51,13 +51,20 @@ def test_envlayer_failure_keeps_roadnet(roadnet_on, monkeypatch):
         raise ImportError("No module named 'PIL'")  # 실측 재현
 
     monkeypatch.setattr(envlayer, "attach", boom)
-    net = pipeline._load_roadnet(_case())
+    net, reason = pipeline._load_roadnet(_case())
     assert net is roadnet_on          # 도로망 유지
     assert net.env(next(iter(net.graph.nodes))) == {}  # env 는 빈 dict 로 동작
+    # 환경레이어만 죽은 것이라 '도로망 폴백'으로 보고하면 안 된다 — 앱이 잘못된
+    # 배너를 띄우게 된다.
+    assert reason == ""
 
 
 def test_roadnet_failure_falls_back_to_none(monkeypatch):
-    """도로망 자체가 실패하면 기존대로 연속 공간 폴백 (None)."""
+    """도로망 자체가 실패하면 연속 공간 폴백 — 사유를 함께 돌려준다.
+
+    use_roadnet 기본값이 True 가 된 뒤로(PR #122) 이 폴백은 실서비스 경로다.
+    사유가 없으면 "도로 제약 없는 예측"이 조용히 나간다.
+    """
     monkeypatch.setattr(settings, "use_roadnet", True)
     from app.geo import roadnet as roadnet_mod
 
@@ -65,9 +72,14 @@ def test_roadnet_failure_falls_back_to_none(monkeypatch):
         raise RuntimeError("Overpass 다운")
 
     monkeypatch.setattr(roadnet_mod, "get_network", boom)
-    assert pipeline._load_roadnet(_case()) is None
+    net, reason = pipeline._load_roadnet(_case())
+    assert net is None
+    assert "RuntimeError" in reason and "Overpass" in reason
 
 
 def test_roadnet_off_returns_none():
-    assert settings.use_roadnet is False  # 테스트 기본 구성
-    assert pipeline._load_roadnet(_case()) is None
+    """설정으로 끈 것과 로딩 실패는 사유로 구분된다 — 앱 배너 문구가 갈린다."""
+    assert settings.use_roadnet is False  # 테스트 기본 구성 (conftest 강제)
+    net, reason = pipeline._load_roadnet(_case())
+    assert net is None
+    assert reason == "off"
