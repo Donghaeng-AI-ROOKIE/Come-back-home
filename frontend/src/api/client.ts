@@ -8,10 +8,19 @@
  *
  * 보호자 플로우(사전등록·신고·예측)는 ./guardian, 산책은 ./walk 에 있다.
  */
-import type { GeoPoint, PoaCell, PoaGrid, TimeAxis, Tip, TipInput, TipResult } from '../types/domain';
+import type {
+  GeoPoint,
+  PoaCell,
+  PoaGrid,
+  PoliceAlert,
+  TimeAxis,
+  Tip,
+  TipInput,
+  TipResult,
+} from '../types/domain';
 import { DEMO_CASE_ID } from '../data/missing';
 import { tierForProb } from '../theme/poa';
-import { buildBeforeAfter, buildPoaGrid } from '../data/mock';
+import { buildAlert, buildBeforeAfter, buildPoaGrid } from '../data/mock';
 import { DEMO_USER_ID, USE_MOCK, api } from './config';
 
 export { API_BASE, USE_MOCK, ApiError } from './config';
@@ -166,4 +175,43 @@ export async function sendAlerts(
   const r = await api<{ target_cells: number; sent: boolean; message: string }>(
     `/phase3/cases/${caseId}/alerts`, { method: 'POST' });
   return { targetCells: r.target_cells, sent: r.sent, message: r.message };
+}
+
+/**
+ * 살아있는 경보 목록. **푸시 인프라가 아직 없다** — 실서비스에서는 FCM/Notifee
+ * 푸시와 지오펜스 백그라운드 폴링이 이 자리를 대신한다. 지금은 관문(useAlertGate)이
+ * 판정할 대상을 주기 위해 데모 경보를 돌려준다.
+ */
+export async function getActiveAlerts(): Promise<PoliceAlert[]> {
+  if (USE_MOCK) return delay([buildAlert()]);
+  return [buildAlert()];
+}
+
+/**
+ * 익명 참여 토큰 (알림 개인화 #4). 앱 실행마다 새로 만들고 **영속화하지 않는다** —
+ * 서버가 세션을 넘어 같은 사람을 이어붙일 수 없어야 하므로 오히려 이게 맞다.
+ *
+ * 보안 토큰이 아니라 "같은 앱 인스턴스의 반복 폴링을 한 명으로 세기 위한" 중복제거
+ * 키다. 탈취해봐야 참여자 수가 1 흔들리는 게 전부라 crypto 난수까지 갈 이유는 없고,
+ * 충돌만 안 나면 된다(36^11 조합).
+ */
+const PRESENCE_TOKEN = `p-${Math.random().toString(36).slice(2, 13)}${Date.now().toString(36)}`;
+
+/** 목 모드 참여자 수 — 데모에서 "실시간"이 정지화면으로 보이지 않게 소폭 흔든다. */
+let mockWatching = 4;
+
+/**
+ * 하트비트 + 현재 동시 참여자 수. 좌표는 보내지 않는다 (셀 단위 집계 = 위치정보).
+ * 서버 계약: POST /phase3/cases/{id}/presence → { watching: number }
+ */
+export async function touchPresence(caseId: string): Promise<number> {
+  if (USE_MOCK) {
+    mockWatching = Math.min(9, Math.max(2, mockWatching + (Math.random() < 0.5 ? -1 : 1)));
+    return delay(mockWatching, 200);
+  }
+  const data = await api<{ watching: number }>(`/phase3/cases/${caseId}/presence`, {
+    method: 'POST',
+    body: JSON.stringify({ token: PRESENCE_TOKEN }),
+  });
+  return data.watching;
 }

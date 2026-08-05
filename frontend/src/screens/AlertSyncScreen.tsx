@@ -35,6 +35,7 @@ import { DEMO_CASE_ID, LAST_SEEN } from '../data/missing';
 import { buildAlert } from '../data/mock';
 import { useAppModeStore } from '../store/appModeStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
+import { toFullView } from '../data/missingView';
 import CTAButton from '../components/CTAButton';
 import MissingPersonCard from '../components/MissingPersonCard';
 import BaseMap from '../components/BaseMap';
@@ -226,7 +227,8 @@ export default function AlertSyncScreen() {
           보호대상
         </Text>
         <View style={styles.personWrap}>
-          <MissingPersonCard variant="full" showAppearanceChips />
+          {/* 보호자 화면 — 이미 신원을 아는 가족이므로 실명 뷰 */}
+          <MissingPersonCard view={toFullView(profile)} variant="full" showAppearanceChips />
           <View style={styles.personCheck} importantForAccessibility="no-hide-descendants">
             <CheckIcon size={16} color={ON_RED} />
           </View>

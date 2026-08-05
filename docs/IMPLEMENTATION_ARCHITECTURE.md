@@ -590,8 +590,8 @@ flowchart TD
     CHECK -- "미발동" --> D3
     RERUN --> REAPPLY["새 baseline 위<br/>새 LKP 이후 유효 Tip 재적용"]
     REAPPLY --> D3["D3 새 지역 평가"]
-    D3 --> JS{"JS ≥ 0.05?"}
-    JS -- "예" --> MASS{"새 셀 합산 질량 ≥ 0.05?"}
+    D3 --> JS{"JS ≥ 0.0617?"}
+    JS -- "예" --> MASS{"새 셀 합산 질량 ≥ 0.0664?"}
     MASS -- "예" --> ALERT["새 지역 셀의 80% 커버리지<br/>최대 500셀 알림"]
     MASS -- "아니오" --> SAVE
     JS -- "아니오" --> SAVE["Case searching 저장"]
@@ -643,7 +643,7 @@ posterior(cell) ∝ current_poa(cell) × [p × L(tip | cell) + (1 - p) × 1]
 
 1. 현재 POA와 `last_alert_poa`의 Jensen–Shannon divergence로 전체 변화량을 예비 검사한다.
 2. 마지막 알림 POA에 없고 현재 POA에 생긴 H3 셀의 집합차를 구한다.
-3. 새 셀 전체의 확률 질량이 기본 5% 이상일 때만 알림 가치가 있다고 판단한다.
+3. 새 셀 전체의 확률 질량이 기본 6.6%(`0.0664`) 이상일 때만 알림 가치가 있다고 판단한다.
 4. 새 지역 내부 확률의 80%를 덮는 셀을 최대 500개까지 선택한다.
 5. 발송 경로를 호출한 뒤 `last_alert_poa`를 현재 분포로 갱신한다.
 
@@ -671,7 +671,7 @@ posterior(cell) ∝ current_poa(cell) × [p × L(tip | cell) + (1 - p) × 1]
 | 제보 모델 4-way ([#100](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/100)) | 잡음이 섞인 70개 골드셋에서 Mi:dm 2.0 Mini 균형정확도 76.4%, 필드 추출 86.1% | **반영:** Mini 선택. 팀 작성 합성 제보라 현장 재검증 필요 |
 | 온도·시각 추출 ([#105](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/105)) | 온도 0.0이 가장 재현적이지만 무시각 26건 중 20건에서 시각 환각 | **부분 반영:** 온도 0.0. 원문 대조 가드 미구현 |
 | 신뢰도 가중치 ([#107](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/107)) | 두 독립 실험이 개연성:구체성 약 2.2~2.3에서 수렴 | **반영:** `0.575:0.25` |
-| D3 임계값 ([#87](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/87)) | 3,800개 합성 타임라인에서 탐지율 95%의 헛알림 25.9%, 탐지율 99%의 헛알림 93.4% | **잠정:** 운영 데이터로 목표 구간 결정 필요 |
+| D3 임계값 ([#87](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/87)) | 3,800개 합성 타임라인에서 탐지율 95%의 헛알림 25.9%, 탐지율 99%의 헛알림 93.4% | **반영:** 95% 목표(baseline 혼합) 동작점 `mass 0.0664 / js 0.0617` 채택. baseline 환경·스텁 구체성 전제라 운영 데이터·실호출 파일럿(P2-D3-2)으로 재확인 여지 |
 | 재실행 트리거 ([#88](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/88)) | 주기+KL과 주기-only 탐지율은 모두 88%, 평균 지연 20.4/20.5분, 이동 중 재실행 0.90/0.58회 | **보류:** 실험은 주기-only를 지지하지만 코드는 주기+KL 유지 |
 
 ---
@@ -809,8 +809,8 @@ stateDiagram-v2
 | `TIP_LKP_THRESHOLD` | `0.8` | 새 LKP 후보 기준 |
 | `LAYER2_PERIODIC_MINUTES` | `45` | 주기 재실행 기준 |
 | `KL_DIVERGENCE_THRESHOLD` | `0.5` | baseline 이탈 재실행 기준 |
-| `JS_DIVERGENCE_THRESHOLD` | `0.05` | D3 예비 변화량 기준 |
-| `NEW_REGION_MASS_THRESHOLD` | `0.05` | D3 새 셀 합산 질량 기준 |
+| `JS_DIVERGENCE_THRESHOLD` | `0.0617` | D3 예비 변화량 기준 (PR#87, 95%·baseline) |
+| `NEW_REGION_MASS_THRESHOLD` | `0.0664` | D3 새 셀 합산 질량 기준 (PR#87, 95%·baseline) |
 | `PRIVACY_RETENTION_DAYS` | `5` | 종결 후 파기 TTL |
 | `PRIVACY_SESSION_TTL_HOURS` | `48` | 고아 Interview 파기 TTL |
 

@@ -24,10 +24,16 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { color, radius, space, type } from '../theme/tokens';
 import { useModeTheme } from '../theme/theme';
-import { usePoaPrediction, useGoldenTime } from '../hooks/queries';
+import { usePoaPrediction, useGoldenTime, usePresenceCount } from '../hooks/queries';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING } from '../data/missing';
 import { hexToRgba } from '../utils/color';
 import type { GeoPoint } from '../types/domain';
+import { useAuthStore } from '../store/authStore';
+import { useAppModeStore } from '../store/appModeStore';
+import { useMissingPersonStore } from '../store/missingPersonStore';
+import { toAnonView } from '../data/missingView';
+import { useMyLocation } from '../hooks/useMyLocation';
+import { distanceM, formatWalkTime } from '../utils/geo';
 import type { RootStackParamList } from '../navigation/types';
 
 import BaseMap from '../components/BaseMap';
@@ -36,10 +42,9 @@ import MapPin from '../components/MapPin';
 import PredictionRadius from '../components/PredictionRadius';
 import HeatLegend from '../components/HeatLegend';
 import MissingPersonCard from '../components/MissingPersonCard';
+import PresenceBadge from '../components/PresenceBadge';
 import ModeStatusBar from '../components/ModeStatusBar';
 
-/** 데모 현재위치 — 최종 목격 위치에서 남서쪽으로 오프셋(목업의 '나' 마커 위치 재현). */
-const ME: GeoPoint = { lat: LAST_SEEN.lat - 0.0015, lng: LAST_SEEN.lng - 0.0017 };
 /** '내가 확인할 구역' 반경(m). '수색 진행' 요소 → 앰버 계열. */
 const ZONE_RADIUS_M = 240;
 
@@ -47,6 +52,12 @@ export default function SearchScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const theme = useModeTheme();
+  // 표시 컴포넌트에 넘길 데이터는 화면이 가져온다(디자인 교체 대비).
+  const mode = useAppModeStore((s) => s.mode);
+  const severity = useAppModeStore((s) => s.severity);
+  const profile = useMissingPersonStore((s) => s.profile);
+  const watching = usePresenceCount(DEMO_CASE_ID);
+  const role = useAuthStore((s) => s.role);
   const golden = useGoldenTime();
   const poa = usePoaPrediction(DEMO_CASE_ID, 1);
 
@@ -54,8 +65,16 @@ export default function SearchScreen() {
   const cumPct = grid ? Math.round(grid.cumulative * 100) : null;
   const elapsedMin = golden ? Math.floor(golden.elapsedSec / 60) : null;
 
+  // 실측 내 위치 — 지도 마커는 OS(showsUserLocation)에 맡기고, 거리·도보시간만 직접 쓴다.
+  const { point: myPoint, accuracyM, status: locStatus } = useMyLocation();
+  const located = locStatus === 'granted' && myPoint != null;
+  const meters = myPoint ? distanceM(myPoint, LAST_SEEN) : null;
+  const walkLabel = meters == null ? null : formatWalkTime(meters, accuracyM);
+
   const mapA11y = grid
-    ? `발견 확률 히트맵. 최고 구역 ${grid.topLabel}. 누적 발견확률 ${cumPct}%. 최종 목격 위치와 현재 위치, 내가 확인할 구역이 표시돼 있어요.`
+    ? `발견 확률 히트맵. 최고 구역 ${grid.topLabel}. 누적 발견확률 ${cumPct}%. 최종 목격 위치와 ${
+        located ? '현재 위치, ' : ''
+      }내가 확인할 구역이 표시돼 있어요.`
     : '발견 확률 지도를 불러오는 중입니다.';
 
   const onReport = () => navigation.navigate('ReportChat', { caseId: DEMO_CASE_ID });
@@ -66,7 +85,7 @@ export default function SearchScreen() {
 
       {/* ── 지도 레이어 (전면) ─────────────────────────── */}
       <View style={styles.mapLayer}>
-        <BaseMap style={styles.mapFill} accessibilityLabel={mapA11y}>
+        <BaseMap style={styles.mapFill} accessibilityLabel={mapA11y} showsUserLocation={located}>
           {grid ? <PoaHeatmap grid={grid} /> : null}
           <PredictionRadius center={LAST_SEEN} radiusM={ZONE_RADIUS_M} color={theme.accent} />
           <MapPin
@@ -75,7 +94,8 @@ export default function SearchScreen() {
             title="최종 목격 위치"
             description="정릉동 주민센터, 오후 3시 10분경"
           />
-          <MapPin kind="me" coordinate={ME} title="내 위치" description="여기서부터 살펴볼 수 있어요" />
+          {/* 내 위치 마커는 OS 기본(showsUserLocation)에 맡긴다 — 방향·불확실성까지
+              센서융합으로 그려주고, 측위 실패 시 가짜 좌표를 찍지 않는다. */}
         </BaseMap>
       </View>
 
@@ -102,7 +122,7 @@ export default function SearchScreen() {
 
       {/* ── 상단 바: 모드 상태 + 경과 chip ─────────────── */}
       <View style={[styles.topBar, { top: insets.top + space.sm }]}>
-        <ModeStatusBar />
+        <ModeStatusBar mode={mode} severity={severity} />
         {elapsedMin != null ? (
           <View
             style={[styles.elapsedChip, { backgroundColor: theme.accentWash }]}
@@ -128,7 +148,7 @@ export default function SearchScreen() {
             style={[styles.zoneAnno, { top: insets.top + 150 }]}
             pointerEvents="none"
             accessible
-            accessibilityLabel={`내가 확인할 구역. 약 3분 거리. 누적 발견확률 ${cumPct}퍼센트.`}
+            accessibilityLabel={`내가 확인할 구역.${walkLabel ? ` ${walkLabel} 거리.` : ''} 누적 발견확률 ${cumPct}퍼센트.`}
           >
             <View style={styles.zonePill}>
               <View style={[styles.zoneDot, { backgroundColor: theme.accent }]} />
@@ -138,7 +158,7 @@ export default function SearchScreen() {
             </View>
             <View style={[styles.distChip, { backgroundColor: theme.accent }]}>
               <Text style={styles.distText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-                약 3분 거리 · 누적 {cumPct}%
+                {walkLabel ? `${walkLabel} 거리 · ` : ''}누적 {cumPct}%
               </Text>
             </View>
           </View>
@@ -196,11 +216,18 @@ export default function SearchScreen() {
       <View style={[styles.sheet, { paddingBottom: insets.bottom + space.lg }]}>
         <View style={styles.grabber} />
 
-        <Text style={styles.sheetKicker} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          지금 함께 찾고 있어요
-        </Text>
+        {/* 참여자 수는 경보 상세뿐 아니라 수색 탭에서도 보여야 한다 — 경보를
+            지나친 뒤에 이 탭으로 들어와 수색하는 흐름이 오히려 본류다.
+            헤더 문구가 이미 "함께 찾고 있어요"라 배지는 짧은 변형을 쓴다. */}
+        <View style={styles.sheetHead}>
+          <Text style={styles.sheetKicker} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            지금 함께 찾고 있어요
+          </Text>
+          {watching != null && <PresenceBadge watching={watching} compact />}
+        </View>
 
-        <MissingPersonCard variant="compact" anon />
+        {/* 시민 화면 — 익명 뷰 */}
+        <MissingPersonCard view={toAnonView(profile)} variant="compact" showAppearanceChips />
 
         <View style={styles.lastSeenRow} accessible accessibilityLabel={`마지막 목격 · ${MISSING.area} 인근`}>
           <Text style={styles.lastSeenIcon} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
@@ -417,6 +444,14 @@ const styles = StyleSheet.create({
     backgroundColor: color.border,
     alignSelf: 'center',
     marginBottom: space.xs,
+  },
+  // 큰 글자 설정에서 배지가 밀려 잘리지 않도록 줄바꿈 허용.
+  sheetHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: space.sm,
   },
   sheetKicker: {
     fontSize: type.size.label,
