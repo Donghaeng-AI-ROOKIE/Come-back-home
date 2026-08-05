@@ -1,0 +1,381 @@
+{
+  "gauge_fixed": "집을 나선 지 70분 경과. 피로도: 중간, 혼란도: 중간, 귀소 충동: 높음, 불안: 낮음. 방금 귀소 게이지가 임계를 넘었다.",
+  "repeats": 15,
+  "raw": {
+    "A 옛집지향·배회": [
+      {
+        "status": "정릉시장 쪽을 떠올리며 그 방향으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집으로 돌아가려는 의지가 앞선다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 향해 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "옛집(아리랑고개)"
+      },
+      {
+        "status": "정릉시장 쪽이 덜 낯설어 그쪽으로 향한다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      },
+      {
+        "status": "정릉시장 쪽을 우선으로 생각하며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "끌림점 접근",
+        "goal": "정릉시장"
+      }
+    ],
+    "B 불안·은신": [
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "길이 낯설어져 걸음을 멈춘다.",
+        "confusion": 0.6,
+        "behavior": "은신·멈춤",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      }
+    ],
+    "C 시장단골·활동적": [
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.35,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "방향을 잃고 길 찾기에 어려움을 느낀다.",
+        "confusion": 0.6,
+        "behavior": "계속 배회",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 생각에 발걸음을 돌린다.",
+        "confusion": 0.35,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+        "confusion": 0.6,
+        "behavior": "계속 배회",
+        "goal": null
+      },
+      {
+        "status": "방향을 잃고 걸음을 멈춘 채 서 있다.",
+        "confusion": 0.6,
+        "behavior": "은신·멈춤",
+        "goal": null
+      },
+      {
+        "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+        "confusion": 0.6,
+        "behavior": "계속 배회",
+        "goal": null
+      },
+      {
+        "status": "집으로 돌아가려는 마음이 앞선다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+        "confusion": 0.6,
+        "behavior": "계속 배회",
+        "goal": null
+      },
+      {
+        "status": "집으로 돌아가려는 의지가 앞선다.",
+        "confusion": 0.35,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.35,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "behavior": "계속 배회",
+        "goal": null
+      },
+      {
+        "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동을 계속한다.",
+        "confusion": 0.6,
+        "behavior": "계속 배회",
+        "goal": null
+      },
+      {
+        "status": "집에 돌아가야 한다는 생각뿐이다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      }
+    ],
+    "D 보행제약·정지": [
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.35,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.35,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.85,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.35,
+        "behavior": "귀소 시도",
+        "goal": null
+      },
+      {
+        "status": "집 방향을 찾으며 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "behavior": "귀소 시도",
+        "goal": null
+      }
+    ]
+  },
+  "behavior_mode_per_persona": {
+    "A 옛집지향·배회": "끌림점 접근",
+    "B 불안·은신": "귀소 시도",
+    "C 시장단골·활동적": "귀소 시도",
+    "D 보행제약·정지": "귀소 시도"
+  },
+  "distinct_modes": 2
+}
