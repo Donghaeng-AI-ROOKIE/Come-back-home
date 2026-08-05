@@ -1,15 +1,19 @@
 {
   "expo": {
-    "name": "frontend",
+    "name": "돌아오길",
     "slug": "frontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "산책 거리를 재고, 내 주변에서 실종 신고가 접수됐을 때 알림을 받기 위해 위치를 사용합니다. 이동 경로는 저장하지 않고 거리 합계만 남깁니다."
+      }
     },
     "android": {
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -20,6 +24,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "산책 거리를 재고, 내 주변에서 실종 신고가 접수됐을 때 알림을 받기 위해 위치를 사용합니다. 이동 경로는 저장하지 않고 거리 합계만 남깁니다."
+        }
+      ]
+    ]
   }
 }

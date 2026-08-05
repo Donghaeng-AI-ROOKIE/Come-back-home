@@ -1,6 +1,7 @@
 """Phase 2 — prior, 마음 상태, POA 분포."""
 
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -17,6 +18,16 @@ class PriorParams(BaseModel):
     attraction_weights: dict[str, float]      # 끌림점 label → 가중치 (합=1, 없으면 빈 dict)
     radius_lognormal: LognormalParams
     reasoning: str = ""                       # Few-shot CoT 추론 근거
+    # prior 가 실제로 어디서 나왔는지. **폴백은 조용히 일어난다** — 호출이 실패해도
+    # 예측은 통계 기본값으로 계속 돌기 때문에, 화면만 보면 개인화가 빠진 것을 모른다
+    # (2026-08-05 실측: 첫 호출 30초 타임아웃 → 전 구간 통계값으로 예측 완료).
+    # 이 필드가 그 구분을 API 계약으로 올려 앱이 배너로 알릴 수 있게 한다.
+    #   "exaone"   — 실호출 성공, 개인 맥락 반영
+    #   "fallback" — 호출·파싱 실패로 프로파일 통계 기본값 (개인화 없음)
+    #   "stub"     — 키 미설정으로 애초에 호출하지 않음 (개인화 없음)
+    source: Literal["exaone", "fallback", "stub"] = "exaone"
+    # 폴백 사유(예외 타입). source != "exaone" 일 때만 채워진다 — 운영 진단용.
+    fallback_reason: str = ""
 
 
 class MindState(BaseModel):

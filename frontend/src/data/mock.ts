@@ -98,7 +98,17 @@ export function buildPoaGrid(t: TimeAxis, seedSalt = 0): PoaGrid {
   const cumulative = masses.slice(0, 10).reduce((a, b) => a + b, 0);
   const peakPct = Math.round(Math.max(...cells.map((c) => c.prob)) * 100);
 
-  return { caseId: DEMO_CASE_ID, t, cells, cumulative, topLabel: `정릉천 북동 구역, ${peakPct}%` };
+  return {
+    caseId: DEMO_CASE_ID,
+    t,
+    cells,
+    cumulative,
+    topLabel: `정릉천 북동 구역, ${peakPct}%`,
+    // 목업은 AI를 거치지 않은 값이다 — 'exaone' 으로 두면 시연장 퇴로(USE_MOCK)를
+    // 켠 채 "AI 예측"이라고 보여주게 된다.
+    priorSource: 'stub',
+    priorFallbackReason: '목 데이터 (EXPO_PUBLIC_USE_MOCK=true)',
+  };
 }
 
 /** ReportDone 기여 시각화 — 제보 전/후 구역 축소. */

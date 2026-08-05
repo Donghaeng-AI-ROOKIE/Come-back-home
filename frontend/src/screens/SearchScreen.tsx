@@ -146,6 +146,31 @@ export default function SearchScreen() {
           <View style={[styles.legendFloat, { top: insets.top + 60 }]}>
             <HeatLegend compact />
           </View>
+
+          {/* AI 개인화가 실제로 반영됐는지 — 폴백은 조용히 일어나므로 숨기지 않는다.
+              이걸 안 띄우면 프로파일 통계 평균을 "AI 예측"으로 보여주게 된다. */}
+          {grid.priorSource !== 'exaone' ? (
+            <View
+              style={[styles.degradedBanner, { top: insets.top + 110 }]}
+              accessible
+              accessibilityLabel={
+                '주의. 이 지도는 개인 맞춤 예측이 아닙니다. ' +
+                (grid.priorSource === 'stub'
+                  ? 'AI가 연결되지 않아 연령·유형 평균으로 표시됩니다.'
+                  : 'AI 예측에 실패해 연령·유형 평균으로 표시됩니다.')
+              }
+            >
+              <Text
+                style={styles.degradedText}
+                allowFontScaling
+                maxFontSizeMultiplier={type.maxScale}
+              >
+                {grid.priorSource === 'stub'
+                  ? '⚠️ AI 미연결 — 연령·유형 평균 지도입니다'
+                  : '⚠️ AI 예측 실패 — 연령·유형 평균 지도입니다'}
+              </Text>
+            </View>
+          ) : null}
         </>
       ) : null}
 
@@ -331,6 +356,23 @@ const styles = StyleSheet.create({
   },
 
   legendFloat: { position: 'absolute', right: space.lg },
+
+  degradedBanner: {
+    position: 'absolute',
+    left: space.lg,
+    right: space.lg,
+    backgroundColor: color.critical,
+    borderRadius: radius.md,
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+  },
+  degradedText: {
+    fontSize: type.size.caption,
+    fontWeight: type.weight.bold,
+    color: '#FFFFFF',
+    fontFamily: type.family,
+    textAlign: 'center',
+  },
 
   errorCard: {
     position: 'absolute',

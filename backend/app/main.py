@@ -4,6 +4,8 @@
 문서: http://localhost:8000/docs
 """
 
+import logging
+import threading
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -13,6 +15,29 @@ from fastapi.responses import FileResponse
 
 from app.api import debug, phase0, phase1, phase2, phase3, privacy, walk
 
+log = logging.getLogger(__name__)
+
+
+def _warm_exaone() -> None:
+    """EXAONE 첫 호출 워밍업 — 백그라운드 1회.
+
+    첫 prior 호출이 30초 타임아웃에 걸려 통계 폴백으로 떨어지는 것을 실측했다
+    (2026-08-05). 같은 호출을 곧바로 다시 하면 4.2초다 — 어댑터 로딩·연결 수립이
+    첫 회에만 붙는다. **시연 첫 실행이 곧 첫 호출**이라 그대로 두면 개인화가 빠진
+    지도를 보여주게 되므로, 서버가 뜰 때 짧은 호출로 미리 데운다.
+
+    실패해도 무시한다 — 워밍업은 편의이고, 서버 기동을 막을 이유가 없다.
+    """
+    from app import llm
+
+    if llm.exaone.is_stub:
+        return
+    try:
+        llm.exaone.chat([{"role": "user", "content": "ok"}], max_tokens=1, temperature=0.0)
+        log.info("[warmup] EXAONE 예열 완료")
+    except Exception as e:  # noqa: BLE001 — 예열 실패가 기동을 막으면 안 된다
+        log.warning("[warmup] EXAONE 예열 실패 (첫 예측이 느릴 수 있음) — %s", e)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -20,6 +45,8 @@ async def lifespan(app: FastAPI):
     from app.seed import seed_demo
 
     seed_demo()
+    # 기동을 막지 않도록 별도 스레드에서 예열한다.
+    threading.Thread(target=_warm_exaone, name="exaone-warmup", daemon=True).start()
     yield
 
 

@@ -59,6 +59,17 @@ export type PoaGrid = {
   cumulative: number;
   /** 최고확률 구역 요약 (접근성 라벨용). */
   topLabel: string;
+  /**
+   * 이 지도가 개인화된 prior 로 만들어졌는지.
+   *   exaone   — AI가 사전등록 정보를 읽어 만든 예측
+   *   fallback — AI 호출 실패, 프로파일 통계 평균 (개인화 없음)
+   *   stub     — AI 미연결 (개인화 없음)
+   * **fallback 은 조용히 일어난다.** 표시하지 않으면 통계 평균을 "AI 예측"으로
+   * 보여주게 된다 — 수색 인력을 잘못된 확신으로 보내는 일이라 반드시 드러낸다.
+   */
+  priorSource: 'exaone' | 'fallback' | 'stub' | 'unknown';
+  /** fallback/stub 일 때의 사유 (운영 진단용). */
+  priorFallbackReason?: string;
 };
 
 // ── 경찰 실종경보 ─────────────────────────────────────

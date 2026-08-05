@@ -6,10 +6,11 @@
  *
  * **거리는 앱이 잰다.** 서버가 경로 좌표로 재계산하지 않는 것은 의도된 설계다 —
  * 재계산하려면 경로를 보내 저장해야 하고, 그 순간 시민의 상시 위치 이력이 된다
- * (backend/app/schemas/walk.py 의 개인정보 경계).
+ * (backend/app/schemas/walk.py 의 개인정보 경계). 앱 안에서도 경로를 배열로
+ * 쌓지 않고 직전 좌표 하나만 들고 거리를 누적한다(useWalkTracking).
  *
- * 지금은 위치 권한을 쓰지 않고 시간에 비례한 추정 거리를 쓴다. expo-location 을
- * 붙일 자리는 `useWalkTicker` 한 곳이며, 붙여도 서버 계약은 바뀌지 않는다.
+ * 위치 권한이 없으면 지도와 거리를 포기하고 경과 시간만 보여준다 — 권한 없이
+ * 지도를 띄우면 내 위치가 비어 오히려 고장난 것처럼 보인다.
  */
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -20,13 +21,13 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, radius, space, type } from '../theme/tokens';
 import CTAButton from '../components/CTAButton';
+import BaseMap from '../components/BaseMap';
+import MapPin from '../components/MapPin';
 import { useActiveWalk, useEndWalk } from '../hooks/queries';
+import { useWalkTracking } from '../hooks/useWalkTracking';
 
-/** 고령자 포함 평균 보행 속도 4.0km/h — 백엔드 게이지의 48m/분과 같은 계열 값. */
-const KMH = 4.0;
-
-/** 경과 시간(초)과 추정 거리(km)를 1초마다 갱신한다. */
-function useWalkTicker(startedAt: string | undefined) {
+/** 경과 시간(초)만 세는 타이머 — 거리는 useWalkTracking(GPS)이 맡는다. */
+function useElapsed(startedAt: string | undefined) {
   const [now, setNow] = useState(() => Date.now());
   const base = useRef<number | null>(null);
 
@@ -37,9 +38,8 @@ function useWalkTicker(startedAt: string | undefined) {
     return () => clearInterval(id);
   }, [startedAt]);
 
-  if (!startedAt || base.current == null) return { elapsedSec: 0, distanceKm: 0 };
-  const elapsedSec = Math.max(0, Math.floor((now - base.current) / 1000));
-  return { elapsedSec, distanceKm: (elapsedSec / 3600) * KMH };
+  if (!startedAt || base.current == null) return 0;
+  return Math.max(0, Math.floor((now - base.current) / 1000));
 }
 
 function clock(sec: number): string {
@@ -52,13 +52,14 @@ export default function WalkActiveScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { data: session, isLoading } = useActiveWalk();
   const endWalk = useEndWalk();
-  const { elapsedSec, distanceKm } = useWalkTicker(session?.started_at);
+  const elapsedSec = useElapsed(session?.started_at);
+  const track = useWalkTracking(!!session);
 
   const onEnd = () => {
     if (!session) return;
     const durationMin = Math.max(0, elapsedSec / 60);
     endWalk.mutate(
-      { sessionId: session.id, distanceKm: Number(distanceKm.toFixed(2)), durationMin },
+      { sessionId: session.id, distanceKm: Number(track.distanceKm.toFixed(2)), durationMin },
       {
         onSuccess: (s) =>
           navigation.replace('WalkSummary', {
@@ -95,21 +96,45 @@ export default function WalkActiveScreen() {
     );
   }
 
+  const hasLocation = track.status === 'tracking' && track.current != null;
+
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
       <StatusBar style="dark" />
 
-      {/* 지도 자리 — react-native-maps 는 시민 위치 권한이 붙은 뒤 연결한다.
-          권한 없이 지도만 띄우면 "내 위치"가 비어 오히려 오작동처럼 보인다. */}
       <View style={styles.mapArea}>
-        <View style={styles.banner} accessible accessibilityLabel="최근 3개월 간 이웃들의 동행으로 마포구에서 4명의 실종자를 찾았습니다">
+        {hasLocation ? (
+          <BaseMap
+            style={styles.map}
+            region={{
+              latitude: track.current!.lat,
+              longitude: track.current!.lng,
+              latitudeDelta: 0.008,
+              longitudeDelta: 0.008,
+            }}
+            accessibilityLabel="산책 중인 내 위치가 표시된 지도"
+          >
+            <MapPin kind="me" coordinate={track.current!} title="내 위치" description="산책 중" />
+          </BaseMap>
+        ) : (
+          <View style={styles.mapPlaceholder}>
+            <Text style={styles.mapPlaceholderText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              {track.status === 'denied'
+                ? track.message
+                : track.status === 'error'
+                  ? `위치를 가져오지 못했습니다\n${track.message}`
+                  : '위치를 찾는 중…'}
+            </Text>
+          </View>
+        )}
+
+        <View
+          style={styles.banner}
+          accessible
+          accessibilityLabel="최근 3개월 간 이웃들의 동행으로 마포구에서 4명의 실종자를 찾았습니다"
+        >
           <Text style={styles.bannerText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
             최근 3개월, 이웃들의 동행으로 마포구에서 <Text style={styles.bannerStrong}>4명</Text>의 실종자를 찾았습니다
-          </Text>
-        </View>
-        <View style={styles.mapPlaceholder}>
-          <Text style={styles.mapPlaceholderText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            지도는 위치 권한 연결 후 표시됩니다
           </Text>
         </View>
       </View>
@@ -125,20 +150,30 @@ export default function WalkActiveScreen() {
               {clock(elapsedSec)}
             </Text>
           </View>
-          <View style={[styles.metric, styles.metricRight]} accessible accessibilityLabel={`거리 ${distanceKm.toFixed(1)}킬로미터`}>
+          <View
+            style={[styles.metric, styles.metricRight]}
+            accessible
+            accessibilityLabel={`거리 ${track.distanceKm.toFixed(1)}킬로미터`}
+          >
             <Text style={styles.metricLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
               거리
             </Text>
             <Text style={[styles.metricValue, styles.metricAccent]} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              {distanceKm.toFixed(1)}
+              {track.distanceKm.toFixed(1)}
               <Text style={styles.metricUnit}> km</Text>
             </Text>
           </View>
         </View>
 
-        <Text style={styles.estimate} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          거리는 걸은 시간으로 추정한 값입니다 (위치 권한 연결 전)
-        </Text>
+        {track.status !== 'tracking' ? (
+          <Text style={styles.notice} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            위치 권한이 없어 거리가 0으로 기록됩니다.
+          </Text>
+        ) : (
+          <Text style={styles.notice} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            이동 경로는 저장하지 않습니다. 거리 합계만 기록됩니다.
+          </Text>
+        )}
 
         <Pressable
           onPress={onEnd}
@@ -163,26 +198,46 @@ const styles = StyleSheet.create({
   title: { fontSize: type.size.title, fontWeight: type.weight.black, color: color.text, fontFamily: type.family },
   muted: { fontSize: type.size.body, color: color.textBody, fontFamily: type.family, textAlign: 'center' },
 
-  mapArea: { flex: 1, padding: space.lg, gap: space.md },
+  mapArea: { flex: 1 },
+  map: { flex: 1 },
   banner: {
+    position: 'absolute',
+    top: space.lg,
+    left: space.lg,
+    right: space.lg,
     backgroundColor: color.surface,
     borderRadius: radius.lg,
     borderWidth: 1,
     borderColor: color.border,
     padding: space.lg,
   },
-  bannerText: { fontSize: type.size.caption, color: color.walkInk, fontFamily: type.family, lineHeight: 20, fontWeight: type.weight.medium },
+  bannerText: {
+    fontSize: type.size.caption,
+    color: color.walkInk,
+    fontFamily: type.family,
+    lineHeight: 20,
+    fontWeight: type.weight.medium,
+  },
   bannerStrong: { fontWeight: type.weight.black },
   mapPlaceholder: {
     flex: 1,
+    margin: space.lg,
+    marginTop: 92,
     borderRadius: radius.lg,
     borderWidth: 2,
     borderStyle: 'dashed',
     borderColor: color.border,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: space.xl,
   },
-  mapPlaceholderText: { fontSize: type.size.caption, color: color.textCaption, fontFamily: type.family },
+  mapPlaceholderText: {
+    fontSize: type.size.caption,
+    color: color.textCaption,
+    fontFamily: type.family,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
 
   sheet: {
     backgroundColor: color.surface,
@@ -206,7 +261,7 @@ const styles = StyleSheet.create({
   },
   metricAccent: { color: color.walkInk },
   metricUnit: { fontSize: type.size.label, fontWeight: type.weight.bold },
-  estimate: { fontSize: type.size.caption, color: color.textCaption, fontFamily: type.family, textAlign: 'center' },
+  notice: { fontSize: type.size.caption, color: color.textCaption, fontFamily: type.family, textAlign: 'center' },
 
   endBtn: {
     minHeight: 56,

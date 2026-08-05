@@ -17,7 +17,12 @@ import { DEMO_USER_ID, USE_MOCK, api } from './config';
 export { API_BASE, USE_MOCK, ApiError } from './config';
 export { DEMO_CASE_ID };
 
-type PoaResponse = { top_cells: { cell: string; prob: number; polygon: GeoPoint[] }[] };
+type PoaResponse = {
+  top_cells: { cell: string; prob: number; polygon: GeoPoint[] }[];
+  /** prior 출처 — 폴백(개인화 없음)을 앱이 숨기지 않고 알리기 위한 값. */
+  prior_source?: 'exaone' | 'fallback' | 'stub' | 'unknown';
+  prior_fallback_reason?: string;
+};
 
 /** 백엔드 Tip 원본 (snake_case). */
 type TipResponse = {
@@ -62,7 +67,15 @@ function toGrid(caseId: string, t: TimeAxis, data: PoaResponse): PoaGrid {
   });
   const cumulative = Math.min(1, data.top_cells.reduce((a, c) => a + c.prob, 0));
   const peakPct = Math.round((data.top_cells[0]?.prob ?? 0) * 100);
-  return { caseId, t, cells, cumulative, topLabel: `최고확률 구역 ${peakPct}%` };
+  return {
+    caseId,
+    t,
+    cells,
+    cumulative,
+    topLabel: `최고확률 구역 ${peakPct}%`,
+    priorSource: data.prior_source ?? 'unknown',
+    priorFallbackReason: data.prior_fallback_reason || undefined,
+  };
 }
 
 export async function getPoaPrediction(caseId: string, t: TimeAxis): Promise<PoaGrid> {

@@ -119,6 +119,11 @@ def get_poa(case_id: str, top: int = 20):
     return {
         "case_id": case.id,
         "total_cells": len(case.current_poa),
+        # 이 POA 가 개인화된 prior 로 만들어졌는지. EXAONE 호출이 실패해도 예측은
+        # 통계 기본값으로 계속 돌기 때문에, 이 값을 안 내려주면 앱이 "AI 예측"이라고
+        # 표시하면서 실제로는 프로파일 평균을 보여주게 된다 (2026-08-05 실측 사례).
+        "prior_source": case.prior.source if case.prior else "unknown",
+        "prior_fallback_reason": case.prior.fallback_reason if case.prior else "",
         "top_cells": [
             {
                 "cell": c,

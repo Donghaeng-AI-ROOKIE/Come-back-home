@@ -60,7 +60,11 @@ def list_slots(persona_type: PersonaType | None = None):
     slots = slots_for(persona_type) if persona_type else SLOTS
     return [
         {"key": s.key, "label": s.label, "axis": s.axis.value,
-         "axis_field": s.axis_field, "tier": s.tier.value}
+         "axis_field": s.axis_field, "tier": s.tier.value,
+         # 앱 입력 보조(마이크 버튼)가 채워 넣을 답변 예시. 음성 인식이 붙기 전까지
+         # 보호자가 "이 정도로 답하면 되는구나"를 보고 고쳐 쓰는 용도다 — 프론트가
+         # 예시를 지어내면 슬롯과 어긋나므로 카탈로그의 것을 그대로 내려준다.
+         "answer_example": s.answer_example}
         for s in slots
     ]
 
