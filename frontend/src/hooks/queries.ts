@@ -42,6 +42,9 @@ export function useActiveAlerts(enabled = true) {
     queryKey: ['activeAlerts', cell],
     queryFn: () => getActiveAlerts(cell),
     enabled,
+    // 앱을 열어 둔 채로 신고가 접수되는 경우를 이 주기가 잡는다. 골든타임이라
+    // 오래 모르고 있으면 안 되고, 응답이 경보 몇 건짜리 배열이라 서버 부담도
+    // 크지 않다(presence 하트비트가 이미 30초).
     refetchInterval: ALERT_POLL_MS,
     refetchOnWindowFocus: true,
   });
