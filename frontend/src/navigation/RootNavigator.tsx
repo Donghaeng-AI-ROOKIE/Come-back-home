@@ -44,6 +44,17 @@ export default function RootNavigator() {
 
   return (
     <Stack.Navigator
+      // 관문 판정은 initialRouteName 으로만 반영되는데, 이 값은 네비게이터가
+      // **마운트될 때 한 번만** 읽힌다. 로그인 직후처럼 네비게이터가 이미 떠 있는
+      // 상태에서 판정이 바뀌면 initialRouteName 이 무시되고 화면 목록의 첫 항목
+      // (CitizenTabs)으로 떨어져 관문이 조용히 사라진다.
+      //
+      // 위의 gate.pending 스피너로 언마운트를 노렸지만 그 경로로는 부족하다:
+      // useActiveAlerts 는 훅이라 로그인 화면에서도 이미 돌고 있어서, 사용자가
+      // 로그인할 때쯤이면 조회가 끝나 있고 스피너를 거치지 않는다.
+      //
+      // 그래서 판정 자체를 key 에 묶는다 — 결정이 바뀌면 새로 마운트된다.
+      key={`${token == null ? 'auth' : (role ?? 'none')}:${gate.caseId ?? 'nogate'}`}
       screenOptions={{ headerShown: false }}
       initialRouteName={gate.caseId ? 'AlertDetail' : undefined}
     >
