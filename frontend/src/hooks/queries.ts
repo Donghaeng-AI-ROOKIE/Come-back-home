@@ -63,6 +63,27 @@ export function usePresence(caseId: string, enabled = true) {
   });
 }
 
+/**
+ * 이 수 미만이면 참여자 수를 표시하지 않는다.
+ *
+ *  - "1명이 함께 찾고 있어요" = 나 혼자라는 뜻이라 사회적 증거로 역효과.
+ *  - 익명 집합의 최소 크기 확보 — 카운트 1은 특정 개인을 가리키는 것과 같아진다.
+ */
+export const PRESENCE_MIN_VISIBLE = 2;
+
+/**
+ * 화면에 **표시할** 참여자 수. 임계 미만이면 null(표시하지 않음).
+ *
+ * 이 판정이 표시 컴포넌트가 아니라 훅에 있는 이유: 임계값은 디자인이 아니라
+ * 정책이다. 컴포넌트 안에 두면 디자인 교체 시 규칙이 조용히 사라진다.
+ * 반환 타입이 `number | null` 이라 호출부는 널 검사를 강제당한다.
+ */
+export function usePresenceCount(caseId: string, enabled = true): number | null {
+  const { data } = usePresence(caseId, enabled);
+  const watching = data ?? 0;
+  return watching >= PRESENCE_MIN_VISIBLE ? watching : null;
+}
+
 /** 골든타임 — enteredSearchAt 기준 파생 카운트다운(초는 스토어에 저장 안 함). */
 const GOLDEN_WINDOW_MS = 60 * 60 * 1000; // 1시간
 

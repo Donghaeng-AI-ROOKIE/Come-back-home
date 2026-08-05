@@ -24,10 +24,13 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { color, radius, space, type } from '../theme/tokens';
 import { useModeTheme } from '../theme/theme';
-import { usePoaPrediction, useGoldenTime } from '../hooks/queries';
+import { usePoaPrediction, useGoldenTime, usePresenceCount } from '../hooks/queries';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING } from '../data/missing';
 import { hexToRgba } from '../utils/color';
 import { useAuthStore } from '../store/authStore';
+import { useAppModeStore } from '../store/appModeStore';
+import { useMissingPersonStore } from '../store/missingPersonStore';
+import { toAnonView } from '../data/missingView';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { distanceM, formatWalkTime } from '../utils/geo';
 import type { RootStackParamList } from '../navigation/types';
@@ -48,6 +51,11 @@ export default function SearchScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const theme = useModeTheme();
+  // 표시 컴포넌트에 넘길 데이터는 화면이 가져온다(디자인 교체 대비).
+  const mode = useAppModeStore((s) => s.mode);
+  const severity = useAppModeStore((s) => s.severity);
+  const profile = useMissingPersonStore((s) => s.profile);
+  const watching = usePresenceCount(DEMO_CASE_ID);
   const role = useAuthStore((s) => s.role);
   const golden = useGoldenTime();
   const poa = usePoaPrediction(DEMO_CASE_ID, 1);
@@ -113,7 +121,7 @@ export default function SearchScreen() {
 
       {/* ── 상단 바: 모드 상태 + 경과 chip ─────────────── */}
       <View style={[styles.topBar, { top: insets.top + space.sm }]}>
-        <ModeStatusBar />
+        <ModeStatusBar mode={mode} severity={severity} />
         {elapsedMin != null ? (
           <View
             style={[styles.elapsedChip, { backgroundColor: theme.accentWash }]}
@@ -189,10 +197,11 @@ export default function SearchScreen() {
           <Text style={styles.sheetKicker} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
             지금 함께 찾고 있어요
           </Text>
-          <PresenceBadge caseId={DEMO_CASE_ID} compact />
+          {watching != null && <PresenceBadge watching={watching} compact />}
         </View>
 
-        <MissingPersonCard variant="compact" anon />
+        {/* 시민 화면 — 익명 뷰 */}
+        <MissingPersonCard view={toAnonView(profile)} variant="compact" showAppearanceChips />
 
         <View style={styles.lastSeenRow} accessible accessibilityLabel={`마지막 목격 · ${MISSING.area} 인근`}>
           <Text style={styles.lastSeenIcon} allowFontScaling maxFontSizeMultiplier={type.maxScale}>

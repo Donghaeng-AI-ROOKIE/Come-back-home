@@ -1,37 +1,37 @@
 /**
- * 실종자 정보 카드 (spec §2.5, §5). 단일 소스 useMissingPersonStore().profile 바인딩.
+ * 실종자 정보 카드 (spec §2.5, §5).
  * 실사진 대신 실루엣 플레이스홀더(개인정보/2차가해 방지). "남성"·"84세" 하드코딩 금지.
- * full: 이름 + 나이·성별·인지상태 + 인상착의 칩. compact: 좁은 행 레이아웃.
- * anon: MISSING_ANON(78세 어르신) + 구역만 — 실명·인지상태(의료정보) 비노출.
+ * full: 넓은 레이아웃 + 인상착의 칩. compact: 좁은 행 레이아웃.
+ *
+ * **표시 전용 컴포넌트다.** 무엇을 노출할지는 여기서 정하지 않는다 —
+ * 화면이 `toAnonView()`(시민용) 또는 `toFullView()`(보호자·운영자용)로 미리
+ * 눌러 담아 넘긴다. 이 컴포넌트는 원본 프로필의 `name`·`age`·`cognition` 을
+ * 아예 받지 못하므로, 교체하거나 잘못 써도 민감정보가 샐 수 없다.
+ * 자세한 근거: `data/missingView.ts`
  */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { color, radius, space, type } from '../theme/tokens';
-import { MISSING_ANON } from '../data/missing';
-import { useMissingPersonStore } from '../store/missingPersonStore';
+import type { MissingPersonView } from '../data/missingView';
 
 export type MissingPersonCardProps = {
+  /** 노출 범위가 이미 결정된 뷰. `toAnonView` / `toFullView` 참고. */
+  view: MissingPersonView;
   variant?: 'full' | 'compact';
-  anon?: boolean;
   showAppearanceChips?: boolean;
   dark?: boolean;
 };
 
 export function MissingPersonCard({
+  view,
   variant = 'full',
-  anon = false,
   showAppearanceChips,
   dark = false,
 }: MissingPersonCardProps) {
-  const profile = useMissingPersonStore((s) => s.profile);
   const isFull = variant === 'full';
-  // 기본값: full 또는 anon이면 인상착의 노출(anon은 실명 대신 인상착의·구역으로 식별).
-  const chipsOn = showAppearanceChips ?? (anon || isFull);
+  const chipsOn = showAppearanceChips ?? isFull;
 
-  const sexLabel = profile.sex === 'F' ? '여성' : '남성';
-  const title = anon ? MISSING_ANON : profile.name;
-  // anon은 나이/인지상태(의료정보) 비노출 → 구역만. 일반은 나이·성별·인지상태.
-  const meta = anon ? `${profile.area} 인근` : `${profile.age}세 · ${sexLabel} · ${profile.cognition}`;
+  const { title, meta, appearance } = view;
 
   const c = dark
     ? {
@@ -53,10 +53,10 @@ export function MissingPersonCard({
         chipInk: color.textBody,
       };
 
-  const appearanceText = chipsOn ? ` 인상착의 ${profile.appearance.join(', ')}.` : '';
-  const a11yLabel = anon
-    ? `실종 어르신. ${MISSING_ANON}. ${profile.area} 인근.${appearanceText}`
-    : `실종자 ${profile.name}. ${profile.age}세 ${sexLabel}. ${profile.cognition}.${appearanceText}`;
+  // 낭독도 뷰가 준 문자열만 조합한다 — 시각 표시와 낭독의 노출 범위가 어긋나면
+  // 스크린리더 사용자에게만 더 많은 정보가 새는 셈이 된다.
+  const appearanceText = chipsOn ? ` 인상착의 ${appearance.join(', ')}.` : '';
+  const a11yLabel = `실종자 정보. ${title}. ${meta}.${appearanceText}`;
 
   const avatarSize = isFull ? 64 : 48;
 
@@ -115,7 +115,7 @@ export function MissingPersonCard({
 
           {chipsOn ? (
             <View style={styles.chips}>
-              {profile.appearance.map((item) => (
+              {appearance.map((item) => (
                 <View key={item} style={[styles.chip, { backgroundColor: c.chipBg }]}>
                   <Text
                     style={[styles.chipText, { color: c.chipInk }]}

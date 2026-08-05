@@ -1,15 +1,20 @@
 /**
- * 골든타임 칩 (spec §2.5, §4.1). 파생 카운트다운 useGoldenTime() 소비(초는 스토어 미저장).
+ * 골든타임 칩 (spec §2.5, §4.1).
  * critical=빨강 필(긴급 실종경보), searching=앰버 필(수색 진행). mm:ss는 tabular-nums 고정폭.
- * useGoldenTime()가 null(수색 모드 아님)이면 "골든타임 —".
+ * goldenTime 이 null(수색 모드 아님)이면 "골든타임 —".
+ *
+ * **표시 전용 컴포넌트다.** 카운트다운은 화면이 `useGoldenTime()` 으로 가져와
+ * 넘긴다 — 디자인 교체 시 이 파일이 바뀌어도 시간 계산이 같이 사라지지 않게.
  */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import type { TextStyle } from 'react-native';
 import { color, radius, space, type } from '../theme/tokens';
-import { useGoldenTime } from '../hooks/queries';
+import type { GoldenTime } from '../hooks/queries';
 
 export type GoldenTimeChipProps = {
+  /** `useGoldenTime()` 결과. null 이면 수색 모드가 아니다. */
+  goldenTime: GoldenTime | null;
   label?: string;
   emphasis?: 'critical' | 'searching';
   dark?: boolean;
@@ -21,11 +26,11 @@ const TABULAR_NUMS: TextStyle = { fontVariant: ['tabular-nums'] };
 const ON_FILL = '#FFFFFF';
 
 export function GoldenTimeChip({
+  goldenTime: gt,
   label = '골든타임',
   emphasis = 'critical',
   dark = false,
 }: GoldenTimeChipProps) {
-  const gt = useGoldenTime();
   const filled = gt != null;
   const fill = emphasis === 'critical' ? color.critical : color.search;
 

@@ -31,6 +31,8 @@ import { useMissingPersonStore } from '../store/missingPersonStore';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { distanceM, formatDistance } from '../utils/geo';
 import { DEMO_CASE_ID, LAST_SEEN } from '../data/missing';
+import { toAnonView } from '../data/missingView';
+import { useGoldenTime, usePresenceCount } from '../hooks/queries';
 import { hexToRgba, toLatLng } from '../utils/color';
 import type { RootStackParamList } from '../navigation/types';
 
@@ -62,6 +64,11 @@ export default function AlertDetailScreen() {
   useEffect(() => {
     enterSearch(DEMO_CASE_ID, 'critical');
   }, [enterSearch]);
+
+  // 표시 컴포넌트에 넘길 데이터는 화면이 가져온다 — 컴포넌트를 갈아끼워도
+  // 데이터 연결이 남아 있도록(디자인 교체 대비).
+  const goldenTime = useGoldenTime();
+  const watching = usePresenceCount(caseId);
 
   // 내 위치 — 지도의 OS 마커와 거리 문구에 함께 쓴다. 좌표는 기기 밖으로 나가지 않는다.
   const { point: myPoint, accuracyM, status: locStatus } = useMyLocation();
@@ -193,13 +200,14 @@ export default function AlertDetailScreen() {
 
         {/* 골든타임(§4.1 빨강) + 익명 동시 참여자(중립 — 심각도색 아님) */}
         <View style={styles.goldenRow}>
-          <GoldenTimeChip emphasis="critical" />
-          <PresenceBadge caseId={caseId} />
+          <GoldenTimeChip goldenTime={goldenTime} emphasis="critical" />
+          {watching != null && <PresenceBadge watching={watching} />}
         </View>
 
         {/* 실종자 카드 — 단일 소스(익명, 인상착의 칩) */}
         <View style={styles.block}>
-          <MissingPersonCard variant="full" anon showAppearanceChips />
+          {/* 시민 화면 — 익명 뷰. 실명·나이·인지상태는 여기서 이미 걸러진다. */}
+          <MissingPersonCard view={toAnonView(profile)} variant="full" showAppearanceChips />
         </View>
 
         {/* 최종 목격 — 구역·시간만(의료정보 비노출). 단일 소스 profile.lastSeen */}
