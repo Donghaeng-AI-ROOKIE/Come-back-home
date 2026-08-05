@@ -26,6 +26,12 @@ import { color, radius, space, type, HIT } from '../theme/tokens';
 import { WALK_COURSES, WALK_STATS, WALKER_NAME } from '../data/mock';
 import { DEMO_CASE_ID } from '../data/missing';
 import { useAppModeStore, useIsCaseDismissed } from '../store/appModeStore';
+import { useDebugStore } from '../store/debugStore';
+import { useAlertsForMe } from '../hooks/useAlertGate';
+import { useMyLocation } from '../hooks/useMyLocation';
+import { usePoaPrediction } from '../hooks/queries';
+import { distanceM, formatDistance, pointInPolygon } from '../utils/geo';
+import { TIER_LABEL, TIER_RANGE } from '../theme/poa';
 import { hexToRgba, toLatLng } from '../utils/color';
 import BaseMap from '../components/BaseMap';
 import MapPin from '../components/MapPin';
@@ -77,6 +83,36 @@ export default function HomeScreen() {
   // 접근 경로는 유지 — 억제하는 건 재촉이지 정보가 아니다.
   const alertDismissed = useIsCaseDismissed(DEMO_CASE_ID);
 
+  // 지오펜스를 통과한(= 나에게 해당되는) 경보만 본다. 구역 밖이면 alert 는 null 이고
+  // 홈은 "평온해요" 그대로다 — 9km 떨어진 사람에게 수색 문구를 띄우는 게 거짓말이므로.
+  const { alerts: myAlerts } = useAlertsForMe();
+  const activeAlert = myAlerts[0] ?? null;
+  const { point: myPoint, accuracyM } = useMyLocation();
+  // 경보가 나에게 해당될 때만 POA 조회(빈 caseId 면 훅이 비활성).
+  const poa = usePoaPrediction(activeAlert?.caseId ?? '', 1);
+
+  // "동선 예측 확률과 얼마나 가까운가" — 내 위치가 실제로 POA 셀 안인지까지 본다.
+  const myCell =
+    myPoint && poa.data
+      ? (poa.data.cells.find((c) => pointInPolygon(myPoint, c.polygon)) ?? null)
+      : null;
+  const alertMeters = activeAlert && myPoint ? distanceM(myPoint, activeAlert.targetCenter) : null;
+  const alertDistance = alertMeters == null ? null : formatDistance(alertMeters, accuracyM);
+
+  const statusLine = activeAlert
+    ? `${activeAlert.area} 인근 수색이 진행 중이에요`
+    : '우리 동네는 지금 평온해요';
+
+  // 카드 본문: 예측 구역 안이면 확률까지, 밖이면 거리만, 위치를 모르면 숫자 없이.
+  const alertCardSub = myCell
+    ? `내 위치가 예측 구역 안이에요 · 발견확률 ${TIER_LABEL[myCell.tier]} (${TIER_RANGE[myCell.tier]})`
+    : alertDistance
+      ? `최종 목격지에서 ${alertDistance} · 예측 구역 주변이에요`
+      : '위치를 확인할 수 없어 거리는 표시하지 않아요';
+
+  const forceInAlertArea = useDebugStore((s) => s.forceInAlertArea);
+  const setForceInAlertArea = useDebugStore((s) => s.setForceInAlertArea);
+
   const [walking, setWalking] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   // 내 위치 버튼: key 변경으로 BaseMap을 재마운트 → initialRegion(내 산책 리전)으로 재중심.
@@ -123,12 +159,16 @@ export default function HomeScreen() {
               style={styles.statusPill}
               accessible
               accessibilityRole="text"
-              accessibilityLabel="우리 동네는 지금 평온해요"
+              accessibilityLabel={statusLine}
             >
-              <View style={styles.statusRing}>
-                <View style={styles.statusDot} />
+              {/* 경보가 나에게 해당되면 심각도색으로. 평온하지 않은데 그린 점을
+                  띄우면 색이 상태를 잘못 부호화한다(§4.1). */}
+              <View style={[styles.statusRing, activeAlert && styles.statusRingAlert]}>
+                <View style={[styles.statusDot, activeAlert && styles.statusDotAlert]} />
               </View>
-              <AppText style={styles.statusPillText}>우리 동네는 지금 평온해요</AppText>
+              <AppText style={[styles.statusPillText, activeAlert && styles.statusPillTextAlert]}>
+                {statusLine}
+              </AppText>
             </View>
           </View>
           <Pressable
@@ -209,36 +249,64 @@ export default function HomeScreen() {
           </View>
         </LinearGradient>
 
-        {/* 3. [분리 A] 동네 안심 상태 카드 — 비인터랙티브, chevron/activate 없음 */}
+        {/* 3. [분리 A] 동네 상태 카드 — 비인터랙티브, chevron/activate 없음.
+            나에게 해당되는 경보가 있으면 "평온해요" 대신 수색 상황을 말한다.
+            경보 중에 평온하다고 쓰는 건 이 화면에서 가장 눈에 띄는 거짓말이었다. */}
         <View
-          style={styles.safeCard}
+          style={[styles.safeCard, activeAlert && styles.safeCardAlert]}
           accessible
           accessibilityRole="text"
-          accessibilityLabel="동네 안심 상태. 우리 동네는 지금 평온해요. 이번 달 이웃 세 명이 무사히 집으로 돌아왔어요."
+          accessibilityLabel={
+            activeAlert
+              ? `동네 상태. ${activeAlert.area} 인근에서 실종자를 찾고 있어요. ${alertCardSub}`
+              : '동네 안심 상태. 우리 동네는 지금 평온해요. 이번 달 이웃 세 명이 무사히 집으로 돌아왔어요.'
+          }
         >
-          <View style={styles.safeIconWrap}>
+          <View style={[styles.safeIconWrap, activeAlert && styles.safeIconWrapAlert]}>
             <Svg width={24} height={24} viewBox="0 0 24 24">
-              <Path
-                d="M12 3.4 5 6.1v4.7c0 4.2 2.9 7.4 7 8.7 4.1-1.3 7-4.5 7-8.7V6.1L12 3.4Z"
-                fill="none"
-                stroke={color.surface}
-                strokeWidth={1.9}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <Path
-                d="M9 11.7l2.2 2.2 3.9-4"
-                fill="none"
-                stroke={color.surface}
-                strokeWidth={1.9}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+              {activeAlert ? (
+                // 위치 핀 — 수색 진행 중
+                <>
+                  <Path
+                    d="M12 21s6.5-5.6 6.5-10.5a6.5 6.5 0 0 0-13 0C5.5 15.4 12 21 12 21Z"
+                    fill="none"
+                    stroke={color.surface}
+                    strokeWidth={1.9}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <Circle cx={12} cy={10.5} r={2.2} fill="none" stroke={color.surface} strokeWidth={1.9} />
+                </>
+              ) : (
+                // 방패 + 체크 — 평온
+                <>
+                  <Path
+                    d="M12 3.4 5 6.1v4.7c0 4.2 2.9 7.4 7 8.7 4.1-1.3 7-4.5 7-8.7V6.1L12 3.4Z"
+                    fill="none"
+                    stroke={color.surface}
+                    strokeWidth={1.9}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <Path
+                    d="M9 11.7l2.2 2.2 3.9-4"
+                    fill="none"
+                    stroke={color.surface}
+                    strokeWidth={1.9}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </>
+              )}
             </Svg>
           </View>
           <View style={styles.flex1}>
-            <AppText style={styles.safeTitle}>우리 동네는 지금 평온해요 🌿</AppText>
-            <AppText style={styles.safeSub}>이번 달 이웃 3명이 무사히 집으로 돌아왔어요</AppText>
+            <AppText style={[styles.safeTitle, activeAlert && styles.safeTitleAlert]}>
+              {activeAlert ? `${activeAlert.area} 인근에서 실종자를 찾고 있어요` : '우리 동네는 지금 평온해요 🌿'}
+            </AppText>
+            <AppText style={[styles.safeSub, activeAlert && styles.safeSubAlert]}>
+              {activeAlert ? alertCardSub : '이번 달 이웃 3명이 무사히 집으로 돌아왔어요'}
+            </AppText>
           </View>
         </View>
 
@@ -421,6 +489,23 @@ export default function HomeScreen() {
         >
           <AppText style={styles.debugText}>데모: 경찰경보 연동</AppText>
         </Pressable>
+
+        {/* 데모용 지오펜스 우회. 경보는 대상 구역(정릉동 반경 1.5km) 안에서만
+            뜨는 게 맞는 동작인데, 그러면 정릉동 밖에서는 경보 플로우를 시연할
+            방법이 없다. 이 칩이 그 유일한 우회로다. */}
+        <Pressable
+          onPress={() => setForceInAlertArea(!forceInAlertArea)}
+          accessibilityRole="switch"
+          accessibilityState={{ checked: forceInAlertArea }}
+          accessibilityLabel="데모, 경보 구역 안에 있다고 가정"
+          accessibilityHint="실제 위치와 무관하게 알림 대상 구역 안으로 간주합니다"
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          style={({ pressed }) => [styles.debugChip, pressed && styles.pressed]}
+        >
+          <AppText style={styles.debugText}>
+            {forceInAlertArea ? '데모: 경보 구역 안 (켜짐)' : '데모: 경보 구역 안이라고 가정'}
+          </AppText>
+        </Pressable>
       </ScrollView>
     </View>
   );
@@ -458,6 +543,10 @@ const styles = StyleSheet.create({
     color: color.textBody,
     fontFamily: type.family,
   },
+  // 경보 변형 — 그린(평시) 대신 심각도색. 색만으로 전달하지 않도록 문구도 함께 바뀐다.
+  statusRingAlert: { backgroundColor: color.criticalWash },
+  statusDotAlert: { backgroundColor: color.critical },
+  statusPillTextAlert: { color: color.criticalInk, fontWeight: type.weight.bold },
   bellBtn: {
     width: 50,
     height: 50,
@@ -608,6 +697,13 @@ const styles = StyleSheet.create({
     marginTop: 3,
     fontFamily: type.family,
   },
+  // 경보 변형 — 워시 배경 + 잉크 텍스트. 심각도색 계열은 지키되 채도 높은 필은
+  // 쓰지 않는다: 사용자가 이미 관문을 통과한 뒤의 홈이라, 여기서 다시 전면
+  // 경보처럼 굴면 "그만 볼래요"를 누른 의사를 뒤집는 셈이 된다.
+  safeCardAlert: { backgroundColor: color.criticalWash },
+  safeIconWrapAlert: { backgroundColor: color.critical, shadowColor: color.critical },
+  safeTitleAlert: { color: color.criticalInk },
+  safeSubAlert: { color: color.text },
 
   // [분리 B] 가족 예방 등록 카드
   regCard: {

@@ -77,8 +77,19 @@ export type PoliceAlert = {
   area: string;
   severity: Severity;
   kind: AlertKind;
-  /** 내 위치로부터 거리(m) — '내 주변' 타겟 근거. */
-  distanceM: number;
+  /**
+   * 알림 대상 구역 (온디바이스 지오펜싱).
+   *
+   * 서버는 "이 구역 사람들에게 알려라"만 뿌리고, **내가 그 안에 있는지는 폰이
+   * 판단한다** — 시민 위치가 서버로 올라가지 않는 것이 이 설계의 전제다.
+   * 이 필드가 없으면 알림이 무차별 발송이 되고, "타겟 알림"이라는 서비스
+   * 전제 자체가 무너진다.
+   *
+   * 실서비스 페이로드는 H3 셀 목록이 오지만, 푸시 인프라 이전인 지금은
+   * 대표 좌표 + 반경으로 근사한다.
+   */
+  targetCenter: GeoPoint;
+  targetRadiusM: number;
   summary: string;
   matchedPersonId?: string; // 보호자 사전등록 매칭 시
 };
