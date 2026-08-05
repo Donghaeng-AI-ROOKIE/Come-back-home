@@ -7,10 +7,11 @@ from pydantic import BaseModel, Field
 
 from app import storage
 from app.geo import h3grid
-from app.phase3 import alerts, presence, storytelling, tip_flow, triggers
+from app.phase3 import alerts, devices, presence, storytelling, tip_flow, triggers
 from app.privacy import lifecycle
 from app.schemas.case import CaseStatus
 from app.schemas.common import GeoPoint
+from app.schemas.device import Engagement, Platform
 
 router = APIRouter(prefix="/phase3", tags=["Phase 3 — 알림·제보·POA 갱신"])
 
@@ -75,7 +76,8 @@ def send_alerts(case_id: str):
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
     cells = alerts.select_alert_cells(case.current_poa)
     summary = case.report.appearance.summary if case.report.appearance else "인상착의 정보 없음"
-    result = alerts.send_alerts(case.id, cells, summary)
+    # poa 를 넘겨야 서버가 참여도별 확률 문턱을 적용할 수 있다(피로도 예산).
+    result = alerts.send_alerts(case.id, cells, summary, poa=case.current_poa)
     case.last_alert_poa = dict(case.current_poa)
     case.last_alert_at = datetime.now()
     storage.cases.save(case.id, case)
@@ -246,6 +248,41 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
             for c, p in ranked
         ],
     }
+
+
+class DeviceIn(BaseModel):
+    # Expo Push 토큰 (ExponentPushToken[...]).
+    token: str = Field(min_length=8, max_length=256)
+    platform: Platform
+    # 현재 위치의 H3 res7 셀. **폰이 좌표를 이 해상도로 바꿔서 보낸다** —
+    # 정밀 좌표는 기기를 떠나지 않는다. 서버는 현재 값만 덮어쓰고 이력을 안 남긴다.
+    # 못 구했으면 생략(그 기기는 타겟 발송에서 빠진다).
+    cell_res7: str | None = Field(default=None, max_length=32)
+    # 참여도 등급 3값. 원시 이력(열람·제보 횟수)은 폰에만 있고 이 요약값만 온다.
+    engagement: Engagement = Engagement.normal
+
+
+@router.post("/devices")
+def register_device(body: DeviceIn):
+    """기기 등록 — 푸시 발송 대상에 추가. 앱 실행 시마다 호출해도 안전(upsert).
+
+    ⚠️ 이 시점부터 서버는 지속적 기기 식별자를 갖는다. 푸시의 본질이라 회피할 수
+    없고, 남는 선택지는 토큰에 무엇을 붙이지 않느냐뿐이다.
+    """
+    device = devices.register(body.token, body.platform, body.cell_res7, body.engagement)
+    return {
+        "registered": True,
+        "platform": device.platform,
+        "since": device.registered_at,
+        "targetable": device.cell_res7 is not None,
+    }
+
+
+@router.delete("/devices/{token}")
+def unregister_device(token: str):
+    """등록 해제 — 알림 수신 거부·앱 삭제 시. 지속적 식별자이므로
+    지우는 경로가 반드시 있어야 한다."""
+    return {"unregistered": devices.unregister(token)}
 
 
 @router.post("/cases/{case_id}/presence")

@@ -182,18 +182,44 @@ export async function submitTip(
   };
 }
 
+/** 알림 발송 결과 — 왜 이만큼만 갔는지 단계별로 되짚을 수 있게 되어 있다. */
+export type AlertSendResult = {
+  /** 예측 셀(res9) 수. 대상 구역의 크기. */
+  sourceCells: number;
+  /** 발송 대상 res7 셀 목록. 폰이 관문 판정에 쓰는 그 목록과 같다. */
+  targetCells: string[];
+  /** 대상 구역 안에 있던 기기 수(확률 문턱 적용 **전**). */
+  inArea: number;
+  /** 그중 참여도 문턱에 못 미쳐 빠진 수 — 피로도 예산이 실제로 몇 명을 줄였나. */
+  belowThreshold: number;
+  /** 실제 발송 건수. */
+  sent: number;
+  /** 스텁 모드(push_enabled=false)라 네트워크를 타지 않았는가. */
+  stub: boolean;
+};
+
 /**
- * 알림 발송. **푸시 인프라가 아직 없다** — 백엔드가 대상 셀만 계산하고
- * `sent:false` 로 답한다. 실제로 기기에 알림이 가지 않으므로 화면에서
- * "발송 완료"라고 단정하면 안 된다(sent 를 그대로 노출한다).
+ * 알림 발송 (경찰·운영 화면용).
+ *
+ * ⚠️ `stub: true` 면 **기기에 실제로 알림이 가지 않았다** — 서버가 "보낸 셈" 친
+ * 것이다(백엔드 push_enabled 기본값 false). 화면에서 "발송 완료"라고 단정하기 전에
+ * 이 값을 봐야 한다.
  */
-export async function sendAlerts(
-  caseId: string,
-): Promise<{ targetCells: number; sent: boolean; message: string }> {
-  if (USE_MOCK) return delay({ targetCells: 12, sent: false, message: '[목업] 알림 미리보기' });
-  const r = await api<{ target_cells: number; sent: boolean; message: string }>(
-    `/phase3/cases/${caseId}/alerts`, { method: 'POST' });
-  return { targetCells: r.target_cells, sent: r.sent, message: r.message };
+export async function sendAlerts(caseId: string): Promise<AlertSendResult> {
+  if (USE_MOCK) {
+    return delay({
+      sourceCells: 12, targetCells: ['8730e1c30ffffff'],
+      inArea: 3, belowThreshold: 1, sent: 2, stub: true,
+    });
+  }
+  const r = await api<{
+    source_cells: number; target_cells: string[]; in_area: number;
+    below_threshold: number; sent: number; stub: boolean;
+  }>(`/phase3/cases/${caseId}/alerts`, { method: 'POST' });
+  return {
+    sourceCells: r.source_cells, targetCells: r.target_cells, inArea: r.in_area,
+    belowThreshold: r.below_threshold, sent: r.sent, stub: r.stub,
+  };
 }
 
 type AlertResponse = {
@@ -221,8 +247,9 @@ type AlertResponse = {
  * "약 9023.9km" 라는 거리까지 표시됐다). 이제 서버의 실제 케이스만 본다 —
  * 신고·예측이 없으면 경보도 없다.
  *
- * 푸시 인프라(FCM)가 붙기 전까지는 폴링이다. 서버는 대상 구역만 뿌리고
- * **내가 그 안에 있는지는 폰이 판단한다**(온디바이스 지오펜싱).
+ * 푸시는 **보내는 그 순간**에만 도달하므로(폰이 꺼져 있었거나 알림을 쓸어 없앴으면
+ * 아무것도 안 남는다) 이 조회 경로가 따로 필요하다 — 관문은 사용자가 앱을 **직접
+ * 연** 순간에도 판정해야 한다.
  */
 export async function getActiveAlerts(): Promise<PoliceAlert[]> {
   if (USE_MOCK) return delay([buildAlert()]);
@@ -271,6 +298,39 @@ export async function touchPresence(caseId: string): Promise<number> {
     body: JSON.stringify({ token: PRESENCE_TOKEN }),
   });
   return data.watching;
+}
+
+/**
+ * 기기 등록 — 푸시 발송 대상에 추가. 앱 실행마다·칸이 바뀔 때마다 호출해도
+ * 안전하다(서버가 upsert 하고 발송 이력을 유지한다).
+ *
+ * ## 무엇을 보내고 무엇을 안 보내는가
+ * 서버가 토큰을 영속 저장하는 것은 푸시의 본질상 회피할 수 없다. 대신 붙는 정보를
+ * 최소로 깎는다 — 백엔드 `schemas/device.py` 의 경계와 짝을 이룬다.
+ *
+ *   ✅ cellRes7   폰이 좌표를 res7(≈5km²)로 **직접 바꾼 값**. 정밀 좌표는 기기를
+ *                 떠나지 않는다. null 이면 "이번엔 위치를 못 구했다"는 뜻이고,
+ *                 서버는 마지막으로 알던 칸을 지우지 않는다.
+ *   ✅ engagement 참여도 **등급**만. 열람·제보 횟수 원본은 폰에만 있다.
+ *   ❌ 좌표·정밀 셀·위치 이력·제보 이력
+ */
+export async function registerDevice(
+  token: string,
+  platform: 'android' | 'ios',
+  cellRes7: string | null = null,
+  engagement: 'high' | 'normal' | 'low' = 'normal',
+): Promise<void> {
+  if (USE_MOCK) return;
+  await api('/phase3/devices', {
+    method: 'POST',
+    body: JSON.stringify({ token, platform, cell_res7: cellRes7, engagement }),
+  });
+}
+
+/** 등록 해제 — 알림 수신 거부 시. 지속적 식별자이므로 지우는 경로가 반드시 있어야 한다. */
+export async function unregisterDevice(token: string): Promise<void> {
+  if (USE_MOCK) return;
+  await api(`/phase3/devices/${encodeURIComponent(token)}`, { method: 'DELETE' });
 }
 
 /**

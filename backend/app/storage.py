@@ -187,6 +187,7 @@ def reset_for_tests() -> None:
 # table 이 지정된 것만 디스크에 남는다 — 무엇을 남길지가 곧 개인정보 정책이다.
 from app.schemas.case import Case
 from app.schemas.debug import PredictionDebug
+from app.schemas.device import Device
 from app.schemas.persona import InterviewSession, Persona
 from app.schemas.privacy import AuditRecord
 from app.schemas.walk import WalkSession
@@ -211,3 +212,10 @@ walk_sessions = Repository(WalkSession, "walk_sessions")
 # 사건을 잇는 기록을 만들면 케이스 파기 후에도 연결이 남아 목적을 넘는다.
 # 마이페이지의 "제보 N건" 배지 하나를 위해 필요한 최소 정보만 센다.
 walk_tip_counts = Repository(table="walk_tip_counts")  # int (user_id 키)
+
+# 푸시 발송 대상 — **영속화 필수.** 재시작마다 등록이 날아가면 그 뒤로는 아무도
+# 알림을 못 받고, 사용자는 앱을 다시 열기 전까지 그 사실조차 모른다.
+# 다만 이 테이블이 디스크에 남는다는 건 **지속적 기기 식별자가 파일로 남는다**는
+# 뜻이다 — 그래서 토큰에 위치·제보 이력·계정을 붙이지 않는 경계가 더 중요해진다
+# (schemas/device.py 참고). 해제 경로(DELETE /phase3/devices/{token}) 필수.
+devices = Repository(Device, "devices")

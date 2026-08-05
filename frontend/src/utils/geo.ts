@@ -1,26 +1,13 @@
 /**
- * 지오메트리 계산 — 거리와 폴리곤 포함 판정.
+ * 지오메트리 계산 — 폴리곤 포함 판정.
  *
- * 화면에 거리(m·분)를 쓰던 표기 함수들은 제거했다. 시민 화면은 거리 대신
- * "예측 구역 안/밖 + 확률 등급"으로 간다(2026-08-05 확정, 근거는 utils/areaStatus.ts).
- * 여기 남은 것은 지오펜스 판정과 셀 판정이 쓰는 순수 계산뿐이다.
+ * 거리 계산(하버사인)까지 여기 있었는데 전부 없앴다. 화면 표기는 "예측 구역
+ * 안/밖 + 확률 등급"으로 갔고(utils/areaStatus.ts), 남아 있던 마지막 사용처인
+ * 지오펜스도 중심+반경 근사에서 **H3 셀 대조**로 바뀌었다(utils/h3cell.ts).
+ * 거리를 다시 쓰고 싶어지면, 확률분포에는 잴 점이 없다는 areaStatus.ts 의
+ * 논의를 먼저 읽을 것.
  */
 import type { GeoPoint } from '../types/domain';
-
-const EARTH_RADIUS_M = 6_371_000;
-
-const toRad = (deg: number) => (deg * Math.PI) / 180;
-
-/** 두 좌표 간 대권거리(m). 하버사인 — 도심 스케일에선 오차 무시 가능. */
-export function distanceM(a: GeoPoint, b: GeoPoint): number {
-  const dLat = toRad(b.lat - a.lat);
-  const dLng = toRad(b.lng - a.lng);
-  const lat1 = toRad(a.lat);
-  const lat2 = toRad(b.lat);
-  const h =
-    Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
-  return 2 * EARTH_RADIUS_M * Math.asin(Math.min(1, Math.sqrt(h)));
-}
 
 /**
  * 점이 폴리곤 안에 있는가 (ray casting).

@@ -21,6 +21,7 @@ import type {
 } from '../types/domain';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING } from './missing';
 import { tierForProb } from '../theme/poa';
+import { PUSH_TARGET_RES, cellOf } from '../utils/h3cell';
 
 // ── 시드 난수 (결정론적) ──────────────────────────────
 function lcg(seed: number): () => number {
@@ -187,11 +188,11 @@ export function buildAlert(): PoliceAlert {
     area: MISSING.area,
     severity: 'critical',
     kind: 'poa',
-    // 알림 대상 구역. 실서비스에선 서버가 고른 H3 셀 목록이 오지만(alerts.py의
-    // select_alert_cells), 푸시 페이로드 이전이라 대표 좌표 + 반경으로 근사한다.
-    // 1.5km: reflex 는 k=2 링(≈600m), POA 기반은 더 넓게 퍼지므로 그 중간.
-    targetCenter: LAST_SEEN,
-    targetRadiusM: 1500,
+    // 알림 대상 구역. 실서비스에선 서버가 고른 셀의 res7 부모 집합이 페이로드로
+    // 온다(alerts.target_parent_cells). 목에서는 최종 목격지가 속한 칸 하나로
+    // 같은 모양을 만든다 — 실경로와 형식이 같아야 관문 판정이 같은 코드를 탄다.
+    targetCells: [cellOf(LAST_SEEN) ?? ''].filter(Boolean),
+    targetRes: PUSH_TARGET_RES,
     summary: MISSING.label,
     matchedPersonId: MISSING.id,
   };

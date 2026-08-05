@@ -350,6 +350,33 @@ class Settings(BaseSettings):
     presence_ttl_sec: float = 90.0
     presence_max_tokens_per_case: int = 10_000  # 메모리 상한 (자세한 근거: presence.py)
 
+    # ── 푸시 발송 (Expo Push Service) ──────────────────────────────
+    # 기본값 False = 스텁 모드: 네트워크를 타지 않고 결정적 응답. 테스트가 외부
+    # 서비스에 의존하지 않게 하는 장치이자 크레덴셜 없이 파이프라인을 돌리기 위한 것.
+    # 실발송하려면 True + Expo 프로젝트에 FCM V1 크레덴셜(서비스 계정) 등록 필요.
+    push_enabled: bool = False
+    # 선택이지만 권장 — 없으면 남이 우리 프로젝트 이름으로 발송할 수 있다.
+    expo_access_token: str = ""
+    # 골든타임 알림이라 오래 매달리면 안 된다. 실패해도 접수·예측은 계속돼야 하므로
+    # 짧게 끊고 넘어간다.
+    push_timeout_sec: float = 10.0
+    # 발송 대상 판정 해상도 — 폰이 자기 위치를 이 해상도의 H3 셀 하나로 바꿔
+    # 보고하고, 서버는 예측 셀(res9)의 이 해상도 부모와 대조한다.
+    #   res7 ≈ 5km². 예측 구역(실측 17km²)을 구분하기엔 충분하고 개인 위치는
+    #   안 드러난다 — "목적에 필요한 최소 해상도"가 선택 기준(2026-08-05 확정).
+    #   ⚠️ 낮추면(res5·res6) 낭비 발송이 급증하고, 높이면(res8·res9) 사실상
+    #     좌표가 되어 최소성 논거가 무너진다.
+    push_target_res: int = 7
+    # 참여도 등급별 발송 확률 문턱 — **프론트 utils/alertBudget.ts 의
+    # PROB_THRESHOLD 와 값이 같아야 한다**(서버·앱이 다르면 사용자는 "알림은
+    # 왔는데 앱은 구역 밖이라 한다" 같은 모순을 본다).
+    # 기준은 히트맵 상대 스케일(최고 셀 대비) — 근거는 alerts.relative_prob_by_parent.
+    push_prob_threshold: dict[str, float] = {
+        "high": 0.3,     # 덜 확실한 곳까지
+        "normal": 0.45,
+        "low": 0.6,      # 확실한 곳만
+    }
+
     # ── Phase 3 제보 신뢰도 p (docs: "제보 신뢰도 p 계산 방식") ─────────
     # p = 가중평균(시공간개연성·구체성). 없는 신호는 가중치 재정규화.
     # r = plausibility/specificity 비율만 결과에 영향(재정규화 구조, 절대값 무의미).

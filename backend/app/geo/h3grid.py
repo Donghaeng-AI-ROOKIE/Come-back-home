@@ -26,6 +26,20 @@ def cell_boundary(cell: str) -> list[GeoPoint]:
     return [GeoPoint(lat=lat, lng=lng) for lat, lng in h3.cell_to_boundary(cell)]
 
 
+def parent_cells(cells: list[str], res: int) -> set[str]:
+    """셀 목록을 상위 해상도의 부모 셀 집합으로 접는다.
+
+    푸시 타겟팅에 쓴다(2026-08-05 확정). 폰은 자기 위치를 res7 셀 하나로 바꿔
+    서버에 알리고, 서버는 예측 셀(res9)의 res7 부모 집합과 대조해 발송 대상을
+    고른다. **폰이 좌표를 보내지 않으므로** 서버는 "어느 동네 칸"까지만 안다.
+
+    셀 목록을 그대로 쓰지 않고 접는 이유: res9 는 ≈0.1km² 라 그 단위로 위치를
+    받으면 사실상 좌표다. res7(≈5km²)이면 예측 구역(실측 17km²)을 구분하기에
+    충분하면서 개인 위치는 안 드러난다 — 목적에 필요한 최소 해상도.
+    """
+    return {h3.cell_to_parent(c, res) for c in cells}
+
+
 def cells_within_k(center: GeoPoint, k: int, res: int | None = None) -> list[str]:
     """중심 셀 포함 k-ring (grid_disk) — '격자 몇 칸' 단위 선택용 (1차 안전반경 등)."""
     return list(h3.grid_disk(cell_of(center, res), k))

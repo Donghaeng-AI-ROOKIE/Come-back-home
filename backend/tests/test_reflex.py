@@ -12,6 +12,7 @@ from fastapi import HTTPException
 from app import storage
 from app.api import phase3 as phase3_api
 from app.config import settings
+from app.geo import h3grid
 from app.phase1 import intake
 from app.phase3 import alerts
 from app.privacy import lifecycle
@@ -57,7 +58,13 @@ def test_reflex_endpoint_works_without_poa():
     assert case.current_poa is None
     res = phase3_api.send_reflex_alerts(case.id)
     assert res["kind"] == "reflex"
-    assert res["target_cells"] == 19
+    assert res["source_cells"] == 19
+    # 발송 대상은 그 19개 셀의 res7 부모 — 폰이 보고하는 칸과 같은 해상도라야
+    # 대조가 된다(2026-08-05 푸시 타겟팅 확정).
+    assert res["target_res"] == settings.push_target_res
+    assert res["target_cells"] == sorted(
+        h3grid.parent_cells(alerts.select_reflex_cells(LKP), settings.push_target_res)
+    )
     # 대조: POA 기반 알림은 여전히 예측 전 409 (기존 동작 불변)
     with pytest.raises(HTTPException) as exc:
         phase3_api.send_alerts(case.id)
