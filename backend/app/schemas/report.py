@@ -9,13 +9,20 @@ from app.schemas.persona import PersonaType
 
 
 class Appearance(BaseModel):
-    """VARCO-Vision(VLM)이 사진에서 추출한 인상착의. 생성이 아니라 추출."""
+    """인상착의. top/bottom/shoes/physical/summary 는 VARCO-Vision(VLM)이 사진에서
+    추출한 텍스트(생성이 아니라 추출) — *_color 3개는 그 텍스트에서 규칙 기반으로
+    뽑은 색상 태그로, VARCO 와 무관하다(app.phase1.color_extract 참고, 모델 안 씀)."""
     top: str = ""
     bottom: str = ""
     shoes: str = ""
     accessories: list[str] = []
     physical: str = ""       # 키·체형·머리 등
     summary: str = ""        # 알림 문구용 한 줄 요약
+    # 고정 실루엣 아바타 렌더링용 색상 태그. 프론트가 이 문자열을 hex 로 변환해
+    # SVG 를 채운다 — 백엔드는 이미지를 만들지 않는다.
+    top_color: str = "unknown"
+    bottom_color: str = "unknown"
+    shoes_color: str = "unknown"
 
 
 class ReporterInfo(BaseModel):
