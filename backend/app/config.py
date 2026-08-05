@@ -239,8 +239,11 @@ class Settings(BaseSettings):
     # 평가 하네스가 개인화 기여도를 재는 ablation 노브.
     env_response_strength: float = 1.0
     # 시뮬레이션이 도로망 그래프를 쓸지 — 켜면 Phase 2 실행 시 LKP 반경 도로망을
-    # 로딩(캐시 우선, 실패 시 연속 공간 폴백). 오프라인 테스트 기본값은 False.
-    use_roadnet: bool = False
+    # 로딩(캐시 우선, 실패 시 연속 공간 폴백). 테스트는 conftest.py 가 항상 "false"로
+    # 강제하므로 이 기본값과 무관하게 오프라인이다. 켜진 채 실서비스 기본값 —
+    # 캐시 없는 좌표의 첫 요청은 Overpass 콜드 다운로드로 15~110초 걸릴 수 있다
+    # (실측, 2026-08-05). CI 파이프라인이 없어 자동화에 영향은 없다.
+    use_roadnet: bool = True
 
     # Phase 3 — 제보 판정 임계값 (예시값, 시뮬레이션 테스트로 튜닝 대상)
     tip_discard_threshold: float = 0.2   # p < 0.2 → 파기

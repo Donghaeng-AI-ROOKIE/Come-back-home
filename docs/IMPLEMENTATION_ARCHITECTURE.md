@@ -24,7 +24,7 @@
 가장 중요한 현재 경계는 다음과 같다.
 
 1. 백엔드 Phase 0 챗봇은 실제 적응형 슬롯 인터뷰이지만 프런트 등록 화면은 이를 호출하지 않는다.
-2. Phase 2의 도로망·환경·스텝별 인지 게이지는 `USE_ROADNET=true`일 때만 활성화된다. 기본값은 `false`이다.
+2. Phase 2의 도로망·환경·스텝별 인지 게이지는 `USE_ROADNET`이 `true`일 때만 활성화된다(기본값 `true`, `.env`로 `false` 오버라이드 가능). 캐시 없는 좌표의 첫 요청은 Overpass 콜드 다운로드로 15~110초 걸릴 수 있다.
 3. Agent MC와 Statistical MC는 모두 500 워커지만 동일한 EXAONE prior를 공유한다. 따라서 Statistical MC는 “동적 마음 재해석 제외 비교군”이지 완전한 비-AI 비교군은 아니다.
 4. 알림 대상 셀 계산은 구현됐지만 실제 푸시 발송과 셀 내 사용자 조회는 구현되지 않았다.
 5. 프런트 기본값은 `USE_MOCK=true`이고, 실백엔드 제보 응답 매핑은 아직 예외를 발생시킨다.
@@ -797,7 +797,7 @@ stateDiagram-v2
 | `TIP_LLM_TEMP_STRUCTURE` | `0.0` | 제보 구조화 재현성 우선 |
 | `AXIS_SCORING_ENABLED` | `false` | 축 점수와 route familiarity 컴파일 비활성 |
 | `AXIS_SCORING_ASYNC` | `true` | Persona 확정 응답을 막지 않고 백그라운드 채점 |
-| `USE_ROADNET` | `false` | 기본은 연속 공간 MC |
+| `USE_ROADNET` | `true` | 기본은 도로망 MC(캐시 우선, 실패 시 연속 공간 폴백) |
 | `ROADNET_PRELOAD` | `false` | Phase 1에서 도로망 미리 받지 않음 |
 | `MC_NUM_WALKERS` | `500` | Agent·Statistical 공통 워커 수 |
 | `MIND_CALL_BUDGET` | `5` | 예측당 실제 EXAONE 마음 재해석 상한 |
@@ -855,7 +855,7 @@ API 요청·응답의 상세 형식은 [`API_CONTRACT.md`](../API_CONTRACT.md)�
 4. FCM/APNs, 셀 내 동의 사용자 위치 인덱스, 백그라운드 지오펜스
 5. 인메모리 Repository의 영속 DB 전환
 6. 주기 재실행·TTL 파기를 호출할 운영 스케줄러
-7. `USE_ROADNET=true` 운영 프로필과 도로망·환경 캐시 배포
+7. 배포 서버의 도로망·환경 캐시 사전 배포 — `USE_ROADNET` 기본값은 `true`로 전환됨(2026-08-05, `feat/use-roadnet-true`, 정릉 단일 지역 검증). 캐시 없는 서버의 첫 요청은 Overpass 콜드 다운로드(15~110초)를 거친다
 8. Statistical MC의 통계 전용 prior 분리 여부 결정
 9. Mind `behavior`의 이동 전략 연결과 규칙 기반 혼란 산정
 10. 제보 시각 원문 대조 가드
