@@ -68,14 +68,16 @@ export function alertToView(a: {
   appearance?: string[];
   summary?: string;
 }): MissingPersonView {
-  const meta = [a.age ? `${a.age}세` : null, a.area ? `${a.area} 인근` : null]
-    .filter(Boolean)
-    .join(' · ');
+  // 표제도 실데이터로 만든다. 상수 MISSING_ANON 은 "78세 어르신"처럼 나이가 박혀
+  // 있어, 실제 신고가 82세면 제목 78세·부제 82세로 **한 카드 안에서 모순**이 난다
+  // (2026-08-05 실측). 나이를 모르면 나이를 빼고 쓴다.
+  const title = a.age ? `${a.age}세 어르신` : '실종 어르신';
+  const meta = a.area ? `${a.area} 인근` : '최종 목격 위치 기준';
   // 구조화 인상착의가 비면 요약 한 줄이라도 보여준다 — 수색의 핵심 단서다.
   const appearance = (a.appearance ?? []).filter(Boolean);
   return {
-    title: MISSING_ANON,
-    meta: meta || '위치 확인 중',
+    title,
+    meta,
     appearance: appearance.length ? appearance : (a.summary ? [a.summary] : []),
   };
 }

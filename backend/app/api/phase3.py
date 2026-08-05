@@ -183,15 +183,44 @@ def list_active_alerts():
 
 
 @router.get("/cases/{case_id}/poa")
-def get_poa(case_id: str, top: int = 20):
-    """현재 POA 상위 셀 조회 (지도 시각화용)."""
+def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
+    """POA 상위 셀 조회 (지도 시각화용).
+
+    `elapsed_hours` 를 주면 **"만약 t시간 경과라면"** 의 지도를 돌려준다 —
+    시간축 슬라이더용이다. 기존 통계(Koester 링)는 시점과 무관한 하나의 분포지만,
+    우리는 경과시간이 예측에 들어가므로 시점마다 분포가 다르다(30분 최대 1.44km
+    vs 1시간 2.88km — 상한부터 두 배 차이다).
+
+    첫 조회는 계산하느라 ~7초 걸리고 이후는 캐시(case.poa_by_hour)에서 즉시 나온다.
+    **케이스 상태는 바뀌지 않는다** — 알림·제보는 계속 실제 경과시간 지도만 쓴다.
+    """
     case = _get_case(case_id)
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
-    ranked = sorted(case.current_poa.items(), key=lambda kv: kv[1], reverse=True)[:top]
+
+    poa = case.current_poa
+    shown_elapsed = (
+        round((case.last_sim_at - case.lkp_time).total_seconds() / 3600.0, 2)
+        if case.last_sim_at else None)
+    if elapsed_hours is not None:
+        key = f"{elapsed_hours:g}"
+        cached = case.poa_by_hour.get(key)
+        if cached is None:
+            from app.phase2 import pipeline
+
+            try:
+                cached = pipeline.poa_at_elapsed(case, elapsed_hours)
+            except ValueError as e:
+                raise HTTPException(409, str(e)) from e
+            case.poa_by_hour[key] = cached
+            storage.cases.save(case.id, case)
+        poa = cached
+        shown_elapsed = elapsed_hours
+
+    ranked = sorted(poa.items(), key=lambda kv: kv[1], reverse=True)[:top]
     return {
         "case_id": case.id,
-        "total_cells": len(case.current_poa),
+        "total_cells": len(poa),
         # 이 POA 가 개인화된 prior 로 만들어졌는지. EXAONE 호출이 실패해도 예측은
         # 통계 기본값으로 계속 돌기 때문에, 이 값을 안 내려주면 앱이 "AI 예측"이라고
         # 표시하면서 실제로는 프로파일 평균을 보여주게 된다 (2026-08-05 실측 사례).
@@ -201,6 +230,12 @@ def get_poa(case_id: str, top: int = 20):
         # "도로 제약 없는 예측"이 나가므로 같이 내려준다 (Case.roadnet_used 주석).
         "roadnet_used": case.roadnet_used,
         "roadnet_fallback_reason": case.roadnet_fallback_reason,
+        # 이 지도가 **언제 계산된 것인지**. 자동 갱신(phase2.refresher)이 붙었어도
+        # 화면에 안 보이면 수색대는 지도가 최신인지 알 수 없다. 갱신 실패로 오래된
+        # 지도를 계속 보고 있어도 모르게 되므로 계약에 올린다.
+        "computed_at": case.last_sim_at,
+        # 예측에 쓰인 경과시간(시간). "5시간 시점 지도"라는 것을 화면이 말할 수 있게.
+        "elapsed_hours": shown_elapsed,
         "top_cells": [
             {
                 "cell": c,

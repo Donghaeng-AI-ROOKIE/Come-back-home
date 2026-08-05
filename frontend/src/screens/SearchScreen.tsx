@@ -14,7 +14,7 @@
  *  - 실종자 = MissingPersonCard(compact·anon) 단일 소스. "남성"/"84세" 하드코딩 없음.
  *  - 모드 전환 트리거 없음 — 색만 셸 강조.
  */
-import React from 'react';
+import React, { useState } from 'react';
 import { ActivityIndicator, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -32,7 +32,7 @@ import {
 } from '../hooks/queries';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING } from '../data/missing';
 import { hexToRgba } from '../utils/color';
-import type { GeoPoint, PoaGrid } from '../types/domain';
+import type { GeoPoint, PoaGrid, TimeAxis } from '../types/domain';
 import { useAuthStore } from '../store/authStore';
 import { useAppModeStore } from '../store/appModeStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
@@ -52,6 +52,38 @@ import ModeStatusBar from '../components/ModeStatusBar';
 
 /** '내가 확인할 구역' 반경(m). '수색 진행' 요소 → 앰버 계열. */
 const ZONE_RADIUS_M = 240;
+
+/**
+ * 시간축 — "만약 t시간 경과라면" 의 지도를 본다. 0 = 지금 실제 경과시간.
+ *
+ * **시작점(최종 목격 위치)은 안 움직인다.** 바뀌는 것은 "그 사람이 얼마나 걸을
+ * 수 있었나" 하나다 — 물감 한 방울처럼 떨어뜨린 자리는 그대로고 퍼진 범위만
+ * 커진다. 82세 치매 보행속도(2.9km/h) 기준 30분이면 최대 1.44km, 1시간이면
+ * 2.88km 라 상한부터 두 배 다르다.
+ */
+const TIME_STOPS: { t: TimeAxis; label: string }[] = [
+  { t: 0.5, label: '30분' },
+  { t: 1, label: '1시간' },
+  { t: 2, label: '2시간' },
+  { t: 4, label: '4시간' },
+  { t: 8, label: '8시간' },
+  { t: 0, label: '현재' },
+];
+
+/**
+ * "몇 시간 시점 지도이고 언제 계산됐는가".
+ *
+ * 서버가 45분마다 다시 예측하지만(phase2.refresher) 화면에 안 보이면 수색대는
+ * 지도가 최신인지 알 수 없다. 갱신이 실패해 오래된 지도를 계속 보고 있어도
+ * 모르게 되므로 반드시 표시한다.
+ */
+function freshnessLabel(grid?: PoaGrid): string | null {
+  if (!grid?.computedAt) return null;
+  const ageMin = Math.max(0, Math.round((Date.now() - Date.parse(grid.computedAt)) / 60000));
+  const elapsed = grid.elapsedHours != null ? `실종 ${grid.elapsedHours.toFixed(1)}시간 시점` : null;
+  const age = ageMin < 1 ? '방금 갱신' : `${ageMin}분 전 갱신`;
+  return [elapsed, age].filter(Boolean).join(' · ');
+}
 
 /**
  * 예측 품질 저하 경고 문구. 두 가지 폴백이 **둘 다 조용히** 일어난다 —
@@ -99,12 +131,20 @@ export default function SearchScreen() {
   // 실제 신고가 82세여도 78세로 보인다(2026-08-05 실측).
   const { data: liveAlerts } = useActiveAlerts();
   const liveAlert = liveAlerts?.[0];
-  const watching = usePresenceCount(DEMO_CASE_ID);
+  // **살아있는 경보의 케이스를 본다.** 종전에는 DEMO_CASE_ID 가 박혀 있어, 그
+  // 데모 케이스를 지우면 화면이 404 를 붙들고 "지도를 불러오지 못했어요"를 띄운
+  // 채 프로필은 목업으로 폴백했다(2026-08-05 실측 — 제목 78세·부제 82세 모순).
+  const caseId = liveAlert?.caseId ?? DEMO_CASE_ID;
+  const watching = usePresenceCount(caseId);
   const role = useAuthStore((s) => s.role);
   const golden = useGoldenTime();
-  const poa = usePoaPrediction(DEMO_CASE_ID, 1);
+  const [axis, setAxis] = useState<TimeAxis>(0);
+  const poa = usePoaPrediction(caseId, axis);
   const degraded = degradedNotice(poa.data);
+  const freshness = freshnessLabel(poa.data);
 
+  // 최종 목격 위치도 경보에서 받는다 — LAST_SEEN 은 목업 좌표라 실제 신고와 다르다.
+  const lastSeen = liveAlert?.lkp ?? LAST_SEEN;
   const grid = poa.data;
   const cumPct = grid ? Math.round(grid.cumulative * 100) : null;
   const elapsedMin = golden ? Math.floor(golden.elapsedSec / 60) : null;
@@ -112,7 +152,7 @@ export default function SearchScreen() {
   // 실측 내 위치 — 지도 마커는 OS(showsUserLocation)에 맡기고, 거리·도보시간만 직접 쓴다.
   const { point: myPoint, accuracyM, status: locStatus } = useMyLocation();
   const located = locStatus === 'granted' && myPoint != null;
-  const meters = myPoint ? distanceM(myPoint, LAST_SEEN) : null;
+  const meters = myPoint ? distanceM(myPoint, lastSeen) : null;
   const walkLabel = meters == null ? null : formatWalkTime(meters, accuracyM);
 
   const mapA11y = grid
@@ -121,7 +161,7 @@ export default function SearchScreen() {
       }내가 확인할 구역이 표시돼 있어요.`
     : '발견 확률 지도를 불러오는 중입니다.';
 
-  const onReport = () => navigation.navigate('ReportChat', { caseId: DEMO_CASE_ID });
+  const onReport = () => navigation.navigate('ReportChat', { caseId });
 
   return (
     <View style={styles.root}>
@@ -131,10 +171,10 @@ export default function SearchScreen() {
       <View style={styles.mapLayer}>
         <BaseMap style={styles.mapFill} accessibilityLabel={mapA11y} showsUserLocation={located}>
           {grid ? <PoaHeatmap grid={grid} /> : null}
-          <PredictionRadius center={LAST_SEEN} radiusM={ZONE_RADIUS_M} color={theme.accent} />
+          <PredictionRadius center={lastSeen} radiusM={ZONE_RADIUS_M} color={theme.accent} />
           <MapPin
             kind="lastSeen"
-            coordinate={LAST_SEEN}
+            coordinate={lastSeen}
             title="최종 목격 위치"
             description="정릉동 주민센터, 오후 3시 10분경"
           />
@@ -210,6 +250,47 @@ export default function SearchScreen() {
           <View style={[styles.legendFloat, { top: insets.top + 60 }]}>
             <HeatLegend compact />
           </View>
+
+          <View style={[styles.timeAxis, { top: insets.top + 96 }]}>
+            {TIME_STOPS.map((stop) => {
+              const on = stop.t === axis;
+              return (
+                <Pressable
+                  key={stop.label}
+                  onPress={() => setAxis(stop.t)}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: on }}
+                  accessibilityLabel={`경과 ${stop.label} 시점 지도 보기`}
+                  style={[styles.timeChip, on && { backgroundColor: theme.accent }]}
+                >
+                  <Text
+                    style={[styles.timeChipText, on && styles.timeChipTextOn]}
+                    allowFontScaling
+                    maxFontSizeMultiplier={type.maxScale}
+                  >
+                    {stop.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+
+          {freshness ? (
+            <View
+              style={[styles.freshnessChip, { top: insets.top + 20 }]}
+              pointerEvents="none"
+              accessible
+              accessibilityLabel={`이 지도는 ${freshness}된 예측입니다`}
+            >
+              <Text
+                style={styles.freshnessText}
+                allowFontScaling
+                maxFontSizeMultiplier={type.maxScale}
+              >
+                {freshness}
+              </Text>
+            </View>
+          ) : null}
 
           {/* 예측 품질이 떨어진 상태를 숨기지 않는다. 두 폴백 다 조용해서
               (POA·지도는 정상으로 나온다) 표시하지 않으면 통계 평균이나 도로
@@ -425,6 +506,45 @@ const styles = StyleSheet.create({
   },
 
   legendFloat: { position: 'absolute', right: space.lg },
+
+  timeAxis: {
+    position: 'absolute',
+    left: space.lg,
+    right: space.lg,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+  },
+  timeChip: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: radius.pill,
+    backgroundColor: hexToRgba(color.surface, 0.92),
+    borderWidth: 1,
+    borderColor: color.border,
+  },
+  timeChipText: {
+    fontSize: type.size.caption,
+    fontWeight: type.weight.bold,
+    color: color.textBody,
+    fontFamily: type.family,
+  },
+  timeChipTextOn: { color: '#FFFFFF' },
+
+  freshnessChip: {
+    position: 'absolute',
+    left: space.lg,
+    backgroundColor: hexToRgba(color.text, 0.72),
+    borderRadius: radius.pill,
+    paddingHorizontal: space.md,
+    paddingVertical: 4,
+  },
+  freshnessText: {
+    fontSize: type.size.caption,
+    fontWeight: type.weight.bold,
+    color: '#FFFFFF',
+    fontFamily: type.family,
+  },
 
   degradedBanner: {
     position: 'absolute',

@@ -34,6 +34,9 @@ type PoaResponse = {
   /** 도로망 위에서 걸었는지 — 로딩 실패 시 연속 공간 폴백이 조용히 일어난다. */
   roadnet_used?: boolean;
   roadnet_fallback_reason?: string;
+  /** 이 지도가 계산된 시각 · 그때의 경과시간 — "몇 시간 시점 지도"를 말하기 위해. */
+  computed_at?: string;
+  elapsed_hours?: number | null;
 };
 
 /** 백엔드 Tip 원본 (snake_case). */
@@ -89,12 +92,23 @@ function toGrid(caseId: string, t: TimeAxis, data: PoaResponse): PoaGrid {
     priorFallbackReason: data.prior_fallback_reason || undefined,
     roadnetUsed: data.roadnet_used ?? false,
     roadnetFallbackReason: data.roadnet_fallback_reason || undefined,
+    computedAt: data.computed_at,
+    elapsedHours: data.elapsed_hours ?? undefined,
   };
 }
 
+/**
+ * POA 조회. `t` 는 **경과시간(시간)** 이고 0 은 "지금 실제 경과시간"을 뜻한다.
+ *
+ * 0 이 아니면 서버가 "만약 t시간 경과라면"의 지도를 계산해 준다 — 시간축
+ * 슬라이더가 이걸 쓴다. 기존 통계(Koester 링)는 시점과 무관한 하나의 분포지만
+ * 우리는 경과시간이 예측에 들어가므로 시점마다 다르다(30분 상한 1.44km vs
+ * 1시간 2.88km). 첫 조회만 ~7초 걸리고 서버가 캐시한다.
+ */
 export async function getPoaPrediction(caseId: string, t: TimeAxis): Promise<PoaGrid> {
   if (USE_MOCK) return delay(buildPoaGrid(t));
-  const data = await api<PoaResponse>(`/phase3/cases/${caseId}/poa?top=64`);
+  const q = t > 0 ? `&elapsed_hours=${t}` : '';
+  const data = await api<PoaResponse>(`/phase3/cases/${caseId}/poa?top=64${q}`);
   return toGrid(caseId, t, data);
 }
 

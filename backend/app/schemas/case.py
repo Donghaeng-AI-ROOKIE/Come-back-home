@@ -51,6 +51,13 @@ class Case(BaseModel):
     # prior.source 와 같은 원칙으로 계약에 올려 앱이 알릴 수 있게 한다.
     roadnet_used: bool = False
     roadnet_fallback_reason: str = ""   # "off"=설정으로 끔 / 예외명=로딩 실패
+    # 경과시간별 POA 캐시 — 키는 시간(문자열, 예 "0.5"·"1"·"3"·"6").
+    #
+    # 시간축 슬라이더용이다. 매번 다시 계산하면 한 시점당 ~7초라 슬라이더가
+    # 못 쓸 물건이 된다. 첫 조회에서 계산하고 여기 담아 두면 이후는 즉시다.
+    # **본 예측(current_poa)과는 별개다** — 이쪽은 "만약 t시간이라면" 이고,
+    # current_poa 는 "지금 실제 경과시간" 이다. 알림·제보는 current_poa 만 쓴다.
+    poa_by_hour: dict[str, dict[str, float]] = {}
     last_alert_poa: dict[str, float] | None = None  # 마지막 알림(POA 기반) 시점 스냅샷 — D3 새 지역 비교 기준
     last_alert_at: datetime | None = None
 

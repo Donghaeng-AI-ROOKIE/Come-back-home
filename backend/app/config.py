@@ -251,6 +251,13 @@ class Settings(BaseSettings):
 
     # Phase 3 — 층2(Phase 2 재실행) 트리거
     layer2_periodic_minutes: int = 45    # 주기 재실행 (Koester 반경 확장 대응, 30~60분)
+    # POA 자동 갱신 — 위 트리거를 **주기적으로 물어보는** 백그라운드 루프.
+    # 판정 로직은 예전부터 있었지만 호출하는 쪽이 없어서, 신고 시점 지도가 수색
+    # 내내 그대로 남았다(5시간 실종 신고 → 7시간이 돼도 5시간 지도).
+    # 검사 주기와 재실행 주기는 다르다: 자주 묻고(5분) 가끔 돌린다(45분) —
+    # 판정은 싸고 예측은 비싸다(EXAONE 5호출).
+    poa_refresh_enabled: bool = True
+    poa_refresh_interval_seconds: float = 300.0
     kl_divergence_threshold: float = 0.5 # posterior가 baseline에서 이탈했다고 보는 KL 임계
 
     # Phase 3 — D3(3차 알림, 새 지역 한정) — JS는 예비스크린, 집합차+질량임계가 최종판정.
