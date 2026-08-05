@@ -1,15 +1,19 @@
 {
   "expo": {
-    "name": "frontend",
+    "name": "돌아오길",
     "slug": "frontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "산책 거리를 재고, 내 주변에서 실종 경보가 발생했을 때 얼마나 가까운지 알려드리기 위해 위치를 사용해요. 위치는 기기 안에서만 계산되고 서버로 전송되지 않으며, 이동 경로는 저장하지 않고 거리 합계만 남겨요."
+      }
     },
     "android": {
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -25,7 +29,7 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "내 주변에서 실종 경보가 발생했을 때 얼마나 가까운지 알려드리기 위해 위치를 사용해요. 위치는 기기 안에서만 계산되고 서버로 전송되지 않아요."
+          "locationWhenInUsePermission": "산책 거리를 재고, 내 주변에서 실종 경보가 발생했을 때 얼마나 가까운지 알려드리기 위해 위치를 사용해요. 위치는 기기 안에서만 계산되고 서버로 전송되지 않으며, 이동 경로는 저장하지 않고 거리 합계만 남겨요."
         }
       ]
     ]

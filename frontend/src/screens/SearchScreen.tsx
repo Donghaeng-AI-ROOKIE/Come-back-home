@@ -27,6 +27,7 @@ import { useModeTheme } from '../theme/theme';
 import { usePoaPrediction, useGoldenTime, usePresenceCount } from '../hooks/queries';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING } from '../data/missing';
 import { hexToRgba } from '../utils/color';
+import type { GeoPoint } from '../types/domain';
 import { useAuthStore } from '../store/authStore';
 import { useAppModeStore } from '../store/appModeStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
@@ -165,6 +166,31 @@ export default function SearchScreen() {
           <View style={[styles.legendFloat, { top: insets.top + 60 }]}>
             <HeatLegend compact />
           </View>
+
+          {/* AI 개인화가 실제로 반영됐는지 — 폴백은 조용히 일어나므로 숨기지 않는다.
+              이걸 안 띄우면 프로파일 통계 평균을 "AI 예측"으로 보여주게 된다. */}
+          {grid.priorSource !== 'exaone' ? (
+            <View
+              style={[styles.degradedBanner, { top: insets.top + 110 }]}
+              accessible
+              accessibilityLabel={
+                '주의. 이 지도는 개인 맞춤 예측이 아닙니다. ' +
+                (grid.priorSource === 'stub'
+                  ? 'AI가 연결되지 않아 연령·유형 평균으로 표시됩니다.'
+                  : 'AI 예측에 실패해 연령·유형 평균으로 표시됩니다.')
+              }
+            >
+              <Text
+                style={styles.degradedText}
+                allowFontScaling
+                maxFontSizeMultiplier={type.maxScale}
+              >
+                {grid.priorSource === 'stub'
+                  ? '⚠️ AI 미연결 — 연령·유형 평균 지도입니다'
+                  : '⚠️ AI 예측 실패 — 연령·유형 평균 지도입니다'}
+              </Text>
+            </View>
+          ) : null}
         </>
       ) : null}
 
@@ -262,17 +288,8 @@ export default function SearchScreen() {
           </LinearGradient>
         </Pressable>
 
-        {role === 'operator' ? (
-          <View
-            style={styles.operatorNote}
-            accessible
-            accessibilityLabel="운영자 전용 안내. AI 예측 지도 전체보기는 관제 콘솔에서 제공돼요."
-          >
-            <Text style={styles.operatorText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              운영자 · AI 예측 지도 전체보기는 관제 콘솔에서 제공돼요
-            </Text>
-          </View>
-        ) : null}
+        {/* 운영자 안내는 제거됐다 — 관제는 앱이 아니라 백엔드 /dashboard 웹 화면이 맡는다
+            (와이어프레임 2026-08-05, 역할은 시민·보호자 둘). */}
       </View>
     </View>
   );
@@ -366,6 +383,23 @@ const styles = StyleSheet.create({
   },
 
   legendFloat: { position: 'absolute', right: space.lg },
+
+  degradedBanner: {
+    position: 'absolute',
+    left: space.lg,
+    right: space.lg,
+    backgroundColor: color.critical,
+    borderRadius: radius.md,
+    paddingHorizontal: space.md,
+    paddingVertical: space.sm,
+  },
+  degradedText: {
+    fontSize: type.size.caption,
+    fontWeight: type.weight.bold,
+    color: '#FFFFFF',
+    fontFamily: type.family,
+    textAlign: 'center',
+  },
 
   errorCard: {
     position: 'absolute',
@@ -474,20 +508,6 @@ const styles = StyleSheet.create({
     fontSize: type.size.cardTitle,
     fontWeight: type.weight.black,
     color: color.surface,
-    fontFamily: type.family,
-  },
-
-  operatorNote: {
-    backgroundColor: color.surfaceAlt,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: color.border,
-    padding: space.md,
-  },
-  operatorText: {
-    fontSize: type.size.caption,
-    fontWeight: type.weight.bold,
-    color: color.textBody,
     fontFamily: type.family,
   },
 

@@ -228,7 +228,7 @@ export default function ReportDoneScreen() {
   const targetCaseId = caseId ?? DEMO_CASE_ID;
   const fs = buildFoundSummary();
 
-  const goSearch = () => navigation.navigate('CitizenTabs', { screen: 'Search' });
+  const goSearch = () => navigation.navigate('CitizenTabs', { screen: 'Alerts' });
   const goReportChat = () => navigation.navigate('ReportChat', { caseId: targetCaseId });
 
   const hasDelta =

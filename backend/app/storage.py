@@ -38,3 +38,10 @@ interviews = Repository()    # InterviewSession
 cases = Repository()         # Case
 debug_traces = Repository()  # PredictionDebug — E2E 대시보드용 (case_id 키)
 audit_logs = Repository()    # AuditRecord — 파기 증적 (개인정보 미포함, 파기 후에도 유지)
+
+# 안심 산책 (시민 참여) — 수색 케이스와 생명주기가 분리돼 있다.
+walk_sessions = Repository()   # WalkSession (session_id 키)
+# user_id → 제보 건수. **어느 케이스에 제보했는지는 담지 않는다** — 시민 신원과
+# 사건을 잇는 기록을 만들면 케이스 파기 후에도 연결이 남아 목적을 넘는다.
+# 마이페이지의 "제보 N건" 배지 하나를 위해 필요한 최소 정보만 센다.
+walk_tip_counts = Repository()  # int (user_id 키)

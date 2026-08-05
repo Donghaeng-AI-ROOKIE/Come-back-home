@@ -29,12 +29,10 @@ export default function AuthScreen() {
           <CTAButton label="시민 (제보자)" onPress={() => login('citizen')} accent={color.walk} />
           <View style={styles.gap} />
           <CTAButton label="보호자 (가족 등록자)" onPress={() => login('guardian')} accent={color.walk} variant="secondary" />
-          <View style={styles.gap} />
-          <CTAButton label="운영자 (경찰·관제)" onPress={() => login('operator')} accent={color.textBody} variant="ghost" />
         </View>
 
         <Text style={styles.note} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          데모용 역할 선택 화면입니다. 시민·보호자는 라이트 소비자 앱, 운영자는 다크 지휘 콘솔로 진입합니다.
+          데모용 역할 선택 화면입니다. 시민은 산책·제보, 보호자는 사전등록·신고 화면으로 진입합니다.
         </Text>
       </View>
     </SafeAreaView>

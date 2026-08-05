@@ -1,17 +1,23 @@
 /**
  * 등록 탭 (spec §3.4, reg-content). 라이트 · 산책 그린 톤.
- * 디지털 트윈 사전등록 챗봇 — 로컬 useState 대화 스크립트.
+ * 디지털 트윈 사전등록 챗봇 — **대화를 서버가 몬다**(Phase 0, Mi:dm).
+ * 다음 질문을 고르고 문장화하고 답에서 값을 뽑는 것은 전부 백엔드다. 이 화면은
+ * 매 턴 서버가 준 messages 를 그리고, 완료되면 persona_id 를 RegDone 으로 넘긴다.
  *
  * 목업(reg-content.dc.html) 충실 재현:
  *  - 헤더: 뒤로 · 가운데 정렬 "가족 등록" · 진행 도트(현재 단계 알약 강조) · "N단계 · 5분이면 끝나요".
  *  - 그린 틴트 대화 배경 위 흰색 AI 말풍선(로봇 아바타) + 솔리드 그린 사용자 말풍선.
  *  - 상단 안심 배너("정보는 안전하게 보관되고, 발견 즉시 파기돼요 🔒").
  *  - 하단: 빠른응답 칩 + 큰 음성 마이크 컴포저.
- *  - 마지막 단계에서 최근 사진 첨부(실루엣 썸네일 + 파일명) → "등록 완료" 요약 카드.
- * 정정: 모드 전환·실종 발동 트리거 없음(평시 예방 등록). walk 그린 강조.
+ * 목업과 달라진 점(서버 계약에 맞춤):
+ *  - 사진 첨부 단계 없음 — Phase 0 슬롯 12개에 사진이 없다(신고 화면의 관심사).
+ *  - 진행 도트 = 채워진 슬롯 수. 질문 순서를 서버가 정하므로 고정 단계가 아니다.
+ *  - 빠른응답 칩은 회피 답변만 — 도메인 보기를 프론트가 지어내면 슬롯과 어긋난다.
+ *  - 완료 요약 카드 없음 — RegDone 화면이 맡는다.
  */
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -36,79 +42,49 @@ import QuickChips from '../components/QuickChips';
 import ChatComposer from '../components/ChatComposer';
 import CTAButton from '../components/CTAButton';
 
+import { ApiError } from '../api/config';
+import {
+  answerInterview,
+  listSlots,
+  startInterview,
+  type InterviewSession,
+  type SlotInfo,
+} from '../api/phase0';
+
 const ACCENT = color.walk;
 const AVATAR_GRADIENT = [color.walk, color.walkInk] as const;
-const PHOTO_GRADIENT = [color.surfaceAlt, color.border] as const;
 
-const PHOTO_CHIP = '📷 사진 올리기';
-const PHOTO_FILENAME = '어머니_최근사진.jpg';
+/**
+ * 인증 도입 전 임시 보호자 이름 — 세션 생성에만 쓰이고 페르소나에는 안 들어간다.
+ * 로그인이 붙으면 계정 표시명으로 교체한다.
+ */
+const GUARDIAN_NAME = '보호자';
 
-type StepKey = 'relation' | 'hometown' | 'place' | 'appearance' | 'cognition' | 'photo';
+/**
+ * 빠른응답 칩. **질문 내용을 프론트가 지어내지 않는다** — 어떤 슬롯을 묻는지는
+ * 서버가 정하므로, 어느 질문에나 안전하게 쓸 수 있는 회피 답변만 둔다. 도메인
+ * 보기를 여기 박으면 서버의 슬롯과 어긋나 엉뚱한 값이 추출된다.
+ *
+ * ⚠ **tier 1(필수) 슬롯에는 띄우지 않는다.** 성함·나이·거주지를 "잘 모르겠어요"로
+ * 넘기면 페르소나가 성립하지 않는데, 칩이 있으면 누르게 된다. 서버는 필수 슬롯을
+ * 다시 묻지만("죄송해요, 한 번만 더 여쭐게요") 턴만 낭비되고 등록은 진행되지 않는다.
+ */
+const SKIP_CHIPS = ['잘 모르겠어요', '없어요'];
+/** 마지막 확인("이대로 등록할까요?") 단계 전용. */
+const CONFIRM_CHIPS = ['네, 맞아요', '아니요, 수정할게요'];
 
-type Step = {
-  key: StepKey;
-  /** 요약 카드용 라벨. */
-  label: string;
-  question: string;
-  chips: string[];
-  /** 🎤 음성입력 시 채워지는 예시(데모 음성 인식 결과). */
-  voiceExample: string;
-  /** 사진 첨부 단계. */
-  photo?: boolean;
-};
+/**
+ * 서버 질문에 들어 있는 예시를 뽑는다 — "(예: 쉬지 않고 약 30분 걷습니다)" 형태.
+ * 마이크 버튼이 이 값을 입력창에 채운다. **프론트가 예시를 지어내지 않는다**는
+ * 원칙은 유지된다(문구의 출처가 서버 질문 자체다). 음성 인식이 붙기 전까지의
+ * 입력 보조이고, 보호자는 그대로 보내지 않고 고쳐 쓰면 된다.
+ */
+function exampleFromQuestion(q: string | undefined): string {
+  const m = q?.match(/\(예:\s*([^)]+)\)/);
+  return m ? m[1].trim() : '';
+}
 
-const INTRO =
-  '안녕하세요 🌿 가족을 미리 등록해 두면, 실종 시 훨씬 빨리 찾을 수 있어요. 천천히 답해 주세요.';
-
-const STEPS: Step[] = [
-  {
-    key: 'relation',
-    label: '관계',
-    question: '먼저, 등록하실 분과 어떤 사이신가요?',
-    chips: ['어머니', '아버지', '배우자', '조부모'],
-    voiceExample: '어머니',
-  },
-  {
-    key: 'hometown',
-    label: '오래 사신 동네',
-    question: '어머님이 오래 사신 동네가 있을까요? 30년 넘게 지내신 곳처럼요.',
-    chips: [],
-    voiceExample: '망원동',
-  },
-  {
-    key: 'place',
-    label: '자주 가시던 곳',
-    question: '그 동네에서 자주 가시던 곳이 있나요? 시장이나 교회처럼요 🙂',
-    chips: ['🛒 시장', '⛪ 교회', '🌳 공원', '잘 모르겠어요'],
-    voiceExample: '망원시장에 매일 가셨어요',
-  },
-  {
-    key: 'appearance',
-    label: '인상착의',
-    question: '요즘 즐겨 입으시는 옷차림이 궁금해요.',
-    chips: ['회색 점퍼', '검은 바지', '지팡이'],
-    voiceExample: '회색 점퍼에 검은 바지, 지팡이를 짚으세요',
-  },
-  {
-    key: 'cognition',
-    label: '인지 상태',
-    question: '기억이나 길 찾기에 어려움이 있으세요?',
-    chips: ['초기 치매', '중기 치매', '중증 치매', '해당 없음'],
-    voiceExample: '중기 치매',
-  },
-  {
-    key: 'photo',
-    label: '최근 사진',
-    question: '좋아요 🌿 마지막으로 어머님 최근 사진 한 장만 올려주시겠어요?',
-    chips: [PHOTO_CHIP, '나중에 올릴게요'],
-    voiceExample: '',
-    photo: true,
-  },
-];
-
-const OUTRO = '등록이 모두 끝났어요. 아래에서 등록 내용을 확인해 주세요.';
-
-type Msg = { id: string; from: 'bot' | 'user'; text: string; photo?: boolean };
+type Msg = { id: string; from: 'bot' | 'user'; text: string; pending?: boolean };
 
 /** AI 상담 아바타 — 그린 그라데이션 원 + 로봇 얼굴(목업 재현). */
 function BotAvatar() {
@@ -136,102 +112,105 @@ function BotAvatar() {
   );
 }
 
-/** 사진 썸네일 실루엣(실 사진 미사용 — 개인정보 최소). */
-function PhotoSilhouette() {
-  return (
-    <Svg width={50} height={50} viewBox="0 0 24 24">
-      <Circle
-        cx={12}
-        cy={9}
-        r={4}
-        stroke={hexToRgba(color.textBody, 0.55)}
-        strokeWidth={1.6}
-        fill="none"
-      />
-      <Path
-        d="M4.5 20c0-4.2 3.4-7 7.5-7s7.5 2.8 7.5 7"
-        stroke={hexToRgba(color.textBody, 0.55)}
-        strokeWidth={1.6}
-        fill="none"
-        strokeLinecap="round"
-      />
-    </Svg>
-  );
-}
-
 export default function RegChatScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const idRef = useRef(0);
-  const nextId = () => `m${idRef.current++}`;
-
-  const initialMessages = (): Msg[] => [
-    { id: nextId(), from: 'bot', text: INTRO },
-    { id: nextId(), from: 'bot', text: STEPS[0].question },
-  ];
-
-  const [messages, setMessages] = useState<Msg[]>(initialMessages);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [answers, setAnswers] = useState<Partial<Record<StepKey, string>>>({});
+  const [session, setSession] = useState<InterviewSession | null>(null);
+  const [slots, setSlots] = useState<SlotInfo[]>([]);
   const [input, setInput] = useState('');
-  const done = stepIndex >= STEPS.length;
+  /** 전송 중 사용자 발화 — 서버 왕복(Mi:dm 추출+문장화) 동안 화면에 먼저 띄운다. */
+  const [pending, setPending] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const scrollRef = useRef<ScrollView>(null);
 
-  const submitAnswer = (raw: string, asPhoto = false) => {
-    if (done) return;
+  const begin = useCallback(async () => {
+    setError(null);
+    setSession(null);
+    setPending(null);
+    try {
+      // 슬롯 카탈로그는 진행률의 분모다. 실패해도 대화는 계속돼야 하므로 따로 잡는다.
+      const [s, catalog] = await Promise.all([
+        startInterview(GUARDIAN_NAME),
+        listSlots().catch(() => [] as SlotInfo[]),
+      ]);
+      setSession(s);
+      setSlots(catalog);
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : String(e));
+    }
+  }, []);
+
+  useEffect(() => {
+    begin();
+  }, [begin]);
+
+  // 완료 → 서버가 페르소나를 만들고 persona_id 를 채운다. 그 ID 를 다음 단계
+  // (신고·예측)로 넘겨야 하므로 요약을 화면 안에서 끝내지 않고 RegDone 으로 넘긴다.
+  useEffect(() => {
+    if (!session?.done || !session.persona_id) return;
+    const raw = session.draft_fields as Record<string, unknown>;
+    navigation.replace('RegDone', {
+      personaId: session.persona_id,
+      name: String(raw.name ?? ''),
+      // 서버는 "78세" 처럼 단위가 붙은 문자열로 담는다 — 숫자만 뽑는다.
+      age: Number(String(raw.age ?? '').replace(/[^0-9]/g, '')) || 0,
+    });
+  }, [session, navigation]);
+
+  const messages = useMemo<Msg[]>(() => {
+    const fromServer = (session?.messages ?? []).map((m, i) => ({
+      id: `s${i}`,
+      from: m.role === 'assistant' ? ('bot' as const) : ('user' as const),
+      text: m.text,
+    }));
+    return pending
+      ? [...fromServer, { id: 'pending', from: 'user' as const, text: pending, pending: true }]
+      : fromServer;
+  }, [session, pending]);
+
+  const submitAnswer = async (raw: string) => {
     const answer = raw.trim();
-    if (!answer && !asPhoto) return;
-
-    const step = STEPS[stepIndex];
-    const nextIndex = stepIndex + 1;
-    const userMsg: Msg = asPhoto
-      ? { id: nextId(), from: 'user', text: PHOTO_FILENAME, photo: true }
-      : { id: nextId(), from: 'user', text: answer };
-    const botMsg: Msg = {
-      id: nextId(),
-      from: 'bot',
-      text: nextIndex < STEPS.length ? STEPS[nextIndex].question : OUTRO,
-    };
-
-    setAnswers((prev) => ({ ...prev, [step.key]: asPhoto ? '사진 등록됨' : answer }));
-    setMessages((prev) => [...prev, userMsg, botMsg]);
-    setStepIndex(nextIndex);
+    if (!answer || !session || pending || session.done) return;
     setInput('');
-  };
-
-  const onChipSelect = (chip: string) => {
-    if (!done && STEPS[stepIndex].photo && chip === PHOTO_CHIP) {
-      submitAnswer('', true);
-    } else {
-      submitAnswer(chip);
+    setPending(answer);
+    setError(null);
+    try {
+      setSession(await answerInterview(session.id, answer));
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : String(e));
+      setInput(answer); // 실패한 답변을 되돌려 준다 — 다시 타이핑하게 만들지 않는다
+    } finally {
+      setPending(null);
     }
   };
 
-  const restart = () => {
-    idRef.current = 0;
-    setMessages(initialMessages());
-    setStepIndex(0);
-    setAnswers({});
-    setInput('');
-  };
+  const onChipSelect = (chip: string) => submitAnswer(chip);
 
-  const goHome = () => navigation.navigate('CitizenTabs', { screen: 'Home' });
   const canGoBack = navigation.canGoBack();
 
-  const current = done ? undefined : STEPS[stepIndex];
-  const totalSteps = STEPS.length;
+  const totalSlots = slots.length;
+  const filledCount = session?.filled_keys.length ?? 0;
+  // 지금 묻고 있는 슬롯 — tier 1이면 회피 칩을 감춘다(위 SKIP_CHIPS 주석).
+  const targetSlot = slots.find((s) => s.key === session?.prev_target_key);
+  const chips = session?.awaiting_confirmation
+    ? CONFIRM_CHIPS
+    : targetSlot?.tier === 1
+      ? []
+      : SKIP_CHIPS;
 
-  const progressA11y = done
-    ? '등록 완료'
-    : `${stepIndex + 1}단계, 총 ${totalSteps}단계. 5분이면 끝나요.`;
+  // 마이크가 채울 예시: 서버 질문에 예시가 섞여 오면 그것을, 없으면 슬롯 카탈로그의
+  // answer_example 을 쓴다. Mi:dm 이 질문마다 예시를 붙이는지는 보장되지 않는다.
+  const lastQuestion = [...(session?.messages ?? [])]
+    .reverse()
+    .find((m) => m.role === 'assistant')?.text;
+  const example =
+    exampleFromQuestion(lastQuestion) || (targetSlot?.answer_example ?? '');
 
-  const summaryA11y = done
-    ? '사전 등록 완료. ' +
-      STEPS.map((s) => `${s.label} ${answers[s.key] ?? '미입력'}`).join(', ') +
-      '.'
-    : undefined;
+  const progressA11y = totalSlots
+    ? `${filledCount}개 항목 완료, 총 ${totalSlots}개.`
+    : '등록 진행 중';
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -277,10 +256,11 @@ export default function RegChatScreen() {
           </View>
 
           <View style={styles.progress} accessible accessibilityLabel={progressA11y}>
+            {/* 도트 = 서버 슬롯. 어떤 순서로 물을지는 서버가 정하므로 "몇 개를
+                채웠나"만 표시한다(프론트 단계 인덱스는 더 이상 진실이 아니다). */}
             <View style={styles.dotsRow}>
-              {STEPS.map((s, i) => {
-                const state = done || i < stepIndex ? 'done' : i === stepIndex ? 'active' : 'future';
-                if (state === 'active') {
+              {slots.map((s, i) => {
+                if (i === filledCount) {
                   return (
                     <View key={s.key} style={styles.dotGlow}>
                       <View style={styles.dotActive} />
@@ -290,7 +270,7 @@ export default function RegChatScreen() {
                 return (
                   <View
                     key={s.key}
-                    style={[styles.dot, state === 'done' ? styles.dotDone : styles.dotFuture]}
+                    style={[styles.dot, i < filledCount ? styles.dotDone : styles.dotFuture]}
                   />
                 );
               })}
@@ -300,7 +280,9 @@ export default function RegChatScreen() {
               allowFontScaling
               maxFontSizeMultiplier={type.maxScale}
             >
-              {done ? '등록이 완료됐어요' : `${stepIndex + 1}단계 · 5분이면 끝나요`}
+              {totalSlots
+                ? `${filledCount}/${totalSlots} 항목 · 5분이면 끝나요`
+                : '5분이면 끝나요'}
             </Text>
           </View>
         </View>
@@ -339,39 +321,13 @@ export default function RegChatScreen() {
                 </View>
               );
             }
-            if (m.photo) {
-              return (
-                <View key={m.id} style={styles.userRow}>
-                  <View
-                    style={styles.photoCard}
-                    accessible
-                    accessibilityLabel={`나. 최근 사진을 첨부했어요. ${m.text}`}
-                  >
-                    <LinearGradient
-                      colors={PHOTO_GRADIENT}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 1 }}
-                      style={styles.photoThumb}
-                    >
-                      <PhotoSilhouette />
-                    </LinearGradient>
-                    <View style={styles.photoCaption}>
-                      <Text
-                        style={styles.photoCaptionText}
-                        allowFontScaling
-                        maxFontSizeMultiplier={type.maxScale}
-                        numberOfLines={1}
-                      >
-                        {m.text}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              );
-            }
             return (
               <View key={m.id} style={styles.userRow}>
-                <View style={styles.userBubble} accessible accessibilityLabel={`나. ${m.text}`}>
+                <View
+                  style={[styles.userBubble, m.pending && styles.bubblePending]}
+                  accessible
+                  accessibilityLabel={`나. ${m.text}`}
+                >
                   <Text
                     style={styles.userText}
                     allowFontScaling
@@ -384,87 +340,69 @@ export default function RegChatScreen() {
             );
           })}
 
-          {done ? (
-            <View style={styles.summaryCard} accessible accessibilityLabel={summaryA11y}>
-              <View style={styles.summaryHead}>
-                <View style={styles.checkCircle}>
-                  <Text
-                    style={styles.checkGlyph}
-                    allowFontScaling
-                    maxFontSizeMultiplier={type.maxScale}
-                  >
-                    ✓
-                  </Text>
-                </View>
-                <Text
-                  style={styles.summaryTitle}
-                  allowFontScaling
-                  maxFontSizeMultiplier={type.maxScale}
-                >
-                  등록 완료
-                </Text>
+          {/* Mi:dm 이 답을 읽고 다음 질문을 만드는 동안 — 무응답으로 보이지 않게 */}
+          {pending ? (
+            <View style={styles.botRow} accessible accessibilityLabel="답변을 확인하고 있어요">
+              <BotAvatar />
+              <View style={styles.typingBubble}>
+                <ActivityIndicator size="small" color={ACCENT} />
               </View>
+            </View>
+          ) : null}
 
-              {STEPS.map((s) => (
-                <View key={s.key} style={styles.summaryRow}>
-                  <Text
-                    style={styles.summaryLabel}
-                    allowFontScaling
-                    maxFontSizeMultiplier={type.maxScale}
-                  >
-                    {s.label}
-                  </Text>
-                  <Text
-                    style={styles.summaryValue}
-                    allowFontScaling
-                    maxFontSizeMultiplier={type.maxScale}
-                    numberOfLines={2}
-                  >
-                    {answers[s.key] ?? '—'}
-                  </Text>
-                </View>
-              ))}
-
+          {error ? (
+            <View style={styles.errorCard} accessible accessibilityLabel={`오류. ${error}`}>
               <Text
-                style={styles.summaryNote}
+                style={styles.errorText}
                 allowFontScaling
                 maxFontSizeMultiplier={type.maxScale}
               >
-                등록 정보는 안전하게 보관되고, 실종경보가 연동될 때만 수색에 활용돼요.
+                {session ? '전송하지 못했어요.' : '등록을 시작하지 못했어요.'} {error}
+              </Text>
+              {!session ? (
+                <CTAButton label="다시 시도" onPress={begin} accent={ACCENT} />
+              ) : null}
+            </View>
+          ) : null}
+
+          {/* Mi:dm 호출이 반복 실패해 고정 문장으로 떨어진 상태 — 숨기지 않는다 */}
+          {session?.llm_degraded ? (
+            <View style={styles.warnCard}>
+              <Text
+                style={styles.warnText}
+                allowFontScaling
+                maxFontSizeMultiplier={type.maxScale}
+              >
+                ⚠️ AI 응답이 불안정해 기본 질문으로 이어가고 있어요. 등록은 계속 진행됩니다.
               </Text>
             </View>
           ) : null}
+
+          {/* 완료 요약은 RegDone 화면이 맡는다 — persona_id 를 다음 단계로
+              넘겨야 해서 화면 안에서 끝내지 않고 전환한다(위 useEffect). */}
         </ScrollView>
 
         {/* 입력 영역 */}
         <View style={[styles.footer, { paddingBottom: insets.bottom + space.sm }]}>
-          {done ? (
-            <View style={styles.doneActions}>
-              <CTAButton label="완료 · 홈으로" onPress={goHome} accent={ACCENT} />
-              <CTAButton
-                label="다시 등록하기"
-                onPress={restart}
-                variant="ghost"
-                accessibilityHint="처음부터 다시 등록해요"
+          {chips.length > 0 ? (
+            <View style={styles.chipsWrap}>
+              <QuickChips
+                chips={chips}
+                onSelect={onChipSelect}
+                accent={ACCENT}
+                disabled={!session || !!pending}
               />
             </View>
-          ) : (
-            <>
-              {current && current.chips.length > 0 ? (
-                <View style={styles.chipsWrap}>
-                  <QuickChips chips={current.chips} onSelect={onChipSelect} accent={ACCENT} />
-                </View>
-              ) : null}
-              <ChatComposer
-                value={input}
-                onChangeText={setInput}
-                onSend={() => submitAnswer(input)}
-                onVoice={() => current && setInput(current.voiceExample)}
-                placeholder="답변을 입력하거나 말해보세요"
-                accent={ACCENT}
-              />
-            </>
-          )}
+          ) : null}
+          <ChatComposer
+            value={input}
+            onChangeText={setInput}
+            onSend={() => submitAnswer(input)}
+            // 음성 인식 붙기 전까지 — 서버 질문에 담긴 예시를 입력창에 채운다.
+            onVoice={example ? () => setInput(example) : undefined}
+            placeholder={session ? '답변을 입력하거나 말해보세요' : '연결 중이에요…'}
+            accent={ACCENT}
+          />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -582,88 +520,46 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
 
-  // 사진 첨부 버블
-  photoCard: {
-    width: 156,
+  /** 전송 중인 사용자 발화 — 아직 서버가 못 받았음을 흐리게 표시. */
+  bubblePending: { opacity: 0.55 },
+
+  /** Mi:dm 이 답을 읽고 다음 질문을 만드는 동안의 자리표시 버블. */
+  typingBubble: {
+    paddingHorizontal: space.lg,
+    paddingVertical: space.md,
     borderRadius: radius.lg,
-    borderBottomRightRadius: radius.sm,
-    borderWidth: 2,
-    borderColor: color.walk,
-    overflow: 'hidden',
+    borderBottomLeftRadius: radius.sm,
     backgroundColor: color.surface,
-    shadowColor: color.text,
-    shadowOpacity: 0.14,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 4,
-  },
-  photoThumb: { height: 118, alignItems: 'center', justifyContent: 'center' },
-  photoCaption: { backgroundColor: color.surface, paddingHorizontal: space.md, paddingVertical: space.sm },
-  photoCaptionText: {
-    fontSize: type.size.caption,
-    fontWeight: type.weight.bold,
-    color: color.textBody,
-    fontFamily: type.family,
+    borderWidth: 1,
+    borderColor: color.border,
   },
 
-  // 요약 카드
-  summaryCard: {
+  // 오류·경고
+  errorCard: {
     marginTop: space.md,
-    backgroundColor: color.surface,
+    backgroundColor: hexToRgba(color.critical, 0.08),
     borderRadius: radius.lg,
     borderWidth: 1,
-    borderColor: color.walk,
+    borderColor: hexToRgba(color.critical, 0.35),
     padding: space.lg,
-    gap: space.sm,
-  },
-  summaryHead: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.md,
-    marginBottom: space.sm,
-  },
-  checkCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: radius.pill,
-    backgroundColor: color.walk,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkGlyph: {
-    fontSize: 22,
-    fontWeight: type.weight.black,
-    color: '#FFFFFF',
-    fontFamily: type.family,
-  },
-  summaryTitle: {
-    fontSize: type.size.cardTitle,
-    fontWeight: type.weight.black,
-    color: color.walkInk,
-    fontFamily: type.family,
-  },
-  summaryRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    paddingVertical: space.xs,
     gap: space.md,
   },
-  summaryLabel: {
-    width: 108,
+  errorText: {
     fontSize: type.size.label,
     fontWeight: type.weight.bold,
-    color: color.textBody,
+    color: color.critical,
     fontFamily: type.family,
+    lineHeight: 20,
   },
-  summaryValue: {
-    flex: 1,
-    fontSize: type.size.label,
-    fontWeight: type.weight.black,
-    color: color.text,
-    fontFamily: type.family,
+  warnCard: {
+    marginTop: space.md,
+    backgroundColor: color.surfaceAlt,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: color.border,
+    padding: space.md,
   },
-  summaryNote: {
-    marginTop: space.sm,
+  warnText: {
     fontSize: type.size.caption,
     fontWeight: type.weight.medium,
     color: color.textBody,
@@ -681,6 +577,6 @@ const styles = StyleSheet.create({
     gap: space.sm,
   },
   chipsWrap: { marginBottom: space.xs },
-  doneActions: { gap: space.sm },
+
   pressed: { opacity: 0.6 },
 });

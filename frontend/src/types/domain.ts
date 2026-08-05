@@ -6,7 +6,9 @@
 // ── 공통 ──────────────────────────────────────────────
 export type GeoPoint = { lat: number; lng: number };
 
-export type Role = 'citizen' | 'guardian' | 'operator';
+/** 역할 — 와이어프레임(2026-08-05)의 두 트리. 운영자는 앱에서 제거됐다
+ *  (관제는 백엔드 /dashboard 웹 화면이 맡는다). */
+export type Role = 'citizen' | 'guardian';
 
 /** 앱 전역 모드 — 화면이 아니라 상태. 경찰 실종경보 연동만이 walk→search 트리거. */
 export type AppMode = 'walk' | 'search';
@@ -57,6 +59,17 @@ export type PoaGrid = {
   cumulative: number;
   /** 최고확률 구역 요약 (접근성 라벨용). */
   topLabel: string;
+  /**
+   * 이 지도가 개인화된 prior 로 만들어졌는지.
+   *   exaone   — AI가 사전등록 정보를 읽어 만든 예측
+   *   fallback — AI 호출 실패, 프로파일 통계 평균 (개인화 없음)
+   *   stub     — AI 미연결 (개인화 없음)
+   * **fallback 은 조용히 일어난다.** 표시하지 않으면 통계 평균을 "AI 예측"으로
+   * 보여주게 된다 — 수색 인력을 잘못된 확신으로 보내는 일이라 반드시 드러낸다.
+   */
+  priorSource: 'exaone' | 'fallback' | 'stub' | 'unknown';
+  /** fallback/stub 일 때의 사유 (운영 진단용). */
+  priorFallbackReason?: string;
 };
 
 // ── 경찰 실종경보 ─────────────────────────────────────

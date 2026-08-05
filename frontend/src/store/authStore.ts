@@ -13,7 +13,6 @@ type AuthState = {
 const USER_LABEL: Record<Role, string> = {
   citizen: '김OO',
   guardian: '이OO',
-  operator: '관제 담당',
 };
 
 export const useAuthStore = create<AuthState>((set) => ({

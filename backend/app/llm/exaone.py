@@ -489,7 +489,9 @@ class ExaoneClient(LLMClient):
         """
         default = self._default_prior(persona, report)
         if self.is_stub:
-            prior = default
+            prior = default.model_copy(update={
+                "source": "stub",
+                "fallback_reason": "EXAONE 접속 설정 없음 (EXAONE_BASE_URL/API_KEY)"})
         else:
             prior_input = _build_prior_input(persona, report)
             # RAG 발췌는 few-shot 뒤·실제 입력 앞에 별도 user 턴으로 넣는다.
@@ -521,8 +523,13 @@ class ExaoneClient(LLMClient):
                 # 어긋남을 출력 차단이 아니라 '검증신호'로 기록한다(노션 P1-4).
                 self._log_grounding("prior", prior.reasoning, passages, prior_input)
             except Exception as e:  # noqa: BLE001 — LLM 실패가 예측 자체를 막으면 안 됨
+                # 예측은 계속하되 **개인화가 빠졌다는 사실을 계약에 남긴다**(source).
+                # 로그만 찍고 넘기면 시연에서 통계 기본값으로 도는 것을 아무도 모른다.
+                log.warning("EXAONE prior 폴백 — %s: %s", type(e).__name__, e)
                 prior = default.model_copy(update={
-                    "reasoning": f"[폴백] EXAONE prior 실패({type(e).__name__}) — 통계 기본값 사용"})
+                    "reasoning": f"[폴백] EXAONE prior 실패({type(e).__name__}) — 통계 기본값 사용",
+                    "source": "fallback",
+                    "fallback_reason": f"{type(e).__name__}: {e}"[:200]})
 
         # 축점수(phase0.axis_scoring) 반영 — 스텁이든 실호출이든 항상 실행.
         # 가드레일 안에만 넣으면 스텁 모드(로컬 개발 기본값)에서 효과가 안 보인다.

@@ -12,6 +12,7 @@
 import React, { useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -305,13 +306,61 @@ export default function ReportChatScreen() {
     };
     try {
       const result = await submitTip(DEMO_CASE_ID, tipInput);
+
+      // 백엔드가 위치·시각을 특정하지 못하면 저장하지 않고 되묻는다. 이걸 성공으로
+      // 처리하면 제보가 접수된 줄 알고 화면을 떠나는데 실제로는 아무것도 안 남는다.
+      if ('status' in result) {
+        const needsLocation = result.missing.includes('location');
+        Alert.alert(
+          needsLocation ? '위치를 조금만 더 알려주세요' : '목격 시각을 알려주세요',
+          needsLocation
+            ? '건물 이름이나 지하철 출구 번호처럼 지도에서 찾을 수 있는 표현이면 좋습니다.'
+            : '언제 보셨는지에 따라 예상 위치가 크게 달라집니다.',
+          [
+            { text: '다시 입력', style: 'cancel' },
+            {
+              // 그래도 모르겠다면 그대로 접수한다 — 위치 없는 제보도 신뢰도만 낮게
+              // 잡혀 반영된다. 되묻기에 갇혀 제보를 포기하게 만드는 편이 더 나쁘다.
+              text: '이대로 보내기',
+              onPress: () => void sendWithForce(tipInput),
+            },
+          ],
+        );
+        setSending(false);
+        return;
+      }
+
       navigation.replace('ReportDone', {
         caseId: DEMO_CASE_ID,
         beforeAreaKm2: result.beforeAreaKm2,
         afterAreaKm2: result.afterAreaKm2,
         deltaPct: result.deltaPct,
       });
-    } catch {
+    } catch (e) {
+      Alert.alert('제보를 전송하지 못했습니다', String(e));
+      setSending(false);
+    }
+  };
+
+  /** 되묻기를 건너뛰고 그대로 확정 (force). */
+  const sendWithForce = async (tipInput: TipInput) => {
+    setSending(true);
+    try {
+      const result = await submitTip(DEMO_CASE_ID, tipInput, { force: true });
+      if ('status' in result) {
+        // force 를 줬는데도 되묻으면 앱이 고칠 수 있는 문제가 아니다.
+        Alert.alert('제보를 접수하지 못했습니다', '잠시 후 다시 시도해 주세요.');
+        setSending(false);
+        return;
+      }
+      navigation.replace('ReportDone', {
+        caseId: DEMO_CASE_ID,
+        beforeAreaKm2: result.beforeAreaKm2,
+        afterAreaKm2: result.afterAreaKm2,
+        deltaPct: result.deltaPct,
+      });
+    } catch (e) {
+      Alert.alert('제보를 전송하지 못했습니다', String(e));
       setSending(false);
     }
   };

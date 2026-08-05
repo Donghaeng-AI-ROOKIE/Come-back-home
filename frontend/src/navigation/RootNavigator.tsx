@@ -1,7 +1,14 @@
 /**
- * 최상위 역할·인증 게이트 (spec §2.2). role 클레임이 마운트 트리를 결정.
- * 운영자 스택은 시민 트리에 부재 — 컴포넌트 트리 자체가 분리.
- * 소비자 플로우 모달(락스크린/경보상세/경보연동/제보/제보완료)은 CitizenTabs와 함께 루트에 등록.
+ * 최상위 역할·인증 게이트 (와이어프레임 2026-08-05). role 클레임이 마운트 트리를 결정한다.
+ *
+ * 보호자 트리와 시민 트리는 컴포넌트 트리 자체가 분리된다 — 한쪽에서 다른 쪽
+ * 화면으로 갈 수 있으면 "보호자가 시민 제보를 한다" 같은 경로가 열려 권한 경계가
+ * 흐려진다. 역할을 바꾸려면 로그아웃 후 다시 고른다.
+ *
+ * 운영자 트리는 제거됐다 — 와이어프레임에 없고 관제는 백엔드 /dashboard 가 맡는다.
+ *
+ * 소비자 플로우 모달(락스크린/경보상세/경보연동/제보/제보완료)은 CitizenTabs 와
+ * 함께 루트에 등록한다.
  *
  * 경보 진입 관문(알림 개인화 #1): 시민이고 살아있는 경보가 있으면 첫 화면이
  * CitizenTabs(산책 모드)가 아니라 AlertDetail 이다. 판정 규칙은 useAlertGate 참고.
@@ -14,20 +21,36 @@ import { useAuthStore } from '../store/authStore';
 import { useAlertGate } from '../hooks/useAlertGate';
 import { color } from '../theme/tokens';
 import CitizenTabs from './CitizenTabs';
-import OperatorStack from './OperatorStack';
+import GuardianTabs from './GuardianTabs';
 import AuthScreen from '../screens/AuthScreen';
+
+// 시민 — 수색·제보
 import LockScreenAlert from '../screens/LockScreenAlert';
 import AlertDetailScreen from '../screens/AlertDetailScreen';
 import AlertSyncScreen from '../screens/AlertSyncScreen';
+import AppearanceScreen from '../screens/AppearanceScreen';
+import TipWarnScreen from '../screens/TipWarnScreen';
 import ReportChatScreen from '../screens/ReportChatScreen';
 import ReportDoneScreen from '../screens/ReportDoneScreen';
+
+// 시민 — 산책
+import WalkActiveScreen from '../screens/WalkActiveScreen';
+import WalkSummaryScreen from '../screens/WalkSummaryScreen';
+
+// 보호자 — 사전등록·신고
+import RegChatScreen from '../screens/RegChatScreen';
+import RegDoneScreen from '../screens/RegDoneScreen';
+import ReportScreen from '../screens/ReportScreen';
+import ReportSentScreen from '../screens/ReportSentScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
   const token = useAuthStore((s) => s.token);
   const role = useAuthStore((s) => s.role);
-  const isCitizen = token != null && role !== 'operator';
+  // 경보 관문은 시민 트리에서만 선다. 운영자 역할은 이 브랜치에서 제거됐으므로
+  // (관제 = 백엔드 /dashboard) 'citizen' 인지 직접 확인한다.
+  const isCitizen = token != null && role === 'citizen';
 
   const gate = useAlertGate(isCitizen);
 
@@ -60,8 +83,14 @@ export default function RootNavigator() {
     >
       {token == null ? (
         <Stack.Screen name="Auth" component={AuthScreen} />
-      ) : role === 'operator' ? (
-        <Stack.Screen name="Operator" component={OperatorStack} />
+      ) : role === 'guardian' ? (
+        <Stack.Group>
+          <Stack.Screen name="GuardianTabs" component={GuardianTabs} />
+          <Stack.Screen name="RegChat" component={RegChatScreen} />
+          <Stack.Screen name="RegDone" component={RegDoneScreen} />
+          <Stack.Screen name="Report" component={ReportScreen} />
+          <Stack.Screen name="ReportSent" component={ReportSentScreen} />
+        </Stack.Group>
       ) : (
         <Stack.Group>
           <Stack.Screen name="CitizenTabs" component={CitizenTabs} />
@@ -71,8 +100,12 @@ export default function RootNavigator() {
             initialParams={gate.caseId ? { caseId: gate.caseId } : undefined}
           />
           <Stack.Screen name="AlertSync" component={AlertSyncScreen} />
+          <Stack.Screen name="Appearance" component={AppearanceScreen} />
+          <Stack.Screen name="TipWarn" component={TipWarnScreen} />
           <Stack.Screen name="ReportChat" component={ReportChatScreen} />
           <Stack.Screen name="ReportDone" component={ReportDoneScreen} />
+          <Stack.Screen name="WalkActive" component={WalkActiveScreen} />
+          <Stack.Screen name="WalkSummary" component={WalkSummaryScreen} />
           <Stack.Screen
             name="LockScreenAlert"
             component={LockScreenAlert}
