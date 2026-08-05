@@ -97,6 +97,22 @@ def test_untagged_legacy_note_is_not_dropped():
     assert "해질녘 옛집 방향으로 걷는 습관" in text
 
 
+def test_note_from_out_of_type_slot_still_shown(monkeypatch):
+    """유형 필터(slots_for)에서 빠진 슬롯의 노트도 요약에서 사라지지 않는다.
+
+    치매 단독인 지금은 전 슬롯이 통과하지만, 대상 유형이 늘면 slots_for 가 걸러낸다.
+    '전량 표시'가 계약이므로 렌더 루프가 그 노트를 흘리면 안 된다.
+    """
+    slot = slot_by_key("medication")
+    monkeypatch.setattr(interview, "slots_for",
+                        lambda ptype: [s for s in slots_for(ptype) if s.key != slot.key])
+    s = _session(draft_behaviors=[f"{slot.label}: 혈압약을 아침저녁으로 드심"])
+    text = interview.build_summary(s)
+
+    assert "혈압약을 아침저녁으로 드심" in text
+    assert slot.display_label in text
+
+
 def test_note_body_with_colon_survives():
     """본문에 ': ' 가 들어가도 접두만 떼고 본문은 온전히 남는다."""
     slot = slot_by_key("medication")

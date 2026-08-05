@@ -584,15 +584,27 @@ def build_summary(session: InterviewSession) -> str:
             lines.append(f"   - {ap.get('label', '')}{f' ({area})' if area else ''}")
 
     grouped, loose = _group_behaviors(session)
+
+    def _emit(label: str, notes: list[str]) -> None:
+        if len(notes) == 1:
+            lines.append(f"• {label}: {notes[0]}")      # 하나뿐이면 목록으로 늘리지 않는다
+            return
+        lines.append(f"• {label}")
+        lines.extend(f"   - {n}" for n in notes)
+
+    shown: set[str] = set()
     for slot in slots_for(session.persona_type):
         notes = grouped.get(slot.key)
-        if not notes:
-            continue
-        if len(notes) == 1:
-            lines.append(f"• {slot.display_label}: {notes[0]}")
-            continue
-        lines.append(f"• {slot.display_label}")
-        lines.extend(f"   - {n}" for n in notes)
+        if notes:
+            _emit(slot.display_label, notes)
+            shown.add(slot.key)
+    # 유형 밖 슬롯의 노트도 흘리지 않는다 — slots_for 는 유형별로 걸러지므로(치매
+    # 단독인 지금은 전 슬롯 통과) 대상 확장 시 저장된 노트가 요약에서만 조용히
+    # 사라질 수 있다. '전량 표시'가 이 함수의 계약이라 남은 것을 여기서 흡수한다.
+    for key, notes in grouped.items():
+        if key not in shown:
+            slot = slot_by_key(key)
+            _emit(slot.display_label if slot else key, notes)
     if loose:
         lines.append("• 그 밖에 알려주신 것")
         lines.extend(f"   - {n}" for n in loose)
