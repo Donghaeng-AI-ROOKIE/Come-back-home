@@ -166,6 +166,36 @@ def test_dropped_place_falls_back_to_template(monkeypatch):
     assert _settled(case, persona) == baseline
 
 
+def test_template_vocabulary_is_not_treated_as_leak():
+    """🚨 보호자 문장과 템플릿 상수가 겹쳤다고 안내가 사라지면 안 된다.
+
+    실측(2026-08-06): behavior_notes 가 "정류장 근처를 자주 서성이신다"이면
+    템플릿 **자기 상수**인 "정류장 주변"이 유출로 오인돼 안내가 빈 문자열이 됐다.
+    보호자가 자세히 등록할수록 안내를 못 받는 구조였고, 화면에서는 카드가 조용히
+    사라질 뿐이라 알아채기도 어려웠다.
+    """
+    leaky = Persona(
+        id="p1", type=PersonaType.dementia, name="김순자", age=78, home=LKP,
+        behavior_tendency="move",                      # 템플릿에 "정류장 주변" 이 들어간다
+        behavior_notes=["정류장 근처를 자주 서성이신다"],
+    )
+    case = _case()
+    text = storytelling.guidance_for(case, leaky)
+
+    assert text, "템플릿 자기 어휘 때문에 안내가 사라졌다"
+    assert "정류장" in text
+
+
+def test_real_leak_is_still_caught():
+    """면제는 템플릿 어휘에만 적용된다 — 진짜 유출은 그대로 걸려야 한다."""
+    leaky = Persona(
+        id="p1", type=PersonaType.dementia, name="김순자", age=78, home=LKP,
+        behavior_notes=["아리랑고개 옛집을 자꾸 찾으신다"],
+    )
+    with pytest.raises(storytelling.GuidanceRejected):
+        storytelling.validate("아리랑고개 쪽을 살펴봐 주세요.", leaky)
+
+
 def test_every_multiword_place_has_an_anchor():
     """🚨 여러 어절짜리 볼 곳은 닻이 있어야 한다.
 

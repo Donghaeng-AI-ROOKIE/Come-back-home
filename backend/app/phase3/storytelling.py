@@ -37,6 +37,7 @@ import logging
 import threading
 from dataclasses import dataclass, field
 from datetime import datetime
+from functools import lru_cache
 
 from app.schemas.case import Case
 from app.schemas.persona import Persona
@@ -243,12 +244,32 @@ class GuidanceRejected(Exception):
     """검증 실패 — 호출부는 안내 없이(또는 폴백으로) 진행한다."""
 
 
+@lru_cache(maxsize=1)
+def _template_vocabulary() -> frozenset[str]:
+    """템플릿이 스스로 쓰는 모든 어절.
+
+    유출 검사에서 **면제 목록**으로 쓴다. 여기 있는 말은 페르소나에서 온 게
+    아니라 이 모듈의 닫힌 어휘라, 보호자 자유 텍스트와 우연히 겹쳤을 뿐이다.
+    (근거는 validate() 안의 실측 사례 주석)
+    """
+    words: set[str] = set()
+    for state, spots in list(_TENDENCY_HINT.values()) + list(_ENV_HINT.values()):
+        words.update(state.split())
+        for spot in spots:
+            words.update(spot.split())
+    for _, hint in _ELAPSED_HINT:
+        words.update(hint.split())
+    return frozenset(words)
+
+
 def validate(text: str, persona: Persona | None = None, max_len: int = 200) -> None:
     """생성 문구 검증. 템플릿이라 지금은 통과가 당연하지만, **LLM 판이 붙을 때
     그대로 재사용할 방어선**이라 미리 세워둔다.
 
     n-gram 대조는 심층 방어다 — 자유 텍스트를 애초에 안 넘기므로 나올 리 없지만,
-    관문이 뚫렸을 때 마지막으로 걸린다.
+    관문이 뚫렸을 때 마지막으로 걸린다. 단 **템플릿 자기 어휘는 면제한다**
+    (_template_vocabulary) — 안 그러면 보호자 문장과 우연히 겹친 것만으로
+    안내가 사라진다.
     """
     if len(text) > max_len:
         raise GuidanceRejected(f"너무 김: {len(text)}자 > {max_len}")
@@ -276,11 +297,21 @@ def validate(text: str, persona: Persona | None = None, max_len: int = 200) -> N
     for point in persona.attraction_points:
         leaked_sources.append(point.label)
 
+    own = _template_vocabulary()
     for source in leaked_sources:
         for word in source.split():
             # 2자 이하는 조사·일반어와 충돌해 오탐이 난다.
-            if len(word) > 2 and word in text:
-                raise GuidanceRejected(f"차단 필드 어절 노출: {word}")
+            if len(word) <= 2 or word not in text:
+                continue
+            # 🚨 우리 템플릿이 원래 쓰는 말이면 유출이 아니다.
+            #
+            # 실측 사례(2026-08-06): behavior_notes 가 "정류장 근처를 자주
+            # 서성이신다"이면 템플릿의 **자기 상수**인 "정류장 주변"이 유출로
+            # 오인돼 안내가 통째로 빈 문자열이 됐다. 보호자가 자세히 등록할수록
+            # 안내를 못 받는 구조였다 — 조용해서 더 나빴다(화면에서 카드만 사라짐).
+            if word in own:
+                continue
+            raise GuidanceRejected(f"차단 필드 어절 노출: {word}")
 
 
 def guidance_for(
