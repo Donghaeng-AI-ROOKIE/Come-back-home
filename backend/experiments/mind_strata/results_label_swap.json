@@ -1,0 +1,932 @@
+{
+ "gauge": "집을 나선 지 70분 경과. 피로도: 중간, 혼란도: 중간, 귀소 충동: 높음, 불안: 낮음. 방금 귀소 게이지가 임계를 넘었다.",
+ "scene": "주변에 좁은 골목과 낮은 주택이 보인다.",
+ "notes": [
+  "매일 아침 시장에 가서 사람들과 이야기한다",
+  "길을 잘 알고 혼자 멀리까지 다닌다"
+ ],
+ "repeats": 15,
+ "mind_model": "exaone-mind-dem3",
+ "raw": {
+  "정릉시장 + 옛집(아리랑고개) [데모쌍]": [
+   {
+    "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 방향을 선택하고 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 향해 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 향해 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 떠올리며 그쪽으로 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 우선 목표로 삼아 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 떠올리며 그쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 방향을 확인하고 그쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 떠올리며 그쪽으로 향한다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   }
+  ],
+  "망원시장 + 경로당 [비데모쌍]": [
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.85,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "집에 돌아가야 한다는 생각뿐이다.",
+    "confusion": 0.6,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "집 생각에 발걸음을 돌린다.",
+    "confusion": 0.35,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "정처 없이 걷다가 어느 순간 멈추기도 한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.35,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "집 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기에 어려움을 느낀다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+    "confusion": 0.35,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "집 생각에 발걸음을 돌린다.",
+    "confusion": 0.35,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기를 포기한 채 걷는다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 주변을 살피며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+    "confusion": 0.85,
+    "behavior": "계속 배회",
+    "goal": null
+   }
+  ],
+  "정릉시장 + 경로당 [시장만 데모]": [
+   {
+    "status": "정릉시장 쪽을 떠올리고 그 방향으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 떠올리며 그 방향으로 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 방향을 선택하고 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 기억하며 그 방향으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 향해 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 떠올리며 그쪽으로 발걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 방향을 선택하고 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 방향을 확인하고 그쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 떠올리며 그쪽으로 향한다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 떠올리며 그쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 우선으로 생각하며 이동한다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 목표로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   },
+   {
+    "status": "정릉시장 쪽을 떠올리며 그쪽으로 향한다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉시장"
+   }
+  ],
+  "망원시장 + 옛집(아리랑고개) [파트너만 데모]": [
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.85,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   },
+   {
+    "status": "집 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 주변을 살피며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "옛집 쪽을 떠올리며 그쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "옛집(아리랑고개)"
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "집 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "집 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "집 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   },
+   {
+    "status": "익숙한 옛집 쪽으로 방향을 정한다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "옛집(아리랑고개)"
+   },
+   {
+    "status": "정해진 목표 없이 이동을 계속한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "길이 낯설어져 발걸음을 멈춘다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   }
+  ],
+  "남대문시장 + 경로당 [유명 실존]": [
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동을 계속한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기에 어려움을 느낀다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   },
+   {
+    "status": "남대문시장 쪽을 목표로 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "남대문시장"
+   },
+   {
+    "status": "방향을 잃고 길 찾기를 포기한다.",
+    "confusion": 0.85,
+    "behavior": "은신·멈춤",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기에 어려움을 느낀다.",
+    "confusion": 0.85,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "집 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "집 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기에 어려움을 느낀다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "정해진 목표 없이 경로당 쪽으로 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+    "confusion": 0.35,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기를 포기한다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   }
+  ],
+  "청량리 경동시장 + 경로당 [골드셋 어휘]": [
+   {
+    "status": "다른 데는 다 잊어도 이쪽은 기억난다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "경로당"
+   },
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.85,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기에 어려움을 느낀다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "집 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 계속 이동한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "집 생각에 발걸음을 돌린다.",
+    "confusion": 0.35,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 걸음을 멈춘 채 서 있다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.85,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.85,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기에 어려움을 느낀다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "익숙한 사람들과 이야기하던 경동시장 쪽으로 발걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "청량리 경동시장"
+   },
+   {
+    "status": "방향을 잃고 걸음을 멈춘 채 서 있다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   },
+   {
+    "status": "멈추거나 다른 행동으로 전환하지 못하고 이동을 계속한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   }
+  ],
+  "재래시장 + 경로당 [학습 어휘]": [
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동을 계속한다.",
+    "confusion": 0.35,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기에 어려움을 느낀다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "집에 돌아가야 한다는 생각뿐이다.",
+    "confusion": 0.6,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기에 어려움을 느낀다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "길이 낯설어져 발걸음을 멈춘다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 계속 걷는다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "정한 곳 없이 재래시장 쪽을 향해 걷는다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "재래시장"
+   },
+   {
+    "status": "집에 돌아가야 한다는 생각뿐이다.",
+    "confusion": 0.6,
+    "behavior": "귀소 시도",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "정해진 목적지 없이 재래시장 쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "재래시장"
+   },
+   {
+    "status": "정해진 목적지 없이 재래시장 쪽을 향해 걷는다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "재래시장"
+   },
+   {
+    "status": "익숙한 재래시장 쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "재래시장"
+   },
+   {
+    "status": "방향을 잃고 길 찾기 어려움을 느낀다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   }
+  ],
+  "정릉 시장(공백) + 경로당 [형태 변형]": [
+   {
+    "status": "정릉 시장 방향을 기억하며 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 방향을 정하고 그 쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 쪽을 떠올리며 그쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 방향을 떠올리며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 방향을 선택하고 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 방향을 선택하고 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 쪽을 떠올리며 그쪽으로 걷기 시작한다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 방향을 떠올리며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 쪽을 떠올리며 그 방향으로 걷기 시작한다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 방향으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   },
+   {
+    "status": "정릉 시장 방향을 떠올리며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉 시장"
+   }
+  ],
+  "성북시장 + 경로당 [인접 지명]": [
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.85,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "뚜렷한 목적지 없이 이동을 계속한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.85,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃었으나 조금 전 들은 소리에 따라 움직인다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+    "confusion": 0.85,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기에 어려움을 느낀다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길 찾기에 어려움을 느낀다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "시장에 가고 싶지만 길이 헷갈린다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+    "confusion": 0.85,
+    "behavior": "은신·멈춤",
+    "goal": null
+   },
+   {
+    "status": "길이 낯설어져 발걸음을 멈춘다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   },
+   {
+    "status": "정한 방향 없이 이동하면서 다른 데는 몰라도 경로당은 안다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 수정하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   }
+  ],
+  "정릉슈퍼 + 경로당 [접두만 유지]": [
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "정릉슈퍼 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   },
+   {
+    "status": "정릉슈퍼 쪽을 떠올리며 그 방향으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   },
+   {
+    "status": "정릉슈퍼 쪽을 떠올리며 그쪽으로 향한다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   },
+   {
+    "status": "정릉슈퍼 방향을 떠올리며 그 쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   },
+   {
+    "status": "정릉슈퍼 방향을 떠올리며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   },
+   {
+    "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+    "confusion": 0.6,
+    "behavior": "은신·멈춤",
+    "goal": null
+   },
+   {
+    "status": "방향을 잃고 현재 위치를 확인하지 못한 채 이동한다.",
+    "confusion": 0.6,
+    "behavior": "계속 배회",
+    "goal": null
+   },
+   {
+    "status": "정릉슈퍼 방향을 떠올리며 그쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   },
+   {
+    "status": "정릉슈퍼 쪽을 떠올리며 그 방향으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   },
+   {
+    "status": "정릉슈퍼 방향을 선택하고 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   },
+   {
+    "status": "정릉슈퍼 쪽을 목표로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   },
+   {
+    "status": "정릉슈퍼 방향을 확인하고 그쪽으로 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   },
+   {
+    "status": "정릉슈퍼 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.6,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   },
+   {
+    "status": "정릉슈퍼 방향을 찾으며 걸음을 옮긴다.",
+    "confusion": 0.35,
+    "behavior": "끌림점 접근",
+    "goal": "정릉슈퍼"
+   }
+  ]
+ }
+}
