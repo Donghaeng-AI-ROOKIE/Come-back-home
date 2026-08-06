@@ -1,5 +1,6 @@
 """Phase 3 API — 알림 발송·시민 제보·POA 조회."""
 
+import logging
 from datetime import datetime
 
 from fastapi import APIRouter, HTTPException
@@ -13,6 +14,7 @@ from app.schemas.case import CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.device import Engagement, Platform
 
+log = logging.getLogger(__name__)
 router = APIRouter(prefix="/phase3", tags=["Phase 3 — 알림·제보·POA 갱신"])
 
 
@@ -113,7 +115,14 @@ def list_active_alerts(cell_res7: str | None = None):
     for case in storage.cases.list():
         if case.status in (CaseStatus.found, CaseStatus.closed):
             continue
-        info = alerts.describe_alert(case)
+        try:
+            info = alerts.describe_alert(case)
+        except Exception:  # noqa: BLE001 — 사건 하나가 목록 전체를 죽이면 안 된다
+            # 🚨 한 사건의 데이터가 깨졌다고 **다른 사건의 경보까지 안 보이면**
+            # 골든타임에 최악이다. 그 사건만 건너뛰고 로그로 남긴다.
+            # (실제로 손상된 POA 셀 id 하나가 엔드포인트를 500 으로 만들었다)
+            log.exception("[alerts] 경보 표현 생성 실패 — 이 사건만 건너뜀 (%s)", case.id)
+            continue
         if cell_res7 in info["target_cells"]:
             out.append(info)
     # 최근 발령 순 — 관문은 첫 항목부터 본다(utils/alertGate.pickGateCase).

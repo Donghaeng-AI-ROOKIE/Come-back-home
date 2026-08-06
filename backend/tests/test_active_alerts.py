@@ -20,7 +20,7 @@ from app.phase3 import alerts
 from app.privacy import lifecycle
 from app.schemas.case import CloseReason
 from app.schemas.common import GeoPoint
-from app.schemas.persona import PersonaType
+from app.schemas.persona import Persona, PersonaType
 from app.schemas.report import Appearance
 
 LKP = GeoPoint(lat=37.6061, lng=127.0106)   # 정릉동
@@ -112,10 +112,18 @@ def test_payload_shape_matches_push():
     got = phase3_api.list_active_alerts(_cell7(LKP))[0]
     sent = alerts.send_alerts(case.id, alerts.select_reflex_cells(case.lkp), "요약", kind="reflex")
 
-    shared = {"case_id", "kind", "target_cells", "target_res", "appearance"}
+    # 대상 구역 계약이 같아야 한다 — 여기가 갈리면 판정이 어긋난다.
+    shared = {"case_id", "kind", "target_cells", "target_res"}
     assert shared <= set(got) and shared <= set(sent)
     assert got["target_cells"] == sent["target_cells"]
     assert got["target_res"] == sent["target_res"]
+
+    # ⚠️ `appearance` 는 두 경로에서 뜻이 다르다 — 푸시는 알림 본문에 넣을 **요약
+    # 문자열**, 조회는 시민 화면 카드가 칩으로 그리는 **항목 배열**이다. 조회 쪽
+    # 요약은 `summary` 에 있다. 이름이 같아 헷갈리기 쉬워 여기에 못박아 둔다.
+    assert isinstance(sent["appearance"], str)
+    assert isinstance(got["appearance"], list)
+    assert isinstance(got["summary"], str)
 
 
 def test_kind_is_reflex_before_prediction():
@@ -151,15 +159,53 @@ def test_issued_at_follows_last_alert():
     assert phase3_api.list_active_alerts(_cell7(LKP))[0]["issued_at"] == sent_at
 
 
-def test_no_condition_disclosure_in_payload():
-    """조회 응답도 시민에게 그대로 간다 — 진단명·페르소나가 실리면 안 된다."""
-    case = _make_case()
+def test_broken_case_does_not_hide_others():
+    """🚨 사건 하나가 깨졌다고 다른 사건의 경보까지 안 보이면 골든타임에 최악이다.
+
+    실제로 손상된 POA 셀 id 하나가 엔드포인트를 통째로 500 으로 만들었다.
+    """
+    broken = _make_case()
+    broken.current_poa = {"not-a-cell": 1.0}     # h3 가 파싱 못 하는 값
+    storage.cases.save(broken.id, broken)
+    healthy = _make_case()
+
+    out = phase3_api.list_active_alerts(_cell7(LKP))
+    assert [a["case_id"] for a in out] == [healthy.id]
+
+
+def test_payload_fields_are_fixed():
+    """응답 필드를 못박는다 — 여기 없는 것이 늘면 시민 화면 노출 범위가 조용히 넓어진다."""
+    _make_case()
     got = phase3_api.list_active_alerts(_cell7(LKP))[0]
     assert set(got) == {
         "case_id", "issued_at", "area", "severity", "kind",
-        "target_cells", "target_res", "appearance",
+        "target_cells", "target_res",
+        "summary", "matched_person_id", "age", "appearance", "lkp", "lkp_time",
     }
-    assert case.report.missing_type.value not in repr(got)
+
+
+def test_no_name_or_condition_in_payload():
+    """🚨 조회 응답은 시민 앱으로 그대로 간다.
+
+    **실명이 실리면 안 된다** — 이 응답은 주변 시민 누구나 받으므로 나이·인상착의로
+    충분하고, 이름까지 뿌리면 목적(발견 제보)을 넘는 제공이 된다.
+    수색 탭 안내 문구에는 이름이 들어가는데 그건 노출 범위가 다르다
+    (storytelling.ToneParams.name 주석 참고) — 두 경로를 헷갈리지 않게 여기서 고정한다.
+
+    진단 유형(missing_type)도 실리면 안 된다(§23 민감정보).
+    """
+    case = _make_case()
+    persona = Persona(id=case.report.persona_id or "p1", type=PersonaType.dementia,
+                      name="김순자", age=82, home=LKP)
+    case.report.persona_id = persona.id
+    storage.personas.save(persona.id, persona)
+    storage.cases.save(case.id, case)
+
+    got = phase3_api.list_active_alerts(_cell7(LKP))[0]
+    blob = repr(got)
+    assert persona.name not in blob, "실명이 조회 응답에 실렸다"
+    assert case.report.missing_type.value not in blob
+    assert got["age"] == 82, "나이는 시민 화면 카드가 쓰므로 와야 한다"
 
 
 def test_area_is_blank_not_invented():
