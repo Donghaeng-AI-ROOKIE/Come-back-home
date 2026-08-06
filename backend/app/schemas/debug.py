@@ -28,6 +28,7 @@ class MindEvent(BaseModel):
     source: str                        # "exaone"(실호출) | "pool"(풀 표집) | "stub" | "heuristic"
     status: str                        # 재해석된 마음 상태
     confusion: float
+    behavior: str = ""                 # 닫힌 4종 보행 모드 (귀소 시도·계속 배회·은신·멈춤·끌림점 접근)
     goal: str | None = None            # 목표 전환된 끌림점 라벨 (없으면 None)
     prompt: str | None = None          # 실호출일 때만 — EXAONE 입력 전문
     response_raw: str | None = None    # 실호출일 때만 — EXAONE 응답 원문
