@@ -186,6 +186,18 @@ def _states_and_places(params: ToneParams) -> tuple[list[str], list[str]]:
     return states, places[:MAX_PLACES]
 
 
+def _needs_avoid(params: ToneParams) -> bool:
+    """이 문구가 **회피 지시**를 담고 있는가 — 다듬기 검증에 쓴다.
+
+    build_guidance 와 같은 규칙으로 첫 환경 힌트 하나만 본다. 여기가 어긋나면
+    회피 지시가 없는 문구에 회피 표현을 요구해 멀쩡한 다듬기가 전부 거절된다.
+    """
+    for feature, direction in params.env:
+        if (feature, direction) in _ENV_HINT:
+            return direction == "회피"
+    return False
+
+
 def build_guidance(params: ToneParams) -> str:
     """톤 파라미터 → 수색 안내 문구.
 
@@ -302,29 +314,72 @@ _refining: set[str] = set()
 _refine_lock = threading.Lock()
 
 
-def _kept_all_places(text: str, places: list[str]) -> bool:
-    """다듬은 문구가 볼 곳을 하나도 빠뜨리지 않았는가.
+#: 회피 지시가 살아남았는지 볼 닻. 회피 상태 문장은 전부 "피하셨을/피하…" 꼴이다.
+_AVOID_ANCHOR = "피하"
+
+#: 볼 곳 → 다듬은 문구에서 찾을 **닻**. 없는 볼 곳은 표기 그대로 찾는다.
+#:
+#: 🚨 왜 필요한가 (2026-08-06 Mi:dm Mini 실측): 다듬으면 조사가 끼거나
+#: ("최종 목격 장소 **주변의** 길목") 앞 수식어가 떨어진다("**목격** 장소 주변 길목").
+#: 둘 다 시민이 갈 곳은 그대로인데 표기 전체를 찾으면 거절된다 — 되짚음 케이스가
+#: 8회 중 6회 이 이유로 걸렸고, 진짜 누락은 1회뿐이었다.
+#:
+#: 닻은 **그 볼 곳에서만 나오는 말**로 고른다. "정류장 주변"의 닻이 "주변"이면
+#: 아무 문장이나 통과한다(한국어는 머리가 뒤에 오지만 변별력은 앞에 있는 경우가 많다).
+#: 한 어절짜리(골목·벤치·시장·산책로)는 그대로 찾으면 되므로 여기 없다.
+_PLACE_ANCHOR = {
+    "최종 목격 장소 주변 길목": "길목",
+    "정류장 주변": "정류장",
+    "건물 그늘": "그늘",
+    "건물 사이": "건물",
+    "계단 아래": "계단",
+    "다리 근처": "다리",
+    "공원 숲길": "숲길",
+    "공원 벤치": "벤치",
+    "정자 주변": "정자",
+    "상가 주변": "상가",
+}
+
+
+def _place_anchor(place: str) -> str:
+    return _PLACE_ANCHOR.get(place, place)
+
+
+def _kept_essentials(text: str, places: list[str], needs_avoid: bool) -> bool:
+    """다듬은 문구가 **수색 지시**를 빠뜨리지 않았는가.
 
     🚨 검증기(validate)는 **덧붙임**만 본다 — 확정 표현, 진단명, 차단 필드 유출.
-    그런데 다듬기의 실제 실패 양상은 반대쪽이었다: 요약하면서 장소를 조용히
-    빠뜨린다(가짜 서버로 재현). 장소가 이 기능의 본체라 그건 문구가 예뻐지는 대신
-    **기능이 사라지는** 것이다.
+    그런데 다듬기의 실제 실패 양상은 반대쪽이다: 요약하면서 지시를 조용히
+    빠뜨린다. 그건 문구가 예뻐지는 대신 **기능이 사라지는** 것이다.
 
-    부분 문자열로 보는 이유: 다듬으면서 "골목"이 "골목길"이 되는 건 괜찮고
-    통과해야 한다. 반대 방향(줄여 쓰기)은 걸리는데, 볼 곳은 짧은 명사라 드물다.
+    ## 두 가지를 본다
+    1. **볼 곳** — 표기 전체가 아니라 닻으로 본다(_PLACE_ANCHOR). 다듬으면
+       조사가 끼고 수식어가 떨어지는데, 그건 시민이 갈 곳이 바뀐 게 아니다.
+    2. **회피 지시** — 실측으로 드러난 구멍이다(2026-08-06, Mi:dm Mini).
+       회피 힌트는 볼 곳 목록이 비어 있어서(_ENV_HINT 참고) 1번이 무의미하게
+       통과하고, "공원처럼 트인 곳은 피하셨을 가능성"이 통째로 사라져도 안 걸렸다.
+       회피도 시민이 볼 곳을 바꾸는 유효한 지시다.
+
+    상태 문장 전반에 같은 검사를 걸지는 않는다 — 실측에서 "사람이 많은 곳으로
+    향하셨을"이 사라지고 대신 볼 곳의 "시장"이 남은 경우가 있었는데, 그건 같은
+    뜻이 자리를 옮긴 것이라 되돌릴 이유가 없다. 볼 곳이 그 정보를 이미 나른다.
     """
-    return all(p in text for p in places)
+    if not all(_place_anchor(p) in text for p in places):
+        return False
+    return _AVOID_ANCHOR in text if needs_avoid else True
 
 
 def _refine_worker(case_id: str, baseline: str, persona: Persona | None,
-                   persona_type: str | None, places: list[str]) -> None:
+                   persona_type: str | None, places: list[str],
+                   needs_avoid: bool) -> None:
     """백그라운드 다듬기 1회. 결과가 검증을 통과할 때만 교체한다."""
     from app import llm
 
     try:
         text = llm.copy_llm.refine(baseline, persona_type)
-        if not _kept_all_places(text, places):
-            log.warning("[guidance] 다듬기가 볼 곳을 빠뜨림 (%s): %s", case_id, places)
+        if not _kept_essentials(text, places, needs_avoid):
+            log.warning("[guidance] 다듬기가 수색 지시를 빠뜨림 (%s): places=%s avoid=%s",
+                        case_id, places, needs_avoid)
             text = baseline
         try:
             validate(text, persona)
@@ -381,11 +436,12 @@ def guidance_with_refine(
             return baseline, True
         _refining.add(case.id)
 
-    _, places = _states_and_places(to_tone_params(case, persona, now))
+    params = to_tone_params(case, persona, now)
+    _, places = _states_and_places(params)
     threading.Thread(
         target=_refine_worker,
         args=(case.id, baseline, persona,
-              persona.type.value if persona else None, places),
+              persona.type.value if persona else None, places, _needs_avoid(params)),
         name=f"guidance-refine-{case.id}",
         daemon=True,
     ).start()

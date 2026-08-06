@@ -166,6 +166,43 @@ def test_dropped_place_falls_back_to_template(monkeypatch):
     assert _settled(case, persona) == baseline
 
 
+def test_every_multiword_place_has_an_anchor():
+    """🚨 여러 어절짜리 볼 곳은 닻이 있어야 한다.
+
+    닻이 없으면 표기 전체를 찾는데, 다듬으면 조사가 끼거나("주변**의** 길목")
+    수식어가 떨어져서("**최종** 목격 장소" → "목격 장소") 멀쩡한 문구가 거절된다.
+    볼 곳을 새로 추가할 때 조용히 그 상태가 되는 걸 여기서 막는다.
+    """
+    all_places = {p for _, spots in storytelling._TENDENCY_HINT.values() for p in spots}
+    all_places |= {p for _, spots in storytelling._ENV_HINT.values() for p in spots}
+
+    for place in all_places:
+        if len(place.split()) > 1:
+            assert place in storytelling._PLACE_ANCHOR, f"닻 없는 복합 볼 곳: {place}"
+
+
+def test_anchors_are_distinctive():
+    """닻이 '주변'·'근처' 같은 일반어면 아무 문장이나 통과한다."""
+    generic = {"주변", "근처", "사이", "아래", "곳", "쪽"}
+    for place, anchor in storytelling._PLACE_ANCHOR.items():
+        assert anchor not in generic, f"변별력 없는 닻: {place} → {anchor}"
+        assert anchor in place, f"닻이 볼 곳에 없는 말: {place} → {anchor}"
+
+
+def test_particle_and_modifier_drift_is_accepted():
+    """실측에서 나온 실제 표현들 — 갈 곳은 그대로이므로 통과해야 한다."""
+    places = ["최종 목격 장소 주변 길목", "공원 숲길", "산책로"]
+    for text in [
+        "최종 목격 장소 주변의 길목, 공원 숲길, 산책로를 넓게 살펴봐 주세요.",   # 조사 끼임
+        "목격 장소 주변 길목, 공원 숲길, 산책로를 중심으로 살펴봐 주세요.",       # 수식어 탈락
+    ]:
+        assert storytelling._kept_essentials(text, places, needs_avoid=False), text
+
+    # 진짜 누락은 여전히 걸려야 한다.
+    dropped = "나무가 우거진 곳과 최종 목격 장소 주변을 중심으로 넓게 살펴봐 주세요."
+    assert not storytelling._kept_essentials(dropped, places, needs_avoid=False)
+
+
 def test_paraphrased_place_is_accepted(monkeypatch):
     """반대로 장소를 살린 채 늘려 쓴 것은 통과해야 한다 — 너무 빡빡하면 어떤
     다듬기도 못 통과해서 LLM 을 붙인 의미가 없어진다."""
