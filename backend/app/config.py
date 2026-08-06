@@ -33,6 +33,15 @@ class Settings(BaseSettings):
     tip_llm_base_url: str = ""
     tip_llm_model: str = ""
 
+    # Phase 3 수색 안내 문구 다듬기 전용 — **Mi:dm 2.0 Mini**(2026-08-06 결정,
+    # 근거는 llm/copy_llm.py). 비우면 tip_llm_* 를 그대로 물려받는데, 그게 곧
+    # mini 를 쓴다는 뜻이다 — 한 문장 어조를 다듬는 일이라 경량 모델로 충분하고,
+    # 온보딩 대화용 Mi:dm(midm_*)까지 끌어올 이유가 없다.
+    # 모델을 갈아끼워 비교할 때만 채운다.
+    copy_llm_api_key: str = ""
+    copy_llm_base_url: str = ""
+    copy_llm_model: str = ""
+
     # LLM 호출 온도 — 목적별로 분리한다.
     #   2026-07-30 P1-3 실측으로 확정 (전 과정·수치:
     #   experiments/temp_sweep/결과_20260730_온도스윕.md).
@@ -62,6 +71,11 @@ class Settings(BaseSettings):
     #   무엇보다 이 등급은 신뢰도 p 의 25%(trust_weight_specificity)로 들어가는
     #   수색 판단 근거다. 같은 제보에 같은 점수가 나오고 사후에 되짚을 수 있어야 한다.
     tip_llm_temp_structure: float = 0.0   # structure_tip — 제보 구조화 + 등급판정
+    # 안내 문구 다듬기 — 같은 Mini 를 쓰지만 성격이 정반대다(사실 추출이 아니라 작문).
+    # midm_temp_phrase(질문 작문 0.4)와 같은 값으로 둔다 — 가장 가까운 작업이 그것이고,
+    # 그 주석의 결론("자연스러움은 이 하네스로 못 잰다, 사람 평가 없이 바꾸지 않는다")이
+    # 여기에도 그대로 적용된다. 초기 기획안에 적힌 0.7 은 실측 근거가 없어 채택하지 않았다.
+    copy_llm_temp: float = 0.4
 
     # Phase 0 축 점수 컴파일 (phase0.axis_scoring) — 골드셋 실험으로 검증된 B×P1 채점.
     # 기본 off: 회의에서 채점 방식 채택 시 켠다. runs = 축당 호출 수(3회 다수결 권장).

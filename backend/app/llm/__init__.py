@@ -1,3 +1,4 @@
+from app.llm.copy_llm import CopyLLMClient
 from app.llm.exaone import ExaoneClient
 from app.llm.midm import MidmClient
 from app.llm.tip_llm import TipLLMClient
@@ -8,5 +9,6 @@ from app.llm.varco_vision import VarcoVisionClient
 exaone = ExaoneClient()
 midm = MidmClient()
 tip_llm = TipLLMClient()
+copy_llm = CopyLLMClient()
 varco = VarcoVisionClient()
 upstage = UpstageClient()

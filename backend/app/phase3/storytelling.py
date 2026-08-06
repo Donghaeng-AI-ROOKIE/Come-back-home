@@ -18,10 +18,14 @@
 받은 적 없는 것은 샐 수 없다 — 나중에 LLM 을 붙일 때도 같은 관문을 쓰므로,
 법적 방어선이 "모델이 지시를 지켰는가"에 걸리지 않는다.
 
-## 왜 템플릿인가 (LLM 이전에)
-LLM 판의 임시방편이 아니라 **영구적으로 필요한 경로**다. 골든타임에 LLM 지연·실패로
-안내가 늦으면 최악이므로 실서비스에서도 템플릿으로 즉시 내보내고 LLM 문구는 나중에
-교체한다. 결정론적이라 테스트도 된다.
+## 템플릿과 LLM 의 관계 (2026-08-06 LLM 부착)
+템플릿은 LLM 의 임시방편이 아니라 **영구적으로 필요한 경로**다. 골든타임에 LLM
+지연·실패로 안내가 늦으면 최악이므로, 템플릿으로 즉시 내보내고 다듬은 문구는
+다음 조회부터 교체한다(`guidance_with_refine`). 결정론적이라 테스트도 된다.
+
+LLM 이 하는 일은 **어조뿐이다.** 페르소나를 주고 짓게 하지 않고 이미 검증을 통과한
+문장을 주고 고쳐 쓰게 한다 — 그러면 없는 장소·시간을 지어낼 재료가 애초에 없다.
+모델은 Mi:dm 2.0 Mini(근거: llm/copy_llm.py).
 
 ## 노출 범위
 현재 소비처는 **수색 탭뿐**이다. 푸시 본문에는 넣지 않는다 — 잠금화면은 폰을 집어든
@@ -29,11 +33,15 @@ LLM 판의 임시방편이 아니라 **영구적으로 필요한 경로**다. �
 최소성 심사 난이도가 달라진다(검토 결과 문서 참고).
 """
 
+import logging
+import threading
 from dataclasses import dataclass, field
 from datetime import datetime
 
 from app.schemas.case import Case
 from app.schemas.persona import Persona
+
+log = logging.getLogger(__name__)
 
 # ── 닫힌 어휘 ────────────────────────────────────────────────
 
@@ -150,15 +158,14 @@ def _eul_reul(word: str) -> str:
     return "을" if (ord(last) - 0xAC00) % 28 else "를"
 
 
-def build_guidance(params: ToneParams) -> str:
-    """톤 파라미터 → 수색 안내 문구.
+def _states_and_places(params: ToneParams) -> tuple[list[str], list[str]]:
+    """톤 파라미터 → (상태 문장들, 볼 곳들).
 
-    구조: [상태 문장들] + [볼 곳 한 문장]
-    행동 경향이 가장 구체적인 지시라 앞에 온다. 환경 반응이 여러 개면 **첫
-    하나만** 쓴다 — 지시를 여러 개 주면 시민이 어디부터 갈지 못 정한다.
+    조립(build_guidance)과 다듬기 검증(_kept_all_places)이 **같은 출처**를 봐야
+    해서 뽑아 뒀다. 각자 계산하면 둘이 조용히 어긋난다.
 
-    범위(spread)는 별도 문장이 아니라 **맺음말**로만 반영한다. 수색 탭에는 이미
-    지도와 누적 확률이 있어 범위를 문장으로 또 말하면 중복이다.
+    환경 반응이 여러 개면 **첫 하나만** 쓴다 — 지시를 여러 개 주면 시민이
+    어디부터 갈지 못 정한다.
     """
     states: list[str] = []
     places: list[str] = []
@@ -176,6 +183,20 @@ def build_guidance(params: ToneParams) -> str:
             places.extend(spots)
             break
 
+    return states, places[:MAX_PLACES]
+
+
+def build_guidance(params: ToneParams) -> str:
+    """톤 파라미터 → 수색 안내 문구.
+
+    구조: [상태 문장들] + [볼 곳 한 문장]
+    행동 경향이 가장 구체적인 지시라 앞에 온다.
+
+    범위(spread)는 별도 문장이 아니라 **맺음말**로만 반영한다. 수색 탭에는 이미
+    지도와 누적 확률이 있어 범위를 문장으로 또 말하면 중복이다.
+    """
+    states, places = _states_and_places(params)
+
     # 경향·환경이 하나도 없으면 경과시간만으로라도 방향을 준다.
     if not states:
         return _elapsed_hint(params.elapsed_h)
@@ -190,9 +211,8 @@ def build_guidance(params: ToneParams) -> str:
     # (공백으로만 이으면 "있어요 물가 쪽으로…" 처럼 한 문장으로 읽힌다).
     text = ". ".join(states) + "."
     if places:
-        picked = places[:MAX_PLACES]
         closing = "중심으로 넓게" if params.spread == "wide" else "먼저"
-        text += f" {', '.join(picked)}{_eul_reul(picked[-1])} {closing} 살펴봐 주세요."
+        text += f" {', '.join(places)}{_eul_reul(places[-1])} {closing} 살펴봐 주세요."
     return text
 
 
@@ -256,7 +276,7 @@ def guidance_for(
     persona: Persona | None = None,
     now: datetime | None = None,
 ) -> str:
-    """수색 안내 문구 — 외부 진입점. 검증 실패 시 빈 문자열.
+    """수색 안내 문구(템플릿) — 검증 실패 시 빈 문자열.
 
     안내가 없다고 수색 화면이 깨지면 안 되므로 예외를 밖으로 던지지 않는다.
     """
@@ -267,3 +287,118 @@ def guidance_for(
     except GuidanceRejected:
         return ""
     return text
+
+
+# ── LLM 다듬기 ───────────────────────────────────────────────
+#
+# 템플릿 문구를 Mi:dm 2.0 Mini 가 한 번 더 다듬는다(2026-08-06). 왜 처음부터
+# 짓게 하지 않고 다듬게만 하는지는 llm/copy_llm.py 의 refine() 주석 참고 —
+# 요약하면 **모델에 지어낼 재료를 주지 않기 위해서**다.
+
+#: case_id → 다듬은 문구. 실패했으면 템플릿 원문이 그대로 들어간다(재시도 안 함).
+_refined: dict[str, str] = {}
+#: 지금 다듬는 중인 case_id — 같은 사건에 스레드가 겹쳐 뜨지 않게.
+_refining: set[str] = set()
+_refine_lock = threading.Lock()
+
+
+def _kept_all_places(text: str, places: list[str]) -> bool:
+    """다듬은 문구가 볼 곳을 하나도 빠뜨리지 않았는가.
+
+    🚨 검증기(validate)는 **덧붙임**만 본다 — 확정 표현, 진단명, 차단 필드 유출.
+    그런데 다듬기의 실제 실패 양상은 반대쪽이었다: 요약하면서 장소를 조용히
+    빠뜨린다(가짜 서버로 재현). 장소가 이 기능의 본체라 그건 문구가 예뻐지는 대신
+    **기능이 사라지는** 것이다.
+
+    부분 문자열로 보는 이유: 다듬으면서 "골목"이 "골목길"이 되는 건 괜찮고
+    통과해야 한다. 반대 방향(줄여 쓰기)은 걸리는데, 볼 곳은 짧은 명사라 드물다.
+    """
+    return all(p in text for p in places)
+
+
+def _refine_worker(case_id: str, baseline: str, persona: Persona | None,
+                   persona_type: str | None, places: list[str]) -> None:
+    """백그라운드 다듬기 1회. 결과가 검증을 통과할 때만 교체한다."""
+    from app import llm
+
+    try:
+        text = llm.copy_llm.refine(baseline, persona_type)
+        if not _kept_all_places(text, places):
+            log.warning("[guidance] 다듬기가 볼 곳을 빠뜨림 (%s): %s", case_id, places)
+            text = baseline
+        try:
+            validate(text, persona)
+        except GuidanceRejected as e:
+            # 🚨 실패를 삼키지 않고 남긴다 — 검증기가 계속 걸러내고 있으면
+            # 프롬프트나 모델이 잘못된 것인데, 조용하면 "LLM 을 붙였는데 왜
+            # 문구가 그대로지?"로만 보인다.
+            log.warning("[guidance] 다듬기 거절 (%s): %s", case_id, e)
+            text = baseline
+    except Exception:  # noqa: BLE001 — 어떤 실패도 안내를 없애면 안 된다
+        log.exception("[guidance] 다듬기 실패 (%s)", case_id)
+        text = baseline
+    with _refine_lock:
+        # 🚨 다듬는 도중에 사건이 종결·파기됐으면 결과를 버린다.
+        # clear_refined() 가 _refining 에서 뺐는데 여기서 그냥 쓰면, 인상착의가
+        # 들어 있는 문구가 **파기 뒤에 되살아난다**(테스트가 잡은 실제 버그).
+        if case_id not in _refining:
+            return
+        _refined[case_id] = text
+        _refining.discard(case_id)
+
+
+def guidance_with_refine(
+    case: Case,
+    persona: Persona | None = None,
+    now: datetime | None = None,
+) -> tuple[str, bool]:
+    """수색 안내 문구 + **아직 다듬는 중인가**.
+
+    ## 왜 기다리지 않는가
+    골든타임에 LLM 응답을 기다리면 그동안 수색 탭이 비어 있다. 템플릿을 즉시
+    돌려주고, 다듬은 문구는 다음 조회부터 나간다 — 안내가 늦는 것보다 한 번
+    덜 다듬어져 나가는 편이 훨씬 낫다. 앱은 pending 이 True 인 동안만 다시 묻는다.
+
+    ## 사건당 1회
+    같은 사건의 문구는 한 번만 다듬는다. 실패해도 재시도하지 않는다 —
+    엔드포인트가 죽어 있을 때 조회마다 스레드를 띄우면 그게 곧 부하다.
+
+    @return (문구, pending). pending=True 면 더 나은 문구가 곧 준비된다.
+    """
+    baseline = guidance_for(case, persona, now)
+    if not baseline:
+        return "", False
+
+    from app import llm
+
+    if llm.copy_llm.is_stub:
+        return baseline, False
+
+    with _refine_lock:
+        if case.id in _refined:
+            return _refined[case.id], False
+        if case.id in _refining:
+            return baseline, True
+        _refining.add(case.id)
+
+    _, places = _states_and_places(to_tone_params(case, persona, now))
+    threading.Thread(
+        target=_refine_worker,
+        args=(case.id, baseline, persona,
+              persona.type.value if persona else None, places),
+        name=f"guidance-refine-{case.id}",
+        daemon=True,
+    ).start()
+    return baseline, True
+
+
+def clear_refined(case_id: str) -> None:
+    """사건 종결·파기 시 캐시 제거. 문구에는 인상착의가 들어 있어 사건과 함께 사라져야 한다.
+
+    `_refining` 에서도 빼는 것이 중요하다 — 그게 진행 중인 다듬기에게 "결과를
+    버려라"라고 알리는 신호다(_refine_worker 참고). 안 그러면 파기 직후에
+    문구가 되살아난다.
+    """
+    with _refine_lock:
+        _refined.pop(case_id, None)
+        _refining.discard(case_id)

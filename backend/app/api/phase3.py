@@ -277,15 +277,20 @@ def get_guidance(case_id: str):
     푸시로 확대할지는 기획 결정 대기(노션 참고).
 
     페르소나가 없으면(사전 미등록) 경과시간 기반 범위 안내만 나간다.
+
+    `pending=True` 면 LLM 이 문구를 다듬는 중이라 곧 더 나은 문구가 준비된다 —
+    앱은 그동안만 다시 묻는다. 기다리지 않는 이유는 storytelling 모듈 주석 참고.
     """
     case = _get_case(case_id)
     persona = (
         storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     )
+    text, pending = storytelling.guidance_with_refine(case, persona)
     return {
         "case_id": case.id,
-        "guidance": storytelling.guidance_for(case, persona),
+        "guidance": text,
         "personalized": persona is not None,
+        "pending": pending,
     }
 
 
