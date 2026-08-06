@@ -105,6 +105,25 @@ export type PoaGrid = {
  */
 export type AlertKind = 'reflex' | 'poa' | 'new_region';
 
+/**
+ * 푸시 알림 페이로드 — 백엔드 `alerts.send_alerts()` 가 `data` 에 싣는 것.
+ *
+ * 대상 구역은 **H3 셀 목록**이다. 예측 격자(res9)를 그대로 실으면 500개 ≈ 7KB 로
+ * Expo `data` 상한(약 4KiB)을 넘지만, res7 부모로 접으면 3~8개뿐이라 그냥 실린다.
+ * 한때 중심+반경으로 근사했던 것은 해상도를 낮출 생각을 안 한 탓이다.
+ *
+ * 필드명이 snake_case 인 것은 서버 JSON 을 그대로 받기 때문(변환 계층 없음).
+ */
+export type PushPayload = {
+  case_id: string;
+  kind: AlertKind;
+  /** 대상 H3 셀(부모 해상도). 폰이 자기 셀과 대조해 관문 여부를 정한다. */
+  target_cells: string[];
+  /** 위 셀들의 해상도. 폰이 자기 좌표를 **이 해상도로** 변환해 비교해야 한다. */
+  target_res: number;
+  appearance: string;
+};
+
 export type PoliceAlert = {
   caseId: string;
   issuedAt: string; // ISO
@@ -112,18 +131,18 @@ export type PoliceAlert = {
   severity: Severity;
   kind: AlertKind;
   /**
-   * 알림 대상 구역 (온디바이스 지오펜싱).
+   * 알림 대상 구역 — H3 셀 목록(부모 해상도, `targetRes`).
    *
-   * 서버는 "이 구역 사람들에게 알려라"만 뿌리고, **내가 그 안에 있는지는 폰이
-   * 판단한다** — 시민 위치가 서버로 올라가지 않는 것이 이 설계의 전제다.
-   * 이 필드가 없으면 알림이 무차별 발송이 되고, "타겟 알림"이라는 서비스
-   * 전제 자체가 무너진다.
+   * 이 필드가 없으면 알림이 무차별 발송이 되고 "타겟 알림"이라는 서비스 전제가
+   * 무너진다. 서버는 이 목록 안 기기에만 푸시를 보내고, 앱 안 관문도 **같은
+   * 목록**으로 판정한다 — 둘이 어긋나면 "알림은 왔는데 앱은 구역 밖이라 한다"가 된다.
    *
-   * 실서비스 페이로드는 H3 셀 목록이 오지만, 푸시 인프라 이전인 지금은
-   * 대표 좌표 + 반경으로 근사한다.
+   * 근사가 아니라 셀 id 비교다. 한때 중심+반경 원으로 근사했는데 육각 셀 집합보다
+   * 넓어 구역 밖 사람이 섞였고, 그건 "폰에 H3 가 없다"는 틀린 전제 때문이었다.
    */
-  targetCenter: GeoPoint;
-  targetRadiusM: number;
+  targetCells: string[];
+  /** 위 셀들의 해상도. 폰은 자기 좌표를 이 해상도로 바꿔 비교한다(utils/h3cell.ts). */
+  targetRes: number;
   summary: string;
   matchedPersonId?: string; // 보호자 사전등록 매칭 시
   /**

@@ -39,7 +39,7 @@ import { useAppModeStore } from '../store/appModeStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
 import { alertToView, toCitizenView } from '../data/missingView';
 import { useMyLocation } from '../hooks/useMyLocation';
-import { distanceM, formatWalkTime } from '../utils/geo';
+import { useAreaStatus } from '../hooks/useAreaStatus';
 import type { RootStackParamList } from '../navigation/types';
 
 import BaseMap from '../components/BaseMap';
@@ -154,10 +154,11 @@ export default function SearchScreen() {
   const elapsedMin = golden ? Math.floor(golden.elapsedSec / 60) : null;
 
   // 실측 내 위치 — 지도 마커는 OS(showsUserLocation)에 맡기고, 거리·도보시간만 직접 쓴다.
-  const { point: myPoint, accuracyM, status: locStatus } = useMyLocation();
+  const { point: myPoint, status: locStatus } = useMyLocation();
   const located = locStatus === 'granted' && myPoint != null;
-  const meters = myPoint ? distanceM(myPoint, lastSeen) : null;
-  const walkLabel = meters == null ? null : formatWalkTime(meters, accuracyM);
+  // 거리(m·분) 대신 "예측 구역 안/밖 + 확률 등급" — 근거는 utils/areaStatus.ts.
+  // 실경보가 있으면 그 사건 기준, 없으면 데모 사건(caseId 는 위에서 정해진다).
+  const area = useAreaStatus(caseId);
 
   const mapA11y = grid
     ? `발견 확률 히트맵. 최고 구역 ${grid.topLabel}. 누적 발견확률 ${cumPct}%. 최종 목격 위치와 ${
@@ -236,7 +237,7 @@ export default function SearchScreen() {
             style={[styles.zoneAnno, { top: insets.top + 150 }]}
             pointerEvents="none"
             accessible
-            accessibilityLabel={`내가 확인할 구역.${walkLabel ? ` ${walkLabel} 거리.` : ''} 누적 발견확률 ${cumPct}퍼센트.`}
+            accessibilityLabel={`내가 확인할 구역. ${area.label}. 누적 발견확률 ${cumPct}퍼센트.`}
           >
             <View style={styles.zonePill}>
               <View style={[styles.zoneDot, { backgroundColor: theme.accent }]} />
@@ -246,7 +247,7 @@ export default function SearchScreen() {
             </View>
             <View style={[styles.distChip, { backgroundColor: theme.accent }]}>
               <Text style={styles.distText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-                {walkLabel ? `${walkLabel} 거리 · ` : ''}누적 {cumPct}%
+                {area.short ? `${area.short} · ` : ''}누적 {cumPct}%
               </Text>
             </View>
           </View>

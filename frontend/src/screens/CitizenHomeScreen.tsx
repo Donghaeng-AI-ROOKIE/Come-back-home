@@ -12,12 +12,11 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, radius, space, type } from '../theme/tokens';
-import { useActiveWalk, useStartWalk, usePoaPrediction, useWalkStats } from '../hooks/queries';
+import { useActiveWalk, useStartWalk, useWalkStats } from '../hooks/queries';
 import { useDebugStore } from '../store/debugStore';
 import { useAlertsForMe } from '../hooks/useAlertGate';
 import { useMyLocation } from '../hooks/useMyLocation';
-import { cellProbAt } from '../utils/alertGate';
-import { TIER_LABEL, TIER_RANGE, tierForProb } from '../theme/poa';
+import { useAreaStatus } from '../hooks/useAreaStatus';
 
 /** 추천 루트는 아직 서버 계산이 없다 — 표시용 고정값임을 코드에 남긴다. */
 const ROUTES = [
@@ -38,11 +37,9 @@ export default function CitizenHomeScreen() {
   // 이 화면에서 가장 눈에 띄는 거짓말이었다.
   const { alerts: myAlerts } = useAlertsForMe();
   const activeAlert = myAlerts[0] ?? null;
-  const { point: myPoint, status: locStatus } = useMyLocation();
-  const poa = usePoaPrediction(activeAlert?.caseId ?? '', 1);
-  // "동선 예측 확률과 얼마나 가까운가" — 내 위치가 실제로 POA 셀 안인지까지 본다.
-  const cellProb = cellProbAt(myPoint, poa.data);
-  const tier = cellProb != null && cellProb > 0 ? tierForProb(cellProb) : null;
+  const { status: locStatus } = useMyLocation();
+  // 거리(m·분)가 아니라 "예측 구역 안/밖 + 확률 등급" — 근거는 utils/areaStatus.ts.
+  const area = useAreaStatus(activeAlert?.caseId ?? '');
 
   // 위치를 모르면 **경보를 아예 못 받는다**(fail-closed). 어느 사건이 이 사람에게
   // 해당되는지 고를 수 없기 때문인데, 사용자 입장에선 조용한 실패라 반드시 알려야 한다.
@@ -57,9 +54,7 @@ export default function CitizenHomeScreen() {
     ? '실종 경보는 내 주변일 때만 도착해요. 위치를 모르면 어느 사건이 가까운지 알 수 없어 알려드리지 못해요.'
     : !activeAlert
       ? '이번 달 이웃들이 무사히 집으로 돌아왔어요'
-      : tier
-        ? `내 위치가 예측 구역 안이에요 · 발견확률 ${TIER_LABEL[tier]} (${TIER_RANGE[tier]})`
-        : '내 위치는 예측 구역 밖이에요';
+      : area.label;
 
   const onStart = (areaLabel?: string) => {
     if (active) {

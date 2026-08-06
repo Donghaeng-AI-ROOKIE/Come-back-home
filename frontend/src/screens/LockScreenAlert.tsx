@@ -25,8 +25,7 @@ import { hexToRgba } from '../utils/color';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING, MISSING_ANON } from '../data/missing';
 import { useAppModeStore } from '../store/appModeStore';
 import { useEngagementStore } from '../store/engagementStore';
-import { useMyLocation } from '../hooks/useMyLocation';
-import { distanceM, formatDistance, formatWalkTime } from '../utils/geo';
+import { useAreaStatus } from '../hooks/useAreaStatus';
 import type { RootStackParamList } from '../navigation/types';
 
 // 시계 자릿수 흔들림 방지 — 고정폭 숫자.
@@ -113,16 +112,15 @@ export default function LockScreenAlert() {
   const clock = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
   const dateLine = `${now.getMonth() + 1}월 ${now.getDate()}일 ${WEEKDAYS[now.getDay()]}요일`;
 
-  // 최종 목격 지점까지의 실거리. 좌표는 기기 밖으로 나가지 않는다(useMyLocation 참고).
-  const { point: myPoint, accuracyM } = useMyLocation();
-  const meters = myPoint ? distanceM(myPoint, LAST_SEEN) : null;
-  const distanceLabel = meters == null ? null : formatDistance(meters, accuracyM);
-  const walkLabel = meters == null ? null : formatWalkTime(meters, accuracyM);
-  // 배지는 거리와 도보시간을 합쳐 쓰되, 못 믿는 값은 통째로 빼고 '내 주변'만 남긴다.
-  const nearLabel = walkLabel ? `${NEAR_LABEL_FALLBACK} · ${walkLabel}` : NEAR_LABEL_FALLBACK;
-  // 거리는 요약 라인에 실제로 노출한다 — "내 주변"이라는 주장의 근거를
-  // 숫자로 보여주는 게 이 기능(#2)의 목적이다.
-  const summaryLine = distanceLabel ? `${SUMMARY_BASE} · ${distanceLabel}` : SUMMARY_BASE;
+  // 거리(m·분) 대신 "예측 구역 안" — 근거는 utils/areaStatus.ts.
+  // 좌표는 기기 밖으로 나가지 않는다(useMyLocation 참고).
+  const area = useAreaStatus(caseId);
+  // 배지는 "내 주변"이라는 주장의 근거를 붙여 쓴다. 판정이 안 되면 근거 없이 둔다.
+  // 확률 등급까지 넣는 이유: 이건 **실종자 정보가 아니라 내 위치가 얼마나 관련
+  // 있는지**다. 수색 안내 문구(실종자 행동 추론)와 성격이 달라 같은 잣대로
+  // 좁힐 이유가 없다.
+  const nearLabel = area.badge || NEAR_LABEL_FALLBACK;
+  const summaryLine = SUMMARY_BASE;
 
   const dismissCase = useAppModeStore((s) => s.dismissCase);
   // 피로 신호 — 여러 번 끄면 일반 예측 알림은 관문을 안 세운다(alertBudget).
@@ -144,10 +142,7 @@ export default function LockScreenAlert() {
     navigation.goBack();
   };
 
-  // 낭독에서는 거리가 무엇까지의 거리인지 명시한다(화면은 폭이 좁아 생략).
-  const a11yDistance = distanceLabel
-    ? `최종 목격 장소까지 ${distanceLabel}, ${walkLabel}. `
-    : '';
+  const a11yDistance = area.label ? `${area.label}. ` : '';
   const a11ySummary = `긴급 실종경보. 실종자가 이 근처에 계실 수 있어요. ${MISSING.area} 근처 ${MISSING_ANON}. ${MISSING.appearance[0]} 착용. ${a11yDistance}지금 확인 버튼을 누르면 상세를 볼 수 있어요.`;
 
   return (

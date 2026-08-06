@@ -10,6 +10,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { NavigationContainer } from '@react-navigation/native';
 import type { LinkingOptions } from '@react-navigation/native';
 import RootNavigator from './src/navigation/RootNavigator';
+import { navigationRef } from './src/navigation/navigationRef';
+import { usePushRegistration } from './src/hooks/usePushRegistration';
+import { useNotificationRouting } from './src/hooks/useNotificationRouting';
 import type { RootStackParamList } from './src/navigation/types';
 
 const queryClient = new QueryClient({
@@ -29,11 +32,16 @@ const linking: LinkingOptions<RootStackParamList> = {
 };
 
 export default function App() {
+  // 푸시 등록·라우팅은 앱 전역에서 한 번만. 개발 빌드 이전에는 조용히 아무 일도
+  // 하지 않는다(Expo Go 에는 푸시 기능이 없다 — usePushRegistration 주석 참고).
+  usePushRegistration();
+  useNotificationRouting();
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <QueryClientProvider client={queryClient}>
-          <NavigationContainer linking={linking}>
+          <NavigationContainer ref={navigationRef} linking={linking}>
             <StatusBar style="auto" />
             <RootNavigator />
           </NavigationContainer>
