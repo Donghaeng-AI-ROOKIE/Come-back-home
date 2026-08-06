@@ -274,23 +274,33 @@ export async function touchPresence(caseId: string): Promise<number> {
 }
 
 /**
- * 수색 안내 문구 — "어디를 봐야 하는지" (알림 개인화 #5 템플릿판).
+ * 수색 안내 문구 — "어디를 봐야 하는지" (알림 개인화 #5).
  *
  * **수색 탭 전용**이다. 푸시 본문에는 넣지 않는다 — 잠금화면은 폰을 집어든 누구나
  * 보고 그 알림은 넓은 지역에 가므로, 같은 문장이라도 노출 범위가 달라진다.
- * 서버 계약: GET /phase3/cases/{id}/guidance → { guidance, personalized }
+ * 서버 계약: GET /phase3/cases/{id}/guidance → { guidance, personalized, pending }
  */
-export type Guidance = { text: string; personalized: boolean };
+export type Guidance = {
+  text: string;
+  personalized: boolean;
+  /**
+   * 서버가 LLM 으로 문구를 다듬는 중. 지금 온 것은 템플릿판이고 곧 더 나은 문구가
+   * 준비된다 — 서버가 **기다리지 않고** 템플릿을 먼저 주기 때문이다(골든타임에
+   * 안내가 비어 있으면 안 된다). 이 값이 true 인 동안만 다시 묻는다.
+   */
+  pending: boolean;
+};
 
 export async function getGuidance(caseId: string): Promise<Guidance> {
   if (USE_MOCK) {
     return delay({
       text: '멀리 가지 못하고 한자리에 머물러 계실 수 있어요. 골목, 벤치, 건물 그늘을 먼저 살펴봐 주세요.',
       personalized: true,
+      pending: false,
     });
   }
-  const data = await api<{ guidance: string; personalized: boolean }>(
+  const data = await api<{ guidance: string; personalized: boolean; pending?: boolean }>(
     `/phase3/cases/${caseId}/guidance`,
   );
-  return { text: data.guidance, personalized: data.personalized };
+  return { text: data.guidance, personalized: data.personalized, pending: !!data.pending };
 }

@@ -136,6 +136,10 @@ export function useGuidance(caseId: string, enabled = true) {
     enabled: enabled && !!caseId,
     staleTime: 5 * 60_000,
     retry: false,
+    // 서버가 LLM 으로 문구를 다듬는 **동안만** 다시 묻는다. 서버는 기다리지 않고
+    // 템플릿을 먼저 주므로(골든타임), 이게 없으면 다듬은 문구가 화면에 영영 안 온다.
+    // 항상 폴링하지 않는 이유: 다듬기는 사건당 한 번뿐이라 끝나면 물어볼 게 없다.
+    refetchInterval: (q) => (q.state.data?.pending ? 3_000 : false),
   });
 }
 
