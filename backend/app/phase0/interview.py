@@ -584,8 +584,13 @@ def build_summary(session: InterviewSession) -> str:
     if places:
         lines.append("• 가시려 할 만한 곳")
         for ap in places:
-            area = ap.get("area_text")
-            lines.append(f"   - {ap.get('label', '')}{f' ({area})' if area else ''}")
+            label = str(ap.get("label", "")).strip()
+            # 지역이 장소명과 같으면 괄호를 달지 않는다 — "정릉천 산책로 (정릉천
+            # 산책로)"처럼 같은 말이 두 번 나온다(2026-08-05 실측). 추출이
+            # 지역을 못 집으면 장소명을 그대로 area_text 로 넣기 때문이다.
+            area = str(ap.get("area_text") or "").strip()
+            suffix = f" ({area})" if area and area != label else ""
+            lines.append(f"   - {label}{suffix}")
 
     grouped, loose = _group_behaviors(session)
 

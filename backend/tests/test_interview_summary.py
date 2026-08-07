@@ -175,3 +175,25 @@ def test_no_missing_section_when_everything_collected():
     """다 받았으면 빈칸 안내를 붙이지 않는다 — 없는 걱정을 만들지 않게."""
     text = interview.build_summary(_session())
     assert "아직 안 알려주신 것" not in text
+
+
+def test_place_area_not_repeated_when_same_as_label():
+    """지역이 장소명과 같으면 괄호를 안 단다.
+
+    라이브 실측(2026-08-05): "정릉천 산책로 (정릉천 산책로)". 추출이 지역을
+    못 집으면 장소명을 그대로 area_text 로 넣기 때문에 같은 말이 두 번 나온다.
+    """
+    s = _session(draft_attractions=[
+        {"label": "정릉천 산책로", "area_text": "정릉천 산책로",
+         "origin_slot": "routine_destinations"},
+        {"label": "정릉시장", "area_text": " 정릉동 ",       # 다르면 그대로 단다
+         "origin_slot": "routine_destinations"},
+        {"label": "옛집", "area_text": "",                  # 비면 괄호 없음
+         "origin_slot": "autobiographical_destination_pull"},
+    ])
+    text = interview.build_summary(s)
+
+    assert "- 정릉천 산책로\n" in text + "\n", "같은 말이 괄호로 반복된다"
+    assert "정릉천 산책로 (" not in text
+    assert "- 정릉시장 (정릉동)" in text, "다른 지역까지 지워졌다"
+    assert "- 옛집\n" in text + "\n"
