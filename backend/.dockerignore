@@ -1,0 +1,11 @@
+# 비밀·상태·부산물은 이미지에 절대 넣지 않는다
+.env
+.env.*
+data/
+__pycache__/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+experiments/
+tests/
