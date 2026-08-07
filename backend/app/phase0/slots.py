@@ -25,6 +25,7 @@
 최근 트리거)은 Phase 1 신고 접수에서 수집하므로 여기 포함하지 않는다.
 """
 
+import re
 from enum import Enum
 
 from pydantic import BaseModel
@@ -68,11 +69,24 @@ class SlotSpec(BaseModel):
     types: frozenset[PersonaType] = ALL_TYPES     # 이 슬롯이 유효한 유형
     question: str                                 # 씨앗 질문 (회의록 원문, 참고용)
     probes: list[str] = []                        # 답이 얕을 때 파고들 꼬리질문 각도(=하위변수)
+    # 이 슬롯에서 꼬리질문을 내보낼지. probes 는 비우지 않는다 — embed_text(슬롯 검색
+    # 코퍼스)와 문장화 프롬프트가 같은 목록을 쓰므로, 비우면 랭킹까지 달라진다.
+    # 파고들기만 끄고 싶을 때 이 플래그를 쓴다.
+    probe_followup: bool = True
+    # 첫 번째 probes 각도를 **모델 판정 없이 반드시 한 번 묻는다**.
+    # 판정기(probe_gap)가 애매한 답을 '답했다'로 넘기는 슬롯에 쓴다 — 상세는
+    # medication 슬롯의 주석 참고 (2026-08-07 사용자 결정).
+    always_probe_first: bool = False
     filled_when: str                              # '충분히 채워짐' 기준 (follow-up 여부 판단)
     why: str                                      # SAR 근거 — 이 정보가 예측에 쓰이는 이유
     keywords: list[str] = []                      # 검색 부스팅·문맥 매칭용 어휘 (dense 위 lexical 힌트)
     risk: float = 0.0                             # 위험 부스트 — 질문순서(tier)와 별개로 안전상 우선
     answer_example: str = ""                      # 회의록 답변 예시 — 꼬리질문 모드 구체성 눈높이 전용
+
+    @property
+    def probe_labels(self) -> list[str]:
+        """내부 태그를 뗀 표시용 probes — "(destination_retention)" 같은 꼬리표 제거."""
+        return [re.sub(r"\s*\([a-z_]+\)\s*$", "", p).strip() for p in self.probes]
 
     @property
     def display_label(self) -> str:
@@ -236,6 +250,12 @@ SLOTS: list[SlotSpec] = [
         axis=Axis.body, tier=Tier.capacity, sink=Sink.behavior,
         question="복용 중인 약이 있나요? 거르면 어떤 증상이 나타나나요? 야간·추위·더위에 이동하기 어려운 상태인가요?",
         probes=["거르면 나타나는 증상", "야간 이동 가능성", "추위·더위 취약성"],
+        # 첫 각도('거르면 나타나는 증상')는 판정 없이 반드시 묻는다 (2026-08-07 결정).
+        # 판정기가 "치매약을 아침저녁으로 드시는데 가끔 거르고 나가십니다"를 증상까지
+        # 답한 것으로 넘겨(3/3), 꼬리질문이 야간·추위로 건너뛰었다. 그 둘은 이 슬롯에
+        # 묶여 있을 뿐 약과 무관해 보여 보호자에겐 "복약 꼬리질문이 없다"로 읽힌다.
+        # 거른 뒤 증상은 생존 골든타임 추정의 직접 입력이라 놓치면 안 된다.
+        always_probe_first=True,
         filled_when="건강 제약(약·야간·기후) 중 유의미한 항목이 드러남",
         why="생존 골든타임·야간 이동 가능성 추정. (회의록 축 밖 — 몸축 보조 정보로 유지)",
         keywords=["약", "복용", "야간", "밤", "추위", "더위", "혈압", "당뇨"],
@@ -266,6 +286,13 @@ SLOTS: list[SlotSpec] = [
         axis=Axis.behavior, axis_field="lost_behavior", tier=Tier.refine, sink=Sink.behavior,
         question="길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
         probes=["머무름·계속 이동·은신 중 우세 경향", "구체적 목격 사례"],
+        # 꼬리질문 끔 (2026-08-07 사용자 결정). 이 슬롯은 답 한 마디에 우세 경향이
+        # 그대로 드러난다 — "그 자리에 가만히 서계세요" = 머무름. 그걸 저장하면 되지
+        # 되물을 일이 아닌데, 남은 각도가 '구체적 목격 사례'뿐이라 꼬리질문이
+        # "실제로 그런 모습을 보신 적이 있나요?"가 되어 방금 한 말을 되묻는 꼴이었다.
+        # 다른 슬롯의 파고들기(PR #64)는 그대로 — 씨앗 질문이 첫 물음표에서 잘려
+        # 못 묻는 하위 항목(예: 복약의 '거르면 어떤 증상')은 이 통로가 유일하다.
+        probe_followup=False,
         filled_when="머무름·계속이동·숨음 중 우세 경향이 드러남",
         why="staying_put vs 이동 — 수색 반경 확장 속도를 좌우하는 최우선 변수. 과거 실종 이력이 없을 때의 행동축 백업.",
         keywords=["길 잃", "헤매", "제자리", "계속 걸", "돌아다", "숨", "주저앉"],
