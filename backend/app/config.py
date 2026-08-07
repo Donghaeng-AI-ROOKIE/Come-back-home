@@ -24,7 +24,9 @@ class Settings(BaseSettings):
     exaone_base_url: str = ""
     exaone_model: str = ""
 
-    # Phase 3 제보 구조화 전용 — 모델 미정(2026-07-21, Mi:dm 에서 분리).
+    # Phase 3 제보 구조화 전용 — Mi:dm 2.0 Mini 확정(2026-07-29 4파전 실측,
+    # llm/tip_llm.py 참고). Phase 0 온보딩 대화 전용 Mi:dm(midm_*)과는 별개
+    # 엔드포인트로 GPU 서버에 직접 호스팅해 연결(2026-07-30).
     # OpenAI 호환 chat completions 전제로 셋 다 채우면 실동작, 비어 있으면 스텁.
     #   tip_llm_base_url = 발급받은 endpoint URL
     #   tip_llm_model    = 발급받은 endpoint ID
