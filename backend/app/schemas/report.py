@@ -9,9 +9,11 @@ from app.schemas.persona import PersonaType
 
 
 class Appearance(BaseModel):
-    """인상착의. top/bottom/shoes/physical/summary 는 VARCO-Vision(VLM)이 사진에서
-    추출한 텍스트(생성이 아니라 추출) — *_color 3개는 그 텍스트에서 규칙 기반으로
-    뽑은 색상 태그로, VARCO 와 무관하다(app.phase1.color_extract 참고, 모델 안 씀)."""
+    """보호자가 직접 입력한 인상착의.
+
+    *_color 3개는 이 텍스트에서 규칙 기반으로 뽑는다. 사진 분석·생성 모델은 사용하지
+    않는다(app.phase1.color_extract 참고).
+    """
     top: str = ""
     bottom: str = ""
     shoes: str = ""

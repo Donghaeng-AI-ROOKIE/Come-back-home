@@ -55,7 +55,10 @@ def make_case() -> str:
     case = client.post("/phase1/reports", json={
         "missing_type": "dementia", "lkp": {"lat": 37.6061, "lng": 127.0106},
         "lkp_time": lkp_time, "persona_id": p.json()["id"],
-        "with_photo": True, "with_document": True})
+        "appearance": {
+            "top": "파란색 점퍼", "bottom": "회색 바지", "shoes": "흰색 운동화"
+        },
+        "with_document": True})
     assert case.status_code < 300, case.text
     return case.json()["id"]
 

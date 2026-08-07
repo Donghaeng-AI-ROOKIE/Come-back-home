@@ -53,7 +53,10 @@ seen_time = (datetime.now() - timedelta(minutes=20)).isoformat(timespec="seconds
 case = step("2 실종 신고", client.post("/phase1/reports", json={
     "missing_type": "dementia", "lkp": {"lat": 37.6061, "lng": 127.0106},
     "lkp_time": lkp_time, "persona_id": p["id"],
-    "with_photo": True, "with_document": True}))
+    "appearance": {
+        "top": "파란색 점퍼", "bottom": "회색 바지", "shoes": "흰색 운동화"
+    },
+    "with_document": True}))
 cid = case["id"]
 
 # 3. Phase 2 예측 (EXAONE prior + 도로망 그래프 MC + 게이지·마음 재해석)

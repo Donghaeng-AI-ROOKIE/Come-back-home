@@ -10,6 +10,7 @@ from app.phase1 import intake
 from app.schemas.case import Case
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
+from app.schemas.report import Appearance
 
 router = APIRouter(prefix="/phase1", tags=["Phase 1 — 신고 접수"])
 
@@ -19,9 +20,9 @@ class CreateReportIn(BaseModel):
     lkp: GeoPoint
     lkp_time: datetime
     persona_id: str | None = None
-    # 백본 단계: 파일 업로드 대신 유무 플래그로 스텁 경로 태움.
-    # 실제 구현 시 multipart UploadFile 로 교체.
-    with_photo: bool = False
+    # 보호자가 직접 입력한 인상착의. 생성·사진분석 모델을 거치지 않고 색상만
+    # 규칙 기반으로 추출한다. 실제 사진 업로드는 별도 저장 경로가 생길 때 연결한다.
+    appearance: Appearance | None = None
     with_document: bool = False
 
 
@@ -32,7 +33,7 @@ def create_report(body: CreateReportIn):
         lkp=body.lkp,
         lkp_time=body.lkp_time,
         persona_id=body.persona_id,
-        photo_bytes=b"stub" if body.with_photo else None,
+        appearance=body.appearance,
         document_bytes=b"stub" if body.with_document else None,
     )
 

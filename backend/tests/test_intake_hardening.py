@@ -6,6 +6,7 @@ from app import llm
 from app.phase1 import intake
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
+from app.schemas.report import Appearance
 
 LKP = GeoPoint(lat=37.6061, lng=127.0106)
 
@@ -15,14 +16,14 @@ def _create(**kwargs):
         missing_type=PersonaType.dementia, lkp=LKP, lkp_time=datetime.now(), **kwargs)
 
 
-def test_intake_survives_varco_failure(monkeypatch):
-    def boom(*a, **k):
-        raise RuntimeError("VLM 서버 다운")
-
-    monkeypatch.setattr(llm.varco, "extract_appearance", boom)
-    case = _create(photo_bytes=b"img")
-    assert case.id                             # 접수는 성공
-    assert case.report.appearance is None      # 실패 필드만 비움
+def test_intake_uses_guardian_text_and_extracts_colors_without_model():
+    case = _create(appearance=Appearance(
+        top="파란색 점퍼", bottom="진회색 바지", shoes="흰색 운동화"))
+    look = case.report.appearance
+    assert look is not None
+    assert (look.top_color, look.bottom_color, look.shoes_color) == (
+        "blue", "charcoal", "white")
+    assert look.summary == "파란색 점퍼, 진회색 바지, 흰색 운동화"
 
 
 def test_intake_survives_upstage_failure(monkeypatch):
