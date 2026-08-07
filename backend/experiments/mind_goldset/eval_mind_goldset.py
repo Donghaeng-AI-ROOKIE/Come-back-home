@@ -240,6 +240,74 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
     print(f"[goldset-eval] 저장: {out}")
 
 
+def rescore(jsonl_path: str) -> None:
+    """저장된 결과 jsonl 을 현재 골드 라벨로 재채점 — **모델 호출 0**.
+
+    봉인 규칙은 호출을 제한하지 채점을 제한하지 않는다. 라벨(정답지)이
+    바뀌었을 때 과거 실행분(raw 보존)을 새 잣대로 다시 읽는 경로다
+    (2026-08-07: behavior forbidden 4건 추가 후 dem3·dem5 재채점이 첫 사용).
+
+    goal 은 저장된 goal 값, behavior 는 raw 의 behavior 필드, confusion 은
+    raw 의 confusion_level 로 채점한다 — main() 과 같은 규칙.
+    """
+    src = Path(jsonl_path)
+    rows = [json.loads(line) for line in src.read_text(encoding="utf-8").splitlines() if line.strip()]
+    gold = load_gold()
+
+    for r in rows:
+        lab = gold[r["gid"]]["situations"][r["situation"]]
+        goal = r.get("goal")
+        allow_null = None in lab["allowed_goals"] or "null" in [str(x) for x in lab["allowed_goals"]]
+        if goal is None:
+            r["verdict"] = "allowed" if allow_null else "neutral"
+        elif goal in set(lab["forbidden_goals"]):
+            r["verdict"] = "FORBIDDEN"
+        elif goal in set(lab["allowed_goals"]) - {None}:
+            r["verdict"] = "allowed"
+        else:
+            r["verdict"] = "neutral"
+        raw = r.get("raw") or ""
+        m = re.search(r'"behavior"\s*:\s*"([^"]*)"', raw)
+        behavior = (m.group(1).strip() if m else None) or r.get("behavior")
+        r["behavior"] = behavior
+        if behavior is None:
+            r["b_verdict"] = None
+        elif behavior not in _BEHAVIORS:
+            r["b_verdict"] = "invalid"
+        elif behavior in lab["forbidden_behaviors"]:
+            r["b_verdict"] = "FORBIDDEN"
+        elif behavior in lab["allowed_behaviors"]:
+            r["b_verdict"] = "allowed"
+        else:
+            r["b_verdict"] = "neutral"
+        mc = re.search(r'"confusion_level"\s*:\s*"([^"]*)"', raw)
+        conf = _CONF_LEVELS.get(mc.group(1).strip()) if mc else None
+        if conf is not None:
+            r["conf"] = conf
+        lo, hi = lab["confusion_range"]
+        r["conf_ok"] = lo <= r["conf"] <= hi
+
+    okr = [r for r in rows if r.get("ok")]
+    v = collections.Counter(r["verdict"] for r in okr)
+    conf_in = sum(1 for r in okr if r["conf_ok"])
+    bv = collections.Counter(r["b_verdict"] for r in okr if r["b_verdict"])
+    bt = sum(bv.values())
+    gids = sorted({r["gid"] for r in rows})
+    situations = [gold[g]["situations"][sk] for g in gids for sk in GAUGES]
+    print(f"# 재채점 [{src.name}] — 골드 라벨 현재본 기준, 호출 0")
+    print(f"- goal: allowed {v.get('allowed', 0)}/{len(okr)} · 치명 {v.get('FORBIDDEN', 0)} · 중립 {v.get('neutral', 0)}")
+    print(f"- behavior: allowed {bv.get('allowed', 0)}/{bt} · **치명 {bv.get('FORBIDDEN', 0)}** · "
+          f"중립 {bv.get('neutral', 0)} · invalid {bv.get('invalid', 0)}")
+    print(f"- confusion(모델 원출력): {conf_in}/{len(okr)} = {conf_in / max(1, len(okr)):.0%}")
+    for pol in sorted(_BEHAVIORS):
+        al = sum(pol in s["allowed_behaviors"] for s in situations)
+        fb = sum(pol in s["forbidden_behaviors"] for s in situations)
+        print(f"  깡통 「{pol}」: allowed {al}/{len(situations)} · 치명 {fb}건")
+    fatals = [r for r in okr if r["b_verdict"] == "FORBIDDEN"]
+    for r in fatals:
+        print(f"  치명 상세: {r['gid']} {r['situation']} rep{r['rep']} → {r['behavior']}")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", default="dev", choices=["dev", "test"])
@@ -249,5 +317,10 @@ if __name__ == "__main__":
                     choices=["analyst", "first_person", "first_person_rag",
                              "first_person_v2", "first_person_v2_rag"])
     ap.add_argument("--model", default=None, help="EXAONE_MODEL 오버라이드 (예: exaone-base)")
+    ap.add_argument("--rescore", default=None, metavar="JSONL",
+                    help="저장된 결과 jsonl 을 현재 골드 라벨로 재채점 (호출 0)")
     a = ap.parse_args()
-    main(a.split, a.n, a.unseal, a.variant, a.model)
+    if a.rescore:
+        rescore(a.rescore)
+    else:
+        main(a.split, a.n, a.unseal, a.variant, a.model)
