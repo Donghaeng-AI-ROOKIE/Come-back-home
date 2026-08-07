@@ -300,6 +300,7 @@ def rank_next_slots(
     *,
     top_k: int = 5,
     asked_counts: dict[str, int] | None = None,
+    allowed_keys: set[str] | None = None,
 ) -> tuple[list[SlotScore], list[int]]:
     """다음 질문 후보 슬롯을 랭킹한다 (2모드).
 
@@ -308,10 +309,19 @@ def rank_next_slots(
     이렇게 하면 평소엔 자연스러운 인터뷰 흐름, 단서가 나오면 즉시 꼬리질문.
 
     asked_counts: {slot_key: 물었지만 안 채워진 횟수} — 반복 탈출.
+    allowed_keys: 미니챗·보완챗처럼 tier 로 범위를 좁힌 세션에서, 그 밖 슬롯을
+    top_k 로 자르기 **전에** 제외한다. 사후 필터로는 못 막는 버그가 있었다 —
+    치매 유형은 Tier1 슬롯 5개가 항상 템플릿 순서 맨 앞이라, 대화 시작 전(빈
+    query_text)에는 top_k=5 가 통째로 Tier1로 채워진다. 보완챗(Tier2·3 전용)이
+    이 5개를 받은 뒤 사후 필터링하면 전부 걸러져 후보가 0개가 되고, 첫 질문이
+    빈 채로 나갔다(2026-08-07 실호출 테스트로 발견). 여기서 미리 제외해야
+    top_k 안에 실제로 물을 수 있는 슬롯이 남는다.
     반환: (상위 후보 SlotScore, 디노이즈로 채택된 과거 턴 인덱스).
     """
     asked_counts = asked_counts or {}
     candidates = [s for s in slots_for(ptype) if s.key not in filled_keys]
+    if allowed_keys is not None:
+        candidates = [s for s in candidates if s.key in allowed_keys]
     if not candidates:
         return [], []
 
