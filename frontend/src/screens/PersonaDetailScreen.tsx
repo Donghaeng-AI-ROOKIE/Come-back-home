@@ -1,5 +1,6 @@
 /**
- * 사전 등록 상세 — 저장된 내용을 전부 보여주고 보호자가 고칠 수 있게 한다.
+ * 사전 등록 상세 — 피그마 [보호자] 등록 상세 정보 (2584:15434) 구현.
+ * 저장된 내용을 전부 보여주고 보호자가 고칠 수 있게 한다.
  *
  * ## 왜 필요한가
  *
@@ -15,6 +16,8 @@
  *   (같은 슬롯 항목이 흩어져 있으면 중복처럼 보인다).
  * - 저장은 바뀐 필드만 PATCH 한다 — 축 점수·근거는 손대지 않는다(LLM 채점 결과라
  *   원발화와 짝을 이뤄야 의미가 있고, 값만 고치면 근거와 어긋난다).
+ * - 피그마 우상단은 필터 아이콘이지만 수정/취소 텍스트 버튼을 유지한다 —
+ *   아이콘만으로는 편집 진입이 안 읽히고, 접근성 라벨도 텍스트가 명확하다.
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -31,20 +34,27 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import Svg, { Path } from 'react-native-svg';
+import { SvgXml } from 'react-native-svg';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import type { RootStackParamList } from '../navigation/types';
 import { color, radius, space, type } from '../theme/tokens';
+import { gColor } from '../theme/guardianTokens';
+import {
+  icBackXml,
+  icBookmarkXml,
+  icMappinXml,
+  icPersonXml,
+} from '../assets/guardianSvg';
 import { hexToRgba } from '../utils/color';
 import CTAButton from '../components/CTAButton';
 import { ApiError } from '../api/config';
 import { getPersona, updatePersona, type AttractionPoint, type Persona } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
 
-const ACCENT = color.walk;
+const ACCENT = gColor.primary;
 
 /** "슬롯라벨: 내용" → [라벨, 내용]. 라벨이 없으면 기타로 묶는다. */
 function splitNote(note: string): [string, string] {
@@ -65,6 +75,17 @@ function groupNotes(notes: string[]): { label: string; items: string[] }[] {
     map.set(label, arr);
   }
   return [...map.entries()].map(([label, items]) => ({ label, items }));
+}
+
+function SectionTitle({ icon, label }: { icon: string; label: string }) {
+  return (
+    <View style={styles.sectionRow}>
+      <SvgXml xml={icon} width={14} height={14} />
+      <Text style={styles.sectionTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+        {label}
+      </Text>
+    </View>
+  );
 }
 
 function Field({
@@ -197,10 +218,7 @@ export default function PersonaDetailScreen() {
             hitSlop={8}
             style={styles.backBtn}
           >
-            <Svg width={24} height={24} viewBox="0 0 24 24">
-              <Path d="M15 5l-7 7 7 7" stroke={color.text} strokeWidth={2.2} fill="none"
-                    strokeLinecap="round" strokeLinejoin="round" />
-            </Svg>
+            <SvgXml xml={icBackXml} width={10} height={18} />
           </Pressable>
           <Text style={styles.title} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
             등록 정보
@@ -234,7 +252,8 @@ export default function PersonaDetailScreen() {
 
         {persona ? (
           <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-            <View style={styles.card}>
+            <SectionTitle icon={icPersonXml} label="기본 정보" />
+            <View style={styles.bar}>
               {editing ? (
                 <>
                   <Field label="이름" value={name} onChange={setName} />
@@ -243,8 +262,12 @@ export default function PersonaDetailScreen() {
               ) : (
                 <>
                   <View style={styles.row}>
-                    <Text style={styles.rowKey}>이름 / 연령</Text>
-                    <Text style={styles.rowVal}>{persona.name} ({persona.age}세)</Text>
+                    <Text style={styles.rowKey}>이름</Text>
+                    <Text style={styles.rowVal}>{persona.name}</Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Text style={styles.rowKey}>연령</Text>
+                    <Text style={styles.rowVal}>{persona.age}세</Text>
                   </View>
                   <View style={styles.row}>
                     <Text style={styles.rowKey}>유형</Text>
@@ -254,24 +277,16 @@ export default function PersonaDetailScreen() {
               )}
             </View>
 
-            <Text style={styles.section} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              가시려 할 만한 곳 {points.length}곳
-            </Text>
-            <View style={styles.card}>
+            <SectionTitle icon={icMappinXml} label="관련 장소" />
+            <View style={styles.bar}>
               {points.length === 0 ? (
                 <Text style={styles.empty}>등록된 장소가 없습니다.</Text>
               ) : points.map((p) => (
-                <View key={p.label} style={styles.itemRow}>
-                  <View style={styles.itemBody}>
-                    <Text style={styles.itemTitle} allowFontScaling
-                          maxFontSizeMultiplier={type.maxScale}>
-                      {p.label}
-                    </Text>
-                    <Text style={styles.itemSub} allowFontScaling
-                          maxFontSizeMultiplier={type.maxScale}>
-                      {[p.area_text, p.place_type].filter(Boolean).join(' · ') || '위치 정보 없음'}
-                    </Text>
-                  </View>
+                <View key={p.label} style={styles.row}>
+                  <Text style={styles.rowKey} numberOfLines={2}>{p.label}</Text>
+                  <Text style={styles.rowVal}>
+                    {[p.area_text, p.place_type].filter(Boolean).join(' · ') || '위치 정보 없음'}
+                  </Text>
                   {editing ? (
                     <Pressable onPress={() => removePoint(p.label)} hitSlop={8}
                                accessibilityRole="button"
@@ -283,11 +298,13 @@ export default function PersonaDetailScreen() {
               ))}
             </View>
 
-            <Text style={styles.section} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              저장된 내용 {notes.length}가지
-            </Text>
-            {grouped.map((g) => (
-              <View key={g.label} style={styles.card}>
+            <SectionTitle icon={icBookmarkXml} label="주요 정보" />
+            {grouped.length === 0 ? (
+              <View style={styles.bar}>
+                <Text style={styles.empty}>저장된 내용이 없습니다.</Text>
+              </View>
+            ) : grouped.map((g) => (
+              <View key={g.label} style={styles.bar}>
                 <Text style={styles.groupLabel} allowFontScaling
                       maxFontSizeMultiplier={type.maxScale}>
                   {g.label}
@@ -335,7 +352,7 @@ export default function PersonaDetailScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: color.surfaceAlt },
+  safe: { flex: 1, backgroundColor: gColor.surface },
   flex: { flex: 1 },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 
@@ -345,14 +362,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: space.lg,
     paddingVertical: space.md,
-    backgroundColor: color.surface,
-    borderBottomWidth: 1,
-    borderBottomColor: color.border,
+    backgroundColor: gColor.surface,
   },
   backBtn: { width: 32 },
   title: {
     fontSize: type.size.cardTitle,
-    fontWeight: type.weight.black,
+    fontWeight: type.weight.medium,
     color: color.text,
     fontFamily: type.family,
   },
@@ -367,25 +382,29 @@ const styles = StyleSheet.create({
   dim: { opacity: 0.4 },
 
   scroll: { padding: space.lg, gap: space.sm, paddingBottom: space.xl },
-  card: {
-    backgroundColor: color.surface,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: color.border,
+  sectionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.sm,
+    marginTop: space.md,
+    paddingHorizontal: space.xs,
+  },
+  sectionTitle: {
+    fontSize: type.size.label,
+    fontWeight: type.weight.medium,
+    color: color.text,
+    fontFamily: type.family,
+  },
+  bar: {
+    backgroundColor: gColor.barBg,
+    borderRadius: radius.md,
     padding: space.lg,
     gap: space.sm,
   },
-  section: {
-    marginTop: space.md,
-    fontSize: type.size.label,
-    fontWeight: type.weight.black,
-    color: color.textBody,
-    fontFamily: type.family,
-  },
   groupLabel: {
     fontSize: type.size.caption,
-    fontWeight: type.weight.black,
-    color: ACCENT,
+    fontWeight: type.weight.medium,
+    color: gColor.inkGreen,
     fontFamily: type.family,
     marginBottom: space.xs,
   },
@@ -394,15 +413,15 @@ const styles = StyleSheet.create({
   rowKey: {
     width: 96,
     fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    color: color.textBody,
+    fontWeight: type.weight.medium,
+    color: gColor.inkGreen,
     fontFamily: type.family,
   },
   rowVal: {
     flex: 1,
     fontSize: type.size.label,
-    fontWeight: type.weight.black,
-    color: color.text,
+    fontWeight: type.weight.regular,
+    color: gColor.textValue,
     fontFamily: type.family,
   },
 
@@ -413,25 +432,11 @@ const styles = StyleSheet.create({
     gap: space.md,
     paddingVertical: space.xs,
   },
-  itemBody: { flex: 1 },
-  itemTitle: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.black,
-    color: color.text,
-    fontFamily: type.family,
-  },
-  itemSub: {
-    fontSize: type.size.caption,
-    fontWeight: type.weight.medium,
-    color: color.textCaption,
-    fontFamily: type.family,
-    marginTop: 2,
-  },
   noteText: {
     flex: 1,
     fontSize: type.size.label,
-    fontWeight: type.weight.medium,
-    color: color.text,
+    fontWeight: type.weight.regular,
+    color: gColor.textValue,
     fontFamily: type.family,
     lineHeight: 22,
   },
@@ -464,7 +469,7 @@ const styles = StyleSheet.create({
     fontSize: type.size.label,
     color: color.text,
     fontFamily: type.family,
-    backgroundColor: color.surfaceAlt,
+    backgroundColor: gColor.surface,
   },
   inputMulti: { minHeight: 72, textAlignVertical: 'top' },
 
@@ -477,7 +482,7 @@ const styles = StyleSheet.create({
   noticeText: {
     fontSize: type.size.caption,
     fontWeight: type.weight.medium,
-    color: color.walkInk,
+    color: gColor.inkGreen,
     fontFamily: type.family,
     lineHeight: 20,
   },
@@ -502,6 +507,6 @@ const styles = StyleSheet.create({
     padding: space.lg,
     borderTopWidth: 1,
     borderTopColor: color.border,
-    backgroundColor: color.surface,
+    backgroundColor: gColor.surface,
   },
 });

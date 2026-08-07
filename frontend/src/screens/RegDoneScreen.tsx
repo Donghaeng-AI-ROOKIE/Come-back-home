@@ -1,14 +1,25 @@
-/** 사전 등록 완료 (와이어프레임) — 무엇이 저장됐는지 보호자가 확인하는 화면. */
+/**
+ * 사전 등록 완료 — 피그마 [보호자] 사전등록 완료 (2609:15629) 구현.
+ * 무엇이 저장됐는지 보호자가 확인하는 화면.
+ */
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { SvgXml } from 'react-native-svg';
 import type { RootStackParamList } from '../navigation/types';
 import { color, radius, space, type } from '../theme/tokens';
-import CTAButton from '../components/CTAButton';
+import { gColor } from '../theme/guardianTokens';
+import {
+  icBookmarkXml,
+  icCheckCircleXml,
+  icHomeSmallXml,
+  logoXml,
+} from '../assets/guardianSvg';
+import { useGuardianStore } from '../store/guardianStore';
 
 function Row({ k, v }: { k: string; v: string }) {
   return (
@@ -26,23 +37,36 @@ function Row({ k, v }: { k: string; v: string }) {
 export default function RegDoneScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { name, age } = useRoute<RouteProp<RootStackParamList, 'RegDone'>>().params;
+  // 방금 등록한 페르소나 캐시 — 관련 장소 요약에 쓴다.
+  const persona = useGuardianStore((s) => s.persona);
+  const places = (persona?.attraction_points ?? []).map((p) => p.label).slice(0, 3);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
       <StatusBar style="dark" />
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.hero}>
+          <SvgXml xml={logoXml} width={77} height={42} />
+          <SvgXml xml={icCheckCircleXml} width={25} height={25} />
           <Text style={styles.heroTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            사전 등록이 끝났습니다
+            사전 등록 완료
           </Text>
           <Text style={styles.heroSub} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            신고 시 이 정보로 바로 예측을 시작합니다.
+            답변해주신 내용이 안전하게 저장되었습니다.
           </Text>
         </View>
 
+        <View style={styles.sectionRow}>
+          <SvgXml xml={icBookmarkXml} width={11} height={13} />
+          <Text style={styles.sectionTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            요약 정보
+          </Text>
+        </View>
         <View style={styles.card}>
-          <Row k="이름 / 연령" v={`${name} (${age}세)`} />
-          <Row k="유형" v="치매" />
+          <Row k="이름" v={name} />
+          <Row k="연령" v={`${age}세`} />
+          <Row k="건강 상태" v="치매" />
+          <Row k="관련 장소" v={places.length ? places.join(', ') : '등록된 장소 없음'} />
         </View>
 
         <View style={styles.notice}>
@@ -50,33 +74,58 @@ export default function RegDoneScreen() {
             등록 정보는 실종 상황의 예측에만 쓰이며, 사건이 종결되면 보관 기간에 따라 파기됩니다.
           </Text>
         </View>
-      </ScrollView>
 
-      <View style={styles.footer}>
-        <CTAButton
-          label="홈으로 돌아가기"
+        <Pressable
           onPress={() => navigation.navigate('GuardianTabs', { screen: 'GuardianHome' })}
-          accent={color.walk}
-        />
-      </View>
+          accessibilityRole="button"
+          accessibilityLabel="홈으로 돌아가기"
+          style={({ pressed }) => [styles.homeBtn, pressed && styles.pressed]}
+        >
+          <SvgXml xml={icHomeSmallXml} width={14} height={13} />
+          <Text style={styles.homeLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            홈으로 돌아가기
+          </Text>
+        </Pressable>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: color.surfaceAlt },
-  scroll: { padding: space.xl, gap: space.lg },
-  hero: { alignItems: 'center', gap: space.xs, paddingVertical: space.xl },
-  heroTitle: { fontSize: 24, fontWeight: type.weight.black, color: color.text, fontFamily: type.family },
-  heroSub: { fontSize: type.size.label, color: color.textBody, fontFamily: type.family, textAlign: 'center' },
+  safe: { flex: 1, backgroundColor: gColor.mint },
+  scroll: { padding: space.xl, gap: space.md, paddingBottom: space.xxl },
+  hero: { alignItems: 'center', gap: space.md, paddingVertical: space.xl },
+  heroTitle: { fontSize: type.size.title, fontWeight: type.weight.medium, color: color.text, fontFamily: type.family, marginTop: space.xs },
+  heroSub: { fontSize: type.size.label, fontWeight: type.weight.medium, color: gColor.textMuted, fontFamily: type.family, textAlign: 'center' },
 
-  card: { backgroundColor: color.surface, borderRadius: radius.lg, borderWidth: 1, borderColor: color.border, padding: space.lg },
+  sectionRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm, paddingHorizontal: space.xs },
+  sectionTitle: { fontSize: type.size.label, fontWeight: type.weight.medium, color: color.text, fontFamily: type.family },
+
+  card: { backgroundColor: gColor.surface, borderRadius: radius.lg, padding: space.lg },
   row: { flexDirection: 'row', paddingVertical: space.sm, gap: space.lg },
-  rowKey: { width: 90, fontSize: type.size.caption, fontWeight: type.weight.bold, color: color.textCaption, fontFamily: type.family },
-  rowVal: { flex: 1, fontSize: type.size.label, fontWeight: type.weight.medium, color: color.text, fontFamily: type.family },
+  rowKey: { width: 90, fontSize: type.size.label, fontWeight: type.weight.medium, color: gColor.inkGreen, fontFamily: type.family },
+  rowVal: { flex: 1, fontSize: type.size.label, fontWeight: type.weight.regular, color: gColor.textValue, fontFamily: type.family },
 
-  notice: { backgroundColor: color.walkWash, borderRadius: radius.lg, padding: space.lg },
-  noticeText: { fontSize: type.size.caption, color: color.walkInk, fontFamily: type.family, lineHeight: 20 },
+  notice: { backgroundColor: 'rgba(255,255,255,0.6)', borderRadius: radius.lg, padding: space.lg },
+  noticeText: { fontSize: type.size.caption, color: gColor.inkGreen, fontFamily: type.family, lineHeight: 20 },
 
-  footer: { padding: space.xl, borderTopWidth: 1, borderTopColor: color.border, backgroundColor: color.surface },
+  homeBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: space.sm,
+    alignSelf: 'center',
+    minWidth: 255,
+    minHeight: 44,
+    marginTop: space.xl,
+    borderRadius: radius.pill,
+    backgroundColor: gColor.surface,
+    shadowColor: '#000000',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.25,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  homeLabel: { fontSize: type.size.label, fontWeight: type.weight.medium, color: gColor.textMuted, fontFamily: type.family },
+  pressed: { opacity: 0.85 },
 });

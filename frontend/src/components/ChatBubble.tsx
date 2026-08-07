@@ -14,19 +14,25 @@ export type ChatBubbleProps = {
   /** 표시용 시각 (예: '오후 3:12'). */
   time?: string;
   dark?: boolean;
+  /** 배경 오버라이드 — 보호자 트리(피그마 그린 팔레트) 전용. 미지정 시 기존 색. */
+  bg?: string;
+  /** 글자색 오버라이드. */
+  fg?: string;
 };
 
-export function ChatBubble({ from, text, time, dark }: ChatBubbleProps) {
+export function ChatBubble({ from, text, time, dark, bg, fg }: ChatBubbleProps) {
   const isUser = from === 'user';
 
-  const bubbleBg = isUser
-    ? dark
-      ? hexToRgba(color.walk, 0.24)
-      : color.walkWash
-    : dark
-      ? color.operatorSurfaceAlt
-      : color.surfaceAlt;
-  const textColor = dark ? color.operatorText : color.text;
+  const bubbleBg =
+    bg ??
+    (isUser
+      ? dark
+        ? hexToRgba(color.walk, 0.24)
+        : color.walkWash
+      : dark
+        ? color.operatorSurfaceAlt
+        : color.surfaceAlt);
+  const textColor = fg ?? (dark ? color.operatorText : color.text);
   const timeColor = dark ? color.operatorTextSec : color.textCaption;
 
   const speaker = isUser ? '나' : '상담';
