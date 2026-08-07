@@ -1,7 +1,7 @@
 /**
- * 보호자 홈 (와이어프레임) — 사전등록과 긴급신고 두 갈래.
+ * 보호자 홈 — 피그마 [보호자] 메인 (2625:15791) 구현.
  *
- * 긴급 신고 버튼이 화면 맨 위에 있는 이유: 이 화면을 급하게 여는 사람은
+ * 긴급 신고 버튼이 화면 위쪽에 있는 이유: 이 화면을 급하게 여는 사람은
  * 이미 실종 상황이다. 사전등록 안내를 위에 두면 그 순간에 읽히지 않는다.
  */
 import React from 'react';
@@ -17,10 +17,28 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { SvgXml } from 'react-native-svg';
 import type { RootStackParamList } from '../navigation/types';
 import { color, radius, space, type } from '../theme/tokens';
+import { gColor } from '../theme/guardianTokens';
+import {
+  icBroadcastXml,
+  icChevronXml,
+  icProfileCardXml,
+  logoXml,
+} from '../assets/guardianSvg';
 import { useGuardianStore } from '../store/guardianStore';
 import { usePersonas } from '../hooks/queries';
+
+/** ISO → "YYYY.MM.DD". 등록일이 없으면 빈 문자열. */
+function fmtDate(iso?: string): string {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${d.getFullYear()}.${mm}.${dd}`;
+}
 
 export default function GuardianHomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -34,84 +52,93 @@ export default function GuardianHomeScreen() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          보호자 홈
-        </Text>
+        <View style={styles.header}>
+          <SvgXml xml={logoXml} width={77} height={42} />
+          <Text style={styles.headerSub} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            보호자{'\n'}안심 모드
+          </Text>
+        </View>
 
-        <Pressable
-          onPress={() => navigation.navigate('Report')}
-          accessibilityRole="button"
-          accessibilityLabel="즉시 긴급 실종 신고"
-          accessibilityHint="실종 신고를 접수하고 AI 예측을 시작합니다"
-          style={({ pressed }) => [styles.sos, pressed && styles.pressed]}
-        >
-          <Text style={styles.sosLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            즉시 긴급 실종 신고
-          </Text>
-        </Pressable>
+        <View style={styles.hero}>
+          <Pressable
+            onPress={() => navigation.navigate('Report')}
+            accessibilityRole="button"
+            accessibilityLabel="긴급 실종 신고"
+            accessibilityHint="실종 신고를 접수하고 AI 예측을 시작합니다"
+            style={({ pressed }) => [styles.sosCircle, pressed && styles.pressed]}
+          >
+            <SvgXml xml={icBroadcastXml} width={27} height={25} />
+            <Text style={styles.sosLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              실종 신고
+            </Text>
+          </Pressable>
 
-        <Pressable
-          onPress={() => navigation.navigate('RegChat')}
-          accessibilityRole="button"
-          accessibilityLabel="안심 사전 등록하기"
-          style={({ pressed }) => [styles.banner, pressed && styles.pressed]}
-        >
-          <Text style={styles.bannerTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            안심 사전 등록하기
-          </Text>
-          <Text style={styles.bannerBody} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            평상시에 미리 등록해 두면 신고 즉시 그 정보로 예측을 시작합니다.
-          </Text>
-        </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate('RegChat')}
+            accessibilityRole="button"
+            accessibilityLabel="안심 사전 등록"
+            style={({ pressed }) => [styles.regCard, pressed && styles.pressed]}
+          >
+            <SvgXml xml={icProfileCardXml} width={26} height={26} />
+            <Text style={styles.regTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              안심 사전 등록
+            </Text>
+            <Text style={styles.regBody} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              미리 정보를 등록해두면 위급 시 골든타임을 지킬 수 있습니다.
+            </Text>
+          </Pressable>
+        </View>
 
         <Text style={styles.section} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
           사전 등록된 가족
         </Text>
-        <View style={styles.card}>
-          {isLoading && list.length === 0 ? (
-            <ActivityIndicator color={color.walk} />
-          ) : list.length === 0 ? (
+        {isLoading && list.length === 0 ? (
+          <View style={styles.rowBar}>
+            <ActivityIndicator color={gColor.primary} />
+          </View>
+        ) : list.length === 0 ? (
+          <View style={styles.rowBar}>
             <Text style={styles.empty} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
               아직 등록된 가족이 없습니다. 사전 등록을 먼저 진행해 주세요.
             </Text>
-          ) : (
-            list.map((p) => (
-              <Pressable
-                key={p.id}
-                onPress={() => navigation.navigate('PersonaDetail', { personaId: p.id })}
-                accessibilityRole="button"
-                accessibilityLabel={`${p.name} ${p.age}세 등록 정보 보기`}
-                accessibilityHint="저장된 내용을 확인하고 수정할 수 있어요"
-                style={({ pressed }) => [styles.profileRow, pressed && styles.pressed]}
-              >
-                <View style={styles.avatar}>
-                  <Text style={styles.avatarEmoji}>👴</Text>
-                </View>
-                <View style={styles.profileInfo}>
-                  <Text style={styles.profileName} allowFontScaling
-                        maxFontSizeMultiplier={type.maxScale}>
+          </View>
+        ) : (
+          list.map((p) => (
+            <Pressable
+              key={p.id}
+              onPress={() => navigation.navigate('PersonaDetail', { personaId: p.id })}
+              accessibilityRole="button"
+              accessibilityLabel={`${p.name} ${p.age}세 등록 정보 보기`}
+              accessibilityHint="저장된 내용을 확인하고 수정할 수 있어요"
+              style={({ pressed }) => [styles.rowBar, pressed && styles.pressed]}
+            >
+              <View style={styles.rowInfo}>
+                <View style={styles.rowTop}>
+                  <Text style={styles.rowName} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
                     {p.name} ({p.age}세)
                   </Text>
-                  <View style={styles.statusBadge}>
-                    <Text style={styles.statusText} allowFontScaling
-                          maxFontSizeMultiplier={type.maxScale}>
-                      등록 완료 · 눌러서 확인
+                  <View style={styles.chip}>
+                    <Text style={styles.chipText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+                      치매
                     </Text>
                   </View>
                 </View>
-                <Text style={styles.chevron} allowFontScaling
-                      maxFontSizeMultiplier={type.maxScale}>
-                  ›
+                <Text style={styles.rowDate} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+                  최근 업데이트 날짜: {fmtDate(p.created_at)}
                 </Text>
-              </Pressable>
-            ))
-          )}
-        </View>
+              </View>
+              <SvgXml xml={icChevronXml} width={7} height={12} />
+            </Pressable>
+          ))
+        )}
 
         <View style={styles.guide}>
           <Text style={styles.guideText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            사전 등록 정보는 예측의 개인화에 쓰입니다. 자주 가시던 장소와 평소 습관이
-            자세할수록 수색 구역이 좁아집니다.
+            {'•'}  치매 어르신을 사전에 등록할 수 있습니다.
+          </Text>
+          <Text style={styles.guideText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+            {'•'}  정기적인 업데이트 알림에 답변해 주시면 실종시 동선 예측 정확도가
+            올라갑니다.
           </Text>
         </View>
       </ScrollView>
@@ -120,49 +147,76 @@ export default function GuardianHomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  chevron: { fontSize: 24, color: color.textCaption, fontFamily: type.family },
-  safe: { flex: 1, backgroundColor: color.surfaceAlt },
+  safe: { flex: 1, backgroundColor: gColor.surface },
   scroll: { padding: space.xl, gap: space.md, paddingBottom: space.xxl },
-  title: { fontSize: type.size.title, fontWeight: type.weight.black, color: color.text, fontFamily: type.family },
-  section: { fontSize: type.size.label, fontWeight: type.weight.black, color: color.textCaption, fontFamily: type.family, marginTop: space.sm },
 
-  sos: {
-    minHeight: 68,
-    borderRadius: radius.lg,
-    backgroundColor: color.critical,
+  header: { flexDirection: 'row', alignItems: 'center', gap: space.md, marginBottom: space.sm },
+  headerSub: {
+    fontSize: type.size.body,
+    lineHeight: 20,
+    letterSpacing: 0.41,
+    color: gColor.gray,
+    fontWeight: type.weight.bold,
+    fontFamily: type.family,
+  },
+
+  hero: { flexDirection: 'row', alignItems: 'center', gap: space.lg, marginVertical: space.sm },
+  sosCircle: {
+    width: 104,
+    height: 104,
+    borderRadius: radius.pill,
+    backgroundColor: gColor.alertRed,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: space.xs,
+    shadowColor: gColor.alertRed,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.63,
+    shadowRadius: 2,
+    elevation: 4,
   },
-  sosLabel: { fontSize: 19, fontWeight: type.weight.black, color: '#FFFFFF', fontFamily: type.family },
-
-  banner: {
-    backgroundColor: color.surface,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: color.border,
+  sosLabel: { fontSize: type.size.label, fontWeight: type.weight.bold, color: '#FFFFFF', fontFamily: type.family },
+  regCard: {
+    flex: 1,
+    minHeight: 104,
+    borderRadius: 10,
+    backgroundColor: gColor.cardGreen,
     padding: space.lg,
     gap: space.xs,
+    shadowColor: gColor.cardGreen,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.71,
+    shadowRadius: 2,
+    elevation: 4,
   },
-  bannerTitle: { fontSize: type.size.cardTitle, fontWeight: type.weight.black, color: color.text, fontFamily: type.family },
-  bannerBody: { fontSize: type.size.caption, color: color.textBody, fontFamily: type.family, lineHeight: 20 },
+  regTitle: { fontSize: type.size.label, fontWeight: type.weight.bold, color: 'rgba(255,255,255,0.92)', fontFamily: type.family },
+  regBody: { fontSize: type.size.caption, fontWeight: type.weight.medium, color: 'rgba(255,255,255,0.92)', fontFamily: type.family, lineHeight: 17 },
 
-  card: {
-    backgroundColor: color.surface,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: color.border,
-    padding: space.lg,
+  section: {
+    fontSize: type.size.cardTitle,
+    fontWeight: type.weight.bold,
+    color: color.text,
+    fontFamily: type.family,
+    marginTop: space.md,
   },
-  profileRow: { flexDirection: 'row', alignItems: 'center', gap: space.lg },
-  avatar: { width: 48, height: 48, borderRadius: 24, backgroundColor: color.surfaceAlt, alignItems: 'center', justifyContent: 'center' },
-  avatarEmoji: { fontSize: 24 },
-  profileInfo: { flex: 1, gap: space.xs },
-  profileName: { fontSize: type.size.body, fontWeight: type.weight.bold, color: color.text, fontFamily: type.family },
-  statusBadge: { alignSelf: 'flex-start', backgroundColor: color.walkWash, borderRadius: radius.pill, paddingHorizontal: space.md, paddingVertical: 3 },
-  statusText: { fontSize: type.size.caption, fontWeight: type.weight.bold, color: color.walkInk, fontFamily: type.family },
+  rowBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: gColor.barBg,
+    borderRadius: radius.md,
+    paddingHorizontal: space.lg,
+    paddingVertical: space.md,
+    gap: space.md,
+  },
+  rowInfo: { flex: 1, gap: space.xs },
+  rowTop: { flexDirection: 'row', alignItems: 'center', gap: space.md },
+  rowName: { fontSize: 17, fontWeight: type.weight.bold, color: gColor.textMuted, letterSpacing: -0.41, fontFamily: type.family },
+  chip: { backgroundColor: gColor.chip, borderRadius: radius.pill, paddingHorizontal: space.md, paddingVertical: 2 },
+  chipText: { fontSize: type.size.caption, color: gColor.textMuted, fontFamily: type.family },
+  rowDate: { fontSize: type.size.caption, color: gColor.textMuted, letterSpacing: 0.07, fontFamily: type.family },
   empty: { fontSize: type.size.label, color: color.textBody, fontFamily: type.family, lineHeight: 22 },
 
-  guide: { backgroundColor: color.surface, borderRadius: radius.lg, borderWidth: 1, borderColor: color.border, padding: space.lg },
-  guideText: { fontSize: type.size.caption, color: color.textBody, fontFamily: type.family, lineHeight: 20 },
+  guide: { marginTop: space.md, gap: space.xs },
+  guideText: { fontSize: type.size.caption, color: gColor.textMuted, letterSpacing: -0.08, fontFamily: type.family, lineHeight: 18 },
   pressed: { opacity: 0.85 },
 });

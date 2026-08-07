@@ -28,15 +28,17 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { LinearGradient } from 'expo-linear-gradient';
-import Svg, { Circle, Path } from 'react-native-svg';
-import { useNavigation } from '@react-navigation/native';
+import { SvgXml } from 'react-native-svg';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { color, radius, space, type } from '../theme/tokens';
+import { gColor } from '../theme/guardianTokens';
 import { hexToRgba } from '../utils/color';
 import type { RootStackParamList } from '../navigation/types';
 
+import { icBackXml } from '../assets/guardianSvg';
 import ChatBubble from '../components/ChatBubble';
 import QuickChips from '../components/QuickChips';
 import ChatComposer from '../components/ChatComposer';
@@ -53,8 +55,7 @@ import {
 } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
 
-const ACCENT = color.walk;
-const AVATAR_GRADIENT = [color.walk, color.walkInk] as const;
+const ACCENT = gColor.progressGreen;
 
 /**
  * 인증 도입 전 임시 보호자 이름 — 세션 생성에만 쓰이고 페르소나에는 안 들어간다.
@@ -88,35 +89,16 @@ function exampleFromQuestion(q: string | undefined): string {
 
 type Msg = { id: string; from: 'bot' | 'user'; text: string; pending?: boolean };
 
-/** AI 상담 아바타 — 그린 그라데이션 원 + 로봇 얼굴(목업 재현). */
-function BotAvatar() {
-  return (
-    <LinearGradient
-      colors={AVATAR_GRADIENT}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.avatar}
-    >
-      <Svg width={22} height={22} viewBox="0 0 24 24">
-        <Path d="M12 7c0-2.2-1.5-3.8-3.6-3.8C8.4 5.4 9.9 7 12 7Z" fill="#FFFFFF" opacity={0.92} />
-        <Path d="M12 7c0-2.2 1.5-3.8 3.6-3.8C15.6 5.4 14.1 7 12 7Z" fill="#FFFFFF" opacity={0.92} />
-        <Circle cx={9.6} cy={12.4} r={1.35} fill="#FFFFFF" />
-        <Circle cx={14.4} cy={12.4} r={1.35} fill="#FFFFFF" />
-        <Path
-          d="M9.7 15.4c1.4 1.2 3.2 1.2 4.6 0"
-          stroke="#FFFFFF"
-          strokeWidth={1.6}
-          fill="none"
-          strokeLinecap="round"
-        />
-      </Svg>
-    </LinearGradient>
-  );
-}
-
 export default function RegChatScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  // 빠른 등록(신고 중 미등록) 모드 — 같은 인터뷰를 적색 팔레트로 진행한다.
+  // 서버 인터뷰가 필수(tier 1) 슬롯부터 묻기 때문에 백엔드 분기는 필요 없다.
+  // 탭으로 열리면 params 가 없으므로 기본(그린) 모드다.
+  const route = useRoute<RouteProp<RootStackParamList, 'RegChat'>>();
+  const quick = route.params?.quick ?? false;
+  const accent = quick ? gColor.quickRed : ACCENT;
+  const botBubbleBg = quick ? gColor.bubbleBotQuick : gColor.bubbleBot;
 
   const [session, setSession] = useState<InterviewSession | null>(null);
   const [slots, setSlots] = useState<SlotInfo[]>([]);
@@ -253,16 +235,7 @@ export default function RegChatScreen() {
                 hitSlop={8}
                 style={({ pressed }) => [styles.backBtn, pressed && styles.pressed]}
               >
-                <Svg width={24} height={24} viewBox="0 0 24 24">
-                  <Path
-                    d="M15 5l-7 7 7 7"
-                    stroke={color.text}
-                    strokeWidth={2.2}
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </Svg>
+                <SvgXml xml={icBackXml} width={10} height={18} />
               </Pressable>
             ) : (
               <View style={styles.headerSpacer} />
@@ -273,30 +246,21 @@ export default function RegChatScreen() {
               maxFontSizeMultiplier={type.maxScale}
               numberOfLines={1}
             >
-              가족 등록
+              {quick ? '빠른 등록' : '사전 등록 인터뷰'}
             </Text>
             <View style={styles.headerSpacer} />
           </View>
 
           <View style={styles.progress} accessible accessibilityLabel={progressA11y}>
-            {/* 도트 = 서버 슬롯. 어떤 순서로 물을지는 서버가 정하므로 "몇 개를
-                채웠나"만 표시한다(프론트 단계 인덱스는 더 이상 진실이 아니다). */}
-            <View style={styles.dotsRow}>
-              {slots.map((s, i) => {
-                if (i === filledCount) {
-                  return (
-                    <View key={s.key} style={styles.dotGlow}>
-                      <View style={styles.dotActive} />
-                    </View>
-                  );
-                }
-                return (
-                  <View
-                    key={s.key}
-                    style={[styles.dot, i < filledCount ? styles.dotDone : styles.dotFuture]}
-                  />
-                );
-              })}
+            {/* 진행바 = 채운 슬롯 비율. 어떤 순서로 물을지는 서버가 정하므로
+                "몇 개를 채웠나"만 표시한다(프론트 단계 인덱스는 진실이 아니다). */}
+            <View style={styles.progressTrack}>
+              <View
+                style={[
+                  styles.progressFill,
+                  { width: `${totalSlots ? Math.max((filledCount / totalSlots) * 100, 4) : 4}%`, backgroundColor: accent },
+                ]}
+              />
             </View>
             <Text
               style={styles.progressSub}
@@ -335,14 +299,7 @@ export default function RegChatScreen() {
 
           {messages.map((m) => {
             if (m.from === 'bot') {
-              return (
-                <View key={m.id} style={styles.botRow}>
-                  <BotAvatar />
-                  <View style={styles.botBubbleWrap}>
-                    <ChatBubble from="bot" text={m.text} />
-                  </View>
-                </View>
-              );
+              return <ChatBubble key={m.id} from="bot" text={m.text} bg={botBubbleBg} />;
             }
             return (
               <View key={m.id} style={styles.userRow}>
@@ -366,9 +323,8 @@ export default function RegChatScreen() {
           {/* Mi:dm 이 답을 읽고 다음 질문을 만드는 동안 — 무응답으로 보이지 않게 */}
           {pending ? (
             <View style={styles.botRow} accessible accessibilityLabel="답변을 확인하고 있어요">
-              <BotAvatar />
               <View style={styles.typingBubble}>
-                <ActivityIndicator size="small" color={ACCENT} />
+                <ActivityIndicator size="small" color={accent} />
               </View>
             </View>
           ) : null}
@@ -383,7 +339,7 @@ export default function RegChatScreen() {
                 {session ? '전송하지 못했어요.' : '등록을 시작하지 못했어요.'} {error}
               </Text>
               {!session ? (
-                <CTAButton label="다시 시도" onPress={begin} accent={ACCENT} />
+                <CTAButton label="다시 시도" onPress={begin} accent={accent} />
               ) : null}
             </View>
           ) : null}
@@ -412,7 +368,7 @@ export default function RegChatScreen() {
               <QuickChips
                 chips={chips}
                 onSelect={onChipSelect}
-                accent={ACCENT}
+                accent={accent}
                 disabled={!session || !!pending}
               />
             </View>
@@ -424,7 +380,7 @@ export default function RegChatScreen() {
             // 음성 인식 붙기 전까지 — 서버 질문에 담긴 예시를 입력창에 채운다.
             onVoice={example ? () => setInput(example) : undefined}
             placeholder={session ? '답변을 입력하거나 말해보세요' : '연결 중이에요…'}
-            accent={ACCENT}
+            accent={accent}
           />
         </View>
       </KeyboardAvoidingView>
@@ -463,35 +419,36 @@ const styles = StyleSheet.create({
     fontFamily: type.family,
     letterSpacing: -0.3,
   },
-  progress: { alignItems: 'center', gap: space.sm, marginTop: space.sm },
-  dotsRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
-  dot: { width: 9, height: 9, borderRadius: 4.5 },
-  dotDone: { backgroundColor: color.walk },
-  dotFuture: { backgroundColor: hexToRgba(color.textBody, 0.25) },
-  dotGlow: {
-    backgroundColor: color.walkWash,
+  progress: { gap: space.sm, marginTop: space.sm },
+  progressTrack: {
+    height: 4,
     borderRadius: radius.pill,
-    paddingHorizontal: 3,
-    paddingVertical: 3,
+    backgroundColor: gColor.track,
+    overflow: 'hidden',
   },
-  dotActive: { width: 22, height: 9, borderRadius: radius.pill, backgroundColor: color.walk },
+  progressFill: {
+    height: 4,
+    borderRadius: radius.pill,
+    backgroundColor: gColor.progressGreen,
+  },
   progressSub: {
+    textAlign: 'center',
     fontSize: type.size.caption,
     fontWeight: type.weight.medium,
     color: color.textBody,
     fontFamily: type.family,
   },
 
-  // 대화
-  scroll: { flex: 1, backgroundColor: color.walkWash },
+  // 대화 — 피그마: 흰 배경 위 그린/그레이 말풍선
+  scroll: { flex: 1, backgroundColor: gColor.surface },
   chatContent: { paddingHorizontal: space.lg, paddingVertical: space.lg, gap: space.sm },
 
   safeBanner: {
     alignSelf: 'center',
-    backgroundColor: color.surface,
+    backgroundColor: gColor.surface,
     borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: hexToRgba(color.walk, 0.35),
+    borderColor: hexToRgba(gColor.progressGreen, 0.35),
     paddingHorizontal: space.lg,
     paddingVertical: space.sm,
     marginBottom: space.xs,
@@ -499,46 +456,28 @@ const styles = StyleSheet.create({
   safeBannerText: {
     fontSize: type.size.label,
     fontWeight: type.weight.bold,
-    color: color.walkInk,
+    color: gColor.progressGreen,
     fontFamily: type.family,
     textAlign: 'center',
   },
 
-  // 봇 말풍선(아바타 + ChatBubble)
+  // 봇 말풍선 행 (타이핑 표시용)
   botRow: { flexDirection: 'row', alignItems: 'flex-end', gap: space.sm },
-  avatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: color.walk,
-    shadowOpacity: 0.34,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 4,
-  },
-  botBubbleWrap: { flex: 1 },
 
-  // 사용자 말풍선(솔리드 그린)
+  // 사용자 말풍선 — 피그마: #EDEDED 플랫, 검정 글자
   userRow: { flexDirection: 'row', justifyContent: 'flex-end' },
   userBubble: {
     maxWidth: '82%',
-    backgroundColor: color.walk,
-    borderRadius: radius.lg,
-    borderBottomRightRadius: radius.sm,
+    backgroundColor: gColor.bubbleUser,
+    borderRadius: radius.md,
+    borderTopRightRadius: radius.sm,
     paddingHorizontal: space.lg,
     paddingVertical: space.md,
-    shadowColor: color.walk,
-    shadowOpacity: 0.28,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 3,
   },
   userText: {
     fontSize: type.size.body,
     fontWeight: type.weight.medium,
-    color: '#FFFFFF',
+    color: color.text,
     fontFamily: type.family,
     lineHeight: 22,
   },

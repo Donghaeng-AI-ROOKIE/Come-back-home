@@ -1,24 +1,30 @@
-/** 보호자 하단 3탭 (와이어프레임): 홈 / 사전등록 / 내 정보. */
+/** 보호자 하단 4탭 (피그마 [보호자] 확정): 홈 / 사전등록 / 알림 / 내 정보. */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SvgXml } from 'react-native-svg';
 import type { GuardianTabParamList } from './types';
 import { color, radius, space, type } from '../theme/tokens';
+import { gColor, gTabBar } from '../theme/guardianTokens';
+import {
+  tabAlertXml,
+  tabHomeXml,
+  tabMyXml,
+  tabRegXml,
+  tintXml,
+} from '../assets/guardianSvg';
 import CTAButton from '../components/CTAButton';
 import GuardianHomeScreen from '../screens/GuardianHomeScreen';
+import GuardianAlertsScreen from '../screens/GuardianAlertsScreen';
 import RegChatScreen from '../screens/RegChatScreen';
 import { useAuthStore } from '../store/authStore';
 import { useGuardianStore } from '../store/guardianStore';
 
 const Tab = createBottomTabNavigator<GuardianTabParamList>();
 
-function TabIcon({ label, focused }: { label: string; focused: boolean }) {
-  return (
-    <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.5, color: focused ? color.text : color.textCaption }}>
-      {label}
-    </Text>
-  );
+function TabIcon({ xml, focused }: { xml: string; focused: boolean }) {
+  return <SvgXml xml={tintXml(xml, focused ? gColor.primary : gColor.gray)} width={24} height={25} />;
 }
 
 /** 내 정보 — 로그아웃과 등록 현황만. 시민 마이페이지(레벨·배지)와 다르다. */
@@ -67,26 +73,44 @@ export default function GuardianTabs() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: color.text,
-        tabBarInactiveTintColor: color.textCaption,
-        tabBarLabelStyle: { fontSize: 12, fontWeight: type.weight.bold, fontFamily: type.family },
-        tabBarStyle: { backgroundColor: color.surface, borderTopColor: color.border, height: 88, paddingTop: 6 },
+        tabBarActiveTintColor: gColor.primary,
+        tabBarInactiveTintColor: gColor.gray,
+        tabBarLabelStyle: { fontSize: 12, fontWeight: type.weight.medium, fontFamily: type.family },
+        tabBarStyle: {
+          backgroundColor: gColor.surface,
+          borderTopWidth: 0,
+          borderTopLeftRadius: gTabBar.radius,
+          borderTopRightRadius: gTabBar.radius,
+          height: gTabBar.height,
+          paddingTop: 10,
+          // 위쪽으로 뜨는 그림자 (피그마 Glassmorphism Background)
+          shadowColor: '#000000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 2,
+          elevation: 8,
+        },
       }}
     >
       <Tab.Screen
         name="GuardianHome"
         component={GuardianHomeScreen}
-        options={{ tabBarLabel: '홈', tabBarIcon: ({ focused }) => <TabIcon label="🏠" focused={focused} /> }}
+        options={{ tabBarLabel: '홈', tabBarIcon: ({ focused }) => <TabIcon xml={tabHomeXml} focused={focused} /> }}
       />
       <Tab.Screen
         name="GuardianReg"
         component={RegChatScreen}
-        options={{ tabBarLabel: '사전등록', tabBarIcon: ({ focused }) => <TabIcon label="💬" focused={focused} /> }}
+        options={{ tabBarLabel: '사전등록', tabBarIcon: ({ focused }) => <TabIcon xml={tabRegXml} focused={focused} /> }}
+      />
+      <Tab.Screen
+        name="GuardianAlerts"
+        component={GuardianAlertsScreen}
+        options={{ tabBarLabel: '알림', tabBarIcon: ({ focused }) => <TabIcon xml={tabAlertXml} focused={focused} /> }}
       />
       <Tab.Screen
         name="GuardianMy"
         component={GuardianMyScreen}
-        options={{ tabBarLabel: '내 정보', tabBarIcon: ({ focused }) => <TabIcon label="👤" focused={focused} /> }}
+        options={{ tabBarLabel: '내 정보', tabBarIcon: ({ focused }) => <TabIcon xml={tabMyXml} focused={focused} /> }}
       />
     </Tab.Navigator>
   );
