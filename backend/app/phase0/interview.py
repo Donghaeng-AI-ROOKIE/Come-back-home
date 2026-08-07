@@ -53,6 +53,7 @@ MAX_QUESTIONS = 40
 GUARDS = {
     "ignorance_exhaust": True,   # 무지 답변("모르겠어요") → 그 슬롯 즉시 소진
     "negation_fill": True,       # 부정 답변("없어요") → '해당 없음'으로 충족
+    "affirmation_fill": True,    # 단순 긍정("네") → 여부 질문에 대한 답으로 충족
     "presupposition": True,      # 근거 없는 전제 질문("~라고 하실 때") 차단
     "existence_first": True,     # 여부 확인 전 세부(부정조건) 질문 차단
     "dedup": True,               # 세션 전체 질문 문장 중복 방지
@@ -543,6 +544,16 @@ def _is_question_unclear(text: str) -> bool:
 # 모르겠어요", "복용약 없다"는데 "약을 거르셨을 때…" 후속 질문까지 나옴.
 _NEGATION_RE = re.compile(
     r"(아니요|아니에요|아뇨|없어요|없습니다|없는데요|없다고|없음|안\s*계세요|안\s*가세요|안\s*드세요)")
+
+
+# "답변 했잖아" — 이미 답했다는 항의. 새 사실이 없으므로 사실로 저장하면 안 되고
+# (실측: 요약에 "위험한 곳을 피하실 수 있는지: 답변 완료"), 더 물어서도 안 된다.
+_PROTEST_RE = re.compile(r"(답변|대답|말씀|얘기|말)\s*(했|드렸|한)|했잖|아까\s*말|이미\s*말")
+
+
+def _is_protest(text: str) -> bool:
+    t = text.strip()
+    return len(t) <= 25 and bool(_PROTEST_RE.search(t))
 
 
 def _is_negative_answer(text: str) -> bool:
@@ -1158,12 +1169,13 @@ def _apply_extraction(
     # 있으세요"에 노트 0·slot_filled=false → 슬롯이 안 닫혀 같은 질문이 다시 나갔고
     # 보호자가 한 말은 어디에도 저장되지 않았다. 모델 판정과 무관하게, 실질적인
     # 답변이면 원발화를 근거로 남긴다(아래에서 충족 처리까지 이어진다).
-    # 단순 긍정("네", "네 맞아요")은 사실이 아니다 — 폴백을 넓히면서 이런 답이
-    # 행동 노트로 저장되던 것을 막는다(2026-08-07 실측: "불안하실 때 하시는 행동:
-    # 네 맞아요"). 슬롯 충족은 아래 slot_filled 경로가 따로 판단한다.
+    # 단순 긍정("네 맞아요")·항의("답변 했잖아")는 사실이 아니다 — 폴백을 넓히면서
+    # 이런 답이 행동 노트로 저장되던 것을 막는다(2026-08-07 실측: "불안하실 때
+    # 하시는 행동: 네 맞아요", "위험한 곳을 피하실 수 있는지: 답변 완료").
+    # 슬롯 충족은 위쪽 negation_fill·affirmation_fill 경로가 따로 판단한다.
     if (not got_note and not notes_in and prev_slot.axis != Axis.profile and utterance
             and not _is_pure_ignorance(utterance) and not _is_negative_answer(utterance)
-            and not _is_affirmative(utterance)
+            and not _is_affirmative(utterance) and not _is_protest(utterance)
             and _is_informative_note(utterance, utterance)
             and not _is_dup_note(utterance, seen_notes)):
         tagged = f"{prev_slot.label}: {utterance}"
@@ -1339,6 +1351,23 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
                 and prev_slot.key not in session.filled_keys:
             session.filled_keys.append(prev_slot.key)
             session.asked_counts.pop(prev_slot.key, None)
+        # 단순 긍정("네")도 마찬가지로 **유효한 답**이다. 씨앗 질문 상당수가 여부를
+        # 묻는 문형("…피할 수 있나요?", "…경우가 있나요?")이라 보호자는 한 마디로
+        # 답한다. 부정만 충족 처리하고 긍정은 안 하던 비대칭 때문에 슬롯이 안 닫혀
+        # 위험 인지 질문이 세 번 나갔고, 보호자가 "답변 했잖아"라고 했다
+        # (라이브 실측 2026-08-07). 노트는 남기지 않는다 — 부정 처리와 같은 원칙으로,
+        # "네" 한 글자를 사실로 저장하면 요약에 군더더기만 는다.
+        if GUARDS["affirmation_fill"] and _is_affirmative(clean) \
+                and prev_slot.axis != Axis.profile \
+                and prev_slot.key not in session.filled_keys:
+            session.filled_keys.append(prev_slot.key)
+            session.asked_counts.pop(prev_slot.key, None)
+        # "답변 했잖아" — 이미 답했다는 항의다. 새 사실이 없으므로 더 묻지 않는다
+        # (무지와 같은 소진 처리). 실측에서 이 발화가 원발화 폴백을 타고 사실로
+        # 저장돼 요약에 "위험한 곳을 피하실 수 있는지: 답변 완료"로 찍혔다.
+        if GUARDS["ignorance_exhaust"] and _is_protest(clean) \
+                and prev_slot.key not in session.filled_keys:
+            session.asked_counts[prev_slot.key] = MAX_ASKS_PER_SLOT
         # 과거 장소를 새로 얻었으면 그 자리에서 주소를 묻는다 — 좌표 없는 끌림점은
         # 예측에 못 들어가므로 "장소를 들었다"와 "끌림점이 생겼다"는 다른 일이다.
         _ensure_found_place(session, prev_slot, extracted, clean)
