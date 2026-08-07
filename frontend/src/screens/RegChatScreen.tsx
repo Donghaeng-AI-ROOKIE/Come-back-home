@@ -4,16 +4,9 @@
  * 다음 질문을 고르고 문장화하고 답에서 값을 뽑는 것은 전부 백엔드다. 이 화면은
  * 매 턴 서버가 준 messages 를 그리고, 완료되면 persona_id 를 RegDone 으로 넘긴다.
  *
- * 목업(reg-content.dc.html) 충실 재현:
- *  - 헤더: 뒤로 · 가운데 정렬 "가족 등록" · 진행 도트(현재 단계 알약 강조) · "N단계 · 5분이면 끝나요".
- *  - 그린 틴트 대화 배경 위 흰색 AI 말풍선(로봇 아바타) + 솔리드 그린 사용자 말풍선.
- *  - 상단 안심 배너("정보는 안전하게 보관되고, 발견 즉시 파기돼요 🔒").
- *  - 하단: 빠른응답 칩 + 큰 음성 마이크 컴포저.
- * 목업과 달라진 점(서버 계약에 맞춤):
- *  - 사진 첨부 단계 없음 — Phase 0 슬롯 12개에 사진이 없다(신고 화면의 관심사).
- *  - 진행 도트 = 채워진 슬롯 수. 질문 순서를 서버가 정하므로 고정 단계가 아니다.
- *  - 빠른응답 칩은 회피 답변만 — 도메인 보기를 프론트가 지어내면 슬롯과 어긋난다.
- *  - 완료 요약 카드 없음 — RegDone 화면이 맡는다.
+ * Figma 확정 프레임에 맞춰 헤더·4px 진행바·13px 말풍선·원형 위쪽 전송 버튼만
+ * 보인다. 진행률은 서버의 채워진 슬롯 수로 계산하며 질문 순서는 서버가 정한다.
+ * 완료 요약은 RegDone 화면이 맡는다.
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -26,7 +19,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { SvgXml } from 'react-native-svg';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -34,13 +27,12 @@ import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { color, radius, space, type } from '../theme/tokens';
-import { gColor } from '../theme/guardianTokens';
+import { gColor, gFont } from '../theme/guardianTokens';
 import { hexToRgba } from '../utils/color';
 import type { RootStackParamList } from '../navigation/types';
 
 import { icBackXml } from '../assets/guardianSvg';
 import ChatBubble from '../components/ChatBubble';
-import QuickChips from '../components/QuickChips';
 import ChatComposer from '../components/ChatComposer';
 import CTAButton from '../components/CTAButton';
 
@@ -54,6 +46,7 @@ import {
   type SlotInfo,
 } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
+import { GuardianStandaloneTabBar } from '../components/GuardianTabBar';
 
 const ACCENT = gColor.progressGreen;
 
@@ -63,35 +56,13 @@ const ACCENT = gColor.progressGreen;
  */
 const GUARDIAN_NAME = '보호자';
 
-/**
- * 빠른응답 칩. **질문 내용을 프론트가 지어내지 않는다** — 어떤 슬롯을 묻는지는
- * 서버가 정하므로, 어느 질문에나 안전하게 쓸 수 있는 회피 답변만 둔다. 도메인
- * 보기를 여기 박으면 서버의 슬롯과 어긋나 엉뚱한 값이 추출된다.
- *
- * ⚠ **tier 1(필수) 슬롯에는 띄우지 않는다.** 성함·나이·거주지를 "잘 모르겠어요"로
- * 넘기면 페르소나가 성립하지 않는데, 칩이 있으면 누르게 된다. 서버는 필수 슬롯을
- * 다시 묻지만("죄송해요, 한 번만 더 여쭐게요") 턴만 낭비되고 등록은 진행되지 않는다.
- */
-const SKIP_CHIPS = ['잘 모르겠어요', '없어요'];
-/** 마지막 확인("이대로 등록할까요?") 단계 전용. */
-const CONFIRM_CHIPS = ['네, 맞아요', '아니요, 수정할게요'];
-
-/**
- * 서버 질문에 들어 있는 예시를 뽑는다 — "(예: 쉬지 않고 약 30분 걷습니다)" 형태.
- * 마이크 버튼이 이 값을 입력창에 채운다. **프론트가 예시를 지어내지 않는다**는
- * 원칙은 유지된다(문구의 출처가 서버 질문 자체다). 음성 인식이 붙기 전까지의
- * 입력 보조이고, 보호자는 그대로 보내지 않고 고쳐 쓰면 된다.
- */
-function exampleFromQuestion(q: string | undefined): string {
-  const m = q?.match(/\(예:\s*([^)]+)\)/);
-  return m ? m[1].trim() : '';
-}
-
 type Msg = { id: string; from: 'bot' | 'user'; text: string; pending?: boolean };
 
 export default function RegChatScreen() {
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  // 탭에서 열린 일반 등록은 현재 navigation이 BottomTabNavigation이다. 완료 화면은
+  // 루트 스택에 올려야 하므로 부모를 사용하고, 빠른 등록(root 화면)은 현재 객체를 쓴다.
+  const stackNavigation = navigation.getParent<NativeStackNavigationProp<RootStackParamList>>() ?? navigation;
   // 빠른 등록(신고 중 미등록) 모드 — 같은 인터뷰를 적색 팔레트로 진행한다.
   // 서버 인터뷰가 필수(tier 1) 슬롯부터 묻기 때문에 백엔드 분기는 필요 없다.
   // 탭으로 열리면 params 가 없으므로 기본(그린) 모드다.
@@ -149,20 +120,22 @@ export default function RegChatScreen() {
         const persona = await getPersona(session.persona_id!);
         if (cancelled) return;
         setPersona(persona);
-        navigation.replace('RegDone', {
+        if (quick) stackNavigation.goBack();
+        else stackNavigation.navigate('RegDone', {
           personaId: persona.id, name: persona.name, age: persona.age,
         });
       } catch (e) {
         if (cancelled) return;
         // 등록 자체는 성공했다 — 조회만 실패했으므로 진행은 시킨다.
         setError(e instanceof ApiError ? e.message : String(e));
-        navigation.replace('RegDone', {
+        if (quick) stackNavigation.goBack();
+        else stackNavigation.navigate('RegDone', {
           personaId: session.persona_id!, name: '', age: 0,
         });
       }
     })();
     return () => { cancelled = true; };
-  }, [session, navigation, setPersona]);
+  }, [session, quick, setPersona, stackNavigation]);
 
   const messages = useMemo<Msg[]>(() => {
     const fromServer = (session?.messages ?? []).map((m, i) => ({
@@ -191,28 +164,10 @@ export default function RegChatScreen() {
     }
   };
 
-  const onChipSelect = (chip: string) => submitAnswer(chip);
-
   const canGoBack = navigation.canGoBack();
 
   const totalSlots = slots.length;
   const filledCount = session?.filled_keys.length ?? 0;
-  // 지금 묻고 있는 슬롯 — tier 1이면 회피 칩을 감춘다(위 SKIP_CHIPS 주석).
-  const targetSlot = slots.find((s) => s.key === session?.prev_target_key);
-  const chips = session?.awaiting_confirmation
-    ? CONFIRM_CHIPS
-    : targetSlot?.tier === 1
-      ? []
-      : SKIP_CHIPS;
-
-  // 마이크가 채울 예시: 서버 질문에 예시가 섞여 오면 그것을, 없으면 슬롯 카탈로그의
-  // answer_example 을 쓴다. Mi:dm 이 질문마다 예시를 붙이는지는 보장되지 않는다.
-  const lastQuestion = [...(session?.messages ?? [])]
-    .reverse()
-    .find((m) => m.role === 'assistant')?.text;
-  const example =
-    exampleFromQuestion(lastQuestion) || (targetSlot?.answer_example ?? '');
-
   const progressA11y = totalSlots
     ? `${filledCount}개 항목 완료, 총 ${totalSlots}개.`
     : '등록 진행 중';
@@ -262,15 +217,6 @@ export default function RegChatScreen() {
                 ]}
               />
             </View>
-            <Text
-              style={styles.progressSub}
-              allowFontScaling
-              maxFontSizeMultiplier={type.maxScale}
-            >
-              {totalSlots
-                ? `${filledCount}/${totalSlots} 항목 · 5분이면 끝나요`
-                : '5분이면 끝나요'}
-            </Text>
           </View>
         </View>
 
@@ -282,24 +228,9 @@ export default function RegChatScreen() {
           showsVerticalScrollIndicator={false}
           onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}
         >
-          {/* 안심 배너 */}
-          <View
-            style={styles.safeBanner}
-            accessible
-            accessibilityLabel="정보는 안전하게 보관되고, 발견 즉시 파기돼요"
-          >
-            <Text
-              style={styles.safeBannerText}
-              allowFontScaling
-              maxFontSizeMultiplier={type.maxScale}
-            >
-              🔒 정보는 안전하게 보관되고, 발견 즉시 파기돼요
-            </Text>
-          </View>
-
           {messages.map((m) => {
             if (m.from === 'bot') {
-              return <ChatBubble key={m.id} from="bot" text={m.text} bg={botBubbleBg} />;
+              return <ChatBubble key={m.id} from="bot" text={m.text} bg={botBubbleBg} guardian />;
             }
             return (
               <View key={m.id} style={styles.userRow}>
@@ -352,7 +283,7 @@ export default function RegChatScreen() {
                 allowFontScaling
                 maxFontSizeMultiplier={type.maxScale}
               >
-                ⚠️ AI 응답이 불안정해 기본 질문으로 이어가고 있어요. 등록은 계속 진행됩니다.
+                AI 응답이 불안정해 기본 질문으로 이어가고 있어요. 등록은 계속 진행됩니다.
               </Text>
             </View>
           ) : null}
@@ -362,28 +293,18 @@ export default function RegChatScreen() {
         </ScrollView>
 
         {/* 입력 영역 */}
-        <View style={[styles.footer, { paddingBottom: insets.bottom + space.sm }]}>
-          {chips.length > 0 ? (
-            <View style={styles.chipsWrap}>
-              <QuickChips
-                chips={chips}
-                onSelect={onChipSelect}
-                accent={accent}
-                disabled={!session || !!pending}
-              />
-            </View>
-          ) : null}
+        <View style={styles.footer}>
           <ChatComposer
             value={input}
             onChangeText={setInput}
             onSend={() => submitAnswer(input)}
-            // 음성 인식 붙기 전까지 — 서버 질문에 담긴 예시를 입력창에 채운다.
-            onVoice={example ? () => setInput(example) : undefined}
-            placeholder={session ? '답변을 입력하거나 말해보세요' : '연결 중이에요…'}
+            placeholder={session ? '메시지를 입력하세요' : '연결 중이에요…'}
             accent={accent}
+            guardian
           />
         </View>
       </KeyboardAvoidingView>
+      {quick ? <GuardianStandaloneTabBar active="GuardianReg" accent={accent} /> : null}
     </SafeAreaView>
   );
 }
@@ -395,71 +316,42 @@ const styles = StyleSheet.create({
   // 헤더
   header: {
     backgroundColor: color.surface,
-    paddingHorizontal: space.md,
-    paddingTop: space.sm,
-    paddingBottom: space.md,
-    borderBottomWidth: 1,
-    borderBottomColor: color.border,
+    paddingHorizontal: 16,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   headerRow: { flexDirection: 'row', alignItems: 'center' },
   backBtn: {
     width: 42,
-    height: 42,
+    height: 48,
     borderRadius: radius.md,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerSpacer: { width: 42, height: 42 },
+  headerSpacer: { width: 42, height: 48 },
   title: {
     flex: 1,
     textAlign: 'center',
-    fontSize: type.size.cardTitle,
-    fontWeight: type.weight.black,
-    color: color.text,
-    fontFamily: type.family,
+    fontSize: 18,
+    color: '#000000',
+    fontFamily: gFont.semiBold,
     letterSpacing: -0.3,
   },
-  progress: { gap: space.sm, marginTop: space.sm },
+  progress: { height: 44, justifyContent: 'flex-start' },
   progressTrack: {
     height: 4,
-    borderRadius: radius.pill,
+    borderRadius: 0,
     backgroundColor: gColor.track,
     overflow: 'hidden',
   },
   progressFill: {
     height: 4,
-    borderRadius: radius.pill,
+    borderRadius: 0,
     backgroundColor: gColor.progressGreen,
   },
-  progressSub: {
-    textAlign: 'center',
-    fontSize: type.size.caption,
-    fontWeight: type.weight.medium,
-    color: color.textBody,
-    fontFamily: type.family,
-  },
-
   // 대화 — 피그마: 흰 배경 위 그린/그레이 말풍선
   scroll: { flex: 1, backgroundColor: gColor.surface },
-  chatContent: { paddingHorizontal: space.lg, paddingVertical: space.lg, gap: space.sm },
-
-  safeBanner: {
-    alignSelf: 'center',
-    backgroundColor: gColor.surface,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    borderColor: hexToRgba(gColor.progressGreen, 0.35),
-    paddingHorizontal: space.lg,
-    paddingVertical: space.sm,
-    marginBottom: space.xs,
-  },
-  safeBannerText: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    color: gColor.progressGreen,
-    fontFamily: type.family,
-    textAlign: 'center',
-  },
+  chatContent: { paddingHorizontal: 24, paddingVertical: 16, gap: 8 },
 
   // 봇 말풍선 행 (타이핑 표시용)
   botRow: { flexDirection: 'row', alignItems: 'flex-end', gap: space.sm },
@@ -467,19 +359,17 @@ const styles = StyleSheet.create({
   // 사용자 말풍선 — 피그마: #EDEDED 플랫, 검정 글자
   userRow: { flexDirection: 'row', justifyContent: 'flex-end' },
   userBubble: {
-    maxWidth: '82%',
+    maxWidth: 280,
     backgroundColor: gColor.bubbleUser,
-    borderRadius: radius.md,
-    borderTopRightRadius: radius.sm,
-    paddingHorizontal: space.lg,
-    paddingVertical: space.md,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
   },
   userText: {
-    fontSize: type.size.body,
-    fontWeight: type.weight.medium,
-    color: color.text,
-    fontFamily: type.family,
-    lineHeight: 22,
+    fontSize: 13,
+    color: '#000000',
+    fontFamily: gFont.regular,
+    lineHeight: 19,
   },
 
   /** 전송 중인 사용자 발화 — 아직 서버가 못 받았음을 흐리게 표시. */
@@ -510,7 +400,7 @@ const styles = StyleSheet.create({
     fontSize: type.size.label,
     fontWeight: type.weight.bold,
     color: color.critical,
-    fontFamily: type.family,
+    fontFamily: gFont.semiBold,
     lineHeight: 20,
   },
   warnCard: {
@@ -525,20 +415,16 @@ const styles = StyleSheet.create({
     fontSize: type.size.caption,
     fontWeight: type.weight.medium,
     color: color.textBody,
-    fontFamily: type.family,
+    fontFamily: gFont.medium,
     lineHeight: 20,
   },
 
   // 입력 영역
   footer: {
-    paddingHorizontal: space.lg,
-    paddingTop: space.sm,
-    borderTopWidth: 1,
-    borderTopColor: color.border,
+    paddingHorizontal: 0,
+    paddingTop: 0,
     backgroundColor: color.surface,
-    gap: space.sm,
   },
-  chipsWrap: { marginBottom: space.xs },
 
   pressed: { opacity: 0.6 },
 });

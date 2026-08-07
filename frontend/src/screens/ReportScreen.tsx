@@ -5,11 +5,9 @@
  * 기다리게 하지 않는 이유: 10초 안팎 걸리는데 그동안 "접수됐는지"조차 모른 채
  * 보고 있게 된다. 접수 확인을 먼저 주고 예측은 다음 화면에서 진행을 보여준다.
  *
- * 피그마 대비 의도적 차이:
- * - 주소 검색 필드는 지오코딩이 아직 없어 자유 텍스트만 받는다(접수에는
- *   DEFAULT_LKP 좌표가 나간다 — 위치 권한·검색 연동 전까지의 한계를 지도
- *   아래 캡션으로 알린다).
- * - 경찰 제출 문서 토글은 피그마에 없지만 기능을 유지한다(백엔드 신뢰도 가점).
+ * 주소 검색 지오코딩은 아직 서버 계약에 없어 자유 텍스트로 받고, 접수 좌표는
+ * DEFAULT_LKP를 쓴다. 사진 파일도 현재 Phase 1 계약이 받지 않으므로 첨부됐다고
+ * 가장하지 않고 안내한다. 화면 모양은 Figma 확정 프레임을 그대로 따른다.
  */
 import React, { useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -20,8 +18,8 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SvgXml } from 'react-native-svg';
 import { Circle, Marker } from 'react-native-maps';
 import type { RootStackParamList } from '../navigation/types';
-import { color, radius, space, type } from '../theme/tokens';
-import { gColor } from '../theme/guardianTokens';
+import { radius, type } from '../theme/tokens';
+import { gColor, gFont } from '../theme/guardianTokens';
 import {
   icBackXml,
   icCameraXml,
@@ -34,6 +32,7 @@ import {
 import { BaseMap } from '../components/BaseMap';
 import { createReport } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
+import { GuardianStandaloneTabBar } from '../components/GuardianTabBar';
 
 /** 시연 기본 위치 — 위치 권한이 붙기 전까지 LKP 를 이 값으로 둔다. */
 const DEFAULT_LKP = { lat: 37.6061, lng: 127.0106 };
@@ -56,8 +55,6 @@ export default function ReportScreen() {
 
   const [address, setAddress] = useState('');
   const [situation, setSituation] = useState('');
-  const [withPhoto, setWithPhoto] = useState(false);
-  const [withDocument, setWithDocument] = useState(false);
   const [sending, setSending] = useState(false);
 
   const onSubmit = async () => {
@@ -69,8 +66,7 @@ export default function ReportScreen() {
         // 백엔드는 로컬 naive 시각을 기대한다 — Z(UTC)를 붙이면 9시간 어긋난다.
         lkp_time: new Date().toISOString().replace('Z', ''),
         persona_id: persona?.id ?? null,
-        with_photo: withPhoto,
-        with_document: withDocument,
+        situation: situation.trim(),
       });
       setCaseId(c.id);
       navigation.replace('ReportSent', { caseId: c.id });
@@ -82,7 +78,7 @@ export default function ReportScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
+    <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
       <View style={styles.header}>
         <Pressable
@@ -180,9 +176,6 @@ export default function ReportScreen() {
         <Text style={styles.locCaption} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
           {address.trim() || '정릉동 일대 (기본 위치)'}
         </Text>
-        <Text style={styles.locNote} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          위치 권한·주소 검색 연동 전이라 기본 좌표로 접수됩니다.
-        </Text>
 
         <SectionTitle icon={icEditXml} label="실종 당시 상황" />
         <TextInput
@@ -190,36 +183,22 @@ export default function ReportScreen() {
           value={situation}
           onChangeText={setSituation}
           placeholder="비가 오는데 우산 없이 나가셨습니다"
-          placeholderTextColor={color.textCaption}
+          placeholderTextColor="#8E8E93"
           multiline
           accessibilityLabel="실종 당시 상황 입력"
         />
 
         <SectionTitle icon={icCameraXml} label="최근 사진 첨부" />
         <Pressable
-          onPress={() => setWithPhoto((v) => !v)}
-          accessibilityRole="checkbox"
-          accessibilityState={{ checked: withPhoto }}
+          onPress={() => Alert.alert('최근 사진 첨부', '현재 신고 API는 사진 파일을 받지 않습니다. 사진 첨부 기능이 연결되면 이 버튼에서 갤러리를 엽니다.')}
+          accessibilityRole="button"
           accessibilityLabel="최근 사진 첨부, 갤러리 바로가기"
-          style={({ pressed }) => [styles.galleryBtn, withPhoto && styles.galleryBtnOn, pressed && styles.pressed]}
+          style={({ pressed }) => [styles.galleryBtn, pressed && styles.pressed]}
         >
           <SvgXml xml={icPlusXml} width={13} height={13} />
-          <Text style={[styles.galleryLabel, withPhoto && styles.galleryLabelOn]} allowFontScaling
+          <Text style={styles.galleryLabel} allowFontScaling
                 maxFontSizeMultiplier={type.maxScale}>
-            {withPhoto ? '최근 사진 첨부됨 ✓' : '갤러리 바로가기'}
-          </Text>
-        </Pressable>
-
-        <Pressable
-          onPress={() => setWithDocument((v) => !v)}
-          accessibilityRole="checkbox"
-          accessibilityState={{ checked: withDocument }}
-          accessibilityLabel="경찰 제출 문서 첨부, 실종신고서·진술서"
-          style={({ pressed }) => [styles.docRow, pressed && styles.pressed]}
-        >
-          <Text style={[styles.docMark, withDocument && styles.docMarkOn]}>{withDocument ? '✓' : '+'}</Text>
-          <Text style={styles.docLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            경찰 제출 문서 첨부 (실종신고서 · 진술서)
+            갤러리 바로가기
           </Text>
         </Pressable>
       </ScrollView>
@@ -237,6 +216,7 @@ export default function ReportScreen() {
           </Text>
         </Pressable>
       </View>
+      <GuardianStandaloneTabBar active="GuardianHome" />
     </SafeAreaView>
   );
 }
@@ -248,59 +228,57 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: space.lg,
-    paddingVertical: space.md,
+    paddingHorizontal: 16,
+    height: 48,
     backgroundColor: gColor.surface,
   },
   backBtn: { width: 32 },
   title: {
-    fontSize: type.size.cardTitle,
-    fontWeight: type.weight.medium,
-    color: color.text,
-    fontFamily: type.family,
+    fontSize: 18,
+    color: '#000000',
+    fontFamily: gFont.semiBold,
   },
 
-  scroll: { padding: space.lg, gap: space.sm, paddingBottom: space.xl },
+  scroll: { paddingHorizontal: 24, gap: 8, paddingBottom: 20 },
   sectionRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: space.sm,
-    marginTop: space.md,
-    paddingHorizontal: space.xs,
+    gap: 8,
+    marginTop: 10,
+    paddingHorizontal: 4,
   },
   sectionTitle: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.medium,
-    color: color.text,
-    fontFamily: type.family,
+    fontSize: 14,
+    color: '#000000',
+    fontFamily: gFont.semiBold,
   },
 
   bar: {
     backgroundColor: gColor.barBg,
     borderRadius: radius.md,
-    padding: space.lg,
-    gap: space.xs,
+    padding: 16,
+    gap: 4,
   },
-  personaName: { fontSize: type.size.body, fontWeight: type.weight.bold, color: gColor.textValue, fontFamily: type.family },
-  personaSub: { fontSize: type.size.caption, color: color.textBody, fontFamily: type.family, lineHeight: 20 },
-  quickRegBtn: { alignSelf: 'flex-start', marginTop: space.xs, minHeight: 32, justifyContent: 'center' },
-  quickRegLabel: { fontSize: type.size.label, fontWeight: type.weight.bold, color: gColor.quickRed, fontFamily: type.family },
+  personaName: { fontSize: 13, color: gColor.textValue, fontFamily: gFont.semiBold },
+  personaSub: { fontSize: 11, color: gColor.textMuted, fontFamily: gFont.regular, lineHeight: 17 },
+  quickRegBtn: { alignSelf: 'flex-start', marginTop: 4, minHeight: 32, justifyContent: 'center' },
+  quickRegLabel: { fontSize: 12, color: gColor.quickRed, fontFamily: gFont.semiBold },
 
   searchField: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: space.sm,
+    gap: 8,
     backgroundColor: gColor.barBg,
     borderRadius: radius.pill,
-    paddingHorizontal: space.lg,
+    paddingHorizontal: 16,
     minHeight: 40,
   },
   searchInput: {
     flex: 1,
-    fontSize: type.size.label,
-    color: color.text,
-    fontFamily: type.family,
-    paddingVertical: space.sm,
+    fontSize: 12,
+    color: '#000000',
+    fontFamily: gFont.regular,
+    paddingVertical: 8,
   },
 
   mapWrap: { borderRadius: 20, overflow: 'hidden' },
@@ -319,21 +297,18 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   locCaption: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.medium,
+    fontSize: 12,
     color: gColor.textMuted,
-    fontFamily: type.family,
+    fontFamily: gFont.medium,
   },
-  locNote: { fontSize: type.size.caption, color: color.textCaption, fontFamily: type.family },
-
   textarea: {
     minHeight: 96,
     backgroundColor: gColor.barBg,
     borderRadius: radius.md,
-    padding: space.lg,
-    fontSize: type.size.label,
-    color: color.text,
-    fontFamily: type.family,
+    padding: 16,
+    fontSize: 12,
+    color: '#000000',
+    fontFamily: gFont.regular,
     textAlignVertical: 'top',
   },
 
@@ -341,7 +316,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: space.sm,
+    gap: 8,
     alignSelf: 'center',
     minWidth: 255,
     minHeight: 44,
@@ -353,22 +328,9 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
   },
-  galleryBtnOn: { backgroundColor: color.walkWash },
-  galleryLabel: { fontSize: type.size.label, fontWeight: type.weight.medium, color: gColor.textMuted, fontFamily: type.family },
-  galleryLabelOn: { color: gColor.inkGreen },
+  galleryLabel: { fontSize: 12, color: gColor.textMuted, fontFamily: gFont.medium },
 
-  docRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.md,
-    paddingHorizontal: space.sm,
-    minHeight: 40,
-  },
-  docMark: { fontSize: 18, fontWeight: type.weight.black, color: color.textCaption },
-  docMarkOn: { color: gColor.inkGreen },
-  docLabel: { fontSize: type.size.caption, color: color.textBody, fontFamily: type.family },
-
-  footer: { padding: space.lg, backgroundColor: gColor.surface },
+  footer: { paddingHorizontal: 24, paddingVertical: 12, backgroundColor: gColor.surface },
   sos: {
     alignSelf: 'center',
     minWidth: 204,
@@ -377,14 +339,14 @@ const styles = StyleSheet.create({
     backgroundColor: gColor.alertRed,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: space.xl,
+    paddingHorizontal: 24,
     shadowColor: gColor.alertRed,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.63,
     shadowRadius: 2,
     elevation: 4,
   },
-  sosLabel: { fontSize: type.size.title, fontWeight: type.weight.medium, color: '#FFFFFF', fontFamily: type.family },
+  sosLabel: { fontSize: 18, color: '#FFFFFF', fontFamily: gFont.medium },
   pressed: { opacity: 0.85 },
   disabled: { opacity: 0.5 },
 });

@@ -41,10 +41,11 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import type { RootStackParamList } from '../navigation/types';
 import { color, radius, space, type } from '../theme/tokens';
-import { gColor } from '../theme/guardianTokens';
+import { gColor, gFont } from '../theme/guardianTokens';
 import {
   icBackXml,
   icBookmarkXml,
+  icFilterXml,
   icMappinXml,
   icPersonXml,
 } from '../assets/guardianSvg';
@@ -53,6 +54,7 @@ import CTAButton from '../components/CTAButton';
 import { ApiError } from '../api/config';
 import { getPersona, updatePersona, type AttractionPoint, type Persona } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
+import { GuardianStandaloneTabBar } from '../components/GuardianTabBar';
 
 const ACCENT = gColor.primary;
 
@@ -230,10 +232,11 @@ export default function PersonaDetailScreen() {
             hitSlop={8}
             disabled={!persona}
           >
-            <Text style={[styles.editBtn, !persona && styles.dim]} allowFontScaling
-                  maxFontSizeMultiplier={type.maxScale}>
-              {editing ? '취소' : '수정'}
-            </Text>
+            {editing ? (
+              <Text style={[styles.editBtn, !persona && styles.dim]}>취소</Text>
+            ) : (
+              <SvgXml xml={icFilterXml} width={24} height={24} />
+            )}
           </Pressable>
         </View>
 
@@ -326,13 +329,6 @@ export default function PersonaDetailScreen() {
               </View>
             ))}
 
-            <View style={styles.notice}>
-              <Text style={styles.noticeText} allowFontScaling
-                    maxFontSizeMultiplier={type.maxScale}>
-                이 내용이 예측의 근거가 됩니다. 사실과 다른 부분이 있으면 수정해 주세요.
-                등록 정보는 사건이 종결되면 보관 기간에 따라 파기됩니다.
-              </Text>
-            </View>
           </ScrollView>
         ) : null}
 
@@ -347,6 +343,7 @@ export default function PersonaDetailScreen() {
           </View>
         ) : null}
       </KeyboardAvoidingView>
+      <GuardianStandaloneTabBar active="GuardianHome" />
     </SafeAreaView>
   );
 }
@@ -360,28 +357,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: space.lg,
-    paddingVertical: space.md,
+    paddingHorizontal: 16,
+    height: 48,
     backgroundColor: gColor.surface,
   },
   backBtn: { width: 32 },
   title: {
-    fontSize: type.size.cardTitle,
-    fontWeight: type.weight.medium,
-    color: color.text,
-    fontFamily: type.family,
+    fontSize: 18,
+    color: '#000000',
+    fontFamily: gFont.semiBold,
   },
   editBtn: {
     width: 32,
     textAlign: 'right',
-    fontSize: type.size.label,
-    fontWeight: type.weight.bold,
+    fontSize: 13,
     color: ACCENT,
-    fontFamily: type.family,
+    fontFamily: gFont.semiBold,
   },
   dim: { opacity: 0.4 },
 
-  scroll: { padding: space.lg, gap: space.sm, paddingBottom: space.xl },
+  scroll: { paddingHorizontal: 24, paddingTop: 12, gap: 8, paddingBottom: 24 },
   sectionRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -390,10 +385,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.xs,
   },
   sectionTitle: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.medium,
-    color: color.text,
-    fontFamily: type.family,
+    fontSize: 14,
+    color: '#000000',
+    fontFamily: gFont.semiBold,
   },
   bar: {
     backgroundColor: gColor.barBg,
@@ -402,27 +396,24 @@ const styles = StyleSheet.create({
     gap: space.sm,
   },
   groupLabel: {
-    fontSize: type.size.caption,
-    fontWeight: type.weight.medium,
+    fontSize: 12,
     color: gColor.inkGreen,
-    fontFamily: type.family,
+    fontFamily: gFont.medium,
     marginBottom: space.xs,
   },
 
   row: { flexDirection: 'row', alignItems: 'flex-start', gap: space.md },
   rowKey: {
     width: 96,
-    fontSize: type.size.label,
-    fontWeight: type.weight.medium,
+    fontSize: 12,
     color: gColor.inkGreen,
-    fontFamily: type.family,
+    fontFamily: gFont.medium,
   },
   rowVal: {
     flex: 1,
-    fontSize: type.size.label,
-    fontWeight: type.weight.regular,
+    fontSize: 12,
     color: gColor.textValue,
-    fontFamily: type.family,
+    fontFamily: gFont.regular,
   },
 
   itemRow: {
@@ -434,23 +425,22 @@ const styles = StyleSheet.create({
   },
   noteText: {
     flex: 1,
-    fontSize: type.size.label,
-    fontWeight: type.weight.regular,
+    fontSize: 12,
     color: gColor.textValue,
-    fontFamily: type.family,
-    lineHeight: 22,
+    fontFamily: gFont.regular,
+    lineHeight: 18,
   },
   remove: {
     fontSize: type.size.caption,
     fontWeight: type.weight.bold,
     color: color.critical,
-    fontFamily: type.family,
+    fontFamily: gFont.semiBold,
   },
   empty: {
     fontSize: type.size.label,
     fontWeight: type.weight.medium,
     color: color.textCaption,
-    fontFamily: type.family,
+    fontFamily: gFont.medium,
   },
 
   field: { gap: space.xs },
@@ -458,7 +448,7 @@ const styles = StyleSheet.create({
     fontSize: type.size.caption,
     fontWeight: type.weight.bold,
     color: color.textBody,
-    fontFamily: type.family,
+    fontFamily: gFont.regular,
   },
   input: {
     borderWidth: 1,
@@ -468,24 +458,10 @@ const styles = StyleSheet.create({
     paddingVertical: space.sm,
     fontSize: type.size.label,
     color: color.text,
-    fontFamily: type.family,
+    fontFamily: gFont.regular,
     backgroundColor: gColor.surface,
   },
   inputMulti: { minHeight: 72, textAlignVertical: 'top' },
-
-  notice: {
-    marginTop: space.md,
-    backgroundColor: hexToRgba(ACCENT, 0.08),
-    borderRadius: radius.lg,
-    padding: space.lg,
-  },
-  noticeText: {
-    fontSize: type.size.caption,
-    fontWeight: type.weight.medium,
-    color: gColor.inkGreen,
-    fontFamily: type.family,
-    lineHeight: 20,
-  },
 
   errorCard: {
     margin: space.lg,
@@ -500,7 +476,7 @@ const styles = StyleSheet.create({
     fontSize: type.size.label,
     fontWeight: type.weight.bold,
     color: color.critical,
-    fontFamily: type.family,
+    fontFamily: gFont.medium,
   },
 
   footer: {

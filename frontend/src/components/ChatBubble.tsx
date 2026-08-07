@@ -7,6 +7,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { color, radius, space, type } from '../theme/tokens';
 import { hexToRgba } from '../utils/color';
+import { gFont } from '../theme/guardianTokens';
 
 export type ChatBubbleProps = {
   from: 'bot' | 'user';
@@ -18,9 +19,11 @@ export type ChatBubbleProps = {
   bg?: string;
   /** 글자색 오버라이드. */
   fg?: string;
+  /** 보호자 Figma 챗 UI의 작은 13px 말풍선 규격. */
+  guardian?: boolean;
 };
 
-export function ChatBubble({ from, text, time, dark, bg, fg }: ChatBubbleProps) {
+export function ChatBubble({ from, text, time, dark, bg, fg, guardian }: ChatBubbleProps) {
   const isUser = from === 'user';
 
   const bubbleBg =
@@ -47,12 +50,13 @@ export function ChatBubble({ from, text, time, dark, bg, fg }: ChatBubbleProps) 
       <View
         style={[
           styles.bubble,
+          guardian && styles.guardianBubble,
           { backgroundColor: bubbleBg },
           isUser ? styles.bubbleUser : styles.bubbleBot,
         ]}
       >
         <Text
-          style={[styles.text, { color: textColor }]}
+          style={[styles.text, guardian && styles.guardianText, { color: textColor }]}
           allowFontScaling
           maxFontSizeMultiplier={type.maxScale}
         >
@@ -89,6 +93,8 @@ const styles = StyleSheet.create({
     fontWeight: type.weight.medium,
     fontFamily: type.family,
   },
+  guardianBubble: { maxWidth: 280, paddingHorizontal: 14, paddingVertical: 10, borderRadius: 10 },
+  guardianText: { fontSize: 13, lineHeight: 19, fontFamily: gFont.regular, fontWeight: '400' },
   time: {
     marginTop: space.xs,
     fontSize: type.size.caption,

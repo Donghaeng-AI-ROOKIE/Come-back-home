@@ -3,17 +3,10 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SvgXml } from 'react-native-svg';
 import type { GuardianTabParamList } from './types';
 import { color, radius, space, type } from '../theme/tokens';
-import { gColor, gTabBar } from '../theme/guardianTokens';
-import {
-  tabAlertXml,
-  tabHomeXml,
-  tabMyXml,
-  tabRegXml,
-  tintXml,
-} from '../assets/guardianSvg';
+import { gFont } from '../theme/guardianTokens';
+import { GuardianNavigatorTabBar } from '../components/GuardianTabBar';
 import CTAButton from '../components/CTAButton';
 import GuardianHomeScreen from '../screens/GuardianHomeScreen';
 import GuardianAlertsScreen from '../screens/GuardianAlertsScreen';
@@ -22,10 +15,6 @@ import { useAuthStore } from '../store/authStore';
 import { useGuardianStore } from '../store/guardianStore';
 
 const Tab = createBottomTabNavigator<GuardianTabParamList>();
-
-function TabIcon({ xml, focused }: { xml: string; focused: boolean }) {
-  return <SvgXml xml={tintXml(xml, focused ? gColor.primary : gColor.gray)} width={24} height={25} />;
-}
 
 /** 내 정보 — 로그아웃과 등록 현황만. 시민 마이페이지(레벨·배지)와 다르다. */
 function GuardianMyScreen() {
@@ -71,46 +60,28 @@ function GuardianMyScreen() {
 export default function GuardianTabs() {
   return (
     <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: gColor.primary,
-        tabBarInactiveTintColor: gColor.gray,
-        tabBarLabelStyle: { fontSize: 12, fontWeight: type.weight.medium, fontFamily: type.family },
-        tabBarStyle: {
-          backgroundColor: gColor.surface,
-          borderTopWidth: 0,
-          borderTopLeftRadius: gTabBar.radius,
-          borderTopRightRadius: gTabBar.radius,
-          height: gTabBar.height,
-          paddingTop: 10,
-          // 위쪽으로 뜨는 그림자 (피그마 Glassmorphism Background)
-          shadowColor: '#000000',
-          shadowOffset: { width: 0, height: -2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 2,
-          elevation: 8,
-        },
-      }}
+      screenOptions={{ headerShown: false }}
+      tabBar={(props) => <GuardianNavigatorTabBar {...props} />}
     >
       <Tab.Screen
         name="GuardianHome"
         component={GuardianHomeScreen}
-        options={{ tabBarLabel: '홈', tabBarIcon: ({ focused }) => <TabIcon xml={tabHomeXml} focused={focused} /> }}
+        options={{ tabBarLabel: '홈' }}
       />
       <Tab.Screen
         name="GuardianReg"
         component={RegChatScreen}
-        options={{ tabBarLabel: '사전등록', tabBarIcon: ({ focused }) => <TabIcon xml={tabRegXml} focused={focused} /> }}
+        options={{ tabBarLabel: '사전등록' }}
       />
       <Tab.Screen
         name="GuardianAlerts"
         component={GuardianAlertsScreen}
-        options={{ tabBarLabel: '알림', tabBarIcon: ({ focused }) => <TabIcon xml={tabAlertXml} focused={focused} /> }}
+        options={{ tabBarLabel: '알림' }}
       />
       <Tab.Screen
         name="GuardianMy"
         component={GuardianMyScreen}
-        options={{ tabBarLabel: '내 정보', tabBarIcon: ({ focused }) => <TabIcon xml={tabMyXml} focused={focused} /> }}
+        options={{ tabBarLabel: '내 정보' }}
       />
     </Tab.Navigator>
   );
@@ -119,10 +90,10 @@ export default function GuardianTabs() {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: color.surfaceAlt },
   wrap: { flex: 1, padding: space.xl, gap: space.lg },
-  title: { fontSize: type.size.title, fontWeight: type.weight.black, color: color.text, fontFamily: type.family },
+  title: { fontSize: type.size.title, color: color.text, fontFamily: gFont.bold },
   card: { backgroundColor: color.surface, borderRadius: radius.lg, borderWidth: 1, borderColor: color.border, padding: space.lg, gap: space.xs },
-  rowKey: { fontSize: type.size.caption, fontWeight: type.weight.bold, color: color.textCaption, fontFamily: type.family },
-  rowVal: { fontSize: type.size.label, fontWeight: type.weight.medium, color: color.text, fontFamily: type.family },
+  rowKey: { fontSize: type.size.caption, color: color.textCaption, fontFamily: gFont.bold },
+  rowVal: { fontSize: type.size.label, color: color.text, fontFamily: gFont.medium },
   divider: { height: 1, backgroundColor: color.border, marginVertical: space.md },
   spacer: { flex: 1 },
 });

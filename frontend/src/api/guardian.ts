@@ -155,8 +155,13 @@ export function createReport(body: {
   lkp: GeoPoint;
   lkp_time: string;
   persona_id?: string | null;
-  with_photo?: boolean;
-  with_document?: boolean;
+  situation?: string;
+  appearance?: {
+    top_color?: string | null;
+    bottom_color?: string | null;
+    shoes?: string | null;
+    accessories?: string[];
+  } | null;
 }) {
   return api<Case>('/phase1/reports', { method: 'POST', body: JSON.stringify(body) });
 }

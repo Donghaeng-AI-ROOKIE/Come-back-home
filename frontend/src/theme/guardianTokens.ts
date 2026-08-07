@@ -31,3 +31,11 @@ export const gTabBar = {
   radius: 40,
   height: 84,
 } as const;
+
+/** Figma의 42dot Sans 굵기별 로컬 폰트 이름. */
+export const gFont = {
+  regular: 'Dot42-Regular',
+  medium: 'Dot42-Medium',
+  semiBold: 'Dot42-SemiBold',
+  bold: 'Dot42-Bold',
+} as const;
