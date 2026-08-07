@@ -1,0 +1,33 @@
+# 돌아오길 백엔드 배포 — 대상: 맥미니 (상시 가동 · 태일넷 조인 · 팀 공유 노드)
+#
+# 실행 (맥미니에서):
+#   cd Come-back-home && cp backend/.env.example backend/.env  # 키 채우기
+#   docker compose up -d --build
+# 접속 (팀원, Tailscale 켠 상태):
+#   대시보드  http://100.73.27.46:8000/dashboard
+#   앱 API    http://100.73.27.46:8000  (Expo 앱 API_BASE 를 이 주소로)
+#
+# 대시보드는 별도 서비스가 아니다 — FastAPI 가 서빙하는 정적 페이지라
+# 이 컨테이너 하나로 API·대시보드가 함께 뜬다. 모바일 앱은 서버 배포가
+# 아니라 클라이언트 빌드(EAS)라서 여기 없다.
+#
+# ⚠ EXAONE 실호출 조건 = 호스트가 태일넷에 조인돼 있을 것. 컨테이너는
+#   호스트 라우팅을 타고 100.73.27.46:18000(게이트웨이)에 나간다.
+#   확인법: docker compose exec backend python -c "import urllib.request;
+#           print(urllib.request.urlopen('http://100.73.27.46:18000/v1/models',
+#           timeout=5).status)"  → 401(키 없음)이면 연결은 된 것.
+# ⚠ 외부 공개(Funnel 등) 금지 기본값 — 대시보드에 실명·인터뷰 원문이 뜨고
+#   인증이 없다. 공개가 필요하면 별도 결정(최소 Basic Auth) 후에.
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - backend/.env
+    volumes:
+      # 상태 전부 — SQLite 영속화 + 도로망 캐시 + 개인정보 감사 로그.
+      # 컨테이너를 재생성해도 5일 파기 카운트다운·감사 추적이 유지돼야 한다.
+      - ./backend/data:/app/data
+    restart: unless-stopped
