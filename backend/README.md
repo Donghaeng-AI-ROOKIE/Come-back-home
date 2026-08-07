@@ -26,13 +26,12 @@ app/
 ├── llm/               모델 클라이언트 + 설정 누락·장애 시 폴백
 │   ├── exaone.py        EXAONE — 지식 LoRA prior, 행동 LoRA 마음 재해석
 │   ├── midm.py          Mi:dm — 온보딩 인터뷰 전용
-│   ├── tip_llm.py       제보 구조화·구체성 등급 (Mi:dm 2.0 Mini 선택, 스텁 폴백)
-│   └── upstage.py       Solar Pro — 신고서 파싱
+│   └── tip_llm.py       제보 구조화·구체성 등급 (Mi:dm 2.0 Mini 선택, 스텁 폴백)
 ├── geo/
 │   ├── h3grid.py        H3 육각격자, likelihood 커널, 좌표 유틸
 │   └── roadnet.py       OSMnx 보행 도로망 (USE_ROADNET=true 일 때 활성, 디스크 캐시)
 ├── phase0/interview.py  온보딩: 챗봇 인터뷰 → 페르소나 DB
-├── phase1/intake.py     신고 접수: 인상착의·신고자 추출 → Case 생성
+├── phase1/intake.py     신고 접수: 보호자 입력 인상착의 색상 추출 → Case 생성
 ├── phase2/
 │   ├── topdown.py       2-1 Top-down: prior → POA (MC 없음)
 │   ├── simulation.py    2-2 Bottom-up (agent+MC 500회) / 2-3 통계 MC (동적 마음 재해석 없음)

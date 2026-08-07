@@ -55,7 +55,6 @@ def case():
         persona_id=persona.id,
         appearance=Appearance(
             top="파란색 점퍼", bottom="회색 바지", shoes="흰색 운동화"),
-        document_bytes=b"stub",
     )
     pipeline.run_prediction(c, seed=42)
     return c

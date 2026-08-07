@@ -35,14 +35,12 @@ def case():
         persona_id=persona.id,
         appearance=Appearance(
             top="파란색 점퍼", bottom="회색 바지", shoes="흰색 운동화"),
-        document_bytes=b"stub",
     )
 
 
 def test_full_pipeline(case):
     # Phase 1 산출물
     assert case.report.appearance is not None
-    assert case.report.reporter is not None
 
     # Phase 2 — 예측 (top-down/bottom-up/통계 3종 계산, 결합은 bottom-up·통계 2-way)
     result = pipeline.run_prediction(case, seed=42)
