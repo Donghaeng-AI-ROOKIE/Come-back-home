@@ -650,7 +650,8 @@ def _mind_event(
             response = llm.exaone.call_log[-1]["response"]
     return MindEvent(
         walker_idx=walker_idx, step=step, location=loc, trigger=trigger,
-        source=source, status=mind.status, confusion=mind.confusion, goal=goal,
+        source=source, status=mind.status, confusion=mind.confusion,
+        behavior=mind.behavior, goal=goal,
         prompt=prompt, response_raw=response)
 
 
