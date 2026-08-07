@@ -105,7 +105,8 @@ def test_note_from_out_of_type_slot_still_shown(monkeypatch):
     """
     slot = slot_by_key("medication")
     monkeypatch.setattr(interview, "slots_for",
-                        lambda ptype: [s for s in slots_for(ptype) if s.key != slot.key])
+                        lambda ptype, tiers=None: [s for s in slots_for(ptype, tiers)
+                                                    if s.key != slot.key])
     s = _session(draft_behaviors=[f"{slot.label}: 혈압약을 아침저녁으로 드심"])
     text = interview.build_summary(s)
 

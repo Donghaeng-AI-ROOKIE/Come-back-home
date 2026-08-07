@@ -538,11 +538,17 @@ def _unfilled_slots(session: InterviewSession, grouped: dict[str, list[str]]) ->
     한 번도 안 물은 슬롯도 비어 있는 것은 같고, 반대로 채움 판정이 없어도 노트·
     장소가 남았으면 요약 본문에 이미 보이므로 빈칸이 아니다(같은 항목이 위아래에
     동시에 나오는 모순 방지).
+
+    _scoped_slots(session) 로 이 세션의 target_tiers 안에서만 찾는다 — 전체
+    slots_for(ptype) 를 쓰면 미니챗(Tier1)이 이번엔 안 물은 Tier2·3 를, 보완챗
+    (Tier2·3)이 이미 다른 세션(미니챗)에서 답한 Tier1 을 "아직 안 알려주신 것"
+    으로 잘못 나열한다 — 그 세션의 draft_fields·filled_keys 에 없으니 미입력처럼
+    보이지만 실제로는 이전 세션에 저장돼 있다.
     """
     f = session.draft_fields
     place_slots = {str(a.get("origin_slot")) for a in session.draft_attractions}
     out: list[SlotSpec] = []
-    for slot in slots_for(session.persona_type):
+    for slot in _scoped_slots(session):
         required = _PROFILE_REQUIRED.get(slot.key)
         if required is not None:
             if not all(f.get(k) for k in required):
@@ -989,30 +995,22 @@ def _next_slot(
     blocked = _blocked_keys(session)
     avoid = (blocked | {session.prev_target_key}) \
         if (avoid_prev and session.prev_target_key) else blocked
-    # target_tiers 로 좁힌 세션(미니챗·보완챗)이면 그 tier 밖 슬롯은 후보에서 뺀다.
-    # retrieval.rank_next_slots 자체(임베딩 랭킹 알고리즘)는 건드리지 않고, 반환된
-    # 순위 목록만 사후 필터한다 — 매칭되는 슬롯이 아예 없으면(모두 다른 tier)
-    # avoid 로 걸러내는 대신 전부 blocked 취급해 tiers 밖으로 안 넘어가게 한다.
+    # target_tiers 로 좁힌 세션(미니챗·보완챗)이면 그 tier 밖 슬롯은 애초에 후보에서
+    # 뺀다 — rank_next_slots 에 allowed_keys 로 넘겨 top_k 로 자르기 전에 걸러지게
+    # 한다(사후 필터로는 top_k=5 가 전부 Tier1로 채워지는 경우를 못 막았다).
     allowed_keys = (
         {s.key for s in _scoped_slots(session)} if session.target_tiers is not None else None
     )
 
-    def _filter(ranked):
-        if allowed_keys is None:
-            return ranked
-        return [r for r in ranked if r.slot.key in allowed_keys]
-
     ranked, _ = retrieval.rank_next_slots(
         session.persona_type, _user_turns(session), avoid, _EMB,
-        top_k=5, asked_counts=session.asked_counts,
+        top_k=5, asked_counts=session.asked_counts, allowed_keys=allowed_keys,
     )
-    ranked = _filter(ranked)
     if not ranked and avoid != blocked:
         ranked, _ = retrieval.rank_next_slots(
             session.persona_type, _user_turns(session), blocked, _EMB,
-            top_k=5, asked_counts=session.asked_counts,
+            top_k=5, asked_counts=session.asked_counts, allowed_keys=allowed_keys,
         )
-        ranked = _filter(ranked)
     if not ranked:
         return None
     top = ranked[0]
@@ -1413,7 +1411,12 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
     if _is_affirmative(clean):
         try:
             finalize_persona(session)   # draft → 지오코딩 → 확정 Persona 저장
-            msg = "확인 감사합니다. 이 내용으로 프로필을 등록했어요. 🙏"
+            # Tier1만 다루는 미니챗(신고 전)은 확정 뒤 신고 폼으로 넘어간다는 걸
+            # 알려야 한다 — 전체/보완챗 문구("프로필을 등록했어요")를 그대로 쓰면
+            # 보호자가 "이제 뭘 하지"에서 멈춘다.
+            msg = ("확인 감사합니다. 신고 화면으로 이동합니다."
+                   if session.target_tiers == [Tier.route.value]
+                   else "확인 감사합니다. 이 내용으로 프로필을 등록했어요. 🙏")
         except ValueError as e:
             # 데드엔드 금지(라이브 실측): 구버전은 여기서 done=True 로 닫아,
             # "다시 확인해 달라"는 안내와 달리 이후 입력을 전부 무시했다.
