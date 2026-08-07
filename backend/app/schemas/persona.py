@@ -181,6 +181,10 @@ class InterviewSession(BaseModel):
     # 하위 항목(SlotSpec.probes) 꼬리질문을 이미 던진 슬롯 — 슬롯당 1회 보장용.
     # Mi:dm 이 얕은 답에도 slot_filled=true 를 내서 probes 가 한 번도 안 쓰이던 실측.
     probed_keys: list[str] = []
+    # "그게 무슨 뜻이에요?" — 질문을 못 알아들어 쉬운 말로 풀어 다시 물은 슬롯.
+    # 슬롯당 1회만(무한 되묻기 방지). 재질문 예산(asked_counts)과는 별개다 —
+    # 답을 못 얻은 게 아니라 질문이 잘못 나간 것이라 예산을 깎지 않는다.
+    clarified_keys: list[str] = []
     # Mi:dm 호출 실패 가시화 — 폴백(빈 추출·씨앗 질문)으로 인터뷰는 계속 진행하되,
     # 장애가 "이상한 반복 인터뷰"로만 체감되지 않게 API 응답에 그대로 노출한다.
     llm_call_failures: int = 0            # 이 세션에서 Mi:dm 호출 실패 누적
