@@ -27,7 +27,6 @@ app/
 │   ├── exaone.py        EXAONE — 지식 LoRA prior, 행동 LoRA 마음 재해석
 │   ├── midm.py          Mi:dm — 온보딩 인터뷰 전용
 │   ├── tip_llm.py       제보 구조화·구체성 등급 (Mi:dm 2.0 Mini 선택, 스텁 폴백)
-│   ├── varco_vision.py  VARCO-Vision — 인상착의 추출 (생성 아님, 시민 제보 사진 대조는 미수행으로 확정)
 │   └── upstage.py       Solar Pro — 신고서 파싱
 ├── geo/
 │   ├── h3grid.py        H3 육각격자, likelihood 커널, 좌표 유틸

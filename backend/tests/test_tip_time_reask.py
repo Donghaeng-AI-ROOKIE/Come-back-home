@@ -15,6 +15,7 @@ from app.phase2 import pipeline
 from app.phase3 import tip_flow
 from app.schemas.common import GeoPoint
 from app.schemas.persona import AttractionPoint, PersonaType
+from app.schemas.report import Appearance
 from app.schemas.tip import Tip, TipDecision
 
 LKP = GeoPoint(lat=37.5511, lng=126.9410)
@@ -52,7 +53,8 @@ def case():
         lkp=LKP,
         lkp_time=datetime.now() - timedelta(hours=1),
         persona_id=persona.id,
-        photo_bytes=b"stub",
+        appearance=Appearance(
+            top="파란색 점퍼", bottom="회색 바지", shoes="흰색 운동화"),
         document_bytes=b"stub",
     )
     pipeline.run_prediction(c, seed=42)

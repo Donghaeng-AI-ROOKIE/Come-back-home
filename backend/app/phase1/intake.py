@@ -1,6 +1,6 @@
 """Phase 1 — 실종 신고 처리.
 
-흐름 A: 실종신고(유형·사진·위치) → VARCO-Vision 인상착의 추출
+흐름 A: 실종신고(유형·위치·보호자 직접 입력 인상착의) → 규칙 기반 색상 추출
 흐름 B: 신고 문서 → Upstage 파싱 → 신고자 정보 추출
 두 흐름이 합류해 Case 를 생성하고, 도로망 로딩(현재는 스텁)을 준비한다.
 """
@@ -10,13 +10,13 @@ from datetime import datetime
 from app import storage
 from app.config import settings
 from app.geo import roadnet
-from app.llm import upstage, varco
+from app.llm import upstage
 from app.phase1.color_extract import extract_color
 from app.phase3 import alerts
 from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
-from app.schemas.report import MissingReport
+from app.schemas.report import Appearance, MissingReport
 
 
 def create_report(
@@ -25,12 +25,13 @@ def create_report(
     lkp: GeoPoint,
     lkp_time: datetime,
     persona_id: str | None = None,
-    photo_bytes: bytes | None = None,
+    appearance: Appearance | None = None,
     document_bytes: bytes | None = None,
 ) -> Case:
     """신고 접수 → Case 생성.
 
-    - photo_bytes 가 있으면 VARCO-Vision 으로 인상착의 추출
+    - appearance 는 보호자가 직접 입력한 구조화 텍스트
+    - 상의·하의·신발 색상은 외부 모델 없이 규칙 함수로 추출
     - document_bytes 가 있으면 Upstage 로 신고자 정보 추출
     """
     report = MissingReport(
@@ -39,22 +40,24 @@ def create_report(
         missing_type=missing_type,
         lkp=lkp,
         lkp_time=lkp_time,
+        appearance=appearance.model_copy(deep=True) if appearance is not None else None,
     )
 
-    # 외부 모델 장애가 신고 접수를 막으면 안 된다 (골든타임) — 실패 시 해당
-    # 필드만 비우고 접수는 계속. 인상착의는 이후 제보·재업로드로 보강 가능.
-    if photo_bytes is not None:
-        try:
-            report.appearance = varco.extract_appearance(photo_bytes)
-        except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
-            print(f"[varco] 인상착의 추출 실패 (접수는 계속): {e}")
-
-    # 고정 실루엣 아바타용 색상 추출 — 규칙 기반(모델 없음), 실패할 게 없는 순수
-    # 함수라 try/except 불필요. VARCO 3D 생성 설계 폐기 후속(2026-08-05).
+    # 고정 실루엣 아바타용 색상 추출 — 보호자 입력만 사용하며 외부 모델·네트워크
+    # 호출이 전혀 없다. summary 가 비면 시민 알림에 쓸 문장도 같은 입력에서 만든다.
     if report.appearance is not None:
         report.appearance.top_color = extract_color(report.appearance.top)
         report.appearance.bottom_color = extract_color(report.appearance.bottom)
         report.appearance.shoes_color = extract_color(report.appearance.shoes)
+        if not report.appearance.summary:
+            parts = [
+                report.appearance.top,
+                report.appearance.bottom,
+                report.appearance.shoes,
+                *report.appearance.accessories,
+                report.appearance.physical,
+            ]
+            report.appearance.summary = ", ".join(p for p in parts if p)
 
     if document_bytes is not None:
         try:
