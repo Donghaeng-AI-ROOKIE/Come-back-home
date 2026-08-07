@@ -185,6 +185,28 @@ class MidmClient(LLMClient):
             return ""
         return prompts.clean_question(raw)
 
+    def condense_notes(self, notes: list[str]) -> list[str]:
+        """확인 요약 **표시용** 압축. 입력과 같은 길이, 못 줄이면 빈 목록.
+
+        저장된 노트는 이 함수와 무관하다 — 축 채점 근거·인용 검증은 원문을 쓴다.
+        스텁·실패·길이 불일치는 빈 목록 = 호출자가 원문을 그대로 보여준다.
+        """
+        if self.is_stub or not notes:
+            return []
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.DIGEST_SYSTEM},
+                    {"role": "user", "content": prompts.build_digest_input(notes)},
+                ],
+                temperature=settings.midm_temp_extract,   # 재서술이라 추출 온도
+                max_tokens=60 * len(notes) + 120,
+            )
+        except Exception:  # noqa: BLE001 — 실패는 '원문 그대로'로 흡수
+            self.call_failures += 1
+            return []
+        return prompts.parse_digest(raw, len(notes))
+
     def clarify_question(
         self,
         ptype: PersonaType,

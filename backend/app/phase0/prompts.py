@@ -373,6 +373,71 @@ def parse_probe_gap(raw: str, target_slot: SlotSpec) -> list[str]:
     return [lb for i, lb in enumerate(labels, 1) if i not in answered]
 
 
+# ── (D) 확인 요약 압축 — **표시 전용** ───────────────────────────────
+# 저장된 노트·원발화는 건드리지 않는다(축 채점 근거·인용 검증이 그대로 쓴다).
+# 확인 화면에서만 짧게 보여 준다 — 보호자 발화가 통째로 나열되면 읽기 힘들다.
+
+DIGEST_SYSTEM = """\
+너는 보호자가 한 말을 등록 카드에 넣을 **짧은 항목**으로 줄인다.
+
+[규칙 — 엄수]
+- 각 줄을 **명사구**로. 서술어·존댓말·문장부호 금지("~하세요", "~합니다" 금지).
+- 12자 안팎을 목표로 최대한 짧게. 단, 사실은 잃지 마라 — 숫자·지명·빈도·
+  방향은 반드시 남긴다("한 시간", "망원시장", "일주일에 서너 번").
+- **원문에 없는 말을 지어내지 마라.** 모르는 것을 채우지 말고, 판단·진단을
+  덧붙이지 마라("치매 의심" 같은 말 금지).
+- **입력 한 줄 = 출력 한 줄.** 한 줄에 사실이 여럿이면 쪼개지 말고 '·'로 이어라.
+- 입력에 있는 번호(i)를 그대로 달아 준다. 줄이기 애매하면 원문을 그대로 둔다.
+
+[출력 — 이 JSON 만]
+{"digests": [{"i": 1, "text": "<1번 줄 압축>"}, {"i": 2, "text": "..."}]}
+
+[예시]
+입력:
+1. 약을 거르시면 많이 어지러워 하세요
+2. 동네 안에서는 혼자 한 시간 정도 걸으세요. 버스는 이제 혼자 못 타세요
+3. 그 자리에 가만히 서계세요
+4. 네 신호도 잘 지키시고 위험 감지 능력도 있으세요
+출력:
+{"digests": [{"i": 1, "text": "거르면 어지럼증"},
+             {"i": 2, "text": "동네 안 혼자 1시간·버스 못 탐"},
+             {"i": 3, "text": "제자리에 머무름"},
+             {"i": 4, "text": "신호 준수·위험 인지 양호"}]}"""
+
+
+def build_digest_input(notes: list[str]) -> str:
+    return "\n".join(f"{i}. {n}" for i, n in enumerate(notes, 1))
+
+
+def parse_digest(raw: str, expected: int) -> list[str]:
+    """압축 응답 → 입력과 같은 길이의 목록. 못 채운 자리는 "" (호출자가 원문 유지).
+
+    번호(i)로 짝을 맞춘다 — 순서만 믿으면 밀린 줄이 엉뚱한 노트에 붙는다. 실제로
+    모델이 두 문장짜리 노트를 두 줄로 쪼개 8줄 입력에 9줄을 냈다(실측 2026-08-07).
+    같은 번호가 여러 번 오면 '·'로 잇는다(쪼갠 것을 도로 합친다).
+    """
+    try:
+        data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    except (ValueError, json.JSONDecodeError):
+        return []
+    items = data.get("digests") if isinstance(data, dict) else None
+    if not isinstance(items, list):
+        return []
+    out = [""] * expected
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        try:
+            idx = int(item.get("i"))
+        except (TypeError, ValueError):
+            continue
+        text = str(item.get("text") or "").strip()
+        if not text or not 1 <= idx <= expected:
+            continue
+        out[idx - 1] = f"{out[idx - 1]}·{text}" if out[idx - 1] else text
+    return out
+
+
 CLARIFY_SYSTEM = """\
 너는 '돌아오길' 온보딩 인터뷰어다. 보호자가 **직전 질문을 못 알아들었다**고 말했다.
 답을 모르는 게 아니라 질문이 어려웠던 것이다. 같은 질문을 되풀이하지 말고,

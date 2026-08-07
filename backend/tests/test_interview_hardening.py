@@ -201,6 +201,24 @@ def test_empty_extraction_still_saves_the_answer(monkeypatch):
     assert slot.key in s.filled_keys                     # 저장했으면 닫는다
 
 
+def test_bare_affirmation_is_not_saved_as_a_note():
+    """단순 긍정은 사실이 아니다 — 원발화 폴백이 넓어지며 생긴 틈을 막는다.
+
+    실측(2026-08-07): 요약에 "불안하거나 초조하실 때 하시는 행동: 네 맞아요"가 찍혔다.
+    """
+    slot = slot_by_key("distress_induced_movement_reactivity")
+    s = InterviewSession(id="affirm", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    for text in ("네 맞아요", "네", "그래요"):
+        interview._apply_extraction(
+            s, slot,
+            {"fields": {}, "attraction_points": [], "behavior_notes": [],
+             "slot_filled": False},
+            utterance=text)
+    assert slot.key not in s.slot_notes
+    assert s.draft_behaviors == []
+
+
 def test_negative_answer_recognised_in_longer_sentence():
     """부정은 문장 끝에 온다 — 길이 상한 12자에 걸려 놓치던 답을 잡는다.
 
