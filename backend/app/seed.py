@@ -8,7 +8,6 @@
 from datetime import datetime, timedelta
 
 from app import storage
-from app.llm import upstage
 from app.phase2 import pipeline
 from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
@@ -80,7 +79,6 @@ def seed_demo() -> None:
             summary="파란 점퍼에 회색 바지, 흰 운동화 차림의 마른 체형 어르신",
             top_color="blue", bottom_color="gray", shoes_color="white",
         ),
-        reporter=upstage.parse_document(b"stub"),  # 관제 화면 신고자 카드용 — 실 접수 시 신고서 파싱으로 대체
     )
     case = Case(
         id=DEMO_CASE_ID,

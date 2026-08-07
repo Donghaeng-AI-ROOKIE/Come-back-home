@@ -30,14 +30,6 @@ class Appearance(BaseModel):
     shoes_color: str = "unknown"
 
 
-class ReporterInfo(BaseModel):
-    """Upstage 문서 파싱으로 추출한 신고자·신고서 정보."""
-    name: str = ""
-    relation: str = ""
-    phone: str = ""
-    extra: dict = {}
-
-
 class MissingReport(BaseModel):
     id: str
     persona_id: str | None = None      # 사전 등록된 페르소나가 있으면 연결
@@ -46,5 +38,4 @@ class MissingReport(BaseModel):
     lkp_time: LocalNaiveDT
     situation: str = ""                 # 보호자가 적은 실종 당시 상황 자유 서술
     appearance: Appearance | None = None
-    reporter: ReporterInfo | None = None
     created_at: datetime = Field(default_factory=datetime.now)

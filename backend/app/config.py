@@ -9,7 +9,6 @@ class Settings(BaseSettings):
     # 모델 API 키 — 비어 있으면 해당 클라이언트는 스텁 모드
     exaone_api_key: str = ""
     midm_api_key: str = ""
-    upstage_api_key: str = ""
     tip_llm_api_key: str = ""
 
     # KT 믿음(Mi:dm) 서빙 엔드포인트 (OpenAI 호환 chat completions)

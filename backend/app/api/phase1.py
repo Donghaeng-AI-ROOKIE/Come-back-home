@@ -24,9 +24,9 @@ class CreateReportIn(BaseModel):
     # 등 다른 곳엔 아직 안 쓴다 — 소비처는 후속 결정.
     situation: str = ""
     # 보호자가 직접 입력한 인상착의. 생성·사진분석 모델을 거치지 않고 색상만
-    # 규칙 기반으로 추출한다. 실제 사진 업로드는 별도 저장 경로가 생길 때 연결한다.
+    # 규칙 기반으로 추출한다. 사진·문서 첨부는 받지 않는다(2026-08-07 결정 —
+    # 실제로 동작한 적 없는 스텁이었다).
     appearance: Appearance | None = None
-    with_document: bool = False
 
 
 @router.post("/reports", response_model=Case)
@@ -38,7 +38,6 @@ def create_report(body: CreateReportIn):
         persona_id=body.persona_id,
         situation=body.situation,
         appearance=body.appearance,
-        document_bytes=b"stub" if body.with_document else None,
     )
 
 

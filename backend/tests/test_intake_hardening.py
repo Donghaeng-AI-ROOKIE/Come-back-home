@@ -1,8 +1,7 @@
-"""intake 격리 테스트 — 외부 모델이 죽어도 신고 접수(골든타임)는 계속된다."""
+"""intake 테스트 — 인상착의·실종상황 처리(외부 모델 호출 없음, 순수 함수라 격리 불필요)."""
 
 from datetime import datetime
 
-from app import llm
 from app.phase1 import intake
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
@@ -49,13 +48,3 @@ def test_intake_stores_situation():
     """실종 당시 상황은 그대로 저장만 한다(다른 곳 소비는 후속 결정)."""
     case = _create(situation="산책 나가신다고 하고 안 돌아오셨어요")
     assert case.report.situation == "산책 나가신다고 하고 안 돌아오셨어요"
-
-
-def test_intake_survives_upstage_failure(monkeypatch):
-    def boom(*a, **k):
-        raise RuntimeError("파서 타임아웃")
-
-    monkeypatch.setattr(llm.upstage, "parse_document", boom)
-    case = _create(document_bytes=b"doc")
-    assert case.id
-    assert case.report.reporter is None
