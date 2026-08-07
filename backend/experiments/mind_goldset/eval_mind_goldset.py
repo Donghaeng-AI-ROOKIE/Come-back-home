@@ -44,6 +44,9 @@ GAUGES = {
 }
 
 _BEHAVIORS = {"끌림점 접근", "귀소 시도", "은신·멈춤", "계속 배회"}  # v1.1 닫힌 어휘
+# guardrail.CONFUSION_LEVELS 와 동일 — 여기 복사해 두는 이유는 채점이 운영
+# 코드 경로(후처리 포함)와 독립이어야 하기 때문.
+_CONF_LEVELS = {"상": 0.85, "중": 0.6, "하": 0.35}
 
 
 def load_gold() -> dict[str, dict]:
@@ -138,7 +141,15 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
                     verdict = "allowed"
                 else:
                     verdict = "neutral"
-                conf_ok = lo <= mind.confusion <= hi
+                # confusion 은 **모델 원출력**으로 채점한다 (2026-08-07 정정).
+                # mind.confusion 을 쓰면 운영 후처리(혼란도 규칙 교체 등)가 끼어든
+                # 값이 채점된다 — 실제로 미커밋 규칙 교체가 있는 작업트리에서
+                # dem5 dev/test confusion 이 100% 로 채점된 사례가 있다(재채점 시
+                # 75%/85%). 여기서 재는 것은 모델의 채널이지 파이프라인이 아니다.
+                m_conf = re.search(r'"confusion_level"\s*:\s*"([^"]*)"', raw)
+                model_conf = _CONF_LEVELS.get(m_conf.group(1).strip()) if m_conf else None
+                conf_val = model_conf if model_conf is not None else mind.confusion
+                conf_ok = lo <= conf_val <= hi
                 # 행동 채점 (계약 v2) — raw 의 behavior 필드를 v1.1 라벨과 대조.
                 # v1 출력에는 behavior 가 없으므로 "없음"으로 남는다.
                 behavior, b_verdict = None, None
@@ -155,7 +166,7 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
                         else:
                             b_verdict = "neutral"
                 rows.append(dict(gid=gid, situation=sk, rep=i, ok=ok, goal=goal,
-                                 verdict=verdict, conf=mind.confusion, conf_ok=conf_ok,
+                                 verdict=verdict, conf=conf_val, conf_pipeline=mind.confusion, conf_ok=conf_ok,
                                  behavior=behavior, b_verdict=b_verdict,
                                  status=mind.status, raw=raw))
 
@@ -186,6 +197,34 @@ def main(split: str, n: int, unseal: bool, variant: str = "analyst",
                   f"- behavior 중립: {bv.get('neutral', 0)}건 · 어휘 밖(invalid): {bv.get('invalid', 0)}건",
                   "- behavior 분포: " + ", ".join(f"{b}:{c}" for b, c in collections.Counter(
                       r["behavior"] for r in okr if r["behavior"]).most_common()), ""]
+    # ── 깡통 기준선 — "이 시험이 이 점수를 떨어뜨릴 수 있는가"의 자동 증명 ──
+    # 2026-08-07 실측 교훈: dem5 봉인 behavior 100% 가 실은 "무조건 끌림점 접근"
+    # 깡통도 만점인 무이빨 루브릭의 산물이었다. 모델 점수는 반드시 같은 루브릭
+    # 위의 상수 정책 점수와 나란히 읽어야 한다 — 깡통과 같거나 낮으면 그 지표는
+    # 정보가 없다. (사람 지시 없이 임계·라벨을 바꾸지 말 것: 기준선은 표시만 한다.)
+    situations = [g["situations"][sk] for gid_ in ids for g in [gold[gid_]] for sk in GAUGES]
+    n_sit = len(situations)
+    lines += ["## 깡통 기준선 (상수 정책이 같은 루브릭에서 받는 점수)", ""]
+    model_b_rate = bv.get("allowed", 0) / max(1, sum(bv.values())) if bv else None
+    for pol in sorted(_BEHAVIORS):
+        al = sum(pol in s["allowed_behaviors"] for s in situations)
+        fb = sum(pol in s["forbidden_behaviors"] for s in situations)
+        note = ""
+        if model_b_rate is not None and fb == 0 and al / n_sit >= model_b_rate:
+            note = "  ← ⚠ 모델 behavior 점수가 이 깡통 이하 — 지표 무정보"
+        lines.append(f"- 무조건 「{pol}」: allowed {al}/{n_sit} · 치명 {fb}건{note}")
+    null_ok = sum(1 for s in situations
+                  if None in s["allowed_goals"] or "null" in map(str, s["allowed_goals"]))
+    goal_note = ("  ← ⚠ 모델 goal 점수가 이 깡통 이하 — 지표 무정보"
+                 if v.get("allowed", 0) / max(1, len(okr)) <= null_ok / n_sit else "")
+    lines.append(f"- 무조건 goal=null: allowed {null_ok}/{n_sit} · 치명 0건{goal_note}")
+    mid_ok = sum(1 for s in situations
+                 if s["confusion_range"][0] <= 0.6 <= s["confusion_range"][1])
+    conf_note = ("  ← ⚠ 모델 confusion 점수가 이 깡통 이하 — 지표 무정보"
+                 if conf_in / max(1, len(okr)) <= mid_ok / n_sit else "")
+    lines.append(f"- 무조건 confusion=「중」(0.6): 범위 내 {mid_ok}/{n_sit}{conf_note}")
+    lines.append("")
+
     lines += ["## 시나리오별", "",
              "| 시나리오 | 상황 | allowed | 중립 | 치명 | conf적합 |", "|---|---|---|---|---|---|"]
     for gid in ids:
