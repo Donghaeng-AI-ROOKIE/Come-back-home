@@ -20,6 +20,9 @@ class CreateReportIn(BaseModel):
     lkp: GeoPoint
     lkp_time: datetime
     persona_id: str | None = None
+    # 보호자가 적은 실종 당시 상황 자유 서술. 지금은 저장만 하고 알림·안내문구
+    # 등 다른 곳엔 아직 안 쓴다 — 소비처는 후속 결정.
+    situation: str = ""
     # 보호자가 직접 입력한 인상착의. 생성·사진분석 모델을 거치지 않고 색상만
     # 규칙 기반으로 추출한다. 실제 사진 업로드는 별도 저장 경로가 생길 때 연결한다.
     appearance: Appearance | None = None
@@ -33,6 +36,7 @@ def create_report(body: CreateReportIn):
         lkp=body.lkp,
         lkp_time=body.lkp_time,
         persona_id=body.persona_id,
+        situation=body.situation,
         appearance=body.appearance,
         document_bytes=b"stub" if body.with_document else None,
     )

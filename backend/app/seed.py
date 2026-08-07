@@ -73,9 +73,10 @@ def seed_demo() -> None:
         missing_type=PersonaType.dementia,
         lkp=home,
         lkp_time=datetime.now() - timedelta(hours=1),
+        situation="산책 나가신다고 하고 안 돌아오셨어요",
         appearance=Appearance(
             top="파란색 점퍼", bottom="회색 바지", shoes="흰색 운동화",
-            physical="160cm 마른 체형, 흰머리",
+            etc="160cm 마른 체형, 흰머리",
             summary="파란 점퍼에 회색 바지, 흰 운동화 차림의 마른 체형 어르신",
             top_color="blue", bottom_color="gray", shoes_color="white",
         ),

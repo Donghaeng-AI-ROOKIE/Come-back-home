@@ -25,11 +25,14 @@ def create_report(
     lkp: GeoPoint,
     lkp_time: datetime,
     persona_id: str | None = None,
+    situation: str = "",
     appearance: Appearance | None = None,
     document_bytes: bytes | None = None,
 ) -> Case:
     """신고 접수 → Case 생성.
 
+    - situation 은 보호자가 적은 실종 당시 상황 자유 서술(그대로 저장만 함,
+      아직 알림·안내문구 등 다른 곳에서 안 씀 — 소비처는 후속 결정)
     - appearance 는 보호자가 직접 입력한 구조화 텍스트
     - 상의·하의·신발 색상은 외부 모델 없이 규칙 함수로 추출
     - document_bytes 가 있으면 Upstage 로 신고자 정보 추출
@@ -40,24 +43,25 @@ def create_report(
         missing_type=missing_type,
         lkp=lkp,
         lkp_time=lkp_time,
+        situation=situation,
         appearance=appearance.model_copy(deep=True) if appearance is not None else None,
     )
 
     # 고정 실루엣 아바타용 색상 추출 — 보호자 입력만 사용하며 외부 모델·네트워크
-    # 호출이 전혀 없다. summary 가 비면 시민 알림에 쓸 문장도 같은 입력에서 만든다.
+    # 호출이 전혀 없다. summary 는 보호자에게 따로 받지 않는다 — 항목별 입력
+    # (상의·하의·신발·기타특징)을 서버가 항상 합쳐서 만든다. 클라이언트가
+    # 뭘 보내든 여기서 덮어쓴다(top_color 등과 동일한 원칙 — 서버가 유일한 소스).
     if report.appearance is not None:
         report.appearance.top_color = extract_color(report.appearance.top)
         report.appearance.bottom_color = extract_color(report.appearance.bottom)
         report.appearance.shoes_color = extract_color(report.appearance.shoes)
-        if not report.appearance.summary:
-            parts = [
-                report.appearance.top,
-                report.appearance.bottom,
-                report.appearance.shoes,
-                *report.appearance.accessories,
-                report.appearance.physical,
-            ]
-            report.appearance.summary = ", ".join(p for p in parts if p)
+        parts = [
+            report.appearance.top,
+            report.appearance.bottom,
+            report.appearance.shoes,
+            report.appearance.etc,
+        ]
+        report.appearance.summary = ", ".join(p for p in parts if p)
 
     if document_bytes is not None:
         try:

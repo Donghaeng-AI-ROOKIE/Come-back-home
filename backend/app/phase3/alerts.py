@@ -211,7 +211,7 @@ def describe_alert(case: Case, now: datetime | None = None) -> dict:
         #  storytelling.ToneParams.name 주석 참고)
         "age": persona.age if persona else None,
         "appearance": (
-            [look.top, look.bottom, look.shoes, look.physical] if look else []
+            [look.top, look.bottom, look.shoes, look.etc] if look else []
         ),
         "lkp": {"lat": case.lkp.lat, "lng": case.lkp.lng},
         "lkp_time": case.lkp_time,
