@@ -17,9 +17,12 @@ class Appearance(BaseModel):
     top: str = ""
     bottom: str = ""
     shoes: str = ""
-    accessories: list[str] = []
-    physical: str = ""       # 키·체형·머리 등
-    summary: str = ""        # 알림 문구용 한 줄 요약
+    # 소지품·신체특징 통합 자유 서술(2026-08-07 결정 — accessories/physical 두 칸이
+    # 보호자에게 부담이라 하나로 합침). 예: "지팡이를 짚으심, 키가 크신 편".
+    etc: str = ""
+    # 알림 문구용 한 줄 요약. 보호자에게 따로 안 받는다 — intake.create_report()가
+    # 위 항목들을 합쳐 항상 서버에서 채운다(요청에 값을 실어 보내도 무시되고 덮어써짐).
+    summary: str = ""
     # 고정 실루엣 아바타 렌더링용 색상 태그. 프론트가 이 문자열을 hex 로 변환해
     # SVG 를 채운다 — 백엔드는 이미지를 만들지 않는다.
     top_color: str = "unknown"
@@ -41,6 +44,7 @@ class MissingReport(BaseModel):
     missing_type: PersonaType
     lkp: GeoPoint                       # Last Known Position (최종 목격 지점)
     lkp_time: LocalNaiveDT
+    situation: str = ""                 # 보호자가 적은 실종 당시 상황 자유 서술
     appearance: Appearance | None = None
     reporter: ReporterInfo | None = None
     created_at: datetime = Field(default_factory=datetime.now)
