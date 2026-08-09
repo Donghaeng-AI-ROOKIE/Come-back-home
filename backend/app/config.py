@@ -136,11 +136,24 @@ class Settings(BaseSettings):
     #   안 잡힌다. prior·마음은 파인튜닝본, 축 채점은 base 로 나눈다.
     axis_scoring_model: str = ""
 
-    # 마음 재해석 전용 — 2026-08-04 치매 단독 재학습본으로 교체.
-    #   mind_model: 비우면 exaone_model. 운영 확정값 = "exaone-mind-dem3"
-    #     (vLLM --lora-modules 이름). 봉인 test 144회 실측: 행동 98%·목표 89%·
-    #     혼란도 88%·치명 0·어휘 밖 0 (experiments/mind_goldset/results 의
-    #     goldset_eval_test_..._exaone-mind-dem3_20260804_113144).
+    # 마음 재해석 전용 — 2026-08-07 dem5(라벨 v8 재학습본)로 교체.
+    #   mind_model: 비우면 exaone_model. 운영 확정값 = "exaone-mind-dem5"
+    #     (vLLM --lora-modules 이름).
+    #   dem3→dem5 교체 근거 (2026-08-07 실측, experiments/mind_strata):
+    #     dem3 는 goal 선택 정책을 일반명사로만 배워 고유명사 라벨에 일반화가 안
+    #     됐다 — 실등록 두께 페르소나 × 10개 동네 회전 150콜에서 "정릉" 접두만
+    #     74/75 발화, 그 외 3/75. 정릉 라벨이 있으면 behavior 채널까지
+    #     "끌림점 접근"으로 붕괴(5페르소나 전부 15/15). 시연(정릉동)이 우연히
+    #     그 이상 반응 구간이라 화면상 문제로 안 보였을 뿐이다.
+    #     dem5 = 학습 라벨 풀에 고유명사 교차 배치 + 홀드아웃 8종(정릉·아리랑·
+    #     망원·성북·남대문·청량리·경동·면목) 격리(build_dataset.py v8). 같은
+    #     프로브에서 비정릉 goal 3/75→27/75(9개 동네, 홀드아웃 지명 포함 =
+    #     암기 아닌 일반화), dev 게이트 치명 0·goal 32/32
+    #     (goldset_eval_dev_..._exaone-mind-dem5_20260807_170954).
+    #     봉인 test 48회: goal 83%·변별 함정 8/8 회피·행동 치명 0
+    #     (혼란도는 깡통 기준선과 미변별이라 성능 지표로 쓰지 않음 — PR #142·#144).
+    #     잔존 한계: 정릉 편향 소멸 아님(2.3:1), "끌림+goal 없음" 쌍 27/150
+    #     (simulation.py 가 모드 해제로 무해 흡수, 데이터 v9 과제).
     #   종전 exaone-mind-v5 는 **치매+발달장애 혼합 데이터** 학습본이다. 대상을
     #     치매로 좁히면서(2026-08-03) 학습 데이터를 치매만으로 다시 만들고
     #     (행동 진술 33→73건) dem-e1→dem2→dem3→dem4 를 학습했다. dem4 는 개발용
@@ -154,7 +167,7 @@ class Settings(BaseSettings):
     #   기본값을 확정값으로 명시 — 비워 두면 exaone_model(현 운영값 sar)로
     #   폴백돼 마음 경로가 조용히 오라우팅되는 함정이 있다. 어댑터 미마운트
     #   환경에서는 호출 실패 → 기존 휴리스틱 폴백으로 안전 저하.
-    mind_model: str = "exaone-mind-dem3"
+    mind_model: str = "exaone-mind-dem5"
     mind_contract: str = "v2"
 
     # RAG — 논문 코퍼스 검색으로 EXAONE 추론에 근거를 붙인다 (P1-4).
