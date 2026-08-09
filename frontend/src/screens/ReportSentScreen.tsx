@@ -11,16 +11,17 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SvgXml } from 'react-native-svg';
 import type { RootStackParamList } from '../navigation/types';
-import { color, radius, space, type } from '../theme/tokens';
-import { gColor } from '../theme/guardianTokens';
-import { icBroadcastGreenXml, icCheckXml, logoXml } from '../assets/guardianSvg';
+import { color, radius, type } from '../theme/tokens';
+import { gColor, gFont } from '../theme/guardianTokens';
+import { icBroadcastGreenXml, icCheckXml } from '../assets/guardianSvg';
 import CTAButton from '../components/CTAButton';
 import { useRunPrediction } from '../hooks/queries';
+import { GuardianStandaloneTabBar } from '../components/GuardianTabBar';
+import GuardianLogo from '../components/GuardianLogo';
 
 type Step = { n: string; label: string; state: 'done' | 'active' | 'todo' };
 
@@ -49,7 +50,7 @@ function Steps({ predicting, failed }: { predicting: boolean; failed: boolean })
             {s.state === 'active' ? (
               <ActivityIndicator size="small" color="#FFFFFF" />
             ) : (
-              <Text style={styles.stepNum}>{s.state === 'done' ? '✓' : s.n}</Text>
+              <Text style={styles.stepNum}>{s.n}</Text>
             )}
           </View>
           <Text style={styles.stepLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
@@ -75,7 +76,6 @@ function showGuideline() {
 }
 
 export default function ReportSentScreen() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportSent'>>().params;
   const predict = useRunPrediction(caseId);
 
@@ -89,17 +89,14 @@ export default function ReportSentScreen() {
   const failed = predict.isError;
 
   return (
-    <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
+    <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.hero}>
-          <SvgXml xml={logoXml} width={77} height={42} />
+          <GuardianLogo />
           <SvgXml xml={icBroadcastGreenXml} width={27} height={25} />
           <Text style={styles.heroTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
             신고 접수 완료
-          </Text>
-          <Text style={styles.heroSub} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            케이스 번호 {caseId}
           </Text>
         </View>
 
@@ -157,36 +154,28 @@ export default function ReportSentScreen() {
           </Text>
         </Pressable>
       </ScrollView>
-
-      <View style={styles.footer}>
-        <CTAButton
-          label="홈으로 돌아가기"
-          onPress={() => navigation.navigate('GuardianTabs', { screen: 'GuardianHome' })}
-          variant="ghost"
-        />
-      </View>
+      <GuardianStandaloneTabBar active="GuardianHome" />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: gColor.mint },
-  scroll: { padding: space.xl, gap: space.lg, paddingBottom: space.xxl },
-  hero: { alignItems: 'center', gap: space.md, paddingVertical: space.xl },
-  heroTitle: { fontSize: type.size.title, fontWeight: type.weight.medium, color: color.text, fontFamily: type.family, marginTop: space.sm },
-  heroSub: { fontSize: type.size.caption, color: color.textCaption, fontFamily: type.family },
+  scroll: { paddingHorizontal: 24, gap: 16, paddingBottom: 28 },
+  hero: { alignItems: 'center', gap: 12, paddingTop: 38, paddingBottom: 24 },
+  heroTitle: { fontSize: 20, color: '#000000', fontFamily: gFont.medium, marginTop: 8 },
 
-  steps: { flexDirection: 'row', justifyContent: 'space-between', gap: space.sm },
+  steps: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
   stepLine: {
     position: 'absolute',
-    left: space.md,
-    right: space.md,
+    left: 12,
+    right: 12,
     top: 20,
     borderTopWidth: 1,
     borderStyle: 'dashed',
     borderColor: gColor.progressGreen,
   },
-  step: { flex: 1, alignItems: 'center', gap: space.sm },
+  step: { flex: 1, alignItems: 'center', gap: 8 },
   stepCircle: {
     width: 40,
     height: 40,
@@ -197,28 +186,27 @@ const styles = StyleSheet.create({
   },
   stepDone: { backgroundColor: gColor.progressGreen },
   stepActive: { backgroundColor: gColor.cardGreen },
-  stepNum: { fontSize: type.size.title, fontWeight: type.weight.bold, color: '#FFFFFF' },
+  stepNum: { fontSize: 14, color: '#FFFFFF', fontFamily: gFont.bold },
   stepLabel: {
-    fontSize: type.size.caption,
-    fontWeight: type.weight.medium,
+    fontSize: 11,
     color: gColor.progressGreen,
-    fontFamily: type.family,
+    fontFamily: gFont.medium,
     textAlign: 'center',
   },
 
-  card: { borderRadius: radius.lg, padding: space.lg, gap: space.sm, backgroundColor: gColor.surface },
-  cardTitle: { fontSize: type.size.caption, fontWeight: type.weight.medium, color: gColor.progressGreen, fontFamily: type.family },
+  card: { borderRadius: radius.lg, padding: 16, gap: 8, backgroundColor: gColor.surface },
+  cardTitle: { fontSize: 12, color: gColor.progressGreen, fontFamily: gFont.medium },
   cardError: { backgroundColor: color.criticalWash },
-  cardBody: { fontSize: type.size.caption, color: gColor.textMuted, fontFamily: type.family, lineHeight: 20 },
-  errTitle: { fontSize: type.size.cardTitle, fontWeight: type.weight.bold, color: color.criticalInk, fontFamily: type.family },
-  errDetail: { fontSize: type.size.caption, color: color.textCaption, fontFamily: type.family },
-  gap: { height: space.xs },
+  cardBody: { fontSize: 11, color: gColor.textMuted, fontFamily: gFont.regular, lineHeight: 18 },
+  errTitle: { fontSize: 15, color: color.criticalInk, fontFamily: gFont.semiBold },
+  errDetail: { fontSize: 11, color: color.textCaption, fontFamily: gFont.regular },
+  gap: { height: 4 },
 
   guideBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: space.sm,
+    gap: 8,
     alignSelf: 'center',
     minWidth: 255,
     minHeight: 44,
@@ -230,8 +218,6 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
   },
-  guideLabel: { fontSize: type.size.label, fontWeight: type.weight.medium, color: gColor.textMuted, fontFamily: type.family },
+  guideLabel: { fontSize: 12, color: gColor.textMuted, fontFamily: gFont.medium },
   pressed: { opacity: 0.85 },
-
-  footer: { padding: space.xl, backgroundColor: gColor.mint },
 });

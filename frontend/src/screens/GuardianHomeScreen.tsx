@@ -4,7 +4,7 @@
  * 긴급 신고 버튼이 화면 위쪽에 있는 이유: 이 화면을 급하게 여는 사람은
  * 이미 실종 상황이다. 사전등록 안내를 위에 두면 그 순간에 읽히지 않는다.
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -19,16 +19,17 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SvgXml } from 'react-native-svg';
 import type { RootStackParamList } from '../navigation/types';
-import { color, radius, space, type } from '../theme/tokens';
-import { gColor } from '../theme/guardianTokens';
+import { radius, type } from '../theme/tokens';
+import { gColor, gFont } from '../theme/guardianTokens';
 import {
   icBroadcastXml,
   icChevronXml,
   icProfileCardXml,
-  logoXml,
+  guardianModeLabelXml,
 } from '../assets/guardianSvg';
 import { useGuardianStore } from '../store/guardianStore';
 import { usePersonas } from '../hooks/queries';
+import GuardianLogo from '../components/GuardianLogo';
 
 /** ISO → "YYYY.MM.DD". 등록일이 없으면 빈 문자열. */
 function fmtDate(iso?: string): string {
@@ -46,17 +47,20 @@ export default function GuardianHomeScreen() {
   // 앱을 다시 켜면 비어 있다 — 그때도 등록한 가족이 보여야 한다.
   const { data: personas, isLoading } = usePersonas();
   const cached = useGuardianStore((s) => s.persona);
+  const setPersona = useGuardianStore((s) => s.setPersona);
   const list = personas?.length ? personas : cached ? [cached] : [];
+
+  useEffect(() => {
+    if (!cached && personas?.[0]) setPersona(personas[0]);
+  }, [cached, personas, setPersona]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <SvgXml xml={logoXml} width={77} height={42} />
-          <Text style={styles.headerSub} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            보호자{'\n'}안심 모드
-          </Text>
+          <GuardianLogo />
+          <SvgXml xml={guardianModeLabelXml} width={54} height={39} />
         </View>
 
         <View style={styles.hero}>
@@ -74,7 +78,7 @@ export default function GuardianHomeScreen() {
           </Pressable>
 
           <Pressable
-            onPress={() => navigation.navigate('RegChat')}
+            onPress={() => navigation.navigate('GuardianTabs', { screen: 'GuardianReg' })}
             accessibilityRole="button"
             accessibilityLabel="안심 사전 등록"
             style={({ pressed }) => [styles.regCard, pressed && styles.pressed]}
@@ -106,7 +110,10 @@ export default function GuardianHomeScreen() {
           list.map((p) => (
             <Pressable
               key={p.id}
-              onPress={() => navigation.navigate('PersonaDetail', { personaId: p.id })}
+              onPress={() => {
+                setPersona(p);
+                navigation.navigate('PersonaDetail', { personaId: p.id });
+              }}
               accessibilityRole="button"
               accessibilityLabel={`${p.name} ${p.age}세 등록 정보 보기`}
               accessibilityHint="저장된 내용을 확인하고 수정할 수 있어요"
@@ -148,19 +155,11 @@ export default function GuardianHomeScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: gColor.surface },
-  scroll: { padding: space.xl, gap: space.md, paddingBottom: space.xxl },
+  scroll: { paddingHorizontal: 24, paddingTop: 16, gap: 12, paddingBottom: 30 },
 
-  header: { flexDirection: 'row', alignItems: 'center', gap: space.md, marginBottom: space.sm },
-  headerSub: {
-    fontSize: type.size.body,
-    lineHeight: 20,
-    letterSpacing: 0.41,
-    color: gColor.gray,
-    fontWeight: type.weight.bold,
-    fontFamily: type.family,
-  },
+  header: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 },
 
-  hero: { flexDirection: 'row', alignItems: 'center', gap: space.lg, marginVertical: space.sm },
+  hero: { flexDirection: 'row', alignItems: 'center', gap: 16, marginVertical: 8 },
   sosCircle: {
     width: 104,
     height: 104,
@@ -168,55 +167,54 @@ const styles = StyleSheet.create({
     backgroundColor: gColor.alertRed,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: space.xs,
+    gap: 4,
     shadowColor: gColor.alertRed,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.63,
     shadowRadius: 2,
     elevation: 4,
   },
-  sosLabel: { fontSize: type.size.label, fontWeight: type.weight.bold, color: '#FFFFFF', fontFamily: type.family },
+  sosLabel: { fontSize: 14, color: '#FFFFFF', fontFamily: gFont.semiBold },
   regCard: {
     flex: 1,
     minHeight: 104,
     borderRadius: 10,
     backgroundColor: gColor.cardGreen,
-    padding: space.lg,
-    gap: space.xs,
+    padding: 16,
+    gap: 4,
     shadowColor: gColor.cardGreen,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.71,
     shadowRadius: 2,
     elevation: 4,
   },
-  regTitle: { fontSize: type.size.label, fontWeight: type.weight.bold, color: 'rgba(255,255,255,0.92)', fontFamily: type.family },
-  regBody: { fontSize: type.size.caption, fontWeight: type.weight.medium, color: 'rgba(255,255,255,0.92)', fontFamily: type.family, lineHeight: 17 },
+  regTitle: { fontSize: 14, color: 'rgba(255,255,255,0.92)', fontFamily: gFont.semiBold },
+  regBody: { fontSize: 11, color: 'rgba(255,255,255,0.92)', fontFamily: gFont.medium, lineHeight: 15 },
 
   section: {
-    fontSize: type.size.cardTitle,
-    fontWeight: type.weight.bold,
-    color: color.text,
-    fontFamily: type.family,
-    marginTop: space.md,
+    fontSize: 16,
+    color: '#000000',
+    fontFamily: gFont.semiBold,
+    marginTop: 12,
   },
   rowBar: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: gColor.barBg,
     borderRadius: radius.md,
-    paddingHorizontal: space.lg,
-    paddingVertical: space.md,
-    gap: space.md,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 12,
   },
-  rowInfo: { flex: 1, gap: space.xs },
-  rowTop: { flexDirection: 'row', alignItems: 'center', gap: space.md },
-  rowName: { fontSize: 17, fontWeight: type.weight.bold, color: gColor.textMuted, letterSpacing: -0.41, fontFamily: type.family },
-  chip: { backgroundColor: gColor.chip, borderRadius: radius.pill, paddingHorizontal: space.md, paddingVertical: 2 },
-  chipText: { fontSize: type.size.caption, color: gColor.textMuted, fontFamily: type.family },
-  rowDate: { fontSize: type.size.caption, color: gColor.textMuted, letterSpacing: 0.07, fontFamily: type.family },
-  empty: { fontSize: type.size.label, color: color.textBody, fontFamily: type.family, lineHeight: 22 },
+  rowInfo: { flex: 1, gap: 4 },
+  rowTop: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  rowName: { fontSize: 17, color: gColor.textMuted, letterSpacing: -0.41, fontFamily: gFont.semiBold },
+  chip: { backgroundColor: gColor.chip, borderRadius: radius.pill, paddingHorizontal: 12, paddingVertical: 2 },
+  chipText: { fontSize: 11, color: gColor.textMuted, fontFamily: gFont.regular },
+  rowDate: { fontSize: 11, color: gColor.textMuted, letterSpacing: 0.07, fontFamily: gFont.regular },
+  empty: { fontSize: 13, color: gColor.textMuted, fontFamily: gFont.regular, lineHeight: 19 },
 
-  guide: { marginTop: space.md, gap: space.xs },
-  guideText: { fontSize: type.size.caption, color: gColor.textMuted, letterSpacing: -0.08, fontFamily: type.family, lineHeight: 18 },
+  guide: { marginTop: 12, gap: 4 },
+  guideText: { fontSize: 11, color: gColor.textMuted, letterSpacing: -0.08, fontFamily: gFont.regular, lineHeight: 18 },
   pressed: { opacity: 0.85 },
 });

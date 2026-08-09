@@ -4,6 +4,8 @@
  */
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { useFonts } from 'expo-font';
+import { ActivityIndicator, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -32,10 +34,24 @@ const linking: LinkingOptions<RootStackParamList> = {
 };
 
 export default function App() {
+  const [fontsLoaded, fontError] = useFonts({
+    'Dot42-Regular': require('./assets/fonts/42dotSans-Regular.ttf'),
+    'Dot42-Medium': require('./assets/fonts/42dotSans-Medium.ttf'),
+    'Dot42-SemiBold': require('./assets/fonts/42dotSans-SemiBold.ttf'),
+    'Dot42-Bold': require('./assets/fonts/42dotSans-Bold.ttf'),
+  });
   // 푸시 등록·라우팅은 앱 전역에서 한 번만. 개발 빌드 이전에는 조용히 아무 일도
   // 하지 않는다(Expo Go 에는 푸시 기능이 없다 — usePushRegistration 주석 참고).
   usePushRegistration();
   useNotificationRouting();
+
+  if (!fontsLoaded && !fontError) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF' }}>
+        <ActivityIndicator color="#67AE6E" />
+      </View>
+    );
+  }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
