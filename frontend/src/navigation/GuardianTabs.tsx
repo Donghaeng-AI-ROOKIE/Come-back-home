@@ -10,16 +10,10 @@ import GuardianHomeScreen from '../screens/GuardianHomeScreen';
 import RegChatScreen from '../screens/RegChatScreen';
 import { useAuthStore } from '../store/authStore';
 import { useGuardianStore } from '../store/guardianStore';
+import GuardianAlertsScreen from '../screens/GuardianAlertsScreen';
+import FigmaTabIcon from '../components/FigmaTabIcon';
 
 const Tab = createBottomTabNavigator<GuardianTabParamList>();
-
-function TabIcon({ label, focused }: { label: string; focused: boolean }) {
-  return (
-    <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.5, color: focused ? color.text : color.textCaption }}>
-      {label}
-    </Text>
-  );
-}
 
 /** 내 정보 — 로그아웃과 등록 현황만. 시민 마이페이지(레벨·배지)와 다르다. */
 function GuardianMyScreen() {
@@ -67,32 +61,40 @@ export default function GuardianTabs() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: color.text,
-        tabBarInactiveTintColor: color.textCaption,
-        tabBarLabelStyle: { fontSize: 12, fontWeight: type.weight.bold, fontFamily: type.family },
-        tabBarStyle: { backgroundColor: color.surface, borderTopColor: color.border, height: 88, paddingTop: 6 },
+        tabBarActiveTintColor: color.guardian,
+        tabBarInactiveTintColor: color.figmaGray,
+        tabBarLabelStyle: { fontSize: 11, lineHeight: 13, fontFamily: type.family, marginTop: 1 },
+        tabBarStyle: { backgroundColor: color.surface, borderTopColor: color.border, height: 85, paddingTop: 7 },
+        tabBarBackground: () => <View style={styles.tabBackground}><View style={styles.homeIndicator} /></View>,
       }}
     >
       <Tab.Screen
         name="GuardianHome"
         component={GuardianHomeScreen}
-        options={{ tabBarLabel: '홈', tabBarIcon: ({ focused }) => <TabIcon label="🏠" focused={focused} /> }}
+        options={{ tabBarLabel: '홈', tabBarIcon: ({ focused }) => <FigmaTabIcon name="home" focused={focused} activeColor={color.guardian} /> }}
       />
       <Tab.Screen
         name="GuardianReg"
         component={RegChatScreen}
-        options={{ tabBarLabel: '사전등록', tabBarIcon: ({ focused }) => <TabIcon label="💬" focused={focused} /> }}
+        options={{ tabBarLabel: '사전등록', tabBarIcon: ({ focused }) => <FigmaTabIcon name="register" focused={focused} activeColor={color.guardian} /> }}
+      />
+      <Tab.Screen
+        name="GuardianAlerts"
+        component={GuardianAlertsScreen}
+        options={{ tabBarLabel: '알림', tabBarIcon: ({ focused }) => <FigmaTabIcon name="alert" focused={focused} activeColor={color.guardian} /> }}
       />
       <Tab.Screen
         name="GuardianMy"
         component={GuardianMyScreen}
-        options={{ tabBarLabel: '내 정보', tabBarIcon: ({ focused }) => <TabIcon label="👤" focused={focused} /> }}
+        options={{ tabBarLabel: '내 정보', tabBarIcon: ({ focused }) => <FigmaTabIcon name="profile" focused={focused} activeColor={color.guardian} /> }}
       />
     </Tab.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
+  tabBackground: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#FFFFFF' },
+  homeIndicator: { position: 'absolute', bottom: 8, left: '32%', right: '32%', height: 5, borderRadius: 100, backgroundColor: '#000000' },
   safe: { flex: 1, backgroundColor: color.surfaceAlt },
   wrap: { flex: 1, padding: space.xl, gap: space.lg },
   title: { fontSize: type.size.title, fontWeight: type.weight.black, color: color.text, fontFamily: type.family },

@@ -43,10 +43,11 @@ export type CitizenTabParamList = {
   Records: undefined;
 };
 
-/** 보호자 하단 3탭 — 와이어프레임: 홈 / 사전등록 / 내 정보. */
+/** 보호자 하단 4탭 — Figma: 홈 / 사전등록 / 알림 / 내 정보. */
 export type GuardianTabParamList = {
   GuardianHome: undefined;
   GuardianReg: undefined;
+  GuardianAlerts: undefined;
   GuardianMy: undefined;
 };
 
