@@ -52,8 +52,8 @@ export default function ReportScreen() {
       const c = await createReport({
         missing_type: 'dementia', lkp,
         lkp_time: new Date().toISOString().replace('Z', ''), persona_id: persona?.id ?? null,
-        with_photo: false, with_document: false,
-        appearance_text: appearance.trim(), situation: situation.trim(),
+        appearance: appearance.trim() ? { etc: appearance.trim() } : null,
+        situation: situation.trim(),
       });
       setCaseId(c.id);
       navigation.replace('ReportSent', { caseId: c.id });

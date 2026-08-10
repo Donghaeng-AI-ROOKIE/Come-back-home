@@ -1,5 +1,6 @@
 """Phase 3 API — 알림 발송·시민 제보·POA 조회."""
 
+import logging
 from datetime import datetime
 
 from fastapi import APIRouter, HTTPException
@@ -7,11 +8,13 @@ from pydantic import BaseModel, Field
 
 from app import storage
 from app.geo import h3grid
-from app.phase3 import alerts, presence, storytelling, tip_flow, triggers
+from app.phase3 import alerts, devices, presence, storytelling, tip_flow, triggers
 from app.privacy import lifecycle
 from app.schemas.case import CaseStatus
 from app.schemas.common import GeoPoint
+from app.schemas.device import Engagement, Platform
 
+log = logging.getLogger(__name__)
 router = APIRouter(prefix="/phase3", tags=["Phase 3 — 알림·제보·POA 갱신"])
 
 
@@ -75,11 +78,56 @@ def send_alerts(case_id: str):
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
     cells = alerts.select_alert_cells(case.current_poa)
     summary = case.report.appearance.summary if case.report.appearance else "인상착의 정보 없음"
-    result = alerts.send_alerts(case.id, cells, summary)
+    # poa 를 넘겨야 서버가 참여도별 확률 문턱을 적용할 수 있다(피로도 예산).
+    result = alerts.send_alerts(case.id, cells, summary, poa=case.current_poa)
     case.last_alert_poa = dict(case.current_poa)
     case.last_alert_at = datetime.now()
     storage.cases.save(case.id, case)
     return result
+
+
+@router.get("/alerts")
+def list_active_alerts(cell_res7: str | None = None):
+    """지금 살아 있는 경보 중 **이 res7 칸에 해당하는 것만.**
+
+    ## 왜 조회 경로가 따로 필요한가
+    푸시는 **보내는 그 순간**에만 도달한다 — 폰이 꺼져 있었거나, 알림을 쓸어
+    없앴거나, 방금 앱을 깔았으면 아무것도 남지 않는다. 그런데 진입 관문은
+    사용자가 **앱을 직접 연** 순간에 판정해야 하므로 물어볼 데가 있어야 한다.
+
+    ## 🚨 전부 내려주지 않는다
+    "활성 사건 목록"을 통째로 주면 앱이 전국 실종자 명단을 받게 되고, 폰이 그중
+    자기 것을 고르는 구조가 된다 — 푸시에서 포기한 A안(서버가 위치를 모르고 폰이
+    필터링)으로 되돌아가는 것이고, res7 로 최소화해 둔 것을 조회 경로가 조용히
+    무효화한다. 발송과 **같은 기준**으로 서버가 고른다.
+
+    ## 칸을 안 주면 빈 목록 (fail-closed)
+    위치를 모르면 어느 사건이 이 사람에게 해당되는지 고를 수 없다. 아무거나
+    돌려주면 **틀린 사건**을 보여주게 된다 — 못 보는 것보다 나쁘다
+    (프론트 utils/alertGate.alertAppliesToMe 와 같은 판단).
+
+    종결(발견·철회)된 사건은 빠진다. 파기 대기 중인 개인정보를 계속 노출하지
+    않기 위해서이기도 하고, 찾은 사람을 계속 찾게 두면 안 되기 때문이기도 하다.
+    """
+    if not cell_res7:
+        return []
+    out = []
+    for case in storage.cases.list():
+        if case.status in (CaseStatus.found, CaseStatus.closed):
+            continue
+        try:
+            info = alerts.describe_alert(case)
+        except Exception:  # noqa: BLE001 — 사건 하나가 목록 전체를 죽이면 안 된다
+            # 🚨 한 사건의 데이터가 깨졌다고 **다른 사건의 경보까지 안 보이면**
+            # 골든타임에 최악이다. 그 사건만 건너뛰고 로그로 남긴다.
+            # (실제로 손상된 POA 셀 id 하나가 엔드포인트를 500 으로 만들었다)
+            log.exception("[alerts] 경보 표현 생성 실패 — 이 사건만 건너뜀 (%s)", case.id)
+            continue
+        if cell_res7 in info["target_cells"]:
+            out.append(info)
+    # 최근 발령 순 — 관문은 첫 항목부터 본다(utils/alertGate.pickGateCase).
+    out.sort(key=lambda a: a["issued_at"], reverse=True)
+    return out
 
 
 @router.post("/cases/{case_id}/tips")
@@ -114,72 +162,6 @@ def submit_tip(case_id: str, body: TipIn):
         prev = storage.walk_tip_counts.get(body.reporter_user_id) or 0
         storage.walk_tip_counts.save(body.reporter_user_id, prev + 1)
     return result
-
-
-@router.get("/alerts")
-def list_active_alerts():
-    """살아있는 경보 목록 — 시민 앱의 경보 진입 관문이 판정 대상으로 쓴다.
-
-    **앱이 목 경보를 쓰지 않게 하려고 만든 엔드포인트다.** 푸시 인프라(FCM)가
-    아직 없어 프론트가 `buildAlert()` 를 무조건 반환하고 있었고, 그래서 시민이
-    앱을 열 때마다 존재하지 않는 사건의 경보가 떴다.
-
-    반환 대상은 **종결되지 않았고 예측이 끝난** 케이스다. 예측 전(intake)은
-    보낼 구역이 없어 제외한다 — 대상 구역 없는 경보는 무차별 발송이 된다.
-
-    `target_center`·`target_radius_m` 는 온디바이스 지오펜싱용이다. 서버는
-    "이 구역 사람들에게 알려라"만 뿌리고 **내가 그 안에 있는지는 폰이 판단한다** —
-    시민 위치가 서버로 올라가지 않는 것이 이 설계의 전제다.
-    """
-    out = []
-    for case in storage.cases.list():
-        if case.status in (CaseStatus.found, CaseStatus.closed):
-            continue
-        if not case.current_poa:
-            continue
-        cells = alerts.select_alert_cells(case.current_poa)
-        if not cells:
-            continue
-        # 대상 구역을 중심+반경으로 근사한다. 셀 목록을 그대로 보내는 것이 정확하지만
-        # 푸시 페이로드 규격이 정해지기 전이라 앱의 지오펜싱 계약(중심·반경)에 맞춘다.
-        centers = [h3grid.cell_center(c) for c in cells]
-        lat = sum(p.lat for p in centers) / len(centers)
-        lng = sum(p.lng for p in centers) / len(centers)
-        center = GeoPoint(lat=lat, lng=lng)
-        radius_m = max(
-            (h3grid.haversine_km(center, p) * 1000 for p in centers), default=0.0)
-        persona = (storage.personas.get(case.report.persona_id)
-                   if case.report.persona_id else None)
-        out.append({
-            "case_id": case.id,
-            "issued_at": (case.last_alert_at or case.last_sim_at or case.lkp_time),
-            # 구역 표기 — **이름을 넣지 않는다.** 불특정 다수에게 가는 알림이라
-            # 실명은 목적을 넘는 제공이다(missingView.toAnonView 와 같은 원칙).
-            # 역지오코딩이 붙기 전까지는 앱이 좌표로 표시하도록 비워 둔다.
-            "area": "",
-            # 수색 중인 사건은 전부 긴급이다 — 등급 구분은 경보 종류가 생기면 나눈다.
-            "severity": "critical",
-            "kind": "poa",
-            "target_center": {"lat": center.lat, "lng": center.lng},
-            # 셀 반경(≈174m)을 더해 셀 가장자리에 선 사람도 포함시킨다.
-            "target_radius_m": round(radius_m + 174.0),
-            "summary": (case.report.appearance.summary
-                        if case.report.appearance else "인상착의 정보 없음"),
-            "matched_person_id": case.report.persona_id,
-            # 시민 화면이 띄울 최소 신원 — **이름은 보내지 않는다.** 불특정 다수에게
-            # 가는 알림이라 나이·유형·인상착의만으로 충분하고, 이름까지 뿌리면
-            # 목적(발견 제보)을 넘는 개인정보 제공이 된다.
-            "age": persona.age if persona else None,
-            "appearance": ([case.report.appearance.top, case.report.appearance.bottom,
-                            case.report.appearance.shoes, case.report.appearance.physical]
-                           if case.report.appearance else []),
-            "lkp": {"lat": case.lkp.lat, "lng": case.lkp.lng},
-            "lkp_time": case.lkp_time,
-        })
-    # **최신 순.** 관문(useAlertGate)은 목록의 첫 경보를 잡으므로 정렬이 곧 우선순위다.
-    # 저장 순서대로 두면 오래된 사건이 새 사건을 가린다 — 방금 신고된 쪽이 더 급하다.
-    out.sort(key=lambda a: a["issued_at"], reverse=True)
-    return out
 
 
 @router.get("/cases/{case_id}/poa")
@@ -248,6 +230,41 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
     }
 
 
+class DeviceIn(BaseModel):
+    # Expo Push 토큰 (ExponentPushToken[...]).
+    token: str = Field(min_length=8, max_length=256)
+    platform: Platform
+    # 현재 위치의 H3 res7 셀. **폰이 좌표를 이 해상도로 바꿔서 보낸다** —
+    # 정밀 좌표는 기기를 떠나지 않는다. 서버는 현재 값만 덮어쓰고 이력을 안 남긴다.
+    # 못 구했으면 생략(그 기기는 타겟 발송에서 빠진다).
+    cell_res7: str | None = Field(default=None, max_length=32)
+    # 참여도 등급 3값. 원시 이력(열람·제보 횟수)은 폰에만 있고 이 요약값만 온다.
+    engagement: Engagement = Engagement.normal
+
+
+@router.post("/devices")
+def register_device(body: DeviceIn):
+    """기기 등록 — 푸시 발송 대상에 추가. 앱 실행 시마다 호출해도 안전(upsert).
+
+    ⚠️ 이 시점부터 서버는 지속적 기기 식별자를 갖는다. 푸시의 본질이라 회피할 수
+    없고, 남는 선택지는 토큰에 무엇을 붙이지 않느냐뿐이다.
+    """
+    device = devices.register(body.token, body.platform, body.cell_res7, body.engagement)
+    return {
+        "registered": True,
+        "platform": device.platform,
+        "since": device.registered_at,
+        "targetable": device.cell_res7 is not None,
+    }
+
+
+@router.delete("/devices/{token}")
+def unregister_device(token: str):
+    """등록 해제 — 알림 수신 거부·앱 삭제 시. 지속적 식별자이므로
+    지우는 경로가 반드시 있어야 한다."""
+    return {"unregistered": devices.unregister(token)}
+
+
 @router.post("/cases/{case_id}/presence")
 def touch_presence(case_id: str, body: PresenceIn):
     """익명 참여 하트비트 + 현재 동시 참여자 수 ("지금 N명이 함께 보고 있어요").
@@ -277,15 +294,20 @@ def get_guidance(case_id: str):
     푸시로 확대할지는 기획 결정 대기(노션 참고).
 
     페르소나가 없으면(사전 미등록) 경과시간 기반 범위 안내만 나간다.
+
+    `pending=True` 면 LLM 이 문구를 다듬는 중이라 곧 더 나은 문구가 준비된다 —
+    앱은 그동안만 다시 묻는다. 기다리지 않는 이유는 storytelling 모듈 주석 참고.
     """
     case = _get_case(case_id)
     persona = (
         storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     )
+    text, pending = storytelling.guidance_with_refine(case, persona)
     return {
         "case_id": case.id,
-        "guidance": storytelling.guidance_for(case, persona),
+        "guidance": text,
         "personalized": persona is not None,
+        "pending": pending,
     }
 
 

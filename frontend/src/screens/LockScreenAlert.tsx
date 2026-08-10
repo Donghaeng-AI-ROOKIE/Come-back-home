@@ -67,7 +67,7 @@ export default function LockScreenAlert() {
 
         <View style={styles.tagRow}>{appearance.map((label) => <View key={label} style={styles.tag}><Text style={styles.tagText} numberOfLines={1}>{label}</Text></View>)}</View>
 
-        <Text style={styles.probabilityLabel}>{alert ? `수색 알림 반경 ${(alert.targetRadiusM / 1000).toFixed(1)}km` : '수색 범위를 확인하는 중'}</Text>
+        <Text style={styles.probabilityLabel}>{alert ? `수색 대상 ${alert.targetCells.length}개 구역` : '수색 범위를 확인하는 중'}</Text>
         <View style={styles.probabilityTrack}><View style={[styles.probabilityValue, { width: alert ? '100%' : '0%' }]} /></View>
 
         <Pressable style={[styles.action, styles.confirm]} onPress={openDetail} accessibilityRole="button">

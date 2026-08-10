@@ -15,10 +15,26 @@ from app.phase2 import pipeline
 from app.phase3 import tip_flow
 from app.schemas.common import GeoPoint
 from app.schemas.persona import AttractionPoint, PersonaType
+from app.schemas.report import Appearance
 from app.schemas.tip import Tip, TipDecision
 
 LKP = GeoPoint(lat=37.5511, lng=126.9410)
 PARK = GeoPoint(lat=37.5480, lng=126.9350)  # LKP 에서 약 0.6km — 도보 상한(4.32km/h) 안쪽
+
+
+@pytest.fixture(autouse=True)
+def _stub_tip_llm(monkeypatch):
+    """🚨 이 파일의 기대값은 **스텁 추출 결과**로 계산돼 있다(구체성 "중"=0.6,
+    location_text=None 등). tip_llm 엔드포인트가 살아 있으면 실제 모델이 다른
+    값을 뽑아 셋이 깨진다 — 실제로 터널을 열자마자 그렇게 됐다(2026-08-06).
+
+    터널이 떠 있느냐에 따라 테스트 결과가 갈리면 그건 테스트가 아니다.
+    스텁을 명시적으로 강제해 환경과 무관하게 만든다. 실모델 경로 검증이 필요하면
+    별도 실측 스크립트에서 한다(experiments/).
+    """
+    from app import llm
+
+    monkeypatch.setattr(type(llm.tip_llm), "is_stub", property(lambda self: True))
 
 
 @pytest.fixture()
@@ -37,8 +53,8 @@ def case():
         lkp=LKP,
         lkp_time=datetime.now() - timedelta(hours=1),
         persona_id=persona.id,
-        photo_bytes=b"stub",
-        document_bytes=b"stub",
+        appearance=Appearance(
+            top="파란색 점퍼", bottom="회색 바지", shoes="흰색 운동화"),
     )
     pipeline.run_prediction(c, seed=42)
     return c

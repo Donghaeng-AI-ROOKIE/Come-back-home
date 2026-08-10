@@ -4,11 +4,11 @@
  * web은 react-native-maps 미지원 → accessibilityLabel을 담은 스타일 플레이스홀더로 대체.
  */
 import React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import MapView, { PROVIDER_DEFAULT } from 'react-native-maps';
 import type { MapStyleElement } from 'react-native-maps';
-import { color, radius, space, type } from '../theme/tokens';
+import { color, radius } from '../theme/tokens';
 import { REGION } from '../data/mock';
 
 export type BaseMapProps = {
@@ -63,15 +63,15 @@ export function BaseMap({
         accessibilityRole="image"
         accessibilityLabel={accessibilityLabel}
       >
-        <Text style={styles.webIcon} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          🗺️
-        </Text>
-        <Text style={styles.webText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          {accessibilityLabel}
-        </Text>
-        <Text style={styles.webNote} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          지도는 앱에서 표시돼요
-        </Text>
+        <View style={[styles.block, styles.blockA]} />
+        <View style={[styles.block, styles.blockB]} />
+        <View style={[styles.block, styles.blockC]} />
+        <View style={[styles.road, styles.roadA]} />
+        <View style={[styles.road, styles.roadB]} />
+        <View style={[styles.road, styles.roadC]} />
+        <View style={styles.water} />
+        <View style={styles.radiusCircle} />
+        <View style={styles.webDot} />
       </View>
     );
   }
@@ -118,27 +118,21 @@ const styles = StyleSheet.create({
   },
   map: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
   webPlaceholder: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: space.xl,
-    borderStyle: 'dashed',
+    position: 'relative',
+    backgroundColor: '#F5F2E9',
+    borderWidth: 0,
   },
-  webIcon: { fontSize: 32, marginBottom: space.sm },
-  webText: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    fontFamily: type.family,
-    color: color.text,
-    textAlign: 'center',
-  },
-  webNote: {
-    marginTop: space.xs,
-    fontSize: type.size.caption,
-    fontWeight: type.weight.medium,
-    fontFamily: type.family,
-    color: color.textCaption,
-    textAlign: 'center',
-  },
+  block: { position: 'absolute', borderRadius: 4, backgroundColor: '#E8E3D8', borderWidth: 1, borderColor: '#DED8CC' },
+  blockA: { left: '8%', top: '12%', width: '25%', height: '28%' },
+  blockB: { right: '9%', top: '11%', width: '29%', height: '23%' },
+  blockC: { right: '17%', bottom: '9%', width: '31%', height: '25%' },
+  road: { position: 'absolute', backgroundColor: '#FFFFFF', borderColor: '#DAD7D0', borderWidth: 1 },
+  roadA: { left: '-8%', top: '47%', width: '116%', height: 22, transform: [{ rotate: '-8deg' }] },
+  roadB: { left: '42%', top: '-15%', width: 18, height: '132%', transform: [{ rotate: '17deg' }] },
+  roadC: { left: '-2%', top: '20%', width: '104%', height: 10, transform: [{ rotate: '28deg' }] },
+  water: { position: 'absolute', left: '-6%', bottom: '-24%', width: '118%', height: '44%', backgroundColor: '#DDEFF7', transform: [{ rotate: '-5deg' }] },
+  radiusCircle: { position: 'absolute', left: '35%', top: '31%', width: 92, height: 92, borderRadius: 46, backgroundColor: 'rgba(0,122,255,0.12)', borderWidth: 1, borderColor: 'rgba(0,122,255,0.28)' },
+  webDot: { position: 'absolute', left: '48%', top: '47%', width: 18, height: 18, marginLeft: -9, marginTop: -9, borderRadius: 9, backgroundColor: '#007AFF', borderWidth: 3, borderColor: '#FFFFFF' },
 });
 
 export default BaseMap;

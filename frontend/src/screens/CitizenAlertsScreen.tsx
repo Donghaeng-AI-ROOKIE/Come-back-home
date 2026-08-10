@@ -28,7 +28,7 @@ export default function CitizenAlertsScreen() {
           <AlertCard
             key={alert.caseId}
             tone="red"
-            badge={`수색 중(${Math.max(0.1, alert.targetRadiusM / 1000).toFixed(1)}km 이내)`}
+            badge={`수색 중(${alert.targetCells.length}개 대상 구역)`}
             title={`${alert.age ? `${alert.age}세 ` : ''}실종 어르신 · ${alert.area || '최종 목격 위치 기준'}`}
             body={`${alert.summary || '인상착의 정보 확인 중'}\n터치하여 예상 구역을 확인해 주세요.`}
             onPress={() => navigation.navigate('AlertDetail', { caseId: alert.caseId })}

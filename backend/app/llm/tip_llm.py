@@ -1,14 +1,18 @@
-"""Phase 3 시민 제보 구조화 전용 LLM 클라이언트 — 모델 미정.
+"""Phase 3 시민 제보 구조화 전용 LLM 클라이언트 — Mi:dm 2.0 Mini.
 
 역할은 딱 둘: (1) 자유텍스트 제보를 슬롯 JSON으로 구조화, (2) 구체성·일관성
 상/중/하 등급 판정. 다턴 대화가 아니라 1회성 추출+분류라 가벼운 모델로 충분
 — 그래서 Mi:dm(Phase 0 온보딩 대화 전용)과 분리했다(2026-07-21).
 
+모델 선정: 4파전(Mi:dm 2.0 Mini·A.X-4.0-Light·Solar-mini·EXAONE 4.0) 실측
+비교로 Mi:dm 2.0 Mini 확정(2026-07-29, 균형정확도 76.4%로 1위 — 상세는
+experiments/tip_llm_compare/). GPU 서버에 원본 모델을 직접 호스팅해 연결까지
+완료(2026-07-30).
+
 서빙: settings 에 tip_llm_base_url(endpoint URL) / tip_llm_model(endpoint ID) /
-tip_llm_api_key 를 채우면 실동작, 비어 있으면 결정적 스텁으로 폴백(모델 미정인
-동안에도 파이프라인이 그대로 동작). 모델이 정해지면 이 세 값만 채우면 되고
-(OpenAI 호환 chat completions 전제), 그 값 형태가 다르면 이 파일만 고치면 된다
-— tip_flow.py 등 소비처는 그대로.
+tip_llm_api_key 를 채우면 실동작, 비어 있으면 결정적 스텁으로 폴백. 다른
+서빙 방식(엔드포인트 형태 등)으로 바꿀 땐 이 파일만 고치면 된다 —
+tip_flow.py 등 소비처는 그대로.
 """
 
 from __future__ import annotations
@@ -25,7 +29,7 @@ _TIME_KINDS = ("relative", "absolute", "vague", "none")
 
 
 class TipLLMClient(LLMClient):
-    name = "Tip 구조화 LLM (모델 미정)"
+    name = "Tip 구조화 LLM (Mi:dm 2.0 Mini)"
 
     def __init__(self) -> None:
         super().__init__(settings.tip_llm_api_key)

@@ -21,19 +21,17 @@ uvicorn app.main:app --reload
 app/
 ├── main.py            FastAPI 엔트리포인트
 ├── config.py          임계값·튜닝 파라미터 (전부 .env 오버라이드 가능)
-├── storage.py         인메모리 저장소 (→ DB 교체 지점)
+├── storage.py         SQLite 영속 저장소 (안전 삭제·VACUUM, → 실서비스 DB 교체 지점)
 ├── schemas/           Pydantic 도메인 모델 (persona, report, prediction, tip, case)
 ├── llm/               모델 클라이언트 + 설정 누락·장애 시 폴백
 │   ├── exaone.py        EXAONE — 지식 LoRA prior, 행동 LoRA 마음 재해석
 │   ├── midm.py          Mi:dm — 온보딩 인터뷰 전용
-│   ├── tip_llm.py       제보 구조화·구체성 등급 (Mi:dm 2.0 Mini 선택, 스텁 폴백)
-│   ├── varco_vision.py  VARCO-Vision — 인상착의 추출 (생성 아님, 시민 제보 사진 대조는 미수행으로 확정)
-│   └── upstage.py       Solar Pro — 신고서 파싱
+│   └── tip_llm.py       제보 구조화·구체성 등급 (Mi:dm 2.0 Mini 선택, 스텁 폴백)
 ├── geo/
 │   ├── h3grid.py        H3 육각격자, likelihood 커널, 좌표 유틸
 │   └── roadnet.py       OSMnx 보행 도로망 (USE_ROADNET=true 일 때 활성, 디스크 캐시)
 ├── phase0/interview.py  온보딩: 챗봇 인터뷰 → 페르소나 DB
-├── phase1/intake.py     신고 접수: 인상착의·신고자 추출 → Case 생성
+├── phase1/intake.py     신고 접수: 보호자 입력 인상착의 색상 추출 → Case 생성
 ├── phase2/
 │   ├── topdown.py       2-1 Top-down: prior → POA (MC 없음)
 │   ├── simulation.py    2-2 Bottom-up (agent+MC 500회) / 2-3 통계 MC (동적 마음 재해석 없음)
@@ -54,12 +52,12 @@ app/
 |---|---|---|---|
 | Phase 0 축 컴파일 | `AXIS_SCORING_MODEL` / EXAONE 기본 모델 | 미사용 | 미채점 상태로 두고 기본값 사용 |
 | Phase 2 초기 prior | `EXAONE_MODEL` / `exaone-sar` | 상위 4개 발췌 사용 | 유형별 SAR 통계 prior |
-| Phase 2 마음 재해석 | `MIND_MODEL=exaone-mind-v5` | 미사용 | 혼란 증가 휴리스틱 |
+| Phase 2 마음 재해석 | `MIND_MODEL=exaone-mind-dem5` | 미사용 | 혼란 증가 휴리스틱 |
 | Phase 3 제보 구조화 | 별도 `TIP_LLM_*` / Mi:dm 2.0 Mini 선택 | 미사용 | 키워드 기반 결정적 스텁 |
 
 `EXAONE_MODEL`과 `AXIS_SCORING_MODEL`은 기본값이 비어 있어 배포 환경에서 지정한다. `EXAONE_MODEL=exaone-sar`를 사용할 때 축 채점을 기본 모델로 분리하려면 `AXIS_SCORING_MODEL`을 반드시 별도로 지정해야 한다. RAG 인덱스가 없거나 검색이 실패하면 prior는 발췌 없이 계속 생성된다. 마음 재해석은 학습 계약과 출력 형식을 보호하기 위해 RAG를 사용하지 않으며, 실제 모델 호출 상한은 예측당 5회다.
 
-`exaone-mind-v5`의 v2 계약은 행동·목표·혼란을 모두 출력하지만 현재 `guardrail.sanitize_mind()`와 시뮬레이션은 검증된 목표와 혼란/상태만 사용한다. `behavior`를 이동 전략에 연결하는 작업과 완전한 규칙 기반 혼란 산정은 후속 구현이다.
+`exaone-mind-dem5`의 v2 계약은 행동·목표·혼란을 모두 출력하며, 행동→이동 전략 연결은 구현돼 기본 켜짐이다(PR #109·#118). 완전한 규칙 기반 혼란 산정의 운영 연결은 후속 구현이다.
 
 ## POA 갱신 2층 설계 (2026-07-03 확정)
 
@@ -92,10 +90,10 @@ GET  /phase3/cases/{id}/rerun-check    층2 트리거 상태 (스케줄러용)
 
 | 지점 | 파일 | 내용 |
 |---|---|---|
-| 모델 배포 설정 | `config.py`, `.env` | Mi:dm·EXAONE 기본 모델·`exaone-sar`·`exaone-mind-v5`·`tip_llm` 엔드포인트와 LoRA 마운트 |
+| 모델 배포 설정 | `config.py`, `.env` | Mi:dm·EXAONE 기본 모델·`exaone-sar`·`exaone-mind-dem5`·`tip_llm` 엔드포인트와 LoRA 마운트 |
 | 도로망 운영 프로필 | `geo/roadnet.py`, `.env` | OSMnx 자체는 구현됨 — `USE_ROADNET=true` 기본화와 캐시 배포가 남음 |
-| 마음 재해석 운영 연결 | `phase2/simulation.py`, `.env` | `exaone-mind-v5`의 목표·혼란은 반영. 행동→이동 전략 연결과 규칙 기반 혼란 산정은 미구현 |
+| 마음 재해석 운영 연결 | `phase2/simulation.py`, `.env` | `exaone-mind-dem5`의 목표·혼란·행동 반영(행동 연결 기본 켜짐). 규칙 기반 혼란 산정의 운영 연결은 미구현 |
 | 제보 시각 원문 검증 | `llm/tip_llm.py`, `phase3/time_resolve.py` | 모델이 만든 시각이 시민 원문에 실제로 있는지 대조하는 가드 추가 필요 |
 | DB | `storage.py` | SQLite/Postgres Repository 로 교체 |
-| 푸시 | `phase3/alerts.py` | FCM + 사용자 위치 인덱스 |
+| 푸시 | `phase3/alerts.py` | Expo Push 발송 경로 구현(기본 `push_enabled=false`, 실기기 수신 미검증) |
 | 파일 업로드 | `api/phase1.py`, `api/phase3.py` | 플래그 → multipart UploadFile |

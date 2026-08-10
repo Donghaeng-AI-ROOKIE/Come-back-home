@@ -651,7 +651,7 @@ def _mind_event(
     return MindEvent(
         walker_idx=walker_idx, step=step, location=loc, trigger=trigger,
         source=source, status=mind.status, confusion=mind.confusion,
-        behavior=mind.behavior or "", goal=goal,
+        behavior=mind.behavior, goal=goal,
         prompt=prompt, response_raw=response)
 
 

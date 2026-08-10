@@ -29,7 +29,7 @@ export default function AlertSyncScreen() {
   const watching = usePresenceCount(caseId);
   const guidance = useGuidance(caseId).data?.text;
   const poa = usePoaPrediction(caseId, 0);
-  const lkp = alert?.lkp ?? alert?.targetCenter;
+  const lkp = alert?.lkp;
   const region = lkp ? {
     latitude: lkp.lat,
     longitude: lkp.lng,

@@ -27,7 +27,7 @@ from pathlib import Path
 
 from app import storage
 from app.config import settings
-from app.phase3 import presence
+from app.phase3 import presence, storytelling
 from app.schemas.case import Case, CaseStatus, CloseReason
 from app.schemas.privacy import AuditRecord
 
@@ -129,6 +129,8 @@ def close_case(case: Case, reason: CloseReason, now: datetime | None = None) -> 
     # 종결과 동시에 익명 참여자 카운트를 턴다. 안 그러면 TTL(90s)이 다 지날 때까지
     # 끝난 사건에 "N명이 함께 보고 있어요"가 남는다.
     presence.clear(case.id)
+    # 다듬은 안내 문구에는 인상착의가 들어 있다 — 사건과 함께 사라져야 한다.
+    storytelling.clear_refined(case.id)
     _audit("case_closed", "case", case.id, f"reason={reason.value}")
     return case
 
@@ -159,6 +161,7 @@ def purge_case(case: Case, *, cause: str) -> None:
     storage.debug_traces.delete(case.id)
     storage.cases.delete(case.id)
     presence.clear(case.id)  # 종결을 거치지 않고 바로 파기되는 경로(테스트·일괄파기)도 있다
+    storytelling.clear_refined(case.id)
     _audit("case_purged", "case", case.id, cause)
     storage.vacuum()  # DELETE 만으로는 페이지에 원본이 남는다 (아래 주석 참조)
 

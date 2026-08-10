@@ -56,7 +56,7 @@ export default function AlertDetailScreen() {
         </View>
 
         <Pressable style={styles.personCard} onPress={() => navigation.navigate('AlertSync', { caseId })}>
-          <View style={styles.searchChip}><Text style={styles.searchChipText}>수색 중({alert ? Math.max(0.1, alert.targetRadiusM / 1000).toFixed(1) : '-'}km 이내)</Text></View>
+          <View style={styles.searchChip}><Text style={styles.searchChipText}>수색 중({alert ? `${alert.targetCells.length}개 대상 구역` : '범위 확인 중'})</Text></View>
           <Image source={PERSON} style={styles.personImage} />
           <Text style={styles.name}>{view.title}</Text>
           <Text style={styles.meta}>{view.meta}</Text>

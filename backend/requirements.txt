@@ -14,3 +14,6 @@ osmnx>=2.0
 
 # 환경 레이어 — EGIS 토지피복 WMS 래스터 파싱 (geo/envlayer.py)
 pillow>=10.0
+
+# 셀 표적 푸시 발송 (phase3/push.py, PR #132) — 컨테이너 빌드에서 누락 발견 (2026-08-07)
+httpx>=0.27

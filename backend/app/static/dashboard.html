@@ -436,11 +436,33 @@ function dotStyle(src) {
   return { radius: 4.5, color: "#898781", weight: 1, fillColor: "#c3c2b7", fillOpacity: 0.85 };
 }
 
+function behaviorMix(events) {
+  // 실호출만 센다 — 풀 표집은 실호출 결과의 복사본이라 같이 세면 분포가
+  // 부풀려진다("5종처럼 보이는 1종"). 모델이 층마다 다른 답을 주는지를
+  // 확인하는 자리이므로 모델이 실제로 낸 것만 본다.
+  const real = events.filter((e) => e.source === "exaone" && e.behavior);
+  if (!real.length) return "";
+  const mix = new Map();
+  for (const e of real) mix.set(e.behavior, (mix.get(e.behavior) || 0) + 1);
+  const rows = [...mix.entries()].sort((a, b) => b[1] - a[1]);
+  const warn = rows.length === 1 && real.length > 1;
+  return `<div class="note" style="padding:0;margin-top:6px">
+    실호출 ${real.length}건의 행동 어휘 ${rows.length}종 —
+    ${rows.map(([b, n]) => `${esc(b)} ${n}`).join(" · ")}
+    ${warn ? `<b style="color:#b02a29"> ← 전부 같은 답. 층을 나눠 물었는데 답이 안 갈렸다</b>` : ""}
+  </div>`;
+}
+
 function evTooltip(ev) {
   const goal = ev.goal ? `목표 전환 → <b>${esc(ev.goal)}</b>` : "목표 유지";
+  // behavior 를 앞세운다 — 보행에 실제로 반영되는 채널이고 어휘가 4종뿐이라
+  // 층마다 답이 갈리는지 여기서 바로 읽힌다. status 는 자유 문장이라 표현만
+  // 달라도 달라 보인다(실측: 15콜 전부 같은 behavior 인데 status 는 5가지).
+  const behavior = ev.behavior ? `행동 <b>${esc(ev.behavior)}</b> · ` : "";
   return `<div class="t-head">워커 #${ev.walker_idx} · 스텝 ${ev.step} — ${SRC_KO[ev.source] || ev.source}</div>
     <div class="t-quote">트리거: ${esc(ev.trigger)}</div>
-    <div>재해석: <b>${esc(ev.status)}</b> · 혼란 ${ev.confusion.toFixed(2)} · ${goal}</div>
+    <div>${behavior}혼란 ${ev.confusion.toFixed(2)} · ${goal}</div>
+    <div class="t-muted">재해석: ${esc(ev.status)}</div>
     <div class="t-muted">${ev.prompt ? "클릭하면 우측에 프롬프트·응답 원문" : "실호출 아님 — 원문 없음"}</div>`;
 }
 
@@ -664,14 +686,16 @@ function renderExaone() {
       <div class="note" style="padding:0">워커의 귀소·불안 게이지가 임계를 넘을 때만 희소 호출.
         실호출 ${nReal} · 스텁 ${nStub} · 풀 표집/휴리스틱 ${nPool}.
         지도의 점을 클릭해도 아래 목록이 열립니다.</div>
+      ${behaviorMix(events)}
     </div>
     <div id="ev-list">
       ${events.map((ev, i) => `
         <div class="ev" data-i="${i}">
           <div class="top"><b>워커 #${ev.walker_idx} · 스텝 ${ev.step}</b>
             <span class="src ${ev.source}">${SRC_KO[ev.source] || ev.source}</span></div>
-          <div class="desc">${esc(ev.status)} · 혼란 ${ev.confusion.toFixed(2)}
+          <div class="desc">${ev.behavior ? `<b>${esc(ev.behavior)}</b> · ` : ""}혼란 ${ev.confusion.toFixed(2)}
             ${ev.goal ? ` · <span class="goal">목표 → ${esc(ev.goal)}</span>` : ""}</div>
+          <div class="desc" style="color:var(--muted)">${esc(ev.status)}</div>
           <div id="ev-detail-${i}" style="display:none">
             <div class="t-quote" style="margin-top:6px">트리거: ${esc(ev.trigger)}</div>
             ${ev.prompt ? `<details class="raw" open><summary>프롬프트·응답 원문</summary>

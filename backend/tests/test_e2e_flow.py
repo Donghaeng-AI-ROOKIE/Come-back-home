@@ -10,6 +10,7 @@ from app.phase2 import pipeline
 from app.phase3 import alerts, tip_flow
 from app.schemas.common import GeoPoint
 from app.schemas.persona import AttractionPoint, PersonaType
+from app.schemas.report import Appearance
 from app.schemas.tip import TipDecision
 
 LKP = GeoPoint(lat=37.5511, lng=126.9410)  # 서강대 인근
@@ -32,15 +33,14 @@ def case():
         lkp=LKP,
         lkp_time=datetime.now() - timedelta(hours=1),
         persona_id=persona.id,
-        photo_bytes=b"stub",
-        document_bytes=b"stub",
+        appearance=Appearance(
+            top="파란색 점퍼", bottom="회색 바지", shoes="흰색 운동화"),
     )
 
 
 def test_full_pipeline(case):
     # Phase 1 산출물
     assert case.report.appearance is not None
-    assert case.report.reporter is not None
 
     # Phase 2 — 예측 (top-down/bottom-up/통계 3종 계산, 결합은 bottom-up·통계 2-way)
     result = pipeline.run_prediction(case, seed=42)

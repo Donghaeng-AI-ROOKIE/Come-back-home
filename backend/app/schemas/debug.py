@@ -28,7 +28,12 @@ class MindEvent(BaseModel):
     source: str                        # "exaone"(실호출) | "pool"(풀 표집) | "stub" | "heuristic"
     status: str                        # 재해석된 마음 상태
     confusion: float
-    behavior: str = ""                 # 닫힌 4종 보행 모드 (귀소 시도·계속 배회·은신·멈춤·끌림점 접근)
+    # 닫힌 행동 어휘(guardrail.BEHAVIORS) — 보행에 실제로 반영되는 채널이다
+    # (settings.mind_behavior_enabled). status 는 자유 문장이라 표현만 달라도
+    # 달라 보이는데, behavior 는 4종뿐이라 **다양성이 있는지 바로 보인다.**
+    # 이 필드가 없어서 "층마다 다른 답을 받는가"를 화면에서 확인할 수 없었다
+    # (2026-08-07 실측: 15콜 전부 "끌림점 접근" 인데 status 는 5가지로 보였다).
+    behavior: str = ""
     goal: str | None = None            # 목표 전환된 끌림점 라벨 (없으면 None)
     prompt: str | None = None          # 실호출일 때만 — EXAONE 입력 전문
     response_raw: str | None = None    # 실호출일 때만 — EXAONE 응답 원문

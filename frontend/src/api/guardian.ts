@@ -77,9 +77,11 @@ export type CaseAppearance = {
   top: string;
   bottom: string;
   shoes: string;
-  accessories: string[];
-  physical: string;
+  etc: string;
   summary: string;
+  top_color: string;
+  bottom_color: string;
+  shoes_color: string;
 };
 
 export type CaseTip = {
@@ -186,10 +188,8 @@ export function createReport(body: {
   lkp: GeoPoint;
   lkp_time: string;
   persona_id?: string | null;
-  with_photo?: boolean;
-  with_document?: boolean;
-  appearance_text?: string;
   situation?: string;
+  appearance?: Partial<Pick<CaseAppearance, 'top' | 'bottom' | 'shoes' | 'etc'>> | null;
 }) {
   return api<Case>('/phase1/reports', { method: 'POST', body: JSON.stringify(body) });
 }

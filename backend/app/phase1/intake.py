@@ -1,8 +1,9 @@
 """Phase 1 — 실종 신고 처리.
 
-흐름 A: 실종신고(유형·사진·위치) → VARCO-Vision 인상착의 추출
-흐름 B: 신고 문서 → Upstage 파싱 → 신고자 정보 추출
-두 흐름이 합류해 Case 를 생성하고, 도로망 로딩(현재는 스텁)을 준비한다.
+실종신고(유형·위치·보호자 직접 입력 인상착의) → 규칙 기반 색상 추출 → Case 생성,
+도로망 로딩(현재는 스텁)을 준비한다. 사진·문서 첨부는 받지 않는다(2026-08-07
+결정 — 실제로 동작한 적 없는 스텁이었다: 사진은 VARCO 제거로 이미 삭제됐고,
+문서는 Upstage 연동이 TODO 상태로 항상 가짜 응답만 반환하고 있었다).
 """
 
 from datetime import datetime
@@ -10,7 +11,6 @@ from datetime import datetime
 from app import storage
 from app.config import settings
 from app.geo import roadnet
-from app.llm import upstage, varco
 from app.phase1.color_extract import extract_color
 from app.phase3 import alerts
 from app.schemas.case import Case, CaseStatus
@@ -25,15 +25,15 @@ def create_report(
     lkp: GeoPoint,
     lkp_time: datetime,
     persona_id: str | None = None,
-    photo_bytes: bytes | None = None,
-    document_bytes: bytes | None = None,
-    appearance_text: str = "",
     situation: str = "",
+    appearance: Appearance | None = None,
 ) -> Case:
     """신고 접수 → Case 생성.
 
-    - photo_bytes 가 있으면 VARCO-Vision 으로 인상착의 추출
-    - document_bytes 가 있으면 Upstage 로 신고자 정보 추출
+    - situation 은 보호자가 적은 실종 당시 상황 자유 서술(그대로 저장만 함,
+      아직 알림·안내문구 등 다른 곳에서 안 씀 — 소비처는 후속 결정)
+    - appearance 는 보호자가 직접 입력한 구조화 텍스트
+    - 상의·하의·신발 색상은 외부 모델 없이 규칙 함수로 추출
     """
     report = MissingReport(
         id=storage.new_id(),
@@ -41,38 +41,25 @@ def create_report(
         missing_type=missing_type,
         lkp=lkp,
         lkp_time=lkp_time,
-        situation=situation.strip(),
+        situation=situation,
+        appearance=appearance.model_copy(deep=True) if appearance is not None else None,
     )
 
-    # 외부 모델 장애가 신고 접수를 막으면 안 된다 (골든타임) — 실패 시 해당
-    # 필드만 비우고 접수는 계속. 인상착의는 이후 제보·재업로드로 보강 가능.
-    if photo_bytes is not None:
-        try:
-            report.appearance = varco.extract_appearance(photo_bytes)
-        except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
-            print(f"[varco] 인상착의 추출 실패 (접수는 계속): {e}")
-
-    # 사진이 없거나 VLM 추출이 실패해도 보호자가 직접 적은 인상착의를 잃지 않는다.
-    # 구조화할 근거가 없으므로 임의로 상·하의에 분배하지 않고 summary 에 보존한다.
-    manual_appearance = appearance_text.strip()
-    if manual_appearance:
-        if report.appearance is None:
-            report.appearance = Appearance(summary=manual_appearance)
-        elif not report.appearance.summary:
-            report.appearance.summary = manual_appearance
-
-    # 고정 실루엣 아바타용 색상 추출 — 규칙 기반(모델 없음), 실패할 게 없는 순수
-    # 함수라 try/except 불필요. VARCO 3D 생성 설계 폐기 후속(2026-08-05).
+    # 고정 실루엣 아바타용 색상 추출 — 보호자 입력만 사용하며 외부 모델·네트워크
+    # 호출이 전혀 없다. summary 는 보호자에게 따로 받지 않는다 — 항목별 입력
+    # (상의·하의·신발·기타특징)을 서버가 항상 합쳐서 만든다. 클라이언트가
+    # 뭘 보내든 여기서 덮어쓴다(top_color 등과 동일한 원칙 — 서버가 유일한 소스).
     if report.appearance is not None:
         report.appearance.top_color = extract_color(report.appearance.top)
         report.appearance.bottom_color = extract_color(report.appearance.bottom)
         report.appearance.shoes_color = extract_color(report.appearance.shoes)
-
-    if document_bytes is not None:
-        try:
-            report.reporter = upstage.parse_document(document_bytes)
-        except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
-            print(f"[upstage] 신고서 파싱 실패 (접수는 계속): {e}")
+        parts = [
+            report.appearance.top,
+            report.appearance.bottom,
+            report.appearance.shoes,
+            report.appearance.etc,
+        ]
+        report.appearance.summary = ", ".join(p for p in parts if p)
 
     case = Case(
         id=storage.new_id(),

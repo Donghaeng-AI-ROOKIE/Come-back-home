@@ -5,22 +5,46 @@ import { getActiveAlerts, getGuidance, getPoaPrediction, touchPresence } from '.
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
 import { getCase, listActiveCases, listPersonas, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
+import { useDebugStore } from '../store/debugStore';
+import { useMyLocation } from './useMyLocation';
+import { LAST_SEEN } from '../data/missing';
+import { cellOf } from '../utils/h3cell';
 import type { TimeAxis } from '../types/domain';
 
 // ── 수색 ──────────────────────────────────────────────────────────
 /**
  * 살아있는 경보 목록 — 경보 진입 관문(useAlertGate)이 판정 대상으로 쓴다.
  *
- * **주기 조회한다.** 푸시(FCM)가 없어서 앱 시작 때만 읽으면, 보호자가 신고해도
- * 시민 앱을 껐다 켜야 경보가 보인다(개발·시연 내내 이게 병목이었다).
- * 실서비스에서는 푸시가 이 자리를 대신하고 폴링은 백업으로 남는다.
+ * **내 res7 칸을 보내고 서버가 고른다.** 전체를 받아 폰이 거르는 구조로 만들면
+ * 앱이 전국 실종자 명단을 받게 되고, 푸시에서 최소화해 둔 것이 무효가 된다.
+ *
+ * 칸이 바뀌면 queryKey 가 바뀌어 자동으로 다시 묻는다 — 측위가 끝나기 전에는
+ * `null` 로 조회되어 빈 목록이 오고(fail-closed), 위치가 잡히면 그때 새 질문이
+ * 나간다. 캐시가 "경보 없음"으로 굳지 않는 건 키가 다르기 때문.
+ *
+ * **주기 조회도 한다.** 앱 시작 때만 읽으면 보호자가 신고해도 시민 앱을 껐다 켜야
+ * 경보가 보인다(개발·시연 내내 이게 병목이었다). 푸시가 붙은 뒤에도 백업으로 남는다 —
+ * 푸시는 보내는 순간에만 도달하기 때문.
+ *
+ * @param enabled 시민 트리에서만 true. 운영자 화면에서 GPS 를 켜지 않기 위해
+ *   `useMyLocation` 에 그대로 넘긴다.
  */
 export const ALERT_POLL_MS = 15_000;
 
-export function useActiveAlerts() {
+export function useActiveAlerts(enabled = true) {
+  const { point } = useMyLocation(enabled);
+  const forceInArea = useDebugStore((s) => s.forceInAlertArea);
+  // 데모 오버라이드는 "판정을 건너뛰는" 게 아니라 **위치를 갈아끼우는** 쪽으로
+  // 건다. 서버가 대상을 고르는 구조라 필터만 꺼봐야 받을 게 없기 때문이고,
+  // 실제 동작(내 칸으로 묻는다)을 그대로 타는 편이 시연으로서도 정직하다.
+  const cell = cellOf(forceInArea ? LAST_SEEN : point);
   return useQuery({
-    queryKey: ['activeAlerts'],
-    queryFn: () => getActiveAlerts(),
+    queryKey: ['activeAlerts', cell],
+    queryFn: () => getActiveAlerts(cell),
+    enabled,
+    // 앱을 열어 둔 채로 신고가 접수되는 경우를 이 주기가 잡는다. 골든타임이라
+    // 오래 모르고 있으면 안 되고, 응답이 경보 몇 건짜리 배열이라 서버 부담도
+    // 크지 않다(presence 하트비트가 이미 30초).
     refetchInterval: ALERT_POLL_MS,
     refetchOnWindowFocus: true,
   });
@@ -149,6 +173,10 @@ export function useGuidance(caseId: string, enabled = true) {
     enabled: enabled && !!caseId,
     staleTime: 5 * 60_000,
     retry: false,
+    // 서버가 LLM 으로 문구를 다듬는 **동안만** 다시 묻는다. 서버는 기다리지 않고
+    // 템플릿을 먼저 주므로(골든타임), 이게 없으면 다듬은 문구가 화면에 영영 안 온다.
+    // 항상 폴링하지 않는 이유: 다듬기는 사건당 한 번뿐이라 끝나면 물어볼 게 없다.
+    refetchInterval: (q) => (q.state.data?.pending ? 3_000 : false),
   });
 }
 

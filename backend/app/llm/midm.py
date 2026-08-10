@@ -126,6 +126,116 @@ class MidmClient(LLMClient):
             return {"fields": {}, "place_ops": []}
         return prompts.parse_correction(raw, place_labels)
 
+    def probe_gap(
+        self,
+        ptype: PersonaType,
+        target_slot: SlotSpec,
+        evidence: list[str],
+    ) -> list[str]:
+        """확인 목록 중 **보호자가 아직 답하지 않은** 항목. 없으면 빈 목록.
+
+        판정 전용(JSON) — 문장화와 한 호출로 묶으면 모델이 사실상 항상 질문을
+        만들어낸다(실측 2026-08-07: 전부 답해진 입력에도 6/6 생성, NONE 0회).
+        스텁·실패는 빈 목록 = 파고들지 않음.
+        """
+        if self.is_stub or not target_slot.probes:
+            return []
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.PROBE_GAP_SYSTEM},
+                    {"role": "user", "content": prompts.build_probe_gap_input(
+                        ptype, target_slot, evidence)},
+                ],
+                temperature=settings.midm_temp_extract,   # 판정이라 추출 온도
+                max_tokens=300,
+            )
+        except Exception:  # noqa: BLE001 — 실패는 '파고들지 않음'으로 흡수
+            self.call_failures += 1
+            return []
+        return prompts.parse_probe_gap(raw, target_slot)
+
+    def probe_question(
+        self,
+        ptype: PersonaType,
+        target_slot: SlotSpec,
+        angle: str,
+        evidence: list[str],
+    ) -> str:
+        """정해진 각도 하나를 보호자 말로 묻는 질문. 실패·스텁이면 빈 문자열.
+
+        빈 문자열이면 호출자는 파고들기를 건너뛴다 — probes 원문은 모델용 내부
+        메모라 그대로 내보내면 "머무름·계속 이동·은신 중 우세 경향에 대해서도
+        알려주세요" 같은 질문이 보호자에게 간다(실측 2026-08-07). 안 묻느니만 못하다.
+        """
+        if self.is_stub:
+            return ""
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.PROBE_SYSTEM},
+                    {"role": "user", "content": prompts.build_probe_input(
+                        ptype, target_slot, angle, evidence)},
+                ],
+                temperature=settings.midm_temp_phrase,
+                max_tokens=160,
+            )
+        except Exception:  # noqa: BLE001 — 실패는 '파고들지 않음'으로 흡수
+            self.call_failures += 1
+            return ""
+        return prompts.clean_question(raw)
+
+    def condense_notes(self, notes: list[str]) -> list[str]:
+        """확인 요약 **표시용** 압축. 입력과 같은 길이, 못 줄이면 빈 목록.
+
+        저장된 노트는 이 함수와 무관하다 — 축 채점 근거·인용 검증은 원문을 쓴다.
+        스텁·실패·길이 불일치는 빈 목록 = 호출자가 원문을 그대로 보여준다.
+        """
+        if self.is_stub or not notes:
+            return []
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.DIGEST_SYSTEM},
+                    {"role": "user", "content": prompts.build_digest_input(notes)},
+                ],
+                temperature=settings.midm_temp_extract,   # 재서술이라 추출 온도
+                max_tokens=60 * len(notes) + 120,
+            )
+        except Exception:  # noqa: BLE001 — 실패는 '원문 그대로'로 흡수
+            self.call_failures += 1
+            return []
+        return prompts.parse_digest(raw, len(notes))
+
+    def clarify_question(
+        self,
+        ptype: PersonaType,
+        target_slot: SlotSpec,
+        question: str,
+        utterance: str,
+    ) -> str:
+        """못 알아들은 질문을 쉬운 말로 풀어 다시 묻는 문장. 스텁·실패면 빈 문자열.
+
+        빈 값이면 호출자가 결정론적 폴백(answer_example 기반)을 쓴다 — 여기서 씨앗
+        질문을 돌려주면 '못 알아들었다'는 답에 같은 질문을 되풀이하게 된다.
+        """
+        if self.is_stub:
+            return ""
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.CLARIFY_SYSTEM},
+                    {"role": "user", "content": prompts.build_clarify_input(
+                        ptype, target_slot, question, utterance)},
+                ],
+                temperature=settings.midm_temp_phrase,
+                max_tokens=200,
+            )
+        except Exception:  # noqa: BLE001 — 폴백은 호출자가 담당
+            self.call_failures += 1
+            return ""
+        return prompts.clean_clarify(raw)
+
     def phrase_question(
         self,
         ptype: PersonaType,

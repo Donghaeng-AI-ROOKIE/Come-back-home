@@ -128,10 +128,11 @@ def test_reask_never_repeats_verbatim(monkeypatch):
 
     monkeypatch.setattr(interview.retrieval, "rank_next_slots",
                         lambda *a, **k: ([_Hit()], []))
-    # 뭐라도 건졌지만 미충족 — 같은 슬롯 꼬리질문(재선택 허용) 경로
+    # 빈손 + 미충족 — 재질문 예산(asked_counts)이 담당하는 경로.
+    # 노트가 하나라도 나오면 슬롯이 닫히고 파고들기로 빠진다(아래 별도 테스트).
     monkeypatch.setattr(interview.midm, "extract_answer",
                         lambda slot, conv: {"fields": {}, "attraction_points": [],
-                                            "behavior_notes": ["시장 근처를 좋아함"],
+                                            "behavior_notes": [],
                                             "slot_filled": False})
     s = interview.start_interview("보호자", PersonaType.dementia)
     s.draft_fields["home"] = "정릉동"
@@ -144,6 +145,114 @@ def test_reask_never_repeats_verbatim(monkeypatch):
     q2 = out.messages[-1]["text"]
     assert q1 != q2                          # 구버전: 토씨까지 동일
     assert q2.endswith(q1)                   # 변형 = 재질문 티가 나는 프리픽스
+
+
+def test_note_without_slot_filled_closes_slot(monkeypatch):
+    """노트를 받아 저장했으면 모델이 slot_filled 를 안 내도 슬롯을 닫는다.
+
+    라이브 실측(2026-08-07): "네 신호도 잘 지키시고…"에 Mi:dm 이 노트는 냈는데
+    slot_filled=false 를 내, 슬롯이 후보에 남아 **같은 질문이 그대로 다시 나갔다**
+    (보호자: "답변 했잖아").
+    """
+    slot = slot_by_key("routine_destinations")
+
+    class _Hit:
+        similarity = 0.9
+    _Hit.slot = slot
+
+    # 랭커는 실제처럼 **차단된 슬롯을 빼고** 돌려준다 — 그래야 '닫혔으니 다시 안
+    # 묻는다'를 검증할 수 있다(무조건 같은 슬롯을 돌려주면 재질문이 나는 게 당연).
+    monkeypatch.setattr(interview.retrieval, "rank_next_slots",
+                        lambda ptype, turns, avoid, emb, **k:
+                        ([] if slot.key in avoid else [_Hit()], []))
+    monkeypatch.setattr(interview.midm, "extract_answer",
+                        lambda slot, conv: {"fields": {}, "attraction_points": [],
+                                            "behavior_notes": ["시장 근처를 좋아함"],
+                                            "slot_filled": False})
+    s = interview.start_interview("보호자", PersonaType.dementia)
+    s.draft_fields["home"] = "정릉동"
+    s.filled_keys.append("home")
+    storage.interviews.save(s.id, s)
+
+    out = interview.answer_interview(s.id, "김순자 78세 치매예요")
+    q1 = out.messages[-1]["text"]
+    out = interview.answer_interview(s.id, "시장에 자주 가요")
+    q2 = out.messages[-1]["text"]
+    assert "routine_destinations" in out.filled_keys      # 노트를 받았으면 닫힌다
+    assert q2 != q1
+    assert not any(q2.startswith(p) for p in interview._REASK_PREFIXES)
+
+
+def test_empty_extraction_still_saves_the_answer(monkeypatch):
+    """추출이 통째로 빈손이어도 실질적인 답변이면 원발화를 남기고 슬롯을 닫는다.
+
+    라이브 실측(2026-08-07): "네 신호도 잘 지키시고 위험 감지 능력은 있으세요"에
+    Mi:dm 이 노트 0 · slot_filled=false 를 냈다. 보호자가 한 말이 **어디에도
+    저장되지 않은 채** 같은 질문이 8턴 뒤에 다시 나갔다.
+    """
+    slot = slot_by_key("hazard_awareness_vulnerability")
+    s = InterviewSession(id="empty-ext", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    interview._apply_extraction(
+        s, slot,
+        {"fields": {}, "attraction_points": [], "behavior_notes": [], "slot_filled": False},
+        utterance="네 신호도 잘 지키시고 위험 감지 능력은 있으세요")
+    assert s.slot_notes[slot.key] == ["네 신호도 잘 지키시고 위험 감지 능력은 있으세요"]
+    assert slot.key in s.filled_keys                     # 저장했으면 닫는다
+
+
+def test_bare_affirmation_is_not_saved_as_a_note():
+    """단순 긍정은 사실이 아니다 — 원발화 폴백이 넓어지며 생긴 틈을 막는다.
+
+    실측(2026-08-07): 요약에 "불안하거나 초조하실 때 하시는 행동: 네 맞아요"가 찍혔다.
+    """
+    slot = slot_by_key("distress_induced_movement_reactivity")
+    s = InterviewSession(id="affirm", guardian_name="보호자",
+                         persona_type=PersonaType.dementia)
+    for text in ("네 맞아요", "네", "그래요"):
+        interview._apply_extraction(
+            s, slot,
+            {"fields": {}, "attraction_points": [], "behavior_notes": [],
+             "slot_filled": False},
+            utterance=text)
+    assert slot.key not in s.slot_notes
+    assert s.draft_behaviors == []
+
+
+def test_negative_answer_recognised_in_longer_sentence():
+    """부정은 문장 끝에 온다 — 길이 상한 12자에 걸려 놓치던 답을 잡는다.
+
+    라이브 실측(2026-08-07): "실제 실종되신 적은 없어요"(14자)가 '해당 없음'으로
+    안 잡혀 그 슬롯이 8턴 뒤 통째로 재질문됐다(보호자: "없다고 했잖아").
+    """
+    assert interview._is_negative_answer("실제 실종되신 적은 없어요")
+    assert interview._is_negative_answer("실종까지 가신 적은 없습니다")
+    assert interview._is_negative_answer("딱히 없어요")
+    # 정보가 섞인 답을 '없음'으로 오인하지 않는다
+    assert not interview._is_negative_answer("경로당에 자주 가세요")
+    assert not interview._is_negative_answer("마포아트센터에 일주일에 서너 번 가세요")
+
+
+def test_dedupe_recognizes_personalized_question():
+    """호칭 치환된 문장이 이미 나갔으면 중복으로 알아본다.
+
+    라이브 실측(2026-08-07): _personalize 가 _dedupe_question 뒤에 돌아, 저장값
+    ("어르신은 차도…")과 비교값(씨앗 원문 "대상자는 차도…")이 어긋났다. 위험 인식
+    질문이 토씨 하나 안 틀리고 두 번 나갔고 재질문 프리픽스조차 안 붙었다.
+    """
+    slot = slot_by_key("hazard_awareness_vulnerability")
+    seed = safety.single_question(slot.question)
+    assert "대상자" in seed                    # 전제: 호칭 치환 대상 슬롯
+    stored = interview._personalize(interview._seed_with_example(slot),
+                                    PersonaType.dementia)
+    s = InterviewSession(
+        id="dedupe-p", guardian_name="보호자", persona_type=PersonaType.dementia,
+        messages=[{"role": "assistant", "text": stored}],
+        asked_counts={slot.key: 1})
+    out = interview._dedupe_question(
+        s, slot, interview._personalize(seed, PersonaType.dementia))
+    assert any(out.startswith(p) for p in interview._REASK_PREFIXES)
+    assert "대상자" not in out                 # 반환값도 치환형이어야 한다
 
 
 def test_empty_extraction_avoids_immediate_same_slot():

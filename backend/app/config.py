@@ -9,8 +9,6 @@ class Settings(BaseSettings):
     # 모델 API 키 — 비어 있으면 해당 클라이언트는 스텁 모드
     exaone_api_key: str = ""
     midm_api_key: str = ""
-    varco_api_key: str = ""
-    upstage_api_key: str = ""
     tip_llm_api_key: str = ""
 
     # KT 믿음(Mi:dm) 서빙 엔드포인트 (OpenAI 호환 chat completions)
@@ -26,12 +24,23 @@ class Settings(BaseSettings):
     exaone_base_url: str = ""
     exaone_model: str = ""
 
-    # Phase 3 제보 구조화 전용 — 모델 미정(2026-07-21, Mi:dm 에서 분리).
+    # Phase 3 제보 구조화 전용 — Mi:dm 2.0 Mini 확정(2026-07-29 4파전 실측,
+    # llm/tip_llm.py 참고). Phase 0 온보딩 대화 전용 Mi:dm(midm_*)과는 별개
+    # 엔드포인트로 GPU 서버에 직접 호스팅해 연결(2026-07-30).
     # OpenAI 호환 chat completions 전제로 셋 다 채우면 실동작, 비어 있으면 스텁.
     #   tip_llm_base_url = 발급받은 endpoint URL
     #   tip_llm_model    = 발급받은 endpoint ID
     tip_llm_base_url: str = ""
     tip_llm_model: str = ""
+
+    # Phase 3 수색 안내 문구 다듬기 전용 — **Mi:dm 2.0 Mini**(2026-08-06 결정,
+    # 근거는 llm/copy_llm.py). 비우면 tip_llm_* 를 그대로 물려받는데, 그게 곧
+    # mini 를 쓴다는 뜻이다 — 한 문장 어조를 다듬는 일이라 경량 모델로 충분하고,
+    # 온보딩 대화용 Mi:dm(midm_*)까지 끌어올 이유가 없다.
+    # 모델을 갈아끼워 비교할 때만 채운다.
+    copy_llm_api_key: str = ""
+    copy_llm_base_url: str = ""
+    copy_llm_model: str = ""
 
     # LLM 호출 온도 — 목적별로 분리한다.
     #   2026-07-30 P1-3 실측으로 확정 (전 과정·수치:
@@ -62,6 +71,19 @@ class Settings(BaseSettings):
     #   무엇보다 이 등급은 신뢰도 p 의 25%(trust_weight_specificity)로 들어가는
     #   수색 판단 근거다. 같은 제보에 같은 점수가 나오고 사후에 되짚을 수 있어야 한다.
     tip_llm_temp_structure: float = 0.0   # structure_tip — 제보 구조화 + 등급판정
+    # 안내 문구 다듬기 — 2026-08-06 Mi:dm Mini 실측으로 확정 (4케이스 × 10회).
+    #   통과율(볼 곳·회피 지시가 살아남은 비율): 0.4 = 82% / 0.2 = 100% / 0.0 = 100%
+    # 거절되면 템플릿으로 안전하게 물러나므로 위험하진 않지만, 0.4 는 다섯 번에
+    # 한 번꼴로 LLM 을 붙인 의미가 사라진다("나무가 우거진 곳을 중심으로" — 볼 곳
+    # 셋이 통째로 빠진 실제 출력).
+    #
+    # 낮춰도 문구가 딱딱해지지 않는다는 것을 눈으로 확인했다 — 0.0 과 0.4 출력이
+    # 사실상 같았다. **다듬은 문구는 사건당 한 번만 만들어 캐시하므로**(storytelling)
+    # 표본 다양성이 사용자에게 주는 이득이 애초에 없다.
+    # 0.0 을 더 내리지 않은 이유: 0.2 대비 측정 이득이 없고, vLLM 연속 배칭에서는
+    # 0.0 도 완전 결정론이 아니라 "결정성"을 근거로 삼을 수 없다.
+    # ⚠ 초기 기획안의 0.7 은 실측 근거가 없어 채택하지 않았다.
+    copy_llm_temp: float = 0.2
 
     # Phase 0 축 점수 컴파일 (phase0.axis_scoring) — 골드셋 실험으로 검증된 B×P1 채점.
     # 기본 off: 회의에서 채점 방식 채택 시 켠다. runs = 축당 호출 수(3회 다수결 권장).
@@ -114,11 +136,24 @@ class Settings(BaseSettings):
     #   안 잡힌다. prior·마음은 파인튜닝본, 축 채점은 base 로 나눈다.
     axis_scoring_model: str = ""
 
-    # 마음 재해석 전용 — 2026-08-04 치매 단독 재학습본으로 교체.
-    #   mind_model: 비우면 exaone_model. 운영 확정값 = "exaone-mind-dem3"
-    #     (vLLM --lora-modules 이름). 봉인 test 144회 실측: 행동 98%·목표 89%·
-    #     혼란도 88%·치명 0·어휘 밖 0 (experiments/mind_goldset/results 의
-    #     goldset_eval_test_..._exaone-mind-dem3_20260804_113144).
+    # 마음 재해석 전용 — 2026-08-07 dem5(라벨 v8 재학습본)로 교체.
+    #   mind_model: 비우면 exaone_model. 운영 확정값 = "exaone-mind-dem5"
+    #     (vLLM --lora-modules 이름).
+    #   dem3→dem5 교체 근거 (2026-08-07 실측, experiments/mind_strata):
+    #     dem3 는 goal 선택 정책을 일반명사로만 배워 고유명사 라벨에 일반화가 안
+    #     됐다 — 실등록 두께 페르소나 × 10개 동네 회전 150콜에서 "정릉" 접두만
+    #     74/75 발화, 그 외 3/75. 정릉 라벨이 있으면 behavior 채널까지
+    #     "끌림점 접근"으로 붕괴(5페르소나 전부 15/15). 시연(정릉동)이 우연히
+    #     그 이상 반응 구간이라 화면상 문제로 안 보였을 뿐이다.
+    #     dem5 = 학습 라벨 풀에 고유명사 교차 배치 + 홀드아웃 8종(정릉·아리랑·
+    #     망원·성북·남대문·청량리·경동·면목) 격리(build_dataset.py v8). 같은
+    #     프로브에서 비정릉 goal 3/75→27/75(9개 동네, 홀드아웃 지명 포함 =
+    #     암기 아닌 일반화), dev 게이트 치명 0·goal 32/32
+    #     (goldset_eval_dev_..._exaone-mind-dem5_20260807_170954).
+    #     봉인 test 48회: goal 83%·변별 함정 8/8 회피·행동 치명 0
+    #     (혼란도는 깡통 기준선과 미변별이라 성능 지표로 쓰지 않음 — PR #142·#144).
+    #     잔존 한계: 정릉 편향 소멸 아님(2.3:1), "끌림+goal 없음" 쌍 27/150
+    #     (simulation.py 가 모드 해제로 무해 흡수, 데이터 v9 과제).
     #   종전 exaone-mind-v5 는 **치매+발달장애 혼합 데이터** 학습본이다. 대상을
     #     치매로 좁히면서(2026-08-03) 학습 데이터를 치매만으로 다시 만들고
     #     (행동 진술 33→73건) dem-e1→dem2→dem3→dem4 를 학습했다. dem4 는 개발용
@@ -132,7 +167,7 @@ class Settings(BaseSettings):
     #   기본값을 확정값으로 명시 — 비워 두면 exaone_model(현 운영값 sar)로
     #   폴백돼 마음 경로가 조용히 오라우팅되는 함정이 있다. 어댑터 미마운트
     #   환경에서는 호출 실패 → 기존 휴리스틱 폴백으로 안전 저하.
-    mind_model: str = "exaone-mind-dem3"
+    mind_model: str = "exaone-mind-dem5"
     mind_contract: str = "v2"
 
     # RAG — 논문 코퍼스 검색으로 EXAONE 추론에 근거를 붙인다 (P1-4).
@@ -327,6 +362,37 @@ class Settings(BaseSettings):
     # 줄이면 카운트가 불안정해진다.
     presence_ttl_sec: float = 90.0
     presence_max_tokens_per_case: int = 10_000  # 메모리 상한 (자세한 근거: presence.py)
+
+    # ── 푸시 발송 (Expo Push Service) ──────────────────────────────
+    # 기본값 False = 스텁 모드: 네트워크를 타지 않고 결정적 응답. 테스트가 외부
+    # 서비스에 의존하지 않게 하는 장치이자 크레덴셜 없이 파이프라인을 돌리기 위한 것.
+    # 실발송하려면 True + Expo 프로젝트에 FCM V1 크레덴셜(서비스 계정) 등록 필요.
+    push_enabled: bool = False
+    # 선택이지만 권장 — 없으면 남이 우리 프로젝트 이름으로 발송할 수 있다.
+    expo_access_token: str = ""
+    # 골든타임 알림이라 오래 매달리면 안 된다. 실패해도 접수·예측은 계속돼야 하므로
+    # 짧게 끊고 넘어간다.
+    push_timeout_sec: float = 10.0
+    # 발송 대상 판정 해상도 — 폰이 자기 위치를 이 해상도의 H3 셀 하나로 바꿔
+    # 보고하고, 서버는 예측 셀(res9)의 이 해상도 부모와 대조한다.
+    #   res7 ≈ 5km². 예측 구역(실측 17km²)을 구분하기엔 충분하고 개인 위치는
+    #   안 드러난다 — "목적에 필요한 최소 해상도"가 선택 기준(2026-08-05 확정).
+    #   ⚠️ 낮추면(res5·res6) 낭비 발송이 급증하고, 높이면(res8·res9) 사실상
+    #     좌표가 되어 최소성 논거가 무너진다.
+    push_target_res: int = 7
+    # 참여도 등급별 발송 확률 문턱 — **프론트 utils/alertBudget.ts 의
+    # PROB_THRESHOLD 와 값이 같아야 한다**(서버·앱이 다르면 사용자는 "알림은
+    # 왔는데 앱은 구역 밖이라 한다" 같은 모순을 본다).
+    # 기준은 히트맵 상대 스케일(최고 셀 대비) — 근거는 alerts.relative_prob_by_parent.
+    push_prob_threshold: dict[str, float] = {
+        "high": 0.3,     # 덜 확실한 곳까지
+        "normal": 0.45,
+        "low": 0.6,      # 확실한 곳만
+    }
+    # 실종 경과가 이 시간 안이면 경보를 critical(빨강), 넘으면 active(앰버)로
+    # 내려준다. 프론트 queries.ts 의 GOLDEN_WINDOW_MS(1시간)와 같은 창 —
+    # 화면 카운트다운과 색이 따로 놀면 "긴급이라면서 앰버"가 된다.
+    alert_critical_window_h: float = 1.0
 
     # ── Phase 3 제보 신뢰도 p (docs: "제보 신뢰도 p 계산 방식") ─────────
     # p = 가중평균(시공간개연성·구체성). 없는 신호는 가중치 재정규화.

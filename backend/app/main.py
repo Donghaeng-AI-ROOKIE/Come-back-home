@@ -93,7 +93,7 @@ def root():
         "service": "돌아오길 backend",
         "phases": {
             "phase0": "온보딩 — Mi:dm 인터뷰 → 페르소나 DB",
-            "phase1": "신고 접수 — VARCO 인상착의 + Upstage 파싱 → Case 생성",
+            "phase1": "신고 접수 — 직접 입력 인상착의 색상 추출 + Upstage 파싱 → Case 생성",
             "phase2": "동선 예측 — Top-down/Bottom-up/통계 계산, Bottom-up·통계 2-way α-pool → POA",
             "phase3": "수색 루프 — 타겟 알림, 제보 신뢰도 p, 층1 베이지안 갱신 + 층2 재실행",
             "privacy": "개인정보 — 종결·TTL 자동 파기·명시 삭제요청·감사로그",

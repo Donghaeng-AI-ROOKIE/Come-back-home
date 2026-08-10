@@ -6,16 +6,20 @@
  * 까다로워서, 앱을 띄우지 않고도 검사할 수 있어야 하기 때문.
  */
 import type { GeoPoint, PoaGrid, PoliceAlert } from '../types/domain';
-import { distanceM, pointInPolygon } from './geo';
+import { pointInPolygon } from './geo';
+import { isInCells } from './h3cell';
 import { isWorthGating, rearmsAfterDismissal } from './alertBudget';
 import type { EngagementLevel } from './alertBudget';
 
 /**
- * 이 경보가 **나에게 해당되는가** — 온디바이스 지오펜싱의 판정부.
+ * 이 경보가 **나에게 해당되는가** — 앱 안 관문의 지오펜스 판정부.
  *
- * 서버는 대상 구역만 뿌리고 내 위치는 모른다. 그 안에 있는지는 폰이 정한다.
- * 이 판정이 없으면 알림이 무차별 발송이 되고, 9km 떨어진 사람에게도 전체화면
- * 관문이 서는 일이 생긴다 — "타겟 알림"이라는 서비스 전제가 무너지는 지점이다.
+ * 서버가 보낸 대상 셀 목록에 **내 셀이 있는지**만 본다. 서버는 내 res7 칸까지만
+ * 알고 정밀 좌표는 모르므로, 이 판정은 여기서 한 번 더 해야 한다. 이게 없으면
+ * 9km 떨어진 사람에게도 전체화면 관문이 서는 일이 생긴다.
+ *
+ * 판정에 쓰는 해상도는 `alert.targetRes` 를 그대로 따른다 — 여기 상수를 박아두면
+ * 서버가 해상도를 바꿨을 때 모든 판정이 조용히 false 가 된다.
  *
  * ## ⚠️ 위치를 모르면 **해당되지 않는다고 본다(fail-closed)** — 2026-08-05 확정
  * 한때 fail-open("놓친 알림이 성가신 알림보다 비싸다")이었는데 뒤집었다.
@@ -29,8 +33,10 @@ import type { EngagementLevel } from './alertBudget';
  */
 export function alertAppliesToMe(alert: PoliceAlert, myPoint: GeoPoint | null): boolean {
   if (myPoint == null) return false; // 판정 불가 → fail-closed (위 주석)
-  if (!Number.isFinite(alert.targetRadiusM) || alert.targetRadiusM <= 0) return true;
-  return distanceM(myPoint, alert.targetCenter) <= alert.targetRadiusM;
+  // 대상 구역이 비어 있으면 서버가 구역을 못 고른 것(전체 대상). 이걸 "아무도
+  // 해당 없음"으로 읽으면 경보가 통째로 사라지므로 통과시킨다.
+  if (alert.targetCells.length === 0) return true;
+  return isInCells(myPoint, alert.targetCells, alert.targetRes);
 }
 
 /**
@@ -109,8 +115,8 @@ export function pickGateCase(
  *   null  판정 불가(위치 모름·예측 미도착) → 호출부에서 fail-open
  *   0     예측 셀 밖 — 판정은 됐고 확률이 최저. 어떤 문턱도 못 넘는다.
  *
- * 지오펜스 원이 육각 셀 집합보다 넓어 "대상 구역 안이지만 예측 셀 밖"이 생기는데,
- * 그 사람들이 여기서 걸러진다.
+ * 대상 셀(res7, ≈5km²)이 예측 셀(res9, ≈0.1km²)보다 훨씬 굵어서 "대상 구역 안이지만
+ * 예측 셀 밖"이 생기는데, 그 사람들이 여기서 걸러진다.
  */
 export function cellProbAt(point: GeoPoint | null, grid: PoaGrid | undefined): number | null {
   if (point == null || grid == null) return null;

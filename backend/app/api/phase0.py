@@ -183,10 +183,15 @@ def start_session(body: StartSessionIn):
 
     if body.mode == "create":
         is_tier1 = body.scope == "tier1"
+        # 미니챗(Tier1)도 요약→확인 게이트를 거친다(2026-08-07 결정 변경 — 이전엔
+        # 골든타임을 위해 skip_confirmation=True 로 생략했으나, 확인 없이 등록되는
+        # 게 더 불안하다는 판단으로 되돌림). interview.start_interview 의
+        # skip_confirmation 파라미터 자체는 남겨둔다 — test_phase1_onboardless_
+        # report.py 가 그 메커니즘을 직접 검증하므로 삭제하지 않는다.
         session = interview.start_interview(
             body.guardian_name, body.persona_type,
             mode="create", target_tiers=[1] if is_tier1 else None,
-            guardian_id=body.guardian_id, skip_confirmation=is_tier1,
+            guardian_id=body.guardian_id,
         )
     elif body.mode == "supplement":
         if existing is None or status != "partial":

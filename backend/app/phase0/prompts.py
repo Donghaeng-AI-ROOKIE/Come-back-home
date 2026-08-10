@@ -23,6 +23,7 @@ Mi:dm 은 매 턴 두 가지만:
 from __future__ import annotations
 
 import json
+import re
 
 from app.phase0.slots import SlotSpec
 from app.schemas.persona import PersonaType
@@ -248,6 +249,236 @@ PHRASE_SYSTEM = """\
 _PHRASE_WINDOW = 4
 
 
+# ── (C) 파고들기 — 판정과 문장화를 **따로** 부른다 ───────────────────
+# 한 번에 "안 들은 게 있으면 질문을 만들고 없으면 NONE" 을 시키면 모델은 사실상
+# 항상 질문을 만든다(실측 2026-08-07: 확인 목록이 전부 답해진 입력에도 6/6 질문
+# 생성, NONE 0회). 질문을 만들라는 지시 자체가 생성 쪽으로 기울인다. 그래서
+# 판정은 JSON 전용 호출로 떼어낸다 — 기존 원칙(정성 판단은 LLM, 반영은 코드).
+
+PROBE_GAP_SYSTEM = """\
+너는 보호자 인터뷰 기록을 검토한다. 질문을 만들지 마라. 채점만 한다.
+
+'확인 목록'의 **모든 항목에 대해 하나도 빠짐없이** 답함(true)/안 답함(false)을
+매긴다. 항목을 그대로 베껴 나열하지 마라 — 항목마다 실제로 판정해야 한다.
+
+[판정 기준]
+- **어휘가 달라도 뜻이 같으면 답함(true)**이다:
+  · "그 자리에 서서 가만히 계세요" → '머무름·계속 이동·은신 중 우세 경향' = true
+  · "신호도 잘 지키시고" → '차도·횡단보도에서 신호를 지키는지' = true
+  · "위험 감지 능력은 좋아요" → '물가의 위험을 인식하는지' = true, '계단·높은 곳에서 조심하는지' = true
+- true 로 매겼으면 `quote` 에 근거가 된 보호자 말을 **그대로 인용**한다.
+  인용할 말을 못 찾겠으면 그건 false 다.
+- **낱말만 겹치는 인용은 false 다.** 인용한 말이 그 항목이 묻는 **내용**을 실제로
+  담고 있어야 한다:
+  · '거르면 나타나는 증상' ← "가끔 거르고 나가십니다" = **false**
+    (거른다는 사실일 뿐, 거른 뒤 달라지는 모습이 없다)
+  · '거르면 나타나는 증상' ← "약을 거르시면 하루 종일 멍하게 계세요" = true
+  · '야간 이동 가능성' ← "밤에도 나가신 적이 있어요" = true
+
+[출력 — 이 JSON 만]
+{"items": [{"i": <항목 번호>, "answered": true, "quote": "<보호자 말 그대로>"},
+           {"i": <항목 번호>, "answered": false, "quote": ""}]}"""
+
+
+PROBE_SYSTEM = """\
+너는 '돌아오길' 온보딩 인터뷰어다. 아래 '물어볼 것' 하나만 묻는 질문을 만든다.
+
+[규칙 — 엄수]
+- 질문은 정확히 하나. 물음표도 하나. 짧고 담백하게.
+- **'물어볼 것' 문구를 그대로 쓰지 마라.** 그건 내부 메모지 보호자가 쓰는 말이
+  아니다. '우세 경향', '유인 취약성', '구체적 목격 사례' 같은 말 금지 — 풀어서 물어라.
+- **보호자가 이미 한 말을 다시 묻지 마라.** 되받아 확인하는 것도 금지.
+- 답하는 사람은 보호자다. "어르신이 …하시나요?" 제3자 관점, 존댓말.
+- 진단·의료/법률 조언 금지. 겉으로 드러난 행동·장소만.
+- 질문 문장만 출력(따옴표·설명·JSON 없이).
+
+[예시]
+물어볼 것: 구체적 목격 사례
+→ 실제로 그런 모습을 보신 적이 있나요?
+
+물어볼 것: 거르면 나타나는 증상
+→ 약을 거르시면 평소와 달라지는 모습이 있나요?
+
+물어볼 것: 태워주거나 데려간다고 하면 따라갈 가능성 (유인 취약성)
+→ 낯선 사람이 태워준다고 하면 따라가실까요?"""
+
+
+def _probe_labels(target_slot: SlotSpec) -> list[str]:
+    """probes 에서 내부 태그("(destination_retention)")를 뗀 표시용 목록."""
+    return target_slot.probe_labels
+
+
+def build_probe_gap_input(
+    ptype: PersonaType,
+    target_slot: SlotSpec,
+    evidence: list[str],
+) -> str:
+    """확인 목록(probes, 번호 매김) + 보호자가 실제로 한 말(노트 + 원발화)."""
+    said = "\n".join(f"- {e}" for e in evidence) or "- (아직 없음)"
+    checklist = "\n".join(
+        f"{i}. {p}" for i, p in enumerate(_probe_labels(target_slot), 1))
+    return (
+        f"[대상 유형] {ptype.value}\n"
+        f"[항목] {target_slot.label} — {target_slot.filled_when}\n"
+        f"[확인 목록]\n{checklist}\n"
+        f"[보호자가 한 말]\n{said}"
+    )
+
+
+def build_probe_input(
+    ptype: PersonaType,
+    target_slot: SlotSpec,
+    angle: str,
+    evidence: list[str],
+) -> str:
+    said = "\n".join(f"- {e}" for e in evidence) or "- (아직 없음)"
+    return (
+        f"[대상 유형] {ptype.value}\n"
+        f"[항목] {target_slot.label}\n"
+        f"[물어볼 것] {angle}\n"
+        f"[보호자가 이미 한 말 — 다시 묻지 말 것]\n{said}"
+    )
+
+
+def parse_probe_gap(raw: str, target_slot: SlotSpec) -> list[str]:
+    """채점 응답 → 아직 안 답한 확인 목록 항목들. 파싱 실패는 '남은 게 없음'.
+
+    실패를 '전부 남았다'로 보면 판정 불능일 때마다 아무 각도나 묻게 된다 —
+    파고들기는 보너스라 침묵하는 쪽이 안전하다.
+
+    `answered=true` 인데 `quote` 가 비어 있으면 근거 없는 판정이라 **안 답함으로
+    되돌린다** — 모델이 근거 인용을 요구받으면 실제로 읽는다는 점을 이용한 검증
+    (다른 경로의 '발화 근거 검증'과 같은 원칙).
+    """
+    try:
+        data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    except (ValueError, json.JSONDecodeError):
+        return []
+    if not isinstance(data, dict):
+        return []
+    labels = _probe_labels(target_slot)
+    answered: set[int] = set()
+    for item in data.get("items") or []:
+        if not isinstance(item, dict) or not item.get("answered"):
+            continue
+        quote = str(item.get("quote") or "").strip()
+        if not quote:
+            continue          # 근거 없는 '답함' 은 인정하지 않는다
+        try:
+            idx = int(item.get("i"))
+        except (TypeError, ValueError):
+            continue
+        if 1 <= idx <= len(labels):
+            answered.add(idx)
+    return [lb for i, lb in enumerate(labels, 1) if i not in answered]
+
+
+# ── (D) 확인 요약 압축 — **표시 전용** ───────────────────────────────
+# 저장된 노트·원발화는 건드리지 않는다(축 채점 근거·인용 검증이 그대로 쓴다).
+# 확인 화면에서만 짧게 보여 준다 — 보호자 발화가 통째로 나열되면 읽기 힘들다.
+
+DIGEST_SYSTEM = """\
+너는 보호자가 한 말을 등록 카드에 넣을 **짧은 항목**으로 줄인다.
+
+[규칙 — 엄수]
+- 각 줄을 **명사구**로. 서술어·존댓말·문장부호 금지("~하세요", "~합니다" 금지).
+- 12자 안팎을 목표로 최대한 짧게. 단, 사실은 잃지 마라 — 숫자·지명·빈도·
+  방향은 반드시 남긴다("한 시간", "망원시장", "일주일에 서너 번").
+- **원문에 없는 말을 지어내지 마라.** 모르는 것을 채우지 말고, 판단·진단을
+  덧붙이지 마라("치매 의심" 같은 말 금지).
+- **입력 한 줄 = 출력 한 줄.** 한 줄에 사실이 여럿이면 쪼개지 말고 '·'로 이어라.
+- 입력에 있는 번호(i)를 그대로 달아 준다. 줄이기 애매하면 원문을 그대로 둔다.
+
+[출력 — 이 JSON 만]
+{"digests": [{"i": 1, "text": "<1번 줄 압축>"}, {"i": 2, "text": "..."}]}
+
+[예시]
+입력:
+1. 약을 거르시면 많이 어지러워 하세요
+2. 동네 안에서는 혼자 한 시간 정도 걸으세요. 버스는 이제 혼자 못 타세요
+3. 그 자리에 가만히 서계세요
+4. 네 신호도 잘 지키시고 위험 감지 능력도 있으세요
+출력:
+{"digests": [{"i": 1, "text": "거르면 어지럼증"},
+             {"i": 2, "text": "동네 안 혼자 1시간·버스 못 탐"},
+             {"i": 3, "text": "제자리에 머무름"},
+             {"i": 4, "text": "신호 준수·위험 인지 양호"}]}"""
+
+
+def build_digest_input(notes: list[str]) -> str:
+    return "\n".join(f"{i}. {n}" for i, n in enumerate(notes, 1))
+
+
+def parse_digest(raw: str, expected: int) -> list[str]:
+    """압축 응답 → 입력과 같은 길이의 목록. 못 채운 자리는 "" (호출자가 원문 유지).
+
+    번호(i)로 짝을 맞춘다 — 순서만 믿으면 밀린 줄이 엉뚱한 노트에 붙는다. 실제로
+    모델이 두 문장짜리 노트를 두 줄로 쪼개 8줄 입력에 9줄을 냈다(실측 2026-08-07).
+    같은 번호가 여러 번 오면 '·'로 잇는다(쪼갠 것을 도로 합친다).
+    """
+    try:
+        data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    except (ValueError, json.JSONDecodeError):
+        return []
+    items = data.get("digests") if isinstance(data, dict) else None
+    if not isinstance(items, list):
+        return []
+    out = [""] * expected
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        try:
+            idx = int(item.get("i"))
+        except (TypeError, ValueError):
+            continue
+        text = str(item.get("text") or "").strip()
+        if not text or not 1 <= idx <= expected:
+            continue
+        out[idx - 1] = f"{out[idx - 1]}·{text}" if out[idx - 1] else text
+    return out
+
+
+CLARIFY_SYSTEM = """\
+너는 '돌아오길' 온보딩 인터뷰어다. 보호자가 **직전 질문을 못 알아들었다**고 말했다.
+답을 모르는 게 아니라 질문이 어려웠던 것이다. 같은 질문을 되풀이하지 말고,
+무엇을 묻는 것인지 쉬운 말로 풀어서 다시 물어라.
+
+[출력 형식 — 엄수]
+- 두 문장. 첫 문장은 무엇을 묻는지 일상어로 푼 설명(물음표 없이).
+- 둘째 문장이 실제 질문. 물음표는 여기 딱 하나.
+- **수집 항목 이름·전문용어를 그대로 쓰지 마라**("구체적 목격 사례", "이동 반경",
+  "경로 회복", "유인 취약성" 등은 보호자가 쓰는 말이 아니다).
+- 보호자가 바로 떠올릴 수 있게 구체적인 예를 하나 넣어라.
+- 짧고 담백하게. 사과나 위로를 길게 늘어놓지 마라.
+- 겉으로 드러난 행동·장소만. 진단·의료/법률 조언 금지.
+- 문장만 출력(따옴표·설명·JSON 없이).
+
+[예시]
+못 알아들은 질문: 구체적 목격 사례에 대해서도 알려주세요.
+보호자 말: 구체적 목격 사례가 무슨 의민지 모르겠어요
+→ 실제로 길을 잃으셨던 때가 있으면 그때 어떠셨는지가 궁금해요. 예를 들어 어디서 무얼 하고 계셨는지 기억나시는 게 있을까요?
+
+못 알아들은 질문: 유인 취약성에 대해서도 알려주세요.
+보호자 말: 그게 무슨 말이에요?
+→ 낯선 사람이 태워준다거나 데려다준다고 하면 따라가실까 봐 여쭤보는 거예요. 그런 말에 쉽게 따라가시는 편인가요?"""
+
+
+def build_clarify_input(
+    ptype: PersonaType,
+    target_slot: SlotSpec,
+    question: str,
+    utterance: str,
+) -> str:
+    """못 알아들은 질문 + 보호자의 반응 + 이 슬롯이 원래 알고 싶은 것."""
+    return (
+        f"[대상 유형] {ptype.value}\n"
+        f"[못 알아들은 질문] {question}\n"
+        f"[보호자 말] {utterance}\n"
+        f"[이 항목이 알고 싶은 것] {target_slot.label} — {target_slot.filled_when}\n"
+        f"[답변 눈높이 예시(그대로 낭독 금지)] {target_slot.answer_example}"
+    )
+
+
 def build_phrase_input(
     ptype: PersonaType,
     target_slot: SlotSpec,
@@ -302,6 +533,40 @@ def build_phrase_input(
 이미 확보한 사실을 다시 묻지 마라. 확보한 사실이 아직 없으면 **기본 사실(있는지/
 하는지 여부)부터** 확인하라 — 존재를 전제로 한 세부 질문("약을 거르시면…")을
 여부 확인보다 먼저 하지 마라. 질문 한 문장만 출력."""
+
+
+# 되묻기 출력 길이 상한 — '설명 1문장 + 질문 1문장'이면 충분하다.
+_CLARIFY_MAX = 220
+
+
+# 되묻는 문장인지 판정하는 단서. Mi:dm 은 절반쯤을 물음표 없이 끝낸다
+# ("…아니면 계속 걸어다니시는지 알고 싶어요.") — 물음표만 요구하면 멀쩡한 출력의
+# 절반을 버리고 폴백으로 떨어진다(실측 2026-08-07, 6건 중 3건).
+_CLARIFY_CUES = ("?", "궁금", "알고 싶", "알려주", "말씀해", "여쭤", "있을까", "실까")
+
+
+def clean_clarify(raw: str) -> str:
+    """되묻기 출력 정리 — '설명 + 질문' 2문장을 살린다. 못 살리면 빈 문자열.
+
+    clean_question 은 첫 물음표에서 자르는데, 되묻기는 예시 안에 인용 물음표가
+    섞이기 쉬워("모르는 사람이 '어디 가세요?'라고 하면…") 문장이 중동무이가 된다
+    (실 Mi:dm 실측 2026-08-07, 2회 중 1회). 마지막 물음표까지 살리되 길이는 막는다.
+    빈 문자열을 돌려주면 호출자가 결정론적 폴백을 쓴다 — 잘린 문장을 내보내느니
+    예시 기반 안내가 낫다.
+    """
+    t = " ".join(raw.strip().strip('"').split())
+    if not t or not any(c in t for c in _CLARIFY_CUES):
+        return ""            # 되묻는 문장이 아니다 → 폴백
+    if "?" in t:
+        cut = t.rfind("?")
+        if cut + 1 > _CLARIFY_MAX:
+            cut = t.rfind("?", 0, _CLARIFY_MAX)
+        if cut != -1:
+            return t[:cut + 1].strip()
+    if len(t) <= _CLARIFY_MAX:
+        return t
+    cut = t.rfind(".", 0, _CLARIFY_MAX)   # 한도 안 마지막 문장 끝에서 자른다
+    return t[:cut + 1].strip() if cut != -1 else ""
 
 
 def clean_question(raw: str) -> str:

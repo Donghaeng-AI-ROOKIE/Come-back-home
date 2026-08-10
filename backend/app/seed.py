@@ -8,12 +8,11 @@
 from datetime import datetime, timedelta
 
 from app import storage
-from app.llm import upstage, varco
 from app.phase2 import pipeline
 from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.persona import AttractionPoint, InterviewSession, Persona, PersonaType
-from app.schemas.report import MissingReport
+from app.schemas.report import Appearance, MissingReport
 
 DEMO_CASE_ID = "case-jeongneung-001"  # 프론트 DEMO_CASE_ID(frontend/src/data/missing.ts)와 일치
 
@@ -73,8 +72,13 @@ def seed_demo() -> None:
         missing_type=PersonaType.dementia,
         lkp=home,
         lkp_time=datetime.now() - timedelta(hours=1),
-        appearance=varco.extract_appearance(b"stub"),
-        reporter=upstage.parse_document(b"stub"),  # 관제 화면 신고자 카드용 — 실 접수 시 신고서 파싱으로 대체
+        situation="산책 나가신다고 하고 안 돌아오셨어요",
+        appearance=Appearance(
+            top="파란색 점퍼", bottom="회색 바지", shoes="흰색 운동화",
+            etc="160cm 마른 체형, 흰머리",
+            summary="파란 점퍼에 회색 바지, 흰 운동화 차림의 마른 체형 어르신",
+            top_color="blue", bottom_color="gray", shoes_color="white",
+        ),
     )
     case = Case(
         id=DEMO_CASE_ID,

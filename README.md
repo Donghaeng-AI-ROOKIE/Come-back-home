@@ -15,7 +15,7 @@
 | Phase 0 보호자 온보딩 | 구현, 일부 기능 플래그 | 적응형 슬롯 인터뷰, Mi:dm 추출·질문 문장화, 지오코딩, Persona 확정 |
 | Phase 0 축 컴파일 | 구현, 기본 비활성 | EXAONE 축 채점, 경로별 익숙함, 개인 환경 반응 컴파일. `AXIS_SCORING_ENABLED=false`가 기본 |
 | Phase 1 실종 신고 | 백본 구현 | Case 생성, 즉시 안전반경 알림, 선택적 도로망 사전 로딩 |
-| Phase 2 위치 예측 | 구현 | `exaone-sar` 지식 LoRA와 RAG로 prior 생성, `exaone-mind-v5`로 선택적 마음 재해석, Koester·MC·H3로 POA 계산 |
+| Phase 2 위치 예측 | 구현 | `exaone-sar` 지식 LoRA와 RAG로 prior 생성, `exaone-mind-dem5`로 선택적 마음 재해석, Koester·MC·H3로 POA 계산 |
 | Phase 3 알림·제보 | 로직 구현 | 타겟 셀 선택, 자유텍스트 제보 구조화·지오코딩·시각 변환, 되묻기 게이트, 신뢰도 `p`, 층1 갱신, 층2 재실행, D3 새 지역 알림 |
 | 개인정보 수명주기 | 백본 구현 | 종결, TTL, 명시 삭제, 연쇄 파기, 비식별 감사로그 |
 | 프런트엔드 | 목 중심 구현 | 3역할·산책/수색 모드·11개 화면. POA 조회 일부만 실백엔드 연결 |
@@ -32,14 +32,14 @@
 | Phase 0 인터뷰 | Mi:dm | 보호자 답변 추출, 질문 문장화 | 다음 질문 대상은 코드가 선택 |
 | Phase 0 축 컴파일 | EXAONE 기본 모델 (`AXIS_SCORING_MODEL`) | 보호자 근거를 A~F 성향 등급으로 분류 | SAR·mind LoRA 미사용 |
 | Phase 2 초기 prior | 지식 LoRA (`EXAONE_MODEL`, 운영명 `exaone-sar`) | 이동 전략·장소 끌림·이동 반경 등급 생성 | 논문 RAG 사용 |
-| Phase 2 마음 재해석 | 행동 LoRA (`MIND_MODEL=exaone-mind-v5`) | 게이지 발동 시 행동·목표·혼란 등급 재해석 | 현재 목표·혼란은 반영, 행동→이동 전략 연결은 미구현 |
+| Phase 2 마음 재해석 | 행동 LoRA (`MIND_MODEL=exaone-mind-dem5`) | 게이지 발동 시 행동·목표·혼란 등급 재해석 | 목표·혼란·행동 반영(행동 연결 기본 켜짐, PR #118) |
 | Phase 3 제보 구조화 | 별도 `tip_llm` 엔드포인트 | 위치 문구·시각 표현·구체성 구조화 | 실험 선택 모델은 Mi:dm 2.0 Mini, 미설정 시 규칙 스텁 |
 
 `EXAONE_MODEL`과 `AXIS_SCORING_MODEL`은 저장소 기본값이 비어 있어 배포 환경에서 지정해야 합니다. 특히 `EXAONE_MODEL=exaone-sar`를 사용할 때 `AXIS_SCORING_MODEL`도 비워 두면 축 채점이 지식 LoRA로 잘못 라우팅되므로, EXAONE 기본 모델 ID를 별도로 설정해야 합니다.
 
 현재 모델 연결 범위에는 두 가지 중요한 경계가 있습니다.
 
-- `exaone-mind-v5`의 v2 계약은 `behavior`, `goal_label`, `confusion_level`을 출력하지만 시뮬레이션은 현재 검증된 목표와 혼란 상태만 소비합니다. `behavior`를 6개 이동 전략에 연결하는 작업은 남아 있습니다.
+- `exaone-mind-dem5`의 v2 계약은 `behavior`, `goal_label`, `confusion_level`을 출력하며, `behavior`→이동 전략 연결은 구현돼 기본 켜짐입니다(PR #109·#118).
 - Phase 3 실모델 실험에서는 시각 언급이 없는 제보 26건 중 20건에서 모델이 시간을 만들어 냈습니다. 현재 코드는 시각 값의 형식과 `[lkp_time, now]` 범위만 검사하고, 시민 원문에 실제 시각 표현이 있는지는 대조하지 않습니다.
 
 ## 서비스 흐름
@@ -169,13 +169,12 @@ Phase 1은 실종 당시 정보를 받아 수색의 중심 객체인 `Case`를 �
 처리 순서:
 
 1. 유형, LKP, LKP 시각, 선택적 Persona ID를 `MissingReport`로 만듭니다.
-2. 사진·문서 플래그가 있으면 VARCO·Upstage 어댑터를 호출합니다.
-3. 상태가 `intake`인 `Case`를 인메모리 저장소에 저장합니다.
+2. 상태가 `intake`인 `Case`를 SQLite 영속 저장소에 저장합니다(사진·문서 첨부는 제거됨 — PR #136·#141).
 4. 연결 Persona가 미채점 상태면 축 채점 백필을 비동기로 시도합니다.
 5. 기본 `REFLEX_ALERT_ON_INTAKE=true`에 따라 LKP 중심 H3 `k=2` 안전반경 19셀을 즉시 선택합니다.
 6. `ROADNET_PRELOAD=true`이면 LKP 반경 3km의 OSMnx 보행망을 미리 캐시합니다.
 
-현재 REST API는 실제 파일이 아니라 `with_photo`, `with_document` 불리언을 받습니다. VARCO와 Upstage는 현재 스텁이며, 실제 푸시도 발송하지 않습니다.
+인상착의는 보호자 구조화 입력 + 규칙 기반 색상 추출로 처리합니다(VARCO 연동은 제거됨). 푸시는 발송 경로만 구현돼 있고 기본 꺼짐입니다.
 
 주요 API:
 
@@ -209,7 +208,7 @@ flowchart TD
 | 작업 | 설정·운영 모델 | RAG | 실패·미설정 시 |
 |---|---|---|---|
 | 초기 prior | `EXAONE_MODEL` / `exaone-sar` | 사용 | 유형별 SAR 통계 prior |
-| 마음 재해석 | `MIND_MODEL=exaone-mind-v5` | 미사용 | 혼란 증가 휴리스틱 |
+| 마음 재해석 | `MIND_MODEL=exaone-mind-dem5` | 미사용 | 혼란 증가 휴리스틱 |
 | Phase 0 축 컴파일 | `AXIS_SCORING_MODEL` / EXAONE 기본 모델 | 미사용 | 미채점 상태로 두고 Phase 2 기본값 사용 |
 
 지식 LoRA는 prior에 필요한 수색 지식을, 행동 LoRA는 시뮬레이션 도중의 행동·목표 재해석을 담당합니다. 마음 어댑터에 RAG를 함께 넣으면 JSON 필드 누락이 늘어난 실험 결과가 있어 두 입력 경로를 분리했습니다. 실제 모델 호출 여부는 vLLM의 모델·LoRA 마운트와 환경변수 설정에 따라 결정됩니다.
@@ -246,7 +245,7 @@ p95 = min(ISRID p95, v_max × 경과시간)
 - **Agent MC:** 기본 500 워커가 prior에서 전략을 샘플링해 이동합니다. 도로망 모드에서는 F/C/E 게이지와 H/A 파생 게이지를 로지스틱 hazard로 갱신합니다.
 - **Statistical MC:** 기본 500 워커가 동일한 Koester·전략 prior·도로망을 사용하되 이동 중 마음 재해석은 하지 않습니다.
 
-Agent MC의 피로 발동은 알고리즘이 휴식과 남은 거리를 조정합니다. 귀소·불안 발동은 워커당 최대 `MIND_TRANSITIONS_PER_WALKER`회(기본 2, 전환 사이 30스텝 불응기) `exaone-mind-v5`로 마음을 재해석합니다. 실제 모델 호출은 예측당 5회로 제한하며, **1회차 전환만 이 예산을 쓰고 2회차부터는 풀 표집 전용**이라 다회 전환이 호출 비용을 늘리지 않습니다. 마음 경로에는 RAG를 전달하지 않습니다.
+Agent MC의 피로 발동은 알고리즘이 휴식과 남은 거리를 조정합니다. 귀소·불안 발동은 워커당 최대 `MIND_TRANSITIONS_PER_WALKER`회(기본 2, 전환 사이 30스텝 불응기) `exaone-mind-dem5`로 마음을 재해석합니다. 실제 모델 호출은 예측당 5회로 제한하며, **발동 상황을 5개 층으로 나눈 층화 배분**(빈도 내림차순·꼬리 층 보장, PR #130)으로 예산을 나눠 2회차 전환과 희소한 불안 층도 실호출을 받습니다. 예산 밖 발동은 같은 층의 응답을 재사용합니다. 마음 경로에는 RAG를 전달하지 않습니다.
 
 마음 모델의 출력 중 현재 하류에서 사용하는 값은 검증된 `goal_label`과 `confusion_level`/`status`입니다. v2 계약의 `behavior`는 아직 이동 전략 변경에 연결되지 않았으며, 혼란도도 규칙 기반 산정으로 완전히 교체되기 전까지는 LLM 등급을 고정 수치로 변환해 사용합니다.
 
@@ -353,7 +352,7 @@ D3는 다음 순서로 동작합니다.
 3. 새 셀의 합산 확률 질량이 기본 `0.05` 이상일 때만 알림 대상으로 인정합니다.
 4. 새 지역 내부 확률의 80%를 덮는 셀을 최대 500개 선택합니다.
 
-시민 제보 사진 대조는 하지 않습니다. 실제 푸시와 셀 내 사용자 조회도 아직 스텁입니다.
+시민 제보 사진 대조는 하지 않습니다. 푸시는 발송 경로 구현·기본 꺼짐이며 실기기 수신은 미검증입니다.
 
 주요 API:
 
@@ -392,11 +391,11 @@ stateDiagram-v2
 | `tip_llm` | 제보 구조화, 구체성·일관성 등급 | 좌표 확정, 상대→절대 시각 산술 | Mi:dm 2.0 Mini 선택, 엔드포인트 미설정 시 결정적 스텁 |
 | EXAONE 기본 모델 | 축 채점, 경로 익숙함, 개인 환경 반응 | prior·마음 재해석, 좌표 생성 | 미채점 상태로 두고 기본값 사용 |
 | `exaone-sar` 지식 LoRA | 논문 RAG와 Persona를 이용한 prior 생성 | 좌표·전역 경로, 마음 재해석 | 유형별 SAR 통계 prior |
-| `exaone-mind-v5` 행동 LoRA | 게이지 발동 시 행동·목표·혼란 등급 재해석 | prior·축 채점, 좌표 생성 | 혼란 증가 휴리스틱 |
+| `exaone-mind-dem5` 행동 LoRA | 게이지 발동 시 행동·목표·혼란 등급 재해석 | prior·축 채점, 좌표 생성 | 혼란 증가 휴리스틱 |
 | Koester + 6전략 MC | 이동거리와 워커 이동, 위치 분포 | 자연어 해석 | 항상 실행 |
 | OSMnx + 환경 레이어 | 도로 제약, 환경 거리·토지피복 | 마음·목표 판단 | 연속 공간 폴백 또는 빈 환경 |
 | Kakao·Nominatim·Gazetteer | 자연어 장소 좌표화 | 경로 예측 | 다음 지오코더 또는 미해결 |
-| VARCO·Upstage | Phase 1 선택 어댑터 자리 | 핵심 실시간 예측 | 현재 결정적 스텁 |
+| 업스테이지 임베딩 | 온보딩 슬롯 선택·RAG 검색(채택 임베더) | 핵심 실시간 예측 | KURE-v1 로컬 폴백 |
 
 ## 프런트엔드
 
@@ -418,7 +417,7 @@ stateDiagram-v2
 | 시민 제보 | 요청 전송까지 구현, 응답→화면 모델 매핑 미구현 |
 | 보호자 온보딩 | 미연결, 로컬 고정 6단계 스크립트 |
 | 교차검증·검증 리포트·발견 요약 | 목 데이터 |
-| 푸시·백그라운드 지오펜스 | 미구현 |
+| 푸시·백그라운드 지오펜스 | 발송 경로 구현(기본 꺼짐)·실기기 수신 미검증 |
 
 상세 내용은 [`frontend/README.md`](frontend/README.md)를 참고하십시오.
 
@@ -466,7 +465,7 @@ npm start
 | 설정 | 기본값 | 의미 |
 |---|---:|---|
 | `EXAONE_MODEL` | 빈 값 | Phase 2 prior 모델. 운영 시 `exaone-sar` 모델 ID 지정 |
-| `MIND_MODEL` | `exaone-mind-v5` | Phase 2 행동·목표 재해석 전용 LoRA |
+| `MIND_MODEL` | `exaone-mind-dem5` | Phase 2 행동·목표 재해석 전용 LoRA |
 | `AXIS_SCORING_MODEL` | 빈 값 | Phase 0 축 컴파일 전용 EXAONE 기본 모델. 비우면 `EXAONE_MODEL` 사용 |
 | `RAG_ENABLED` | `true` | prior 경로의 논문 검색 사용 여부 |
 | `RAG_TOP_K` | `4` | prior에 제공할 RAG 발췌 수 |
@@ -517,7 +516,7 @@ python scripts/e2e_smoke.py
 
 1. 프런트 Phase 0과 백엔드 적응형 인터뷰 연결
 2. 프런트 Phase 3 제보 응답과 POA 변화량 매핑
-3. 실제 파일 업로드와 VARCO·Upstage 어댑터 처리 방향 확정
+3. 실기기 푸시 수신 검증과 신고 주소의 좌표 자동 변환 연결
 4. FCM/APNs, 앱 사용자 위치 인덱스, 백그라운드 지오펜스
 5. 인메모리 Repository의 영속 DB 전환
 6. 주기 재예측과 TTL 파기를 호출할 운영 스케줄러

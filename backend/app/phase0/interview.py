@@ -53,9 +53,15 @@ MAX_QUESTIONS = 40
 GUARDS = {
     "ignorance_exhaust": True,   # 무지 답변("모르겠어요") → 그 슬롯 즉시 소진
     "negation_fill": True,       # 부정 답변("없어요") → '해당 없음'으로 충족
+    "affirmation_fill": True,    # 단순 긍정("네") → 여부 질문에 대한 답으로 충족
     "presupposition": True,      # 근거 없는 전제 질문("~라고 하실 때") 차단
     "existence_first": True,     # 여부 확인 전 세부(부정조건) 질문 차단
     "dedup": True,               # 세션 전체 질문 문장 중복 방지
+    "clarify": True,             # "무슨 뜻이에요?" → 쉬운 말로 풀어 재질문
+    # 하위 항목 파고들기(PR #64). 씨앗 질문이 첫 물음표에서 잘려 못 묻는 하위
+    # 항목(예: 복약의 '거르면 어떤 증상')은 이 통로가 유일하다 — 끄지 말 것.
+    # 슬롯별로 빼려면 SlotSpec.probe_followup 을 쓴다(예: lost_behavior).
+    "probe": True,
 }
 
 _IDENTITY = slot_by_key("identity")
@@ -152,6 +158,26 @@ _PLACE_TOKEN_RE = re.compile(
     r"백화점|정류장|터미널|사거리|삼거리|주민센터|도서관|경로당|복지관)")
 
 
+def _found_frame(session: InterviewSession, utterance: str) -> bool:
+    """직전 질문이 '어디에서 발견됐는지'를 물었고, 그 답이 긍정인가.
+
+    보호자는 질문이 세운 틀을 답에서 되풀이하지 않는다 — "어디에서 발견됐고 어떤
+    행동을 하고 있었는지 알려주세요"에 "한번 있었고 서강대학교 정문에 앉아계셨어요"
+    라고 답한다(라이브 실측 2026-08-07). 발화에 '발견'이 없다고 발견지가 아닌 게
+    아니다. 그대로 두면 서강대학교가 노트로만 남고 **끌림점으로는 사라진다.**
+
+    부정 표현이 하나라도 섞이면 쓰지 않는다("길 잃은 적은 없어요") — 이 틀은
+    최상위 등급(0.9)으로 이어지므로 애매하면 발동하지 않는 쪽이 안전하다.
+    """
+    last_q = next((m["text"] for m in reversed(session.messages)
+                   if m["role"] == "assistant"), "")
+    if not _EV_FOUND_RE.search(last_q) and "실종" not in last_q:
+        return False
+    if _is_pure_ignorance(utterance) or _is_negative_answer(utterance):
+        return False
+    return not _EV_NEGATION_RE.search(utterance)
+
+
 def _ensure_found_place(
     session: InterviewSession, prev_slot: SlotSpec, extracted: dict, utterance: str,
 ) -> None:
@@ -162,7 +188,8 @@ def _ensure_found_place(
     """
     if prev_slot.key != "dementia_wandering_pattern":
         return
-    if _evidence_from_utterance(utterance, prev_slot.key) != "previous_missing_found":
+    if (_evidence_from_utterance(utterance, prev_slot.key) != "previous_missing_found"
+            and not _found_frame(session, utterance)):
         return   # 발견 근거가 아니거나 부정문("발견된 적 없어요")
     norm_utt = _norm(utterance)
     for ap in extracted.get("attraction_points") or []:
@@ -244,6 +271,8 @@ def _needs_probe(session: InterviewSession, slot: SlotSpec, utterance: str) -> b
     ("복용 중인 약이 있나요?" 뒤의 '거르면 어떤 증상' 이 잘림) 하위 항목은 꼬리질문이
     유일한 통로인데, 그 통로가 닫혀 있던 것이다. 슬롯당 1회만 보장한다.
     """
+    if not GUARDS["probe"] or not slot.probe_followup:
+        return False        # 가드 스윕이거나, 슬롯이 파고들기를 빼둔 경우
     if not slot.probes or slot.key in session.probed_keys:
         return False
     if slot.axis == Axis.profile:
@@ -259,26 +288,104 @@ def _needs_probe(session: InterviewSession, slot: SlotSpec, utterance: str) -> b
 _PROBE_DUP_JACCARD = 0.5
 
 
+def _clarify_question(session: InterviewSession, slot: SlotSpec, utterance: str) -> str:
+    """못 알아들은 직전 질문을 쉬운 말로 풀어 다시 묻는다.
+
+    LLM 이 보호자 말을 읽고 무엇을 묻는 것인지 설명한 뒤 재질문한다. 실패·스텁이면
+    슬롯의 답변 눈높이 예시로 결정론적 폴백 — 어느 경로든 **같은 질문 되풀이는
+    안 나가야** 한다(그게 보호자가 못 알아들은 바로 그 문장이다).
+    """
+    last_q = next((m["text"] for m in reversed(session.messages)
+                   if m["role"] == "assistant"), "")
+    before = midm.call_failures
+    raw = midm.clarify_question(session.persona_type, slot, last_q, utterance)
+    if midm.call_failures > before:
+        session.llm_call_failures += midm.call_failures - before
+        session.llm_degraded = True
+    # 문장화 가드는 층①(블록리스트)만 태운다 — 이 문장은 '설명 + 질문' 2문장이라
+    # 임베딩 grounding 에 걸리기 쉬운데, 걸러서 씨앗으로 폴백하면 못 알아들은 질문을
+    # 그대로 되풀이하게 된다(가드가 증상을 만드는 꼴).
+    if raw.strip() and safety.passes_rules(raw) and _norm_q(raw) != _norm_q(last_q):
+        return raw
+    example = (slot.answer_example or "").split(".")[0].strip()
+    if example:
+        return (f"제가 여쭌 건 '{slot.guardian_label or slot.label}'에 대한 거예요. "
+                f"예를 들면 \"{example}\" 처럼요. 아시는 만큼만 편하게 알려주시겠어요?")
+    return (f"제가 여쭌 건 '{slot.guardian_label or slot.label}'에 대한 거예요. "
+            "아시는 만큼만 편하게 알려주시겠어요?")
+
+
+def _slot_evidence(session: InterviewSession, slot: SlotSpec) -> list[str]:
+    """이 슬롯에서 보호자가 실제로 한 말 — 재서술 노트 + **원발화**.
+
+    노트만 보면 답을 놓친다: "네 신호도 잘 지키시고 위험 감지 능력은 좋아요"에
+    Mi:dm 이 노트를 '위험 감지 능력은 좋아요'로만 남겨(신호 부분 소실) 파고들기가
+    방금 답한 신호를 또 물었다(라이브 실측 2026-08-07). 원발화를 함께 준다.
+
+    _slot_collected 와 분리해 둔다 — 그쪽은 '얕은가' 세는 데 쓰이므로 원발화까지
+    세면 파고들기가 영영 발동하지 않는다.
+    """
+    out = list(_slot_collected(session, slot))
+    for q in session.slot_quotes.get(slot.key, []):
+        if q not in out:
+            out.append(q)
+    return out
+
+
 def _probe_question(session: InterviewSession, slot: SlotSpec) -> str:
-    """하위 항목 꼬리질문 — LLM 문장화를 쓰되, 원 질문의 재탕이면 각도를 직접 묻는다."""
+    """하위 항목 꼬리질문. **더 물을 게 없으면 빈 문자열**(호출자가 건너뛴다).
+
+    각도 선택을 코드가 하지 않는다 — 어휘가 겹치는지로는 "그 자리에 서서 가만히
+    계세요"가 '머무름·계속 이동·은신 중 우세 경향'의 답이라는 걸 영영 못 본다
+    (라이브 실측 2026-08-07: 토큰 교집합 0). 뜻이 같은지는 모델이 판정한다.
+
+    안전판: 어느 경로로도 **이미 나간 질문·probes 원문은 안 나간다.** 그런 경우엔
+    파고들기를 포기한다 — 파고들기는 깊이를 더하는 보너스라, 재탕이나 내부 용어를
+    내보내느니 넘어가는 편이 낫다(슬롯은 이미 충족 처리돼 잃는 것도 없다).
+    """
     asked = [m["text"] for m in session.messages if m["role"] == "assistant"]
     recent = asked[-3:]
-    raw = _phrase_tracked(session, slot, is_followup=True)
-    question, _fb = safety.guard_question(
-        raw, slot, _EMB, bank=_scoped_slots(session))
-    qt = _note_tokens(question)
+    evidence = _slot_evidence(session, slot)
+    before = midm.call_failures
+    # always_probe_first 슬롯은 판정을 건너뛰고 첫 각도를 묻는다 — 판정기가 애매한
+    # 답을 '답했다'로 넘겨 정작 중요한 각도를 건너뛰던 슬롯용(medication 주석 참고).
+    if slot.always_probe_first and slot.probes:
+        angle = slot.probe_labels[0]
+    else:
+        gaps = midm.probe_gap(session.persona_type, slot, evidence)
+        angle = gaps[0] if gaps else ""
+    raw = (midm.probe_question(session.persona_type, slot, angle, evidence)
+           if angle else "")
+    if midm.call_failures > before:
+        session.llm_call_failures += midm.call_failures - before
+        session.llm_degraded = True
+    if not raw.strip():
+        return ""              # 남은 각도 없음 (또는 스텁·호출 실패)
+    # 층①(블록리스트)만 태운다. 임베딩 grounding 은 파고들기에 맞지 않는다 —
+    # 각도는 일부러 하위 주제로 파고들어서 부모 슬롯보다 다른 슬롯에 더 가깝게
+    # 찍힌다(실측 2026-08-07: 멀쩡한 파고들기 질문 4/4가 전부 기각됐다. "밤에 혼자
+    # 밖으로 나가시는 경우가 있나요?"가 복약 슬롯에서 탈락). 그렇게 씨앗으로
+    # 폴백된 질문이 재탕 → probes 원문 폴백으로 이어진 것이 원래 증상의 사슬이었다.
+    # 화제 이탈 위험은 여기선 구조적으로 낮다 — 물을 각도를 slot.probes 라는 닫힌
+    # 목록에서 골라 프롬프트에 박아 주기 때문(자유 생성이 아니다).
+    if not safety.passes_rules(raw):
+        return ""
+    question = safety.single_question(raw)
+    # 이미 나간 질문과 견주기 전에 호칭을 맞춘다(저장되는 문장이 치환형이라).
+    question = _personalize(question, session.persona_type)
+    # 비교는 **알맹이끼리** — 이전 질문에 붙은 '(예: …)'·재질문 프리픽스가 그대로
+    # 남아 있으면 합집합만 부풀어 자카드가 임계 밑으로 내려간다(라이브 실측
+    # 2026-08-07: 씨앗 재탕인데 0.400·0.333 로 통과해 같은 질문이 세 번 나갔다).
+    qt = _note_tokens(_bare_question(question))
     too_similar = any(
         pt and qt and len(qt & pt) / len(qt | pt) >= _PROBE_DUP_JACCARD
-        for pt in (_note_tokens(a) for a in recent))
-    if too_similar or not question.strip():
-        # 결정론적 폴백 — 아직 안 들은 각도를 그대로 묻는다. 어색해도 재탕보다 낫다.
-        collected = " ".join(_slot_collected(session, slot))
-        angle = next((pr for pr in slot.probes
-                      if not any(tok in collected for tok in _note_tokens(pr))),
-                     slot.probes[0])
-        angle = re.sub(r"\s*\([a-z_]+\)\s*$", "", angle).strip()   # "(destination_retention)" 제거
-        question = f"{angle}에 대해서도 알려주세요."
-    return _dedupe_question(session, slot, question)
+        for pt in (_note_tokens(_bare_question(a)) for a in recent))
+    if too_similar:
+        return ""
+    if GUARDS["dedup"] and _norm_q(_bare_question(question)) in {
+            _norm_q(_bare_question(a)) for a in asked}:
+        return ""
+    return question
 
 
 def _resolve_pending_area(session: InterviewSession, utterance: str) -> None:
@@ -290,9 +397,18 @@ def _resolve_pending_area(session: InterviewSession, utterance: str) -> None:
     session.pending_area_label = None
     if _is_pure_ignorance(utterance) or _is_negative_answer(utterance):
         return   # "모르겠어요" — 되묻기는 1회뿐이므로 여기서 포기(질문 반복 금지)
-    if not _valid_home_text(utterance):
+    # 답변에 지명이 들어 있으면 **문장이 아니라 그 지명**을 쓴다. 보호자는 되묻기에
+    # 지명만 딱 답하지 않는다 — "'예전 가게'은 어느 동네인가요?"에 "망원시장에서
+    # 생선가게를 하셨어요"라고 답한다(라이브 실측 2026-08-07). 문장을 통째로 넣으면
+    # 지오코딩 후보(라벨·지역·둘의 결합) 어느 것도 안 걸려 finalize 가 그 장소를
+    # 버리고, 요약에도 문장이 그대로 찍힌다. 실제로 '예전 가게'가 등록정보에서 사라졌다.
+    token = next(iter(_PLACE_TOKEN_RE.findall(utterance)), "")
+    if token:
+        area = token
+    elif _valid_home_text(utterance):
+        area = _strip_tail_particles(clean_area_text(utterance))   # 질의로 나갈 값이라 조사 제거
+    else:
         return   # 문장형·비장소 답변은 지오코딩 불가 — 받지 않는다
-    area = _strip_tail_particles(clean_area_text(utterance))   # 질의로 나갈 값이라 조사 제거
     if not area:
         return
     for ap in session.draft_attractions:
@@ -388,7 +504,9 @@ def _valid_home_text(value) -> bool:
     if _HOME_RE.search(t):
         return True
     core = _strip_tail_particles(t)
-    if re.search(r"(?:계세|계셔|살|다니|지내|있어|있으|해요|세요|어요|네요|니다)", core):
+    # 과거형 서술어(하셨어·일했어)도 문장이다 — "망원시장에서 생선가게를 하셨어요"가
+    # 이 필터를 통과해 지역 표기로 저장되던 실측(2026-08-07).
+    if re.search(r"(?:계세|계셔|살|다니|지내|있어|있으|해요|세요|어요|네요|니다|셨|했)", core):
         return False
     return 2 <= len(core) <= 20
 
@@ -403,6 +521,24 @@ def _is_pure_ignorance(text: str) -> bool:
     return len(t) <= 15 and bool(_IGNORANCE_RE.match(t))
 
 
+# "그게 무슨 뜻이에요?" — 답을 모르는 게 아니라 **질문을 못 알아들은** 것이다.
+# 무지(_IGNORANCE_RE)와 갈라야 한다: 무지는 슬롯을 소진시키지만, 이건 질문이
+# 잘못 나간 것이라 쉬운 말로 풀어 다시 물어야 한다. 라이브 실측(2026-08-07):
+# "구체적 목격 사례에 대해서도 알려주세요."에 보호자가 "구체적 목격 사례가 무슨
+# 의민지 모르겠어요" 라고 했는데 그냥 다음 슬롯으로 넘어갔다. probes 항목은
+# 모델에게 주는 내부 메모라 그대로 질문이 되면 보호자 말이 아니다.
+_UNCLEAR_RE = re.compile(
+    r"(무슨|뭔|어떤)\s*(말|뜻|의미|의민지|의미인지|소린지|소리|얘기|질문)"
+    r"|이해(가|를)?\s*(안|못)"
+    r"|(뭘|무엇을|어떤\s*걸)\s*(물어|여쭤|말씀)"
+    r"|질문이\s*(뭔|무슨|어려)"
+)
+
+
+def _is_question_unclear(text: str) -> bool:
+    return bool(_UNCLEAR_RE.search(text.strip()))
+
+
 # 부정 답변("딱히 없어요", "아니요") = '해당 없음'이라는 **유효한 답**.
 # 라이브 실측(2026-07-17 4차): "딱히 없어요"를 무시하고 재질문 → "무슨 말인지
 # 모르겠어요", "복용약 없다"는데 "약을 거르셨을 때…" 후속 질문까지 나옴.
@@ -410,9 +546,27 @@ _NEGATION_RE = re.compile(
     r"(아니요|아니에요|아뇨|없어요|없습니다|없는데요|없다고|없음|안\s*계세요|안\s*가세요|안\s*드세요)")
 
 
-def _is_negative_answer(text: str) -> bool:
+# "답변 했잖아" — 이미 답했다는 항의. 새 사실이 없으므로 사실로 저장하면 안 되고
+# (실측: 요약에 "위험한 곳을 피하실 수 있는지: 답변 완료"), 더 물어서도 안 된다.
+_PROTEST_RE = re.compile(r"(답변|대답|말씀|얘기|말)\s*(했|드렸|한)|했잖|아까\s*말|이미\s*말")
+
+
+def _is_protest(text: str) -> bool:
     t = text.strip()
-    return len(t) <= 12 and bool(_NEGATION_RE.search(t))
+    return len(t) <= 25 and bool(_PROTEST_RE.search(t))
+
+
+def _is_negative_answer(text: str) -> bool:
+    """'해당 없음'이라는 유효한 답인가 — 부정 표현이 **문장 끝**에 오는가로 본다.
+
+    길이 12자 상한만 두던 판정은 "실제 실종되신 적은 없어요"(14자)를 놓쳤고,
+    그 슬롯이 안 닫혀 8턴 뒤에 통째로 재질문됐다(라이브 실측 2026-08-07:
+    보호자 답변 "없다고 했잖아"). 한국어 부정은 서술어에 붙어 끝에 오므로
+    꼬리만 보면 길이를 넉넉히 줘도 정보가 섞인 답을 '없음'으로 오인하지 않는다
+    ("경로당에 자주 가세요"의 '가세요'는 _NEGATION_RE 의 '안 가세요'와 다르다).
+    """
+    t = text.strip()
+    return len(t) <= 30 and bool(_NEGATION_RE.search(t[-12:]))
 
 
 def _rule_extract_fields(slot_key: str, text: str) -> dict:
@@ -469,7 +623,7 @@ _TYPE_KO = {
 # 정정이 그대로 등록되던 라이브 실측 버그(2026-07-17). 애매하면 정정 경로가
 # 안전한 기본값이다(재추출 후 재요약만 하고 저장하지 않으므로).
 _AFFIRM_WORDS = {
-    "네", "예", "넵", "응", "어", "그래", "그럼", "네네", "예예",
+    "네", "예", "넵", "응", "어", "그래", "그래요", "그럼", "그럼요", "네네", "예예",
     "맞아", "맞아요", "맞습니다", "맞네요", "맞어", "맞음",
     "좋아", "좋아요", "좋습니다", "괜찮아요", "괜찮습니다",
     "이대로", "그대로", "등록", "등록해줘", "등록해주세요", "등록해",
@@ -479,6 +633,44 @@ _AFFIRM_WORDS = {
 }
 _CORRECTION_HINTS = ("아니", "틀", "빼", "수정", "변경", "바꿔", "바꾸",
                      "고쳐", "고치", "잘못", "말고", "대신", "추가")
+
+# 고치겠다는 **의사만** 밝힌 발화 — '무엇을 어떻게'가 없다. 확인 화면의
+# '아니요, 수정할게요' 칩(frontend CONFIRM_CHIPS)이 정확히 이 형태를 보낸다.
+# 종전에는 이걸 일반 정정으로 흘려 Mi:dm 이 바꿀 것을 못 찾고, 똑같은 요약이
+# 다시 떠서 보호자는 무엇을 해야 할지 모른 채 멈췄다(라이브 실측 2026-08-07).
+_CORRECTION_INTENT_RE = re.compile(r"수정|고칠|고치|바꿀|바꿔|틀렸|틀려|잘못")
+# 의사 표현에 딸려오는 군말 — 이걸 다 걷어내고도 남는 말이 있으면 '무엇을'이 있는 것.
+_CORRECTION_FILLER_RE = re.compile(
+    r"아니요|아니오|아뇨|아니|수정|고칠게요|고칠게|고칠래요|고칠래|고치고|고칠|고치|"
+    r"바꿀게요|바꿀게|바꿀래요|바꿀래|바꿀|바꿔요|바꿔|틀렸어요|틀렸|틀려요|틀려|"
+    r"잘못됐어요|잘못됐|잘못|할게요|할래요|하고싶어요|해주세요|해줘|싶어요|싶은데|"
+    r"있어요|부분|여기|이거|그거|좀|요|네|응|어")
+
+
+def _is_bare_correction_request(text: str) -> bool:
+    """고치겠다고만 하고 대상을 안 밝힌 발화인가."""
+    if not _CORRECTION_INTENT_RE.search(text):
+        return False
+    core = _CORRECTION_FILLER_RE.sub("", re.sub(r"[\s,.!?~'\"]+", "", text))
+    return len(core) <= 2
+
+
+def _ask_what_to_correct(session: InterviewSession) -> str:
+    """무엇을 고칠지 되묻는다 — 고칠 수 있는 항목을 그대로 보여준다."""
+    grouped, _ = _group_behaviors(session)
+    parts = ["성함·나이", "지내시는 곳"]
+    if session.draft_attractions:
+        parts.append("가시려 할 만한 곳")
+    for key in grouped:
+        slot = slot_by_key(key)
+        if slot is not None:
+            parts.append(slot.guardian_label or slot.label)
+    listed = "\n".join(f"• {p}" for p in dict.fromkeys(parts))
+    return (
+        "어느 부분을 고칠까요? 고치실 내용을 함께 말씀해 주시면 바로 반영할게요.\n\n"
+        f"{listed}\n\n"
+        '예: "집 주소가 틀렸어요, 마포구 신수동이에요" / "망원시장은 빼주세요"'
+    )
 
 
 def _is_affirmative(text: str) -> bool:
@@ -538,11 +730,17 @@ def _unfilled_slots(session: InterviewSession, grouped: dict[str, list[str]]) ->
     한 번도 안 물은 슬롯도 비어 있는 것은 같고, 반대로 채움 판정이 없어도 노트·
     장소가 남았으면 요약 본문에 이미 보이므로 빈칸이 아니다(같은 항목이 위아래에
     동시에 나오는 모순 방지).
+
+    _scoped_slots(session) 로 이 세션의 target_tiers 안에서만 찾는다 — 전체
+    slots_for(ptype) 를 쓰면 미니챗(Tier1)이 이번엔 안 물은 Tier2·3 를, 보완챗
+    (Tier2·3)이 이미 다른 세션(미니챗)에서 답한 Tier1 을 "아직 안 알려주신 것"
+    으로 잘못 나열한다 — 그 세션의 draft_fields·filled_keys 에 없으니 미입력처럼
+    보이지만 실제로는 이전 세션에 저장돼 있다.
     """
     f = session.draft_fields
     place_slots = {str(a.get("origin_slot")) for a in session.draft_attractions}
     out: list[SlotSpec] = []
-    for slot in slots_for(session.persona_type):
+    for slot in _scoped_slots(session):
         required = _PROFILE_REQUIRED.get(slot.key)
         if required is not None:
             if not all(f.get(k) for k in required):
@@ -552,6 +750,35 @@ def _unfilled_slots(session: InterviewSession, grouped: dict[str, list[str]]) ->
             continue
         out.append(slot)
     return out
+
+
+# 압축본이 이보다 길면 줄인 게 아니다 — 원문을 그대로 보여준다.
+_DIGEST_MAX = 30
+
+
+def _digest_notes(session: InterviewSession, notes: list[str]) -> dict[str, str]:
+    """확인 요약 표시용 압축 {원문: 짧은 표현}. 못 줄인 것은 원문을 그대로 담는다.
+
+    보호자 발화가 통째로 나열되면 확인 화면이 읽히지 않는다("약을 거르시면 많이
+    어지러워 하세요" → "거르면 어지럼증"). **표시만** 바꾼다 — draft_behaviors 와
+    slot_quotes 는 손대지 않는다(축 채점 근거·발화 인용 검증이 원문을 쓴다).
+
+    한 번 정한 표현은 캐시해 재사용한다. 정정할 때마다 다시 부르지 않고, 같은
+    항목이 재렌더마다 다른 문구로 읽히지 않게 하려는 것이다.
+    """
+    cache = session.note_digests
+    todo = [n for n in dict.fromkeys(notes) if n and n not in cache]
+    if todo:
+        before = midm.call_failures
+        out = midm.condense_notes(todo)
+        if midm.call_failures > before:
+            session.llm_call_failures += midm.call_failures - before
+            session.llm_degraded = True
+        for src, digest in zip(todo, out or [""] * len(todo)):
+            ok = (digest and len(digest) <= _DIGEST_MAX and len(digest) < len(src)
+                  and safety.passes_rules(digest))
+            cache[src] = digest if ok else src   # 실패도 캐시 — 렌더마다 재호출 방지
+    return cache
 
 
 def build_summary(session: InterviewSession) -> str:
@@ -584,17 +811,26 @@ def build_summary(session: InterviewSession) -> str:
     if places:
         lines.append("• 가시려 할 만한 곳")
         for ap in places:
-            area = ap.get("area_text")
-            lines.append(f"   - {ap.get('label', '')}{f' ({area})' if area else ''}")
+            label = str(ap.get("label", "")).strip()
+            # 지역이 장소명과 같으면 괄호를 달지 않는다 — "정릉천 산책로 (정릉천
+            # 산책로)"처럼 같은 말이 두 번 나온다(2026-08-05 실측). 추출이
+            # 지역을 못 집으면 장소명을 그대로 area_text 로 넣기 때문이다.
+            area = str(ap.get("area_text") or "").strip()
+            suffix = f" ({area})" if area and area != label else ""
+            lines.append(f"   - {label}{suffix}")
 
     grouped, loose = _group_behaviors(session)
+    # 표시용 압축 — 저장된 노트는 그대로 두고 화면에서만 짧게(_digest_notes 주석).
+    digest = _digest_notes(
+        session, [n for ns in grouped.values() for n in ns] + list(loose))
 
     def _emit(label: str, notes: list[str]) -> None:
-        if len(notes) == 1:
-            lines.append(f"• {label}: {notes[0]}")      # 하나뿐이면 목록으로 늘리지 않는다
+        shown_notes = [digest.get(n, n) for n in notes]
+        if len(shown_notes) == 1:
+            lines.append(f"• {label}: {shown_notes[0]}")  # 하나뿐이면 목록으로 늘리지 않는다
             return
         lines.append(f"• {label}")
-        lines.extend(f"   - {n}" for n in notes)
+        lines.extend(f"   - {n}" for n in shown_notes)
 
     shown: set[str] = set()
     for slot in slots_for(session.persona_type):
@@ -611,7 +847,7 @@ def build_summary(session: InterviewSession) -> str:
             _emit(slot.display_label if slot else key, notes)
     if loose:
         lines.append("• 그 밖에 알려주신 것")
-        lines.extend(f"   - {n}" for n in loose)
+        lines.extend(f"   - {digest.get(n, n)}" for n in loose)
 
     missing = _unfilled_slots(session, grouped)
     if missing:
@@ -928,9 +1164,18 @@ def _apply_extraction(
     # 원발화를 1차 근거로 쓰므로 형태상 문제도 없다.
     # 단, 모델이 노트를 **냈는데** 중복·환각 필터에 걸린 경우는 폴백하지 않는다 —
     # 그건 이미 저장된 사실이거나 버려야 할 사실이지, 유실이 아니다.
+    # `slot_filled` 을 조건에서 뺐다(2026-08-07). Mi:dm 이 멀쩡한 답변에 추출을
+    # 통째로 빈손으로 내는 실측이 있다 — "네 신호도 잘 지키시고 위험 감지 능력은
+    # 있으세요"에 노트 0·slot_filled=false → 슬롯이 안 닫혀 같은 질문이 다시 나갔고
+    # 보호자가 한 말은 어디에도 저장되지 않았다. 모델 판정과 무관하게, 실질적인
+    # 답변이면 원발화를 근거로 남긴다(아래에서 충족 처리까지 이어진다).
+    # 단순 긍정("네 맞아요")·항의("답변 했잖아")는 사실이 아니다 — 폴백을 넓히면서
+    # 이런 답이 행동 노트로 저장되던 것을 막는다(2026-08-07 실측: "불안하실 때
+    # 하시는 행동: 네 맞아요", "위험한 곳을 피하실 수 있는지: 답변 완료").
+    # 슬롯 충족은 위쪽 negation_fill·affirmation_fill 경로가 따로 판단한다.
     if (not got_note and not notes_in and prev_slot.axis != Axis.profile and utterance
-            and extracted.get("slot_filled")
             and not _is_pure_ignorance(utterance) and not _is_negative_answer(utterance)
+            and not _is_affirmative(utterance) and not _is_protest(utterance)
             and _is_informative_note(utterance, utterance)
             and not _is_dup_note(utterance, seen_notes)):
         tagged = f"{prev_slot.label}: {utterance}"
@@ -938,6 +1183,18 @@ def _apply_extraction(
             session.draft_behaviors.append(tagged)
             session.slot_notes.setdefault(prev_slot.key, []).append(utterance)
             got_note = True
+
+    # 노트를 실제로 저장했는데 모델이 slot_filled 를 안 낸 경우 — 충족으로 본다.
+    # 라이브 실측(2026-08-07): "네 신호도 잘 지키시고 그런 것들에서 위험했던 적은
+    # 없어요"에 Mi:dm 이 notes=['신호를 잘 지킴'] 를 내면서 slot_filled=false 를 냈다.
+    # 슬롯을 닫는 건 slot_filled 뿐이라 후보 풀에 남았고, **같은 질문이 8턴 뒤에
+    # 그대로 다시 나갔다**(보호자 답변: "답변 했잖아"). 내용을 받고도 닫지 않으면
+    # 보호자에겐 대화가 안 먹힌 것으로 보인다. 위쪽 노트 폴백(slot_filled=true 인데
+    # notes 가 빈 경우)의 거울상 — 같은 원칙으로 코드가 판정을 메운다.
+    # 얕게 채워진 경우는 _needs_probe 가 안 들은 각도를 1회 파고들므로 깊이도
+    # 잃지 않는다(같은 질문 재탕 대신 다른 각도가 나간다).
+    if got_note and not extracted.get("slot_filled"):
+        extracted["slot_filled"] = True
 
     # 근거를 낳은 답변은 원문도 보존 — 노트는 Mi:dm 재서술이라 정보가 깎이고,
     # 축 점수 채점(axis_scoring)은 원발화 인용 검증을 환각 필터로 쓴다.
@@ -989,30 +1246,22 @@ def _next_slot(
     blocked = _blocked_keys(session)
     avoid = (blocked | {session.prev_target_key}) \
         if (avoid_prev and session.prev_target_key) else blocked
-    # target_tiers 로 좁힌 세션(미니챗·보완챗)이면 그 tier 밖 슬롯은 후보에서 뺀다.
-    # retrieval.rank_next_slots 자체(임베딩 랭킹 알고리즘)는 건드리지 않고, 반환된
-    # 순위 목록만 사후 필터한다 — 매칭되는 슬롯이 아예 없으면(모두 다른 tier)
-    # avoid 로 걸러내는 대신 전부 blocked 취급해 tiers 밖으로 안 넘어가게 한다.
+    # target_tiers 로 좁힌 세션(미니챗·보완챗)이면 그 tier 밖 슬롯은 애초에 후보에서
+    # 뺀다 — rank_next_slots 에 allowed_keys 로 넘겨 top_k 로 자르기 전에 걸러지게
+    # 한다(사후 필터로는 top_k=5 가 전부 Tier1로 채워지는 경우를 못 막았다).
     allowed_keys = (
         {s.key for s in _scoped_slots(session)} if session.target_tiers is not None else None
     )
 
-    def _filter(ranked):
-        if allowed_keys is None:
-            return ranked
-        return [r for r in ranked if r.slot.key in allowed_keys]
-
     ranked, _ = retrieval.rank_next_slots(
         session.persona_type, _user_turns(session), avoid, _EMB,
-        top_k=5, asked_counts=session.asked_counts,
+        top_k=5, asked_counts=session.asked_counts, allowed_keys=allowed_keys,
     )
-    ranked = _filter(ranked)
     if not ranked and avoid != blocked:
         ranked, _ = retrieval.rank_next_slots(
             session.persona_type, _user_turns(session), blocked, _EMB,
-            top_k=5, asked_counts=session.asked_counts,
+            top_k=5, asked_counts=session.asked_counts, allowed_keys=allowed_keys,
         )
-        ranked = _filter(ranked)
     if not ranked:
         return None
     top = ranked[0]
@@ -1049,6 +1298,22 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
 
     # 1) 직전 겨냥 슬롯 추출 (+ identity/home 은 규칙 폴백으로 최후 방어)
     prev_slot = slot_by_key(session.prev_target_key) if session.prev_target_key else None
+
+    # 0.5) "그게 무슨 뜻이에요?" — 답을 못 받은 게 아니라 질문이 잘못 나간 것이다.
+    #      추출도 하지 않고(내용이 없다) 재질문 예산도 깎지 않은 채, 쉬운 말로 풀어
+    #      한 번 더 묻는다. 슬롯당 1회 — 그래도 못 알아들으면 예산 경로로 넘어간다.
+    #      라이브 실측(2026-08-07): "구체적 목격 사례가 무슨 의민지 모르겠어요"에
+    #      아무 설명 없이 다음 슬롯으로 넘어가, 보호자 질문이 통째로 무시됐다.
+    if (GUARDS["clarify"] and prev_slot is not None and _is_question_unclear(clean)
+            and prev_slot.key not in session.clarified_keys):
+        session.clarified_keys.append(prev_slot.key)
+        q = _clarify_question(session, prev_slot, clean)
+        session.messages.append(
+            {"role": "assistant", "text": _personalize(q, session.persona_type)})
+        session.prev_target_key = prev_slot.key
+        storage.interviews.save(session.id, session)
+        return session
+
     got_something = True   # 이번 답에서 뭐라도 건졌나 — 빈손이면 직전 슬롯 재선택 회피
     if prev_slot is not None:
         extracted = _extract_tracked(session, prev_slot)
@@ -1086,6 +1351,23 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
                 and prev_slot.key not in session.filled_keys:
             session.filled_keys.append(prev_slot.key)
             session.asked_counts.pop(prev_slot.key, None)
+        # 단순 긍정("네")도 마찬가지로 **유효한 답**이다. 씨앗 질문 상당수가 여부를
+        # 묻는 문형("…피할 수 있나요?", "…경우가 있나요?")이라 보호자는 한 마디로
+        # 답한다. 부정만 충족 처리하고 긍정은 안 하던 비대칭 때문에 슬롯이 안 닫혀
+        # 위험 인지 질문이 세 번 나갔고, 보호자가 "답변 했잖아"라고 했다
+        # (라이브 실측 2026-08-07). 노트는 남기지 않는다 — 부정 처리와 같은 원칙으로,
+        # "네" 한 글자를 사실로 저장하면 요약에 군더더기만 는다.
+        if GUARDS["affirmation_fill"] and _is_affirmative(clean) \
+                and prev_slot.axis != Axis.profile \
+                and prev_slot.key not in session.filled_keys:
+            session.filled_keys.append(prev_slot.key)
+            session.asked_counts.pop(prev_slot.key, None)
+        # "답변 했잖아" — 이미 답했다는 항의다. 새 사실이 없으므로 더 묻지 않는다
+        # (무지와 같은 소진 처리). 실측에서 이 발화가 원발화 폴백을 타고 사실로
+        # 저장돼 요약에 "위험한 곳을 피하실 수 있는지: 답변 완료"로 찍혔다.
+        if GUARDS["ignorance_exhaust"] and _is_protest(clean) \
+                and prev_slot.key not in session.filled_keys:
+            session.asked_counts[prev_slot.key] = MAX_ASKS_PER_SLOT
         # 과거 장소를 새로 얻었으면 그 자리에서 주소를 묻는다 — 좌표 없는 끌림점은
         # 예측에 못 들어가므로 "장소를 들었다"와 "끌림점이 생겼다"는 다른 일이다.
         _ensure_found_place(session, prev_slot, extracted, clean)
@@ -1101,13 +1383,16 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
         # (asked_counts·MAX_ASKS_PER_SLOT)이 담당한다. 파고들기는 모델이 '다 받았다'
         # (slot_filled)고 판정했는데 실제로는 얕은 경우만이다.
         if extracted.get("slot_filled") and _needs_probe(session, prev_slot, clean):
+            # 슬롯당 1회 — 물었든 '물 게 없다'로 접었든 소진 처리한다(모델 재호출 방지).
             session.probed_keys.append(prev_slot.key)
             probe_q = _probe_question(session, prev_slot)
-            session.messages.append(
-                {"role": "assistant", "text": _personalize(probe_q, session.persona_type)})
-            session.prev_target_key = prev_slot.key
-            storage.interviews.save(session.id, session)
-            return session
+            if probe_q:
+                session.messages.append(
+                    {"role": "assistant", "text": _personalize(probe_q, session.persona_type)})
+                session.prev_target_key = prev_slot.key
+                storage.interviews.save(session.id, session)
+                return session
+            # 빈손이면 파고들지 않고 다음 슬롯으로 — 재탕·내부 용어를 내보내지 않는다.
 
     # 2) 유형 — 치매 단독이라 되묻지 않는다. 과거 세션(유형 미지정 저장본)이 복원될
     #    수 있으므로 여기서 한 번 더 기본값을 보장한다(slots_for(None) = 빈 목록 방지).
@@ -1194,18 +1479,23 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
 
     # 4) 다음 슬롯 문장화 + 가드레일
     target, is_followup = nxt
+    ptype = session.persona_type
+    # 호칭 치환("대상자는" → "어르신은")은 **중복 판정보다 먼저** 한다. 저장되는
+    # 문장은 치환된 것인데 비교값이 씨앗 원문이면 같은 질문을 못 알아본다 — 라이브
+    # 실측(2026-08-07): 위험 인식 질문이 토씨 하나 안 틀리고 두 번 나갔고 재질문
+    # 프리픽스조차 안 붙었다. 씨앗에 "대상자"가 들어간 슬롯 6개(12개 중)가 영향.
+    seed_q = _personalize(safety.single_question(target.question), ptype)
     raw_q = _phrase_tracked(session, target, is_followup)
     question, _fallback = safety.guard_question(
         raw_q, target, _EMB, bank=_scoped_slots(session))
     if GUARDS["presupposition"] and not _presupposition_grounded(session, question):
-        question = safety.single_question(target.question)   # 근거 없는 전제 → 씨앗 질문
+        question = seed_q   # 근거 없는 전제 → 씨앗 질문
     if GUARDS["existence_first"] and not _slot_collected(session, target) \
             and _NEG_CONDITIONAL_RE.search(question):
-        question = safety.single_question(target.question)   # 여부 확인 전의 세부 질문 → 씨앗
-    question = _dedupe_question(session, target, question)
-    if _norm_q(question) == _norm_q(safety.single_question(target.question)):
-        question = _seed_with_example(target)   # 씨앗이 그대로 나가면 예시를 붙인다
-    question = _personalize(question, session.persona_type)
+        question = seed_q   # 여부 확인 전의 세부 질문 → 씨앗
+    question = _dedupe_question(session, target, _personalize(question, ptype))
+    if _norm_q(question) == _norm_q(seed_q):
+        question = _personalize(_seed_with_example(target), ptype)   # 씨앗이 그대로 나가면 예시를 붙인다
 
     session.messages.append({"role": "assistant", "text": question})
     session.prev_target_key = target.key
@@ -1261,6 +1551,20 @@ _REASK_PREFIXES = [
 ]
 
 
+def _bare_question(q: str) -> str:
+    """질문의 알맹이 — 재질문 프리픽스와 "(예: …)" 를 벗긴다.
+
+    같은 질문인지 토큰으로 견줄 때 쓴다. 이 껍데기들은 질문 내용이 아니라 포장인데,
+    토큰 수가 적지 않아(프리픽스만 8토큰) 그대로 두면 자카드 분모를 부풀린다.
+    """
+    out = re.sub(r"\(예:.*?\)", "", q)
+    for p in _REASK_PREFIXES:
+        if out.startswith(p):
+            out = out[len(p):]
+            break
+    return out.strip()
+
+
 def _norm_q(q: str) -> str:
     # "(예: …)" 는 비교에서 제외 — 예시 유무만 다른 같은 질문을 중복으로 본다
     return re.sub(r"[\s,.!?~'\"]+", "", re.sub(r"\(예:.*?\)", "", q))
@@ -1285,13 +1589,17 @@ def _dedupe_question(session: InterviewSession, target: SlotSpec, question: str)
     1차 버전은 '직전 질문'만 비교했는데, 라이브 실측(2026-07-17 2차)에서
     같은 질문("신호를 지키시나요")이 몇 턴 간격을 두고 4번 반복됐다.
     같은 문장이 이미 나갔으면: 씨앗 질문 → 그것도 나갔으면 재질문 프리픽스.
+
+    비교도 반환도 **호칭을 치환한 뒤**의 문장으로 한다 — 저장되는 것이 그 형태라,
+    씨앗 원문("대상자는…")으로 견주면 이미 나간 질문을 놓친다(2026-08-07 실측).
+    호출자는 치환된 question 을 넘겨야 한다(_personalize 는 멱등이라 이중 적용 무해).
     """
     if not GUARDS["dedup"]:
         return question   # 가드 스윕: 중복 방지 끔
     asked = {_norm_q(m["text"]) for m in session.messages if m["role"] == "assistant"}
     if _norm_q(question) not in asked:
         return question
-    seed = safety.single_question(target.question)
+    seed = _personalize(safety.single_question(target.question), session.persona_type)
     if _norm_q(seed) not in asked:
         return seed
     n = session.asked_counts.get(target.key, 0)
@@ -1413,7 +1721,12 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
     if _is_affirmative(clean):
         try:
             finalize_persona(session)   # draft → 지오코딩 → 확정 Persona 저장
-            msg = "확인 감사합니다. 이 내용으로 프로필을 등록했어요. 🙏"
+            # Tier1만 다루는 미니챗(신고 전)은 확정 뒤 신고 폼으로 넘어간다는 걸
+            # 알려야 한다 — 전체/보완챗 문구("프로필을 등록했어요")를 그대로 쓰면
+            # 보호자가 "이제 뭘 하지"에서 멈춘다.
+            msg = ("확인 감사합니다. 신고 화면으로 이동합니다."
+                   if session.target_tiers == [Tier.route.value]
+                   else "확인 감사합니다. 이 내용으로 프로필을 등록했어요. 🙏")
         except ValueError as e:
             # 데드엔드 금지(라이브 실측): 구버전은 여기서 done=True 로 닫아,
             # "다시 확인해 달라"는 안내와 달리 이후 입력을 전부 무시했다.
@@ -1428,6 +1741,15 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
             msg = (f"등록 중 문제가 있었어요({e}). "
                    f"{safety.single_question(home_slot.question)}")
         session.messages.append({"role": "assistant", "text": msg})
+        storage.interviews.save(session.id, session)
+        return session
+
+    # "아니요, 수정할게요" — 무엇을 고칠지가 없다. 요약을 다시 띄우면 보호자는
+    # 같은 화면 앞에서 멈춘다. 고칠 수 있는 항목을 보여주고 되묻는다.
+    # awaiting_confirmation 은 그대로 두므로 다음 발화가 정정 경로로 들어온다.
+    if _is_bare_correction_request(clean):
+        session.messages.append(
+            {"role": "assistant", "text": _ask_what_to_correct(session)})
         storage.interviews.save(session.id, session)
         return session
 

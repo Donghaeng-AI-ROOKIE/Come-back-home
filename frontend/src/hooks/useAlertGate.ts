@@ -45,7 +45,7 @@ export function useAlertsForMe(enabled = true): {
   alerts: PoliceAlert[];
   myPoint: GeoPoint | null;
 } {
-  const { data, isPending } = useActiveAlerts();
+  const { data, isPending } = useActiveAlerts(enabled);
   const { point, status } = useMyLocation(enabled);
   const forceInArea = useDebugStore((s) => s.forceInAlertArea);
 
@@ -68,7 +68,7 @@ export function useAlertsForMe(enabled = true): {
  * @param enabled 시민 트리에서만 true. 운영자·미인증 화면은 관문 대상이 아니다.
  */
 export function useAlertGate(enabled = true): AlertGate {
-  const { data, isPending } = useActiveAlerts();
+  const { data, isPending } = useActiveAlerts(enabled);
   const { point, status } = useMyLocation(enabled);
   const dismissedCases = useAppModeStore((s) => s.dismissedCases);
   const forceInArea = useDebugStore((s) => s.forceInAlertArea);
