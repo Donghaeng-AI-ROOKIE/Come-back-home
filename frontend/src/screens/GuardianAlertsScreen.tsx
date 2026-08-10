@@ -44,7 +44,12 @@ function decisionLabel(tip: GuardianTip): { label: string; strong: boolean } {
 }
 
 function timeLabel(iso: string): string {
-  const d = new Date(iso);
+  // created_at 은 서버 시계 기준 naive 문자열인데, 배포 컨테이너의 시계는 UTC 다
+  // (08-10 실측: 15:42 KST 접수 제보가 06:42 로 기록). Z 를 붙여 UTC 로 해석해야
+  // 보호자에게 한국 시각으로 보인다. lkp_time 등 사용자가 입력한 로컬 naive 값과는
+  // 층위가 다르다 — 이 함수는 서버 생성 시각 전용.
+  const hasOffset = iso.endsWith('Z') || iso.includes('+');
+  const d = new Date(hasOffset ? iso : `${iso}Z`);
   if (Number.isNaN(d.getTime())) return '';
   const hh = String(d.getHours()).padStart(2, '0');
   const mm = String(d.getMinutes()).padStart(2, '0');
