@@ -20,6 +20,7 @@ import { gColor, gFont } from '../theme/guardianTokens';
 import { icBroadcastGreenXml, icCheckXml } from '../assets/guardianSvg';
 import CTAButton from '../components/CTAButton';
 import { useRunPrediction } from '../hooks/queries';
+import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import { GuardianStandaloneTabBar } from '../components/GuardianTabBar';
 import GuardianLogo from '../components/GuardianLogo';
 
@@ -78,9 +79,13 @@ function showGuideline() {
 export default function ReportSentScreen() {
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportSent'>>().params;
   const predict = useRunPrediction(caseId);
+  const setLastCase = useGuardianCaseStore((s) => s.setLastCase);
 
   // 화면에 들어오는 즉시 예측 시작. mutate 참조는 안정적이므로 1회만 돈다.
+  // 이 기기를 신고 케이스에 묶는 것도 여기서 한다 — 알림 탭의 제보 현황이
+  // 앱 재시작 후에도 이 케이스를 따라가게 된다(guardianCaseStore).
   useEffect(() => {
+    setLastCase(caseId);
     predict.mutate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [caseId]);
