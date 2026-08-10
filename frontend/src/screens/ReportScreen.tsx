@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
@@ -9,10 +10,9 @@ import { color, type } from '../theme/tokens';
 import { createReport } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
 import BaseMap from '../components/BaseMap';
+import MapPin from '../components/MapPin';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
-
-const DEFAULT_LKP = { lat: 37.6061, lng: 127.0106 };
 
 export default function ReportScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -20,14 +20,40 @@ export default function ReportScreen() {
   const setCaseId = useGuardianStore((s) => s.setCaseId);
   const [situation, setSituation] = useState('');
   const [appearance, setAppearance] = useState('');
+  const [lkp, setLkp] = useState(persona?.home ?? null);
+  const [locating, setLocating] = useState(false);
   const [sending, setSending] = useState(false);
+
+  const useCurrentLocation = async () => {
+    if (locating) return;
+    setLocating(true);
+    try {
+      const permission = await Location.requestForegroundPermissionsAsync();
+      if (permission.status !== 'granted') {
+        Alert.alert('위치 권한이 필요합니다', '현재 위치를 마지막 목격 장소로 쓰려면 위치 권한을 허용해 주세요.');
+        return;
+      }
+      const current = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+      setLkp({ lat: current.coords.latitude, lng: current.coords.longitude });
+    } catch (e) {
+      Alert.alert('현재 위치를 확인하지 못했습니다', String(e));
+    } finally {
+      setLocating(false);
+    }
+  };
+
   const onSubmit = async () => {
+    if (!lkp) {
+      Alert.alert('마지막 목격 장소가 필요합니다', '현재 위치를 선택하거나 사전등록 정보를 확인해 주세요.');
+      return;
+    }
     setSending(true);
     try {
       const c = await createReport({
-        missing_type: 'dementia', lkp: DEFAULT_LKP,
+        missing_type: 'dementia', lkp,
         lkp_time: new Date().toISOString().replace('Z', ''), persona_id: persona?.id ?? null,
         with_photo: false, with_document: false,
+        appearance_text: appearance.trim(), situation: situation.trim(),
       });
       setCaseId(c.id);
       navigation.replace('ReportSent', { caseId: c.id });
@@ -45,9 +71,24 @@ export default function ReportScreen() {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <Section icon="◉" title="가족 선택"><View style={styles.field}><Text style={styles.fieldText}>{persona ? `${persona.name} (${persona.age}세)` : '사전 등록 정보 없음'}</Text></View></Section>
         <Section icon="●" title="마지막 목격 장소">
-          <View style={styles.search}><Text style={styles.placeholder}>⌕  주소 검색</Text></View>
-          <View style={styles.map}><BaseMap style={StyleSheet.absoluteFill} accessibilityLabel="마지막 목격 장소 지도" /></View>
-          <Text style={styles.address}>서강대학교 정문 교차로 (주소)</Text>
+          <Pressable style={styles.search} onPress={useCurrentLocation} disabled={locating}>
+            <Text style={styles.placeholder}>{locating ? '⌖  현재 위치 확인 중…' : '⌖  현재 위치 사용'}</Text>
+          </Pressable>
+          <View style={styles.map}>
+            <BaseMap
+              key={lkp ? `${lkp.lat}-${lkp.lng}` : 'empty'}
+              style={StyleSheet.absoluteFill}
+              region={lkp ? { latitude: lkp.lat, longitude: lkp.lng, latitudeDelta: 0.008, longitudeDelta: 0.008 } : undefined}
+              accessibilityLabel="마지막 목격 장소 지도"
+            >
+              {lkp ? <MapPin kind="lastSeen" coordinate={lkp} title="마지막 목격 장소" /> : null}
+            </BaseMap>
+          </View>
+          <Text style={styles.address}>
+            {lkp
+              ? `${lkp === persona?.home ? '사전등록 위치' : '선택한 현재 위치'} · ${lkp.lat.toFixed(5)}, ${lkp.lng.toFixed(5)}`
+              : '마지막 목격 장소를 선택해 주세요'}
+          </Text>
         </Section>
         <Section icon="✎" title="실종 당시 상황"><TextInput value={situation} onChangeText={setSituation} multiline style={styles.textarea} /></Section>
         <Section icon="▰" title="인상착의 설명">

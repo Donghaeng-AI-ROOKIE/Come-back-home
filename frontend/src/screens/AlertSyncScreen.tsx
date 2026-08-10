@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -8,6 +8,11 @@ import { type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import { useAppModeStore } from '../store/appModeStore';
+import { useActiveAlerts, useGuidance, usePoaPrediction, usePresenceCount } from '../hooks/queries';
+import { alertToView } from '../data/missingView';
+import BaseMap from '../components/BaseMap';
+import PoaHeatmap from '../components/PoaHeatmap';
+import MapPin from '../components/MapPin';
 
 const MAP = require('../../assets/figma/search-map.png');
 const PERSON = require('../../assets/figma/search-person.png');
@@ -17,30 +22,50 @@ export default function AlertSyncScreen() {
   const route = useRoute<RouteProp<RootStackParamList, 'AlertSync'>>();
   const caseId = route.params.caseId;
   const enterSearch = useAppModeStore((s) => s.enterSearch);
+  const { data: alerts } = useActiveAlerts();
+  const alert = alerts?.find((item) => item.caseId === caseId);
+  const view = alertToView(alert ?? {});
+  const appearance = view.appearance.slice(0, 3);
+  const watching = usePresenceCount(caseId);
+  const guidance = useGuidance(caseId).data?.text;
+  const poa = usePoaPrediction(caseId, 0);
+  const lkp = alert?.lkp ?? alert?.targetCenter;
+  const region = lkp ? {
+    latitude: lkp.lat,
+    longitude: lkp.lng,
+    latitudeDelta: 0.012,
+    longitudeDelta: 0.012,
+  } : undefined;
 
   useEffect(() => { enterSearch(caseId, 'critical'); }, [caseId, enterSearch]);
 
   return (
     <View style={styles.root}>
-      <Image source={MAP} style={styles.map} resizeMode="cover" />
+      {Platform.OS === 'web' ? <Image source={MAP} style={styles.map} resizeMode="cover" /> : (
+        <BaseMap style={styles.map} region={region} accessibilityLabel={poa.data ? `실제 발견확률 지도. ${poa.data.topLabel}` : '발견확률 지도를 불러오는 중'}>
+          {poa.data ? <PoaHeatmap grid={poa.data} /> : null}
+          {lkp ? <MapPin kind="lastSeen" coordinate={lkp} title="최종 목격 위치" /> : null}
+        </BaseMap>
+      )}
+      {poa.isLoading && Platform.OS !== 'web' ? <ActivityIndicator style={styles.mapLoading} color={red} /> : null}
       <View style={styles.status}><FigmaStatusBar /></View>
 
       <View style={styles.sheet}>
         <View style={styles.handle} />
         <Text style={styles.kicker}>지금 함께 찾고 있어요</Text>
-        <View style={styles.count}><Text style={styles.countText}>•5명</Text></View>
+        {watching != null ? <View style={styles.count}><Text style={styles.countText}>•{watching}명</Text></View> : null}
 
         <Image source={PERSON} style={styles.person} />
-        <Text style={styles.name}>김순자</Text>
-        <Text style={styles.meta}>78세 • 여성 • 창천동 인근</Text>
+        <Text style={styles.name}>{view.title}</Text>
+        <Text style={styles.meta}>{view.meta}</Text>
         <View style={styles.tags}>
-          {['회색 점퍼', '검정 바지', '지팡이'].map((tag) => <View key={tag} style={styles.tag}><Text style={styles.tagText}>{tag}</Text></View>)}
+          {appearance.map((tag) => <View key={tag} style={styles.tag}><Text style={styles.tagText} numberOfLines={1}>{tag}</Text></View>)}
           <Pressable style={styles.photoButton} onPress={() => navigation.navigate('Appearance', { caseId })}><Text style={styles.photoText}>인상착의 사진 보기</Text></Pressable>
         </View>
 
         <View style={[styles.infoCard, styles.firstInfo]}>
           <Text style={styles.infoIcon}>●</Text>
-          <Text style={styles.infoText}>멀리 가지 못하고 한자리에 머물러 계실 수 있어요.{`\n`}골목, 벤치, 건물 그늘을 먼저 살펴봐 주세요.</Text>
+          <Text style={styles.infoText} numberOfLines={2}>{guidance || '사건에 맞는 수색 안내를 불러오고 있습니다.'}</Text>
         </View>
         <View style={[styles.infoCard, styles.secondInfo]}>
           <Text style={styles.infoIcon}>i</Text>
@@ -63,6 +88,7 @@ const ink = '#525253';
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: '#FFFFFF', overflow: 'hidden' },
   map: { position: 'absolute', left: 0, right: 0, top: 0, width: '100%', height: 383 },
+  mapLoading: { position: 'absolute', top: 170, left: 0, right: 0 },
   status: { position: 'absolute', top: 0, left: 0, right: 0 },
   sheet: { position: 'absolute', left: 0, right: 0, top: 367, bottom: 0, borderTopLeftRadius: 12, borderTopRightRadius: 12, backgroundColor: 'rgba(255,255,255,0.96)', shadowColor: '#000', shadowOpacity: 0.14, shadowRadius: 25, shadowOffset: { width: 0, height: -2 } },
   handle: { position: 'absolute', top: 8, left: '45%', right: '45%', height: 5, borderRadius: 3, backgroundColor: 'rgba(0,0,0,0.1)' },

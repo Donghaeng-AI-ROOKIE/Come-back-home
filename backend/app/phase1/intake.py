@@ -16,7 +16,7 @@ from app.phase3 import alerts
 from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
-from app.schemas.report import MissingReport
+from app.schemas.report import Appearance, MissingReport
 
 
 def create_report(
@@ -27,6 +27,8 @@ def create_report(
     persona_id: str | None = None,
     photo_bytes: bytes | None = None,
     document_bytes: bytes | None = None,
+    appearance_text: str = "",
+    situation: str = "",
 ) -> Case:
     """신고 접수 → Case 생성.
 
@@ -39,6 +41,7 @@ def create_report(
         missing_type=missing_type,
         lkp=lkp,
         lkp_time=lkp_time,
+        situation=situation.strip(),
     )
 
     # 외부 모델 장애가 신고 접수를 막으면 안 된다 (골든타임) — 실패 시 해당
@@ -48,6 +51,15 @@ def create_report(
             report.appearance = varco.extract_appearance(photo_bytes)
         except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
             print(f"[varco] 인상착의 추출 실패 (접수는 계속): {e}")
+
+    # 사진이 없거나 VLM 추출이 실패해도 보호자가 직접 적은 인상착의를 잃지 않는다.
+    # 구조화할 근거가 없으므로 임의로 상·하의에 분배하지 않고 summary 에 보존한다.
+    manual_appearance = appearance_text.strip()
+    if manual_appearance:
+        if report.appearance is None:
+            report.appearance = Appearance(summary=manual_appearance)
+        elif not report.appearance.summary:
+            report.appearance.summary = manual_appearance
 
     # 고정 실루엣 아바타용 색상 추출 — 규칙 기반(모델 없음), 실패할 게 없는 순수
     # 함수라 try/except 불필요. VARCO 3D 생성 설계 폐기 후속(2026-08-05).

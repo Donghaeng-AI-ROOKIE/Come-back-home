@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getActiveAlerts, getGuidance, getPoaPrediction, touchPresence } from '../api/client';
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
-import { getCase, listPersonas, runPrediction } from '../api/guardian';
+import { getCase, listActiveCases, listPersonas, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
 import type { TimeAxis } from '../types/domain';
 
@@ -38,6 +38,15 @@ export function useCase(caseId: string) {
   return useQuery({ queryKey: ['case', caseId], queryFn: () => getCase(caseId), enabled: !!caseId });
 }
 
+export function useGuardianCases() {
+  return useQuery({
+    queryKey: ['guardianCases'],
+    queryFn: () => listActiveCases(),
+    refetchInterval: ALERT_POLL_MS,
+    refetchOnWindowFocus: true,
+  });
+}
+
 /**
  * 예측 실행. 10초 안팎 걸리므로 화면은 반드시 진행 표시를 띄운다.
  * 성공하면 POA 캐시를 버려 다음 조회가 새 예측을 읽게 한다.
@@ -46,7 +55,11 @@ export function useRunPrediction(caseId: string) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: () => runPrediction(caseId),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['poa', caseId] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['poa', caseId] });
+      qc.invalidateQueries({ queryKey: ['activeAlerts'] });
+      qc.invalidateQueries({ queryKey: ['guardianCases'] });
+    },
   });
 }
 

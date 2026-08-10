@@ -40,5 +40,7 @@ class MissingReport(BaseModel):
     lkp: GeoPoint                       # Last Known Position (최종 목격 지점)
     lkp_time: LocalNaiveDT
     appearance: Appearance | None = None
+    # 보호자가 직접 입력한 당시 상황. 사진/VLM 입력과 별개로 신고 원문을 보존한다.
+    situation: str = ""
     reporter: ReporterInfo | None = None
     created_at: datetime = Field(default_factory=datetime.now)

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
@@ -8,6 +9,8 @@ import FigmaStatusBar from '../components/FigmaStatusBar';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import { useAppModeStore } from '../store/appModeStore';
 import { useEngagementStore } from '../store/engagementStore';
+import { useActiveAlerts, useGoldenTime, usePresenceCount } from '../hooks/queries';
+import { alertToView } from '../data/missingView';
 
 const PERSON = require('../../assets/figma/alert-person.png');
 
@@ -15,8 +18,20 @@ export default function AlertDetailScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'AlertDetail'>>();
   const caseId = route.params.caseId;
+  const enterSearch = useAppModeStore((s) => s.enterSearch);
   const dismissCase = useAppModeStore((s) => s.dismissCase);
   const recordDismissed = useEngagementStore((s) => s.recordDismissed);
+  const { data: alerts } = useActiveAlerts();
+  const alert = alerts?.find((item) => item.caseId === caseId);
+  const view = alertToView(alert ?? {});
+  const appearance = view.appearance.slice(0, 3);
+  const watching = usePresenceCount(caseId);
+  const golden = useGoldenTime();
+
+  useEffect(() => { enterSearch(caseId, 'critical'); }, [caseId, enterSearch]);
+
+  const place = alert?.area
+    || (alert?.lkp ? `${alert.lkp.lat.toFixed(4)}, ${alert.lkp.lng.toFixed(4)}` : '최종 목격 위치 확인 중');
 
   const stopShowing = () => {
     dismissCase(caseId);
@@ -32,21 +47,21 @@ export default function AlertDetailScreen() {
         <Text style={styles.subtitle}>현재 내 주변 반경과 AI 예상 동선이 겹치는 실종 사건 목록입니다</Text>
 
         <Pressable style={styles.photoCard} onPress={() => navigation.navigate('Appearance', { caseId })}>
-          <Text style={styles.photoLabel}>실종자 인상착의 사진</Text>
+          <Text style={styles.photoLabel}>{alert?.summary || '실종자 인상착의 정보'}</Text>
         </Pressable>
 
         <View style={styles.chipRow}>
-          <View style={[styles.chip, styles.timeChip]}><Text style={styles.timeText}>골든타임 59:54</Text></View>
-          <View style={[styles.chip, styles.peopleChip]}><Text style={styles.peopleText}>•지금 5명이 함께 찾고 있어요</Text></View>
+          <View style={[styles.chip, styles.timeChip]}><Text style={styles.timeText}>골든타임 {golden?.label ?? '--:--'}</Text></View>
+          {watching != null ? <View style={[styles.chip, styles.peopleChip]}><Text style={styles.peopleText}>•지금 {watching}명이 함께 찾고 있어요</Text></View> : null}
         </View>
 
         <Pressable style={styles.personCard} onPress={() => navigation.navigate('AlertSync', { caseId })}>
-          <View style={styles.searchChip}><Text style={styles.searchChipText}>수색 중(0.8km 이내)</Text></View>
+          <View style={styles.searchChip}><Text style={styles.searchChipText}>수색 중({alert ? Math.max(0.1, alert.targetRadiusM / 1000).toFixed(1) : '-'}km 이내)</Text></View>
           <Image source={PERSON} style={styles.personImage} />
-          <Text style={styles.name}>김순자</Text>
-          <Text style={styles.meta}>78세 • 여성 • 창천동 인근</Text>
+          <Text style={styles.name}>{view.title}</Text>
+          <Text style={styles.meta}>{view.meta}</Text>
           <View style={styles.tags}>
-            {['회색 점퍼', '검정 바지', '지팡이'].map((tag) => <View key={tag} style={styles.tag}><Text style={styles.tagText}>{tag}</Text></View>)}
+            {appearance.map((tag) => <View key={tag} style={styles.tag}><Text style={styles.tagText} numberOfLines={1}>{tag}</Text></View>)}
           </View>
           <Text style={styles.chevron}>›</Text>
         </Pressable>
@@ -54,7 +69,7 @@ export default function AlertDetailScreen() {
         <View style={styles.placeCard}>
           <Text style={styles.pin}>●</Text>
           <Text style={styles.placeLabel}>최종 목격 장소</Text>
-          <Text style={styles.placeText}>현대백화점 신촌점 근처</Text>
+          <Text style={styles.placeText}>{place}{alert?.lkpTime ? ` · ${new Date(alert.lkpTime).toLocaleString('ko-KR')}` : ''}</Text>
         </View>
 
         <View style={styles.actions}>

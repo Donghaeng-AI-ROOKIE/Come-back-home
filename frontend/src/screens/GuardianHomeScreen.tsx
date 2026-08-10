@@ -15,14 +15,9 @@ import FigmaStatusBar from '../components/FigmaStatusBar';
 
 export default function GuardianHomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { data: personas, isLoading } = usePersonas();
+  const { data: personas, isLoading, isError, refetch } = usePersonas();
   const cached = useGuardianStore((s) => s.persona);
-  const figmaFallback = [
-    { id: 'figma-1', name: '성함', age: 0, created_at: '' },
-    { id: 'figma-2', name: '성함', age: 0, created_at: '' },
-  ];
-  const loaded = personas?.length ? personas : cached ? [cached] : [];
-  const list = loaded.length >= 2 ? loaded : [...loaded, ...figmaFallback.slice(0, 2 - loaded.length)];
+  const list = personas?.length ? personas : cached ? [cached] : [];
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -63,14 +58,16 @@ export default function GuardianHomeScreen() {
         </View>
         <View style={styles.familyList}>
           {isLoading && list.length === 0 ? <ActivityIndicator color={color.guardian} /> : null}
+          {isError ? <Pressable style={styles.empty} onPress={() => refetch()}><Text style={styles.emptyTitle}>등록 정보를 불러오지 못했습니다</Text><Text style={styles.emptyBody}>눌러서 다시 시도해 주세요</Text></Pressable> : null}
+          {!isLoading && !isError && list.length === 0 ? <Pressable style={styles.empty} onPress={() => navigation.navigate('GuardianTabs', { screen: 'GuardianReg' })}><Text style={styles.emptyTitle}>아직 등록된 가족이 없어요</Text><Text style={styles.emptyBody}>안심 사전 등록을 먼저 진행해 주세요</Text></Pressable> : null}
           {list.map((p) => (
             <Pressable
               key={p.id}
-              onPress={() => p.id.startsWith('figma-') ? navigation.navigate('GuardianTabs', { screen: 'GuardianReg' }) : navigation.navigate('PersonaDetail', { personaId: p.id })}
+              onPress={() => navigation.navigate('PersonaDetail', { personaId: p.id })}
               style={({ pressed }) => [styles.personRow, pressed && styles.pressed]}
             >
               <View style={styles.personInfo}>
-                <View style={styles.nameRow}><Text style={styles.personName}>{p.name} ({p.age || '나이'})</Text><View style={styles.dementiaBadge}><Text style={styles.dementiaText}>치매 정도</Text></View></View>
+                <View style={styles.nameRow}><Text style={styles.personName}>{p.name} ({p.age}세)</Text><View style={styles.dementiaBadge}><Text style={styles.dementiaText}>치매 등록</Text></View></View>
                 <Text style={styles.personMeta}>최근 업데이트 날짜: {p.created_at ? p.created_at.slice(0, 10) : ''}</Text>
               </View>
               <Text style={styles.chevron}>›</Text>

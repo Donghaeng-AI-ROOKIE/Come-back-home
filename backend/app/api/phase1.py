@@ -23,6 +23,9 @@ class CreateReportIn(BaseModel):
     # 실제 구현 시 multipart UploadFile 로 교체.
     with_photo: bool = False
     with_document: bool = False
+    # 앱의 수기 입력 경로. 사진이 없어도 핵심 단서를 사건에 저장한다.
+    appearance_text: str = ""
+    situation: str = ""
 
 
 @router.post("/reports", response_model=Case)
@@ -34,6 +37,8 @@ def create_report(body: CreateReportIn):
         persona_id=body.persona_id,
         photo_bytes=b"stub" if body.with_photo else None,
         document_bytes=b"stub" if body.with_document else None,
+        appearance_text=body.appearance_text,
+        situation=body.situation,
     )
 
 

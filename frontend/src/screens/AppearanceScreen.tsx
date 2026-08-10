@@ -9,25 +9,31 @@ import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
+import { useActiveAlerts } from '../hooks/queries';
+import { alertToView } from '../data/missingView';
 
 const photo = require('../../assets/figma/appearance-photo.png');
 
 export default function AppearanceScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'Appearance'>>().params;
+  const { data: alerts } = useActiveAlerts();
+  const alert = alerts?.find((item) => item.caseId === caseId);
+  const view = alertToView(alert ?? {});
+  const appearance = view.appearance.slice(0, 3);
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
       <FigmaStatusBar />
       <View style={styles.body}>
-        <Text style={styles.title}>실종자 인상착의 사진</Text>
-        <Text style={styles.subtitle}>AI로 생성된 실종자 예상 인상착의 사진입니다</Text>
+        <Text style={styles.title}>실종자 인상착의 정보</Text>
+        <Text style={styles.subtitle}>신고 시 등록된 인상착의 정보입니다</Text>
         <View style={styles.card}>
           <Image source={photo} resizeMode="cover" style={styles.photo} />
           <View style={styles.chips}>
-            {['회색 점퍼', '검정 바지', '지팡이'].map((label) => <View key={label} style={styles.chip}><Text style={styles.chipText}>{label}</Text></View>)}
+            {(appearance.length ? appearance : ['정보 확인 중']).map((label) => <View key={label} style={styles.chip}><Text style={styles.chipText} numberOfLines={1}>{label}</Text></View>)}
           </View>
-          <Text style={styles.summary}>78세 여성 / 키 약 158cm / 마른 체형</Text>
+          <Text style={styles.summary}>{view.title} / {view.meta}</Text>
         </View>
         <Pressable style={styles.primary} onPress={() => navigation.navigate('TipWarn', { caseId })}><Text style={styles.primaryText}>비슷한 사람을 봤어요</Text></Pressable>
         <Pressable style={styles.secondary} onPress={() => navigation.goBack()}><Text style={styles.secondaryText}>비슷한 사람을 보지 못했어요</Text></Pressable>

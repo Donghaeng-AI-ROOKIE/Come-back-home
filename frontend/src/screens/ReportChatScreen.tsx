@@ -6,9 +6,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
+import { useQueryClient } from '@tanstack/react-query';
 import { color, type } from '../theme/tokens';
 import { submitTip } from '../api/client';
-import { LAST_SEEN } from '../data/missing';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 
@@ -16,6 +16,7 @@ type Step = 'summary' | 'location' | 'time';
 
 export default function ReportChatScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const queryClient = useQueryClient();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportChat'>>().params;
   const [step, setStep] = useState<Step>('summary');
   const [summary, setSummary] = useState('');
@@ -28,10 +29,16 @@ export default function ReportChatScreen() {
     setSending(true);
     try {
       const includeLocation = !withoutLocation && !!location.trim();
+      const includeTime = !withoutTime && !!seenAt.trim();
       const result = await submitTip(caseId, {
-        text: [summary.trim(), includeLocation && `목격 위치: ${location.trim()}`].filter(Boolean).join(' / ') || '목격 제보',
-        seenAt: withoutTime ? undefined : (seenAt.trim() || '방금 전'),
-        location: includeLocation ? LAST_SEEN : undefined,
+        // 자유서술 위치·시각은 서버의 제보 구조화/지오코딩 파이프라인이 좌표와
+        // datetime 으로 바꾼다. 데모 좌표나 파싱 불가능한 문자열을 명시 필드에
+        // 넣지 않는다.
+        text: [
+          summary.trim(),
+          includeLocation && `목격 위치: ${location.trim()}`,
+          includeTime && `목격 시각: ${seenAt.trim()}`,
+        ].filter(Boolean).join(' / ') || '목격 제보',
       }, { force: withoutLocation || withoutTime });
       if ('status' in result) {
         setStep(result.missing.includes('location') ? 'location' : 'time');
@@ -39,6 +46,11 @@ export default function ReportChatScreen() {
         setSending(false);
         return;
       }
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['guardianCases'] }),
+        queryClient.invalidateQueries({ queryKey: ['activeAlerts'] }),
+        queryClient.invalidateQueries({ queryKey: ['case', caseId] }),
+      ]);
       navigation.replace('ReportDone', {
         caseId,
         beforeAreaKm2: result.beforeAreaKm2,

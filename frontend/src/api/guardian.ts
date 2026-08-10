@@ -73,12 +73,43 @@ export type Persona = {
   created_at?: string;
 };
 
+export type CaseAppearance = {
+  top: string;
+  bottom: string;
+  shoes: string;
+  accessories: string[];
+  physical: string;
+  summary: string;
+};
+
+export type CaseTip = {
+  id: string;
+  case_id: string;
+  text: string;
+  location?: GeoPoint | null;
+  seen_at?: string | null;
+  p?: number | null;
+  decision?: 'discard' | 'layer1' | 'layer2' | null;
+  created_at: string;
+};
+
 export type Case = {
   id: string;
   status: string;
+  created_at: string;
   lkp: GeoPoint;
   lkp_time: string;
-  persona_id?: string | null;
+  report: {
+    id: string;
+    persona_id?: string | null;
+    missing_type: PersonaType;
+    lkp: GeoPoint;
+    lkp_time: string;
+    appearance?: CaseAppearance | null;
+    situation?: string;
+  };
+  tips: CaseTip[];
+  last_alert_at?: string | null;
 };
 
 // ── Phase 0 — 사전등록 인터뷰 ────────────────────────────────────
@@ -157,12 +188,20 @@ export function createReport(body: {
   persona_id?: string | null;
   with_photo?: boolean;
   with_document?: boolean;
+  appearance_text?: string;
+  situation?: string;
 }) {
   return api<Case>('/phase1/reports', { method: 'POST', body: JSON.stringify(body) });
 }
 
 export function getCase(caseId: string) {
   return api<Case>(`/phase1/cases/${caseId}`);
+}
+
+/** 보호자 제보 탭 — 활성 경보의 사건 본문(tips 포함)을 한 번에 모은다. */
+export async function listActiveCases() {
+  const alerts = await api<{ case_id: string }[]>('/phase3/alerts');
+  return Promise.all(alerts.map((alert) => getCase(alert.case_id)));
 }
 
 // ── Phase 2 — 동선 예측 ─────────────────────────────────────────

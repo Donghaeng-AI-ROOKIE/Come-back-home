@@ -5,7 +5,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
-import { DEMO_CASE_ID } from '../data/missing';
 import { useAppModeStore } from '../store/appModeStore';
 import { useEngagementStore } from '../store/engagementStore';
 import { type } from '../theme/tokens';
@@ -13,16 +12,26 @@ import StatusIcons from '../../assets/figma/lock-status.svg';
 import NotificationBackground from '../../assets/figma/lock-notification-bg.svg';
 import NotificationMask from '../../assets/figma/lock-notification-mask.svg';
 import NotificationHeader from '../../assets/figma/lock-notification-header.svg';
+import { useActiveAlerts } from '../hooks/queries';
+import { alertToView } from '../data/missingView';
 
 const appIcon = require('../../assets/figma/lock-app-icon.png');
 
 export default function LockScreenAlert() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'LockScreenAlert'>>();
-  const caseId = route.params?.caseId ?? DEMO_CASE_ID;
+  const caseId = route.params.caseId;
   const dismissCase = useAppModeStore((s) => s.dismissCase);
   const recordDismissed = useEngagementStore((s) => s.recordDismissed);
   const recordOpened = useEngagementStore((s) => s.recordOpened);
+  const { data: alerts } = useActiveAlerts();
+  const alert = alerts?.find((item) => item.caseId === caseId);
+  const view = alertToView(alert ?? {});
+  const appearance = view.appearance.slice(0, 3);
+  const issuedAt = alert?.issuedAt ? new Date(alert.issuedAt) : null;
+  const issuedTime = issuedAt && !Number.isNaN(issuedAt.getTime())
+    ? issuedAt.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })
+    : '--:--';
 
   const openDetail = () => {
     recordOpened();
@@ -51,17 +60,15 @@ export default function LockScreenAlert() {
 
         <Image source={appIcon} resizeMode="contain" style={styles.appIcon} />
         <Text style={styles.appName}>돌아오길</Text>
-        <Text style={styles.appTime}>13:24</Text>
+        <Text style={styles.appTime}>{issuedTime}</Text>
         <Text style={styles.title}>실종자 발생</Text>
-        <Text style={styles.subtitle}>내 주변에 실종자가 있어요!</Text>
-        <Text style={styles.person}>78세 • 여성 • 창천동 인근</Text>
+        <Text style={styles.subtitle}>{alert?.summary || '내 주변에 실종자가 있어요!'}</Text>
+        <Text style={styles.person}>{view.title} • {view.meta}</Text>
 
-        <View style={[styles.tag, styles.tagJacket]}><Text style={styles.tagText}>회색 점퍼</Text></View>
-        <View style={[styles.tag, styles.tagPants]}><Text style={styles.tagText}>검정 바지</Text></View>
-        <View style={[styles.tag, styles.tagCane]}><Text style={styles.tagText}>지팡이</Text></View>
+        <View style={styles.tagRow}>{appearance.map((label) => <View key={label} style={styles.tag}><Text style={styles.tagText} numberOfLines={1}>{label}</Text></View>)}</View>
 
-        <Text style={styles.probabilityLabel}>내 반경에 있을 확률</Text>
-        <View style={styles.probabilityTrack}><View style={styles.probabilityValue} /></View>
+        <Text style={styles.probabilityLabel}>{alert ? `수색 알림 반경 ${(alert.targetRadiusM / 1000).toFixed(1)}km` : '수색 범위를 확인하는 중'}</Text>
+        <View style={styles.probabilityTrack}><View style={[styles.probabilityValue, { width: alert ? '100%' : '0%' }]} /></View>
 
         <Pressable style={[styles.action, styles.confirm]} onPress={openDetail} accessibilityRole="button">
           <Text style={styles.confirmText}>지금 확인</Text>
@@ -93,14 +100,12 @@ const styles = StyleSheet.create({
   title: { position: 'absolute', left: 23, top: 49, fontFamily: type.familySemiBold, fontSize: 15, lineHeight: 20, color: '#000000' },
   subtitle: { position: 'absolute', left: 23, right: 73, top: 78, fontFamily: type.family, fontSize: 13, lineHeight: 18, color: '#000000' },
   person: { position: 'absolute', left: 23, right: 73, top: 104, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#000000' },
-  tag: { position: 'absolute', top: 103, height: 16, borderRadius: 20, backgroundColor: '#FFC9CB', alignItems: 'center', justifyContent: 'center' },
-  tagJacket: { left: 149, width: 48 },
-  tagPants: { left: 202, width: 48 },
-  tagCane: { left: 255, width: 43 },
+  tagRow: { position: 'absolute', left: 149, right: 20, top: 103, height: 16, flexDirection: 'row', gap: 5 },
+  tag: { maxWidth: 72, height: 16, paddingHorizontal: 6, borderRadius: 20, backgroundColor: '#FFC9CB', alignItems: 'center', justifyContent: 'center' },
   tagText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, color: '#E05454' },
   probabilityLabel: { position: 'absolute', left: 23, top: 130, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#000000' },
   probabilityTrack: { position: 'absolute', left: 24, right: 24, top: 152, height: 4, borderRadius: 12, overflow: 'hidden', backgroundColor: '#C7C7CC' },
-  probabilityValue: { width: '25%', height: 4, backgroundColor: '#E05454' },
+  probabilityValue: { height: 4, backgroundColor: '#E05454' },
   action: { position: 'absolute', top: 169, height: 35, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   confirm: { left: 24, right: 189, backgroundColor: '#E05454' },
   ignore: { left: 190, right: 23, backgroundColor: '#DADADA' },
