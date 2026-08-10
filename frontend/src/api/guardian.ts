@@ -73,12 +73,25 @@ export type Persona = {
   created_at?: string;
 };
 
+/** 시민 제보 — 서버 원형(snake_case) 그대로. schemas/tip.py 참조. */
+export type GuardianTip = {
+  id: string;
+  text: string;
+  location?: GeoPoint | null;
+  seen_at?: string | null;
+  p?: number | null;
+  /** discard = 미반영 / layer1 = POA 갱신 반영 / layer2 = 목격 확정·재예측 */
+  decision?: 'discard' | 'layer1' | 'layer2' | null;
+  created_at: string;
+};
+
 export type Case = {
   id: string;
   status: string;
   lkp: GeoPoint;
   lkp_time: string;
   persona_id?: string | null;
+  tips?: GuardianTip[];
 };
 
 // ── Phase 0 — 사전등록 인터뷰 ────────────────────────────────────
