@@ -20,6 +20,8 @@ import type { RootStackParamList } from './types';
 import { navigationRef } from './navigationRef';
 import { useAuthStore } from '../store/authStore';
 import { useAlertGate } from '../hooks/useAlertGate';
+import { usePushRegistration } from '../hooks/usePushRegistration';
+import { useNotificationRouting } from '../hooks/useNotificationRouting';
 import { color } from '../theme/tokens';
 import CitizenTabs from './CitizenTabs';
 import GuardianTabs from './GuardianTabs';
@@ -60,6 +62,13 @@ export default function RootNavigator() {
   // 경보 관문은 시민 트리에서만 선다. 운영자 역할은 이 브랜치에서 제거됐으므로
   // (관제 = 백엔드 /dashboard) 'citizen' 인지 직접 확인한다.
   const isCitizen = token != null && role === 'citizen';
+
+  // 푸시 배선 — 훅은 만들어져 있었지만 어디에도 마운트되지 않아 토큰 등록이
+  // 한 번도 일어나지 않았다. 등록은 시민 역할에서만(수색 알림의 수신자),
+  // 탭 라우팅은 역할 무관하게 건다. 둘 다 푸시 미지원 환경(웹·Expo Go·
+  // projectId 미설정)에서는 조용히 물러난다.
+  usePushRegistration(isCitizen);
+  useNotificationRouting();
 
   const gate = useAlertGate(isCitizen);
 
