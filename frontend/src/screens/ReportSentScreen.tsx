@@ -8,6 +8,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { useRunPrediction } from '../hooks/queries';
+import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import FigmaLogo from '../components/FigmaLogo';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
@@ -16,7 +17,10 @@ export default function ReportSentScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportSent'>>().params;
   const predict = useRunPrediction(caseId);
-  useEffect(() => { predict.mutate(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [caseId]);
+  const addCase = useGuardianCaseStore((s) => s.addCase);
+  // 신고의 유일한 착지점 — 여기서 기기에 사건 id 를 적어 둬야 알림 탭이 이 사건의
+  // 제보를 따라갈 수 있다(서버에 보호자-사건 바인딩이 없다).
+  useEffect(() => { addCase(caseId); predict.mutate(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [caseId]);
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />

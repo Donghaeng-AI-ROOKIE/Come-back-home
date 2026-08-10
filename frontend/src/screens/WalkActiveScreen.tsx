@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Polyline } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
@@ -10,8 +11,10 @@ import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import { useActiveWalk, useEndWalk } from '../hooks/queries';
 import { useWalkTracking } from '../hooks/useWalkTracking';
+import BaseMap from '../components/BaseMap';
+import MapPin from '../components/MapPin';
+import WebMap from '../components/WebMap';
 
-const walkMap = require('../../assets/figma/walk-map.png');
 const leftMascot = require('../../assets/figma/mascot-walk-right.png');
 const rightMascot = require('../../assets/figma/mascot-walk-left.png');
 
@@ -60,7 +63,37 @@ export default function WalkActiveScreen() {
       <FigmaStatusBar />
       <View style={styles.body}>
         <View style={styles.greenTop} />
-        <Image source={walkMap} resizeMode="cover" style={styles.map} accessibilityLabel="Figma 산책 경로 지도" />
+        {/* 실제 위치·실제 경로. 시안 지도 그림을 깔면 걷지 않은 길이 그려진다. */}
+        {Platform.OS === 'web' ? (
+          <WebMap
+            style={styles.map}
+            center={track.current ?? undefined}
+            path={track.path}
+            zoom={16}
+            accessibilityLabel="산책 경로 지도"
+          />
+        ) : (
+          <BaseMap
+            style={styles.map}
+            region={track.current ? {
+              latitude: track.current.lat,
+              longitude: track.current.lng,
+              latitudeDelta: 0.006,
+              longitudeDelta: 0.006,
+            } : undefined}
+            showsUserLocation
+            accessibilityLabel="산책 경로 지도"
+          >
+            {track.path.length > 1 ? (
+              <Polyline
+                coordinates={track.path.map((p) => ({ latitude: p.lat, longitude: p.lng }))}
+                strokeColor={color.brand}
+                strokeWidth={5}
+              />
+            ) : null}
+            {track.current ? <MapPin kind="me" coordinate={track.current} title="현재 위치" /> : null}
+          </BaseMap>
+        )}
         <Image source={leftMascot} resizeMode="contain" style={styles.leftMascot} accessibilityLabel="가방을 멘 돌아오길 악어 캐릭터" />
         <Image source={rightMascot} resizeMode="contain" style={styles.rightMascot} accessibilityLabel="산책 중인 돌아오길 악어 캐릭터" />
 

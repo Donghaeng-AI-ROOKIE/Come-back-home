@@ -184,6 +184,16 @@ class Settings(BaseSettings):
     #   있으면 KakaoGeocoder 우선 사용, 없으면 gazetteer/nominatim 폴백.
     kakao_rest_key: str = ""
 
+    # 역지오코딩(좌표 → 장소명, geo/reverse.py) 네트워크 타임아웃.
+    # 보호자 제보 목록이 이 호출을 기다리므로 짧게 잡는다 — 이름을 못 얻으면
+    # 좌표로 떨어질 뿐, 목록 자체는 떠야 한다.
+    geocode_timeout_sec: float = 5.0
+
+    # 신고 접수 시 지역명 캐시를 미리 채울지(별도 스레드). 경보 조회는 캐시만
+    # 읽으므로, 이걸 끄면 경보의 지역명이 계속 빈 문자열이고 앱은 "내 주변"으로
+    # 물러난다. 테스트는 외부 네트워크를 타면 안 되므로 끈다(conftest).
+    reverse_geocode_on_intake: bool = True
+
     # H3 격자 해상도 (9 ≈ 육각형 변 174m, 도심 수색 단위에 적합)
     h3_resolution: int = 9
 

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ActivityIndicator, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -13,9 +13,9 @@ import { alertToView } from '../data/missingView';
 import BaseMap from '../components/BaseMap';
 import PoaHeatmap from '../components/PoaHeatmap';
 import MapPin from '../components/MapPin';
+import WebMap from '../components/WebMap';
+import PersonSilhouette from '../components/PersonSilhouette';
 
-const MAP = require('../../assets/figma/search-map.png');
-const PERSON = require('../../assets/figma/search-person.png');
 
 export default function AlertSyncScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -41,7 +41,17 @@ export default function AlertSyncScreen() {
 
   return (
     <View style={styles.root}>
-      {Platform.OS === 'web' ? <Image source={MAP} style={styles.map} resizeMode="cover" /> : (
+      {/* 웹은 react-native-maps 가 없다. 시안 지도 그림을 깔면 예측 결과로 오인되므로
+          실제 OSM 타일 + 서버가 준 실제 POA 셀을 그린다(components/WebMap). */}
+      {Platform.OS === 'web' ? (
+        <WebMap
+          style={styles.map}
+          center={lkp}
+          marker={lkp}
+          grid={poa.data}
+          accessibilityLabel="실제 발견확률 지도"
+        />
+      ) : (
         <BaseMap style={styles.map} region={region} accessibilityLabel={poa.data ? `실제 발견확률 지도. ${poa.data.topLabel}` : '발견확률 지도를 불러오는 중'}>
           {poa.data ? <PoaHeatmap grid={poa.data} /> : null}
           {lkp ? <MapPin kind="lastSeen" coordinate={lkp} title="최종 목격 위치" /> : null}
@@ -55,7 +65,7 @@ export default function AlertSyncScreen() {
         <Text style={styles.kicker}>지금 함께 찾고 있어요</Text>
         {watching != null ? <View style={styles.count}><Text style={styles.countText}>•{watching}명</Text></View> : null}
 
-        <Image source={PERSON} style={styles.person} />
+        <PersonSilhouette colors={alert?.appearanceColors} size={42} style={styles.person} />
         <Text style={styles.name}>{view.title}</Text>
         <Text style={styles.meta}>{view.meta}</Text>
         <View style={styles.tags}>

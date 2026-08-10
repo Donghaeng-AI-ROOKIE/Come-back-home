@@ -24,9 +24,17 @@ export type WalkTracking = {
   status: 'idle' | 'denied' | 'tracking' | 'error';
   distanceKm: number;
   current: GeoPoint | null;
+  /**
+   * 지금까지 걸은 경로. 거리에 반영된 점만 담는다 — 튄 측정치를 그리면 지도에
+   * 실제로 가지 않은 선이 생긴다.
+   */
+  path: GeoPoint[];
   /** 사용자가 거부했을 때 화면이 이유를 보여주도록. */
   message: string;
 };
+
+/** 경로 보관 상한 — 5초·5m 간격이면 몇 시간치다. 메모리가 무한정 늘지 않게. */
+const MAX_PATH = 3000;
 
 function haversineM(a: GeoPoint, b: GeoPoint): number {
   const R = 6371000;
@@ -44,6 +52,7 @@ export function useWalkTracking(active: boolean): WalkTracking {
   const [message, setMessage] = useState('');
   const [distanceKm, setDistanceKm] = useState(0);
   const [current, setCurrent] = useState<GeoPoint | null>(null);
+  const [path, setPath] = useState<GeoPoint[]>([]);
   const prev = useRef<GeoPoint | null>(null);
 
   useEffect(() => {
@@ -74,10 +83,17 @@ export function useWalkTracking(active: boolean): WalkTracking {
             // 부정확한 측정치는 위치 표시에만 쓰고 거리에는 더하지 않는다.
             if (acc > MAX_ACCURACY_M) return;
             const last = prev.current;
-            if (last) {
+            if (!last) {
+              setPath((prevPath) => (prevPath.length ? prevPath : [p]));
+            } else {
               const d = haversineM(last, p);
-              if (d >= MIN_STEP_M && d <= MAX_STEP_M) setDistanceKm((km) => km + d / 1000);
-              else if (d > MAX_STEP_M) prev.current = p;  // 점프는 버리되 기준점은 옮긴다
+              if (d >= MIN_STEP_M && d <= MAX_STEP_M) {
+                setDistanceKm((km) => km + d / 1000);
+                // 거리에 더한 이동만 경로로 남긴다 — 판정 기준을 하나로 유지한다.
+                setPath((prevPath) => [...prevPath, p].slice(-MAX_PATH));
+              } else if (d > MAX_STEP_M) {
+                prev.current = p;  // 점프는 버리되 기준점은 옮긴다
+              }
             }
             if (!last || haversineM(last, p) >= MIN_STEP_M) prev.current = p;
           },
@@ -96,5 +112,5 @@ export function useWalkTracking(active: boolean): WalkTracking {
     };
   }, [active]);
 
-  return { status, distanceKm, current, message };
+  return { status, distanceKm, current, path, message };
 }

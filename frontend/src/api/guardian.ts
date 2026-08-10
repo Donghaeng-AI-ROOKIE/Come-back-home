@@ -198,10 +198,32 @@ export function getCase(caseId: string) {
   return api<Case>(`/phase1/cases/${caseId}`);
 }
 
-/** 보호자 제보 탭 — 활성 경보의 사건 본문(tips 포함)을 한 번에 모은다. */
-export async function listActiveCases() {
-  const alerts = await api<{ case_id: string }[]>('/phase3/alerts');
-  return Promise.all(alerts.map((alert) => getCase(alert.case_id)));
+/**
+ * 이 기기가 접수한 사건들의 본문(tips 포함).
+ *
+ * 🚨 `GET /phase3/alerts` 로 활성 사건을 통째로 받지 않는다. 셀 없이 부르면 서버가
+ * 빈 목록을 주고(fail-closed), 셀을 줘서 받아 오면 **남의 사건**까지 딸려 온다.
+ * 내 사건 id 는 신고할 때 기기에 적어 둔다(store/guardianCaseStore).
+ *
+ * 종결·파기된 사건은 404 라 조용히 빠진다 — 화면에 남겨 두면 이미 끝난 수색을
+ * 계속 붙잡고 있게 된다.
+ */
+export async function getMyCases(caseIds: readonly string[]) {
+  const settled = await Promise.allSettled(caseIds.map((id) => getCase(id)));
+  return settled.flatMap((r) => (r.status === 'fulfilled' ? [r.value] : []));
+}
+
+/**
+ * 좌표 → 사람이 읽는 장소명 (`[서울특별시 성북구] 정릉로`).
+ * 이름을 못 찾은 자리는 좌표 문자열로 온다 — 목록이 통째로 죽지 않게.
+ */
+export async function getAreaLabels(points: GeoPoint[]) {
+  if (points.length === 0) return [];
+  const res = await api<{ labels: string[] }>('/geo/labels', {
+    method: 'POST',
+    body: JSON.stringify({ points }),
+  });
+  return res.labels;
 }
 
 // ── Phase 2 — 동선 예측 ─────────────────────────────────────────

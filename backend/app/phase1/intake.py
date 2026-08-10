@@ -6,11 +6,12 @@
 문서는 Upstage 연동이 TODO 상태로 항상 가짜 응답만 반환하고 있었다).
 """
 
+import threading
 from datetime import datetime
 
 from app import storage
 from app.config import settings
-from app.geo import roadnet
+from app.geo import reverse, roadnet
 from app.phase1.color_extract import extract_color
 from app.phase3 import alerts
 from app.schemas.case import Case, CaseStatus
@@ -95,4 +96,10 @@ def create_report(
             roadnet.get_network(case.lkp)
         except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
             print(f"[roadnet] 사전 로딩 실패 (신고 접수는 계속): {e}")
+
+    # 지역명 캐시 예열 — 경보의 "area" 는 폴링 경로라 캐시만 읽는다(alerts.describe_alert).
+    # 여기서 미리 채워 두면 시민이 처음 경보를 열 때 이미 이름이 있다.
+    # **별도 스레드다** — 골든타임에 외부 조회를 기다리게 할 수 없다.
+    if settings.reverse_geocode_on_intake:
+        threading.Thread(target=reverse.warm, args=(case.lkp,), daemon=True).start()
     return case

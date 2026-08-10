@@ -180,7 +180,8 @@ def test_payload_fields_are_fixed():
     assert set(got) == {
         "case_id", "issued_at", "area", "severity", "kind",
         "target_cells", "target_res",
-        "summary", "matched_person_id", "age", "appearance", "lkp", "lkp_time",
+        "summary", "matched_person_id", "age", "appearance", "appearance_colors",
+        "lkp", "lkp_time",
     }
 
 
@@ -208,8 +209,39 @@ def test_no_name_or_condition_in_payload():
     assert got["age"] == 82, "나이는 시민 화면 카드가 쓰므로 와야 한다"
 
 
-def test_area_is_blank_not_invented():
-    """역지오코딩이 없다(KAKAO 키 대기). 좌표에서 동 이름을 지어내느니 안 말한다 —
-    앱이 "내 주변"으로 물러난다."""
+def test_area_is_blank_when_not_geocoded():
+    """지역명은 **캐시에 있을 때만** 실린다.
+
+    좌표에서 동 이름을 지어내지 않는다는 원칙은 그대로다. 달라진 것은 "이름을 아예
+    모른다"에서 "미리 조회해 둔 것만 쓴다"로 바뀐 것 — 조회는 신고 접수 때 별도
+    스레드가 하고(phase1.intake), 이 폴링 경로는 캐시만 읽는다. 테스트 환경은
+    역지오코딩이 꺼져 있으므로(conftest) 항상 빈 문자열이어야 한다.
+    """
     _make_case()
     assert phase3_api.list_active_alerts(_cell7(LKP))[0]["area"] == ""
+
+
+def test_area_uses_cached_label_without_network(monkeypatch):
+    """캐시에 이름이 있으면 그대로 실린다 — 이 경로는 외부 호출을 하지 않는다."""
+    from app.geo import reverse
+
+    case = _make_case()
+    monkeypatch.setattr(reverse, "cached_label", lambda p: "[서울특별시 성북구] 정릉로")
+    # 네트워크를 타는 경로가 호출되면 즉시 실패시킨다.
+    monkeypatch.setattr(reverse, "label_for", lambda *a, **k: pytest.fail("폴링 경로가 외부 조회를 했다"))
+
+    got = phase3_api.list_active_alerts(_cell7(LKP))[0]
+    assert got["case_id"] == case.id
+    assert got["area"] == "[서울특별시 성북구] 정릉로"
+
+
+def test_appearance_colors_are_tags_not_images():
+    """실루엣 아바타용 색 태그가 실린다 — 백엔드는 이미지를 만들지 않는다.
+
+    사진을 받지 않는 설계(08-07)라 앱이 사람 사진을 띄우면 그건 실종자가 아닌
+    남의 얼굴이 된다. 그 자리를 채우는 유일한 근거가 이 색 태그다.
+    """
+    _make_case()
+    got = phase3_api.list_active_alerts(_cell7(LKP))[0]
+    assert set(got["appearance_colors"]) == {"top", "bottom", "shoes"}
+    assert all(isinstance(v, str) and v for v in got["appearance_colors"].values())
