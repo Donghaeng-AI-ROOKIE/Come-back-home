@@ -1,66 +1,32 @@
-/**
- * 보호자 홈 — 피그마 [보호자] 메인 (2625:15791) 구현.
- *
- * 긴급 신고 버튼이 화면 위쪽에 있는 이유: 이 화면을 급하게 여는 사람은
- * 이미 실종 상황이다. 사전등록 안내를 위에 두면 그 순간에 읽히지 않는다.
- */
-import React, { useEffect } from 'react';
-import {
-  ActivityIndicator,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import React from 'react';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { SvgXml } from 'react-native-svg';
 import type { RootStackParamList } from '../navigation/types';
-import { radius, type } from '../theme/tokens';
-import { gColor, gFont } from '../theme/guardianTokens';
-import {
-  icBroadcastXml,
-  icChevronXml,
-  icProfileCardXml,
-  guardianModeLabelXml,
-} from '../assets/guardianSvg';
+import { color, type } from '../theme/tokens';
 import { useGuardianStore } from '../store/guardianStore';
 import { usePersonas } from '../hooks/queries';
-import GuardianLogo from '../components/GuardianLogo';
-
-/** ISO → "YYYY.MM.DD". 등록일이 없으면 빈 문자열. */
-function fmtDate(iso?: string): string {
-  if (!iso) return '';
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return '';
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const dd = String(d.getDate()).padStart(2, '0');
-  return `${d.getFullYear()}.${mm}.${dd}`;
-}
+import FigmaLogo from '../components/FigmaLogo';
+import EmergencyIcon from '../../assets/figma/guardian-emergency.svg';
+import RegisterIcon from '../../assets/figma/guardian-register.svg';
+import FigmaStatusBar from '../components/FigmaStatusBar';
 
 export default function GuardianHomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  // 서버가 진실이다. 스토어는 방금 등록한 것을 즉시 띄우기 위한 캐시일 뿐이라,
-  // 앱을 다시 켜면 비어 있다 — 그때도 등록한 가족이 보여야 한다.
-  const { data: personas, isLoading } = usePersonas();
+  const { data: personas, isLoading, isError, refetch } = usePersonas();
   const cached = useGuardianStore((s) => s.persona);
-  const setPersona = useGuardianStore((s) => s.setPersona);
   const list = personas?.length ? personas : cached ? [cached] : [];
-
-  useEffect(() => {
-    if (!cached && personas?.[0]) setPersona(personas[0]);
-  }, [cached, personas, setPersona]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <GuardianLogo />
-          <SvgXml xml={guardianModeLabelXml} width={54} height={39} />
+      <FigmaStatusBar />
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.logoRow}>
+          <FigmaLogo mode="guardian" />
+          <Text style={styles.modeLabel}>보호자{`\n`}안심 모드</Text>
         </View>
 
         <View style={styles.hero}>
@@ -68,85 +34,50 @@ export default function GuardianHomeScreen() {
             onPress={() => navigation.navigate('Report')}
             accessibilityRole="button"
             accessibilityLabel="긴급 실종 신고"
-            accessibilityHint="실종 신고를 접수하고 AI 예측을 시작합니다"
-            style={({ pressed }) => [styles.sosCircle, pressed && styles.pressed]}
+            style={({ pressed }) => [styles.emergency, pressed && styles.pressed]}
           >
-            <SvgXml xml={icBroadcastXml} width={27} height={25} />
-            <Text style={styles.sosLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              실종 신고
-            </Text>
+            <EmergencyIcon width={47} height={43} />
+            <Text style={styles.emergencyText}>실종 신고</Text>
           </Pressable>
-
           <Pressable
             onPress={() => navigation.navigate('GuardianTabs', { screen: 'GuardianReg' })}
             accessibilityRole="button"
             accessibilityLabel="안심 사전 등록"
-            style={({ pressed }) => [styles.regCard, pressed && styles.pressed]}
+            style={({ pressed }) => [styles.register, pressed && styles.pressed]}
           >
-            <SvgXml xml={icProfileCardXml} width={26} height={26} />
-            <Text style={styles.regTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              안심 사전 등록
-            </Text>
-            <Text style={styles.regBody} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              미리 정보를 등록해두면 위급 시 골든타임을 지킬 수 있습니다.
-            </Text>
+            <View style={styles.registerIcon}><RegisterIcon width={36} height={36} /></View>
+            <View style={styles.registerCopy}>
+              <Text style={styles.registerTitle}>안심 사전 등록</Text>
+              <Text style={styles.registerBody}>미리 정보를 등록해두면 위급 시 골든타임을{`\n`}지킬 수 있습니다.</Text>
+            </View>
           </Pressable>
         </View>
 
-        <Text style={styles.section} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          사전 등록된 가족
-        </Text>
-        {isLoading && list.length === 0 ? (
-          <View style={styles.rowBar}>
-            <ActivityIndicator color={gColor.primary} />
-          </View>
-        ) : list.length === 0 ? (
-          <View style={styles.rowBar}>
-            <Text style={styles.empty} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              아직 등록된 가족이 없습니다. 사전 등록을 먼저 진행해 주세요.
-            </Text>
-          </View>
-        ) : (
-          list.map((p) => (
+        <View style={styles.sectionHead}>
+          <Text style={styles.sectionTitle}>사전 등록된 가족</Text>
+        </View>
+        <View style={styles.familyList}>
+          {isLoading && list.length === 0 ? <ActivityIndicator color={color.guardian} /> : null}
+          {isError ? <Pressable style={styles.empty} onPress={() => refetch()}><Text style={styles.emptyTitle}>등록 정보를 불러오지 못했습니다</Text><Text style={styles.emptyBody}>눌러서 다시 시도해 주세요</Text></Pressable> : null}
+          {!isLoading && !isError && list.length === 0 ? <Pressable style={styles.empty} onPress={() => navigation.navigate('GuardianTabs', { screen: 'GuardianReg' })}><Text style={styles.emptyTitle}>아직 등록된 가족이 없어요</Text><Text style={styles.emptyBody}>안심 사전 등록을 먼저 진행해 주세요</Text></Pressable> : null}
+          {list.map((p) => (
             <Pressable
               key={p.id}
-              onPress={() => {
-                setPersona(p);
-                navigation.navigate('PersonaDetail', { personaId: p.id });
-              }}
-              accessibilityRole="button"
-              accessibilityLabel={`${p.name} ${p.age}세 등록 정보 보기`}
-              accessibilityHint="저장된 내용을 확인하고 수정할 수 있어요"
-              style={({ pressed }) => [styles.rowBar, pressed && styles.pressed]}
+              onPress={() => navigation.navigate('PersonaDetail', { personaId: p.id })}
+              style={({ pressed }) => [styles.personRow, pressed && styles.pressed]}
             >
-              <View style={styles.rowInfo}>
-                <View style={styles.rowTop}>
-                  <Text style={styles.rowName} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-                    {p.name} ({p.age}세)
-                  </Text>
-                  <View style={styles.chip}>
-                    <Text style={styles.chipText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-                      치매
-                    </Text>
-                  </View>
-                </View>
-                <Text style={styles.rowDate} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-                  최근 업데이트 날짜: {fmtDate(p.created_at)}
-                </Text>
+              <View style={styles.personInfo}>
+                <View style={styles.nameRow}><Text style={styles.personName}>{p.name} ({p.age}세)</Text><View style={styles.dementiaBadge}><Text style={styles.dementiaText}>치매 등록</Text></View></View>
+                <Text style={styles.personMeta}>최근 업데이트 날짜: {p.created_at ? p.created_at.slice(0, 10) : ''}</Text>
               </View>
-              <SvgXml xml={icChevronXml} width={7} height={12} />
+              <Text style={styles.chevron}>›</Text>
             </Pressable>
-          ))
-        )}
+          ))}
+        </View>
 
-        <View style={styles.guide}>
-          <Text style={styles.guideText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            {'•'}  치매 어르신을 사전에 등록할 수 있습니다.
-          </Text>
-          <Text style={styles.guideText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            {'•'}  정기적인 업데이트 알림에 답변해 주시면 실종시 동선 예측 정확도가
-            올라갑니다.
-          </Text>
+        <View style={styles.guideBody}>
+          <Text style={styles.guideText}>•  치매 어르신을 사전에 등록할 수 있습니다.</Text>
+          <Text style={styles.guideText}>•  정기적인 업데이트 알림에 답변해 주시면 실종시 동선 예측 정확도가 올라갑니다.</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -154,67 +85,33 @@ export default function GuardianHomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: gColor.surface },
-  scroll: { paddingHorizontal: 24, paddingTop: 16, gap: 12, paddingBottom: 30 },
-
-  header: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 },
-
-  hero: { flexDirection: 'row', alignItems: 'center', gap: 16, marginVertical: 8 },
-  sosCircle: {
-    width: 104,
-    height: 104,
-    borderRadius: radius.pill,
-    backgroundColor: gColor.alertRed,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-    shadowColor: gColor.alertRed,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.63,
-    shadowRadius: 2,
-    elevation: 4,
-  },
-  sosLabel: { fontSize: 14, color: '#FFFFFF', fontFamily: gFont.semiBold },
-  regCard: {
-    flex: 1,
-    minHeight: 104,
-    borderRadius: 10,
-    backgroundColor: gColor.cardGreen,
-    padding: 16,
-    gap: 4,
-    shadowColor: gColor.cardGreen,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.71,
-    shadowRadius: 2,
-    elevation: 4,
-  },
-  regTitle: { fontSize: 14, color: 'rgba(255,255,255,0.92)', fontFamily: gFont.semiBold },
-  regBody: { fontSize: 11, color: 'rgba(255,255,255,0.92)', fontFamily: gFont.medium, lineHeight: 15 },
-
-  section: {
-    fontSize: 16,
-    color: '#000000',
-    fontFamily: gFont.semiBold,
-    marginTop: 12,
-  },
-  rowBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: gColor.barBg,
-    borderRadius: radius.md,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 12,
-  },
-  rowInfo: { flex: 1, gap: 4 },
-  rowTop: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  rowName: { fontSize: 17, color: gColor.textMuted, letterSpacing: -0.41, fontFamily: gFont.semiBold },
-  chip: { backgroundColor: gColor.chip, borderRadius: radius.pill, paddingHorizontal: 12, paddingVertical: 2 },
-  chipText: { fontSize: 11, color: gColor.textMuted, fontFamily: gFont.regular },
-  rowDate: { fontSize: 11, color: gColor.textMuted, letterSpacing: 0.07, fontFamily: gFont.regular },
-  empty: { fontSize: 13, color: gColor.textMuted, fontFamily: gFont.regular, lineHeight: 19 },
-
-  guide: { marginTop: 12, gap: 4 },
-  guideText: { fontSize: 11, color: gColor.textMuted, letterSpacing: -0.08, fontFamily: gFont.regular, lineHeight: 18 },
-  pressed: { opacity: 0.85 },
+  safe: { flex: 1, backgroundColor: '#FFFFFF' },
+  content: { paddingBottom: 36 },
+  logoRow: { height: 87, paddingLeft: 30, paddingTop: 19, flexDirection: 'row', alignItems: 'flex-start' },
+  modeLabel: { fontFamily: type.familyBold, fontSize: 16, lineHeight: 20, color: color.figmaGray, marginLeft: 12, marginTop: 0 },
+  hero: { height: 135, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 26, gap: 19 },
+  emergency: { width: 104, height: 106, borderRadius: 55, backgroundColor: color.figmaRed, alignItems: 'center', justifyContent: 'center' },
+  emergencyText: { fontFamily: type.familyBold, color: '#FFFFFF', fontSize: 15, marginTop: 1 },
+  register: { width: 200, height: 106, borderRadius: 10, backgroundColor: color.guardian, padding: 13, flexDirection: 'row', alignItems: 'flex-start' },
+  registerIcon: { width: 36, height: 36, tintColor: '#FFFFFF', marginRight: 7 },
+  registerCopy: { flex: 1, paddingTop: 22 },
+  registerTitle: { fontFamily: type.familyBold, color: '#FFFFFF', fontSize: 15, lineHeight: 18 },
+  registerBody: { fontFamily: type.familyMedium, color: '#FFFFFF', fontSize: 10, lineHeight: 13, marginTop: 5 },
+  sectionHead: { height: 64, justifyContent: 'flex-end', paddingHorizontal: 23, paddingBottom: 16 },
+  sectionTitle: { fontFamily: type.familySemiBold, fontSize: 18, color: '#000000' },
+  familyList: { minHeight: 158, marginHorizontal: 23, gap: 12 },
+  empty: { height: 73, borderRadius: 10, backgroundColor: color.figmaField, alignItems: 'center', justifyContent: 'center' },
+  emptyTitle: { fontFamily: type.familySemiBold, fontSize: 14, color: '#525253' },
+  emptyBody: { fontFamily: type.family, fontSize: 11, color: color.figmaGray, marginTop: 6 },
+  personRow: { height: 73, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center' },
+  personInfo: { flex: 1 },
+  nameRow: { flexDirection: 'row', alignItems: 'center' },
+  personName: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, color: '#525253' },
+  dementiaBadge: { height: 16, minWidth: 63, borderRadius: 20, backgroundColor: '#D9D9D9', alignItems: 'center', justifyContent: 'center', marginLeft: 10 },
+  dementiaText: { fontFamily: type.family, fontSize: 11, color: '#525253' },
+  personMeta: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#525253', marginTop: 6 },
+  chevron: { fontFamily: type.family, fontSize: 23, color: color.guardian },
+  guideBody: { paddingHorizontal: 23, paddingTop: 32, gap: 1 },
+  guideText: { fontFamily: type.family, fontSize: 13, lineHeight: 18, color: '#525253' },
+  pressed: { opacity: 0.78 },
 });

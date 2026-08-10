@@ -1,186 +1,92 @@
-/**
- * 보호자 알림 탭 — 진행 중 신고의 시민 제보 현황 (피그마 주석 "제보 받는 알림창 추가").
- *
- * 별도 통지 API 를 만들지 않았다 — `GET /phase1/cases/{id}` 응답에 tips 가
- * 이미 통째로 실려 오므로(백엔드 Case.tips), 신고한 기기가 기억해 둔 케이스
- * (guardianCaseStore)를 15초 주기로 다시 읽는 것으로 충분하다. 시민 경보
- * 폴링(ALERT_POLL_MS)과 같은 주기 — 보호자가 더 늦게 알아야 할 이유가 없다.
- *
- * 제보 원문(text)을 그대로 보여준다 — 이 화면의 독자는 해당 사건의 보호자
- * 본인이라 시민 트리의 익명화 원칙(이름 미노출)과는 층위가 다르다.
- */
-import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { SvgXml } from 'react-native-svg';
-import { useQuery } from '@tanstack/react-query';
-import { color, space, type } from '../theme/tokens';
-import { gColor, gFont } from '../theme/guardianTokens';
-import { tabAlertXml, tintXml } from '../assets/guardianSvg';
-import { getCase, type GuardianTip } from '../api/guardian';
-import { useGuardianCaseStore } from '../store/guardianCaseStore';
-import { ALERT_POLL_MS } from '../hooks/queries';
+import { useState } from 'react';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { color, type } from '../theme/tokens';
+import FigmaStatusBar from '../components/FigmaStatusBar';
+import { useGuardianCases } from '../hooks/queries';
+import type { Case } from '../api/guardian';
 
-const STATUS_LABEL: Record<string, string> = {
-  intake: '신고 접수됨',
-  predicted: '예측 완료 — 시민 알림 준비',
-  searching: '수색 진행 중',
-  found: '발견되었습니다',
-  closed: '수색 종결',
-};
-
-/** decision → 보호자에게 말이 되는 한 줄. 백엔드 TipDecision 참조. */
-function decisionLabel(tip: GuardianTip): { label: string; strong: boolean } {
-  switch (tip.decision) {
-    case 'layer2':
-      return { label: '목격 확정 — 이 위치 기준으로 경로를 다시 예측했습니다', strong: true };
-    case 'layer1':
-      return { label: '수색 범위 갱신에 반영되었습니다', strong: false };
-    case 'discard':
-      return { label: '신뢰도가 낮아 반영하지 않았습니다', strong: false };
-    default:
-      return { label: '검토 중', strong: false };
-  }
+function locationLabel(item: Case) {
+  return `[최종 목격 위치] ${item.lkp.lat.toFixed(4)}, ${item.lkp.lng.toFixed(4)}`;
 }
 
-function timeLabel(iso: string): string {
-  // created_at 은 서버 시계 기준 naive 문자열인데, 배포 컨테이너의 시계는 UTC 다
-  // (08-10 실측: 15:42 KST 접수 제보가 06:42 로 기록). Z 를 붙여 UTC 로 해석해야
-  // 보호자에게 한국 시각으로 보인다. lkp_time 등 사용자가 입력한 로컬 naive 값과는
-  // 층위가 다르다 — 이 함수는 서버 생성 시각 전용.
-  const hasOffset = iso.endsWith('Z') || iso.includes('+');
-  const d = new Date(hasOffset ? iso : `${iso}Z`);
-  if (Number.isNaN(d.getTime())) return '';
-  const hh = String(d.getHours()).padStart(2, '0');
-  const mm = String(d.getMinutes()).padStart(2, '0');
-  return `${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${hh}:${mm}`;
+function trustLabel(item: Case) {
+  const scores = item.tips.map((tip) => tip.p).filter((p): p is number => typeof p === 'number');
+  if (!scores.length) return '검토 중';
+  const best = Math.max(...scores);
+  return best >= 0.8 ? '신뢰도 상' : best >= 0.5 ? '신뢰도 중' : '신뢰도 낮음';
 }
 
-function TipCard({ tip }: { tip: GuardianTip }) {
-  const d = decisionLabel(tip);
+export default function GuardianAlertsScreen() {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { data, isLoading, isError, refetch } = useGuardianCases();
+  const cases = data ?? [];
+  const selected = cases.find((item) => item.id === selectedId) ?? null;
+
   return (
-    <View style={[styles.tipCard, d.strong && styles.tipCardStrong]}>
-      <View style={styles.tipHead}>
-        <Text style={styles.tipTime} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          {timeLabel(tip.created_at)}
-        </Text>
-        {tip.p != null && (
-          <Text style={styles.tipTrust} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            신뢰도 {Math.round(tip.p * 100)}%
-          </Text>
+    <View style={styles.root}>
+      <FigmaStatusBar />
+      <View style={styles.canvas}>
+        {selected == null ? (
+          <>
+            <Text style={styles.title}>제보 알림</Text>
+            <Text style={styles.subtitle}>주변 시민들의 실제 제보입니다.</Text>
+            {isLoading ? <ActivityIndicator color={color.guardian} style={styles.loading} /> : null}
+            {isError ? <Pressable style={styles.empty} onPress={() => refetch()}><Text style={styles.emptyText}>제보를 불러오지 못했습니다.{`\n`}눌러서 다시 시도해 주세요.</Text></Pressable> : null}
+            {!isLoading && !isError && cases.length === 0 ? <View style={styles.empty}><Text style={styles.emptyText}>진행 중인 사건 또는 접수된 제보가 없습니다.</Text></View> : null}
+            {cases.map((item, index) => (
+              <Pressable key={item.id} style={[styles.alertCard, { top: 115 + index * 143 }]} onPress={() => setSelectedId(item.id)}>
+                <View style={styles.trust}><Text style={styles.trustText}>{trustLabel(item)}</Text></View>
+                <Text style={styles.cardTitle} numberOfLines={1}>{locationLabel(item)}</Text>
+                <Text style={styles.cardBody}>해당 사건에 총 {item.tips.length}건의 제보가 있습니다.</Text>
+                <Text style={styles.chevron}>›</Text>
+              </Pressable>
+            ))}
+          </>
+        ) : (
+          <>
+            <View style={styles.header}>
+              <Pressable style={styles.back} onPress={() => setSelectedId(null)}><Text style={styles.backText}>‹</Text></Pressable>
+              <Text style={styles.headerTitle}>상세 제보</Text>
+            </View>
+            <View style={styles.locationCard}><Text style={styles.locationText} numberOfLines={2}>{locationLabel(selected)}</Text></View>
+            <Text style={styles.reportCount}>제보 {selected.tips.length}건</Text>
+            {selected.tips.length === 0 ? <View style={[styles.empty, styles.detailEmpty]}><Text style={styles.emptyText}>아직 접수된 시민 제보가 없습니다.</Text></View> : null}
+            {selected.tips.map((tip, index) => (
+              <View key={tip.id} style={[styles.reportCard, { top: 158 + index * 81 }]}>
+                <Text style={styles.reportDate}>{new Date(tip.seen_at || tip.created_at).toLocaleString('ko-KR')}</Text>
+                <Text style={styles.reportText} numberOfLines={2}>{tip.text}</Text>
+              </View>
+            ))}
+          </>
         )}
       </View>
-      <Text style={styles.tipText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-        {tip.text}
-      </Text>
-      <Text
-        style={[styles.tipDecision, d.strong && styles.tipDecisionStrong]}
-        allowFontScaling
-        maxFontSizeMultiplier={type.maxScale}
-      >
-        {d.label}
-      </Text>
     </View>
   );
 }
 
-export default function GuardianAlertsScreen() {
-  const caseId = useGuardianCaseStore((s) => s.lastCaseId);
-
-  // 시민 쪽 useCase(['case', id])와 키를 나눈다 — 이쪽만 15초 폴링을 걸기 때문.
-  const { data } = useQuery({
-    queryKey: ['guardianCase', caseId],
-    queryFn: () => getCase(caseId as string),
-    enabled: !!caseId,
-    refetchInterval: ALERT_POLL_MS,
-  });
-
-  const tips = (data?.tips ?? []).slice().reverse(); // 최신이 위로
-  const statusLabel = data ? (STATUS_LABEL[data.status] ?? data.status) : null;
-
-  return (
-    <SafeAreaView style={styles.safe} edges={['top']}>
-      <Text style={styles.title} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-        알림
-      </Text>
-
-      {!caseId || !data ? (
-        <View style={styles.empty}>
-          <SvgXml xml={tintXml(tabAlertXml, gColor.chip)} width={40} height={48} />
-          <Text style={styles.emptyText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            아직 도착한 알림이 없습니다.
-          </Text>
-          <Text style={styles.emptyCaption} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            수색 진행 상황과 확인된 제보 소식을 이곳에서 알려드립니다.
-          </Text>
-        </View>
-      ) : (
-        <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-          <View style={[styles.statusCard, data.status === 'found' && styles.statusFound]}>
-            <Text style={styles.statusKey} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              수색 상태
-            </Text>
-            <Text style={styles.statusVal} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              {statusLabel}
-            </Text>
-            <Text style={styles.statusSub} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              시민 제보 {tips.length}건
-            </Text>
-          </View>
-
-          {tips.length === 0 ? (
-            <Text style={styles.noTips} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              아직 접수된 제보가 없습니다. 제보가 들어오면 바로 이곳에 표시됩니다.
-            </Text>
-          ) : (
-            tips.map((tip) => <TipCard key={tip.id} tip={tip} />)
-          )}
-        </ScrollView>
-      )}
-    </SafeAreaView>
-  );
-}
-
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: gColor.surface },
-  title: {
-    fontSize: type.size.title,
-    fontWeight: type.weight.black,
-    color: color.text,
-    fontFamily: type.family,
-    padding: space.xl,
-  },
-  empty: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.md, padding: space.xl },
-  emptyText: { fontSize: type.size.body, fontWeight: type.weight.bold, color: gColor.textMuted, fontFamily: type.family },
-  emptyCaption: { fontSize: type.size.caption, color: gColor.gray, fontFamily: type.family, textAlign: 'center', lineHeight: 20 },
-
-  scroll: { paddingHorizontal: space.xl, paddingBottom: 120, gap: space.md },
-  statusCard: { borderRadius: 12, padding: space.lg, backgroundColor: gColor.mint, gap: 4 },
-  statusFound: { backgroundColor: gColor.cardGreen },
-  statusKey: { fontSize: 11, color: gColor.inkGreen, fontFamily: gFont.medium },
-  statusVal: { fontSize: 17, color: '#000000', fontFamily: gFont.semiBold },
-  statusSub: { fontSize: 12, color: gColor.textMuted, fontFamily: gFont.regular },
-
-  noTips: {
-    fontSize: type.size.caption,
-    color: gColor.gray,
-    fontFamily: type.family,
-    textAlign: 'center',
-    lineHeight: 20,
-    paddingTop: space.xl,
-  },
-
-  tipCard: {
-    borderRadius: 12,
-    padding: space.lg,
-    backgroundColor: gColor.barBg,
-    gap: 6,
-  },
-  tipCardStrong: { backgroundColor: gColor.bubbleBot },
-  tipHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  tipTime: { fontSize: 11, color: gColor.gray, fontFamily: gFont.regular },
-  tipTrust: { fontSize: 11, color: gColor.inkGreen, fontFamily: gFont.medium },
-  tipText: { fontSize: 13, color: gColor.textValue, fontFamily: gFont.regular, lineHeight: 19 },
-  tipDecision: { fontSize: 11, color: gColor.gray, fontFamily: gFont.regular },
-  tipDecisionStrong: { color: gColor.progressGreen, fontFamily: gFont.medium },
+  root: { flex: 1, backgroundColor: '#FFFFFF' },
+  canvas: { flex: 1, position: 'relative' },
+  title: { position: 'absolute', left: 20, top: 27, fontFamily: type.family, fontSize: 18, lineHeight: 23, fontWeight: '800', color: '#000000' },
+  subtitle: { position: 'absolute', left: 20, top: 63, fontFamily: type.family, fontSize: 11, lineHeight: 13, fontWeight: '500', color: '#8E8E93' },
+  loading: { position: 'absolute', top: 150, left: 0, right: 0 },
+  empty: { position: 'absolute', left: 23, right: 22, top: 115, minHeight: 100, borderRadius: 10, backgroundColor: '#F7F7F7', alignItems: 'center', justifyContent: 'center', padding: 16 },
+  detailEmpty: { top: 158 },
+  emptyText: { fontFamily: type.family, fontSize: 12, lineHeight: 18, color: '#8E8E93', textAlign: 'center' },
+  alertCard: { position: 'absolute', left: 23, right: 22, height: 115, borderRadius: 10, backgroundColor: '#F7F7F7', shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 10, shadowOffset: { width: 1, height: 1 } },
+  trust: { position: 'absolute', left: 16, top: 15, height: 16, minWidth: 59, paddingHorizontal: 10, borderRadius: 20, backgroundColor: '#B0DB9C', alignItems: 'center', justifyContent: 'center' },
+  trustText: { fontFamily: type.family, fontSize: 10, lineHeight: 13, fontWeight: '700', color: '#316837' },
+  cardTitle: { position: 'absolute', left: 16, right: 28, top: 41, fontFamily: type.family, fontSize: 17, lineHeight: 22, fontWeight: '700', color: '#525253' },
+  cardBody: { position: 'absolute', left: 16, top: 70, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#525253' },
+  chevron: { position: 'absolute', right: 14, top: 19, fontSize: 24, color: '#67AE6E' },
+  header: { position: 'absolute', left: 0, right: 0, top: 0, height: 48, backgroundColor: '#FFFFFF', justifyContent: 'center', alignItems: 'center' },
+  headerTitle: { fontFamily: type.family, fontSize: 18, lineHeight: 23, fontWeight: '600', color: '#000000' },
+  back: { position: 'absolute', left: 12, top: 10, width: 24, height: 28, justifyContent: 'center' },
+  backText: { fontSize: 34, lineHeight: 28, color: '#8E8E93', fontWeight: '300' },
+  locationCard: { position: 'absolute', left: 23, right: 22, top: 59, height: 51, borderRadius: 10, backgroundColor: '#F7F7F7', justifyContent: 'center', paddingHorizontal: 16 },
+  locationText: { fontFamily: type.family, fontSize: 15, lineHeight: 19, fontWeight: '700', color: '#525253' },
+  reportCount: { position: 'absolute', left: 26, top: 131, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#525253' },
+  reportCard: { position: 'absolute', left: 23, right: 22, height: 66, borderRadius: 8, backgroundColor: '#F8F8F8', paddingHorizontal: 16, paddingTop: 12 },
+  reportDate: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#4D4D4D' },
+  reportText: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#4D4D4D', marginTop: 9 },
 });

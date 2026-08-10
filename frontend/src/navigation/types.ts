@@ -14,8 +14,7 @@ export type RootStackParamList = {
   GuardianTabs: NavigatorScreenParams<GuardianTabParamList> | undefined;
 
   // 보호자 플로우 (홈에서 진입)
-  /** quick: 신고 중 미등록 가족의 필수 정보만 급히 받는 "빠른 등록" 모드(적색 팔레트). */
-  RegChat: { quick?: boolean } | undefined;
+  RegChat: undefined;
   RegDone: { personaId: string; name: string; age: number };
   /** 사전 등록 상세 — 저장된 내용 전체 열람·수정. */
   PersonaDetail: { personaId: string };
@@ -44,7 +43,7 @@ export type CitizenTabParamList = {
   Records: undefined;
 };
 
-/** 보호자 하단 4탭 — 피그마 [보호자] 확정: 홈 / 사전등록 / 알림 / 내 정보. */
+/** 보호자 하단 4탭 — Figma: 홈 / 사전등록 / 알림 / 내 정보. */
 export type GuardianTabParamList = {
   GuardianHome: undefined;
   GuardianReg: undefined;

@@ -33,4 +33,3 @@ export function pointInPolygon(p: GeoPoint, polygon: readonly GeoPoint[]): boole
   }
   return inside;
 }
-

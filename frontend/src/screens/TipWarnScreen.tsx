@@ -1,88 +1,48 @@
-/**
- * 제보 전 경고 (와이어프레임 C-1).
- *
- * 제보 챗봇 앞에 한 단계를 두는 이유: 허위·장난 제보가 층2 판정을 받으면 LKP 가
- * 잘못된 곳으로 옮겨가고 예측 전체가 그쪽으로 끌려간다(신뢰도 p ≥ 0.8 + 위치·시각
- * 특정 시 새 LKP 확정). 되돌리는 비용이 크므로 진입 전에 한 번 멈춘다.
- */
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
-import { color, radius, space, type } from '../theme/tokens';
-import CTAButton from '../components/CTAButton';
+import { color, type } from '../theme/tokens';
+import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
+import FigmaStatusBar from '../components/FigmaStatusBar';
+import BellIcon from '../../assets/figma/tip-warning-bell.svg';
 
 export default function TipWarnScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'TipWarn'>>().params;
-
   return (
-    <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
+    <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          실종자 제보
-        </Text>
-
-        <View style={styles.warn} accessible accessibilityLabel="주의. 허위 또는 장난 제보는 실종자를 찾는 시간을 크게 잃게 합니다.">
-          <Text style={styles.warnTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            잠깐 확인해 주세요
-          </Text>
-          <Text style={styles.warnBody} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            제보는 예상 위치를 실제로 옮깁니다. 확실하지 않은 정보는 수색 방향을 잘못된 곳으로
-            돌려 골든타임을 잃게 합니다.
-          </Text>
-          <Text style={styles.warnBody} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            기억이 흐릿해도 괜찮습니다 — 확신하는 만큼만 알려 주시면 그 정도로 반영됩니다.
-          </Text>
+      <FigmaStatusBar />
+      <View style={styles.body}>
+        <Text style={styles.title}>실종자 제보</Text>
+        <View style={styles.warn}>
+          <View style={styles.warnHead}><BellIcon width={28} height={28} /><Text style={styles.warnTitle}>제보 전 주의사항 안내</Text></View>
+          <Text style={styles.warnText}>허위 또는 장난 제보는 실종자를 찾는 골든타임을 심각하게 훼손합니다.</Text>
+          <Text style={styles.warnText}>허위 신고 시 법적 처벌을 받을 수 있으니 신중하게 제보해 주세요.</Text>
         </View>
-
-        <View style={styles.tips}>
-          <Text style={styles.tipsTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            이런 정보가 도움이 됩니다
-          </Text>
-          <Text style={styles.tipItem} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            · 어디에서 보셨는지 (건물 이름·출구 번호)
-          </Text>
-          <Text style={styles.tipItem} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            · 언제 보셨는지 (방금 전, 10분 전)
-          </Text>
-          <Text style={styles.tipItem} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            · 어느 방향으로 가셨는지
-          </Text>
-        </View>
-      </ScrollView>
-
-      <View style={styles.footer}>
-        <CTAButton
-          label="제보 시작하기"
-          onPress={() => navigation.replace('ReportChat', { caseId })}
-          accent={color.search}
-        />
-        <View style={styles.gap} />
-        <CTAButton label="취소" onPress={() => navigation.goBack()} variant="ghost" />
+        <Pressable style={styles.primary} onPress={() => navigation.replace('ReportChat', { caseId })}><Text style={styles.primaryText}>비슷한 사람을 봤어요</Text></Pressable>
+        <Pressable style={styles.secondary} onPress={() => navigation.goBack()}><Text style={styles.secondaryText}>비슷한 사람을 보지 못했어요</Text></Pressable>
       </View>
+      <FigmaFlowTabBar mode="citizen" active="alert" />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: color.surfaceAlt },
-  scroll: { padding: space.xl, gap: space.lg },
-  title: { fontSize: type.size.title, fontWeight: type.weight.black, color: color.text, fontFamily: type.family },
-
-  warn: { backgroundColor: color.criticalWash, borderRadius: radius.lg, borderWidth: 1, borderColor: color.critical, padding: space.lg, gap: space.sm },
-  warnTitle: { fontSize: type.size.cardTitle, fontWeight: type.weight.black, color: color.criticalInk, fontFamily: type.family },
-  warnBody: { fontSize: type.size.label, color: color.criticalInk, fontFamily: type.family, lineHeight: 23 },
-
-  tips: { backgroundColor: color.surface, borderRadius: radius.lg, borderWidth: 1, borderColor: color.border, padding: space.lg, gap: space.xs },
-  tipsTitle: { fontSize: type.size.label, fontWeight: type.weight.black, color: color.text, fontFamily: type.family, marginBottom: space.xs },
-  tipItem: { fontSize: type.size.label, color: color.textBody, fontFamily: type.family, lineHeight: 23 },
-
-  footer: { padding: space.xl, borderTopWidth: 1, borderTopColor: color.border, backgroundColor: color.surface },
-  gap: { height: space.sm },
+  safe: { flex: 1, backgroundColor: '#FFFFFF' },
+  body: { flex: 1, position: 'relative' },
+  title: { position: 'absolute', left: 20, top: 27, fontFamily: type.familyExtraBold, fontSize: 18, lineHeight: 22, color: '#000000' },
+  warn: { position: 'absolute', left: 23, right: 23, top: 92, height: 128, borderRadius: 10, backgroundColor: '#FFF0F1', paddingHorizontal: 14, paddingTop: 18, shadowColor: '#000000', shadowOpacity: 0.1, shadowRadius: 7, shadowOffset: { width: 0, height: 2 } },
+  warnHead: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  warnTitle: { fontFamily: type.familySemiBold, fontSize: 19, lineHeight: 25, color: '#525253' },
+  warnText: { fontFamily: type.family, fontSize: 11, lineHeight: 15, color: color.figmaRed, marginTop: 12 },
+  primary: { position: 'absolute', left: 10, right: 10, top: 250, height: 57, borderRadius: 29, backgroundColor: color.figmaRed, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 } },
+  primaryText: { fontFamily: type.familyBold, fontSize: 20, color: '#FFFFFF' },
+  secondary: { position: 'absolute', left: 10, right: 10, top: 318, height: 57, borderRadius: 29, backgroundColor: '#D8D8D8', alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.14, shadowRadius: 2, shadowOffset: { width: 0, height: 2 } },
+  secondaryText: { fontFamily: type.familyBold, fontSize: 20, color: '#9A9A9F' },
 });

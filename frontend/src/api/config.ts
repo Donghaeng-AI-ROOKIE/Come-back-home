@@ -12,12 +12,7 @@
  *
  * (EXPO_PUBLIC_ 접두어가 붙은 것만 앱 번들에 주입된다 — Expo 규약.)
  */
-import { Platform } from 'react-native';
-
-const FALLBACK = Platform.select({
-  android: 'http://10.0.2.2:8000',   // 안드로이드 에뮬레이터 → 호스트
-  default: 'http://localhost:8000',  // iOS 시뮬레이터·웹
-});
+const FALLBACK = 'https://macmini.tail67859f.ts.net:8443';
 
 export const API_BASE = process.env.EXPO_PUBLIC_API_BASE ?? FALLBACK!;
 

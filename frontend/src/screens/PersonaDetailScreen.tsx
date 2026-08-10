@@ -1,132 +1,44 @@
-/**
- * 사전 등록 상세 — 피그마 [보호자] 등록 상세 정보 (2584:15434) 구현.
- * 저장된 내용을 전부 보여주고 보호자가 고칠 수 있게 한다.
- *
- * ## 왜 필요한가
- *
- * 등록 요약은 "…외 15가지 저장"으로 접혀서 **보호자가 무엇이 저장됐는지 볼 수
- * 없었다.** 그런데 인터뷰 추출은 완벽하지 않다 — 2026-08-05 실측에서 같은 답변이
- * 두 슬롯에 중복 저장됐고, 과거 발견 장소가 "가려는 곳(끌림점)"으로 분류됐다.
- * 그 오류가 그대로 예측 근거가 되므로, 보고 고칠 수 있는 화면이 있어야 한다.
- *
- * ## 설계
- *
- * - 서버가 진실이다. 스토어 캐시가 아니라 매번 `getPersona` 로 읽는다.
- * - 관찰 문장은 "슬롯라벨: 내용" 형태로 저장되므로 라벨 기준으로 묶어 보여준다
- *   (같은 슬롯 항목이 흩어져 있으면 중복처럼 보인다).
- * - 저장은 바뀐 필드만 PATCH 한다 — 축 점수·근거는 손대지 않는다(LLM 채점 결과라
- *   원발화와 짝을 이뤄야 의미가 있고, 값만 고치면 근거와 어긋난다).
- * - 피그마 우상단은 필터 아이콘이지만 수정/취소 텍스트 버튼을 유지한다 —
- *   아이콘만으로는 편집 진입이 안 읽히고, 접근성 라벨도 텍스트가 명확하다.
- */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { SvgXml } from 'react-native-svg';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import type { RootStackParamList } from '../navigation/types';
-import { color, radius, space, type } from '../theme/tokens';
-import { gColor, gFont } from '../theme/guardianTokens';
-import {
-  icBackXml,
-  icBookmarkXml,
-  icFilterXml,
-  icMappinXml,
-  icPersonXml,
-} from '../assets/guardianSvg';
-import { hexToRgba } from '../utils/color';
-import CTAButton from '../components/CTAButton';
+import { color, type } from '../theme/tokens';
 import { ApiError } from '../api/config';
 import { getPersona, updatePersona, type AttractionPoint, type Persona } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
-import { GuardianStandaloneTabBar } from '../components/GuardianTabBar';
+import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
+import BackIcon from '../../assets/figma/detail-back.svg';
+import FilterIcon from '../../assets/figma/detail-filter.svg';
+import PersonIcon from '../../assets/figma/detail-person.svg';
+import MapIcon from '../../assets/figma/detail-map.svg';
+import BookmarkIcon from '../../assets/figma/detail-bookmark.svg';
+import FigmaStatusBar from '../components/FigmaStatusBar';
 
-const ACCENT = gColor.primary;
-
-/** "슬롯라벨: 내용" → [라벨, 내용]. 라벨이 없으면 기타로 묶는다. */
 function splitNote(note: string): [string, string] {
   const i = note.indexOf(':');
-  if (i <= 0) return ['기타 관찰', note.trim()];
-  return [note.slice(0, i).trim(), note.slice(i + 1).trim()];
+  return i > 0 ? [note.slice(0, i).trim(), note.slice(i + 1).trim()] : ['기타', note.trim()];
 }
 
-/** 라벨 기준으로 묶기 — 같은 슬롯 항목이 흩어져 있으면 중복처럼 보인다. */
-function groupNotes(notes: string[]): { label: string; items: string[] }[] {
-  const map = new Map<string, string[]>();
-  for (const n of notes) {
-    const [label, body] = splitNote(n);
-    if (!body) continue;
-    const arr = map.get(label) ?? [];
-    // 완전히 같은 문장은 한 번만 — 추출이 중복 저장하는 경우가 있다.
-    if (!arr.includes(body)) arr.push(body);
-    map.set(label, arr);
-  }
-  return [...map.entries()].map(([label, items]) => ({ label, items }));
-}
-
-function SectionTitle({ icon, label }: { icon: string; label: string }) {
-  return (
-    <View style={styles.sectionRow}>
-      <SvgXml xml={icon} width={14} height={14} />
-      <Text style={styles.sectionTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-        {label}
-      </Text>
-    </View>
-  );
-}
-
-function Field({
-  label, value, onChange, keyboardType, multiline,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  keyboardType?: 'default' | 'number-pad';
-  multiline?: boolean;
-}) {
-  return (
-    <View style={styles.field}>
-      <Text style={styles.fieldLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-        {label}
-      </Text>
-      <TextInput
-        style={[styles.input, multiline && styles.inputMulti]}
-        value={value}
-        onChangeText={onChange}
-        keyboardType={keyboardType ?? 'default'}
-        multiline={multiline}
-        accessibilityLabel={label}
-      />
-    </View>
-  );
-}
+const GROUPS = [
+  { title: '혼자 자주 가는 장소·경로', keys: ['혼자', '자주', '경로', '장소'] },
+  { title: '자전적 기억 기반 목적지', keys: ['기억', '과거', '고향', '목적지'] },
+  { title: '이동·교통 능력', keys: ['이동', '교통', '보행', '걷'] },
+  { title: '환경 위험 취약성', keys: ['환경', '위험', '취약', '도로', '물'] },
+] as const;
 
 export default function PersonaDetailScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { personaId } = useRoute<RouteProp<RootStackParamList, 'PersonaDetail'>>().params;
   const setStorePersona = useGuardianStore((s) => s.setPersona);
-
   const [persona, setPersona] = useState<Persona | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
   const [editing, setEditing] = useState(false);
-
-  // 편집 중 값 — 저장 전까지 서버 값과 분리해 둔다(취소하면 되돌아가야 한다).
+  const [saving, setSaving] = useState(false);
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [notes, setNotes] = useState<string[]>([]);
@@ -136,353 +48,135 @@ export default function PersonaDetailScreen() {
     setError(null);
     try {
       const p = await getPersona(personaId);
-      setPersona(p);
-      setName(p.name);
-      setAge(String(p.age));
-      setNotes(p.behavior_notes ?? []);
-      setPoints(p.attraction_points ?? []);
+      setPersona(p); setName(p.name); setAge(String(p.age));
+      setNotes(p.behavior_notes ?? []); setPoints(p.attraction_points ?? []);
     } catch (e) {
       setError(e instanceof ApiError ? e.message : String(e));
     }
   }, [personaId]);
 
-  useEffect(() => {
-    load();
-  }, [load]);
+  useEffect(() => { load(); }, [load]);
 
-  const grouped = useMemo(() => groupNotes(notes), [notes]);
+  const groups = useMemo(() => GROUPS.map((group, groupIndex) => {
+    const items = notes
+      .map(splitNote)
+      .filter(([label, body]) => body && (group.keys.some((key) => `${label} ${body}`.includes(key)) || (groupIndex === 0 && !GROUPS.slice(1).some((g) => g.keys.some((key) => `${label} ${body}`.includes(key))))))
+      .map(([, body]) => body)
+      .filter((body, index, all) => all.indexOf(body) === index);
+    return { title: group.title, items };
+  }), [notes]);
 
   const save = async () => {
     if (!persona || saving) return;
-    setSaving(true);
-    setError(null);
+    setSaving(true); setError(null);
     try {
       const updated = await updatePersona(persona.id, {
         name: name.trim() || persona.name,
-        // 숫자만 뽑는다 — "82세"처럼 단위가 붙어 들어와도 저장은 숫자여야 한다.
         age: Number(age.replace(/[^0-9]/g, '')) || persona.age,
         behavior_notes: notes,
         attraction_points: points,
       });
-      setPersona(updated);
-      setStorePersona(updated);   // 홈·신고 화면이 보는 캐시도 같이 갱신
-      setEditing(false);
+      setPersona(updated); setStorePersona(updated); setEditing(false);
     } catch (e) {
       setError(e instanceof ApiError ? e.message : String(e));
-    } finally {
-      setSaving(false);
-    }
+    } finally { setSaving(false); }
   };
 
-  const cancel = () => {
+  const toggleEdit = () => {
     if (!persona) return;
-    setName(persona.name);
-    setAge(String(persona.age));
-    setNotes(persona.behavior_notes ?? []);
-    setPoints(persona.attraction_points ?? []);
-    setEditing(false);
+    if (editing) { setName(persona.name); setAge(String(persona.age)); setNotes(persona.behavior_notes ?? []); setPoints(persona.attraction_points ?? []); }
+    setEditing((value) => !value);
   };
 
-  const removeNote = (target: string) => {
-    Alert.alert('이 내용을 지울까요?', target, [
-      { text: '취소', style: 'cancel' },
-      {
-        text: '지우기',
-        style: 'destructive',
-        onPress: () => setNotes((prev) => prev.filter((n) => splitNote(n)[1] !== target)),
-      },
-    ]);
-  };
-
-  const removePoint = (label: string) => {
-    Alert.alert('이 장소를 지울까요?', `"${label}" 을 예측에서 제외합니다.`, [
-      { text: '취소', style: 'cancel' },
-      {
-        text: '지우기',
-        style: 'destructive',
-        onPress: () => setPoints((prev) => prev.filter((p) => p.label !== label)),
-      },
-    ]);
-  };
+  const removePoint = (label: string) => Alert.alert('이 장소를 지울까요?', label, [
+    { text: '취소', style: 'cancel' },
+    { text: '지우기', style: 'destructive', onPress: () => setPoints((prev) => prev.filter((p) => p.label !== label)) },
+  ]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
-      <KeyboardAvoidingView
-        style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
-        <View style={styles.header}>
-          <Pressable
-            onPress={() => navigation.goBack()}
-            accessibilityRole="button"
-            accessibilityLabel="뒤로"
-            hitSlop={8}
-            style={styles.backBtn}
-          >
-            <SvgXml xml={icBackXml} width={10} height={18} />
-          </Pressable>
-          <Text style={styles.title} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            등록 정보
-          </Text>
-          <Pressable
-            onPress={() => (editing ? cancel() : setEditing(true))}
-            accessibilityRole="button"
-            accessibilityLabel={editing ? '수정 취소' : '수정하기'}
-            hitSlop={8}
-            disabled={!persona}
-          >
-            {editing ? (
-              <Text style={[styles.editBtn, !persona && styles.dim]}>취소</Text>
-            ) : (
-              <SvgXml xml={icFilterXml} width={24} height={24} />
-            )}
-          </Pressable>
+      <FigmaStatusBar />
+      <View style={styles.header}>
+        <Pressable onPress={() => navigation.goBack()} accessibilityRole="button" accessibilityLabel="뒤로" style={styles.headerSide}><BackIcon width={24} height={24} color="#8E8E93" /></Pressable>
+        <Text style={styles.headerTitle}>등록 정보</Text>
+        <Pressable onPress={toggleEdit} accessibilityRole="button" accessibilityLabel={editing ? '수정 취소' : '수정하기'} style={styles.headerSide}><FilterIcon width={24} height={24} color="#8E8E93" /></Pressable>
+      </View>
+
+      {!persona && !error ? <View style={styles.center}><ActivityIndicator color={color.guardian} /></View> : null}
+      {error ? <Pressable onPress={load} style={styles.error}><Text style={styles.errorText}>{error}{`\n`}눌러서 다시 시도</Text></Pressable> : null}
+
+      {persona ? <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <SectionTitle icon={<PersonIcon width={12} height={12} color={color.guardian} />} title="기본 정보" />
+        <View style={styles.basicCard}>
+          {editing ? <>
+            <EditRow label="이름" value={name} onChange={setName} />
+            <EditRow label="연령" value={age} onChange={setAge} numeric />
+          </> : <>
+            <InfoRow label="이름" value={persona.name || '이름'} />
+            <InfoRow label="연령" value={persona.age ? `${persona.age}세` : '연령'} />
+          </>}
+          <InfoRow label="유형" value={persona.type === 'dementia' ? '치매' : '유형'} />
         </View>
 
-        {!persona && !error ? (
-          <View style={styles.center}><ActivityIndicator color={ACCENT} /></View>
-        ) : null}
-
-        {error ? (
-          <View style={styles.errorCard}>
-            <Text style={styles.errorText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              {error}
-            </Text>
-            <CTAButton label="다시 시도" onPress={load} accent={ACCENT} />
-          </View>
-        ) : null}
-
-        {persona ? (
-          <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-            <SectionTitle icon={icPersonXml} label="기본 정보" />
-            <View style={styles.bar}>
-              {editing ? (
-                <>
-                  <Field label="이름" value={name} onChange={setName} />
-                  <Field label="나이" value={age} onChange={setAge} keyboardType="number-pad" />
-                </>
-              ) : (
-                <>
-                  <View style={styles.row}>
-                    <Text style={styles.rowKey}>이름</Text>
-                    <Text style={styles.rowVal}>{persona.name}</Text>
-                  </View>
-                  <View style={styles.row}>
-                    <Text style={styles.rowKey}>연령</Text>
-                    <Text style={styles.rowVal}>{persona.age}세</Text>
-                  </View>
-                  <View style={styles.row}>
-                    <Text style={styles.rowKey}>유형</Text>
-                    <Text style={styles.rowVal}>치매</Text>
-                  </View>
-                </>
-              )}
+        <SectionTitle icon={<MapIcon width={8} height={11} color={color.guardian} />} title="관련 장소" />
+        <View style={styles.placeCard}>
+          {(points.length ? points.slice(0, 2) : [{ label: '주소' }, { label: '주소' }]).map((point, index) => (
+            <View key={`${point.label}-${index}`} style={styles.infoRow}>
+              <Text style={styles.infoKey}>장소{index + 1}</Text>
+              <Text style={styles.infoValue}>{point.label || '주소'}</Text>
+              {editing && points.length ? <Pressable onPress={() => removePoint(point.label)}><Text style={styles.remove}>지우기</Text></Pressable> : null}
             </View>
+          ))}
+        </View>
 
-            <SectionTitle icon={icMappinXml} label="관련 장소" />
-            <View style={styles.bar}>
-              {points.length === 0 ? (
-                <Text style={styles.empty}>등록된 장소가 없습니다.</Text>
-              ) : points.map((p) => (
-                <View key={p.label} style={styles.row}>
-                  <Text style={styles.rowKey} numberOfLines={2}>{p.label}</Text>
-                  <Text style={styles.rowVal}>
-                    {[p.area_text, p.place_type].filter(Boolean).join(' · ') || '위치 정보 없음'}
-                  </Text>
-                  {editing ? (
-                    <Pressable onPress={() => removePoint(p.label)} hitSlop={8}
-                               accessibilityRole="button"
-                               accessibilityLabel={`${p.label} 지우기`}>
-                      <Text style={styles.remove}>지우기</Text>
-                    </Pressable>
-                  ) : null}
-                </View>
-              ))}
-            </View>
+        <SectionTitle icon={<BookmarkIcon width={9} height={11} color={color.guardian} />} title="주요 정보" />
+        {groups.map((group, index) => <View key={group.title} style={[styles.noteCard, index === 0 && styles.noteCardTall]}>
+          <Text style={styles.noteTitle}>{group.title}</Text>
+          {(group.items.length ? group.items : Array.from({ length: index === 0 ? 3 : index === 1 ? 1 : 2 }, (_, i) => `정보 ${i + 1}`)).slice(0, 3).map((item) => <Text key={item} style={styles.noteText} numberOfLines={1}>{item}</Text>)}
+        </View>)}
 
-            <SectionTitle icon={icBookmarkXml} label="주요 정보" />
-            {grouped.length === 0 ? (
-              <View style={styles.bar}>
-                <Text style={styles.empty}>저장된 내용이 없습니다.</Text>
-              </View>
-            ) : grouped.map((g) => (
-              <View key={g.label} style={styles.bar}>
-                <Text style={styles.groupLabel} allowFontScaling
-                      maxFontSizeMultiplier={type.maxScale}>
-                  {g.label}
-                </Text>
-                {g.items.map((item) => (
-                  <View key={item} style={styles.itemRow}>
-                    <Text style={styles.noteText} allowFontScaling
-                          maxFontSizeMultiplier={type.maxScale}>
-                      {item}
-                    </Text>
-                    {editing ? (
-                      <Pressable onPress={() => removeNote(item)} hitSlop={8}
-                                 accessibilityRole="button" accessibilityLabel="이 내용 지우기">
-                        <Text style={styles.remove}>지우기</Text>
-                      </Pressable>
-                    ) : null}
-                  </View>
-                ))}
-              </View>
-            ))}
-
-          </ScrollView>
-        ) : null}
-
-        {persona && editing ? (
-          <View style={styles.footer}>
-            <CTAButton
-              label={saving ? '저장 중…' : '저장하기'}
-              onPress={save}
-              accent={ACCENT}
-              disabled={saving}
-            />
-          </View>
-        ) : null}
-      </KeyboardAvoidingView>
-      <GuardianStandaloneTabBar active="GuardianHome" />
+        {editing ? <Pressable onPress={save} disabled={saving} style={styles.save}><Text style={styles.saveText}>{saving ? '저장 중…' : '저장하기'}</Text></Pressable> : null}
+      </ScrollView> : null}
+      <FigmaFlowTabBar mode="guardian" active="home" />
     </SafeAreaView>
   );
 }
 
+function SectionTitle({ icon, title }: { icon: React.ReactNode; title: string }) {
+  return <View style={styles.sectionTitle}><View style={styles.sectionIcon}>{icon}</View><Text style={styles.sectionText}>{title}</Text></View>;
+}
+function InfoRow({ label, value }: { label: string; value: string }) {
+  return <View style={styles.infoRow}><Text style={styles.infoKey}>{label}</Text><Text style={styles.infoValue}>{value}</Text></View>;
+}
+function EditRow({ label, value, onChange, numeric }: { label: string; value: string; onChange: (value: string) => void; numeric?: boolean }) {
+  return <View style={styles.infoRow}><Text style={styles.infoKey}>{label}</Text><TextInput value={value} onChangeText={onChange} keyboardType={numeric ? 'number-pad' : 'default'} style={styles.editInput} /></View>;
+}
+
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: gColor.surface },
-  flex: { flex: 1 },
+  safe: { flex: 1, backgroundColor: '#FFFFFF' },
+  header: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF' },
+  headerSide: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center' },
+  headerTitle: { fontFamily: type.familySemiBold, fontSize: 18, color: '#000000' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    height: 48,
-    backgroundColor: gColor.surface,
-  },
-  backBtn: { width: 32 },
-  title: {
-    fontSize: 18,
-    color: '#000000',
-    fontFamily: gFont.semiBold,
-  },
-  editBtn: {
-    width: 32,
-    textAlign: 'right',
-    fontSize: 13,
-    color: ACCENT,
-    fontFamily: gFont.semiBold,
-  },
-  dim: { opacity: 0.4 },
-
-  scroll: { paddingHorizontal: 24, paddingTop: 12, gap: 8, paddingBottom: 24 },
-  sectionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.sm,
-    marginTop: space.md,
-    paddingHorizontal: space.xs,
-  },
-  sectionTitle: {
-    fontSize: 14,
-    color: '#000000',
-    fontFamily: gFont.semiBold,
-  },
-  bar: {
-    backgroundColor: gColor.barBg,
-    borderRadius: radius.md,
-    padding: space.lg,
-    gap: space.sm,
-  },
-  groupLabel: {
-    fontSize: 12,
-    color: gColor.inkGreen,
-    fontFamily: gFont.medium,
-    marginBottom: space.xs,
-  },
-
-  row: { flexDirection: 'row', alignItems: 'flex-start', gap: space.md },
-  rowKey: {
-    width: 96,
-    fontSize: 12,
-    color: gColor.inkGreen,
-    fontFamily: gFont.medium,
-  },
-  rowVal: {
-    flex: 1,
-    fontSize: 12,
-    color: gColor.textValue,
-    fontFamily: gFont.regular,
-  },
-
-  itemRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    gap: space.md,
-    paddingVertical: space.xs,
-  },
-  noteText: {
-    flex: 1,
-    fontSize: 12,
-    color: gColor.textValue,
-    fontFamily: gFont.regular,
-    lineHeight: 18,
-  },
-  remove: {
-    fontSize: type.size.caption,
-    fontWeight: type.weight.bold,
-    color: color.critical,
-    fontFamily: gFont.semiBold,
-  },
-  empty: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.medium,
-    color: color.textCaption,
-    fontFamily: gFont.medium,
-  },
-
-  field: { gap: space.xs },
-  fieldLabel: {
-    fontSize: type.size.caption,
-    fontWeight: type.weight.bold,
-    color: color.textBody,
-    fontFamily: gFont.regular,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: color.border,
-    borderRadius: radius.md,
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-    fontSize: type.size.label,
-    color: color.text,
-    fontFamily: gFont.regular,
-    backgroundColor: gColor.surface,
-  },
-  inputMulti: { minHeight: 72, textAlignVertical: 'top' },
-
-  errorCard: {
-    margin: space.lg,
-    backgroundColor: hexToRgba(color.critical, 0.08),
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: hexToRgba(color.critical, 0.35),
-    padding: space.lg,
-    gap: space.md,
-  },
-  errorText: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    color: color.critical,
-    fontFamily: gFont.medium,
-  },
-
-  footer: {
-    padding: space.lg,
-    borderTopWidth: 1,
-    borderTopColor: color.border,
-    backgroundColor: gColor.surface,
-  },
+  error: { margin: 23, borderRadius: 10, backgroundColor: color.criticalWash, padding: 16 },
+  errorText: { fontFamily: type.family, fontSize: 12, lineHeight: 18, color: color.critical, textAlign: 'center' },
+  scroll: { flex: 1, backgroundColor: '#FFFFFF' },
+  content: { paddingHorizontal: 22, paddingBottom: 24 },
+  sectionTitle: { height: 55, flexDirection: 'row', alignItems: 'center' },
+  sectionIcon: { width: 20, alignItems: 'center', justifyContent: 'center' },
+  sectionText: { fontFamily: type.familySemiBold, fontSize: 14, color: '#000000' },
+  basicCard: { height: 111, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 15, justifyContent: 'center' },
+  placeCard: { height: 84, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 15, justifyContent: 'center' },
+  infoRow: { minHeight: 27, flexDirection: 'row', alignItems: 'center' },
+  infoKey: { width: 51, fontFamily: type.familySemiBold, fontSize: 12, color: '#316837' },
+  infoValue: { flex: 1, fontFamily: type.family, fontSize: 12, color: '#4D4D4D' },
+  editInput: { flex: 1, height: 25, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: color.guardian, paddingVertical: 0, fontFamily: type.family, fontSize: 12, color: '#4D4D4D' },
+  remove: { fontFamily: type.familySemiBold, fontSize: 11, color: color.figmaRed },
+  noteCard: { minHeight: 75, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 13, marginBottom: 14 },
+  noteCardTall: { minHeight: 117 },
+  noteTitle: { fontFamily: type.familySemiBold, fontSize: 12, lineHeight: 18, color: '#316837', marginBottom: 5 },
+  noteText: { fontFamily: type.family, fontSize: 12, lineHeight: 22, color: '#4D4D4D' },
+  save: { height: 44, borderRadius: 22, backgroundColor: color.guardian, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
+  saveText: { fontFamily: type.familySemiBold, fontSize: 14, color: '#FFFFFF' },
 });

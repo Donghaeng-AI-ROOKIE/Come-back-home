@@ -5,7 +5,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -39,6 +39,11 @@ export default function App() {
     'Dot42-Medium': require('./assets/fonts/42dotSans-Medium.ttf'),
     'Dot42-SemiBold': require('./assets/fonts/42dotSans-SemiBold.ttf'),
     'Dot42-Bold': require('./assets/fonts/42dotSans-Bold.ttf'),
+    '42dotSans-Regular': require('./assets/fonts/42dotSans-Regular.ttf'),
+    '42dotSans-Medium': require('./assets/fonts/42dotSans-Medium.ttf'),
+    '42dotSans-SemiBold': require('./assets/fonts/42dotSans-SemiBold.ttf'),
+    '42dotSans-Bold': require('./assets/fonts/42dotSans-Bold.ttf'),
+    '42dotSans-ExtraBold': require('./assets/fonts/42dotSans-Bold.ttf'),
   });
   // 푸시 등록·라우팅은 앱 전역에서 한 번만. 개발 빌드 이전에는 조용히 아무 일도
   // 하지 않는다(Expo Go 에는 푸시 기능이 없다 — usePushRegistration 주석 참고).
@@ -54,15 +59,23 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
         <QueryClientProvider client={queryClient}>
-          <NavigationContainer ref={navigationRef} linking={linking}>
-            <StatusBar style="auto" />
-            <RootNavigator />
-          </NavigationContainer>
+          <View style={Platform.OS === 'web' ? styles.webPhone : styles.nativeApp}>
+            <NavigationContainer ref={navigationRef} linking={linking}>
+              <StatusBar style="auto" />
+              <RootNavigator />
+            </NavigationContainer>
+          </View>
         </QueryClientProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: Platform.OS === 'web' ? '#F2F2F2' : '#FFFFFF' },
+  nativeApp: { flex: 1 },
+  webPhone: { flex: 1, width: '100%', maxWidth: 375, alignSelf: 'center', backgroundColor: '#FFFFFF' },
+});

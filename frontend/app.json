@@ -9,17 +9,13 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "산책 거리를 재고, 내가 실종자 예측 구역 안에 있을 때 알려드리기 위해 위치를 사용해요. 정확한 위치는 기기 밖으로 나가지 않아요. 알림을 보내는 데 필요한 약 5km 범위의 넓은 구역 하나만 서버에 전달하고, 이동 경로는 저장하지 않아요.",
+        "NSLocationWhenInUseUsageDescription": "산책과 주변 수색 알림에는 넓은 구역만 사용하며 이동 경로는 저장하지 않아요. 보호자가 신고 화면에서 현재 위치 사용을 선택한 경우에만 그 좌표를 마지막 목격 장소로 전송해요.",
         "ITSAppUsesNonExemptEncryption": false
       },
       "bundleIdentifier": "com.donghaeng.comebackhome"
     },
     "android": {
       "permissions": [
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION",
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION",
@@ -41,7 +37,7 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "산책 거리를 재고, 내가 실종자 예측 구역 안에 있을 때 알려드리기 위해 위치를 사용해요. 정확한 위치는 기기 밖으로 나가지 않아요. 알림을 보내는 데 필요한 약 5km 범위의 넓은 구역 하나만 서버에 전달하고, 이동 경로는 저장하지 않아요."
+          "locationWhenInUsePermission": "산책과 주변 수색 알림에는 넓은 구역만 사용하며 이동 경로는 저장하지 않아요. 보호자가 신고 화면에서 현재 위치 사용을 선택한 경우에만 그 좌표를 마지막 목격 장소로 전송해요."
         }
       ],
       [

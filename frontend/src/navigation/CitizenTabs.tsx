@@ -6,31 +6,17 @@
  * 상시 열어 두는 탭이 아니다. 진행 중이면 홈이 이어가기 버튼을 띄운다.
  */
 import React from 'react';
-import { Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { CitizenTabParamList } from './types';
 import { color, type } from '../theme/tokens';
 import { useModeTheme } from '../theme/theme';
 import CitizenHomeScreen from '../screens/CitizenHomeScreen';
-import SearchScreen from '../screens/SearchScreen';
+import CitizenAlertsScreen from '../screens/CitizenAlertsScreen';
 import RecordsScreen from '../screens/RecordsScreen';
+import FigmaTabIcon from '../components/FigmaTabIcon';
 
 const Tab = createBottomTabNavigator<CitizenTabParamList>();
-
-function TabIcon({ label, focused, activeColor }: { label: string; focused: boolean; activeColor: string }) {
-  return (
-    <Text
-      style={{
-        fontSize: 20,
-        opacity: focused ? 1 : 0.5,
-        // 색+투명도 이중부호화 (색만으로 상태 전달 금지)
-        color: focused ? activeColor : color.textCaption,
-      }}
-    >
-      {label}
-    </Text>
-  );
-}
 
 export default function CitizenTabs() {
   const t = useModeTheme();
@@ -40,8 +26,9 @@ export default function CitizenTabs() {
         headerShown: false,
         tabBarActiveTintColor: t.accent,
         tabBarInactiveTintColor: color.textCaption,
-        tabBarLabelStyle: { fontSize: 12, fontWeight: type.weight.bold, fontFamily: type.family },
-        tabBarStyle: { backgroundColor: color.surface, borderTopColor: color.border, height: 88, paddingTop: 6 },
+        tabBarLabelStyle: { fontSize: 11, lineHeight: 13, fontFamily: type.family, marginTop: 1 },
+        tabBarStyle: { backgroundColor: color.surface, borderTopColor: color.border, height: 85, paddingTop: 7 },
+        tabBarBackground: () => <View style={styles.tabBackground}><View style={styles.homeIndicator} /></View>,
       }}
     >
       <Tab.Screen
@@ -49,7 +36,7 @@ export default function CitizenTabs() {
         component={CitizenHomeScreen}
         options={{
           tabBarLabel: '안심 홈',
-          tabBarIcon: ({ focused }) => <TabIcon label="🏠" focused={focused} activeColor={t.accent} />,
+          tabBarIcon: ({ focused }) => <FigmaTabIcon name="home" focused={focused} activeColor={color.brand} />,
         }}
       />
       <Tab.Screen
@@ -57,16 +44,16 @@ export default function CitizenTabs() {
         component={CitizenHomeScreen}
         options={{
           tabBarLabel: '산책하기',
-          tabBarIcon: ({ focused }) => <TabIcon label="🚶" focused={focused} activeColor={t.accent} />,
+          tabBarIcon: ({ focused }) => <FigmaTabIcon name="walk" focused={focused} activeColor={color.brand} />,
         }}
       />
       <Tab.Screen
         name="Alerts"
-        component={SearchScreen}
+        component={CitizenAlertsScreen}
         options={{
-          tabBarLabel: '긴급알림',
+          tabBarLabel: '긴급 알림',
           tabBarIcon: ({ focused }) => (
-            <TabIcon label="🔔" focused={focused || t.mode === 'search'} activeColor={t.accent} />
+            <FigmaTabIcon name="alert" focused={focused || t.mode === 'search'} activeColor={t.accent} />
           ),
         }}
       />
@@ -74,10 +61,15 @@ export default function CitizenTabs() {
         name="Records"
         component={RecordsScreen}
         options={{
-          tabBarLabel: '내 기록',
-          tabBarIcon: ({ focused }) => <TabIcon label="👤" focused={focused} activeColor={t.accent} />,
+          tabBarLabel: '내 정보',
+          tabBarIcon: ({ focused }) => <FigmaTabIcon name="profile" focused={focused} activeColor={color.brand} />,
         }}
       />
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBackground: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#FFFFFF' },
+  homeIndicator: { position: 'absolute', bottom: 8, left: '32%', right: '32%', height: 5, borderRadius: 100, backgroundColor: '#000000' },
+});
