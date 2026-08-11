@@ -124,6 +124,22 @@ export type PushPayload = {
   appearance: string;
 };
 
+/**
+ * 무사히 발견되어 종결된 사건 — 긴급 알림 화면의 '상황 종료' 카드.
+ *
+ * `PoliceAlert` 와 **일부러 다른 타입**이다. 찾는 데 쓰는 필드(인상착의·색상·
+ * 최종 목격 좌표·대상 셀)는 여기 없다 — 이미 찾은 사람에게는 필요 없고,
+ * 타입이 같으면 언젠가 종결 카드에도 인상착의를 그리게 된다.
+ */
+export type ResolvedAlert = {
+  caseId: string;
+  /** 사건이 있었던 지역명. 서버가 역지오코딩으로 채운다. */
+  area: string;
+  /** 시민에게 보여줄 최소 신원 — 이름은 오지 않는다(활성 경보와 같은 원칙). */
+  age?: number;
+  closedAt: string; // ISO
+};
+
 export type PoliceAlert = {
   caseId: string;
   issuedAt: string; // ISO

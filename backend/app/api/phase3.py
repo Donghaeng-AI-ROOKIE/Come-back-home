@@ -1,7 +1,7 @@
 """Phase 3 API — 알림 발송·시민 제보·POA 조회."""
 
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
@@ -127,6 +127,46 @@ def list_active_alerts(cell_res7: str | None = None):
             out.append(info)
     # 최근 발령 순 — 관문은 첫 항목부터 본다(utils/alertGate.pickGateCase).
     out.sort(key=lambda a: a["issued_at"], reverse=True)
+    return out
+
+
+@router.get("/alerts/resolved")
+def list_resolved_alerts(cell_res7: str | None = None, hours: int = 24):
+    """최근 **무사히 발견된** 사건 — 시민 화면의 '상황 종료' 카드.
+
+    ## 왜 보여주나
+    시민은 경보를 받고 주변을 살피지만, 그 사건이 어떻게 끝났는지는 어디서도
+    알 수 없었다. 결말이 안 보이면 다음 경보를 진지하게 받을 이유가 줄어든다 —
+    이 카드가 갚는 것은 그 신뢰다.
+
+    ## 발견된 것만 (found)
+    철회(withdrawn)는 제외한다. 카드 문구가 "가족의 품으로 무사히 돌아갔습니다"
+    인데, 보호자가 신고를 취소한 경우에까지 그렇게 말하면 사실이 아니다.
+
+    ## 최근 것만 · 내 주변 것만
+    - `hours` 안에 종결된 것만. 오래된 목록은 알림이 아니라 기록이고, 파기 대기
+      중인 개인정보를 필요 이상으로 오래 띄우게 된다.
+    - 활성 경보와 **같은 res7 기준**으로 고른다. 여기서 전국을 내려주면 경보
+      경로에서 위치 최소화해 둔 것을 이 경로가 조용히 무효화한다.
+    - 칸이 없으면 빈 목록 — 활성 경보와 같은 fail-closed.
+    """
+    if not cell_res7:
+        return []
+    cutoff = datetime.now() - timedelta(hours=hours)
+    out = []
+    for case in storage.cases.list():
+        if case.status is not CaseStatus.found:
+            continue
+        if case.closed_at is None or case.closed_at < cutoff:
+            continue
+        try:
+            info = alerts.describe_resolved(case)
+        except Exception:  # noqa: BLE001 — 활성 경보와 같은 이유로 한 건만 건너뛴다
+            log.exception("[alerts] 종결 표현 생성 실패 — 이 사건만 건너뜀 (%s)", case.id)
+            continue
+        if cell_res7 in info["target_cells"]:
+            out.append(info)
+    out.sort(key=lambda a: a["closed_at"], reverse=True)
     return out
 
 

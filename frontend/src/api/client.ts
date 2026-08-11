@@ -14,6 +14,7 @@ import type {
   PoaCell,
   PoaGrid,
   PoliceAlert,
+  ResolvedAlert,
   Severity,
   TimeAxis,
   Tip,
@@ -250,6 +251,15 @@ type AlertResponse = {
   lkp_time?: string;
 };
 
+/** 종결 사건 — 활성 경보보다 **의도적으로 적게** 온다(인상착의·좌표 없음). */
+type ResolvedAlertResponse = {
+  case_id: string;
+  area: string;
+  age?: number | null;
+  closed_at: string;
+  close_reason?: string | null;
+};
+
 /**
  * 살아있는 경보 목록 — 관문(useAlertGate)이 판정할 대상.
  *
@@ -292,6 +302,29 @@ export async function getActiveAlerts(cellRes7: string | null): Promise<PoliceAl
     appearanceColors: r.appearance_colors,
     lkp: r.lkp,
     lkpTime: r.lkp_time,
+  }));
+}
+
+/**
+ * 최근 **무사히 발견된** 사건 — 긴급 알림 화면의 '상황 종료' 카드(시안).
+ *
+ * 활성 경보와 같은 res7 기준으로 서버가 고른다. 내 칸이 없으면 빈 목록이다 —
+ * 위치를 모르면 어느 사건이 "내 주변에서 있었던 일"인지 고를 수 없다.
+ *
+ * 인상착의·좌표는 **오지 않는다.** 이미 찾은 사람에게는 필요 없는 정보이고,
+ * 파기를 기다리는 개인정보를 계속 뿌릴 이유가 없다(백엔드 describe_resolved).
+ */
+export async function getResolvedAlerts(cellRes7: string | null): Promise<ResolvedAlert[]> {
+  if (USE_MOCK) return delay([]);
+  if (cellRes7 == null) return [];
+  const rows = await api<ResolvedAlertResponse[]>(
+    `/phase3/alerts/resolved?cell_res7=${encodeURIComponent(cellRes7)}`,
+  );
+  return rows.map((r) => ({
+    caseId: r.case_id,
+    area: r.area || '내 주변',
+    age: r.age ?? undefined,
+    closedAt: r.closed_at,
   }));
 }
 
