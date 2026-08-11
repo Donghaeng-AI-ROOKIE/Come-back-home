@@ -103,7 +103,9 @@ export default function CitizenHomeScreen() {
           <Text style={styles.kicker}>이번 달 나의 산책 기록</Text>
           <Text style={styles.monthTitle}>8월에는 총 {(stats?.month_km ?? 0).toFixed(1)}km를 걸었네요!</Text>
         </View>
-        {/* 시안에서 빈 회색 사각형이던 자리 — 서버가 집계한 실제 기록을 넣는다. */}
+        {/* Figma 의 월간 이미지 영역 — **카드 규격(높이·여백·라운드)은 시안 그대로** 두고
+            내용만 서버 집계로 채운다. 빈 회색 상자로 두면 화면의 한 블록이 통째로
+            자리표시자가 되고, "목업은 전부 실데이터로"라는 원칙과 어긋난다. */}
         <View style={styles.monthCard}>
           <View style={styles.monthStat}>
             <Text style={styles.monthStatValue}>{stats?.walk_count ?? 0}</Text>
@@ -168,9 +170,16 @@ const styles = StyleSheet.create({
   monthHead: { height: 87, paddingHorizontal: 16, paddingTop: 18 },
   kicker: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#007AFF' },
   monthTitle: { fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, color: '#000000', marginTop: 5 },
-  monthCard: { flexDirection: 'row', height: 117, marginHorizontal: 16, borderRadius: 10, backgroundColor: '#F5F7F5', alignItems: 'center' },
-  monthStat: { flex: 1, alignItems: 'center', gap: 6, paddingHorizontal: 4 },
-  monthStatValue: { fontFamily: type.familyBold, fontSize: 18, lineHeight: 22, color: '#000000' },
+  // 시안 규격(높이 117·여백 16·라운드 10) 유지. 배경만 회색 자리표시자에서
+  // 읽을 수 있는 밝은 톤으로 바꾼다 — 안에 숫자가 들어가기 때문이다.
+  monthCard: {
+    height: 117, marginHorizontal: 16, borderRadius: 10, backgroundColor: '#F4F4F4',
+    flexDirection: 'row', alignItems: 'center',
+  },
+  // 서체·크기는 이 화면의 체계를 따른다 — 값은 제목과 같은 SemiBold 17,
+  // 라벨은 kicker 와 같은 Regular 11. 새 규격을 만들지 않는다.
+  monthStat: { flex: 1, alignItems: 'center', gap: 6 },
+  monthStatValue: { fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, color: '#000000' },
   monthStatLabel: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: color.figmaGray },
   routeLoading: { height: 212, justifyContent: 'center' },
   routeEmpty: { height: 212, paddingHorizontal: 16, fontFamily: type.family, fontSize: 12, lineHeight: 18, color: color.figmaGray },

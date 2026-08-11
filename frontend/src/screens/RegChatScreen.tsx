@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import type { RootStackParamList } from '../navigation/types';
@@ -18,6 +19,8 @@ type Msg = { id: string; from: 'bot' | 'user'; text: string; pending?: boolean }
 
 export default function RegChatScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'RegChat'>>();
+  const quick = route.params?.mode === 'quick';
   const [session, setSession] = useState<InterviewSession | null>(null);
   const [slots, setSlots] = useState<SlotInfo[]>([]);
   const [input, setInput] = useState('');
@@ -44,15 +47,17 @@ export default function RegChatScreen() {
         const persona = await getPersona(session.persona_id!);
         if (cancelled) return;
         setPersona(persona);
-        navigation.replace('RegDone', { personaId: persona.id, name: persona.name, age: persona.age });
+        if (quick) navigation.replace('Report');
+        else navigation.replace('RegDone', { personaId: persona.id, name: persona.name, age: persona.age });
       } catch (e) {
         if (cancelled) return;
         setError(e instanceof ApiError ? e.message : String(e));
-        navigation.replace('RegDone', { personaId: session.persona_id!, name: '', age: 0 });
+        if (quick) navigation.replace('Report');
+        else navigation.replace('RegDone', { personaId: session.persona_id!, name: '', age: 0 });
       }
     })();
     return () => { cancelled = true; };
-  }, [session, navigation, setPersona]);
+  }, [quick, session, navigation, setPersona]);
 
   const messages = useMemo<Msg[]>(() => {
     const server = (session?.messages ?? []).map((message, index) => ({
@@ -82,19 +87,19 @@ export default function RegChatScreen() {
       <FigmaStatusBar />
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <View style={styles.header}>
-          <Pressable onPress={() => navigation.navigate('GuardianTabs', { screen: 'GuardianHome' })} accessibilityRole="button" accessibilityLabel="뒤로" style={styles.back}><BackIcon width={24} height={24} color="#8E8E93" /></Pressable>
-          <Text style={styles.title}>사전 등록 인터뷰</Text>
+          <Pressable onPress={() => quick ? navigation.goBack() : navigation.navigate('GuardianTabs', { screen: 'GuardianHome' })} accessibilityRole="button" accessibilityLabel="뒤로" style={styles.back}><BackIcon width={10} height={18} color="#8E8E93" /></Pressable>
+          <Text style={styles.title}>{quick ? '빠른 등록' : '사전 등록 인터뷰'}</Text>
           <View style={styles.headerSide} />
         </View>
 
         <View style={styles.progressWrap} accessibilityLabel={`${filled}개 항목 완료, 총 ${total}개`}>
-          <View style={styles.progressTrack}><View style={[styles.progressActive, { width: `${progress}%` }]} /></View>
+          <View style={styles.progressTrack}><View style={[styles.progressActive, quick && styles.quickAccent, { width: `${progress}%` }]} /></View>
         </View>
 
         <ScrollView ref={scrollRef} style={styles.chat} contentContainerStyle={styles.chatContent} showsVerticalScrollIndicator={false} onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}>
-          {!session && !error ? <View style={styles.botBubble}><ActivityIndicator size="small" color={color.brand} /></View> : null}
+          {!session && !error ? <View style={[styles.botBubble, quick && styles.quickBubble]}><ActivityIndicator size="small" color={quick ? color.figmaRed : color.brand} /></View> : null}
           {messages.map((message) => <View key={message.id} style={message.from === 'bot' ? styles.botRow : styles.userRow}>
-            <View style={[message.from === 'bot' ? styles.botBubble : styles.userBubble, message.pending && styles.pending]}>
+            <View style={[message.from === 'bot' ? styles.botBubble : styles.userBubble, quick && message.from === 'bot' && styles.quickBubble, message.pending && styles.pending]}>
               <Text style={styles.messageText}>{message.text}</Text>
             </View>
           </View>)}
@@ -114,7 +119,7 @@ export default function RegChatScreen() {
             onSubmitEditing={submit}
             editable={!!session && !pending}
           />
-          <Pressable onPress={submit} disabled={!input.trim() || !session || !!pending} accessibilityRole="button" accessibilityLabel="보내기" style={({ pressed }) => [styles.send, (!input.trim() || !session || !!pending) && styles.sendDisabled, pressed && styles.pressed]}><Text style={styles.sendText}>↑</Text></Pressable>
+          <Pressable onPress={submit} disabled={!input.trim() || !session || !!pending} accessibilityRole="button" accessibilityLabel="보내기" style={({ pressed }) => [styles.send, quick && styles.quickAccent, (!input.trim() || !session || !!pending) && styles.sendDisabled, pressed && styles.pressed]}><Text style={styles.sendText}>↑</Text></Pressable>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -130,11 +135,13 @@ const styles = StyleSheet.create({
   progressWrap: { height: 44, justifyContent: 'center', paddingHorizontal: 16, backgroundColor: '#FFFFFF' },
   progressTrack: { height: 4, borderRadius: 12, backgroundColor: '#E5E5EA', overflow: 'hidden' },
   progressActive: { height: 4, borderRadius: 12, backgroundColor: color.brand },
+  quickAccent: { backgroundColor: color.figmaRed },
   chat: { flex: 1, backgroundColor: '#FFFFFF' },
-  chatContent: { paddingTop: 7, paddingBottom: 12 },
+  chatContent: { paddingTop: 0, paddingBottom: 12 },
   botRow: { alignItems: 'flex-start', paddingHorizontal: 21, paddingVertical: 7 },
   userRow: { alignItems: 'flex-end', paddingHorizontal: 21, paddingVertical: 7 },
   botBubble: { maxWidth: 280, minHeight: 38, borderRadius: 10, backgroundColor: '#DDF6D2', paddingHorizontal: 14, paddingVertical: 10, justifyContent: 'center' },
+  quickBubble: { backgroundColor: '#F7B5B5' },
   userBubble: { maxWidth: 280, minHeight: 38, borderRadius: 10, backgroundColor: '#EDEDED', paddingHorizontal: 14, paddingVertical: 10, justifyContent: 'center' },
   messageText: { fontFamily: type.family, fontSize: 13, lineHeight: 18, color: '#000000' },
   pending: { opacity: 0.55 },
@@ -142,7 +149,7 @@ const styles = StyleSheet.create({
   errorText: { fontFamily: type.family, fontSize: 12, lineHeight: 18, color: color.critical },
   notice: { marginHorizontal: 21, marginTop: 7, borderRadius: 10, backgroundColor: color.figmaField, padding: 12 },
   noticeText: { fontFamily: type.family, fontSize: 11, lineHeight: 16, color: '#525253' },
-  composer: { height: 52, flexDirection: 'row', alignItems: 'center', paddingLeft: 16, paddingRight: 12, backgroundColor: '#FFFFFF' },
+  composer: { height: 68, flexDirection: 'row', alignItems: 'center', paddingLeft: 16, paddingRight: 12, backgroundColor: '#FFFFFF' },
   input: { flex: 1, height: 36, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)', backgroundColor: '#FAFAFA', paddingHorizontal: 12, paddingVertical: 0, fontFamily: type.family, fontSize: 13, color: '#000000' },
   send: { width: 28, height: 30, borderRadius: 15, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', marginLeft: 8 },
   sendDisabled: { opacity: 0.55 }, sendText: { fontFamily: type.familyBold, fontSize: 23, lineHeight: 25, color: '#FFFFFF' }, pressed: { opacity: 0.75 },

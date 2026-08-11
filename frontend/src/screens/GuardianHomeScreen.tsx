@@ -36,7 +36,7 @@ export default function GuardianHomeScreen() {
             accessibilityLabel="긴급 실종 신고"
             style={({ pressed }) => [styles.emergency, pressed && styles.pressed]}
           >
-            <EmergencyIcon width={47} height={43} />
+            <View style={styles.emergencyIcon}><EmergencyIcon width={27} height={25} /></View>
             <Text style={styles.emergencyText}>실종 신고</Text>
           </Pressable>
           <Pressable
@@ -45,7 +45,7 @@ export default function GuardianHomeScreen() {
             accessibilityLabel="안심 사전 등록"
             style={({ pressed }) => [styles.register, pressed && styles.pressed]}
           >
-            <View style={styles.registerIcon}><RegisterIcon width={36} height={36} /></View>
+            <View style={styles.registerIcon}><RegisterIcon width={26} height={26} /></View>
             <View style={styles.registerCopy}>
               <Text style={styles.registerTitle}>안심 사전 등록</Text>
               <Text style={styles.registerBody}>미리 정보를 등록해두면 위급 시 골든타임을{`\n`}지킬 수 있습니다.</Text>
@@ -88,16 +88,17 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   content: { paddingBottom: 36 },
   logoRow: { height: 87, paddingLeft: 30, paddingTop: 19, flexDirection: 'row', alignItems: 'flex-start' },
-  modeLabel: { fontFamily: type.familyBold, fontSize: 16, lineHeight: 20, color: color.figmaGray, marginLeft: 12, marginTop: 0 },
-  hero: { height: 135, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 26, gap: 19 },
-  emergency: { width: 104, height: 106, borderRadius: 55, backgroundColor: color.figmaRed, alignItems: 'center', justifyContent: 'center' },
+  modeLabel: { fontFamily: type.familyBold, fontSize: 16, lineHeight: 20, color: '#8E8E93', marginLeft: 12, marginTop: 0 },
+  hero: { height: 135, flexDirection: 'row', alignItems: 'center', paddingLeft: 28, paddingRight: 26, gap: 19 },
+  emergency: { position: 'relative', top: 3, width: 102, height: 106, borderRadius: 55, backgroundColor: '#F14444', alignItems: 'center', justifyContent: 'center', shadowColor: '#F14444', shadowOpacity: 0.63, shadowRadius: 2 },
+  emergencyIcon: { width: 47, height: 43, alignItems: 'center', justifyContent: 'center' },
   emergencyText: { fontFamily: type.familyBold, color: '#FFFFFF', fontSize: 15, marginTop: 1 },
-  register: { width: 200, height: 106, borderRadius: 10, backgroundColor: color.guardian, padding: 13, flexDirection: 'row', alignItems: 'flex-start' },
-  registerIcon: { width: 36, height: 36, tintColor: '#FFFFFF', marginRight: 7 },
+  register: { position: 'relative', top: 3, width: 200, height: 106, borderRadius: 10, backgroundColor: '#90C67C', padding: 13, flexDirection: 'row', alignItems: 'flex-start', shadowColor: '#90C67C', shadowOpacity: 0.71, shadowRadius: 2 },
+  registerIcon: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center', marginRight: 7 },
   registerCopy: { flex: 1, paddingTop: 22 },
   registerTitle: { fontFamily: type.familyBold, color: '#FFFFFF', fontSize: 15, lineHeight: 18 },
   registerBody: { fontFamily: type.familyMedium, color: '#FFFFFF', fontSize: 10, lineHeight: 13, marginTop: 5 },
-  sectionHead: { height: 64, justifyContent: 'flex-end', paddingHorizontal: 23, paddingBottom: 16 },
+  sectionHead: { height: 64, justifyContent: 'flex-end', paddingHorizontal: 23, paddingBottom: 13 },
   sectionTitle: { fontFamily: type.familySemiBold, fontSize: 18, color: '#000000' },
   familyList: { minHeight: 158, marginHorizontal: 23, gap: 12 },
   empty: { height: 73, borderRadius: 10, backgroundColor: color.figmaField, alignItems: 'center', justifyContent: 'center' },
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
   dementiaText: { fontFamily: type.family, fontSize: 11, color: '#525253' },
   personMeta: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#525253', marginTop: 6 },
   chevron: { fontFamily: type.family, fontSize: 23, color: color.guardian },
-  guideBody: { paddingHorizontal: 23, paddingTop: 32, gap: 1 },
+  guideBody: { paddingHorizontal: 23, paddingTop: 35, gap: 1 },
   guideText: { fontFamily: type.family, fontSize: 13, lineHeight: 18, color: '#525253' },
   pressed: { opacity: 0.78 },
 });

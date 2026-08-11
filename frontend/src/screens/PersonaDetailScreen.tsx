@@ -98,9 +98,9 @@ export default function PersonaDetailScreen() {
       <StatusBar style="dark" />
       <FigmaStatusBar />
       <View style={styles.header}>
-        <Pressable onPress={() => navigation.goBack()} accessibilityRole="button" accessibilityLabel="뒤로" style={styles.headerSide}><BackIcon width={24} height={24} color="#8E8E93" /></Pressable>
+        <Pressable onPress={() => navigation.goBack()} accessibilityRole="button" accessibilityLabel="뒤로" style={styles.headerSide}><BackIcon width={10} height={18} color="#8E8E93" /></Pressable>
         <Text style={styles.headerTitle}>등록 정보</Text>
-        <Pressable onPress={toggleEdit} accessibilityRole="button" accessibilityLabel={editing ? '수정 취소' : '수정하기'} style={styles.headerSide}><FilterIcon width={24} height={24} color="#8E8E93" /></Pressable>
+        <Pressable onPress={toggleEdit} accessibilityRole="button" accessibilityLabel={editing ? '수정 취소' : '수정하기'} style={styles.headerSide}><FilterIcon width={18} height={18} color="#8E8E93" /></Pressable>
       </View>
 
       {!persona && !error ? <View style={styles.center}><ActivityIndicator color={color.guardian} /></View> : null}
@@ -133,7 +133,7 @@ export default function PersonaDetailScreen() {
         <SectionTitle icon={<BookmarkIcon width={9} height={11} color={color.guardian} />} title="주요 정보" />
         {groups.map((group, index) => <View key={group.title} style={[styles.noteCard, index === 0 && styles.noteCardTall]}>
           <Text style={styles.noteTitle}>{group.title}</Text>
-          {(group.items.length ? group.items : Array.from({ length: index === 0 ? 3 : index === 1 ? 1 : 2 }, (_, i) => `정보 ${i + 1}`)).slice(0, 3).map((item) => <Text key={item} style={styles.noteText} numberOfLines={1}>{item}</Text>)}
+          {(group.items.length ? group.items : Array.from({ length: index === 0 ? 3 : index === 1 ? 1 : 2 }, (_, i) => `정보 ${i + 1}`)).slice(0, index === 0 ? 3 : index === 1 ? 1 : 2).map((item) => <Text key={item} style={styles.noteText} numberOfLines={1}>{item}</Text>)}
         </View>)}
 
         {editing ? <Pressable onPress={save} disabled={saving} style={styles.save}><Text style={styles.saveText}>{saving ? '저장 중…' : '저장하기'}</Text></Pressable> : null}

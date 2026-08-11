@@ -1,8 +1,9 @@
-/** 보호자 하단 3탭 (와이어프레임): 홈 / 사전등록 / 내 정보. */
+/** 보호자 하단 4탭 (Figma): 홈 / 사전등록 / 알림 / 내 정보. */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { PlatformPressable } from '@react-navigation/elements';
 import type { GuardianTabParamList } from './types';
 import { color, radius, space, type } from '../theme/tokens';
 import CTAButton from '../components/CTAButton';
@@ -12,14 +13,19 @@ import { useAuthStore } from '../store/authStore';
 import { useGuardianStore } from '../store/guardianStore';
 import GuardianAlertsScreen from '../screens/GuardianAlertsScreen';
 import FigmaTabIcon from '../components/FigmaTabIcon';
+import { usePersonas } from '../hooks/queries';
 
 const Tab = createBottomTabNavigator<GuardianTabParamList>();
 
 /** 내 정보 — 로그아웃과 등록 현황만. 시민 마이페이지(레벨·배지)와 다르다. */
 function GuardianMyScreen() {
   const { user, signOut } = useAuthStore();
-  const persona = useGuardianStore((s) => s.persona);
+  const cachedPersona = useGuardianStore((s) => s.persona);
   const reset = useGuardianStore((s) => s.reset);
+  const { data: personas, isLoading } = usePersonas();
+  const registered = personas?.length
+    ? personas.map((persona) => `${persona.name} (${persona.age}세)`).join(', ')
+    : cachedPersona ? `${cachedPersona.name} (${cachedPersona.age}세)` : '없음';
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -39,7 +45,7 @@ function GuardianMyScreen() {
             등록된 가족
           </Text>
           <Text style={styles.rowVal} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            {persona ? `${persona.name} (${persona.age}세)` : '없음'}
+            {isLoading && !cachedPersona ? '불러오는 중…' : registered}
           </Text>
         </View>
         <View style={styles.spacer} />
@@ -64,7 +70,9 @@ export default function GuardianTabs() {
         tabBarActiveTintColor: color.guardian,
         tabBarInactiveTintColor: color.figmaGray,
         tabBarLabelStyle: { fontSize: 11, lineHeight: 13, fontFamily: type.family, marginTop: 1 },
-        tabBarStyle: { backgroundColor: color.surface, borderTopColor: color.border, height: 85, paddingTop: 7 },
+        tabBarStyle: { backgroundColor: color.surface, borderTopColor: color.border, height: 85, paddingTop: 7, borderTopLeftRadius: 42, borderTopRightRadius: 42, overflow: 'hidden' },
+        tabBarItemStyle: styles.tabItem,
+        tabBarButton: (props) => <PlatformPressable {...props} style={[props.style, styles.tabButton]} />,
         tabBarBackground: () => <View style={styles.tabBackground}><View style={styles.homeIndicator} /></View>,
       }}
     >
@@ -93,7 +101,9 @@ export default function GuardianTabs() {
 }
 
 const styles = StyleSheet.create({
-  tabBackground: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#FFFFFF' },
+  tabBackground: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#FFFFFF', borderTopLeftRadius: 42, borderTopRightRadius: 42 },
+  tabItem: { outlineStyle: 'none' } as any,
+  tabButton: { flex: 1, outlineStyle: 'none' } as any,
   homeIndicator: { position: 'absolute', bottom: 8, left: '32%', right: '32%', height: 5, borderRadius: 100, backgroundColor: '#000000' },
   safe: { flex: 1, backgroundColor: color.surfaceAlt },
   wrap: { flex: 1, padding: space.xl, gap: space.lg },
