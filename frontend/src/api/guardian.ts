@@ -226,6 +226,22 @@ export async function getAreaLabels(points: GeoPoint[]) {
   return res.labels;
 }
 
+/**
+ * 장소·주소 문자열 → 좌표. 신고 화면의 '마지막 목격 장소' 검색.
+ *
+ * `expo-location` 의 `geocodeAsync` 를 쓰면 **안 된다** — 그 함수는 웹에서
+ * 동작하지 않는다. 배포본이 웹이라 검색이 늘 실패했고, 좌표가 없으니 지도는
+ * 시안 목업(미국 지도)에 머물고 신고 버튼까지 막혔다(현장 제보 08-12).
+ *
+ * 서버는 온보딩 끌림점과 **같은 지오코더 체인**을 쓴다(카카오 → Nominatim →
+ * 지명사전). 두 경로가 같은 좌표를 주어야 예측 근거가 어긋나지 않는다.
+ */
+export function searchPlace(query: string) {
+  return api<{ lat: number; lng: number; label: string; precision: string; source: string }>(
+    `/geo/search?q=${encodeURIComponent(query)}`,
+  );
+}
+
 // ── Phase 2 — 동선 예측 ─────────────────────────────────────────
 /**
  * 예측 실행. **10초 안팎 걸린다**(EXAONE 실호출 5회 + 몬테카를로 500명).
