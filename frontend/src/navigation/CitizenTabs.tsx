@@ -12,6 +12,7 @@ import { PlatformPressable } from '@react-navigation/elements';
 import type { CitizenTabParamList } from './types';
 import { color, type } from '../theme/tokens';
 import { useModeTheme } from '../theme/theme';
+import { useTabBarMetrics } from '../theme/tabBar';
 import CitizenHomeScreen from '../screens/CitizenHomeScreen';
 import WalkActiveScreen from '../screens/WalkActiveScreen';
 import CitizenAlertsScreen from '../screens/CitizenAlertsScreen';
@@ -22,6 +23,9 @@ const Tab = createBottomTabNavigator<CitizenTabParamList>();
 
 export default function CitizenTabs() {
   const t = useModeTheme();
+  // 높이를 85 로 박아 두면 기기 안전영역이 이중으로 빠져 라벨이 잘린다 —
+  // 사유는 theme/tabBar.ts 참고.
+  const tabBar = useTabBarMetrics();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -29,10 +33,20 @@ export default function CitizenTabs() {
         tabBarActiveTintColor: t.accent,
         tabBarInactiveTintColor: color.textCaption,
         tabBarLabelStyle: { fontSize: 11, lineHeight: 13, fontFamily: type.family, marginTop: 1 },
-        tabBarStyle: { backgroundColor: color.surface, borderTopColor: color.border, height: 85, paddingTop: 7 },
+        tabBarStyle: {
+          backgroundColor: color.surface,
+          borderTopColor: color.border,
+          height: tabBar.height,
+          paddingTop: 7,
+          paddingBottom: tabBar.paddingBottom,
+        },
         tabBarItemStyle: styles.tabItem,
         tabBarButton: (props) => <PlatformPressable {...props} style={[props.style, styles.tabButton]} />,
-        tabBarBackground: () => <View style={styles.tabBackground}><View style={styles.homeIndicator} /></View>,
+        tabBarBackground: () => (
+          <View style={styles.tabBackground}>
+            {tabBar.showFakeIndicator ? <View style={styles.homeIndicator} /> : null}
+          </View>
+        ),
       }}
     >
       <Tab.Screen

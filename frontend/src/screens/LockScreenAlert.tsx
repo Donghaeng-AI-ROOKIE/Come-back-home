@@ -8,6 +8,7 @@ import type { RootStackParamList } from '../navigation/types';
 import { useAppModeStore } from '../store/appModeStore';
 import { useEngagementStore } from '../store/engagementStore';
 import { type } from '../theme/tokens';
+import { useTabBarMetrics } from '../theme/tabBar';
 import StatusIcons from '../../assets/figma/lock-status.svg';
 import NotificationBackground from '../../assets/figma/lock-notification-bg.svg';
 import NotificationMask from '../../assets/figma/lock-notification-mask.svg';
@@ -18,6 +19,9 @@ import { alertToView } from '../data/missingView';
 const appIcon = require('../../assets/figma/lock-app-icon.png');
 
 export default function LockScreenAlert() {
+  // 잠금화면 흉내라 흰 인디케이터가 시안에 있지만, 실기기에는 OS 가 그린 것이
+  // 이미 있다 — 겹치지 않게 안전영역이 0 일 때만 (theme/tabBar.ts).
+  const { showFakeIndicator } = useTabBarMetrics();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'LockScreenAlert'>>();
   const caseId = route.params.caseId;
@@ -78,7 +82,7 @@ export default function LockScreenAlert() {
         </Pressable>
       </View>
 
-      <View style={styles.homeIndicator} />
+      {showFakeIndicator ? <View style={styles.homeIndicator} /> : null}
     </View>
   );
 }
