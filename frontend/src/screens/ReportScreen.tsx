@@ -6,6 +6,9 @@ import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
+import Svg, { Path, Rect } from 'react-native-svg';
+import PersonIcon from '../../assets/figma/detail-person.svg';
+import MapIcon from '../../assets/figma/detail-map.svg';
 import { color, type } from '../theme/tokens';
 import { createReport } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
@@ -121,7 +124,7 @@ export default function ReportScreen() {
         <Text style={styles.title}>긴급 실종 신고</Text><View style={styles.headerSide} />
       </View>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Section icon="◉" title="가족 선택">
+        <Section icon={<PersonIcon width={13} height={13} color={color.figmaRed} />} title="가족 선택">
           <Pressable
             style={styles.field}
             onPress={() => personas.length ? setPickerOpen(true) : navigation.navigate('RegChat', { mode: 'quick' })}
@@ -133,9 +136,11 @@ export default function ReportScreen() {
             )}
           </Pressable>
         </Section>
-        <Section icon="●" title="마지막 목격 장소">
+        <Section icon={<MapIcon width={10} height={13} color={color.figmaRed} />} title="마지막 목격 장소">
           <Pressable style={styles.search} onPress={useCurrentLocation} disabled={locating}>
-            <Text style={styles.placeholder}>{locating ? '⌖  현재 위치 확인 중…' : '⌖  현재 위치 사용'}</Text>
+            {/* '⌖' 같은 희귀 글리프는 폰 폰트에 없어 □ 로 깨진다 — 아이콘은 SVG 로. */}
+            <MapIcon width={10} height={13} color={color.figmaGray} />
+            <Text style={styles.placeholder}>{locating ? '현재 위치 확인 중…' : '현재 위치 사용'}</Text>
           </Pressable>
           <View style={styles.map}>
             {Platform.OS === 'web' ? (
@@ -157,8 +162,8 @@ export default function ReportScreen() {
               : '마지막 목격 장소를 선택해 주세요'}
           </Text>
         </Section>
-        <Section icon="✎" title="실종 당시 상황"><TextInput value={situation} onChangeText={setSituation} multiline style={styles.textarea} /></Section>
-        <Section icon="▰" title="인상착의 설명">
+        <Section icon={<PencilIcon />} title="실종 당시 상황"><TextInput value={situation} onChangeText={setSituation} multiline style={styles.textarea} /></Section>
+        <Section icon={<CameraIcon />} title="인상착의 설명">
           {/* 시안: 1행에 상의·하의·신발 세 칸, 2행에 키/체형/소지품 한 칸.
               라벨은 입력칸 **왼쪽**에 붙는다. */}
           <View style={styles.apRow}>
@@ -210,8 +215,36 @@ function ApField({ label, value, onChange, wide }: {
   );
 }
 
-function Section({ icon, title, children }: { icon: string; title: string; children: React.ReactNode }) {
-  return <View style={styles.section}><Text style={styles.sectionTitle}><Text style={styles.sectionIcon}>{icon} </Text>{title}</Text>{children}</View>;
+/** 연필 — 시안의 '실종 당시 상황' 아이콘. 에셋이 없어 경로로 그린다. */
+function PencilIcon() {
+  return (
+    <Svg width={13} height={13} viewBox="0 0 24 24">
+      <Path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+        fill={color.figmaRed} />
+    </Svg>
+  );
+}
+
+/** 캠코더 — 시안의 '인상착의 설명' 아이콘. */
+function CameraIcon() {
+  return (
+    <Svg width={14} height={13} viewBox="0 0 24 24">
+      <Rect x={2} y={6} width={13} height={12} rx={2.5} fill={color.figmaRed} />
+      <Path d="M16.5 10.5L21.2 7.6a.7.7 0 011.05.6v7.6a.7.7 0 01-1.05.6L16.5 13.5v-3z" fill={color.figmaRed} />
+    </Svg>
+  );
+}
+
+function Section({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
+  return (
+    <View style={styles.section}>
+      <View style={styles.sectionHead}>
+        {icon}
+        <Text style={styles.sectionTitle}>{title}</Text>
+      </View>
+      {children}
+    </View>
+  );
 }
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
@@ -221,12 +254,13 @@ const styles = StyleSheet.create({
   // 812px 기기에서는 제출 버튼이 85px 탭바 뒤에 겹친다. 마지막 CTA가 탭 위까지
   // 실제로 스크롤되도록 탭 높이+여백을 확보한다.
   content: { paddingBottom: 108 }, section: { paddingHorizontal: 23, paddingTop: 18 },
+  sectionHead: { flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 7 },
   sectionTitle: { fontFamily: type.familySemiBold, fontSize: 14, color: '#000000', marginBottom: 14 },
   sectionIcon: { color: color.figmaRed },
   field: { height: 61, borderRadius: 10, backgroundColor: color.figmaField, justifyContent: 'center', paddingHorizontal: 16 },
   fieldText: { fontFamily: type.family, fontSize: 12, color: '#525253' },
   fieldChevron: { position: 'absolute', right: 16, fontFamily: type.family, fontSize: 24, color: color.guardian },
-  search: { height: 30, borderRadius: 8, backgroundColor: color.figmaField, justifyContent: 'center', paddingHorizontal: 12 },
+  search: { height: 30, borderRadius: 8, backgroundColor: color.figmaField, flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 12 },
   placeholder: { fontFamily: type.family, fontSize: 12, color: '#9A9A9B' },
   map: { height: 155, borderRadius: 10, overflow: 'hidden', marginTop: 12, backgroundColor: '#EAE8E3' },
   address: { fontFamily: type.familySemiBold, fontSize: 12, color: '#525253', marginTop: 10 },
