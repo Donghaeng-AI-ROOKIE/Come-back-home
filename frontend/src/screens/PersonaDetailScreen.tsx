@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -32,6 +33,7 @@ const GROUPS = [
 ] as const;
 
 export default function PersonaDetailScreen() {
+  const qc = useQueryClient();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { personaId } = useRoute<RouteProp<RootStackParamList, 'PersonaDetail'>>().params;
   const setStorePersona = useGuardianStore((s) => s.setPersona);
@@ -78,6 +80,10 @@ export default function PersonaDetailScreen() {
         attraction_points: points,
       });
       setPersona(updated); setStorePersona(updated); setEditing(false);
+      // 홈의 '사전 등록된 가족' 목록은 별도 쿼리라, 여기서 무효화하지 않으면
+      // 저장은 됐는데 목록에는 옛 이름·나이가 계속 뜬다(현장 제보 08-11 —
+      // 77세 → 67세로 고쳤는데 홈은 77세 그대로). 서버는 이미 새 값을 준다.
+      qc.invalidateQueries({ queryKey: ['personas'] });
     } catch (e) {
       setError(e instanceof ApiError ? e.message : String(e));
     } finally { setSaving(false); }

@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,6 +21,7 @@ import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 
 export default function ReportScreen() {
+  const qc = useQueryClient();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const cachedPersona = useGuardianStore((s) => s.persona);
   const setPersona = useGuardianStore((s) => s.setPersona);
@@ -111,6 +113,8 @@ export default function ReportScreen() {
         situation: situation.trim(),
       });
       setCaseId(c.id);
+      // 보호자 알림 탭은 내 사건을 따로 조회한다 — 새 신고가 바로 잡히게 무효화한다.
+      qc.invalidateQueries({ queryKey: ['guardianCase'] });
       navigation.replace('ReportSent', { caseId: c.id });
     } catch (e) { Alert.alert('신고를 전송하지 못했습니다', String(e)); }
     finally { setSending(false); }
