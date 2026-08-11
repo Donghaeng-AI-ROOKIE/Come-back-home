@@ -49,13 +49,16 @@ function scaleToPhone(): void {
 
   const apply = () => {
     const w = window.innerWidth;
-    // 폭이 0 이거나 비정상적으로 작을 때가 있다(레이아웃 전·숨은 탭). 그때
-    // 배율을 계산하면 scale(0) 이 되어 **화면이 통째로 사라진다.** 그냥 건너뛴다.
+    const h = visibleH();
+    // 폭·높이가 0 이거나 비정상적으로 작을 때가 있다 — 레이아웃 전, 숨은 탭,
+    // 앱 전환·회전 순간. 그 값을 그대로 쓰면 **앱이 0px 로 접혀 흰 화면이 된다**
+    // (실측 08-11: 창이 0x0 인 순간 root 높이가 0px 로 박혔다).
+    // 이런 순간에는 아무것도 건드리지 않고 다음 이벤트를 기다린다.
     if (!Number.isFinite(w) || w < 240) return;
+    if (!Number.isFinite(h) || h < 200) return;
     // 데스크톱에서까지 늘리면 거대해진다 — 폰 범위(≤560px)에서만 맞춘다.
     // 배율은 안전 범위로 자른다(너무 작게·크게 그리지 않는다).
     const s = w <= 560 ? Math.min(Math.max(w / BASE, 0.7), 1.6) : 1;
-    const h = visibleH();
     if (s === 1) {
       root.style.removeProperty('width');
       root.style.removeProperty('transform');
