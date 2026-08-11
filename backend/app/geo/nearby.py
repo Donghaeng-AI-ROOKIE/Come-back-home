@@ -107,7 +107,11 @@ def _kind_of(tags: dict) -> str:
 
 
 def _fetch(center: GeoPoint, timeout: float) -> list[dict]:
-    """미러를 차례로 시도한다. 전부 실패하면 마지막 예외를 올린다."""
+    """미러를 차례로 시도한다. 전부 실패하면 마지막 예외를 올린다.
+
+    미러당 timeout 을 짧게 잡는다 — 길게 잡으면 (미러 수 × timeout) 만큼 앱이
+    로딩 상태로 멈춰 있는다. 실측: 40초×3 = 최대 120초 동안 화면에 스피너만 돌았다.
+    """
     query = _QUERY.format(r=RADIUS_M, lat=center.lat, lng=center.lng)
     body = urllib.parse.urlencode({"data": query}).encode("utf-8")
     last: Exception | None = None
@@ -122,7 +126,7 @@ def _fetch(center: GeoPoint, timeout: float) -> list[dict]:
     raise last if last else RuntimeError("Overpass 미러 없음")
 
 
-def nearby_walks(center: GeoPoint, limit: int = 4, timeout: float = 40.0) -> list[dict]:
+def nearby_walks(center: GeoPoint, limit: int = 4, timeout: float = 12.0) -> list[dict]:
     """가까운 순으로 산책 루트. 실패하거나 없으면 빈 목록.
 
     각 항목: name / lat·lng(대표점) / distance_km(내 위치→길 시작점 직선)

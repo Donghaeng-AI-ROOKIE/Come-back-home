@@ -97,6 +97,9 @@ export function useNearbyWalks() {
     enabled: point != null,
     // 동네의 공원은 바뀌지 않는다 — 세션 동안 다시 묻지 않는다.
     staleTime: Infinity,
+    // 실패해도 다시 시도하지 않는다. 외부 지도 서비스가 느린 날 재시도가 붙으면
+    // 대기 시간이 두 배가 되고, 그동안 화면에는 스피너만 돈다.
+    retry: false,
   });
 }
 

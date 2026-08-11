@@ -26,6 +26,25 @@ export function setupPwa(): void {
   if (Platform.OS !== 'web' || typeof document === 'undefined') return;
   if (document.querySelector('link[rel="manifest"]')) return;   // 중복 방지
 
+  // 모바일 브라우저 툴바가 하단 탭바를 덮는 문제.
+  //
+  // 사파리·크롬의 주소창/툴바는 화면 아래를 차지하는데, 기본 100vh 는 그 영역까지
+  // 포함한 높이다. 그래서 앱의 탭바가 툴바 뒤로 들어가 **눌러도 브라우저가 먹는다**
+  // (실측 08-11: "탭이 안 눌린다"). 100dvh 는 지금 실제로 보이는 높이라 이 문제가 없다.
+  // 홈 화면에 설치해 열면 툴바가 없어 어차피 같은 값이 된다.
+  const style = document.createElement('style');
+  style.textContent = `
+    html, body, #root { height: 100dvh; max-height: 100dvh; }
+    @supports not (height: 100dvh) { html, body, #root { height: 100vh; } }
+  `;
+  document.head.appendChild(style);
+
+  // 노치 영역까지 그리되 안전영역은 존중한다 — 위 dvh 와 함께 써야 의미가 있다.
+  const vp = document.querySelector('meta[name="viewport"]');
+  if (vp && !(vp.getAttribute('content') || '').includes('viewport-fit')) {
+    vp.setAttribute('content', `${vp.getAttribute('content')}, viewport-fit=cover`);
+  }
+
   link({ rel: 'manifest', href: '/manifest.json' });
   // iOS 는 매니페스트만으로 부족하다 — 아래 세 태그가 있어야 홈 화면 아이콘이
   // 브라우저 UI 없이(standalone) 열리고, 그래야 웹 푸시가 허용된다.
