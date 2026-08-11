@@ -7,25 +7,62 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { useActiveWalk, useNearbyWalks, useStartWalk, useWalkStats } from '../hooks/queries';
+import type { NearbyWalk } from '../api/client';
 import { isLocationSettled, useMyLocation } from '../hooks/useMyLocation';
 import FigmaLogo from '../components/FigmaLogo';
 import FigmaStatusBar from '../components/FigmaStatusBar';
+import { Polyline } from 'react-native-maps';
 import BaseMap from '../components/BaseMap';
 import WebMap from '../components/WebMap';
 
-/** 카드 썸네일 — 실제 그 장소의 지도. 시안의 자리표시 사각형이 있던 자리다. */
-function RouteThumb({ lat, lng, style }: { lat: number; lng: number; style: any }) {
+/**
+ * 카드 썸네일 — 그 길의 **실제 모양**을 지도 위에 그린다.
+ *
+ * "루트 추천"이라면서 지도 한 장만 띄우면 어디를 어떻게 걷는 길인지 알 수 없다.
+ * 서버가 OSM 원본 좌표열을 주므로(geo/nearby.py) 그것을 그대로 선으로 잇는다.
+ */
+function RouteThumb({ route, style }: { route: NearbyWalk; style: any }) {
+  const center = { lat: route.lat, lng: route.lng };
+  // 좌표열이 없을 수도 있다 — 서버 디스크 캐시에 옛 형식이 남아 있는 경우.
+  // 그때는 선 없이 그 자리 지도만 보여준다(빈 배열에 Math.max 를 쓰면 -Infinity 다).
+  const path = route.path ?? [];
+  // 길 전체가 담기도록 경계에 맞춰 축척을 정한다 — 고정 축척이면 긴 길이 잘린다.
+  const lats = path.map((p) => p.lat);
+  const lngs = path.map((p) => p.lng);
+  const span = path.length
+    ? Math.max(
+        (Math.max(...lats) - Math.min(...lats)) * 1.4,
+        (Math.max(...lngs) - Math.min(...lngs)) * 1.4,
+        0.004,
+      )
+    : 0.006;
   if (Platform.OS === 'web') {
-    return <WebMap style={style} center={{ lat, lng }} zoom={15} accessibilityLabel="산책 장소 위치" />;
+    return (
+      <WebMap
+        style={style}
+        center={center}
+        path={path}
+        zoom={span > 0.02 ? 13 : span > 0.01 ? 14 : 15}
+        accessibilityLabel={`${route.name} 산책 경로`}
+      />
+    );
   }
   return (
     <BaseMap
       style={style}
       liteMode
       scrollEnabled={false}
-      region={{ latitude: lat, longitude: lng, latitudeDelta: 0.006, longitudeDelta: 0.006 }}
-      accessibilityLabel="산책 장소 위치"
-    />
+      region={{ latitude: route.lat, longitude: route.lng, latitudeDelta: span, longitudeDelta: span }}
+      accessibilityLabel={`${route.name} 산책 경로`}
+    >
+      {path.length > 1 ? (
+        <Polyline
+          coordinates={path.map((p) => ({ latitude: p.lat, longitude: p.lng }))}
+          strokeColor={color.brand}
+          strokeWidth={4}
+        />
+      ) : null}
+    </BaseMap>
   );
 }
 
@@ -96,9 +133,13 @@ export default function CitizenHomeScreen() {
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.routeRow}>
             {walks.data!.map((route) => (
               <Pressable key={`${route.name}-${route.lat}`} onPress={() => onStart(route.name)} style={({ pressed }) => [styles.routeCard, pressed && styles.pressed]}>
-                <RouteThumb lat={route.lat} lng={route.lng} style={styles.routeImage} />
+                <RouteThumb route={route} style={styles.routeImage} />
                 <Text style={styles.routeName} numberOfLines={1}>{route.name}</Text>
-                <Text style={styles.routeMeta}>{route.distance_km}km · 여기서 걸어서</Text>
+                {/* 코스 길이와 내 위치까지의 거리는 다른 값이다 — 섞어 적으면
+                    직선거리를 걸은 거리처럼 읽게 된다. */}
+                <Text style={styles.routeMeta}>
+                  {route.kind === 'park' ? '둘레' : '코스'} {route.route_km}km · 여기서 {route.distance_km}km
+                </Text>
               </Pressable>
             ))}
           </ScrollView>
