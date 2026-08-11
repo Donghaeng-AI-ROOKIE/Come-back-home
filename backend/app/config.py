@@ -389,6 +389,16 @@ class Settings(BaseSettings):
     #   안 드러난다 — "목적에 필요한 최소 해상도"가 선택 기준(2026-08-05 확정).
     #   ⚠️ 낮추면(res5·res6) 낭비 발송이 급증하고, 높이면(res8·res9) 사실상
     #     좌표가 되어 최소성 논거가 무너진다.
+    # ── 웹 푸시(홈 화면 설치형 웹앱) ────────────────────────
+    # 앱스토어·FCM 없이 실제 OS 알림을 보내는 경로. 키가 없으면 조용히 꺼진다
+    # (phase3/webpush.py) — 키 없이 보내는 척하지 않는다.
+    vapid_public_key: str = ""
+    vapid_private_key: str = ""
+    vapid_contact: str = "mailto:donghaeng@example.com"
+    # 폰이 꺼져 있었을 때 브라우저 푸시 서버가 보관하는 시간(초).
+    # 실종 경보는 시간이 지나면 의미가 줄어든다 — 하루를 넘겨 배달할 이유가 없다.
+    webpush_ttl_sec: int = 3600
+
     push_target_res: int = 7
     # 참여도 등급별 발송 확률 문턱 — **프론트 utils/alertBudget.ts 의
     # PROB_THRESHOLD 와 값이 같아야 한다**(서버·앱이 다르면 사용자는 "알림은

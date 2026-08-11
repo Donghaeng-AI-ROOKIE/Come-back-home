@@ -14,6 +14,11 @@ import type { LinkingOptions } from '@react-navigation/native';
 import RootNavigator from './src/navigation/RootNavigator';
 import { navigationRef } from './src/navigation/navigationRef';
 import type { RootStackParamList } from './src/navigation/types';
+import { setupPwa } from './src/pwa';
+
+// 홈 화면 설치·서비스 워커 등록. 웹이 아니면 아무 일도 하지 않는다.
+// 모듈 수준에서 한 번만 — 리렌더마다 head 에 태그가 쌓이면 안 된다.
+setupPwa();
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, staleTime: 30_000, refetchOnWindowFocus: false } },

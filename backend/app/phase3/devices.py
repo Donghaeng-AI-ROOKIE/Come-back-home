@@ -19,6 +19,7 @@ def register(
     cell_res7: str | None = None,
     engagement: Engagement = Engagement.normal,
     now: datetime | None = None,
+    web_subscription: dict | None = None,
 ) -> Device:
     """기기 등록 (upsert).
 
@@ -40,12 +41,16 @@ def register(
         if cell_res7 is not None:
             existing.cell_res7 = cell_res7
         existing.engagement = engagement
+        # 웹 구독은 브라우저가 갱신할 수 있다(만료·재구독). 새 값이 오면 갈아끼운다.
+        if web_subscription is not None:
+            existing.web_subscription = web_subscription
         return storage.devices.save(token, existing)
     return storage.devices.save(
         token,
         Device(
             token=token, platform=platform, registered_at=now,
             cell_res7=cell_res7, engagement=engagement,
+            web_subscription=web_subscription,
         ),
     )
 
