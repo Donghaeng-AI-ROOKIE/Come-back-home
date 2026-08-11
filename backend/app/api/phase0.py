@@ -162,7 +162,16 @@ def update_persona(persona_id: str, body: UpdatePersonaIn):
     updates = body.model_dump(exclude_unset=True, exclude_none=True)
     if not updates:
         return persona
-    updated = persona.model_copy(update=updates)
+    # **검증을 거쳐 다시 만든다.** `model_copy(update=...)` 를 쓰면 안 된다 —
+    # 그 함수는 검증을 건너뛰는데, 바로 위 `model_dump()` 가 AttractionPoint·
+    # GeoPoint 를 **순수 dict 로 바꿔 놓은 상태**다. 그대로 대입하면 페르소나
+    # 안에 모델 대신 dict 가 박히고, 그 뒤 예측이 `p.weight` 에서 죽는다.
+    #
+    # 실측(08-12): 보호자가 이름·나이를 한 번 고치자 그 페르소나의 모든 신고에서
+    # 예측이 500 으로 실패했다("AI 분석만 다시 시도해 주세요"가 계속 뜨던 원인).
+    # 디스크 데이터는 멀쩡했다 — dict 든 모델이든 같은 JSON 으로 저장되기 때문에,
+    # 서버를 재시작하면 사라졌다가 수정할 때마다 되살아나는 형태였다.
+    updated = Persona.model_validate({**persona.model_dump(), **updates})
     storage.personas.save(persona_id, updated)
     return updated
 
