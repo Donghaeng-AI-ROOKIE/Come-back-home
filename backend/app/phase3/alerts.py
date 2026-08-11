@@ -324,3 +324,34 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
         "failed": result["failed"],
         "stub": result["stub"],
     }
+
+
+def describe_resolved(case: Case) -> dict:
+    """종결된 사건 하나 → 시민 화면의 **상황 종료 카드** 표현.
+
+    ## 왜 따로 만드나
+    `describe_alert` 를 재사용하지 않는다. 그 함수는 **찾는 데 필요한 정보**를
+    담는다 — 인상착의, 색상 태그, 최종 목격 좌표. 이미 찾은 사람에게는 그중
+    어느 것도 필요 없고, 계속 뿌리면 목적을 넘는 제공이 된다. 파기 대기 중인
+    개인정보이기도 하다.
+
+    그래서 카드가 그리는 것만 남긴다 — 지역, 나이, 종결 시각. 이름은 여기서도
+    보내지 않는다(`describe_alert` 와 같은 원칙).
+
+    ## 대상 칸은 왜 여전히 필요한가
+    "내 주변에서 있었던 일"만 보여주기 위해서다. 전국의 종결 사건을 다 내려주면
+    활성 경보에서 res7 로 최소화해 둔 것을 이 경로가 조용히 무효화한다.
+    """
+    from app import storage  # 순환 임포트 회피 (describe_alert 와 같은 이유)
+
+    cells = select_alert_cells(case.current_poa) if case.current_poa else select_reflex_cells(case.lkp)
+    persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
+    return {
+        "case_id": case.id,
+        "area": reverse.cached_label(case.lkp),
+        "age": persona.age if persona else None,
+        "closed_at": case.closed_at,
+        "close_reason": case.close_reason.value if case.close_reason else None,
+        "target_cells": sorted(target_parent_cells(cells)) if cells else [],
+        "target_res": settings.push_target_res,
+    }

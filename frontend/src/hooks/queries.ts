@@ -1,7 +1,7 @@
 /** 서버 동기화 훅 (TanStack Query v5) + 파생 골든타임 (spec §2.4). */
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getActiveAlerts, getGuidance, getNearbyWalks, getPoaPrediction, touchPresence } from '../api/client';
+import { getActiveAlerts, getGuidance, getNearbyWalks, getPoaPrediction, getResolvedAlerts, touchPresence } from '../api/client';
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
 import { getAreaLabels, getCase, getMyCases, listPersonas, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
@@ -48,6 +48,29 @@ export function useActiveAlerts(enabled = true) {
     // 오래 모르고 있으면 안 되고, 응답이 경보 몇 건짜리 배열이라 서버 부담도
     // 크지 않다(presence 하트비트가 이미 30초).
     refetchInterval: ALERT_POLL_MS,
+    refetchOnWindowFocus: true,
+  });
+}
+
+/**
+ * 최근 무사히 발견된 사건 — 긴급 알림 화면의 '상황 종료' 카드(시안).
+ *
+ * 활성 경보와 **같은 칸**으로 묻는다(위 훅과 동일한 `cellOf`). 내 주변에서
+ * 있었던 일만 보여주기 위해서다.
+ *
+ * 폴링 주기는 활성 경보의 4배로 둔다. 종결은 골든타임 정보가 아니라 결과
+ * 알림이라 15초마다 다시 물을 이유가 없다 — 같은 주기로 돌리면 시민 앱 한
+ * 대가 서버에 거는 요청이 그대로 두 배가 된다.
+ */
+export function useResolvedAlerts(enabled = true) {
+  const { point } = useMyLocation(enabled);
+  const forceInArea = useDebugStore((s) => s.forceInAlertArea);
+  const cell = cellOf(forceInArea ? LAST_SEEN : point);
+  return useQuery({
+    queryKey: ['resolvedAlerts', cell],
+    queryFn: () => getResolvedAlerts(cell),
+    enabled,
+    refetchInterval: ALERT_POLL_MS * 4,
     refetchOnWindowFocus: true,
   });
 }
