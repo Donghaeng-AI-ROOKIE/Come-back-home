@@ -17,7 +17,7 @@ const Tab = createBottomTabNavigator<GuardianTabParamList>();
 
 /** 내 정보 — 로그아웃과 등록 현황만. 시민 마이페이지(레벨·배지)와 다르다. */
 function GuardianMyScreen() {
-  const { user, logout } = useAuthStore();
+  const { user, signOut } = useAuthStore();
   const persona = useGuardianStore((s) => s.persona);
   const reset = useGuardianStore((s) => s.reset);
 
@@ -47,7 +47,7 @@ function GuardianMyScreen() {
           label="로그아웃"
           onPress={() => {
             reset();   // 역할을 바꿔 다시 로그인할 때 이전 보호자 등록이 남지 않게 한다
-            logout();
+            signOut();
           }}
           variant="ghost"
         />

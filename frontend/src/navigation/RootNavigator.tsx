@@ -59,6 +59,13 @@ const IDLE_ROUTES = new Set<string>(['Home', 'Walk', 'Alerts', 'Records']);
 export default function RootNavigator() {
   const token = useAuthStore((s) => s.token);
   const role = useAuthStore((s) => s.role);
+  // 저장된 토큰이 아직 유효한지 서버에 한 번 묻는다 — 서버가 모르는 토큰으로
+  // 로그인 상태를 흉내 내면 남의 기록을 보여주게 된다.
+  const restoring = useAuthStore((s) => s.restoring);
+  const restore = useAuthStore((s) => s.restore);
+  useEffect(() => {
+    void restore();
+  }, [restore]);
   // 경보 관문은 시민 트리에서만 선다. 운영자 역할은 이 브랜치에서 제거됐으므로
   // (관제 = 백엔드 /dashboard) 'citizen' 인지 직접 확인한다.
   const isCitizen = token != null && role === 'citizen';
@@ -95,7 +102,7 @@ export default function RootNavigator() {
   // 경보 조회가 끝날 때까지 네비게이터를 마운트하지 않는다. initialRouteName 은
   // 마운트 시점에 한 번만 읽히므로, 로딩 중에 먼저 띄우면 "경보 없음"으로 굳어
   // 관문이 영영 안 선다. 인증 화면 부트스트랩과 같은 패턴.
-  if (gate.pending) {
+  if (restoring || gate.pending) {
     return (
       <View style={styles.boot} accessible accessibilityLabel="경보를 확인하는 중입니다">
         <ActivityIndicator size="large" color={color.critical} />

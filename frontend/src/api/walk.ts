@@ -37,7 +37,7 @@ export type WalkStats = {
   recent: WalkSession[];
 };
 
-export function startWalk(areaLabel = '', userId = DEMO_USER_ID) {
+export function startWalk(areaLabel = '', userId: string = DEMO_USER_ID) {
   return api<WalkSession>('/walk/sessions', {
     method: 'POST',
     body: JSON.stringify({ user_id: userId, area_label: areaLabel }),
@@ -52,10 +52,10 @@ export function endWalk(sessionId: string, distanceKm: number, durationMin: numb
 }
 
 /** 앱 재시작 시 진행 중이던 산책 복원. 없으면 null. */
-export function getActiveWalk(userId = DEMO_USER_ID) {
+export function getActiveWalk(userId: string = DEMO_USER_ID) {
   return api<WalkSession | null>(`/walk/sessions/active?user_id=${encodeURIComponent(userId)}`);
 }
 
-export function getWalkStats(userId = DEMO_USER_ID) {
+export function getWalkStats(userId: string = DEMO_USER_ID) {
   return api<WalkStats>(`/walk/stats?user_id=${encodeURIComponent(userId)}`);
 }

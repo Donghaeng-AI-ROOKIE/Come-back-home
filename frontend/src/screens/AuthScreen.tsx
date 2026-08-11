@@ -1,19 +1,45 @@
 import React, { useState } from 'react';
-import { Image, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useAuthStore } from '../store/authStore';
+import type { Role } from '../types/domain';
 import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 
 const authLogo = require('../../assets/figma/auth-logo.png');
 const startMascot = require('../../assets/figma/mascot-start.png');
-type AuthStep = 'start' | 'login' | 'roles';
+type AuthStep = 'start' | 'login' | 'signup';
+
+/** 서버 오류 메시지를 그대로 보여준다 — "실패했습니다"로 뭉개면 왜 안 되는지 모른다. */
+function errorText(e: unknown): string {
+  const m = e instanceof Error ? e.message : String(e);
+  return m.replace(/^\d+\s*/, '') || '연결에 실패했습니다. 네트워크를 확인해 주세요.';
+}
 
 export default function AuthScreen() {
-  const login = useAuthStore((s) => s.login);
+  const signIn = useAuthStore((s) => s.signIn);
+  const signUp = useAuthStore((s) => s.signUp);
   const [step, setStep] = useState<AuthStep>('start');
-  const [email, setEmail] = useState('');
+  const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState<Role>('citizen');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+
+  const submit = async () => {
+    if (busy) return;
+    setError('');
+    setBusy(true);
+    try {
+      if (step === 'signup') await signUp(loginId, password, role);
+      else await signIn(loginId, password);
+      // 성공하면 이 화면이 통째로 언마운트된다(RootNavigator 가 역할 트리로 바꾼다).
+    } catch (e) {
+      setError(errorText(e));
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -28,29 +54,68 @@ export default function AuthScreen() {
         {step === 'start' && (
           <>
             <View style={styles.introFrame}><Text style={styles.intro}>내 동네를 설정하고{`\n`}돌아오길과 함께 걸어 보세요 🏡</Text></View>
-            <Pressable accessibilityRole="button" onPress={() => setStep('roles')} style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}>
+            <Pressable accessibilityRole="button" onPress={() => { setError(''); setStep('signup'); }} style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}>
               <Text style={styles.startText}>시작하기 〉</Text>
             </Pressable>
             <View style={styles.loginRow}>
               <Text style={styles.accountText}>이미 계정이 있나요? </Text>
-              <Pressable onPress={() => setStep('login')} hitSlop={10}><Text style={styles.loginText}>로그인</Text></Pressable>
+              <Pressable onPress={() => { setError(''); setStep('login'); }} hitSlop={10}><Text style={styles.loginText}>로그인</Text></Pressable>
             </View>
           </>
         )}
 
-        {step === 'login' && (
+        {step !== 'start' && (
           <>
-            <SeparatorLabel label="이메일 주소로 로그인해 주세요" />
-            <TextInput value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" placeholder="이메일 주소" placeholderTextColor="#909090" style={[styles.input, styles.email]} />
-            <TextInput value={password} onChangeText={setPassword} secureTextEntry placeholder="비밀번호" placeholderTextColor="#909090" style={[styles.input, styles.password]} onSubmitEditing={() => setStep('roles')} />
-          </>
-        )}
+            <SeparatorLabel label={step === 'signup' ? '쓰실 아이디와 비밀번호를 정해 주세요' : '아이디와 비밀번호를 입력해 주세요'} />
+            <TextInput
+              value={loginId}
+              onChangeText={setLoginId}
+              autoCapitalize="none"
+              autoCorrect={false}
+              textContentType="username"
+              placeholder="아이디 (영문·숫자 3~20자)"
+              placeholderTextColor="#909090"
+              style={[styles.input, styles.email]}
+              accessibilityLabel="아이디"
+              editable={!busy}
+            />
+            <TextInput
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              autoCapitalize="none"
+              textContentType="password"
+              placeholder="비밀번호 (4자 이상)"
+              placeholderTextColor="#909090"
+              style={[styles.input, styles.password]}
+              accessibilityLabel="비밀번호"
+              editable={!busy}
+              onSubmitEditing={submit}
+              returnKeyType="go"
+            />
 
-        {step === 'roles' && (
-          <>
-            <SeparatorLabel label="어떤 역할로 시작하시겠습니까?" />
-            <RoleButton label="보호자로 시작하기" background={color.guardian} top={430} onPress={() => login('guardian')} />
-            <RoleButton label="시민으로 시작하기" background={color.brand} top={488} onPress={() => login('citizen')} />
+            {/* 가입할 때만 역할을 고른다 — 로그인은 계정에 저장된 역할을 따른다. */}
+            {step === 'signup' && (
+              <View style={styles.roleRow}>
+                <RoleChip label="시민" active={role === 'citizen'} onPress={() => setRole('citizen')} />
+                <RoleChip label="보호자" active={role === 'guardian'} onPress={() => setRole('guardian')} />
+              </View>
+            )}
+
+            {error ? <Text style={styles.error} accessibilityRole="alert">{error}</Text> : null}
+
+            <Pressable
+              accessibilityRole="button"
+              onPress={submit}
+              disabled={busy}
+              style={({ pressed }) => [styles.submitButton, { backgroundColor: step === 'signup' && role === 'guardian' ? color.guardian : color.brand }, (pressed || busy) && styles.pressed]}
+            >
+              {busy ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.roleButtonText}>{step === 'signup' ? '가입하고 시작하기' : '로그인'} 〉</Text>}
+            </Pressable>
+
+            <Pressable onPress={() => { setError(''); setStep(step === 'signup' ? 'login' : 'signup'); }} hitSlop={10} style={styles.switchRow}>
+              <Text style={styles.loginText}>{step === 'signup' ? '이미 계정이 있어요' : '계정 만들기'}</Text>
+            </Pressable>
           </>
         )}
       </View>
@@ -63,10 +128,15 @@ function SeparatorLabel({ label }: { label: string }) {
   return <View style={styles.separatorRow}><View style={styles.separator} /><Text style={styles.separatorText}>{label}</Text><View style={styles.separator} /></View>;
 }
 
-function RoleButton({ label, background, top, onPress }: { label: string; background: string; top: number; onPress: () => void }) {
+function RoleChip({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
   return (
-    <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => [styles.roleButton, { backgroundColor: background, top }, pressed && styles.pressed]}>
-      <Text style={styles.roleButtonText}>{label} 〉</Text>
+    <Pressable
+      accessibilityRole="radio"
+      accessibilityState={{ selected: active }}
+      onPress={onPress}
+      style={({ pressed }) => [styles.roleChip, active && styles.roleChipOn, pressed && styles.pressed]}
+    >
+      <Text style={[styles.roleChipText, active && styles.roleChipTextOn]}>{label}</Text>
     </Pressable>
   );
 }
@@ -91,7 +161,15 @@ const styles = StyleSheet.create({
   input: { position: 'absolute', left: 16, right: 16, height: 46, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.9)', paddingHorizontal: 12, fontFamily: type.familySemiBold, fontSize: 16, color: '#525253' },
   email: { top: 429 },
   password: { top: 486 },
-  roleButton: { position: 'absolute', left: 16, right: 16, height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  // 시안의 역할 버튼 자리(top 430/488)를 입력 폼이 이어받는다.
+  roleRow: { position: 'absolute', top: 543, left: 16, right: 16, flexDirection: 'row', gap: 10 },
+  roleChip: { flex: 1, height: 42, borderRadius: 10, borderWidth: 1, borderColor: '#CAD9C5', backgroundColor: 'rgba(255,255,255,0.9)', alignItems: 'center', justifyContent: 'center' },
+  roleChipOn: { backgroundColor: color.brand, borderColor: color.brand },
+  roleChipText: { fontFamily: type.familySemiBold, fontSize: 15, color: '#525253' },
+  roleChipTextOn: { color: '#FFFFFF' },
+  error: { position: 'absolute', top: 595, left: 16, right: 16, fontFamily: type.family, fontSize: 13, lineHeight: 18, color: color.criticalInk },
+  submitButton: { position: 'absolute', top: 630, left: 16, right: 16, height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  switchRow: { position: 'absolute', top: 692, left: 16, right: 16, alignItems: 'center' },
   roleButtonText: { fontFamily: type.familyBold, fontSize: 17, color: '#FFFFFF' },
   homeIndicator: { position: 'absolute', bottom: 8, left: 120, width: 135, height: 5, borderRadius: 100, backgroundColor: '#000000' },
   pressed: { opacity: 0.82 },

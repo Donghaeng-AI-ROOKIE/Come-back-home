@@ -185,6 +185,7 @@ def reset_for_tests() -> None:
 
 # 전역 저장소 인스턴스
 # table 이 지정된 것만 디스크에 남는다 — 무엇을 남길지가 곧 개인정보 정책이다.
+from app.schemas.account import Account, Session
 from app.schemas.case import Case
 from app.schemas.debug import PredictionDebug
 from app.schemas.device import Device
@@ -212,6 +213,12 @@ walk_sessions = Repository(WalkSession, "walk_sessions")
 # 사건을 잇는 기록을 만들면 케이스 파기 후에도 연결이 남아 목적을 넘는다.
 # 마이페이지의 "제보 N건" 배지 하나를 위해 필요한 최소 정보만 센다.
 walk_tip_counts = Repository(table="walk_tip_counts")  # int (user_id 키)
+
+# 계정 — 아이디/비밀번호. password_hash 는 scrypt 결과라 원문 복원이 불가능하다
+# (schemas/account.py). 재시작해도 로그인이 유지돼야 하므로 영속 대상이다.
+accounts = Repository(Account, "accounts")
+# 로그인 토큰 → 계정. 서버가 재시작돼도 앱이 다시 로그인하지 않도록 남긴다.
+sessions = Repository(Session, "sessions")
 
 # 푸시 발송 대상 — **영속화 필수.** 재시작마다 등록이 날아가면 그 뒤로는 아무도
 # 알림을 못 받고, 사용자는 앱을 다시 열기 전까지 그 사실조차 모른다.

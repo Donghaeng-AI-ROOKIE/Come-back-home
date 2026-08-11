@@ -9,12 +9,14 @@ import type { RootStackParamList } from '../navigation/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { color, type } from '../theme/tokens';
 import { submitTip } from '../api/client';
+import { useAuthStore } from '../store/authStore';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 
 type Step = 'summary' | 'location' | 'time';
 
 export default function ReportChatScreen() {
+  const userId = useAuthStore((s) => s.userId);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const queryClient = useQueryClient();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportChat'>>().params;
@@ -39,7 +41,7 @@ export default function ReportChatScreen() {
           includeLocation && `목격 위치: ${location.trim()}`,
           includeTime && `목격 시각: ${seenAt.trim()}`,
         ].filter(Boolean).join(' / ') || '목격 제보',
-      }, { force: withoutLocation || withoutTime });
+      }, { force: withoutLocation || withoutTime, reporterUserId: userId ?? undefined });
       if ('status' in result) {
         setStep(result.missing.includes('location') ? 'location' : 'time');
         Alert.alert('추가 확인이 필요해요', result.reason || '목격 위치나 시각을 조금 더 알려주세요.');
