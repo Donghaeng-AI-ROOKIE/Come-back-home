@@ -12,14 +12,19 @@ import { useAuthStore } from '../store/authStore';
 import { useGuardianStore } from '../store/guardianStore';
 import GuardianAlertsScreen from '../screens/GuardianAlertsScreen';
 import FigmaTabIcon from '../components/FigmaTabIcon';
+import { usePersonas } from '../hooks/queries';
 
 const Tab = createBottomTabNavigator<GuardianTabParamList>();
 
 /** 내 정보 — 로그아웃과 등록 현황만. 시민 마이페이지(레벨·배지)와 다르다. */
 function GuardianMyScreen() {
   const { user, signOut } = useAuthStore();
-  const persona = useGuardianStore((s) => s.persona);
+  const cachedPersona = useGuardianStore((s) => s.persona);
   const reset = useGuardianStore((s) => s.reset);
+  const { data: personas, isLoading } = usePersonas();
+  const registered = personas?.length
+    ? personas.map((persona) => `${persona.name} (${persona.age}세)`).join(', ')
+    : cachedPersona ? `${cachedPersona.name} (${cachedPersona.age}세)` : '없음';
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -39,7 +44,7 @@ function GuardianMyScreen() {
             등록된 가족
           </Text>
           <Text style={styles.rowVal} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            {persona ? `${persona.name} (${persona.age}세)` : '없음'}
+            {isLoading && !cachedPersona ? '불러오는 중…' : registered}
           </Text>
         </View>
         <View style={styles.spacer} />

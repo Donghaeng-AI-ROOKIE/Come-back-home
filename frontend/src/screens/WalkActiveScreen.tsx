@@ -124,8 +124,10 @@ const styles = StyleSheet.create({
   loading: { fontFamily: type.family, fontSize: 13, color: '#525253', textAlign: 'center' },
   greenTop: { position: 'absolute', top: 0, left: 0, right: 0, height: 123, backgroundColor: color.guardianWash },
   map: { position: 'absolute', top: 123, left: 0, right: 0, bottom: 0, width: '100%', height: undefined },
-  leftMascot: { position: 'absolute', top: 2, left: -6, width: 85, height: 135 },
-  rightMascot: { position: 'absolute', top: 75, right: 8, width: 63, height: 91 },
+  // Figma 2607:834의 원본 에셋 프레임. body는 44px 상태바 아래에서 시작하므로
+  // 원본 좌표 y=46/106을 각각 2/62로 옮긴다.
+  leftMascot: { position: 'absolute', top: 2, left: 4, width: 56, height: 79 },
+  rightMascot: { position: 'absolute', top: 62, right: 11, width: 48, height: 79 },
   metrics: { position: 'absolute', top: 52, left: 16, right: 16, flexDirection: 'row', gap: 15 },
   metric: { flex: 1, height: 51, borderRadius: 10, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
   metricLabel: { fontFamily: type.family, fontSize: 10, color: color.figmaGray },

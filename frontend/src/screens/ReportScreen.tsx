@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, Alert, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
@@ -9,20 +9,57 @@ import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { createReport } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
+import { usePersonas } from '../hooks/queries';
 import BaseMap from '../components/BaseMap';
 import MapPin from '../components/MapPin';
+import WebMap from '../components/WebMap';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 
 export default function ReportScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const persona = useGuardianStore((s) => s.persona);
+  const cachedPersona = useGuardianStore((s) => s.persona);
+  const setPersona = useGuardianStore((s) => s.setPersona);
   const setCaseId = useGuardianStore((s) => s.setCaseId);
+  const { data: serverPersonas, isLoading: personasLoading } = usePersonas();
+  const personas = useMemo(() => {
+    if (serverPersonas?.length) return serverPersonas;
+    return cachedPersona ? [cachedPersona] : [];
+  }, [cachedPersona, serverPersonas]);
+  const [selectedPersonaId, setSelectedPersonaId] = useState<string | null>(cachedPersona?.id ?? null);
+  const persona = personas.find((item) => item.id === selectedPersonaId) ?? personas[0] ?? null;
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [situation, setSituation] = useState('');
   const [appearance, setAppearance] = useState('');
-  const [lkp, setLkp] = useState(persona?.home ?? null);
+  const [lkp, setLkp] = useState(cachedPersona?.home ?? null);
+  const [locationSource, setLocationSource] = useState<'persona' | 'current' | null>(cachedPersona ? 'persona' : null);
   const [locating, setLocating] = useState(false);
   const [sending, setSending] = useState(false);
+
+  // 홈은 서버 목록을 읽는데 신고 화면만 메모리 캐시를 읽으면, 앱을 다시 연 뒤
+  // persona_id 없이 신고하게 된다. 서버 목록의 첫 가족을 기본 선택하고 등록 위치도
+  // 함께 복원해 Phase 2 개인화 입력이 빠지지 않게 한다.
+  useEffect(() => {
+    if (personas.length === 0) return;
+    if (!selectedPersonaId || !personas.some((item) => item.id === selectedPersonaId)) {
+      const first = personas[0];
+      setSelectedPersonaId(first.id);
+      setPersona(first);
+      if (locationSource !== 'current') {
+        setLkp(first.home);
+        setLocationSource('persona');
+      }
+    }
+  }, [locationSource, personas, selectedPersonaId, setPersona]);
+
+  const selectPersona = (next: typeof persona) => {
+    if (!next) return;
+    setSelectedPersonaId(next.id);
+    setPersona(next);
+    setLkp(next.home);
+    setLocationSource('persona');
+    setPickerOpen(false);
+  };
 
   const useCurrentLocation = async () => {
     if (locating) return;
@@ -35,6 +72,7 @@ export default function ReportScreen() {
       }
       const current = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
       setLkp({ lat: current.coords.latitude, lng: current.coords.longitude });
+      setLocationSource('current');
     } catch (e) {
       Alert.alert('현재 위치를 확인하지 못했습니다', String(e));
     } finally {
@@ -69,24 +107,39 @@ export default function ReportScreen() {
         <Text style={styles.title}>긴급 실종 신고</Text><View style={styles.headerSide} />
       </View>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Section icon="◉" title="가족 선택"><View style={styles.field}><Text style={styles.fieldText}>{persona ? `${persona.name} (${persona.age}세)` : '사전 등록 정보 없음'}</Text></View></Section>
+        <Section icon="◉" title="가족 선택">
+          <Pressable
+            style={styles.field}
+            onPress={() => personas.length ? setPickerOpen(true) : navigation.navigate('GuardianTabs', { screen: 'GuardianReg' })}
+            accessibilityRole="button"
+            accessibilityLabel={persona ? `선택된 가족 ${persona.name} ${persona.age}세, 변경하기` : '사전 등록 시작하기'}
+          >
+            {personasLoading && personas.length === 0 ? <ActivityIndicator size="small" color={color.guardian} /> : (
+              <><Text style={styles.fieldText}>{persona ? `${persona.name} (${persona.age}세)` : '사전 등록 정보 없음'}</Text><Text style={styles.fieldChevron}>›</Text></>
+            )}
+          </Pressable>
+        </Section>
         <Section icon="●" title="마지막 목격 장소">
           <Pressable style={styles.search} onPress={useCurrentLocation} disabled={locating}>
             <Text style={styles.placeholder}>{locating ? '⌖  현재 위치 확인 중…' : '⌖  현재 위치 사용'}</Text>
           </Pressable>
           <View style={styles.map}>
-            <BaseMap
-              key={lkp ? `${lkp.lat}-${lkp.lng}` : 'empty'}
-              style={StyleSheet.absoluteFill}
-              region={lkp ? { latitude: lkp.lat, longitude: lkp.lng, latitudeDelta: 0.008, longitudeDelta: 0.008 } : undefined}
-              accessibilityLabel="마지막 목격 장소 지도"
-            >
-              {lkp ? <MapPin kind="lastSeen" coordinate={lkp} title="마지막 목격 장소" /> : null}
-            </BaseMap>
+            {Platform.OS === 'web' ? (
+              <WebMap style={StyleSheet.absoluteFill} center={lkp ?? undefined} marker={lkp ?? undefined} zoom={16} accessibilityLabel="마지막 목격 장소 지도" />
+            ) : (
+              <BaseMap
+                key={lkp ? `${lkp.lat}-${lkp.lng}` : 'empty'}
+                style={StyleSheet.absoluteFill}
+                region={lkp ? { latitude: lkp.lat, longitude: lkp.lng, latitudeDelta: 0.008, longitudeDelta: 0.008 } : undefined}
+                accessibilityLabel="마지막 목격 장소 지도"
+              >
+                {lkp ? <MapPin kind="lastSeen" coordinate={lkp} title="마지막 목격 장소" /> : null}
+              </BaseMap>
+            )}
           </View>
           <Text style={styles.address}>
             {lkp
-              ? `${lkp === persona?.home ? '사전등록 위치' : '선택한 현재 위치'} · ${lkp.lat.toFixed(5)}, ${lkp.lng.toFixed(5)}`
+              ? `${locationSource === 'persona' ? '사전등록 위치' : '선택한 현재 위치'} · ${lkp.lat.toFixed(5)}, ${lkp.lng.toFixed(5)}`
               : '마지막 목격 장소를 선택해 주세요'}
           </Text>
         </Section>
@@ -98,6 +151,20 @@ export default function ReportScreen() {
           <Text style={styles.submitText}>{sending ? '접수 중…' : '실종 접수'}</Text>
         </Pressable>
       </ScrollView>
+      <Modal visible={pickerOpen} transparent animationType="fade" onRequestClose={() => setPickerOpen(false)}>
+        <Pressable style={styles.modalBackdrop} onPress={() => setPickerOpen(false)}>
+          <Pressable style={styles.picker} onPress={(event) => event.stopPropagation()}>
+            <Text style={styles.pickerTitle}>실종 신고할 가족 선택</Text>
+            {personas.map((item) => (
+              <Pressable key={item.id} style={[styles.personaOption, item.id === persona?.id && styles.personaOptionSelected]} onPress={() => selectPersona(item)}>
+                <View><Text style={styles.personaName}>{item.name} ({item.age}세)</Text><Text style={styles.personaMeta}>치매 사전 등록</Text></View>
+                <Text style={styles.personaCheck}>{item.id === persona?.id ? '✓' : ''}</Text>
+              </Pressable>
+            ))}
+            <Pressable style={styles.cancel} onPress={() => setPickerOpen(false)}><Text style={styles.cancelText}>취소</Text></Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
       <FigmaFlowTabBar mode="guardian" active="home" />
     </SafeAreaView>
   );
@@ -116,6 +183,7 @@ const styles = StyleSheet.create({
   sectionIcon: { color: color.figmaRed },
   field: { height: 61, borderRadius: 10, backgroundColor: color.figmaField, justifyContent: 'center', paddingHorizontal: 16 },
   fieldText: { fontFamily: type.family, fontSize: 12, color: '#525253' },
+  fieldChevron: { position: 'absolute', right: 16, fontFamily: type.family, fontSize: 24, color: color.guardian },
   search: { height: 30, borderRadius: 8, backgroundColor: color.figmaField, justifyContent: 'center', paddingHorizontal: 12 },
   placeholder: { fontFamily: type.family, fontSize: 12, color: '#9A9A9B' },
   map: { height: 155, borderRadius: 10, overflow: 'hidden', marginTop: 12, backgroundColor: '#EAE8E3' },
@@ -124,4 +192,14 @@ const styles = StyleSheet.create({
   appearance: { height: 53, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 12, fontFamily: type.family, fontSize: 11, color: '#525253' },
   submit: { alignSelf: 'center', width: 204, height: 49, borderRadius: 30, backgroundColor: '#F14444', alignItems: 'center', justifyContent: 'center', marginTop: 20 },
   submitText: { fontFamily: type.familySemiBold, fontSize: 20, color: '#FFFFFF' }, pressed: { opacity: 0.8 }, disabled: { opacity: 0.5 },
+  modalBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.28)', justifyContent: 'flex-end' },
+  picker: { backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, paddingHorizontal: 23, paddingTop: 22, paddingBottom: 34 },
+  pickerTitle: { fontFamily: type.familySemiBold, fontSize: 18, color: '#000000', marginBottom: 16 },
+  personaOption: { minHeight: 67, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 16, marginBottom: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  personaOptionSelected: { backgroundColor: color.guardianWash, borderWidth: 1, borderColor: color.guardian },
+  personaName: { fontFamily: type.familySemiBold, fontSize: 15, color: '#525253' },
+  personaMeta: { fontFamily: type.family, fontSize: 11, color: color.figmaGray, marginTop: 5 },
+  personaCheck: { fontFamily: type.familyBold, fontSize: 18, color: color.guardian },
+  cancel: { height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', marginTop: 2 },
+  cancelText: { fontFamily: type.familySemiBold, fontSize: 15, color: '#525253' },
 });

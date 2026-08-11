@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import { Polyline } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -21,6 +21,9 @@ export default function WalkSummaryScreen() {
   const { distanceKm, durationMin } = useRoute<RouteProp<RootStackParamList, 'WalkSummary'>>().params;
   const time = `${String(Math.floor(durationMin)).padStart(2, '0')}:${String(Math.round((durationMin % 1) * 60)).padStart(2, '0')}`;
   const path = useRoute<RouteProp<RootStackParamList, 'WalkSummary'>>().params.path ?? [];
+  const shareWalk = () => Share.share({
+    message: `오늘 돌아오길과 ${distanceKm.toFixed(1)}km를 ${time} 동안 걸었어요. 우리 동네 안심 산책 기록을 함께 나눠요!`,
+  });
   // 시안의 회색 사각형 자리 — 오늘 **실제로 걸은 길**을 그린다. 경로는 이 기기
   // 안에서만 넘어온 값이다(서버는 산책 좌표를 저장하지 않는다).
   const mid = path.length ? path[Math.floor(path.length / 2)] : null;
@@ -50,7 +53,7 @@ export default function WalkSummaryScreen() {
       </BaseMap>
     )}
     <View style={styles.metrics}><Metric label="산책한 시간" value={time} /><Metric label="총 산책 거리" value={`${distanceKm.toFixed(1)}km`} /></View>
-    <Pressable style={styles.primary}><Text style={styles.primaryText}>오늘의 안심 산책 기록 공유하기</Text></Pressable>
+    <Pressable style={styles.primary} onPress={shareWalk}><Text style={styles.primaryText}>오늘의 안심 산책 기록 공유하기</Text></Pressable>
     <Pressable style={styles.secondary} onPress={() => navigation.navigate('CitizenTabs', { screen: 'Home' })}><Text style={styles.secondaryText}>다른 산책길 둘러보기</Text></Pressable>
   </View><FigmaFlowTabBar mode="citizen" active="register" /></SafeAreaView>;
 }

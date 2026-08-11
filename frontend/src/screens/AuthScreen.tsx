@@ -8,7 +8,7 @@ import FigmaStatusBar from '../components/FigmaStatusBar';
 
 const authLogo = require('../../assets/figma/auth-logo.png');
 const startMascot = require('../../assets/figma/mascot-start.png');
-type AuthStep = 'start' | 'login' | 'signup';
+type AuthStep = 'start' | 'role' | 'login' | 'signup';
 
 /** 서버 오류 메시지를 그대로 보여준다 — "실패했습니다"로 뭉개면 왜 안 되는지 모른다. */
 function errorText(e: unknown): string {
@@ -54,7 +54,7 @@ export default function AuthScreen() {
         {step === 'start' && (
           <>
             <View style={styles.introFrame}><Text style={styles.intro}>내 동네를 설정하고{`\n`}돌아오길과 함께 걸어 보세요 🏡</Text></View>
-            <Pressable accessibilityRole="button" onPress={() => { setError(''); setStep('signup'); }} style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}>
+            <Pressable accessibilityRole="button" onPress={() => { setError(''); setStep('role'); }} style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}>
               <Text style={styles.startText}>시작하기 〉</Text>
             </Pressable>
             <View style={styles.loginRow}>
@@ -64,7 +64,15 @@ export default function AuthScreen() {
           </>
         )}
 
-        {step !== 'start' && (
+        {step === 'role' && (
+          <>
+            <SeparatorLabel label="어떤 역할로 시작하시겠습니까?" />
+            <RoleChoice label="보호자로 시작하기 〉" tone="guardian" onPress={() => { setRole('guardian'); setError(''); setStep('signup'); }} style={styles.guardianChoice} />
+            <RoleChoice label="시민으로 시작하기 〉" tone="citizen" onPress={() => { setRole('citizen'); setError(''); setStep('signup'); }} style={styles.citizenChoice} />
+          </>
+        )}
+
+        {(step === 'login' || step === 'signup') && (
           <>
             <SeparatorLabel label={step === 'signup' ? '쓰실 아이디와 비밀번호를 정해 주세요' : '아이디와 비밀번호를 입력해 주세요'} />
             <TextInput
@@ -94,14 +102,6 @@ export default function AuthScreen() {
               returnKeyType="go"
             />
 
-            {/* 가입할 때만 역할을 고른다 — 로그인은 계정에 저장된 역할을 따른다. */}
-            {step === 'signup' && (
-              <View style={styles.roleRow}>
-                <RoleChip label="시민" active={role === 'citizen'} onPress={() => setRole('citizen')} />
-                <RoleChip label="보호자" active={role === 'guardian'} onPress={() => setRole('guardian')} />
-              </View>
-            )}
-
             {error ? <Text style={styles.error} accessibilityRole="alert">{error}</Text> : null}
 
             <Pressable
@@ -113,7 +113,7 @@ export default function AuthScreen() {
               {busy ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.roleButtonText}>{step === 'signup' ? '가입하고 시작하기' : '로그인'} 〉</Text>}
             </Pressable>
 
-            <Pressable onPress={() => { setError(''); setStep(step === 'signup' ? 'login' : 'signup'); }} hitSlop={10} style={styles.switchRow}>
+            <Pressable onPress={() => { setError(''); setStep(step === 'signup' ? 'login' : 'role'); }} hitSlop={10} style={styles.switchRow}>
               <Text style={styles.loginText}>{step === 'signup' ? '이미 계정이 있어요' : '계정 만들기'}</Text>
             </Pressable>
           </>
@@ -128,15 +128,14 @@ function SeparatorLabel({ label }: { label: string }) {
   return <View style={styles.separatorRow}><View style={styles.separator} /><Text style={styles.separatorText}>{label}</Text><View style={styles.separator} /></View>;
 }
 
-function RoleChip({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
+function RoleChoice({ label, tone, onPress, style }: { label: string; tone: 'guardian' | 'citizen'; onPress: () => void; style: object }) {
   return (
     <Pressable
-      accessibilityRole="radio"
-      accessibilityState={{ selected: active }}
+      accessibilityRole="button"
       onPress={onPress}
-      style={({ pressed }) => [styles.roleChip, active && styles.roleChipOn, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.roleChoice, style, tone === 'guardian' ? styles.guardianTone : styles.citizenTone, pressed && styles.pressed]}
     >
-      <Text style={[styles.roleChipText, active && styles.roleChipTextOn]}>{label}</Text>
+      <Text style={styles.roleChoiceText}>{label}</Text>
     </Pressable>
   );
 }
@@ -161,15 +160,15 @@ const styles = StyleSheet.create({
   input: { position: 'absolute', left: 16, right: 16, height: 46, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.9)', paddingHorizontal: 12, fontFamily: type.familySemiBold, fontSize: 16, color: '#525253' },
   email: { top: 429 },
   password: { top: 486 },
-  // 시안의 역할 버튼 자리(top 430/488)를 입력 폼이 이어받는다.
-  roleRow: { position: 'absolute', top: 543, left: 16, right: 16, flexDirection: 'row', gap: 10 },
-  roleChip: { flex: 1, height: 42, borderRadius: 10, borderWidth: 1, borderColor: '#CAD9C5', backgroundColor: 'rgba(255,255,255,0.9)', alignItems: 'center', justifyContent: 'center' },
-  roleChipOn: { backgroundColor: color.brand, borderColor: color.brand },
-  roleChipText: { fontFamily: type.familySemiBold, fontSize: 15, color: '#525253' },
-  roleChipTextOn: { color: '#FFFFFF' },
-  error: { position: 'absolute', top: 595, left: 16, right: 16, fontFamily: type.family, fontSize: 13, lineHeight: 18, color: color.criticalInk },
-  submitButton: { position: 'absolute', top: 630, left: 16, right: 16, height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  switchRow: { position: 'absolute', top: 692, left: 16, right: 16, alignItems: 'center' },
+  roleChoice: { position: 'absolute', left: 16, right: 16, height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  guardianChoice: { top: 430 },
+  citizenChoice: { top: 488 },
+  guardianTone: { backgroundColor: color.guardian },
+  citizenTone: { backgroundColor: color.brand },
+  roleChoiceText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, color: '#FFFFFF' },
+  error: { position: 'absolute', top: 545, left: 16, right: 16, fontFamily: type.family, fontSize: 13, lineHeight: 18, color: color.criticalInk },
+  submitButton: { position: 'absolute', top: 575, left: 16, right: 16, height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  switchRow: { position: 'absolute', top: 643, left: 16, right: 16, alignItems: 'center' },
   roleButtonText: { fontFamily: type.familyBold, fontSize: 17, color: '#FFFFFF' },
   homeIndicator: { position: 'absolute', bottom: 8, left: 120, width: 135, height: 5, borderRadius: 100, backgroundColor: '#000000' },
   pressed: { opacity: 0.82 },
