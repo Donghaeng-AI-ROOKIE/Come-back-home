@@ -26,7 +26,14 @@ router = APIRouter(prefix="/auth", tags=["인증 — 계정"])
 # 로그인해도 버티는 선으로 잡았다.
 _SCRYPT = {"n": 2**14, "r": 8, "p": 1, "dklen": 32}
 
-_ID_RE = re.compile(r"^[a-zA-Z0-9_.-]{3,20}$")
+# 시안이 "이메일 주소"를 받으므로 이메일을 허용한다. 다만 이메일만 강제하지는
+# 않는다 — 현장 실험에서 짧은 아이디로 빨리 만들 수 있어야 한다.
+_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$")
+_ID_RE = re.compile(r"^[a-zA-Z0-9_.-]{3,32}$")
+
+
+def _valid_login_id(value: str) -> bool:
+    return bool(_EMAIL_RE.match(value) or _ID_RE.match(value))
 _ROLES = {"citizen", "guardian"}
 
 
@@ -79,8 +86,8 @@ def _find(login_id: str) -> Account | None:
 def signup(body: CredentialsIn) -> AuthOut:
     """가입 즉시 로그인 상태가 된다 — 현장에서 화면을 두 번 거치게 하지 않는다."""
     login_id = body.login_id.strip().lower()
-    if not _ID_RE.match(login_id):
-        raise HTTPException(400, "아이디는 영문·숫자 3~20자로 입력해 주세요.")
+    if len(login_id) > 64 or not _valid_login_id(login_id):
+        raise HTTPException(400, "이메일 주소 형식으로 입력해 주세요.")
     if len(body.password) < 4:
         raise HTTPException(400, "비밀번호는 4자 이상으로 입력해 주세요.")
     if body.role not in _ROLES:
