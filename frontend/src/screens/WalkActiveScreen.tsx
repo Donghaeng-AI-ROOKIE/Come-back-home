@@ -12,7 +12,7 @@ import FigmaStatusBar from '../components/FigmaStatusBar';
 import { useActiveWalk, useEndWalk, useStartWalk } from '../hooks/queries';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { useWalkTracking } from '../hooks/useWalkTracking';
-import { formatClock, formatKm } from '../utils/walkFormat';
+import { formatClock, formatKm, serverTimeMs } from '../utils/walkFormat';
 import BaseMap from '../components/BaseMap';
 import MapPin from '../components/MapPin';
 import WebMap from '../components/WebMap';
@@ -20,17 +20,8 @@ import WebMap from '../components/WebMap';
 const leftMascot = require('../../assets/figma/mascot-walk-right.png');
 const rightMascot = require('../../assets/figma/mascot-walk-left.png');
 
-/**
- * 서버 시각 문자열 → epoch ms.
- *
- * 서버는 오프셋 없는 naive 문자열을 주는데 **배포 컨테이너 시계가 UTC** 다.
- * 그대로 `new Date()` 에 넣으면 브라우저가 로컬(KST)로 해석해 9시간이 어긋난다
- * — 산책을 막 시작해도 '540:00' 이 찍혔다(실측 08-11). 오프셋이 없으면 Z 를 붙인다.
- */
-function serverTimeMs(iso: string): number {
-  const hasOffset = iso.endsWith('Z') || /[+-]\d{2}:\d{2}$/.test(iso);
-  return new Date(hasOffset ? iso : `${iso}Z`).getTime();
-}
+// serverTimeMs 는 utils/walkFormat 로 옮겼다 — 기록 목록도 같은 변환이 필요했는데
+// 여기 갇혀 있어서 그쪽만 9시간 어긋난 채로 남아 있었다(실측 08-12).
 
 function useElapsed(startedAt?: string) {
   const [now, setNow] = useState(Date.now());
