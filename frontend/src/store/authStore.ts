@@ -12,6 +12,7 @@
  * (로그아웃) 남은 값은 아무 힘이 없다.
  */
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import * as authApi from '../api/auth';
@@ -30,6 +31,8 @@ type AuthState = {
   signIn: (loginId: string, password: string) => Promise<void>;
   signUp: (loginId: string, password: string, role: Role) => Promise<void>;
   signOut: () => void;
+  /** 역할 전환 — 앱의 화면 트리가 역할로 갈리므로 이걸 바꾸면 트리가 통째로 바뀐다. */
+  switchRole: (role: Role) => Promise<void>;
   /** 앱 시작 시 1회 — 저장된 토큰이 아직 유효한지 서버에 묻는다. */
   restore: () => Promise<void>;
 };
@@ -51,6 +54,20 @@ export const useAuthStore = create<AuthState>()(
       signUp: async (loginId, password, role) => {
         const r = await authApi.signup(loginId, password, role);
         set({ token: r.token, role: r.role, user: r.login_id, userId: r.user_id, restoring: false });
+      },
+
+      switchRole: async (role) => {
+        const token = get().token;
+        if (!token) return;
+        const r = await authApi.changeRole(token, role);
+        set({ role: r.role, user: r.login_id, userId: r.user_id });
+        // 역할이 바뀌면 화면 트리가 통째로 갈린다(보호자↔시민). 그 자리에서
+        // 갈아끼우면 내비게이션 상태가 어긋나 흰 화면이 되는 경우가 있다
+        // (현장 제보 08-11). 웹에서는 한 번 새로 띄워 확실하게 만든다 —
+        // 토큰은 저장돼 있으므로 다시 로그인할 필요는 없다.
+        if (Platform.OS === 'web' && typeof window !== 'undefined') {
+          setTimeout(() => window.location.reload(), 60);
+        }
       },
 
       signOut: () => {

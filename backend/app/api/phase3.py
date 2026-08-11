@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field
 
 from app import storage
 from app.geo import h3grid
-from app.phase3 import alerts, devices, presence, storytelling, tip_flow, triggers
+from app.phase3 import alerts, devices, presence, storytelling, tip_flow, triggers, webpush
 from app.privacy import lifecycle
 from app.schemas.case import CaseStatus
 from app.schemas.common import GeoPoint
@@ -240,6 +240,9 @@ class DeviceIn(BaseModel):
     cell_res7: str | None = Field(default=None, max_length=32)
     # 참여도 등급 3값. 원시 이력(열람·제보 횟수)은 폰에만 있고 이 요약값만 온다.
     engagement: Engagement = Engagement.normal
+    # 웹 푸시 구독(platform=web 일 때). 브라우저가 만들어 준 endpoint·keys 이며
+    # 토큰 자리에는 endpoint 를 넣는다 — 그것이 그 브라우저의 주소다.
+    web_subscription: dict | None = None
 
 
 @router.post("/devices")
@@ -249,13 +252,24 @@ def register_device(body: DeviceIn):
     ⚠️ 이 시점부터 서버는 지속적 기기 식별자를 갖는다. 푸시의 본질이라 회피할 수
     없고, 남는 선택지는 토큰에 무엇을 붙이지 않느냐뿐이다.
     """
-    device = devices.register(body.token, body.platform, body.cell_res7, body.engagement)
+    device = devices.register(body.token, body.platform, body.cell_res7, body.engagement,
+                              web_subscription=body.web_subscription)
     return {
         "registered": True,
         "platform": device.platform,
         "since": device.registered_at,
         "targetable": device.cell_res7 is not None,
     }
+
+
+@router.get("/webpush/public-key")
+def webpush_public_key() -> dict:
+    """웹 푸시 구독에 필요한 VAPID 공개키.
+
+    비어 있으면 앱은 구독을 시도하지 않는다 — 서버에 키가 없는데 브라우저에만
+    권한 팝업을 띄우면, 허용해도 알림이 오지 않는 상태가 된다.
+    """
+    return {"key": webpush.public_key(), "enabled": webpush.enabled()}
 
 
 @router.delete("/devices/{token}")

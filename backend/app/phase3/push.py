@@ -21,6 +21,8 @@ iOS 추가가 "APNs 키 등록 + 빌드"로 끝나고 이 파일은 안 바뀐�
 import httpx
 
 from app.config import settings
+from app.phase3 import devices, webpush
+from app.schemas.device import Platform
 
 # 공식 엔드포인트. 배치 상한 100건/요청, 프로젝트당 600건/초.
 EXPO_PUSH_URL = "https://exp.host/--/api/v2/push/send"
@@ -54,10 +56,30 @@ def send(
     if not tokens:
         return {"sent": 0, "failed": 0, "tickets": [], "stub": False}
 
+    # 웹 푸시 구독은 Expo 토큰이 아니라 브라우저가 준 주소다 — 다른 경로로 보낸다.
+    # 한 사건의 수신자 안에 두 종류가 섞이므로 여기서 갈라 준다(호출부는 모른다).
+    web_devices = [d for d in devices.all_devices()
+                   if d.platform == Platform.web and d.token in set(tokens)]
+    web_tokens = {d.token for d in web_devices}
+    expo_tokens = [tk for tk in tokens if tk not in web_tokens]
+
+    web_sent = 0
+    web_failed = 0
+    for d in web_devices:
+        if d.web_subscription and webpush.send_one(d.web_subscription, title, body, data):
+            web_sent += 1
+        else:
+            web_failed += 1
+
+    if not expo_tokens:
+        return {"sent": web_sent, "failed": web_failed, "tickets": [], "stub": False}
+    tokens = expo_tokens
+
     if not settings.push_enabled:
         # 스텁: 네트워크 없이 "보낸 셈" 친다. 실패 0 으로 두면 호출부의 집계 코드가
         # 실경로와 같은 모양을 타므로, 나중에 켰을 때 처음 도는 경로가 줄어든다.
-        return {"sent": len(tokens), "failed": 0, "tickets": [], "stub": True}
+        return {"sent": len(tokens) + web_sent, "failed": web_failed,
+                "tickets": [], "stub": True}
 
     headers = {"Content-Type": "application/json"}
     if settings.expo_access_token:
@@ -95,8 +117,8 @@ def send(
     # ticket status 가 "error" 인 건 전송 자체가 거부된 것(무효 토큰 등).
     ticket_errors = sum(1 for t in tickets if t.get("status") == "error")
     return {
-        "sent": len(tokens) - failed - ticket_errors,
-        "failed": failed + ticket_errors,
+        "sent": len(tokens) - failed - ticket_errors + web_sent,
+        "failed": failed + ticket_errors + web_failed,
         "tickets": tickets,
         "stub": False,
     }

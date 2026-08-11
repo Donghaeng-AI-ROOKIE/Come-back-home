@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
+import { useQueryClient } from '@tanstack/react-query';
 import { createReport } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
 import { usePersonas } from '../hooks/queries';
@@ -24,6 +25,7 @@ const PERSON_ICON = require('../../assets/figma/report-person.png');
 const MAP_ICON = require('../../assets/figma/report-map.png');
 
 export default function ReportScreen() {
+  const qc = useQueryClient();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const cachedPersona = useGuardianStore((s) => s.persona);
   const setPersona = useGuardianStore((s) => s.setPersona);
@@ -114,6 +116,8 @@ export default function ReportScreen() {
         situation: situation.trim(),
       });
       setCaseId(c.id);
+      // 보호자 알림 탭은 내 사건을 따로 조회한다 — 새 신고가 바로 잡히게 무효화한다.
+      qc.invalidateQueries({ queryKey: ['guardianCase'] });
       navigation.replace('ReportSent', { caseId: c.id });
     } catch (error) {
       Alert.alert('신고를 전송하지 못했습니다', String(error));

@@ -26,7 +26,14 @@ router = APIRouter(prefix="/auth", tags=["인증 — 계정"])
 # 로그인해도 버티는 선으로 잡았다.
 _SCRYPT = {"n": 2**14, "r": 8, "p": 1, "dklen": 32}
 
-_ID_RE = re.compile(r"^[a-zA-Z0-9_.-]{3,20}$")
+# 시안이 "이메일 주소"를 받으므로 이메일을 허용한다. 다만 이메일만 강제하지는
+# 않는다 — 현장 실험에서 짧은 아이디로 빨리 만들 수 있어야 한다.
+_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$")
+_ID_RE = re.compile(r"^[a-zA-Z0-9_.-]{3,32}$")
+
+
+def _valid_login_id(value: str) -> bool:
+    return bool(_EMAIL_RE.match(value) or _ID_RE.match(value))
 _ROLES = {"citizen", "guardian"}
 
 
@@ -79,8 +86,8 @@ def _find(login_id: str) -> Account | None:
 def signup(body: CredentialsIn) -> AuthOut:
     """가입 즉시 로그인 상태가 된다 — 현장에서 화면을 두 번 거치게 하지 않는다."""
     login_id = body.login_id.strip().lower()
-    if not _ID_RE.match(login_id):
-        raise HTTPException(400, "아이디는 영문·숫자 3~20자로 입력해 주세요.")
+    if len(login_id) > 64 or not _valid_login_id(login_id):
+        raise HTTPException(400, "이메일 주소 형식으로 입력해 주세요.")
     if len(body.password) < 4:
         raise HTTPException(400, "비밀번호는 4자 이상으로 입력해 주세요.")
     if body.role not in _ROLES:
@@ -123,6 +130,41 @@ def me(authorization: str = Header(default="")) -> AuthOut:
         login_id=session.login_id,
         role=session.role,
     )
+
+
+class RoleIn(BaseModel):
+    role: str
+
+
+@router.post("/role", response_model=AuthOut)
+def change_role(body: RoleIn, authorization: str = Header(default="")) -> AuthOut:
+    """로그인한 계정의 역할을 바꾼다.
+
+    앱은 역할별로 화면 트리가 완전히 갈린다 — 보호자 계정으로는 산책·제보 화면에
+    갈 수 없다. 그런데 역할을 가입할 때 한 번만 고르게 해 두면, 잘못 고른 사람은
+    계정을 새로 만드는 수밖에 없다(현장 실측 08-11). 여기서 바꿀 수 있게 한다.
+
+    산책·제보 기록은 user_id 에 붙으므로 역할을 바꿔도 그대로 남는다.
+    """
+    token = authorization.removeprefix("Bearer ").strip()
+    session = storage.sessions.get(token)
+    if session is None:
+        raise HTTPException(401, "다시 로그인해 주세요.")
+    if body.role not in _ROLES:
+        raise HTTPException(400, "역할이 올바르지 않습니다.")
+
+    account = storage.accounts.get(session.user_id)
+    if account is None:
+        raise HTTPException(401, "다시 로그인해 주세요.")
+    account.role = body.role
+    storage.accounts.save(account.user_id, account)
+
+    # 이 토큰이 들고 있던 역할도 함께 갱신한다 — 안 그러면 앱을 껐다 켤 때
+    # 옛 역할로 되돌아간다(/auth/me 가 세션을 읽으므로).
+    session.role = body.role
+    storage.sessions.save(token, session)
+    return AuthOut(token=token, user_id=account.user_id,
+                   login_id=account.login_id, role=account.role)
 
 
 @router.post("/logout")

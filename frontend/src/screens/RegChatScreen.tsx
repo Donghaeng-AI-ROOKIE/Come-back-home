@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,6 +19,7 @@ const GUARDIAN_NAME = '보호자';
 type Msg = { id: string; from: 'bot' | 'user'; text: string; pending?: boolean };
 
 export default function RegChatScreen() {
+  const qc = useQueryClient();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'RegChat'>>();
   const quick = route.params?.mode === 'quick';
@@ -47,11 +49,15 @@ export default function RegChatScreen() {
         const persona = await getPersona(session.persona_id!);
         if (cancelled) return;
         setPersona(persona);
+        // 새로 등록한 가족이 홈 목록에 바로 뜨게 한다 — 목록은 별도 쿼리라
+        // 무효화하지 않으면 다음에 앱을 켤 때까지 안 보인다.
+        qc.invalidateQueries({ queryKey: ['personas'] });
         if (quick) navigation.replace('Report');
         else navigation.replace('RegDone', { personaId: persona.id, name: persona.name, age: persona.age });
       } catch (e) {
         if (cancelled) return;
         setError(e instanceof ApiError ? e.message : String(e));
+        qc.invalidateQueries({ queryKey: ['personas'] });
         if (quick) navigation.replace('Report');
         else navigation.replace('RegDone', { personaId: session.persona_id!, name: '', age: 0 });
       }

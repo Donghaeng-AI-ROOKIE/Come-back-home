@@ -31,6 +31,9 @@ def test_signup_login_and_token_lifecycle():
 def test_invalid_inputs_rejected():
     assert c.post('/auth/signup', json={'login_id': 'ab', 'password': 'pw1234'}).status_code == 400
     assert c.post('/auth/signup', json={'login_id': '한글아이디', 'password': 'pw1234'}).status_code == 400
+    # 시안이 "이메일 주소"를 받으므로 이메일도 통과해야 한다
+    assert c.post('/auth/signup', json={'login_id': 'walker@sogang.ac.kr', 'password': 'pw1234'}).status_code == 200
+    assert c.post('/auth/signup', json={'login_id': 'a@b', 'password': 'pw1234'}).status_code == 400
     assert c.post('/auth/signup', json={'login_id': 'okid1', 'password': '12'}).status_code == 400
     assert c.post('/auth/signup', json={'login_id': 'okid2', 'password': 'pw1234', 'role': 'admin'}).status_code == 400
 

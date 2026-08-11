@@ -3,13 +3,14 @@ import { Alert, Image, Platform, Pressable, StyleSheet, Text, View } from 'react
 import { Polyline } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
-import { useActiveWalk, useEndWalk } from '../hooks/queries';
+import { useActiveWalk, useEndWalk, useStartWalk } from '../hooks/queries';
+import { useMyLocation } from '../hooks/useMyLocation';
 import { useWalkTracking } from '../hooks/useWalkTracking';
 import BaseMap from '../components/BaseMap';
 import MapPin from '../components/MapPin';
@@ -18,16 +19,33 @@ import WebMap from '../components/WebMap';
 const leftMascot = require('../../assets/figma/mascot-walk-right.png');
 const rightMascot = require('../../assets/figma/mascot-walk-left.png');
 
+/**
+ * 서버 시각 문자열 → epoch ms.
+ *
+ * 서버는 오프셋 없는 naive 문자열을 주는데 **배포 컨테이너 시계가 UTC** 다.
+ * 그대로 `new Date()` 에 넣으면 브라우저가 로컬(KST)로 해석해 9시간이 어긋난다
+ * — 산책을 막 시작해도 '540:00' 이 찍혔다(실측 08-11). 오프셋이 없으면 Z 를 붙인다.
+ */
+function serverTimeMs(iso: string): number {
+  const hasOffset = iso.endsWith('Z') || /[+-]\d{2}:\d{2}$/.test(iso);
+  return new Date(hasOffset ? iso : `${iso}Z`).getTime();
+}
+
 function useElapsed(startedAt?: string) {
   const [now, setNow] = useState(Date.now());
   const base = useRef<number | null>(null);
   useEffect(() => {
     if (!startedAt) return;
-    base.current = new Date(startedAt).getTime();
+    base.current = serverTimeMs(startedAt);
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, [startedAt]);
   return !startedAt || base.current == null ? 0 : Math.max(0, Math.floor((now - base.current) / 1000));
+}
+
+/** 1km 미만은 둘째 자리까지 — 0.0km 로만 보이면 거리가 안 잡히는 줄 안다. */
+function formatKm(km: number): string {
+  return km < 1 ? km.toFixed(2) : km.toFixed(1);
 }
 
 function clock(sec: number) {
@@ -38,8 +56,16 @@ export default function WalkActiveScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { data: session, isLoading } = useActiveWalk();
   const endWalk = useEndWalk();
+  const startWalk = useStartWalk();
+  // 부모가 탭 내비게이터면 탭바는 그쪽이 그린다. 라우트 이름으로 가른다 —
+  // 탭에서는 'Walk', 스택에서는 'WalkActive' 로 등록돼 있다.
+  const inTab = useRoute().name === 'Walk';
   const elapsedSec = useElapsed(session?.started_at);
   const track = useWalkTracking(!!session);
+  // 추적 워처의 첫 값이 오기까지 수 초 걸린다(도심에서는 더). 그동안 지도에
+  // 중심도 마커도 없으면 "현재 위치가 안 뜬다"로 보인다 — 앱 공용 위치를 폴백으로 쓴다.
+  const { point: myPoint } = useMyLocation(true);
+  const here = track.current ?? myPoint;
 
   const onEnd = () => {
     if (!session) return;
@@ -54,7 +80,29 @@ export default function WalkActiveScreen() {
   };
 
   if (isLoading || !session) {
-    return <SafeAreaView style={styles.safe}><View style={styles.center}><Text style={styles.loading}>{isLoading ? '불러오는 중…' : '진행 중인 산책이 없어요'}</Text></View></SafeAreaView>;
+    // 산책하기 탭이 이 화면을 띄우므로, 진행 중인 산책이 없을 때 여기서 바로
+    // 시작할 수 있어야 한다 — 안 그러면 탭을 눌러도 막다른 화면이 된다.
+    return (
+      <SafeAreaView style={styles.safe} edges={['top']}>
+        <StatusBar style="dark" />
+        <FigmaStatusBar />
+        <View style={styles.center}>
+          <Text style={styles.loading}>{isLoading ? '불러오는 중…' : '진행 중인 산책이 없어요'}</Text>
+          {!isLoading ? (
+            <Pressable
+              onPress={() => startWalk.mutate(undefined)}
+              disabled={startWalk.isPending}
+              accessibilityRole="button"
+              style={({ pressed }) => [styles.startBtn, pressed && styles.pressed]}
+            >
+              <Text style={styles.startBtnText}>
+                {startWalk.isPending ? '시작하는 중…' : '산책 시작하기'}
+              </Text>
+            </Pressable>
+          ) : null}
+        </View>
+      </SafeAreaView>
+    );
   }
 
   return (
@@ -67,7 +115,7 @@ export default function WalkActiveScreen() {
         {Platform.OS === 'web' ? (
           <WebMap
             style={styles.map}
-            center={track.current ?? undefined}
+            center={here ?? undefined}
             path={track.path}
             zoom={16}
             accessibilityLabel="산책 경로 지도"
@@ -75,9 +123,9 @@ export default function WalkActiveScreen() {
         ) : (
           <BaseMap
             style={styles.map}
-            region={track.current ? {
-              latitude: track.current.lat,
-              longitude: track.current.lng,
+            region={here ? {
+              latitude: here.lat,
+              longitude: here.lng,
               latitudeDelta: 0.006,
               longitudeDelta: 0.006,
             } : undefined}
@@ -91,16 +139,21 @@ export default function WalkActiveScreen() {
                 strokeWidth={5}
               />
             ) : null}
-            {track.current ? <MapPin kind="me" coordinate={track.current} title="현재 위치" /> : null}
+            {here ? <MapPin kind="me" coordinate={here} title="현재 위치" /> : null}
           </BaseMap>
         )}
+        {/* 왼쪽 악어는 카드 **뒤**에 있다(몸 아래쪽이 카드에 가려진다). */}
         <Image source={leftMascot} resizeMode="contain" style={styles.leftMascot} accessibilityLabel="가방을 멘 돌아오길 악어 캐릭터" />
-        <Image source={rightMascot} resizeMode="contain" style={styles.rightMascot} accessibilityLabel="산책 중인 돌아오길 악어 캐릭터" />
 
         <View style={styles.metrics}>
           <Metric label="산책한 시간" value={clock(elapsedSec)} />
-          <Metric label="총 산책 거리" value={`${track.distanceKm.toFixed(1)}km`} />
+          <Metric label="총 산책 거리" value={`${formatKm(track.distanceKm)}km`} />
         </View>
+
+        {/* 오른쪽 악어는 카드 **앞**에 온다 — 시안에서 오른쪽 카드 모서리를 덮고 있다.
+            카드보다 먼저 그리면 카드가 악어를 덮어 뒤로 숨은 것처럼 보인다
+            (현장 제보 08-11). 그리는 순서가 곧 앞뒤다. */}
+        <Image source={rightMascot} resizeMode="contain" style={styles.rightMascot} accessibilityLabel="산책 중인 돌아오길 악어 캐릭터" />
 
         <View style={styles.locationHalo}><View style={styles.locationDot} /></View>
 
@@ -108,7 +161,9 @@ export default function WalkActiveScreen() {
           <Text style={styles.endText}>{endWalk.isPending ? '저장 중…' : '산책 종료하기'}</Text>
         </Pressable>
       </View>
-      <FigmaFlowTabBar mode="citizen" active="register" />
+      {/* 이 화면은 두 곳에서 열린다 — 산책하기 탭(내비게이터가 탭바를 그린다)과
+          스택 진입(안 그린다). 탭 안에서 또 그리면 탭바가 두 개로 보인다. */}
+      {inTab ? null : <FigmaFlowTabBar mode="citizen" active="register" />}
     </SafeAreaView>
   );
 }
@@ -120,6 +175,8 @@ function Metric({ label, value }: { label: string; value: string }) {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   body: { flex: 1, overflow: 'hidden' },
+  startBtn: { marginTop: 16, height: 50, paddingHorizontal: 34, borderRadius: 25, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center' },
+  startBtnText: { fontFamily: type.familyBold, fontSize: 17, color: '#FFFFFF' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   loading: { fontFamily: type.family, fontSize: 13, color: '#525253', textAlign: 'center' },
   greenTop: { position: 'absolute', top: 0, left: 0, right: 0, height: 123, backgroundColor: color.guardianWash },
@@ -127,7 +184,9 @@ const styles = StyleSheet.create({
   // Figma 2607:834의 원본 에셋 프레임. body는 44px 상태바 아래에서 시작하므로
   // 원본 좌표 y=46/106을 각각 2/62로 옮긴다.
   leftMascot: { position: 'absolute', top: 2, left: 4, width: 56, height: 79 },
-  rightMascot: { position: 'absolute', top: 62, right: 11, width: 48, height: 79 },
+  // 시안: 오른쪽 악어는 왼쪽보다 작고, **발끝이 초록 영역 아래 경계에 닿는다**.
+  // 기존값(top 62 + 높이 79 = 141)은 초록 경계 123 을 18px 넘겨 지도 위로 삐져나왔다.
+  rightMascot: { position: 'absolute', top: 59, right: 11, width: 41, height: 64 },
   metrics: { position: 'absolute', top: 52, left: 16, right: 16, flexDirection: 'row', gap: 15 },
   metric: { flex: 1, height: 51, borderRadius: 10, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
   metricLabel: { fontFamily: type.family, fontSize: 10, color: color.figmaGray },

@@ -12,12 +12,22 @@ import { useEffect, useRef, useState } from 'react';
 import * as Location from 'expo-location';
 import type { GeoPoint } from '../types/domain';
 
-/** GPS 튐 제거 — 이보다 부정확한 측정치는 거리 누적에 쓰지 않는다(m). */
-const MAX_ACCURACY_M = 30;
-/** 한 번의 갱신으로 이만큼 넘게 뛰면 점프로 본다(m). 도보 5초 간격 상한. */
-const MAX_STEP_M = 60;
+/**
+ * GPS 튐 제거 — 이보다 부정확한 측정치는 거리 누적에 쓰지 않는다(m).
+ *
+ * 30m 로 잡았더니 **거리가 아예 안 쌓였다**(실측 08-11). 폰 브라우저의 측위
+ * 정확도는 도심에서 흔히 30~60m 이고, 신촌처럼 건물이 빽빽한 곳은 더 나쁘다.
+ * 네이티브 앱 기준으로 잡은 값이라 웹에서는 모든 측정치가 걸러졌다.
+ */
+const MAX_ACCURACY_M = 65;
+/**
+ * 도보 속도 상한(m/s). 점프 판정을 **고정 거리가 아니라 경과 시간**으로 한다 —
+ * 브라우저는 콜백 간격이 들쭉날쭉해서(5초일 때도, 40초일 때도 있다) 고정 60m 로
+ * 자르면 정상 보행도 점프로 버려진다.
+ */
+const MAX_SPEED_MPS = 3.0;
 /** 이보다 작은 이동은 정지 중 GPS 흔들림으로 본다(m). */
-const MIN_STEP_M = 2;
+const MIN_STEP_M = 5;
 
 export type WalkTracking = {
   /** 'idle' 요청 전 · 'denied' 거부됨 · 'tracking' 추적 중 · 'error' 실패 */
@@ -54,6 +64,8 @@ export function useWalkTracking(active: boolean): WalkTracking {
   const [current, setCurrent] = useState<GeoPoint | null>(null);
   const [path, setPath] = useState<GeoPoint[]>([]);
   const prev = useRef<GeoPoint | null>(null);
+  /** 직전 측정 시각 — 점프 판정을 시간 기준으로 하기 위해 함께 들고 있는다. */
+  const prevAt = useRef<number | null>(null);
 
   useEffect(() => {
     if (!active) return;
@@ -82,20 +94,37 @@ export function useWalkTracking(active: boolean): WalkTracking {
             setCurrent(p);
             // 부정확한 측정치는 위치 표시에만 쓰고 거리에는 더하지 않는다.
             if (acc > MAX_ACCURACY_M) return;
+
+            const now = loc.timestamp ?? Date.now();
             const last = prev.current;
-            if (!last) {
+            const lastAt = prevAt.current;
+            if (!last || lastAt == null) {
               setPath((prevPath) => (prevPath.length ? prevPath : [p]));
-            } else {
-              const d = haversineM(last, p);
-              if (d >= MIN_STEP_M && d <= MAX_STEP_M) {
-                setDistanceKm((km) => km + d / 1000);
-                // 거리에 더한 이동만 경로로 남긴다 — 판정 기준을 하나로 유지한다.
-                setPath((prevPath) => [...prevPath, p].slice(-MAX_PATH));
-              } else if (d > MAX_STEP_M) {
-                prev.current = p;  // 점프는 버리되 기준점은 옮긴다
-              }
+              prev.current = p;
+              prevAt.current = now;
+              return;
             }
-            if (!last || haversineM(last, p) >= MIN_STEP_M) prev.current = p;
+
+            const d = haversineM(last, p);
+            const dtSec = Math.max((now - lastAt) / 1000, 1);
+            // 측정 오차 안의 흔들림은 이동이 아니다 — 정확도가 나쁠수록 더 크게
+            // 움직여야 인정한다. 안 그러면 서 있어도 거리가 늘어난다.
+            const minStep = Math.max(MIN_STEP_M, acc * 0.5);
+            // 점프 판정: 그 시간 동안 도보로 갈 수 있는 거리 + 측정 오차.
+            const maxStep = MAX_SPEED_MPS * dtSec + acc;
+
+            if (d >= minStep && d <= maxStep) {
+              setDistanceKm((km) => km + d / 1000);
+              // 거리에 더한 이동만 경로로 남긴다 — 판정 기준을 하나로 유지한다.
+              setPath((prevPath) => [...prevPath, p].slice(-MAX_PATH));
+              prev.current = p;
+              prevAt.current = now;
+            } else if (d > maxStep) {
+              prev.current = p;   // 점프는 버리되 기준점은 옮긴다
+              prevAt.current = now;
+            }
+            // d < minStep 이면 기준점을 그대로 둔다 — 천천히 걸을 때 조금씩
+            // 쌓인 이동이 다음 측정에서 합쳐져 인정되게 한다.
           },
         );
       } catch (e) {

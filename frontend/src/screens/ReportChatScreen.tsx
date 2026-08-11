@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -10,6 +10,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { color, type } from '../theme/tokens';
 import { submitTip } from '../api/client';
 import { useAuthStore } from '../store/authStore';
+import { useMyLocation } from '../hooks/useMyLocation';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 
@@ -17,6 +18,7 @@ type Step = 'summary' | 'location' | 'time';
 
 export default function ReportChatScreen() {
   const userId = useAuthStore((s) => s.userId);
+  const { point: myPoint } = useMyLocation(true);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const queryClient = useQueryClient();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportChat'>>().params;
@@ -25,6 +27,16 @@ export default function ReportChatScreen() {
   const [location, setLocation] = useState('');
   const [seenAt, setSeenAt] = useState('');
   const [sending, setSending] = useState(false);
+  /**
+   * 서버가 '추가 확인'을 한 번이라도 돌려보냈는가.
+   *
+   * 서버는 **좌표**를 요구하는데 사용자는 글로만 답할 수 있다("신촌이요").
+   * 그래서 답을 적어 다시 보내도 같은 질문이 또 오고, 화면이 앞으로 못 간다
+   * (현장 제보 08-11 — '답변하고 제보하기'를 눌러도 그대로).
+   * 사용자가 할 몫을 다 했으면 그 다음 전송은 강제로 접수한다 — 적어 준 글은
+   * 제보 본문에 그대로 남아 지휘자가 읽을 수 있다.
+   */
+  const askedOnce = useRef(false);
 
   const submit = async ({ withoutLocation = false, withoutTime = false } = {}) => {
     if (sending) return;
@@ -33,16 +45,25 @@ export default function ReportChatScreen() {
       const includeLocation = !withoutLocation && !!location.trim();
       const includeTime = !withoutTime && !!seenAt.trim();
       const result = await submitTip(caseId, {
-        // 자유서술 위치·시각은 서버의 제보 구조화/지오코딩 파이프라인이 좌표와
-        // datetime 으로 바꾼다. 데모 좌표나 파싱 불가능한 문자열을 명시 필드에
-        // 넣지 않는다.
+        // **목격 좌표는 제보자의 현재 위치로 보낸다.**
+        //
+        // 글로만 "서강대 정문"이라고 적으면 서버가 좌표로 바꾸지 못해
+        // need_more(location) 로 되돌아오고, 제보가 **저장조차 되지 않는다**
+        // (실측 08-11 — 사용자가 여러 번 보내도 '추가 확인이 필요해요'만 반복).
+        // 강제로 보내도 좌표가 없으면 POA 갱신에 기여하지 못한다.
+        //
+        // 수색 중인 시민은 목격 지점에 서 있다 — 그 좌표가 가장 정확한 근사다.
+        // 위치를 못 구했을 때만 예전처럼 자유서술로 보낸다.
+        location: myPoint ?? undefined,
+        seenAt: myPoint ? new Date().toISOString().slice(0, 19) : undefined,
         text: [
           summary.trim(),
           includeLocation && `목격 위치: ${location.trim()}`,
           includeTime && `목격 시각: ${seenAt.trim()}`,
         ].filter(Boolean).join(' / ') || '목격 제보',
-      }, { force: withoutLocation || withoutTime, reporterUserId: userId ?? undefined });
+      }, { force: withoutLocation || withoutTime || askedOnce.current, reporterUserId: userId ?? undefined });
       if ('status' in result) {
+        askedOnce.current = true;   // 다음 전송은 반드시 접수된다
         setStep(result.missing.includes('location') ? 'location' : 'time');
         Alert.alert('추가 확인이 필요해요', result.reason || '목격 위치나 시각을 조금 더 알려주세요.');
         setSending(false);

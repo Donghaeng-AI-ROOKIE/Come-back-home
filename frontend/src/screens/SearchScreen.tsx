@@ -33,7 +33,7 @@ import {
 } from '../hooks/queries';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING } from '../data/missing';
 import { hexToRgba } from '../utils/color';
-import type { GeoPoint, PoaGrid, TimeAxis } from '../types/domain';
+import type { GeoPoint, PoaGrid, TimeAxis, PoaCell } from '../types/domain';
 import { useAuthStore } from '../store/authStore';
 import { useAppModeStore } from '../store/appModeStore';
 import { useMissingPersonStore } from '../store/missingPersonStore';
@@ -43,6 +43,7 @@ import { useAreaStatus } from '../hooks/useAreaStatus';
 import type { RootStackParamList } from '../navigation/types';
 
 import BaseMap from '../components/BaseMap';
+import WebMap from '../components/WebMap';
 import PoaHeatmap from '../components/PoaHeatmap';
 import MapPin from '../components/MapPin';
 import PredictionRadius from '../components/PredictionRadius';
@@ -139,6 +140,8 @@ export default function SearchScreen() {
   // 데모 케이스로 갈리면 "어디를 보라"가 다른 사람 기준이 된다.
   const caseId = liveAlert?.caseId ?? DEMO_CASE_ID;
   const watching = usePresenceCount(caseId);
+  /** 사용자가 누른 셀 — 확률을 띄우기 위한 것뿐이라 화면 안에서만 산다. */
+  const [pickedCell, setPickedCell] = useState<PoaCell | null>(null);
   const guidance = useGuidance(caseId).data?.text ?? '';
   const role = useAuthStore((s) => s.role);
   const golden = useGoldenTime();
@@ -174,6 +177,21 @@ export default function SearchScreen() {
 
       {/* ── 지도 레이어 (전면) ─────────────────────────── */}
       <View style={styles.mapLayer}>
+        {/* 웹(폰 브라우저·홈 화면 설치본)에서는 BaseMap 이 자리표시자라 지도가
+            회색으로만 보였다. 실제 타일맵으로 그리고, 폰에는 마우스 오버가 없으니
+            **셀을 누르면 확률을 띄우고 손가락으로 밀 수 있게** 한다(요청 08-11). */}
+        {Platform.OS === 'web' ? (
+          <WebMap
+            style={styles.mapFill}
+            center={lastSeen}
+            grid={grid ?? undefined}
+            marker={lastSeen}
+            zoom={15}
+            pannable
+            onCellPress={setPickedCell}
+            accessibilityLabel={mapA11y}
+          />
+        ) : (
         <BaseMap style={styles.mapFill} accessibilityLabel={mapA11y} showsUserLocation={located}>
           {grid ? <PoaHeatmap grid={grid} /> : null}
           <PredictionRadius center={lastSeen} radiusM={ZONE_RADIUS_M} color={theme.accent} />
@@ -186,6 +204,16 @@ export default function SearchScreen() {
           {/* 내 위치 마커는 OS 기본(showsUserLocation)에 맡긴다 — 방향·불확실성까지
               센서융합으로 그려주고, 측위 실패 시 가짜 좌표를 찍지 않는다. */}
         </BaseMap>
+        )}
+
+        {/* 누른 셀의 발견확률 — 지도 위에 작은 알림으로 띄운다. 다시 누르면 사라진다. */}
+        {pickedCell ? (
+          <Pressable style={styles.cellCallout} onPress={() => setPickedCell(null)} accessibilityRole="button">
+            <Text style={styles.cellCalloutTitle}>이 구역 발견확률</Text>
+            <Text style={styles.cellCalloutValue}>{(pickedCell.prob * 100).toFixed(1)}%</Text>
+            <Text style={styles.cellCalloutHint}>눌러서 닫기</Text>
+          </Pressable>
+        ) : null}
       </View>
 
       {/* ── 지도 로딩 오버레이 ─────────────────────────── */}
@@ -459,6 +487,15 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: color.surface },
 
   mapLayer: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
+  // 누른 셀의 확률을 지도 위에 띄우는 알림.
+  cellCallout: {
+    position: 'absolute', left: 16, top: 16, minWidth: 136,
+    borderRadius: 12, paddingVertical: 10, paddingHorizontal: 14,
+    backgroundColor: 'rgba(255,255,255,0.96)',
+  },
+  cellCalloutTitle: { fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#8E8E93' },
+  cellCalloutValue: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 26, color: '#000000', marginTop: 2 },
+  cellCalloutHint: { fontFamily: type.family, fontSize: 10, lineHeight: 13, color: '#B0B0B5', marginTop: 2 },
   mapFill: { flex: 1, borderRadius: 0, borderWidth: 0 },
 
   loadOverlay: {
