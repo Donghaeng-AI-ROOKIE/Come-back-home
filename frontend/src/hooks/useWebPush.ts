@@ -17,7 +17,7 @@
  * 구독을 등록할 때도 좌표가 아니라 **res7 셀 하나**만 보낸다(usePushRegistration
  * 과 같은 경계). 정밀 좌표는 기기를 떠나지 않는다.
  */
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import { API_BASE } from '../api/config';
 import { useMyLocation } from './useMyLocation';
@@ -62,6 +62,8 @@ export function useWebPush() {
   const [error, setError] = useState('');
   const { point } = useMyLocation(true);
   const level = useEngagementLevel();
+  /** 마지막으로 서버에 올린 셀 — 같은 칸에서 반복 등록하지 않는다. */
+  const lastCell = useRef<string | null>(null);
 
   useEffect(() => {
     if (Platform.OS !== 'web' || typeof window === 'undefined') return;
@@ -92,6 +94,48 @@ export function useWebPush() {
       }
     })();
   }, []);
+
+  /**
+   * 구독을 서버에 올린다(upsert). **셀이 바뀔 때마다 다시 부른다.**
+   *
+   * 처음 이걸 한 번만 했더니 실제 아이폰 3대가 구독을 마쳤는데도 `cell_res7=None`
+   * 으로 남아 **발송 대상에서 전부 빠졌다**(실측 08-11). 알림을 켜는 순간에는 아직
+   * 측위가 안 끝난 경우가 많고, 사람은 그 뒤로 계속 움직인다.
+   */
+  const push = useCallback(async (sub: PushSubscription, cell: string | null) => {
+    const json = sub.toJSON() as { endpoint?: string; keys?: Record<string, string> };
+    await fetch(`${API_BASE}/phase3/devices`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        // 토큰 자리에는 endpoint 를 넣는다 — 그것이 이 브라우저의 주소다.
+        token: json.endpoint,
+        platform: 'web',
+        cell_res7: cell,
+        engagement: level,
+        web_subscription: json,
+      }),
+    });
+  }, [level]);
+
+  // 이미 구독한 기기의 위치 칸을 따라 올린다. 서버는 upsert 라 발송 이력·피로도
+  // 예산이 초기화되지 않는다(backend devices.register).
+  const cell = point ? cellOf(point) : null;
+  useEffect(() => {
+    if (Platform.OS !== 'web' || status !== 'subscribed' || cell == null) return;
+    if (lastCell.current === cell) return;
+    lastCell.current = cell;
+    (async () => {
+      try {
+        const reg = await navigator.serviceWorker.getRegistration();
+        const sub = await reg?.pushManager.getSubscription();
+        if (sub) await push(sub, cell);
+      } catch {
+        // 다음 위치 갱신에서 다시 시도한다 — 조용히 넘어간다.
+        lastCell.current = null;
+      }
+    })();
+  }, [status, cell, push]);
 
   /** 사용자가 버튼을 눌렀을 때만 부른다 — 권한 팝업은 제스처 안에서만 뜬다. */
   const enable = useCallback(async () => {
@@ -124,25 +168,15 @@ export function useWebPush() {
           applicationServerKey: urlBase64ToBytes(key),
         }));
 
-      const json = sub.toJSON() as { endpoint?: string; keys?: Record<string, string> };
-      await fetch(`${API_BASE}/phase3/devices`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          // 토큰 자리에는 endpoint 를 넣는다 — 그것이 이 브라우저의 주소다.
-          token: json.endpoint,
-          platform: 'web',
-          cell_res7: point ? cellOf(point) : null,
-          engagement: level,
-          web_subscription: json,
-        }),
-      });
+      const cellNow = point ? cellOf(point) : null;
+      await push(sub, cellNow);
+      lastCell.current = cellNow;
       setStatus('subscribed');
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
       setStatus('idle');
     }
-  }, [point, level]);
+  }, [point, push]);
 
   return { status, error, enable, isIos: isIos(), isStandalone: isStandalone() };
 }
