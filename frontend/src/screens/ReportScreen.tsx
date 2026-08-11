@@ -1,16 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Alert, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { useQueryClient } from '@tanstack/react-query';
-import { createReport } from '../api/guardian';
+import { createReport, searchPlace } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
 import { usePersonas } from '../hooks/queries';
+import { useMyLocation } from '../hooks/useMyLocation';
 import BaseMap from '../components/BaseMap';
 import WebMap from '../components/WebMap';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
@@ -20,7 +20,8 @@ import SearchIcon from '../../assets/figma/report-search.svg';
 import EditIcon from '../../assets/figma/report-edit.svg';
 import CameraIcon from '../../assets/figma/report-camera.svg';
 
-const REPORT_MAP = require('../../assets/figma/report-location-map.png');
+// report-location-map.png(시안 목업)은 더 이상 쓰지 않는다 — 미국 지도라
+// 검색 전 화면에 깔면 "지도가 외국 지도"가 된다(제보 08-12). 실제 지도를 쓴다.
 const PERSON_ICON = require('../../assets/figma/report-person.png');
 const MAP_ICON = require('../../assets/figma/report-map.png');
 
@@ -48,6 +49,16 @@ export default function ReportScreen() {
   const [lkp, setLkp] = useState<{ lat: number; lng: number } | null>(null);
   const [searching, setSearching] = useState(false);
   const [sending, setSending] = useState(false);
+  /**
+   * 화면에 남는 오류 문구.
+   *
+   * 원래는 `Alert.alert` 였는데 **웹에서는 아무것도 뜨지 않는다**(RN Web 미구현).
+   * 접수 버튼을 눌러도 반응이 없던 원인이 이것이다 — 막힌 이유를 말해 주려던
+   * 코드가 오히려 이유를 감췄다. 폼 화면이니 팝업보다 인라인이 맞기도 하다.
+   */
+  const [error, setError] = useState('');
+  // 검색 전 지도에 쓸 현재 위치 — 시안 목업 PNG(미국 지도) 대신 그린다.
+  const { point: here } = useMyLocation(true);
 
   // 홈과 신고 화면이 같은 서버 페르소나를 쓰도록 복원한다. 화면의 빈 선택 카드는
   // Figma 원본 표현이지만, 접근성 라벨과 모달에는 실제 선택값이 유지된다.
@@ -67,28 +78,29 @@ export default function ReportScreen() {
     setPickerOpen(false);
   };
 
+  /**
+   * 주소 검색 — **서버 지오코더**를 쓴다.
+   *
+   * 전에는 `Location.geocodeAsync` 였는데 그 함수는 **웹에서 동작하지 않는다.**
+   * 배포본이 웹이라 검색이 늘 실패했고, 그래서 좌표가 안 잡혀 지도는 시안
+   * 목업(미국 지도)에 머물고 아래 주소 문구도 기본값 그대로였다. 게다가 실패
+   * 안내가 `Alert.alert` 라 웹에서는 그마저 안 보였다(현장 제보 08-12).
+   *
+   * 서버 경로는 온보딩 끌림점과 같은 체인(카카오 우선)이라 두 곳이 같은 좌표를 준다.
+   */
   const searchAddress = async () => {
     const query = addressQuery.trim();
     if (!query || searching) return;
     setSearching(true);
+    setError('');
     try {
-      if (Platform.OS !== 'web') {
-        const permission = await Location.requestForegroundPermissionsAsync();
-        if (permission.status !== 'granted') {
-          Alert.alert('위치 권한이 필요합니다', '주소를 지도 좌표로 변환하려면 위치 권한을 허용해 주세요.');
-          return;
-        }
-      }
-      const matches = await Location.geocodeAsync(query);
-      const first = matches[0];
-      if (!first) {
-        Alert.alert('주소를 찾지 못했습니다', '도로명이나 장소명을 조금 더 구체적으로 입력해 주세요.');
-        return;
-      }
-      setLkp({ lat: first.latitude, lng: first.longitude });
-      setSelectedAddress(query);
-    } catch (error) {
-      Alert.alert('주소를 찾지 못했습니다', String(error));
+      const place = await searchPlace(query);
+      setLkp({ lat: place.lat, lng: place.lng });
+      // 검색어가 아니라 **매칭된 정식 명칭**을 보여준다 — 무엇에 걸렸는지 알아야
+      // 엉뚱한 곳으로 신고되는 것을 보호자가 알아챌 수 있다.
+      setSelectedAddress(place.label);
+    } catch (e) {
+      setError(`"${query}" 을(를) 찾지 못했습니다. 장소명이나 도로명을 조금 더 구체적으로 적어 주세요.`);
     } finally {
       setSearching(false);
     }
@@ -96,9 +108,13 @@ export default function ReportScreen() {
 
   const onSubmit = async () => {
     if (!lkp) {
-      Alert.alert('마지막 목격 장소가 필요합니다', '주소를 검색하거나 사전등록 정보를 확인해 주세요.');
+      // 웹에서는 Alert.alert 가 아무것도 띄우지 않는다 — 그래서 이 검증이
+      // 걸릴 때마다 **버튼이 고장 난 것처럼** 보였다(현장 제보 08-12).
+      // 화면 안에 남는 문구로 바꾼다.
+      setError('마지막 목격 장소를 먼저 검색해 주세요. 위 검색창에 장소를 입력하고 검색(엔터)하면 지도가 그 위치로 바뀝니다.');
       return;
     }
+    setError('');
     const hasAppearance = [top, bottom, shoes, etc].some((value) => value.trim().length > 0);
     setSending(true);
     try {
@@ -119,8 +135,8 @@ export default function ReportScreen() {
       // 보호자 알림 탭은 내 사건을 따로 조회한다 — 새 신고가 바로 잡히게 무효화한다.
       qc.invalidateQueries({ queryKey: ['guardianCase'] });
       navigation.replace('ReportSent', { caseId: c.id });
-    } catch (error) {
-      Alert.alert('신고를 전송하지 못했습니다', String(error));
+    } catch (e) {
+      setError(`신고를 전송하지 못했습니다. ${String(e)}`);
     } finally {
       setSending(false);
     }
@@ -148,7 +164,20 @@ export default function ReportScreen() {
             accessibilityRole="button"
             accessibilityLabel={persona ? `선택된 가족 ${persona.name} ${persona.age}세, 변경하기` : '사전 등록 시작하기'}
           >
-            {personasLoading && personas.length === 0 ? <ActivityIndicator size="small" color={color.figmaGray} /> : null}
+            {/* 시안의 이 자리는 빈 회색 상자인데, **누구를 신고하는지 화면에
+                안 보이면 안 된다.** 실제로 "한 명 선택해도 여기 안 뜬다"는
+                제보를 받았다(08-12) — 선택은 되고 있었고 표시만 없었다.
+                실종 신고에서 대상자 확인은 생략할 수 있는 정보가 아니다. */}
+            {personasLoading && personas.length === 0
+              ? <ActivityIndicator size="small" color={color.figmaGray} />
+              : persona
+                ? (
+                  <View style={styles.familyPicked}>
+                    <Text style={styles.familyName}>{persona.name} ({persona.age}세)</Text>
+                    <Text style={styles.familyHint}>{personas.length > 1 ? '눌러서 변경' : '치매 등록'}</Text>
+                  </View>
+                )
+                : <Text style={styles.familyHint}>사전 등록된 가족이 없습니다. 눌러서 등록해 주세요.</Text>}
           </Pressable>
         </View>
 
@@ -183,9 +212,40 @@ export default function ReportScreen() {
                 <View pointerEvents="none" style={styles.locationRadius} />
                 <View pointerEvents="none" style={styles.locationDot} />
               </>
-            ) : <Image source={REPORT_MAP} style={styles.mapImage} resizeMode="cover" />}
+            ) : (
+              /* 좌표가 아직 없을 때 시안 목업 PNG 를 깔면 **미국 지도**가 뜬다
+                 (시안 이미지가 그렇다 — "지도도 외국 지도 같다"는 제보 08-12).
+                 검색 전에도 여기가 어디인지 보이는 편이 낫고, 실제 지도가 떠야
+                 검색 후 바뀌는 것도 알아본다. 그래서 **보호자의 현재 위치**를
+                 그린다. 위치도 없으면 그때만 안내 문구로 물러난다. */
+              here ? (
+                <>
+                  {Platform.OS === 'web' ? (
+                    <WebMap style={StyleSheet.absoluteFill} center={here} zoom={15} accessibilityLabel="현재 위치 지도" />
+                  ) : (
+                    <BaseMap
+                      style={StyleSheet.absoluteFill}
+                      region={{ latitude: here.lat, longitude: here.lng, latitudeDelta: 0.01, longitudeDelta: 0.01 }}
+                      scrollEnabled={false}
+                      accessibilityLabel="현재 위치 지도"
+                    />
+                  )}
+                  <View pointerEvents="none" style={styles.locationRadius} />
+                  <View pointerEvents="none" style={styles.locationDot} />
+                </>
+              ) : (
+                <View style={styles.mapEmpty}><Text style={styles.mapEmptyText}>위 검색창에 마지막 목격 장소를 입력해 주세요</Text></View>
+              )
+            )}
           </Pressable>
-          <Text style={styles.address} numberOfLines={1}>{selectedAddress}</Text>
+          <Text style={styles.address} numberOfLines={1}>
+            {lkp ? selectedAddress : '아직 장소를 선택하지 않았습니다'}
+          </Text>
+          {error ? (
+            <View style={styles.errorBox} accessibilityRole="alert">
+              <Text style={styles.errorText}>{error}</Text>
+            </View>
+          ) : null}
         </View>
 
         <View style={styles.situationSection}>
@@ -283,6 +343,14 @@ const styles = StyleSheet.create({
 
   familySection: { height: 128, backgroundColor: '#FFFFFF' },
   familyField: { height: 61, marginHorizontal: 23, borderRadius: 10, backgroundColor: '#F8F8F8', alignItems: 'center', justifyContent: 'center' },
+  familyPicked: { alignItems: 'center' },
+  familyName: { fontFamily: type.familySemiBold, fontSize: 16, lineHeight: 21, color: '#3D3D3E' },
+  familyHint: { marginTop: 2, fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#9A9A9B', textAlign: 'center', paddingHorizontal: 16 },
+  mapEmpty: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F1F1EF', paddingHorizontal: 24 },
+  mapEmptyText: { fontFamily: type.family, fontSize: 12, lineHeight: 17, color: '#9A9A9B', textAlign: 'center' },
+  // 웹에서 Alert 가 안 뜨는 자리를 대신한다 — 막힌 이유가 화면에 남아야 한다.
+  errorBox: { marginTop: 8, marginHorizontal: 23, borderRadius: 8, backgroundColor: '#FDECEC', paddingHorizontal: 12, paddingVertical: 10 },
+  errorText: { fontFamily: type.family, fontSize: 12, lineHeight: 17, color: '#C0392B' },
 
   locationSection: { height: 286, backgroundColor: '#FFFFFF' },
   searchField: { height: 30, marginHorizontal: 23, borderRadius: 8, backgroundColor: '#F8F8F8', flexDirection: 'row', alignItems: 'center', paddingLeft: 11 },

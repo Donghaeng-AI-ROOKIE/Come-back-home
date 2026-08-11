@@ -12,7 +12,7 @@ import urllib.request
 from fastapi import APIRouter, HTTPException, Response
 from pydantic import BaseModel
 
-from app.geo import nearby, reverse
+from app.geo import geocode, nearby, reverse
 from app.schemas.common import GeoPoint
 
 router = APIRouter(prefix="/geo", tags=["지오 — 좌표 ↔ 장소명"])
@@ -24,6 +24,43 @@ class LabelsIn(BaseModel):
 
 class LabelsOut(BaseModel):
     labels: list[str]
+
+
+class PlaceOut(BaseModel):
+    """장소 검색 1건 — 신고 화면의 '마지막 목격 장소'가 쓴다."""
+    lat: float
+    lng: float
+    label: str
+    precision: str
+    source: str
+
+
+@router.get("/search", response_model=PlaceOut)
+def search(q: str) -> PlaceOut:
+    """장소·주소 문자열 → 좌표. **앱의 주소 검색이 이걸 쓴다.**
+
+    앱은 원래 `expo-location` 의 `geocodeAsync` 를 불렀는데 그 함수는 **웹에서
+    동작하지 않는다.** 배포본이 웹이라 주소 검색이 늘 실패했고, 좌표가 없으니
+    지도는 시안 목업 이미지(미국 지도)에 머물고 신고 버튼도 막혔다 —
+    "장소를 입력해도 지도가 안 바뀐다"의 정체(현장 제보 08-12).
+
+    서버가 하는 편이 낫기도 하다. 카카오 키·이용약관·캐시를 앱마다 다루지 않고
+    한 곳에서 처리하며, 이미 온보딩 끌림점이 쓰는 것과 **같은 지오코더 체인**
+    (카카오 → Nominatim → 내장 지명사전)을 타므로 두 경로가 같은 좌표를 준다.
+    """
+    query = (q or "").strip()
+    if not query:
+        raise HTTPException(400, "검색어가 비어 있습니다")
+    result = geocode.get_geocoder(use_nominatim=True).locate(query)
+    if result is None:
+        raise HTTPException(404, "장소를 찾지 못했습니다")
+    return PlaceOut(
+        lat=result.point.lat, lng=result.point.lng,
+        # 검색어보다 **매칭된 정식 명칭**을 우선한다 — "하남시청역"으로 찾아도
+        # 화면에는 "하남시청역 5호선" 처럼 무엇에 걸렸는지 보이는 편이 낫다.
+        label=result.matched or query,
+        precision=result.precision, source=result.source,
+    )
 
 
 @router.post("/labels", response_model=LabelsOut)
