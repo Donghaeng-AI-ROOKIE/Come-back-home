@@ -8,7 +8,7 @@
  * 슬롯 충족도에 따라 질문이 달라지므로 앱에 박아 두면 서버와 어긋난다.
  */
 import type { GeoPoint } from '../types/domain';
-import { api } from './config';
+import { SLOW_TIMEOUT_MS, api } from './config';
 
 export type PersonaType = 'dementia';
 
@@ -231,8 +231,12 @@ export async function getAreaLabels(points: GeoPoint[]) {
  * 예측 실행. **10초 안팎 걸린다**(EXAONE 실호출 5회 + 몬테카를로 500명).
  * 신고 완료 화면이 "AI 예상 경로 분석 중"을 띄우는 이유가 이것이다 —
  * 응답을 기다리는 동안 화면이 멈춘 것처럼 보이면 안 된다.
+ *
+ * 기본 12초 타임아웃을 쓰면 **안 된다.** 웜에서도 11~13초라 반반 실패하고,
+ * 새 지역의 첫 실행은 도로망 다운로드로 2분을 넘긴다(신촌 실측 08-12).
  */
 export function runPrediction(caseId: string, seed?: number) {
   const q = seed == null ? '' : `?seed=${seed}`;
-  return api<{ case_id: string }>(`/phase2/cases/${caseId}/predict${q}`, { method: 'POST' });
+  return api<{ case_id: string }>(`/phase2/cases/${caseId}/predict${q}`,
+                                  { method: 'POST', timeoutMs: SLOW_TIMEOUT_MS });
 }

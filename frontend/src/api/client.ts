@@ -23,7 +23,7 @@ import type {
 import { DEMO_CASE_ID } from '../data/missing';
 import { tierForProb } from '../theme/poa';
 import { buildAlert, buildBeforeAfter, buildPoaGrid } from '../data/mock';
-import { DEMO_USER_ID, USE_MOCK, api } from './config';
+import { DEMO_USER_ID, SLOW_TIMEOUT_MS, USE_MOCK, api } from './config';
 
 export { API_BASE, USE_MOCK, ApiError } from './config';
 export { DEMO_CASE_ID };
@@ -149,6 +149,11 @@ export async function submitTip(
   const before = await api<PoaResponse>(`/phase3/cases/${caseId}/poa?top=64`);
   const res = await api<TipResponse | NeedMore>(`/phase3/cases/${caseId}/tips`, {
     method: 'POST',
+    // 고신뢰 제보는 **층2(새 LKP 로 재예측)** 를 발동시킨다 — 그 순간 이 요청
+    // 하나가 예측 한 판을 통째로 품는다(실측 08-12: 29.5초, 새 지역이면 2분 초과).
+    // 기본 12초로 끊으면 재예측이 중간에 잘려 **사건에 POA 가 없는 상태**가 남고,
+    // 시민 화면의 확률지도가 통째로 비어 버린다.
+    timeoutMs: SLOW_TIMEOUT_MS,
     body: JSON.stringify({
       text: input.text,
       location: input.location ?? null,
