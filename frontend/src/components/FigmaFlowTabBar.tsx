@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
+import { FLOW_TAB_PADDING_TOP, useTabBarMetrics } from '../theme/tabBar';
 import FigmaTabIcon, { type FigmaTabIconName } from './FigmaTabIcon';
 
 export default function FigmaFlowTabBar({ mode, active }: {
@@ -11,6 +12,9 @@ export default function FigmaFlowTabBar({ mode, active }: {
   active: 'home' | 'register' | 'alert' | 'profile';
 }) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  // 탭 내비게이터가 아니라 일반 View 라 안전영역을 아무도 안 넣어 준다 —
+  // 탭바 세 개가 같은 규칙을 쓰도록 같은 훅에서 받는다 (theme/tabBar.ts).
+  const tabBar = useTabBarMetrics();
   const guardian = mode === 'guardian';
   const accent = guardian ? color.guardian : color.brand;
   const items: { key: typeof active; label: string; icon: FigmaTabIconName }[] = guardian
@@ -36,7 +40,7 @@ export default function FigmaFlowTabBar({ mode, active }: {
     navigation.navigate('CitizenTabs', { screen });
   };
   return (
-    <View style={[styles.bar, guardian && styles.guardianBar]}>
+    <View style={[styles.bar, { height: tabBar.height, paddingBottom: tabBar.paddingBottom }, guardian && styles.guardianBar]}>
       {items.map((item) => (
         <Pressable
           key={item.key}
@@ -47,13 +51,15 @@ export default function FigmaFlowTabBar({ mode, active }: {
           <Text style={[styles.label, active === item.key && { color: accent }]}>{item.label}</Text>
         </Pressable>
       ))}
-      <View pointerEvents="none" style={styles.homeIndicator} />
+      {tabBar.showFakeIndicator ? <View pointerEvents="none" style={styles.homeIndicator} /> : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  bar: { height: 85, backgroundColor: '#FFFFFF', borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#D8D8D8', flexDirection: 'row', paddingTop: 7 },
+  // height·paddingBottom 은 useTabBarMetrics 가 기기별로 넣는다.
+  // paddingTop 은 12 — 내비게이터 탭바의 `7 + 아이템 padding 5` 와 맞춘다.
+  bar: { backgroundColor: '#FFFFFF', borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#D8D8D8', flexDirection: 'row', paddingTop: FLOW_TAB_PADDING_TOP },
   guardianBar: { borderTopLeftRadius: 42, borderTopRightRadius: 42, overflow: 'hidden' },
   item: { flex: 1, alignItems: 'center', outlineStyle: 'none' } as any,
   label: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: color.figmaGray, marginTop: 1 },

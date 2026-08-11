@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements';
 import type { GuardianTabParamList } from './types';
 import { color, radius, space, type } from '../theme/tokens';
+import { useTabBarMetrics } from '../theme/tabBar';
 import CTAButton from '../components/CTAButton';
 import GuardianHomeScreen from '../screens/GuardianHomeScreen';
 import RegChatScreen from '../screens/RegChatScreen';
@@ -83,6 +84,8 @@ function GuardianMyScreen() {
 }
 
 export default function GuardianTabs() {
+  // 시민 탭과 같은 이유로 안전영역을 더해서 높이를 정한다 (theme/tabBar.ts).
+  const tabBar = useTabBarMetrics();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -90,10 +93,23 @@ export default function GuardianTabs() {
         tabBarActiveTintColor: color.guardian,
         tabBarInactiveTintColor: color.figmaGray,
         tabBarLabelStyle: { fontSize: 11, lineHeight: 13, fontFamily: type.family, marginTop: 1 },
-        tabBarStyle: { backgroundColor: color.surface, borderTopColor: color.border, height: 85, paddingTop: 7, borderTopLeftRadius: 42, borderTopRightRadius: 42, overflow: 'hidden' },
+        tabBarStyle: {
+          backgroundColor: color.surface,
+          borderTopColor: color.border,
+          height: tabBar.height,
+          paddingTop: 7,
+          paddingBottom: tabBar.paddingBottom,
+          borderTopLeftRadius: 42,
+          borderTopRightRadius: 42,
+          overflow: 'hidden',
+        },
         tabBarItemStyle: styles.tabItem,
         tabBarButton: (props) => <PlatformPressable {...props} style={[props.style, styles.tabButton]} />,
-        tabBarBackground: () => <View style={styles.tabBackground}><View style={styles.homeIndicator} /></View>,
+        tabBarBackground: () => (
+          <View style={styles.tabBackground}>
+            {tabBar.showFakeIndicator ? <View style={styles.homeIndicator} /> : null}
+          </View>
+        ),
       }}
     >
       <Tab.Screen

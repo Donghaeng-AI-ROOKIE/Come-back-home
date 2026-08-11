@@ -5,6 +5,7 @@ import { useAuthStore } from '../store/authStore';
 import type { Role } from '../types/domain';
 import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
+import { useTabBarMetrics } from '../theme/tabBar';
 
 const authLogo = require('../../assets/figma/auth-logo.png');
 const startMascot = require('../../assets/figma/mascot-start.png');
@@ -17,6 +18,9 @@ function errorText(e: unknown): string {
 }
 
 export default function AuthScreen() {
+  // 시안의 검은 인디케이터 막대는 **그림**이다. OS 가 진짜를 그리는 기기에서는
+  // 두 개가 겹쳐 보이므로 안전영역이 0 일 때만 그린다 (theme/tabBar.ts).
+  const { showFakeIndicator } = useTabBarMetrics();
   const signIn = useAuthStore((s) => s.signIn);
   const signUp = useAuthStore((s) => s.signUp);
   const [step, setStep] = useState<AuthStep>('start');
@@ -121,7 +125,7 @@ export default function AuthScreen() {
           </>
         )}
       </View>
-      <View style={styles.homeIndicator} />
+      {showFakeIndicator ? <View style={styles.homeIndicator} /> : null}
     </SafeAreaView>
   );
 }
