@@ -219,6 +219,9 @@ walk_tip_counts = Repository(table="walk_tip_counts")  # int (user_id 키)
 accounts = Repository(Account, "accounts")
 # 로그인 토큰 → 계정. 서버가 재시작돼도 앱이 다시 로그인하지 않도록 남긴다.
 sessions = Repository(Session, "sessions")
+# 산책 루트 조회 결과(동네 격자 키 → 목록). 외부 Overpass 가 자주 죽는데,
+# 한 번 받아 둔 동네는 계속 동작해야 한다. 개인정보가 아니라 공공 지도 데이터다.
+nearby_walks_cache = Repository(table="nearby_walks_cache")
 
 # 푸시 발송 대상 — **영속화 필수.** 재시작마다 등록이 날아가면 그 뒤로는 아무도
 # 알림을 못 받고, 사용자는 앱을 다시 열기 전까지 그 사실조차 모른다.

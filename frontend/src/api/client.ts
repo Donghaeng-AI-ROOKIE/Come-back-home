@@ -307,13 +307,20 @@ let mockWatching = 4;
  * 하트비트 + 현재 동시 참여자 수. 좌표는 보내지 않는다 (셀 단위 집계 = 위치정보).
  * 서버 계약: POST /phase3/cases/{id}/presence → { watching: number }
  */
-/** 내 주변 산책 장소 — 서버가 OSM 에서 실제 공원·산책로를 찾아 준다. */
+/** 내 주변 산책 **루트** — 서버가 OSM 에서 실제 산책로의 좌표열까지 가져온다. */
 export type NearbyWalk = {
   name: string;
+  /** 대표점(경로 중간) — 썸네일 지도의 중심. */
   lat: number;
   lng: number;
+  /** 내 위치에서 그 길의 가장 가까운 지점까지(직선). */
   distance_km: number;
+  /** 길 자체의 길이. "코스 N km"로 적는 값이다 — 직선거리와 섞지 않는다. */
+  route_km: number;
+  /** 'park' = 공원 둘레길 · 'path' = 산책로 */
   kind: string;
+  /** 길의 실제 모양. 앱이 지도 위에 그린다. */
+  path: GeoPoint[];
 };
 
 export async function getNearbyWalks(point: GeoPoint, limit = 4): Promise<NearbyWalk[]> {
