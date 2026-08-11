@@ -26,6 +26,9 @@ export type RootStackParamList = {
   LockScreenAlert: { caseId: string };
   AlertDetail: { caseId: string };
   AlertSync: { caseId: string };
+  /** 긴급알림-수색화면 — 지도·POA 히트맵·참여자 수·제보 진입. 화면은 만들어져
+      있었는데 어느 내비게이터에도 등록돼 있지 않아 도달할 수 없었다(08-11). */
+  Search: { caseId: string } | undefined;
   Appearance: { caseId: string };
   TipWarn: { caseId: string };
   ReportChat: { caseId: string };
