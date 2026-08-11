@@ -73,7 +73,8 @@ export default function PersonaDetailScreen() {
       const updated = await updatePersona(persona.id, {
         name: name.trim() || persona.name,
         age: Number(age.replace(/[^0-9]/g, '')) || persona.age,
-        behavior_notes: notes,
+        // 빈 줄은 버린다 — 추가만 하고 안 적은 칸이 페르소나에 남으면 안 된다.
+        behavior_notes: notes.map((n) => n.trim()).filter(Boolean),
         attraction_points: points,
       });
       setPersona(updated); setStorePersona(updated); setEditing(false);
@@ -131,10 +132,42 @@ export default function PersonaDetailScreen() {
         </View>
 
         <SectionTitle icon={<BookmarkIcon width={9} height={11} color={color.guardian} />} title="주요 정보" />
-        {groups.map((group, index) => <View key={group.title} style={[styles.noteCard, index === 0 && styles.noteCardTall]}>
-          <Text style={styles.noteTitle}>{group.title}</Text>
-          {(group.items.length ? group.items : Array.from({ length: index === 0 ? 3 : index === 1 ? 1 : 2 }, (_, i) => `정보 ${i + 1}`)).slice(0, index === 0 ? 3 : index === 1 ? 1 : 2).map((item) => <Text key={item} style={styles.noteText} numberOfLines={1}>{item}</Text>)}
-        </View>)}
+        {editing ? (
+          /* 편집 모드에서는 **원본 항목을 그대로** 보여 준다.
+             보기 모드의 그룹 카드는 notes 를 주제별로 걸러 낸 요약이라, 그걸 고치면
+             어느 원본 줄을 바꾼 것인지 되돌릴 수 없다. 저장은 이미 behavior_notes
+             전체를 보내므로(save) 여기서 고친 값이 그대로 반영된다. */
+          <View style={styles.noteEditCard}>
+            {notes.length === 0 ? (
+              <Text style={styles.noteEmpty}>등록된 정보가 없습니다. 아래에서 추가해 주세요.</Text>
+            ) : notes.map((note, index) => (
+              <View key={`note-${index}`} style={styles.noteEditRow}>
+                <TextInput
+                  value={note}
+                  onChangeText={(v) => setNotes((prev) => prev.map((n, i) => (i === index ? v : n)))}
+                  style={styles.noteInput}
+                  multiline
+                  accessibilityLabel={`주요 정보 ${index + 1}`}
+                />
+                <Pressable
+                  onPress={() => setNotes((prev) => prev.filter((_, i) => i !== index))}
+                  accessibilityRole="button"
+                  accessibilityLabel={`주요 정보 ${index + 1} 지우기`}
+                >
+                  <Text style={styles.remove}>지우기</Text>
+                </Pressable>
+              </View>
+            ))}
+            <Pressable onPress={() => setNotes((prev) => [...prev, ''])} accessibilityRole="button" style={styles.noteAdd}>
+              <Text style={styles.noteAddText}>+ 정보 추가</Text>
+            </Pressable>
+          </View>
+        ) : (
+          groups.map((group, index) => <View key={group.title} style={[styles.noteCard, index === 0 && styles.noteCardTall]}>
+            <Text style={styles.noteTitle}>{group.title}</Text>
+            {(group.items.length ? group.items : Array.from({ length: index === 0 ? 3 : index === 1 ? 1 : 2 }, (_, i) => `정보 ${i + 1}`)).slice(0, index === 0 ? 3 : index === 1 ? 1 : 2).map((item) => <Text key={item} style={styles.noteText} numberOfLines={1}>{item}</Text>)}
+          </View>)
+        )}
 
         {editing ? <Pressable onPress={save} disabled={saving} style={styles.save}><Text style={styles.saveText}>{saving ? '저장 중…' : '저장하기'}</Text></Pressable> : null}
       </ScrollView> : null}
@@ -173,6 +206,12 @@ const styles = StyleSheet.create({
   infoValue: { flex: 1, fontFamily: type.family, fontSize: 12, color: '#4D4D4D' },
   editInput: { flex: 1, height: 25, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: color.guardian, paddingVertical: 0, fontFamily: type.family, fontSize: 12, color: '#4D4D4D' },
   remove: { fontFamily: type.familySemiBold, fontSize: 11, color: color.figmaRed },
+  noteEditCard: { borderRadius: 10, backgroundColor: '#F8F8F8', padding: 10, gap: 8 },
+  noteEditRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
+  noteInput: { flex: 1, minHeight: 34, borderRadius: 8, backgroundColor: '#FFFFFF', paddingHorizontal: 10, paddingVertical: 7, fontFamily: type.family, fontSize: 12, lineHeight: 17, color: '#4D4D4D' },
+  noteEmpty: { fontFamily: type.family, fontSize: 12, color: '#909090' },
+  noteAdd: { alignSelf: 'flex-start', paddingVertical: 4 },
+  noteAddText: { fontFamily: type.familySemiBold, fontSize: 12, color: color.guardian },
   noteCard: { minHeight: 75, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 13, marginBottom: 14 },
   noteCardTall: { minHeight: 117 },
   noteTitle: { fontFamily: type.familySemiBold, fontSize: 12, lineHeight: 18, color: '#316837', marginBottom: 5 },

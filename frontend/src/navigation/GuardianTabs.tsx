@@ -1,6 +1,6 @@
 /** 보호자 하단 4탭 (Figma): 홈 / 사전등록 / 알림 / 내 정보. */
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements';
@@ -19,7 +19,8 @@ const Tab = createBottomTabNavigator<GuardianTabParamList>();
 
 /** 내 정보 — 로그아웃과 등록 현황만. 시민 마이페이지(레벨·배지)와 다르다. */
 function GuardianMyScreen() {
-  const { user, signOut } = useAuthStore();
+  const { user, signOut, switchRole } = useAuthStore();
+  const [switching, setSwitching] = useState(false);
   const cachedPersona = useGuardianStore((s) => s.persona);
   const reset = useGuardianStore((s) => s.reset);
   const { data: personas, isLoading } = usePersonas();
@@ -49,6 +50,25 @@ function GuardianMyScreen() {
           </Text>
         </View>
         <View style={styles.spacer} />
+        {/* 역할을 바꿔야 하는 경우가 실제로 있다 — 가입할 때 잘못 고르면 보호자
+            계정으로는 산책·제보 화면에 갈 수 없고, 계정을 새로 만드는 수밖에
+            없었다(현장 실측 08-11). 기록은 계정에 붙어 있어 그대로 남는다. */}
+        <CTAButton
+          label={switching ? '전환 중…' : '시민 모드로 전환'}
+          onPress={async () => {
+            if (switching) return;
+            setSwitching(true);
+            try {
+              await switchRole('citizen');
+            } catch (e) {
+              Alert.alert('전환하지 못했습니다', String(e));
+            } finally {
+              setSwitching(false);
+            }
+          }}
+          variant="ghost"
+        />
+        <View style={styles.switchGap} />
         <CTAButton
           label="로그아웃"
           onPress={() => {
@@ -112,5 +132,6 @@ const styles = StyleSheet.create({
   rowKey: { fontSize: type.size.caption, fontWeight: type.weight.bold, color: color.textCaption, fontFamily: type.family },
   rowVal: { fontSize: type.size.label, fontWeight: type.weight.medium, color: color.text, fontFamily: type.family },
   divider: { height: 1, backgroundColor: color.border, marginVertical: space.md },
+  switchGap: { height: 10 },
   spacer: { flex: 1 },
 });
