@@ -195,6 +195,10 @@ export function buildAlert(): PoliceAlert {
     targetRes: PUSH_TARGET_RES,
     summary: MISSING.label,
     matchedPersonId: MISSING.id,
+    age: MISSING.age,
+    appearance: ['회색 점퍼', '검은 바지', '검정 운동화', '마른 체형, 지팡이 소지'],
+    appearanceColors: { top: 'gray', bottom: 'black', shoes: 'black' },
+    lkp: LAST_SEEN,
   };
 }
 

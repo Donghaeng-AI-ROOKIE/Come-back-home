@@ -65,7 +65,7 @@ export default function AlertSyncScreen() {
         <Text style={styles.kicker}>지금 함께 찾고 있어요</Text>
         {watching != null ? <View style={styles.count}><Text style={styles.countText}>•{watching}명</Text></View> : null}
 
-        <PersonSilhouette colors={alert?.appearanceColors} size={42} style={styles.person} />
+        <PersonSilhouette colors={alert?.appearanceColors} appearance={alert?.appearance} size={42} style={styles.person} />
         <Text style={styles.name}>{view.title}</Text>
         <Text style={styles.meta}>{view.meta}</Text>
         <View style={styles.tags}>

@@ -30,7 +30,7 @@ export default function AppearanceScreen() {
         <View style={styles.card}>
           {/* 사진은 받지 않는다(08-07 결정) — 자리표시 사진을 두면 남의 얼굴이
               실종자로 읽힌다. 보호자가 입력한 옷 색으로 실루엣을 그린다. */}
-          <PersonSilhouette colors={alert?.appearanceColors} size={198} rounded={false} style={styles.photo} />
+          <PersonSilhouette colors={alert?.appearanceColors} appearance={alert?.appearance} size={198} rounded={false} style={styles.photo} />
           <View style={styles.chips}>
             {(appearance.length ? appearance : ['정보 확인 중']).map((label) => <View key={label} style={styles.chip}><Text style={styles.chipText} numberOfLines={1}>{label}</Text></View>)}
           </View>
