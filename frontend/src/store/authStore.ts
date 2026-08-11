@@ -11,7 +11,7 @@
  * **토큰과 식별자만 남긴다 — 비밀번호는 남기지 않는다.** 서버가 토큰을 지우면
  * (로그아웃) 남은 값은 아무 힘이 없다.
  */
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safeStorage } from './safeStorage';
 import { Platform } from 'react-native';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -95,7 +95,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'auth-v2',
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => safeStorage),
       // 비밀번호는 애초에 상태에 없다. 토큰·식별자만 남긴다.
       partialize: (s) => ({ token: s.token, role: s.role, user: s.user, userId: s.userId }),
     },

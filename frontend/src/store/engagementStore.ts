@@ -11,7 +11,7 @@
  * 않는다. 다만 그만큼 **기기에 관심사 흔적이 남는다** — 그래서 서버로 안 보내는
  * 경계가 더 중요해지고, 사용자가 지울 수 있어야 한다(reset).
  */
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safeStorage } from './safeStorage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import type { EngagementSignals } from '../utils/alertBudget';
@@ -39,7 +39,7 @@ export const useEngagementStore = create<EngagementState>()(
     }),
     {
       name: 'engagement-v1',
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => safeStorage),
       // 함수는 빼고 숫자만 저장한다.
       partialize: (s) => ({ opened: s.opened, reported: s.reported, dismissed: s.dismissed }),
     },

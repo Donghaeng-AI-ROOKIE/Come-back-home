@@ -45,6 +45,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "//build:web": "웹 배포본을 만든다. 부팅 감시기 심기까지 한 번에 — 따로 돌리면 잊는다.",
+    "build:web": "expo export --platform web && node scripts/patch-boot-guard.mjs",
     "postinstall": "patch-package"
   },
   "private": true

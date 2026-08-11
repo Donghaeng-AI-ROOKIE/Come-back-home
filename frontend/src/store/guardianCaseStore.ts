@@ -11,7 +11,7 @@
  * 여러 건을 담는 이유: 한 보호자가 두 분을 등록했거나, 이전 사건이 아직 안 끝난
  * 채로 새로 신고할 수 있다. 종결된 사건은 조회에서 404 가 나므로 화면이 걸러낸다.
  */
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safeStorage } from './safeStorage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -37,7 +37,7 @@ export const useGuardianCaseStore = create<GuardianCaseState>()(
     }),
     {
       name: 'guardian-case-v2',
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => safeStorage),
       partialize: (s) => ({ caseIds: s.caseIds }),
     },
   ),
