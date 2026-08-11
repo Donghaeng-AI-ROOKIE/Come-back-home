@@ -4,6 +4,7 @@
 KAKAO_REST_KEY 있을 때만 도는 live 테스트로 분리.
 """
 
+import io
 import os
 
 import pytest
@@ -230,3 +231,36 @@ def test_locate_home_still_none_when_nothing_matches():
     from app.geo.geocode import locate_home
 
     assert locate_home(GazetteerGeocoder({}), "전혀 모르는 시골 어딘가") is None
+
+
+# ── 카카오 인증 실패는 조용하지 않아야 한다 ────────────────────────
+def test_kakao_denial_is_logged_once_and_falls_back(capsys, monkeypatch):
+    """403(서비스 미활성)이 조용히 미탐 처리되면 키를 넣은 사람이 원인을 못 찾는다.
+
+    실측(2026-08-12): 카카오맵 서비스가 꺼진 채 403 이 나고 있었는데 로그가 없어
+    nominatim 폴백으로 계속 돌았고, 좌표 품질만 나쁜 채로 며칠이 지났다.
+    다만 끌림점마다 찍히면 안 되므로 상태코드당 한 번만 남긴다.
+    """
+    import urllib.error
+    import urllib.request
+
+    from app.geo import geocode
+
+    monkeypatch.setattr(geocode, "_KAKAO_DENIED_WARNED", set())
+
+    def deny(*_a, **_kw):
+        raise urllib.error.HTTPError(
+            "https://dapi.kakao.com", 403, "Forbidden", {},
+            io.BytesIO(b'{"errorType":"NotAuthorizedError",'
+                       b'"message":"App disabled OPEN_MAP_AND_LOCAL service."}'))
+
+    monkeypatch.setattr(urllib.request, "urlopen", deny)
+
+    g = KakaoGeocoder("dummy-key")
+    assert g.locate("하남시 하남대로 856") is None      # 미탐으로 물러나 폴백에 넘긴다
+    assert g.locate("성수동 철물점") is None
+
+    out = capsys.readouterr().out
+    assert out.count("카카오 지오코딩 거부") == 1       # 호출마다가 아니라 한 번만
+    assert "403" in out and "OPEN_MAP_AND_LOCAL" in out  # 원인이 그대로 보인다
+    assert "dummy-key" not in out                        # 키는 절대 로그로 새지 않는다
