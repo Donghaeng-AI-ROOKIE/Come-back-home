@@ -66,6 +66,19 @@ export default function RootNavigator() {
   useEffect(() => {
     void restore();
   }, [restore]);
+
+  /**
+   * 부팅 화면 상한 — 무슨 일이 있어도 이보다 오래 스피너를 띄우지 않는다.
+   *
+   * 토큰 확인·경보 조회가 끝날 때까지 기다리는데, 그중 하나가 응답하지 않으면
+   * 앱 전체가 무한 로딩이 되고 아무것도 눌리지 않는다(현장 제보 08-11).
+   * API 타임아웃(12초)이 1차 방어지만, 그마저 빗나가도 화면은 열려야 한다.
+   */
+  const [bootTimedOut, setBootTimedOut] = useState(false);
+  useEffect(() => {
+    const id = setTimeout(() => setBootTimedOut(true), 15_000);
+    return () => clearTimeout(id);
+  }, []);
   // 경보 관문은 시민 트리에서만 선다. 운영자 역할은 이 브랜치에서 제거됐으므로
   // (관제 = 백엔드 /dashboard) 'citizen' 인지 직접 확인한다.
   const isCitizen = token != null && role === 'citizen';
@@ -102,7 +115,7 @@ export default function RootNavigator() {
   // 경보 조회가 끝날 때까지 네비게이터를 마운트하지 않는다. initialRouteName 은
   // 마운트 시점에 한 번만 읽히므로, 로딩 중에 먼저 띄우면 "경보 없음"으로 굳어
   // 관문이 영영 안 선다. 인증 화면 부트스트랩과 같은 패턴.
-  if (restoring || gate.pending) {
+  if ((restoring || gate.pending) && !bootTimedOut) {
     return (
       <View style={styles.boot} accessible accessibilityLabel="경보를 확인하는 중입니다">
         <ActivityIndicator size="large" color={color.critical} />

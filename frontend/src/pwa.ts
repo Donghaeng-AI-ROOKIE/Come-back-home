@@ -22,6 +22,52 @@ function link(attrs: Record<string, string>) {
   document.head.appendChild(el);
 }
 
+/**
+ * 폰 폭에 맞춰 화면 전체를 비례 조정한다.
+ *
+ * 시안이 **375pt 폭 절대좌표**로 그려져 있어(top/left 를 px 로 박아 둔 화면이 많다)
+ * 폭이 다른 폰에서는 여백이 남거나 요소가 밀린다. 좌표를 전부 상대값으로 바꾸는 대신
+ * 375 캔버스를 통째로 확대·축소한다 — 시안 비율이 어떤 기기에서도 그대로 유지된다.
+ *
+ * 높이는 배율만큼 되돌려 준다(100dvh / s). 안 그러면 확대한 만큼 아래가 잘려
+ * 하단 탭바가 화면 밖으로 나간다.
+ */
+function scaleToPhone(): void {
+  const BASE = 375;
+  const root = document.getElementById('root');
+  if (!root) return;
+
+  const apply = () => {
+    const w = window.innerWidth;
+    // 폭이 0 이거나 비정상적으로 작을 때가 있다(레이아웃 전·숨은 탭). 그때
+    // 배율을 계산하면 scale(0) 이 되어 **화면이 통째로 사라진다.** 그냥 건너뛴다.
+    if (!Number.isFinite(w) || w < 240) return;
+    // 데스크톱에서까지 늘리면 거대해진다 — 폰 범위(≤560px)에서만 맞춘다.
+    // 배율은 안전 범위로 자른다(너무 작게·크게 그리지 않는다).
+    const s = w <= 560 ? Math.min(Math.max(w / BASE, 0.7), 1.6) : 1;
+    if (s === 1) {
+      root.style.removeProperty('width');
+      root.style.removeProperty('height');
+      root.style.removeProperty('max-height');
+      root.style.removeProperty('transform');
+      root.style.removeProperty('transform-origin');
+      return;
+    }
+    root.style.width = `${BASE}px`;
+    // 위 <style> 의 `max-height: 100dvh` 가 확대된 높이를 그대로 잘라 버린다
+    // (실측: 320폭에서 666px 로 잡혀야 할 높이가 568px 로 깎여 아래가 비었다).
+    // 인라인으로 함께 덮어쓴다.
+    root.style.height = `calc(100dvh / ${s})`;
+    root.style.maxHeight = `calc(100dvh / ${s})`;
+    root.style.transformOrigin = 'top left';
+    root.style.transform = `scale(${s})`;
+  };
+
+  apply();
+  window.addEventListener('resize', apply);
+  window.addEventListener('orientationchange', apply);
+}
+
 export function setupPwa(): void {
   if (Platform.OS !== 'web' || typeof document === 'undefined') return;
   if (document.querySelector('link[rel="manifest"]')) return;   // 중복 방지
@@ -63,6 +109,8 @@ export function setupPwa(): void {
   meta({ name: 'apple-mobile-web-app-title', content: '돌아오길' });
   meta({ name: 'apple-mobile-web-app-status-bar-style', content: 'default' });
   meta({ name: 'theme-color', content: '#328E6E' });
+
+  scaleToPhone();
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch((e) => {

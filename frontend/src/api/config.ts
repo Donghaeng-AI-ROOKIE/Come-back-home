@@ -36,17 +36,35 @@ export class ApiError extends Error {
   }
 }
 
+/**
+ * 요청 하나가 이보다 오래 걸리면 실패로 본다(ms).
+ *
+ * 타임아웃이 없으면 응답이 안 오는 요청이 **영원히 매달린다.** 부팅 화면은
+ * 토큰 확인·경보 조회가 끝날 때까지 스피너를 띄우므로, 그 요청 하나가 멈추면
+ * 앱 전체가 무한 로딩이 되고 아무것도 눌리지 않는다(현장 제보 08-11).
+ * 폰 LTE + Funnel 경유를 감안해 넉넉히 잡되, 무한정은 아니게 한다.
+ */
+const TIMEOUT_MS = 12_000;
+
 /** 공통 fetch — 실패를 삼키지 않고 상태코드와 서버 메시지를 그대로 올린다. */
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   let res: Response;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
     res = await fetch(`${API_BASE}${path}`, {
       ...init,
+      signal: controller.signal,
       headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
     });
   } catch (e) {
+    if (controller.signal.aborted) {
+      throw new ApiError(0, path, `서버 응답이 없어 요청을 중단했습니다 (${TIMEOUT_MS / 1000}초).`);
+    }
     // 네트워크 자체가 안 되는 경우 — 주소가 틀렸는지 바로 알 수 있게 주소를 담는다.
     throw new ApiError(0, path, `서버에 연결할 수 없습니다 (${API_BASE}). ${String(e)}`);
+  } finally {
+    clearTimeout(timer);
   }
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
