@@ -8,6 +8,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { PlatformPressable } from '@react-navigation/elements';
 import type { CitizenTabParamList } from './types';
 import { color, type } from '../theme/tokens';
 import { useModeTheme } from '../theme/theme';
@@ -28,6 +29,8 @@ export default function CitizenTabs() {
         tabBarInactiveTintColor: color.textCaption,
         tabBarLabelStyle: { fontSize: 11, lineHeight: 13, fontFamily: type.family, marginTop: 1 },
         tabBarStyle: { backgroundColor: color.surface, borderTopColor: color.border, height: 85, paddingTop: 7 },
+        tabBarItemStyle: styles.tabItem,
+        tabBarButton: (props) => <PlatformPressable {...props} style={[props.style, styles.tabButton]} />,
         tabBarBackground: () => <View style={styles.tabBackground}><View style={styles.homeIndicator} /></View>,
       }}
     >
@@ -71,5 +74,7 @@ export default function CitizenTabs() {
 
 const styles = StyleSheet.create({
   tabBackground: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#FFFFFF' },
+  tabItem: { outlineStyle: 'none' } as any,
+  tabButton: { flex: 1, outlineStyle: 'none' } as any,
   homeIndicator: { position: 'absolute', bottom: 8, left: '32%', right: '32%', height: 5, borderRadius: 100, backgroundColor: '#000000' },
 });

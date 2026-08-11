@@ -62,25 +62,9 @@ export default function CitizenHomeScreen() {
           <Text style={styles.kicker}>이번 달 나의 산책 기록</Text>
           <Text style={styles.monthTitle}>8월에는 총 {(stats?.month_km ?? 0).toFixed(1)}km를 걸었네요!</Text>
         </View>
-        {/* 시안에서 빈 회색 사각형이던 자리 — 서버가 집계한 실제 기록을 넣는다. */}
-        <View style={styles.monthCard}>
-          <View style={styles.monthStat}>
-            <Text style={styles.monthStatValue}>{stats?.walk_count ?? 0}</Text>
-            <Text style={styles.monthStatLabel}>산책 횟수</Text>
-          </View>
-          <View style={styles.monthStat}>
-            <Text style={styles.monthStatValue}>{(stats?.total_km ?? 0).toFixed(1)}km</Text>
-            <Text style={styles.monthStatLabel}>누적 거리</Text>
-          </View>
-          <View style={styles.monthStat}>
-            <Text style={styles.monthStatValue}>{stats?.tip_count ?? 0}</Text>
-            <Text style={styles.monthStatLabel}>제보 참여</Text>
-          </View>
-          <View style={styles.monthStat}>
-            <Text style={styles.monthStatValue} numberOfLines={1}>{stats?.level_label ?? '-'}</Text>
-            <Text style={styles.monthStatLabel}>등급</Text>
-          </View>
-        </View>
+        {/* Figma의 월간 이미지 영역. 집계값은 바로 위 제목에 실제 서버 값으로 반영하고,
+            이 영역에 별도 통계 UI를 더하지 않아 원본의 시각 위계를 보존한다. */}
+        <View style={styles.monthCard} />
 
         <View style={styles.routeHead}><Text style={styles.routeHeadline}>내 주변 산책 루트 추천</Text></View>
         {locBlocked ? (
@@ -123,10 +107,7 @@ const styles = StyleSheet.create({
   monthHead: { height: 87, paddingHorizontal: 16, paddingTop: 18 },
   kicker: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#007AFF' },
   monthTitle: { fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, color: '#000000', marginTop: 5 },
-  monthCard: { flexDirection: 'row', height: 117, marginHorizontal: 16, borderRadius: 10, backgroundColor: '#F5F7F5', alignItems: 'center' },
-  monthStat: { flex: 1, alignItems: 'center', gap: 6, paddingHorizontal: 4 },
-  monthStatValue: { fontFamily: type.familyBold, fontSize: 18, lineHeight: 22, color: '#000000' },
-  monthStatLabel: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: color.figmaGray },
+  monthCard: { height: 117, marginHorizontal: 16, borderRadius: 10, backgroundColor: '#DEDEDE' },
   routeLoading: { height: 212, justifyContent: 'center' },
   routeEmpty: { height: 212, paddingHorizontal: 16, fontFamily: type.family, fontSize: 12, lineHeight: 18, color: color.figmaGray },
   routeHead: { height: 56, justifyContent: 'center', paddingHorizontal: 16 },

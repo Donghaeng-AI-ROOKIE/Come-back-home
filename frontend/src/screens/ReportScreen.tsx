@@ -110,7 +110,7 @@ export default function ReportScreen() {
         <Section icon="◉" title="가족 선택">
           <Pressable
             style={styles.field}
-            onPress={() => personas.length ? setPickerOpen(true) : navigation.navigate('GuardianTabs', { screen: 'GuardianReg' })}
+            onPress={() => personas.length ? setPickerOpen(true) : navigation.navigate('RegChat', { mode: 'quick' })}
             accessibilityRole="button"
             accessibilityLabel={persona ? `선택된 가족 ${persona.name} ${persona.age}세, 변경하기` : '사전 등록 시작하기'}
           >
@@ -178,7 +178,9 @@ const styles = StyleSheet.create({
   header: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 18 },
   headerSide: { width: 22 }, back: { fontFamily: type.family, fontSize: 36, lineHeight: 38, color: color.figmaGray },
   title: { fontFamily: type.familySemiBold, fontSize: 18, color: '#000000' },
-  content: { paddingBottom: 16 }, section: { paddingHorizontal: 23, paddingTop: 18 },
+  // 812px 기기에서는 제출 버튼이 85px 탭바 뒤에 겹친다. 마지막 CTA가 탭 위까지
+  // 실제로 스크롤되도록 탭 높이+여백을 확보한다.
+  content: { paddingBottom: 108 }, section: { paddingHorizontal: 23, paddingTop: 18 },
   sectionTitle: { fontFamily: type.familySemiBold, fontSize: 14, color: '#000000', marginBottom: 14 },
   sectionIcon: { color: color.figmaRed },
   field: { height: 61, borderRadius: 10, backgroundColor: color.figmaField, justifyContent: 'center', paddingHorizontal: 16 },

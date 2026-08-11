@@ -36,7 +36,7 @@ export default function FigmaFlowTabBar({ mode, active }: {
     navigation.navigate('CitizenTabs', { screen });
   };
   return (
-    <View style={styles.bar}>
+    <View style={[styles.bar, guardian && styles.guardianBar]}>
       {items.map((item) => (
         <Pressable
           key={item.key}
@@ -54,7 +54,8 @@ export default function FigmaFlowTabBar({ mode, active }: {
 
 const styles = StyleSheet.create({
   bar: { height: 85, backgroundColor: '#FFFFFF', borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#D8D8D8', flexDirection: 'row', paddingTop: 7 },
-  item: { flex: 1, alignItems: 'center' },
+  guardianBar: { borderTopLeftRadius: 42, borderTopRightRadius: 42, overflow: 'hidden' },
+  item: { flex: 1, alignItems: 'center', outlineStyle: 'none' } as any,
   label: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: color.figmaGray, marginTop: 1 },
   homeIndicator: { position: 'absolute', bottom: 8, left: '32%', right: '32%', height: 5, borderRadius: 100, backgroundColor: '#000000' },
 });

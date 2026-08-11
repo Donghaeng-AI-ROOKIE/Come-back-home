@@ -145,7 +145,9 @@ const styles = StyleSheet.create({
   body: { flex: 1, position: 'relative' },
   mascotHalo: { position: 'absolute', top: 144, left: 215, width: 121, height: 121, borderRadius: 61, backgroundColor: '#E2F4DB' },
   tagline: { position: 'absolute', top: 208, left: 63, width: 193, fontFamily: type.family, fontSize: 10, lineHeight: 19, color: color.figmaGray },
-  logo: { position: 'absolute', top: 232, left: 38, width: 198, height: 66 },
+  // Figma 원본은 153×75 로 내보낸 로고를 1:1 크기로 놓는다. 넓은 컨테이너에
+  // contain으로 넣으면 높이에 맞춰 135px까지 줄어 실제 시안보다 작아진다.
+  logo: { position: 'absolute', top: 230, left: 51, width: 174, height: 83 },
   mascot: { position: 'absolute', top: 174, left: 227, width: 97, height: 146 },
   introFrame: { position: 'absolute', top: 372, left: 52, width: 272, height: 68, alignItems: 'center', justifyContent: 'center' },
   intro: { fontFamily: type.family, fontSize: 17, lineHeight: 24, color: '#525253', textAlign: 'center' },
