@@ -68,12 +68,21 @@ const GUARD = `${MARK}
           location.replace('/');
         };
       }
+      /** 앱이 이미 화면을 그렸나 — 그렸다면 무슨 일이 있어도 덮지 않는다. */
+      function mounted() {
+        var r = document.getElementById('root');
+        return !!(r && r.children.length > 0);
+      }
       // 리소스 로드 실패(이미지 404 등)는 여기로 안 온다 — capture 를 안 걸었다.
       window.addEventListener('error', function (e) {
         var m = (e.message || 'error') + ' @ '
           + String(e.filename || '').split('/').pop() + ':' + (e.lineno || 0);
         tell('error', m);
-        show('실행 중 오류가 났습니다.', m + '\\n' + why());
+        // 뜬 앱을 덮지 않는다. 사파리는 확장·외부 스크립트의 사소한 예외도
+        // "Script error. @ :0" 으로 올리는데(실측 08-12, 정상 동작 중인 폰),
+        // 그걸로 멀쩡한 화면을 진단 패널로 갈아치우면 고치려던 것보다 나쁘다.
+        // 기록은 항상 남기고, **화면은 아직 아무것도 없을 때만** 건드린다.
+        if (!mounted()) show('실행 중 오류가 났습니다.', m + '\\n' + why());
       });
       window.addEventListener('unhandledrejection', function (e) {
         var r = e.reason;
@@ -81,12 +90,10 @@ const GUARD = `${MARK}
       });
       // 오류 없이 조용히 비어 있는 경우 — 이쪽이 더 흔하다.
       setTimeout(function () {
-        var r = document.getElementById('root');
-        if (r && r.children.length === 0) {
-          var w = why();
-          tell('blank', w);
-          show('화면이 비어 있습니다.', w);
-        }
+        if (mounted()) return;
+        var w = why();
+        tell('blank', w);
+        show('화면이 비어 있습니다.', w);
       }, 9000);
     })();
     </script>`;
