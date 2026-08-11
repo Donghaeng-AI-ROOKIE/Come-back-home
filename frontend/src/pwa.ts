@@ -37,6 +37,16 @@ function scaleToPhone(): void {
   const root = document.getElementById('root');
   if (!root) return;
 
+  /**
+   * 키보드가 올라온 만큼 줄어든 **실제로 보이는 높이**.
+   *
+   * 웹에서는 KeyboardAvoidingView 가 동작하지 않는다(iOS 네이티브 전용). 그래서
+   * 키보드가 올라와도 앱 높이는 그대로였고, 입력칸과 탭바가 키보드 뒤로 들어가
+   * 챗봇 화면이 통째로 어긋났다(현장 제보 08-11 — 온보딩 챗봇).
+   * visualViewport 는 키보드를 뺀 영역을 알려 주므로 그 값에 앱을 맞춘다.
+   */
+  const visibleH = () => window.visualViewport?.height ?? window.innerHeight;
+
   const apply = () => {
     const w = window.innerWidth;
     // 폭이 0 이거나 비정상적으로 작을 때가 있다(레이아웃 전·숨은 탭). 그때
@@ -45,20 +55,22 @@ function scaleToPhone(): void {
     // 데스크톱에서까지 늘리면 거대해진다 — 폰 범위(≤560px)에서만 맞춘다.
     // 배율은 안전 범위로 자른다(너무 작게·크게 그리지 않는다).
     const s = w <= 560 ? Math.min(Math.max(w / BASE, 0.7), 1.6) : 1;
+    const h = visibleH();
     if (s === 1) {
       root.style.removeProperty('width');
-      root.style.removeProperty('height');
-      root.style.removeProperty('max-height');
       root.style.removeProperty('transform');
       root.style.removeProperty('transform-origin');
+      // 배율을 안 쓰더라도 키보드 높이는 반영해야 한다.
+      root.style.height = `${h}px`;
+      root.style.maxHeight = `${h}px`;
       return;
     }
     root.style.width = `${BASE}px`;
     // 위 <style> 의 `max-height: 100dvh` 가 확대된 높이를 그대로 잘라 버린다
     // (실측: 320폭에서 666px 로 잡혀야 할 높이가 568px 로 깎여 아래가 비었다).
     // 인라인으로 함께 덮어쓴다.
-    root.style.height = `calc(100dvh / ${s})`;
-    root.style.maxHeight = `calc(100dvh / ${s})`;
+    root.style.height = `${h / s}px`;
+    root.style.maxHeight = `${h / s}px`;
     root.style.transformOrigin = 'top left';
     root.style.transform = `scale(${s})`;
   };
@@ -66,6 +78,9 @@ function scaleToPhone(): void {
   apply();
   window.addEventListener('resize', apply);
   window.addEventListener('orientationchange', apply);
+  // 키보드 열림·닫힘은 여기로만 온다(resize 가 안 오는 기기가 있다).
+  window.visualViewport?.addEventListener('resize', apply);
+  window.visualViewport?.addEventListener('scroll', apply);
 }
 
 export function setupPwa(): void {
