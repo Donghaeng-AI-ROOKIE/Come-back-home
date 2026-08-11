@@ -10,6 +10,7 @@ import { useActiveWalk, useNearbyWalks, useStartWalk, useWalkStats } from '../ho
 import type { NearbyWalk } from '../api/client';
 import { isLocationSettled, useMyLocation } from '../hooks/useMyLocation';
 import FigmaLogo from '../components/FigmaLogo';
+import PushEnableCard from '../components/PushEnableCard';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import { Polyline } from 'react-native-maps';
 import BaseMap from '../components/BaseMap';
@@ -94,6 +95,9 @@ export default function CitizenHomeScreen() {
         refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
       >
         <View style={styles.logoRow}><FigmaLogo mode="citizen" /></View>
+
+        {/* 앱을 꺼 둬도 경보를 받게 하는 유일한 경로 — 이미 켜져 있으면 안 그린다. */}
+        <PushEnableCard />
 
         <View style={styles.monthHead}>
           <Text style={styles.kicker}>이번 달 나의 산책 기록</Text>
