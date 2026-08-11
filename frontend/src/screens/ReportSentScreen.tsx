@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import { SvgXml } from 'react-native-svg';
+import { icBroadcastGreenXml } from '../assets/guardianSvg';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -27,7 +29,8 @@ export default function ReportSentScreen() {
       <FigmaStatusBar />
       <View style={styles.body}>
         <FigmaLogo mode="guardian" />
-        <Text style={styles.signal}>⌁</Text>
+        {/* '⌁' 는 폰 폰트에 없어 □ 로 깨진다 — 시안의 방송 아이콘 SVG 로 대체. */}
+        <SvgXml xml={icBroadcastGreenXml} width={20} height={19} />
         <Text style={styles.title}>신고 접수 완료</Text>
         <View style={styles.steps}>
           <Step n="1" label="신고 접수" state="done" />
