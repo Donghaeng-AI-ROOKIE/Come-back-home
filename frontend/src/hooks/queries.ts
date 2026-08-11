@@ -279,5 +279,14 @@ export function useGoldenTime(windowMs = GOLDEN_WINDOW_MS): GoldenTime | null {
  * 보여야 한다(영속화가 붙어 서버에는 남아 있다).
  */
 export function usePersonas() {
-  return useQuery({ queryKey: ['personas'], queryFn: () => listPersonas() });
+  return useQuery({
+    queryKey: ['personas'],
+    queryFn: () => listPersonas(),
+    // 목록이 옛 이름·나이를 보여주던 문제(현장 제보 08-11)의 구조적 처방.
+    // 저장하는 쪽에서 무효화도 하지만, 그걸 한 군데라도 빠뜨리면 다시 같은 버그가
+    // 난다. 등록 가족은 몇 건뿐이라 화면에 들어올 때마다 다시 물어도 싸다.
+    staleTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
+  });
 }
