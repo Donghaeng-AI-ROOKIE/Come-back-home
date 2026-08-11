@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { SvgXml } from 'react-native-svg';
@@ -19,6 +19,7 @@ export default function ReportSentScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportSent'>>().params;
   const predict = useRunPrediction(caseId);
+  const [guideOpen, setGuideOpen] = React.useState(false);
   const addCase = useGuardianCaseStore((s) => s.addCase);
   // 신고의 유일한 착지점 — 여기서 기기에 사건 id 를 적어 둬야 알림 탭이 이 사건의
   // 제보를 따라갈 수 있다(서버에 보호자-사건 바인딩이 없다).
@@ -44,12 +45,65 @@ export default function ReportSentScreen() {
           <Text style={styles.noticeText}>{predict.isError ? '신고는 접수됐습니다. AI 분석만 다시 시도해 주세요.' : '현재 AI가 실종자의 습관과 지형을 분석하여 이동 경로를 파악하고 있습니다. 인근 시민들의 제보가 확인되는 대로 안내해 드리겠습니다.'}</Text>
         </View>
         {predict.isError ? <Pressable style={styles.retry} onPress={() => predict.mutate()}><Text style={styles.retryText}>AI 분석 다시 시도</Text></Pressable> : null}
-        <Pressable style={styles.guide} onPress={() => navigation.navigate('GuardianTabs', { screen: 'GuardianHome' })}>
+        {/* 이 버튼은 지침을 보여주는 자리인데 **홈으로 보내고 있었다** — 눌러도
+            지침이 안 뜬다는 제보(08-12)의 원인. 신고 직후 보호자가 무엇을 해야
+            하는지가 이 화면에서 가장 필요한 정보라, 화면을 떠나지 않고 띄운다. */}
+        <Pressable style={styles.guide} onPress={() => setGuideOpen(true)}>
           <Text style={styles.guideText}>✓ 치매 가족 실종시 행동 지침</Text>
         </Pressable>
       </View>
+      <GuideSheet open={guideOpen} onClose={() => setGuideOpen(false)} />
       <FigmaFlowTabBar mode="guardian" active="home" />
     </SafeAreaView>
+  );
+}
+
+/**
+ * 신고 직후 보호자가 지금 할 일 — 「치매 가족 실종시 행동 지침」.
+ *
+ * 예측이 도는 동안 보호자는 화면만 보며 기다리게 된다. 그 시간에 할 수 있는
+ * 일이 실제로 있고, 그게 발견 확률을 크게 바꾼다. 화면을 떠나지 않고 덮어
+ * 띄우는 이유 — 신고 진행 상황을 놓치면 안 되기 때문이다.
+ *
+ * 내용은 경찰청·중앙치매센터의 실종 대응 요령을 보호자가 이 자리에서 바로
+ * 할 수 있는 것만 추려 옮긴 것이다. 의학적 판단은 담지 않는다.
+ */
+const GUIDE_STEPS: { head: string; body: string }[] = [
+  { head: '1. 집 안과 건물부터 다시 봅니다',
+    body: '화장실·베란다·계단·옥상·주차장 순으로 확인하세요. 실제로 집 안이나 건물 안에서 발견되는 경우가 적지 않습니다.' },
+  { head: '2. 112에 신고합니다',
+    body: '"치매 환자 실종"이라고 분명히 말하세요. 실종아동등 프로파일링 시스템에 등록되어 수색 지원을 받을 수 있습니다. 지문·사진을 사전등록해 두었다면 그 사실도 함께 알리세요.' },
+  { head: '3. 마지막으로 본 시각과 옷차림을 지금 적어 두세요',
+    body: '기억은 생각보다 빨리 흐려집니다. 상의·하의·신발 색과 소지품을 적어 두면 수색과 제보 확인이 훨씬 빨라집니다.' },
+  { head: '4. 자주 가던 곳을 순서대로 확인합니다',
+    body: '옛집, 옛 직장, 늘 가던 시장·공원·경로당 순으로 보세요. 치매가 있는 분은 낯선 곳보다 오래된 기억 속 장소로 향하는 경우가 많습니다.' },
+  { head: '5. 주변 상점·경비실에 사진을 보여 주세요',
+    body: 'CCTV 확인을 부탁하면 이동 방향을 좁힐 수 있습니다. 편의점·약국·버스 정류장처럼 사람이 상주하는 곳이 우선입니다.' },
+  { head: '6. 혼자 찾지 마세요',
+    body: '가족·이웃과 구역을 나누고, 한 명은 집에 남아 있으세요. 스스로 돌아오는 경우가 있습니다.' },
+];
+
+function GuideSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+  return (
+    <Modal visible={open} animationType="slide" transparent onRequestClose={onClose}>
+      <View style={styles.sheetBackdrop}>
+        <View style={styles.sheet}>
+          <Text style={styles.sheetTitle}>치매 가족 실종시 행동 지침</Text>
+          <Text style={styles.sheetLead}>AI가 예상 경로를 분석하는 동안 아래를 함께 해 주세요.</Text>
+          <ScrollView style={styles.sheetScroll} contentContainerStyle={styles.sheetScrollBody}>
+            {GUIDE_STEPS.map((s) => (
+              <View key={s.head} style={styles.guideItem}>
+                <Text style={styles.guideHead}>{s.head}</Text>
+                <Text style={styles.guideBody}>{s.body}</Text>
+              </View>
+            ))}
+          </ScrollView>
+          <Pressable style={styles.sheetClose} onPress={onClose}>
+            <Text style={styles.sheetCloseText}>닫기</Text>
+          </Pressable>
+        </View>
+      </View>
+    </Modal>
   );
 }
 
@@ -67,7 +121,23 @@ const styles = StyleSheet.create({
   n: { fontFamily: type.familyBold, fontSize: 17, color: '#FFFFFF' }, stepLabel: { fontFamily: type.family, fontSize: 11, color: color.figmaGray, marginTop: 6, textAlign: 'center' }, stepOn: { color: color.brand },
   notice: { width: 330, minHeight: 69, backgroundColor: '#FFFFFF', borderRadius: 10, marginTop: 61, padding: 14 },
   noticeTitle: { fontFamily: type.familySemiBold, fontSize: 11, color: color.brand }, noticeText: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#525253', marginTop: 4 },
-  retry: { marginTop: 12, backgroundColor: color.figmaRed, borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10 }, retryText: { fontFamily: type.familySemiBold, fontSize: 12, color: '#FFFFFF' },
+  // 지침 버튼이 absolute(bottom:157)인데 재시도 버튼만 일반 흐름이라, 화면이
+  // 짧으면 둘이 **겹쳤다**(실측 08-12 제보). 같은 기준(bottom)으로 맞춰 지침
+  // 버튼 위 10px 에 세운다 — 시안이 정한 지침 버튼 위치는 건드리지 않는다.
+  retry: { position: 'absolute', bottom: 205, backgroundColor: color.figmaRed, borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10 }, retryText: { fontFamily: type.familySemiBold, fontSize: 12, color: '#FFFFFF' },
   guide: { position: 'absolute', bottom: 157, width: 255, height: 38, borderRadius: 22, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.14, shadowRadius: 2, shadowOffset: { width: 0, height: 1 } },
   guideText: { fontFamily: type.family, fontSize: 13, color: '#525253' },
+
+  // 행동 지침 시트 — 신고 화면 위에 덮는다(진행 상황을 잃지 않게).
+  sheetBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.35)', justifyContent: 'flex-end' },
+  sheet: { backgroundColor: '#FFFFFF', borderTopLeftRadius: 18, borderTopRightRadius: 18, paddingTop: 20, paddingHorizontal: 20, paddingBottom: 16, maxHeight: '82%' },
+  sheetTitle: { fontFamily: type.familyBold, fontSize: 17, color: '#000000' },
+  sheetLead: { fontFamily: type.family, fontSize: 12, lineHeight: 17, color: color.figmaGray, marginTop: 6 },
+  sheetScroll: { marginTop: 14 },
+  sheetScrollBody: { paddingBottom: 8 },
+  guideItem: { marginBottom: 16 },
+  guideHead: { fontFamily: type.familySemiBold, fontSize: 14, lineHeight: 19, color: color.brand },
+  guideBody: { fontFamily: type.family, fontSize: 13, lineHeight: 19, color: '#525253', marginTop: 4 },
+  sheetClose: { marginTop: 6, height: 46, borderRadius: 10, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center' },
+  sheetCloseText: { fontFamily: type.familySemiBold, fontSize: 15, color: '#FFFFFF' },
 });
