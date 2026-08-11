@@ -73,8 +73,11 @@ export default function AlertDetailScreen() {
         </View>
 
         <View style={styles.actions}>
-          <Pressable style={[styles.button, styles.seen]} onPress={() => navigation.navigate('Appearance', { caseId })}>
-            <Text style={styles.seenText}>봤어요</Text>
+          {/* 시안: 경보를 확인하면 수색화면(지도)으로 간다. 그 화면에 예상 구역·
+              참여자 수·제보 진입이 다 있다. 화면은 만들어져 있었는데 라우트가
+              등록돼 있지 않아 도달할 수 없었다(08-11). */}
+          <Pressable style={[styles.button, styles.seen]} onPress={() => navigation.navigate('Search', { caseId })}>
+            <Text style={styles.seenText}>수색 참여하기</Text>
           </Pressable>
           <Pressable style={[styles.button, styles.notSeen]} onPress={() => navigation.goBack()}>
             <Text style={styles.notSeenText}>못 봤어요</Text>

@@ -31,6 +31,7 @@ import AuthScreen from '../screens/AuthScreen';
 import LockScreenAlert from '../screens/LockScreenAlert';
 import AlertDetailScreen from '../screens/AlertDetailScreen';
 import AlertSyncScreen from '../screens/AlertSyncScreen';
+import SearchScreen from '../screens/SearchScreen';
 import AppearanceScreen from '../screens/AppearanceScreen';
 import TipWarnScreen from '../screens/TipWarnScreen';
 import ReportChatScreen from '../screens/ReportChatScreen';
@@ -159,6 +160,7 @@ export default function RootNavigator() {
             initialParams={gateCaseId ? { caseId: gateCaseId } : undefined}
           />
           <Stack.Screen name="AlertSync" component={AlertSyncScreen} />
+          <Stack.Screen name="Search" component={SearchScreen} />
           <Stack.Screen name="Appearance" component={AppearanceScreen} />
           <Stack.Screen name="TipWarn" component={TipWarnScreen} />
           <Stack.Screen name="ReportChat" component={ReportChatScreen} />
