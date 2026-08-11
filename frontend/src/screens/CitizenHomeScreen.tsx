@@ -7,6 +7,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { useActiveWalk, useNearbyWalks, useStartWalk, useWalkStats } from '../hooks/queries';
+import { isLocationSettled, useMyLocation } from '../hooks/useMyLocation';
 import FigmaLogo from '../components/FigmaLogo';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import BaseMap from '../components/BaseMap';
@@ -33,6 +34,10 @@ export default function CitizenHomeScreen() {
   const { data: stats, refetch, isRefetching } = useWalkStats();
   const { data: active } = useActiveWalk();
   const walks = useNearbyWalks();
+  // 위치를 못 받은 경우와 주변에 없는 경우는 다른 상황이다 — 같은 문구로 뭉개면
+  // 사용자는 앱이 고장 난 줄 알고 권한을 켜 볼 생각을 못 한다.
+  const { status: locStatus } = useMyLocation(true);
+  const locBlocked = isLocationSettled(locStatus) && locStatus !== 'granted';
   const startWalk = useStartWalk();
   const onStart = (areaLabel?: string) => {
     if (active) return navigation.navigate('WalkActive');
@@ -78,7 +83,11 @@ export default function CitizenHomeScreen() {
         </View>
 
         <View style={styles.routeHead}><Text style={styles.routeHeadline}>내 주변 산책 루트 추천</Text></View>
-        {walks.isLoading ? (
+        {locBlocked ? (
+          <Text style={styles.routeEmpty}>
+            위치를 알 수 없어 주변 산책길을 찾지 못했습니다.{'\n'}설정에서 위치 권한을 켜 주세요.
+          </Text>
+        ) : walks.isLoading || !isLocationSettled(locStatus) ? (
           <ActivityIndicator style={styles.routeLoading} color={color.brand} />
         ) : (walks.data?.length ?? 0) === 0 ? (
           // 지어낸 목록으로 채우지 않는다 — 못 찾았으면 못 찾았다고 말한다.
