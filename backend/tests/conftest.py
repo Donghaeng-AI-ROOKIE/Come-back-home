@@ -26,6 +26,11 @@ os.environ["USE_ROADNET"] = "false"
 # 임시 경로로 직접 켜서 한다.
 os.environ["PERSIST_STORAGE"] = "false"
 
+# 역지오코딩(좌표 → 지역명)도 끈다. 신고 접수마다 OSM 을 부르면 테스트가
+# 네트워크에 의존하고, 응답에 따라 경보의 "area" 가 달라져 결정론이 깨진다.
+# 역지오코딩 자체의 검증은 그 모듈을 직접 부르는 테스트가 한다.
+os.environ["REVERSE_GEOCODE_ON_INTAKE"] = "false"
+
 # 감사로그 파일도 테스트 전용 경로로 돌린다.
 #
 # 이건 편의가 아니라 **증적의 무결성 문제**다. 파기 증적은 "언제 무엇을 지웠다"를

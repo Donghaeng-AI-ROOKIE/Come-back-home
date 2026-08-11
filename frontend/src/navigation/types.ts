@@ -6,6 +6,7 @@
 import type { NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import type { GeoPoint } from '../types/domain';
 import type { CompositeScreenProps } from '@react-navigation/native';
 
 export type RootStackParamList = {
@@ -32,7 +33,10 @@ export type RootStackParamList = {
 
   // 시민 산책 플로우
   WalkActive: undefined;
-  WalkSummary: { sessionId: string; distanceKm: number; durationMin: number };
+  // path 는 **기기 안에서만** 요약 화면으로 넘어간다 — 서버는 산책 경로를
+  // 저장하지 않는다(schemas/walk.py: 좌표가 아니라 지역 라벨만). 그래서
+  // 걸은 길을 그리려면 이 화면 전이로 들고 가는 수밖에 없다.
+  WalkSummary: { sessionId: string; distanceKm: number; durationMin: number; path?: GeoPoint[] };
 };
 
 /** 시민 하단 4탭 — 와이어프레임: 안심홈 / 산책하기 / 긴급알림 / 내 기록. */

@@ -238,6 +238,8 @@ type AlertResponse = {
   /** 시민에게 보여줄 최소 신원 — 이름은 오지 않는다(불특정 다수 대상 알림). */
   age?: number | null;
   appearance?: string[];
+  /** 실루엣 아바타용 색 태그(빨강·검정 등 영문 키). 백엔드는 이미지를 만들지 않는다. */
+  appearance_colors?: { top: string; bottom: string; shoes: string };
   lkp?: GeoPoint;
   lkp_time?: string;
 };
@@ -270,7 +272,8 @@ export async function getActiveAlerts(cellRes7: string | null): Promise<PoliceAl
   return rows.map((r) => ({
     caseId: r.case_id,
     issuedAt: r.issued_at,
-    // 서버는 지역명을 모른다(역지오코딩 미연결) — 동 이름을 지어내는 대신 물러난다.
+    // 서버가 역지오코딩으로 채운다. 조회 실패 시에만 빈 문자열이 오고, 그때는
+    // 동 이름을 지어내는 대신 물러난다.
     area: r.area || '내 주변',
     severity: r.severity,
     kind: r.kind,
@@ -280,6 +283,7 @@ export async function getActiveAlerts(cellRes7: string | null): Promise<PoliceAl
     matchedPersonId: r.matched_person_id ?? undefined,
     age: r.age ?? undefined,
     appearance: (r.appearance ?? []).filter(Boolean),
+    appearanceColors: r.appearance_colors,
     lkp: r.lkp,
     lkpTime: r.lkp_time,
   }));
@@ -302,6 +306,21 @@ let mockWatching = 4;
  * 하트비트 + 현재 동시 참여자 수. 좌표는 보내지 않는다 (셀 단위 집계 = 위치정보).
  * 서버 계약: POST /phase3/cases/{id}/presence → { watching: number }
  */
+/** 내 주변 산책 장소 — 서버가 OSM 에서 실제 공원·산책로를 찾아 준다. */
+export type NearbyWalk = {
+  name: string;
+  lat: number;
+  lng: number;
+  distance_km: number;
+  kind: string;
+};
+
+export async function getNearbyWalks(point: GeoPoint, limit = 4): Promise<NearbyWalk[]> {
+  return api<NearbyWalk[]>(
+    `/geo/nearby-walks?lat=${point.lat}&lng=${point.lng}&limit=${limit}`,
+  );
+}
+
 export async function touchPresence(caseId: string): Promise<number> {
   if (USE_MOCK) {
     mockWatching = Math.min(9, Math.max(2, mockWatching + (Math.random() < 0.5 ? -1 : 1)));

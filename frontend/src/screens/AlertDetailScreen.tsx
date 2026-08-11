@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -7,12 +7,12 @@ import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
+import PersonSilhouette from '../components/PersonSilhouette';
 import { useAppModeStore } from '../store/appModeStore';
 import { useEngagementStore } from '../store/engagementStore';
 import { useActiveAlerts, useGoldenTime, usePresenceCount } from '../hooks/queries';
 import { alertToView } from '../data/missingView';
 
-const PERSON = require('../../assets/figma/alert-person.png');
 
 export default function AlertDetailScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -57,7 +57,7 @@ export default function AlertDetailScreen() {
 
         <Pressable style={styles.personCard} onPress={() => navigation.navigate('AlertSync', { caseId })}>
           <View style={styles.searchChip}><Text style={styles.searchChipText}>수색 중({alert ? `${alert.targetCells.length}개 대상 구역` : '범위 확인 중'})</Text></View>
-          <Image source={PERSON} style={styles.personImage} />
+          <PersonSilhouette colors={alert?.appearanceColors} size={62} style={styles.personImage} />
           <Text style={styles.name}>{view.title}</Text>
           <Text style={styles.meta}>{view.meta}</Text>
           <View style={styles.tags}>

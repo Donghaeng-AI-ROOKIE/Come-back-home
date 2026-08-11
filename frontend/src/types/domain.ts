@@ -151,6 +151,11 @@ export type PoliceAlert = {
    */
   age?: number;
   appearance?: string[];
+  /**
+   * 인상착의 색 태그(상의·하의·신발). 사진은 받지도 보내지도 않으므로
+   * 실종자 얼굴 사진 자리에는 이 색으로 채운 실루엣이 들어간다.
+   */
+  appearanceColors?: { top: string; bottom: string; shoes: string };
   lkp?: GeoPoint;
   lkpTime?: string;
 };

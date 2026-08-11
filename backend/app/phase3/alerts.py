@@ -8,7 +8,7 @@ import math
 from datetime import datetime
 
 from app.config import settings
-from app.geo import h3grid
+from app.geo import h3grid, reverse
 from app.phase3 import devices, push
 from app.schemas.case import Case
 from app.schemas.common import GeoPoint
@@ -195,10 +195,12 @@ def describe_alert(case: Case, now: datetime | None = None) -> dict:
     return {
         "case_id": case.id,
         "issued_at": case.last_alert_at or case.created_at,
-        # 🚫 지역명은 서버가 모른다 — 역지오코딩이 아직 없다(KAKAO 키 대기).
-        # 빈 문자열로 두고 앱이 "내 주변"으로 물러난다. 좌표에서 동 이름을
-        # 지어내느니 안 말하는 게 낫다.
-        "area": "",
+        # 최종 목격 지점의 지역명 — **캐시만 읽는다**(geo/reverse.cached_label).
+        # 채우는 일은 신고 접수 때 미리 해 둔다. 이 함수는 시민 앱이 15초마다 부르는
+        # 폴링 경로라 여기서 외부 호출을 하면 OSM 이 느린 날 경보가 통째로 늦어진다.
+        # 아직 안 채워졌거나 조회에 실패했으면 빈 문자열이고 앱이 "내 주변"으로
+        # 물러난다 — 좌표에서 동 이름을 지어내지는 않는다.
+        "area": reverse.cached_label(case.lkp),
         "severity": "critical" if elapsed_h <= settings.alert_critical_window_h else "active",
         "kind": kind,
         "target_cells": sorted(target_parent_cells(cells)) if cells else [],
@@ -213,6 +215,14 @@ def describe_alert(case: Case, now: datetime | None = None) -> dict:
         "appearance": (
             [look.top, look.bottom, look.shoes, look.etc] if look else []
         ),
+        # 실루엣 아바타용 색 태그(schemas/report.Appearance 주석 참고 — 백엔드는
+        # 이미지를 만들지 않고 색 이름만 준다). 사진은 받지도 보내지도 않으므로
+        # 앱이 사람 사진을 띄우면 그건 실종자가 아닌 남의 얼굴이다.
+        "appearance_colors": {
+            "top": look.top_color if look else "unknown",
+            "bottom": look.bottom_color if look else "unknown",
+            "shoes": look.shoes_color if look else "unknown",
+        },
         "lkp": {"lat": case.lkp.lat, "lng": case.lkp.lng},
         "lkp_time": case.lkp_time,
     }

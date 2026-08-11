@@ -13,7 +13,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
-from app.api import debug, phase0, phase1, phase2, phase3, privacy, walk
+from app.api import debug, geo, phase0, phase1, phase2, phase3, privacy, walk
 from app.config import settings
 
 log = logging.getLogger(__name__)
@@ -79,6 +79,7 @@ app.include_router(phase3.router)
 app.include_router(privacy.router)
 app.include_router(debug.router)
 app.include_router(walk.router)
+app.include_router(geo.router)
 
 
 @app.get("/dashboard", include_in_schema=False)

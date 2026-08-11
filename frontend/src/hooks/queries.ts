@@ -1,11 +1,12 @@
 /** 서버 동기화 훅 (TanStack Query v5) + 파생 골든타임 (spec §2.4). */
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getActiveAlerts, getGuidance, getPoaPrediction, touchPresence } from '../api/client';
+import { getActiveAlerts, getGuidance, getNearbyWalks, getPoaPrediction, touchPresence } from '../api/client';
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
-import { getCase, listActiveCases, listPersonas, runPrediction } from '../api/guardian';
+import { getAreaLabels, getCase, getMyCases, listPersonas, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
 import { useDebugStore } from '../store/debugStore';
+import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import { useMyLocation } from './useMyLocation';
 import { LAST_SEEN } from '../data/missing';
 import { cellOf } from '../utils/h3cell';
@@ -62,12 +63,56 @@ export function useCase(caseId: string) {
   return useQuery({ queryKey: ['case', caseId], queryFn: () => getCase(caseId), enabled: !!caseId });
 }
 
+/**
+ * 이 기기가 접수한 사건들 — 보호자 알림(제보) 탭의 단일 창구.
+ *
+ * 시민 경보와 같은 주기로 다시 묻는다. 보호자가 제보 도착을 시민보다 늦게 알
+ * 이유가 없다.
+ */
 export function useGuardianCases() {
+  const caseIds = useGuardianCaseStore((s) => s.caseIds);
   return useQuery({
-    queryKey: ['guardianCases'],
-    queryFn: () => listActiveCases(),
+    queryKey: ['guardianCases', caseIds],
+    queryFn: () => getMyCases(caseIds),
+    enabled: caseIds.length > 0,
     refetchInterval: ALERT_POLL_MS,
     refetchOnWindowFocus: true,
+  });
+}
+
+/**
+ * 내 주변 산책 장소 — 서버가 OSM 에서 실제 공원·산책로를 찾아 준다.
+ *
+ * 앱에 고정 목록을 박아 두면 어디서 켜도 같은 이름이 뜨는데 그건 "내 주변"이
+ * 아니다(실측: 고정값 "경의선 숲길 1.2km" — 신촌에서 실제 거리는 0.6km).
+ * 위치를 모르면 묻지 않는다.
+ */
+export function useNearbyWalks() {
+  const { point } = useMyLocation(true);
+  const key = point ? `${point.lat.toFixed(3)},${point.lng.toFixed(3)}` : null;
+  return useQuery({
+    queryKey: ['nearbyWalks', key],
+    queryFn: () => getNearbyWalks(point!),
+    enabled: point != null,
+    // 동네의 공원은 바뀌지 않는다 — 세션 동안 다시 묻지 않는다.
+    staleTime: Infinity,
+  });
+}
+
+/**
+ * 좌표 묶음 → 장소명. 서버가 캐시하므로 같은 골목은 한 번만 외부 조회된다.
+ *
+ * 이름이 늦게 와도 목록은 먼저 떠야 하므로, 화면은 이 결과를 **덧입히는** 용도로만
+ * 쓴다(없으면 좌표를 보여준다).
+ */
+export function useAreaLabels(points: { lat: number; lng: number }[]) {
+  const key = points.map((p) => `${p.lat.toFixed(4)},${p.lng.toFixed(4)}`).join('|');
+  return useQuery({
+    queryKey: ['areaLabels', key],
+    queryFn: () => getAreaLabels(points),
+    enabled: points.length > 0,
+    // 장소 이름은 변하지 않는다 — 세션 동안 다시 묻지 않는다.
+    staleTime: Infinity,
   });
 }
 
