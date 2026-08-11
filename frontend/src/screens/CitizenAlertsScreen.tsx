@@ -8,6 +8,7 @@ import type { RootStackParamList } from '../navigation/types';
 import { useActiveAlerts, useResolvedAlerts } from '../hooks/queries';
 import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
+import { isLocationSettled, useMyLocation } from '../hooks/useMyLocation';
 
 export default function CitizenAlertsScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -16,6 +17,19 @@ export default function CitizenAlertsScreen() {
   // 상황 종료 카드(시안) — 활성 경보와 **같은 칸**으로 물어 온 최근 발견 사건.
   // 실패해도 화면을 막지 않는다: 이건 결과 알림이지 골든타임 정보가 아니다.
   const resolved = useResolvedAlerts().data ?? [];
+  /**
+   * 위치를 못 잡은 상태 — "주변에 사건이 없다"와 **반드시 구분해야 한다.**
+   *
+   * 목록 조회는 내 res7 칸을 서버에 보내고 서버가 고르는 구조라, 위치가 없으면
+   * 아예 묻지 않고 빈 배열이 된다(fail-closed). 그런데 화면은 그걸 "진행 중인
+   * 수색 알림이 없습니다"로 보여줬다 — **거짓말이다.** 실제로는 알 수 없는 것이다.
+   *
+   * 현장 제보(08-12): 푸시는 잠금화면까지 잘 왔는데 앱 목록만 비어 있었다.
+   * 푸시는 구독할 때 저장해 둔 칸으로 나가고 목록은 실시간 위치를 쓰기 때문에,
+   * 위치가 끊긴 순간 둘이 갈린다. 그때 "없습니다"가 뜨면 아무도 원인을 못 찾는다.
+   */
+  const { point, status: locStatus } = useMyLocation(true);
+  const locationBlocked = point == null && isLocationSettled(locStatus);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -26,9 +40,20 @@ export default function CitizenAlertsScreen() {
         <Text style={styles.subtitle}>현재 내 주변 반경과 AI 예상 동선이 겹치는 실종 사건 목록입니다</Text>
         {isLoading ? <ActivityIndicator color={color.figmaRed} style={styles.loading} /> : null}
         {isError ? <Pressable style={styles.empty} onPress={() => refetch()}><Text style={styles.emptyText}>경보를 불러오지 못했습니다.{`\n`}눌러서 다시 시도해 주세요.</Text></Pressable> : null}
+        {/* 위치가 없으면 **"없다"가 아니라 "모른다"** 라고 말한다. 이 화면은 내 칸을
+            서버에 보내고 서버가 고르는 구조라, 위치가 없으면 판단 자체가 불가능하다. */}
+        {locationBlocked ? (
+          <View style={styles.empty}>
+            <Text style={styles.emptyText}>
+              위치를 확인할 수 없어 주변 사건을 불러오지 못했습니다.{`\n`}
+              설정에서 위치 권한을 켜 주세요.{`\n\n`}
+              알림은 계속 받을 수 있지만, 이 목록은 위치가 있어야 보입니다.
+            </Text>
+          </View>
+        ) : null}
         {/* 빈 안내는 **양쪽 다 없을 때만** 띄운다 — 종결 카드만 있는 상태에서
             "알림이 없습니다"가 그 위에 뜨면 화면이 스스로 모순된다. */}
-        {!isLoading && !isError && alerts.length === 0 && resolved.length === 0 ? <View style={styles.empty}><Text style={styles.emptyText}>현재 내 주변에 진행 중인 수색 알림이 없습니다.</Text></View> : null}
+        {!isLoading && !isError && !locationBlocked && alerts.length === 0 && resolved.length === 0 ? <View style={styles.empty}><Text style={styles.emptyText}>현재 내 주변에 진행 중인 수색 알림이 없습니다.</Text></View> : null}
         {alerts.map((alert) => (
           <AlertCard
             key={alert.caseId}
