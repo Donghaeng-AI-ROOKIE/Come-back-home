@@ -29,8 +29,26 @@
  * 그래서 홈에서 그 사실을 알려야 한다.
  */
 import { useEffect, useSyncExternalStore } from 'react';
+import { Platform } from 'react-native';
 import * as Location from 'expo-location';
 import type { GeoPoint } from '../types/domain';
+
+/**
+ * 웹에서 GPS 를 켜는 스위치 — useWalkTracking.ts 의 같은 상수와 짝이다.
+ *
+ * expo-location 웹 구현은 `watchPositionAsync` 옵션을 브라우저에 그대로 넘기는데,
+ * 우리가 주는 `accuracy: High` 는 브라우저가 모르는 키라 무시되고 정작 필요한
+ * `enableHighAccuracy` 는 비어 있어 false 로 떨어진다. 그러면 GPS 대신
+ * 와이파이·기지국 측위가 쓰이고 오차가 수십~수백 m 로 벌어진다.
+ *
+ * 여기서 그 오차는 **경보를 받느냐 마느냐**로 이어진다 — 이 좌표로 "내가 예측
+ * 구역 안인가"를 판정하고(utils/areaStatus.ts), 판정이 어긋나면 대상자인데도
+ * 관문이 안 서거나 대상이 아닌데 경보가 뜬다.
+ *
+ * `maximumAge: 30초` 는 캐시 허용 — 거리 누적과 달리(거기선 0) 여기서는 조금
+ * 지난 좌표라도 즉시 있는 편이 낫다. 첫 값이 늦으면 관문이 그만큼 기다린다.
+ */
+const WEB_GEO_OPTIONS = { enableHighAccuracy: true, maximumAge: 30_000 };
 
 export type LocationStatus =
   | 'idle'        // 아직 요청 전
@@ -94,10 +112,23 @@ async function start(): Promise<void> {
     };
 
     // 첫 값은 마지막으로 알려진 위치로 즉시 채운다 — 첫 GPS 픽스는 수 초 걸리는데
-    // 그동안 관문이 대기하므로 체감 지연이 그대로 드러난다. (웹에서는 null 을
-    // 돌려주므로 아래 watch 의 첫 콜백을 기다리게 된다.)
+    // 그동안 관문이 대기하므로 체감 지연이 그대로 드러난다.
     const last = await Location.getLastKnownPositionAsync();
     if (last) apply(last);
+    else if (Platform.OS === 'web') {
+      // 웹에서는 위 호출이 **항상 null** 이라(브라우저에 '마지막 위치' 개념이 없다)
+      // 빠른 첫 값 경로가 통째로 비어 있었다. 아래 워처를 고정확도로 돌리면서
+      // 이 구멍이 더 아프게 됐다 — GPS 콜드 스타트는 실내에서 수십 초까지 간다.
+      // 그래서 거친 값이라도 먼저 한 번 받아 관문을 열어 두고, 워처가 정밀한
+      // 값으로 덮게 한다. (Balanced 로 요청해야 expo 가 고정확도를 끈다.)
+      try {
+        const coarse = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+        // 그사이 더 나은 값이 들어왔으면 거친 값으로 덮지 않는다.
+        if (state.point == null) apply(coarse);
+      } catch {
+        // 워처가 곧 채운다. 여기서 실패했다고 상태를 깎아내리지 않는다.
+      }
+    }
 
     // Accuracy.High(GPS): 표기 단위가 50m 라 Balanced(≈100m)로는 정확도 게이트에
     // 걸려 숫자가 아예 안 뜬다. 전경에서만 도는 단일 워처라 비용을 감수한다.
@@ -106,8 +137,16 @@ async function start(): Promise<void> {
         accuracy: Location.Accuracy.High,
         distanceInterval: 25, // 25m 이상 움직였을 때만 — 정지 상태 갱신 폭주 방지
         timeInterval: 10_000,
-      },
+        ...(Platform.OS === 'web' ? WEB_GEO_OPTIONS : null),
+      } as Location.LocationOptions,
       apply,
+      // **네이티브 전용.** 웹은 에러를 전달하지 않는다(expo 웹 구현이 브라우저
+      // 에러 콜백 자리에 undefined 를 넘긴다). 좌표를 한 번도 못 받은 채 실패하면
+      // 'requesting' 에 영영 머물러 관문이 계속 기다린다 — isLocationSettled 가
+      // 참이 되도록 물러난다. 이미 좌표가 있으면 일시적 끊김이므로 유지한다.
+      () => {
+        if (state.point == null) setState({ point: null, accuracyM: null, status: 'unavailable' });
+      },
     );
   } catch {
     // 위치서비스가 꺼져 있거나 기기가 지원하지 않는 경우.

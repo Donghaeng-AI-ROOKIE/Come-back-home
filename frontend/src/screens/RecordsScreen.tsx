@@ -7,6 +7,7 @@ import { color, type } from '../theme/tokens';
 import { useWalkStats } from '../hooks/queries';
 import { useAuthStore } from '../store/authStore';
 import FigmaStatusBar from '../components/FigmaStatusBar';
+import { formatKm } from '../utils/walkFormat';
 
 export default function RecordsScreen() {
   const { data, isLoading, refetch, isRefetching } = useWalkStats();
@@ -17,10 +18,10 @@ export default function RecordsScreen() {
   return <SafeAreaView style={styles.safe} edges={['top']}><StatusBar style="dark" /><FigmaStatusBar /><ScrollView contentContainerStyle={styles.content} refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}>
     <Text style={styles.title}>내 동행 기록</Text>
     <View style={styles.hero} accessibilityLabel={isLoading ? '동행 기록을 불러오는 중' : `${data?.level_label ?? '안심 동행'} 레벨 ${data?.level ?? 1}`} />
-    <View style={styles.metrics}><Metric label="총 동행 거리" value={`${(data?.total_km ?? 0).toFixed(1)}km`} color={color.brand} /><Metric label="실종자 제보" value={`${data?.tip_count ?? 0}건`} color={color.figmaRed} /></View>
+    <View style={styles.metrics}><Metric label="총 동행 거리" value={`${formatKm(data?.total_km ?? 0)}km`} color={color.brand} /><Metric label="실종자 제보" value={`${data?.tip_count ?? 0}건`} color={color.figmaRed} /></View>
     <Text style={styles.section}>최근 획득한 배지</Text><View style={styles.badges}>{data?.badges.filter((b) => b.earned).slice(0, 4).map((b) => <View key={b.id} style={styles.badge}><Text style={styles.badgeIcon}>{b.icon}</Text><Text style={styles.badgeLabel}>{b.label}</Text></View>)}</View>
     <Text style={[styles.section, styles.recentSection]}>최근 산책 기록</Text>
-    {(data?.recent.length ? data.recent : [{ id: 'empty1', area_label: '산책 장소 1', distance_km: 0, ended_at: null }, { id: 'empty2', area_label: '산책 장소 2', distance_km: 0, ended_at: null }]).slice(0, 2).map((s) => <View key={s.id} style={styles.recent}><View><Text style={styles.recentTitle}>{s.area_label || '산책'}</Text><Text style={styles.recentDate}>산책 일시: {s.ended_at ? dayjs(s.ended_at).format('YYYY.MM.DD HH:mm') : ''}</Text></View><Text style={styles.km}>{s.distance_km.toFixed(1)} km</Text><Text style={styles.chevron}>›</Text></View>)}
+    {(data?.recent.length ? data.recent : [{ id: 'empty1', area_label: '산책 장소 1', distance_km: 0, ended_at: null }, { id: 'empty2', area_label: '산책 장소 2', distance_km: 0, ended_at: null }]).slice(0, 2).map((s) => <View key={s.id} style={styles.recent}><View><Text style={styles.recentTitle}>{s.area_label || '산책'}</Text><Text style={styles.recentDate}>산책 일시: {s.ended_at ? dayjs(s.ended_at).format('YYYY.MM.DD HH:mm') : ''}</Text></View><Text style={styles.km}>{formatKm(s.distance_km)} km</Text><Text style={styles.chevron}>›</Text></View>)}
     <Text style={[styles.section, styles.recentSection]}>계정</Text>
     <View style={styles.account}>
       <View style={styles.accountRow}>

@@ -15,6 +15,7 @@ import FigmaStatusBar from '../components/FigmaStatusBar';
 import { Polyline } from 'react-native-maps';
 import BaseMap from '../components/BaseMap';
 import WebMap from '../components/WebMap';
+import { formatKm } from '../utils/walkFormat';
 
 /**
  * 카드 썸네일 — 그 길의 **실제 모양**을 지도 위에 그린다.
@@ -101,7 +102,7 @@ export default function CitizenHomeScreen() {
 
         <View style={styles.monthHead}>
           <Text style={styles.kicker}>이번 달 나의 산책 기록</Text>
-          <Text style={styles.monthTitle}>8월에는 총 {(stats?.month_km ?? 0).toFixed(1)}km를 걸었네요!</Text>
+          <Text style={styles.monthTitle}>8월에는 총 {formatKm(stats?.month_km ?? 0)}km를 걸었네요!</Text>
         </View>
         {/* Figma 의 월간 이미지 영역 — **카드 규격(높이·여백·라운드)은 시안 그대로** 두고
             내용만 서버 집계로 채운다. 빈 회색 상자로 두면 화면의 한 블록이 통째로
@@ -112,7 +113,7 @@ export default function CitizenHomeScreen() {
             <Text style={styles.monthStatLabel}>산책 횟수</Text>
           </View>
           <View style={styles.monthStat}>
-            <Text style={styles.monthStatValue}>{(stats?.total_km ?? 0).toFixed(1)}km</Text>
+            <Text style={styles.monthStatValue}>{formatKm(stats?.total_km ?? 0)}km</Text>
             <Text style={styles.monthStatLabel}>누적 거리</Text>
           </View>
           <View style={styles.monthStat}>
