@@ -9,7 +9,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from app.geo import reverse
+from app.geo import nearby, reverse
 from app.schemas.common import GeoPoint
 
 router = APIRouter(prefix="/geo", tags=["지오 — 좌표 ↔ 장소명"])
@@ -31,3 +31,22 @@ def labels(body: LabelsIn) -> LabelsOut:
     않게 하려는 것이다(제보를 못 보는 것이 이름을 못 보는 것보다 나쁘다).
     """
     return LabelsOut(labels=reverse.labels_for(body.points))
+
+
+class NearbyWalk(BaseModel):
+    name: str
+    lat: float
+    lng: float
+    distance_km: float
+    kind: str = ""
+
+
+@router.get("/nearby-walks", response_model=list[NearbyWalk])
+def nearby_walks(lat: float, lng: float, limit: int = 4) -> list[NearbyWalk]:
+    """내 주변 산책 장소 — 실제 OSM 공원·산책로, 거리는 좌표로 계산.
+
+    못 찾으면 빈 목록이다. 앱에 고정 목록을 박아 두면 어디서 켜도 같은 이름이
+    뜨는데, 그건 "내 주변"이 아니라 그림이다.
+    """
+    rows = nearby.nearby_walks(GeoPoint(lat=lat, lng=lng), limit=limit)
+    return [NearbyWalk(**r) for r in rows]
