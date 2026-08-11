@@ -212,8 +212,11 @@ def describe_alert(case: Case, now: datetime | None = None) -> dict:
         # (수색 탭 안내 문구에는 이름이 들어가는데, 그건 노출 범위가 다르다 —
         #  storytelling.ToneParams.name 주석 참고)
         "age": persona.age if persona else None,
+        # 빈 칸은 빼고 보낸다 — 보호자가 신발을 안 적으면 앱에 **빈 칩**이 뜬다
+        # (실측 08-11: ['', '', '', '노란색 상의…'] 로 3칸이 비어 나왔다).
         "appearance": (
-            [look.top, look.bottom, look.shoes, look.etc] if look else []
+            [x for x in (look.top, look.bottom, look.shoes, look.etc) if x and x.strip()]
+            if look else []
         ),
         # 실루엣 아바타용 색 태그(schemas/report.Appearance 주석 참고 — 백엔드는
         # 이미지를 만들지 않고 색 이름만 준다). 사진은 받지도 보내지도 않으므로
