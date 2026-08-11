@@ -74,17 +74,19 @@ export default function AuthScreen() {
 
         {(step === 'login' || step === 'signup') && (
           <>
-            <SeparatorLabel label={step === 'signup' ? '쓰실 아이디와 비밀번호를 정해 주세요' : '아이디와 비밀번호를 입력해 주세요'} />
+            {/* 시안 문구 그대로 — 필드도 "이메일 주소"다(가입만 문장을 바꾼다). */}
+            <SeparatorLabel label={step === 'signup' ? '이메일 주소로 가입해 주세요' : '이메일 주소로 로그인해 주세요'} />
             <TextInput
               value={loginId}
               onChangeText={setLoginId}
               autoCapitalize="none"
               autoCorrect={false}
+              keyboardType="email-address"
               textContentType="username"
-              placeholder="아이디 (영문·숫자 3~20자)"
+              placeholder="이메일 주소"
               placeholderTextColor="#909090"
               style={[styles.input, styles.email]}
-              accessibilityLabel="아이디"
+              accessibilityLabel="이메일 주소"
               editable={!busy}
             />
             <TextInput
@@ -93,7 +95,7 @@ export default function AuthScreen() {
               secureTextEntry
               autoCapitalize="none"
               textContentType="password"
-              placeholder="비밀번호 (4자 이상)"
+              placeholder="비밀번호"
               placeholderTextColor="#909090"
               style={[styles.input, styles.password]}
               accessibilityLabel="비밀번호"
