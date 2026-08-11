@@ -5,6 +5,7 @@ import { getActiveAlerts, getGuidance, getNearbyWalks, getPoaPrediction, touchPr
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
 import { getAreaLabels, getCase, getMyCases, listPersonas, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
+import { useAuthStore } from '../store/authStore';
 import { useDebugStore } from '../store/debugStore';
 import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import { useMyLocation } from './useMyLocation';
@@ -133,19 +134,37 @@ export function useRunPrediction(caseId: string) {
 }
 
 // ── 산책 ──────────────────────────────────────────────────────────
+/**
+ * 산책 기록은 **로그인한 사람의 것만** 본다.
+ *
+ * 예전에는 모두가 같은 `demo-citizen` 으로 물어서, 앱을 처음 켠 사람에게도 남이
+ * 걸은 횟수가 그대로 보였다. 이제 계정마다 user_id 가 다르고, 쿼리 키에도 넣어
+ * 계정을 바꾸면 앞 사람 기록이 화면에 남지 않는다.
+ */
 export function useWalkStats() {
-  return useQuery({ queryKey: ['walkStats'], queryFn: () => getWalkStats() });
+  const userId = useAuthStore((s) => s.userId);
+  return useQuery({
+    queryKey: ['walkStats', userId],
+    queryFn: () => getWalkStats(userId ?? undefined),
+    enabled: userId != null,
+  });
 }
 
 /** 앱 재시작 시 진행 중이던 산책 복원 (없으면 null). */
 export function useActiveWalk() {
-  return useQuery({ queryKey: ['activeWalk'], queryFn: () => getActiveWalk() });
+  const userId = useAuthStore((s) => s.userId);
+  return useQuery({
+    queryKey: ['activeWalk', userId],
+    queryFn: () => getActiveWalk(userId ?? undefined),
+    enabled: userId != null,
+  });
 }
 
 export function useStartWalk() {
   const qc = useQueryClient();
+  const userId = useAuthStore((s) => s.userId);
   return useMutation({
-    mutationFn: (areaLabel?: string) => startWalk(areaLabel ?? ''),
+    mutationFn: (areaLabel?: string) => startWalk(areaLabel ?? '', userId ?? undefined),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['activeWalk'] }),
   });
 }

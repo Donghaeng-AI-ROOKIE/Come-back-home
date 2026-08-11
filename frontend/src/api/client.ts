@@ -126,7 +126,7 @@ export async function getPoaPrediction(caseId: string, t: TimeAxis): Promise<Poa
 export async function submitTip(
   caseId: string,
   input: TipInput,
-  opts: { force?: boolean } = {},
+  opts: { force?: boolean; reporterUserId?: string } = {},
 ): Promise<TipResult | NeedMore> {
   if (USE_MOCK) {
     const { before, after, beforeKm2, afterKm2 } = buildBeforeAfter();
@@ -154,7 +154,8 @@ export async function submitTip(
       location: input.location ?? null,
       seen_at: input.seenAt ?? null,
       force: !!opts.force,
-      reporter_user_id: DEMO_USER_ID,
+      // 제보 참여 수가 이 값으로 갈린다 — 로그인한 사람 것으로 센다.
+      reporter_user_id: opts.reporterUserId ?? DEMO_USER_ID,
     }),
   });
   if ('status' in res && res.status === 'need_more') return res;
