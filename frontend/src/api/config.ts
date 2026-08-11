@@ -12,7 +12,22 @@
  *
  * (EXPO_PUBLIC_ 접두어가 붙은 것만 앱 번들에 주입된다 — Expo 규약.)
  */
-const FALLBACK = 'https://macmini.tail67859f.ts.net:8443';
+import { Platform } from 'react-native';
+
+/**
+ * 웹은 **자기가 서빙된 그 출처**로 API 를 부른다(`/api/...`).
+ *
+ * 전에는 웹도 `https://macmini…:8443` 을 절대 주소로 불렀다. 그 구성은 폰에
+ * 두 가지를 요구한다 — **비표준 포트 8443 통과**(학교·사내망이 흔히 막는다)와
+ * 화면과 별개인 두 번째 TLS 연결. 배포 호스트가 바뀌면 앱을 다시 빌드해야
+ * 한다는 문제도 있었다(08-12, 공개 경로를 Cloudflare 로 옮기며 드러남).
+ *
+ * 상대 경로면 어느 호스트에 올려도 그대로 동작하고 CORS 도 필요 없다.
+ * `/api` → 백엔드로 넘기는 일은 nginx 가 한다(frontend/deploy/nginx.conf).
+ *
+ * 네이티브에는 "자기 출처"가 없으므로 절대 주소를 그대로 쓴다.
+ */
+const FALLBACK = Platform.OS === 'web' ? '/api' : 'https://macmini.tail67859f.ts.net:8443';
 
 export const API_BASE = process.env.EXPO_PUBLIC_API_BASE ?? FALLBACK!;
 
