@@ -152,7 +152,10 @@ export default function WalkActiveScreen() {
         {/* 훅은 권한 거부·측위 실패를 상태로 들고 있었는데 화면이 한 번도 읽지
             않았다 — 거리가 안 재지는 이유가 어디에도 안 보이고 '0.0km' 만 남았다.
             거리 카드 바로 아래에 둔다: 사용자가 이상하다고 느끼는 그 자리다. */}
-        {track.status === 'denied' || track.status === 'error' ? (
+        {/* 조건을 **상태가 아니라 문구 유무**로 본다. 좌표는 오는데 오차가 커서
+            거리를 못 재는 경우는 'error' 가 아니라 'tracking' 이라, 상태로만
+            보면 안내가 통째로 묻혔다(실측 08-12: 0.00km 인데 이유가 안 보임). */}
+        {track.message ? (
           <View style={styles.trackWarn} accessibilityRole="alert">
             <Text style={styles.trackWarnText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
               {track.message}

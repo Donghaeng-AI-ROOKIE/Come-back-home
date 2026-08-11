@@ -60,6 +60,18 @@ const FIX_WATCHDOG_MS = 45_000;
 const NO_FIX_MESSAGE = 'GPS 신호를 잡지 못해 거리를 재지 못하고 있습니다. 실외로 나가면 다시 잡힙니다.';
 
 /**
+ * 좌표는 오는데 **오차가 커서 거리에 못 쓰는** 상황의 문구.
+ *
+ * 위 문구와 반드시 구분해야 한다. 실측(08-12): 지도에는 내 위치가 떠 있는데
+ * "GPS 신호를 잡지 못해"가 같이 떠 있었다 — 화면이 스스로 모순돼서 사용자는
+ * 무엇을 해야 할지 알 수 없다. 실제 오차를 숫자로 보여 주면 실내인지 기기
+ * 문제인지 본인이 판단할 수 있다.
+ */
+const impreciseMessage = (accuracyM: number) =>
+  `위치 오차가 커서(약 ${Math.round(accuracyM)}m) 거리를 아직 재지 않습니다. `
+  + '실외로 나가면 재기 시작합니다.';
+
+/**
  * GPS 튐 제거 — 이보다 부정확한 측정치는 거리 누적에 쓰지 않는다(m).
  *
  * 30m 로 잡았더니 **거리가 아예 안 쌓였다**(실측 08-11). 폰 브라우저의 측위
@@ -115,6 +127,8 @@ export function useWalkTracking(active: boolean): WalkTracking {
   const prevAt = useRef<number | null>(null);
   /** 좌표를 한 번이라도 받았는가 — 에러가 첫 픽스 실패인지 일시적 끊김인지 가른다. */
   const gotFix = useRef(false);
+  /** 거리에 **쓸 만한** 좌표를 한 번이라도 받았는가 — 오차 안내를 걷는 기준. */
+  const gotUsableFix = useRef(false);
 
   useEffect(() => {
     if (!active) return;
@@ -137,6 +151,29 @@ export function useWalkTracking(active: boolean): WalkTracking {
           setStatus('error');
           setMessage(NO_FIX_MESSAGE);
         }, FIX_WATCHDOG_MS);
+
+        // 웹 초벌 측위 — 고정확도 워처는 실내에서 **수 분까지 침묵한다.**
+        //
+        // 실측(08-12): 산책 4분 동안 워처가 좌표를 0건 줬는데, 같은 화면의
+        // 지도에는 내 위치가 멀쩡히 떠 있었다. 지도 훅(useMyLocation)에는
+        // 이 한 번짜리 폴백이 있고 여기에는 없었던 것이 차이의 전부다.
+        // 거친 값이라도 먼저 받아 두면 "신호 못 잡음" 오진을 막고 지도가
+        // 출발 지점을 바로 잡는다. **거리에는 쓰지 않는다** — 아래 워처와
+        // 똑같이 정확도 게이트를 지나야 한다.
+        if (Platform.OS === 'web') {
+          void Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })
+            .then((loc) => {
+              if (cancelled || gotFix.current) return;
+              gotFix.current = true;
+              const acc = loc.coords.accuracy ?? 999;
+              setCurrent({ lat: loc.coords.latitude, lng: loc.coords.longitude });
+              setStatus('tracking');
+              // 거친 값이라 대개 게이트를 못 넘는다. 그 사실을 숨기지 않는다.
+              if (acc > MAX_ACCURACY_M) setMessage(impreciseMessage(acc));
+            })
+            .catch(() => { /* 워처가 곧 채운다 — 여기 실패로 상태를 깎지 않는다. */ });
+        }
+
         sub = await Location.watchPositionAsync(
           {
             accuracy: Location.Accuracy.BestForNavigation,
@@ -155,7 +192,16 @@ export function useWalkTracking(active: boolean): WalkTracking {
             }
             setCurrent(p);
             // 부정확한 측정치는 위치 표시에만 쓰고 거리에는 더하지 않는다.
-            if (acc > MAX_ACCURACY_M) return;
+            if (acc > MAX_ACCURACY_M) {
+              // 아직 한 번도 거리를 못 쟀다면 **왜 0.00km 인지** 알려 준다.
+              // 이미 재고 있었다면 잠깐 나빠진 것이라 조용히 넘긴다.
+              if (!gotUsableFix.current) setMessage(impreciseMessage(acc));
+              return;
+            }
+            if (!gotUsableFix.current) {
+              gotUsableFix.current = true;
+              setMessage('');   // 오차 안내를 걷는다 — 이제 실제로 재고 있다.
+            }
 
             const now = loc.timestamp ?? Date.now();
             const last = prev.current;
