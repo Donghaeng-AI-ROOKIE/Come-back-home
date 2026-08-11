@@ -33,3 +33,43 @@ def test_get_persona_excludes_axis_quotes_but_keeps_axis_evidence():
     assert "axis_quotes" not in body2
     # 저장소 자체에는 원문이 그대로 남아있음(응답만 필터링, 저장·채점 로직엔 영향 없음)
     assert storage.personas.get(persona_id).axis_quotes["mobility_transport_capacity"]
+
+
+def test_patch_persona_keeps_models_not_dicts():
+    """PATCH 후에도 끌림점·집이 **모델**이어야 한다 — dict 로 바뀌면 예측이 죽는다.
+
+    현장 사고(2026-08-12): 보호자가 이름을 한 번 고치자 그 페르소나의 모든
+    신고에서 예측이 500 으로 실패했다. 원인은 `model_copy(update=...)` 가
+    검증을 건너뛴다는 점 — 바로 앞의 `model_dump()` 가 AttractionPoint 를
+    dict 로 바꿔 놓은 상태라 그대로 박혔고, `_default_prior` 의
+    `sum(p.weight for p in persona.attraction_points)` 가 AttributeError 를 냈다.
+
+    디스크에는 dict 든 모델이든 같은 JSON 으로 저장돼 **재시작하면 사라졌다가
+    수정할 때마다 되살아나는** 형태라, 저장 데이터만 봐서는 안 잡힌다.
+    그래서 검증 지점은 "저장된 JSON"이 아니라 **메모리 객체의 타입**이다.
+    """
+    from app.schemas.persona import AttractionPoint, GeoPoint
+
+    resp = client.post("/phase0/personas", json={
+        "name": "김순자", "age": 78, "type": "dementia",
+        "home": {"lat": 37.6061, "lng": 127.0106},
+        "attraction_points": [
+            {"label": "망원시장", "location": {"lat": 37.5560, "lng": 126.9020}},
+        ],
+    })
+    assert resp.status_code == 200
+    persona_id = resp.json()["id"]
+
+    # 이름만 고친다 — 끌림점은 건드리지 않는다.
+    patched = client.patch(f"/phase0/personas/{persona_id}", json={"name": "김순지"})
+    assert patched.status_code == 200
+    assert patched.json()["name"] == "김순지"
+
+    stored = storage.personas.get(persona_id)
+    assert isinstance(stored.home, GeoPoint)
+    assert stored.attraction_points, "끌림점이 사라지면 안 된다"
+    for point in stored.attraction_points:
+        assert isinstance(point, AttractionPoint), (
+            f"끌림점이 {type(point).__name__} 로 바뀌었다 — 예측이 p.weight 에서 죽는다")
+    # 실제로 예측이 읽는 접근 방식 그대로 확인한다.
+    assert sum(p.weight for p in stored.attraction_points) > 0
