@@ -251,8 +251,35 @@ export function searchPlace(query: string) {
  * 기본 12초 타임아웃을 쓰면 **안 된다.** 웜에서도 11~13초라 반반 실패하고,
  * 새 지역의 첫 실행은 도로망 다운로드로 2분을 넘긴다(신촌 실측 08-12).
  */
-export function runPrediction(caseId: string, seed?: number) {
+export async function runPrediction(caseId: string, seed?: number) {
   const q = seed == null ? '' : `?seed=${seed}`;
-  return api<{ case_id: string }>(`/phase2/cases/${caseId}/predict${q}`,
-                                  { method: 'POST', timeoutMs: SLOW_TIMEOUT_MS });
+  try {
+    return await api<{ case_id: string }>(`/phase2/cases/${caseId}/predict${q}`,
+                                          { method: 'POST', timeoutMs: SLOW_TIMEOUT_MS });
+  } catch (e) {
+    // **연결이 끊겨도 서버는 계산을 끝낸다.** 결과가 실제로 생겼는지 확인한다.
+    //
+    // 공개 경로의 Cloudflare 는 **100초에서 끊는다(524)** — 무료 플랜이라 못 늘린다.
+    // 그런데 새 지역의 첫 예측은 도로망을 내려받느라 그걸 넘긴다(실측 08-12:
+    // roadnet 84.7초 포함 총 101.4초 → 앱에는 524, 서버에는 POA 정상 생성).
+    // 그대로 두면 **성공한 예측을 "AI 분석 실패"로 표시**하게 된다 — 보호자가
+    // 다시 시도를 누르면 그제야 (도로망이 데워져) 되는, 설명 불가능한 동작이 된다.
+    const done = await pollPoaReady(caseId);
+    if (done) return { case_id: caseId };
+    throw e;
+  }
+}
+
+/** POA 가 생겼는지 짧게 확인한다. 생겼으면 예측은 끝난 것이다. */
+async function pollPoaReady(caseId: string, tries = 20, gapMs = 6_000): Promise<boolean> {
+  for (let i = 0; i < tries; i += 1) {
+    try {
+      const poa = await api<{ total_cells: number }>(`/phase3/cases/${caseId}/poa?top=1`);
+      if ((poa.total_cells ?? 0) > 0) return true;
+    } catch {
+      // 조회 실패는 무시한다 — 아직 계산 중이거나 일시적 오류다.
+    }
+    await new Promise((r) => setTimeout(r, gapMs));
+  }
+  return false;
 }
