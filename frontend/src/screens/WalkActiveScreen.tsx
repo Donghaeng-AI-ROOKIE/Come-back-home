@@ -12,6 +12,7 @@ import FigmaStatusBar from '../components/FigmaStatusBar';
 import { useActiveWalk, useEndWalk, useStartWalk } from '../hooks/queries';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { useWalkTracking } from '../hooks/useWalkTracking';
+import { formatClock, formatKm } from '../utils/walkFormat';
 import BaseMap from '../components/BaseMap';
 import MapPin from '../components/MapPin';
 import WebMap from '../components/WebMap';
@@ -41,15 +42,6 @@ function useElapsed(startedAt?: string) {
     return () => clearInterval(id);
   }, [startedAt]);
   return !startedAt || base.current == null ? 0 : Math.max(0, Math.floor((now - base.current) / 1000));
-}
-
-/** 1km 미만은 둘째 자리까지 — 0.0km 로만 보이면 거리가 안 잡히는 줄 안다. */
-function formatKm(km: number): string {
-  return km < 1 ? km.toFixed(2) : km.toFixed(1);
-}
-
-function clock(sec: number) {
-  return `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
 }
 
 export default function WalkActiveScreen() {
@@ -146,7 +138,7 @@ export default function WalkActiveScreen() {
         <Image source={leftMascot} resizeMode="contain" style={styles.leftMascot} accessibilityLabel="가방을 멘 돌아오길 악어 캐릭터" />
 
         <View style={styles.metrics}>
-          <Metric label="산책한 시간" value={clock(elapsedSec)} />
+          <Metric label="산책한 시간" value={formatClock(elapsedSec)} />
           <Metric label="총 산책 거리" value={`${formatKm(track.distanceKm)}km`} />
         </View>
 
@@ -156,6 +148,17 @@ export default function WalkActiveScreen() {
         <Image source={rightMascot} resizeMode="contain" style={styles.rightMascot} accessibilityLabel="산책 중인 돌아오길 악어 캐릭터" />
 
         <View style={styles.locationHalo}><View style={styles.locationDot} /></View>
+
+        {/* 훅은 권한 거부·측위 실패를 상태로 들고 있었는데 화면이 한 번도 읽지
+            않았다 — 거리가 안 재지는 이유가 어디에도 안 보이고 '0.0km' 만 남았다.
+            거리 카드 바로 아래에 둔다: 사용자가 이상하다고 느끼는 그 자리다. */}
+        {track.status === 'denied' || track.status === 'error' ? (
+          <View style={styles.trackWarn} accessibilityRole="alert">
+            <Text style={styles.trackWarnText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              {track.message}
+            </Text>
+          </View>
+        ) : null}
 
         <Pressable onPress={onEnd} disabled={endWalk.isPending} style={({ pressed }) => [styles.end, pressed && styles.pressed]}>
           <Text style={styles.endText}>{endWalk.isPending ? '저장 중…' : '산책 종료하기'}</Text>
@@ -188,6 +191,9 @@ const styles = StyleSheet.create({
   // 기존값(top 62 + 높이 79 = 141)은 초록 경계 123 을 18px 넘겨 지도 위로 삐져나왔다.
   rightMascot: { position: 'absolute', top: 59, right: 11, width: 41, height: 64 },
   metrics: { position: 'absolute', top: 52, left: 16, right: 16, flexDirection: 'row', gap: 15 },
+  // 거리 카드(top 52 + 높이 51) 바로 아래.
+  trackWarn: { position: 'absolute', top: 111, left: 16, right: 16, borderRadius: 10, backgroundColor: color.criticalWash, borderWidth: 1, borderColor: color.critical, paddingVertical: 8, paddingHorizontal: 12 },
+  trackWarnText: { fontFamily: type.family, fontSize: 12, lineHeight: 17, color: color.criticalInk },
   metric: { flex: 1, height: 51, borderRadius: 10, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
   metricLabel: { fontFamily: type.family, fontSize: 10, color: color.figmaGray },
   metricValue: { fontFamily: type.familyBold, fontSize: 18, color: '#000000', marginTop: 2 },

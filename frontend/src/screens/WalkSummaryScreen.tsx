@@ -13,16 +13,20 @@ import FigmaStatusBar from '../components/FigmaStatusBar';
 import BaseMap from '../components/BaseMap';
 import WebMap from '../components/WebMap';
 import MapPin from '../components/MapPin';
+import { formatClock, formatKm } from '../utils/walkFormat';
 
 const summaryMascot = require('../../assets/figma/mascot-summary.png');
 
 export default function WalkSummaryScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { distanceKm, durationMin } = useRoute<RouteProp<RootStackParamList, 'WalkSummary'>>().params;
-  const time = `${String(Math.floor(durationMin)).padStart(2, '0')}:${String(Math.round((durationMin % 1) * 60)).padStart(2, '0')}`;
+  // 분을 정수부·소수부로 쪼개 붙이면 반올림이 60 초를 만들어 '03:60' 이 나온다.
+  // 초로 환산해 한 번에 자른다 — 산책 중 화면과 같은 포맷터를 쓴다.
+  const time = formatClock(durationMin * 60);
+  const km = formatKm(distanceKm);
   const path = useRoute<RouteProp<RootStackParamList, 'WalkSummary'>>().params.path ?? [];
   const shareWalk = () => Share.share({
-    message: `오늘 돌아오길과 ${distanceKm.toFixed(1)}km를 ${time} 동안 걸었어요. 우리 동네 안심 산책 기록을 함께 나눠요!`,
+    message: `오늘 돌아오길과 ${km}km를 ${time} 동안 걸었어요. 우리 동네 안심 산책 기록을 함께 나눠요!`,
   });
   // 시안의 회색 사각형 자리 — 오늘 **실제로 걸은 길**을 그린다. 경로는 이 기기
   // 안에서만 넘어온 값이다(서버는 산책 좌표를 저장하지 않는다).
@@ -31,7 +35,7 @@ export default function WalkSummaryScreen() {
     <Text style={styles.pageTitle}>오늘의 산책 기록</Text>
     <Text style={styles.kicker}>오늘 나의 산책 기록</Text>
     <View style={styles.headlineRow}>
-      <Text style={styles.headline}>오늘은 총 {distanceKm.toFixed(1)}km를 걸었어요!</Text>
+      <Text style={styles.headline}>오늘은 총 {km}km를 걸었어요!</Text>
       <Image source={summaryMascot} resizeMode="contain" style={styles.mascot} accessibilityLabel="돌아오길 악어 캐릭터" />
     </View>
     {mid == null ? (
@@ -52,7 +56,7 @@ export default function WalkSummaryScreen() {
         <MapPin kind="me" coordinate={path[path.length - 1]} title="도착" />
       </BaseMap>
     )}
-    <View style={styles.metrics}><Metric label="산책한 시간" value={time} /><Metric label="총 산책 거리" value={`${distanceKm.toFixed(1)}km`} /></View>
+    <View style={styles.metrics}><Metric label="산책한 시간" value={time} /><Metric label="총 산책 거리" value={`${km}km`} /></View>
     <Pressable style={styles.primary} onPress={shareWalk}><Text style={styles.primaryText}>오늘의 안심 산책 기록 공유하기</Text></Pressable>
     <Pressable style={styles.secondary} onPress={() => navigation.navigate('CitizenTabs', { screen: 'Home' })}><Text style={styles.secondaryText}>다른 산책길 둘러보기</Text></Pressable>
   </View><FigmaFlowTabBar mode="citizen" active="register" /></SafeAreaView>;
