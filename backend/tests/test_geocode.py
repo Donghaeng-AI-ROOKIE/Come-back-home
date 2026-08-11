@@ -183,3 +183,50 @@ def test_attraction_geocode_prefers_label_over_area():
     assert not unresolved
     assert abs(points[0].location.lat - station.lat) < 1e-6   # 역 좌표 채택
     assert points[0].label == "대흥역"
+
+
+# ── 집 주소 후보 사다리 ────────────────────────────────────────────
+def test_home_candidates_drops_building_name_before_admin():
+    """정밀 → 거침 순서. 도로명까지 살린 후보가 시 이름보다 먼저 나와야 한다."""
+    from app.geo.geocode import home_candidates
+
+    cands = home_candidates("하남시 하남대로 856 하남더샵센트럴뷰")
+    assert cands[0] == "하남시 하남대로 856 하남더샵센트럴뷰"      # 원문 먼저
+    assert "하남시 하남대로 856" in cands                          # 건물명만 뗀 것
+    assert cands.index("하남시 하남대로 856") < cands.index("하남시")
+
+
+def test_locate_home_recovers_when_building_name_blocks_match():
+    """아파트 이름이 붙어 통째로 실패하던 정상 주소가 등록된다.
+
+    라이브 실측(2026-08-12): '하남시 하남대로 856 하남더샵센트럴뷰' → None 이라
+    finalize 가 ValueError 를 냈고, 보호자가 몇 번을 다시 입력해도 같은 화면이었다.
+    """
+    from app.geo.geocode import GeoPoint, GeoResult, locate_home
+
+    target = GeoPoint(lat=37.5440, lng=127.2033)
+
+    class ExactGeocoder:
+        """실제 지오코더처럼 **정확히 아는 문자열만** 찾는다.
+
+        gazetteer 는 substring 매칭이라 이 상황을 재현하지 못한다 — 건물명이
+        붙어도 그냥 걸려 버려서, 사다리가 없어도 통과하는 가짜 초록불이 된다.
+        """
+
+        def locate(self, query, anchor=None):
+            if query != "하남시 하남대로 856":
+                return None
+            return GeoResult(target, precision="approx", source="fake", matched=query)
+
+    g = ExactGeocoder()
+    assert g.locate("하남시 하남대로 856 하남더샵센트럴뷰") is None   # 사다리 없으면 실패
+    res = locate_home(g, "하남시 하남대로 856 하남더샵센트럴뷰")
+    assert res is not None
+    assert abs(res.point.lat - target.lat) < 1e-6
+
+
+def test_locate_home_still_none_when_nothing_matches():
+    """못 찾은 걸 찾은 척하지 않는다 — 호출부의 ValueError 가 살아 있어야 한다."""
+    from app.geo.geocode import locate_home
+
+    assert locate_home(GazetteerGeocoder({}), "전혀 모르는 시골 어딘가") is None
