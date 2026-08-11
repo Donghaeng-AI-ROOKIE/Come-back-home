@@ -149,7 +149,9 @@ const styles = StyleSheet.create({
   // Figma 2607:834의 원본 에셋 프레임. body는 44px 상태바 아래에서 시작하므로
   // 원본 좌표 y=46/106을 각각 2/62로 옮긴다.
   leftMascot: { position: 'absolute', top: 2, left: 4, width: 56, height: 79 },
-  rightMascot: { position: 'absolute', top: 62, right: 11, width: 48, height: 79 },
+  // 시안: 오른쪽 악어는 왼쪽보다 작고, **발끝이 초록 영역 아래 경계에 닿는다**.
+  // 기존값(top 62 + 높이 79 = 141)은 초록 경계 123 을 18px 넘겨 지도 위로 삐져나왔다.
+  rightMascot: { position: 'absolute', top: 59, right: 11, width: 41, height: 64 },
   metrics: { position: 'absolute', top: 52, left: 16, right: 16, flexDirection: 'row', gap: 15 },
   metric: { flex: 1, height: 51, borderRadius: 10, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
   metricLabel: { fontFamily: type.family, fontSize: 10, color: color.figmaGray },

@@ -30,7 +30,13 @@ export default function ReportScreen() {
   const persona = personas.find((item) => item.id === selectedPersonaId) ?? personas[0] ?? null;
   const [pickerOpen, setPickerOpen] = useState(false);
   const [situation, setSituation] = useState('');
-  const [appearance, setAppearance] = useState('');
+  // 인상착의는 칸을 나눠 받는다 — 한 칸에 몰아 받으면 서버가 상의/하의/신발을
+  // 구분하지 못해 **색상 추출이 통째로 실패**하고(실루엣이 회색으로 남는다)
+  // 알림 문구도 뭉개진다. 백엔드 스키마(top/bottom/shoes/etc)와 1:1로 맞춘다.
+  const [apTop, setApTop] = useState('');
+  const [apBottom, setApBottom] = useState('');
+  const [apShoes, setApShoes] = useState('');
+  const [apEtc, setApEtc] = useState('');
   const [lkp, setLkp] = useState(cachedPersona?.home ?? null);
   const [locationSource, setLocationSource] = useState<'persona' | 'current' | null>(cachedPersona ? 'persona' : null);
   const [locating, setLocating] = useState(false);
@@ -90,7 +96,15 @@ export default function ReportScreen() {
       const c = await createReport({
         missing_type: 'dementia', lkp,
         lkp_time: new Date().toISOString().replace('Z', ''), persona_id: persona?.id ?? null,
-        appearance: appearance.trim() ? { etc: appearance.trim() } : null,
+        appearance:
+          apTop.trim() || apBottom.trim() || apShoes.trim() || apEtc.trim()
+            ? {
+                top: apTop.trim(),
+                bottom: apBottom.trim(),
+                shoes: apShoes.trim(),
+                etc: apEtc.trim(),
+              }
+            : null,
         situation: situation.trim(),
       });
       setCaseId(c.id);
@@ -145,7 +159,16 @@ export default function ReportScreen() {
         </Section>
         <Section icon="✎" title="실종 당시 상황"><TextInput value={situation} onChangeText={setSituation} multiline style={styles.textarea} /></Section>
         <Section icon="▰" title="인상착의 설명">
-          <TextInput value={appearance} onChangeText={setAppearance} placeholder="상의   하의   신발   키/체형/소지품" placeholderTextColor={color.figmaGray} style={styles.appearance} />
+          {/* 시안: 1행에 상의·하의·신발 세 칸, 2행에 키/체형/소지품 한 칸.
+              라벨은 입력칸 **왼쪽**에 붙는다. */}
+          <View style={styles.apRow}>
+            <ApField label="상의" value={apTop} onChange={setApTop} />
+            <ApField label="하의" value={apBottom} onChange={setApBottom} />
+            <ApField label="신발" value={apShoes} onChange={setApShoes} />
+          </View>
+          <View style={styles.apRow}>
+            <ApField label="키/체형/소지품" value={apEtc} onChange={setApEtc} wide />
+          </View>
         </Section>
         <Pressable onPress={onSubmit} disabled={sending} style={({ pressed }) => [styles.submit, pressed && styles.pressed, sending && styles.disabled]}>
           <Text style={styles.submitText}>{sending ? '접수 중…' : '실종 접수'}</Text>
@@ -170,6 +193,23 @@ export default function ReportScreen() {
   );
 }
 
+/** 인상착의 한 칸 — 시안대로 라벨이 입력칸 왼쪽에 붙는다. */
+function ApField({ label, value, onChange, wide }: {
+  label: string; value: string; onChange: (v: string) => void; wide?: boolean;
+}) {
+  return (
+    <View style={[styles.apField, wide && styles.apFieldWide]}>
+      <Text style={styles.apLabel} numberOfLines={1}>{label}</Text>
+      <TextInput
+        value={value}
+        onChangeText={onChange}
+        style={styles.apInput}
+        accessibilityLabel={`인상착의 ${label}`}
+      />
+    </View>
+  );
+}
+
 function Section({ icon, title, children }: { icon: string; title: string; children: React.ReactNode }) {
   return <View style={styles.section}><Text style={styles.sectionTitle}><Text style={styles.sectionIcon}>{icon} </Text>{title}</Text>{children}</View>;
 }
@@ -191,7 +231,12 @@ const styles = StyleSheet.create({
   map: { height: 155, borderRadius: 10, overflow: 'hidden', marginTop: 12, backgroundColor: '#EAE8E3' },
   address: { fontFamily: type.familySemiBold, fontSize: 12, color: '#525253', marginTop: 10 },
   textarea: { height: 61, borderRadius: 10, backgroundColor: color.figmaField, padding: 12, fontFamily: type.family, fontSize: 12, textAlignVertical: 'top' },
-  appearance: { height: 53, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 12, fontFamily: type.family, fontSize: 11, color: '#525253' },
+  // 시안: 라벨(빨강)이 입력칸 왼쪽. 1행 3칸 + 2행 1칸(전체 폭).
+  apRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 8 },
+  apField: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 5 },
+  apFieldWide: { flex: 1 },
+  apLabel: { fontFamily: type.family, fontSize: 11, lineHeight: 14, color: color.figmaRed },
+  apInput: { flex: 1, height: 26, borderRadius: 6, backgroundColor: color.figmaField, paddingHorizontal: 8, fontFamily: type.family, fontSize: 12, color: '#525253' },
   submit: { alignSelf: 'center', width: 204, height: 49, borderRadius: 30, backgroundColor: '#F14444', alignItems: 'center', justifyContent: 'center', marginTop: 20 },
   submitText: { fontFamily: type.familySemiBold, fontSize: 20, color: '#FFFFFF' }, pressed: { opacity: 0.8 }, disabled: { opacity: 0.5 },
   modalBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.28)', justifyContent: 'flex-end' },

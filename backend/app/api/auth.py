@@ -132,6 +132,41 @@ def me(authorization: str = Header(default="")) -> AuthOut:
     )
 
 
+class RoleIn(BaseModel):
+    role: str
+
+
+@router.post("/role", response_model=AuthOut)
+def change_role(body: RoleIn, authorization: str = Header(default="")) -> AuthOut:
+    """로그인한 계정의 역할을 바꾼다.
+
+    앱은 역할별로 화면 트리가 완전히 갈린다 — 보호자 계정으로는 산책·제보 화면에
+    갈 수 없다. 그런데 역할을 가입할 때 한 번만 고르게 해 두면, 잘못 고른 사람은
+    계정을 새로 만드는 수밖에 없다(현장 실측 08-11). 여기서 바꿀 수 있게 한다.
+
+    산책·제보 기록은 user_id 에 붙으므로 역할을 바꿔도 그대로 남는다.
+    """
+    token = authorization.removeprefix("Bearer ").strip()
+    session = storage.sessions.get(token)
+    if session is None:
+        raise HTTPException(401, "다시 로그인해 주세요.")
+    if body.role not in _ROLES:
+        raise HTTPException(400, "역할이 올바르지 않습니다.")
+
+    account = storage.accounts.get(session.user_id)
+    if account is None:
+        raise HTTPException(401, "다시 로그인해 주세요.")
+    account.role = body.role
+    storage.accounts.save(account.user_id, account)
+
+    # 이 토큰이 들고 있던 역할도 함께 갱신한다 — 안 그러면 앱을 껐다 켤 때
+    # 옛 역할로 되돌아간다(/auth/me 가 세션을 읽으므로).
+    session.role = body.role
+    storage.sessions.save(token, session)
+    return AuthOut(token=token, user_id=account.user_id,
+                   login_id=account.login_id, role=account.role)
+
+
 @router.post("/logout")
 def logout(authorization: str = Header(default="")) -> dict:
     """토큰을 서버에서 지운다 — 기기에서만 지우면 남은 토큰이 계속 유효하다."""

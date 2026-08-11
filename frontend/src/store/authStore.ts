@@ -30,6 +30,8 @@ type AuthState = {
   signIn: (loginId: string, password: string) => Promise<void>;
   signUp: (loginId: string, password: string, role: Role) => Promise<void>;
   signOut: () => void;
+  /** 역할 전환 — 앱의 화면 트리가 역할로 갈리므로 이걸 바꾸면 트리가 통째로 바뀐다. */
+  switchRole: (role: Role) => Promise<void>;
   /** 앱 시작 시 1회 — 저장된 토큰이 아직 유효한지 서버에 묻는다. */
   restore: () => Promise<void>;
 };
@@ -51,6 +53,13 @@ export const useAuthStore = create<AuthState>()(
       signUp: async (loginId, password, role) => {
         const r = await authApi.signup(loginId, password, role);
         set({ token: r.token, role: r.role, user: r.login_id, userId: r.user_id, restoring: false });
+      },
+
+      switchRole: async (role) => {
+        const token = get().token;
+        if (!token) return;
+        const r = await authApi.changeRole(token, role);
+        set({ role: r.role, user: r.login_id, userId: r.user_id });
       },
 
       signOut: () => {

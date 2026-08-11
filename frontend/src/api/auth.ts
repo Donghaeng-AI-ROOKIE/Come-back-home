@@ -38,3 +38,12 @@ export function logout(token: string) {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
+
+/** 로그인한 계정의 역할 변경 — 보호자↔시민. 기록은 user_id 에 붙어 그대로 남는다. */
+export function changeRole(token: string, role: 'citizen' | 'guardian') {
+  return api<AuthResult>('/auth/role', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ role }),
+  });
+}
