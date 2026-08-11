@@ -306,6 +306,21 @@ let mockWatching = 4;
  * 하트비트 + 현재 동시 참여자 수. 좌표는 보내지 않는다 (셀 단위 집계 = 위치정보).
  * 서버 계약: POST /phase3/cases/{id}/presence → { watching: number }
  */
+/** 내 주변 산책 장소 — 서버가 OSM 에서 실제 공원·산책로를 찾아 준다. */
+export type NearbyWalk = {
+  name: string;
+  lat: number;
+  lng: number;
+  distance_km: number;
+  kind: string;
+};
+
+export async function getNearbyWalks(point: GeoPoint, limit = 4): Promise<NearbyWalk[]> {
+  return api<NearbyWalk[]>(
+    `/geo/nearby-walks?lat=${point.lat}&lng=${point.lng}&limit=${limit}`,
+  );
+}
+
 export async function touchPresence(caseId: string): Promise<number> {
   if (USE_MOCK) {
     mockWatching = Math.min(9, Math.max(2, mockWatching + (Math.random() < 0.5 ? -1 : 1)));

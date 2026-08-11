@@ -47,7 +47,7 @@ export default function WalkActiveScreen() {
     endWalk.mutate(
       { sessionId: session.id, distanceKm: Number(track.distanceKm.toFixed(2)), durationMin },
       {
-        onSuccess: (s) => navigation.replace('WalkSummary', { sessionId: s.id, distanceKm: s.distance_km, durationMin: s.duration_min }),
+        onSuccess: (s) => navigation.replace('WalkSummary', { sessionId: s.id, distanceKm: s.distance_km, durationMin: s.duration_min, path: track.path }),
         onError: (e) => Alert.alert('산책을 종료하지 못했습니다', String(e)),
       },
     );
