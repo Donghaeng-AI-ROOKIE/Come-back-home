@@ -36,6 +36,16 @@ export function setupPwa(): void {
   style.textContent = `
     html, body, #root { height: 100dvh; max-height: 100dvh; }
     @supports not (height: 100dvh) { html, body, #root { height: 100vh; } }
+
+    /* 홈 인디케이터(아이폰 아래쪽 가로 막대) 영역만큼 앱을 위로 올린다.
+       탭바는 높이 85px 고정이고 안전영역을 스스로 처리하지 않는다 —
+       viewport-fit=cover 로 화면 끝까지 그리게 했으므로 여기서 빼 주지 않으면
+       탭 라벨 아래쪽이 인디케이터에 가려 **잘려 보인다**(실측 08-11 제보).
+       env() 를 모르는 브라우저는 0 이라 기존과 동일하다. */
+    #root {
+      box-sizing: border-box;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
   `;
   document.head.appendChild(style);
 
