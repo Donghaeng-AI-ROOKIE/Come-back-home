@@ -20,13 +20,14 @@ export default function AppearanceScreen() {
   const alert = alerts?.find((item) => item.caseId === caseId);
   const view = alertToView(alert ?? {});
   const appearance = view.appearance.slice(0, 3);
+  const extraDetails = view.appearance.slice(3).join(' · ');
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
       <FigmaStatusBar />
       <View style={styles.body}>
-        <Text style={styles.title}>실종자 인상착의 정보</Text>
-        <Text style={styles.subtitle}>신고 시 등록된 인상착의 정보입니다 (사진은 수집하지 않습니다)</Text>
+        <Text style={styles.title}>실종자 인상착의 사진</Text>
+        <Text style={styles.subtitle}>신고 시 등록된 인상착의를 바탕으로 재구성한 이미지입니다</Text>
         <View style={styles.card}>
           {/* 사진은 받지 않는다(08-07 결정) — 자리표시 사진을 두면 남의 얼굴이
               실종자로 읽힌다. 보호자가 입력한 옷 색으로 실루엣을 그린다. */}
@@ -34,7 +35,7 @@ export default function AppearanceScreen() {
           <View style={styles.chips}>
             {(appearance.length ? appearance : ['정보 확인 중']).map((label) => <View key={label} style={styles.chip}><Text style={styles.chipText} numberOfLines={1}>{label}</Text></View>)}
           </View>
-          <Text style={styles.summary}>{view.title} / {view.meta}</Text>
+          <Text style={styles.summary} numberOfLines={2}>{view.title} / {view.meta}{extraDetails ? ` / ${extraDetails}` : ''}</Text>
         </View>
         <Pressable style={styles.primary} onPress={() => navigation.navigate('TipWarn', { caseId })}><Text style={styles.primaryText}>비슷한 사람을 봤어요</Text></Pressable>
         <Pressable style={styles.secondary} onPress={() => navigation.goBack()}><Text style={styles.secondaryText}>비슷한 사람을 보지 못했어요</Text></Pressable>
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
   chips: { position: 'absolute', top: 247, flexDirection: 'row', gap: 6 },
   chip: { height: 18, borderRadius: 9, backgroundColor: '#FFC9CB', paddingHorizontal: 8, alignItems: 'center', justifyContent: 'center' },
   chipText: { fontFamily: type.familyMedium, fontSize: 10, lineHeight: 13, color: color.figmaRed },
-  summary: { position: 'absolute', top: 282, fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, color: '#525253' },
+  summary: { position: 'absolute', top: 282, left: 16, right: 16, textAlign: 'center', fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, color: '#525253' },
   primary: { position: 'absolute', left: 10, right: 10, top: 491, height: 58, borderRadius: 30, backgroundColor: color.figmaRed, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 } },
   primaryText: { fontFamily: type.familyBold, fontSize: 20, color: '#FFFFFF' },
   secondary: { position: 'absolute', left: 10, right: 10, top: 560, height: 58, borderRadius: 30, backgroundColor: '#D8D8D8', alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.14, shadowRadius: 2, shadowOffset: { width: 0, height: 2 } },

@@ -67,7 +67,7 @@ export default function GuardianHomeScreen() {
               style={({ pressed }) => [styles.personRow, pressed && styles.pressed]}
             >
               <View style={styles.personInfo}>
-                <View style={styles.nameRow}><Text style={styles.personName}>{p.name} ({p.age}세)</Text><View style={styles.dementiaBadge}><Text style={styles.dementiaText}>치매 등록</Text></View></View>
+                <View style={styles.nameRow}><Text style={styles.personName}>{p.name} ({p.age}세)</Text><View style={styles.dementiaBadge}><Text style={styles.dementiaText}>치매 정도</Text></View></View>
                 <Text style={styles.personMeta}>최근 업데이트 날짜: {p.created_at ? p.created_at.slice(0, 10) : ''}</Text>
               </View>
               <Text style={styles.chevron}>›</Text>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   emergencyIcon: { width: 47, height: 43, alignItems: 'center', justifyContent: 'center' },
   emergencyText: { fontFamily: type.familyBold, color: '#FFFFFF', fontSize: 15, marginTop: 1 },
   register: { position: 'relative', top: 3, width: 200, height: 106, borderRadius: 10, backgroundColor: '#90C67C', padding: 13, flexDirection: 'row', alignItems: 'flex-start', shadowColor: '#90C67C', shadowOpacity: 0.71, shadowRadius: 2 },
-  registerIcon: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center', marginRight: 7 },
+  registerIcon: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center', marginRight: 7, marginTop: -8 },
   registerCopy: { flex: 1, paddingTop: 22 },
   registerTitle: { fontFamily: type.familyBold, color: '#FFFFFF', fontSize: 15, lineHeight: 18 },
   registerBody: { fontFamily: type.familyMedium, color: '#FFFFFF', fontSize: 10, lineHeight: 13, marginTop: 5 },
