@@ -19,13 +19,21 @@ import { StyleSheet, View } from 'react-native';
 import Svg, { Polygon as SvgPolygon, Circle, Polyline as SvgPolyline } from 'react-native-svg';
 import type { GeoPoint, PoaGrid } from '../types/domain';
 import { poaMeta } from '../theme/poa';
+import { API_BASE } from '../api/config';
 import { hexToRgba } from '../utils/color';
 import { color, type as typo } from '../theme/tokens';
 import { Text } from 'react-native';
 
 const TILE = 256;
 /** OSM 타일 서버 — 이용약관상 대량 트래픽 금지. 시연·검증 용도로만 쓴다. */
-const TILE_URL = (z: number, x: number, y: number) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`;
+/**
+ * 타일은 **우리 서버가 중계**한다.
+ *
+ * tile.openstreetmap.org 를 앱이 직접 부르면 폰에서 안 열리는 사례가 나왔다
+ * (학교 WiFi·이동통신 양쪽에서 지도가 회색으로만 떴다 — 실측 08-11).
+ * 앱은 이미 우리 서버에 붙어 있으므로 그 경로로 받으면 확실하다. 서버가 캐시도 한다.
+ */
+const TILE_URL = (z: number, x: number, y: number) => `${API_BASE}/geo/tiles/${z}/${x}/${y}.png`;
 
 function lngToX(lng: number, z: number) {
   return ((lng + 180) / 360) * Math.pow(2, z) * TILE;

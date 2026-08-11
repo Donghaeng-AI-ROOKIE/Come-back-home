@@ -6,7 +6,10 @@
 것보다 서버 한 곳이 낫다.
 """
 
-from fastapi import APIRouter
+import threading
+import urllib.request
+
+from fastapi import APIRouter, HTTPException, Response
 from pydantic import BaseModel
 
 from app.geo import nearby, reverse
@@ -53,3 +56,43 @@ def nearby_walks(lat: float, lng: float, limit: int = 4) -> list[NearbyWalk]:
     """
     rows = nearby.nearby_walks(GeoPoint(lat=lat, lng=lng), limit=limit)
     return [NearbyWalk(**r) for r in rows]
+
+
+# ── 지도 타일 중계 ────────────────────────────────────────────
+# 폰에서 tile.openstreetmap.org 가 안 열리는 사례가 나왔다(학교 WiFi·이동통신
+# 양쪽에서 지도가 회색으로만 떴다 — 실측 08-11). 원인이 망 정책인지 OSM 쪽
+# 제한인지 단정할 수 없고, 시연·실험 중에 지도가 안 뜨는 건 치명적이다.
+# **앱이 이미 붙어 있는 우리 서버가 대신 받아 준다** — 앱은 외부 호스트를
+# 직접 부르지 않는다. 받아 둔 타일은 메모리에 캐시해 같은 칸을 다시 안 받는다.
+_TILE_UA = "come-back-home/0.1 (SAR demo; contact: jodaeheum800@gmail.com)"
+_tile_cache: dict[str, bytes] = {}
+_tile_lock = threading.Lock()
+_TILE_CACHE_MAX = 3000   # 256px png 약 15KB × 3000 ≈ 45MB
+
+
+@router.get("/tiles/{z}/{x}/{y}.png")
+def map_tile(z: int, x: int, y: int) -> Response:
+    """OSM 래스터 타일 중계. 실패하면 404 — 앱은 회색 배경으로 물러난다."""
+    if not (0 <= z <= 19):
+        raise HTTPException(400, "허용되지 않는 확대 수준입니다.")
+    key = f"{z}/{x}/{y}"
+    with _tile_lock:
+        hit = _tile_cache.get(key)
+    if hit is not None:
+        return Response(content=hit, media_type="image/png",
+                        headers={"Cache-Control": "public, max-age=604800"})
+
+    url = f"https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": _TILE_UA})
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            data = resp.read()
+    except Exception as e:  # noqa: BLE001 — 타일 하나가 전체를 막지 않는다
+        raise HTTPException(404, f"타일을 가져오지 못했습니다: {type(e).__name__}") from e
+
+    with _tile_lock:
+        if len(_tile_cache) >= _TILE_CACHE_MAX:
+            _tile_cache.clear()   # 단순 비우기 — LRU 를 둘 만큼 크지 않다
+        _tile_cache[key] = data
+    return Response(content=data, media_type="image/png",
+                    headers={"Cache-Control": "public, max-age=604800"})

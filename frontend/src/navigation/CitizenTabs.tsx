@@ -13,6 +13,7 @@ import type { CitizenTabParamList } from './types';
 import { color, type } from '../theme/tokens';
 import { useModeTheme } from '../theme/theme';
 import CitizenHomeScreen from '../screens/CitizenHomeScreen';
+import WalkActiveScreen from '../screens/WalkActiveScreen';
 import CitizenAlertsScreen from '../screens/CitizenAlertsScreen';
 import RecordsScreen from '../screens/RecordsScreen';
 import FigmaTabIcon from '../components/FigmaTabIcon';
@@ -42,9 +43,11 @@ export default function CitizenTabs() {
           tabBarIcon: ({ focused }) => <FigmaTabIcon name="home" focused={focused} activeColor={color.brand} />,
         }}
       />
+      {/* 시안: 산책하기 탭 = '산책하기-이동 중' 화면. 홈을 다시 띄우면
+          탭을 눌러도 아무 일이 없는 것처럼 보인다(현장 제보 08-11). */}
       <Tab.Screen
         name="Walk"
-        component={CitizenHomeScreen}
+        component={WalkActiveScreen}
         options={{
           tabBarLabel: '산책하기',
           tabBarIcon: ({ focused }) => <FigmaTabIcon name="walk" focused={focused} activeColor={color.brand} />,

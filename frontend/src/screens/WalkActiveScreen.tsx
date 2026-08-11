@@ -9,7 +9,7 @@ import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
-import { useActiveWalk, useEndWalk } from '../hooks/queries';
+import { useActiveWalk, useEndWalk, useStartWalk } from '../hooks/queries';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { useWalkTracking } from '../hooks/useWalkTracking';
 import BaseMap from '../components/BaseMap';
@@ -56,6 +56,7 @@ export default function WalkActiveScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { data: session, isLoading } = useActiveWalk();
   const endWalk = useEndWalk();
+  const startWalk = useStartWalk();
   const elapsedSec = useElapsed(session?.started_at);
   const track = useWalkTracking(!!session);
   // 추적 워처의 첫 값이 오기까지 수 초 걸린다(도심에서는 더). 그동안 지도에
@@ -76,7 +77,29 @@ export default function WalkActiveScreen() {
   };
 
   if (isLoading || !session) {
-    return <SafeAreaView style={styles.safe}><View style={styles.center}><Text style={styles.loading}>{isLoading ? '불러오는 중…' : '진행 중인 산책이 없어요'}</Text></View></SafeAreaView>;
+    // 산책하기 탭이 이 화면을 띄우므로, 진행 중인 산책이 없을 때 여기서 바로
+    // 시작할 수 있어야 한다 — 안 그러면 탭을 눌러도 막다른 화면이 된다.
+    return (
+      <SafeAreaView style={styles.safe} edges={['top']}>
+        <StatusBar style="dark" />
+        <FigmaStatusBar />
+        <View style={styles.center}>
+          <Text style={styles.loading}>{isLoading ? '불러오는 중…' : '진행 중인 산책이 없어요'}</Text>
+          {!isLoading ? (
+            <Pressable
+              onPress={() => startWalk.mutate(undefined)}
+              disabled={startWalk.isPending}
+              accessibilityRole="button"
+              style={({ pressed }) => [styles.startBtn, pressed && styles.pressed]}
+            >
+              <Text style={styles.startBtnText}>
+                {startWalk.isPending ? '시작하는 중…' : '산책 시작하기'}
+              </Text>
+            </Pressable>
+          ) : null}
+        </View>
+      </SafeAreaView>
+    );
   }
 
   return (
@@ -142,6 +165,8 @@ function Metric({ label, value }: { label: string; value: string }) {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   body: { flex: 1, overflow: 'hidden' },
+  startBtn: { marginTop: 16, height: 50, paddingHorizontal: 34, borderRadius: 25, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center' },
+  startBtnText: { fontFamily: type.familyBold, fontSize: 17, color: '#FFFFFF' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   loading: { fontFamily: type.family, fontSize: 13, color: '#525253', textAlign: 'center' },
   greenTop: { position: 'absolute', top: 0, left: 0, right: 0, height: 123, backgroundColor: color.guardianWash },
