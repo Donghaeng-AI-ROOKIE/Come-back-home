@@ -61,20 +61,38 @@ export class ApiError extends Error {
  */
 const TIMEOUT_MS = 12_000;
 
+/**
+ * 오래 걸리는 게 **정상인** 요청의 상한(ms) — 예측·제보 처리.
+ *
+ * 위 12초는 조회용 값이다. 그런데 AI 예측은 웜 상태에서도 11~13초 걸리고
+ * (실측 08-12: 11.3 / 12.3 / 29.5초), 새 지역의 첫 예측은 도로망을 내려받느라
+ * **2분을 넘긴다**(신촌 첫 실행 실측). 같은 12초를 적용하면 예측은 구조적으로
+ * 반반 실패하고, 화면에는 "AI 분석만 다시 시도해 주세요"만 남는다.
+ *
+ * 서버는 끊긴 뒤에도 계산을 끝내 캐시를 채우므로, 앱이 일찍 포기하면 **성공한
+ * 계산을 실패로 표시하는** 최악의 조합이 된다. 그래서 넉넉히 기다린다.
+ * 사용자는 그동안 '2. AI 예상 경로 분석' 단계가 도는 것을 보고 있다.
+ */
+export const SLOW_TIMEOUT_MS = 240_000;
+
 /** 공통 fetch — 실패를 삼키지 않고 상태코드와 서버 메시지를 그대로 올린다. */
-export async function api<T>(path: string, init?: RequestInit): Promise<T> {
+export async function api<T>(
+  path: string,
+  init?: RequestInit & { timeoutMs?: number },
+): Promise<T> {
   let res: Response;
+  const { timeoutMs = TIMEOUT_MS, ...rest } = init ?? {};
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     res = await fetch(`${API_BASE}${path}`, {
-      ...init,
+      ...rest,
       signal: controller.signal,
-      headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
+      headers: { 'Content-Type': 'application/json', ...(rest.headers ?? {}) },
     });
   } catch (e) {
     if (controller.signal.aborted) {
-      throw new ApiError(0, path, `서버 응답이 없어 요청을 중단했습니다 (${TIMEOUT_MS / 1000}초).`);
+      throw new ApiError(0, path, `서버 응답이 없어 요청을 중단했습니다 (${timeoutMs / 1000}초).`);
     }
     // 네트워크 자체가 안 되는 경우 — 주소가 틀렸는지 바로 알 수 있게 주소를 담는다.
     throw new ApiError(0, path, `서버에 연결할 수 없습니다 (${API_BASE}). ${String(e)}`);
