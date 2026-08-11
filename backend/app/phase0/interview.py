@@ -23,6 +23,7 @@ from app.geo.geocode import (
     base_place_name,
     clean_area_text,
     get_geocoder,
+    locate_home,
     to_attraction_points,
 )
 from app.phase0.retrieval import get_embedder
@@ -2021,7 +2022,9 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     #    물었을 때) 기존 persona 의 home 을 그대로 쓴다. 둘 다 없으면 지금까지와
     #    같은 ValueError.
     if f.get("home"):
-        home_res = geo.locate(f["home"])
+        # 맨 문자열 한 번이 아니라 후보 사다리로 — 아파트 이름이 붙은 정상 주소가
+        # 통째로 실패해 등록이 막히던 문제(geocode.home_candidates 참고).
+        home_res = locate_home(geo, str(f["home"]))
         if home_res is None:
             raise ValueError("집 위치 미확보 — 집 주소/동네를 다시 확인해 주세요")
         home = home_res.point

@@ -25,12 +25,37 @@ function splitNote(note: string): [string, string] {
   return i > 0 ? [note.slice(0, i).trim(), note.slice(i + 1).trim()] : ['기타', note.trim()];
 }
 
-const GROUPS = [
-  { title: '혼자 자주 가는 장소·경로', keys: ['혼자', '자주', '경로', '장소'] },
-  { title: '자전적 기억 기반 목적지', keys: ['기억', '과거', '고향', '목적지'] },
-  { title: '이동·교통 능력', keys: ['이동', '교통', '보행', '걷'] },
-  { title: '환경 위험 취약성', keys: ['환경', '위험', '취약', '도로', '물'] },
+/**
+ * 카드 = 백엔드 슬롯 라벨. **추측하지 않는다.**
+ *
+ * `behavior_notes` 는 백엔드가 '라벨: 본문' 형태로 보내고, 이 라벨은 슬롯의
+ * 정식 이름이다(backend/app/phase0/slots.py — "label 은 내부 식별자 역할을
+ * 겸한다"). 어느 항목인지 서버가 이미 확정해 준 것이다.
+ *
+ * 그런데 이전 구현은 그 라벨을 버리고 본문에서 키워드를 substring 으로 찾아
+ * 분류를 다시 추측했다. 실측(08-12)에서 세 가지가 한꺼번에 터졌다:
+ *
+ *   - 키 '경로' 가 라벨 '길찾기 오류·**경로** 회복 취약성' 에 걸려, "어느 순간
+ *     '어, 여기가 어디지'" 가 '혼자 자주 가는 곳' 카드로 갔다.
+ *   - 키 '물' 이 본문 '철**물**점' 에 걸려, 자전적 기억(성수동 철물점)이
+ *     '환경 위험 취약성' 에도 같이 실렸다. 그룹이 배타적이지 않아 한 항목이
+ *     여러 카드에 중복된다.
+ *   - 그 바람에 진짜 위험 항목('신호 대체로 준수')이 카드당 2칸 제한에 밀려
+ *     화면에서 사라졌다.
+ *
+ * 라벨로 정확히 맞추면 셋 다 없어진다. 이건 회귀다 — 최초 구현(6c3f77b)의
+ * `groupNotes` 가 라벨 기준이었는데 시안 4카드에 맞추는 과정(ec518a4)에서
+ * 키워드 매칭으로 교체됐다. 시안에 칸이 없다는 이유로 분류를 추측하지 말 것.
+ */
+const CARDS = [
+  { title: '혼자 자주 가는 장소·경로', label: '혼자 자주 가는 곳·경로' },
+  { title: '자전적 기억 기반 목적지', label: '자전적 기억 기반 목적지' },
+  { title: '이동·교통 능력', label: '이동·교통 능력' },
+  { title: '환경 위험 취약성', label: '환경 위험 취약성' },
 ] as const;
+
+/** 기본 정보·관련 장소 카드가 이미 보여 주는 것 — 주요 정보에서 또 반복하지 않는다. */
+const SHOWN_ELSEWHERE = new Set(['대상자 성함·나이', '현재 거주지']);
 
 export default function PersonaDetailScreen() {
   const qc = useQueryClient();
@@ -59,14 +84,27 @@ export default function PersonaDetailScreen() {
 
   useEffect(() => { load(); }, [load]);
 
-  const groups = useMemo(() => GROUPS.map((group, groupIndex) => {
-    const items = notes
-      .map(splitNote)
-      .filter(([label, body]) => body && (group.keys.some((key) => `${label} ${body}`.includes(key)) || (groupIndex === 0 && !GROUPS.slice(1).some((g) => g.keys.some((key) => `${label} ${body}`.includes(key))))))
-      .map(([, body]) => body)
-      .filter((body, index, all) => all.indexOf(body) === index);
-    return { title: group.title, items };
-  }), [notes]);
+  const groups = useMemo(() => {
+    const byLabel = new Map<string, string[]>();
+    for (const note of notes) {
+      const [label, body] = splitNote(note);
+      if (!body || SHOWN_ELSEWHERE.has(label)) continue;
+      const items = byLabel.get(label) ?? [];
+      // 완전히 같은 문장은 한 번만 — 추출이 중복 저장하는 경우가 있다.
+      if (!items.includes(body)) items.push(body);
+      byLabel.set(label, items);
+    }
+    // 시안의 네 카드는 비어 있어도 자리를 지킨다.
+    const fixed = CARDS.map((card) => ({ title: card.title, items: byLabel.get(card.label) ?? [] }));
+    // 나머지 슬롯(복약·건강, 의사소통 반응, 길 잃었을 때 행동 등)은 카드를 새로
+    // 만든다. 시안에 칸이 없다고 버리면 보호자가 분명히 답한 정보가 화면에서
+    // 사라진다 — 수색에 직접 쓰이는 항목들이라 누락이 곧 안전 문제다.
+    const known = new Set<string>(CARDS.map((card) => card.label));
+    const extra = [...byLabel.entries()]
+      .filter(([label]) => !known.has(label))
+      .map(([label, items]) => ({ title: label, items }));
+    return [...fixed, ...extra];
+  }, [notes]);
 
   const save = async () => {
     if (!persona || saving) return;
@@ -128,7 +166,10 @@ export default function PersonaDetailScreen() {
 
         <SectionTitle icon={<MapIcon width={8} height={11} color={color.guardian} />} title="관련 장소" />
         <View style={styles.placeCard}>
-          {(points.length ? points.slice(0, 2) : [{ label: '주소' }, { label: '주소' }]).map((point, index) => (
+          {/* 두 칸으로 자르지 않는다 — 시안 칸 수가 곧 등록 가능한 장소 수는
+              아니다. 세 번째 장소부터 조용히 안 보이면 보호자는 등록이 안 된
+              줄 안다. 카드는 minHeight 라 늘어난다. */}
+          {(points.length ? points : [{ label: '주소' }, { label: '주소' }]).map((point, index) => (
             <View key={`${point.label}-${index}`} style={styles.infoRow}>
               <Text style={styles.infoKey}>장소{index + 1}</Text>
               <Text style={styles.infoValue}>{point.label || '주소'}</Text>
@@ -169,9 +210,14 @@ export default function PersonaDetailScreen() {
             </Pressable>
           </View>
         ) : (
+          /* 항목을 잘라내지 않는다. 카드당 3/1/2/2 칸으로 제한하던 것이 실제로
+             데이터를 지웠다 — '신호 대체로 준수'가 그렇게 사라졌다. 한 줄로
+             자르던 numberOfLines 도 뗀다("…오래하셨어요"가 "…하셨어"로 잘렸다). */
           groups.map((group, index) => <View key={group.title} style={[styles.noteCard, index === 0 && styles.noteCardTall]}>
             <Text style={styles.noteTitle}>{group.title}</Text>
-            {(group.items.length ? group.items : Array.from({ length: index === 0 ? 3 : index === 1 ? 1 : 2 }, (_, i) => `정보 ${i + 1}`)).slice(0, index === 0 ? 3 : index === 1 ? 1 : 2).map((item) => <Text key={item} style={styles.noteText} numberOfLines={1}>{item}</Text>)}
+            {group.items.length
+              ? group.items.map((item, i) => <Text key={`${group.title}-${i}`} style={styles.noteText}>{item}</Text>)
+              : <Text style={styles.noteEmptyItem}>아직 등록되지 않았어요</Text>}
           </View>)
         )}
 
@@ -206,7 +252,7 @@ const styles = StyleSheet.create({
   sectionIcon: { width: 20, alignItems: 'center', justifyContent: 'center' },
   sectionText: { fontFamily: type.familySemiBold, fontSize: 14, color: '#000000' },
   basicCard: { height: 111, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 15, justifyContent: 'center' },
-  placeCard: { height: 84, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 15, justifyContent: 'center' },
+  placeCard: { minHeight: 84, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 15, justifyContent: 'center' },
   infoRow: { minHeight: 27, flexDirection: 'row', alignItems: 'center' },
   infoKey: { width: 51, fontFamily: type.familySemiBold, fontSize: 12, color: '#316837' },
   infoValue: { flex: 1, fontFamily: type.family, fontSize: 12, color: '#4D4D4D' },
@@ -222,6 +268,7 @@ const styles = StyleSheet.create({
   noteCardTall: { minHeight: 117 },
   noteTitle: { fontFamily: type.familySemiBold, fontSize: 12, lineHeight: 18, color: '#316837', marginBottom: 5 },
   noteText: { fontFamily: type.family, fontSize: 12, lineHeight: 22, color: '#4D4D4D' },
+  noteEmptyItem: { fontFamily: type.family, fontSize: 12, lineHeight: 22, color: '#909090' },
   save: { height: 44, borderRadius: 22, backgroundColor: color.guardian, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
   saveText: { fontFamily: type.familySemiBold, fontSize: 14, color: '#FFFFFF' },
 });

@@ -53,6 +53,34 @@ class _BaseGeocoder:
 
 
 # ── 카카오 Local (가장 정밀) ─────────────────────────────────────────
+# 이미 알린 인증 실패 상태코드 — 같은 설정 오류를 호출마다 찍지 않기 위해서.
+# 끌림점이 여러 개면 한 번의 등록에도 조회가 수십 번 일어난다.
+_KAKAO_DENIED_WARNED: set[int] = set()
+
+
+def _warn_kakao_denied(err) -> None:
+    """카카오가 **거부**한 경우만 크게 남긴다 (401 키 문제 · 403 서비스 미활성).
+
+    이 실패는 재시도로 낫지 않는 설정 문제인데, 조용히 미탐으로 넘기면 체인의
+    다음 백엔드(nominatim)가 받아 준다. 그러면 앱은 멀쩡히 돌아가고 좌표 품질만
+    나빠져서, 키를 넣은 사람은 아무 신호도 받지 못한다 — 실제로 카카오맵 서비스가
+    꺼진 채 403 이 나고 있었는데 로그가 없어 한참 뒤 수동 호출로야 찾았다(08-12).
+    "키를 넣었는데 왜 그대로지"를 다시 겪지 않도록 이유를 화면에 띄운다.
+
+    응답 본문에 카카오가 앱 이름과 미활성 서비스명을 담아 주므로 그대로 싣는다
+    (키는 요청 헤더에만 있고 본문에 없다 — 로그로 새지 않는다).
+    """
+    code = getattr(err, "code", 0)
+    if code not in (401, 403) or code in _KAKAO_DENIED_WARNED:
+        return
+    _KAKAO_DENIED_WARNED.add(code)
+    try:
+        detail = err.read().decode("utf-8")[:200]
+    except Exception:  # noqa: BLE001 — 본문을 못 읽어도 상태코드만으로 충분히 유용
+        detail = ""
+    print(f"[geo] 카카오 지오코딩 거부(HTTP {code}) — 이후 nominatim/gazetteer 로 "
+          f"폴백합니다. KAKAO_REST_KEY 와 카카오맵 서비스 활성화를 확인하세요. {detail}")
+
 # 행정구역 접미사 — 마지막 토큰이 이걸로 끝나면 '순수 지역명'으로 보고 주소검색 먼저.
 _ADMIN_SUFFIX = ("특별시", "광역시", "시", "도", "구", "군", "동", "읍", "면", "리")
 
@@ -84,6 +112,7 @@ class KakaoGeocoder(_BaseGeocoder):
 
     def _get(self, url: str, query: str, extra: dict | None = None) -> list[dict]:
         import json
+        import urllib.error
         import urllib.parse
         import urllib.request
 
@@ -93,7 +122,10 @@ class KakaoGeocoder(_BaseGeocoder):
         try:
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                 return json.loads(resp.read().decode("utf-8")).get("documents", [])
-        except Exception:  # noqa: BLE001 — 네트워크/인증 실패는 조용히 미탐
+        except urllib.error.HTTPError as e:
+            _warn_kakao_denied(e)
+            return []
+        except Exception:  # noqa: BLE001 — 네트워크 장애는 조용히 미탐(폴백이 받는다)
             return []
 
     def _keyword(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
@@ -337,6 +369,64 @@ def base_place_name(query: str) -> str:
         if stripped == cur or not stripped:
             return cur
         cur = stripped
+
+
+def home_candidates(text: str) -> list[str]:
+    """집 주소 조회 후보를 정밀 → 거침 순으로 만든다.
+
+    보호자는 "하남시 하남대로 856 하남더샵센트럴뷰"처럼 **건물 이름까지** 적는다.
+    지오코더는 그 조합을 못 찾는다 — 실측(08-12) 결과가 정확히 이렇다:
+
+        '하남시 하남대로 856 하남더샵센트럴뷰' → None
+        '하남시 하남대로 856'                  → 37.5440, 127.2033
+        '하남시'                               → 37.5393, 127.2149
+
+    그런데 home 은 실패하면 ValueError 로 **등록 자체가 막힌다**. 보호자는 주소를
+    정확히 적었는데 앱이 계속 되묻고, 몇 번을 다시 입력해도 같은 결과가 된다
+    (라이브 실측 08-12). 끌림점(to_attraction_points)은 이미 이런 후보 사다리를
+    갖고 있었는데 home 만 맨 문자열 한 번으로 끝내고 있었다 — 하필 실패 비용이
+    가장 큰 쪽에 없었다.
+
+    사다리를 내려갈수록 좌표가 거칠어지므로(도로명 → 시 중심) 순서가 중요하다.
+    정밀한 후보를 **전부** 시도한 뒤에만 거친 것으로 내려간다. 그래도 아무것도
+    안 걸리면 호출부가 기존대로 ValueError 를 낸다 — 못 찾은 걸 찾은 척하지 않는다.
+    """
+    raw = " ".join(str(text or "").split())
+    if not raw:
+        return []
+    out = [raw, raw.replace(" ", "")]
+    tokens = raw.split(" ")
+    # 뒤에서부터 한 토큰씩 떼며 재시도 — 건물명·동·호수가 먼저 떨어진다.
+    for cut in range(len(tokens) - 1, 1, -1):
+        out.append(" ".join(tokens[:cut]))
+    # 마지막 보루: 행정구역으로 보이는 토큰만 남긴다("…시 …구 …동").
+    admin = [t for t in tokens if t.endswith(_ADMIN_SUFFIX)]
+    if admin:
+        out.append(" ".join(admin))
+        out.append(admin[0])
+    seen: set[str] = set()
+    uniq: list[str] = []
+    for q in out:
+        if q and q not in seen:
+            seen.add(q)
+            uniq.append(q)
+    return uniq
+
+
+def locate_home(geocoder: Geocoder, text: str) -> GeoResult | None:
+    """집 주소 좌표화 — home_candidates 를 순서대로 시도, 첫 성공 반환.
+
+    어느 후보로 걸렸는지 로그로 남긴다. 원본과 다른 문자열로 찍혔다는 사실이
+    좌표 정밀도를 읽는 단서이고, 조용히 거칠어지면 나중에 추적이 불가능하다.
+    """
+    for i, q in enumerate(home_candidates(text)):
+        hit = geocoder.locate(q)
+        if hit is not None:
+            if i > 0:
+                print(f"[geo] 집 주소 축약 매칭: {text!r} → {q!r} "
+                      f"({hit.source}/{hit.precision})")
+            return hit
+    return None
 
 
 def clean_area_text(raw) -> str:
