@@ -10,6 +10,7 @@ import { color, type } from '../theme/tokens';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import { useActiveWalk, useEndWalk } from '../hooks/queries';
+import { useMyLocation } from '../hooks/useMyLocation';
 import { useWalkTracking } from '../hooks/useWalkTracking';
 import BaseMap from '../components/BaseMap';
 import MapPin from '../components/MapPin';
@@ -18,16 +19,33 @@ import WebMap from '../components/WebMap';
 const leftMascot = require('../../assets/figma/mascot-walk-right.png');
 const rightMascot = require('../../assets/figma/mascot-walk-left.png');
 
+/**
+ * 서버 시각 문자열 → epoch ms.
+ *
+ * 서버는 오프셋 없는 naive 문자열을 주는데 **배포 컨테이너 시계가 UTC** 다.
+ * 그대로 `new Date()` 에 넣으면 브라우저가 로컬(KST)로 해석해 9시간이 어긋난다
+ * — 산책을 막 시작해도 '540:00' 이 찍혔다(실측 08-11). 오프셋이 없으면 Z 를 붙인다.
+ */
+function serverTimeMs(iso: string): number {
+  const hasOffset = iso.endsWith('Z') || /[+-]\d{2}:\d{2}$/.test(iso);
+  return new Date(hasOffset ? iso : `${iso}Z`).getTime();
+}
+
 function useElapsed(startedAt?: string) {
   const [now, setNow] = useState(Date.now());
   const base = useRef<number | null>(null);
   useEffect(() => {
     if (!startedAt) return;
-    base.current = new Date(startedAt).getTime();
+    base.current = serverTimeMs(startedAt);
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, [startedAt]);
   return !startedAt || base.current == null ? 0 : Math.max(0, Math.floor((now - base.current) / 1000));
+}
+
+/** 1km 미만은 둘째 자리까지 — 0.0km 로만 보이면 거리가 안 잡히는 줄 안다. */
+function formatKm(km: number): string {
+  return km < 1 ? km.toFixed(2) : km.toFixed(1);
 }
 
 function clock(sec: number) {
@@ -40,6 +58,10 @@ export default function WalkActiveScreen() {
   const endWalk = useEndWalk();
   const elapsedSec = useElapsed(session?.started_at);
   const track = useWalkTracking(!!session);
+  // 추적 워처의 첫 값이 오기까지 수 초 걸린다(도심에서는 더). 그동안 지도에
+  // 중심도 마커도 없으면 "현재 위치가 안 뜬다"로 보인다 — 앱 공용 위치를 폴백으로 쓴다.
+  const { point: myPoint } = useMyLocation(true);
+  const here = track.current ?? myPoint;
 
   const onEnd = () => {
     if (!session) return;
@@ -67,7 +89,7 @@ export default function WalkActiveScreen() {
         {Platform.OS === 'web' ? (
           <WebMap
             style={styles.map}
-            center={track.current ?? undefined}
+            center={here ?? undefined}
             path={track.path}
             zoom={16}
             accessibilityLabel="산책 경로 지도"
@@ -75,9 +97,9 @@ export default function WalkActiveScreen() {
         ) : (
           <BaseMap
             style={styles.map}
-            region={track.current ? {
-              latitude: track.current.lat,
-              longitude: track.current.lng,
+            region={here ? {
+              latitude: here.lat,
+              longitude: here.lng,
               latitudeDelta: 0.006,
               longitudeDelta: 0.006,
             } : undefined}
@@ -91,7 +113,7 @@ export default function WalkActiveScreen() {
                 strokeWidth={5}
               />
             ) : null}
-            {track.current ? <MapPin kind="me" coordinate={track.current} title="현재 위치" /> : null}
+            {here ? <MapPin kind="me" coordinate={here} title="현재 위치" /> : null}
           </BaseMap>
         )}
         <Image source={leftMascot} resizeMode="contain" style={styles.leftMascot} accessibilityLabel="가방을 멘 돌아오길 악어 캐릭터" />
@@ -99,7 +121,7 @@ export default function WalkActiveScreen() {
 
         <View style={styles.metrics}>
           <Metric label="산책한 시간" value={clock(elapsedSec)} />
-          <Metric label="총 산책 거리" value={`${track.distanceKm.toFixed(1)}km`} />
+          <Metric label="총 산책 거리" value={`${formatKm(track.distanceKm)}km`} />
         </View>
 
         <View style={styles.locationHalo}><View style={styles.locationDot} /></View>
