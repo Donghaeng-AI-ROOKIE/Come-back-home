@@ -3,7 +3,7 @@ import { Alert, Image, Platform, Pressable, StyleSheet, Text, View } from 'react
 import { Polyline } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
@@ -57,6 +57,9 @@ export default function WalkActiveScreen() {
   const { data: session, isLoading } = useActiveWalk();
   const endWalk = useEndWalk();
   const startWalk = useStartWalk();
+  // 부모가 탭 내비게이터면 탭바는 그쪽이 그린다. 라우트 이름으로 가른다 —
+  // 탭에서는 'Walk', 스택에서는 'WalkActive' 로 등록돼 있다.
+  const inTab = useRoute().name === 'Walk';
   const elapsedSec = useElapsed(session?.started_at);
   const track = useWalkTracking(!!session);
   // 추적 워처의 첫 값이 오기까지 수 초 걸린다(도심에서는 더). 그동안 지도에
@@ -139,13 +142,18 @@ export default function WalkActiveScreen() {
             {here ? <MapPin kind="me" coordinate={here} title="현재 위치" /> : null}
           </BaseMap>
         )}
+        {/* 왼쪽 악어는 카드 **뒤**에 있다(몸 아래쪽이 카드에 가려진다). */}
         <Image source={leftMascot} resizeMode="contain" style={styles.leftMascot} accessibilityLabel="가방을 멘 돌아오길 악어 캐릭터" />
-        <Image source={rightMascot} resizeMode="contain" style={styles.rightMascot} accessibilityLabel="산책 중인 돌아오길 악어 캐릭터" />
 
         <View style={styles.metrics}>
           <Metric label="산책한 시간" value={clock(elapsedSec)} />
           <Metric label="총 산책 거리" value={`${formatKm(track.distanceKm)}km`} />
         </View>
+
+        {/* 오른쪽 악어는 카드 **앞**에 온다 — 시안에서 오른쪽 카드 모서리를 덮고 있다.
+            카드보다 먼저 그리면 카드가 악어를 덮어 뒤로 숨은 것처럼 보인다
+            (현장 제보 08-11). 그리는 순서가 곧 앞뒤다. */}
+        <Image source={rightMascot} resizeMode="contain" style={styles.rightMascot} accessibilityLabel="산책 중인 돌아오길 악어 캐릭터" />
 
         <View style={styles.locationHalo}><View style={styles.locationDot} /></View>
 
@@ -153,7 +161,9 @@ export default function WalkActiveScreen() {
           <Text style={styles.endText}>{endWalk.isPending ? '저장 중…' : '산책 종료하기'}</Text>
         </Pressable>
       </View>
-      <FigmaFlowTabBar mode="citizen" active="register" />
+      {/* 이 화면은 두 곳에서 열린다 — 산책하기 탭(내비게이터가 탭바를 그린다)과
+          스택 진입(안 그린다). 탭 안에서 또 그리면 탭바가 두 개로 보인다. */}
+      {inTab ? null : <FigmaFlowTabBar mode="citizen" active="register" />}
     </SafeAreaView>
   );
 }
