@@ -41,6 +41,9 @@ from pydantic import BaseModel, Field
 class Platform(str, Enum):
     android = "android"
     ios = "ios"
+    # 홈 화면에 설치한 웹앱. 주소가 Expo 토큰이 아니라 브라우저 구독이라
+    # 발송 경로가 다르다(phase3/webpush.py).
+    web = "web"
 
 
 class Engagement(str, Enum):
@@ -67,6 +70,9 @@ class Device(BaseModel):
     #: 현재 위치의 H3 res7 셀. **현재 값만 — 이력을 남기지 않는다.**
     #: None 이면 위치를 아직 못 받은 것(그 기기는 타겟 발송에서 제외된다).
     cell_res7: str | None = None
+    #: 웹 푸시 구독(endpoint·keys). platform=web 일 때만 채워진다.
+    #: 브라우저가 스스로 만들어 준 주소이며 개인 식별정보가 아니다.
+    web_subscription: dict | None = None
     #: 참여도 등급. 모르면 normal 로 본다(기본 문턱).
     engagement: Engagement = Engagement.normal
 
