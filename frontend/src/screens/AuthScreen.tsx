@@ -7,9 +7,7 @@ import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import { useTabBarMetrics } from '../theme/tabBar';
 import AuthIntroText from '../../assets/figma/auth-intro-text.svg';
-import AuthAccountText from '../../assets/figma/auth-account-text.svg';
 import AuthTaglineText from '../../assets/figma/auth-tagline-text.svg';
-import AuthLoginLabel from '../../assets/figma/auth-login-label.svg';
 import AuthRoleLabel from '../../assets/figma/auth-role-label.svg';
 
 const authLogo = require('../../assets/figma/auth-logo.png');
@@ -70,7 +68,8 @@ export default function AuthScreen() {
               <Text style={styles.startText}>시작하기 〉</Text>
             </Pressable>
             <View style={styles.loginRow}>
-              <AuthAccountText width={168} height={14} accessibilityLabel="이미 계정이 있나요? 로그인" />
+              <Text style={styles.accountPrompt}>이미 계정이 있나요?  </Text>
+              <Text style={styles.accountLogin}>로그인</Text>
               <Pressable accessibilityRole="button" accessibilityLabel="로그인" onPress={() => { setError(''); setStep('login'); }} hitSlop={10} style={styles.loginHit} />
             </View>
           </>
@@ -141,9 +140,7 @@ export default function AuthScreen() {
 function SeparatorLabel({ label }: { label: string }) {
   const exactLabel = label === '어떤 역할로 시작하시겠습니까?'
     ? <AuthRoleLabel width={188} height={14} accessibilityLabel={label} />
-    : label === '이메일 주소로 로그인해 주세요'
-      ? <AuthLoginLabel width={184} height={14} accessibilityLabel={label} />
-      : <Text style={styles.separatorText}>{label}</Text>;
+    : <Text style={styles.separatorText}>{label}</Text>;
   return <View style={styles.separatorRow}><View style={styles.separator} /><View style={styles.separatorLabel}>{exactLabel}</View><View style={styles.separator} /></View>;
 }
 
@@ -173,12 +170,14 @@ const styles = StyleSheet.create({
   startButton: { position: 'absolute', top: 488, left: 16, right: 16, height: 50, borderRadius: 10, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center' },
   startText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
   loginRow: { position: 'absolute', top: 565, left: 91, width: 193, height: 19, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  accountPrompt: { fontFamily: type.familyCss, fontSize: 15, lineHeight: 18, letterSpacing: -0.08, color: '#909090' },
+  accountLogin: { fontFamily: type.familyCssBold, fontSize: 15, lineHeight: 18, letterSpacing: -0.08, color: '#328E6E' },
   loginHit: { position: 'absolute', right: 10, top: -8, width: 54, height: 30 },
   loginText: { fontFamily: type.familySemiBold, fontSize: 14, color: color.brandInk, textDecorationLine: 'underline' },
   separatorRow: { position: 'absolute', top: 370, left: 16, right: 16, height: 22, flexDirection: 'row', alignItems: 'center', gap: 20 },
   separator: { flex: 1, height: 1, backgroundColor: '#CAD9C5' },
   separatorLabel: { width: 190, height: 19, alignItems: 'center', justifyContent: 'center' },
-  separatorText: { width: 190, textAlign: 'center', fontFamily: type.family, fontSize: 14, lineHeight: 19, color: color.figmaGray },
+  separatorText: { width: 190, textAlign: 'center', fontFamily: type.familyCss, fontSize: 15, lineHeight: 18, letterSpacing: -0.08, color: '#909090' },
   input: { position: 'absolute', left: 16, right: 16, height: 46, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.9)', paddingHorizontal: 12, fontFamily: type.familySemiBold, fontSize: 16, color: '#525253' },
   email: { top: 429 },
   password: { top: 486 },

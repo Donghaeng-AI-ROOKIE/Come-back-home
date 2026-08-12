@@ -42,6 +42,7 @@ export default function App() {
     'Dot42-Medium': require('./assets/fonts/42dotSans-Medium.ttf'),
     'Dot42-SemiBold': require('./assets/fonts/42dotSans-SemiBold.ttf'),
     'Dot42-Bold': require('./assets/fonts/42dotSans-Bold.ttf'),
+    'Dot42-ExtraBold': require('./assets/fonts/42dotSans-ExtraBold.ttf'),
     '42dotSans-Regular': require('./assets/fonts/42dotSans-Regular.ttf'),
     '42dotSans-Medium': require('./assets/fonts/42dotSans-Medium.ttf'),
     '42dotSans-SemiBold': require('./assets/fonts/42dotSans-SemiBold.ttf'),

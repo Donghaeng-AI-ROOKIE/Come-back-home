@@ -172,10 +172,10 @@ function Metric({ label, value }: { label: string; value: string }) {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   body: { flex: 1, overflow: 'hidden' },
-  startBtn: { marginTop: 16, height: 50, paddingHorizontal: 34, borderRadius: 25, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center' },
-  startBtnText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
+  startBtn: { marginTop: 16, height: 50, paddingHorizontal: 34, borderRadius: 25, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
+  startBtnText: { fontFamily: type.familyCssBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  loading: { fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#525253', textAlign: 'center' },
+  loading: { fontFamily: type.familyCss, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#525253', textAlign: 'center' },
   greenTop: { position: 'absolute', top: 0, left: 0, right: 0, height: 123, backgroundColor: color.guardianWash },
   map: { position: 'absolute', top: 123, left: 0, right: 0, bottom: 0, width: '100%', height: undefined },
   // Figma 2607:834의 원본 에셋 프레임. body는 44px 상태바 아래에서 시작하므로
@@ -187,13 +187,13 @@ const styles = StyleSheet.create({
   metrics: { position: 'absolute', top: 52, left: 16, right: 16, flexDirection: 'row', gap: 15 },
   // 거리 카드(top 52 + 높이 51) 바로 아래.
   trackWarn: { position: 'absolute', top: 111, left: 16, right: 16, borderRadius: 10, backgroundColor: color.criticalWash, borderWidth: 1, borderColor: color.critical, paddingVertical: 8, paddingHorizontal: 12 },
-  trackWarnText: { fontFamily: type.family, fontSize: 12, lineHeight: 17, color: color.criticalInk },
+  trackWarnText: { fontFamily: type.familyCss, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: color.criticalInk },
   metric: { flex: 1, height: 51, borderRadius: 10, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
-  metricLabel: { fontFamily: type.family, fontSize: 10, color: color.figmaGray },
-  metricValue: { fontFamily: type.familyBold, fontSize: 18, color: '#000000', marginTop: 2 },
+  metricLabel: { fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray },
+  metricValue: { fontFamily: type.familyCssExtraBold, fontSize: 18, lineHeight: 23, color: '#000000', marginTop: 2 },
   locationHalo: { position: 'absolute', left: '50%', top: '54%', width: 95, height: 95, marginLeft: -48, marginTop: -48, borderRadius: 48, backgroundColor: 'rgba(0,122,255,0.12)', alignItems: 'center', justifyContent: 'center' },
   locationDot: { width: 22, height: 22, borderRadius: 11, backgroundColor: '#007AFF', borderWidth: 3, borderColor: '#FFFFFF' },
-  end: { position: 'absolute', left: 10, right: 10, bottom: 38, height: 58, borderRadius: 30, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 } },
-  endText: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
+  end: { position: 'absolute', left: 10, right: 10, bottom: 38, height: 58, borderRadius: 30, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
+  endText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   pressed: { opacity: 0.82 },
 });
