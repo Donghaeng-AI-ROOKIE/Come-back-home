@@ -45,7 +45,7 @@ export default function FigmaFlowTabBar({ mode, active }: {
     navigation.navigate('CitizenTabs', { screen });
   };
   return (
-    <View style={[styles.bar, { height: tabBar.height, paddingBottom: tabBar.paddingBottom }, guardian && styles.guardianBar]}>
+    <View style={[styles.bar, { height: tabBar.height, paddingBottom: tabBar.paddingBottom }]}>
       {items.map((item) => (
         <Pressable
           key={item.key}
@@ -65,7 +65,9 @@ const styles = StyleSheet.create({
   // height·paddingBottom 은 useTabBarMetrics 가 기기별로 넣는다.
   // paddingTop 은 12 — 내비게이터 탭바의 `7 + 아이템 padding 5` 와 맞춘다.
   bar: { backgroundColor: '#FFFFFF', borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#D8D8D8', flexDirection: 'row', paddingTop: FLOW_TAB_PADDING_TOP },
-  guardianBar: { borderTopLeftRadius: 42, borderTopRightRadius: 42, overflow: 'hidden' },
+  // 보호자 탭바에만 위 모서리 42 라운드를 주고 있었다. 둥근 만큼 뒤 화면의 회색
+  // 배경이 양끝에 비쳐 바가 떠 있는 것처럼 보였다(현장 제보 08-13).
+  // 시민·보호자 모두 화면 끝까지 꽉 찬 사각형으로 통일한다.
   item: { flex: 1, alignItems: 'center', outlineStyle: 'none' } as any,
   label: { fontFamily: type.familyCssBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.16, color: color.figmaGray, marginTop: 1 },
   homeIndicator: { position: 'absolute', bottom: 8, left: '32%', right: '32%', height: 5, borderRadius: 100, backgroundColor: '#000000' },

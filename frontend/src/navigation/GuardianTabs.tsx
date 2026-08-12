@@ -104,9 +104,6 @@ export default function GuardianTabs() {
           paddingTop: 7,
           paddingBottom: tabBar.paddingBottom,
           display: keyboardOpen ? 'none' : 'flex',
-          borderTopLeftRadius: 42,
-          borderTopRightRadius: 42,
-          overflow: 'hidden',
         },
         tabBarItemStyle: styles.tabItem,
         tabBarButton: (props) => <PlatformPressable {...props} style={[props.style, styles.tabButton]} />,
@@ -142,7 +139,14 @@ export default function GuardianTabs() {
 }
 
 const styles = StyleSheet.create({
-  tabBackground: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#FFFFFF', borderTopLeftRadius: 42, borderTopRightRadius: 42 },
+  /**
+   * 화면 끝까지 꽉 찬 사각형 — 시민 탭바(CitizenTabs)와 같다.
+   *
+   * 위 모서리에 42 라운드가 걸려 있었다. 그러면 둥근 만큼 **뒤 화면의 회색
+   * 배경이 탭바 양끝에 비친다** — 실기기에서 바가 떠 있는 것처럼 보였다
+   * (현장 제보 08-13). 시민 모드와 나란히 놓으면 차이가 분명하다.
+   */
+  tabBackground: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#FFFFFF' },
   tabItem: { outlineStyle: 'none' } as any,
   tabButton: { flex: 1, outlineStyle: 'none' } as any,
   homeIndicator: { position: 'absolute', bottom: 8, left: '32%', right: '32%', height: 5, borderRadius: 100, backgroundColor: '#000000' },
