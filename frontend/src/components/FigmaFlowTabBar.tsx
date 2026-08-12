@@ -5,6 +5,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { FLOW_TAB_PADDING_TOP, useTabBarMetrics } from '../theme/tabBar';
+import { useKeyboardVisible } from '../hooks/useKeyboardVisible';
 import FigmaTabIcon, { type FigmaTabIconName } from './FigmaTabIcon';
 
 export default function FigmaFlowTabBar({ mode, active }: {
@@ -15,7 +16,11 @@ export default function FigmaFlowTabBar({ mode, active }: {
   // 탭 내비게이터가 아니라 일반 View 라 안전영역을 아무도 안 넣어 준다 —
   // 탭바 세 개가 같은 규칙을 쓰도록 같은 훅에서 받는다 (theme/tabBar.ts).
   const tabBar = useTabBarMetrics();
+  // 키보드가 떠 있으면 그리지 않는다 — 앱이 보이는 높이에 맞춰 줄어들면서
+  // 탭바가 키보드 바로 위로 따라 올라오기 때문이다(hooks/useKeyboardVisible).
+  const keyboardOpen = useKeyboardVisible();
   const guardian = mode === 'guardian';
+  if (keyboardOpen) return null;
   const accent = guardian ? color.guardian : active === 'alert' ? color.figmaRed : color.brand;
   const items: { key: typeof active; label: string; icon: FigmaTabIconName }[] = guardian
     ? [

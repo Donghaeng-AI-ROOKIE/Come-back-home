@@ -91,6 +91,18 @@ export default function RegChatScreen() {
   const total = slots.length || 12;
   const progress = Math.max(25, Math.min(100, Math.round((filled / total) * 100))) as number;
 
+  /**
+   * 대화를 항상 맨 아래로 붙인다.
+   *
+   * `onContentSizeChange` 는 **메시지가 늘어날 때**만 온다. 키보드가 열리는 것은
+   * 내용이 아니라 ScrollView 의 **높이**가 줄어드는 일이라 그 콜백이 안 걸리고,
+   * 스크롤 위치가 그대로 남아 첫 질문이 보였다(현장 제보 08-12).
+   * `onLayout` 은 자기 영역 크기가 바뀔 때 오므로 키보드 열림·닫힘·회전을 모두
+   * 잡는다. 키보드 때문에 움직이는 것은 애니메이션 없이 붙인다 — 사용자가
+   * 시킨 스크롤이 아니라서 미끄러지면 오히려 어수선하다.
+   */
+  const stickToBottom = (animated: boolean) => scrollRef.current?.scrollToEnd({ animated });
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
@@ -106,7 +118,7 @@ export default function RegChatScreen() {
           <View style={styles.progressTrack}><View style={[styles.progressActive, quick && styles.quickAccent, { width: `${progress}%` }]} /></View>
         </View>
 
-        <ScrollView ref={scrollRef} style={styles.chat} contentContainerStyle={styles.chatContent} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}>
+        <ScrollView ref={scrollRef} style={styles.chat} contentContainerStyle={styles.chatContent} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" onContentSizeChange={() => stickToBottom(true)} onLayout={() => stickToBottom(false)}>
           {!session && !error ? <View style={[styles.botBubble, quick && styles.quickBubble]}><ActivityIndicator size="small" color={quick ? color.figmaRed : color.brand} /></View> : null}
           {messages.map((message) => <View key={message.id} style={message.from === 'bot' ? styles.botRow : styles.userRow}>
             <View style={[message.from === 'bot' ? styles.botBubble : styles.userBubble, quick && message.from === 'bot' && styles.quickBubble, message.pending && styles.pending]}>

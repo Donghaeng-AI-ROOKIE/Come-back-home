@@ -210,9 +210,12 @@ export default function ReportChatScreen() {
               </>
             )}
           </View>
-          <FigmaFlowTabBar mode="citizen" active="alert" />
         </ScrollView>
       </KeyboardAvoidingView>
+      {/* 탭바는 스크롤 **밖**에 둔다. 안에 있으면 대화 내용과 함께 스크롤돼
+          입력할 때마다 위치가 튀고, 목록 맨 아래로 밀려 화면에서 사라진다
+          (현장 제보 08-12). 다른 화면 11곳은 모두 밖에 있고 여기만 안이었다. */}
+      <FigmaFlowTabBar mode="citizen" active="alert" />
     </SafeAreaView>
   );
 }
