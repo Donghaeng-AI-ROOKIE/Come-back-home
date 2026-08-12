@@ -125,9 +125,9 @@ function Step({ n, label, state, loading }: { n: string; label: string; state: '
   return <View style={styles.step}><View style={[styles.circle, { backgroundColor: bg }]}>{loading ? <ActivityIndicator size="small" color="#FFFFFF" /> : <Text style={styles.n}>{n}</Text>}</View><Text style={[styles.stepLabel, state !== 'todo' && styles.stepOn]}>{label}</Text></View>;
 }
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: color.guardianWash }, body: { flex: 1, alignItems: 'center', paddingTop: 84 },
+  safe: { flex: 1, backgroundColor: color.guardianWash }, body: { flex: 1, alignItems: 'center', paddingTop: 84, backgroundColor: color.guardianWash },
   signal: { fontFamily: type.family, fontSize: 31, lineHeight: 34, color: color.brand, marginTop: 8 },
-  title: { fontFamily: type.familySemiBold, fontSize: 20, color: '#000000', marginTop: 7 },
+  title: { fontFamily: type.familyCssBold, fontSize: 20, color: '#000000', marginTop: 7 },
   steps: { width: 292, flexDirection: 'row', alignItems: 'center', marginTop: 55 },
   step: { width: 76, alignItems: 'center' }, line: { flex: 1, height: 1, borderTopWidth: 1, borderStyle: 'dashed', borderColor: color.brand, marginTop: -18 },
   circle: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },

@@ -362,14 +362,14 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   header: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   headerSide: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center' },
-  title: { fontFamily: type.familySemiBold, fontSize: 18, lineHeight: 23, color: '#000000' },
+  title: { fontFamily: type.familyCssBold, fontSize: 18, lineHeight: 23, color: '#000000' },
   scroll: { flex: 1, backgroundColor: '#FFFFFF' },
   content: { paddingBottom: 0 },
 
   sectionHeader: { height: 55, paddingHorizontal: 20, paddingTop: 13, flexDirection: 'row', alignItems: 'flex-start' },
   sectionHeaderCompact: { height: 45 },
   sectionIcon: { width: 20, height: 18, alignItems: 'center', justifyContent: 'center' },
-  sectionTitle: { marginLeft: 3, fontFamily: type.familySemiBold, fontSize: 14, lineHeight: 18, color: '#000000' },
+  sectionTitle: { marginLeft: 3, fontFamily: type.familyCssBold, fontSize: 14, lineHeight: 18, color: '#000000' },
   personIcon: { width: 20, height: 20 },
   mapIcon: { width: 20, height: 20 },
 
@@ -410,8 +410,8 @@ const styles = StyleSheet.create({
   appearanceEtcInput: { flex: 1, minWidth: 0, height: 21, borderRadius: 5, backgroundColor: '#F8F8F8', paddingHorizontal: 5, paddingVertical: 0, fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#525253', outlineStyle: 'none' } as any,
 
   ctaSection: { height: 77, alignItems: 'center', backgroundColor: '#FFFFFF', paddingTop: 13 },
-  submit: { width: 204, height: 49, borderRadius: 30, backgroundColor: '#F14444', alignItems: 'center', justifyContent: 'center', shadowColor: '#F14444', shadowOpacity: 0.63, shadowRadius: 2, shadowOffset: { width: 0, height: 0 }, elevation: 3 },
-  submitText: { fontFamily: type.familySemiBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
+  submit: { width: 204, height: 49, borderRadius: 30, backgroundColor: '#F14444', alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 4, shadowOffset: { width: 0, height: 2 }, elevation: 4 },
+  submitText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   pressed: { opacity: 0.8 },
   disabled: { opacity: 0.5 },
 

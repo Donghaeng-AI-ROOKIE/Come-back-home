@@ -67,7 +67,7 @@ export default function GuardianHomeScreen() {
               style={({ pressed }) => [styles.personRow, pressed && styles.pressed]}
             >
               <View style={styles.personInfo}>
-                <View style={styles.nameRow}><Text style={styles.personName}>{p.name} ({p.age}세)</Text><View style={styles.dementiaBadge}><Text style={styles.dementiaText}>치매 정도</Text></View></View>
+                <View style={styles.nameRow}><Text style={styles.personName}>{p.name} ({p.age}세)</Text></View>
                 <Text style={styles.personMeta}>최근 업데이트 날짜: {p.created_at ? p.created_at.slice(0, 10) : ''}</Text>
               </View>
               <Text style={styles.chevron}>›</Text>
@@ -108,8 +108,6 @@ const styles = StyleSheet.create({
   personInfo: { flex: 1 },
   nameRow: { flexDirection: 'row', alignItems: 'center' },
   personName: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#525253' },
-  dementiaBadge: { height: 16, minWidth: 63, borderRadius: 20, backgroundColor: '#D9D9D9', alignItems: 'center', justifyContent: 'center', marginLeft: 10 },
-  dementiaText: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#525253' },
   personMeta: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#525253', marginTop: 6 },
   chevron: { fontFamily: type.family, fontSize: 23, color: color.guardian },
   guideBody: { paddingHorizontal: 23, paddingTop: 35, gap: 1 },
