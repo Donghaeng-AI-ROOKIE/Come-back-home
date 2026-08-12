@@ -1,6 +1,7 @@
 ﻿import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Polyline } from 'react-native-maps';
+import Svg, { Circle, Path } from 'react-native-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -140,6 +141,32 @@ export default function WalkActiveScreen() {
 
         <View style={styles.locationHalo}><View style={styles.locationDot} /></View>
 
+        {/* 내 위치 버튼 — 네이버 지도처럼 지도 오른쪽 아래.
+            지도는 이미 현재 위치를 따라가므로 "중심 맞추기"는 할 일이 없다.
+            이 버튼이 하는 일은 **새 측위를 즉시 한 번 받는 것**이다 — 실내에서
+            막 나왔거나 한참 서 있다가 다시 걷기 시작한 순간, 워처가 낡은 좌표에
+            머물러 있을 수 있다. 그때 사용자가 직접 당길 수 있어야 한다. */}
+        <Pressable
+          onPress={track.refresh}
+          disabled={track.refreshing}
+          accessibilityRole="button"
+          accessibilityLabel="현재 위치 다시 잡기"
+          style={({ pressed }) => [styles.locateBtn, pressed && styles.pressed]}
+        >
+          {track.refreshing
+            ? <ActivityIndicator size="small" color={color.brand} />
+            : (
+              <Svg width={22} height={22} viewBox="0 0 24 24">
+                {/* 조준선 + 가운데 점 — '지금 내 위치를 다시 잡는다'는 뜻이 가장
+                    분명한 모양이다. 이모지는 폰트에 없으면 □ 로 깨진다(08-11). */}
+                <Circle cx="12" cy="12" r="6" stroke={color.brand} strokeWidth="1.8" fill="none" />
+                <Circle cx="12" cy="12" r="2.4" fill={color.brand} />
+                <Path d="M12 1.5v3.2M12 19.3v3.2M1.5 12h3.2M19.3 12h3.2"
+                      stroke={color.brand} strokeWidth="1.8" strokeLinecap="round" />
+              </Svg>
+            )}
+        </Pressable>
+
         {/* 훅은 권한 거부·측위 실패를 상태로 들고 있었는데 화면이 한 번도 읽지
             않았다 — 거리가 안 재지는 이유가 어디에도 안 보이고 '0.0km' 만 남았다.
             거리 카드 바로 아래에 둔다: 사용자가 이상하다고 느끼는 그 자리다. */}
@@ -205,6 +232,8 @@ const styles = StyleSheet.create({
    * 빼야 하므로 61.5 - 47.5 = 14.
    */
   locationHalo: { position: 'absolute', left: '50%', top: '50%', width: 95, height: 95, marginLeft: -48, marginTop: 14, borderRadius: 48, backgroundColor: 'rgba(0,122,255,0.12)', alignItems: 'center', justifyContent: 'center' },
+  // 지도 오른쪽 아래. '산책 종료하기' 버튼 위로 띄워 서로 가리지 않게 한다.
+  locateBtn: { position: 'absolute', right: 16, bottom: 118, width: 44, height: 44, borderRadius: 22, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 4, shadowOffset: { width: 0, height: 2 }, elevation: 4 },
   locationDot: { width: 22, height: 22, borderRadius: 11, backgroundColor: '#007AFF', borderWidth: 3, borderColor: '#FFFFFF' },
   end: { position: 'absolute', left: 10, right: 10, bottom: 38, height: 58, borderRadius: 30, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   endText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },

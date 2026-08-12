@@ -8,7 +8,7 @@
  *
  * 지도에 그릴 현재 위치는 마지막 좌표 하나뿐이라 궤적선은 그리지 않는다.
  */
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import * as Location from 'expo-location';
 import type { GeoPoint } from '../types/domain';
@@ -111,6 +111,16 @@ export type WalkTracking = {
   path: GeoPoint[];
   /** 사용자가 거부했을 때 화면이 이유를 보여주도록. */
   message: string;
+  /**
+   * 지금 즉시 새 측위를 받는다 — 지도 위 '내 위치' 버튼이 부른다.
+   *
+   * 워처는 브라우저가 주는 대로 받을 뿐이라, 실내에서 나왔거나 한참 서 있다가
+   * 다시 걷기 시작한 순간에는 낡은 좌표에 머물 수 있다. 그때 사용자가 직접
+   * 한 번 당길 수 있어야 한다(네이버 지도의 현위치 버튼과 같은 역할).
+   */
+  refresh: () => void;
+  /** refresh 진행 중 — 버튼이 도는 표시를 낼 수 있게. */
+  refreshing: boolean;
 };
 
 /** 경로 보관 상한 — 5초·5m 간격이면 몇 시간치다. 메모리가 무한정 늘지 않게. */
@@ -140,6 +150,15 @@ export function useWalkTracking(active: boolean): WalkTracking {
   const gotFix = useRef(false);
   /** 거리에 **쓸 만한** 좌표를 한 번이라도 받았는가 — 오차 안내를 걷는 기준. */
   const gotUsableFix = useRef(false);
+  /**
+   * 워처가 쓰는 좌표 처리기를 밖에서도 부를 수 있게 담아 둔다.
+   *
+   * '내 위치' 버튼이 받아 온 좌표도 **워처와 똑같은 판정**(정확도 게이트·최소
+   * 이동·점프 판정)을 지나야 한다. 버튼만 다른 규칙을 쓰면 눌렀다는 이유로
+   * 거리가 늘거나 튄 점이 경로에 남는다.
+   */
+  const handleFix = useRef<((loc: Location.LocationObject) => void) | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     if (!active) return;
@@ -203,7 +222,7 @@ export function useWalkTracking(active: boolean): WalkTracking {
             distanceInterval: 5,
             ...(Platform.OS === 'web' ? WEB_GEO_OPTIONS : null),
           } as Location.LocationOptions,
-          (loc) => {
+          (handleFix.current = (loc: Location.LocationObject) => {
             const acc = loc.coords.accuracy ?? 999;
             const p: GeoPoint = { lat: loc.coords.latitude, lng: loc.coords.longitude };
             if (!gotFix.current) {
@@ -255,7 +274,7 @@ export function useWalkTracking(active: boolean): WalkTracking {
             }
             // d < minStep 이면 기준점을 그대로 둔다 — 천천히 걸을 때 조금씩
             // 쌓인 이동이 다음 측정에서 합쳐져 인정되게 한다.
-          },
+          }),
           // **네이티브 전용 경로다.** 웹은 에러를 전달하지 않으므로(위 감시견 주석)
           // 여기가 불리지 않는다. 좌표를 받던 중의 일시적 끊김은 흔하므로(터널·지하)
           // 추적 상태를 깨지 않고, 첫 픽스조차 못 잡은 경우만 알린다.
@@ -284,5 +303,47 @@ export function useWalkTracking(active: boolean): WalkTracking {
     };
   }, [active]);
 
-  return { status, distanceKm, current, path, message };
+  /**
+   * '내 위치' 버튼 — 지금 즉시 새 좌표를 받아 워처와 **같은 판정**에 흘려 넣는다.
+   *
+   * 웹은 `navigator.geolocation` 을 직접 부른다. expo 래퍼는 권한 상태가
+   * 'denied' 면 브라우저에 묻지도 않고 돌아와, 눌러도 아무 일이 없는 버튼이
+   * 된다(useMyLocation.retryLocation 에서 겪은 것과 같은 함정).
+   *
+   * `maximumAge: 0` 을 여기서만 쓴다 — 워처는 캐시를 조금 허용해야 콜백이
+   * 끊기지 않지만(WEB_GEO_OPTIONS 주석), **사용자가 직접 누른 이 순간**에는
+   * 낡은 좌표를 주면 안 된다. 그게 이 버튼의 존재 이유다.
+   */
+  const refresh = useCallback(() => {
+    if (refreshing) return;
+    setRefreshing(true);
+    const done = (loc: Location.LocationObject) => {
+      handleFix.current?.(loc);
+      setRefreshing(false);
+    };
+    const fail = () => setRefreshing(false);
+
+    if (Platform.OS === 'web') {
+      if (!navigator?.geolocation) return fail();
+      navigator.geolocation.getCurrentPosition(
+        (pos) => done({
+          coords: {
+            latitude: pos.coords.latitude, longitude: pos.coords.longitude,
+            accuracy: pos.coords.accuracy, altitude: pos.coords.altitude,
+            altitudeAccuracy: pos.coords.altitudeAccuracy,
+            heading: pos.coords.heading, speed: pos.coords.speed,
+          },
+          timestamp: pos.timestamp,
+        } as Location.LocationObject),
+        fail,
+        { enableHighAccuracy: true, timeout: 20_000, maximumAge: 0 },
+      );
+      return;
+    }
+    Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.BestForNavigation })
+      .then(done)
+      .catch(fail);
+  }, [refreshing]);
+
+  return { status, distanceKm, current, path, message, refresh, refreshing };
 }
