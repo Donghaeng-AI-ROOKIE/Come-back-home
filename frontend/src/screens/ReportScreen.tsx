@@ -106,6 +106,26 @@ export default function ReportScreen() {
     }
   };
 
+  /**
+   * 키보드가 자리 잡은 뒤 입력칸을 보이는 자리로 끌어온다.
+   *
+   * 입력칸이 ScrollView 안에 있는데도 가려지는 이유는 **첫 포커스**다. 누르는
+   * 순간에는 키보드가 아직 없어 브라우저가 "지금 보인다"고 판단해 아무것도
+   * 하지 않고, 그 직후 올라온 키보드가 덮는다. 그러면 스크롤 위치가 그대로라
+   * 화면 위쪽이 보이고 정작 쓰고 있는 칸은 안 보인다(현장 제보 08-12).
+   *
+   * 키보드 애니메이션이 끝나 ScrollView 높이가 확정된 뒤에 옮긴다.
+   * `document.activeElement` 를 쓰는 이유는 RN Web 의 포커스 이벤트에서 DOM
+   * 노드를 꺼내는 것보다 확실해서다. 문서는 100dvh 로 묶여 스크롤되지 않으므로
+   * scrollIntoView 는 가장 가까운 스크롤 영역(= 이 ScrollView)만 움직인다.
+   */
+  const revealOnFocus = () => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+    setTimeout(() => {
+      (document.activeElement as HTMLElement | null)?.scrollIntoView?.({ block: 'center' });
+    }, 300);
+  };
+
   const onSubmit = async () => {
     if (!lkp) {
       // 웹에서는 Alert.alert 가 아무것도 띄우지 않는다 — 그래서 이 검증이
@@ -256,6 +276,7 @@ export default function ReportScreen() {
             onChangeText={setSituation}
             multiline
             textAlignVertical="top"
+            onFocus={revealOnFocus}
             style={styles.textarea}
             accessibilityLabel="실종 당시 상황"
           />
@@ -264,13 +285,13 @@ export default function ReportScreen() {
         <View style={styles.appearanceSection}>
           <SectionHeader compact icon={<CameraIcon width={12.24} height={8} />} title="인상착의 설명" />
           <View style={styles.appearanceTopRow}>
-            <AppearanceField label="상의" value={top} onChangeText={setTop} accessibilityLabel="상의 설명" />
-            <AppearanceField label="하의" value={bottom} onChangeText={setBottom} accessibilityLabel="하의 설명" />
-            <AppearanceField label="신발" value={shoes} onChangeText={setShoes} accessibilityLabel="신발 설명" />
+            <AppearanceField label="상의" value={top} onChangeText={setTop} onFocus={revealOnFocus} accessibilityLabel="상의 설명" />
+            <AppearanceField label="하의" value={bottom} onChangeText={setBottom} onFocus={revealOnFocus} accessibilityLabel="하의 설명" />
+            <AppearanceField label="신발" value={shoes} onChangeText={setShoes} onFocus={revealOnFocus} accessibilityLabel="신발 설명" />
           </View>
           <View style={styles.appearanceBottomRow}>
             <Text style={styles.appearanceEtcLabel}>키/체형/소지품</Text>
-            <TextInput value={etc} onChangeText={setEtc} style={styles.appearanceEtcInput} accessibilityLabel="키 체형 소지품 설명" />
+            <TextInput value={etc} onChangeText={setEtc} onFocus={revealOnFocus} style={styles.appearanceEtcInput} accessibilityLabel="키 체형 소지품 설명" />
           </View>
         </View>
 
@@ -315,16 +336,17 @@ function SectionHeader({ icon, title, compact = false }: { icon: React.ReactNode
   );
 }
 
-function AppearanceField({ label, value, onChangeText, accessibilityLabel }: {
+function AppearanceField({ label, value, onChangeText, accessibilityLabel, onFocus }: {
   label: string;
   value: string;
   onChangeText: (value: string) => void;
   accessibilityLabel: string;
+  onFocus?: () => void;
 }) {
   return (
     <View style={styles.appearanceField}>
       <Text style={styles.appearanceLabel}>{label}</Text>
-      <TextInput value={value} onChangeText={onChangeText} style={styles.appearanceInput} accessibilityLabel={accessibilityLabel} />
+      <TextInput value={value} onChangeText={onChangeText} onFocus={onFocus} style={styles.appearanceInput} accessibilityLabel={accessibilityLabel} />
     </View>
   );
 }
