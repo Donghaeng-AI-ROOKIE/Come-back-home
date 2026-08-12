@@ -8,6 +8,7 @@ import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import PersonSilhouette from '../components/PersonSilhouette';
+import AppearanceFigure from '../components/AppearanceFigure';
 import { useAppModeStore } from '../store/appModeStore';
 import { useEngagementStore } from '../store/engagementStore';
 import { useActiveAlerts, useGoldenTime, usePresenceCount } from '../hooks/queries';
@@ -46,9 +47,21 @@ export default function AlertDetailScreen() {
         <Text style={styles.title}>긴급 수색 알림</Text>
         <Text style={styles.subtitle}>현재 내 주변 반경과 AI 예상 동선이 겹치는 실종 사건 목록입니다</Text>
 
-        <Pressable style={styles.photoCard} onPress={() => navigation.navigate('Appearance', { caseId })}>
-          <PersonSilhouette colors={alert?.appearanceColors} appearance={alert?.appearance} size={88} rounded={false} style={styles.photoPreview} />
-          <Text style={styles.photoLabel}>{alert?.summary || '실종자 인상착의 사진'}</Text>
+        {/* 이 카드는 **인상착의**를 보여 준다. 그래서 그림도 옷 색이 보이는
+            전신(AppearanceFigure)이어야 한다 — 얼굴 배지(PersonSilhouette)를 쓰면
+            옷을 설명하는 자리에 얼굴만 떴다(현장 제보 08-12). 아래 인물 카드는
+            반대로 "누구인가"라 얼굴 확대가 맞고, 그래서 두 그림이 다르다.
+
+            옆에 있던 요약 문구는 뺐다 — 바로 아래 인물 카드의 칩이 같은 내용
+            (상의·하의·신발·체형)을 이미 보여 줘 같은 말을 두 번 하고 있었다.
+            그림만 남기고 가운데 놓는다. */}
+        <Pressable
+          style={styles.photoCard}
+          onPress={() => navigation.navigate('Appearance', { caseId })}
+          accessibilityRole="button"
+          accessibilityLabel="인상착의 자세히 보기"
+        >
+          <AppearanceFigure colors={alert?.appearanceColors} appearance={alert?.appearance} size={88} style={styles.photoPreview} />
         </Pressable>
 
         <View style={styles.chipRow}>
@@ -106,9 +119,17 @@ const styles = StyleSheet.create({
   canvas: { flex: 1, position: 'relative' },
   title: { position: 'absolute', left: 20, top: 27, fontFamily: type.familyBold, fontSize: 18, lineHeight: 23, color: '#000000' },
   subtitle: { position: 'absolute', left: 20, top: 63, fontFamily: type.familySemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#8E8E93' },
-  photoCard: { position: 'absolute', left: 23, right: 22, top: 110, height: 100, borderRadius: 10, backgroundColor: '#F7F7F7', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, gap: 14, overflow: 'hidden', shadowColor: '#000', shadowOpacity: 0.08, shadowRadius: 7, shadowOffset: { width: 0, height: 2 }, elevation: 2 },
-  photoPreview: { width: 88, height: 88, backgroundColor: '#F2F2F2' },
-  photoLabel: { flex: 1, fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: ink },
+  // 그림 하나만 담으므로 카드도 그림에 맞춰 좁힌다. 가로로 꽉 찬 카드에 그림
+  // 하나만 있으면 좌우가 비어 보인다.
+  // 높이 108 은 아래 chipRow(top 229)까지의 여유를 남긴 상한이다 — 더 키우려면
+  // 그 아래 요소들(전부 절대배치)의 top 을 함께 내려야 한다.
+  // 절대배치라 가운데 정렬은 left 50% + 음수 마진으로 잡는다(폭의 절반).
+  photoCard: { position: 'absolute', left: '50%', marginLeft: -50, top: 110, width: 100, height: 108, borderRadius: 10, backgroundColor: '#F7F7F7', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', shadowColor: '#000', shadowOpacity: 0.08, shadowRadius: 7, shadowOffset: { width: 0, height: 2 }, elevation: 2 },
+  // 그림은 viewBox 100x160 세로 비율이라 정사각 상자에 넣으면 높이에 맞춰
+  // 축소되고 가로가 남는다(88x88 상자에서 실제 그림은 55x88). 상자를 세로로
+  // 잡아 그 낭비를 없앤다 — 같은 카드 안에서 그림이 커진다.
+  // 배경은 카드에 맡긴다(상자 배경을 두면 카드 안에 상자가 또 보인다).
+  photoPreview: { width: 64, height: 96, backgroundColor: 'transparent' },
   chipRow: { position: 'absolute', left: 23, top: 229, height: 21, flexDirection: 'row', gap: 4 },
   chip: { height: 21, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
   timeChip: { width: 88, backgroundColor: red },
