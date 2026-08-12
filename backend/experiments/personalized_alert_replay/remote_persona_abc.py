@@ -125,8 +125,8 @@ def _edge_length_m(graph, u, v) -> float:
     return float(data[next(iter(data))].get("length", 30.0))
 
 
-def _manifest() -> dict[str, str]:
-    raw = json.loads(MANIFEST.read_text(encoding="utf-8"))
+def _manifest(path: Path | None = None) -> dict[str, str]:
+    raw = json.loads((path or MANIFEST).read_text(encoding="utf-8"))
     return {row["profile_id"]: row["persona_id"] for row in raw["personas"]}
 
 
@@ -562,6 +562,11 @@ def main() -> None:
         "--behavior-aware-truth", action="store_true",
         help="프로필의 stay/move/backtrack/hide 유형에 맞춘 독립 시간축 정답 사용",
     )
+    parser.add_argument(
+        "--manifest", default="",
+        help="persona_id 매니페스트 경로. 비우면 persona_bank_manifest.json "
+             "(배포 재시작으로 Persona가 소실돼 재이식했을 때 v2 매니페스트 지정용)",
+    )
     args = parser.parse_args()
 
     try:
@@ -580,7 +585,7 @@ def main() -> None:
     strata = {item.strip() for item in args.strata.split(",") if item.strip()}
     if not strata <= set(STRATA):
         raise SystemExit(f"알 수 없는 strata: {sorted(strata - set(STRATA))}")
-    manifest = _manifest()
+    manifest = _manifest(Path(args.manifest).expanduser().resolve() if args.manifest else None)
     home_provider, home_anchors = _home_anchors(args.home_anchors)
     if home_anchors and not args.patch_persona_homes:
         raise SystemExit(
