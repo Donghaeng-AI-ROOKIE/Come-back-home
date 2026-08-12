@@ -9,6 +9,7 @@ import { useActiveAlerts, useResolvedAlerts } from '../hooks/queries';
 import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import { isLocationSettled, retryLocation, useMyLocation } from '../hooks/useMyLocation';
+import { useAppModeStore } from '../store/appModeStore';
 
 /**
  * 서버 주소가 `[서울특별시 마포구] 월드컵로`처럼 행정구역만 묶여 와도
@@ -22,7 +23,12 @@ function bracketAddress(area: string): string {
 export default function CitizenAlertsScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { data, isLoading, isError, refetch } = useActiveAlerts();
-  const alerts = data ?? [];
+  // AlertDetailScreen의 "이 사건은 그만 볼래요"(dismissCase)는 재촉 UI(넛지)만
+  // 끄려던 의도였지만(appModeStore 주석 참고), 실제 화면 흐름상 사용자는 이 버튼을
+  // "목록에서 지우기"로 이해한다 — 눌러도 카드가 그대로 남으면 안 먹힌 것처럼
+  // 보인다(현장 제보). 여기서 dismissedCases 를 반영해 목록에서도 제거한다.
+  const dismissedCases = useAppModeStore((s) => s.dismissedCases);
+  const alerts = (data ?? []).filter((alert) => dismissedCases[alert.caseId] === undefined);
   // 상황 종료 카드(시안) — 활성 경보와 **같은 칸**으로 물어 온 최근 발견 사건.
   // 실패해도 화면을 막지 않는다: 이건 결과 알림이지 골든타임 정보가 아니다.
   const resolved = useResolvedAlerts().data ?? [];
