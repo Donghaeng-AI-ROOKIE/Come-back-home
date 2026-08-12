@@ -18,6 +18,7 @@ from app.schemas.common import GeoPoint
 
 
 STRATA = ("consistent", "neutral", "counter")
+BEHAVIOR_TYPES = ("stay", "move", "backtrack", "hide")
 
 
 @dataclass(frozen=True)
@@ -166,6 +167,11 @@ def build_scenarios(
 def point_at_minutes(graph, scenario: TruthScenario, minutes_since_missing: float) -> GeoPoint:
     """고정 속도로 최단경로를 이동한 시점의 위치. 도착 후는 머문다."""
     target_m = scenario.speed_kmh * 1000.0 * max(0.0, minutes_since_missing) / 60.0
+    return point_at_distance(graph, scenario, target_m)
+
+
+def point_at_distance(graph, scenario: TruthScenario, target_m: float) -> GeoPoint:
+    """정답 OSM 경로에서 누적 보행거리 target_m 지점의 위치."""
     if target_m <= 0:
         return scenario.start
     walked = 0.0
@@ -181,6 +187,77 @@ def point_at_minutes(graph, scenario: TruthScenario, minutes_since_missing: floa
             )
         walked += edge_m
     return scenario.destination
+
+
+def temporal_truth_point(
+    graph,
+    scenario: TruthScenario,
+    *,
+    minute_after_report: int,
+    final_minute_after_report: int,
+    behavior: str = "move",
+) -> GeoPoint:
+    """Persona 이동 반경 경로를 시간축 실험 구간에 맞춰 재생.
+
+    계속 보행 속도를 165분 내내 강제하면 Persona의 이동 능력과 모순된다.
+    대신 기존에 독립 생성한 OSM 경로를 실종 시점부터 마지막 관측
+    시점까지 이동·휴식한 것으로 재생한다. 따라서 네 시점의 위치는
+    달라지지만 총 이동거리는 Persona 시나리오의 사전 밴드를 벗어나지 않는다.
+    """
+    total = scenario.missing_before_report_min + final_minute_after_report
+    elapsed = scenario.missing_before_report_min + minute_after_report
+    progress = min(max(elapsed / max(total, 1), 0.0), 1.0)
+    fraction = behavior_path_fraction(progress, behavior)
+    return point_at_distance(graph, scenario, scenario.path_length_m * fraction)
+
+
+def behavior_path_fraction(progress: float, behavior: str) -> float:
+    """행동 유형별 독립 정답 궤적에서 원경로상의 위치 비율을 반환한다.
+
+    EXAONE/Phase 2 출력은 사용하지 않는다. 같은 OSM 최단경로를 기반으로
+    시간 진행 형태만 사전에 고정해, 이동·정지·왕복·은폐 후 체류를 구분한다.
+
+    - move: 전체 경로를 끝까지 진행
+    - stay: 전체 경로의 80%까지 비교적 일찍 이동한 뒤 체류
+    - hide: 이동 후 잠시 정지했다가 다시 이동해 은폐 장소에 체류
+    - backtrack: 경로의 절반까지 갔다가 같은 길을 되돌아옴
+
+    backtrack의 총 보행거리는 원경로 길이와 같아 Persona 이동 밴드를
+    초과하지 않는다.
+    """
+    if behavior not in BEHAVIOR_TYPES:
+        raise ValueError(f"알 수 없는 행동 유형: {behavior}")
+    progress = min(max(progress, 0.0), 1.0)
+    if behavior == "move":
+        return progress
+    if behavior == "backtrack":
+        return progress if progress <= 0.5 else 1.0 - progress
+    if behavior == "stay":
+        return min(progress / 0.40, 1.0) * 0.80
+    # hide: 초기 이동 → 일시 정지 → 재이동 → 은폐 장소 체류.
+    # 30분 후 신고, 0·45·90·135분 평가에서는 대략 다음처럼 보인다.
+    #   0분: 이동 중 / 45분: 정지 지점 도착 / 90분: 같은 곳에 머묾
+    #   135분: 다시 이동해 최종 은폐 지점 도착
+    # 모든 은폐형·방향층에 같은 사전 규칙을 적용한다.
+    pause_start, pause_end = 0.45, 0.75
+    pause_fraction, final_fraction = 0.55, 0.80
+    if progress <= pause_start:
+        return progress / pause_start * pause_fraction
+    if progress <= pause_end:
+        return pause_fraction
+    resumed = (progress - pause_end) / (1.0 - pause_end)
+    return pause_fraction + resumed * (final_fraction - pause_fraction)
+
+
+def behavior_truth_distance_m(scenario: TruthScenario, behavior: str) -> float:
+    """마지막 관측까지의 총 보행거리(왕복 누적 포함)."""
+    if behavior == "move":
+        return scenario.path_length_m
+    if behavior == "backtrack":
+        return scenario.path_length_m
+    if behavior in {"stay", "hide"}:
+        return scenario.path_length_m * 0.80
+    raise ValueError(f"알 수 없는 행동 유형: {behavior}")
 
 
 def truth_points_after_report(

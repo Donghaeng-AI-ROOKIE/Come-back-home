@@ -394,7 +394,11 @@ def home_candidates(text: str) -> list[str]:
     raw = " ".join(str(text or "").split())
     if not raw:
         return []
-    out = [raw, raw.replace(" ", "")]
+    # "정릉2동 주민센터 근처"처럼 위치 수식어가 붙으면 원문 검색이 행정구역
+    # 중심으로만 성공할 수 있다. 접미어를 제거한 POI 후보를 먼저 시도해야
+    # 뒤의 거친 성공이 더 정확한 후보를 가로막지 않는다.
+    base = base_place_name(raw)
+    out = [base, base.replace(" ", ""), raw, raw.replace(" ", "")]
     tokens = raw.split(" ")
     # 뒤에서부터 한 토큰씩 떼며 재시도 — 건물명·동·호수가 먼저 떨어진다.
     for cut in range(len(tokens) - 1, 1, -1):
