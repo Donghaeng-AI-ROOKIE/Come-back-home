@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Image, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
@@ -305,7 +305,11 @@ export default function ReportScreen() {
       <FigmaFlowTabBar mode="guardian" active="home" />
       </KeyboardAvoidingView>
 
-      <Modal visible={pickerOpen} transparent animationType="fade" onRequestClose={() => setPickerOpen(false)}>
+      {/* `Modal` 을 쓰지 않는다 — react-native-web 의 Modal 은 `#root` **바깥**
+          (document.body)에 붙어서, 375 캔버스에 건 배율(src/pwa.ts)을 못 받고
+          창 전체 크기로 그려진다("화면에 안 맞고 확대돼 보인다" 제보 08-12).
+          화면 안 절대배치 오버레이로 그리면 배율과 캔버스를 그대로 따른다. */}
+      {pickerOpen ? (
         <Pressable style={styles.modalBackdrop} onPress={() => setPickerOpen(false)}>
           <Pressable style={styles.picker} onPress={(event) => event.stopPropagation()}>
             <Text style={styles.pickerTitle}>실종 신고할 가족 선택</Text>
@@ -321,7 +325,7 @@ export default function ReportScreen() {
             <Pressable style={styles.cancel} onPress={() => setPickerOpen(false)}><Text style={styles.cancelText}>취소</Text></Pressable>
           </Pressable>
         </Pressable>
-      </Modal>
+      ) : null}
 
     </SafeAreaView>
   );
@@ -405,7 +409,8 @@ const styles = StyleSheet.create({
   pressed: { opacity: 0.8 },
   disabled: { opacity: 0.5 },
 
-  modalBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.28)', justifyContent: 'flex-end' },
+  // Modal 대신 화면 안에서 전체를 덮는다(위 주석 참고).
+  modalBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.28)', justifyContent: 'flex-end', zIndex: 20 },
   picker: { backgroundColor: '#FFFFFF', borderTopLeftRadius: 24, borderTopRightRadius: 24, paddingHorizontal: 23, paddingTop: 22, paddingBottom: 34 },
   pickerTitle: { fontFamily: type.familySemiBold, fontSize: 18, color: '#000000', marginBottom: 16 },
   personaOption: { minHeight: 67, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 16, marginBottom: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
