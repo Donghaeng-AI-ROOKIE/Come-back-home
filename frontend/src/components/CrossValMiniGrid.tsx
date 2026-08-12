@@ -100,8 +100,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
     marginBottom: space.sm,
   },
   grid: {

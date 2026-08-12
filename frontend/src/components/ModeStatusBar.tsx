@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   compact: { paddingVertical: space.sm },
   dot: { width: 10, height: 10, borderRadius: 5, marginRight: space.sm },
-  label: { fontSize: type.size.label, fontWeight: type.weight.bold, fontFamily: type.family },
+  label: { fontSize: type.size.label, fontFamily: type.familyBold },
 });
 
 export default ModeStatusBar;

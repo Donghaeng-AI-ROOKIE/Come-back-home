@@ -90,15 +90,13 @@ const styles = StyleSheet.create({
   bubbleUser: { borderTopRightRadius: radius.sm },
   text: {
     fontSize: type.size.body,
-    fontWeight: type.weight.medium,
-    fontFamily: type.family,
+    fontFamily: type.familySemiBold,
   },
   guardianBubble: { maxWidth: 280, paddingHorizontal: 14, paddingVertical: 10, borderRadius: 10 },
   guardianText: { fontSize: 13, lineHeight: 19, fontFamily: gFont.regular, fontWeight: '400' },
   time: {
     marginTop: space.xs,
     fontSize: type.size.caption,
-    fontWeight: type.weight.regular,
     fontFamily: type.family,
     textAlign: 'right',
   },

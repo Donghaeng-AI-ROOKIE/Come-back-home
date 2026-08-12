@@ -53,7 +53,7 @@ export function TimeAxisSlider({ value, onChange, accent = color.search, dark }:
                   styles.label,
                   {
                     color: active ? accent : idleInk,
-                    fontWeight: active ? type.weight.black : type.weight.medium,
+                    fontFamily: active ? type.familyExtraBold : type.familySemiBold,
                   },
                 ]}
                 allowFontScaling
@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
   label: {
     marginTop: space.xs,
     fontSize: type.size.label,
-    fontFamily: type.family,
     fontVariant: ['tabular-nums'],
   },
 });

@@ -80,14 +80,12 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
     marginRight: space.sm,
   },
   time: {
     fontSize: type.size.body,
-    fontWeight: type.weight.black,
-    fontFamily: type.family,
+    fontFamily: type.familyExtraBold,
   },
 });
 

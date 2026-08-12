@@ -130,8 +130,7 @@ const styles = StyleSheet.create({
   cardCompact: { padding: space.sm },
   title: {
     fontSize: type.size.cardTitle,
-    fontWeight: type.weight.black,
-    fontFamily: type.family,
+    fontFamily: type.familyExtraBold,
     marginBottom: space.sm,
   },
   titleCompact: { fontSize: type.size.label, marginBottom: space.xs },
@@ -145,15 +144,13 @@ const styles = StyleSheet.create({
     marginLeft: space.sm,
     width: 40,
     fontSize: type.size.label,
-    fontWeight: type.weight.black,
-    fontFamily: type.family,
+    fontFamily: type.familyExtraBold,
   },
   tierRange: {
     flex: 1,
     marginLeft: space.sm,
     fontSize: type.size.label,
-    fontWeight: type.weight.medium,
-    fontFamily: type.family,
+    fontFamily: type.familySemiBold,
     textAlign: 'right',
   },
 });

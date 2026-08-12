@@ -101,21 +101,18 @@ const styles = StyleSheet.create({
   badgeText: {
     color: '#FFFFFF',
     fontSize: type.size.label,
-    fontWeight: type.weight.black,
-    fontFamily: type.family,
+    fontFamily: type.familyExtraBold,
     fontVariant: ['tabular-nums'],
   },
   name: {
     flex: 1,
     fontSize: type.size.cardTitle,
-    fontWeight: type.weight.black,
-    fontFamily: type.family,
+    fontFamily: type.familyExtraBold,
   },
   pct: {
     marginLeft: space.sm,
     fontSize: type.size.body,
-    fontWeight: type.weight.black,
-    fontFamily: type.family,
+    fontFamily: type.familyExtraBold,
     fontVariant: ['tabular-nums'],
   },
   barTrack: {
@@ -128,7 +125,6 @@ const styles = StyleSheet.create({
   reason: {
     marginTop: space.sm,
     fontSize: type.size.label,
-    fontWeight: type.weight.regular,
     fontFamily: type.family,
     lineHeight: 22,
   },

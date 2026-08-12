@@ -62,7 +62,10 @@ export default function AuthScreen() {
 
         {step === 'start' && (
           <>
-            <View style={styles.introFrame}><AuthIntroText width={251} height={42} accessibilityLabel="내 동네를 설정하고 돌아오길과 함께 걸어 보세요" /></View>
+            <View style={styles.introFrame} accessibilityLabel="내 동네를 설정하고 돌아오길과 함께 걸어 보세요">
+              <AuthIntroText width={251} height={42} />
+              <Text style={styles.introHome} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">🏡</Text>
+            </View>
             <Pressable accessibilityRole="button" onPress={() => { setError(''); setStep('role'); }} style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}>
               <Text style={styles.startText}>시작하기 〉</Text>
             </Pressable>
@@ -166,6 +169,7 @@ const styles = StyleSheet.create({
   logo: { position: 'absolute', top: 230, left: 51, width: 174, height: 83 },
   mascot: { position: 'absolute', top: 174, left: 227, width: 97, height: 146 },
   introFrame: { position: 'absolute', top: 372, left: 52, width: 272, height: 68, alignItems: 'center', justifyContent: 'center' },
+  introHome: { position: 'absolute', left: 240, top: 33, width: 22, height: 22, backgroundColor: color.guardianWash, fontSize: 18, lineHeight: 22 },
   startButton: { position: 'absolute', top: 488, left: 16, right: 16, height: 50, borderRadius: 10, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center' },
   startText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
   loginRow: { position: 'absolute', top: 565, left: 91, width: 193, height: 19, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
