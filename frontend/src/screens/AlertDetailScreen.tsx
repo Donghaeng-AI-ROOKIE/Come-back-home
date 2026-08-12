@@ -24,7 +24,7 @@ export default function AlertDetailScreen() {
   const { data: alerts } = useActiveAlerts();
   const alert = alerts?.find((item) => item.caseId === caseId);
   const view = alertToView(alert ?? {});
-  const appearance = view.appearance.slice(0, 3);
+  const appearance = view.appearance.slice(0, 5);
   const watching = usePresenceCount(caseId);
   const golden = useGoldenTime();
 
@@ -47,7 +47,8 @@ export default function AlertDetailScreen() {
         <Text style={styles.subtitle}>현재 내 주변 반경과 AI 예상 동선이 겹치는 실종 사건 목록입니다</Text>
 
         <Pressable style={styles.photoCard} onPress={() => navigation.navigate('Appearance', { caseId })}>
-          <Text style={styles.photoLabel}>{alert?.summary || '실종자 인상착의 정보'}</Text>
+          <PersonSilhouette colors={alert?.appearanceColors} appearance={alert?.appearance} size={88} rounded={false} style={styles.photoPreview} />
+          <Text style={styles.photoLabel}>{alert?.summary || '실종자 인상착의 사진'}</Text>
         </Pressable>
 
         <View style={styles.chipRow}>
@@ -57,7 +58,7 @@ export default function AlertDetailScreen() {
 
         <Pressable style={styles.personCard} onPress={() => navigation.navigate('AlertSync', { caseId })}>
           <View style={styles.searchChip}><Text style={styles.searchChipText}>수색 중({alert ? `${alert.targetCells.length}개 대상 구역` : '범위 확인 중'})</Text></View>
-          <PersonSilhouette colors={alert?.appearanceColors} appearance={alert?.appearance} size={62} style={styles.personImage} />
+          <PersonSilhouette colors={alert?.appearanceColors} appearance={alert?.appearance} size={62} focus="face" style={styles.personImage} />
           <Text style={styles.name}>{view.title}</Text>
           <Text style={styles.meta}>{view.meta}</Text>
           <View style={styles.tags}>
@@ -77,13 +78,13 @@ export default function AlertDetailScreen() {
               참여자 수·제보 진입이 다 있다. 화면은 만들어져 있었는데 라우트가
               등록돼 있지 않아 도달할 수 없었다(08-11). */}
           <Pressable style={[styles.button, styles.seen]} onPress={() => navigation.navigate('Search', { caseId })}>
-            <Text style={styles.seenText}>수색 참여하기</Text>
+            <Text style={styles.seenText}>봤어요</Text>
           </Pressable>
           <Pressable style={[styles.button, styles.notSeen]} onPress={() => navigation.goBack()}>
             <Text style={styles.notSeenText}>못 봤어요</Text>
           </Pressable>
         </View>
-        <Text style={styles.hint}>최근 한 시간 안에 보신 기억이 있나요?</Text>
+        <Text style={styles.hint}>'봤어요'를 누르면 목격 내용을 대화로 편하게 제보할 수 있어요</Text>
         <Pressable style={styles.stop} onPress={stopShowing}><Text style={styles.stopText}>이 사건은 그만 볼래요</Text></Pressable>
       </View>
       <FigmaFlowTabBar mode="citizen" active="alert" />
@@ -100,21 +101,22 @@ const styles = StyleSheet.create({
   canvas: { flex: 1, position: 'relative' },
   title: { position: 'absolute', left: 20, top: 27, fontFamily: type.familyBold, fontSize: 18, lineHeight: 23, color: '#000000' },
   subtitle: { position: 'absolute', left: 20, top: 63, fontFamily: type.familySemiBold, fontSize: 11, lineHeight: 13, color: '#8E8E93' },
-  photoCard: { position: 'absolute', left: 23, right: 22, top: 110, height: 100, borderRadius: 10, backgroundColor: '#F7F7F7', alignItems: 'center', justifyContent: 'center' },
-  photoLabel: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, color: ink },
+  photoCard: { position: 'absolute', left: 23, right: 22, top: 110, height: 100, borderRadius: 10, backgroundColor: '#F7F7F7', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, gap: 14, overflow: 'hidden' },
+  photoPreview: { width: 88, height: 88, backgroundColor: '#F2F2F2' },
+  photoLabel: { flex: 1, fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, color: ink },
   chipRow: { position: 'absolute', left: 23, top: 229, height: 21, flexDirection: 'row', gap: 4 },
   chip: { height: 21, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
   timeChip: { width: 88, backgroundColor: red },
   peopleChip: { width: 134, backgroundColor: '#D9D9D9' },
   timeText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, color: '#FFFFFF' },
   peopleText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, color: '#414141' },
-  personCard: { position: 'absolute', left: 23, right: 22, top: 262, height: 141, borderRadius: 10, backgroundColor: '#FFF4F4', shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 8, shadowOffset: { width: 0, height: 3 } },
+  personCard: { position: 'absolute', left: 23, right: 22, top: 262, height: 141, borderRadius: 10, backgroundColor: '#FFF4F4', shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 2 },
   searchChip: { position: 'absolute', left: 16, top: 8, height: 16, width: 107, borderRadius: 20, backgroundColor: wash, alignItems: 'center', justifyContent: 'center' },
   searchChipText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, color: red },
   personImage: { position: 'absolute', left: 16, top: 39, width: 62, height: 62, borderRadius: 31 },
   name: { position: 'absolute', left: 92, top: 38, fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, color: ink },
   meta: { position: 'absolute', left: 92, top: 65, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: ink },
-  tags: { position: 'absolute', left: 92, top: 89, flexDirection: 'row', gap: 5 },
+  tags: { position: 'absolute', left: 92, right: 26, top: 89, flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
   tag: { height: 16, paddingHorizontal: 6, borderRadius: 20, backgroundColor: wash, justifyContent: 'center' },
   tagText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, color: red },
   chevron: { position: 'absolute', right: 17, top: 19, fontSize: 25, lineHeight: 28, color: red },

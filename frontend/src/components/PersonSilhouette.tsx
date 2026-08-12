@@ -34,6 +34,8 @@ export type PersonSilhouetteProps = {
   size?: number;
   /** 원형 배지로 감쌀지(경보 상세의 프로필 자리). */
   rounded?: boolean;
+  /** 작은 프로필에서는 얼굴 부분만 확대해 보여준다. */
+  focus?: 'full' | 'face';
   style?: any;
 };
 
@@ -42,6 +44,7 @@ export default function PersonSilhouette({
   appearance = [],
   size = 62,
   rounded = true,
+  focus = 'full',
   style,
 }: PersonSilhouetteProps) {
   const profile = appearanceAvatarProfile(colors, appearance);
@@ -72,7 +75,7 @@ export default function PersonSilhouette({
           : '인상착의 정보가 아직 없습니다.'
       }
     >
-      <Svg width={size} height={size} viewBox="0 0 160 190">
+      <Svg width={size} height={size} viewBox={focus === 'face' ? '38 4 84 82' : '0 0 160 190'}>
         <Defs>
           <RadialGradient id={backdropId} cx="42%" cy="32%" rx="72%" ry="72%">
             <Stop offset="0" stopColor="#F7FCF8" />
