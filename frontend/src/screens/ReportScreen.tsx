@@ -369,8 +369,8 @@ const styles = StyleSheet.create({
   textarea: { height: 61, marginHorizontal: 23, borderRadius: 10, backgroundColor: '#F8F8F8', paddingHorizontal: 12, paddingVertical: 9, fontFamily: type.family, fontSize: 12, lineHeight: 16, color: '#525253', outlineStyle: 'none' } as any,
 
   appearanceSection: { height: 104, backgroundColor: '#FFFFFF' },
-  appearanceTopRow: { height: 21, marginHorizontal: 29, flexDirection: 'row', justifyContent: 'space-between' },
-  appearanceField: { width: 103, height: 21, flexDirection: 'row', alignItems: 'center' },
+  appearanceTopRow: { height: 21, marginHorizontal: 29, flexDirection: 'row', flexWrap: 'nowrap', gap: 8 },
+  appearanceField: { flex: 1, minWidth: 0, height: 21, flexDirection: 'row', alignItems: 'center' },
   appearanceLabel: { width: 27, fontFamily: type.familySemiBold, fontSize: 12, lineHeight: 16, color: '#E05454' },
   appearanceInput: { flex: 1, height: 21, borderRadius: 5, backgroundColor: '#F8F8F8', paddingHorizontal: 5, paddingVertical: 0, fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#525253', outlineStyle: 'none' } as any,
   appearanceBottomRow: { height: 21, marginHorizontal: 29, marginTop: 10, flexDirection: 'row', alignItems: 'center' },
