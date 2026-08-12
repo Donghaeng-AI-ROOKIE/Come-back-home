@@ -301,8 +301,8 @@ flowchart LR
 
 - 프런트 [`RegChatScreen.tsx`](../frontend/src/screens/RegChatScreen.tsx)는 백엔드 Phase 0 API가 아니라 로컬 6단계 스크립트를 사용한다.
 - 직접 등록 API는 인터뷰의 축 근거·선호 카테고리·경로 익숙함 생성 흐름을 거치지 않는다.
-- 기본 로컬 임베더는 `nlpai-lab/KURE-v1`이다. 슬롯 선택 골드셋 적중률이 이전 모델의 75.9%에서 93.1%로 높아져 교체했지만, 프로세스 메모리 증가량 약 1.1GB와 최초 약 2.2GB 다운로드가 필요하다. 모델명을 비우면 의미 임베딩이 아닌 해시 어휘 중첩으로 폴백한다.
-- KURE-v1의 코사인 분포가 이전 모델과 달라 디노이즈 임계값도 함께 조정됐다. 이전 모델의 임계값을 그대로 재사용하면 히스토리 필터가 사실상 꺼진다.
+- `EMBED_MODEL`·`EMBED_BASE_URL` 기본값은 빈 문자열이라, 설정하지 않으면 의미 임베딩이 아닌 해시 어휘 중첩으로 폴백한다(`get_embedder()`, `retrieval.py`). 운영 배포는 업스테이지 임베딩 API(`EMBED_BASE_URL=https://api.upstage.ai/v1`)로 채운다 — 국내 AI 트랙은 임베딩을 포함한 신경망 모델 전체가 연계 기업 것이어야 한다는 운영사무국 공식 답변(2026-08-12)에 따른 것이다. 이전에는 오픈소스 `nlpai-lab/KURE-v1`을 로컬로 띄웠으나(PR #84, 슬롯 선택 골드셋 적중률 75.9%→93.1%) 비연계 모델이라 PR #114·#115·#117로 업스테이지로 전환했다. 전환 후 실측(슬롯 96.6%·RAG Recall@4 80.0%)도 KURE-v1(93.1%·76.0%)보다 높아 성능 손실은 없었다.
+- 임베더를 바꾸면 코사인 분포가 통째로 이동하므로 디노이즈 임계값도 함께 조정해야 한다. 업스테이지 전환 시 재보정된 현재 값은 `PIVOT_SIM=0.32`·`COHERENCE_THRESHOLD=0.35`·`RISK_GATE=0.25`이다(`retrieval.py`, PR #117). 이전 임베더 기준값을 그대로 재사용하면 히스토리 필터가 사실상 꺼진다.
 
 ### 4.7 PR 실험에서 확정·보류한 결정
 
@@ -310,7 +310,7 @@ flowchart LR
 |---|---|---|
 | 인터뷰 추출 ([#68](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/68)) | 8개 사람 정답 시나리오에서 이름·나이·완료율 100%, 주요 장소 67%, 선호 대상 78%, 환각 0 | **잠정 반영:** 추출과 질문 표현에 Mi:dm 사용. 실제 보호자 검증 필요 |
 | 대화 가드 ([#89](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/89)) | 82회 실모델 인터뷰에서 규칙을 끄면 질문 수·중복·조건 불일치가 증가 | **반영:** 6개 안전 규칙 유지 |
-| 슬롯 임베더 ([#84](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/84)) | 선택 적중률 75.9%→93.1%, 메모리·다운로드 비용 증가 | **반영:** KURE-v1. 운영 자원 재검토 필요 |
+| 슬롯 임베더 ([#84](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/84) → [#117](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/117)) | KURE-v1 채택 시 선택 적중률 75.9%→93.1%. 이후 비연계 모델 규정(2026-08-12 운영사무국 답변)으로 업스테이지 전환, 실측 96.6%(슬롯)·80.0%(RAG Recall@4)로 KURE-v1 대비도 우위 | **반영:** 업스테이지 임베딩 API |
 | LLM 평가자 ([#83](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/83)) | 소표본 반복에서 사람 평가와의 상관이 항목·실행별로 변동 | **보류:** 출시 판정은 사람 평가 우선 |
 | 온도 ([#105](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/105)) | 동일 입력 전체 일치율 0.0=100%, 0.2=87%, 0.4=27% | **반영:** 추출·수정 0.0, 질문 문장화 0.4 |
 
@@ -793,7 +793,7 @@ stateDiagram-v2
 | `AXIS_SCORING_MODEL` | 빈 값 | Phase 0 축 채점 모델. 비우면 `EXAONE_MODEL` 사용 |
 | `RAG_ENABLED` | `true` | prior 경로의 논문 검색 |
 | `RAG_TOP_K` | `4` | prior에 제공할 발췌 수 |
-| `EMBED_MODEL` | `nlpai-lab/KURE-v1` | Phase 0 다음 슬롯 검색 임베더 |
+| `EMBED_MODEL`/`EMBED_BASE_URL` | 코드 기본값 빈 문자열(미설정 시 해시 스텁 폴백) — 운영 배포는 업스테이지 임베딩 API로 채움 | Phase 0 다음 슬롯 검색·Phase 2 RAG 임베더 |
 | `TIP_LLM_TEMP_STRUCTURE` | `0.0` | 제보 구조화 재현성 우선 |
 | `AXIS_SCORING_ENABLED` | `false` | 축 점수와 route familiarity 컴파일 비활성 |
 | `AXIS_SCORING_ASYNC` | `true` | Persona 확정 응답을 막지 않고 백그라운드 채점 |
