@@ -73,3 +73,40 @@ def test_patch_persona_keeps_models_not_dicts():
             f"끌림점이 {type(point).__name__} 로 바뀌었다 — 예측이 p.weight 에서 죽는다")
     # 실제로 예측이 읽는 접근 방식 그대로 확인한다.
     assert sum(p.weight for p in stored.attraction_points) > 0
+
+
+def test_persona_list_is_isolated_by_guardian():
+    """가족 목록은 **등록한 계정 것만** 보여야 한다.
+
+    현장 제보(2026-08-12): 계정 1로 보호자 모드에 들어갔더니 계정 2가 등록한
+    가족이 목록에 그대로 떴다. 이 목록에는 실종 대상자의 이름·나이·집 위치·
+    자주 가는 곳이 담긴다 — 남의 것이 섞이는 건 화면이 지저분한 문제가 아니라
+    개인정보가 새는 문제다. 신고 화면도 이 목록에서 대상자를 고르므로 남의
+    가족을 실수로 신고할 수 있었다.
+    """
+    a = client.post("/phase0/personas", json={
+        "name": "가족A", "age": 80, "type": "dementia",
+        "home": {"lat": 37.5551, "lng": 126.9368}, "guardian_id": "u-aaa",
+    }).json()["id"]
+    b = client.post("/phase0/personas", json={
+        "name": "가족B", "age": 75, "type": "dementia",
+        "home": {"lat": 37.5561, "lng": 126.9378}, "guardian_id": "u-bbb",
+    }).json()["id"]
+
+    mine = client.get("/phase0/personas", params={"guardian_id": "u-aaa"}).json()
+    ids = {p["id"] for p in mine}
+    assert a in ids, "내가 등록한 가족은 보여야 한다"
+    assert b not in ids, "남이 등록한 가족이 내 목록에 있으면 안 된다"
+
+    other = client.get("/phase0/personas", params={"guardian_id": "u-bbb"}).json()
+    assert {p["id"] for p in other} == {b}
+
+    # 소유자를 안 준 페르소나는 아무에게도 안 보인다 — "예전 데이터는 전원 공개"
+    # 같은 예외를 두면 필터를 넣으나 마나가 된다. 이전 데이터는 마이그레이션으로
+    # 주인을 붙인다(scripts/assign_persona_owner.py).
+    orphan = client.post("/phase0/personas", json={
+        "name": "주인없음", "age": 70, "type": "dementia",
+        "home": {"lat": 37.5, "lng": 127.0},
+    }).json()["id"]
+    assert orphan not in {p["id"] for p in
+                          client.get("/phase0/personas", params={"guardian_id": "u-aaa"}).json()}

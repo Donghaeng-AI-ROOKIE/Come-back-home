@@ -302,9 +302,15 @@ export function useGoldenTime(windowMs = GOLDEN_WINDOW_MS): GoldenTime | null {
  * 보여야 한다(영속화가 붙어 서버에는 남아 있다).
  */
 export function usePersonas() {
+  // **내 계정 것만** 받는다. 예전에는 저장소 전체가 와서 남이 등록한 가족이
+  // 내 목록에 떴다(현장 제보 08-12). 키에도 넣어야 계정을 바꿨을 때 앞 사람
+  // 목록이 캐시에 남지 않는다.
+  const userId = useAuthStore((s) => s.userId);
   return useQuery({
-    queryKey: ['personas'],
-    queryFn: () => listPersonas(),
+    queryKey: ['personas', userId],
+    queryFn: () => listPersonas(userId ?? undefined),
+    // 로그인 전에는 물을 이유가 없다 — 소유자가 없으면 빈 목록이 맞다.
+    enabled: userId != null,
     // 목록이 옛 이름·나이를 보여주던 문제(현장 제보 08-11)의 구조적 처방.
     // 저장하는 쪽에서 무효화도 하지만, 그걸 한 군데라도 빠뜨리면 다시 같은 버그가
     // 난다. 등록 가족은 몇 건뿐이라 화면에 들어올 때마다 다시 물어도 싸다.

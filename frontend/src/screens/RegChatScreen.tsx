@@ -12,6 +12,7 @@ import { color, type } from '../theme/tokens';
 import { ApiError } from '../api/config';
 import { answerInterview, getPersona, listSlots, startInterview, type InterviewSession, type SlotInfo } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
+import { useAuthStore } from '../store/authStore';
 import BackIcon from '../../assets/figma/detail-back.svg';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 
@@ -30,14 +31,17 @@ export default function RegChatScreen() {
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<ScrollView>(null);
   const setPersona = useGuardianStore((state) => state.setPersona);
+  // 이 인터뷰로 만들어질 페르소나의 **주인**. 안 넘기면 소유자 없는 페르소나가
+  // 되어 등록해 놓고도 목록에 안 뜬다(소유자별 분리, 08-12).
+  const guardianId = useAuthStore((state) => state.userId);
 
   const begin = useCallback(async () => {
     setError(null); setSession(null); setPending(null);
     try {
-      const [nextSession, catalog] = await Promise.all([startInterview(GUARDIAN_NAME), listSlots().catch(() => [] as SlotInfo[])]);
+      const [nextSession, catalog] = await Promise.all([startInterview(GUARDIAN_NAME, undefined, guardianId ?? undefined), listSlots().catch(() => [] as SlotInfo[])]);
       setSession(nextSession); setSlots(catalog);
     } catch (e) { setError(e instanceof ApiError ? e.message : String(e)); }
-  }, []);
+  }, [guardianId]);
 
   useEffect(() => { begin(); }, [begin]);
 
