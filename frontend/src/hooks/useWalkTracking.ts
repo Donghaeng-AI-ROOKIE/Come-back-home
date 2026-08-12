@@ -36,7 +36,18 @@ import type { GeoPoint } from '../types/domain';
  * 아무도 듣지 못한다. 관측할 수 없는 옵션을 넣으면 실내 콜드 스타트에서
  * 측위를 끊기만 한다.
  */
-const WEB_GEO_OPTIONS = { enableHighAccuracy: true, maximumAge: 0 };
+/**
+ * `maximumAge: 0` 이었다 — **브라우저가 좌표를 거의 안 줬다.**
+ *
+ * 0 은 "캐시된 값은 절대 쓰지 말고 매번 새로 측위하라"는 뜻이다. 고정확도와
+ * 겹치면 iOS 사파리는 콜백 간격이 크게 벌어지고, 실내에서는 아예 침묵한다.
+ * 같은 화면의 지도 훅(useMyLocation)은 30초 캐시를 허용해서 잘 받고 있었다 —
+ * "내 위치는 잡히는데 산책 거리만 0" 의 정체가 이 차이다(현장 제보 08-12).
+ *
+ * 5초는 도보 속도에서 약 6m 다. 아래 minStep(≥5m·정확도 비례)이 그보다 큰
+ * 이동만 인정하므로, 캐시를 조금 허용해도 거리가 부풀지 않는다.
+ */
+const WEB_GEO_OPTIONS = { enableHighAccuracy: true, maximumAge: 5_000 };
 
 /**
  * 이 시간 안에 좌표가 하나도 안 오면 실패로 보고 사용자에게 알린다.
@@ -138,12 +149,23 @@ export function useWalkTracking(active: boolean): WalkTracking {
 
     (async () => {
       try {
-        const { status: perm } = await Location.requestForegroundPermissionsAsync();
-        if (cancelled) return;
-        if (perm !== 'granted') {
-          setStatus('denied');
-          setMessage('위치 권한이 없어 거리를 잴 수 없습니다. 설정에서 허용해 주세요.');
-          return;
+        // **웹에서는 권한 래퍼를 거치지 않는다.**
+        //
+        // expo 의 웹 구현은 `navigator.permissions.query` 가 'denied' 면
+        // 브라우저에 묻지도 않고 거부를 돌려준다. 그러면 여기서 바로 빠져나가
+        // **워처를 아예 시작하지 않는다** — 산책 거리가 통째로 0 이 되는 경로다.
+        // (같은 함정을 useMyLocation.retryLocation 에서 이미 겪었다.)
+        //
+        // 브라우저에서는 측위를 호출하는 것 자체가 권한 요청이다. 바로 워처를
+        // 걸고, 거부면 아래 감시견과 오차 안내가 사용자에게 이유를 말한다.
+        if (Platform.OS !== 'web') {
+          const { status: perm } = await Location.requestForegroundPermissionsAsync();
+          if (cancelled) return;
+          if (perm !== 'granted') {
+            setStatus('denied');
+            setMessage('위치 권한이 없어 거리를 잴 수 없습니다. 설정에서 허용해 주세요.');
+            return;
+          }
         }
         setStatus('tracking');
         watchdog = setTimeout(() => {
