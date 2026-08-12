@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
@@ -19,12 +19,11 @@ import BackIcon from '../../assets/figma/detail-back.svg';
 import SearchIcon from '../../assets/figma/report-search.svg';
 import EditIcon from '../../assets/figma/report-edit.svg';
 import CameraIcon from '../../assets/figma/report-camera.svg';
+import { SvgXml } from 'react-native-svg';
+import { icMappinRedXml, icPersonRedXml } from '../assets/guardianSvg';
 
 // report-location-map.png(시안 목업)은 더 이상 쓰지 않는다 — 미국 지도라
 // 검색 전 화면에 깔면 "지도가 외국 지도"가 된다(제보 08-12). 실제 지도를 쓴다.
-const PERSON_ICON = require('../../assets/figma/report-person.png');
-const MAP_ICON = require('../../assets/figma/report-map.png');
-
 export default function ReportScreen() {
   const qc = useQueryClient();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -178,7 +177,7 @@ export default function ReportScreen() {
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'height' : undefined}>
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         <View style={styles.familySection}>
-          <SectionHeader icon={<Image source={PERSON_ICON} style={styles.personIcon} />} title="가족 선택" />
+          <SectionHeader icon={<SvgXml xml={icPersonRedXml} width={20} height={20} />} title="가족 선택" />
           <Pressable
             style={styles.familyField}
             onPress={() => personas.length ? setPickerOpen(true) : navigation.navigate('RegChat', { mode: 'quick' })}
@@ -203,7 +202,7 @@ export default function ReportScreen() {
         </View>
 
         <View style={styles.locationSection}>
-          <SectionHeader icon={<Image source={MAP_ICON} style={styles.mapIcon} />} title="마지막 목격 장소" />
+          <SectionHeader icon={<SvgXml xml={icMappinRedXml} width={15} height={20} />} title="마지막 목격 장소" />
           <View style={styles.searchField}>
             <SearchIcon width={14} height={14} />
             <TextInput
@@ -370,9 +369,6 @@ const styles = StyleSheet.create({
   sectionHeaderCompact: { height: 45 },
   sectionIcon: { width: 20, height: 18, alignItems: 'center', justifyContent: 'center' },
   sectionTitle: { marginLeft: 3, fontFamily: type.familyCssBold, fontSize: 14, lineHeight: 18, color: '#000000' },
-  personIcon: { width: 20, height: 20 },
-  mapIcon: { width: 20, height: 20 },
-
   familySection: { height: 128, backgroundColor: '#FFFFFF' },
   familyField: { height: 61, marginHorizontal: 23, borderRadius: 10, backgroundColor: '#F8F8F8', alignItems: 'center', justifyContent: 'center' },
   familyPicked: { alignItems: 'center' },
