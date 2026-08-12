@@ -28,7 +28,7 @@ export default function CitizenAlertsScreen() {
    * 푸시는 구독할 때 저장해 둔 칸으로 나가고 목록은 실시간 위치를 쓰기 때문에,
    * 위치가 끊긴 순간 둘이 갈린다. 그때 "없습니다"가 뜨면 아무도 원인을 못 찾는다.
    */
-  const { point, status: locStatus } = useMyLocation(true);
+  const { point, status: locStatus, message: locMessage } = useMyLocation(true);
   const locationBlocked = point == null && isLocationSettled(locStatus);
 
   return (
@@ -50,9 +50,10 @@ export default function CitizenAlertsScreen() {
           <Pressable style={styles.empty} onPress={retryLocation} accessibilityRole="button">
             <Text style={styles.emptyText}>
               위치를 확인할 수 없어 주변 사건을 불러오지 못했습니다.{`\n\n`}
-              <Text style={styles.emptyAction}>눌러서 위치 권한 다시 요청하기</Text>{`\n\n`}
-              그래도 안 되면 설정 → 개인정보 보호 → 위치 서비스 →{`\n`}
-              Safari 웹사이트를 확인해 주세요.
+              <Text style={styles.emptyAction}>눌러서 위치 권한 다시 요청하기</Text>
+              {/* 눌렀는데 왜 안 되는지를 **화면이 말해야 한다.** 권한 거부·기기
+                  위치서비스 꺼짐·실내 시간초과는 해야 할 일이 각각 다르다. */}
+              {locMessage ? `\n\n${locMessage}` : ''}
             </Text>
           </Pressable>
         ) : null}
