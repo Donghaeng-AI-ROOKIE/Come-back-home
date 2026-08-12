@@ -70,7 +70,24 @@ export default function AuthScreen() {
               <Text style={styles.startText}>시작하기 〉</Text>
             </Pressable>
             <View style={styles.loginRow}>
-              <AuthAccountText width={168} height={14} accessibilityLabel="이미 계정이 있나요? 로그인" />
+              <View style={styles.accountTextRow} accessible accessibilityLabel="이미 계정이 있나요? 로그인">
+                <AuthAccountText
+                  width={121}
+                  height={14}
+                  viewBox="0 0 121 14"
+                  preserveAspectRatio="xMinYMid meet"
+                  accessibilityElementsHidden
+                  importantForAccessibility="no-hide-descendants"
+                />
+                <AuthAccountText
+                  width={40}
+                  height={14}
+                  viewBox="128 0 40 14"
+                  preserveAspectRatio="xMinYMid meet"
+                  accessibilityElementsHidden
+                  importantForAccessibility="no-hide-descendants"
+                />
+              </View>
               <Pressable accessibilityRole="button" accessibilityLabel="로그인" onPress={() => { setError(''); setStep('login'); }} hitSlop={10} style={styles.loginHit} />
             </View>
           </>
@@ -143,8 +160,34 @@ function SeparatorLabel({ label }: { label: string }) {
     ? <AuthRoleLabel width={188} height={14} accessibilityLabel={label} />
     : label === '이메일 주소로 로그인해 주세요'
       ? <AuthLoginLabel width={184} height={14} accessibilityLabel={label} />
-      : <Text style={styles.separatorText}>{label}</Text>;
+      : label === '이메일 주소로 가입해 주세요'
+        ? <SignupLabel />
+        : <Text style={styles.separatorText}>{label}</Text>;
   return <View style={styles.separatorRow}><View style={styles.separator} /><View style={styles.separatorLabel}>{exactLabel}</View><View style={styles.separator} /></View>;
+}
+
+function SignupLabel() {
+  return (
+    <View style={styles.signupLabel} accessible accessibilityLabel="이메일 주소로 가입해 주세요">
+      <AuthLoginLabel
+        width={83}
+        height={14}
+        viewBox="0 0 83 14"
+        preserveAspectRatio="xMinYMid meet"
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+      />
+      <Text style={styles.signupWord} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">가입</Text>
+      <AuthLoginLabel
+        width={57}
+        height={14}
+        viewBox="127 0 57 14"
+        preserveAspectRatio="xMinYMid meet"
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+      />
+    </View>
+  );
 }
 
 function RoleChoice({ label, tone, onPress, style }: { label: string; tone: 'guardian' | 'citizen'; onPress: () => void; style: object }) {
@@ -173,12 +216,15 @@ const styles = StyleSheet.create({
   startButton: { position: 'absolute', top: 488, left: 16, right: 16, height: 50, borderRadius: 10, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center' },
   startText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
   loginRow: { position: 'absolute', top: 565, left: 91, width: 193, height: 19, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  accountTextRow: { width: 168, height: 14, flexDirection: 'row', alignItems: 'center', gap: 7 },
   loginHit: { position: 'absolute', right: 10, top: -8, width: 54, height: 30 },
   loginText: { fontFamily: type.familySemiBold, fontSize: 14, color: color.brandInk, textDecorationLine: 'underline' },
   separatorRow: { position: 'absolute', top: 370, left: 16, right: 16, height: 22, flexDirection: 'row', alignItems: 'center', gap: 20 },
   separator: { flex: 1, height: 1, backgroundColor: '#CAD9C5' },
   separatorLabel: { width: 190, height: 19, alignItems: 'center', justifyContent: 'center' },
-  separatorText: { width: 190, textAlign: 'center', fontFamily: type.familyCssSemiBold, fontSize: 15, lineHeight: 18, letterSpacing: -0.08, color: '#909090' },
+  separatorText: { width: 190, textAlign: 'center', fontFamily: type.familyCss, fontSize: 15, lineHeight: 18, letterSpacing: -0.08, color: '#909090' },
+  signupLabel: { width: 169, height: 18, flexDirection: 'row', alignItems: 'center' },
+  signupWord: { width: 29, height: 18, textAlign: 'center', fontFamily: type.familyCss, fontSize: 15, lineHeight: 18, letterSpacing: -0.08, color: '#909090' },
   input: { position: 'absolute', left: 16, right: 16, height: 46, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.9)', paddingHorizontal: 12, fontFamily: type.familySemiBold, fontSize: 16, color: '#525253' },
   email: { top: 429 },
   password: { top: 486 },
