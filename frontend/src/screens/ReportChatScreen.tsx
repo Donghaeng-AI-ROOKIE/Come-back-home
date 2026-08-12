@@ -1,4 +1,4 @@
-﻿import React, { useRef, useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -6,6 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
+import type { TipResult } from '../types/domain';
 import { useQueryClient } from '@tanstack/react-query';
 import { color, type } from '../theme/tokens';
 import { submitTip } from '../api/client';
@@ -14,7 +15,8 @@ import { useMyLocation } from '../hooks/useMyLocation';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 
-type Step = 'summary' | 'location' | 'time';
+/** 서버가 되물을 수 있는 항목. */
+type Missing = 'location' | 'time';
 
 export default function ReportChatScreen() {
   const userId = useAuthStore((s) => s.userId);
@@ -22,26 +24,74 @@ export default function ReportChatScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const queryClient = useQueryClient();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportChat'>>().params;
-  const [step, setStep] = useState<Step>('summary');
+  /**
+   * **서버가 되물은 항목만** 화면에 띄운다.
+   *
+   * 예전에는 화면이 summary → location → time 3단을 **무조건** 밟았다. 서버에
+   * 물어보지도 않고 진행하는 순서라, 사용자가 "11시에 대흥역에서 봤어요"처럼
+   * 다 적어도 위치와 시각을 또 물었다(실측 08-12 — "항상 다시 물어본다").
+   *
+   * 되묻기 판정은 서버에 이미 있다(backend tip_flow.process_tip): 제보 문장을
+   * Mi:dm 2.0 Mini 로 구조화해 장소·시각을 뽑고, 장소는 지오코딩까지 해 본 뒤
+   * 그래도 없을 때만 need_more 를 돌려준다. 그 판정을 쓰면 될 일이었다.
+   */
+  const [asked, setAsked] = useState<{ location: boolean; time: boolean }>({ location: false, time: false });
+  const answering = asked.location || asked.time;
   const [summary, setSummary] = useState('');
   const [location, setLocation] = useState('');
   const [seenAt, setSeenAt] = useState('');
   const [sending, setSending] = useState(false);
   /** 전송이 오래 걸릴 때 화면에 띄우는 진행 안내(왜 기다리는지). */
   const [progress, setProgress] = useState('');
-  /**
-   * 서버가 '추가 확인'을 한 번이라도 돌려보냈는가.
-   *
-   * 서버는 **좌표**를 요구하는데 사용자는 글로만 답할 수 있다("신촌이요").
-   * 그래서 답을 적어 다시 보내도 같은 질문이 또 오고, 화면이 앞으로 못 간다
-   * (현장 제보 08-11 — '답변하고 제보하기'를 눌러도 그대로).
-   * 사용자가 할 몫을 다 했으면 그 다음 전송은 강제로 접수한다 — 적어 준 글은
-   * 제보 본문에 그대로 남아 지휘자가 읽을 수 있다.
-   */
-  const askedOnce = useRef(false);
 
-  const submit = async ({ withoutLocation = false, withoutTime = false } = {}) => {
+  /**
+   * 서버로 한 번 보낸다. 되묻기면 그 항목을 화면에 세우고 `null` 을 돌려준다.
+   *
+   * 좌표·시각을 **기본으로 채워 보내지 않는다.** 예전에는 제보자의 현재 좌표와
+   * 전송 시각을 항상 실어 보냈는데, 그러면 서버의 되묻기 게이트가 구조적으로
+   * 한 번도 걸리지 않는다(위치·시각이 이미 채워진 것으로 보인다). 판정을
+   * 서버에 맡기기로 한 이상 그 값을 앞질러 채우면 안 된다. 사용자가 적은
+   * 문장을 그대로 보내고, 장소·시각 추출은 서버(Mi:dm Mini + 지오코딩)가 한다.
+   *
+   * `useMyPoint` 는 사용자가 '위치 없이 그대로 제보하기'를 골랐을 때만 쓴다 —
+   * 수색 중인 시민은 목격 지점 근처에 서 있으므로, 글로 못 적겠다면 그 좌표가
+   * 남아 있는 근사 중 가장 낫다.
+   */
+  const send = async (opts: { force?: boolean; useMyPoint?: boolean }, retried = false): Promise<TipResult | null> => {
+    const result = await submitTip(caseId, {
+      location: opts.useMyPoint ? (myPoint ?? undefined) : undefined,
+      text: [
+        summary.trim(),
+        location.trim() && `목격 위치: ${location.trim()}`,
+        seenAt.trim() && `목격 시각: ${seenAt.trim()}`,
+      ].filter(Boolean).join(' / ') || '목격 제보',
+    }, { force: !!opts.force, reporterUserId: userId ?? undefined });
+
+    if (!('status' in result)) return result;
+
+    const missing: Missing = result.missing.includes('location') ? 'location' : 'time';
+    if (asked[missing] && !retried) {
+      // 이미 물어본 항목을 또 되묻는다 = 우리가 받아 보낸 답을 서버가 좌표·시각으로
+      // 바꾸지 못했다는 뜻이다. 여기서 또 물으면 답을 적어도 화면이 앞으로 못 가는
+      // 막다른 골목이 된다(실측 08-11). 적어 준 글은 제보 본문에 그대로 남으므로
+      // 지휘자가 읽을 수 있다 — 그대로 접수한다.
+      //
+      // 현재 좌표는 **위치를 못 잡았을 때만** 붙인다. 시각을 못 읽은 경우에는
+      // 위치가 이미 글에서 지오코딩된 상태라, 여기서 좌표를 실어 보내면 그
+      // 결과를 제보자의 현재 위치로 덮어쓴다.
+      return send({ force: true, useMyPoint: missing === 'location' }, true);
+    }
+    setAsked((prev) => ({ ...prev, [missing]: true }));
+    Alert.alert('추가 확인이 필요해요', result.reason || '목격 위치나 시각을 조금 더 알려주세요.');
+    return null;
+  };
+
+  const submit = async (opts: { force?: boolean; useMyPoint?: boolean } = {}) => {
     if (sending) return;
+    if (!summary.trim()) {
+      Alert.alert('제보 내용을 입력해 주세요');
+      return;
+    }
     setSending(true);
     /**
      * 오래 걸리는 이유를 화면이 말하게 한다.
@@ -58,30 +108,8 @@ export default function ReportChatScreen() {
     const t1 = setTimeout(() => setProgress('제보를 반영해 예상 경로를 다시 계산하고 있어요.'), 6_000);
     const t2 = setTimeout(() => setProgress('처음 보는 지역이라 지도를 내려받는 중입니다. 최대 2분까지 걸릴 수 있어요.'), 25_000);
     try {
-      const includeLocation = !withoutLocation && !!location.trim();
-      const includeTime = !withoutTime && !!seenAt.trim();
-      const result = await submitTip(caseId, {
-        // **목격 좌표는 제보자의 현재 위치로 보낸다.**
-        //
-        // 글로만 "서강대 정문"이라고 적으면 서버가 좌표로 바꾸지 못해
-        // need_more(location) 로 되돌아오고, 제보가 **저장조차 되지 않는다**
-        // (실측 08-11 — 사용자가 여러 번 보내도 '추가 확인이 필요해요'만 반복).
-        // 강제로 보내도 좌표가 없으면 POA 갱신에 기여하지 못한다.
-        //
-        // 수색 중인 시민은 목격 지점에 서 있다 — 그 좌표가 가장 정확한 근사다.
-        // 위치를 못 구했을 때만 예전처럼 자유서술로 보낸다.
-        location: myPoint ?? undefined,
-        seenAt: myPoint ? new Date().toISOString().slice(0, 19) : undefined,
-        text: [
-          summary.trim(),
-          includeLocation && `목격 위치: ${location.trim()}`,
-          includeTime && `목격 시각: ${seenAt.trim()}`,
-        ].filter(Boolean).join(' / ') || '목격 제보',
-      }, { force: withoutLocation || withoutTime || askedOnce.current, reporterUserId: userId ?? undefined });
-      if ('status' in result) {
-        askedOnce.current = true;   // 다음 전송은 반드시 접수된다
-        setStep(result.missing.includes('location') ? 'location' : 'time');
-        Alert.alert('추가 확인이 필요해요', result.reason || '목격 위치나 시각을 조금 더 알려주세요.');
+      const result = await send(opts);
+      if (result == null) {   // 되묻기 — 화면이 그 항목을 띄운 상태다
         clearTimeout(t1); clearTimeout(t2); setProgress('');
         setSending(false);
         return;
@@ -107,23 +135,7 @@ export default function ReportChatScreen() {
     }
   };
 
-  const nextFromSummary = () => {
-    if (!summary.trim()) {
-      Alert.alert('제보 내용을 입력해 주세요');
-      return;
-    }
-    setStep('location');
-  };
-
-  const nextFromLocation = () => {
-    if (!location.trim()) {
-      Alert.alert('목격 위치를 입력해 주세요');
-      return;
-    }
-    setStep('time');
-  };
-
-  const long = step === 'time';
+  const long = asked.time;
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
@@ -140,7 +152,7 @@ export default function ReportChatScreen() {
             <Text style={styles.title}>실종자 제보</Text>
             <Text style={styles.desc}>목격하신 내용을 편하게 적어주세요.{`\n`}위치와 시각, 인상착의, 어느 쪽으로 가셨는지를 알려주시면 큰 도움이 됩니다.</Text>
 
-            {step === 'summary' ? (
+            {!answering ? (
               <>
                 <TextInput
                   value={summary}
@@ -150,8 +162,10 @@ export default function ReportChatScreen() {
                   textAlignVertical="top"
                   accessibilityLabel="목격 내용"
                 />
-                <Pressable style={styles.initialButton} onPress={nextFromSummary}>
-                  <Text style={styles.primaryText}>제보하기</Text>
+                {/* 이제 이 버튼이 **실제로 제보를 보낸다.** 위치·시각을 다 적었으면
+                    여기서 끝난다 — 서버가 못 뽑은 항목만 아래에서 되묻는다. */}
+                <Pressable style={styles.initialButton} onPress={() => submit()} disabled={sending}>
+                  <Text style={styles.primaryText}>{sending ? '전송 중…' : '제보하기'}</Text>
                 </Pressable>
               </>
             ) : (
@@ -166,18 +180,24 @@ export default function ReportChatScreen() {
                   accessibilityLabel="방금 남긴 제보 내용"
                 />
 
-                <Text style={styles.locationLabel}>추가 확인이 필요해요</Text>
-                <Text style={styles.question}>정확히 목격하신 위치가 어디인가요?</Text>
-                <TextInput
-                  value={location}
-                  onChangeText={setLocation}
-                  multiline
-                  style={styles.locationInput}
-                  textAlignVertical="top"
-                  accessibilityLabel="목격 위치"
-                />
+                {/* 되묻는 항목만 띄운다 — 서버가 위치는 알아냈고 시각만 필요하다면
+                    위치 칸은 나오지 않는다. */}
+                {asked.location ? (
+                  <>
+                    <Text style={styles.locationLabel}>추가 확인이 필요해요</Text>
+                    <Text style={styles.question}>정확히 목격하신 위치가 어디인가요?</Text>
+                    <TextInput
+                      value={location}
+                      onChangeText={setLocation}
+                      multiline
+                      style={styles.locationInput}
+                      textAlignVertical="top"
+                      accessibilityLabel="목격 위치"
+                    />
+                  </>
+                ) : null}
 
-                {step === 'time' ? (
+                {asked.time ? (
                   <>
                     <View style={styles.confirmChip}><Text style={styles.confirmChipText}>✓ 위치 확인</Text></View>
                     <Text style={styles.timeLabel}>추가 확인이 필요해요</Text>
@@ -190,25 +210,36 @@ export default function ReportChatScreen() {
                       textAlignVertical="top"
                       accessibilityLabel="목격 시각"
                     />
-                    <Pressable style={[styles.primary, styles.timePrimary]} onPress={() => submit()}>
-                      <Text style={styles.primaryText}>{sending ? '전송 중…' : '답변하고 제보하기'}</Text>
-                    </Pressable>
-                    <Pressable style={styles.secondary} onPress={() => submit({ withoutTime: true })}>
-                      <Text style={styles.secondaryText}>시각 없이 그대로 제보하기</Text>
-                    </Pressable>
                   </>
+                ) : null}
+
+                <Pressable
+                  style={[styles.primary, asked.time && styles.timePrimary]}
+                  onPress={() => submit()}
+                  disabled={sending}
+                >
+                  <Text style={styles.primaryText}>{sending ? '전송 중…' : '답변하고 제보하기'}</Text>
+                </Pressable>
+                {/* 건너뛰기 — force 로 그대로 접수한다. 위치를 건너뛸 때는 제보자의
+                    현재 좌표를 근사로 함께 보낸다(좌표가 없으면 POA 갱신에 기여하지
+                    못한다). 시각은 근사로 지어내지 않는다 — 층2 판정의 입력이라
+                    전송 시각을 목격 시각으로 적으면 지도를 틀리게 만든다. */}
+                {asked.time ? (
+                  <Pressable style={styles.secondary} onPress={() => submit({ force: true })} disabled={sending}>
+                    <Text style={styles.secondaryText}>시각 없이 그대로 제보하기</Text>
+                  </Pressable>
                 ) : (
-                  <>
-                    <Pressable style={styles.primary} onPress={nextFromLocation}>
-                      <Text style={styles.primaryText}>답변하고 제보하기</Text>
-                    </Pressable>
-                    <Pressable style={styles.secondary} onPress={() => submit({ withoutLocation: true })}>
-                      <Text style={styles.secondaryText}>{sending ? '전송 중…' : '위치 없이 그대로 제보하기'}</Text>
-                    </Pressable>
-                  </>
+                  <Pressable style={styles.secondary} onPress={() => submit({ force: true, useMyPoint: true })} disabled={sending}>
+                    <Text style={styles.secondaryText}>위치 없이 그대로 제보하기</Text>
+                  </Pressable>
                 )}
               </>
             )}
+
+            {/* 왜 기다리는지 화면이 말한다. 문구는 만들어져 있었는데 **어디에도
+                그려지지 않아** 사용자는 '전송 중…'만 90초 동안 봤다(실측 08-12).
+                이제 첫 누름부터 실제 전송이 걸리므로 더 자주 보이는 자리다. */}
+            {progress ? <Text style={styles.progress} accessibilityRole="alert">{progress}</Text> : null}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -244,4 +275,5 @@ const styles = StyleSheet.create({
   primaryText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   secondary: { height: 57, borderRadius: 26, backgroundColor: '#DADADA', alignItems: 'center', justifyContent: 'center', marginTop: 9, shadowColor: '#000000', shadowOpacity: 0.14, shadowRadius: 3, shadowOffset: { width: 0, height: 2 }, elevation: 2 },
   secondaryText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#8E8E93' },
+  progress: { fontFamily: type.familyCss, fontSize: 11, lineHeight: 15, letterSpacing: 0.07, color: '#525253', textAlign: 'center', marginTop: 12 },
 });
