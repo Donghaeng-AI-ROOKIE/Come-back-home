@@ -44,13 +44,15 @@ export default function ReportSentScreen() {
           <Text style={styles.noticeTitle}>안내사항</Text>
           <Text style={styles.noticeText}>{predict.isError ? '신고는 접수됐습니다. AI 분석만 다시 시도해 주세요.' : '현재 AI가 실종자의 습관과 지형을 분석하여 이동 경로를 파악하고 있습니다. 인근 시민들의 제보가 확인되는 대로 안내해 드리겠습니다.'}</Text>
         </View>
-        {predict.isError ? <Pressable style={styles.retry} onPress={() => predict.mutate()}><Text style={styles.retryText}>AI 분석 다시 시도</Text></Pressable> : null}
-        {/* 이 버튼은 지침을 보여주는 자리인데 **홈으로 보내고 있었다** — 눌러도
-            지침이 안 뜬다는 제보(08-12)의 원인. 신고 직후 보호자가 무엇을 해야
-            하는지가 이 화면에서 가장 필요한 정보라, 화면을 떠나지 않고 띄운다. */}
-        <Pressable style={styles.guide} onPress={() => setGuideOpen(true)}>
-          <Text style={styles.guideText}>✓ 치매 가족 실종시 행동 지침</Text>
-        </Pressable>
+        <View style={styles.actions}>
+          {predict.isError ? <Pressable style={styles.retry} onPress={() => predict.mutate()}><Text style={styles.retryText}>AI 분석 다시 시도</Text></Pressable> : null}
+          {/* 이 버튼은 지침을 보여주는 자리인데 **홈으로 보내고 있었다** — 눌러도
+              지침이 안 뜬다는 제보(08-12)의 원인. 신고 직후 보호자가 무엇을 해야
+              하는지가 이 화면에서 가장 필요한 정보라, 화면을 떠나지 않고 띄운다. */}
+          <Pressable style={styles.guide} onPress={() => setGuideOpen(true)}>
+            <Text style={styles.guideText}>✓ 치매 가족 실종시 행동 지침</Text>
+          </Pressable>
+        </View>
       </View>
       <GuideSheet open={guideOpen} onClose={() => setGuideOpen(false)} />
       <FigmaFlowTabBar mode="guardian" active="home" />
@@ -121,11 +123,10 @@ const styles = StyleSheet.create({
   n: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' }, stepLabel: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray, marginTop: 6, textAlign: 'center' }, stepOn: { color: color.brand },
   notice: { width: 330, minHeight: 69, backgroundColor: '#FFFFFF', borderRadius: 10, marginTop: 61, padding: 14 },
   noticeTitle: { fontFamily: type.familySemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.brand }, noticeText: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#525253', marginTop: 4 },
-  // 지침 버튼이 absolute(bottom:157)인데 재시도 버튼만 일반 흐름이라, 화면이
-  // 짧으면 둘이 **겹쳤다**(실측 08-12 제보). 같은 기준(bottom)으로 맞춰 지침
-  // 버튼 위 10px 에 세운다 — 시안이 정한 지침 버튼 위치는 건드리지 않는다.
-  retry: { position: 'absolute', bottom: 205, backgroundColor: color.figmaRed, borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10 }, retryText: { fontFamily: type.familySemiBold, fontSize: 12, color: '#FFFFFF' },
-  guide: { position: 'absolute', bottom: 157, width: 255, height: 38, borderRadius: 22, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.14, shadowRadius: 2, shadowOffset: { width: 0, height: 1 } },
+  // 두 버튼을 같은 레이아웃 묶음에 두어 짧은 화면에서도 서로 겹치지 않게 한다.
+  actions: { position: 'absolute', bottom: 157, width: 255, alignItems: 'center', gap: 10 },
+  retry: { minHeight: 38, backgroundColor: color.figmaRed, borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10, alignItems: 'center', justifyContent: 'center', elevation: 2 }, retryText: { fontFamily: type.familySemiBold, fontSize: 12, color: '#FFFFFF' },
+  guide: { width: 255, height: 38, borderRadius: 22, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.14, shadowRadius: 2, shadowOffset: { width: 0, height: 1 }, elevation: 2 },
   guideText: { fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#525253' },
 
   // 행동 지침 시트 — 신고 화면 위에 덮는다(진행 상황을 잃지 않게).
