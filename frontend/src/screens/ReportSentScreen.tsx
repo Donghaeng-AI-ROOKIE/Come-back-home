@@ -1,5 +1,5 @@
 ﻿import React, { useEffect } from 'react';
-import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { SvgXml } from 'react-native-svg';
@@ -85,9 +85,21 @@ const GUIDE_STEPS: { head: string; body: string }[] = [
     body: '가족·이웃과 구역을 나누고, 한 명은 집에 남아 있으세요. 스스로 돌아오는 경우가 있습니다.' },
 ];
 
+/**
+ * `Modal` 을 쓰지 않는다 — **웹에서 앱 프레임을 벗어난다.**
+ *
+ * react-native-web 의 Modal 은 `document.body.appendChild` 로 **`#root` 바깥에**
+ * 붙는다(ModalPortal.js). 그런데 이 앱은 375pt 시안을 `#root` 에 통째로 배율을
+ * 걸어 폰 크기에 맞춘다(src/pwa.ts scaleToPhone). 그래서 모달만 배율도, 375
+ * 캔버스 제약도 받지 못하고 창 전체 크기로 그려진다 — "화면에 안 맞고 확대돼
+ * 보인다"는 제보(08-12)의 정체다.
+ *
+ * 화면 안에 절대배치 오버레이로 그리면 `#root` 안에 있으므로 배율과 캔버스를
+ * 그대로 따른다. 이 시트는 이 화면만 덮으면 되므로 포털이 필요 없다.
+ */
 function GuideSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+  if (!open) return null;
   return (
-    <Modal visible={open} animationType="slide" transparent onRequestClose={onClose}>
       <View style={styles.sheetBackdrop}>
         <View style={styles.sheet}>
           <Text style={styles.sheetTitle}>치매 가족 실종시 행동 지침</Text>
@@ -105,7 +117,6 @@ function GuideSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
           </Pressable>
         </View>
       </View>
-    </Modal>
   );
 }
 
@@ -130,7 +141,8 @@ const styles = StyleSheet.create({
   guideText: { fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#525253' },
 
   // 행동 지침 시트 — 신고 화면 위에 덮는다(진행 상황을 잃지 않게).
-  sheetBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.35)', justifyContent: 'flex-end' },
+  // Modal 대신 화면 안에서 전체를 덮는다(위 GuideSheet 주석 참고).
+  sheetBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.35)', justifyContent: 'flex-end', zIndex: 20 },
   sheet: { backgroundColor: '#FFFFFF', borderTopLeftRadius: 18, borderTopRightRadius: 18, paddingTop: 20, paddingHorizontal: 20, paddingBottom: 16, maxHeight: '82%' },
   sheetTitle: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#000000' },
   sheetLead: { fontFamily: type.family, fontSize: 12, lineHeight: 17, color: color.figmaGray, marginTop: 6 },
