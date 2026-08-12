@@ -62,6 +62,6 @@ const styles = StyleSheet.create({
   bar: { backgroundColor: '#FFFFFF', borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#D8D8D8', flexDirection: 'row', paddingTop: FLOW_TAB_PADDING_TOP },
   guardianBar: { borderTopLeftRadius: 42, borderTopRightRadius: 42, overflow: 'hidden' },
   item: { flex: 1, alignItems: 'center', outlineStyle: 'none' } as any,
-  label: { fontFamily: type.familyRobotoSemiBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.16, color: color.figmaGray, marginTop: 1 },
+  label: { fontFamily: type.familyCssBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.16, color: color.figmaGray, marginTop: 1 },
   homeIndicator: { position: 'absolute', bottom: 8, left: '32%', right: '32%', height: 5, borderRadius: 100, backgroundColor: '#000000' },
 });

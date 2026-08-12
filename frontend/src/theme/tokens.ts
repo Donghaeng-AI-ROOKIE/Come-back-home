@@ -74,6 +74,12 @@ export const type = {
   familyExtraBold: '42dotSans-ExtraBold',
   familyRobotoSemiBold: 'Roboto-SemiBold',
   familyYeolumBold: 'HSYeolumMulbit-Bold',
+  // React Native Web은 숫자로 시작하는 font-family 값을 버린다.
+  // 지정 화면에서만 쓰는 CSS-safe 별칭이며 같은 42dot Sans 파일을 가리킨다.
+  familyCss: 'Dot42-Regular',
+  familyCssSemiBold: 'Dot42-SemiBold',
+  familyCssBold: 'Dot42-Bold',
+  familyCssExtraBold: 'Dot42-ExtraBold',
   minBody: 15,
   maxScale: 1.6, // maxFontSizeMultiplier
   size: {

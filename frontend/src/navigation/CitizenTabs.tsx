@@ -32,7 +32,7 @@ export default function CitizenTabs() {
         headerShown: false,
         tabBarActiveTintColor: t.accent,
         tabBarInactiveTintColor: color.textCaption,
-        tabBarLabelStyle: { fontSize: 10, lineHeight: 13, letterSpacing: 0.16, fontFamily: type.familyRobotoSemiBold, marginTop: 1 },
+        tabBarLabelStyle: { fontSize: 10, lineHeight: 13, letterSpacing: 0.16, fontFamily: type.familyCssBold, marginTop: 1 },
         tabBarStyle: {
           backgroundColor: color.surface,
           borderTopColor: color.border,
