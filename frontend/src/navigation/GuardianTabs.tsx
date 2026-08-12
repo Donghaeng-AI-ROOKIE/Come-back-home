@@ -1,4 +1,4 @@
-/** 보호자 하단 4탭 (Figma): 홈 / 사전등록 / 알림 / 내 정보. */
+﻿/** 보호자 하단 4탭 (Figma): 홈 / 사전등록 / 알림 / 내 정보. */
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -92,7 +92,7 @@ export default function GuardianTabs() {
         headerShown: false,
         tabBarActiveTintColor: color.guardian,
         tabBarInactiveTintColor: color.figmaGray,
-        tabBarLabelStyle: { fontSize: 11, lineHeight: 13, fontFamily: type.family, marginTop: 1 },
+        tabBarLabelStyle: { fontSize: 10, lineHeight: 13, letterSpacing: 0.16, fontFamily: type.familyRobotoSemiBold, marginTop: 1 },
         tabBarStyle: {
           backgroundColor: color.surface,
           borderTopColor: color.border,

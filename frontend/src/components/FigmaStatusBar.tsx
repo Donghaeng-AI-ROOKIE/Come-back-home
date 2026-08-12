@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 상단 상태바 — 시안의 44px 영역.
  *
  * ## 이 자리는 원래 OS 가 그리는 곳이다
@@ -16,6 +16,7 @@
  */
 import React, { useEffect, useState } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
+import { type } from '../theme/tokens';
 
 /** 홈 화면에 설치해 연 상태인가 — 그렇다면 OS 상태바가 이미 있다. */
 function isStandalone(): boolean {
@@ -71,9 +72,10 @@ const styles = StyleSheet.create({
     top: 12,
     width: 54,
     textAlign: 'center',
+    fontFamily: type.familyRobotoSemiBold,
     fontSize: 15,
     lineHeight: 18,
-    fontWeight: '600',
+    letterSpacing: -0.165,
     color: '#000000',
   },
 });

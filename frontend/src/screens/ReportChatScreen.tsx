@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+﻿import React, { useRef, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -206,18 +206,18 @@ const styles = StyleSheet.create({
   desc: { fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#525253', marginLeft: -3, marginTop: 16 },
   initialInput: { height: 112, borderRadius: 10, backgroundColor: color.figmaField, padding: 12, marginTop: 26, fontFamily: type.family, fontSize: 12, color: '#525253' },
   initialButton: { height: 57, borderRadius: 27, backgroundColor: color.figmaRed, alignItems: 'center', justifyContent: 'center', marginTop: 18, shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
-  summaryLabel: { fontFamily: type.familySemiBold, fontSize: 13, lineHeight: 18, color: '#525253', marginTop: 21 },
+  summaryLabel: { fontFamily: type.familySemiBold, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#525253', marginTop: 21 },
   summaryInput: { height: 74, borderRadius: 10, backgroundColor: color.figmaField, padding: 12, marginTop: 4, fontFamily: type.family, fontSize: 12, color: '#525253' },
-  locationLabel: { fontFamily: type.familySemiBold, fontSize: 13, lineHeight: 18, color: '#525253', marginTop: 31 },
-  timeLabel: { fontFamily: type.familySemiBold, fontSize: 13, lineHeight: 18, color: '#525253', marginTop: 25 },
-  question: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#525253', marginTop: 12 },
+  locationLabel: { fontFamily: type.familySemiBold, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#525253', marginTop: 31 },
+  timeLabel: { fontFamily: type.familySemiBold, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#525253', marginTop: 25 },
+  question: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#525253', marginTop: 12 },
   locationInput: { height: 112, borderRadius: 10, backgroundColor: color.figmaField, padding: 12, marginTop: 12, fontFamily: type.family, fontSize: 12, color: '#525253' },
   timeInput: { height: 112, borderRadius: 10, backgroundColor: color.figmaField, padding: 12, marginTop: 12, fontFamily: type.family, fontSize: 12, color: '#525253' },
   confirmChip: { alignSelf: 'flex-start', height: 16, minWidth: 58, borderRadius: 6, backgroundColor: '#DDF4D5', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 6, marginTop: 6 },
   confirmChipText: { fontFamily: type.familyMedium, fontSize: 9, lineHeight: 11, color: '#328E6E' },
   primary: { height: 57, borderRadius: 27, backgroundColor: color.figmaRed, alignItems: 'center', justifyContent: 'center', marginTop: 22, shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   timePrimary: { marginTop: 38 },
-  primaryText: { fontFamily: type.familyBold, fontSize: 20, color: '#FFFFFF' },
+  primaryText: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   secondary: { height: 57, borderRadius: 27, backgroundColor: '#D7D7D7', alignItems: 'center', justifyContent: 'center', marginTop: 9 },
   secondaryText: { fontFamily: type.familyBold, fontSize: 18, color: '#525253' },
 });

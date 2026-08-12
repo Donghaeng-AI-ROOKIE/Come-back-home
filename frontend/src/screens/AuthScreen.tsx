@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { ActivityIndicator, Image, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useAuthStore } from '../store/authStore';
@@ -6,6 +6,11 @@ import type { Role } from '../types/domain';
 import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import { useTabBarMetrics } from '../theme/tabBar';
+import AuthIntroText from '../../assets/figma/auth-intro-text.svg';
+import AuthAccountText from '../../assets/figma/auth-account-text.svg';
+import AuthTaglineText from '../../assets/figma/auth-tagline-text.svg';
+import AuthLoginLabel from '../../assets/figma/auth-login-label.svg';
+import AuthRoleLabel from '../../assets/figma/auth-role-label.svg';
 
 const authLogo = require('../../assets/figma/auth-logo.png');
 const startMascot = require('../../assets/figma/mascot-start.png');
@@ -51,19 +56,19 @@ export default function AuthScreen() {
       <FigmaStatusBar />
       <View style={styles.body}>
         <View style={styles.mascotHalo} />
-        <Text style={styles.tagline}>우리가 만드는 안심 귀가 네트워크</Text>
+        <AuthTaglineText width={131} height={9} style={styles.tagline} accessibilityLabel="우리가 만드는 안심 귀가 네트워크" />
         <Image source={authLogo} resizeMode="contain" style={styles.logo} accessibilityLabel="돌아오길" />
         <Image source={startMascot} resizeMode="contain" style={styles.mascot} accessibilityLabel="돋보기를 든 돌아오길 악어 캐릭터" />
 
         {step === 'start' && (
           <>
-            <View style={styles.introFrame}><Text style={styles.intro}>내 동네를 설정하고{`\n`}돌아오길과 함께 걸어 보세요 🏡</Text></View>
+            <View style={styles.introFrame}><AuthIntroText width={251} height={42} accessibilityLabel="내 동네를 설정하고 돌아오길과 함께 걸어 보세요" /></View>
             <Pressable accessibilityRole="button" onPress={() => { setError(''); setStep('role'); }} style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}>
               <Text style={styles.startText}>시작하기 〉</Text>
             </Pressable>
             <View style={styles.loginRow}>
-              <Text style={styles.accountText}>이미 계정이 있나요? </Text>
-              <Pressable onPress={() => { setError(''); setStep('login'); }} hitSlop={10}><Text style={styles.loginText}>로그인</Text></Pressable>
+              <AuthAccountText width={168} height={14} accessibilityLabel="이미 계정이 있나요? 로그인" />
+              <Pressable accessibilityRole="button" accessibilityLabel="로그인" onPress={() => { setError(''); setStep('login'); }} hitSlop={10} style={styles.loginHit} />
             </View>
           </>
         )}
@@ -131,7 +136,12 @@ export default function AuthScreen() {
 }
 
 function SeparatorLabel({ label }: { label: string }) {
-  return <View style={styles.separatorRow}><View style={styles.separator} /><Text style={styles.separatorText}>{label}</Text><View style={styles.separator} /></View>;
+  const exactLabel = label === '어떤 역할로 시작하시겠습니까?'
+    ? <AuthRoleLabel width={188} height={14} accessibilityLabel={label} />
+    : label === '이메일 주소로 로그인해 주세요'
+      ? <AuthLoginLabel width={184} height={14} accessibilityLabel={label} />
+      : <Text style={styles.separatorText}>{label}</Text>;
+  return <View style={styles.separatorRow}><View style={styles.separator} /><View style={styles.separatorLabel}>{exactLabel}</View><View style={styles.separator} /></View>;
 }
 
 function RoleChoice({ label, tone, onPress, style }: { label: string; tone: 'guardian' | 'citizen'; onPress: () => void; style: object }) {
@@ -150,20 +160,20 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: color.guardianWash },
   body: { flex: 1, position: 'relative' },
   mascotHalo: { position: 'absolute', top: 144, left: 215, width: 121, height: 121, borderRadius: 61, backgroundColor: '#E2F4DB' },
-  tagline: { position: 'absolute', top: 208, left: 63, width: 193, fontFamily: type.family, fontSize: 10, lineHeight: 19, color: color.figmaGray },
+  tagline: { position: 'absolute', top: 208, left: 63 },
   // Figma 원본은 153×75 로 내보낸 로고를 1:1 크기로 놓는다. 넓은 컨테이너에
   // contain으로 넣으면 높이에 맞춰 135px까지 줄어 실제 시안보다 작아진다.
   logo: { position: 'absolute', top: 230, left: 51, width: 174, height: 83 },
   mascot: { position: 'absolute', top: 174, left: 227, width: 97, height: 146 },
   introFrame: { position: 'absolute', top: 372, left: 52, width: 272, height: 68, alignItems: 'center', justifyContent: 'center' },
-  intro: { fontFamily: type.family, fontSize: 17, lineHeight: 24, color: '#525253', textAlign: 'center' },
   startButton: { position: 'absolute', top: 488, left: 16, right: 16, height: 50, borderRadius: 10, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center' },
-  startText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, color: '#FFFFFF' },
+  startText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
   loginRow: { position: 'absolute', top: 565, left: 91, width: 193, height: 19, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
-  accountText: { fontFamily: type.family, fontSize: 14, color: color.figmaGray },
+  loginHit: { position: 'absolute', right: 10, top: -8, width: 54, height: 30 },
   loginText: { fontFamily: type.familySemiBold, fontSize: 14, color: color.brandInk, textDecorationLine: 'underline' },
   separatorRow: { position: 'absolute', top: 370, left: 16, right: 16, height: 22, flexDirection: 'row', alignItems: 'center', gap: 20 },
   separator: { flex: 1, height: 1, backgroundColor: '#CAD9C5' },
+  separatorLabel: { width: 190, height: 19, alignItems: 'center', justifyContent: 'center' },
   separatorText: { width: 190, textAlign: 'center', fontFamily: type.family, fontSize: 14, lineHeight: 19, color: color.figmaGray },
   input: { position: 'absolute', left: 16, right: 16, height: 46, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.9)', paddingHorizontal: 12, fontFamily: type.familySemiBold, fontSize: 16, color: '#525253' },
   email: { top: 429 },
@@ -173,11 +183,11 @@ const styles = StyleSheet.create({
   citizenChoice: { top: 488 },
   guardianTone: { backgroundColor: color.guardian },
   citizenTone: { backgroundColor: color.brand },
-  roleChoiceText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, color: '#FFFFFF' },
-  error: { position: 'absolute', top: 545, left: 16, right: 16, fontFamily: type.family, fontSize: 13, lineHeight: 18, color: color.criticalInk },
+  roleChoiceText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
+  error: { position: 'absolute', top: 545, left: 16, right: 16, fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: color.criticalInk },
   submitButton: { position: 'absolute', top: 575, left: 16, right: 16, height: 50, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   switchRow: { position: 'absolute', top: 643, left: 16, right: 16, alignItems: 'center' },
-  roleButtonText: { fontFamily: type.familyBold, fontSize: 17, color: '#FFFFFF' },
+  roleButtonText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
   homeIndicator: { position: 'absolute', bottom: 8, left: 120, width: 135, height: 5, borderRadius: 100, backgroundColor: '#000000' },
   pressed: { opacity: 0.82 },
 });

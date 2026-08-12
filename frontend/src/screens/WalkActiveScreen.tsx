@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+﻿import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Polyline } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -173,9 +173,9 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   body: { flex: 1, overflow: 'hidden' },
   startBtn: { marginTop: 16, height: 50, paddingHorizontal: 34, borderRadius: 25, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center' },
-  startBtnText: { fontFamily: type.familyBold, fontSize: 17, color: '#FFFFFF' },
+  startBtnText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  loading: { fontFamily: type.family, fontSize: 13, color: '#525253', textAlign: 'center' },
+  loading: { fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#525253', textAlign: 'center' },
   greenTop: { position: 'absolute', top: 0, left: 0, right: 0, height: 123, backgroundColor: color.guardianWash },
   map: { position: 'absolute', top: 123, left: 0, right: 0, bottom: 0, width: '100%', height: undefined },
   // Figma 2607:834의 원본 에셋 프레임. body는 44px 상태바 아래에서 시작하므로
@@ -194,6 +194,6 @@ const styles = StyleSheet.create({
   locationHalo: { position: 'absolute', left: '50%', top: '54%', width: 95, height: 95, marginLeft: -48, marginTop: -48, borderRadius: 48, backgroundColor: 'rgba(0,122,255,0.12)', alignItems: 'center', justifyContent: 'center' },
   locationDot: { width: 22, height: 22, borderRadius: 11, backgroundColor: '#007AFF', borderWidth: 3, borderColor: '#FFFFFF' },
   end: { position: 'absolute', left: 10, right: 10, bottom: 38, height: 58, borderRadius: 30, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 } },
-  endText: { fontFamily: type.familyBold, fontSize: 20, color: '#FFFFFF' },
+  endText: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   pressed: { opacity: 0.82 },
 });

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -118,20 +118,20 @@ const styles = StyleSheet.create({
   steps: { width: 292, flexDirection: 'row', alignItems: 'center', marginTop: 55 },
   step: { width: 76, alignItems: 'center' }, line: { flex: 1, height: 1, borderTopWidth: 1, borderStyle: 'dashed', borderColor: color.brand, marginTop: -18 },
   circle: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
-  n: { fontFamily: type.familyBold, fontSize: 17, color: '#FFFFFF' }, stepLabel: { fontFamily: type.family, fontSize: 11, color: color.figmaGray, marginTop: 6, textAlign: 'center' }, stepOn: { color: color.brand },
+  n: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' }, stepLabel: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray, marginTop: 6, textAlign: 'center' }, stepOn: { color: color.brand },
   notice: { width: 330, minHeight: 69, backgroundColor: '#FFFFFF', borderRadius: 10, marginTop: 61, padding: 14 },
-  noticeTitle: { fontFamily: type.familySemiBold, fontSize: 11, color: color.brand }, noticeText: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#525253', marginTop: 4 },
+  noticeTitle: { fontFamily: type.familySemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.brand }, noticeText: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#525253', marginTop: 4 },
   // 지침 버튼이 absolute(bottom:157)인데 재시도 버튼만 일반 흐름이라, 화면이
   // 짧으면 둘이 **겹쳤다**(실측 08-12 제보). 같은 기준(bottom)으로 맞춰 지침
   // 버튼 위 10px 에 세운다 — 시안이 정한 지침 버튼 위치는 건드리지 않는다.
   retry: { position: 'absolute', bottom: 205, backgroundColor: color.figmaRed, borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10 }, retryText: { fontFamily: type.familySemiBold, fontSize: 12, color: '#FFFFFF' },
   guide: { position: 'absolute', bottom: 157, width: 255, height: 38, borderRadius: 22, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.14, shadowRadius: 2, shadowOffset: { width: 0, height: 1 } },
-  guideText: { fontFamily: type.family, fontSize: 13, color: '#525253' },
+  guideText: { fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#525253' },
 
   // 행동 지침 시트 — 신고 화면 위에 덮는다(진행 상황을 잃지 않게).
   sheetBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.35)', justifyContent: 'flex-end' },
   sheet: { backgroundColor: '#FFFFFF', borderTopLeftRadius: 18, borderTopRightRadius: 18, paddingTop: 20, paddingHorizontal: 20, paddingBottom: 16, maxHeight: '82%' },
-  sheetTitle: { fontFamily: type.familyBold, fontSize: 17, color: '#000000' },
+  sheetTitle: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#000000' },
   sheetLead: { fontFamily: type.family, fontSize: 12, lineHeight: 17, color: color.figmaGray, marginTop: 6 },
   sheetScroll: { marginTop: 14 },
   sheetScrollBody: { paddingBottom: 8 },

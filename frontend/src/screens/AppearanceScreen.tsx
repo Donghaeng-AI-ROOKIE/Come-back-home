@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -50,15 +50,15 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   body: { flex: 1, position: 'relative' },
   title: { position: 'absolute', left: 20, top: 27, fontFamily: type.familyExtraBold, fontSize: 18, lineHeight: 22, color: '#000000' },
-  subtitle: { position: 'absolute', left: 20, top: 64, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: color.figmaGray },
+  subtitle: { position: 'absolute', left: 20, top: 64, fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray },
   card: { position: 'absolute', left: 23, right: 23, top: 107, height: 348, borderRadius: 10, backgroundColor: '#FFFFFF', alignItems: 'center', shadowColor: '#000000', shadowOpacity: 0.1, shadowRadius: 7, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   photo: { position: 'absolute', top: 31, width: 247, height: 198, borderRadius: 10, backgroundColor: '#F2F2F2' },
   chips: { position: 'absolute', top: 247, flexDirection: 'row', gap: 6 },
   chip: { height: 18, borderRadius: 9, backgroundColor: '#FFC9CB', paddingHorizontal: 8, alignItems: 'center', justifyContent: 'center' },
-  chipText: { fontFamily: type.familyMedium, fontSize: 10, lineHeight: 13, color: color.figmaRed },
-  summary: { position: 'absolute', top: 282, left: 16, right: 16, textAlign: 'center', fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, color: '#525253' },
+  chipText: { fontFamily: type.familyMedium, fontSize: 10, lineHeight: 13, letterSpacing: 0.07, color: color.figmaRed },
+  summary: { position: 'absolute', top: 282, left: 16, right: 16, textAlign: 'center', fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#525253' },
   primary: { position: 'absolute', left: 10, right: 10, top: 491, height: 58, borderRadius: 30, backgroundColor: color.figmaRed, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
-  primaryText: { fontFamily: type.familyBold, fontSize: 20, color: '#FFFFFF' },
+  primaryText: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   secondary: { position: 'absolute', left: 10, right: 10, top: 560, height: 58, borderRadius: 30, backgroundColor: '#D8D8D8', alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.14, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 2 },
-  secondaryText: { fontFamily: type.familyBold, fontSize: 20, color: '#9A9A9F' },
+  secondaryText: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#9A9A9F' },
 });

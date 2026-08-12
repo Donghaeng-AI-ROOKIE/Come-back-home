@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 보호자 모드 전용 팔레트 (피그마 AI Rookie_돌아오길 [보호자] 프레임 확정본).
  *
  * tokens.ts 의 색은 "상태 심각도"를 부호화한다 — 보호자 모드는 그 위에
@@ -38,4 +38,5 @@ export const gFont = {
   medium: 'Dot42-Medium',
   semiBold: 'Dot42-SemiBold',
   bold: 'Dot42-Bold',
+  extraBold: '42dotSans-ExtraBold',
 } as const;

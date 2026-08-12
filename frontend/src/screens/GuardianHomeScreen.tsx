@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   content: { paddingBottom: 36 },
   logoRow: { height: 87, paddingLeft: 30, paddingTop: 19, flexDirection: 'row', alignItems: 'flex-start' },
-  modeLabel: { fontFamily: type.familyBold, fontSize: 16, lineHeight: 20, color: '#8E8E93', marginLeft: 12, marginTop: 0 },
+  modeLabel: { fontFamily: type.familyYeolumBold, fontSize: 16, lineHeight: 20, letterSpacing: 0.41, color: '#8E8E93', marginLeft: 12, marginTop: 0 },
   hero: { height: 135, flexDirection: 'row', alignItems: 'center', paddingLeft: 28, paddingRight: 26, gap: 19 },
   emergency: { position: 'relative', top: 3, width: 102, height: 106, borderRadius: 55, backgroundColor: '#F14444', alignItems: 'center', justifyContent: 'center', shadowColor: '#F14444', shadowOpacity: 0.63, shadowRadius: 2 },
   emergencyIcon: { width: 47, height: 43, alignItems: 'center', justifyContent: 'center' },
@@ -97,22 +97,22 @@ const styles = StyleSheet.create({
   registerIcon: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center', marginRight: 7 },
   registerCopy: { flex: 1, paddingTop: 22 },
   registerTitle: { fontFamily: type.familyBold, color: '#FFFFFF', fontSize: 15, lineHeight: 18 },
-  registerBody: { fontFamily: type.familyMedium, color: '#FFFFFF', fontSize: 10, lineHeight: 13, marginTop: 5 },
+  registerBody: { fontFamily: type.familyMedium, color: '#FFFFFF', fontSize: 10, lineHeight: 13, letterSpacing: 0.07, marginTop: 5 },
   sectionHead: { height: 64, justifyContent: 'flex-end', paddingHorizontal: 23, paddingBottom: 13 },
   sectionTitle: { fontFamily: type.familySemiBold, fontSize: 18, color: '#000000' },
   familyList: { minHeight: 158, marginHorizontal: 23, gap: 12 },
   empty: { height: 73, borderRadius: 10, backgroundColor: color.figmaField, alignItems: 'center', justifyContent: 'center' },
   emptyTitle: { fontFamily: type.familySemiBold, fontSize: 14, color: '#525253' },
-  emptyBody: { fontFamily: type.family, fontSize: 11, color: color.figmaGray, marginTop: 6 },
+  emptyBody: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray, marginTop: 6 },
   personRow: { height: 73, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center' },
   personInfo: { flex: 1 },
   nameRow: { flexDirection: 'row', alignItems: 'center' },
-  personName: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, color: '#525253' },
+  personName: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#525253' },
   dementiaBadge: { height: 16, minWidth: 63, borderRadius: 20, backgroundColor: '#D9D9D9', alignItems: 'center', justifyContent: 'center', marginLeft: 10 },
-  dementiaText: { fontFamily: type.family, fontSize: 11, color: '#525253' },
-  personMeta: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#525253', marginTop: 6 },
+  dementiaText: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#525253' },
+  personMeta: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#525253', marginTop: 6 },
   chevron: { fontFamily: type.family, fontSize: 23, color: color.guardian },
   guideBody: { paddingHorizontal: 23, paddingTop: 35, gap: 1 },
-  guideText: { fontFamily: type.family, fontSize: 13, lineHeight: 18, color: '#525253' },
+  guideText: { fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#525253' },
   pressed: { opacity: 0.78 },
 });

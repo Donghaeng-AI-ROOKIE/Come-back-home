@@ -1,4 +1,4 @@
-import { useQueryClient } from '@tanstack/react-query';
+﻿import { useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -149,14 +149,14 @@ const styles = StyleSheet.create({
   botBubble: { maxWidth: 280, minHeight: 38, borderRadius: 10, backgroundColor: '#DDF6D2', paddingHorizontal: 14, paddingVertical: 10, justifyContent: 'center' },
   quickBubble: { backgroundColor: '#F7B5B5' },
   userBubble: { maxWidth: 280, minHeight: 38, borderRadius: 10, backgroundColor: '#EDEDED', paddingHorizontal: 14, paddingVertical: 10, justifyContent: 'center' },
-  messageText: { fontFamily: type.family, fontSize: 13, lineHeight: 18, color: '#000000' },
+  messageText: { fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#000000' },
   pending: { opacity: 0.55 },
   error: { marginHorizontal: 21, marginTop: 7, borderRadius: 10, backgroundColor: color.criticalWash, padding: 12 },
   errorText: { fontFamily: type.family, fontSize: 12, lineHeight: 18, color: color.critical },
   notice: { marginHorizontal: 21, marginTop: 7, borderRadius: 10, backgroundColor: color.figmaField, padding: 12 },
   noticeText: { fontFamily: type.family, fontSize: 11, lineHeight: 16, color: '#525253' },
   composer: { height: 68, flexDirection: 'row', alignItems: 'center', paddingLeft: 16, paddingRight: 12, backgroundColor: '#FFFFFF' },
-  input: { flex: 1, height: 36, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)', backgroundColor: '#FAFAFA', paddingHorizontal: 12, paddingVertical: 0, fontFamily: type.family, fontSize: 13, color: '#000000' },
+  input: { flex: 1, height: 36, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)', backgroundColor: '#FAFAFA', paddingHorizontal: 12, paddingVertical: 0, fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#000000' },
   send: { width: 28, height: 30, borderRadius: 15, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', marginLeft: 8 },
   sendDisabled: { opacity: 0.55 }, sendText: { fontFamily: type.familyBold, fontSize: 23, lineHeight: 25, color: '#FFFFFF' }, pressed: { opacity: 0.75 },
 });

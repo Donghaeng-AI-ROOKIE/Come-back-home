@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 디자인 토큰 (spec §7 확정본).
  * 색은 "브랜드"가 아니라 "상태 심각도"를 부호화한다 — 앰버를 긴급에 쓰지 않는다.
  */
@@ -72,6 +72,8 @@ export const type = {
   familySemiBold: '42dotSans-SemiBold',
   familyBold: '42dotSans-Bold',
   familyExtraBold: '42dotSans-ExtraBold',
+  familyRobotoSemiBold: 'Roboto-SemiBold',
+  familyYeolumBold: 'HSYeolumMulbit-Bold',
   minBody: 15,
   maxScale: 1.6, // maxFontSizeMultiplier
   size: {

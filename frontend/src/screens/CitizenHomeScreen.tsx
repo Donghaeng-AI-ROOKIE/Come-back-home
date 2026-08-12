@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { ActivityIndicator, Alert, Platform, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -169,8 +169,8 @@ const styles = StyleSheet.create({
   content: { paddingBottom: 38 },
   logoRow: { height: 78, paddingLeft: 30, paddingTop: 26 },
   monthHead: { height: 87, paddingHorizontal: 16, paddingTop: 18 },
-  kicker: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#007AFF' },
-  monthTitle: { fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, color: '#000000', marginTop: 5 },
+  kicker: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#007AFF' },
+  monthTitle: { fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#000000', marginTop: 5 },
   // 시안 규격(높이 117·여백 16·라운드 10) 유지. 배경만 회색 자리표시자에서
   // 읽을 수 있는 밝은 톤으로 바꾼다 — 안에 숫자가 들어가기 때문이다.
   monthCard: {
@@ -180,8 +180,8 @@ const styles = StyleSheet.create({
   // 서체·크기는 이 화면의 체계를 따른다 — 값은 제목과 같은 SemiBold 17,
   // 라벨은 kicker 와 같은 Regular 11. 새 규격을 만들지 않는다.
   monthStat: { flex: 1, alignItems: 'center', gap: 6 },
-  monthStatValue: { fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, color: '#000000' },
-  monthStatLabel: { fontFamily: type.family, fontSize: 11, lineHeight: 13, color: color.figmaGray },
+  monthStatValue: { fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#000000' },
+  monthStatLabel: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray },
   routeLoading: { height: 212, justifyContent: 'center' },
   routeEmpty: { height: 212, paddingHorizontal: 16, fontFamily: type.family, fontSize: 12, lineHeight: 18, color: color.figmaGray },
   routeHead: { height: 56, justifyContent: 'center', paddingHorizontal: 16 },
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   routeName: { fontFamily: type.familySemiBold, fontSize: 14, lineHeight: 18, color: '#000000', marginTop: 10 },
   routeMeta: { fontFamily: type.family, fontSize: 11, lineHeight: 18, color: color.figmaGray },
   start: { height: 57, marginHorizontal: 10, marginTop: 37, borderRadius: 10, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center' },
-  startText: { fontFamily: type.familyBold, fontSize: 17, color: '#FFFFFF' },
+  startText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
   pressed: { opacity: 0.8 },
   disabled: { opacity: 0.5 },
 });

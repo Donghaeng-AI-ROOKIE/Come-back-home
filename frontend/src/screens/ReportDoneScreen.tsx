@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
   body: { flex: 1, position: 'relative', alignItems: 'center' },
   logo: { position: 'absolute', top: 88 },
   mascot: { position: 'absolute', top: 172, width: 34, height: 42 },
-  title: { position: 'absolute', top: 224, width: 305, textAlign: 'center', fontFamily: type.familySemiBold, fontSize: 20, lineHeight: 25, color: '#000000' },
+  title: { position: 'absolute', top: 224, width: 305, textAlign: 'center', fontFamily: type.familySemiBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#000000' },
   desc: { position: 'absolute', top: 263, width: 252, textAlign: 'center', fontFamily: type.familyMedium, fontSize: 14, lineHeight: 18, color: '#525253' },
   notice: { position: 'absolute', top: 317, width: 330, height: 112, borderRadius: 10, backgroundColor: '#FFFFFF', alignItems: 'center', paddingTop: 14 },
-  noticeTitle: { width: 296, textAlign: 'center', fontFamily: type.family, fontSize: 13, lineHeight: 18, color: '#297057' },
-  noticeText: { width: 296, textAlign: 'center', fontFamily: type.family, fontSize: 13, lineHeight: 18, color: '#4D4D4D', marginTop: 8 },
+  noticeTitle: { width: 296, textAlign: 'center', fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#297057' },
+  noticeText: { width: 296, textAlign: 'center', fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#4D4D4D', marginTop: 8 },
   done: { position: 'absolute', top: 483, width: 255, height: 37, borderRadius: 30, backgroundColor: '#FFFFFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, shadowColor: '#000000', shadowOpacity: 0.25, shadowRadius: 2, shadowOffset: { width: 1, height: 1 }, elevation: 3 },
   doneText: { fontFamily: type.familyMedium, fontSize: 14, lineHeight: 18, color: '#525253' },
 });
