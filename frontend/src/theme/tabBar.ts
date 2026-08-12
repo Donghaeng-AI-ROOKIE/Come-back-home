@@ -47,6 +47,17 @@ export const TAB_CONTENT_H = 59;
  */
 export const FLOW_TAB_PADDING_TOP = 12;
 
+/**
+ * 가짜 인디케이터를 그릴 때 **비워야 하는 아래 여백**.
+ *
+ * 막대는 `bottom: 8` 에 높이 5 라 아래에서 13px 를 차지한다. 그런데 내용 높이
+ * (TAB_CONTENT_H=59)는 그 몫을 안 잡고 있어서, 라벨(41~54)과 막대(46~51)가
+ * **겹쳤다** — 홈 인디케이터가 '사전등록'·'알림' 글씨를 가로지른다(제보 08-12).
+ *
+ * 13 에 숨 쉴 틈 3 을 더한다.
+ */
+const FAKE_INDICATOR_RESERVE = 16;
+
 export type TabBarMetrics = {
   /** tabBarStyle.height (또는 일반 View 의 height). */
   height: number;
@@ -65,11 +76,15 @@ export function useTabBarMetrics(): TabBarMetrics {
    * (safe-area-context 는 웹에서도 env() 를 읽으므로 insets.bottom 자체는
    * 네이티브와 똑같이 34 로 들어온다.)
    */
-  const reserve = Platform.OS === 'web' ? 0 : insets.bottom;
+  // OS 가 진짜 인디케이터를 그리는 기기에 가짜를 겹쳐 그리지 않는다.
+  const showFakeIndicator = insets.bottom === 0;
+  const reserve = showFakeIndicator
+    // 우리가 막대를 그리면 그 몫을 우리가 비워야 한다.
+    ? FAKE_INDICATOR_RESERVE
+    : Platform.OS === 'web' ? 0 : insets.bottom;
   return {
     height: TAB_CONTENT_H + reserve,
     paddingBottom: reserve,
-    // OS 가 진짜 인디케이터를 그리는 기기에 가짜를 겹쳐 그리지 않는다.
-    showFakeIndicator: insets.bottom === 0,
+    showFakeIndicator,
   };
 }

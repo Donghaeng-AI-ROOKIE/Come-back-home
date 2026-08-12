@@ -349,7 +349,9 @@ function AppearanceField({ label, value, onChangeText, accessibilityLabel, onFoc
 }) {
   return (
     <View style={styles.appearanceField}>
-      <Text style={styles.appearanceLabel}>{label}</Text>
+      {/* 한 줄로 고정한다 — "상의"가 "상/의" 로 쪼개져 보였다(현장 제보 08-12).
+          폰트·크기·색은 시안 값 그대로 두고 줄바꿈만 막는다. */}
+      <Text style={styles.appearanceLabel} numberOfLines={1}>{label}</Text>
       <TextInput value={value} onChangeText={onChangeText} onFocus={onFocus} style={styles.appearanceInput} accessibilityLabel={accessibilityLabel} />
     </View>
   );
@@ -397,11 +399,15 @@ const styles = StyleSheet.create({
   appearanceSection: { height: 104, backgroundColor: '#FFFFFF' },
   appearanceTopRow: { height: 21, marginHorizontal: 29, flexDirection: 'row', flexWrap: 'nowrap', gap: 8 },
   appearanceField: { flex: 1, minWidth: 0, height: 21, flexDirection: 'row', alignItems: 'center' },
-  appearanceLabel: { width: 27, fontFamily: type.familySemiBold, fontSize: 12, lineHeight: 16, color: '#E05454' },
-  appearanceInput: { flex: 1, height: 21, borderRadius: 5, backgroundColor: '#F8F8F8', paddingHorizontal: 5, paddingVertical: 0, fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#525253', outlineStyle: 'none' } as any,
+  // 시안은 width 27 인데, 폰 폰트에서 '상의' 두 글자가 그 폭을 넘겨 줄이 바뀌었다.
+  // 최소폭으로 바꿔 왼쪽 시작점(=시안 배치)은 지키고 글자만 안 깨지게 한다.
+  appearanceLabel: { minWidth: 27, fontFamily: type.familySemiBold, fontSize: 12, lineHeight: 16, color: '#E05454' },
+  // minWidth: 0 이 없으면 웹에서 <input> 의 기본 최소 너비(약 135px)가 flex 축소를
+  // 막아 3칸이 가로로 넘쳐 "신발" 칸이 화면 밖으로 밀린다.
+  appearanceInput: { flex: 1, minWidth: 0, height: 21, borderRadius: 5, backgroundColor: '#F8F8F8', paddingHorizontal: 5, paddingVertical: 0, fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#525253', outlineStyle: 'none' } as any,
   appearanceBottomRow: { height: 21, marginHorizontal: 29, marginTop: 10, flexDirection: 'row', alignItems: 'center' },
   appearanceEtcLabel: { width: 80, fontFamily: type.familySemiBold, fontSize: 12, lineHeight: 16, color: '#E05454' },
-  appearanceEtcInput: { flex: 1, height: 21, borderRadius: 5, backgroundColor: '#F8F8F8', paddingHorizontal: 5, paddingVertical: 0, fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#525253', outlineStyle: 'none' } as any,
+  appearanceEtcInput: { flex: 1, minWidth: 0, height: 21, borderRadius: 5, backgroundColor: '#F8F8F8', paddingHorizontal: 5, paddingVertical: 0, fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#525253', outlineStyle: 'none' } as any,
 
   ctaSection: { height: 77, alignItems: 'center', backgroundColor: '#FFFFFF', paddingTop: 13 },
   submit: { width: 204, height: 49, borderRadius: 30, backgroundColor: '#F14444', alignItems: 'center', justifyContent: 'center', shadowColor: '#F14444', shadowOpacity: 0.63, shadowRadius: 2, shadowOffset: { width: 0, height: 0 }, elevation: 3 },
