@@ -191,7 +191,20 @@ const styles = StyleSheet.create({
   metric: { flex: 1, height: 51, borderRadius: 10, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
   metricLabel: { fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray },
   metricValue: { fontFamily: type.familyCssExtraBold, fontSize: 18, lineHeight: 23, color: '#000000', marginTop: 2 },
-  locationHalo: { position: 'absolute', left: '50%', top: '54%', width: 95, height: 95, marginLeft: -48, marginTop: -48, borderRadius: 48, backgroundColor: 'rgba(0,122,255,0.12)', alignItems: 'center', justifyContent: 'center' },
+  /**
+   * 내 위치 표식 — **지도의 중심에 정확히 얹혀야 한다.**
+   *
+   * 지도는 현재 위치를 중심으로 그려지므로(`center={here}`), 이 점은 지도 영역의
+   * 한가운데에 있어야 실제 위치를 가리킨다. 그런데 `top: '54%'` 는 지도가 아니라
+   * **화면 전체(body) 기준**이었다. 지도는 `top: 123` 부터 시작하므로 둘의 중심이
+   * 어긋난다 — 실측 08-12: 점이 지도 중심보다 **37px 위**, 축척상 약 70m 북쪽을
+   * 가리키고 있었다. 산책 중 "내가 여기 있다"는 표시가 70m 틀린 셈이다.
+   *
+   * 지도 중심 = 123 + (H-123)/2 = 0.5H + 61.5 (H = body 높이).
+   * 그래서 화면 중앙(50%)에서 61.5 만큼 내린다 — marginTop 은 반지름(47.5)을
+   * 빼야 하므로 61.5 - 47.5 = 14.
+   */
+  locationHalo: { position: 'absolute', left: '50%', top: '50%', width: 95, height: 95, marginLeft: -48, marginTop: 14, borderRadius: 48, backgroundColor: 'rgba(0,122,255,0.12)', alignItems: 'center', justifyContent: 'center' },
   locationDot: { width: 22, height: 22, borderRadius: 11, backgroundColor: '#007AFF', borderWidth: 3, borderColor: '#FFFFFF' },
   end: { position: 'absolute', left: 10, right: 10, bottom: 38, height: 58, borderRadius: 30, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   endText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
