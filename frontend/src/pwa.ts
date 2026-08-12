@@ -59,10 +59,39 @@ function scaleToPhone(): void {
     // 데스크톱에서까지 늘리면 거대해진다 — 폰 범위(≤560px)에서만 맞춘다.
     // 배율은 안전 범위로 자른다(너무 작게·크게 그리지 않는다).
     const s = w <= 560 ? Math.min(Math.max(w / BASE, 0.7), 1.6) : 1;
+
+    /**
+     * 키보드가 떠 있으면 홈 인디케이터 여백을 걷는다.
+     *
+     * 아래 <style> 의 `#root { padding-bottom: env(safe-area-inset-bottom) }` 는
+     * 인디케이터에 가려지지 않게 앱을 34px 띄워 두는 장치다. 그런데 키보드가
+     * 올라오면 인디케이터는 키보드에 가려 보이지도 않는데 그 34px 을 계속
+     * 비워 둔다 — 앱이 보이는 영역보다 그만큼 짧아져서 **입력칸과 키보드
+     * 사이에 흰 띠**가 생긴다(현장 제보 08-12, 온보딩 챗봇).
+     *
+     * 레이아웃 뷰포트(innerHeight)는 키보드가 떠도 안 줄고 보이는 영역만
+     * 줄어드는 것을 이용해 판정한다. 임계값은 hooks/useKeyboardVisible 과 같다.
+     */
+    const keyboardUp = window.innerHeight - h > 150;
+    root.style.paddingBottom = keyboardUp ? '0px' : '';
+
+    /**
+     * 사파리가 **보이는 영역 자체를 위로 밀어 둔** 양.
+     *
+     * html/body 가 100dvh 로 묶여 있어 문서는 넘칠 것이 없다 = 스크롤되지 않는다.
+     * 그래서 iOS 는 입력칸을 보이게 하려고 문서 대신 **비주얼 뷰포트를 팬(pan)**
+     * 한다. 이때 `window.scrollY` 는 0 그대로라 스크롤을 되돌리는 방법으로는
+     * 잡히지 않는다 — 입력칸이 키보드에서 떨어져 그 사이가 하얗게 뜨던 것의
+     * 정체(현장 제보 08-12).
+     *
+     * 밀린 만큼 앱을 아래로 옮겨 보이는 영역에 다시 붙인다. translate 를 scale
+     * 앞에 두는 이유는 부모 좌표계(확대 전 px)로 움직여야 단위가 맞아서다.
+     */
+    const panY = window.visualViewport?.offsetTop ?? 0;
     if (s === 1) {
       root.style.removeProperty('width');
-      root.style.removeProperty('transform');
-      root.style.removeProperty('transform-origin');
+      root.style.transformOrigin = 'top left';
+      root.style.transform = panY ? `translateY(${panY}px)` : '';
       // 배율을 안 쓰더라도 키보드 높이는 반영해야 한다.
       root.style.height = `${h}px`;
       root.style.maxHeight = `${h}px`;
@@ -75,7 +104,7 @@ function scaleToPhone(): void {
     root.style.height = `${h / s}px`;
     root.style.maxHeight = `${h / s}px`;
     root.style.transformOrigin = 'top left';
-    root.style.transform = `scale(${s})`;
+    root.style.transform = `translateY(${panY}px) scale(${s})`;
   };
 
   apply();

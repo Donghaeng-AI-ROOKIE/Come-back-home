@@ -7,6 +7,7 @@ import { PlatformPressable } from '@react-navigation/elements';
 import type { GuardianTabParamList } from './types';
 import { color, radius, space, type } from '../theme/tokens';
 import { useTabBarMetrics } from '../theme/tabBar';
+import { useKeyboardVisible } from '../hooks/useKeyboardVisible';
 import CTAButton from '../components/CTAButton';
 import GuardianHomeScreen from '../screens/GuardianHomeScreen';
 import RegChatScreen from '../screens/RegChatScreen';
@@ -86,6 +87,9 @@ function GuardianMyScreen() {
 export default function GuardianTabs() {
   // 시민 탭과 같은 이유로 안전영역을 더해서 높이를 정한다 (theme/tabBar.ts).
   const tabBar = useTabBarMetrics();
+  // 키보드가 떠 있으면 탭바를 감춘다 — 앱이 보이는 높이로 줄어들면서 탭바가
+  // 키보드 바로 위로 올라와 대화 영역을 잡아먹는다(hooks/useKeyboardVisible).
+  const keyboardOpen = useKeyboardVisible();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -99,6 +103,7 @@ export default function GuardianTabs() {
           height: tabBar.height,
           paddingTop: 7,
           paddingBottom: tabBar.paddingBottom,
+          display: keyboardOpen ? 'none' : 'flex',
           borderTopLeftRadius: 42,
           borderTopRightRadius: 42,
           overflow: 'hidden',

@@ -12,6 +12,7 @@ import { PlatformPressable } from '@react-navigation/elements';
 import type { CitizenTabParamList } from './types';
 import { color, type } from '../theme/tokens';
 import { useTabBarMetrics } from '../theme/tabBar';
+import { useKeyboardVisible } from '../hooks/useKeyboardVisible';
 import CitizenHomeScreen from '../screens/CitizenHomeScreen';
 import WalkActiveScreen from '../screens/WalkActiveScreen';
 import CitizenAlertsScreen from '../screens/CitizenAlertsScreen';
@@ -24,6 +25,9 @@ export default function CitizenTabs() {
   // 높이를 85 로 박아 두면 기기 안전영역이 이중으로 빠져 라벨이 잘린다 —
   // 사유는 theme/tabBar.ts 참고.
   const tabBar = useTabBarMetrics();
+  // 키보드가 떠 있으면 탭바를 감춘다 — 앱이 보이는 높이로 줄어들면서 탭바가
+  // 키보드 바로 위로 올라와 대화 영역을 잡아먹는다(hooks/useKeyboardVisible).
+  const keyboardOpen = useKeyboardVisible();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -37,6 +41,7 @@ export default function CitizenTabs() {
           height: tabBar.height,
           paddingTop: 7,
           paddingBottom: tabBar.paddingBottom,
+          display: keyboardOpen ? 'none' : 'flex',
         },
         tabBarItemStyle: styles.tabItem,
         tabBarButton: (props) => <PlatformPressable {...props} style={[props.style, styles.tabButton]} />,
