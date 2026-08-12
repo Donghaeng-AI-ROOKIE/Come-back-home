@@ -9,7 +9,6 @@ import { useTabBarMetrics } from '../theme/tabBar';
 import AuthIntroText from '../../assets/figma/auth-intro-text.svg';
 import AuthAccountText from '../../assets/figma/auth-account-text.svg';
 import AuthTaglineText from '../../assets/figma/auth-tagline-text.svg';
-import AuthRoleLabel from '../../assets/figma/auth-role-label.svg';
 
 const authLogo = require('../../assets/figma/auth-logo.png');
 const startMascot = require('../../assets/figma/mascot-start.png');
@@ -155,10 +154,7 @@ export default function AuthScreen() {
 }
 
 function SeparatorLabel({ label }: { label: string }) {
-  const exactLabel = label === '어떤 역할로 시작하시겠습니까?'
-    ? <AuthRoleLabel width={188} height={14} accessibilityLabel={label} />
-    : <Text style={styles.separatorText}>{label}</Text>;
-  return <View style={styles.separatorRow}><View style={styles.separator} /><View style={styles.separatorLabel}>{exactLabel}</View><View style={styles.separator} /></View>;
+  return <View style={styles.separatorRow}><View style={styles.separator} /><View style={styles.separatorLabel}><Text style={styles.separatorText}>{label}</Text></View><View style={styles.separator} /></View>;
 }
 
 function RoleChoice({ label, tone, onPress, style }: { label: string; tone: 'guardian' | 'citizen'; onPress: () => void; style: object }) {
