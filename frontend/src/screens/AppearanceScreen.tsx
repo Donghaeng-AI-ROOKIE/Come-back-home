@@ -8,7 +8,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
-import PersonSilhouette from '../components/PersonSilhouette';
+import AppearanceFigure from '../components/AppearanceFigure';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import { useActiveAlerts } from '../hooks/queries';
 import { alertToView } from '../data/missingView';
@@ -32,7 +32,7 @@ export default function AppearanceScreen() {
         <View style={styles.card}>
           {/* 사진은 받지 않는다(08-07 결정) — 자리표시 사진을 두면 남의 얼굴이
               실종자로 읽힌다. 보호자가 입력한 옷 색으로 실루엣을 그린다. */}
-          <PersonSilhouette colors={alert?.appearanceColors} appearance={alert?.appearance} size={198} rounded={false} style={styles.photo} />
+          <AppearanceFigure colors={alert?.appearanceColors} appearance={alert?.appearance} size={198} style={styles.photo} />
           <View style={styles.chips}>
             {detailLabels.map((label) => <View key={label} style={styles.chip}><Text style={styles.chipText} numberOfLines={1}>{label}</Text></View>)}
           </View>
