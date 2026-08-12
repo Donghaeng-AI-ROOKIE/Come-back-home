@@ -742,7 +742,7 @@ const styles = StyleSheet.create({
   ctaLabel: {
     fontSize: type.size.cardTitle,
     color: color.surface,
-    fontFamily: type.familyExtraBold,
+    fontFamily: type.familyCssExtraBold,
   },
 
   pressed: { opacity: 0.9 },

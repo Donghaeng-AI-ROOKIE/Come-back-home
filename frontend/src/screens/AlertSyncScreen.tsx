@@ -205,6 +205,6 @@ const styles = StyleSheet.create({
   infoIcon: { width: 12, textAlign: 'center', fontSize: 9, fontWeight: '700', color: red },
   infoText: { flex: 1, marginLeft: 6, fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: ink },
   reportButton: { marginHorizontal: 10, marginTop: 19, height: 57, borderRadius: 26, backgroundColor: red, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
-  reportText: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
+  reportText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   tabs: { position: 'absolute', left: 0, right: 0, bottom: 0 },
 });
