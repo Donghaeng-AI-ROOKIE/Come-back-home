@@ -24,7 +24,13 @@ export default function AlertDetailScreen() {
   const { data: alerts } = useActiveAlerts();
   const alert = alerts?.find((item) => item.caseId === caseId);
   const view = alertToView(alert ?? {});
-  const appearance = view.appearance.slice(0, 5);
+  // 서버/예전 목업이 인상착의를 한 문장으로 내려줘도 상의·하의·신발·체형은
+  // 피그마처럼 각각 독립된 태그여야 한다. 배열 경계와 쉼표 경계를 모두 정규화한다.
+  const appearance = view.appearance
+    .flatMap((item) => item.split(/[,，\n]+/))
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .slice(0, 4);
   const watching = usePresenceCount(caseId);
   const golden = useGoldenTime();
 
@@ -62,7 +68,7 @@ export default function AlertDetailScreen() {
           <Text style={styles.name}>{view.title}</Text>
           <Text style={styles.meta}>{view.meta}</Text>
           <View style={styles.tags}>
-            {appearance.map((tag) => <View key={tag} style={styles.tag}><Text style={styles.tagText} numberOfLines={1}>{tag}</Text></View>)}
+            {appearance.map((tag, index) => <View key={`${tag}-${index}`} style={styles.tag}><Text style={styles.tagText} numberOfLines={1}>{tag}</Text></View>)}
           </View>
           <Text style={styles.chevron}>›</Text>
         </Pressable>
