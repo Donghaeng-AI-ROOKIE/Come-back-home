@@ -16,7 +16,7 @@ export default function FigmaFlowTabBar({ mode, active }: {
   // 탭바 세 개가 같은 규칙을 쓰도록 같은 훅에서 받는다 (theme/tabBar.ts).
   const tabBar = useTabBarMetrics();
   const guardian = mode === 'guardian';
-  const accent = guardian ? color.guardian : color.brand;
+  const accent = guardian ? color.guardian : active === 'alert' ? color.figmaRed : color.brand;
   const items: { key: typeof active; label: string; icon: FigmaTabIconName }[] = guardian
     ? [
         { key: 'home', label: '홈', icon: 'home' },

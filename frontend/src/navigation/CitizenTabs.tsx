@@ -11,7 +11,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements';
 import type { CitizenTabParamList } from './types';
 import { color, type } from '../theme/tokens';
-import { useModeTheme } from '../theme/theme';
 import { useTabBarMetrics } from '../theme/tabBar';
 import CitizenHomeScreen from '../screens/CitizenHomeScreen';
 import WalkActiveScreen from '../screens/WalkActiveScreen';
@@ -22,7 +21,6 @@ import FigmaTabIcon from '../components/FigmaTabIcon';
 const Tab = createBottomTabNavigator<CitizenTabParamList>();
 
 export default function CitizenTabs() {
-  const t = useModeTheme();
   // 높이를 85 로 박아 두면 기기 안전영역이 이중으로 빠져 라벨이 잘린다 —
   // 사유는 theme/tabBar.ts 참고.
   const tabBar = useTabBarMetrics();
@@ -30,7 +28,7 @@ export default function CitizenTabs() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: t.accent,
+        tabBarActiveTintColor: color.brand,
         tabBarInactiveTintColor: color.textCaption,
         tabBarLabelStyle: { fontSize: 10, lineHeight: 13, letterSpacing: 0.16, fontFamily: type.familyCssBold, marginTop: 1 },
         tabBarStyle: {
@@ -72,7 +70,8 @@ export default function CitizenTabs() {
         component={CitizenAlertsScreen}
         options={{
           tabBarLabel: '긴급 알림',
-          tabBarIcon: ({ focused }) => <FigmaTabIcon name="alert" focused={focused} activeColor={t.accent} />,
+          tabBarActiveTintColor: color.figmaRed,
+          tabBarIcon: ({ focused }) => <FigmaTabIcon name="alert" focused={focused} activeColor={color.figmaRed} />,
         }}
       />
       <Tab.Screen
