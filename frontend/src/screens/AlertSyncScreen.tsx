@@ -15,9 +15,11 @@ import PoaHeatmap from '../components/PoaHeatmap';
 import MapPin from '../components/MapPin';
 import WebMap from '../components/WebMap';
 import PersonSilhouette from '../components/PersonSilhouette';
+import { useTabBarMetrics } from '../theme/tabBar';
 
 
 export default function AlertSyncScreen() {
+  const tabBar = useTabBarMetrics();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'AlertSync'>>();
   const caseId = route.params.caseId;
@@ -60,7 +62,7 @@ export default function AlertSyncScreen() {
       {poa.isLoading && Platform.OS !== 'web' ? <ActivityIndicator style={styles.mapLoading} color={red} /> : null}
       <View style={styles.status}><FigmaStatusBar /></View>
 
-      <View style={styles.sheet}>
+      <View style={[styles.sheet, { bottom: tabBar.height }]}>
         <View style={styles.handle} />
         <Text style={styles.kicker}>지금 함께 찾고 있어요</Text>
         {watching != null ? <View style={styles.count}><Text style={styles.countText}>•{watching}명</Text></View> : null}
@@ -86,7 +88,7 @@ export default function AlertSyncScreen() {
           <Text style={styles.reportText}>목격 내용 제보하기</Text>
         </Pressable>
       </View>
-      <View style={styles.tabs}><FigmaFlowTabBar mode="citizen" active="alert" /></View>
+      <View style={[styles.tabs, { height: tabBar.height }]}><FigmaFlowTabBar mode="citizen" active="alert" /></View>
     </View>
   );
 }
@@ -100,7 +102,7 @@ const styles = StyleSheet.create({
   map: { position: 'absolute', left: 0, right: 0, top: 0, width: '100%', height: 383 },
   mapLoading: { position: 'absolute', top: 170, left: 0, right: 0 },
   status: { position: 'absolute', top: 0, left: 0, right: 0 },
-  sheet: { position: 'absolute', left: 0, right: 0, top: 367, bottom: 0, borderTopLeftRadius: 12, borderTopRightRadius: 12, backgroundColor: 'rgba(255,255,255,0.96)', shadowColor: '#000', shadowOpacity: 0.14, shadowRadius: 25, shadowOffset: { width: 0, height: -2 } },
+  sheet: { position: 'absolute', left: 0, right: 0, top: 367, borderTopLeftRadius: 12, borderTopRightRadius: 12, backgroundColor: 'rgba(255,255,255,0.96)', shadowColor: '#000', shadowOpacity: 0.14, shadowRadius: 25, shadowOffset: { width: 0, height: -2 }, elevation: 8 },
   handle: { position: 'absolute', top: 8, left: '45%', right: '45%', height: 5, borderRadius: 3, backgroundColor: 'rgba(0,0,0,0.1)' },
   kicker: { position: 'absolute', left: 17, top: 26, fontFamily: type.familySemiBold, fontSize: 13, lineHeight: 18, color: 'rgba(0,0,0,0.4)' },
   count: { position: 'absolute', right: 27, top: 28, width: 51, height: 21, borderRadius: 20, backgroundColor: '#D9D9D9', alignItems: 'center', justifyContent: 'center' },
@@ -111,14 +113,14 @@ const styles = StyleSheet.create({
   tags: { position: 'absolute', left: 77, top: 116, flexDirection: 'row', gap: 5, alignItems: 'center' },
   tag: { height: 18, paddingHorizontal: 6, borderRadius: 20, backgroundColor: wash, justifyContent: 'center' },
   tagText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, color: red },
-  photoButton: { height: 18, paddingHorizontal: 9, borderRadius: 20, backgroundColor: red, justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 2 },
+  photoButton: { height: 18, paddingHorizontal: 9, borderRadius: 20, backgroundColor: red, justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 2, elevation: 2 },
   photoText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, color: '#FFFFFF' },
   infoCard: { position: 'absolute', left: 23, right: 21, height: 41, borderRadius: 9, backgroundColor: '#FFF4F4' },
   firstInfo: { top: 155 },
   secondInfo: { top: 205 },
   infoIcon: { position: 'absolute', left: 9, top: 11, width: 12, textAlign: 'center', fontSize: 9, fontWeight: '700', color: red },
   infoText: { position: 'absolute', left: 27, top: 7, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: ink },
-  reportButton: { position: 'absolute', left: 10, right: 10, top: 265, height: 57, borderRadius: 26, backgroundColor: red, alignItems: 'center', justifyContent: 'center' },
+  reportButton: { position: 'absolute', left: 10, right: 10, bottom: 12, height: 57, borderRadius: 26, backgroundColor: red, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   reportText: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, color: '#FFFFFF' },
-  tabs: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 85 },
+  tabs: { position: 'absolute', left: 0, right: 0, bottom: 0 },
 });

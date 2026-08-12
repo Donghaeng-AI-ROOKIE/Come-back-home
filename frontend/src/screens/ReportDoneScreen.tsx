@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
   notice: { position: 'absolute', top: 317, width: 330, height: 112, borderRadius: 10, backgroundColor: '#FFFFFF', alignItems: 'center', paddingTop: 14 },
   noticeTitle: { width: 296, textAlign: 'center', fontFamily: type.family, fontSize: 13, lineHeight: 18, color: '#297057' },
   noticeText: { width: 296, textAlign: 'center', fontFamily: type.family, fontSize: 13, lineHeight: 18, color: '#4D4D4D', marginTop: 8 },
-  done: { position: 'absolute', top: 483, width: 255, height: 37, borderRadius: 30, backgroundColor: '#FFFFFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, shadowColor: '#000000', shadowOpacity: 0.25, shadowRadius: 2, shadowOffset: { width: 1, height: 1 } },
+  done: { position: 'absolute', top: 483, width: 255, height: 37, borderRadius: 30, backgroundColor: '#FFFFFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, shadowColor: '#000000', shadowOpacity: 0.25, shadowRadius: 2, shadowOffset: { width: 1, height: 1 }, elevation: 3 },
   doneText: { fontFamily: type.familyMedium, fontSize: 14, lineHeight: 18, color: '#525253' },
 });

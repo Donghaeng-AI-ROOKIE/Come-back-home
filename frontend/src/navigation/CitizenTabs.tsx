@@ -72,9 +72,7 @@ export default function CitizenTabs() {
         component={CitizenAlertsScreen}
         options={{
           tabBarLabel: '긴급 알림',
-          tabBarIcon: ({ focused }) => (
-            <FigmaTabIcon name="alert" focused={focused || t.mode === 'search'} activeColor={t.accent} />
-          ),
+          tabBarIcon: ({ focused }) => <FigmaTabIcon name="alert" focused={focused} activeColor={t.accent} />,
         }}
       />
       <Tab.Screen
