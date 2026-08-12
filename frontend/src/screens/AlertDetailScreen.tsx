@@ -117,7 +117,7 @@ export default function AlertDetailScreen() {
 }
 
 const ink = '#525253';
-const red = '#E05454';
+const red = color.figmaRed;
 const wash = '#FFC9CB';
 
 const styles = StyleSheet.create({

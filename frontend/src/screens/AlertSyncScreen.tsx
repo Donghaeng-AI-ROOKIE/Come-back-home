@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
-import { type } from '../theme/tokens';
+import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import { useAppModeStore } from '../store/appModeStore';
@@ -93,7 +93,7 @@ export default function AlertSyncScreen() {
   );
 }
 
-const red = '#E05454';
+const red = color.figmaRed;
 const wash = '#FFC9CB';
 const ink = '#525253';
 

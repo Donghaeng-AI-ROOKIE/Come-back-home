@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
-import { type } from '../theme/tokens';
+import { color, type } from '../theme/tokens';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import DoneLogo from '../../assets/figma/report-done-logo.svg';
@@ -35,7 +35,7 @@ export default function ReportDoneScreen() {
           </View>
 
           <Pressable style={styles.done} onPress={goHome} accessibilityRole="button">
-            <DoneHome width={14} height={14} />
+            <DoneHome width={14} height={14} color={color.brand} />
             <Text style={styles.doneText}>홈으로 돌아가기</Text>
           </Pressable>
         </View>

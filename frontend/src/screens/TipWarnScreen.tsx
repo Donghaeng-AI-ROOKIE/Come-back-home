@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   warnHead: { flexDirection: 'row', alignItems: 'center', gap: 7 },
   warnTitle: { fontFamily: type.familyRobotoSemiBold, fontSize: 18, lineHeight: 20, letterSpacing: -0.24, color: '#525253' },
   warnText: { fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaRed, marginTop: 12 },
-  primary: { position: 'absolute', left: 10, right: 10, top: 250, height: 57, borderRadius: 26, backgroundColor: '#E05454', alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 3, shadowOffset: { width: 1, height: 2 }, elevation: 3 },
+  primary: { position: 'absolute', left: 10, right: 10, top: 250, height: 57, borderRadius: 26, backgroundColor: color.figmaRed, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 3, shadowOffset: { width: 1, height: 2 }, elevation: 3 },
   primaryText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   secondary: { position: 'absolute', left: 10, right: 10, top: 318, height: 57, borderRadius: 26, backgroundColor: '#DADADA', alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.14, shadowRadius: 3, shadowOffset: { width: 1, height: 2 }, elevation: 2 },
   secondaryText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#8E8E93' },
