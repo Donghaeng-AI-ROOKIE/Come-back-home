@@ -3,7 +3,7 @@
 import logging
 from datetime import datetime, timedelta
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel, Field
 
 from app import storage
@@ -11,6 +11,7 @@ from app.geo import h3grid
 from app.phase3 import alerts, devices, presence, storytelling, tip_flow, triggers, webpush
 from app.privacy import lifecycle
 from app.schemas.case import CaseStatus
+from app.schemas.tip import Tip
 from app.schemas.common import GeoPoint
 from app.schemas.device import Engagement, Platform
 
@@ -171,7 +172,7 @@ def list_resolved_alerts(cell_res7: str | None = None, hours: int = 24):
 
 
 @router.post("/cases/{case_id}/tips")
-def submit_tip(case_id: str, body: TipIn):
+def submit_tip(case_id: str, body: TipIn, background: BackgroundTasks):
     """시민 제보 접수(자유텍스트) → 신뢰도 p → 층1 갱신 (+조건 충족 시 층2 재실행).
 
     위치를 텍스트에서도 명시값에서도 못 얻으면 저장하지 않고
@@ -187,13 +188,30 @@ def submit_tip(case_id: str, body: TipIn):
     _require_active(case)
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
+    # **제보자를 기다리게 하지 않는다.**
+    #
+    # 고신뢰 제보는 접수와 동시에 예상 경로를 다시 계산한다. 그 지역 도로망이
+    # 서버에 없으면 내려받느라 오래 걸린다 — 실측 08-12: 신촌 사건에 망원역
+    # 제보를 넣으니 **88초**. 그동안 제보한 시민은 "전송 중…" 화면에 묶여 있었고
+    # ("무한 로딩" 현장 제보), 공개 경로의 Cloudflare 100초 상한을 넘기면 아예
+    # 실패로 보였다.
+    #
+    # 그런데 그 시간은 제보자가 기다릴 필요가 없는 시간이다. 그 사람은 현장에서
+    # 찾고 있고, 제보는 이미 저장됐다. 그래서:
+    #   - 접수·층1 갱신까지만 하고 즉시 응답한다(1초 안팎)
+    #   - 무거운 재예측은 응답 뒤 백그라운드에서 돈다
+    #   - **기존 확률지도는 그대로 살아 있다가** 계산이 끝나면 교체된다
+    #     (앱은 15초 주기 조회로 새 지도를 받아 간다)
     result = tip_flow.process_tip(
         case,
         text=body.text,
         location=body.location,
         seen_at=body.seen_at,
         force=body.force,
+        defer_heavy=True,
     )
+    if isinstance(result, Tip) and tip_flow.needs_heavy(case, result):
+        background.add_task(tip_flow.finish_tip, case.id, result.id)
     # process_tip 은 되묻기면 dict, 접수되면 Tip 객체를 준다 — 형이 갈리므로
     # dict 일 때만 status 를 본다. 되묻기(need_more)는 아직 접수가 아니라서
     # 세지 않는다: 위치를 못 준 채 여러 번 시도한 것이 제보 건수로 부풀면 안 된다.

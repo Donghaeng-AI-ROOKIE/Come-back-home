@@ -27,6 +27,8 @@ export default function ReportChatScreen() {
   const [location, setLocation] = useState('');
   const [seenAt, setSeenAt] = useState('');
   const [sending, setSending] = useState(false);
+  /** 전송이 오래 걸릴 때 화면에 띄우는 진행 안내(왜 기다리는지). */
+  const [progress, setProgress] = useState('');
   /**
    * 서버가 '추가 확인'을 한 번이라도 돌려보냈는가.
    *
@@ -41,6 +43,20 @@ export default function ReportChatScreen() {
   const submit = async ({ withoutLocation = false, withoutTime = false } = {}) => {
     if (sending) return;
     setSending(true);
+    /**
+     * 오래 걸리는 이유를 화면이 말하게 한다.
+     *
+     * 신뢰도가 높은 제보는 접수와 동시에 **예상 경로를 다시 계산한다**(층2).
+     * 그 지역 도로망이 서버에 없으면 내려받느라 오래 걸린다 —
+     * 실측 08-12: 신촌 사건에 망원역 제보를 넣으니 **88초**.
+     *
+     * 그동안 화면에는 '전송 중…'만 떠 있었다. 90초 가까이 그 상태면 사용자는
+     * 앱이 멈춘 줄 안다("무한 로딩이 걸린다" 현장 제보). 실제로는 정상 동작이고,
+     * 그 시간이 예상 경로를 좁히는 데 쓰이고 있다. 그러면 그렇게 말해야 한다.
+     */
+    setProgress('');
+    const t1 = setTimeout(() => setProgress('제보를 반영해 예상 경로를 다시 계산하고 있어요.'), 6_000);
+    const t2 = setTimeout(() => setProgress('처음 보는 지역이라 지도를 내려받는 중입니다. 최대 2분까지 걸릴 수 있어요.'), 25_000);
     try {
       const includeLocation = !withoutLocation && !!location.trim();
       const includeTime = !withoutTime && !!seenAt.trim();
@@ -66,6 +82,7 @@ export default function ReportChatScreen() {
         askedOnce.current = true;   // 다음 전송은 반드시 접수된다
         setStep(result.missing.includes('location') ? 'location' : 'time');
         Alert.alert('추가 확인이 필요해요', result.reason || '목격 위치나 시각을 조금 더 알려주세요.');
+        clearTimeout(t1); clearTimeout(t2); setProgress('');
         setSending(false);
         return;
       }
@@ -83,6 +100,10 @@ export default function ReportChatScreen() {
     } catch (e) {
       Alert.alert('제보를 전송하지 못했습니다', String(e));
       setSending(false);
+    } finally {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      setProgress('');
     }
   };
 
