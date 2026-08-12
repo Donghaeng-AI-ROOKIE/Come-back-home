@@ -8,7 +8,7 @@ import type { RootStackParamList } from '../navigation/types';
 import { useActiveAlerts, useResolvedAlerts } from '../hooks/queries';
 import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
-import { isLocationSettled, useMyLocation } from '../hooks/useMyLocation';
+import { isLocationSettled, retryLocation, useMyLocation } from '../hooks/useMyLocation';
 
 export default function CitizenAlertsScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -43,13 +43,18 @@ export default function CitizenAlertsScreen() {
         {/* 위치가 없으면 **"없다"가 아니라 "모른다"** 라고 말한다. 이 화면은 내 칸을
             서버에 보내고 서버가 고르는 구조라, 위치가 없으면 판단 자체가 불가능하다. */}
         {locationBlocked ? (
-          <View style={styles.empty}>
+          /* 누를 수 있어야 한다. 첫 시도가 실패하면 앱은 다시 묻지 않는데
+             (useMyLocation.retryLocation 주석), 사용자가 팝업을 놓치는 일은
+             흔하다 — 손가락으로 다시 부를 길을 준다. iOS 는 사용자 조작 직후에
+             권한 팝업이 가장 잘 뜨기도 한다. */
+          <Pressable style={styles.empty} onPress={retryLocation} accessibilityRole="button">
             <Text style={styles.emptyText}>
-              위치를 확인할 수 없어 주변 사건을 불러오지 못했습니다.{`\n`}
-              설정에서 위치 권한을 켜 주세요.{`\n\n`}
-              알림은 계속 받을 수 있지만, 이 목록은 위치가 있어야 보입니다.
+              위치를 확인할 수 없어 주변 사건을 불러오지 못했습니다.{`\n\n`}
+              <Text style={styles.emptyAction}>눌러서 위치 권한 다시 요청하기</Text>{`\n\n`}
+              그래도 안 되면 설정 → 개인정보 보호 → 위치 서비스 →{`\n`}
+              Safari 웹사이트를 확인해 주세요.
             </Text>
-          </View>
+          </Pressable>
         ) : null}
         {/* 빈 안내는 **양쪽 다 없을 때만** 띄운다 — 종결 카드만 있는 상태에서
             "알림이 없습니다"가 그 위에 뜨면 화면이 스스로 모순된다. */}
@@ -129,4 +134,5 @@ const styles = StyleSheet.create({
   loading: { marginTop: 70 },
   empty: { minHeight: 120, borderRadius: 10, backgroundColor: '#F7F7F7', alignItems: 'center', justifyContent: 'center', padding: 20 },
   emptyText: { fontFamily: type.family, fontSize: 12, lineHeight: 18, color: color.figmaGray, textAlign: 'center' },
+  emptyAction: { color: color.brand, textDecorationLine: 'underline', fontFamily: type.familySemiBold },
 });
