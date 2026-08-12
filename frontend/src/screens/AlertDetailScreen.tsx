@@ -74,10 +74,15 @@ export default function AlertDetailScreen() {
         </View>
 
         <View style={styles.actions}>
-          {/* 시안: 경보를 확인하면 수색화면(지도)으로 간다. 그 화면에 예상 구역·
-              참여자 수·제보 진입이 다 있다. 화면은 만들어져 있었는데 라우트가
-              등록돼 있지 않아 도달할 수 없었다(08-11). */}
-          <Pressable style={[styles.button, styles.seen]} onPress={() => navigation.navigate('Search', { caseId })}>
+          {/* '봤어요' = **본 것을 제보하겠다**는 뜻이므로 제보 흐름으로 보낸다
+              (TipWarn → ReportChat). 버튼 이름이 '수색 참여하기'였을 때 수색
+              지도(Search)로 가도록 해 뒀는데, 이름이 바뀐 뒤에도 목적지가 그대로라
+              **봤다고 눌렀는데 지도가 떴다**(현장 제보 08-12). 바로 아래 안내문도
+              "대화로 제보할 수 있어요"라고 약속하고 있었다.
+
+              수색 지도는 위쪽 인물 카드(→ AlertSync)와 탭으로 여전히 갈 수 있다.
+              '비슷한 사람을 봤어요'(AppearanceScreen)와도 목적지가 같아졌다. */}
+          <Pressable style={[styles.button, styles.seen]} onPress={() => navigation.navigate('TipWarn', { caseId })}>
             <Text style={styles.seenText}>봤어요</Text>
           </Pressable>
           <Pressable style={[styles.button, styles.notSeen]} onPress={() => navigation.goBack()}>
