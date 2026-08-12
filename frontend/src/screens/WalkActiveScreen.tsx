@@ -14,6 +14,7 @@ import { useActiveWalk, useEndWalk, useStartWalk } from '../hooks/queries';
 import { useMyLocation } from '../hooks/useMyLocation';
 import { useWalkTracking } from '../hooks/useWalkTracking';
 import { formatClock, formatKm, serverTimeMs } from '../utils/walkFormat';
+import { clearWalkProgress } from '../utils/walkProgress';
 import BaseMap from '../components/BaseMap';
 import MapPin from '../components/MapPin';
 import WebMap from '../components/WebMap';
@@ -45,7 +46,11 @@ export default function WalkActiveScreen() {
   // 탭에서는 'Walk', 스택에서는 'WalkActive' 로 등록돼 있다.
   const inTab = useRoute().name === 'Walk';
   const elapsedSec = useElapsed(session?.started_at);
-  const track = useWalkTracking(!!session);
+  // 세션 id 를 넘긴다 — 훅이 이 산책의 진행분(거리·경로)을 이어받는다.
+  // 불리언만 넘기던 시절에는 화면이 다시 마운트될 때마다 0.00km 로 돌아갔다
+  // (실측 08-12: 걷는 중에 실종 신고가 접수되자 경보 관문이 화면 트리를 새로
+  // 마운트했고, 시간만 남고 거리·경로가 사라졌다).
+  const track = useWalkTracking(session?.id ?? null);
   // 추적 워처의 첫 값이 오기까지 수 초 걸린다(도심에서는 더). 그동안 지도에
   // 중심도 마커도 없으면 "현재 위치가 안 뜬다"로 보인다 — 앱 공용 위치를 폴백으로 쓴다.
   const { point: myPoint } = useMyLocation(true);
@@ -57,7 +62,12 @@ export default function WalkActiveScreen() {
     endWalk.mutate(
       { sessionId: session.id, distanceKm: Number(track.distanceKm.toFixed(2)), durationMin },
       {
-        onSuccess: (s) => navigation.replace('WalkSummary', { sessionId: s.id, distanceKm: s.distance_km, durationMin: s.duration_min, path: track.path }),
+        onSuccess: (s) => {
+          // 서버에 기록이 남았으니 기기에 맡겨 둔 경로는 지운다 — 진행 중인
+          // 산책을 이어 주려던 것이지 이동 이력을 모으려던 게 아니다.
+          void clearWalkProgress();
+          navigation.replace('WalkSummary', { sessionId: s.id, distanceKm: s.distance_km, durationMin: s.duration_min, path: track.path });
+        },
         onError: (e) => Alert.alert('산책을 종료하지 못했습니다', String(e)),
       },
     );
