@@ -75,7 +75,7 @@ export default function CitizenHomeScreen() {
   const walks = useNearbyWalks();
   // 위치를 못 받은 경우와 주변에 없는 경우는 다른 상황이다 — 같은 문구로 뭉개면
   // 사용자는 앱이 고장 난 줄 알고 권한을 켜 볼 생각을 못 한다.
-  const { status: locStatus } = useMyLocation(true);
+  const { status: locStatus, message: locMessage } = useMyLocation(true);
   const locBlocked = isLocationSettled(locStatus) && locStatus !== 'granted';
   const startWalk = useStartWalk();
   const onStart = (areaLabel?: string) => {
@@ -136,6 +136,7 @@ export default function CitizenHomeScreen() {
             <Text style={styles.routeEmpty}>
               위치를 알 수 없어 주변 산책길을 찾지 못했습니다.{'\n'}
               <Text style={styles.routeRetry}>눌러서 위치 권한 다시 요청하기</Text>
+              {locMessage ? `\n\n${locMessage}` : ''}
             </Text>
           </Pressable>
         ) : walks.isLoading || !isLocationSettled(locStatus) ? (

@@ -62,6 +62,13 @@ export type MyLocation = {
   /** 수평 정확도(m). 이 값보다 정밀한 거리를 표기하면 안 된다. */
   accuracyM: number | null;
   status: LocationStatus;
+  /**
+   * 실패했을 때 **사용자가 할 일**. 상태만으로는 부족하다 — 'denied' 가 권한
+   * 거부인지, 기기 위치서비스가 꺼진 건지, 실내라 시간이 초과된 건지에 따라
+   * 해야 할 일이 완전히 다르다(현장 제보 08-12: 다시 시도를 눌러도 아무 변화가
+   * 없어 무엇을 해야 할지 알 수 없었다).
+   */
+  message?: string;
 };
 
 const INITIAL: MyLocation = { point: null, accuracyM: null, status: 'idle' };
@@ -186,9 +193,61 @@ function stop() {
  * 사용자가 기대한 시점에 팝업이 뜨고, 실패해도 다시 누를 수 있다.
  */
 export function retryLocation(): void {
-  // 실패로 굳은 상태를 지운다 — 안 그러면 화면이 '거부됨'을 계속 보여준다.
-  if (subscription == null) setState({ ...INITIAL, status: 'requesting' });
-  void start();
+  if (Platform.OS !== 'web') {
+    if (subscription == null) setState({ ...INITIAL, status: 'requesting' });
+    void start();
+    return;
+  }
+
+  // **웹은 expo 권한 래퍼를 거치지 않는다.**
+  //
+  // 그 래퍼는 `navigator.permissions.query` 가 'denied' 를 주면
+  // `getCurrentPosition` 을 **아예 부르지 않고** 즉시 돌아온다. 그래서 다시
+  // 시도 버튼을 눌러도 화면에 아무 변화가 없었다(현장 제보 08-12:
+  // "눌러도 아무 일도 안 생긴다"). 눌렀는데 아무 일도 없는 버튼은
+  // 없는 것만 못하다.
+  //
+  // 직접 부르면 두 가지가 해결된다.
+  //  - 상태가 'prompt' 면 **권한 팝업이 실제로 뜬다**(iOS 는 사용자 조작
+  //    직후에 가장 잘 뜬다).
+  //  - 거부·실패면 오류 코드가 오므로 **무엇을 해야 하는지 알려줄 수 있다.**
+  setState({ ...state, status: 'requesting', message: '' });
+  if (!navigator?.geolocation) {
+    setState({ point: null, accuracyM: null, status: 'unavailable',
+               message: '이 브라우저는 위치 기능을 지원하지 않습니다.' });
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      setState({
+        point: { lat: pos.coords.latitude, lng: pos.coords.longitude },
+        accuracyM: pos.coords.accuracy ?? null,
+        status: 'granted',
+      });
+      // 이제 워처를 세워 계속 따라가게 한다(첫 시도 때 못 세웠을 수 있다).
+      void start();
+    },
+    (err) => {
+      setState({ point: null, accuracyM: null, status: 'denied', message: explainGeoError(err) });
+    },
+    { enableHighAccuracy: true, timeout: 20_000, maximumAge: 0 },
+  );
+}
+
+/** 브라우저 위치 오류 → 사용자가 **지금 할 수 있는 일**. */
+function explainGeoError(err: { code?: number; message?: string }): string {
+  switch (err?.code) {
+    case 1: // PERMISSION_DENIED
+      return '위치 권한이 거부돼 있습니다. 주소창의 「가가」 → 웹사이트 설정 → 위치 → 허용,'
+        + ' 또는 설정 → 개인정보 보호 및 보안 → 위치 서비스 → Safari 웹사이트를 확인해 주세요.';
+    case 2: // POSITION_UNAVAILABLE
+      return '기기가 위치를 확인하지 못했습니다. 설정에서 위치 서비스가 켜져 있는지 확인하고,'
+        + ' 실외로 나가서 다시 시도해 주세요.';
+    case 3: // TIMEOUT
+      return '시간 안에 위치를 잡지 못했습니다(실내에서는 오래 걸립니다). 실외에서 다시 눌러 주세요.';
+    default:
+      return `위치를 가져오지 못했습니다. ${err?.message ?? ''}`.trim();
+  }
 }
 
 export function useMyLocation(enabled = true): MyLocation {
