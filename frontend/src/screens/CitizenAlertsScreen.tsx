@@ -10,6 +10,15 @@ import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import { isLocationSettled, retryLocation, useMyLocation } from '../hooks/useMyLocation';
 
+/**
+ * 서버 주소가 `[서울특별시 마포구] 월드컵로`처럼 행정구역만 묶여 와도
+ * 화면에서는 주소 전체를 하나의 대괄호 안에 표시한다.
+ */
+function bracketAddress(area: string): string {
+  const address = area.replace(/[\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+  return `[${address}]`;
+}
+
 export default function CitizenAlertsScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { data, isLoading, isError, refetch } = useActiveAlerts();
@@ -65,7 +74,7 @@ export default function CitizenAlertsScreen() {
             key={alert.caseId}
             tone="red"
             badge={`수색 중(${alert.targetCells.length}개 대상 구역)`}
-            title={`${alert.area || '최종 목격 위치 기준'}${alert.age ? ` ${alert.age}세` : ''} 실종 어르신`}
+            title={`${bracketAddress(alert.area || '최종 목격 위치 기준')}${alert.age ? ` ${alert.age}세` : ''} 실종 어르신`}
             body={`${alert.summary || '인상착의 정보 확인 중'}\n터치하여 예상 구역을 확인해 주세요.`}
             onPress={() => navigation.navigate('AlertDetail', { caseId: alert.caseId })}
           />
@@ -78,7 +87,7 @@ export default function CitizenAlertsScreen() {
             key={r.caseId}
             tone="green"
             badge="상황 종료"
-            title={`${r.area}${r.age ? ` ${r.age}세` : ''} 어르신`}
+            title={`${bracketAddress(r.area)}${r.age ? ` ${r.age}세` : ''} 어르신`}
             body={'시민 제보를 통해 가족의 품으로 무사히 돌아갔습니다.\n제보해 주셔서 감사합니다.'}
           />
         ))}
