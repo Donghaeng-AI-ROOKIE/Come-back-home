@@ -15,6 +15,9 @@ router = APIRouter(prefix="/phase0", tags=["Phase 0 — 온보딩"])
 class StartInterviewIn(BaseModel):
     guardian_name: str
     persona_type: PersonaType | None = None   # UI 에서 유형을 먼저 고르면 전달(선택)
+    # 이 인터뷰로 만들어질 페르소나의 **주인**. 로그인한 계정의 user_id 를 앱이 넣는다.
+    # 비면 소유자 없는 페르소나가 되어 목록에서 아무에게도 안 보인다.
+    guardian_id: str = ""
 
 
 class AnswerIn(BaseModel):
@@ -29,11 +32,14 @@ class RegisterPersonaIn(BaseModel):
     home: GeoPoint
     attraction_points: list[AttractionPoint] = []
     behavior_notes: list[str] = []
+    # 등록하는 보호자 계정. session_id 가 있으면 세션의 값이 우선한다.
+    guardian_id: str = ""
 
 
 @router.post("/interviews", response_model=InterviewSession)
 def start_interview(body: StartInterviewIn):
-    return interview.start_interview(body.guardian_name, body.persona_type)
+    return interview.start_interview(body.guardian_name, body.persona_type,
+                                     guardian_id=body.guardian_id)
 
 
 @router.post("/interviews/{session_id}/answers", response_model=InterviewSession)
@@ -80,17 +86,34 @@ def register_persona(body: RegisterPersonaIn):
         body.session_id,
         name=body.name, age=body.age, ptype=body.type, home=body.home,
         attraction_points=body.attraction_points, behavior_notes=body.behavior_notes,
+        guardian_id=body.guardian_id,
     )
 
 
 @router.get("/personas", response_model=list[Persona], response_model_exclude=_PERSONA_EXCLUDE)
-def list_personas():
-    """등록된 페르소나 목록 — 보호자 홈의 '사전 등록된 가족'.
+def list_personas(guardian_id: str | None = None):
+    """이 보호자가 등록한 가족만 — 보호자 홈의 '사전 등록된 가족'.
 
-    인증이 없어 전체를 돌려준다. 보호자↔페르소나 소유 관계가 붙으면 여기서
-    필터링해야 한다 — 지금은 단일 사용자 데모 전제다.
+    ## 왜 걸러야 하나
+    예전에는 저장소 전체를 돌려줬다. 그래서 **다른 계정으로 등록한 사람이 내
+    목록에 그대로 떴다**(현장 제보 08-12: 계정 1에서 계정 2가 등록한 가족이 보임).
+    실종 대상자의 이름·나이·집 위치·자주 가는 곳이 담긴 목록이라, 남의 것이
+    섞이는 것은 화면이 지저분한 문제가 아니라 **개인정보가 새는 문제**다.
+
+    신고 화면도 이 목록에서 대상자를 고른다 — 남의 가족을 실수로 신고할 수 있었다.
+
+    ## 파라미터를 안 주면
+    전체를 돌려준다. 운영·대시보드 경로가 그 형태를 쓰기 때문이고, 앱은 **항상
+    자기 계정 id 를 보낸다**(api/guardian.listPersonas). 인증 토큰에서 주인을
+    꺼내 쓰는 구조가 되면 이 파라미터는 사라져야 한다.
     """
-    return storage.personas.list()
+    rows = storage.personas.list()
+    if guardian_id is None:
+        return rows
+    # 소유자가 빈 페르소나는 **아무에게도** 보이지 않는다. 예전 데이터를 모두에게
+    # 열어 두면 필터를 넣으나 마나이므로, 이전 데이터는 마이그레이션으로 주인을
+    # 붙인다(scripts/assign_persona_owner.py).
+    return [p for p in rows if p.guardian_id == guardian_id]
 
 
 # ── 온보딩 없는 신고 흐름(2026-08) — 신규 엔드포인트. 위 기존 라우트는 그대로 두고

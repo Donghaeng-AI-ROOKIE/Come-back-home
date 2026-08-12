@@ -115,10 +115,13 @@ export type Case = {
 };
 
 // ── Phase 0 — 사전등록 인터뷰 ────────────────────────────────────
-export function startInterview(guardianName: string, personaType?: PersonaType) {
+export function startInterview(guardianName: string, personaType?: PersonaType, guardianId?: string) {
   return api<InterviewSession>('/phase0/interviews', {
     method: 'POST',
-    body: JSON.stringify({ guardian_name: guardianName, persona_type: personaType ?? null }),
+    // guardian_id = 이 인터뷰로 만들 페르소나의 **주인**. 이걸 안 보내면 소유자
+    // 없는 페르소나가 되어 등록해 놓고도 목록에 안 뜬다.
+    body: JSON.stringify({ guardian_name: guardianName, persona_type: personaType ?? null,
+                           guardian_id: guardianId ?? '' }),
   });
 }
 
@@ -145,8 +148,11 @@ export function getPersona(personaId: string) {
 }
 
 /** 등록된 가족 목록 — 앱을 다시 켜도 보이려면 스토어가 아니라 서버에서 읽어야 한다. */
-export function listPersonas() {
-  return api<Persona[]>('/phase0/personas');
+export function listPersonas(guardianId?: string) {
+  // **항상 내 계정 id 를 보낸다.** 안 보내면 서버가 전체를 돌려주고, 남이 등록한
+  // 가족(이름·나이·집 위치)이 내 목록에 섞인다 — 화면 문제가 아니라 개인정보
+  // 문제다(현장 제보 08-12). 로그인 전이라 id 가 없으면 빈 목록이 맞다.
+  return api<Persona[]>(`/phase0/personas?guardian_id=${encodeURIComponent(guardianId ?? '')}`);
 }
 
 /**
@@ -178,6 +184,8 @@ export function registerPersona(body: {
   home: GeoPoint;
   attraction_points?: AttractionPointIn[];
   behavior_notes?: string[];
+  /** 등록하는 보호자 계정. session_id 가 있으면 세션 값이 우선한다. */
+  guardian_id?: string;
 }) {
   return api<Persona>('/phase0/personas', { method: 'POST', body: JSON.stringify(body) });
 }

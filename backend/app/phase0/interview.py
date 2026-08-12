@@ -2147,18 +2147,29 @@ def register_persona(
     home: GeoPoint,
     attraction_points: list[AttractionPoint] | None = None,
     behavior_notes: list[str] | None = None,
+    guardian_id: str = "",
 ) -> Persona:
     """페르소나 등록 (구조화 필드 직접 입력).
 
     인터뷰 초안(draft_*)의 area_text 를 좌표로 바꾸는 지오코딩 단계가 붙으면
     이 함수를 통해 확정 Persona 를 만든다. (지오코딩은 별도 TODO.)
+
+    `guardian_id` 는 **누구의 가족인지**다. 비워 두면 소유자 없는 페르소나가 되고,
+    목록 조회에서 아무에게도 안 보인다 — 등록 경로가 반드시 채워야 한다.
+    세션이 있으면 세션에 적힌 값을 우선한다(챗봇 등록이 그 경로다).
     """
+    owner = guardian_id
+    if session_id and not owner:
+        s = storage.interviews.get(session_id)
+        if s is not None:
+            owner = s.guardian_id or ""
     persona = Persona(
         id=storage.new_id(),
         type=ptype,
         name=name,
         age=age,
         home=home,
+        guardian_id=owner,
         attraction_points=attraction_points or [],
         behavior_notes=behavior_notes or [],
     )
