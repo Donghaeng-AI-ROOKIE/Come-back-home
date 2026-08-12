@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   content: { paddingHorizontal: 23, paddingTop: 27, paddingBottom: 30 },
   title: { marginLeft: -3, fontFamily: type.familySemiBold, fontSize: 18, lineHeight: 22, color: '#000000' },
   subtitle: { marginLeft: -3, marginTop: 14, marginBottom: 39, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: color.figmaGray },
-  card: { height: 139, borderRadius: 10, paddingHorizontal: 16, paddingTop: 20, marginBottom: 28, position: 'relative', shadowColor: '#000000', shadowOpacity: 0.1, shadowRadius: 7, shadowOffset: { width: 0, height: 2 } },
+  card: { height: 139, borderRadius: 10, paddingHorizontal: 16, paddingTop: 20, marginBottom: 28, position: 'relative', shadowColor: '#000000', shadowOpacity: 0.1, shadowRadius: 7, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   redCard: { backgroundColor: '#FFF0F1' },
   greenCard: { backgroundColor: '#ECFAE5' },
   badge: { alignSelf: 'flex-start', height: 16, borderRadius: 8, paddingHorizontal: 11, alignItems: 'center', justifyContent: 'center' },

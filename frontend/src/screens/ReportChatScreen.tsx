@@ -107,11 +107,12 @@ export default function ReportChatScreen() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
       <FigmaStatusBar />
-      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'height' : undefined}>
         <ScrollView
           style={styles.flex}
           contentContainerStyle={[styles.scrollContent, long && styles.scrollContentLong]}
           keyboardShouldPersistTaps="handled"
+          automaticallyAdjustKeyboardInsets
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.body}>
@@ -198,7 +199,7 @@ export default function ReportChatScreen() {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   flex: { flex: 1 },
-  scrollContent: { minHeight: 768 },
+  scrollContent: { minHeight: 768, flexGrow: 1 },
   scrollContentLong: { minHeight: 905 },
   body: { flex: 1, paddingHorizontal: 23, paddingTop: 27 },
   title: { fontFamily: type.familyExtraBold, fontSize: 18, lineHeight: 23, color: '#000000', marginLeft: -3 },
