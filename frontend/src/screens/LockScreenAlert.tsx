@@ -7,7 +7,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { useAppModeStore } from '../store/appModeStore';
 import { useEngagementStore } from '../store/engagementStore';
-import { type } from '../theme/tokens';
+import { color, type } from '../theme/tokens';
 import { useTabBarMetrics } from '../theme/tabBar';
 import StatusIcons from '../../assets/figma/lock-status.svg';
 import NotificationBackground from '../../assets/figma/lock-notification-bg.svg';
@@ -109,9 +109,9 @@ const styles = StyleSheet.create({
   tagText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, color: '#E05454' },
   probabilityLabel: { position: 'absolute', left: 23, top: 130, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: '#000000' },
   probabilityTrack: { position: 'absolute', left: 24, right: 24, top: 152, height: 4, borderRadius: 12, overflow: 'hidden', backgroundColor: '#C7C7CC' },
-  probabilityValue: { height: 4, backgroundColor: '#E05454' },
+  probabilityValue: { height: 4, backgroundColor: color.figmaRed },
   action: { position: 'absolute', top: 169, height: 35, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
-  confirm: { left: 24, right: 189, backgroundColor: '#E05454' },
+  confirm: { left: 24, right: 189, backgroundColor: color.figmaRed },
   ignore: { left: 190, right: 23, backgroundColor: '#DADADA' },
   confirmText: { fontSize: 15, lineHeight: 20, fontWeight: '600', color: '#FFFFFF' },
   ignoreText: { fontSize: 15, lineHeight: 20, fontWeight: '600', color: '#8E8E93' },
