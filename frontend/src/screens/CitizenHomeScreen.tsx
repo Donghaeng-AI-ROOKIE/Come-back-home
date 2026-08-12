@@ -8,7 +8,7 @@ import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { useActiveWalk, useNearbyWalks, useStartWalk, useWalkStats } from '../hooks/queries';
 import type { NearbyWalk } from '../api/client';
-import { isLocationSettled, useMyLocation } from '../hooks/useMyLocation';
+import { isLocationSettled, retryLocation, useMyLocation } from '../hooks/useMyLocation';
 import FigmaLogo from '../components/FigmaLogo';
 import PushEnableCard from '../components/PushEnableCard';
 import FigmaStatusBar from '../components/FigmaStatusBar';
@@ -128,9 +128,16 @@ export default function CitizenHomeScreen() {
 
         <View style={styles.routeHead}><Text style={styles.routeHeadline}>내 주변 산책 루트 추천</Text></View>
         {locBlocked ? (
-          <Text style={styles.routeEmpty}>
-            위치를 알 수 없어 주변 산책길을 찾지 못했습니다.{'\n'}설정에서 위치 권한을 켜 주세요.
-          </Text>
+          /* 시민이 앱을 열면 가장 먼저 보는 자리다 — 여기서 위치를 되살릴 수
+             있어야 한다. 첫 권한 팝업을 놓치면 앱은 스스로 다시 묻지 않는다
+             (useMyLocation.retryLocation 주석). 위치가 없으면 산책 거리도,
+             긴급 알림 목록도 통째로 못 쓴다. */
+          <Pressable onPress={retryLocation} accessibilityRole="button">
+            <Text style={styles.routeEmpty}>
+              위치를 알 수 없어 주변 산책길을 찾지 못했습니다.{'\n'}
+              <Text style={styles.routeRetry}>눌러서 위치 권한 다시 요청하기</Text>
+            </Text>
+          </Pressable>
         ) : walks.isLoading || !isLocationSettled(locStatus) ? (
           <ActivityIndicator style={styles.routeLoading} color={color.brand} />
         ) : (walks.data?.length ?? 0) === 0 ? (
@@ -184,6 +191,7 @@ const styles = StyleSheet.create({
   monthStatLabel: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray },
   routeLoading: { height: 212, justifyContent: 'center' },
   routeEmpty: { height: 212, paddingHorizontal: 16, fontFamily: type.family, fontSize: 12, lineHeight: 18, color: color.figmaGray },
+  routeRetry: { color: color.brand, textDecorationLine: 'underline' },
   routeHead: { height: 56, justifyContent: 'center', paddingHorizontal: 16 },
   routeHeadline: { fontFamily: type.familySemiBold, fontSize: 18, lineHeight: 22, color: '#000000' },
   routeRow: { paddingLeft: 16, paddingRight: 16, gap: 8 },

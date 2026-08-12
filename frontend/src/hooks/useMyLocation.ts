@@ -167,6 +167,30 @@ function stop() {
  * @param enabled 이 화면이 실제로 위치를 쓸 때만 true. 마지막 구독자가 빠지면
  *   워처가 정리된다 — 안 보는 화면 때문에 GPS 를 켜두지 않기 위해서.
  */
+/**
+ * 위치 잡기를 **다시 시도**한다 — 사용자의 손가락으로.
+ *
+ * ## 왜 필요한가
+ * `start()` 는 앱을 켠 뒤 사실상 한 번만 돈다. 첫 구독자가 붙을 때(refCount 0→1)
+ * 호출되는데, 화면 대부분이 위치를 쓰므로 refCount 는 앱을 쓰는 내내 0 으로
+ * 돌아가지 않는다. 그래서 **첫 시도가 실패하면 앱을 완전히 닫았다 열기 전까지
+ * 다시 묻지 않는다.**
+ *
+ * 그런데 실패는 흔하다. 권한 팝업을 실수로 닫았거나, iOS 에서 "한 번 허용"을
+ * 골라 세션이 끝났거나, 실내라 첫 측위가 시간 안에 안 왔거나. 현장 제보(08-12):
+ * "위치 권한이 자꾸 안 되고, 앱 시작할 때 팝업이 아예 안 뜬다."
+ *
+ * ## 왜 사용자 조작이어야 하나
+ * iOS 사파리는 권한 팝업을 **사용자 조작 직후**에 띄울 때 가장 잘 뜬다. 화면이
+ * 뜨자마자 자동으로 부르면 사용자가 못 보고 지나치기도 한다. 버튼으로 만들면
+ * 사용자가 기대한 시점에 팝업이 뜨고, 실패해도 다시 누를 수 있다.
+ */
+export function retryLocation(): void {
+  // 실패로 굳은 상태를 지운다 — 안 그러면 화면이 '거부됨'을 계속 보여준다.
+  if (subscription == null) setState({ ...INITIAL, status: 'requesting' });
+  void start();
+}
+
 export function useMyLocation(enabled = true): MyLocation {
   const snapshot = useSyncExternalStore(subscribe, () => state, () => state);
 
