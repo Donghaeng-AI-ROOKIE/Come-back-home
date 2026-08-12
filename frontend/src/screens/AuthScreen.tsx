@@ -9,8 +9,6 @@ import { useTabBarMetrics } from '../theme/tabBar';
 import AuthIntroText from '../../assets/figma/auth-intro-text.svg';
 import AuthAccountText from '../../assets/figma/auth-account-text.svg';
 import AuthTaglineText from '../../assets/figma/auth-tagline-text.svg';
-import AuthLoginLabel from '../../assets/figma/auth-login-label.svg';
-import AuthRoleLabel from '../../assets/figma/auth-role-label.svg';
 
 const authLogo = require('../../assets/figma/auth-logo.png');
 const startMascot = require('../../assets/figma/mascot-start.png');
@@ -156,38 +154,7 @@ export default function AuthScreen() {
 }
 
 function SeparatorLabel({ label }: { label: string }) {
-  const exactLabel = label === '어떤 역할로 시작하시겠습니까?'
-    ? <AuthRoleLabel width={188} height={14} accessibilityLabel={label} />
-    : label === '이메일 주소로 로그인해 주세요'
-      ? <AuthLoginLabel width={184} height={14} accessibilityLabel={label} />
-      : label === '이메일 주소로 가입해 주세요'
-        ? <SignupLabel />
-        : <Text style={styles.separatorText}>{label}</Text>;
-  return <View style={styles.separatorRow}><View style={styles.separator} /><View style={styles.separatorLabel}>{exactLabel}</View><View style={styles.separator} /></View>;
-}
-
-function SignupLabel() {
-  return (
-    <View style={styles.signupLabel} accessible accessibilityLabel="이메일 주소로 가입해 주세요">
-      <AuthLoginLabel
-        width={83}
-        height={14}
-        viewBox="0 0 83 14"
-        preserveAspectRatio="xMinYMid meet"
-        accessibilityElementsHidden
-        importantForAccessibility="no-hide-descendants"
-      />
-      <Text style={styles.signupWord} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">가입</Text>
-      <AuthLoginLabel
-        width={57}
-        height={14}
-        viewBox="127 0 57 14"
-        preserveAspectRatio="xMinYMid meet"
-        accessibilityElementsHidden
-        importantForAccessibility="no-hide-descendants"
-      />
-    </View>
-  );
+  return <View style={styles.separatorRow}><View style={styles.separator} /><View style={styles.separatorLabel}><Text style={styles.separatorText}>{label}</Text></View><View style={styles.separator} /></View>;
 }
 
 function RoleChoice({ label, tone, onPress, style }: { label: string; tone: 'guardian' | 'citizen'; onPress: () => void; style: object }) {
@@ -223,8 +190,6 @@ const styles = StyleSheet.create({
   separator: { flex: 1, height: 1, backgroundColor: '#CAD9C5' },
   separatorLabel: { width: 190, height: 19, alignItems: 'center', justifyContent: 'center' },
   separatorText: { width: 190, textAlign: 'center', fontFamily: type.familyCss, fontSize: 15, lineHeight: 18, letterSpacing: -0.08, color: '#909090' },
-  signupLabel: { width: 169, height: 18, flexDirection: 'row', alignItems: 'center' },
-  signupWord: { width: 29, height: 18, textAlign: 'center', fontFamily: type.familyCss, fontSize: 15, lineHeight: 18, letterSpacing: -0.08, color: '#909090' },
   input: { position: 'absolute', left: 16, right: 16, height: 46, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.9)', paddingHorizontal: 12, fontFamily: type.familySemiBold, fontSize: 16, color: '#525253' },
   email: { top: 429 },
   password: { top: 486 },
