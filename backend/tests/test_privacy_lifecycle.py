@@ -7,6 +7,7 @@
 from datetime import datetime, timedelta
 
 import pytest
+from fastapi import BackgroundTasks
 from fastapi import HTTPException
 
 from app import storage
@@ -200,7 +201,8 @@ def test_closed_case_rejects_alerts_and_tips():
         phase3_api.send_alerts(case.id)
     assert exc.value.status_code == 409
     with pytest.raises(HTTPException) as exc:
-        phase3_api.submit_tip(case.id, phase3_api.TipIn(text="정릉시장에서 봤어요"))
+        phase3_api.submit_tip(case.id, phase3_api.TipIn(text="정릉시장에서 봤어요"),
+                              BackgroundTasks())
     assert exc.value.status_code == 409
     assert case.status == CaseStatus.found  # 제보가 종결을 되돌리지 못함
 

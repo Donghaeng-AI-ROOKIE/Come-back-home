@@ -148,22 +148,40 @@ export async function submitTip(
   }
 
   const before = await api<PoaResponse>(`/phase3/cases/${caseId}/poa?top=64`);
-  const res = await api<TipResponse | NeedMore>(`/phase3/cases/${caseId}/tips`, {
-    method: 'POST',
-    // 고신뢰 제보는 **층2(새 LKP 로 재예측)** 를 발동시킨다 — 그 순간 이 요청
-    // 하나가 예측 한 판을 통째로 품는다(실측 08-12: 29.5초, 새 지역이면 2분 초과).
-    // 기본 12초로 끊으면 재예측이 중간에 잘려 **사건에 POA 가 없는 상태**가 남고,
-    // 시민 화면의 확률지도가 통째로 비어 버린다.
-    timeoutMs: SLOW_TIMEOUT_MS,
-    body: JSON.stringify({
-      text: input.text,
-      location: input.location ?? null,
-      seen_at: input.seenAt ?? null,
-      force: !!opts.force,
-      // 제보 참여 수가 이 값으로 갈린다 — 로그인한 사람 것으로 센다.
-      reporter_user_id: opts.reporterUserId ?? DEMO_USER_ID,
-    }),
+  const body = JSON.stringify({
+    text: input.text,
+    location: input.location ?? null,
+    seen_at: input.seenAt ?? null,
+    force: !!opts.force,
+    // 제보 참여 수가 이 값으로 갈린다 — 로그인한 사람 것으로 센다.
+    reporter_user_id: opts.reporterUserId ?? DEMO_USER_ID,
   });
+  let res: TipResponse | NeedMore;
+  try {
+    res = await api<TipResponse | NeedMore>(`/phase3/cases/${caseId}/tips`, {
+      method: 'POST',
+      // 고신뢰 제보는 **층2(새 LKP 로 재예측)** 를 발동시킨다 — 그 순간 이 요청
+      // 하나가 예측 한 판을 통째로 품는다(실측 08-12: 29.5초, 새 지역이면 2분 초과).
+      // 기본 12초로 끊으면 재예측이 중간에 잘려 **사건에 POA 가 없는 상태**가 남고,
+      // 시민 화면의 확률지도가 통째로 비어 버린다.
+      timeoutMs: SLOW_TIMEOUT_MS,
+      body,
+    });
+  } catch (e) {
+    // **연결이 끊겨도 제보는 이미 접수돼 있다.**
+    //
+    // 공개 경로의 Cloudflare 는 100초에서 끊는다(524, 무료 플랜 고정). 고신뢰
+    // 제보는 그 안에서 재예측까지 돌리므로 새 지역이면 그걸 넘긴다. 그런데
+    // 서버는 클라이언트가 사라져도 계산을 끝내고 제보를 저장한다 — 화면만
+    // "전송 중…"에 갇힌다(현장 제보 08-12).
+    //
+    // 그래서 실패하면 **정말 안 들어갔는지 서버에 확인한다.** 들어갔으면 그
+    // 제보로 이어 간다. 여기서 그냥 오류를 올리면 사용자는 이미 접수된 제보를
+    // 또 보내게 되고, 같은 목격이 두 건으로 세어져 확률지도가 왜곡된다.
+    const landed = await findLandedTip(caseId, input.text);
+    if (!landed) throw e;
+    res = landed;
+  }
   if ('status' in res && res.status === 'need_more') return res;
 
   const after = await api<PoaResponse>(`/phase3/cases/${caseId}/poa?top=64`);
@@ -189,6 +207,31 @@ export async function submitTip(
     beforeGrid: toGrid(caseId, 0, before),
     afterGrid: toGrid(caseId, 0, after),
   };
+}
+
+/**
+ * 끊긴 제보가 **실제로 접수됐는지** 서버에 확인한다.
+ *
+ * 사건 본문의 tips 목록에서 방금 보낸 것과 **같은 본문**을 찾는다. id 를 못
+ * 받았으니 본문이 유일한 단서다 — 같은 사람이 같은 문장을 연달아 보내는 경우는
+ * 사실상 없고, 있어도 "이미 접수됨"으로 처리하는 쪽이 중복 접수보다 낫다.
+ *
+ * 재예측이 끝나야 응답이 저장되므로 몇 번 나눠서 기다린다.
+ */
+async function findLandedTip(caseId: string, text: string,
+                             tries = 20, gapMs = 6_000): Promise<TipResponse | null> {
+  const target = text.trim();
+  for (let i = 0; i < tries; i += 1) {
+    try {
+      const c = await api<{ tips?: TipResponse[] }>(`/phase1/cases/${caseId}`);
+      const hit = (c.tips ?? []).find((t) => (t.text ?? '').trim() === target);
+      if (hit) return hit;
+    } catch {
+      // 조회 실패는 무시한다 — 아직 계산 중이거나 일시적 오류다.
+    }
+    await new Promise((r) => setTimeout(r, gapMs));
+  }
+  return null;
 }
 
 /** 알림 발송 결과 — 왜 이만큼만 갔는지 단계별로 되짚을 수 있게 되어 있다. */

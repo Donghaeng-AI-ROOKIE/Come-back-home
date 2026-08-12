@@ -20,6 +20,9 @@
 시각은 반경만 넓히는 방향의 보수적 근사라 필수로 두지 않는 비대칭 설계다.
 """
 
+import logging
+import threading
+from collections import defaultdict
 from datetime import datetime
 
 from app import storage
@@ -50,6 +53,33 @@ def _geocode_tip_location(location_text: str | None, anchor: GeoPoint) -> GeoPoi
     return res.point
 
 
+log = logging.getLogger(__name__)
+
+# 사건 하나당 하나. 뒤로 미룬 재예측이 겹쳐 돌면 뒤에 끝난 쪽이 앞의 결과를
+# 통째로 덮는다 — 제보 두 건이 연달아 들어오는 상황은 실험에서 흔하다.
+_case_locks: dict[str, threading.Lock] = defaultdict(threading.Lock)
+_locks_guard = threading.Lock()
+
+
+def _case_lock(case_id: str) -> threading.Lock:
+    with _locks_guard:
+        return _case_locks[case_id]
+
+
+def needs_heavy(case: Case, tip: Tip, now: datetime | None = None) -> bool:
+    """이 제보가 **뒤로 미룰 무거운 일**을 만들었는가.
+
+    폐기된 제보는 아무것도 안 만든다. 층2 확정이면 반드시 재예측이 필요하고,
+    아니면 주기·분포 이탈 트리거를 확인한다(`_apply_heavy` 의 ④와 같은 판정).
+    """
+    if tip.decision == TipDecision.discard:
+        return False
+    if tip.decision == TipDecision.layer2:
+        return True
+    rerun, _ = triggers.should_rerun_phase2(case, now or datetime.now())
+    return rerun
+
+
 def process_tip(
     case: Case,
     *,
@@ -58,7 +88,21 @@ def process_tip(
     seen_at: datetime | None = None,
     force: bool = False,
     now: datetime | None = None,
+    defer_heavy: bool = False,
 ) -> Tip | dict:
+    """제보 1건 처리.
+
+    `defer_heavy=True` 면 **무거운 뒷일(층2 재예측·D3 알림)을 하지 않고** 제보만
+    접수하고 돌아온다. 남은 일은 호출자가 `finish_tip()` 으로 이어서 돌린다.
+
+    ## 왜 나눴나
+    고신뢰 제보는 접수와 동시에 예상 경로를 다시 계산한다. 그 지역 도로망이
+    서버에 없으면 내려받느라 오래 걸린다 — 실측 08-12: **88초**. 그동안 제보한
+    시민은 "전송 중…" 화면에 묶여 있었다("무한 로딩" 현장 제보).
+
+    **제보자를 기다리게 할 이유가 없다.** 그 사람은 현장에서 찾고 있고, 제보는
+    이미 저장됐다. 재계산 결과는 모두가 주기 조회로 받아 간다.
+    """
     now = now or datetime.now()
 
     # 구조화 1회 — 슬롯 JSON + 구체성 등급이 같은 호출 결과라 여기서 한 번만 부르고
@@ -110,6 +154,44 @@ def process_tip(
     if tip.location is not None and case.current_poa:
         case.current_poa = poa_update.layer1_update(case.current_poa, tip.location, tip.p)
 
+    if defer_heavy:
+        # 여기까지가 **제보자가 기다릴 만한 일**이다(1초 안팎). 층1 갱신까지 이미
+        # 반영됐으므로 화면은 곧바로 완료로 넘어가도 거짓이 아니다.
+        case.status = CaseStatus.searching
+        storage.cases.save(case.id, case)
+        return tip
+
+    _apply_heavy(case, tip, now)
+    case.status = CaseStatus.searching
+    storage.cases.save(case.id, case)
+    return tip
+
+
+def finish_tip(case_id: str, tip_id: str, now: datetime | None = None) -> None:
+    """`defer_heavy` 로 미뤄 둔 뒷일 — 층2 재예측·D3 알림. 백그라운드에서 돈다.
+
+    사건을 **저장소에서 다시 읽는다.** 미뤄 두는 동안 다른 제보가 들어왔을 수
+    있어서, 응답 때 들고 있던 객체를 그대로 쓰면 그 사이 변경이 지워진다.
+
+    실패해도 예외를 밖으로 올리지 않는다 — 이미 응답은 나갔고, 여기서 터지면
+    로그 없이 사라진다. 제보 자체는 이미 저장돼 있다.
+    """
+    with _case_lock(case_id):
+        case = storage.cases.get(case_id)
+        if case is None:
+            return
+        tip = next((t for t in case.tips if t.id == tip_id), None)
+        if tip is None:
+            return
+        try:
+            _apply_heavy(case, tip, now or datetime.now())
+            storage.cases.save(case.id, case)
+        except Exception:   # 백그라운드라 예외를 올릴 곳이 없다 — 로그로만 남긴다
+            log.exception("[tip] 후속 처리 실패 (case=%s tip=%s)", case_id, tip_id)
+
+
+def _apply_heavy(case: Case, tip: Tip, now: datetime) -> None:
+    """층2 재예측·주기 재실행·D3 알림 — **오래 걸리는 부분**(수십 초~2분)."""
     # ③ 층2 — 새 LKP 확정 시 Phase 2 재실행
     if tip.decision == TipDecision.layer2:
         assert tip.location is not None and tip.seen_at is not None
@@ -142,7 +224,3 @@ def process_tip(
                 alerts.send_alerts(case.id, new_cells, summary, kind="new_region")
                 case.last_alert_poa = dict(case.current_poa)
                 case.last_alert_at = now
-
-    case.status = CaseStatus.searching
-    storage.cases.save(case.id, case)
-    return tip
