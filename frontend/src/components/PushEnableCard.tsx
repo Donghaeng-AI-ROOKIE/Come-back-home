@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ECFAE5',
     gap: 6,
   },
-  title: { fontFamily: type.familySemiBold, fontSize: 14, color: '#316837' },
+  title: { fontFamily: type.familyCssExtraBold, fontSize: 14, color: '#316837' },
   body: { fontFamily: type.family, fontSize: 12, lineHeight: 18, color: '#525253' },
   error: { fontFamily: type.family, fontSize: 11, color: color.criticalInk },
   button: {
@@ -83,6 +83,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttonText: { fontFamily: type.familyBold, fontSize: 14, color: '#FFFFFF' },
+  buttonText: { fontFamily: type.familyCssExtraBold, fontSize: 14, color: '#FFFFFF' },
   pressed: { opacity: 0.85 },
 });
