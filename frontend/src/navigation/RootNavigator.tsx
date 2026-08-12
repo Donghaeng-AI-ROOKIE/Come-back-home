@@ -13,13 +13,14 @@
  * 경보 진입 관문(알림 개인화 #1): 시민이고 살아있는 경보가 있으면 첫 화면이
  * CitizenTabs(산책 모드)가 아니라 AlertDetail 이다. 판정 규칙은 useAlertGate 참고.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { RootStackParamList } from './types';
 import { navigationRef } from './navigationRef';
 import { useAuthStore } from '../store/authStore';
 import { useAlertGate } from '../hooks/useAlertGate';
+import { useActiveWalk } from '../hooks/queries';
 import { usePushRegistration } from '../hooks/usePushRegistration';
 import { useNotificationRouting } from '../hooks/useNotificationRouting';
 import { color } from '../theme/tokens';
@@ -53,7 +54,10 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 /**
  * 관문이 가로채도 되는 화면 — 시민 4탭. `getCurrentRoute()` 는 **잎 화면**을
  * 돌려주므로 'CitizenTabs' 가 아니라 탭 이름들과 비교해야 한다.
- * 여기 없는 화면(제보 작성·산책 중 등)은 진행 중인 일이 있다고 본다.
+ * 여기 없는 화면(제보 작성 등)은 진행 중인 일이 있다고 본다.
+ *
+ * 'Walk' 는 조건부다 — 아래 `idleNow` 참고. 탭에 그냥 들어와 있는 것과 실제로
+ * 걷고 있는 것은 다르다.
  */
 const IDLE_ROUTES = new Set<string>(['Home', 'Walk', 'Alerts', 'Records']);
 
@@ -80,6 +84,8 @@ export default function RootNavigator() {
     const id = setTimeout(() => setBootTimedOut(true), 15_000);
     return () => clearTimeout(id);
   }, []);
+  /** 부팅 스피너를 이미 지나왔는가 — 아래 조건이 한 번만 서게 하는 빗장. */
+  const booted = useRef(false);
   // 경보 관문은 시민 트리에서만 선다. 운영자 역할은 이 브랜치에서 제거됐으므로
   // (관제 = 백엔드 /dashboard) 'citizen' 인지 직접 확인한다.
   const isCitizen = token != null && role === 'citizen';
@@ -92,6 +98,10 @@ export default function RootNavigator() {
   useNotificationRouting();
 
   const gate = useAlertGate(isCitizen);
+  // 진행 중인 산책이 있는가 — 관문이 걷는 사람을 가로채지 않게 하는 데 쓴다.
+  // 산책 화면과 **같은 쿼리 키**라 요청이 늘지 않고, 시작·종료가 이 캐시를
+  // 무효화하므로(useStartWalk/useEndWalk) 값이 늦게 따라오지도 않는다.
+  const { data: activeWalk } = useActiveWalk();
 
   // 관문 판정은 이제 **앱을 쓰는 도중에도 바뀐다**(useActiveAlerts 가 15초마다
   // 다시 묻는다). 그런데 아래 key 가 바뀌면 스택이 통째로 리마운트되므로, 제보를
@@ -105,10 +115,22 @@ export default function RootNavigator() {
   useEffect(() => {
     if (gate.pending || gate.caseId === gateCase) return;
     const current = navigationRef.isReady() ? navigationRef.getCurrentRoute()?.name : undefined;
-    if (gate.caseId == null || current == null || IDLE_ROUTES.has(current)) {
+    // **산책 중이면 'Walk' 는 쉬는 화면이 아니다.**
+    //
+    // 탭에 들어와 있기만 한 사람은 가로채도 되지만, 걷고 있는 사람의 화면을
+    // 새로 마운트하면 그 자리에서 거리·경로가 사라진다(실측 08-12: 0.37km →
+    // 0.00km, 지도의 선도 함께 사라짐). 진행분은 이제 이어받게 돼 있지만
+    // (utils/walkProgress) 애초에 걷는 도중에 트리를 갈아엎을 이유가 없다.
+    //
+    // 경보를 못 보게 되는 것은 아니다 — 푸시 배너가 이미 떴고, 긴급 알림 탭에도
+    // 남는다. 산책을 끝내고 탭으로 돌아오면 그때 관문이 선다.
+    const idleNow = current != null
+      && IDLE_ROUTES.has(current)
+      && !(current === 'Walk' && activeWalk != null);
+    if (gate.caseId == null || current == null || idleNow) {
       setGateCase(gate.caseId);
     }
-  }, [gate.pending, gate.caseId, gateCase]);
+  }, [gate.pending, gate.caseId, gateCase, activeWalk]);
   // 첫 판정은 래치를 거치지 않고 바로 쓴다 — 한 박자 늦으면 홈이 잠깐 비쳤다가
   // 관문이 덮는 깜빡임이 생긴다.
   const gateCaseId = gateCase === undefined ? gate.caseId : gateCase;
@@ -116,13 +138,21 @@ export default function RootNavigator() {
   // 경보 조회가 끝날 때까지 네비게이터를 마운트하지 않는다. initialRouteName 은
   // 마운트 시점에 한 번만 읽히므로, 로딩 중에 먼저 띄우면 "경보 없음"으로 굳어
   // 관문이 영영 안 선다. 인증 화면 부트스트랩과 같은 패턴.
-  if ((restoring || gate.pending) && !bootTimedOut) {
+  //
+  // **부팅 때 한 번뿐이다.** `gate.pending` 은 앱을 쓰는 도중에도 다시 true 가 된다 —
+  // 경보 쿼리 키가 내 h3 칸이라(useActiveAlerts) 걷다가 칸을 넘으면 새 질문이
+  // 나가고 그동안 pending 이다. 그때마다 여기로 떨어지면 화면 트리가 통째로
+  // 언마운트됐다가 다시 마운트되고, 걷고 있던 거리·경로가 사라진다
+  // (실측 08-12 — 신고 접수와 함께 본 증상의 두 번째 경로).
+  // 이미 열린 앱에는 스피너를 다시 씌우지 않는다: 보여줄 화면이 이미 있다.
+  if ((restoring || gate.pending) && !bootTimedOut && !booted.current) {
     return (
       <View style={styles.boot} accessible accessibilityLabel="경보를 확인하는 중입니다">
         <ActivityIndicator size="large" color={color.critical} />
       </View>
     );
   }
+  booted.current = true;
 
   return (
     <Stack.Navigator

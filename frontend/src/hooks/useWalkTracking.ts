@@ -1,17 +1,21 @@
 /**
- * 산책 중 위치 추적 — 거리 누적과 현재 위치.
+ * 산책 중 위치 추적 — 거리 누적과 현재 위치, 그리고 지도에 그릴 경로.
  *
- * **경로를 배열로 쌓지 않는다.** 직전 좌표 하나만 들고 있다가 새 좌표가 오면
- * 거리를 더하고 버린다. 경로를 모으면 그게 곧 시민의 상시 이동 이력이 되고,
- * 서버로 보내지 않더라도 기기에 남아 유출 표면이 된다
- * (backend/app/schemas/walk.py 의 개인정보 경계와 같은 원칙).
+ * **경로는 진행 중인 산책 하나에 대해서만 들고 있다.** 지도에 지금까지 걸은 길을
+ * 그려 주려면 좌표를 이어 둘 수밖에 없다. 대신 경계를 좁게 잡는다: 서버로는
+ * 거리·시간만 보내고(backend/app/schemas/walk.py), 기기에 맡겨 두는 진행분도
+ * 산책을 끝내는 순간 지운다(utils/walkProgress).
  *
- * 지도에 그릴 현재 위치는 마지막 좌표 하나뿐이라 궤적선은 그리지 않는다.
+ * **진행분은 화면 메모리에만 두지 않는다.** 화면이 다시 마운트되면(경보 관문·
+ * 페이지 재로드) 거리와 경로가 통째로 0 이 됐다 — 실측 08-12. 그래서 세션 id 로
+ * 저장해 두고 마운트할 때 이어받는다. 시간(started_at)은 이미 그렇게 살아남고
+ * 있었고, 거리만 기억을 잃던 비대칭을 없앤 것이다.
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import * as Location from 'expo-location';
 import type { GeoPoint } from '../types/domain';
+import { loadWalkProgress, saveWalkProgress } from '../utils/walkProgress';
 
 /**
  * 웹에서 GPS 를 켜는 **유일한** 스위치.
@@ -137,7 +141,12 @@ function haversineM(a: GeoPoint, b: GeoPoint): number {
   return 2 * R * Math.asin(Math.sqrt(s));
 }
 
-export function useWalkTracking(active: boolean): WalkTracking {
+/**
+ * @param sessionId 진행 중인 산책의 id. null 이면 추적하지 않는다.
+ *   **불리언이 아니라 id 를 받는 이유**: 리마운트 뒤에 이어받을 진행분이
+ *   어느 산책의 것인지 알아야 지난 산책의 거리를 되살리지 않는다.
+ */
+export function useWalkTracking(sessionId: string | null): WalkTracking {
   const [status, setStatus] = useState<WalkTracking['status']>('idle');
   const [message, setMessage] = useState('');
   const [distanceKm, setDistanceKm] = useState(0);
@@ -159,15 +168,46 @@ export function useWalkTracking(active: boolean): WalkTracking {
    */
   const handleFix = useRef<((loc: Location.LocationObject) => void) | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  /**
+   * 저장해 둔 진행분을 읽기 전에는 저장하지 않는다 — 비어 있는 초기 상태로
+   * 덮어쓰면 이어받으려던 거리를 우리 손으로 지우게 된다.
+   */
+  const restored = useRef(false);
 
   useEffect(() => {
-    if (!active) return;
+    if (!sessionId) return;
+    // 이어받기 전까지는 저장을 막는다. 특히 **산책이 바뀌는 순간**이 중요하다 —
+    // 아래 저장 효과가 먼저 돌면 앞 산책의 거리가 새 산책 id 로 적힌다.
+    // (효과는 선언 순서대로 도므로 여기서 내려 두면 그쪽이 건너뛴다.)
+    restored.current = false;
     let sub: Location.LocationSubscription | null = null;
     let cancelled = false;
     let watchdog: ReturnType<typeof setTimeout> | null = null;
 
     (async () => {
       try {
+        // 진행분 이어받기는 **권한보다 먼저** 한다. 권한이 거부돼 아래에서 바로
+        // 빠져나가더라도, 지금까지 걸은 거리는 화면에 남아 있어야 한다.
+        const saved = await loadWalkProgress(sessionId);
+        if (cancelled) return;
+        if (saved) {
+          setDistanceKm(saved.distanceKm);
+          setPath(saved.path);
+          prev.current = saved.anchor;
+          prevAt.current = saved.anchorAt;
+          // 이미 거리를 재고 있던 산책이다 — 오차 안내를 처음부터 다시 띄우지 않는다.
+          if (saved.anchor) gotUsableFix.current = true;
+        } else {
+          // 이어받을 것이 없는 산책이다. 화면이 그대로 남은 채 산책만 바뀌는
+          // 경우(끝내고 곧바로 새로 시작)에 앞 산책의 숫자가 남지 않게 한다.
+          setDistanceKm(0);
+          setPath([]);
+          prev.current = null;
+          prevAt.current = null;
+          gotUsableFix.current = false;
+        }
+        restored.current = true;
+
         // **웹에서는 권한 래퍼를 거치지 않는다.**
         //
         // expo 의 웹 구현은 `navigator.permissions.query` 가 'denied' 면
@@ -301,7 +341,25 @@ export function useWalkTracking(active: boolean): WalkTracking {
       if (watchdog) clearTimeout(watchdog);
       sub?.remove();
     };
-  }, [active]);
+  }, [sessionId]);
+
+  /**
+   * 진행분을 기기에 맡겨 둔다 — 다음 마운트가 여기서 이어받는다.
+   *
+   * 거리·경로가 바뀔 때만 쓴다(= 실제로 인정된 이동이 있을 때만, 최소 5m 마다).
+   * 기준점(prev/prevAt)은 ref 라 렌더를 일으키지 않으므로 같은 순간에 함께 담는다 —
+   * 거리와 기준점이 갈리면 이어 잴 때 한 구간이 두 번 세어진다.
+   */
+  useEffect(() => {
+    if (!sessionId || !restored.current) return;
+    void saveWalkProgress({
+      sessionId,
+      distanceKm,
+      path,
+      anchor: prev.current,
+      anchorAt: prevAt.current,
+    });
+  }, [sessionId, distanceKm, path]);
 
   /**
    * '내 위치' 버튼 — 지금 즉시 새 좌표를 받아 워처와 **같은 판정**에 흘려 넣는다.
