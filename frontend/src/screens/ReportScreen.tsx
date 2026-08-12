@@ -1,5 +1,5 @@
-﻿import React, { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, Image, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
@@ -155,7 +155,8 @@ export default function ReportScreen() {
         <View style={styles.headerSide} />
       </View>
 
-      <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'height' : undefined}>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         <View style={styles.familySection}>
           <SectionHeader icon={<Image source={PERSON_ICON} style={styles.personIcon} />} title="가족 선택" />
           <Pressable
@@ -280,6 +281,9 @@ export default function ReportScreen() {
         </View>
       </ScrollView>
 
+      <FigmaFlowTabBar mode="guardian" active="home" />
+      </KeyboardAvoidingView>
+
       <Modal visible={pickerOpen} transparent animationType="fade" onRequestClose={() => setPickerOpen(false)}>
         <Pressable style={styles.modalBackdrop} onPress={() => setPickerOpen(false)}>
           <Pressable style={styles.picker} onPress={(event) => event.stopPropagation()}>
@@ -298,7 +302,6 @@ export default function ReportScreen() {
         </Pressable>
       </Modal>
 
-      <FigmaFlowTabBar mode="guardian" active="home" />
     </SafeAreaView>
   );
 }
@@ -328,6 +331,7 @@ function AppearanceField({ label, value, onChangeText, accessibilityLabel }: {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
+  flex: { flex: 1 },
   header: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   headerSide: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center' },
   title: { fontFamily: type.familySemiBold, fontSize: 18, lineHeight: 23, color: '#000000' },
@@ -336,10 +340,10 @@ const styles = StyleSheet.create({
 
   sectionHeader: { height: 55, paddingHorizontal: 20, paddingTop: 13, flexDirection: 'row', alignItems: 'flex-start' },
   sectionHeaderCompact: { height: 45 },
-  sectionIcon: { width: 17, height: 18, alignItems: 'center', justifyContent: 'center' },
-  sectionTitle: { marginLeft: 6, fontFamily: type.familySemiBold, fontSize: 14, lineHeight: 18, color: '#000000' },
-  personIcon: { width: 12, height: 12 },
-  mapIcon: { width: 8, height: 11 },
+  sectionIcon: { width: 20, height: 18, alignItems: 'center', justifyContent: 'center' },
+  sectionTitle: { marginLeft: 3, fontFamily: type.familySemiBold, fontSize: 14, lineHeight: 18, color: '#000000' },
+  personIcon: { width: 20, height: 20 },
+  mapIcon: { width: 20, height: 20 },
 
   familySection: { height: 128, backgroundColor: '#FFFFFF' },
   familyField: { height: 61, marginHorizontal: 23, borderRadius: 10, backgroundColor: '#F8F8F8', alignItems: 'center', justifyContent: 'center' },
@@ -365,8 +369,8 @@ const styles = StyleSheet.create({
   textarea: { height: 61, marginHorizontal: 23, borderRadius: 10, backgroundColor: '#F8F8F8', paddingHorizontal: 12, paddingVertical: 9, fontFamily: type.family, fontSize: 12, lineHeight: 16, color: '#525253', outlineStyle: 'none' } as any,
 
   appearanceSection: { height: 104, backgroundColor: '#FFFFFF' },
-  appearanceTopRow: { height: 21, marginHorizontal: 29, flexDirection: 'row', justifyContent: 'space-between' },
-  appearanceField: { width: 103, height: 21, flexDirection: 'row', alignItems: 'center' },
+  appearanceTopRow: { height: 21, marginHorizontal: 29, flexDirection: 'row', flexWrap: 'nowrap', gap: 8 },
+  appearanceField: { flex: 1, minWidth: 0, height: 21, flexDirection: 'row', alignItems: 'center' },
   appearanceLabel: { width: 27, fontFamily: type.familySemiBold, fontSize: 12, lineHeight: 16, color: '#E05454' },
   appearanceInput: { flex: 1, height: 21, borderRadius: 5, backgroundColor: '#F8F8F8', paddingHorizontal: 5, paddingVertical: 0, fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#525253', outlineStyle: 'none' } as any,
   appearanceBottomRow: { height: 21, marginHorizontal: 29, marginTop: 10, flexDirection: 'row', alignItems: 'center' },
@@ -374,7 +378,7 @@ const styles = StyleSheet.create({
   appearanceEtcInput: { flex: 1, height: 21, borderRadius: 5, backgroundColor: '#F8F8F8', paddingHorizontal: 5, paddingVertical: 0, fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#525253', outlineStyle: 'none' } as any,
 
   ctaSection: { height: 77, alignItems: 'center', backgroundColor: '#FFFFFF', paddingTop: 13 },
-  submit: { width: 204, height: 49, borderRadius: 30, backgroundColor: '#F14444', alignItems: 'center', justifyContent: 'center', shadowColor: '#F14444', shadowOpacity: 0.63, shadowRadius: 2, shadowOffset: { width: 0, height: 0 } },
+  submit: { width: 204, height: 49, borderRadius: 30, backgroundColor: '#F14444', alignItems: 'center', justifyContent: 'center', shadowColor: '#F14444', shadowOpacity: 0.63, shadowRadius: 2, shadowOffset: { width: 0, height: 0 }, elevation: 3 },
   submitText: { fontFamily: type.familySemiBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   pressed: { opacity: 0.8 },
   disabled: { opacity: 0.5 },

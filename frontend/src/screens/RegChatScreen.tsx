@@ -91,7 +91,7 @@ export default function RegChatScreen() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
       <FigmaStatusBar />
-      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'height' : undefined}>
         <View style={styles.header}>
           <Pressable onPress={() => quick ? navigation.goBack() : navigation.navigate('GuardianTabs', { screen: 'GuardianHome' })} accessibilityRole="button" accessibilityLabel="뒤로" style={styles.back}><BackIcon width={10} height={18} color="#8E8E93" /></Pressable>
           <Text style={styles.title}>{quick ? '빠른 등록' : '사전 등록 인터뷰'}</Text>
@@ -102,7 +102,7 @@ export default function RegChatScreen() {
           <View style={styles.progressTrack}><View style={[styles.progressActive, quick && styles.quickAccent, { width: `${progress}%` }]} /></View>
         </View>
 
-        <ScrollView ref={scrollRef} style={styles.chat} contentContainerStyle={styles.chatContent} showsVerticalScrollIndicator={false} onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}>
+        <ScrollView ref={scrollRef} style={styles.chat} contentContainerStyle={styles.chatContent} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}>
           {!session && !error ? <View style={[styles.botBubble, quick && styles.quickBubble]}><ActivityIndicator size="small" color={quick ? color.figmaRed : color.brand} /></View> : null}
           {messages.map((message) => <View key={message.id} style={message.from === 'bot' ? styles.botRow : styles.userRow}>
             <View style={[message.from === 'bot' ? styles.botBubble : styles.userBubble, quick && message.from === 'bot' && styles.quickBubble, message.pending && styles.pending]}>
