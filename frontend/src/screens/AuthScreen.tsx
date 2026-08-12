@@ -8,7 +8,6 @@ import FigmaStatusBar from '../components/FigmaStatusBar';
 import { useTabBarMetrics } from '../theme/tabBar';
 import AuthIntroText from '../../assets/figma/auth-intro-text.svg';
 import AuthTaglineText from '../../assets/figma/auth-tagline-text.svg';
-import AuthRoleLabel from '../../assets/figma/auth-role-label.svg';
 
 const authLogo = require('../../assets/figma/auth-logo.png');
 const startMascot = require('../../assets/figma/mascot-start.png');
@@ -138,10 +137,7 @@ export default function AuthScreen() {
 }
 
 function SeparatorLabel({ label }: { label: string }) {
-  const exactLabel = label === '어떤 역할로 시작하시겠습니까?'
-    ? <AuthRoleLabel width={188} height={14} accessibilityLabel={label} />
-    : <Text style={styles.separatorText}>{label}</Text>;
-  return <View style={styles.separatorRow}><View style={styles.separator} /><View style={styles.separatorLabel}>{exactLabel}</View><View style={styles.separator} /></View>;
+  return <View style={styles.separatorRow}><View style={styles.separator} /><View style={styles.separatorLabel}><Text style={styles.separatorText}>{label}</Text></View><View style={styles.separator} /></View>;
 }
 
 function RoleChoice({ label, tone, onPress, style }: { label: string; tone: 'guardian' | 'citizen'; onPress: () => void; style: object }) {
@@ -171,7 +167,7 @@ const styles = StyleSheet.create({
   startText: { fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
   loginRow: { position: 'absolute', top: 565, left: 91, width: 193, height: 19, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
   accountPrompt: { fontFamily: type.familyCss, fontSize: 15, lineHeight: 18, letterSpacing: -0.08, color: '#909090' },
-  accountLogin: { fontFamily: type.familyCssBold, fontSize: 15, lineHeight: 18, letterSpacing: -0.08, color: '#328E6E' },
+  accountLogin: { fontFamily: type.familyCss, fontSize: 15, lineHeight: 18, letterSpacing: -0.08, color: '#328E6E' },
   loginHit: { position: 'absolute', right: 10, top: -8, width: 54, height: 30 },
   loginText: { fontFamily: type.familySemiBold, fontSize: 14, color: color.brandInk, textDecorationLine: 'underline' },
   separatorRow: { position: 'absolute', top: 370, left: 16, right: 16, height: 22, flexDirection: 'row', alignItems: 'center', gap: 20 },

@@ -32,7 +32,6 @@ export default function WalkSummaryScreen() {
   // 안에서만 넘어온 값이다(서버는 산책 좌표를 저장하지 않는다).
   const mid = path.length ? path[Math.floor(path.length / 2)] : null;
   return <SafeAreaView style={styles.safe} edges={['top']}><StatusBar style="dark" /><FigmaStatusBar /><View style={styles.body}>
-    <Text style={styles.pageTitle}>오늘의 산책 기록</Text>
     <Text style={styles.kicker}>오늘 나의 산책 기록</Text>
     <View style={styles.headlineRow}>
       <Text style={styles.headline}>오늘은 총 {km}km를 걸었어요!</Text>
@@ -63,7 +62,7 @@ export default function WalkSummaryScreen() {
 }
 function Metric({ label, value }: { label: string; value: string }) { return <View style={styles.metric}><Text style={styles.metricLabel}>{label}</Text><Text style={styles.metricValue}>{value}</Text></View>; }
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#FFFFFF' }, body: { flex: 1, position: 'relative' }, pageTitle: { position: 'absolute', left: 20, top: 27, fontFamily: type.familyCssExtraBold, fontSize: 18, lineHeight: 23, color: '#000000' },
+  safe: { flex: 1, backgroundColor: '#FFFFFF' }, body: { flex: 1, position: 'relative' },
   kicker: { position: 'absolute', left: 20, top: 94, fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#007AFF' },
   headlineRow: { position: 'absolute', left: 20, right: 20, top: 111, height: 45, flexDirection: 'row', alignItems: 'center' },
   headline: { fontFamily: type.familyCssExtraBold, fontSize: 18, lineHeight: 23, color: '#000000' },
