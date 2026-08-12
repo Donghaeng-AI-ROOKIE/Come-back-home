@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Alert, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   accountBtnPressed: { opacity: 0.6 },
   accountBtnText: { fontFamily: type.familySemiBold, fontSize: 13, color: color.brand },
   logoutText: { color: '#909090' },
-  safe: { flex: 1, backgroundColor: '#FFFFFF' }, content: { paddingHorizontal: 23, paddingTop: 27, paddingBottom: 40 }, title: { fontFamily: type.familyBold, fontSize: 20, color: '#000000' }, hero: { height: 103, borderRadius: 10, backgroundColor: color.figmaField, marginTop: 14 },
+  safe: { flex: 1, backgroundColor: '#FFFFFF' }, content: { paddingHorizontal: 23, paddingTop: 27, paddingBottom: 40 }, title: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#000000' }, hero: { height: 103, borderRadius: 10, backgroundColor: color.figmaField, marginTop: 14 },
   metrics: { flexDirection: 'row', gap: 15, marginTop: 30 }, metric: { flex: 1, height: 50, borderRadius: 10, backgroundColor: color.figmaField, alignItems: 'center', justifyContent: 'center' }, metricLabel: { fontFamily: type.family, fontSize: 10, color: color.figmaGray }, metricValue: { fontFamily: type.familyBold, fontSize: 18, marginTop: 2 },
   section: { fontFamily: type.familySemiBold, fontSize: 18, color: '#000000', marginTop: 40 }, recentSection: { marginTop: 31 }, badges: { height: 103, borderRadius: 10, backgroundColor: color.figmaField, marginTop: 11, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }, badge: { alignItems: 'center', width: 70 }, badgeIcon: { fontSize: 28 }, badgeLabel: { fontFamily: type.family, fontSize: 10, color: '#525253', marginTop: 3, textAlign: 'center' },
   recent: { height: 73, borderRadius: 10, backgroundColor: color.figmaField, marginTop: 12, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center' }, recentTitle: { fontFamily: type.familySemiBold, fontSize: 15, color: '#525253' }, recentDate: { fontFamily: type.family, fontSize: 10, color: color.figmaGray, marginTop: 8 }, km: { position: 'absolute', left: 100, top: 17, minWidth: 62, borderRadius: 10, backgroundColor: '#D7D7D7', paddingHorizontal: 10, paddingVertical: 2, fontFamily: type.family, fontSize: 10, color: '#525253' }, chevron: { position: 'absolute', right: 16, fontFamily: type.family, fontSize: 26, color: color.guardian },

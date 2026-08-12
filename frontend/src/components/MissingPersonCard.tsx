@@ -151,12 +151,11 @@ const styles = StyleSheet.create({
   },
   avatarGlyph: { textAlign: 'center' },
   textCol: { flex: 1 },
-  title: { fontWeight: type.weight.black, fontFamily: type.family },
+  title: { fontFamily: type.familyExtraBold },
   meta: {
     marginTop: space.xs,
     fontSize: type.size.label,
-    fontWeight: type.weight.medium,
-    fontFamily: type.family,
+    fontFamily: type.familySemiBold,
   },
   chips: { flexDirection: 'row', flexWrap: 'wrap', marginTop: space.sm },
   chip: {
@@ -166,7 +165,7 @@ const styles = StyleSheet.create({
     marginRight: space.sm,
     marginTop: space.xs,
   },
-  chipText: { fontSize: type.size.label, fontWeight: type.weight.medium, fontFamily: type.family },
+  chipText: { fontSize: type.size.label, fontFamily: type.familySemiBold },
 });
 
 export default MissingPersonCard;

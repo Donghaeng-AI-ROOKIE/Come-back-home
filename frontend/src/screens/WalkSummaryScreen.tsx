@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Image, Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import { Polyline } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -63,11 +63,11 @@ export default function WalkSummaryScreen() {
 }
 function Metric({ label, value }: { label: string; value: string }) { return <View style={styles.metric}><Text style={styles.metricLabel}>{label}</Text><Text style={styles.metricValue}>{value}</Text></View>; }
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#FFFFFF' }, body: { flex: 1, position: 'relative' }, pageTitle: { position: 'absolute', left: 20, top: 27, fontFamily: type.familyBold, fontSize: 20, color: '#000000' },
-  kicker: { position: 'absolute', left: 20, top: 94, fontFamily: type.family, fontSize: 11, color: '#007AFF' },
+  safe: { flex: 1, backgroundColor: '#FFFFFF' }, body: { flex: 1, position: 'relative' }, pageTitle: { position: 'absolute', left: 20, top: 27, fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#000000' },
+  kicker: { position: 'absolute', left: 20, top: 94, fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#007AFF' },
   headlineRow: { position: 'absolute', left: 20, right: 20, top: 111, height: 45, flexDirection: 'row', alignItems: 'center' },
-  headline: { fontFamily: type.familyBold, fontSize: 20, color: '#000000' },
+  headline: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#000000' },
   mascot: { width: 34, height: 40, marginLeft: 7 },
   image: { position: 'absolute', left: 0, right: 0, top: 156, width: '100%', height: 220, backgroundColor: '#E4E4E4' }, imageEmpty: { alignItems: 'center', justifyContent: 'center' }, imageEmptyText: { fontFamily: type.family, fontSize: 12, color: color.figmaGray }, metrics: { position: 'absolute', left: 16, right: 16, top: 424, height: 50, flexDirection: 'row', gap: 15 }, metric: { flex: 1, height: 50, borderRadius: 10, backgroundColor: color.figmaField, alignItems: 'center', justifyContent: 'center' }, metricLabel: { fontFamily: type.family, fontSize: 10, color: color.figmaGray }, metricValue: { fontFamily: type.familyBold, fontSize: 18, color: '#000000' },
-  primary: { position: 'absolute', left: 10, right: 10, top: 520, height: 58, borderRadius: 30, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 }, primaryText: { fontFamily: type.familyBold, fontSize: 20, color: '#FFFFFF' }, secondary: { position: 'absolute', left: 10, right: 10, top: 587, height: 58, borderRadius: 30, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 }, secondaryText: { fontFamily: type.familyBold, fontSize: 20, color: '#525253' },
+  primary: { position: 'absolute', left: 10, right: 10, top: 520, height: 58, borderRadius: 30, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 }, primaryText: { fontFamily: type.familyRobotoSemiBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' }, secondary: { position: 'absolute', left: 10, right: 10, top: 587, height: 58, borderRadius: 30, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 }, secondaryText: { fontFamily: type.familyRobotoSemiBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#525253' },
 });

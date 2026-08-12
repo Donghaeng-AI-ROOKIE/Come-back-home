@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   content: { paddingHorizontal: 23, paddingTop: 27, paddingBottom: 30 },
   title: { marginLeft: -3, fontFamily: type.familySemiBold, fontSize: 18, lineHeight: 22, color: '#000000' },
-  subtitle: { marginLeft: -3, marginTop: 14, marginBottom: 39, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: color.figmaGray },
+  subtitle: { marginLeft: -3, marginTop: 14, marginBottom: 39, fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray },
   card: { height: 139, borderRadius: 10, paddingHorizontal: 16, paddingTop: 20, marginBottom: 28, position: 'relative', shadowColor: '#000000', shadowOpacity: 0.1, shadowRadius: 7, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   redCard: { backgroundColor: '#FFF0F1' },
   greenCard: { backgroundColor: '#ECFAE5' },
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   badgeText: { fontFamily: type.familyMedium, fontSize: 10, lineHeight: 13 },
   redBadgeText: { color: color.figmaRed },
   greenBadgeText: { color: '#286C45' },
-  cardTitle: { marginTop: 15, fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, color: '#525253' },
+  cardTitle: { marginTop: 15, fontFamily: type.familySemiBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#525253' },
   cardBody: { marginTop: 7, fontFamily: type.family, fontSize: 11, lineHeight: 14, color: '#525253' },
   chevron: { position: 'absolute', right: 17, top: 17, fontFamily: type.family, fontSize: 28, lineHeight: 30 },
   pressed: { opacity: 0.82 },

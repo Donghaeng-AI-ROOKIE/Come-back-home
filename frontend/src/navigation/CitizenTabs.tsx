@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 시민 하단 4탭 (와이어프레임): 안심 홈 / 산책하기 / 긴급알림 / 내 기록.
  * 탭 활성색 = 현재 AppMode 토큰(walk=green / search=amber).
  *
@@ -32,7 +32,7 @@ export default function CitizenTabs() {
         headerShown: false,
         tabBarActiveTintColor: t.accent,
         tabBarInactiveTintColor: color.textCaption,
-        tabBarLabelStyle: { fontSize: 11, lineHeight: 13, fontFamily: type.family, marginTop: 1 },
+        tabBarLabelStyle: { fontSize: 10, lineHeight: 13, letterSpacing: 0.16, fontFamily: type.familyRobotoSemiBold, marginTop: 1 },
         tabBarStyle: {
           backgroundColor: color.surface,
           borderTopColor: color.border,

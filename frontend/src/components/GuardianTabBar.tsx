@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -7,7 +7,8 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SvgXml } from 'react-native-svg';
 
 import type { GuardianTabParamList, RootStackParamList } from '../navigation/types';
-import { gColor, gFont, gTabBar } from '../theme/guardianTokens';
+import { gColor, gTabBar } from '../theme/guardianTokens';
+import { type } from '../theme/tokens';
 import { tabAlertXml, tabHomeXml, tabMyXml, tabRegXml, tintXml } from '../assets/guardianSvg';
 
 type TabName = keyof GuardianTabParamList;
@@ -112,6 +113,6 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   item: { flex: 1, alignItems: 'center', justifyContent: 'flex-start', gap: 5, minHeight: 54 },
-  label: { fontFamily: gFont.regular, fontSize: 11, lineHeight: 14 },
+  label: { fontFamily: type.familyRobotoSemiBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.16 },
   pressed: { opacity: 0.65 },
 });

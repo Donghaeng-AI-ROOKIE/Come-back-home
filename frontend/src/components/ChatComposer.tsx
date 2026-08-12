@@ -142,8 +142,7 @@ const styles = StyleSheet.create({
   sendIcon: {
     fontSize: 24,
     color: '#FFFFFF',
-    fontWeight: type.weight.black,
-    fontFamily: type.family,
+    fontFamily: type.familyExtraBold,
   },
   guardianBar: { height: 52, paddingHorizontal: 16, paddingVertical: 8, alignItems: 'center', borderTopWidth: 0, gap: 8 },
   guardianInput: { minHeight: 36, maxHeight: 36, borderRadius: 17, paddingHorizontal: 14, paddingVertical: 8, fontSize: 13, fontFamily: gFont.regular, borderWidth: 1, borderColor: 'rgba(0,0,0,0.06)' },

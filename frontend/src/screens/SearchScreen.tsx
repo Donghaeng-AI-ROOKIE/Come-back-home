@@ -511,9 +511,8 @@ const styles = StyleSheet.create({
   },
   loadText: {
     fontSize: type.size.label,
-    fontWeight: type.weight.bold,
     color: color.textBody,
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
   },
 
   topScrim: { position: 'absolute', top: 0, left: 0, right: 0 },
@@ -534,8 +533,7 @@ const styles = StyleSheet.create({
   },
   elapsedText: {
     fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
   },
 
   zoneAnno: { position: 'absolute', left: 0, right: 0, alignItems: 'center', gap: space.sm },
@@ -556,9 +554,8 @@ const styles = StyleSheet.create({
   zoneDot: { width: 9, height: 9, borderRadius: 5 },
   zonePillText: {
     fontSize: type.size.label,
-    fontWeight: type.weight.black,
     color: color.text,
-    fontFamily: type.family,
+    fontFamily: type.familyExtraBold,
   },
   distChip: {
     borderRadius: radius.pill,
@@ -567,9 +564,8 @@ const styles = StyleSheet.create({
   },
   distText: {
     fontSize: type.size.label,
-    fontWeight: type.weight.black,
     color: color.surface,
-    fontFamily: type.family,
+    fontFamily: type.familyExtraBold,
   },
 
   legendFloat: { position: 'absolute', right: space.lg },
@@ -592,9 +588,8 @@ const styles = StyleSheet.create({
   },
   timeChipText: {
     fontSize: type.size.caption,
-    fontWeight: type.weight.bold,
     color: color.textBody,
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
   },
   timeChipTextOn: { color: '#FFFFFF' },
 
@@ -608,9 +603,8 @@ const styles = StyleSheet.create({
   },
   freshnessText: {
     fontSize: type.size.caption,
-    fontWeight: type.weight.bold,
     color: '#FFFFFF',
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
   },
 
   degradedBanner: {
@@ -624,9 +618,8 @@ const styles = StyleSheet.create({
   },
   degradedText: {
     fontSize: type.size.caption,
-    fontWeight: type.weight.bold,
     color: '#FFFFFF',
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
     textAlign: 'center',
   },
 
@@ -647,9 +640,8 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: type.size.label,
-    fontWeight: type.weight.bold,
     color: color.textBody,
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
     textAlign: 'center',
   },
 
@@ -695,16 +687,14 @@ const styles = StyleSheet.create({
   guidanceText: {
     flex: 1,
     fontSize: type.size.label,
-    fontWeight: type.weight.medium,
-    fontFamily: type.family,
+    fontFamily: type.familySemiBold,
     lineHeight: 21,
   },
 
   sheetKicker: {
     fontSize: type.size.label,
-    fontWeight: type.weight.black,
     color: color.text,
-    fontFamily: type.family,
+    fontFamily: type.familyExtraBold,
   },
 
   lastSeenRow: { flexDirection: 'row', alignItems: 'center', gap: space.xs },
@@ -712,8 +702,7 @@ const styles = StyleSheet.create({
   lastSeenText: {
     flex: 1,
     fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
   },
 
   info112: {
@@ -727,11 +716,10 @@ const styles = StyleSheet.create({
   info112Text: {
     flex: 1,
     fontSize: type.size.label,
-    fontWeight: type.weight.medium,
-    fontFamily: type.family,
+    fontFamily: type.familySemiBold,
     lineHeight: 22,
   },
-  info112Strong: { fontWeight: type.weight.black },
+  info112Strong: { fontFamily: type.familyExtraBold },
 
   ctaWrap: {
     borderRadius: radius.lg,
@@ -753,9 +741,8 @@ const styles = StyleSheet.create({
   ctaIcon: { fontSize: 20 },
   ctaLabel: {
     fontSize: type.size.cardTitle,
-    fontWeight: type.weight.black,
     color: color.surface,
-    fontFamily: type.family,
+    fontFamily: type.familyExtraBold,
   },
 
   pressed: { opacity: 0.9 },

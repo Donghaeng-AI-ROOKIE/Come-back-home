@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+﻿import { useEffect } from 'react';
 import { ActivityIndicator, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
@@ -104,23 +104,23 @@ const styles = StyleSheet.create({
   status: { position: 'absolute', top: 0, left: 0, right: 0 },
   sheet: { position: 'absolute', left: 0, right: 0, top: 367, borderTopLeftRadius: 12, borderTopRightRadius: 12, backgroundColor: 'rgba(255,255,255,0.96)', shadowColor: '#000', shadowOpacity: 0.14, shadowRadius: 25, shadowOffset: { width: 0, height: -2 }, elevation: 8 },
   handle: { position: 'absolute', top: 8, left: '45%', right: '45%', height: 5, borderRadius: 3, backgroundColor: 'rgba(0,0,0,0.1)' },
-  kicker: { position: 'absolute', left: 17, top: 26, fontFamily: type.familySemiBold, fontSize: 13, lineHeight: 18, color: 'rgba(0,0,0,0.4)' },
+  kicker: { position: 'absolute', left: 17, top: 26, fontFamily: type.familySemiBold, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: 'rgba(0,0,0,0.4)' },
   count: { position: 'absolute', right: 27, top: 28, width: 51, height: 21, borderRadius: 20, backgroundColor: '#D9D9D9', alignItems: 'center', justifyContent: 'center' },
-  countText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, color: '#414141' },
+  countText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.07, color: '#414141' },
   person: { position: 'absolute', left: 17, top: 76, width: 42, height: 42, borderRadius: 21 },
-  name: { position: 'absolute', left: 77, top: 62, fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, color: ink },
-  meta: { position: 'absolute', left: 77, top: 93, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: ink },
+  name: { position: 'absolute', left: 77, top: 62, fontFamily: type.familyBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: ink },
+  meta: { position: 'absolute', left: 77, top: 93, fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: ink },
   tags: { position: 'absolute', left: 77, top: 116, flexDirection: 'row', gap: 5, alignItems: 'center' },
   tag: { height: 18, paddingHorizontal: 6, borderRadius: 20, backgroundColor: wash, justifyContent: 'center' },
-  tagText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, color: red },
+  tagText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.07, color: red },
   photoButton: { height: 18, paddingHorizontal: 9, borderRadius: 20, backgroundColor: red, justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 2, elevation: 2 },
-  photoText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, color: '#FFFFFF' },
+  photoText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.07, color: '#FFFFFF' },
   infoCard: { position: 'absolute', left: 23, right: 21, height: 41, borderRadius: 9, backgroundColor: '#FFF4F4' },
   firstInfo: { top: 155 },
   secondInfo: { top: 205 },
   infoIcon: { position: 'absolute', left: 9, top: 11, width: 12, textAlign: 'center', fontSize: 9, fontWeight: '700', color: red },
-  infoText: { position: 'absolute', left: 27, top: 7, fontFamily: type.family, fontSize: 11, lineHeight: 13, color: ink },
+  infoText: { position: 'absolute', left: 27, top: 7, fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: ink },
   reportButton: { position: 'absolute', left: 10, right: 10, bottom: 12, height: 57, borderRadius: 26, backgroundColor: red, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
-  reportText: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, color: '#FFFFFF' },
+  reportText: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   tabs: { position: 'absolute', left: 0, right: 0, bottom: 0 },
 });

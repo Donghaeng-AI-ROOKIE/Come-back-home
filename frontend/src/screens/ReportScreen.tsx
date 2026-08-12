@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
 
   ctaSection: { height: 77, alignItems: 'center', backgroundColor: '#FFFFFF', paddingTop: 13 },
   submit: { width: 204, height: 49, borderRadius: 30, backgroundColor: '#F14444', alignItems: 'center', justifyContent: 'center', shadowColor: '#F14444', shadowOpacity: 0.63, shadowRadius: 2, shadowOffset: { width: 0, height: 0 } },
-  submitText: { fontFamily: type.familySemiBold, fontSize: 20, lineHeight: 25, color: '#FFFFFF' },
+  submitText: { fontFamily: type.familySemiBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   pressed: { opacity: 0.8 },
   disabled: { opacity: 0.5 },
 
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
   personaOption: { minHeight: 67, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 16, marginBottom: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   personaOptionSelected: { backgroundColor: color.guardianWash, borderWidth: 1, borderColor: color.guardian },
   personaName: { fontFamily: type.familySemiBold, fontSize: 15, color: '#525253' },
-  personaMeta: { fontFamily: type.family, fontSize: 11, color: color.figmaGray, marginTop: 5 },
+  personaMeta: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray, marginTop: 5 },
   personaCheck: { fontFamily: type.familyBold, fontSize: 18, color: color.guardian },
   cancel: { height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', marginTop: 2 },
   cancelText: { fontFamily: type.familySemiBold, fontSize: 15, color: '#525253' },

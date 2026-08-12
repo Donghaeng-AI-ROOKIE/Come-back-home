@@ -50,7 +50,7 @@ export function SegmentedControl({
                 styles.label,
                 {
                   color: active ? accent : inactiveInk,
-                  fontWeight: active ? type.weight.black : type.weight.medium,
+                  fontFamily: active ? type.familyExtraBold : type.familySemiBold,
                 },
               ]}
               allowFontScaling
@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
   pressed: { opacity: 0.7 },
   label: {
     fontSize: type.size.body,
-    fontFamily: type.family,
   },
 });
 

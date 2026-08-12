@@ -71,8 +71,7 @@ const styles = StyleSheet.create({
   disabled: { opacity: 0.45 },
   label: {
     fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
   },
 });
 

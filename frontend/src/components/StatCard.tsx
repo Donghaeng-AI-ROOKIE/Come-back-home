@@ -74,12 +74,11 @@ const styles = StyleSheet.create({
     minWidth: 96,
   },
   icon: { marginBottom: space.xs },
-  value: { fontSize: type.size.bigNum, fontWeight: type.weight.black, fontFamily: type.family },
+  value: { fontSize: type.size.bigNum, fontFamily: type.familyExtraBold },
   label: {
     marginTop: space.xs,
     fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
   },
 });
 

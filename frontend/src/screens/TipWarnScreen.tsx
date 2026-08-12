@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   warnTitle: { fontFamily: type.familySemiBold, fontSize: 19, lineHeight: 25, color: '#525253' },
   warnText: { fontFamily: type.family, fontSize: 11, lineHeight: 15, color: color.figmaRed, marginTop: 12 },
   primary: { position: 'absolute', left: 10, right: 10, top: 250, height: 57, borderRadius: 29, backgroundColor: color.figmaRed, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
-  primaryText: { fontFamily: type.familyBold, fontSize: 20, color: '#FFFFFF' },
+  primaryText: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   secondary: { position: 'absolute', left: 10, right: 10, top: 318, height: 57, borderRadius: 29, backgroundColor: '#D8D8D8', alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.14, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 2 },
-  secondaryText: { fontFamily: type.familyBold, fontSize: 20, color: '#9A9A9F' },
+  secondaryText: { fontFamily: type.familyBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#9A9A9F' },
 });

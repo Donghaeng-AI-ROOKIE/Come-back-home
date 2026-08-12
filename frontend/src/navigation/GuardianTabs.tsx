@@ -1,4 +1,4 @@
-/** 보호자 하단 4탭 (Figma): 홈 / 사전등록 / 알림 / 내 정보. */
+﻿/** 보호자 하단 4탭 (Figma): 홈 / 사전등록 / 알림 / 내 정보. */
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -92,7 +92,7 @@ export default function GuardianTabs() {
         headerShown: false,
         tabBarActiveTintColor: color.guardian,
         tabBarInactiveTintColor: color.figmaGray,
-        tabBarLabelStyle: { fontSize: 11, lineHeight: 13, fontFamily: type.family, marginTop: 1 },
+        tabBarLabelStyle: { fontSize: 10, lineHeight: 13, letterSpacing: 0.16, fontFamily: type.familyRobotoSemiBold, marginTop: 1 },
         tabBarStyle: {
           backgroundColor: color.surface,
           borderTopColor: color.border,
@@ -143,10 +143,10 @@ const styles = StyleSheet.create({
   homeIndicator: { position: 'absolute', bottom: 8, left: '32%', right: '32%', height: 5, borderRadius: 100, backgroundColor: '#000000' },
   safe: { flex: 1, backgroundColor: color.surfaceAlt },
   wrap: { flex: 1, padding: space.xl, gap: space.lg },
-  title: { fontSize: type.size.title, fontWeight: type.weight.black, color: color.text, fontFamily: type.family },
+  title: { fontSize: type.size.title, color: color.text, fontFamily: type.familyExtraBold },
   card: { backgroundColor: color.surface, borderRadius: radius.lg, borderWidth: 1, borderColor: color.border, padding: space.lg, gap: space.xs },
-  rowKey: { fontSize: type.size.caption, fontWeight: type.weight.bold, color: color.textCaption, fontFamily: type.family },
-  rowVal: { fontSize: type.size.label, fontWeight: type.weight.medium, color: color.text, fontFamily: type.family },
+  rowKey: { fontSize: type.size.caption, color: color.textCaption, fontFamily: type.familyBold },
+  rowVal: { fontSize: type.size.label, color: color.text, fontFamily: type.familySemiBold },
   divider: { height: 1, backgroundColor: color.border, marginVertical: space.md },
   switchGap: { height: 10 },
   spacer: { flex: 1 },

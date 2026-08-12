@@ -69,8 +69,7 @@ const styles = StyleSheet.create({
   dot: { width: 6, height: 6, borderRadius: 3 },
   label: {
     fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    fontFamily: type.family,
+    fontFamily: type.familyBold,
   },
 });
 
