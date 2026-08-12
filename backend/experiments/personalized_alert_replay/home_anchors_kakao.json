@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "provider": "kakao",
+  "homes": [
+    {"profile_id": "SP01", "query": "서울 성북구 정릉2동 주민센터", "home": {"lat": 37.6047214214776, "lng": 127.01061133449151}, "source": "kakao", "precision": "poi", "matched": "정릉2동주민센터"},
+    {"profile_id": "SP02", "query": "서울 성북구 길음1동 주민센터", "home": {"lat": 37.6103983239234, "lng": 127.019502782008}, "source": "kakao", "precision": "poi", "matched": "길음1동주민센터"},
+    {"profile_id": "SP03", "query": "서울 성북구 돈암1동 주민센터", "home": {"lat": 37.60340081032872, "lng": 127.02634101122372}, "source": "kakao", "precision": "poi", "matched": "돈암1동주민센터"},
+    {"profile_id": "SP04", "query": "서울 성북구 월곡1동 주민센터", "home": {"lat": 37.6105530868712, "lng": 127.035775560243}, "source": "kakao", "precision": "poi", "matched": "월곡1동주민센터"},
+    {"profile_id": "SP05", "query": "서울 성북구 정릉3동 주민센터", "home": {"lat": 37.607915004140196, "lng": 126.99924007365276}, "source": "kakao", "precision": "poi", "matched": "정릉3동주민자치회"},
+    {"profile_id": "SP06", "query": "서울 성북구 안암동 주민센터", "home": {"lat": 37.585817166442304, "lng": 127.02134184200641}, "source": "kakao", "precision": "poi", "matched": "안암동주민센터"},
+    {"profile_id": "SP07", "query": "서울 성북구 보문동 주민센터", "home": {"lat": 37.5803802951324, "lng": 127.022823355231}, "source": "kakao", "precision": "poi", "matched": "보문동주민센터"},
+    {"profile_id": "SP08", "query": "서울 성북구 동선동 주민센터", "home": {"lat": 37.5939893309527, "lng": 127.02041567567342}, "source": "kakao", "precision": "poi", "matched": "동선동주민센터"},
+    {"profile_id": "SP09", "query": "서울 성북구 삼선동 주민센터", "home": {"lat": 37.59082770536046, "lng": 127.0146515622994}, "source": "kakao", "precision": "poi", "matched": "삼선동주민센터"},
+    {"profile_id": "SP10", "query": "서울 성북구 종암동 주민센터", "home": {"lat": 37.5990169781263, "lng": 127.035217428043}, "source": "kakao", "precision": "poi", "matched": "종암동주민센터"}
+  ]
+}

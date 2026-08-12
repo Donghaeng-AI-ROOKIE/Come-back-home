@@ -2,8 +2,9 @@
 
 import pytest
 
-from app.geo.geocode import GazetteerGeocoder
+from app.geo.geocode import GazetteerGeocoder, GeoResult
 from app.phase0 import interview
+from app.schemas.common import GeoPoint
 from app.schemas.persona import InterviewSession, PersonaType
 
 
@@ -37,6 +38,32 @@ def test_finalize_age_parsed_from_text():
     )
     p = interview.finalize_persona(s, geocoder=GazetteerGeocoder())
     assert p.age == 78
+
+
+def test_finalize_prefers_precise_home_after_removing_nearby_suffix():
+    class _SuffixSensitiveGeocoder:
+        def locate(self, query, anchor=None):
+            if query.endswith("근처"):
+                return GeoResult(
+                    GeoPoint(lat=37.5894, lng=127.0167),
+                    precision="dong", source="gazetteer", matched="성북구",
+                )
+            if query.endswith("주민센터"):
+                return GeoResult(
+                    GeoPoint(lat=37.6047214, lng=127.0106113),
+                    precision="poi", source="kakao", matched="정릉2동주민센터",
+                )
+            return None
+
+    session = InterviewSession(
+        id="fin-suffix", guardian_name="보호자", persona_type=PersonaType.dementia,
+        draft_fields={
+            "name": "김순자", "age": 78,
+            "home": "서울 성북구 정릉2동 주민센터 근처",
+        },
+    )
+    persona = interview.finalize_persona(session, geocoder=_SuffixSensitiveGeocoder())
+    assert persona.home == GeoPoint(lat=37.6047214, lng=127.0106113)
 
 
 def test_finalize_raises_without_geocodable_home():
