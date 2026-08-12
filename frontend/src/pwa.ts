@@ -151,7 +151,7 @@ export function setupPwa(): void {
   link({ rel: 'manifest', href: '/manifest.json' });
   // iOS 는 매니페스트만으로 부족하다 — 아래 세 태그가 있어야 홈 화면 아이콘이
   // 브라우저 UI 없이(standalone) 열리고, 그래야 웹 푸시가 허용된다.
-  link({ rel: 'apple-touch-icon', href: '/icon-192.png' });
+  link({ rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' });
   meta({ name: 'apple-mobile-web-app-capable', content: 'yes' });
   meta({ name: 'apple-mobile-web-app-title', content: '돌아오길' });
   meta({ name: 'apple-mobile-web-app-status-bar-style', content: 'default' });
