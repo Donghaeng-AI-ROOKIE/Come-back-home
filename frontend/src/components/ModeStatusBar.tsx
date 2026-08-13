@@ -1,21 +1,27 @@
 /**
  * 모드 상태 배너 (spec §2.5). green(산책)/amber(수색 진행)/red(긴급).
- * useModeTheme 소비. 색만으로 상태 전달 금지 — 도트 + 텍스트 이중부호화.
- * 참조 컴포넌트.
+ * 색만으로 상태 전달 금지 — 도트 + 텍스트 이중부호화.
+ *
+ * **표시 전용 컴포넌트다.** 모드·심각도를 스토어에서 직접 읽지 않고 props 로 받는다 —
+ * 디자인 교체 시 상태 연결이 같이 사라지지 않게. 색 계산(`computeModeTokens`)은
+ * 순수 함수라 여기서 불러도 무방하다(테마는 원래 표시 계층의 몫).
  */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { color, radius, space, type } from '../theme/tokens';
-import { useModeTheme } from '../theme/theme';
+import { computeModeTokens } from '../theme/theme';
+import type { AppMode, Severity } from '../types/domain';
 
 export type ModeStatusBarProps = {
+  mode: AppMode;
+  severity: Severity;
   /** 배너 좌측 라벨 오버라이드. 기본은 모드에 따라 자동. */
   label?: string;
   compact?: boolean;
 };
 
-export function ModeStatusBar({ label, compact }: ModeStatusBarProps) {
-  const t = useModeTheme();
+export function ModeStatusBar({ mode, severity, label, compact }: ModeStatusBarProps) {
+  const t = computeModeTokens(mode, severity);
   const isSearch = t.mode === 'search';
   const bg = isSearch ? t.severityWash : color.walkWash;
   const ink = isSearch ? t.severityInk : color.walkInk;
@@ -59,7 +65,7 @@ const styles = StyleSheet.create({
   },
   compact: { paddingVertical: space.sm },
   dot: { width: 10, height: 10, borderRadius: 5, marginRight: space.sm },
-  label: { fontSize: type.size.label, fontWeight: type.weight.bold, fontFamily: type.family },
+  label: { fontSize: type.size.label, fontFamily: type.familyBold },
 });
 
 export default ModeStatusBar;

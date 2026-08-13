@@ -1,0 +1,288 @@
+"""환경 레이어 — 도로망 노드에 "주변이 무엇인가"를 입힌다.
+
+소스 2개 (상호 보완):
+1. OSM 태그 (osmnx.features_from_point) — 물·숲·공원·시장 지오메트리를 받아
+   노드별 최단거리(m)를 계산. 구체적 장소(POI)에 강함.
+2. 환경부 EGIS 토지피복지도 (WMS, 인증키 불필요) — 노드 좌표의 피복 분류
+   (대분류 l1 / 중분류 l2 / 세분류 l3). 전 국토 빈틈없는 커버리지.
+   - 케이스 영역 래스터(GetMap) 1회 + 색→클래스 보정(GetFeatureInfo) 소수 호출.
+   - 색상표를 하드코딩하지 않는다: 래스터에 실제로 나온 색마다 대표 지점 하나를
+     GetFeatureInfo 로 물어 (색, 클래스) 표를 그 자리에서 만든다.
+
+결과는 net.node_env[node] 에 저장하고 JSON 으로 디스크 캐시.
+시뮬레이션·게이지·트리거·EXAONE 프롬프트는 env(node) dict 만 읽는다:
+
+    {"landcover_l1": "시가화건조지역", "landcover_l3": "도로", "landcover_code": "154",
+     "water_m": 37.2, "forest_m": 411.0, "park_m": None, "market_m": 88.5}
+
+건물 높이 레이어 (`buildings_with_height`): 노드가 아니라 지도에 나오는 건물
+전체(폴리곤)를 대상으로 한다. 1차 기술회의 OSMNX 설계안 ④(가시성·랜드마크
+인식범위 산출용)의 데이터 공급 단계 — 반경·인식범위 계산 자체는 후속 작업.
+"""
+
+from __future__ import annotations
+
+import json
+import urllib.parse
+import urllib.request
+from pathlib import Path
+
+from app.config import settings
+from app.geo.roadnet import OSMnxNetwork
+from app.schemas.common import GeoPoint
+
+# OSM 태그 → env 카테고리 (거리 필드명은 "<카테고리>_m")
+_OSM_CATEGORIES: dict[str, callable] = {
+    "water": lambda row: row.get("natural") == "water" or _notna(row.get("waterway")),
+    "forest": lambda row: row.get("natural") == "wood" or row.get("landuse") == "forest",
+    "park": lambda row: row.get("leisure") == "park",
+    "market": lambda row: row.get("amenity") == "marketplace",
+}
+_OSM_TAGS = {
+    "natural": ["water", "wood"],
+    "waterway": True,
+    "landuse": ["forest"],
+    "leisure": ["park"],
+    "amenity": ["marketplace"],
+}
+
+
+def _notna(v) -> bool:
+    return v is not None and v == v  # NaN 은 자기 자신과 다르다
+
+
+# ── 진입점 ──────────────────────────────────────────────────────────
+def attach(net: OSMnxNetwork, center: GeoPoint, radius_m: int | None = None) -> dict:
+    """net.node_env 를 채운다. 디스크 캐시가 있으면 API 호출 없이 로드.
+
+    반환: 요약 통계 (테스트·로그용).
+    """
+    r = radius_m or settings.roadnet_radius_m
+    cache = Path(settings.roadnet_cache_dir) / f"env_{center.lat:.4f}_{center.lng:.4f}_{r}.json"
+    if cache.exists():
+        loaded = json.loads(cache.read_text(encoding="utf-8"))
+        net.node_env = {int(k): v for k, v in loaded.items()}
+        return {"nodes": len(net.node_env), "source": "cache"}
+
+    env: dict[int, dict] = {n: {} for n in net.graph.nodes}
+    _attach_osm_distances(net, env, center, r)
+    stats = _attach_landcover(net, env)
+
+    net.node_env = env
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(json.dumps(env, ensure_ascii=False), encoding="utf-8")
+    return {"nodes": len(env), "source": "api", **stats}
+
+
+# ── 소스 1: OSM 태그 → 카테고리별 최단거리 ──────────────────────────
+def _attach_osm_distances(net: OSMnxNetwork, env: dict[int, dict], center: GeoPoint, radius_m: int) -> None:
+    import osmnx as ox
+    from pyproj import Transformer
+    from shapely.geometry import Point
+    from shapely.ops import transform as shp_transform
+
+    try:
+        gdf = ox.features_from_point((center.lat, center.lng), tags=_OSM_TAGS, dist=radius_m)
+    except Exception:  # noqa: BLE001 — 해당 태그가 하나도 없는 지역
+        gdf = None
+
+    # 미터 단위 거리용 투영 (위경도 → 한국 평면좌표 EPSG:5179)
+    to_m = Transformer.from_crs("EPSG:4326", "EPSG:5179", always_xy=True).transform
+
+    node_pts = {n: shp_transform(to_m, Point(loc.lng, loc.lat))
+                for n in net.graph.nodes for loc in [net.node_location(n)]}
+
+    for cat, match in _OSM_CATEGORIES.items():
+        geoms = []
+        if gdf is not None:
+            for _, row in gdf.iterrows():
+                if match(row) and row.geometry is not None:
+                    geoms.append(shp_transform(to_m, row.geometry))
+        field = f"{cat}_m"
+        if not geoms:
+            for n in env:
+                env[n][field] = None
+            continue
+        from shapely.strtree import STRtree
+
+        tree = STRtree(geoms)
+        for n, pt in node_pts.items():
+            nearest = tree.nearest(pt)
+            env[n][field] = round(pt.distance(geoms[nearest]), 1)
+
+
+# ── 소스 2: EGIS 토지피복 — 래스터 1회 + 색 보정 조회 ────────────────
+def _attach_landcover(net: OSMnxNetwork, env: dict[int, dict]) -> dict:
+    import io as _io
+
+    from PIL import Image
+
+    locs = {n: net.node_location(n) for n in net.graph.nodes}
+    lats = [p.lat for p in locs.values()]
+    lngs = [p.lng for p in locs.values()]
+    pad = 0.001
+    bbox = (min(lngs) - pad, min(lats) - pad, max(lngs) + pad, max(lats) + pad)
+
+    # 해상도 ≈ 5m/픽셀 (위도 1도 ≈ 111km), 최대 2048px
+    w = min(2048, max(256, int((bbox[2] - bbox[0]) * 111_000 * 0.8 / 5)))
+    h = min(2048, max(256, int((bbox[3] - bbox[1]) * 111_000 / 5)))
+
+    png = _wms_get(
+        request="GetMap", layers=settings.egis_landcover_layer,
+        bbox=",".join(f"{v:.6f}" for v in bbox), width=w, height=h, format="image/png",
+    )
+    img = Image.open(_io.BytesIO(png)).convert("RGB")
+
+    def to_px(p: GeoPoint) -> tuple[int, int]:
+        x = int((p.lng - bbox[0]) / (bbox[2] - bbox[0]) * (w - 1))
+        y = int((bbox[3] - p.lat) / (bbox[3] - bbox[1]) * (h - 1))
+        return x, y
+
+    # 색 양자화(채널당 /8): 경계 안티앨리어싱으로 생기는 미세 변형색을 묶는다
+    def q(rgb: tuple) -> tuple:
+        return tuple(c // 8 * 8 for c in rgb)
+
+    node_color = {n: q(img.getpixel(to_px(p))) for n, p in locs.items()}
+
+    # 색 → 클래스 보정표: 노드 수 많은 색부터 대표 노드 1곳씩 GetFeatureInfo 조회.
+    # 호출 상한(60)을 넘는 희귀색(경계 잔여물)은 최근접 색으로 처리.
+    from collections import Counter
+
+    freq = Counter(node_color.values())
+    palette: dict[tuple, dict] = {}
+    calls = 0
+    for color, _cnt in freq.most_common():
+        if calls >= 60:
+            break
+        n = next(m for m, c in node_color.items() if c == color)
+        info = _feature_info(locs[n])
+        calls += 1
+        if info:
+            palette[color] = info
+
+    for n, color in node_color.items():
+        info = palette.get(color) or _nearest_color(palette, color)
+        env[n].update(info or {"landcover_l1": None, "landcover_l3": None, "landcover_code": None})
+    return {"landcover_colors": len(palette), "feature_info_calls": calls}
+
+
+def _nearest_color(palette: dict[tuple, dict], color: tuple) -> dict | None:
+    """보정표에 없는 색(경계 안티앨리어싱 등) → 가장 가까운 색의 클래스."""
+    if not palette:
+        return None
+    best = min(palette, key=lambda c: sum((a - b) ** 2 for a, b in zip(c, color)))
+    if sum((a - b) ** 2 for a, b in zip(best, color)) > 3 * 60**2:
+        return None  # 너무 다른 색이면 미상 처리
+    return palette[best]
+
+
+def _feature_info(p: GeoPoint) -> dict | None:
+    """좌표 1곳의 피복 분류 조회 (GetFeatureInfo)."""
+    d = 0.0005
+    raw = _wms_get(
+        request="GetFeatureInfo",
+        layers=settings.egis_landcover_layer, query_layers=settings.egis_landcover_layer,
+        bbox=f"{p.lng - d:.6f},{p.lat - d:.6f},{p.lng + d:.6f},{p.lat + d:.6f}",
+        width=101, height=101, x=50, y=50, info_format="application/json",
+    )
+    try:
+        data = json.loads(raw.decode("utf-8", errors="replace"))
+        props = data["features"][0]["properties"]
+        return {
+            "landcover_l1": props.get("l1_name"),
+            "landcover_l3": props.get("l3_name"),
+            "landcover_code": props.get("l3_code"),
+        }
+    except (json.JSONDecodeError, KeyError, IndexError):
+        return None
+
+
+def _wms_get(**params) -> bytes:
+    base = {"service": "WMS", "version": "1.1.1", "srs": "EPSG:4326"}
+    url = settings.egis_wms_url + "?" + urllib.parse.urlencode({**base, **params})
+    with urllib.request.urlopen(url, timeout=60) as resp:
+        return resp.read()
+
+
+# ── 건물 높이 레이어 — 지도에 나오는 건물 전체에 높이 태그 부착 ─────────
+def _parse_levels(row) -> int | None:
+    lv = row.get("building:levels")
+    if not _notna(lv):
+        return None
+    try:
+        return int(float(str(lv).strip()))
+    except (ValueError, TypeError):
+        return None
+
+
+def _parse_height_m(row) -> float | None:
+    """OSM height 태그("12", "12.5 m") 우선, 없으면 building:levels *
+    settings.building_level_height_m 로 근사. 둘 다 없으면 None(태그 미상)."""
+    h = row.get("height")
+    if _notna(h):
+        try:
+            return float(str(h).strip().rstrip("m").strip())
+        except (ValueError, TypeError):
+            pass
+    levels = _parse_levels(row)
+    if levels is not None:
+        return round(levels * settings.building_level_height_m, 1)
+    return None
+
+
+def _geometry_to_polygons(geom) -> list[list[list[float]]]:
+    """건물 외곽선(들)을 [[[lng, lat], ...], ...] 로. MultiPolygon(동 여러 채가
+    한 건물로 매핑된 아파트 단지 등)은 조각 전부를 살린다. 폴리곤이 아닌 것
+    (점 태그 건물)은 빈 리스트 — 발자국이 없어 지도에 면으로 그릴 수 없음."""
+    from shapely.geometry import MultiPolygon, Polygon
+
+    if isinstance(geom, Polygon):
+        return [[[x, y] for x, y in geom.exterior.coords]]
+    if isinstance(geom, MultiPolygon):
+        return [[[x, y] for x, y in g.exterior.coords] for g in geom.geoms]
+    return []
+
+
+def buildings_with_height(center: GeoPoint, radius_m: int | None = None) -> list[dict]:
+    """center 반경 내 건물 폴리곤 전체에 높이 태그를 붙여 반환. 노드 단위가 아니라
+    지도에 면으로 그려지는 건물 전체가 대상이다 (점(node)으로만 태그된 건물은
+    발자국이 없어 제외 — 정릉 800m 실측 기준 전체의 ~6%). 디스크 캐시 —
+    같은 중심/반경 재요청은 API 없이 로드. API 실패 시에는 빈 목록을 반환하되
+    캐시에 쓰지 않는다 (일시 장애가 영구 빈 레이어로 굳는 것 방지).
+
+    반환 형식:
+        [{"geometry": [[lng, lat], ...], "height_m": 12.5, "levels": 4,
+          "name": "OO빌딩"}, ...]
+
+    height_m 은 OSM height 태그 우선, 없으면 building:levels 로 근사, 둘 다
+    없으면 None(태그 미상 — 지도에는 그리되 높이 정보 없음으로 표시).
+    """
+    r = radius_m or settings.roadnet_radius_m
+    cache = Path(settings.roadnet_cache_dir) / f"buildings_{center.lat:.4f}_{center.lng:.4f}_{r}.json"
+    if cache.exists():
+        return json.loads(cache.read_text(encoding="utf-8"))
+
+    import osmnx as ox
+
+    try:
+        gdf = ox.features_from_point((center.lat, center.lng), tags={"building": True}, dist=r)
+    except Exception:  # noqa: BLE001 — Overpass 장애·타임아웃·건물 없는 지역
+        # 캐시 없이 빈 목록 — 다음 호출이 API 를 재시도한다. (건물이 정말 0개인
+        # 지역도 매번 재조회하게 되지만, 오탐 캐시로 레이어가 영구 소실되는
+        # 것보다 낫다. 호출 빈도는 예측 1회당 1번 수준.)
+        return []
+
+    buildings: list[dict] = []
+    for _, row in gdf.iterrows():
+        polys = _geometry_to_polygons(row.geometry) if row.geometry is not None else []
+        height_m = _parse_height_m(row)
+        levels = _parse_levels(row)
+        name = row.get("name") if _notna(row.get("name")) else None
+        for coords in polys:
+            buildings.append({
+                "geometry": coords, "height_m": height_m, "levels": levels, "name": name,
+            })
+
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(json.dumps(buildings, ensure_ascii=False), encoding="utf-8")
+    return buildings

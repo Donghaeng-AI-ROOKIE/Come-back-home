@@ -1,508 +1,168 @@
-/**
- * 경보 상세 (spec §3.4, §4.1). Root card, 라이트(color.surface).
- * DesignSync alert-content.dc.html 목업을 RN으로 이식 — 대표 실루엣 이미지, 최종 목격 카드,
- * 실지도(§4.5 BaseMap) 프레이밍, 회상 유도 카드, 그라디언트 하단 버튼.
- *
- * §4.1 색 교정(목업 앰버 → 빨강): "실종 경보" 배지(criticalWash/criticalInk),
- * 골든타임(critical), "봤어요" 주 버튼 빨강 그라디언트(critical→criticalInk), 지도 배지·예상반경 빨강.
- * 진입 시 enterSearch(critical)로 골든타임 카운트다운 기준 설정.
- * 실종자 = MissingPersonCard(full, anon) 단일 소스, GoldenTimeChip(critical).
- * '봤어요' → ReportChat, '못 봤어요' → goBack.
- */
-import { useEffect } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+﻿import { useEffect } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { LinearGradient } from 'expo-linear-gradient';
-import Svg, { Path, Circle as SvgCircle } from 'react-native-svg';
-import { Circle } from 'react-native-maps';
-import { color, radius, space, type, HIT } from '../theme/tokens';
-import CTAButton from '../components/CTAButton';
-import MissingPersonCard from '../components/MissingPersonCard';
-import GoldenTimeChip from '../components/GoldenTimeChip';
-import BaseMap from '../components/BaseMap';
-import MapPin from '../components/MapPin';
-import { useAppModeStore } from '../store/appModeStore';
-import { useMissingPersonStore } from '../store/missingPersonStore';
-import { DEMO_CASE_ID, LAST_SEEN } from '../data/missing';
-import { hexToRgba, toLatLng } from '../utils/color';
-import type { GeoPoint } from '../types/domain';
 import type { RootStackParamList } from '../navigation/types';
+import { color, type } from '../theme/tokens';
+import FigmaStatusBar from '../components/FigmaStatusBar';
+import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
+import PersonSilhouette from '../components/PersonSilhouette';
+import AppearanceFigure from '../components/AppearanceFigure';
+import { useAppModeStore } from '../store/appModeStore';
+import { useEngagementStore } from '../store/engagementStore';
+import { useActiveAlerts, useGoldenTime, usePresenceCount } from '../hooks/queries';
+import { alertToView } from '../data/missingView';
 
-// 온-컬러(빨강 필 위) 텍스트 — GoldenTimeChip/CTAButton과 동일 idiom.
-const ON_CRITICAL = '#FFFFFF';
-// "봤어요" 빨강 그라디언트(§4.1: #D62839 계열) — 토큰 critical→criticalInk.
-const SEEN_GRADIENT = [color.critical, color.criticalInk] as const;
-// 대표 실루엣 배경 — 사진 없음 플레이스홀더(중립 그레이, 심각도색 아님).
-const SILHOUETTE_GRADIENT = [color.textBody, color.text] as const;
-
-// 데모 지도용 좌표: 최종 목격 = 예상 이동 반경 중심, 내 위치는 인근 오프셋.
-const MAP_REGION = {
-  latitude: LAST_SEEN.lat,
-  longitude: LAST_SEEN.lng,
-  latitudeDelta: 0.012,
-  longitudeDelta: 0.012,
-};
-const MY_LOCATION: GeoPoint = { lat: LAST_SEEN.lat - 0.0022, lng: LAST_SEEN.lng - 0.0016 };
-const PREDICT_RADIUS_M = 260;
 
 export default function AlertDetailScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'AlertDetail'>>();
-  const insets = useSafeAreaInsets();
+  const caseId = route.params.caseId;
   const enterSearch = useAppModeStore((s) => s.enterSearch);
-  const profile = useMissingPersonStore((s) => s.profile);
-  const caseId = route.params?.caseId ?? DEMO_CASE_ID;
+  const dismissCase = useAppModeStore((s) => s.dismissCase);
+  const recordDismissed = useEngagementStore((s) => s.recordDismissed);
+  const { data: alerts } = useActiveAlerts();
+  const alert = alerts?.find((item) => item.caseId === caseId);
+  const view = alertToView(alert ?? {});
+  // 서버/예전 목업이 인상착의를 한 문장으로 내려줘도 상의·하의·신발·체형은
+  // 피그마처럼 각각 독립된 태그여야 한다. 배열 경계와 쉼표 경계를 모두 정규화한다.
+  const appearance = view.appearance
+    .flatMap((item) => item.split(/[,，\n]+/))
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .slice(0, 4);
+  const watching = usePresenceCount(caseId);
+  const golden = useGoldenTime();
 
-  // 진입 시 수색 모드(긴급) 보장 — enterSearch는 enteredSearchAt이 있으면 유지(멱등).
-  useEffect(() => {
-    enterSearch(DEMO_CASE_ID, 'critical');
-  }, [enterSearch]);
+  useEffect(() => { enterSearch(caseId, 'critical'); }, [caseId, enterSearch]);
 
-  const onSeen = () => navigation.navigate('ReportChat', { caseId: DEMO_CASE_ID });
-  const onNotSeen = () => navigation.goBack();
+  const place = alert?.area
+    || (alert?.lkp ? `${alert.lkp.lat.toFixed(4)}, ${alert.lkp.lng.toFixed(4)}` : '최종 목격 위치 확인 중');
 
-  const recallCopy = `지난 한 시간, ${profile.area} 인근에서 ${profile.appearance.join(
-    ', ',
-  )} 차림의 어르신을 보셨다면 작은 기억도 큰 도움이 돼요.`;
+  const stopShowing = () => {
+    dismissCase(caseId);
+    recordDismissed();
+    navigation.navigate('CitizenTabs', { screen: 'Alerts' });
+  };
 
   return (
-    <View style={[styles.root, { paddingTop: insets.top }]}>
-      <StatusBar style="dark" />
+    <View style={styles.root}>
+      <FigmaStatusBar />
+      <View style={styles.canvas}>
+        <Text style={styles.title}>긴급 수색 알림</Text>
+        <Text style={styles.subtitle}>현재 내 주변 반경과 AI 예상 동선이 겹치는 실종 사건 목록입니다</Text>
 
-      {/* 헤더: 뒤로 + 타이틀 + 실종 경보 배지(§4.1 빨강) */}
-      <View style={styles.header}>
+        {/* 이 카드는 **인상착의**를 보여 준다. 그래서 그림도 옷 색이 보이는
+            전신(AppearanceFigure)이어야 한다 — 얼굴 배지(PersonSilhouette)를 쓰면
+            옷을 설명하는 자리에 얼굴만 떴다(현장 제보 08-12). 아래 인물 카드는
+            반대로 "누구인가"라 얼굴 확대가 맞고, 그래서 두 그림이 다르다.
+
+            옆에 있던 요약 문구는 뺐다 — 바로 아래 인물 카드의 칩이 같은 내용
+            (상의·하의·신발·체형)을 이미 보여 줘 같은 말을 두 번 하고 있었다.
+            그림만 남기고 가운데 놓는다. */}
         <Pressable
-          onPress={onNotSeen}
+          style={styles.photoCard}
+          onPress={() => navigation.navigate('Appearance', { caseId })}
           accessibilityRole="button"
-          accessibilityLabel="뒤로"
-          hitSlop={space.sm}
-          style={styles.back}
+          accessibilityLabel="인상착의 자세히 보기"
         >
-          <Svg width={24} height={24} viewBox="0 0 24 24">
-            <Path
-              d="M15 5l-7 7 7 7"
-              stroke={color.text}
-              strokeWidth={2.2}
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </Svg>
+          <AppearanceFigure colors={alert?.appearanceColors} appearance={alert?.appearance} size={88} style={styles.photoPreview} />
         </Pressable>
 
-        <Text
-          style={styles.headerTitle}
-          allowFontScaling
-          maxFontSizeMultiplier={type.maxScale}
-          numberOfLines={1}
-        >
-          실종자를 찾고 있어요
-        </Text>
-
-        <View
-          style={styles.badge}
-          accessible
-          accessibilityRole="text"
-          accessibilityLabel="실종 경보"
-        >
-          <View style={styles.badgeDot} />
-          <Text style={styles.badgeText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            실종 경보
-          </Text>
-        </View>
-      </View>
-
-      <ScrollView
-        contentContainerStyle={[styles.body, { paddingBottom: insets.bottom + space.xl }]}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* 대표 실루엣 이미지 — 실사진 대신 플레이스홀더(개인정보/2차가해 방지) */}
-        <View
-          style={[styles.heroCard, styles.cardShadow]}
-          accessible
-          accessibilityRole="image"
-          accessibilityLabel="실종 어르신 대표 실루엣 이미지"
-        >
-          <LinearGradient
-            colors={SILHOUETTE_GRADIENT}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0.4, y: 1 }}
-            style={styles.heroFill}
-          >
-            <Svg width={84} height={84} viewBox="0 0 24 24">
-              <SvgCircle
-                cx={12}
-                cy={8.5}
-                r={3.6}
-                stroke="rgba(255,255,255,0.9)"
-                strokeWidth={1.4}
-                fill="none"
-              />
-              <Path
-                d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"
-                stroke="rgba(255,255,255,0.9)"
-                strokeWidth={1.4}
-                fill="none"
-                strokeLinecap="round"
-              />
-            </Svg>
-          </LinearGradient>
+        <View style={styles.chipRow}>
+          <View style={[styles.chip, styles.timeChip]}><Text style={styles.timeText}>골든타임 {golden?.label ?? '--:--'}</Text></View>
+          {watching != null ? <View style={[styles.chip, styles.peopleChip]}><Text style={styles.peopleText}>•지금 {watching}명이 함께 찾고 있어요</Text></View> : null}
         </View>
 
-        {/* 골든타임(§4.1 빨강) */}
-        <View style={styles.goldenRow}>
-          <GoldenTimeChip emphasis="critical" />
-        </View>
-
-        {/* 실종자 카드 — 단일 소스(익명, 인상착의 칩) */}
-        <View style={styles.block}>
-          <MissingPersonCard variant="full" anon showAppearanceChips />
-        </View>
-
-        {/* 최종 목격 — 구역·시간만(의료정보 비노출). 단일 소스 profile.lastSeen */}
-        <View
-          style={[styles.seenCard, styles.cardShadow]}
-          accessible
-          accessibilityLabel={`최종 목격 장소 ${profile.lastSeen}`}
-        >
-          <View style={styles.seenHead}>
-            <Svg width={16} height={16} viewBox="0 0 24 24">
-              <Path
-                d="M12 21s6.5-5.6 6.5-10.5a6.5 6.5 0 0 0-13 0C5.5 15.4 12 21 12 21Z"
-                stroke={color.criticalInk}
-                strokeWidth={2}
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <SvgCircle cx={12} cy={10.5} r={2.2} stroke={color.criticalInk} strokeWidth={2} fill="none" />
-            </Svg>
-            <Text style={styles.seenLabel} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              최종 목격 장소
-            </Text>
+        <Pressable style={styles.personCard} onPress={() => navigation.navigate('AlertSync', { caseId })}>
+          <View style={styles.searchChip}><Text style={styles.searchChipText}>수색 중({alert ? `${alert.targetCells.length}개 대상 구역` : '범위 확인 중'})</Text></View>
+          <PersonSilhouette colors={alert?.appearanceColors} appearance={alert?.appearance} size={62} focus="face" style={styles.personImage} />
+          <Text style={styles.name}>{view.title}</Text>
+          <Text style={styles.meta}>{view.meta}</Text>
+          <View style={styles.tags}>
+            {appearance.map((tag, index) => <View key={`${tag}-${index}`} style={styles.tag}><Text style={styles.tagText} numberOfLines={1}>{tag}</Text></View>)}
           </View>
-          <Text
-            style={styles.seenValue}
-            allowFontScaling
-            maxFontSizeMultiplier={type.maxScale}
-            numberOfLines={2}
-          >
-            {profile.lastSeen}
-          </Text>
+          <Text style={styles.chevron}>›</Text>
+        </Pressable>
+
+        <View style={styles.placeCard}>
+          <Text style={styles.pin}>●</Text>
+          <Text style={styles.placeLabel}>최종 목격 장소</Text>
+          <Text style={styles.placeText}>{place}{alert?.lkpTime ? ` · ${new Date(alert.lkpTime).toLocaleString('ko-KR')}` : ''}</Text>
         </View>
 
-        {/* 미니 지도(§4.5 실 타일맵) — 최종 목격·예상 이동 반경·내 위치 */}
-        <View style={styles.mapCard}>
-          <BaseMap
-            region={MAP_REGION}
-            scrollEnabled={false}
-            style={styles.map}
-            accessibilityLabel={`내 주변 지도. ${profile.area} 최종 목격 위치와 예상 이동 반경, 내 위치를 표시합니다.`}
-          >
-            <Circle
-              center={toLatLng(LAST_SEEN)}
-              radius={PREDICT_RADIUS_M}
-              strokeColor={color.critical}
-              strokeWidth={2}
-              fillColor={hexToRgba(color.critical, 0.13)}
-            />
-            <MapPin kind="lastSeen" coordinate={LAST_SEEN} title="최종 목격 위치" description={profile.area} />
-            <MapPin kind="me" coordinate={MY_LOCATION} title="내 위치" />
-          </BaseMap>
+        <View style={styles.actions}>
+          {/* '봤어요' = **본 것을 제보하겠다**는 뜻이므로 제보 흐름으로 보낸다
+              (TipWarn → ReportChat). 버튼 이름이 '수색 참여하기'였을 때 수색
+              지도(Search)로 가도록 해 뒀는데, 이름이 바뀐 뒤에도 목적지가 그대로라
+              **봤다고 눌렀는데 지도가 떴다**(현장 제보 08-12). 바로 아래 안내문도
+              "대화로 제보할 수 있어요"라고 약속하고 있었다.
 
-          {/* 지도 배지(§4.1 빨강) — 정보성, 지도 위 오버레이 */}
-          <View style={styles.mapBadge} pointerEvents="none">
-            <Svg width={13} height={13} viewBox="0 0 24 24">
-              <Path
-                d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"
-                fill={ON_CRITICAL}
-              />
-            </Svg>
-            <Text style={styles.mapBadgeText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              내 주변 · 예상 동선
-            </Text>
-          </View>
-        </View>
-
-        {/* 회상 유도(§4.1 빨강 워시) */}
-        <View style={styles.recallCard} accessible accessibilityLabel={`혹시 이런 분, 스쳐 지나가지 않으셨어요? ${recallCopy}`}>
-          <View style={styles.recallHead}>
-            <Svg width={20} height={20} viewBox="0 0 24 24">
-              <Path
-                d="M9.5 16.5c-3-1-5-3.8-5-7A7 7 0 0 1 18.5 9c0 2.2-1 4-2.5 5.3-.8.7-1 1.2-1 2.2v.5h-5v-.5Z"
-                stroke={color.criticalInk}
-                strokeWidth={1.9}
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <Path
-                d="M9.5 20.5h5"
-                stroke={color.criticalInk}
-                strokeWidth={1.9}
-                fill="none"
-                strokeLinecap="round"
-              />
-            </Svg>
-            <Text style={styles.recallTitle} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              혹시 이런 분, 스쳐 지나가지 않으셨어요?
-            </Text>
-          </View>
-          <Text style={styles.recallBody} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-            {recallCopy}
-          </Text>
-        </View>
-
-        <Text style={styles.anonNote} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          제보는 익명으로 전달되고, 내 위치·신원은 공개되지 않아요.
-        </Text>
-      </ScrollView>
-
-      {/* 하단 액션바 */}
-      <View style={[styles.actions, { paddingBottom: insets.bottom + space.md }]}>
-        <View style={styles.actionRow}>
-          {/* '봤어요' — 빨강 그라디언트(§4.1), 주 행동 */}
-          <Pressable
-            onPress={onSeen}
-            accessibilityRole="button"
-            accessibilityLabel="봤어요"
-            accessibilityHint="목격 내용을 대화로 남길 수 있어요"
-            style={({ pressed }) => [styles.seenBtnWrap, pressed && styles.pressed]}
-          >
-            <LinearGradient
-              colors={SEEN_GRADIENT}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.seenBtn}
-            >
-              <Svg width={22} height={22} viewBox="0 0 24 24">
-                <Path
-                  d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"
-                  stroke={ON_CRITICAL}
-                  strokeWidth={2.1}
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <SvgCircle cx={12} cy={12} r={3} stroke={ON_CRITICAL} strokeWidth={2.1} fill="none" />
-              </Svg>
-              <Text style={styles.seenBtnText} allowFontScaling maxFontSizeMultiplier={type.maxScale} numberOfLines={1}>
-                봤어요
-              </Text>
-            </LinearGradient>
+              수색 지도는 위쪽 인물 카드(→ AlertSync)와 탭으로 여전히 갈 수 있다.
+              '비슷한 사람을 봤어요'(AppearanceScreen)와도 목적지가 같아졌다. */}
+          <Pressable style={[styles.button, styles.seen]} onPress={() => navigation.navigate('TipWarn', { caseId })}>
+            <Text style={styles.seenText}>봤어요</Text>
           </Pressable>
-
-          {/* '못 봤어요' — 아웃라인, goBack */}
-          <CTAButton
-            label="못 봤어요"
-            onPress={onNotSeen}
-            variant="ghost"
-            fullWidth={false}
-            style={styles.notSeenBtn}
-            accessibilityHint="경보를 닫고 이전 화면으로 돌아갑니다"
-          />
+          <Pressable style={[styles.button, styles.notSeen]} onPress={() => navigation.goBack()}>
+            <Text style={styles.notSeenText}>못 봤어요</Text>
+          </Pressable>
         </View>
-
-        <Text style={styles.helperText} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-          ‘봤어요’를 누르면 목격 내용을 대화로 편하게 남길 수 있어요
-        </Text>
+        <Text style={styles.hint}>'봤어요'를 누르면 목격 내용을 대화로 편하게 제보할 수 있어요</Text>
+        <Pressable style={styles.stop} onPress={stopShowing}><Text style={styles.stopText}>이 사건은 그만 볼래요</Text></Pressable>
       </View>
+      <FigmaFlowTabBar mode="citizen" active="alert" />
     </View>
   );
 }
 
+const ink = '#525253';
+const red = color.figmaRed;
+const wash = '#FFC9CB';
+
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: color.surface },
-
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-    gap: space.sm,
-  },
-  back: { width: HIT, height: HIT, alignItems: 'center', justifyContent: 'center' },
-  headerTitle: {
-    flex: 1,
-    fontSize: type.size.title,
-    fontWeight: type.weight.black,
-    color: color.text,
-    fontFamily: type.family,
-    letterSpacing: -0.3,
-  },
-  badge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: color.criticalWash,
-    paddingHorizontal: space.md,
-    paddingVertical: space.xs,
-    borderRadius: radius.pill,
-  },
-  badgeDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: color.critical, marginRight: space.xs },
-  badgeText: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.black,
-    color: color.criticalInk,
-    fontFamily: type.family,
-  },
-
-  body: { paddingHorizontal: space.lg, paddingTop: space.sm },
-
-  cardShadow: {
-    shadowColor: color.text,
-    shadowOpacity: 0.09,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 3,
-  },
-
-  heroCard: {
-    height: 176,
-    borderRadius: radius.xl,
-    overflow: 'hidden',
-    borderWidth: 2,
-    borderColor: color.criticalWash,
-    backgroundColor: color.surfaceAlt,
-  },
-  heroFill: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-
-  goldenRow: { marginTop: space.lg, flexDirection: 'row' },
-
-  block: { marginTop: space.lg },
-
-  seenCard: {
-    marginTop: space.lg,
-    backgroundColor: color.surface,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: color.border,
-    padding: space.lg,
-  },
-  seenHead: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
-  seenLabel: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.bold,
-    color: color.textBody,
-    fontFamily: type.family,
-  },
-  seenValue: {
-    marginTop: space.sm,
-    fontSize: type.size.cardTitle,
-    fontWeight: type.weight.black,
-    color: color.text,
-    fontFamily: type.family,
-    lineHeight: 24,
-  },
-
-  mapCard: {
-    marginTop: space.lg,
-    height: 176,
-    borderRadius: radius.lg,
-    overflow: 'hidden',
-  },
-  map: { flex: 1 },
-  mapBadge: {
-    position: 'absolute',
-    top: space.md,
-    left: space.md,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: space.xs,
-    backgroundColor: color.critical,
-    borderRadius: radius.pill,
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-  },
-  mapBadgeText: {
-    fontSize: type.size.label,
-    fontWeight: type.weight.black,
-    color: ON_CRITICAL,
-    fontFamily: type.family,
-  },
-
-  recallCard: {
-    marginTop: space.lg,
-    backgroundColor: color.criticalWash,
-    borderRadius: radius.lg,
-    padding: space.lg,
-  },
-  recallHead: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
-  recallTitle: {
-    flex: 1,
-    fontSize: type.size.body,
-    fontWeight: type.weight.black,
-    color: color.criticalInk,
-    fontFamily: type.family,
-  },
-  recallBody: {
-    marginTop: space.sm,
-    fontSize: type.size.body,
-    fontWeight: type.weight.medium,
-    color: color.textBody,
-    fontFamily: type.family,
-    lineHeight: 24,
-  },
-
-  anonNote: {
-    marginTop: space.lg,
-    fontSize: type.size.caption,
-    color: color.textCaption,
-    fontFamily: type.family,
-    lineHeight: 20,
-  },
-
-  actions: {
-    paddingHorizontal: space.lg,
-    paddingTop: space.md,
-    borderTopWidth: 1,
-    borderTopColor: color.border,
-    backgroundColor: color.surface,
-  },
-  actionRow: { flexDirection: 'row', gap: space.md },
-  seenBtnWrap: {
-    flex: 1.4,
-    borderRadius: radius.lg,
-    overflow: 'hidden',
-    shadowColor: color.critical,
-    shadowOpacity: 0.4,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 6,
-  },
-  seenBtn: {
-    minHeight: 64,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: space.sm,
-    paddingHorizontal: space.lg,
-  },
-  seenBtnText: {
-    fontSize: type.size.cardTitle,
-    fontWeight: type.weight.black,
-    color: ON_CRITICAL,
-    fontFamily: type.family,
-  },
-  notSeenBtn: {
-    flex: 1,
-    minHeight: 64,
-    borderWidth: 1.5,
-    borderColor: color.border,
-    backgroundColor: color.surface,
-  },
-  pressed: { opacity: 0.9 },
-
-  helperText: {
-    marginTop: space.md,
-    textAlign: 'center',
-    fontSize: type.size.caption,
-    fontWeight: type.weight.medium,
-    color: color.textCaption,
-    fontFamily: type.family,
-    lineHeight: 18,
-  },
+  root: { flex: 1, backgroundColor: '#FFFFFF' },
+  canvas: { flex: 1, position: 'relative' },
+  title: { position: 'absolute', left: 20, top: 27, fontFamily: type.familyCssExtraBold, fontSize: 18, lineHeight: 23, color: '#000000' },
+  subtitle: { position: 'absolute', left: 20, top: 63, fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#8E8E93' },
+  // 그림 하나만 담으므로 카드도 그림에 맞춰 좁힌다. 가로로 꽉 찬 카드에 그림
+  // 하나만 있으면 좌우가 비어 보인다.
+  // 높이 108 은 아래 chipRow(top 229)까지의 여유를 남긴 상한이다 — 더 키우려면
+  // 그 아래 요소들(전부 절대배치)의 top 을 함께 내려야 한다.
+  // 절대배치라 가운데 정렬은 left 50% + 음수 마진으로 잡는다(폭의 절반).
+  photoCard: { position: 'absolute', left: '50%', marginLeft: -50, top: 110, width: 100, height: 108, borderRadius: 10, backgroundColor: '#F7F7F7', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', shadowColor: '#000', shadowOpacity: 0.08, shadowRadius: 7, shadowOffset: { width: 0, height: 2 }, elevation: 2 },
+  // 그림은 viewBox 100x160 세로 비율이라 정사각 상자에 넣으면 높이에 맞춰
+  // 축소되고 가로가 남는다(88x88 상자에서 실제 그림은 55x88). 상자를 세로로
+  // 잡아 그 낭비를 없앤다 — 같은 카드 안에서 그림이 커진다.
+  // 배경은 카드에 맡긴다(상자 배경을 두면 카드 안에 상자가 또 보인다).
+  photoPreview: { width: 64, height: 96, backgroundColor: 'transparent' },
+  chipRow: { position: 'absolute', left: 23, top: 229, height: 21, flexDirection: 'row', gap: 4 },
+  chip: { height: 21, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
+  timeChip: { width: 88, backgroundColor: red },
+  peopleChip: { width: 134, backgroundColor: '#D9D9D9' },
+  timeText: { fontFamily: type.familyCssBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.07, color: '#FFFFFF' },
+  peopleText: { fontFamily: type.familyCssBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.07, color: '#414141' },
+  personCard: { position: 'absolute', left: 23, right: 22, top: 262, height: 141, borderRadius: 10, backgroundColor: '#FFF4F4', shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 2 },
+  searchChip: { position: 'absolute', left: 16, top: 8, height: 16, width: 107, borderRadius: 20, backgroundColor: wash, alignItems: 'center', justifyContent: 'center' },
+  searchChipText: { fontFamily: type.familyCssBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.07, color: red },
+  personImage: { position: 'absolute', left: 16, top: 39, width: 62, height: 62, borderRadius: 31 },
+  name: { position: 'absolute', left: 92, top: 38, fontFamily: type.familyCssBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: ink },
+  meta: { position: 'absolute', left: 92, top: 65, fontFamily: type.familyCss, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: ink },
+  tags: { position: 'absolute', left: 92, right: 26, top: 89, flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
+  tag: { height: 16, paddingHorizontal: 6, borderRadius: 20, backgroundColor: wash, justifyContent: 'center' },
+  tagText: { fontFamily: type.familyCssBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.07, color: red },
+  chevron: { position: 'absolute', right: 17, top: 19, fontFamily: type.familyCss, fontSize: 25, lineHeight: 28, color: red },
+  placeCard: { position: 'absolute', left: 23, right: 22, top: 416, height: 62, borderRadius: 10, backgroundColor: '#F7F7F7' },
+  pin: { position: 'absolute', left: 10, top: 10, fontSize: 7, color: '#8E8E93' },
+  placeLabel: { position: 'absolute', left: 28, top: 10, fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#8E8E93' },
+  placeText: { position: 'absolute', left: 12, top: 30, fontFamily: type.familyCss, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: ink },
+  actions: { position: 'absolute', left: 16, right: 16, top: 509, height: 50, flexDirection: 'row', gap: 15 },
+  button: { flex: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  seen: { backgroundColor: red, shadowColor: '#000', shadowOpacity: 0.16, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
+  notSeen: { backgroundColor: 'rgba(239,239,244,0.94)' },
+  seenText: { fontFamily: type.familyCssBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
+  notSeenText: { fontFamily: type.familyCssBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#8E8E93' },
+  hint: { position: 'absolute', top: 571, left: 0, right: 0, textAlign: 'center', fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#8E8E93' },
+  stop: { position: 'absolute', left: 110, right: 110, top: 620, height: 37, alignItems: 'center', justifyContent: 'center' },
+  stopText: { fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#8E8E93', textDecorationLine: 'underline' },
 });

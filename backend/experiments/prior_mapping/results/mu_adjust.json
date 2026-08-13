@@ -1,0 +1,74 @@
+[
+  {
+    "dmu": -0.8,
+    "median_ratio_theory": 0.45,
+    "dist_ratio": 0.325,
+    "in_band": true,
+    "coverage80": 8.3,
+    "roadnet_radius_m": 4000
+  },
+  {
+    "dmu": -0.6,
+    "median_ratio_theory": 0.55,
+    "dist_ratio": 0.407,
+    "in_band": true,
+    "coverage80": 10,
+    "roadnet_radius_m": 5000
+  },
+  {
+    "dmu": -0.4,
+    "median_ratio_theory": 0.67,
+    "dist_ratio": 0.434,
+    "in_band": true,
+    "coverage80": 13.3,
+    "roadnet_radius_m": 5000
+  },
+  {
+    "dmu": -0.2,
+    "median_ratio_theory": 0.82,
+    "dist_ratio": 0.521,
+    "in_band": true,
+    "coverage80": 14.3,
+    "roadnet_radius_m": 6000
+  },
+  {
+    "dmu": 0.0,
+    "median_ratio_theory": 1.0,
+    "dist_ratio": 0.521,
+    "in_band": true,
+    "coverage80": 14,
+    "roadnet_radius_m": 6000
+  },
+  {
+    "dmu": 0.2,
+    "median_ratio_theory": 1.22,
+    "dist_ratio": 0.521,
+    "in_band": true,
+    "coverage80": 16.7,
+    "roadnet_radius_m": 6000
+  },
+  {
+    "dmu": 0.4,
+    "median_ratio_theory": 1.49,
+    "dist_ratio": 0.521,
+    "in_band": true,
+    "coverage80": 16,
+    "roadnet_radius_m": 6000
+  },
+  {
+    "dmu": 0.6,
+    "median_ratio_theory": 1.82,
+    "dist_ratio": 0.521,
+    "in_band": true,
+    "coverage80": 18.3,
+    "roadnet_radius_m": 6000
+  },
+  {
+    "dmu": 0.8,
+    "median_ratio_theory": 2.23,
+    "dist_ratio": 0.521,
+    "in_band": true,
+    "coverage80": 18.3,
+    "roadnet_radius_m": 6000
+  }
+]

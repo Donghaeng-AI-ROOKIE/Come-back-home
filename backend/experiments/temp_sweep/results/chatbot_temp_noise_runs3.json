@@ -1,0 +1,88 @@
+{
+  "runs": 3,
+  "scenarios": [
+    "G_D1_kim",
+    "G_D2_lee",
+    "G_D3_choi",
+    "G_D4_park",
+    "G_P1_junho",
+    "G_P2_seoyeon",
+    "G_P3_minsu",
+    "G_P4_jihun"
+  ],
+  "summary": {
+    "ex0.0/ph0.4": {
+      "extract_temp": 0.0,
+      "phrase_temp": 0.4,
+      "collection": 0.6666666666666666,
+      "preferred": 0.6666666666666666,
+      "evidence": 0.6111111111111112,
+      "axis": 0.5444444444444444,
+      "extra": 0.3333333333333333,
+      "name_ok": 1.0,
+      "age_ok": 1.0,
+      "absent_ok": null,
+      "area_ok": null,
+      "home_ok": null,
+      "questions": 20.208333333333332,
+      "dups": 4.75,
+      "presumptive": 0.25,
+      "neg_conditional": 0.5416666666666666,
+      "done": 0.875,
+      "degraded": 0.0,
+      "elapsed_min": 6.305239123331073
+    }
+  },
+  "per_scenario": {
+    "ex0.0/ph0.4": {
+      "G_D1_kim": {
+        "collection": 1.0,
+        "evidence": 1.0,
+        "extra": 0.0,
+        "dups": 0.0
+      },
+      "G_D2_lee": {
+        "collection": 1.0,
+        "evidence": 0.6666666666666666,
+        "extra": 0.0,
+        "dups": 0.0
+      },
+      "G_D3_choi": {
+        "collection": 0.0,
+        "evidence": 0.0,
+        "extra": 0.0,
+        "dups": 0.0
+      },
+      "G_D4_park": {
+        "collection": null,
+        "evidence": null,
+        "extra": 0.0,
+        "dups": 38.0
+      },
+      "G_P1_junho": {
+        "collection": 1.0,
+        "evidence": 1.0,
+        "extra": 0.3333333333333333,
+        "dups": 0.0
+      },
+      "G_P2_seoyeon": {
+        "collection": 0.0,
+        "evidence": 0.0,
+        "extra": 2.0,
+        "dups": 0.0
+      },
+      "G_P3_minsu": {
+        "collection": 1.0,
+        "evidence": 1.0,
+        "extra": 0.3333333333333333,
+        "dups": 0.0
+      },
+      "G_P4_jihun": {
+        "collection": null,
+        "evidence": null,
+        "extra": 0.0,
+        "dups": 0.0
+      }
+    }
+  }
+}

@@ -21,6 +21,7 @@ import type {
 } from '../types/domain';
 import { DEMO_CASE_ID, LAST_SEEN, MISSING } from './missing';
 import { tierForProb } from '../theme/poa';
+import { PUSH_TARGET_RES, cellOf } from '../utils/h3cell';
 
 // ── 시드 난수 (결정론적) ──────────────────────────────
 function lcg(seed: number): () => number {
@@ -38,12 +39,21 @@ const COLS = 7;
 const ROWS = 8;
 
 type PeakCfg = { pi: number; pj: number; sx: number; sy: number; peak: number };
-const PEAK: Record<TimeAxis, PeakCfg> = {
-  0: { pi: 3.0, pj: 3.8, sx: 1.0, sy: 1.1, peak: 0.86 },
-  1: { pi: 3.6, pj: 4.6, sx: 1.5, sy: 1.7, peak: 0.8 },
-  3: { pi: 4.2, pj: 5.3, sx: 2.1, sy: 2.3, peak: 0.72 },
-  6: { pi: 4.7, pj: 5.9, sx: 2.7, sy: 2.9, peak: 0.66 },
-};
+// 목업 전용 — 시간축이 늘어나면 가까운 값으로 보간한다(정확할 필요 없다).
+const PEAK_BY_HOUR: [number, PeakCfg][] = [
+  [0, { pi: 3.0, pj: 3.8, sx: 1.0, sy: 1.1, peak: 0.86 }],
+  [1, { pi: 3.6, pj: 4.6, sx: 1.5, sy: 1.7, peak: 0.8 }],
+  [3, { pi: 4.2, pj: 5.3, sx: 2.1, sy: 2.3, peak: 0.72 }],
+  [6, { pi: 4.7, pj: 5.9, sx: 2.7, sy: 2.9, peak: 0.66 }],
+];
+
+function peakFor(t: TimeAxis): PeakCfg {
+  let best = PEAK_BY_HOUR[0];
+  for (const entry of PEAK_BY_HOUR) {
+    if (Math.abs(entry[0] - t) < Math.abs(best[0] - t)) best = entry;
+  }
+  return best[1];
+}
 
 function cellPolygon(center: GeoPoint): GeoPoint[] {
   return [
@@ -55,7 +65,7 @@ function cellPolygon(center: GeoPoint): GeoPoint[] {
 }
 
 export function buildPoaGrid(t: TimeAxis, seedSalt = 0): PoaGrid {
-  const cfg = PEAK[t];
+  const cfg = peakFor(t);
   const rnd = lcg(1000 + t * 97 + seedSalt * 7);
   type Raw = { i: number; j: number; center: GeoPoint; w: number };
   const raws: Raw[] = [];
@@ -98,7 +108,20 @@ export function buildPoaGrid(t: TimeAxis, seedSalt = 0): PoaGrid {
   const cumulative = masses.slice(0, 10).reduce((a, b) => a + b, 0);
   const peakPct = Math.round(Math.max(...cells.map((c) => c.prob)) * 100);
 
-  return { caseId: DEMO_CASE_ID, t, cells, cumulative, topLabel: `정릉천 북동 구역, ${peakPct}%` };
+  return {
+    caseId: DEMO_CASE_ID,
+    t,
+    cells,
+    cumulative,
+    topLabel: `정릉천 북동 구역, ${peakPct}%`,
+    // 목업은 AI를 거치지 않은 값이다 — 'exaone' 으로 두면 시연장 퇴로(USE_MOCK)를
+    // 켠 채 "AI 예측"이라고 보여주게 된다.
+    priorSource: 'stub',
+    priorFallbackReason: '목 데이터 (EXPO_PUBLIC_USE_MOCK=true)',
+    roadnetUsed: false,
+    roadnetFallbackReason: '목 데이터 — 시뮬레이션을 돌리지 않았다',
+    elapsedHours: t,
+  };
 }
 
 /** ReportDone 기여 시각화 — 제보 전/후 구역 축소. */
@@ -164,9 +187,18 @@ export function buildAlert(): PoliceAlert {
     issuedAt: new Date(Date.now() - 42 * 60 * 1000).toISOString(), // 42분 전 발령
     area: MISSING.area,
     severity: 'critical',
-    distanceM: 320,
+    kind: 'poa',
+    // 알림 대상 구역. 실서비스에선 서버가 고른 셀의 res7 부모 집합이 페이로드로
+    // 온다(alerts.target_parent_cells). 목에서는 최종 목격지가 속한 칸 하나로
+    // 같은 모양을 만든다 — 실경로와 형식이 같아야 관문 판정이 같은 코드를 탄다.
+    targetCells: [cellOf(LAST_SEEN) ?? ''].filter(Boolean),
+    targetRes: PUSH_TARGET_RES,
     summary: MISSING.label,
     matchedPersonId: MISSING.id,
+    age: MISSING.age,
+    appearance: ['회색 점퍼', '검은 바지', '검정 운동화', '마른 체형, 지팡이 소지'],
+    appearanceColors: { top: 'gray', bottom: 'black', shoes: 'black' },
+    lkp: LAST_SEEN,
   };
 }
 

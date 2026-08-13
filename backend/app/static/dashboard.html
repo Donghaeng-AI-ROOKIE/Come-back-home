@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>돌아오길 — E2E 대시보드</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --page: #f9f9f7;
+    --surface: #fcfcfb;
+    --ink: #0b0b0b;
+    --ink-2: #52514e;
+    --muted: #898781;
+    --hairline: #e1e0d9;
+    --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6;
+    --accent-deep: #1c5cab;
+    --red: #e34948;
+    --seq-1: #cde2fb; --seq-2: #9ec5f4; --seq-3: #6da7ec;
+    --seq-4: #3987e5; --seq-5: #256abf; --seq-6: #184f95; --seq-7: #0d366b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
+    background: var(--page); color: var(--ink); font-size: 13px; line-height: 1.5;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+
+  /* ── 헤더 ─────────────────────────────── */
+  header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 16px; background: var(--surface);
+    border-bottom: 1px solid var(--hairline); flex: none;
+  }
+  header h1 { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; }
+  header h1 span { color: var(--muted); font-weight: 400; margin-left: 6px; font-size: 12.5px; }
+  .spacer { flex: 1; }
+  select, input[type=text], input[type=number] {
+    font: inherit; padding: 5px 8px; border: 1px solid var(--hairline);
+    border-radius: 6px; background: var(--surface); color: var(--ink); outline: none;
+  }
+  select:focus, input:focus { border-color: var(--accent); }
+  button {
+    font: inherit; font-weight: 600; padding: 6px 12px; border-radius: 6px;
+    border: 1px solid var(--hairline); background: var(--surface); color: var(--ink-2);
+    cursor: pointer;
+  }
+  button:hover { border-color: var(--muted); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.primary:hover { background: var(--accent-deep); }
+  button:disabled { opacity: 0.45; cursor: default; }
+  .badge {
+    font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px;
+    border: 1px solid var(--hairline); color: var(--ink-2); background: var(--page);
+  }
+  .badge.on { border-color: #0ca30c; color: #006300; }
+  .badge.off { border-color: var(--hairline); color: var(--muted); }
+
+  /* ── 단계 스테퍼 ───────────────────────── */
+  #stepper {
+    display: flex; gap: 0; padding: 6px 16px; background: var(--surface);
+    border-bottom: 1px solid var(--hairline); flex: none; overflow-x: auto;
+  }
+  .step { display: flex; align-items: center; gap: 7px; padding: 3px 0; white-space: nowrap; }
+  .step + .step::before {
+    content: ""; display: block; width: 26px; height: 1px;
+    background: var(--hairline); margin: 0 10px;
+  }
+  .step .dot {
+    width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: var(--muted); background: var(--surface);
+  }
+  .step.done .dot { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .step .lbl { color: var(--muted); font-size: 12px; }
+  .step.done .lbl { color: var(--ink); font-weight: 600; }
+
+  /* ── 본문 3단 ─────────────────────────── */
+  main { flex: 1; display: flex; min-height: 0; }
+  .col { display: flex; flex-direction: column; min-height: 0; }
+  #left  { width: 330px; flex: none; border-right: 1px solid var(--hairline); background: var(--surface); }
+  #center{ flex: 1; position: relative; min-width: 0; }
+  #right { width: 370px; flex: none; border-left: 1px solid var(--hairline); background: var(--surface); }
+
+  .tabs { display: flex; border-bottom: 1px solid var(--hairline); flex: none; }
+  .tabs button {
+    flex: 1; border: none; border-radius: 0; background: none; padding: 9px 0;
+    font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent;
+  }
+  .tabs button.active { color: var(--ink); border-bottom-color: var(--accent); }
+  .panel { flex: 1; overflow-y: auto; min-height: 0; }
+  .panel-head {
+    padding: 9px 14px; border-bottom: 1px solid var(--hairline);
+    font-weight: 700; font-size: 12.5px; flex: none;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel-head .sub { color: var(--muted); font-weight: 400; }
+  .section { padding: 12px 14px; border-bottom: 1px solid var(--hairline); }
+  .section h3 { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase;
+                letter-spacing: 0.4px; margin-bottom: 8px; }
+  .kv { display: grid; grid-template-columns: 82px 1fr; row-gap: 4px; column-gap: 10px; }
+  .kv dt { color: var(--muted); }
+  .kv dd { color: var(--ink); font-weight: 500; word-break: break-all; }
+  .empty { padding: 26px 16px; text-align: center; color: var(--muted); }
+
+  /* ── 채팅 ─────────────────────────────── */
+  #chat-body { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .msg { max-width: 86%; padding: 7px 11px; border-radius: 12px; white-space: pre-wrap; word-break: break-word; }
+  .msg.assistant { align-self: flex-start; background: var(--page); border: 1px solid var(--hairline); border-bottom-left-radius: 4px; }
+  .msg.user { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+  .msg .who { display: block; font-size: 10.5px; color: var(--muted); margin-bottom: 2px; }
+  .msg.user .who { color: rgba(255,255,255,0.75); }
+  #chat-form { display: flex; gap: 6px; padding: 10px; border-top: 1px solid var(--hairline); flex: none; }
+  #chat-form input { flex: 1; }
+  #chat-setup { padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+  #chat-panel { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+
+  /* ── 지도 ─────────────────────────────── */
+  #map { position: absolute; inset: 0; }
+  #map-controls {
+    position: absolute; top: 12px; left: 12px; z-index: 800;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(11,11,11,0.08); padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 8px; min-width: 190px;
+  }
+  #map-controls label.row { display: flex; align-items: center; gap: 7px; cursor: pointer; color: var(--ink-2); }
+  #map-controls .title { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.4px; }
+  /* 시간축 — "만약 t시간 경과라면"의 지도 (본 예측을 바꾸지 않는다) */
+  #time-axis { display: flex; flex-wrap: wrap; gap: 4px; max-width: 200px; }
+  #time-axis button {
+    font: inherit; font-size: 11.5px; padding: 3px 8px; cursor: pointer;
+    background: var(--page); color: var(--ink-2);
+    border: 1px solid var(--border); border-radius: 999px;
+  }
+  #time-axis button[aria-pressed="true"] { background: var(--ink-1, #0b0b0b); color: #fcfcfb; border-color: var(--ink-1, #0b0b0b); }
+  #time-axis button[disabled] { opacity: 0.45; cursor: progress; }
+  #time-note { font-size: 10.5px; color: var(--muted); line-height: 1.35; max-width: 200px; }
+  #legend {
+    position: absolute; bottom: 18px; left: 12px; z-index: 800;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(11,11,11,0.08); padding: 10px 12px; font-size: 11.5px;
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  #legend .ramp { display: flex; height: 8px; border-radius: 4px; overflow: hidden; width: 150px; }
+  #legend .ramp i { flex: 1; }
+  #legend .ends { display: flex; justify-content: space-between; color: var(--muted); font-size: 10.5px; }
+  .lg-row { display: flex; align-items: center; gap: 7px; color: var(--ink-2); }
+  .lg-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .lg-line { width: 16px; height: 0; border-top: 2px solid var(--muted); flex: none; }
+  #map-status {
+    position: absolute; top: 12px; right: 12px; z-index: 800; display: flex; gap: 6px;
+  }
+
+  /* ── EXAONE 패널 ──────────────────────── */
+  .bar-row { display: grid; grid-template-columns: 92px 1fr 40px; align-items: center; gap: 8px; margin-bottom: 5px; }
+  .bar-row .name { color: var(--ink-2); font-size: 12px; }
+  .bar-row .val { color: var(--ink-2); font-size: 11.5px; text-align: right; font-variant-numeric: tabular-nums; }
+  .bar-track { height: 10px; background: var(--page); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--seq-5); border-radius: 0 4px 4px 0; }
+  details.raw { margin-top: 8px; }
+  details.raw summary { cursor: pointer; color: var(--accent-deep); font-weight: 600; font-size: 12px; }
+  details.raw pre {
+    margin-top: 6px; padding: 9px 10px; background: var(--page); border: 1px solid var(--hairline);
+    border-radius: 6px; white-space: pre-wrap; word-break: break-word;
+    font-size: 11.5px; font-family: ui-monospace, "SF Mono", Menlo, monospace; color: var(--ink-2);
+    max-height: 220px; overflow-y: auto;
+  }
+  .ev {
+    padding: 9px 14px; border-bottom: 1px solid var(--hairline); cursor: pointer;
+  }
+  .ev:hover, .ev.active { background: var(--page); }
+  .ev .top { display: flex; align-items: center; gap: 7px; margin-bottom: 3px; }
+  .ev .top b { font-size: 12px; }
+  .ev .src { font-size: 10.5px; font-weight: 700; padding: 1px 7px; border-radius: 999px; }
+  .src.exaone   { background: rgba(227,73,72,0.12); color: #b02a29; }
+  .src.stub     { background: var(--page); color: #b02a29; border: 1px dashed #e34948; }
+  .src.pool     { background: var(--page); color: var(--ink-2); border: 1px solid var(--hairline); }
+  .src.heuristic{ background: var(--page); color: var(--muted); border: 1px solid var(--hairline); }
+  .ev .desc { color: var(--ink-2); font-size: 12px; }
+  .ev .goal { color: var(--accent-deep); font-weight: 600; }
+  .note { color: var(--muted); font-size: 11.5px; padding: 8px 14px; }
+
+  /* Leaflet 툴팁 톤 정리 */
+  .leaflet-tooltip.ev-tip {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(11,11,11,0.12); color: var(--ink);
+    padding: 9px 11px; font-size: 12px; line-height: 1.45; white-space: nowrap;
+  }
+  /* Leaflet pane 은 폭 0 컨테이너라 white-space:normal 이면 툴팁이 글자 단위로
+     세로 붕괴한다 — 긴 내용(마음 이벤트)은 고정 폭으로 감싼다. */
+  .leaflet-tooltip.ev-tip.wide { width: 300px; white-space: normal; }
+  .ev-tip .t-head { font-weight: 700; margin-bottom: 3px; }
+  .ev-tip .t-muted { color: var(--muted); font-size: 11px; }
+  .ev-tip .t-quote { color: var(--ink-2); margin: 4px 0; }
+  #toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: #fff; padding: 8px 16px; border-radius: 8px;
+    font-size: 12.5px; z-index: 2000; display: none;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>돌아오길<span>E2E 대시보드 — 온보딩부터 확률지도까지</span></h1>
+  <div class="spacer"></div>
+  <label style="color:var(--muted)">케이스</label>
+  <select id="case-select" style="min-width:200px"></select>
+  <label style="color:var(--muted)">seed</label>
+  <input id="seed" type="number" value="42" style="width:70px">
+  <button id="btn-predict" class="primary">예측 실행 (트레이스)</button>
+</header>
+
+<div id="stepper">
+  <div class="step" id="st-interview"><span class="dot">0</span><span class="lbl">온보딩 인터뷰</span></div>
+  <div class="step" id="st-persona"><span class="dot">1</span><span class="lbl">페르소나 저장</span></div>
+  <div class="step" id="st-case"><span class="dot">2</span><span class="lbl">실종 신고 접수</span></div>
+  <div class="step" id="st-trace"><span class="dot">3</span><span class="lbl">시뮬레이션 트레이스</span></div>
+  <div class="step" id="st-poa"><span class="dot">4</span><span class="lbl">확률지도 (4층 POA)</span></div>
+</div>
+
+<main>
+  <!-- 좌: 인터뷰 / 페르소나 -->
+  <div class="col" id="left">
+    <div class="tabs">
+      <button id="tab-chat" class="active">인터뷰 챗봇</button>
+      <button id="tab-persona">페르소나</button>
+    </div>
+    <div id="chat-panel">
+      <div id="chat-setup">
+        <div class="note" style="padding:0 0 4px">Mi:dm 온보딩 인터뷰를 여기서 직접 진행하거나,
+          이미 케이스에 연결된 인터뷰 기록을 봅니다.</div>
+        <input id="guardian" type="text" placeholder="보호자 이름 (예: 김보호)">
+        <select id="ptype">
+          <option value="dementia">치매 노인</option>
+        </select>
+        <button id="btn-start" class="primary">새 인터뷰 시작</button>
+      </div>
+      <div id="chat-body"></div>
+      <form id="chat-form" style="display:none">
+        <input id="chat-input" type="text" placeholder="보호자 답변 입력" autocomplete="off">
+        <button class="primary" type="submit">전송</button>
+      </form>
+    </div>
+    <div id="persona-panel" class="panel" style="display:none"></div>
+  </div>
+
+  <!-- 중: 지도 -->
+  <div class="col" id="center">
+    <div id="map"></div>
+    <div id="map-controls">
+      <div class="title">POA 레이어</div>
+      <select id="layer-select">
+        <option value="combined">combined — α-pool 최종</option>
+        <option value="topdown">topdown — 링×끌림점</option>
+        <option value="bottomup">bottomup — 에이전트 MC</option>
+        <option value="statistical">statistical — 순수 통계 MC</option>
+      </select>
+      <div class="title" style="margin-top:2px">경과시간</div>
+      <div id="time-axis"></div>
+      <div id="time-note"></div>
+      <div class="title" style="margin-top:2px">표시</div>
+      <label class="row"><input type="checkbox" id="chk-heat" checked> 확률 히트맵</label>
+      <label class="row"><input type="checkbox" id="chk-traj" checked> 워커 궤적</label>
+      <label class="row"><input type="checkbox" id="chk-dots" checked> EXAONE 호출 지점</label>
+      <label class="row"><input type="checkbox" id="chk-bldg"> 건물 높이 (백엔드 OSM)</label>
+    </div>
+    <div id="map-status"></div>
+    <div id="legend">
+      <div>
+        <div class="ramp">
+          <i style="background:var(--seq-1)"></i><i style="background:var(--seq-2)"></i>
+          <i style="background:var(--seq-3)"></i><i style="background:var(--seq-4)"></i>
+          <i style="background:var(--seq-5)"></i><i style="background:var(--seq-6)"></i>
+          <i style="background:var(--seq-7)"></i>
+        </div>
+        <div class="ends"><span>P 낮음</span><span>높음</span></div>
+      </div>
+      <div class="lg-row"><span class="lg-line"></span>워커 궤적 (표본)</div>
+      <div class="lg-row"><span class="lg-dot" style="background:#e34948"></span>EXAONE 실호출</div>
+      <div class="lg-row"><span class="lg-dot" style="background:#fff;border:1.5px dashed #e34948"></span>스텁 (키 없음)</div>
+      <div class="lg-row"><span class="lg-dot" style="background:#898781"></span>풀 표집 / 휴리스틱</div>
+    </div>
+  </div>
+
+  <!-- 우: EXAONE -->
+  <div class="col" id="right">
+    <div class="panel-head">EXAONE <span class="sub">— 목적지 성향 추론 + 마음 재해석</span></div>
+    <div class="panel" id="exaone-panel"></div>
+  </div>
+</main>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const API = "";   // 같은 오리진 (백엔드가 서빙)
+
+const STRATEGY_KO = {
+  route_following: "익숙한 경로 추종", direction_keeping: "한 방향 유지",
+  random_walk: "무작위 배회", backtracking: "되돌아가기",
+  staying_put: "제자리 머무름", landmark_seeking: "끌림점 지향",
+};
+const TYPE_KO = { dementia: "치매 노인" };
+const SRC_KO = { exaone: "EXAONE 실호출", stub: "스텁 (키 없음)", pool: "풀 표집", heuristic: "휴리스틱" };
+const SEQ = ["#cde2fb","#9ec5f4","#6da7ec","#3987e5","#256abf","#184f95","#0d366b"];
+
+const state = { caseId: null, bundle: null, session: null, evLayers: new Map(),
+                axis: 0, timePoa: null };
+
+// 시간축 정거장. 0 = 현재(= 본 예측이 쓴 실제 경과시간).
+// 경과시간은 원래부터 예측에 들어간다(반경 상한 = 경과 × 보행속도, 게이지 누적).
+// 여기서 하는 건 **같은 모델을 다른 t 에서 평가**하는 것뿐이다 — 베이지안 갱신이
+// 아니고, 케이스 상태(current_poa)도 바뀌지 않는다.
+const TIME_STOPS = [
+  { t: 0.5, label: "30분" }, { t: 1, label: "1시간" }, { t: 2, label: "2시간" },
+  { t: 4, label: "4시간" }, { t: 8, label: "8시간" }, { t: 0, label: "현재" },
+];
+
+function toast(msg) {
+  const t = $("toast"); t.textContent = msg; t.style.display = "block";
+  clearTimeout(t._h); t._h = setTimeout(() => (t.style.display = "none"), 2600);
+}
+async function api(path, opts) {
+  const r = await fetch(API + path, opts);
+  if (!r.ok) throw new Error(`${path} → ${r.status}`);
+  return r.json();
+}
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+const pct = (v) => (v * 100).toFixed(1) + "%";
+
+/* ── 지도 ──────────────────────────────── */
+const map = L.map("map", { zoomControl: false }).setView([37.6061, 127.0106], 15);
+L.control.zoom({ position: "bottomright" }).addTo(map);
+L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+  attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19,
+}).addTo(map);
+const heatLayer = L.layerGroup().addTo(map);
+const trajLayer = L.layerGroup().addTo(map);
+const dotLayer  = L.layerGroup().addTo(map);
+const markLayer = L.layerGroup().addTo(map);
+const bldgLayer = L.layerGroup().addTo(map);
+
+function heatColor(p, maxP) {
+  const t = maxP > 0 ? Math.sqrt(p / maxP) : 0;   // sqrt — 꼬리 셀도 보이게
+  return SEQ[Math.min(SEQ.length - 1, Math.floor(t * SEQ.length))];
+}
+
+function renderHeat() {
+  heatLayer.clearLayers();
+  if (!$("chk-heat").checked) return;
+  // 시간축이 켜져 있으면 그 시점 POA 가 우선한다. 이쪽은 combined 한 겹만 있다
+  // (레이어 분해는 본 예측의 트레이스에만 남는다).
+  const cells = state.axis
+    ? state.timePoa
+    : state.bundle?.poa_layers?.[$("layer-select").value]?.cells;
+  if (!cells || !cells.length) return;
+  const layer = { cells };
+  const maxP = Math.max(...layer.cells.map((c) => c.prob));
+  for (const c of layer.cells) {
+    L.polygon(c.polygon.map((p) => [p.lat, p.lng]), {
+      color: "#fcfcfb", weight: 0.6, fillColor: heatColor(c.prob, maxP), fillOpacity: 0.55,
+    }).bindTooltip(
+      `<div class="t-head">P = ${pct(c.prob)}</div><div class="t-muted">H3 ${esc(c.cell)}</div>`,
+      { className: "ev-tip", sticky: true }
+    ).addTo(heatLayer);
+  }
+}
+
+function renderTimeAxis() {
+  const box = $("time-axis");
+  box.innerHTML = TIME_STOPS.map((s) =>
+    `<button type="button" data-t="${s.t}" aria-pressed="${state.axis === s.t}">${s.label}</button>`
+  ).join("");
+  for (const b of box.querySelectorAll("button")) {
+    b.addEventListener("click", () => setAxis(Number(b.dataset.t)));
+  }
+  // 본 예측이 실제로 쓴 경과시간 = 마지막 시뮬 시각 − LKP 시각
+  const c = state.bundle?.case;
+  const now = c?.last_sim_at && c?.lkp_time
+    ? ((new Date(c.last_sim_at) - new Date(c.lkp_time)) / 3600000).toFixed(1)
+    : null;
+  $("time-note").textContent = state.axis
+    ? `"${TIME_STOPS.find((s) => s.t === state.axis)?.label} 경과라면" 의 지도 — 케이스 상태는 그대로다`
+    : (now != null ? `실제 경과 ${now}시간 지도 (본 예측)` : "본 예측 지도");
+}
+
+async function setAxis(t) {
+  if (!state.caseId) return toast("케이스를 먼저 선택하세요");
+  state.axis = t;
+  if (!t) { state.timePoa = null; renderTimeAxis(); renderHeat(); return; }
+  // 첫 조회는 그 시점 MC 를 실제로 돌린다(~7초). 이후는 서버 캐시에서 즉시.
+  for (const b of $("time-axis").querySelectorAll("button")) b.disabled = true;
+  $("time-note").textContent = "그 시점으로 다시 시뮬레이션 중…";
+  try {
+    const d = await api(`/phase3/cases/${state.caseId}/poa?top=200&elapsed_hours=${t}`);
+    state.timePoa = d.top_cells;
+    renderTimeAxis();
+    $("time-note").textContent =
+      `${TIME_STOPS.find((s) => s.t === t)?.label} 시점 — ${d.total_cells}칸 · 최고 ${pct(d.top_cells[0]?.prob ?? 0)}`;
+  } catch (e) {
+    state.axis = 0; state.timePoa = null; renderTimeAxis();
+    toast(`시간축 계산 실패 — ${e.message}`);
+  } finally {
+    for (const b of $("time-axis").querySelectorAll("button")) b.disabled = false;
+    renderHeat();
+  }
+}
+
+function renderTraj() {
+  trajLayer.clearLayers();
+  if (!$("chk-traj").checked) return;
+  const walkers = state.bundle?.debug?.walkers ?? [];
+  for (const w of walkers) {
+    if (w.path.length < 2) continue;
+    L.polyline(w.path, {
+      color: w.mind_fired ? "#52514e" : "#898781",
+      weight: w.mind_fired ? 1.8 : 1, opacity: w.mind_fired ? 0.65 : 0.3,
+    }).bindTooltip(
+      `<div class="t-head">워커 #${w.walker_idx}</div>` +
+      `<div class="t-muted">전략 ${esc(STRATEGY_KO[w.strategy] || w.strategy)} · ${w.path.length}스텝` +
+      `${w.mind_fired ? " · 마음 재해석 발동" : ""}</div>`,
+      { className: "ev-tip", sticky: true }
+    ).addTo(trajLayer);
+  }
+}
+
+function dotStyle(src) {
+  if (src === "exaone") return { radius: 7, color: "#b02a29", weight: 1.5, fillColor: "#e34948", fillOpacity: 0.95 };
+  if (src === "stub")   return { radius: 7, color: "#e34948", weight: 1.5, dashArray: "2,2", fillColor: "#fcfcfb", fillOpacity: 0.9 };
+  if (src === "pool")   return { radius: 4.5, color: "#52514e", weight: 1, fillColor: "#898781", fillOpacity: 0.85 };
+  return { radius: 4.5, color: "#898781", weight: 1, fillColor: "#c3c2b7", fillOpacity: 0.85 };
+}
+
+function behaviorMix(events) {
+  // 실호출만 센다 — 풀 표집은 실호출 결과의 복사본이라 같이 세면 분포가
+  // 부풀려진다("5종처럼 보이는 1종"). 모델이 층마다 다른 답을 주는지를
+  // 확인하는 자리이므로 모델이 실제로 낸 것만 본다.
+  const real = events.filter((e) => e.source === "exaone" && e.behavior);
+  if (!real.length) return "";
+  const mix = new Map();
+  for (const e of real) mix.set(e.behavior, (mix.get(e.behavior) || 0) + 1);
+  const rows = [...mix.entries()].sort((a, b) => b[1] - a[1]);
+  const warn = rows.length === 1 && real.length > 1;
+  return `<div class="note" style="padding:0;margin-top:6px">
+    실호출 ${real.length}건의 행동 어휘 ${rows.length}종 —
+    ${rows.map(([b, n]) => `${esc(b)} ${n}`).join(" · ")}
+    ${warn ? `<b style="color:#b02a29"> ← 전부 같은 답. 층을 나눠 물었는데 답이 안 갈렸다</b>` : ""}
+  </div>`;
+}
+
+function evTooltip(ev) {
+  const goal = ev.goal ? `목표 전환 → <b>${esc(ev.goal)}</b>` : "목표 유지";
+  // behavior 를 앞세운다 — 보행에 실제로 반영되는 채널이고 어휘가 4종뿐이라
+  // 층마다 답이 갈리는지 여기서 바로 읽힌다. status 는 자유 문장이라 표현만
+  // 달라도 달라 보인다(실측: 15콜 전부 같은 behavior 인데 status 는 5가지).
+  const behavior = ev.behavior ? `행동 <b>${esc(ev.behavior)}</b> · ` : "";
+  return `<div class="t-head">워커 #${ev.walker_idx} · 스텝 ${ev.step} — ${SRC_KO[ev.source] || ev.source}</div>
+    <div class="t-quote">트리거: ${esc(ev.trigger)}</div>
+    <div>${behavior}혼란 ${ev.confusion.toFixed(2)} · ${goal}</div>
+    <div class="t-muted">재해석: ${esc(ev.status)}</div>
+    <div class="t-muted">${ev.prompt ? "클릭하면 우측에 프롬프트·응답 원문" : "실호출 아님 — 원문 없음"}</div>`;
+}
+
+function renderDots() {
+  dotLayer.clearLayers(); state.evLayers.clear();
+  if (!$("chk-dots").checked) return;
+  const events = state.bundle?.debug?.mind_events ?? [];
+  // 실호출이 위에 그려지도록 pool/heuristic 먼저
+  const order = { heuristic: 0, pool: 1, stub: 2, exaone: 3 };
+  [...events].sort((a, b) => order[a.source] - order[b.source]).forEach((ev) => {
+    const idx = events.indexOf(ev);
+    const m = L.circleMarker([ev.location.lat, ev.location.lng], dotStyle(ev.source))
+      .bindTooltip(evTooltip(ev), { className: "ev-tip wide", sticky: true })
+      .on("click", () => selectEvent(idx, false));
+    m.addTo(dotLayer);
+    state.evLayers.set(idx, m);
+  });
+}
+
+function renderMarkers() {
+  markLayer.clearLayers();
+  const b = state.bundle; if (!b) return;
+  /* 같은 좌표에 여러 마커가 겹치면 마지막에 그린 것만 보인다 — 지오코딩이 거칠면
+     (카카오 키 없이 동 중심으로 폴백) 자택·끌림점·LKP 가 한 점에 쌓여 자택이
+     사라진다(라이브 실측 2026-07-21). 겹칠 때만 12m 반경으로 흩고 툴팁에 알린다.
+     그리는 순서도 중요도 역순(끌림점 → 자택 → LKP)으로 둬 핵심이 위에 온다. */
+  const seen = new Map();                       // "lat,lng" → 이미 그린 개수
+  const OFFSET_DEG = 12 / 111320;               // 약 12m
+  const pin = (loc, label, fill) => {
+    const key = `${loc.lat.toFixed(6)},${loc.lng.toFixed(6)}`;
+    const n = seen.get(key) ?? 0;
+    seen.set(key, n + 1);
+    let { lat, lng } = loc, note = "";
+    if (n > 0) {                                // 앞서 같은 좌표에 그린 게 있다
+      const a = (n - 1) * (2 * Math.PI / 5) - Math.PI / 2;
+      lat += OFFSET_DEG * Math.sin(a);
+      lng += OFFSET_DEG * Math.cos(a) / Math.cos(loc.lat * Math.PI / 180);
+      note = `<div class="t-muted">좌표 겹침 — 표시 위치를 살짝 옮김</div>`;
+    }
+    return L.circleMarker([lat, lng], { radius: 6, color: "#0b0b0b", weight: 1.5, fillColor: fill, fillOpacity: 1 })
+      .bindTooltip(`<div class="t-head">${esc(label)}</div>${note}`, { className: "ev-tip" }).addTo(markLayer);
+  };
+  for (const ap of b.persona?.attraction_points ?? [])
+    pin(ap.location, `끌림점 — ${ap.label} (w=${ap.weight})`, "#eda100");
+  if (b.persona?.home) pin(b.persona.home, `자택 — ${b.persona.name}`, "#fcfcfb");
+  if (b.case?.lkp) pin(b.case.lkp, "LKP — 마지막 목격 지점", "#0b0b0b");
+}
+
+/* ── 건물 높이 레이어 (백엔드 envlayer가 만든 데이터) ── */
+const bldgCache = { caseId: null, list: null, loading: false };
+function bldgStyle(h) {
+  // 높이 미상=옅은 점선, 있으면 30m(≈10층)를 상한으로 어두워진다
+  if (h == null) return { color: "#a9a69d", weight: 0.7, dashArray: "3,3", fillColor: "#d9d4cc", fillOpacity: 0.25 };
+  const t = Math.min(1, h / 30);
+  const shade = ["#d9d0c5", "#c2b4a3", "#a08a72", "#7d6650", "#5a4636"][Math.min(4, Math.floor(t * 5))];
+  return { color: "#fcfcfb", weight: 0.5, fillColor: shade, fillOpacity: 0.6 };
+}
+async function renderBuildings() {
+  bldgLayer.clearLayers();
+  if (!$("chk-bldg").checked || !state.caseId) return;
+  if (bldgCache.caseId !== state.caseId) {
+    if (bldgCache.loading) return;
+    bldgCache.loading = true;
+    toast("건물 레이어 로딩 중 — 캐시가 없으면 OSM 다운로드로 수십 초 걸릴 수 있습니다");
+    try {
+      const res = await api(`/debug/cases/${state.caseId}/buildings`);
+      bldgCache.caseId = state.caseId; bldgCache.list = res.buildings;
+      toast(`건물 ${res.count}동 로드 완료`);
+    } catch (e) {
+      $("chk-bldg").checked = false;
+      return toast("건물 레이어 실패: " + e.message);
+    } finally { bldgCache.loading = false; }
+  }
+  for (const b of bldgCache.list) {
+    const label = b.name ? esc(b.name) : "건물";
+    const ht = b.height_m != null
+      ? `높이 ≈ ${b.height_m}m${b.levels != null ? ` (${b.levels}층)` : ""}`
+      : (b.levels != null ? `${b.levels}층` : "높이 태그 없음");
+    L.polygon(b.geometry.map(([lng, lat]) => [lat, lng]), bldgStyle(b.height_m))
+      .bindTooltip(`<div class="t-head">${label}</div><div class="t-muted">${ht}</div>`,
+        { className: "ev-tip", sticky: true })
+      .addTo(bldgLayer);
+  }
+}
+
+function renderMap() { renderTimeAxis(); renderHeat(); renderTraj(); renderDots(); renderMarkers(); renderBuildings(); }
+
+/* ── 스테퍼 ────────────────────────────── */
+function setStep(id, done) { $(id).classList.toggle("done", !!done); }
+function renderStepper() {
+  const b = state.bundle;
+  setStep("st-interview", b?.interview || state.session);
+  setStep("st-persona", b?.persona);
+  setStep("st-case", b?.case);
+  setStep("st-trace", b?.debug);
+  setStep("st-poa", b?.poa_layers && Object.keys(b.poa_layers).length === 4);
+}
+
+/* ── 페르소나 패널 — 페르소나 축 구조(공통 8 + 유형별 4)로 렌더링 ── */
+const _slotCatalogCache = {};   // persona_type → 슬롯 카탈로그 (축·라벨)
+async function getSlotCatalog(type) {
+  if (!_slotCatalogCache[type]) {
+    _slotCatalogCache[type] = await api(`/phase0/slots?persona_type=${encodeURIComponent(type)}`);
+  }
+  return _slotCatalogCache[type];
+}
+
+const AXIS_ORDER = ["몸축", "마음축", "행동축"];   // 기본필드(identity/home)는 '기본 정보'가 담당
+
+async function renderPersona() {
+  const el = $("persona-panel");
+  const p = state.bundle?.persona;
+  if (!p) { el.innerHTML = `<div class="empty">저장된 페르소나가 없습니다.<br>좌측 탭에서 인터뷰를 진행하면 여기 나타납니다.</div>`; return; }
+
+  let slots = [];
+  try { slots = await getSlotCatalog(p.type); } catch (e) { /* 카탈로그 실패 → 평면 폴백 */ }
+
+  // behavior_notes 는 "슬롯 라벨: 노트" 형식 — 라벨로 슬롯에 귀속시킨다.
+  // (구형 무태그 노트·매칭 실패분은 '기타 관찰'로 내려보낸다.)
+  const byLabel = {};
+  const leftovers = [];
+  for (const n of p.behavior_notes) {
+    const idx = n.indexOf(": ");
+    const label = idx > 0 ? n.slice(0, idx) : null;
+    if (label && slots.some((s) => s.label === label)) {
+      (byLabel[label] = byLabel[label] || []).push(n.slice(idx + 2));
+    } else leftovers.push(n);
+  }
+
+  const scoreBadge = (s) => {
+    const v = s.axis_field && p.axis_scores ? p.axis_scores[s.axis_field] : undefined;
+    return v === undefined ? "" : `<span class="src exaone" title="축 점수(0.1~0.9)">${v.toFixed(1)}</span>`;
+  };
+  const axisSection = (axis) => {
+    const rows = slots.filter((s) => s.axis === axis).map((s) => {
+      const notes = byLabel[s.label] || [];
+      const body = notes.length
+        ? notes.map((n) => `<div style="padding:2px 0;color:var(--ink-2)">· ${esc(n)}</div>`).join("")
+        : `<div style="padding:2px 0;color:var(--muted)">— 미수집</div>`;
+      return `<div style="padding:4px 0 6px">
+        <div style="font-weight:600">${esc(s.label)} ${scoreBadge(s)}</div>${body}
+      </div>`;
+    });
+    return rows.length ? `<div class="section"><h3>${axis}</h3>${rows.join("")}</div>` : "";
+  };
+
+  el.innerHTML = `
+    <div class="section"><h3>기본 정보</h3>
+      <dl class="kv">
+        <dt>이름</dt><dd>${esc(p.name)} (${p.age}세)</dd>
+        <dt>유형</dt><dd>${TYPE_KO[p.type] || esc(p.type)}</dd>
+        <dt>ID</dt><dd>${esc(p.id)}</dd>
+        <dt>자택</dt><dd>${p.home.lat.toFixed(5)}, ${p.home.lng.toFixed(5)}</dd>
+      </dl>
+    </div>
+    <div class="section"><h3>끌림점 ${p.attraction_points.length}곳</h3>
+      ${p.attraction_points.map((ap) => `
+        <div class="bar-row" title="지오코딩 정밀도: ${esc(ap.precision)} · 근거: ${esc(ap.evidence || "")}">
+          <span class="name">${esc(ap.label)}</span>
+          <span class="bar-track"><span class="bar-fill" style="width:${Math.min(100, ap.weight * 100)}%"></span></span>
+          <span class="val">${ap.weight.toFixed(2)}</span>
+        </div>`).join("") || `<div class="note" style="padding:0">없음</div>`}
+    </div>
+    ${slots.length
+      ? AXIS_ORDER.map(axisSection).join("")
+      : `<div class="section"><h3>행동 사실 (인터뷰 추출)</h3>
+          ${p.behavior_notes.map((n) => `<div style="padding:3px 0;color:var(--ink-2)">· ${esc(n)}</div>`).join("")
+            || `<div class="note" style="padding:0">없음</div>`}</div>`}
+    ${leftovers.length && slots.length ? `<div class="section"><h3>기타 관찰</h3>
+      ${leftovers.map((n) => `<div style="padding:3px 0;color:var(--ink-2)">· ${esc(n)}</div>`).join("")}
+    </div>` : ""}
+    <div class="section">
+      <button id="btn-report" class="primary" style="width:100%">이 페르소나로 실종 신고 접수 (1시간 전 자택 앞)</button>
+    </div>`;
+  $("btn-report")?.addEventListener("click", () => createCase(p));
+}
+
+/* ── EXAONE 패널 ───────────────────────── */
+function renderExaone() {
+  const el = $("exaone-panel");
+  const b = state.bundle;
+  const prior = b?.prior;
+  const dbg = b?.debug;
+  if (!prior) { el.innerHTML = `<div class="empty">예측이 아직 없습니다.<br>상단 "예측 실행 (트레이스)"를 누르세요.</div>`; return; }
+
+  const strat = Object.entries(prior.strategy_probs).sort((a, b2) => b2[1] - a[1]);
+  const attr = Object.entries(prior.attraction_weights);
+  const events = dbg?.mind_events ?? [];
+  const nReal = events.filter((e) => e.source === "exaone").length;
+  const nStub = events.filter((e) => e.source === "stub").length;
+  const nPool = events.length - nReal - nStub;
+
+  el.innerHTML = `
+    <div class="section">
+      <h3>1. 목적지 성향 추론 — generate_prior ${dbg?.exaone_stub ? '<span class="src stub">스텁</span>' : '<span class="src exaone">실호출</span>'}</h3>
+      <div class="note" style="padding:0 0 8px">신고 시 1회 호출. 좌표가 아니라 성향 파라미터만 출력하고,
+        좌표 확률지도는 알고리즘(MC)이 계산합니다.</div>
+      ${strat.map(([k, v]) => `
+        <div class="bar-row">
+          <span class="name">${STRATEGY_KO[k] || esc(k)}</span>
+          <span class="bar-track"><span class="bar-fill" style="width:${v * 100}%"></span></span>
+          <span class="val">${pct(v)}</span>
+        </div>`).join("")}
+      ${attr.length ? `<h3 style="margin-top:12px">끌림점 가중치</h3>` + attr.map(([k, v]) => `
+        <div class="bar-row">
+          <span class="name">${esc(k)}</span>
+          <span class="bar-track"><span class="bar-fill" style="width:${v * 100}%;background:#c98500"></span></span>
+          <span class="val">${pct(v)}</span>
+        </div>`).join("") : ""}
+      <dl class="kv" style="margin-top:10px">
+        <dt>이동 반경</dt><dd>lognormal(μ=${prior.radius_lognormal.mu}, σ=${prior.radius_lognormal.sigma})</dd>
+      </dl>
+      ${prior.reasoning ? `<div class="t-quote" style="margin-top:8px;color:var(--ink-2)">근거: ${esc(prior.reasoning)}</div>` : ""}
+      ${dbg?.prior_prompt ? `
+        <details class="raw"><summary>프롬프트·응답 원문</summary>
+          <pre>[입력]\n${esc(dbg.prior_prompt)}\n\n[응답]\n${esc(dbg.prior_response_raw)}</pre>
+        </details>` : ""}
+    </div>
+    <div class="section" style="border-bottom:none;padding-bottom:6px">
+      <h3>2. 마음 재해석 — reinterpret_mind (${events.length}건)</h3>
+      <div class="note" style="padding:0">워커의 귀소·불안 게이지가 임계를 넘을 때만 희소 호출.
+        실호출 ${nReal} · 스텁 ${nStub} · 풀 표집/휴리스틱 ${nPool}.
+        지도의 점을 클릭해도 아래 목록이 열립니다.</div>
+      ${behaviorMix(events)}
+    </div>
+    <div id="ev-list">
+      ${events.map((ev, i) => `
+        <div class="ev" data-i="${i}">
+          <div class="top"><b>워커 #${ev.walker_idx} · 스텝 ${ev.step}</b>
+            <span class="src ${ev.source}">${SRC_KO[ev.source] || ev.source}</span></div>
+          <div class="desc">${ev.behavior ? `<b>${esc(ev.behavior)}</b> · ` : ""}혼란 ${ev.confusion.toFixed(2)}
+            ${ev.goal ? ` · <span class="goal">목표 → ${esc(ev.goal)}</span>` : ""}</div>
+          <div class="desc" style="color:var(--muted)">${esc(ev.status)}</div>
+          <div id="ev-detail-${i}" style="display:none">
+            <div class="t-quote" style="margin-top:6px">트리거: ${esc(ev.trigger)}</div>
+            ${ev.prompt ? `<details class="raw" open><summary>프롬프트·응답 원문</summary>
+              <pre>[입력]\n${esc(ev.prompt)}\n\n[응답]\n${esc(ev.response_raw)}</pre></details>` : ""}
+          </div>
+        </div>`).join("") || `<div class="note">이벤트 없음 — 경과 시간이 짧으면 게이지가 임계에 못 미칠 수 있습니다.</div>`}
+    </div>`;
+  el.querySelectorAll(".ev").forEach((div) =>
+    div.addEventListener("click", () => selectEvent(Number(div.dataset.i), true)));
+}
+
+function selectEvent(i, panTo) {
+  document.querySelectorAll(".ev").forEach((d) => d.classList.remove("active"));
+  document.querySelectorAll("[id^=ev-detail-]").forEach((d) => (d.style.display = "none"));
+  const row = document.querySelector(`.ev[data-i="${i}"]`);
+  if (row) {
+    row.classList.add("active");
+    $(`ev-detail-${i}`).style.display = "block";
+    row.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }
+  const ev = state.bundle?.debug?.mind_events?.[i];
+  const marker = state.evLayers.get(i);
+  if (ev && panTo) map.panTo([ev.location.lat, ev.location.lng]);
+  if (marker) marker.openTooltip();
+}
+
+/* ── 지도 상태 뱃지 ────────────────────── */
+function renderStatus() {
+  const dbg = state.bundle?.debug;
+  const el = $("map-status");
+  if (!dbg) { el.innerHTML = ""; return; }
+  el.innerHTML = `
+    <span class="badge ${dbg.roadnet ? "on" : "off"}">${dbg.roadnet ? "도로망 그래프" : "연속 공간 폴백"}</span>
+    <span class="badge ${dbg.exaone_stub ? "off" : "on"}">${dbg.exaone_stub ? "EXAONE 스텁" : "EXAONE 실호출"}</span>
+    <span class="badge">궤적 표본 ${dbg.walkers.length}</span>`;
+}
+
+/* ── 케이스·번들 로딩 ──────────────────── */
+async function loadOverview(selectId) {
+  const ov = await api("/debug/overview");
+  const sel = $("case-select");
+  sel.innerHTML = ov.cases.map((c) =>
+    `<option value="${esc(c.id)}">${esc(c.id)} — ${esc(c.status)}${c.has_trace ? " · 트레이스" : ""}</option>`).join("")
+    || `<option value="">케이스 없음</option>`;
+  if (selectId) sel.value = selectId;
+  state.caseId = sel.value || null;
+}
+
+async function loadBundle() {
+  state.axis = 0; state.timePoa = null;   // 케이스가 바뀌면 시간축은 현재로 되돌린다
+  if (!state.caseId) { state.bundle = null; renderAll(); return; }
+  state.bundle = await api(`/debug/cases/${state.caseId}/bundle`);
+  renderAll();
+  const lkp = state.bundle?.case?.lkp;
+  if (lkp) map.setView([lkp.lat, lkp.lng], 15);
+  // 케이스에 연결된 인터뷰 기록이 있으면 채팅 패널에 표시 (라이브 세션 중이 아닐 때).
+  // 기록 없는 케이스로 바꾸면 이전 케이스 기록이 남지 않게 시작 폼으로 되돌린다.
+  if (!state.session) {
+    if (state.bundle?.interview) {
+      showTranscript(state.bundle.interview);
+    } else {
+      $("chat-body").innerHTML = "";
+      $("chat-setup").style.display = "flex";
+      $("chat-form").style.display = "none";
+    }
+  }
+}
+
+function renderAll() { renderStepper(); renderPersona(); renderExaone(); renderStatus(); renderMap(); }
+
+async function runPredict() {
+  if (!state.caseId) return toast("케이스를 먼저 선택하세요");
+  const btn = $("btn-predict");
+  btn.disabled = true; btn.textContent = "시뮬레이션 중 (500 워커)…";
+  try {
+    const seed = $("seed").value;
+    await api(`/debug/cases/${state.caseId}/predict${seed !== "" ? `?seed=${seed}` : ""}`, { method: "POST" });
+    await loadOverview(state.caseId);
+    await loadBundle();
+    toast("트레이스 예측 완료");
+  } catch (e) { toast("예측 실패: " + e.message); }
+  finally { btn.disabled = false; btn.textContent = "예측 실행 (트레이스)"; }
+}
+
+async function createCase(persona) {
+  try {
+    const c = await api("/phase1/reports", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        missing_type: persona.type, persona_id: persona.id,
+        lkp: persona.home,
+        lkp_time: new Date(Date.now() - 3600_000).toISOString(),
+      }),
+    });
+    await loadOverview(c.id);
+    await loadBundle();
+    toast(`신고 접수 완료 — ${c.id}. "예측 실행"을 누르세요.`);
+  } catch (e) { toast("신고 접수 실패: " + e.message); }
+}
+
+/* ── 인터뷰 챗봇 ───────────────────────── */
+function addMsg(role, text) {
+  const div = document.createElement("div");
+  div.className = `msg ${role}`;
+  div.innerHTML = `<span class="who">${role === "assistant" ? "챗봇 (Mi:dm)" : "보호자"}</span>${esc(text)}`;
+  $("chat-body").appendChild(div);
+  $("chat-body").scrollTop = $("chat-body").scrollHeight;
+}
+function showTranscript(session) {
+  $("chat-body").innerHTML = "";
+  (session.messages || []).forEach((m) => addMsg(m.role, m.text));
+  // 완료된 기록은 읽기 전용이지만, 새 인터뷰는 언제든 시작할 수 있어야 한다
+  // (시드 데모 인터뷰가 자동 선택돼도 라이브 시연 진입로가 막히지 않게).
+  $("chat-setup").style.display = session.done ? "flex" : "none";
+  $("chat-form").style.display = session.done ? "none" : "flex";
+  if (session.done) {
+    const div = document.createElement("div");
+    div.className = "note";
+    div.style.textAlign = "center";
+    div.textContent = "인터뷰 종료 — 페르소나가 저장되었습니다. 위에서 새 인터뷰를 시작할 수 있습니다.";
+    $("chat-body").appendChild(div);
+  }
+}
+async function startInterview() {
+  const guardian = $("guardian").value.trim();
+  if (!guardian) return toast("보호자 이름을 입력하세요");
+  try {
+    const body = { guardian_name: guardian };
+    if ($("ptype").value) body.persona_type = $("ptype").value;
+    state.session = await api("/phase0/interviews", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+    });
+    $("chat-setup").style.display = "none";
+    $("chat-form").style.display = "flex";
+    $("chat-body").innerHTML = "";
+    state.session.messages.forEach((m) => addMsg(m.role, m.text));
+    $("chat-input").focus();
+    renderStepper();
+  } catch (e) { toast("인터뷰 시작 실패: " + e.message); }
+}
+async function sendAnswer(ev) {
+  ev.preventDefault();
+  const text = $("chat-input").value.trim();
+  if (!text || !state.session) return;
+  $("chat-input").value = "";
+  addMsg("user", text);
+  try {
+    const prevLen = state.session.messages.length + 1;
+    state.session = await api(`/phase0/interviews/${state.session.id}/answers`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }),
+    });
+    state.session.messages.slice(prevLen).forEach((m) => { if (m.role === "assistant") addMsg(m.role, m.text); });
+    if (state.session.done && state.session.persona_id) {
+      toast("페르소나 저장 완료 — 페르소나 탭에서 신고 접수로 이어가세요");
+      // 방금 만든 페르소나를 바로 보여준다 (케이스는 아직 없음)
+      const p = await api(`/phase0/personas/${state.session.persona_id}`);
+      state.bundle = { ...(state.bundle || {}), persona: p, interview: state.session };
+      showTranscript(state.session);
+      renderStepper(); renderPersona(); renderMarkers();
+      switchTab("persona");
+      state.session = null;
+    }
+  } catch (e) { toast("응답 실패: " + e.message); }
+}
+
+/* ── 탭·이벤트 배선 ────────────────────── */
+function switchTab(which) {
+  $("tab-chat").classList.toggle("active", which === "chat");
+  $("tab-persona").classList.toggle("active", which === "persona");
+  $("chat-panel").style.display = which === "chat" ? "flex" : "none";
+  $("persona-panel").style.display = which === "persona" ? "block" : "none";
+}
+$("tab-chat").addEventListener("click", () => switchTab("chat"));
+$("tab-persona").addEventListener("click", () => switchTab("persona"));
+$("btn-start").addEventListener("click", startInterview);
+$("chat-form").addEventListener("submit", sendAnswer);
+$("btn-predict").addEventListener("click", runPredict);
+$("case-select").addEventListener("change", () => { state.caseId = $("case-select").value; state.session = null; loadBundle(); });
+$("layer-select").addEventListener("change", renderHeat);
+$("chk-heat").addEventListener("change", renderHeat);
+$("chk-traj").addEventListener("change", renderTraj);
+$("chk-dots").addEventListener("change", renderDots);
+$("chk-bldg").addEventListener("change", renderBuildings);
+
+(async function init() {
+  const q = new URLSearchParams(location.search);   // 딥링크: ?case=<id>&tab=persona&ev=<n>
+  try {
+    await loadOverview(q.get("case") || undefined);
+    await loadBundle();
+    if (q.get("tab")) switchTab(q.get("tab"));
+    if (q.get("ev") !== null && q.get("ev") !== "") selectEvent(Number(q.get("ev")), true);
+  }
+  catch (e) { toast("백엔드 연결 실패 — uvicorn 이 8000 포트에 떠 있는지 확인: " + e.message); }
+})();
+</script>
+</body>
+</html>

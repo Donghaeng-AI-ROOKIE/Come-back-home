@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 디자인 토큰 (spec §7 확정본).
  * 색은 "브랜드"가 아니라 "상태 심각도"를 부호화한다 — 앰버를 긴급에 쓰지 않는다.
  */
@@ -6,16 +6,24 @@ import type { TextStyle } from 'react-native';
 import type { PoaTier } from '../types/domain';
 
 export const color = {
+  // Figma 원본(2026-08-10) 브랜드 팔레트
+  brand: '#328E6E',
+  brandInk: '#1D5D47',
+  guardian: '#67AE6E',
+  guardianWash: '#ECFAE5',
+  figmaRed: '#E05454',
+  figmaGray: '#909090',
+  figmaField: '#F8F8F8',
   // 모드 색 (심각도 위계: 평시 그린 → 진행 앰버 → 긴급 빨강)
-  walk: '#1DA35C', // 산책 모드(평시)
-  walkInk: '#127A43',
-  walkWash: '#E9F7EF',
-  search: '#E8703F', // 수색 진행(2차) — 타이머·진행바·세그먼트 활성
-  searchInk: '#B14E27',
-  searchWash: '#FDEEE7',
-  critical: '#D62839', // 긴급 실종경보(승격) — 락스크린·경보상세·골든타임·최종목격
-  criticalInk: '#8E1B26',
-  criticalWash: '#FCEBEC',
+  walk: '#328E6E', // Figma 시민 평시 그린
+  walkInk: '#1D5D47',
+  walkWash: '#ECFAE5',
+  search: '#E05454', // Figma 수색·제보 CTA
+  searchInk: '#B33A3A',
+  searchWash: '#FCEBEB',
+  critical: '#E05454',
+  criticalInk: '#B33A3A',
+  criticalWash: '#FCEBEB',
 
   // 텍스트 (WCAG 대비 확보 — #8B909A 폐기)
   text: '#14161C', // primary 16.8:1
@@ -59,7 +67,20 @@ export const poa: Record<PoaTier, {
 // 타이포 — Pretendard 의도(미임베드 시 시스템 폰트). 최소 15sp + Dynamic Type.
 type Weight = TextStyle['fontWeight'];
 export const type = {
-  family: undefined as string | undefined, // Pretendard 임베드 시 'Pretendard'
+  family: '42dotSans-Regular',
+  familyMedium: '42dotSans-Medium',
+  familySemiBold: '42dotSans-SemiBold',
+  familyBold: '42dotSans-Bold',
+  familyExtraBold: '42dotSans-ExtraBold',
+  familyRobotoSemiBold: 'Roboto-SemiBold',
+  familyYeolumBold: 'HSYeolumMulbit-Bold',
+  // React Native Web은 숫자로 시작하는 font-family 값을 버린다.
+  // 지정 화면에서만 쓰는 CSS-safe 별칭이며 같은 42dot Sans 파일을 가리킨다.
+  familyCss: 'Dot42-Regular',
+  familyCssMedium: 'Dot42-Medium',
+  familyCssSemiBold: 'Dot42-SemiBold',
+  familyCssBold: 'Dot42-Bold',
+  familyCssExtraBold: 'Dot42-ExtraBold',
   minBody: 15,
   maxScale: 1.6, // maxFontSizeMultiplier
   size: {

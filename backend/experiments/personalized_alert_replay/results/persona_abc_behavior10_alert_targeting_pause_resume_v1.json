@@ -1,0 +1,1048 @@
+{
+  "definition": "If one registered device existed in the truth res7 cell, would it pass the production geofence and engagement probability threshold?",
+  "not_measured": [
+    "Expo transport delivery",
+    "real device population",
+    "notification open",
+    "citizen report",
+    "missing-person discovery"
+  ],
+  "target_resolution": 7,
+  "thresholds": {
+    "high": 0.3,
+    "normal": 0.45,
+    "low": 0.6
+  },
+  "results": {
+    "high": {
+      "A": {
+        "arm": "A",
+        "engagement": "high",
+        "truth_device_targeted": 105,
+        "n": 116,
+        "truth_device_target_rate": 0.9051724137931034,
+        "outside_truth_device_targeted": 21,
+        "outside_n": 31,
+        "outside_truth_device_target_rate": 0.6774193548387096,
+        "mean_target_res7_regions": 1.9310344827586208,
+        "equal_population_region_precision_proxy": 0.46875
+      },
+      "B": {
+        "arm": "B",
+        "engagement": "high",
+        "truth_device_targeted": 101,
+        "n": 116,
+        "truth_device_target_rate": 0.8706896551724138,
+        "outside_truth_device_targeted": 21,
+        "outside_n": 31,
+        "outside_truth_device_target_rate": 0.6774193548387096,
+        "mean_target_res7_regions": 1.603448275862069,
+        "equal_population_region_precision_proxy": 0.543010752688172
+      },
+      "C": {
+        "arm": "C",
+        "engagement": "high",
+        "truth_device_targeted": 87,
+        "n": 116,
+        "truth_device_target_rate": 0.75,
+        "outside_truth_device_targeted": 14,
+        "outside_n": 31,
+        "outside_truth_device_target_rate": 0.45161290322580644,
+        "mean_target_res7_regions": 1.206896551724138,
+        "equal_population_region_precision_proxy": 0.6214285714285714
+      }
+    },
+    "normal": {
+      "A": {
+        "arm": "A",
+        "engagement": "normal",
+        "truth_device_targeted": 90,
+        "n": 116,
+        "truth_device_target_rate": 0.7758620689655172,
+        "outside_truth_device_targeted": 16,
+        "outside_n": 31,
+        "outside_truth_device_target_rate": 0.5161290322580645,
+        "mean_target_res7_regions": 1.103448275862069,
+        "equal_population_region_precision_proxy": 0.703125
+      },
+      "B": {
+        "arm": "B",
+        "engagement": "normal",
+        "truth_device_targeted": 89,
+        "n": 116,
+        "truth_device_target_rate": 0.7672413793103449,
+        "outside_truth_device_targeted": 13,
+        "outside_n": 31,
+        "outside_truth_device_target_rate": 0.41935483870967744,
+        "mean_target_res7_regions": 1.2586206896551724,
+        "equal_population_region_precision_proxy": 0.6095890410958904
+      },
+      "C": {
+        "arm": "C",
+        "engagement": "normal",
+        "truth_device_targeted": 87,
+        "n": 116,
+        "truth_device_target_rate": 0.75,
+        "outside_truth_device_targeted": 14,
+        "outside_n": 31,
+        "outside_truth_device_target_rate": 0.45161290322580644,
+        "mean_target_res7_regions": 1.1810344827586208,
+        "equal_population_region_precision_proxy": 0.635036496350365
+      }
+    },
+    "low": {
+      "A": {
+        "arm": "A",
+        "engagement": "low",
+        "truth_device_targeted": 86,
+        "n": 116,
+        "truth_device_target_rate": 0.7413793103448276,
+        "outside_truth_device_targeted": 13,
+        "outside_n": 31,
+        "outside_truth_device_target_rate": 0.41935483870967744,
+        "mean_target_res7_regions": 1.0,
+        "equal_population_region_precision_proxy": 0.7413793103448276
+      },
+      "B": {
+        "arm": "B",
+        "engagement": "low",
+        "truth_device_targeted": 86,
+        "n": 116,
+        "truth_device_target_rate": 0.7413793103448276,
+        "outside_truth_device_targeted": 13,
+        "outside_n": 31,
+        "outside_truth_device_target_rate": 0.41935483870967744,
+        "mean_target_res7_regions": 1.043103448275862,
+        "equal_population_region_precision_proxy": 0.7107438016528925
+      },
+      "C": {
+        "arm": "C",
+        "engagement": "low",
+        "truth_device_targeted": 87,
+        "n": 116,
+        "truth_device_target_rate": 0.75,
+        "outside_truth_device_targeted": 14,
+        "outside_n": 31,
+        "outside_truth_device_target_rate": 0.45161290322580644,
+        "mean_target_res7_regions": 1.1551724137931034,
+        "equal_population_region_precision_proxy": 0.6492537313432836
+      }
+    }
+  },
+  "equal_res7_region_budget": {
+    "1": {
+      "A": {
+        "arm": "A",
+        "target_resolution": 7,
+        "region_budget": 1,
+        "truth_location_covered": 86,
+        "n": 116,
+        "truth_location_coverage_rate": 0.7413793103448276,
+        "outside_truth_location_covered": 13,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.41935483870967744,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 21,
+            "n": 24,
+            "rate": 0.875
+          },
+          "hide": {
+            "hits": 12,
+            "n": 24,
+            "rate": 0.5
+          },
+          "move": {
+            "hits": 29,
+            "n": 44,
+            "rate": 0.6590909090909091
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 36,
+            "n": 40,
+            "rate": 0.9
+          },
+          "counter": {
+            "hits": 20,
+            "n": 36,
+            "rate": 0.5555555555555556
+          },
+          "neutral": {
+            "hits": 30,
+            "n": 40,
+            "rate": 0.75
+          }
+        }
+      },
+      "B": {
+        "arm": "B",
+        "target_resolution": 7,
+        "region_budget": 1,
+        "truth_location_covered": 86,
+        "n": 116,
+        "truth_location_coverage_rate": 0.7413793103448276,
+        "outside_truth_location_covered": 13,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.41935483870967744,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 21,
+            "n": 24,
+            "rate": 0.875
+          },
+          "hide": {
+            "hits": 12,
+            "n": 24,
+            "rate": 0.5
+          },
+          "move": {
+            "hits": 29,
+            "n": 44,
+            "rate": 0.6590909090909091
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 36,
+            "n": 40,
+            "rate": 0.9
+          },
+          "counter": {
+            "hits": 20,
+            "n": 36,
+            "rate": 0.5555555555555556
+          },
+          "neutral": {
+            "hits": 30,
+            "n": 40,
+            "rate": 0.75
+          }
+        }
+      },
+      "C": {
+        "arm": "C",
+        "target_resolution": 7,
+        "region_budget": 1,
+        "truth_location_covered": 86,
+        "n": 116,
+        "truth_location_coverage_rate": 0.7413793103448276,
+        "outside_truth_location_covered": 13,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.41935483870967744,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 21,
+            "n": 24,
+            "rate": 0.875
+          },
+          "hide": {
+            "hits": 12,
+            "n": 24,
+            "rate": 0.5
+          },
+          "move": {
+            "hits": 29,
+            "n": 44,
+            "rate": 0.6590909090909091
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 36,
+            "n": 40,
+            "rate": 0.9
+          },
+          "counter": {
+            "hits": 20,
+            "n": 36,
+            "rate": 0.5555555555555556
+          },
+          "neutral": {
+            "hits": 30,
+            "n": 40,
+            "rate": 0.75
+          }
+        }
+      }
+    },
+    "2": {
+      "A": {
+        "arm": "A",
+        "target_resolution": 7,
+        "region_budget": 2,
+        "truth_location_covered": 105,
+        "n": 116,
+        "truth_location_coverage_rate": 0.9051724137931034,
+        "outside_truth_location_covered": 22,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.7096774193548387,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 20,
+            "n": 24,
+            "rate": 0.8333333333333334
+          },
+          "move": {
+            "hits": 37,
+            "n": 44,
+            "rate": 0.8409090909090909
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 36,
+            "n": 40,
+            "rate": 0.9
+          },
+          "counter": {
+            "hits": 33,
+            "n": 36,
+            "rate": 0.9166666666666666
+          },
+          "neutral": {
+            "hits": 36,
+            "n": 40,
+            "rate": 0.9
+          }
+        }
+      },
+      "B": {
+        "arm": "B",
+        "target_resolution": 7,
+        "region_budget": 2,
+        "truth_location_covered": 104,
+        "n": 116,
+        "truth_location_coverage_rate": 0.896551724137931,
+        "outside_truth_location_covered": 21,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.6774193548387096,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 19,
+            "n": 24,
+            "rate": 0.7916666666666666
+          },
+          "move": {
+            "hits": 37,
+            "n": 44,
+            "rate": 0.8409090909090909
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 36,
+            "n": 40,
+            "rate": 0.9
+          },
+          "counter": {
+            "hits": 33,
+            "n": 36,
+            "rate": 0.9166666666666666
+          },
+          "neutral": {
+            "hits": 35,
+            "n": 40,
+            "rate": 0.875
+          }
+        }
+      },
+      "C": {
+        "arm": "C",
+        "target_resolution": 7,
+        "region_budget": 2,
+        "truth_location_covered": 99,
+        "n": 116,
+        "truth_location_coverage_rate": 0.853448275862069,
+        "outside_truth_location_covered": 19,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.6129032258064516,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 23,
+            "n": 24,
+            "rate": 0.9583333333333334
+          },
+          "hide": {
+            "hits": 17,
+            "n": 24,
+            "rate": 0.7083333333333334
+          },
+          "move": {
+            "hits": 35,
+            "n": 44,
+            "rate": 0.7954545454545454
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 38,
+            "n": 40,
+            "rate": 0.95
+          },
+          "counter": {
+            "hits": 29,
+            "n": 36,
+            "rate": 0.8055555555555556
+          },
+          "neutral": {
+            "hits": 32,
+            "n": 40,
+            "rate": 0.8
+          }
+        }
+      }
+    },
+    "3": {
+      "A": {
+        "arm": "A",
+        "target_resolution": 7,
+        "region_budget": 3,
+        "truth_location_covered": 113,
+        "n": 116,
+        "truth_location_coverage_rate": 0.9741379310344828,
+        "outside_truth_location_covered": 28,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.9032258064516129,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 23,
+            "n": 24,
+            "rate": 0.9583333333333334
+          },
+          "move": {
+            "hits": 42,
+            "n": 44,
+            "rate": 0.9545454545454546
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 37,
+            "n": 40,
+            "rate": 0.925
+          },
+          "counter": {
+            "hits": 36,
+            "n": 36,
+            "rate": 1.0
+          },
+          "neutral": {
+            "hits": 40,
+            "n": 40,
+            "rate": 1.0
+          }
+        }
+      },
+      "B": {
+        "arm": "B",
+        "target_resolution": 7,
+        "region_budget": 3,
+        "truth_location_covered": 111,
+        "n": 116,
+        "truth_location_coverage_rate": 0.9568965517241379,
+        "outside_truth_location_covered": 26,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.8387096774193549,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 23,
+            "n": 24,
+            "rate": 0.9583333333333334
+          },
+          "move": {
+            "hits": 40,
+            "n": 44,
+            "rate": 0.9090909090909091
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 37,
+            "n": 40,
+            "rate": 0.925
+          },
+          "counter": {
+            "hits": 36,
+            "n": 36,
+            "rate": 1.0
+          },
+          "neutral": {
+            "hits": 38,
+            "n": 40,
+            "rate": 0.95
+          }
+        }
+      },
+      "C": {
+        "arm": "C",
+        "target_resolution": 7,
+        "region_budget": 3,
+        "truth_location_covered": 111,
+        "n": 116,
+        "truth_location_coverage_rate": 0.9568965517241379,
+        "outside_truth_location_covered": 26,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.8387096774193549,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 21,
+            "n": 24,
+            "rate": 0.875
+          },
+          "move": {
+            "hits": 42,
+            "n": 44,
+            "rate": 0.9545454545454546
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 39,
+            "n": 40,
+            "rate": 0.975
+          },
+          "counter": {
+            "hits": 33,
+            "n": 36,
+            "rate": 0.9166666666666666
+          },
+          "neutral": {
+            "hits": 39,
+            "n": 40,
+            "rate": 0.975
+          }
+        }
+      }
+    }
+  },
+  "equal_res8_region_budget": {
+    "5": {
+      "A": {
+        "arm": "A",
+        "target_resolution": 8,
+        "region_budget": 5,
+        "truth_location_covered": 92,
+        "n": 116,
+        "truth_location_coverage_rate": 0.7931034482758621,
+        "outside_truth_location_covered": 10,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.3225806451612903,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 12,
+            "n": 24,
+            "rate": 0.5
+          },
+          "move": {
+            "hits": 32,
+            "n": 44,
+            "rate": 0.7272727272727273
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 33,
+            "n": 40,
+            "rate": 0.825
+          },
+          "counter": {
+            "hits": 28,
+            "n": 36,
+            "rate": 0.7777777777777778
+          },
+          "neutral": {
+            "hits": 31,
+            "n": 40,
+            "rate": 0.775
+          }
+        }
+      },
+      "B": {
+        "arm": "B",
+        "target_resolution": 8,
+        "region_budget": 5,
+        "truth_location_covered": 93,
+        "n": 116,
+        "truth_location_coverage_rate": 0.8017241379310345,
+        "outside_truth_location_covered": 12,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.3870967741935484,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 12,
+            "n": 24,
+            "rate": 0.5
+          },
+          "move": {
+            "hits": 33,
+            "n": 44,
+            "rate": 0.75
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 33,
+            "n": 40,
+            "rate": 0.825
+          },
+          "counter": {
+            "hits": 31,
+            "n": 36,
+            "rate": 0.8611111111111112
+          },
+          "neutral": {
+            "hits": 29,
+            "n": 40,
+            "rate": 0.725
+          }
+        }
+      },
+      "C": {
+        "arm": "C",
+        "target_resolution": 8,
+        "region_budget": 5,
+        "truth_location_covered": 91,
+        "n": 116,
+        "truth_location_coverage_rate": 0.7844827586206896,
+        "outside_truth_location_covered": 11,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.3548387096774194,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 23,
+            "n": 24,
+            "rate": 0.9583333333333334
+          },
+          "hide": {
+            "hits": 12,
+            "n": 24,
+            "rate": 0.5
+          },
+          "move": {
+            "hits": 32,
+            "n": 44,
+            "rate": 0.7272727272727273
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 35,
+            "n": 40,
+            "rate": 0.875
+          },
+          "counter": {
+            "hits": 27,
+            "n": 36,
+            "rate": 0.75
+          },
+          "neutral": {
+            "hits": 29,
+            "n": 40,
+            "rate": 0.725
+          }
+        }
+      }
+    },
+    "7": {
+      "A": {
+        "arm": "A",
+        "target_resolution": 8,
+        "region_budget": 7,
+        "truth_location_covered": 101,
+        "n": 116,
+        "truth_location_coverage_rate": 0.8706896551724138,
+        "outside_truth_location_covered": 16,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.5161290322580645,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 15,
+            "n": 24,
+            "rate": 0.625
+          },
+          "move": {
+            "hits": 38,
+            "n": 44,
+            "rate": 0.8636363636363636
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 34,
+            "n": 40,
+            "rate": 0.85
+          },
+          "counter": {
+            "hits": 35,
+            "n": 36,
+            "rate": 0.9722222222222222
+          },
+          "neutral": {
+            "hits": 32,
+            "n": 40,
+            "rate": 0.8
+          }
+        }
+      },
+      "B": {
+        "arm": "B",
+        "target_resolution": 8,
+        "region_budget": 7,
+        "truth_location_covered": 102,
+        "n": 116,
+        "truth_location_coverage_rate": 0.8793103448275862,
+        "outside_truth_location_covered": 18,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.5806451612903226,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 16,
+            "n": 24,
+            "rate": 0.6666666666666666
+          },
+          "move": {
+            "hits": 38,
+            "n": 44,
+            "rate": 0.8636363636363636
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 36,
+            "n": 40,
+            "rate": 0.9
+          },
+          "counter": {
+            "hits": 35,
+            "n": 36,
+            "rate": 0.9722222222222222
+          },
+          "neutral": {
+            "hits": 31,
+            "n": 40,
+            "rate": 0.775
+          }
+        }
+      },
+      "C": {
+        "arm": "C",
+        "target_resolution": 8,
+        "region_budget": 7,
+        "truth_location_covered": 100,
+        "n": 116,
+        "truth_location_coverage_rate": 0.8620689655172413,
+        "outside_truth_location_covered": 19,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.6129032258064516,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 23,
+            "n": 24,
+            "rate": 0.9583333333333334
+          },
+          "hide": {
+            "hits": 17,
+            "n": 24,
+            "rate": 0.7083333333333334
+          },
+          "move": {
+            "hits": 36,
+            "n": 44,
+            "rate": 0.8181818181818182
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 36,
+            "n": 40,
+            "rate": 0.9
+          },
+          "counter": {
+            "hits": 33,
+            "n": 36,
+            "rate": 0.9166666666666666
+          },
+          "neutral": {
+            "hits": 31,
+            "n": 40,
+            "rate": 0.775
+          }
+        }
+      }
+    },
+    "10": {
+      "A": {
+        "arm": "A",
+        "target_resolution": 8,
+        "region_budget": 10,
+        "truth_location_covered": 108,
+        "n": 116,
+        "truth_location_coverage_rate": 0.9310344827586207,
+        "outside_truth_location_covered": 23,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.7419354838709677,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 18,
+            "n": 24,
+            "rate": 0.75
+          },
+          "move": {
+            "hits": 42,
+            "n": 44,
+            "rate": 0.9545454545454546
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 36,
+            "n": 40,
+            "rate": 0.9
+          },
+          "counter": {
+            "hits": 35,
+            "n": 36,
+            "rate": 0.9722222222222222
+          },
+          "neutral": {
+            "hits": 37,
+            "n": 40,
+            "rate": 0.925
+          }
+        }
+      },
+      "B": {
+        "arm": "B",
+        "target_resolution": 8,
+        "region_budget": 10,
+        "truth_location_covered": 104,
+        "n": 116,
+        "truth_location_coverage_rate": 0.896551724137931,
+        "outside_truth_location_covered": 20,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.6451612903225806,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 16,
+            "n": 24,
+            "rate": 0.6666666666666666
+          },
+          "move": {
+            "hits": 40,
+            "n": 44,
+            "rate": 0.9090909090909091
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 37,
+            "n": 40,
+            "rate": 0.925
+          },
+          "counter": {
+            "hits": 35,
+            "n": 36,
+            "rate": 0.9722222222222222
+          },
+          "neutral": {
+            "hits": 32,
+            "n": 40,
+            "rate": 0.8
+          }
+        }
+      },
+      "C": {
+        "arm": "C",
+        "target_resolution": 8,
+        "region_budget": 10,
+        "truth_location_covered": 108,
+        "n": 116,
+        "truth_location_coverage_rate": 0.9310344827586207,
+        "outside_truth_location_covered": 24,
+        "outside_n": 31,
+        "outside_truth_location_coverage_rate": 0.7741935483870968,
+        "by_behavior": {
+          "backtrack": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          },
+          "hide": {
+            "hits": 18,
+            "n": 24,
+            "rate": 0.75
+          },
+          "move": {
+            "hits": 42,
+            "n": 44,
+            "rate": 0.9545454545454546
+          },
+          "stay": {
+            "hits": 24,
+            "n": 24,
+            "rate": 1.0
+          }
+        },
+        "by_stratum": {
+          "consistent": {
+            "hits": 40,
+            "n": 40,
+            "rate": 1.0
+          },
+          "counter": {
+            "hits": 35,
+            "n": 36,
+            "rate": 0.9722222222222222
+          },
+          "neutral": {
+            "hits": 33,
+            "n": 40,
+            "rate": 0.825
+          }
+        }
+      }
+    }
+  }
+}

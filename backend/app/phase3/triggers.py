@@ -23,6 +23,19 @@ def kl_divergence(p: dict[str, float], q: dict[str, float]) -> float:
     )
 
 
+def jensen_shannon_divergence(p: dict[str, float], q: dict[str, float]) -> float:
+    """JS(P,Q) — 대칭·유계([0, log2])·0-안전. D3(새 지역 알림) 예비스크린 전용.
+
+    KL은 비교분포에서 질량 0인 칸에 도달하면 발산하는데, 그 칸이 바로
+    "새 지역" 탐지 대상이라 KL은 이 용도에 못 쓴다. 새 지역 여부 자체는
+    이 값이 아니라 alerts.select_new_region_cells() 의 집합차로 판정한다 —
+    이 함수는 "전체적으로 많이 바뀌었나"만 보는 스칼라 예비 스크린.
+    """
+    cells = set(p) | set(q)
+    m = {c: 0.5 * (p.get(c, 0.0) + q.get(c, 0.0)) for c in cells}
+    return 0.5 * kl_divergence(p, m) + 0.5 * kl_divergence(q, m)
+
+
 def should_rerun_phase2(case: Case, now: datetime | None = None) -> tuple[bool, str]:
     """주기·분포이탈 트리거 검사. (재실행 여부, 사유)
 

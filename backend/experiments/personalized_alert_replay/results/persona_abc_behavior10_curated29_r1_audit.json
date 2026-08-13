@@ -1,0 +1,573 @@
+{
+  "selection_rule": "first valid B/C pair by input order; no retry-until-success",
+  "inputs": [
+    "persona_abc_behavior10_live_r1.jsonl",
+    "persona_abc_behavior10_sp04_retry_r2.jsonl"
+  ],
+  "selected_scenarios": 29,
+  "expected_scenarios": 30,
+  "rows": [
+    {
+      "scenario_id": "SP01-consistent",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP02-consistent",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP03-consistent",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP04-consistent",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP05-consistent",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP06-consistent",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP07-consistent",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP08-consistent",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP09-consistent",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP10-consistent",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP01-neutral",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP01-counter",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP02-neutral",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP02-counter",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP03-neutral",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP03-counter",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP04-neutral",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_sp04_retry_r2.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": false,
+          "c_prior_sources": [
+            "fallback"
+          ],
+          "c_fallback_reasons": [
+            "JSONDecodeError: Expecting ',' delimiter: line 9 column 4 (char 192)"
+          ]
+        },
+        {
+          "source": "persona_abc_behavior10_sp04_retry_r2.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP04-counter",
+      "status": "excluded_no_valid_exaone_pair",
+      "selected_source": null,
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": false,
+          "c_prior_sources": [
+            "fallback"
+          ],
+          "c_fallback_reasons": [
+            "JSONDecodeError: Expecting ',' delimiter: line 9 column 4 (char 192)"
+          ]
+        },
+        {
+          "source": "persona_abc_behavior10_sp04_retry_r2.jsonl",
+          "b_valid": true,
+          "c_valid": false,
+          "c_prior_sources": [
+            "fallback"
+          ],
+          "c_fallback_reasons": [
+            "JSONDecodeError: Expecting ',' delimiter: line 9 column 4 (char 192)"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP05-neutral",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP05-counter",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP06-neutral",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP06-counter",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP07-neutral",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP07-counter",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP08-neutral",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP08-counter",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP09-neutral",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP09-counter",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP10-neutral",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "scenario_id": "SP10-counter",
+      "status": "selected",
+      "selected_source": "persona_abc_behavior10_live_r1.jsonl",
+      "attempts": [
+        {
+          "source": "persona_abc_behavior10_live_r1.jsonl",
+          "b_valid": true,
+          "c_valid": true,
+          "c_prior_sources": [
+            "exaone"
+          ],
+          "c_fallback_reasons": [
+            ""
+          ]
+        }
+      ]
+    }
+  ]
+}

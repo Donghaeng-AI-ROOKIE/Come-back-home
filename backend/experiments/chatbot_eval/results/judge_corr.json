@@ -1,0 +1,77 @@
+{
+  "rows": [
+    {
+      "scenario": "G_D1_kim",
+      "judge_names_collection": 1.0,
+      "judge_names_evidence": 1.0,
+      "judge_names_axis": 1.0,
+      "judge_names_reasoning": "보호자가 언급한 모든 장소(정릉시장, 방앗간, 면목동 버스정류장)가 정확히 수집되었고, 각 장소의 근거등급도 발화 내용과 일치함. 또한 이동력, 배회 패턴, 교통수단 이용 능력 등 행동 관찰 발화가 축 근거로 모두 반영됨",
+      "judge_texts_collection": 0.9,
+      "judge_texts_evidence": 0.9,
+      "judge_texts_axis": 0.9,
+      "judge_texts_reasoning": "보호자가 언급한 모든 장소(정릉시장, 방앗간, 면목동 버스정류장)가 수집되었고, 각 장소의 근거등급도 발화 내용과 일치함. 이동력과 배회 패턴 관련 발화도 축 근거로 정확히 반영됨.",
+      "truth_collection": 1.0,
+      "truth_evidence": 1.0,
+      "truth_axis": 1.0
+    },
+    {
+      "scenario": "G_D2_lee",
+      "judge_names_collection": 0.8,
+      "judge_names_evidence": 0.9,
+      "judge_names_axis": 0.7,
+      "judge_names_reasoning": "보호자가 언급한 '예전에 살던 집'과 '대흥역'은 모두 수집되었으나 '요즘은 딱히 혼자 가시는 데는 없어요'라는 발화는 누락됨. 근거등급은 과거 실종 발견지와 보호자 관찰 행동으로 적절히 분류됨. 이동력 관련 autobiographical_destination_pull과 dementia_wandering_pattern은 축에 반영되었으나 '요즘은 딱히 혼자",
+      "judge_texts_collection": 0.7,
+      "judge_texts_evidence": 0.8,
+      "judge_texts_axis": 0.6,
+      "judge_texts_reasoning": "보호자가 언급한 '예전에 살던 집'과 '대흥역'은 모두 수집되었으나 '마포구 신수동'은 대본에 없는 장소입니다. 근거 등급은 대흥역은 'previous_missing_found'로 맞고 예전 집은 'autobiographical_destination_pull'로 적절합니다. 축 근거에서는 배회 패턴과 이동력 관련 발화가 일부 누락되었습니다.",
+      "truth_collection": 1.0,
+      "truth_evidence": 0.5,
+      "truth_axis": 0.8
+    },
+    {
+      "scenario": "G_D3_choi",
+      "judge_names_collection": 0.0,
+      "judge_names_evidence": 0.0,
+      "judge_names_axis": 0.0,
+      "judge_names_reasoning": "챗봇이 보호자 발화에서 언급된 모든 장소 정보(복지관, 집 등)를 수집하지 못했고, 이동력이나 배회 패턴에 관한 축 근거도 전혀 반영하지 않았습니다.",
+      "judge_texts_collection": 0.0,
+      "judge_texts_evidence": 0.0,
+      "judge_texts_axis": 0.0,
+      "judge_texts_reasoning": "보호자가 언급한 '동네 복지관'이라는 갈 만한 장소가 챗봇 추출 결과에 전혀 반영되지 않았고, 이동력이나 배회 습관에 관한 발화도 축 근거로 기록되지 않았습니다.",
+      "truth_collection": 0.0,
+      "truth_evidence": 0.0,
+      "truth_axis": 0.0
+    },
+    {
+      "scenario": "G_D4_park",
+      "judge_names_collection": 0.0,
+      "judge_names_evidence": 0.0,
+      "judge_names_axis": 0.0,
+      "judge_names_reasoning": "보호자가 장소나 이동 패턴에 대해 '잘 모르겠다'고만 답변하여 챗봇이 추출할 수 있는 구체적인 정보가 전혀 없었음",
+      "judge_texts_collection": 0.0,
+      "judge_texts_evidence": 0.0,
+      "judge_texts_axis": 0.0,
+      "judge_texts_reasoning": "보호자가 장소나 이동 패턴에 대해 '잘 모르겠다'고만 답변하여 챗봇이 추출할 수 있는 구체적인 정보가 전혀 없었음",
+      "truth_collection": null,
+      "truth_evidence": null,
+      "truth_axis": 0.0
+    }
+  ],
+  "pearson": {
+    "names_collection": 0.8667190566019205,
+    "names_evidence": 0.8062760071889601,
+    "names_axis": 0.5335792978820645,
+    "names_pooled": 0.6919573291462556,
+    "texts_collection": 0.7104033341674727,
+    "texts_evidence": 0.5189781342417641,
+    "texts_axis": 0.5639326215138498,
+    "texts_pooled": 0.5601191318703975
+  },
+  "n_pairs": {
+    "collection": 6,
+    "evidence": 6,
+    "axis": 8,
+    "pooled": 20
+  },
+  "_scope_note_20260803": "치매 단독 스코프 전환으로 발달장애 시나리오(G_P1~G_P4) 행을 삭제했다. pearson·n_pairs 는 삭제 전 8개 시나리오로 계산된 값이며 남은 4개로 재계산한 값이 아니다. 치매 전용 상관이 필요하면 재측정해야 한다. 원본은 git 이력."
+}

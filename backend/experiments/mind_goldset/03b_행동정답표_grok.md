@@ -1,0 +1,13 @@
+# 행동정답표 (v1.1) — 판정자: Grok (버전 미상 — 사용자 확인 불가), 2026-07-29
+# 05_행동판정_프롬프트.md + 01_시나리오_대화_v1.md 로 생성. 다른 판정자 답 미공개.
+
+{"id": "G01", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": ["은신·멈춤"]}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": ["은신·멈춤"]}}, "judge_note": "lost_behavior가 멈추지 않고 계속 걷는다 명시, 은신·멈춤은 대본상 부당"}
+{"id": "G02", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "불안 시 성당 찾는 반응성 명시, 귀소·끌림점 모두 정당"}
+{"id": "G03", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회", "귀소 시도"], "forbidden_behaviors": []}}, "judge_note": "우열 없는 두 장소, 실종 이력 없음, 행동 제약 약함"}
+{"id": "G04", "situations": {"A_귀소": {"allowed_behaviors": ["귀소 시도", "계속 배회", "끌림점 접근"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["계속 배회", "귀소 시도", "끌림점 접근", "은신·멈춤"], "forbidden_behaviors": []}}, "judge_note": "정보 빈약으로 모든 행동 가능성 열림, 금지는 없음"}
+{"id": "G09", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "자전 강·정미소 반복 시도·실종 이력, 불안 시 나가려 함"}
+{"id": "G10", "situations": {"A_귀소": {"allowed_behaviors": ["귀소 시도", "계속 배회", "끌림점 접근"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["계속 배회", "끌림점 접근", "귀소 시도"], "forbidden_behaviors": []}}, "judge_note": "자전 약·언급만, 실종 없음 — 끌림점 약하지만 완전 배제 불가"}
+{"id": "G11", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "물가 선호·한강 산책·물쪽 이동 명시, 은신 근거 없음"}
+{"id": "G12", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "야간·회사(을지로) 지향·불안 시 현관 이동, 은신 근거 없음"}
+{"id": "G13", "situations": {"A_귀소": {"allowed_behaviors": ["귀소 시도", "계속 배회", "끌림점 접근"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["계속 배회", "귀소 시도", "끌림점 접근", "은신·멈춤"], "forbidden_behaviors": []}}, "judge_note": "노이즈·정보 부족, 금지 행동 없음"}
+{"id": "G14", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "경동시장·버스 습관 강, 버스 타려 함 — 은신 근거 없음"}

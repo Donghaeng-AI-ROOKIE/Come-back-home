@@ -6,6 +6,15 @@ numpy>=1.26
 h3>=4.0
 pytest>=8.0
 
-# 도로망 기반 시뮬레이션으로 교체할 때 설치 (geo/roadnet.py 참고)
-# osmnx>=2.0
-# networkx>=3.3
+# Phase 0 온보딩 — 히스토리-어웨어 슬롯 검색용 한국어 임베더 (로컬)
+sentence-transformers>=3.0
+
+# 도로망 그래프 (Phase 1 로딩 → Phase 2 시뮬레이션 이동 제약)
+osmnx>=2.0
+
+# 환경 레이어 — EGIS 토지피복 WMS 래스터 파싱 (geo/envlayer.py)
+pillow>=10.0
+
+# 셀 표적 푸시 발송 (phase3/push.py, PR #132) — 컨테이너 빌드에서 누락 발견 (2026-08-07)
+httpx>=0.27
+pywebpush>=2.0

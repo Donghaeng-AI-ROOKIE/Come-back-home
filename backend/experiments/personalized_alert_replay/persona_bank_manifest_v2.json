@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "run_id": "v2-restored-from-snapshot",
+  "source": "restore_persona_bank.py (스냅샷 재이식, Mi:dm 재호출 없음)",
+  "snapshot": "persona_bank_midm-bank-v2-final-20260812.jsonl",
+  "personas": [
+    {
+      "profile_id": "SP02",
+      "persona_id": "9c3b5b1f5610",
+      "v1_persona_id": "95a159dc81c3"
+    },
+    {
+      "profile_id": "SP03",
+      "persona_id": "0278d037b0c3",
+      "v1_persona_id": "1bc76ceb8187"
+    },
+    {
+      "profile_id": "SP04",
+      "persona_id": "a6ef6da3b230",
+      "v1_persona_id": "d4d7090af37f"
+    },
+    {
+      "profile_id": "SP05",
+      "persona_id": "04ab5dafe237",
+      "v1_persona_id": "0117353f8ae9"
+    },
+    {
+      "profile_id": "SP06",
+      "persona_id": "37f6d72b42aa",
+      "v1_persona_id": "e8626b647561"
+    },
+    {
+      "profile_id": "SP07",
+      "persona_id": "8f7db8a725b5",
+      "v1_persona_id": "f7b72eee9c7f"
+    },
+    {
+      "profile_id": "SP08",
+      "persona_id": "29e7d47e872b",
+      "v1_persona_id": "a762211291e7"
+    },
+    {
+      "profile_id": "SP09",
+      "persona_id": "a4231df37494",
+      "v1_persona_id": "08b172ccee75"
+    },
+    {
+      "profile_id": "SP10",
+      "persona_id": "9ecb9642ab00",
+      "v1_persona_id": "8975b9b5c5f6"
+    }
+  ]
+}

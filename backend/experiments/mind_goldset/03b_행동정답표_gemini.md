@@ -1,0 +1,13 @@
+# 행동정답표 (v1.1) — 판정자: Gemini (버전 미상 — 사용자 확인 불가), 2026-07-29
+# 05_행동판정_프롬프트.md + 01_시나리오_대화_v1.md 로 생성. 다른 판정자 답 미공개.
+
+{"id": "G01", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": ["은신·멈춤"]}}, "judge_note": "멈추지 않고 걷는 특성과 청량리 수산시장에 대한 강한 자전적 회귀 본능이 나타남."}
+{"id": "G02", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "은신·멈춤"], "forbidden_behaviors": []}}, "judge_note": "불안 시 마음을 두는 성당으로의 끌림점 접근이 두드러짐."}
+{"id": "G03", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["은신·멈춤", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "복지관과 기원이라는 명확한 일상 목적지가 존재함."}
+{"id": "G04", "situations": {"A_귀소": {"allowed_behaviors": ["귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["은신·멈춤", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "정보가 빈약하여 가장 일반적인 배회 및 귀소, 멈춤 행동을 가정함."}
+{"id": "G09", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "불안할 때 나가려는 성향과 김포 정미소에 대한 강한 자전적 회귀 본능이 복합됨."}
+{"id": "G10", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["은신·멈춤", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "자전적 장소에 대한 언급은 있으나 실제 끌림점으로 작용할 가능성은 약함."}
+{"id": "G11", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "은신·멈춤", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "물가를 편안하게 여겨 불안 시에도 물가(끌림점)로 향할 가능성이 매우 큼."}
+{"id": "G12", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["귀소 시도", "은신·멈춤", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "과거 직장(을지로)에 대한 회귀와 불안 시 현관으로 향하는 반응이 특징적임."}
+{"id": "G13", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["은신·멈춤", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "면목시장이라는 일상 목적지가 일부 작용할 수 있음."}
+{"id": "G14", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["은신·멈춤", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "경동시장행 버스를 타려는 명확한 끌림점 접근 시도가 존재함."}

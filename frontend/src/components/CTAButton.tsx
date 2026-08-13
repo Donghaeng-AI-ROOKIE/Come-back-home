@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   pressed: { opacity: 0.85 },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
   icon: { marginRight: space.sm },
-  label: { fontSize: type.size.body, fontWeight: type.weight.black, fontFamily: type.family },
+  label: { fontSize: type.size.body, fontFamily: type.familyExtraBold },
 });
 
 export default CTAButton;

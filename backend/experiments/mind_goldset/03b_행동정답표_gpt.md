@@ -1,0 +1,13 @@
+# 행동정답표 (v1.1) — 판정자: GPT (버전 미상 — 사용자 확인 불가), 2026-07-29
+# 05_행동판정_프롬프트.md + 01_시나리오_대화_v1.md 로 생성. 다른 판정자 답 미공개.
+
+{"id": "G01", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "과거 장소로 향한 반복 이력과 멈추지 않는 배회 성향이 함께 강하다."}
+{"id": "G02", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근"], "forbidden_behaviors": []}}, "judge_note": "불안할 때 특정 장소를 찾는 반응은 명확하지만 실제 방향은 틀릴 수 있다."}
+{"id": "G03", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "두 일상 장소의 우열이 없고 실종 이력이 없어 목적 이동과 무목적 배회가 모두 가능하다."}
+{"id": "G04", "situations": {"A_귀소": {"allowed_behaviors": ["귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["계속 배회"], "forbidden_behaviors": []}}, "judge_note": "장소 선호와 실종 행동 정보가 없어 일반적인 귀소 시도와 배회 외에는 판정하기 어렵다."}
+{"id": "G09", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "과거 장소로 가려는 반복 시도와 실제 이동 중 발견된 이력이 모두 확인된다."}
+{"id": "G10", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "과거 장소 접근은 뒷받침되지 않지만 정기적으로 다니는 일상 장소 접근은 가능하다."}
+{"id": "G11", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근"], "forbidden_behaviors": []}}, "judge_note": "물가로 향하는 반복 성향과 실제 발견 이력이 일관된다."}
+{"id": "G12", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "불안 시 밖으로 나가 과거 직장 방향의 교통 거점으로 향하는 패턴이 반복됐다."}
+{"id": "G13", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도", "계속 배회"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근", "계속 배회"], "forbidden_behaviors": []}}, "judge_note": "가끔 걷는 시장은 약한 끌림점 근거지만 실종 행동 정보가 없어 배회 가능성도 남는다."}
+{"id": "G14", "situations": {"A_귀소": {"allowed_behaviors": ["끌림점 접근", "귀소 시도"], "forbidden_behaviors": []}, "B_불안": {"allowed_behaviors": ["끌림점 접근"], "forbidden_behaviors": []}}, "judge_note": "원거리 장소라도 반복 언급과 해당 버스를 기다린 이력 때문에 접근 행동이 강하게 지지된다."}

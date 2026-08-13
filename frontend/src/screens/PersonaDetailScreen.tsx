@@ -1,0 +1,274 @@
+import { useQueryClient } from '@tanstack/react-query';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import type { RouteProp } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+import type { RootStackParamList } from '../navigation/types';
+import { color, type } from '../theme/tokens';
+import { ApiError } from '../api/config';
+import { getPersona, updatePersona, type AttractionPoint, type Persona } from '../api/guardian';
+import { useGuardianStore } from '../store/guardianStore';
+import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
+import BackIcon from '../../assets/figma/detail-back.svg';
+import FilterIcon from '../../assets/figma/detail-filter.svg';
+import PersonIcon from '../../assets/figma/detail-person.svg';
+import MapIcon from '../../assets/figma/detail-map.svg';
+import BookmarkIcon from '../../assets/figma/detail-bookmark.svg';
+import FigmaStatusBar from '../components/FigmaStatusBar';
+
+function splitNote(note: string): [string, string] {
+  const i = note.indexOf(':');
+  return i > 0 ? [note.slice(0, i).trim(), note.slice(i + 1).trim()] : ['기타', note.trim()];
+}
+
+/**
+ * 카드 = 백엔드 슬롯 라벨. **추측하지 않는다.**
+ *
+ * `behavior_notes` 는 백엔드가 '라벨: 본문' 형태로 보내고, 이 라벨은 슬롯의
+ * 정식 이름이다(backend/app/phase0/slots.py — "label 은 내부 식별자 역할을
+ * 겸한다"). 어느 항목인지 서버가 이미 확정해 준 것이다.
+ *
+ * 그런데 이전 구현은 그 라벨을 버리고 본문에서 키워드를 substring 으로 찾아
+ * 분류를 다시 추측했다. 실측(08-12)에서 세 가지가 한꺼번에 터졌다:
+ *
+ *   - 키 '경로' 가 라벨 '길찾기 오류·**경로** 회복 취약성' 에 걸려, "어느 순간
+ *     '어, 여기가 어디지'" 가 '혼자 자주 가는 곳' 카드로 갔다.
+ *   - 키 '물' 이 본문 '철**물**점' 에 걸려, 자전적 기억(성수동 철물점)이
+ *     '환경 위험 취약성' 에도 같이 실렸다. 그룹이 배타적이지 않아 한 항목이
+ *     여러 카드에 중복된다.
+ *   - 그 바람에 진짜 위험 항목('신호 대체로 준수')이 카드당 2칸 제한에 밀려
+ *     화면에서 사라졌다.
+ *
+ * 라벨로 정확히 맞추면 셋 다 없어진다. 이건 회귀다 — 최초 구현(6c3f77b)의
+ * `groupNotes` 가 라벨 기준이었는데 시안 4카드에 맞추는 과정(ec518a4)에서
+ * 키워드 매칭으로 교체됐다. 시안에 칸이 없다는 이유로 분류를 추측하지 말 것.
+ */
+const CARDS = [
+  { title: '혼자 자주 가는 장소·경로', label: '혼자 자주 가는 곳·경로' },
+  { title: '자전적 기억 기반 목적지', label: '자전적 기억 기반 목적지' },
+  { title: '이동·교통 능력', label: '이동·교통 능력' },
+  { title: '환경 위험 취약성', label: '환경 위험 취약성' },
+] as const;
+
+/** 기본 정보·관련 장소 카드가 이미 보여 주는 것 — 주요 정보에서 또 반복하지 않는다. */
+const SHOWN_ELSEWHERE = new Set(['대상자 성함·나이', '현재 거주지']);
+
+export default function PersonaDetailScreen() {
+  const qc = useQueryClient();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { personaId } = useRoute<RouteProp<RootStackParamList, 'PersonaDetail'>>().params;
+  const setStorePersona = useGuardianStore((s) => s.setPersona);
+  const [persona, setPersona] = useState<Persona | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [notes, setNotes] = useState<string[]>([]);
+  const [points, setPoints] = useState<AttractionPoint[]>([]);
+
+  const load = useCallback(async () => {
+    setError(null);
+    try {
+      const p = await getPersona(personaId);
+      setPersona(p); setName(p.name); setAge(String(p.age));
+      setNotes(p.behavior_notes ?? []); setPoints(p.attraction_points ?? []);
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : String(e));
+    }
+  }, [personaId]);
+
+  useEffect(() => { load(); }, [load]);
+
+  const groups = useMemo(() => {
+    const byLabel = new Map<string, string[]>();
+    for (const note of notes) {
+      const [label, body] = splitNote(note);
+      if (!body || SHOWN_ELSEWHERE.has(label)) continue;
+      const items = byLabel.get(label) ?? [];
+      // 완전히 같은 문장은 한 번만 — 추출이 중복 저장하는 경우가 있다.
+      if (!items.includes(body)) items.push(body);
+      byLabel.set(label, items);
+    }
+    // 시안의 네 카드는 비어 있어도 자리를 지킨다.
+    const fixed = CARDS.map((card) => ({ title: card.title, items: byLabel.get(card.label) ?? [] }));
+    // 나머지 슬롯(복약·건강, 의사소통 반응, 길 잃었을 때 행동 등)은 카드를 새로
+    // 만든다. 시안에 칸이 없다고 버리면 보호자가 분명히 답한 정보가 화면에서
+    // 사라진다 — 수색에 직접 쓰이는 항목들이라 누락이 곧 안전 문제다.
+    const known = new Set<string>(CARDS.map((card) => card.label));
+    const extra = [...byLabel.entries()]
+      .filter(([label]) => !known.has(label))
+      .map(([label, items]) => ({ title: label, items }));
+    return [...fixed, ...extra];
+  }, [notes]);
+
+  const save = async () => {
+    if (!persona || saving) return;
+    setSaving(true); setError(null);
+    try {
+      const updated = await updatePersona(persona.id, {
+        name: name.trim() || persona.name,
+        age: Number(age.replace(/[^0-9]/g, '')) || persona.age,
+        // 빈 줄은 버린다 — 추가만 하고 안 적은 칸이 페르소나에 남으면 안 된다.
+        behavior_notes: notes.map((n) => n.trim()).filter(Boolean),
+        attraction_points: points,
+      });
+      setPersona(updated); setStorePersona(updated); setEditing(false);
+      // 홈의 '사전 등록된 가족' 목록은 별도 쿼리라, 여기서 무효화하지 않으면
+      // 저장은 됐는데 목록에는 옛 이름·나이가 계속 뜬다(현장 제보 08-11 —
+      // 77세 → 67세로 고쳤는데 홈은 77세 그대로). 서버는 이미 새 값을 준다.
+      qc.invalidateQueries({ queryKey: ['personas'] });
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : String(e));
+    } finally { setSaving(false); }
+  };
+
+  const toggleEdit = () => {
+    if (!persona) return;
+    if (editing) { setName(persona.name); setAge(String(persona.age)); setNotes(persona.behavior_notes ?? []); setPoints(persona.attraction_points ?? []); }
+    setEditing((value) => !value);
+  };
+
+  const removePoint = (label: string) => Alert.alert('이 장소를 지울까요?', label, [
+    { text: '취소', style: 'cancel' },
+    { text: '지우기', style: 'destructive', onPress: () => setPoints((prev) => prev.filter((p) => p.label !== label)) },
+  ]);
+
+  return (
+    <SafeAreaView style={styles.safe} edges={['top']}>
+      <StatusBar style="dark" />
+      <FigmaStatusBar />
+      <View style={styles.header}>
+        <Pressable onPress={() => navigation.goBack()} accessibilityRole="button" accessibilityLabel="뒤로" style={styles.headerSide}><BackIcon width={10} height={18} color="#8E8E93" /></Pressable>
+        <Text style={styles.headerTitle}>등록 정보</Text>
+        <Pressable onPress={toggleEdit} accessibilityRole="button" accessibilityLabel={editing ? '수정 취소' : '수정하기'} style={styles.headerSide}><FilterIcon width={18} height={18} color="#8E8E93" /></Pressable>
+      </View>
+
+      {!persona && !error ? <View style={styles.center}><ActivityIndicator color={color.guardian} /></View> : null}
+      {error ? <Pressable onPress={load} style={styles.error}><Text style={styles.errorText}>{error}{`\n`}눌러서 다시 시도</Text></Pressable> : null}
+
+      {persona ? <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <SectionTitle icon={<PersonIcon width={12} height={12} color={color.guardian} />} title="기본 정보" />
+        <View style={styles.basicCard}>
+          {editing ? <>
+            <EditRow label="이름" value={name} onChange={setName} />
+            <EditRow label="연령" value={age} onChange={setAge} numeric />
+          </> : <>
+            <InfoRow label="이름" value={persona.name || '이름'} />
+            <InfoRow label="연령" value={persona.age ? `${persona.age}세` : '연령'} />
+          </>}
+          <InfoRow label="유형" value={persona.type === 'dementia' ? '치매' : '유형'} />
+        </View>
+
+        <SectionTitle icon={<MapIcon width={8} height={11} color={color.guardian} />} title="관련 장소" />
+        <View style={styles.placeCard}>
+          {/* 두 칸으로 자르지 않는다 — 시안 칸 수가 곧 등록 가능한 장소 수는
+              아니다. 세 번째 장소부터 조용히 안 보이면 보호자는 등록이 안 된
+              줄 안다. 카드는 minHeight 라 늘어난다. */}
+          {(points.length ? points : [{ label: '주소' }, { label: '주소' }]).map((point, index) => (
+            <View key={`${point.label}-${index}`} style={styles.infoRow}>
+              <Text style={styles.infoKey}>장소{index + 1}</Text>
+              <Text style={styles.infoValue}>{point.label || '주소'}</Text>
+              {editing && points.length ? <Pressable onPress={() => removePoint(point.label)}><Text style={styles.remove}>지우기</Text></Pressable> : null}
+            </View>
+          ))}
+        </View>
+
+        <SectionTitle icon={<BookmarkIcon width={9} height={11} color={color.guardian} />} title="주요 정보" />
+        {editing ? (
+          /* 편집 모드에서는 **원본 항목을 그대로** 보여 준다.
+             보기 모드의 그룹 카드는 notes 를 주제별로 걸러 낸 요약이라, 그걸 고치면
+             어느 원본 줄을 바꾼 것인지 되돌릴 수 없다. 저장은 이미 behavior_notes
+             전체를 보내므로(save) 여기서 고친 값이 그대로 반영된다. */
+          <View style={styles.noteEditCard}>
+            {notes.length === 0 ? (
+              <Text style={styles.noteEmpty}>등록된 정보가 없습니다. 아래에서 추가해 주세요.</Text>
+            ) : notes.map((note, index) => (
+              <View key={`note-${index}`} style={styles.noteEditRow}>
+                <TextInput
+                  value={note}
+                  onChangeText={(v) => setNotes((prev) => prev.map((n, i) => (i === index ? v : n)))}
+                  style={styles.noteInput}
+                  multiline
+                  accessibilityLabel={`주요 정보 ${index + 1}`}
+                />
+                <Pressable
+                  onPress={() => setNotes((prev) => prev.filter((_, i) => i !== index))}
+                  accessibilityRole="button"
+                  accessibilityLabel={`주요 정보 ${index + 1} 지우기`}
+                >
+                  <Text style={styles.remove}>지우기</Text>
+                </Pressable>
+              </View>
+            ))}
+            <Pressable onPress={() => setNotes((prev) => [...prev, ''])} accessibilityRole="button" style={styles.noteAdd}>
+              <Text style={styles.noteAddText}>+ 정보 추가</Text>
+            </Pressable>
+          </View>
+        ) : (
+          /* 항목을 잘라내지 않는다. 카드당 3/1/2/2 칸으로 제한하던 것이 실제로
+             데이터를 지웠다 — '신호 대체로 준수'가 그렇게 사라졌다. 한 줄로
+             자르던 numberOfLines 도 뗀다("…오래하셨어요"가 "…하셨어"로 잘렸다). */
+          groups.map((group, index) => <View key={group.title} style={[styles.noteCard, index === 0 && styles.noteCardTall]}>
+            <Text style={styles.noteTitle}>{group.title}</Text>
+            {group.items.length
+              ? group.items.map((item, i) => <Text key={`${group.title}-${i}`} style={styles.noteText}>{item}</Text>)
+              : <Text style={styles.noteEmptyItem}>아직 등록되지 않았어요</Text>}
+          </View>)
+        )}
+
+        {editing ? <Pressable onPress={save} disabled={saving} style={styles.save}><Text style={styles.saveText}>{saving ? '저장 중…' : '저장하기'}</Text></Pressable> : null}
+      </ScrollView> : null}
+      <FigmaFlowTabBar mode="guardian" active="home" />
+    </SafeAreaView>
+  );
+}
+
+function SectionTitle({ icon, title }: { icon: React.ReactNode; title: string }) {
+  return <View style={styles.sectionTitle}><View style={styles.sectionIcon}>{icon}</View><Text style={styles.sectionText}>{title}</Text></View>;
+}
+function InfoRow({ label, value }: { label: string; value: string }) {
+  return <View style={styles.infoRow}><Text style={styles.infoKey}>{label}</Text><Text style={styles.infoValue}>{value}</Text></View>;
+}
+function EditRow({ label, value, onChange, numeric }: { label: string; value: string; onChange: (value: string) => void; numeric?: boolean }) {
+  return <View style={styles.infoRow}><Text style={styles.infoKey}>{label}</Text><TextInput value={value} onChangeText={onChange} keyboardType={numeric ? 'number-pad' : 'default'} style={styles.editInput} /></View>;
+}
+
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: '#FFFFFF' },
+  header: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#FFFFFF' },
+  headerSide: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center' },
+  headerTitle: { fontFamily: type.familySemiBold, fontSize: 18, color: '#000000' },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  error: { margin: 23, borderRadius: 10, backgroundColor: color.criticalWash, padding: 16 },
+  errorText: { fontFamily: type.family, fontSize: 12, lineHeight: 18, color: color.critical, textAlign: 'center' },
+  scroll: { flex: 1, backgroundColor: '#FFFFFF' },
+  content: { paddingHorizontal: 22, paddingBottom: 24 },
+  sectionTitle: { height: 55, flexDirection: 'row', alignItems: 'center' },
+  sectionIcon: { width: 20, alignItems: 'center', justifyContent: 'center' },
+  sectionText: { fontFamily: type.familySemiBold, fontSize: 14, color: '#000000' },
+  basicCard: { height: 111, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 15, justifyContent: 'center' },
+  placeCard: { minHeight: 84, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 15, justifyContent: 'center' },
+  infoRow: { minHeight: 27, flexDirection: 'row', alignItems: 'center' },
+  infoKey: { width: 51, fontFamily: type.familySemiBold, fontSize: 12, color: '#316837' },
+  infoValue: { flex: 1, fontFamily: type.family, fontSize: 12, color: '#4D4D4D' },
+  editInput: { flex: 1, height: 25, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: color.guardian, paddingVertical: 0, fontFamily: type.family, fontSize: 12, color: '#4D4D4D' },
+  remove: { fontFamily: type.familySemiBold, fontSize: 11, color: color.figmaRed },
+  noteEditCard: { borderRadius: 10, backgroundColor: '#F8F8F8', padding: 10, gap: 8 },
+  noteEditRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
+  noteInput: { flex: 1, minHeight: 34, borderRadius: 8, backgroundColor: '#FFFFFF', paddingHorizontal: 10, paddingVertical: 7, fontFamily: type.family, fontSize: 12, lineHeight: 17, color: '#4D4D4D' },
+  noteEmpty: { fontFamily: type.family, fontSize: 12, color: '#909090' },
+  noteAdd: { alignSelf: 'flex-start', paddingVertical: 4 },
+  noteAddText: { fontFamily: type.familySemiBold, fontSize: 12, color: color.guardian },
+  noteCard: { minHeight: 75, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 13, marginBottom: 14 },
+  noteCardTall: { minHeight: 117 },
+  noteTitle: { fontFamily: type.familySemiBold, fontSize: 12, lineHeight: 18, color: '#316837', marginBottom: 5 },
+  noteText: { fontFamily: type.family, fontSize: 12, lineHeight: 22, color: '#4D4D4D' },
+  noteEmptyItem: { fontFamily: type.family, fontSize: 12, lineHeight: 22, color: '#909090' },
+  save: { height: 44, borderRadius: 22, backgroundColor: color.guardian, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
+  saveText: { fontFamily: type.familySemiBold, fontSize: 14, color: '#FFFFFF' },
+});

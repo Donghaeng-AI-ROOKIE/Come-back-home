@@ -1,0 +1,107 @@
+{
+  "theta_mind": [
+    {
+      "theta_mind": 0.9,
+      "trig_mean": 137.3,
+      "trig_spread": 3,
+      "d_km": 0.614,
+      "d_spread": 0.046,
+      "coverage80": 18.7,
+      "cov_spread": 2
+    },
+    {
+      "theta_mind": 1.0,
+      "trig_mean": 114.3,
+      "trig_spread": 28,
+      "d_km": 0.593,
+      "d_spread": 0.04,
+      "coverage80": 15.7,
+      "cov_spread": 5
+    },
+    {
+      "theta_mind": 1.1,
+      "trig_mean": 101.3,
+      "trig_spread": 12,
+      "d_km": 0.59,
+      "d_spread": 0.013,
+      "coverage80": 14.3,
+      "cov_spread": 1
+    },
+    {
+      "theta_mind": 1.2,
+      "trig_mean": 89,
+      "trig_spread": 4,
+      "d_km": 0.606,
+      "d_spread": 0.038,
+      "coverage80": 16.3,
+      "cov_spread": 3
+    },
+    {
+      "theta_mind": 1.3,
+      "trig_mean": 83.7,
+      "trig_spread": 16,
+      "d_km": 0.592,
+      "d_spread": 0.037,
+      "coverage80": 15.7,
+      "cov_spread": 4
+    }
+  ],
+  "k_h1": [
+    {
+      "k_h1": 0.003,
+      "trig_mean": 88.7,
+      "trig_spread": 19,
+      "d_km": 0.601,
+      "d_spread": 0.036,
+      "coverage80": 14.7,
+      "cov_spread": 3
+    },
+    {
+      "k_h1": 0.006,
+      "trig_mean": 101.3,
+      "trig_spread": 12,
+      "d_km": 0.59,
+      "d_spread": 0.013,
+      "coverage80": 14.3,
+      "cov_spread": 1
+    },
+    {
+      "k_h1": 0.012,
+      "trig_mean": 126,
+      "trig_spread": 10,
+      "d_km": 0.606,
+      "d_spread": 0.025,
+      "coverage80": 16.3,
+      "cov_spread": 4
+    }
+  ],
+  "theta_f": [
+    {
+      "theta_f": 1.0,
+      "trig_mean": 0,
+      "trig_spread": 0,
+      "d_km": 0.56,
+      "d_spread": 0.052,
+      "coverage80": 13,
+      "cov_spread": 2
+    },
+    {
+      "theta_f": 1.2,
+      "trig_mean": 0,
+      "trig_spread": 0,
+      "d_km": 0.577,
+      "d_spread": 0.055,
+      "coverage80": 14,
+      "cov_spread": 3
+    },
+    {
+      "theta_f": 1.4,
+      "trig_mean": 0,
+      "trig_spread": 0,
+      "d_km": 0.593,
+      "d_spread": 0.024,
+      "coverage80": 13.3,
+      "cov_spread": 3
+    }
+  ]
+}
