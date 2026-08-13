@@ -96,7 +96,7 @@
 | 단계 | 모델 | 맡는 일 | 맡지 않는 일 |
 |---|---|---|---|
 | Phase 0 온보딩 | KT Mi:dm 2.0 | 보호자 답변에서 사실 추출, 질문 문장화 | 다음 질문 선택(코드가 한다) |
-| Phase 0 슬롯 선택·RAG 검색 | 업스테이지 임베딩 | 미충족 슬롯 랭킹, 논문 발췌 검색 | 실시간 위치 예측 |
+| Phase 0 슬롯 선택·RAG 검색 | Upstage embedding | 미충족 슬롯 랭킹, 논문 발췌 검색 | 실시간 위치 예측 |
 | Phase 0 컴파일 | EXAONE 기본 모델 | 성향 축 A~F 채점, 환경 반응 | prior·마음 재해석 |
 | Phase 2 prior | EXAONE + `exaone-sar` LoRA | 이동 전략·끌림점·반경 등급 | 좌표·전역 경로 |
 | Phase 2 마음 재해석 | EXAONE + `exaone-mind-dem5` LoRA | 게이지 발동 시 목표·행동·혼란 등급 | prior·축 채점 |
