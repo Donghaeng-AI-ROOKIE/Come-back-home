@@ -10,7 +10,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { ApiError } from '../api/config';
-import { answerInterview, getPersona, listSlots, startInterview, type InterviewSession, type SlotInfo } from '../api/guardian';
+import { answerInterview, getPersona, listSlots, startInterview, startTier1Interview, type InterviewSession, type SlotInfo } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
 import { useAuthStore } from '../store/authStore';
 import BackIcon from '../../assets/figma/detail-back.svg';
@@ -38,10 +38,16 @@ export default function RegChatScreen() {
   const begin = useCallback(async () => {
     setError(null); setSession(null); setPending(null);
     try {
-      const [nextSession, catalog] = await Promise.all([startInterview(GUARDIAN_NAME, undefined, guardianId ?? undefined), listSlots().catch(() => [] as SlotInfo[])]);
+      // 빠른 등록(신고 직전 미니챗)은 **Tier1 5문항만** 묻는다. 여기까지 온 보호자는
+      // 이미 가족이 사라진 상태라, 온보딩과 같은 12문항을 물으면 골든타임이 대화로
+      // 간다. 나머지 7문항은 신고 접수 뒤 보완챗이 받는다.
+      const opening = quick
+        ? startTier1Interview(GUARDIAN_NAME, guardianId ?? undefined)
+        : startInterview(GUARDIAN_NAME, undefined, guardianId ?? undefined);
+      const [nextSession, catalog] = await Promise.all([opening, listSlots().catch(() => [] as SlotInfo[])]);
       setSession(nextSession); setSlots(catalog);
     } catch (e) { setError(e instanceof ApiError ? e.message : String(e)); }
-  }, [guardianId]);
+  }, [guardianId, quick]);
 
   useEffect(() => { begin(); }, [begin]);
 
@@ -88,7 +94,12 @@ export default function RegChatScreen() {
   };
 
   const filled = session?.filled_keys.length ?? 0;
-  const total = slots.length || 12;
+  // 분모는 **이 세션이 실제로 묻는 슬롯 수**다. 미니챗은 tier1 만 물으므로 카탈로그
+  // 전체(12)를 깔면 다 답해도 막대가 절반을 못 넘어 "아직 한참 남았나" 싶어진다.
+  // 서버가 세션에 실어 주는 target_tiers 로 거른다 — 프론트에 개수를 박지 않는다.
+  const tiers = session?.target_tiers;
+  const scoped = tiers?.length ? slots.filter((slot) => tiers.includes(slot.tier)) : slots;
+  const total = scoped.length || (quick ? 5 : 12);
   const progress = Math.max(25, Math.min(100, Math.round((filled / total) * 100))) as number;
 
   /**

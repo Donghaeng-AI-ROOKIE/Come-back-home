@@ -30,6 +30,11 @@ export type InterviewSession = {
   done?: boolean;
   /** 완료 시 서버가 만든 페르소나 ID. 신고·예측이 이 값을 쓴다. */
   persona_id?: string | null;
+  /**
+   * 이 세션이 묻는 슬롯의 tier 집합. `null`/없음 = 전체(12문항 온보딩).
+   * 신고 전 미니챗은 `[1]` — 진행률 분모를 이 값으로 좁힌다.
+   */
+  target_tiers?: number[] | null;
 };
 
 export type SlotInfo = {
@@ -123,6 +128,28 @@ export function startInterview(guardianName: string, personaType?: PersonaType, 
     body: JSON.stringify({ guardian_name: guardianName, persona_type: personaType ?? null,
                            guardian_id: guardianId ?? '' }),
   });
+}
+
+/**
+ * 신고 직전 미니챗 — **Tier1 5문항만** 묻는 인터뷰를 시작한다.
+ *
+ * 온보딩을 안 한 보호자가 바로 실종신고를 누른 경우다. 12문항 전체를 물으면
+ * 골든타임을 대화로 태운다. 서버는 이미 tier 로 슬롯을 좁힐 수 있으므로
+ * (`scope: "tier1"` → identity·home·자주 가는 곳·옛 장소·과거 배회 이력 5개)
+ * 여기서는 그 스코프를 지정해 세션을 열기만 한다.
+ *
+ * 두 번 호출하는 이유: `/interviews/sessions` 는 마지막 질문 한 줄만 돌려주는데
+ * 화면은 `InterviewSession`(messages 전문·awaiting_confirmation·llm_degraded)을
+ * 그린다. 이어지는 답변 전송은 두 엔드포인트가 같은 엔진(answer_interview)을
+ * 부르므로 기존 `answerInterview` 를 그대로 쓴다 — 시작 호출만 갈아끼우면 된다.
+ */
+export async function startTier1Interview(guardianName: string, guardianId?: string) {
+  const opened = await api<{ session_id: string }>('/phase0/interviews/sessions', {
+    method: 'POST',
+    body: JSON.stringify({ guardian_name: guardianName, guardian_id: guardianId ?? '',
+                           mode: 'create', scope: 'tier1', persona_type: null }),
+  });
+  return getInterview(opened.session_id);
 }
 
 /** 답변 1건 전송 → 갱신된 세션(다음 질문이 messages 끝에 붙어 온다). */
