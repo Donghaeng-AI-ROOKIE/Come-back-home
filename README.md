@@ -188,7 +188,7 @@ uvicorn app.main:app --reload
 
 API는 `http://localhost:8000`, Swagger는 `/docs`입니다. 모델 키가 없어도 통계 기본값과 스텁으로 전체 파이프라인이 돕니다. 부팅 시 데모 케이스 `case-jeongneung-001`이 자동 생성됩니다.
 
-### 2. 프런트엔드
+### 2. 프론트엔드
 
 ```bash
 cd frontend
