@@ -7,7 +7,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { useGuardianStore } from '../store/guardianStore';
-import { usePersonas } from '../hooks/queries';
+import { useGuardianCases, usePersonaStatus, usePersonas } from '../hooks/queries';
 import FigmaLogo from '../components/FigmaLogo';
 import EmergencyIcon from '../../assets/figma/guardian-emergency.svg';
 import RegisterIcon from '../../assets/figma/guardian-register.svg';
@@ -18,6 +18,23 @@ export default function GuardianHomeScreen() {
   const { data: personas, isLoading, isError, refetch } = usePersonas();
   const cached = useGuardianStore((s) => s.persona);
   const list = personas?.length ? personas : cached ? [cached] : [];
+
+  /**
+   * 빠른 등록으로 신고한 보호자에게 "안심 사전 등록" 자리를 **보완챗**으로 내준다.
+   *
+   * 이 자리에 원래 카드를 그대로 두면 안 되는 이유: 그 버튼은 12문항 온보딩으로
+   * 가는데, 이 보호자는 이미 등록을 했다(Tier1 만). 눌러 봐야 **같은 어르신이 두
+   * 번 등록될 뿐** 비어 있는 Tier2·3 은 그대로 남는다.
+   *
+   * 조건이 둘인 이유 — `partial` 은 "Tier1 만 찼다", 진행 중 사건은 "지금 찾고
+   * 있다"를 뜻한다. 둘이 겹칠 때가 보완챗의 값이 가장 큰 순간이다. 답을 채우면
+   * 서버가 그 사건을 곧바로 다시 예측해(persona_events) 수색 반경·속도가 인구
+   * 평균에서 이 어르신의 값으로 바뀐다. 사건이 없으면 급할 게 없으므로 평소의
+   * 등록 카드를 그대로 둔다.
+   */
+  const { data: status } = usePersonaStatus();
+  const { data: cases } = useGuardianCases();
+  const needsSupplement = status?.persona_status === 'partial' && (cases?.length ?? 0) > 0;
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -40,15 +57,26 @@ export default function GuardianHomeScreen() {
             <Text style={styles.emergencyText}>실종 신고</Text>
           </Pressable>
           <Pressable
-            onPress={() => navigation.navigate('GuardianTabs', { screen: 'GuardianReg' })}
+            onPress={() => needsSupplement
+              ? navigation.navigate('RegChat', { mode: 'supplement' })
+              : navigation.navigate('GuardianTabs', { screen: 'GuardianReg' })}
             accessibilityRole="button"
-            accessibilityLabel="안심 사전 등록"
-            style={({ pressed }) => [styles.register, pressed && styles.pressed]}
+            accessibilityLabel={needsSupplement ? '추가 질문에 답하기' : '안심 사전 등록'}
+            style={({ pressed }) => [styles.register, needsSupplement && styles.registerUrgent, pressed && styles.pressed]}
           >
             <View style={styles.registerIcon}><RegisterIcon width={26} height={26} /></View>
             <View style={styles.registerCopy}>
-              <Text style={styles.registerTitle}>안심 사전 등록</Text>
-              <Text style={styles.registerBody}>미리 정보를 등록해두면 위급 시 골든타임을{`\n`}지킬 수 있습니다.</Text>
+              {needsSupplement ? (
+                <>
+                  <Text style={styles.registerTitle}>추가 질문에 답해 주세요</Text>
+                  <Text style={styles.registerBody}>7가지만 더 알려주시면 수색 범위를{`\n`}더 좁힐 수 있습니다.</Text>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.registerTitle}>안심 사전 등록</Text>
+                  <Text style={styles.registerBody}>미리 정보를 등록해두면 위급 시 골든타임을{`\n`}지킬 수 있습니다.</Text>
+                </>
+              )}
             </View>
           </Pressable>
         </View>
@@ -84,6 +112,9 @@ export default function GuardianHomeScreen() {
   );
 }
 
+/** 보완챗 카드 테두리 두께 — 안쪽 패딩 보정에 같은 값을 써야 해서 상수로 뺀다. */
+const URGENT_BORDER = 2;
+
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   content: { paddingBottom: 36 },
@@ -94,6 +125,21 @@ const styles = StyleSheet.create({
   emergencyIcon: { width: 47, height: 43, alignItems: 'center', justifyContent: 'center' },
   emergencyText: { fontFamily: type.familyBold, color: '#FFFFFF', fontSize: 15, marginTop: 1 },
   register: { position: 'relative', top: 3, width: 200, height: 106, borderRadius: 10, backgroundColor: '#90C67C', paddingLeft: 14, paddingTop: 10, alignItems: 'flex-start', shadowColor: '#90C67C', shadowOpacity: 0.71, shadowRadius: 2, elevation: 3 },
+  // 보완챗 상태 전용 — **이 스타일이 붙을 때만** 테두리가 생긴다. 평소의
+  // `register` 카드는 테두리 없이 그대로 둔다(시안 원본).
+  //
+  // 바꾸는 것은 테두리뿐이다. 초록 채움은 온보딩 카드와 같은 값을 그대로 쓴다 —
+  // 같은 자리의 같은 카드라는 것이 보여야 하고, 배경까지 손대면 옆의 실종 신고
+  // 버튼과 위계가 엉킨다.
+  //
+  // 고정 크기(200×106) 카드라 테두리가 바깥으로 번지지 않고 안쪽으로 들어온다.
+  // 글자가 2px 밀리는데, 그만큼 paddingLeft·paddingTop 에서 빼 시안 위치를 지킨다.
+  registerUrgent: {
+    borderWidth: URGENT_BORDER,
+    borderColor: color.critical,
+    paddingLeft: 14 - URGENT_BORDER,
+    paddingTop: 10 - URGENT_BORDER,
+  },
   registerIcon: { width: 26, height: 26, alignItems: 'center', justifyContent: 'center' },
   registerCopy: { paddingTop: 5 },
   registerTitle: { fontFamily: type.familyBold, color: '#FFFFFF', fontSize: 15, lineHeight: 18 },
