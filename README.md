@@ -50,7 +50,8 @@
 
 ## 기술 구조
 
-![시스템 구성](docs/assets/architecture.svg)
+<img width="5744" height="2240" alt="KakaoTalk_Photo_2026-08-13-16-18-33" src="https://github.com/user-attachments/assets/0dadfaf6-42f3-457e-85b2-d3c796c6f374" />
+
 
 Phase 단위 파이프라인 관점의 도식은 [docs/assets/architecture-overview.svg](docs/assets/architecture-overview.svg)에 따로 있습니다.
 
