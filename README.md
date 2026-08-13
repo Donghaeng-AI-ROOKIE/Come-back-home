@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="180" alt="돌아오길" src="frontend/assets/icon.png" />
+  <img width="180" height="180" alt="KakaoTalk_Photo_2026-08-13-21-41-14" src="https://github.com/user-attachments/assets/e73f3993-3b39-4472-abfc-f36098812423" />
 </p>
 
 <h1 align="center">돌아오길</h1>
