@@ -2,7 +2,7 @@
 
 > 기준 브랜치: `origin/develop`
 >
-> 기준 커밋: [`3d92678`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/3d926783c60537f9ec93f0ff03e7660d4077b074) (`2026-07-31`, PR #107 병합)
+> 기준 커밋: [`c917334`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/c917334) (`2026-08-13`, PR #232 병합)
 >
 > 조사 방식: API 라우터, 도메인 스키마, Phase별 서비스 모듈, 프런트엔드 클라이언트와 테스트 코드를 정적 추적
 >
@@ -15,30 +15,30 @@
 | 영역 | 현재 수준 | 핵심 판정 |
 |---|---|---|
 | Phase 0 보호자 온보딩 | 구현, 일부 기능 플래그 | 백엔드 적응형 인터뷰·지오코딩·Persona 확정 구현. 축 점수·경로 익숙함 컴파일은 기본 비활성 |
-| Phase 1 실종 신고 | 백본 구현 | Case 생성, 선택적 인상착의·문서 추출 경로, 즉시 안전반경 알림, 도로망 사전 로딩 구현. 파일 입력과 외부 추출 모델은 스텁 |
-| Phase 2 위치 예측 | 알고리즘 파이프라인 구현 | `exaone-sar`+RAG prior, `exaone-mind-v5` 마음 재해석, Koester, 6전략, H3, 500 워커 MC, 조건부 OSMnx, 2-way 결합 구현 |
-| Phase 3 알림·제보 | 로직 구현, 외부 발송 미연동 | POA 타겟 셀, 자유텍스트 제보 구조화·지오코딩·시각 변환·되묻기 게이트, 신뢰도 `p`, 층1 갱신, 층2 재실행, D3 새 지역 알림 구현. FCM·사용자 위치 인덱스는 스텁 |
-| 개인정보 수명주기 | 백본 구현 | 종결·TTL·명시 삭제·연쇄 파기·감사로그 구현. 실제 서비스 DB가 아닌 인메모리 저장소 |
-| 프런트엔드 | 목 중심 UI 구현 | 3역할·2모드·11개 화면과 POA 조회 일부 배선. Phase 0·3 챗봇은 백엔드 챗봇과 별개의 로컬 고정 흐름 |
+| Phase 1 실종 신고 | 구현 | Case 생성, 보호자 구조화 인상착의, 즉시 안전반경 알림, 역지오코딩, 도로망 사전 로딩 구현. 사진·문서 첨부 경로는 제거(PR #136·#141) |
+| Phase 2 위치 예측 | 알고리즘 파이프라인 구현 | `exaone-sar`+RAG prior, `exaone-mind-dem5` 마음 재해석, Koester, 6전략, H3, 500 워커 MC, 기본 활성 OSMnx, 2-way 결합 구현 |
+| Phase 3 알림·제보 | 로직 구현, 웹푸시 배선 | POA 타겟 셀, 자유텍스트 제보 구조화·지오코딩·시각 변환·되묻기 게이트, 신뢰도 `p`, 층1 갱신, 층2 재실행, D3 새 지역 알림 구현. 웹푸시 구독·발송 경로와 presence 인덱스는 구현, 기본 꺼짐이며 실기기 수신 미검증 |
+| 개인정보 수명주기 | 백본 구현 | 종결·TTL·명시 삭제·연쇄 파기·감사로그 구현. 저장은 SQLite 영속 + 삭제 시 VACUUM 회수 |
+| 프런트엔드 | 실백엔드 연결 | 시민·보호자 21개 화면. 등록·보완 인터뷰, 신고, POA, 제보, 알림, 산책이 실백엔드에 연결됨. 목 데이터는 `EXPO_PUBLIC_USE_MOCK=true` 퇴로에서만 사용 |
 
 가장 중요한 현재 경계는 다음과 같다.
 
-1. 백엔드 Phase 0 챗봇은 실제 적응형 슬롯 인터뷰이지만 프런트 등록 화면은 이를 호출하지 않는다.
+1. 프런트 보호자 등록 화면은 백엔드 적응형 인터뷰(`/phase0/interviews`)를 실제로 호출한다(`frontend/src/api/guardian.ts`). 빠른 등록(Tier 1)과 보완 인터뷰도 같은 경로를 쓴다.
 2. Phase 2의 도로망·환경·스텝별 인지 게이지는 `USE_ROADNET`이 `true`일 때만 활성화된다(기본값 `true`, `.env`로 `false` 오버라이드 가능). 캐시 없는 좌표의 첫 요청은 Overpass 콜드 다운로드로 15~110초 걸릴 수 있다.
-3. Agent MC와 Statistical MC는 모두 500 워커지만 동일한 EXAONE prior를 공유한다. 따라서 Statistical MC는 “동적 마음 재해석 제외 비교군”이지 완전한 비-AI 비교군은 아니다.
-4. 알림 대상 셀 계산은 구현됐지만 실제 푸시 발송과 셀 내 사용자 조회는 구현되지 않았다.
-5. 프런트 기본값은 `USE_MOCK=true`이고, 실백엔드 제보 응답 매핑은 아직 예외를 발생시킨다.
-6. `exaone-mind-v5`의 v2 계약은 행동·목표·혼란을 출력하지만 현재 시뮬레이션은 검증된 목표와 혼란/상태만 사용한다. 행동 출력을 이동 전략에 연결하는 작업은 미구현이다.
+3. Agent MC와 Statistical MC는 모두 500 워커지만 동일한 EXAONE prior를 공유한다. 따라서 Statistical MC는 “동적 마음 재해석 제외 비교군”이지 완전한 비-AI 기준선은 아니다.
+4. 알림 대상 셀 계산과 웹푸시 구독·발송 경로, 셀 단위 presence 인덱스는 구현돼 있다. 다만 `PUSH_ENABLED` 기본값은 `false`이고 실기기 수신은 검증되지 않았다.
+5. 프런트는 기본적으로 실백엔드를 부른다. 목 데이터는 `EXPO_PUBLIC_USE_MOCK=true`를 명시했을 때만 쓰는 시연장 퇴로다.
+6. `exaone-mind-dem5`의 v2 계약은 행동·목표·혼란을 출력하며, `MIND_BEHAVIOR_ENABLED` 기본값이 `true`라 행동 출력이 이동 전략에 연결된다. 혼란도는 규칙 기반 산정으로 완전히 대체되기 전까지 LLM 등급을 고정 수치로 변환해 쓴다.
 7. 제보 구조화 모델은 실험에서 원문에 없는 시각을 생성했다. 현재 코드는 형식과 시간 범위만 검사하며 원문 대조 가드는 없다.
 
 ## 2. 전체 시스템 아키텍처
 
 ```mermaid
 flowchart LR
-    subgraph FE["Expo React Native 프런트엔드"]
-        F0["보호자 등록 UI<br/>현재 로컬 고정 6단계"]
-        FC["시민·보호자 앱<br/>산책/수색 모드"]
-        FO["운영자 대시보드"]
+    subgraph FE["클라이언트"]
+        F0["보호자 등록·보완 챗봇<br/>Expo RN"]
+        FC["시민 앱<br/>산책/수색 모드"]
+        FO["경찰 관제 콘솔<br/>Vite·React"]
     end
 
     subgraph BE["FastAPI 백엔드"]
@@ -55,36 +55,37 @@ flowchart LR
         TIPL["tip_llm<br/>제보 구조화·구체성 등급"]
         AXM["EXAONE 기본 모델<br/>축 채점"]
         SARM["exaone-sar + RAG<br/>prior"]
-        MINDM["exaone-mind-v5<br/>마음 재해석"]
+        MINDM["exaone-mind-dem5<br/>마음 재해석"]
+        EMB["업스테이지 임베딩<br/>슬롯 검색·RAG"]
         GEO["Kakao / Nominatim / Gazetteer"]
         OSM["OSMnx / OSM / EGIS"]
-        OPT["VARCO / Upstage<br/>현재 스텁"]
     end
 
-    subgraph STORE["현재 저장 계층"]
-        MEM["프로세스 메모리 dict"]
+    subgraph STORE["저장 계층"]
+        DB["SQLite storage.db"]
         AUDIT["감사로그 JSONL"]
         CACHE["GraphML·환경 캐시"]
     end
 
-    F0 -. "현재 미배선" .-> P0
+    F0 --> P0
     FC --> P3
     FO --> DBG
     P0 --> P1 --> P2 --> P3
     P0 <--> MIDM
     P0 <--> AXM
+    P0 <--> EMB
     P0 <--> GEO
-    P1 <--> OPT
     P1 --> OSM
     P2 <--> SARM
     P2 <--> MINDM
+    P2 <--> EMB
     P2 <--> OSM
     P3 <--> TIPL
-    P0 --> MEM
-    P1 --> MEM
-    P2 --> MEM
-    P3 --> MEM
-    PRIV --> MEM
+    P0 --> DB
+    P1 --> DB
+    P2 --> DB
+    P3 --> DB
+    PRIV --> DB
     PRIV --> AUDIT
     OSM --> CACHE
     P2 --> DBG
@@ -124,10 +125,11 @@ flowchart LR
 | 프런트엔드 | Expo SDK 57, React Native 0.86, React 19, TypeScript strict |
 | 프런트 상태 | Zustand, TanStack Query, React Navigation v7 |
 | LLM 연동 규약 | Mi:dm·EXAONE·tip_llm 모두 OpenAI 호환 `chat/completions` |
-| 현재 영속성 | Persona·Case·Interview 등은 프로세스 메모리 `dict`; 감사로그만 JSONL append-only |
+| 영속성 | SQLite `data/storage.db` — Persona·Case·Interview·Tip. 감사로그는 JSONL append-only |
+| 배포 | Docker(backend) + nginx 정적 웹 + Cloudflare Tunnel 공개 경로 |
 | 데모 | 서버 시작 시 `case-jeongneung-001` 시드, `/dashboard` 정적 E2E 대시보드 |
 
-백엔드 저장소는 [`backend/app/storage.py`](../backend/app/storage.py)의 제네릭 `Repository`이다. 서버 재시작 시 Persona·Case·Tip·트레이스는 사라진다. 도로망·환경 데이터는 별도 디스크 캐시를 사용할 수 있다.
+백엔드 저장소는 [`backend/app/storage.py`](../backend/app/storage.py)의 제네릭 `Repository`이며 메모리 캐시 앞에 SQLite 영속화를 둔다. 사전 등록은 평시에 하고 실종은 몇 달 뒤에 일어나므로 재시작을 견뎌야 한다. 대신 `delete()`는 디스크에서도 실제로 지우고, 파기 경로가 요구할 때 `vacuum()`으로 페이지를 회수한다(`tests/test_storage_persist.py`가 파일을 바이너리로 열어 검증). 도로망·환경 데이터는 별도 디스크 캐시를 사용한다.
 
 ---
 
@@ -290,16 +292,25 @@ flowchart LR
 
 | 메서드 | 경로 | 구현 |
 |---|---|---|
-| `POST` | `/phase0/interviews` | 세션 시작 |
+| `POST` | `/phase0/interviews` | 세션 시작(초기 계약) |
+| `POST` | `/phase0/interviews/sessions` | 세션 시작. `scope="tier1"`이면 신고 전 빠른 등록(Tier 1 5문항), `mode="supplement"`면 남은 Tier 2·3 문항만. 진행률과 현재 슬롯을 함께 반환 |
+| `POST` | `/phase0/interviews/sessions/{id}/messages` | 답변 반영·다음 질문(진행률 포함) |
+| `POST` | `/phase0/interviews/sessions/{id}/complete` | 확인 게이트 통과 후 Persona 확정 |
 | `POST` | `/phase0/interviews/{id}/answers` | 답변 반영·다음 질문 |
 | `GET` | `/phase0/interviews/{id}` | 대화 전문 포함 세션 조회 |
 | `GET` | `/phase0/slots` | 슬롯 카탈로그 조회 |
 | `POST` | `/phase0/personas` | 구조화 필드 직접 등록 |
+| `GET` | `/phase0/personas` | 보호자별 Persona 목록 |
+| `GET` | `/phase0/personas/status` | 등록 진행 상태와 다음에 열어야 할 모드 |
 | `GET` | `/phase0/personas/{id}` | Persona 조회, 원발화 `axis_quotes`는 응답 제외 |
+| `PATCH` | `/phase0/personas/{id}` | 등록 정보 수정 |
+
+빠른 등록과 보완 인터뷰는 같은 슬롯 엔진을 대상 Tier만 바꿔 재사용한다. 상태는 `none/create`·`partial/supplement`·`complete/update` 세 쌍이다. 신고가 급한 보호자는 Tier 1 5문항만 받고 `partial` 상태로 신고까지 갈 수 있고, 남은 문항은 홈의 보완 대화에서 채운다. `supplement`는 `partial`에서만 열리며 그 외에는 `409`다. 이미 등록을 마친 보호자의 "수정"은 챗봇 재질문이 아니라 구조화 수정 화면(`PATCH /phase0/personas/{id}`)으로 보낸다(2026-08-06 결정).
+
+Tier 1 미니챗도 요약·확인 게이트를 거친다. 골든타임을 위해 확인을 생략했다가, 확인 없이 등록되는 편이 더 불안하다는 판단으로 2026-08-07에 되돌렸다.
 
 현재 제한:
 
-- 프런트 [`RegChatScreen.tsx`](../frontend/src/screens/RegChatScreen.tsx)는 백엔드 Phase 0 API가 아니라 로컬 6단계 스크립트를 사용한다.
 - 직접 등록 API는 인터뷰의 축 근거·선호 카테고리·경로 익숙함 생성 흐름을 거치지 않는다.
 - `EMBED_MODEL`·`EMBED_BASE_URL` 기본값은 빈 문자열이라, 설정하지 않으면 의미 임베딩이 아닌 해시 어휘 중첩으로 폴백한다(`get_embedder()`, `retrieval.py`). 운영 배포는 업스테이지 임베딩 API(`EMBED_BASE_URL=https://api.upstage.ai/v1`)로 채운다 — 국내 AI 트랙은 임베딩을 포함한 신경망 모델 전체가 연계 기업 것이어야 한다는 운영사무국 공식 답변(2026-08-12)에 따른 것이다. 이전에는 오픈소스 `nlpai-lab/KURE-v1`을 로컬로 띄웠으나(PR #84, 슬롯 선택 골드셋 적중률 75.9%→93.1%) 비연계 모델이라 PR #114·#115·#117로 업스테이지로 전환했다. 전환 후 실측(슬롯 96.6%·RAG Recall@4 80.0%)도 KURE-v1(93.1%·76.0%)보다 높아 성능 손실은 없었다.
 - 임베더를 바꾸면 코사인 분포가 통째로 이동하므로 디노이즈 임계값도 함께 조정해야 한다. 업스테이지 전환 시 재보정된 현재 값은 `PIVOT_SIM=0.32`·`COHERENCE_THRESHOLD=0.35`·`RISK_GATE=0.25`이다(`retrieval.py`, PR #117). 이전 임베더 기준값을 그대로 재사용하면 히스토리 필터가 사실상 꺼진다.
@@ -322,7 +333,7 @@ flowchart LR
 
 | 구분 | 내용 |
 |---|---|
-| 입력 | 유형, LKP 좌표, LKP 시각, 선택적 Persona ID, 사진·문서 유무 플래그 |
+| 입력 | 유형, LKP 좌표, LKP 시각, 선택적 Persona ID, 보호자가 입력한 구조화 인상착의 |
 | 핵심 처리 | 신고 구조화, Case 생성, 축 채점 백필, 즉시 안전반경 알림, 선택적 도로망 사전 로딩 |
 | 출력 | 상태가 `intake`인 `Case` |
 | 주요 파일 | [`phase1/intake.py`](../backend/app/phase1/intake.py), [`api/phase1.py`](../backend/app/api/phase1.py), [`schemas/report.py`](../backend/app/schemas/report.py) |
@@ -332,19 +343,19 @@ flowchart LR
 ```mermaid
 flowchart TD
     IN["POST /phase1/reports"] --> REPORT["MissingReport 생성"]
-    REPORT --> PHOTO{"with_photo?"}
-    PHOTO -- "예" --> VARCO["VARCO 인상착의 추출<br/>현재 스텁"]
-    PHOTO -- "아니오" --> DOC
-    VARCO --> DOC{"with_document?"}
-    DOC -- "예" --> UP["Upstage 신고서 파싱<br/>현재 스텁"]
-    DOC -- "아니오" --> CASE
-    UP --> CASE["Case 생성·인메모리 저장"]
+    REPORT --> APP{"인상착의 입력?"}
+    APP -- "예" --> COLOR["규칙 기반 색상 추출<br/>상의·하의·신발 + 요약 문장"]
+    APP -- "아니오" --> CASE
+    COLOR --> CASE["Case 생성·SQLite 저장"]
     CASE --> BACKFILL["미채점 Persona 축 점수<br/>비동기 백필 시도"]
     BACKFILL --> REFLEX["LKP H3 k-ring 즉시 알림<br/>기본 k=2, 19셀"]
     REFLEX --> PRELOAD{"ROADNET_PRELOAD?"}
     PRELOAD -- "예" --> OSM["LKP 반경 3km OSMnx 보행망 캐시"]
-    PRELOAD -- "아니오" --> OUT["Case 응답"]
-    OSM --> OUT
+    PRELOAD -- "아니오" --> RGEO
+    OSM --> RGEO{"REVERSE_GEOCODE_ON_INTAKE?"}
+    RGEO -- "예" --> ADDR["LKP 역지오코딩<br/>주소 문자열"]
+    RGEO -- "아니오" --> OUT["Case 응답"]
+    ADDR --> OUT
 ```
 
 외부 모델, 축 채점, 즉시 알림, 도로망 로딩은 모두 실패를 격리한다. 어느 하나가 실패해도 신고 접수 자체는 계속된다.
@@ -356,6 +367,8 @@ flowchart TD
 - Persona가 연결됐으나 축 점수가 비어 있고 근거가 있으면 백그라운드 채점을 다시 시도한다.
 - `REFLEX_ALERT_ON_INTAKE=true`가 기본이며 POA 없이도 LKP 중심 H3 `k=2` 안전반경을 선택한다.
 - `ROADNET_PRELOAD=false`가 기본이다. 활성화하면 Phase 2 전에 3km 보행망을 캐시한다.
+- 인상착의는 보호자가 입력한 상의·하의·신발·기타 문장에서 규칙 기반으로 색상을 뽑고 요약 한 줄을 만든다. 이 요약이 1차 경보 문구에 들어간다.
+- `REVERSE_GEOCODE_ON_INTAKE=true`가 기본이며 LKP 좌표를 주소 문자열로 바꿔 화면에 쓴다.
 
 ### 5.4 API와 현재 제한
 
@@ -366,9 +379,8 @@ flowchart TD
 
 현재 제한:
 
-- 실제 multipart 파일 업로드가 아니라 `with_photo`, `with_document` 불리언만 받는다.
-- VARCO와 Upstage 클라이언트는 항상 결정적 스텁 값을 반환한다.
-- 즉시 알림은 대상 셀 계산까지만 실제이며 푸시 발송은 하지 않는다.
+- 사진·문서 첨부 경로는 제거됐다(PR #136·#141). VARCO 인상착의 추출과 Upstage 신고서 파싱도 함께 삭제됐다.
+- 즉시 알림은 대상 셀 계산과 웹푸시 발송 경로까지 구현돼 있으나 `PUSH_ENABLED` 기본값이 `false`다.
 - Persona ID의 존재 여부나 신고 유형과 Persona 유형의 일치 여부를 API에서 강제하지 않는다.
 
 ### 5.5 운영 경로 실험
@@ -429,7 +441,7 @@ EXAONE은 작업별 경로를 분리한다.
 |---|---|---|---|---|
 | Phase 0 축 채점 | `AXIS_SCORING_MODEL` / EXAONE 기본 모델 | 해당 축의 보호자 근거 | 미사용 | A~F 등급과 검증된 근거 |
 | Phase 2 prior | `EXAONE_MODEL` / `exaone-sar` | Persona·신고·논문 발췌 | 사용 | 전략·끌림점·반경 등급 |
-| Phase 2 마음 재해석 | `MIND_MODEL=exaone-mind-v5` | 현재 장면·게이지·Persona | 미사용 | 목표와 혼란/상태. `behavior`는 아직 미사용 |
+| Phase 2 마음 재해석 | `MIND_MODEL=exaone-mind-dem5` | 현재 장면·게이지·Persona | 미사용 | 목표, 혼란/상태, 행동(`MIND_BEHAVIOR_ENABLED=true`면 보행 모드에 반영) |
 
 `EXAONE_MODEL`과 `AXIS_SCORING_MODEL`의 저장소 기본값은 비어 있다. prior에 `exaone-sar`를 배포하면서 축 채점 모델을 비워 두면 축 채점도 지식 LoRA로 라우팅될 수 있으므로 EXAONE 기본 모델 ID를 별도로 지정해야 한다.
 
@@ -480,7 +492,7 @@ flowchart LR
     FCE --> HA["H 귀소 / A 불안 파생"]
     HA --> HAZ["로지스틱 hazard 표집"]
     HAZ -- "F 발동" --> ALG["휴식·남은 이탈거리 축소<br/>알고리즘 처리"]
-    HAZ -- "H 또는 A 발동" --> LLM["exaone-mind-v5 마음 재해석<br/>워커당 최대 2회, 불응기 30스텝<br/>2회차부터 풀 표집 전용"]
+    HAZ -- "H 또는 A 발동" --> LLM["exaone-mind-dem5 마음 재해석<br/>워커당 최대 2회, 불응기 30스텝<br/>예산 5회를 5개 층에 층화 배분"]
     LLM --> SAFE["상·중·하 혼란도 수치화<br/>기존 끌림점 라벨만 허용"]
     SAFE --> MOVE["kappa·target 갱신"]
 ```
@@ -660,7 +672,8 @@ posterior(cell) ∝ current_poa(cell) × [p × L(tip | cell) + (1 - p) × 1]
 현재 제한:
 
 - `send_alerts`는 FCM·APNs·사용자 위치 인덱스를 호출하지 않고 `sent=false`를 반환한다.
-- 주기·KL 재실행은 별도 스케줄러가 자동 호출하지 않는다. 제보 흐름에서 검사하거나 조회 API로 상태만 확인한다.
+- 주기·KL 재실행은 제보 흐름에서 검사할 뿐 아니라, 기동 시 시작되는 백그라운드 감시 스레드([`phase2/refresher.py`](../backend/app/phase2/refresher.py))가 `POA_REFRESH_INTERVAL_SECONDS`(기본 300초)마다 활성 Case에 대해 재실행 조건을 물어 필요하면 다시 예측한다. 경과시간은 예측에 들어가는데 예측을 다시 돌리는 주체가 없어 지도가 신고 시점에 멈춰 있던 문제를 막기 위한 것이다.
+- 이 갱신은 "못 찾았다"는 정보를 반영하지 않는다. 알림 구역에서 제보가 없었을 때 확률을 내리려면 탐지확률(POD)이 필요한데 시민 몇 명이 그 구역을 실제로 봤는지 알 방법이 없다. 같은 모델을 더 늦은 시점에서 다시 평가할 뿐이며 베이지안 갱신이 아니다.
 - 프런트 제보 화면은 로컬 고정 4단계이며 백엔드의 `Tip` 응답을 `TipResult`로 변환하는 코드가 없어 실모드에서 의도적으로 예외를 낸다. 되묻기 응답(`status: "need_more"`) 분기도 프런트에 없다.
 - `tip_llm`의 실험 선택 모델은 Mi:dm 2.0 Mini다. `tip_llm_base_url`·`tip_llm_model`·`tip_llm_api_key`를 채우면 실동작하고, 비어 있으면 결정적 스텁으로 폴백한다.
 
@@ -707,42 +720,43 @@ flowchart LR
 ```mermaid
 flowchart TD
     APP["App.tsx Provider Stack"] --> ROOT["RootNavigator"]
-    ROOT --> AUTH{"demo token과 role"}
-    AUTH -- "citizen / guardian" --> CT["CitizenTabs"]
-    AUTH -- "operator" --> OP["OperatorStack"]
+    ROOT --> AUTH{"로그인 토큰과 role"}
+    AUTH -- "citizen" --> CT["CitizenTabs<br/>홈·산책·알림·내정보"]
+    AUTH -- "guardian" --> GT["GuardianTabs<br/>홈·등록·알림·내정보"]
     CT --> HOME["Home"]
     CT --> SEARCH["Search"]
-    CT --> REG["RegChat"]
-    OP --> CMD["CommandDashboard"]
-    OP --> FOUND["CaseFound"]
-    OP --> VALID["ValidationReport"]
-    ALERT["경찰경보 데모 이벤트"] --> MODE["appModeStore.enterSearch"]
+    CT --> TIP["ReportChat"]
+    GT --> REG["RegChat<br/>전체·Tier1·보완"]
+    GT --> REPORT["Report<br/>실종 신고"]
+    ALERT["보호자 신고 · 긴급 알림"] --> MODE["appModeStore.enterSearch"]
     MODE --> SEARCH
     SEARCH --> QUERY["TanStack Query"]
-    QUERY --> CLIENT["api/client.ts"]
-    CLIENT --> MOCK{"USE_MOCK"}
-    MOCK -- "true 기본" --> DATA["결정적 mock 데이터"]
-    MOCK -- "false" --> API["FastAPI 일부 엔드포인트"]
+    QUERY --> CLIENT["api/client.ts · guardian.ts · walk.ts · auth.ts"]
+    CLIENT --> MOCK{"EXPO_PUBLIC_USE_MOCK"}
+    MOCK -- "기본 false" --> API["FastAPI"]
+    MOCK -- "true (시연장 퇴로)" --> DATA["결정적 mock 데이터"]
 ```
 
 ### 상태 관리
 
-- `authStore`: 시민·보호자·운영자 데모 역할과 토큰을 관리한다.
-- `appModeStore`: `walk/search`, 활성 Case, 심각도, 수색 진입 시각을 관리한다. 보호자 수동 실종 발동은 없다.
-- `missingPersonStore`: 모든 화면이 김순자 데모 프로필 단일 소스를 참조한다.
-- TanStack Query: POA, 경보, 검증·발견 요약 조회 경계를 제공한다.
+- `authStore`: 로그인 토큰과 시민·보호자 역할을 관리한다. 운영자 콘솔은 RN 앱이 아니라 별도 웹(`dashboard/`)이다.
+- `appModeStore`: `walk/search`, 활성 Case, 심각도, 수색 진입 시각을 관리한다.
+- `guardianStore`: 보호자의 등록 진행 상태(전체·Tier 1·보완)와 Persona를 관리한다.
+- `missingPersonStore`: 모든 화면이 실종자 프로필 단일 소스를 참조한다.
+- TanStack Query: POA, 경보, 제보, 산책 조회 경계를 제공한다.
 
 ### 실제 백엔드 연결 상태
 
 | 기능 | 실모드 상태 |
 |---|---|
+| 보호자 등록·보완 인터뷰 | 연결됨. `/phase0/interviews` 적응형 인터뷰를 그대로 호출하고 Tier 1·보완 모드를 구분해 요청 |
+| 실종 신고 | 연결됨. `/phase1/reports`로 Case 생성, 접수 즉시 1차 경보 경로 실행 |
 | POA 조회 | 연결됨. 백엔드 H3 폴리곤을 받아 상대 확률 색상으로 변환 |
-| POA 예측 실행 | 프런트가 자동 호출하지 않음. 서버 시드 또는 별도 호출 필요 |
-| 타겟 알림 API | 호출됨. 반환값은 실제 전달 수로 매핑하지 않음 |
-| 시민 제보 | 요청은 전송하지만 `with_photo`라는 계약 외 필드도 보내며 응답 매핑 후 항상 예외 |
-| 보호자 온보딩 | 미연결. 로컬 스크립트만 사용 |
-| 교차검증·검증 리포트·발견 요약 | 실모드에서도 목 빌더 반환 |
-| 푸시·지오펜스 | 미구현 |
+| 시민 제보 | 연결됨. `need_more` 되묻기 분기, 제보 전후 POA 면적 변화 매핑, 타임아웃 후 접수 여부 재확인까지 구현 |
+| 긴급 알림 목록·안내 | 연결됨. 활성·해제 알림 조회와 case별 안내 문구 |
+| 산책 | 연결됨. 세션 시작·종료·통계 |
+| 웹푸시 | 구독·발송 경로 구현. `PUSH_ENABLED` 기본 꺼짐, 실기기 수신 미검증 |
+| 백그라운드 지오펜스 | 미구현. 현재는 앱이 켜져 있을 때 presence를 올린다 |
 
 ## 10. 개인정보 수명주기
 
@@ -765,7 +779,7 @@ stateDiagram-v2
 - Persona 삭제 시 연결된 활성 Case가 있으면 거부하고, 종결 Case와 Interview를 연쇄 파기한다.
 - Persona가 없는 미완료 Interview는 기본 48시간 뒤 파기 대상이다.
 - 감사로그는 개인정보를 넣지 않고 ID·행위·사유 코드만 JSONL로 영속한다.
-- TTL 파기는 운영 스케줄러가 아니라 현재 `POST /privacy/purge-expired` 수동 엔드포인트로 실행한다.
+- TTL 파기는 운영 스케줄러가 아니라 현재 `POST /privacy/purge-expired` 수동 엔드포인트로 실행한다. 재예측 감시 스레드는 파기를 호출하지 않는다.
 
 ## 11. 모델·알고리즘 책임과 장애 폴백
 
@@ -775,21 +789,23 @@ stateDiagram-v2
 | tip_llm | 제보 구조화, 구체성·일관성 등급 | 좌표 확정, 상대→절대 시각 산술 | Mi:dm 2.0 Mini 선택, 미설정 시 결정적 스텁 |
 | EXAONE 기본 모델 | 선택적 축 채점, 경로 익숙함, 개인 환경 반응 | prior·마음 재해석, 좌표 생성 | 미채점 상태로 두고 기본값 사용 |
 | `exaone-sar` 지식 LoRA | 논문 RAG와 Persona를 이용한 prior | 좌표·전역 경로, 마음 재해석 | 유형별 SAR 통계 prior |
-| `exaone-mind-v5` 행동 LoRA | 행동·목표·혼란 출력. 현재 목표·혼란/상태를 하류에서 사용 | prior·축 채점, 좌표 생성 | 혼란 증가 휴리스틱 |
+| `exaone-mind-dem5` 행동 LoRA | 행동·목표·혼란 출력. 행동은 보행 모드로, 목표·혼란은 게이지·이동에 반영 | prior·축 채점, 좌표 생성 | 혼란 증가 휴리스틱 |
 | Koester | 유형별 이동거리 확률 | 자연어 해석 | 항상 알고리즘 경로에 존재 |
 | 6전략 MC | 확률적 이동과 종착점 분포 | 보호자 발화 해석 | 항상 실행 |
 | OSMnx | 보행 도로망 제약 | 마음·목적 | 연속 공간 워커 |
 | OSM·EGIS | 환경 거리·토지피복 | 목표 해석 | 환경 없는 도로망 MC 유지 |
 | Kakao·Nominatim·Gazetteer | 장소 좌표화 | 경로 예측 | 다음 지오코더 또는 미해결 |
-| VARCO·Upstage | Phase 1 어댑터 자리 | 핵심 실시간 예측 | 현재 결정적 스텁 |
-| 푸시 인프라 | 아직 없음 | — | `sent=false` 스텁 응답 |
+| 업스테이지 임베딩 | Phase 0 슬롯 검색, RAG 의미 검색 | 실시간 위치 예측 | 해시 어휘 중첩 스텁(의미 검색 불가) |
+| 웹푸시(VAPID) | 구독 등록과 발송 | 대상 셀 선정 | `PUSH_ENABLED=false`면 `sent=false` |
 
 ## 12. 설정 기본값 중 동작을 바꾸는 항목
 
 | 환경 설정 | 기본값 | 효과 |
 |---|---:|---|
 | `EXAONE_MODEL` | 빈 값 | Phase 2 prior 모델. 운영 시 `exaone-sar` ID 지정 |
-| `MIND_MODEL` | `exaone-mind-v5` | Phase 2 마음 재해석 전용 LoRA |
+| `MIND_MODEL` | `exaone-mind-dem5` | Phase 2 마음 재해석 전용 LoRA |
+| `MIND_BEHAVIOR_ENABLED` | `true` | 마음 재해석의 `behavior`를 보행 모드에 반영 |
+| `MIND_TRANSITIONS_PER_WALKER` | `2` | 워커당 마음 전환 최대 횟수 |
 | `AXIS_SCORING_MODEL` | 빈 값 | Phase 0 축 채점 모델. 비우면 `EXAONE_MODEL` 사용 |
 | `RAG_ENABLED` | `true` | prior 경로의 논문 검색 |
 | `RAG_TOP_K` | `4` | prior에 제공할 발췌 수 |
@@ -799,8 +815,14 @@ stateDiagram-v2
 | `AXIS_SCORING_ASYNC` | `true` | Persona 확정 응답을 막지 않고 백그라운드 채점 |
 | `USE_ROADNET` | `true` | 기본은 도로망 MC(캐시 우선, 실패 시 연속 공간 폴백) |
 | `ROADNET_PRELOAD` | `false` | Phase 1에서 도로망 미리 받지 않음 |
+| `ROADNET_DYNAMIC_RADIUS` | `true` | prior·경과시간에 따라 도로망 반경을 3~6km로 조절 |
 | `MC_NUM_WALKERS` | `500` | Agent·Statistical 공통 워커 수 |
-| `MIND_CALL_BUDGET` | `5` | 예측당 실제 EXAONE 마음 재해석 상한 |
+| `MIND_CALL_BUDGET` | `5` | 예측당 실제 EXAONE 마음 재해석 상한. 발동 상황 5개 층에 층화 배분 |
+| `ROAD_PREFERENCE_STRENGTH` | `1.0` | 도로 위계 선호 세기. `0`이면 끔(ablation 대조군) |
+| `ENV_RESPONSE_STRENGTH` | `1.0` | 개인 환경 반응 세기. `0`이면 끔 |
+| `POA_REFRESH_ENABLED` | `true` | 기동 시 백그라운드 재예측 감시 스레드 시작 |
+| `POA_REFRESH_INTERVAL_SECONDS` | `300` | 재실행 판정을 물어보는 주기 |
+| `PUSH_ENABLED` | `false` | 웹푸시 실제 발송 |
 | `REFLEX_ALERT_ON_INTAKE` | `true` | 신고 직후 안전반경 알림 경로 실행 |
 | `REFLEX_KRING` | `2` | H3 중심 포함 19셀 |
 | `ALERT_COVERAGE` | `0.8` | POA·D3 타겟 누적 커버리지 |
@@ -816,18 +838,21 @@ stateDiagram-v2
 
 ## 13. API 인벤토리
 
-현재 FastAPI에는 루트·대시보드를 제외하고 24개 Phase·Privacy·Debug 엔드포인트가 있다.
+현재 FastAPI에는 루트·대시보드를 제외하고 51개 엔드포인트가 있다.
 
 | 그룹 | 엔드포인트 |
 |---|---|
-| Phase 0 | 인터뷰 시작·답변·조회, 슬롯 조회, Persona 등록·조회 6개 |
+| Phase 0 | 인터뷰 시작·답변·조회, 세션 열기·메시지·완료, 슬롯 조회, Persona 등록·목록·조회·수정·상태 12개 |
 | Phase 1 | 신고 생성, Case 조회 2개 |
 | Phase 2 | 예측 실행 1개 |
-| Phase 3 | Reflex 알림, POA 알림, Tip, POA 조회, 재실행 확인 5개 |
+| Phase 3 | Reflex 알림, POA 알림, Tip, POA 조회, 재실행 확인, 알림 목록·해제 목록, 안내, presence 등록·조회, 기기 등록·해제, 웹푸시 공개키 13개 |
 | Privacy | 종결, 보존기간, Case 삭제, Persona 삭제, 만료 파기, 감사로그 6개 |
+| Walk | 산책 세션 시작·종료·활성 조회·통계 4개 |
+| Geo | 장소 검색, 라벨, 주변 산책로, 지도 타일 4개 |
+| Auth | 회원가입, 로그인, 로그아웃, 역할 변경, 내 정보 5개 |
 | Debug | traced predict, bundle, buildings, overview 4개 |
 
-API 요청·응답의 상세 형식은 [`API_CONTRACT.md`](../API_CONTRACT.md)를 참고할 수 있으나, 이 파일에는 develop 최신 코드와 다른 설명이 남아 있다. 현재 동작의 최종 근거는 [`backend/app/api`](../backend/app/api)와 [`backend/app/schemas`](../backend/app/schemas)이다.
+API 요청·응답의 상세 형식은 [`API_CONTRACT.md`](../API_CONTRACT.md)에 있다. 문서와 코드가 다르면 현재 동작의 최종 근거는 [`backend/app/api`](../backend/app/api)와 [`backend/app/schemas`](../backend/app/schemas)이다.
 
 ## 14. 테스트와 검증 자산
 
@@ -836,57 +861,60 @@ API 요청·응답의 상세 형식은 [`API_CONTRACT.md`](../API_CONTRACT.md)�
 - `backend/experiments`에는 축 채점, 인터뷰, 슬롯 검색, Mind 어댑터, 풀 결합, 호출 예산, 제보 모델, 신뢰도 가중치 등 PR 실험 스크립트와 결과가 있다.
 - `/dashboard`와 Debug API는 워커 궤적, 마음 이벤트, EXAONE 입력·출력, 네 POA 레이어를 시각화한다.
 
-정확한 테스트 수와 통과 결과는 변경될 수 있으므로 `cd backend && python -m pytest` 또는 최신 CI를 기준으로 확인한다.
+2026-08-13 기준 `python -m pytest -q`는 890 passed · 2 skipped다. 이 저장소에는 GitHub Actions 워크플로가 없으므로 검증은 로컬 실행이 기준이다.
 
 ## 15. develop 기준 구현·문서 불일치와 우선 정리 항목
 
 ### 현재 문서에서 의도적으로 강조하는 코드 경계
 
 1. Statistical MC도 동일 EXAONE prior를 공유한다. 완전한 비-AI 기준선이 아니라 동적 마음 재해석 제외 비교군이다.
-2. Mind v2의 `behavior`는 계약과 평가에는 포함되지만 현재 이동 전략에 연결되지 않는다.
-3. 제보 시각은 형식·범위 가드만 있고 시민 원문 대조 가드는 없다.
-4. 주기-only 실험이 더 단순했지만 현재 코드에는 주기 45분과 KL 0.5 트리거가 모두 남아 있다.
+2. 제보 시각은 형식·범위 가드만 있고 시민 원문 대조 가드는 없다.
+3. 주기-only 실험이 더 단순했지만 현재 코드에는 주기 45분과 KL 0.5 트리거가 모두 남아 있다.
+4. 혼란도는 모델이 낸 상·중·하를 고정 수치(`0.85/0.6/0.35`)로 변환해 쓴다. 규칙 기반 산정으로의 완전 대체는 아직이다.
+5. 발견율 곡선의 우위는 정답 궤적을 같은 시뮬레이터가 만든다는 순환이 부분적으로 남아 있다. 예측 성능의 증거가 아니라 알림 전략 효율의 비교로만 인용한다.
 
 ### 실서비스 전 핵심 미구현
 
-1. 프런트 Phase 0 ↔ 백엔드 적응형 인터뷰 연결
-2. 프런트 Phase 3 제보 ↔ 백엔드 응답·POA delta 매핑
-3. 실제 multipart 사진·문서 업로드와 외부 추출 모델 연동 여부 정리
-4. FCM/APNs, 셀 내 동의 사용자 위치 인덱스, 백그라운드 지오펜스
-5. 인메모리 Repository의 영속 DB 전환
-6. 주기 재실행·TTL 파기를 호출할 운영 스케줄러
-7. 배포 서버의 도로망·환경 캐시 사전 배포 — `USE_ROADNET` 기본값은 `true`로 전환됨(2026-08-05, `feat/use-roadnet-true`, 정릉 단일 지역 검증). 캐시 없는 서버의 첫 요청은 Overpass 콜드 다운로드(15~110초)를 거친다
-8. Statistical MC의 통계 전용 prior 분리 여부 결정
-9. Mind `behavior`의 이동 전략 연결과 규칙 기반 혼란 산정
-10. 제보 시각 원문 대조 가드
-11. 주기-only 또는 주기+KL 운영 정책 결정
-12. 게이지 계수·알림 임계·유형별 Koester 파라미터의 합성 시나리오 튜닝
+1. 실기기 웹푸시 수신 검증과 `PUSH_ENABLED` 운영 전환
+2. 백그라운드 지오펜스 — 현재 presence는 앱이 켜져 있을 때만 갱신된다
+3. TTL 파기를 호출할 운영 스케줄러(재예측 감시 스레드는 구현, 파기는 `POST /privacy/purge-expired` 수동)
+4. 배포 서버의 도로망·환경 캐시 사전 배포. 캐시 없는 좌표의 첫 요청은 Overpass 콜드 다운로드(15~110초)를 거친다
+5. Statistical MC의 통계 전용 prior 분리 여부 결정
+6. 규칙 기반 혼란도 산정의 운영 연결
+7. 제보 시각 원문 대조 가드
+8. 주기-only 또는 주기+KL 운영 정책 결정
+9. 게이지 계수·알림 임계·유형별 Koester 파라미터의 합성 시나리오 튜닝
+10. API 인가 — 앱 로그인(`/auth/*`)은 있지만 Phase·Privacy·Debug 라우터에 인증 의존성이 없다. 공개 주소로 노출된 엔드포인트는 누구나 호출할 수 있다
 
 ## 16. 코드 탐색 지도
 
 ```text
 Come-back-home/
 ├── backend/app/
-│   ├── api/                 Phase·Privacy·Debug REST 라우터
+│   ├── api/                 Phase·Walk·Geo·Auth·Privacy·Debug REST 라우터
 │   ├── schemas/             Persona, Case, Prior, POA, Tip 도메인 모델
 │   ├── phase0/              적응형 온보딩, 축 채점, 경로 익숙함 컴파일
 │   ├── phase1/              신고 접수와 즉시 안전반경
-│   ├── phase2/              prior, 가드레일, 게이지, MC, POA 결합
-│   ├── phase3/              제보 신뢰도, 갱신, 재실행, 알림
+│   ├── phase2/              prior, 가드레일, 게이지, MC, POA 결합, 자동 재예측
+│   ├── phase3/              제보 신뢰도, 갱신, 재실행, 알림, presence, 웹푸시
+│   ├── walk/                산책 세션 통계
 │   ├── geo/                 H3, 지오코딩, POI, 도로망, 환경·도달가능성
-│   ├── llm/                 Mi:dm, EXAONE, VARCO, Upstage 어댑터
+│   ├── rag/                 논문 인덱스와 발췌 검색
+│   ├── llm/                 Mi:dm, EXAONE, mind v2, tip_llm, copy_llm 어댑터
 │   ├── privacy/             종결·파기 수명주기
 │   ├── static/dashboard.html
 │   ├── config.py
 │   ├── seed.py
-│   └── storage.py
-├── backend/tests/           441개 test 함수와 정릉동 fixture
+│   └── storage.py           SQLite 영속 저장소
+├── backend/tests/           890 passed · 2 skipped, 정릉동 fixture 포함
+├── backend/experiments/     골드셋·발견율 곡선·알림 실험 하네스와 결과
 ├── frontend/src/
-│   ├── api/                 목/실백엔드 전환 클라이언트
-│   ├── navigation/          역할별 분리 트리
-│   ├── store/               역할·앱모드·실종자 단일 소스
-│   ├── screens/             시민·보호자·운영자 화면
+│   ├── api/                 client·guardian·walk·auth 클라이언트와 설정
+│   ├── navigation/          역할별 분리 트리(시민·보호자)
+│   ├── store/               역할·앱모드·보호자 등록·실종자 단일 소스
+│   ├── screens/             21개 화면
 │   └── components/          지도·POA·챗봇·상태 UI
+├── dashboard/               경찰 관제 웹 콘솔(Vite·React)
 ├── API_CONTRACT.md
 └── docs/IMPLEMENTATION_ARCHITECTURE.md
 ```
