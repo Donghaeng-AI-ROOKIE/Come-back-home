@@ -32,9 +32,10 @@ npm run dev          # http://localhost:5173
 
 ## 계약·정직성 규칙 (수정 시 유지할 것)
 
-- API는 `src/api.ts` — `API_CONTRACT.md` v0.1 범위만 사용. 계약에 없는 수치는 화면에 표기하지
+- API는 `src/api.ts` — 루트 [`API_CONTRACT.md`](../API_CONTRACT.md) 범위만 사용. 계약에 없는 수치는 화면에 표기하지
   않거나 "(데모)" 라벨을 붙인다(알림 도달 추정 등).
-- FCM 실발송 미구현(`sent=false`) — "발송 시뮬레이션" 라벨과 헤더 배지는 제거 금지.
+- 푸시는 발송 경로만 구현돼 있고 `PUSH_ENABLED` 기본값이 `false`라 `sent=false`로 돌아온다 —
+  "발송 시뮬레이션" 라벨과 헤더 배지는 제거 금지.
 - 색 토큰(`src/theme.ts`)의 3색 의미 체계(긴급 빨강/수색 앰버/평시 그린)는 모바일 앱과 공유하는
   확정값. 액센트 블러플은 상호작용 표시 전용.
 - 축 점수 표기는 실축 필드명(`axis_scores` 키) 기준 — 한국어 라벨 매핑은 `theme.ts`의

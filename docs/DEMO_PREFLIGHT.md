@@ -37,7 +37,8 @@ curl -s -m 10 -H "Authorization: Bearer $EXAONE_API_KEY" \
   http://100.73.27.46:18000/v1/models | python3 -m json.tool
 ```
 
-어댑터 6종(`exaone-sar`·`exaone-axis`·`exaone-mind-dem3` 포함)이 보여야 한다.
+어댑터 6종이 보여야 한다. 운영에서 실제로 쓰는 것은 셋이다 —
+`exaone-sar`(prior)·`exaone-base`(축 채점)·`exaone-mind-dem5`(마음 재해석).
 안 보이면 맥미니의 SSH 터널과 `tailscale serve` 부터 확인한다.
 
 > Tailscale 을 켜면 Claude Code 가 `ECONNRESET` 으로 죽는다(IPv6 광고 문제).
@@ -90,7 +91,8 @@ prior : exaone
 
 `frontend/.env` 의 `EXPO_PUBLIC_API_BASE` 가 백엔드를 가리키는지 본다.
 
-- iOS 시뮬레이터 — `http://localhost:8000` (기본값)
+- 웹 배포본 — 기본값이 같은 출처의 `/api` 다. nginx 가 백엔드로 넘기므로 따로 설정할 것이 없다
+- iOS 시뮬레이터 — `http://localhost:8000` 을 넣는다. 값을 비우면 네이티브 기본값인 **배포 서버**로 나간다
 - 실기기 — 호스트의 LAN IP. `localhost` 로는 **절대 안 닿는다**
 
 `EXPO_PUBLIC_USE_MOCK` 은 반드시 비워 둔다. `true` 면 서버에 닿지 않고 목 데이터를
