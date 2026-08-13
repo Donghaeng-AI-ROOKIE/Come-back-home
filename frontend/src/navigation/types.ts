@@ -15,7 +15,11 @@ export type RootStackParamList = {
   GuardianTabs: NavigatorScreenParams<GuardianTabParamList> | undefined;
 
   // 보호자 플로우 (홈에서 진입)
-  RegChat: { mode?: 'regular' | 'quick' } | undefined;
+  /**
+   * `regular` 12문항 온보딩 · `quick` 신고 직전 Tier1 5문항 ·
+   * `supplement` 빠른 등록이 안 물은 Tier2·3 7문항(기존 persona 갱신).
+   */
+  RegChat: { mode?: 'regular' | 'quick' | 'supplement' } | undefined;
   RegDone: { personaId: string; name: string; age: number };
   /** 사전 등록 상세 — 저장된 내용 전체 열람·수정. */
   PersonaDetail: { personaId: string };

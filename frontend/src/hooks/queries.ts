@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getActiveAlerts, getGuidance, getNearbyWalks, getPoaPrediction, getResolvedAlerts, touchPresence } from '../api/client';
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
-import { getAreaLabels, getCase, getMyCases, listPersonas, runPrediction } from '../api/guardian';
+import { getAreaLabels, getCase, getMyCases, getPersonaStatus, listPersonas, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
 import { useAuthStore } from '../store/authStore';
 import { useDebugStore } from '../store/debugStore';
@@ -314,6 +314,28 @@ export function usePersonas() {
     // 목록이 옛 이름·나이를 보여주던 문제(현장 제보 08-11)의 구조적 처방.
     // 저장하는 쪽에서 무효화도 하지만, 그걸 한 군데라도 빠뜨리면 다시 같은 버그가
     // 난다. 등록 가족은 몇 건뿐이라 화면에 들어올 때마다 다시 물어도 싸다.
+    staleTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
+  });
+}
+
+/**
+ * 사전 등록이 어디까지 찼는지 — 보호자 홈이 어떤 진입점을 띄울지 정하는 근거.
+ *
+ * `usePersonas` 로는 이걸 알 수 없다. 그 목록은 persona 가 **있다/없다**만
+ * 말해 주는데, 빠른 등록으로 만든 persona 는 목록에 멀쩡히 뜨면서도 Tier2·3 이
+ * 비어 있다(`completed_tiers = [1]`). 서버만 아는 구분이라 따로 묻는다.
+ *
+ * `usePersonas` 와 같은 갱신 정책을 쓴다 — 보완챗을 마치고 홈으로 돌아왔을 때
+ * 카드가 옛 상태로 남아 있으면 방금 답한 게 반영이 안 된 것처럼 보인다.
+ */
+export function usePersonaStatus() {
+  const userId = useAuthStore((s) => s.userId);
+  return useQuery({
+    queryKey: ['personaStatus', userId],
+    queryFn: () => getPersonaStatus(userId ?? undefined),
+    enabled: userId != null,
     staleTime: 0,
     refetchOnMount: 'always',
     refetchOnWindowFocus: true,

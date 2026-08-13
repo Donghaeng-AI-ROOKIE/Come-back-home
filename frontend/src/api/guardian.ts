@@ -37,6 +37,17 @@ export type InterviewSession = {
   target_tiers?: number[] | null;
 };
 
+export type PersonaStatus = {
+  persona_id: string | null;
+  /** none = 등록 없음 · partial = Tier1 만(빠른 등록) · complete = 12문항 완료. */
+  persona_status: 'none' | 'partial' | 'complete';
+  /** 서버가 권하는 다음 행동. `update` 는 챗봇이 아니라 PersonaDetailScreen 을 뜻한다. */
+  available_mode: 'create' | 'supplement' | 'update';
+  /** 채워진 tier 들. 빠른 등록 직후는 `[1]`. */
+  completed_tiers: number[];
+  persona_version: number | null;
+};
+
 export type SlotInfo = {
   key: string;
   label: string;
@@ -143,13 +154,53 @@ export function startInterview(guardianName: string, personaType?: PersonaType, 
  * 그린다. 이어지는 답변 전송은 두 엔드포인트가 같은 엔진(answer_interview)을
  * 부르므로 기존 `answerInterview` 를 그대로 쓴다 — 시작 호출만 갈아끼우면 된다.
  */
-export async function startTier1Interview(guardianName: string, guardianId?: string) {
+export function startTier1Interview(guardianName: string, guardianId?: string) {
+  return openScopedSession({ guardian_name: guardianName, guardian_id: guardianId ?? '',
+                             mode: 'create', scope: 'tier1', persona_type: null });
+}
+
+/**
+ * 보완챗 — 빠른 등록이 안 물은 **Tier2·3 7문항**을 채운다.
+ *
+ * 얼마나 걸으실 수 있는지 · 위험한 곳을 피하실 수 있는지 · 말을 걸었을 때 반응 ·
+ * 복약·건강 · 길을 잘못 드셨을 때 돌아오시는지 · 길 잃으면 하시는 행동 ·
+ * 불안할 때 하시는 행동. 이 축들이 비면 예측이 수색 반경·이동 속도·행동 확률에
+ * 개인 보정을 못 걸고 인구 평균으로 돈다(phase2/gauges.py 의 axis 폴백).
+ *
+ * 기존 persona 를 **갱신**한다 — 새로 만들지 않는다. 서버가 guardian_id 로 그
+ * persona 를 찾아 Tier1 답변은 그대로 두고 병합하며, 끝나면 진행 중인 case 를
+ * 자동 재예측한다(persona_events.notify_persona_updated → reapply_tips 로 그동안
+ * 쌓인 제보 보존). 그래서 신고를 다시 할 필요가 없다.
+ *
+ * ⚠ `partial` 상태에서만 열린다. 그 외에는 서버가 409 를 준다 — 화면이 상태를
+ * 먼저 보고(`getPersonaStatus`) 진입점을 띄우므로 정상 흐름에서는 안 걸린다.
+ */
+export function startSupplementInterview(guardianName: string, guardianId?: string) {
+  return openScopedSession({ guardian_name: guardianName, guardian_id: guardianId ?? '',
+                             mode: 'supplement' });
+}
+
+/** 세션을 연 뒤 화면이 쓰는 `InterviewSession` 형태로 받아온다(위 주석 참고). */
+async function openScopedSession(body: Record<string, unknown>) {
   const opened = await api<{ session_id: string }>('/phase0/interviews/sessions', {
     method: 'POST',
-    body: JSON.stringify({ guardian_name: guardianName, guardian_id: guardianId ?? '',
-                           mode: 'create', scope: 'tier1', persona_type: null }),
+    body: JSON.stringify(body),
   });
   return getInterview(opened.session_id);
+}
+
+/**
+ * 이 보호자의 사전 등록 진행 상태 — 홈 화면이 진입점을 고르는 근거.
+ *
+ * - `none` → 등록된 게 없다. "안심 사전 등록"(12문항 온보딩).
+ * - `partial` → 빠른 등록으로 Tier1 만 채웠다. **보완챗**으로 나머지를 받는다.
+ * - `complete` → 12문항이 다 찼다. 수정은 챗봇 재질문이 아니라 PersonaDetailScreen
+ *   (구조화 수정 화면)이 담당한다(2026-08-06 팀 결정).
+ */
+export function getPersonaStatus(guardianId?: string) {
+  return api<PersonaStatus>(
+    `/phase0/personas/status?guardian_id=${encodeURIComponent(guardianId ?? '')}`,
+  );
 }
 
 /** 답변 1건 전송 → 갱신된 세션(다음 질문이 messages 끝에 붙어 온다). */

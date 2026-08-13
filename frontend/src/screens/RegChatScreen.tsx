@@ -10,7 +10,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { ApiError } from '../api/config';
-import { answerInterview, getPersona, listSlots, startInterview, startTier1Interview, type InterviewSession, type SlotInfo } from '../api/guardian';
+import { answerInterview, getPersona, listSlots, startInterview, startSupplementInterview, startTier1Interview, type InterviewSession, type SlotInfo } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
 import { useAuthStore } from '../store/authStore';
 import BackIcon from '../../assets/figma/detail-back.svg';
@@ -24,6 +24,9 @@ export default function RegChatScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'RegChat'>>();
   const quick = route.params?.mode === 'quick';
+  // 보완챗 — 빠른 등록이 안 물은 Tier2·3 을 채운다. quick 과 달리 **새 persona 를
+  // 만들지 않고 기존 것을 갱신**하므로, 끝난 뒤 갈 곳도 등록 완료 화면이 아니다.
+  const supplement = route.params?.mode === 'supplement';
   const [session, setSession] = useState<InterviewSession | null>(null);
   const [slots, setSlots] = useState<SlotInfo[]>([]);
   const [input, setInput] = useState('');
@@ -43,13 +46,39 @@ export default function RegChatScreen() {
       // 간다. 나머지 7문항은 신고 접수 뒤 보완챗이 받는다.
       const opening = quick
         ? startTier1Interview(GUARDIAN_NAME, guardianId ?? undefined)
-        : startInterview(GUARDIAN_NAME, undefined, guardianId ?? undefined);
+        : supplement
+          ? startSupplementInterview(GUARDIAN_NAME, guardianId ?? undefined)
+          : startInterview(GUARDIAN_NAME, undefined, guardianId ?? undefined);
       const [nextSession, catalog] = await Promise.all([opening, listSlots().catch(() => [] as SlotInfo[])]);
       setSession(nextSession); setSlots(catalog);
     } catch (e) { setError(e instanceof ApiError ? e.message : String(e)); }
-  }, [guardianId, quick]);
+  }, [guardianId, quick, supplement]);
 
   useEffect(() => { begin(); }, [begin]);
+
+  /**
+   * 대화가 끝난 뒤 어디로 보낼지.
+   *
+   * 세 모드가 각각 다른 곳으로 간다 — 온보딩은 등록 완료 화면, 빠른 등록은
+   * 하던 신고로 되돌아가고, **보완챗은 홈**이다. 보완챗은 새로 등록한 게 아니라
+   * 이미 있는 persona 를 채운 것이라 "등록 완료"를 띄우면 거짓말이 되고, 신고는
+   * 이미 접수돼 있어 Report 로 보낼 수도 없다.
+   */
+  const goAfterDone = useCallback((persona: { id: string; name: string; age: number } | null, personaId: string) => {
+    // 목록·상태는 별도 쿼리라 무효화하지 않으면 다음에 앱을 켤 때까지 옛 값이 남는다.
+    qc.invalidateQueries({ queryKey: ['personas'] });
+    qc.invalidateQueries({ queryKey: ['personaStatus'] });
+    if (supplement) {
+      // 서버가 진행 중인 case 를 다시 예측한다(persona_events). 백그라운드 스레드라
+      // 결과가 즉시 오지 않으므로, 예측을 보여주는 화면으로 밀지 않고 홈으로 돌린다.
+      // 다만 사건 조회는 무효화해 둔다 — 갱신분이 다음 폴링에 바로 잡히게.
+      qc.invalidateQueries({ queryKey: ['guardianCases'] });
+      navigation.replace('GuardianTabs', { screen: 'GuardianHome' });
+    } else if (quick) navigation.replace('Report');
+    else navigation.replace('RegDone', {
+      personaId, name: persona?.name ?? '', age: persona?.age ?? 0,
+    });
+  }, [qc, quick, supplement, navigation]);
 
   useEffect(() => {
     if (!session?.done || !session.persona_id) return;
@@ -59,21 +88,15 @@ export default function RegChatScreen() {
         const persona = await getPersona(session.persona_id!);
         if (cancelled) return;
         setPersona(persona);
-        // 새로 등록한 가족이 홈 목록에 바로 뜨게 한다 — 목록은 별도 쿼리라
-        // 무효화하지 않으면 다음에 앱을 켤 때까지 안 보인다.
-        qc.invalidateQueries({ queryKey: ['personas'] });
-        if (quick) navigation.replace('Report');
-        else navigation.replace('RegDone', { personaId: persona.id, name: persona.name, age: persona.age });
+        goAfterDone(persona, persona.id);
       } catch (e) {
         if (cancelled) return;
         setError(e instanceof ApiError ? e.message : String(e));
-        qc.invalidateQueries({ queryKey: ['personas'] });
-        if (quick) navigation.replace('Report');
-        else navigation.replace('RegDone', { personaId: session.persona_id!, name: '', age: 0 });
+        goAfterDone(null, session.persona_id!);
       }
     })();
     return () => { cancelled = true; };
-  }, [quick, session, navigation, setPersona]);
+  }, [session, goAfterDone, setPersona]);
 
   const messages = useMemo<Msg[]>(() => {
     const server = (session?.messages ?? []).map((message, index) => ({
@@ -99,7 +122,7 @@ export default function RegChatScreen() {
   // 서버가 세션에 실어 주는 target_tiers 로 거른다 — 프론트에 개수를 박지 않는다.
   const tiers = session?.target_tiers;
   const scoped = tiers?.length ? slots.filter((slot) => tiers.includes(slot.tier)) : slots;
-  const total = scoped.length || (quick ? 5 : 12);
+  const total = scoped.length || (quick ? 5 : supplement ? 7 : 12);
   const progress = Math.max(25, Math.min(100, Math.round((filled / total) * 100))) as number;
 
   /**
@@ -121,7 +144,7 @@ export default function RegChatScreen() {
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'height' : undefined}>
         <View style={styles.header}>
           <Pressable onPress={() => quick ? navigation.goBack() : navigation.navigate('GuardianTabs', { screen: 'GuardianHome' })} accessibilityRole="button" accessibilityLabel="뒤로" style={styles.back}><BackIcon width={10} height={18} color="#8E8E93" /></Pressable>
-          <Text style={styles.title}>{quick ? '빠른 등록' : '사전 등록 인터뷰'}</Text>
+          <Text style={styles.title}>{quick ? '빠른 등록' : supplement ? '추가 질문' : '사전 등록 인터뷰'}</Text>
           <View style={styles.headerSide} />
         </View>
 
