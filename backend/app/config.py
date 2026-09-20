@@ -171,11 +171,17 @@ class Settings(BaseSettings):
     mind_contract: str = "v2"
 
     # RAG — 논문 코퍼스 검색으로 EXAONE 추론에 근거를 붙인다 (P1-4).
-    #   인덱스는 sar-finetune/build_rag.py 산출물(npz 한 개: 벡터+메타+임베더명).
-    #   임베더는 인덱스에 기록된 것을 따른다(질의·문서 모델이 다르면 검색이 무의미).
+    #   인덱스는 experiments/embedder_swap/build_index.py 산출물(npz 한 개: 벡터+
+    #   메타+임베더명). 임베더는 위 embed_* 설정(get_embedder)이 정하고, 인덱스에
+    #   기록된 임베더명과 다르면 로드 시 경고한다(질의·문서 모델이 다르면 검색이
+    #   무의미).
+    #   기본 인덱스 = Upstage embedding-passage 로 빌드한 치매 단독 1,200청크본.
+    #   구 KURE 빌드본(rag_index.npz, 2,488청크)은 8/12 사무국 판정(임베딩도 연계
+    #   기업 모델이어야 함)으로 폐기돼 배포에도 없다 — 기본값이 그쪽을 가리키면
+    #   .env 에 RAG_INDEX_PATH 가 없을 때 "인덱스 없음"으로 RAG 가 조용히 꺼진다.
     #   rag_max_per_source: 한 논문이 top-k 를 독식하지 못하게 하는 출처당 상한.
     rag_enabled: bool = True
-    rag_index_path: str = "data/rag_index.npz"
+    rag_index_path: str = "data/rag_index_upstage.npz"
     rag_top_k: int = 4
     rag_max_per_source: int = 2
     rag_max_chars: int = 1800
