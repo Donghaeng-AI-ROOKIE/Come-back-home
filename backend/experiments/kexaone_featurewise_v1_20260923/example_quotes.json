@@ -1,0 +1,42 @@
+[
+  {
+    "id": "unknown_direction_input",
+    "source_type": "case_note",
+    "source_id": "C03",
+    "note_index": 2,
+    "text": "최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다."
+  },
+  {
+    "id": "persistence_preserves_unknown",
+    "source_type": "model_field",
+    "source_id": "C03_FEATURES_1",
+    "field": [
+      "features",
+      "movement_persistence",
+      "conclusion"
+    ],
+    "text": "개인 관찰에 따르면 헤매는 상황에서도 멈추지 않고 계속 걸어가는 이동 지속성이 나타났으나, 방향 전환 여부는 미확인이다."
+  },
+  {
+    "id": "route_invents_observation",
+    "source_type": "model_field",
+    "source_id": "C03_FEATURES_1",
+    "field": [
+      "features",
+      "route_shape",
+      "conclusion"
+    ],
+    "text": "개인의 경로 형태는 직접 관찰되지 않았으나, 헤매는 상황에서도 직진하는 경향이 관찰되어 route_following 또는 direction_keeping 가설이 부분적으로 지지된다."
+  },
+  {
+    "id": "route_observation_preserved",
+    "source_type": "model_field",
+    "source_id": "C06_FEATURES_1",
+    "field": [
+      "features",
+      "route_shape",
+      "conclusion"
+    ],
+    "text": "개인 관찰에 따르면 방향 전환이 빈번하며, 이는 경로 혼란 또는 익숙 경로 이탈 가능성을 시사한다. 그러나 경로 이용 여부는 미확인이다."
+  }
+]

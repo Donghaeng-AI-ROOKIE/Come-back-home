@@ -1,0 +1,16 @@
+{
+  "sha256": {
+    "assets/map_data.json.gz": "d941a765edbf4cbc8d400df709f3b708cf854ccd9d102ff9a741d5e3d22b1b29",
+    "assets/matched-results.png": "6d5f5a6389c9ee92f9ae4ef0fadb1b5616f30b3d6ebffd6d2be09c53fb0e2302",
+    "assets/osm-paths.png": "bfb739494165a354f7dfb5885c628ca8188cb162b71b622ce4b00e3a6150bc80",
+    "example_quotes.json": "8a1cd73c398f505a4a128b94a8a31f88442e730cd122b23588771b30c0783536"
+  },
+  "checks": [
+    "10 offline unittest tests passed",
+    "verbatim source quotations and full responses checked",
+    "rendered PNGs inspected for Korean glyphs, labels, and captions",
+    "map panels use identical extent, all displayed paths within view"
+  ],
+  "new_model_calls": 0,
+  "new_walking_runs": 0
+}

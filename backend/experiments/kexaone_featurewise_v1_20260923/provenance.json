@@ -97,5 +97,16 @@
     "full OSM graph and walker trajectories",
     "self-contained local map viewer",
     "shared raw usage ledger"
-  ]
+  ],
+  "visualization_exports": {
+    "new_model_calls": 0,
+    "new_walking_runs": 0,
+    "map_selection": "C02/C04, repeat index 1, smallest predefined seed 41, first 40 stored walkers per run",
+    "included_map_excerpt": "assets/map_data.json.gz",
+    "figures": [
+      "assets/matched-results.png",
+      "assets/osm-paths.png"
+    ],
+    "full_graph_or_trajectories_included": false
+  }
 }

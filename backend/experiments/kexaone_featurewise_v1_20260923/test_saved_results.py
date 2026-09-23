@@ -1,5 +1,6 @@
 """Verify the saved study without APIs, app imports, or new walking simulations."""
 import copy
+import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -145,6 +146,40 @@ class SavedExperimentTests(unittest.TestCase):
         self.assertEqual(sum(x[1] != 'uncertain' for x in actions), 33)
         self.assertEqual(sum(x[2] for x in actions), 9)
         self.assertEqual(len({x[0] for x in actions if x[2]}), 7)
+
+    def test_example_quotes_match_stored_input_or_output(self):
+        outputs = {x['id']: x for x in self.outputs}
+        document = (ROOT / 'EXAMPLES.md').read_text()
+        for quote in read('example_quotes.json'):
+            if quote['source_type'] == 'case_note':
+                actual = self.cases[quote['source_id']]['notes'][quote['note_index']]
+            else:
+                actual, _ = recover_envelope(outputs[quote['source_id']]['raw_content'], 'FEATURES')
+                for field in quote['field']:
+                    actual = actual[field]
+            self.assertEqual(actual, quote['text'])
+            self.assertIn(quote['text'], document)
+        for output_id in ['C03_FEATURES_1', 'C05_FEATURES_1', 'C06_FEATURES_1']:
+            self.assertIn(outputs[output_id]['raw_content'], document)
+
+    def test_map_panels_use_matching_saved_run_metrics(self):
+        with gzip.open(ROOT / 'assets/map_data.json.gz', 'rt') as handle:
+            data = json.load(handle)
+        self.assertEqual(len(data['panels']), 4)
+        self.assertEqual({(p['case'], p['condition']) for p in data['panels']},
+                         {(c, m) for c in ['C02', 'C04'] for m in ['CONTROL', 'FEATURES']})
+        for panel in data['panels']:
+            self.assertEqual((panel['repeat'], panel['seed']), (1, 41))
+            self.assertEqual(len(panel['paths']), 40)
+            source = next(x for x in self.replays if x['case'] == panel['case']
+                          and x['condition'] == panel['condition']
+                          and x['repeat'] == 1 and x['seed'] == 41)
+            self.assertEqual(source['metrics'], panel['metrics'])
+            for path in panel['paths']:
+                self.assertTrue(path)
+                self.assertEqual(path[0], [0.0, 0.0])
+                self.assertTrue(all(abs(x) <= data['extent_km'] and abs(y) <= data['extent_km']
+                                    for x, y in path))
 
     def test_usage_and_frozen_text_hashes(self):
         usage = read('usage_summary.json')
