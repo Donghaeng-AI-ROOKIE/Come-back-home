@@ -1,0 +1,56 @@
+[
+  {
+    "case": "C02",
+    "condition": "CONTROL",
+    "strategy_tv": 0.09999999999999999,
+    "attraction_tv": 0.09523809523809523
+  },
+  {
+    "case": "C03",
+    "condition": "CONTROL",
+    "strategy_tv": 0.19019607843137257,
+    "attraction_tv": 0.0
+  },
+  {
+    "case": "C04",
+    "condition": "CONTROL",
+    "strategy_tv": 0.050000000000000044,
+    "attraction_tv": 0.0
+  },
+  {
+    "case": "C05",
+    "condition": "CONTROL",
+    "strategy_tv": 0.09999999999999998,
+    "attraction_tv": 0.0
+  },
+  {
+    "case": "C06",
+    "condition": "CONTROL",
+    "strategy_tv": 0.15,
+    "attraction_tv": 0.0
+  },
+  {
+    "case": "C03",
+    "condition": "FEATURES",
+    "strategy_tv": 0.2,
+    "attraction_tv": 0.09523809523809523
+  },
+  {
+    "case": "C04",
+    "condition": "FEATURES",
+    "strategy_tv": 0.2,
+    "attraction_tv": 0.0
+  },
+  {
+    "case": "C05",
+    "condition": "FEATURES",
+    "strategy_tv": 0.04803921568627451,
+    "attraction_tv": 0.0
+  },
+  {
+    "case": "C06",
+    "condition": "FEATURES",
+    "strategy_tv": 0.14999999999999997,
+    "attraction_tv": 0.0
+  }
+]

@@ -1,0 +1,101 @@
+{
+  "run_id": "KEXAONE_featurewise_v1_20260923",
+  "execution_date": "2026-09-23",
+  "conditions": [
+    "CONTROL",
+    "FEATURES"
+  ],
+  "seeds": [
+    41,
+    73,
+    109
+  ],
+  "elapsed_hours": 1,
+  "walkers_per_replay": 500,
+  "mind_reinterpretation": false,
+  "temperature": 0.2,
+  "max_tokens": 1800,
+  "retries": 0,
+  "SAR_reference": {
+    "source_file": "F06_B_sar_0.json",
+    "sha256": "d00501f0b2ab522740d28bbaaca4781b24bff10dc5fd6d592fe7bc963d67557d",
+    "final_prior": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.2,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 과거에 여러 차례 방문한 것으로 보아 이들은 모두 상위 끌림점이다. 최근 선호를 알 수 없으므로 이들 사이에서 선택이 이루어지는 것으로 판단했다. 치매 노인의 배회 성향은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "limitation": "One frozen related case with recent behavior unknown, not a new SAR answer to each current case."
+  },
+  "RAG": {
+    "same_block_for_all_requests": true,
+    "snapshot_sha256": "56d7ee812d9ec5ad3faa684d2408a6bf8a44d96bc1673fa2e805e57e78e9096e",
+    "sources": [
+      {
+        "id": "R0",
+        "source": "[보행] 가족 돌봄 제공자의 치매노인 배회관리 경험",
+        "kind": "paper"
+      },
+      {
+        "id": "R1",
+        "source": "2110.13128v1",
+        "kind": "qa"
+      },
+      {
+        "id": "R2",
+        "source": "[보행] Persons with dementia missing in the community Is it wandering or something unique",
+        "kind": "qa"
+      },
+      {
+        "id": "R3",
+        "source": "2110.13128v1",
+        "kind": "qa"
+      }
+    ]
+  },
+  "approved_limits": {
+    "K_calls": 24,
+    "OSM_replays": 72
+  },
+  "original_source_hashes": {
+    "실험계획.md": "0fcdf78147fc2185dd8162b2cf90f2a443dc42080574e12b365ccd00ca3993bf",
+    "run_featurewise.py": "0e918be6c29dc6e3b15d1e83046d84599cd1f126f87b54c98ec635ebf4d1dbcb",
+    "protocol.py": "c4aab4674dd25fa2de51e834b4d22e8cbd6cb4ea60c5859e7e16b3385b044cc2",
+    "case_factors.json": "f2f2d8daaa425a8c2df7740b6826637ab15c094bb724345949c84afb8ba471fe",
+    "control_prompt.txt": "10c13c23ebd1b5b66a83ffe1cb6b7e172ee3b82ae9a84331622f82c87d2b6b7f",
+    "legacy_protocol.py": "db09dce8a8c46f34db76bfbad32c8cc4442916dbc26e7fbb5d31ae0a5a64fd8e",
+    "rubric.json": "5b11106a99d14efd0078aeeef8d51f18a677255a3390b1779bf579617410cdfd",
+    "rag_snapshot.json": "56d7ee812d9ec5ad3faa684d2408a6bf8a44d96bc1673fa2e805e57e78e9096e",
+    "feature_prompt.txt": "f4ce56ccea53bff3cc70fafda275c8b6c89a570068cea20ce2ebe85aa85cf25d",
+    "requests.json": "ea0010ef94e21763203357032e7bf0dccbbb34ed7a92631606bcc2b19f3b3425",
+    "prepared_cases.json": "8465e6ac33af73ce5d1430d1321ebfd80dca0540d2ca6b74d0e78b21af2a5e32",
+    "contrast_pairs.json": "ed23b6871f77baf29f6d2371f2f84f2f4b7f1e134b0954409225167ab45fd00b",
+    "baseline_integrity.json": "146b635622cdaa086e409ea2fe2a704d5709305d18c43311fb0ce39c74787fb1",
+    "sar_snapshots/F06_B_sar_0.json": "d00501f0b2ab522740d28bbaaca4781b24bff10dc5fd6d592fe7bc963d67557d"
+  },
+  "graph_sha256": "7cbae787659c508c3f2e86e2b7c349841efbb2a293a84bed7da5cbb905c812ad",
+  "reproduction_scope": "This PR verifies saved outputs, aggregates, and format recovery offline. Full model/OSM rerun needs archived original inputs, graph, runtime, logged usage, and separate approval. No live API runner included.",
+  "excluded_archive_artifacts": [
+    "raw API request envelopes and provider identifiers",
+    "full RAG passages",
+    "full OSM graph and walker trajectories",
+    "self-contained local map viewer",
+    "shared raw usage ledger"
+  ]
+}

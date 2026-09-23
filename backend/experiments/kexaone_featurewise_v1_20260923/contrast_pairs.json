@@ -1,0 +1,32 @@
+[
+  {
+    "id": "destination_when_stay",
+    "a": "C01",
+    "b": "C02",
+    "changed": "destination_pull"
+  },
+  {
+    "id": "destination_when_continue",
+    "a": "C03",
+    "b": "C04",
+    "changed": "destination_pull"
+  },
+  {
+    "id": "persistence_toward_market",
+    "a": "C01",
+    "b": "C03",
+    "changed": "movement_persistence"
+  },
+  {
+    "id": "persistence_toward_park",
+    "a": "C02",
+    "b": "C04",
+    "changed": "movement_persistence"
+  },
+  {
+    "id": "explicit_route_shape",
+    "a": "C05",
+    "b": "C06",
+    "changed": "route_shape"
+  }
+]
