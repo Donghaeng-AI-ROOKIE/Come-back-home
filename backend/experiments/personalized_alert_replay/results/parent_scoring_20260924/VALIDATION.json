@@ -1,0 +1,12 @@
+{
+  "tests": "5 passed (2 new scoring checks and 3 shared selection checks)",
+  "condition_records": 3888,
+  "area_membership_summary_checks": "passed",
+  "sum_replication": "all 18 sum groups exactly match prior equal-area experiment",
+  "input_sha256_unchanged": true,
+  "artifacts_sha256": {
+    "REPORT.md": "18ed3680ba1cb07d57d1cf187eaaa1054040d76a42888617d95db6d7abc526fb",
+    "snapshots.jsonl": "d33436250e6394300972b824efbe30c9fdb711626b307313b95487c89116b397",
+    "summary.json": "ef0eb2ff1a91aa3717f5ad23338e89884165bc5468f0df71a6f2ddaad7b4f67e"
+  }
+}
