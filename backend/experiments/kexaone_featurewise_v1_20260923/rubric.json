@@ -1,0 +1,24 @@
+{
+  "primary": "Feature-specific changes reach behavior without unexplained cross-feature changes; combine domain hypotheses with personal observations",
+  "case_pairs_file": "contrast_pairs.json",
+  "personal_evidence": "N0-N2 only, correct exact source span plus semantic review; domain hypotheses need not be individually observed",
+  "primary_checks": [
+    "Destination-only change should affect relative attraction with defensible reasons; inspect unintended persistence or route changes",
+    "Persistence-only change should affect staying/moving behavior with defensible reasons; inspect unsupported destination or straightness claims",
+    "Explicit straight-versus-turning contrast should be reflected in route reasoning and relevant strategy; no numerical true probabilities assigned",
+    "Mobility/physical range input unchanged: inspect unsupported personal capacity claims; existing axis/radius code remains fixed",
+    "Do not require all other strategy probabilities numerically identical: normalized mixture is coupled. Inspect other-strategy ratios and stated basis.",
+    "Within-input repeat variability compared with between-input feature contrast; no significance claim from 2 repeats"
+  ],
+  "replay": "All numerically usable priors, semantically flagged outputs included as diagnostics; failed outputs retained in denominator, no autofill or model retry",
+  "adoption": "No automatic winner or deployment. Compare case/seed-matched subsets if failures occur; disclose dropped matching rows.",
+  "limits": [
+    "Same-author synthetic factorial pilot, not independent clinical holdout",
+    "Constant SAR reference from a related unknown-recent-behavior case, not same-input SAR generation",
+    "RAG frozen F06 block, no retrieval performance comparison",
+    "Feature prompt and output schema form one treatment package; individual field or token-length effects not isolated",
+    "Only location/persistence/route inputs manipulated; mobility feature is an unchanged-information check",
+    "Real cached OSM roads, hypothetical places, 1 hour, mind OFF; no true pause time or actual trajectory accuracy"
+  ],
+  "constant_SAR_reference": "F06_B_sar_0, frozen before new outputs, identical across all 24 requests"
+}

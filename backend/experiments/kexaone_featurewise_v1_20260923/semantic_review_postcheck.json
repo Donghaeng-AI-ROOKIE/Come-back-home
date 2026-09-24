@@ -1,0 +1,411 @@
+{
+  "method": "Check integration declaration against model raw prior relative to frozen SAR reference, before existing application floor/normalization. Replay review initially checked final values; corrected here without rerunning or changing frozen inputs/outputs.",
+  "strategy_actions": [
+    {
+      "file": "C01_FEATURES_0.json",
+      "target": "strategy_probs.route_following",
+      "declared": "increase",
+      "reference": 0.45,
+      "raw": 0.4,
+      "simulation_final": 0.4,
+      "raw_direction": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C01_FEATURES_0.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "raw": 0.3,
+      "simulation_final": 0.3,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C01_FEATURES_0.json",
+      "target": "strategy_probs.staying_put",
+      "declared": "increase",
+      "reference": 0.05,
+      "raw": 0.1,
+      "simulation_final": 0.1,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C01_FEATURES_0.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "raw": 0.05,
+      "simulation_final": 0.05,
+      "raw_direction": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C02_FEATURES_1.json",
+      "target": "strategy_probs.route_following",
+      "declared": "increase",
+      "reference": 0.45,
+      "raw": 0.4,
+      "simulation_final": 0.4,
+      "raw_direction": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C02_FEATURES_1.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "raw": 0.15,
+      "simulation_final": 0.15,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C02_FEATURES_1.json",
+      "target": "strategy_probs.staying_put",
+      "declared": "increase",
+      "reference": 0.05,
+      "raw": 0.2,
+      "simulation_final": 0.2,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C02_FEATURES_1.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "uncertain",
+      "reference": 0.2,
+      "raw": 0.1,
+      "simulation_final": 0.1,
+      "raw_direction": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_0.json",
+      "target": "strategy_probs.route_following",
+      "declared": "uncertain",
+      "reference": 0.45,
+      "raw": 0.3,
+      "simulation_final": 0.3,
+      "raw_direction": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_0.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "raw": 0.4,
+      "simulation_final": 0.4,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_0.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "raw": 0.1,
+      "simulation_final": 0.1,
+      "raw_direction": "maintain",
+      "mismatch": true
+    },
+    {
+      "file": "C03_FEATURES_0.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "decrease",
+      "reference": 0.15,
+      "raw": 0.1,
+      "simulation_final": 0.1,
+      "raw_direction": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_1.json",
+      "target": "strategy_probs.route_following",
+      "declared": "increase",
+      "reference": 0.45,
+      "raw": 0.5,
+      "simulation_final": 0.5,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_1.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "raw": 0.3,
+      "simulation_final": 0.3,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_1.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "raw": 0.05,
+      "simulation_final": 0.05,
+      "raw_direction": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C03_FEATURES_1.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "decrease",
+      "reference": 0.15,
+      "raw": 0.05,
+      "simulation_final": 0.05,
+      "raw_direction": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C04_FEATURES_0.json",
+      "target": "strategy_probs.route_following",
+      "declared": "uncertain",
+      "reference": 0.45,
+      "raw": 0.3,
+      "simulation_final": 0.3,
+      "raw_direction": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C04_FEATURES_0.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "raw": 0.2,
+      "simulation_final": 0.2,
+      "raw_direction": "maintain",
+      "mismatch": true
+    },
+    {
+      "file": "C04_FEATURES_0.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "increase",
+      "reference": 0.15,
+      "raw": 0.25,
+      "simulation_final": 0.25,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C04_FEATURES_1.json",
+      "target": "strategy_probs.route_following",
+      "declared": "maintain",
+      "reference": 0.45,
+      "raw": 0.4,
+      "simulation_final": 0.4,
+      "raw_direction": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C04_FEATURES_1.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "raw": 0.3,
+      "simulation_final": 0.3,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C04_FEATURES_1.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "decrease",
+      "reference": 0.15,
+      "raw": 0.1,
+      "simulation_final": 0.1,
+      "raw_direction": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_0.json",
+      "target": "strategy_probs.route_following",
+      "declared": "increase",
+      "reference": 0.45,
+      "raw": 0.5,
+      "simulation_final": 0.5,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_0.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "raw": 0.3,
+      "simulation_final": 0.3,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_0.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "decrease",
+      "reference": 0.15,
+      "raw": 0.05,
+      "simulation_final": 0.05,
+      "raw_direction": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_1.json",
+      "target": "strategy_probs.route_following",
+      "declared": "increase",
+      "reference": 0.45,
+      "raw": 0.5,
+      "simulation_final": 0.49019607843137253,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_1.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "raw": 0.3,
+      "simulation_final": 0.29411764705882354,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_1.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "raw": 0.0,
+      "simulation_final": 0.0196078431372549,
+      "raw_direction": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C05_FEATURES_1.json",
+      "target": "strategy_probs.staying_put",
+      "declared": "decrease",
+      "reference": 0.05,
+      "raw": 0.05,
+      "simulation_final": 0.049019607843137254,
+      "raw_direction": "maintain",
+      "mismatch": true
+    },
+    {
+      "file": "C06_FEATURES_0.json",
+      "target": "strategy_probs.route_following",
+      "declared": "decrease",
+      "reference": 0.45,
+      "raw": 0.2,
+      "simulation_final": 0.2,
+      "raw_direction": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_0.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "raw": 0.3,
+      "simulation_final": 0.3,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_0.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "increase",
+      "reference": 0.15,
+      "raw": 0.25,
+      "simulation_final": 0.25,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_1.json",
+      "target": "strategy_probs.route_following",
+      "declared": "decrease",
+      "reference": 0.45,
+      "raw": 0.25,
+      "simulation_final": 0.25,
+      "raw_direction": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_1.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "decrease",
+      "reference": 0.2,
+      "raw": 0.15,
+      "simulation_final": 0.15,
+      "raw_direction": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_1.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "increase",
+      "reference": 0.15,
+      "raw": 0.35,
+      "simulation_final": 0.35,
+      "raw_direction": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_1.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "raw": 0.15,
+      "simulation_final": 0.15,
+      "raw_direction": "increase",
+      "mismatch": false
+    }
+  ],
+  "eligible_actions": 33,
+  "mismatches": 9,
+  "outputs_with_mismatch": 7,
+  "usable_feature_outputs": 10,
+  "conversion_differences": [
+    {
+      "file": "C03_CONTROL_1.json",
+      "raw_strategy": {
+        "route_following": 0.5,
+        "direction_keeping": 0.3,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.0
+      },
+      "final_strategy": {
+        "route_following": 0.49019607843137253,
+        "direction_keeping": 0.29411764705882354,
+        "random_walk": 0.09803921568627451,
+        "backtracking": 0.049019607843137254,
+        "staying_put": 0.049019607843137254,
+        "landmark_seeking": 0.0196078431372549
+      },
+      "note": "Existing application sanitize floor 0.02 applied to zero strategy then normalized; do not attribute this difference to K."
+    },
+    {
+      "file": "C05_FEATURES_1.json",
+      "raw_strategy": {
+        "route_following": 0.5,
+        "direction_keeping": 0.3,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.0
+      },
+      "final_strategy": {
+        "route_following": 0.49019607843137253,
+        "direction_keeping": 0.29411764705882354,
+        "random_walk": 0.09803921568627451,
+        "backtracking": 0.049019607843137254,
+        "staying_put": 0.049019607843137254,
+        "landmark_seeking": 0.0196078431372549
+      },
+      "note": "Existing application sanitize floor 0.02 applied to zero strategy then normalized; do not attribute this difference to K."
+    }
+  ]
+}
