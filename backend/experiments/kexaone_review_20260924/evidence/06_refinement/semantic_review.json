@@ -1,0 +1,377 @@
+{
+  "all_outputs_reviewed": true,
+  "diagnostic_replay": true,
+  "reviewer": "AI technical review, independent human/domain review pending",
+  "reviewed_sha256": {
+    "F01A_K_DIRECT_0.json": "b044431ab0f0e0253d007b4444c77ad1e87c593d9581a00e1ef39841915d7b51",
+    "F01A_K_DIRECT_1.json": "308695987a040170d8b0b032b66f0415098b5adac6ff9118d8e9d6e69fd7ceb0",
+    "F01A_SAR_K_0.json": "82122731320b97fde804e3ff3ef55d50ea1cbed49c855df06b0b0dfa3fdb4fa8",
+    "F01A_SAR_K_1.json": "e1cd56096f7dc28398863c314e0662c46abb9a84610d5c1f9ff29c3c6f4797da",
+    "F01B_K_DIRECT_0.json": "bab712b304b9971338c37f88a1e13d6e110c55f56bd9607ef6af65097b0a7f25",
+    "F01B_K_DIRECT_1.json": "62388182c9284c7e40c49e63f83b4fac4811f78b60e91e342f873883e7a7d305",
+    "F01B_SAR_K_0.json": "f3b8be5ab66877346810996feeda8c267549a31b181724a679d1126d0b198b25",
+    "F01B_SAR_K_1.json": "bb13f80f8e927c3643d5ce50346be2a85cc56099e3dae3c2ec88a661cad171a4",
+    "F05A_K_DIRECT_0.json": "7bed360f79b5030df74ec79068eb2cdba3c68b110948cb5f0f9fa4d1735bb815",
+    "F05A_K_DIRECT_1.json": "cf92fd6696c0eec1010639d99527ada02d5f6f0de42814140fbce2cc6f2df906",
+    "F05A_SAR_K_0.json": "39f61cb097894e8a59b34ad01987b5039b58ffb23d91f5e250a3f2ea579b6e53",
+    "F05A_SAR_K_1.json": "ecac35cd0d7437c0dff4e431fde1193a03206b0e8cd346845f4d5fd6147e6c3c",
+    "F05B_K_DIRECT_0.json": "a8a40eee8cd13aded7b516ed4946b915b07824b27d4382fd1b18ba231203048c",
+    "F05B_K_DIRECT_1.json": "f459e6f27733f8bbe7d62d16000f38dd94893d76fcc5ae709ff89ce2df9fa451",
+    "F05B_SAR_K_0.json": "c855ac4bcfc507317f2dd24d0072382f7deb2eeb14b73cacafca25e3a87cece7",
+    "F05B_SAR_K_1.json": "4d7ec48a3151a672cf63099e17d029f18fdef881f7219a1b0cf9ad654aa4dfb7",
+    "F06A_K_DIRECT_0.json": "995efc3789232f10de9d18b280600fe497df2186cbb94a01310b2b3bf36affc0",
+    "F06A_K_DIRECT_1.json": "57e7e033bcd40de0571b7b24ca9526a4658cd9b92db33f219da7397e7d509874",
+    "F06A_SAR_K_0.json": "de12c1146d7ff490841896ba2416cc227d06ce37663e1f98d93801dae05ec33b",
+    "F06A_SAR_K_1.json": "afd6eec8ce49cebe5ce26dd0fc90093f7ba81f94f7b290a5de312e6d3729d58f",
+    "F06B_K_DIRECT_0.json": "73d4e2dcf9f302e6d031eba2206f630886ecde781a15d8d010060be49b7f4d23",
+    "F06B_K_DIRECT_1.json": "cf10347c26a5d5f40e105352ba3d884977215742df2277cc4a609a377ed69079",
+    "F06B_SAR_K_0.json": "aaf4862ce7ce38d90e342780e22511c86d396e13f74e59e9e4feeb92c079c5c3",
+    "F06B_SAR_K_1.json": "aaf1f5cdb684f483322bb11571c4edaf8835b5f6864497365b865f25a2c53001"
+  },
+  "outputs": {
+    "F01A_K_DIRECT_0.json": {
+      "condition": "K_DIRECT",
+      "case": "F01A",
+      "repeat": 0,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "시장 지향과 경로 형태를 가설로 연결하되 방향 유지가 직접 관찰되지 않았다고 명시. 장소 가중치는 시장 우선."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F01A_K_DIRECT_1.json": {
+      "condition": "K_DIRECT",
+      "case": "F01A",
+      "repeat": 1,
+      "prior_usable": false,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "가설/한계 구분은 있으나 장소 키가 market/park/resident_center로 변경되어 보행 미실행."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수",
+        "보행 입력 불가: attraction_levels"
+      ]
+    },
+    "F01A_SAR_K_0.json": {
+      "condition": "SAR_K",
+      "case": "F01A",
+      "repeat": 0,
+      "prior_usable": true,
+      "clear_personal_fact_error": {
+        "quote": "과거 반복 지향과 익숙한 경로 사용 경향이 관찰되었고",
+        "judgment": "N0는 장소 지향 관찰이며 경로 사용이 관찰됐다는 사실은 없음."
+      },
+      "review_notes": [
+        "landmark_seeking을 상향한다고 설명하지만 참고 SAR 0.15에서 최종 0.05로 하향. 설명-수치 불일치."
+      ],
+      "display_flags": [
+        "개인 사실 오류: N0는 장소 지향 관찰이며 경로 사용이 관찰됐다는 사실은 없음."
+      ]
+    },
+    "F01A_SAR_K_1.json": {
+      "condition": "SAR_K",
+      "case": "F01A",
+      "repeat": 1,
+      "prior_usable": true,
+      "clear_personal_fact_error": {
+        "quote": "공원 및 주민센터 방문 중단은",
+        "judgment": "최근 공원 방향을 보지 못했고 주민센터는 최근 정보가 없을 뿐, 방문 중단이 확인된 것은 아님."
+      },
+      "review_notes": [
+        "route_following과 landmark_seeking을 구분하기 어렵다고 명시한 부분은 적절. 다만 방문 중단으로 바꾸는 오류와 공존."
+      ],
+      "display_flags": [
+        "개인 사실 오류: 최근 공원 방향을 보지 못했고 주민센터는 최근 정보가 없을 뿐, 방문 중단이 확인된 것은 아님.",
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F01B_K_DIRECT_0.json": {
+      "condition": "K_DIRECT",
+      "case": "F01B",
+      "repeat": 0,
+      "prior_usable": true,
+      "clear_personal_fact_error": {
+        "quote": "과거 익숙한 경로 사용 이력이 있으나",
+        "judgment": "과거 특정 장소 향한 관찰을 익숙한 경로 사용 이력으로 단정. 가설 가능성 자체와 별개."
+      },
+      "review_notes": [
+        "공원 우선 가중치 반영. 가설 문단은 불확실성을 쓰지만 결정 근거에서 경로 이력을 사실로 강화."
+      ],
+      "display_flags": [
+        "개인 사실 오류: 과거 특정 장소 향한 관찰을 익숙한 경로 사용 이력으로 단정. 가설 가능성 자체와 별개."
+      ]
+    },
+    "F01B_K_DIRECT_1.json": {
+      "condition": "K_DIRECT",
+      "case": "F01B",
+      "repeat": 1,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "다른 두 장소를 하로 설정. 최근 미관찰만으로 과거 지향을 얼마나 낮출지는 검증 필요하며 수치 정답은 없음."
+      ],
+      "display_flags": []
+    },
+    "F01B_SAR_K_0.json": {
+      "condition": "SAR_K",
+      "case": "F01B",
+      "repeat": 0,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "공원 우선, 경로 이용은 가능성으로 표현. 방향상실 중상 등급은 SAR 설명을 이어받았으나 직접 검증되지 않음."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F01B_SAR_K_1.json": {
+      "condition": "SAR_K",
+      "case": "F01B",
+      "repeat": 1,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "참고 SAR가 만든 과거 실종 발견 이력은 이 출력에 재현되지 않음. 공원 우선 반영. 이 한 사례로 오류 정정 능력을 일반화하지 않음."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F05A_K_DIRECT_0.json": {
+      "condition": "K_DIRECT",
+      "case": "F05A",
+      "repeat": 0,
+      "prior_usable": false,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "landmark_seeking 키 누락으로 보행 미실행. 가설에서 목적지를 인식하지 못한다고 단정적인 어투를 쓰나 가설 영역의 한계 표현을 함께 고려해 명백 관찰 추가 수에는 제외."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수",
+        "보행 입력 불가: strategy_numbers"
+      ]
+    },
+    "F05A_K_DIRECT_1.json": {
+      "condition": "K_DIRECT",
+      "case": "F05A",
+      "repeat": 1,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "머무름과 문헌 가설 결합. 목적 없이 머무른다는 표현은 입력만으로 확정 불가하나 가설로 제시되어 별도 경고."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F05A_SAR_K_0.json": {
+      "condition": "SAR_K",
+      "case": "F05A",
+      "repeat": 0,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "실제 순환 여부와 경로 이탈 여부가 미확인임을 명시. staying_put 0.05에서 0.15 조정. 경로당 낮은 등급은 SAR와 같으나 원문에 장소별 빈도 차이는 없음."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F05A_SAR_K_1.json": {
+      "condition": "SAR_K",
+      "case": "F05A",
+      "repeat": 1,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "목적지를 인식 못한다는 가설의 문장이 단정적. limitation에 개인 적용 불확실성은 있지만 인식 여부 자체가 미확인임을 더 분명히 해야 함."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F05B_K_DIRECT_0.json": {
+      "condition": "K_DIRECT",
+      "case": "F05B",
+      "repeat": 0,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "직진 행동을 보이고 있다는 가설 문구가 단정적. 가설 영역과 실제 방향 유지 불확실 설명을 함께 고려해 명백 관찰 추가 수에는 제외. 일반 가능성으로 유지할 수 있는 내용."
+      ],
+      "display_flags": []
+    },
+    "F05B_K_DIRECT_1.json": {
+      "condition": "K_DIRECT",
+      "case": "F05B",
+      "repeat": 1,
+      "prior_usable": true,
+      "clear_personal_fact_error": {
+        "quote": "직진 여부는 관찰되었으나",
+        "judgment": "N1은 지속 보행 관찰. 직진 관찰이 명시되지 않음. R0에 따른 직진 가설 자체는 허용하나 N1의 관찰로 재서술하면 오류."
+      },
+      "review_notes": [
+        "일반적 직진 가설을 N1 관찰로 오인 인용. 숫자가 사용 가능해도 개인 표상 오류 표시."
+      ],
+      "display_flags": [
+        "개인 사실 오류: N1은 지속 보행 관찰. 직진 관찰이 명시되지 않음. R0에 따른 직진 가설 자체는 허용하나 N1의 관찰로 재서술하면 오류.",
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F05B_SAR_K_0.json": {
+      "condition": "SAR_K",
+      "case": "F05B",
+      "repeat": 0,
+      "prior_usable": true,
+      "clear_personal_fact_error": {
+        "quote": "개인의 최근 행동이 관찰되지 않았으므로",
+        "judgment": "N1에 최근 지속 보행의 반복 직접 관찰이 있음. 경로/목적지 미확인과 행동 전체 미관찰을 혼동."
+      },
+      "review_notes": [
+        "route_following 우세를 도메인 가설로 검토할 수 있으나 최근 행동 미관찰이라는 근거는 거짓."
+      ],
+      "display_flags": [
+        "개인 사실 오류: N1에 최근 지속 보행의 반복 직접 관찰이 있음. 경로/목적지 미확인과 행동 전체 미관찰을 혼동.",
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F05B_SAR_K_1.json": {
+      "condition": "SAR_K",
+      "case": "F05B",
+      "repeat": 1,
+      "prior_usable": true,
+      "clear_personal_fact_error": {
+        "quote": "실종자가 익숙한 활동 중 감독 공백 상태에서 실종(R3)",
+        "judgment": "R3의 다른 사례 집단의 상황을 이번 개인의 실종 상황으로 단정. 이번 입력에는 실종 직전 감독 여부가 없음."
+      },
+      "review_notes": [
+        "H3은 직진 유사 행동 가설과 시야/전환 미확인을 구분했음. 반면 결정 근거가 R3 집단 상황을 이번 사건으로 바꿈."
+      ],
+      "display_flags": [
+        "개인 사실 오류: R3의 다른 사례 집단의 상황을 이번 개인의 실종 상황으로 단정. 이번 입력에는 실종 직전 감독 여부가 없음.",
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F06A_K_DIRECT_0.json": {
+      "condition": "K_DIRECT",
+      "case": "F06A",
+      "repeat": 0,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "시장 우선 가중치. 방향 전환 능력 미확인 표시. 일부 R 번호와 서술하는 발췌 주제의 연결은 추가 출처 검토 필요."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F06A_K_DIRECT_1.json": {
+      "condition": "K_DIRECT",
+      "case": "F06A",
+      "repeat": 1,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "문헌 기반 방향 유지 가설을 명시. 전략 원시 합 1.9를 기존 코드가 정규화. 원시 수치의 크기를 효과로 주장하지 않음."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F06A_SAR_K_0.json": {
+      "condition": "SAR_K",
+      "case": "F06A",
+      "repeat": 0,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "시장 우선 가중치. 보호자의 익숙한 길 추정이라는 표현이 R3의 다른 사례와 이번 개인을 혼동할 소지. 명백 오류 수에는 제외."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F06A_SAR_K_1.json": {
+      "condition": "SAR_K",
+      "case": "F06A",
+      "repeat": 1,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "시장의 상대적 우선순위를 설명하지만 세 장소 모두 상으로 출력해 최종 가중치가 동일. 개인 차이가 장소 가중치에 반영되지 않은 사례."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F06B_K_DIRECT_0.json": {
+      "condition": "K_DIRECT",
+      "case": "F06B",
+      "repeat": 0,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "과거 장소 이력 보존, 최근 미확인 표시. 직진 가설은 문헌 기반이며 개인 적용 불확실성 명시: 일반 가설 자체를 오류로 세지 않음."
+      ],
+      "display_flags": []
+    },
+    "F06B_K_DIRECT_1.json": {
+      "condition": "K_DIRECT",
+      "case": "F06B",
+      "repeat": 1,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "세 장소 동일 가중치, 최근 선호를 추가하지 않음. 제한된 생활 반경을 이유로 radius 상을 설정한 설명 불일치; 후처리 반경은 기존 정책으로 동일."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F06B_SAR_K_0.json": {
+      "condition": "SAR_K",
+      "case": "F06B",
+      "repeat": 0,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "세 장소 동일 가중치, 현재 선호 미확인 유지. 문헌 가설을 적용한 해석의 실제 타당성은 미검증."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    },
+    "F06B_SAR_K_1.json": {
+      "condition": "SAR_K",
+      "case": "F06B",
+      "repeat": 1,
+      "prior_usable": true,
+      "clear_personal_fact_error": null,
+      "review_notes": [
+        "직진/재진입을 일반 문헌 기반의 불확실한 가설이라고 명시. 과거 이력과 최근 선호 미확인 보존."
+      ],
+      "display_flags": [
+        "출력 계약 일부 미준수"
+      ]
+    }
+  },
+  "rule": "General hypotheses supported by RAG are allowed even without individual observation. Explicit false observation/history/event statements counted separately. Assertive wording within a hypothesis is cautioned, not automatically equated with fabricated observation.",
+  "counts": {
+    "K_DIRECT": {
+      "outputs": 12,
+      "usable": 10,
+      "minimum_clear_personal_fact_error": 2
+    },
+    "SAR_K": {
+      "outputs": 12,
+      "usable": 12,
+      "minimum_clear_personal_fact_error": 4
+    }
+  },
+  "not_a_winner_score": "Minimum highlighted error counts, not exhaustive domain validity or an independently adjudicated error rate."
+}

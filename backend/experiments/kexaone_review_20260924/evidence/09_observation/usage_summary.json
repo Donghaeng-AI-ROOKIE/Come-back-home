@@ -1,0 +1,132 @@
+{
+  "NO_RAG": {
+    "calls": 16,
+    "response_received": 16,
+    "valid": 0,
+    "json_readable": 11,
+    "wrapper_repairs": 0,
+    "prompt_tokens": 11324,
+    "completion_tokens": 5070,
+    "total_tokens": 16394,
+    "usage_missing": 0,
+    "median_response_seconds": 4.587,
+    "actual_cost": null,
+    "estimated_cost": null,
+    "support_round": null,
+    "error_outputs": {
+      "T06_NO_RAG_2": [
+        "feature_keys"
+      ],
+      "T02_NO_RAG_2": [
+        "feature_keys"
+      ],
+      "T05_NO_RAG_2": [
+        "feature_keys"
+      ],
+      "T04_NO_RAG_1": [
+        "feature_keys"
+      ],
+      "H03_NO_RAG_1": [
+        "json:invalid_json:Expecting property name enclosed in double quotes: line 22 column 1 (char 591)"
+      ],
+      "H02_NO_RAG_2": [
+        "feature_keys"
+      ],
+      "H01_NO_RAG_2": [
+        "feature_keys"
+      ],
+      "H04_NO_RAG_1": [
+        "json:invalid_json:Expecting property name enclosed in double quotes: line 24 column 1 (char 760)"
+      ],
+      "H04_NO_RAG_2": [
+        "json:invalid_json:Expecting property name enclosed in double quotes: line 33 column 1 (char 735)"
+      ],
+      "H01_NO_RAG_1": [
+        "json:invalid_json:Invalid control character at: line 26 column 13 (char 911)"
+      ],
+      "H02_NO_RAG_1": [
+        "feature_keys"
+      ],
+      "H03_NO_RAG_2": [
+        "json:invalid_json:Expecting property name enclosed in double quotes: line 22 column 1 (char 728)"
+      ],
+      "T04_NO_RAG_2": [
+        "feature_keys"
+      ],
+      "T05_NO_RAG_1": [
+        "feature_keys"
+      ],
+      "T06_NO_RAG_1": [
+        "feature_keys"
+      ],
+      "T02_NO_RAG_1": [
+        "feature_keys"
+      ]
+    }
+  },
+  "WITH_RAG": {
+    "calls": 16,
+    "response_received": 16,
+    "valid": 0,
+    "json_readable": 12,
+    "wrapper_repairs": 0,
+    "prompt_tokens": 24396,
+    "completion_tokens": 6658,
+    "total_tokens": 31054,
+    "usage_missing": 0,
+    "median_response_seconds": 6.074,
+    "actual_cost": null,
+    "estimated_cost": null,
+    "support_round": null,
+    "error_outputs": {
+      "T05_WITH_RAG_1": [
+        "feature_keys"
+      ],
+      "H03_WITH_RAG_1": [
+        "feature_keys"
+      ],
+      "H04_WITH_RAG_1": [
+        "feature_keys"
+      ],
+      "H01_WITH_RAG_2": [
+        "feature_keys"
+      ],
+      "T02_WITH_RAG_1": [
+        "feature_keys"
+      ],
+      "T06_WITH_RAG_2": [
+        "json:invalid_json:Expecting property name enclosed in double quotes: line 24 column 1 (char 686)"
+      ],
+      "T04_WITH_RAG_1": [
+        "feature_keys"
+      ],
+      "H02_WITH_RAG_1": [
+        "feature_keys"
+      ],
+      "H02_WITH_RAG_2": [
+        "json:invalid_json:Expecting property name enclosed in double quotes: line 33 column 1 (char 764)"
+      ],
+      "T04_WITH_RAG_2": [
+        "feature_keys"
+      ],
+      "T06_WITH_RAG_1": [
+        "feature_keys"
+      ],
+      "T02_WITH_RAG_2": [
+        "feature_keys"
+      ],
+      "H04_WITH_RAG_2": [
+        "json:invalid_json:Invalid control character at: line 42 column 10 (char 1353)"
+      ],
+      "H01_WITH_RAG_1": [
+        "json:invalid_json:Expecting property name enclosed in double quotes: line 33 column 1 (char 788)"
+      ],
+      "H03_WITH_RAG_2": [
+        "feature_keys"
+      ],
+      "T05_WITH_RAG_2": [
+        "feature_keys"
+      ]
+    }
+  }
+}

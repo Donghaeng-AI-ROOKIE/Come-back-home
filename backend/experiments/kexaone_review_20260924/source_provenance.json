@@ -1,0 +1,151 @@
+{
+  "scope": "2026-09-22 through 2026-09-24; saved evidence only; no new experiment calls",
+  "sources": [
+    {
+      "source": "KEXAONE_P_v2_20260922/결과보고서.md",
+      "source_sha256": "9100bf527ae9d2a9dee9bb354e2f500351e4da445d5842bcd6459db552fd16cc",
+      "export": "evidence/01_prior/REPORT_SNAPSHOT.md",
+      "transform": "byte-for-byte historical snapshot"
+    },
+    {
+      "source": "KEXAONE_SAR_chain_v1_20260922/결과보고서.md",
+      "source_sha256": "c1d11c14838186c5294e560dc2149495746081d6dfaac82fef9beb3de60a984d",
+      "export": "evidence/03_chain/REPORT_SNAPSHOT.md",
+      "transform": "byte-for-byte historical snapshot"
+    },
+    {
+      "source": "KEXAONE_SAR_chain_v1_20260922/semantic_review.json",
+      "source_sha256": "a3980426c55a39bddf2f150e10f0665fd90b7be150efc91015e892a5f7c9023f",
+      "export": "evidence/03_chain/semantic_review.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_prompt_v3_design_20260923/결과보고서.md",
+      "source_sha256": "bb4355063871ae1d8c439020962449a71dc4eeeb7b1ff40e01f313592b05a6e1",
+      "export": "evidence/04_prompt_v3/REPORT_SNAPSHOT.md",
+      "transform": "byte-for-byte historical snapshot"
+    },
+    {
+      "source": "KEXAONE_prompt_sweep_plan_20260923/결과보고서.md",
+      "source_sha256": "868ae2ab8de0893c6460864da529465e4a41cc541603f09180678b38193f7e55",
+      "export": "evidence/05_prompt_sweep/REPORT_SNAPSHOT.md",
+      "transform": "byte-for-byte historical snapshot"
+    },
+    {
+      "source": "KEXAONE_prompt_sweep_plan_20260923/usage_summary.json",
+      "source_sha256": "6e1c1dba536da6e3b75625113aafc64fb7985a2d6bd6fc8f32d769d71385de91",
+      "export": "evidence/05_prompt_sweep/usage_summary.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "SAR_K_refinement_v1_20260923/결과보고서.md",
+      "source_sha256": "1290987279863d53a62bcd264d7fae6a600717effa43f4b19a0718bacdef9600",
+      "export": "evidence/06_refinement/REPORT_SNAPSHOT.md",
+      "transform": "byte-for-byte historical snapshot"
+    },
+    {
+      "source": "SAR_K_refinement_v1_20260923/usage_summary.json",
+      "source_sha256": "8a2e99b6f0f8b16e0fc9cd48549d3e2222f56126a8193a2969b54b965c3bbed2",
+      "export": "evidence/06_refinement/usage_summary.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "SAR_K_refinement_v1_20260923/matched_comparison.json",
+      "source_sha256": "0664ee72f9ea752d5052b074c263d8b7324b5ae56f71c39a630a1977b81a5c7b",
+      "export": "evidence/06_refinement/matched_comparison.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "SAR_K_refinement_v1_20260923/semantic_review.json",
+      "source_sha256": "2625ac04a37d174054ce2c1b9f4a1e71a039dce258bb50b3f85787d686db8548",
+      "export": "evidence/06_refinement/semantic_review.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_featurewise_v1_20260923/결과보고서.md",
+      "source_sha256": "0f689f4beca91fecd51258fa8d2840c7e687b1efe263e24ff8fcacd6dc23beda",
+      "export": "evidence/07_featurewise/REPORT_SNAPSHOT.md",
+      "transform": "byte-for-byte historical snapshot"
+    },
+    {
+      "source": "KEXAONE_featurewise_v1_20260923/usage_summary.json",
+      "source_sha256": "eeaa2982aa0160cec7dd883ea43c96a1beffe972dd5447c5744e8a1a47a63fee",
+      "export": "evidence/07_featurewise/usage_summary.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_featurewise_v1_20260923/matched_comparison.json",
+      "source_sha256": "dec1fbcd33359d3f483e04d0e5b0f320390dfdfd4bc6cd973a3115f26a46e02a",
+      "export": "evidence/07_featurewise/matched_comparison.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_featurewise_v1_20260923/semantic_review.json",
+      "source_sha256": "2897eea4b7f245a91827f8868b8a4a11b9f854784f958e682d9160b6d7eef860",
+      "export": "evidence/07_featurewise/semantic_review.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_casewise_SAR_v1_20260923/결과보고서.md",
+      "source_sha256": "a7a90436ee2525d9d1ab133b7803ece1b383380bd50779d90480f5d7deb5f607",
+      "export": "evidence/08_casewise/REPORT_SNAPSHOT.md",
+      "transform": "byte-for-byte historical snapshot"
+    },
+    {
+      "source": "KEXAONE_casewise_SAR_v1_20260923/usage_summary.json",
+      "source_sha256": "9105d10ac17ce53fedcf528df08fe6f18c103eecdc74e50bd0577fb54d1bdf99",
+      "export": "evidence/08_casewise/usage_summary.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_casewise_SAR_v1_20260923/verification_final.json",
+      "source_sha256": "34e1a8b622847217169cfa35360998654311c4339381d869468e30a27f01c46a",
+      "export": "evidence/08_casewise/verification_final.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_casewise_SAR_v1_20260923/semantic_review.json",
+      "source_sha256": "f048a46fa4d3fc0b491918564e4d413bfb9827c2203b8d210f0c6d9e32328a5b",
+      "export": "evidence/08_casewise/semantic_review.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_observation_RAG_v1_20260923/결과보고서.md",
+      "source_sha256": "1d6a7c1d8adf608fe8626a666f9e0f2c3db2f2fec31ca4485125ab94140d6e7c",
+      "export": "evidence/09_observation/REPORT_SNAPSHOT.md",
+      "transform": "byte-for-byte historical snapshot"
+    },
+    {
+      "source": "KEXAONE_observation_RAG_v1_20260923/usage_summary.json",
+      "source_sha256": "77b34fc3eb8f5f815aea95b6911b748380ec0d7e3ced35b66045d37a26a545c8",
+      "export": "evidence/09_observation/usage_summary.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_observation_RAG_v1_20260923/shape_diagnostic.json",
+      "source_sha256": "0bf91a71e30111e874d230ad6a509ee034958b9bffa8c2a11ca2d2dad2c37a93",
+      "export": "evidence/09_observation/shape_diagnostic.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_observation_RAG_v1_20260923/semantic_review.json",
+      "source_sha256": "4baa275bdb945e36a662716acdf655b734b3c206ce9e96ab1ede9edadae46fec",
+      "export": "evidence/09_observation/semantic_review.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_observation_RAG_v1_20260923/integrity_verification.json",
+      "source_sha256": "5ece528019e0e47fb0ae320be23ee683e6eb10ca74f570120e40e78297075247",
+      "export": "evidence/09_observation/integrity_verification.json",
+      "transform": "selected metadata; local paths omitted"
+    },
+    {
+      "source": "KEXAONE_P_v2_20260922/osm_v1/OSMnx_결과보고서.md",
+      "source_sha256": "65f9ef1f2bbec2c0611d824553b775ce275d3002cfbe36bfcc49a8277d5af668",
+      "export": "evidence/02_osm/REPORT_SNAPSHOT.md",
+      "transform": "byte-for-byte historical snapshot"
+    }
+  ],
+  "originals": "Original experiment archive retained by team. Full API request envelopes, retrieved corpus chunks, and full paths are not republished here.",
+  "output_export": "Exact response text retained with source file and raw UTF-8 SHA-256; selected response metadata only."
+}

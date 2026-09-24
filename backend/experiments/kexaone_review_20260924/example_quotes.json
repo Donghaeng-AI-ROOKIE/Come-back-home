@@ -1,0 +1,27 @@
+[
+  {
+    "experiment": "08_casewise",
+    "file": "T02_SAR.json",
+    "quote": "최근 길을 잃었을 때 멈추지 않고 계속 직진하는 모습이 관찰되었기 때문이다."
+  },
+  {
+    "experiment": "08_casewise",
+    "file": "T02_A_1.json",
+    "quote": "개인이 길을 잃었을 때의 방향 전환 여부나 경로 선택 방식은 관찰되지 않아, 경로 형태에 대한 직접적 정보는 부족하다."
+  },
+  {
+    "experiment": "08_casewise",
+    "file": "T02_B_1.json",
+    "quote": "개인은 길을 잃었을 때 멈추지 않고 직진하는 행동을 보였으나, 방향 전환 여부나 익숙한 경로 사용 여부는 관찰되지 않았다."
+  },
+  {
+    "experiment": "09_observation",
+    "file": "H02_WITH_RAG_1.json",
+    "quote": "방향 전환 없이 멈추지 않고 걷는 모습을 여러 번 관찰했다."
+  },
+  {
+    "experiment": "09_observation",
+    "file": "H02_NO_RAG_2.json",
+    "quote": "보호자와 산책 시 약 80m 걷고 잠시 쉰 후 다시 걷는 모습을 관찰했고, 혼자 있을 때의 보행 거리나 휴식 여부는 미확인이다."
+  }
+]

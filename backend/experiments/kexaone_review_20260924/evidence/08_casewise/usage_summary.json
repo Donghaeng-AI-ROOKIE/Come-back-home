@@ -1,0 +1,38 @@
+{
+  "SAR": {
+    "attempts": 8,
+    "received": 8,
+    "valid": 6,
+    "repairs": 8,
+    "prompt_tokens": 15054,
+    "completion_tokens": 2455,
+    "total_tokens": 17509,
+    "unknown_usage_count": 0,
+    "actual_cost": null,
+    "support_round": null
+  },
+  "A": {
+    "attempts": 16,
+    "received": 16,
+    "valid": 13,
+    "repairs": 15,
+    "prompt_tokens": 22690,
+    "completion_tokens": 16994,
+    "total_tokens": 39684,
+    "unknown_usage_count": 0,
+    "actual_cost": null,
+    "support_round": null
+  },
+  "B": {
+    "attempts": 16,
+    "received": 16,
+    "valid": 12,
+    "repairs": 15,
+    "prompt_tokens": 27142,
+    "completion_tokens": 17828,
+    "total_tokens": 44970,
+    "unknown_usage_count": 0,
+    "actual_cost": null,
+    "support_round": null
+  }
+}
