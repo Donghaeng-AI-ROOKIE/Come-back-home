@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "dataset_manifest_sha256": "0e56d2ec5923e1f6c895e4285673bdbd8b22959cc2bd81b5ea8bbc9730c88381",
+  "checks": [
+    "frozen hashes",
+    "no split overlap",
+    "B/C common input equality",
+    "same profile across conditions",
+    "strict input field whitelist",
+    "road edges and geometry",
+    "time and speed",
+    "direct H3 truth"
+  ],
+  "results": {
+    "development": {
+      "profiles": 6,
+      "scenarios": 18,
+      "paired_timepoints": 72,
+      "arrived_timepoints_by_condition": {
+        "routine_related": 8,
+        "route_departure": 10,
+        "unrelated_direction": 9
+      },
+      "direct_vs_parent_cell_mismatches": {
+        "7": 7,
+        "8": 1
+      },
+      "distinct_endpoint_res8_by_profile": {
+        "dev-P01": 3,
+        "dev-P02": 3,
+        "dev-P03": 3,
+        "dev-P04": 2,
+        "dev-P05": 2,
+        "dev-P06": 3
+      }
+    },
+    "evaluation": {
+      "profiles": 6,
+      "scenarios": 18,
+      "paired_timepoints": 72,
+      "arrived_timepoints_by_condition": {
+        "routine_related": 8,
+        "route_departure": 14,
+        "unrelated_direction": 8
+      },
+      "direct_vs_parent_cell_mismatches": {
+        "7": 11,
+        "8": 6
+      },
+      "distinct_endpoint_res8_by_profile": {
+        "eva-P01": 2,
+        "eva-P02": 3,
+        "eva-P03": 3,
+        "eva-P04": 3,
+        "eva-P05": 3,
+        "eva-P06": 3
+      }
+    }
+  },
+  "model_predictions_run": false,
+  "push_calls": 0
+}
