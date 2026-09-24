@@ -68,8 +68,8 @@ def paths():
 def contracts():
     raw=read('evidence/09_observation/saved_outputs.json'); post=read('evidence/09_observation/shape_diagnostic.json')
     fig,axes=plt.subplots(1,2,figsize=(12,5.7));fig.subplots_adjust(top=.75,bottom=.26,wspace=.28)
-    fig.suptitle('JSON을 읽는 것과 전체 계약을 지키는 것은 다르다',fontsize=19,weight='bold',y=.96)
-    fig.text(.5,.875,'최신 관찰 추출 실험 · 조건당 16개 · 사후 구조 정리는 원래 판정을 대체하지 않음',ha='center',fontsize=11)
+    fig.suptitle('답변을 읽을 수 있어도 필요한 규칙을 모두 지킨 것은 아니다',fontsize=19,weight='bold',y=.96)
+    fig.text(.5,.875,'관찰 정리 실험 · 조건당 답변 16개 · 형식을 나중에 고쳐 읽은 결과는 별도 표시',ha='center',fontsize=11)
     for ax,arm,label in zip(axes,['NO_RAG','WITH_RAG'],['보호자 원문만','보호자 원문 + RAG']):
         items=[o for o in raw if o['arm']==arm];dec=0
         for o in items:
@@ -78,9 +78,9 @@ def contracts():
         vals=[dec,sum(o['checks']['valid'] for o in items),sum(post[o['id']]['valid'] for o in items)]
         ax.bar(range(3),vals,color=[GRAY,INK,TEAL],width=.6)
         for i,n in enumerate(vals):ax.text(i,n+.35,f'{n}/16',ha='center',weight='bold')
-        ax.set_xticks(range(3),['JSON 해석\n가능','사전 전체\n계약 통과','사후 구조 정리\n후 계약 통과'])
+        ax.set_xticks(range(3),['JSON 해석\n가능','처음부터 모든\n출력 규칙 준수','항목 위치 보정 후\n출력 규칙 준수'])
         ax.set_ylim(0,17);ax.set_yticks([0,4,8,12,16]);ax.set_title(label,pad=14);ax.set_ylabel('응답 수')
-    fig.text(.065,.065,'사후 처리는 정확한 피처 키/라벨의 위치만 변경. 필드명 추측·문법 수선·누락 내용 생성 없음.\n구조·출처 검사이며 의미 정확도가 아님. 관찰 누락과 피처 오배치가 별도로 남음.',fontsize=11)
+    fig.text(.065,.065,'실험 후 항목 위치만 바로잡아 다시 검사. 빠진 내용을 만들거나 항목 이름을 추측해 고치지 않음.\n필수 항목·배치·출처 규칙의 검사이며, 내용이 정확하다는 뜻은 아님. 관찰 누락·잘못된 분류도 남음.',fontsize=11)
     save(fig,'output-contract.png')
 
 def quotations():
