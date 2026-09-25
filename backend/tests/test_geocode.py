@@ -147,7 +147,11 @@ def test_anchor_filters_far_matches_to_unresolved():
 
 
 def test_kakao_keyword_sends_anchor_params(monkeypatch):
-    """앵커가 있으면 카카오 키워드검색에 x/y/radius/sort=distance 가 실린다 (오프라인)."""
+    """앵커가 있으면 카카오 키워드검색에 x/y/radius 와 정확도순 정렬이 실린다 (오프라인).
+
+    거리순이면 이름이 겹치는 가장 가까운 가게가 첫 결과가 된다(2026-09-26 실측:
+    '킨텍스'→집 근처 카페, '일산호수공원'→집 근처 식당).
+    """
     from app.geo.geocode import ANCHOR_MAX_KM, GeoPoint
 
     captured = {}
@@ -164,8 +168,23 @@ def test_kakao_keyword_sends_anchor_params(monkeypatch):
     assert res is not None and res.precision == "poi"
     assert captured["extra"] == {
         "x": home.lng, "y": home.lat,
-        "radius": int(ANCHOR_MAX_KM * 1000), "sort": "distance",
+        "radius": int(ANCHOR_MAX_KM * 1000), "sort": "accuracy",
     }
+
+
+def test_kakao_region_flag_searches_address_first(monkeypatch):
+    """이름 없는 장소의 동네('파주')는 접미사가 없어도 주소 검색을 먼저 한다."""
+    calls = []
+    g = KakaoGeocoder("fake-key")
+
+    def fake_get(url, query, extra=None):
+        calls.append(url)
+        return [{"y": "37.76", "x": "126.78", "address_name": "경기 파주시", "place_name": "x"}]
+
+    monkeypatch.setattr(g, "_get", fake_get)
+    res = g.locate("파주", region=True)
+    assert calls == [KakaoGeocoder.ADDRESS_URL]
+    assert res.precision == "address"
 
 
 def test_attraction_geocode_prefers_label_over_area():

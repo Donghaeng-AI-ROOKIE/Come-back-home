@@ -129,10 +129,13 @@ class KakaoGeocoder(_BaseGeocoder):
             return []
 
     def _keyword(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
-        # 앵커(집)가 있으면 반경 내 근접순 검색 — "은행 앞" 같은 일반명사가
-        # 전국 아무 곳에나 걸리는 것을 API 단에서 차단 (radius 상한 20,000m).
+        # 앵커(집)가 있으면 반경 안에서만 찾는다 — "은행 앞" 같은 일반명사가 전국 아무
+        # 곳에나 걸리는 것을 API 단에서 차단(radius 상한 20,000m). 정렬은 정확도순이다.
+        # 거리순이면 이름이 겹치는 가장 가까운 가게가 첫 결과가 된다 — 2026-09-26 실측
+        # (집: 고양시 대화동): '킨텍스'→위피커피, '일산호수공원'→일산들밥, '대화동
+        # 노인복지관'→키위 방문요양센터. 정확도순은 셋 다 그 장소 자체를 찾았다.
         extra = ({"x": anchor.lng, "y": anchor.lat,
-                  "radius": int(ANCHOR_MAX_KM * 1000), "sort": "distance"}
+                  "radius": int(ANCHOR_MAX_KM * 1000), "sort": "accuracy"}
                  if anchor else None)
         docs = self._get(self.KEYWORD_URL, query, extra)
         if not docs:
@@ -150,11 +153,13 @@ class KakaoGeocoder(_BaseGeocoder):
         return GeoResult(GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
                          precision="address", source="kakao", matched=d.get("address_name"))
 
-    def locate(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
+    def locate(self, query: str, anchor: GeoPoint | None = None, *, region: bool = False) -> GeoResult | None:
         if not query:
             return None
-        # 순수 지역명이면 주소→키워드, 상호/장소명이면 키워드→주소
-        steps = (self._address, self._keyword) if _looks_like_region(query) else (self._keyword, self._address)
+        # 순수 지역명이면 주소→키워드, 상호/장소명이면 키워드→주소. region=True 는 호출자가
+        # 동네(지역)를 찾는다고 알려 준 경우 — '파주'처럼 접미사 없는 지역명도 주소 먼저.
+        steps = ((self._address, self._keyword) if region or _looks_like_region(query)
+                 else (self._keyword, self._address))
         for step in steps:
             res = step(query, anchor)
             if res is not None:
@@ -249,9 +254,10 @@ class ChainGeocoder(_BaseGeocoder):
     def __init__(self, *backends: Geocoder) -> None:
         self.backends = backends
 
-    def locate(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
+    def locate(self, query: str, anchor: GeoPoint | None = None, *, region: bool = False) -> GeoResult | None:
         for b in self.backends:
-            hit = b.locate(query, anchor)
+            hit = b.locate(query, anchor, region=True) if region and isinstance(b, KakaoGeocoder) \
+                else b.locate(query, anchor)
             if hit is not None:
                 return hit
         return None
@@ -305,7 +311,7 @@ def to_attraction_points(
             # 보호자가 '파주시 아동동'이라고 답한 '교회'가 집 60m 옆 교회로 찍혔다(키워드
             # 검색이 집 기준 거리순). 보호자가 말한 동네의 좌표를 쓰고, 동네를 모르면
             # 좌표를 만들지 않는다 — 틀린 곳에 목적지를 두는 것보다 비워 두는 편이 낫다.
-            res = geocoder.locate(area, anchor) if area else None
+            res = _locate_region(geocoder, area, anchor) if area else None
             far = (res is not None and anchor is not None
                    and h3grid.haversine_km(anchor, res.point) > ANCHOR_MAX_KM)
             if res is None or far:
@@ -368,6 +374,13 @@ def to_attraction_points(
 # 장소명 뒤에 붙는 '만난 지점' 표현 — 지오코더가 못 찾는 꼬리표다.
 _PLACE_SUFFIX_RE = re.compile(
     r"\s*(\d+\s*번\s*출구|출구|입구|정문|후문|앞|뒤|옆|근처|주변|건너편|맞은편)\s*$")
+
+
+def _locate_region(geocoder, area: str, anchor: GeoPoint | None) -> GeoResult | None:
+    """동네(지역) 좌표 — 카카오면 주소 검색을 먼저 쓴다('파주' 키워드 → 근처 낚시점 실측)."""
+    if isinstance(geocoder, (KakaoGeocoder, ChainGeocoder)):
+        return geocoder.locate(area, anchor, region=True)
+    return geocoder.locate(area, anchor)
 
 
 def base_place_name(query: str) -> str:
