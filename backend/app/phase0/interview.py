@@ -423,6 +423,9 @@ def _grounded_fields(session: InterviewSession, fields: dict, utterance: str) ->
         if key not in ("name", "age", "home"):
             kept[key] = value
             continue
+        if _norm(str(value)) == _norm(str(session.draft_fields.get(key) or "")).removesuffix("세") \
+                or _norm(str(value)) == _norm(str(session.draft_fields.get(key) or "")):
+            continue   # 이미 받은 값을 모델이 다음 턴에 다시 낸 것 — 새 정보도 오류도 아니다
         if key == "name":
             ok = _in_answer(value, utterance)
         elif key == "age":

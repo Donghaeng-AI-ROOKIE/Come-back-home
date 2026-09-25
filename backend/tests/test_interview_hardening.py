@@ -1008,3 +1008,16 @@ def test_summary_dedups_repeated_notes():
     assert out.count("집 쪽으로 빨리 걸음") == 1, "태그 노트 중복이 두 번 보인다"
     assert out.count("접두 없는 관찰") == 1, "접두 없는 노트 중복이 두 번 보인다"
     assert "골목으로 숨음" in out, "중복 제거가 다른 항목까지 지웠다"
+
+
+def test_known_field_echo_is_not_audited(monkeypatch):
+    """이미 받은 이름·나이·주소를 모델이 다음 턴에 다시 내면 버리되 기록하지 않는다(기록 잡음)."""
+    s = InterviewSession(id="gf-echo", guardian_name="보호자", persona_type=PersonaType.dementia,
+                         draft_fields={"name": "김순자", "age": "78세", "home": "성북구 정릉동"})
+    out = interview._grounded_fields(s, {"name": "김순자", "age": 78, "home": "성북구 정릉동"},
+                                     "혈압약을 저녁에만 드세요")
+    assert out == {}
+    assert s.extraction_audit == []
+    # 다른 값을 지어내면 여전히 기록한다
+    interview._grounded_fields(s, {"name": "박말녀"}, "혈압약을 저녁에만 드세요")
+    assert s.extraction_audit[-1]["field"] == "name"
