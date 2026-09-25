@@ -31,6 +31,9 @@ class PriorParams(BaseModel):
     # Exact SAR strategy before legacy behavior_tendency, used once by K compilation.
     # This contains numeric weights only; older persisted priors have no snapshot.
     strategy_before_behavior: dict[str, float] = Field(default_factory=dict)
+    # SAR 의 장소별 등급(상/중/하, 검증된 라벨만). SAR 만 신고 상황·목격 시각을 읽으므로
+    # K 사전 해석과 결합할 때 사건 시점 신호로 쓴다. 폴백·스텁 prior 에는 없다.
+    attraction_levels: dict[str, str] = Field(default_factory=dict)
     # K 초기 행동 해석과 실제 적용 내역. 원발화·API 원문은 저장하지 않는다.
     initial_interpretation: dict = Field(default_factory=dict)
     # 사건별 해석 결과. 등록된 보호자 사실을 덮어쓰지 않고 보행 입력에만 투영.

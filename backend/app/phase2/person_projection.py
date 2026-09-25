@@ -120,7 +120,11 @@ def compile_person(core, scope, payload, persona, sar, default, *, environment=N
     evidence = {k: "previous_missing_found" if z["found_history"][k]["value"] == "found_here"
                 else "caregiver_report" if z["goals"][k]["value"] in person_evidence.PERSISTENT_GOALS
                 else "mention_only" for k in z["goals"]}
-    weights = guardrail.sanitize_attraction_levels(levels, persona, evidence=evidence)
+    # SAR alone reads the incident report (situation text, clock). Its per-place level
+    # tilts K's person-level weights relative to neutral '중'; it cannot flip K's facts.
+    sar_tilt = {k: guardrail.LEVEL_WEIGHTS[v] / guardrail.LEVEL_WEIGHTS["중"]
+                for k, v in sar.attraction_levels.items()}
+    weights = guardrail.sanitize_attraction_levels(levels, persona, evidence=evidence, tilt=sar_tilt)
     route_grades = dict(zip(person_evidence.ROUTES[:5], [.1, .3, .5, .7, .9]))
     routes = [{"route": k, "score": route_grades[v["value"]]}
               for k, v in z["routes"].items() if v["value"] in route_grades]
@@ -143,6 +147,7 @@ def compile_person(core, scope, payload, persona, sar, default, *, environment=N
             env.append({'feature':feature,'direction':'접근' if item['response']=='approach' else '회피',
                         'strength':.5,'condition_clauses':deepcopy(clauses)})
             conditional_environment.add(feature)
+    trace.append({"consumer": "attraction_weights", "incident_levels_from_sar": dict(sar.attraction_levels)})
     for section, after in [("attraction_weights", weights), ("route_familiarity", routes),
                            ("env_responses", env), ("radius_lognormal", radius.model_dump())]:
         trace.append({"consumer": section, "after": after})

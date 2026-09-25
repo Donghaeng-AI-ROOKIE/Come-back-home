@@ -346,3 +346,21 @@ def test_context_review_replaces_unreviewed_context_draft(sample,monkeypatch):
     draft=json.loads(seen['initial_person_context_review']['messages'][-1]['content'])['draft']
     assert draft['status']=='unverified_model_interpretation'
     assert draft['content']['environment']['water']['spatial_scope']=='unknown'
+
+
+def test_sanitize_prior_keeps_only_real_sar_levels(sample):
+    from app.phase2 import guardrail
+    data={'attraction_levels':{'공원':'상','없는 장소':'상','시장':'매우 높음'},'reasoning':'r'}
+    prior=guardrail.sanitize_prior(data,sample[0],sample[3])
+    assert prior.attraction_levels=={'공원':'상'}
+
+
+def test_sar_incident_levels_tilt_prepared_weights(sample):
+    p=make_ready(sample)
+    neutral=prep.apply_prepared(p,sample[1],sample[2],sample[3])
+    assert neutral.attraction_weights['공원']==pytest.approx(neutral.attraction_weights['시장'])
+    sar=sample[2].model_copy(update={'attraction_levels':{'공원':'상','시장':'하'}})
+    tilted=prep.apply_prepared(p,sample[1],sar,sample[3])
+    assert tilted.attraction_weights['공원']>tilted.attraction_weights['시장']
+    trace=tilted.initial_interpretation['projection_trace']
+    assert {'consumer':'attraction_weights','incident_levels_from_sar':{'공원':'상','시장':'하'}} in trace
