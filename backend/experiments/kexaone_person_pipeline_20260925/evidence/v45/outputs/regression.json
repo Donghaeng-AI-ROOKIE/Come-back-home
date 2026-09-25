@@ -1,0 +1,70 @@
+{
+  "parsed": {
+    "goals": {
+      "공원": {
+        "value": "current_statement",
+        "note_ids": [
+          "N3"
+        ],
+        "explanation": "원문 근거를 연결한 초기 특성 판단."
+      }
+    },
+    "routes": {
+      "공원": {
+        "value": "new_route",
+        "note_ids": [
+          "N4"
+        ],
+        "explanation": "원문 근거를 연결한 초기 특성 판단."
+      }
+    },
+    "persistence": {
+      "value": "unknown",
+      "note_ids": [
+        "N0"
+      ],
+      "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "direction": {
+      "value": "same_heading",
+      "note_ids": [
+        "N1"
+      ],
+      "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "mobility": {
+      "value": "C",
+      "note_ids": [
+        "N2"
+      ],
+      "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "emotion": {
+      "value": "unknown",
+      "note_ids": [],
+      "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "environment": {
+      "water": {
+        "value": "unknown",
+        "note_ids": [],
+        "explanation": "환경 전용 해석 단계에서 별도 평가."
+      },
+      "forest": {
+        "value": "unknown",
+        "note_ids": [],
+        "explanation": "환경 전용 해석 단계에서 별도 평가."
+      },
+      "park": {
+        "value": "unknown",
+        "note_ids": [],
+        "explanation": "환경 전용 해석 단계에서 별도 평가."
+      },
+      "market": {
+        "value": "unknown",
+        "note_ids": [],
+        "explanation": "환경 전용 해석 단계에서 별도 평가."
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "preregistered_all_pass": false,
+  "checks": {
+    "stored_ready": true,
+    "goal": true,
+    "route": true,
+    "mobility": true,
+    "raw_unconditional_persistence": true,
+    "raw_unconditional_direction": false,
+    "day_wait": true,
+    "day_direction_unknown": true,
+    "night_moving": true,
+    "night_heading": true,
+    "no_K_during_injection": true
+  },
+  "condition_cases_pass": 6,
+  "condition_cases": 6,
+  "final_day_night_injection_pass": true,
+  "intermediate_core_direction_overgeneralized": true,
+  "elapsed_seconds": 210.06487198988907,
+  "deployment": false,
+  "scope": "development/regression, not independent holdout"
+}

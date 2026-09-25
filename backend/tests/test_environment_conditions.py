@@ -113,7 +113,7 @@ def test_pipeline_passes_same_person_and_observations_to_both_modes_and_preview(
     case=Case(id='condition-case',report=report,lkp=P,lkp_time=T)
     prior=ExaoneClient()._default_prior(p,report);called=[];seen=[]
     monkeypatch.setattr(pipeline.exaone,'generate_prior',lambda *a:prior)
-    monkeypatch.setattr(pipeline.initial_person,'refine',lambda *a:called.append(a) or prior)
+    monkeypatch.setattr(pipeline,'apply_prepared',lambda *a:called.append(a) or prior)
     monkeypatch.setattr(pipeline,'_load_roadnet',lambda *a:(None,'test'))
     monkeypatch.setattr(simulation,'run_monte_carlo',lambda *a,**kw:seen.append((a,kw)) or {h3grid.cell_of(P):1.})
     pipeline.run_prediction(case,now=T+timedelta(hours=1),seed=1)

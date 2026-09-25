@@ -1,0 +1,23 @@
+{
+  "experiment": "KEXAONE_conditions_live_v43_20260925",
+  "authorization": "User explicitly requested live verification of new condition expressions in latest message. Bounded scope announced before execution.",
+  "max_K_calls": 6,
+  "max_SAR_calls": 0,
+  "max_embedding_calls": 0,
+  "automatic_retries": false,
+  "conditions": [
+    "AND",
+    "OR",
+    "negative quiet",
+    "unknown",
+    "unsupported darkness",
+    "one place only"
+  ],
+  "pass": "all 6 response/scope and normalized boolean clauses match, validation passes, supported expressions produce matching engine truth table; unsupported/place-only clauses stay empty",
+  "RAG": "context interpretation contract uses guardian notes and incident only; no new retrieval",
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null,
+  "cases_sha256": "2b90b5e1bd3e40c4efa94e3b766eb034cfd6045b7a5f6d756ed341207128a0ae",
+  "scope_sha256": "fee45823a382d1f2d36b0516a67af27b30aba67b9e711528edd01f8cfa89dbbe"
+}

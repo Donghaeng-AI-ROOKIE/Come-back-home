@@ -8,7 +8,7 @@ from app.schemas.environment import EnvironmentObservation
 
 from app import storage
 from app.phase1 import intake
-from app.schemas.case import Case
+from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
 from app.schemas.report import Appearance
@@ -49,4 +49,48 @@ def get_case(case_id: str):
     case = storage.cases.get(case_id)
     if case is None:
         raise HTTPException(404, "케이스 없음")
+    return case
+
+
+class LinkPersonaIn(BaseModel):
+    persona_id: str
+
+
+@router.patch("/cases/{case_id}/persona", response_model=Case)
+@storage.serialize_case
+def link_persona(case_id: str, body: LinkPersonaIn):
+    """Attach post-report onboarding without creating another missing incident.
+
+    Uses the existing case-ID access convention; this is not an ownership/auth upgrade.
+    Existing links cannot silently be replaced, and closed cases cannot be changed.
+    """
+    persona = storage.personas.get(body.persona_id)
+    if persona is None:
+        raise HTTPException(404, "페르소나 없음")
+    changed = False
+
+    def attach(current):
+        nonlocal changed
+        if current.status in (CaseStatus.found, CaseStatus.closed):
+            raise HTTPException(409, "종료된 사건에는 등록 정보를 연결할 수 없음")
+        if current.report.persona_id not in (None, persona.id):
+            raise HTTPException(409, "이미 다른 등록 정보가 연결된 사건")
+        if current.report.missing_type != persona.type:
+            raise HTTPException(422, "신고와 등록 정보의 유형이 다름")
+        if current.report.persona_id == persona.id:
+            return None
+        changed = True
+        linked = current
+        linked.report.persona_id = persona.id
+        return linked
+
+    saved = storage.cases.update_existing(case_id, attach)
+    case = saved or storage.cases.get(case_id)
+    if case is None:
+        raise HTTPException(404, "케이스 없음")
+    if changed:
+        from app.phase0.person_preparation import enqueue
+        from app.phase0.persona_events import notify_persona_updated
+        enqueue(persona.id)
+        notify_persona_updated(persona.id, persona.version)
     return case

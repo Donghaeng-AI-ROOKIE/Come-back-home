@@ -1,0 +1,49 @@
+{
+  "parsed": {
+    "persistence": {
+      "evidence": "supported",
+      "pattern": "consistent",
+      "value": "wait_for_help",
+      "note_ids": [
+        "N0"
+      ],
+      "explanation": "도움을 기다린 근거. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+    },
+    "environment": {
+      "water": {
+        "response": "unknown",
+        "condition": "조건 미확인",
+        "note_ids": [],
+        "scope": "unknown",
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+      },
+      "forest": {
+        "response": "unknown",
+        "condition": "조건 미확인",
+        "note_ids": [],
+        "scope": "unknown",
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+      },
+      "park": {
+        "response": "unknown",
+        "condition": "조건 미확인",
+        "note_ids": [],
+        "scope": "unknown",
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+      },
+      "market": {
+        "response": "unknown",
+        "condition": "조건 미확인",
+        "note_ids": [],
+        "scope": "unknown",
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+      }
+    },
+    "baseline_direction": {
+      "value": "retrace",
+      "note_ids": [
+        "N1"
+      ]
+    }
+  }
+}

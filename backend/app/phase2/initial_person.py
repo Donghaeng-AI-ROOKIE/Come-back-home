@@ -25,7 +25,7 @@ def cached_research(persona, report):
     if retriever is None:
         return []
     return [{"text": p.text, "source": p.source, "kind": p.kind}
-            for p in retriever.search(_build_rag_query(persona, report.missing_type))]
+            for p in retriever.search(_build_rag_query(persona, report.missing_type if report else persona.type))]
 
 
 def refine(persona, report, sar, default):
@@ -42,32 +42,7 @@ def refine(persona, report, sar, default):
         if not payload["notes"]:
             return status("no_person_evidence")
         payload = initial_behavior.build_payload(persona, report, cached_research(persona, report), sar)
-        base = settings.kexaone_base_url.rstrip("/")
-        url = base if base.endswith("/chat/completions") else base + (
-            "/chat/completions" if base.endswith("/v1") else "/v1/chat/completions")
-        run_id = "initial-person:" + str(uuid.uuid4())
-        contracts = {"core": person_evidence, "context": person_scope}
-
-        def interpret(item):
-            group, contract = item
-            body = contract.request(payload, settings.kexaone_model)
-            response = logged_json_request(url, body,
-                headers={"Authorization": "Bearer " + settings.kexaone_api_key, "Content-Type": "application/json"},
-                provider="FriendliAI", model=settings.kexaone_model, role="initial_person_" + group,
-                run_id=run_id, logical_request_id=run_id + ":" + group, timeout=settings.kexaone_timeout,
-                ledger_path=settings.research_usage_ledger_path, max_started=3)
-            return group, contract.validate(response, payload)
-
-        # Person features and contextual scope are independent; the audit follows.
-        with ThreadPoolExecutor(max_workers=2) as pool:
-            parsed = dict(pool.map(interpret, contracts.items()))
-        body = person_audit.request(payload, parsed['core'], settings.kexaone_model)
-        response = logged_json_request(url, body,
-            headers={"Authorization": "Bearer " + settings.kexaone_api_key, "Content-Type": "application/json"},
-            provider="FriendliAI", model=settings.kexaone_model, role="initial_person_semantic_audit",
-            run_id=run_id, logical_request_id=run_id+":semantic_audit", timeout=settings.kexaone_timeout,
-            ledger_path=settings.research_usage_ledger_path, max_started=3)
-        parsed['core'] = person_audit.validate(response, payload)
+        parsed = interpret(payload)
         prior = compile_person(parsed["core"], parsed["context"], payload, persona, sar, default)
         prior.initial_interpretation["model"] = settings.kexaone_model
         prior.initial_interpretation["semantic_review"] = "original_evidence_rechecked_not_clinical_validation"
@@ -76,3 +51,34 @@ def refine(persona, report, sar, default):
         # Provider exception strings can contain content. Keep only the exception type.
         log.warning("K initial interpretation failed: %s", type(exc).__name__)
         return status("fallback_to_sar", error_type=type(exc).__name__)
+
+
+def interpret(payload):
+    """Three logged K requests; used asynchronously before an incident."""
+    base = settings.kexaone_base_url.rstrip("/")
+    url = base if base.endswith("/chat/completions") else base + (
+        "/chat/completions" if base.endswith("/v1") else "/v1/chat/completions")
+    run_id = "initial-person:" + str(uuid.uuid4())
+    contracts = {"core": person_evidence, "context": person_scope}
+
+    def interpret(item):
+        group, contract = item
+        body = contract.request(payload, settings.kexaone_model)
+        response = logged_json_request(url, body,
+            headers={"Authorization": "Bearer " + settings.kexaone_api_key, "Content-Type": "application/json"},
+            provider="FriendliAI", model=settings.kexaone_model, role="initial_person_" + group,
+            run_id=run_id, logical_request_id=run_id + ":" + group, timeout=settings.kexaone_timeout,
+            ledger_path=settings.research_usage_ledger_path, max_started=3)
+        return group, contract.validate(response, payload)
+
+    # Person features and contextual scope are independent; the audit follows.
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        parsed = dict(pool.map(interpret, contracts.items()))
+    body = person_audit.request(payload, parsed['core'], settings.kexaone_model, context=parsed['context'])
+    response = logged_json_request(url, body,
+        headers={"Authorization": "Bearer " + settings.kexaone_api_key, "Content-Type": "application/json"},
+        provider="FriendliAI", model=settings.kexaone_model, role="initial_person_semantic_audit",
+        run_id=run_id, logical_request_id=run_id+":semantic_audit", timeout=settings.kexaone_timeout,
+        ledger_path=settings.research_usage_ledger_path, max_started=3)
+    parsed['core'] = person_audit.validate(response, payload)
+    return parsed

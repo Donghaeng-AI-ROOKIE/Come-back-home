@@ -24,10 +24,12 @@ persistence는 길을 잃거나 혼란스러울 때 이동을 계속할지 가�
 evidence: supported=관련 개인 관찰 또는 진술, missing=선택 근거 없음, conflicting=동일 시간·조건의 미해결 관찰 상충. 현재 정정은 과거와의 conflict가 아니다.
 pattern: consistent=근거에서 같은 선택, conditional=상황별 선택이 다름, unresolved=근거 부족/상충.
 value: 이번 사건 조건에 적용할 wait_for_help/keep_moving/alternating/unknown. 조건이 미확인이면 unknown. missing 또는 conflicting이면 value unknown, pattern unresolved.
-environment는 물가 water, 숲 forest, 공원 park, 시장 market의 접근·회피를 나타낸다. response: approach/avoid/unknown. scope: place_specific=한 장소에 한정, explicit_category=장소와 무관하게 유형 자체 반응, conditional_category=혼잡·소음 등 추가 조건에만 반응, unknown=미확인. condition: present=추가 조건 필요, none=추가 조건 없음, unknown=조건 미확인.
-condition_clauses는 적용에 필요한 조건식이다. 바깥 배열은 OR, 안쪽 배열은 AND이다. 각 항은 signal(crowded/noisy), state(present/absent)다. 혼잡과 소음 모두 필요하면 같은 절, 둘 중 하나면 별도 절에 둔다. 조용함은 noisy absent로 해석하되 사람 없음으로 바꾸지 않는다. 원문이 AND/OR 또는 조건을 뒷받침하지 않거나 지원하지 않는 조건이면 빈 배열을 반환한다. 조건 없는 반응·unknown 반응도 빈 배열이다. 조건식은 개인 반응의 발동 조건이며 실제 장소가 혼잡하다는 관측이 아니다.
+environment는 물가 water, 숲 forest, 공원 park, 시장 market의 접근·회피를 나타낸다. response: approach/avoid/unknown. spatial_scope: place_specific=한 장소에 한정, category=장소와 무관하게 유형 전체에 적용, unknown=미확인. 공간 범위에는 조건 유무를 넣지 않는다. condition: present=추가 조건 필요, none=추가 조건 없음, unknown=조건 미확인.
+condition_clauses는 적용에 필요한 조건식이다. 바깥 배열은 OR, 안쪽 배열은 AND이다. 각 항은 signal(crowded/noisy), state(present/absent)다. 혼잡과 소음 모두 필요하면 같은 절, 둘 중 하나면 별도 절에 둔다. 조용함은 noisy absent로 해석하되 사람 없음으로 바꾸지 않는다. 원문이 AND/OR 또는 조건을 뒷받침하지 않거나 지원하지 않는 조건이면 빈 배열을 반환한다. 조건 없는 반응·unknown 반응도 빈 배열이다. 지원하지 않는 조건(예: 실제 어두움)이라 조건식을 만들 수 없더라도, 원문에서 확인된 회피/접근과 공간 범위는 보존하고 condition은 present, condition_clauses만 빈 배열로 둔다. 지원하지 않는 조건 때문에 알려진 반응을 unknown으로 지우지 않는다. 특정 장소에만 적용되는 반응도 조건식이 있으면 보존한다. response unknown이면 spatial_scope와 condition도 unknown으로 두고 condition_clauses는 비운다. 조건식은 개인 반응의 발동 조건이며 실제 장소가 혼잡하다는 관측이 아니다.
 특정 목적지에 가려는 의도나 방문 이력은 같은 유형의 모든 환경을 좋아한다는 근거가 아니다. 유형 범위를 확대하지 않고 조건을 유지한다. 관찰하지 못했다는 것은 행동이 없다는 뜻이 아니다. 관련 N ID만 연결하며 없는 행동·조건·시점을 만들지 않는다.'''
-    s=request_schema(payload)
+    s=request_schema(payload, separated=True)
+    if payload['incident'].get('status')=='not_reported':
+        system+='\nbaseline_direction은 조건 없이 적용할 방향만 same_heading/change_heading/retrace/unknown으로 기록하며 관련 note_ids를 연결한다. 방향·머무름의 시간대 규칙은 이 과업만 담당한다. 특정 시간대에서만 관찰된 방향을 baseline_direction에 넣지 않는다.\n신고 전 사전 준비다. 사건 시각을 가정하지 않는다. 조건 없이 적용할 persistence만 본문 value에 두고, 낮/밤에 따라 다른 persistence 또는 direction은 behavior_rules에 각각 저장한다. period는 clock_day(06~18시), clock_night(18~06시)라는 엔진 시간대다. 이는 일출/일몰이나 실제 밝기가 아니다. 실제 밝기·날씨·지원되지 않는 상황만 조건인 행동을 시간대 규칙으로 바꾸지 않는다. 명시적 근거 없는 규칙은 만들지 않는다. 규칙이 없으면 빈 배열. 서로 다른 시간대의 방향을 core의 무조건 방향으로 합치지 않는다.'
     return {'model':model,'temperature':1.,'top_p':.95,'presence_penalty':0.,'max_tokens':14000,
         'chat_template_kwargs':{'enable_thinking':True},'parse_reasoning':True,
         'messages':[{'role':'system','content':system+'\n'+json.dumps(s,ensure_ascii=False)},
@@ -35,7 +37,7 @@ condition_clauses는 적용에 필요한 조건식이다. 바깥 배열은 OR, �
         'response_format':{'type':'json_schema','json_schema':{'schema':s}}}
 
 
-def request_schema(payload, *, conditions=True):
+def request_schema(payload, *, conditions=True, separated=False):
     """Only semantic decisions; no unused free-text explanation generation."""
     import copy
     s=copy.deepcopy(schema(payload))
@@ -51,7 +53,21 @@ def request_schema(payload, *, conditions=True):
                 'items':{'type':'array','minItems':1,'maxItems':4,'items':_obj({
                     'signal':_enum(['crowded','noisy']), 'state':_enum(['present','absent'])})}}
             e['required'].append('condition_clauses')
+        if separated:
+            del e['properties']['scope'];e['required'].remove('scope')
+            e['properties']['spatial_scope']=_enum(['category','place_specific','unknown'])
+            e['required'].append('spatial_scope')
         e['properties']['note_ids']['items']=_enum(ids) if ids else {'type':'string'}
+    if payload['incident'].get('status')=='not_reported':
+        s['properties']['baseline_direction']=_obj({'value':_enum(['same_heading','change_heading','retrace','unknown','conflict']),
+            'note_ids':{'type':'array','items':_enum(ids) if ids else {'type':'string'}}})
+        s['required'].append('baseline_direction')
+        s['properties']['behavior_rules']={'type':'array','items':_obj({
+            'period':_enum(['clock_day','clock_night']),
+            'dimension':_enum(['persistence','direction']),
+            'value':_enum(['wait_for_help','keep_moving','alternating','same_heading','change_heading','retrace','unknown']),
+            'note_ids':{'type':'array','items':_enum(ids) if ids else {'type':'string'}}})}
+        s['required'].append('behavior_rules')
     return s
 
 
@@ -61,21 +77,42 @@ def validate(response,payload):
     z=decode_json_content(c['message'].get('content'))
     conditional = {}
     has_clauses = any('condition_clauses' in e for e in z.get('environment',{}).values())
+    separated = any('spatial_scope' in e for e in z.get('environment',{}).values())
     if isinstance(z,dict) and isinstance(z.get('persistence'),dict) and 'explanation' not in z['persistence']:
-        _validate_shape(z,request_schema(payload, conditions=has_clauses))
+        _validate_shape(z,request_schema(payload, conditions=has_clauses, separated=separated))
         p=z['persistence']
         choices={'wait_for_help':'도움을 기다린 근거','keep_moving':'이동을 이어간 근거',
                  'alternating':'이동·대기를 번갈아 한 근거','unknown':'적용할 선택 미확인'}
         p['explanation']=choices[p['value']]+'. 근거 관계와 사건 조건을 함께 검토한 초기 가설.'
         for e in z['environment'].values():
+            if separated:
+                spatial=e.pop('spatial_scope')
+                e['scope']=('conditional_category' if e['condition']=='present' else 'explicit_category') if spatial=='category' else spatial
             e['condition']={'present':'추가 조건 필요','none':'추가 조건 없음','unknown':'조건 미확인'}[e['condition']]
             e['explanation']='환경 반응의 적용 범위와 추가 조건을 구분한 판단.'
+    baseline_direction=z.pop('baseline_direction', None)
+    if baseline_direction is not None:
+        _validate_shape(baseline_direction,_obj({'value':_enum(['same_heading','change_heading','retrace','unknown','conflict']),
+            'note_ids':{'type':'array','items':{'type':'string'}}}))
+        if (not set(baseline_direction['note_ids']) <= {n['id'] for n in evidence_notes(payload)} or
+            (baseline_direction['value']!='unknown' and not baseline_direction['note_ids'])):
+            raise ValueError('unsupported_baseline_direction')
+    rules=z.pop('behavior_rules', [])
+    if len(rules)>8:raise ValueError('too_many_behavior_rules')
+    for rule in rules:
+        allowed={'persistence':{'wait_for_help','keep_moving','alternating','unknown'},
+                 'direction':{'same_heading','change_heading','retrace','unknown'}}
+        if (set(rule)!={'period','dimension','value','note_ids'} or
+            rule['period'] not in {'clock_day','clock_night'} or
+            rule['value'] not in allowed.get(rule['dimension'],set()) or
+            not rule['note_ids'] or not set(rule['note_ids'])<={n['id'] for n in evidence_notes(payload)}):
+            raise ValueError('invalid_behavior_rule')
     # Stored pre-condition responses remain readable, but cannot invent executable conditions.
     from app.schemas.persona import EnvResponse
     for feature,e in z['environment'].items():
         clauses=e.pop('condition_clauses', [])
         if clauses:
-            if e['scope']!='conditional_category' or e['response']=='unknown' or e['condition']!='추가 조건 필요':
+            if e['scope']=='unknown' or e['response']=='unknown' or e['condition']!='추가 조건 필요':
                 raise ValueError('condition_without_conditional_reaction')
             checked=EnvResponse(feature=feature,direction='회피',strength=.5,condition_clauses=clauses)
             conditional[feature]=[[c.model_dump() for c in group] for group in checked.condition_clauses]
@@ -91,4 +128,6 @@ def validate(response,payload):
         if e['response']!='unknown' and (e['scope']=='unknown' or not e['note_ids']): raise ValueError('unscoped_environment_claim')
         if e['scope']=='conditional_category' and not e['condition'].strip(): raise ValueError('missing_condition')
     for feature,clauses in conditional.items():z['environment'][feature]['condition_clauses']=clauses
+    if rules:z['behavior_rules']=rules
+    if baseline_direction is not None:z['baseline_direction']=baseline_direction
     return z

@@ -131,6 +131,10 @@ class Persona(BaseModel):
     # 축이 없는 일상 목적지·실종 대처 슬롯도 원문을 잃지 않는다.
     # 신규 K 초기 해석의 입력. API 표시용 요약과 분리하며 Persona와 함께 파기.
     onboarding_quotes: dict[str, list[str]] = {}
+    # Persisted with Persona; private typed preparation, never raw API reasoning.
+    guardian_edited_notes: list[str] | None = None
+    prepared_initial: dict = Field(default_factory=dict)
+    initial_preparation_status: dict = Field(default_factory=dict)
     # 축 점수(0.1~0.9) — phase0.axis_scoring 이 채움. F(판정 불가)·근거 없음 축은
     # 키 자체가 없다 → Phase 2 는 없는 축을 유형 기본 prior 로 폴백.
     # 리포트의 축별 F·quote 실패 카운트 = 앞단 추출 품질 감시 지표.

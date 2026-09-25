@@ -40,6 +40,8 @@ def build_payload(persona: Persona, report, research: list[dict], sar: PriorPara
     # Preserve all source associations for identical words used in different slots.
     sources = [("guardian_quote", persona.onboarding_quotes), ("guardian_axis_quote", persona.axis_quotes),
                ("extracted_axis_note", persona.axis_evidence), ("extracted_note", {"behavior": persona.behavior_notes})]
+    if persona.guardian_edited_notes is not None:
+        sources = [("guardian_edit", {"behavior": persona.guardian_edited_notes})]
     for kind, groups in sources:
         for slot, values in groups.items():
             for text in values:
@@ -49,7 +51,8 @@ def build_payload(persona: Persona, report, research: list[dict], sar: PriorPara
                 index[text]["sources"].append({"kind": kind, "slot": slot})
     return {"person": {"type": persona.type.value, "age": persona.age}, "notes": notes,
             "places": [{"label": p.label, "evidence": p.evidence.value, "origin_slot": p.origin_slot} for p in persona.attraction_points],
-            "incident": {"last_seen_time": report.lkp_time.isoformat(), "context": report.situation},
+            "incident": ({"last_seen_time": report.lkp_time.isoformat(), "context": report.situation}
+                         if report is not None else {"status":"not_reported","last_seen_time":None,"context":"신고 전 사전 준비. 현재 사건을 가정하지 않음."}),
             "research": [{**r, "id": f"R{i}",
                           "evidence_scope": "research_excerpt_not_personal_observation"}
                          for i, r in enumerate(research) if r.get("kind") == "paper"],
@@ -62,7 +65,7 @@ def build_payload(persona: Persona, report, research: list[dict], sar: PriorPara
                 "status": "unvalidated_numeric_proposal_not_personal_evidence",
                 "strategy_probs": sar.strategy_probs,
                 "attraction_weights": sar.attraction_weights,
-                "radius_lognormal": sar.radius_lognormal.model_dump()}
+                "radius_lognormal": sar.radius_lognormal.model_dump()} if sar is not None else {"status":"not_generated_before_incident"}
             }
 
 

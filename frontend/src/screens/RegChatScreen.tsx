@@ -10,7 +10,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { ApiError } from '../api/config';
-import { answerInterview, getPersona, listSlots, startInterview, startSupplementInterview, startTier1Interview, type InterviewSession, type SlotInfo } from '../api/guardian';
+import { answerInterview, getPersona, linkCasePersona, listSlots, startInterview, startSupplementInterview, startTier1Interview, type InterviewSession, type SlotInfo } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
 import { useAuthStore } from '../store/authStore';
 import BackIcon from '../../assets/figma/detail-back.svg';
@@ -23,7 +23,9 @@ export default function RegChatScreen() {
   const qc = useQueryClient();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'RegChat'>>();
+  const caseId = route.params?.caseId;
   const quick = route.params?.mode === 'quick';
+  const [linkAttempt, setLinkAttempt] = useState(0);
   // 보완챗 — 빠른 등록이 안 물은 Tier2·3 을 채운다. quick 과 달리 **새 persona 를
   // 만들지 않고 기존 것을 갱신**하므로, 끝난 뒤 갈 곳도 등록 완료 화면이 아니다.
   const supplement = route.params?.mode === 'supplement';
@@ -68,7 +70,10 @@ export default function RegChatScreen() {
     // 목록·상태는 별도 쿼리라 무효화하지 않으면 다음에 앱을 켤 때까지 옛 값이 남는다.
     qc.invalidateQueries({ queryKey: ['personas'] });
     qc.invalidateQueries({ queryKey: ['personaStatus'] });
-    if (supplement) {
+    if (caseId) {
+      qc.invalidateQueries({ queryKey: ['guardianCases'] });
+      navigation.replace('GuardianTabs', { screen: 'GuardianHome' });
+    } else if (supplement) {
       // 서버가 진행 중인 case 를 다시 예측한다(persona_events). 백그라운드 스레드라
       // 결과가 즉시 오지 않으므로, 예측을 보여주는 화면으로 밀지 않고 홈으로 돌린다.
       // 다만 사건 조회는 무효화해 둔다 — 갱신분이 다음 폴링에 바로 잡히게.
@@ -78,7 +83,7 @@ export default function RegChatScreen() {
     else navigation.replace('RegDone', {
       personaId, name: persona?.name ?? '', age: persona?.age ?? 0,
     });
-  }, [qc, quick, supplement, navigation]);
+  }, [qc, quick, supplement, navigation, caseId]);
 
   useEffect(() => {
     if (!session?.done || !session.persona_id) return;
@@ -87,16 +92,18 @@ export default function RegChatScreen() {
       try {
         const persona = await getPersona(session.persona_id!);
         if (cancelled) return;
+        if (caseId) await linkCasePersona(caseId, persona.id);
+        if (cancelled) return;
         setPersona(persona);
         goAfterDone(persona, persona.id);
       } catch (e) {
         if (cancelled) return;
         setError(e instanceof ApiError ? e.message : String(e));
-        goAfterDone(null, session.persona_id!);
+        if (!caseId) goAfterDone(null, session.persona_id!);
       }
     })();
     return () => { cancelled = true; };
-  }, [session, goAfterDone, setPersona]);
+  }, [session, goAfterDone, setPersona, caseId, linkAttempt]);
 
   const messages = useMemo<Msg[]>(() => {
     const server = (session?.messages ?? []).map((message, index) => ({
@@ -160,7 +167,7 @@ export default function RegChatScreen() {
             </View>
           </View>)}
           {pending ? <View style={styles.botRow}><View style={styles.botBubble}><ActivityIndicator size="small" color={color.brand} /></View></View> : null}
-          {error ? <Pressable onPress={!session ? begin : undefined} style={styles.error}><Text style={styles.errorText}>{error}</Text></Pressable> : null}
+          {error ? <Pressable onPress={!session ? begin : session.done && caseId ? () => { setError(null); setLinkAttempt((n) => n + 1); } : undefined} style={styles.error}><Text style={styles.errorText}>{error}{session?.done && caseId ? '\n눌러서 사건 연결을 다시 시도해 주세요. 등록된 정보는 보존됩니다.' : ''}</Text></Pressable> : null}
           {session?.llm_degraded ? <View style={styles.notice}><Text style={styles.noticeText}>AI 응답이 불안정해 기본 질문으로 이어가고 있어요. 등록은 계속 진행됩니다.</Text></View> : null}
         </ScrollView>
 

@@ -1,0 +1,19 @@
+{
+  "model": "depmkuykpfon9lg",
+  "usage": {
+    "completion_tokens": 7761,
+    "prompt_tokens": 1905,
+    "prompt_tokens_details": {
+      "cached_tokens": 1792
+    },
+    "total_tokens": 9666
+  },
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "message": {
+        "content": "{\"persistence\": {\"evidence\": \"missing\", \"pattern\": \"unresolved\", \"value\": \"unknown\", \"note_ids\": []}, \"environment\": {\"water\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\"}, \"forest\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\"}, \"park\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\"}, \"market\": {\"response\": \"avoid\", \"condition\": \"present\", \"note_ids\": [\"N0\"], \"condition_clauses\": [[{\"signal\": \"noisy\", \"state\": \"absent\"}]], \"spatial_scope\": \"category\"}}}"
+      }
+    }
+  ]
+}

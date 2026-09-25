@@ -73,7 +73,8 @@ const TIMEOUT_MS = 12_000;
  * 계산을 실패로 표시하는** 최악의 조합이 된다. 그래서 넉넉히 기다린다.
  * 사용자는 그동안 '2. AI 예상 경로 분석' 단계가 도는 것을 보고 있다.
  */
-export const SLOW_TIMEOUT_MS = 240_000;
+// 신규 지역 도로망 등 긴 예측 요청에 여유를 둔다. K 개인 해석은 온보딩 뒤 백그라운드에서 준비한다.
+export const SLOW_TIMEOUT_MS = 600_000;
 
 /** 공통 fetch — 실패를 삼키지 않고 상태코드와 서버 메시지를 그대로 올린다. */
 export async function api<T>(

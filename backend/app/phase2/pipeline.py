@@ -18,6 +18,7 @@ from app.config import settings
 from app.llm import exaone
 from app.phase2 import combine, radius, simulation, topdown, initial_person
 from app.llm.initial_behavior import simulation_persona
+from app.phase0.person_preparation import apply_prepared
 from app.schemas.case import Case, CaseStatus
 from app.schemas.debug import PredictionDebug, SimTrace
 from app.schemas.prediction import MindState, POA, PredictionResult
@@ -61,6 +62,7 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
     return net, ""
 
 
+@storage.serialize_case
 def run_prediction(
     case: Case,
     *,
@@ -92,10 +94,10 @@ def run_prediction(
                   and exaone.call_log[-1]["kind"] == "prior" else None)
     _lap("prior_ms")
 
-    # 온보딩 맥락 + SAR/RAG → K가 최종 초기 행동을 해석한다.
+    # 온보딩 뒤 백그라운드에서 저장한 K 해석을 로컬 컴파일한다(여기서 K 호출 없음).
     # 보호자 사실은 저장소에 그대로 두고 사건별 추정 사본을 두 MC에 같이 전달.
-    prior = initial_person.refine(persona, case.report, prior,
-                                 exaone._default_prior(persona, case.report))
+    prior = apply_prepared(persona, case.report, prior,
+                           exaone._default_prior(persona, case.report))
     persona = simulation_persona(persona, prior)
     _lap("initial_person_ms")
 

@@ -1950,6 +1950,7 @@ def _score_and_save(persona_id: str) -> None:
     persona = storage.personas.get(persona_id)
     if persona is None:
         return
+    persona = persona.model_copy(deep=True)
     try:
         scores, report = axis_scoring.score_axes_for(persona)
         if "skipped" in report:
@@ -1994,9 +1995,11 @@ def _score_and_save(persona_id: str) -> None:
         pass
     # 채점(최대 수십 초) 도중 보호자가 삭제를 요청했을 수 있다 — 삭제된 persona 를
     # 되살리지 않도록 저장 직전 재확인(개인정보 파기 경합 방지, 셀프리뷰 발견).
-    if storage.personas.get(persona_id) is None:
-        return
-    storage.personas.save(persona_id, persona)
+    def merge_scoring(current):
+        if current.version != persona.version:return None
+        fields=('axis_scores','axis_scoring_report','route_familiarity','env_responses','behavior_tendency')
+        return current.model_copy(deep=True,update={k:getattr(persona,k) for k in fields})
+    storage.personas.update_existing(persona_id,merge_scoring)
 
 
 def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
@@ -2066,7 +2069,7 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     if existing is not None:
         # supplement/update — 같은 id 에 병합. 이번 세션에서 안 건드린 값은 전부
         # 보존한다(끌림점·행동노트·축근거는 합집합, 이름/나이는 새로 답했을 때만 교체).
-        persona = existing
+        persona = existing.model_copy(deep=True)
         existing_labels = {_norm(p.label) for p in persona.attraction_points}
         for p in new_points:
             key = _norm(p.label)
@@ -2112,6 +2115,8 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
             continue
         bucket = persona.onboarding_quotes.setdefault(key, [])
         bucket.extend(q for q in quotes if q not in bucket)
+        if persona.guardian_edited_notes is not None:
+            persona.guardian_edited_notes.extend(q for q in quotes if q not in persona.guardian_edited_notes)
 
     # completed_tiers — 이번 세션이 커버한 tier 를 합집합으로 반영. target_tiers 가
     # None(기존 흐름·create/scope=all)이면 3개 tier 전부 커버한 것으로 본다.
@@ -2134,6 +2139,8 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
 
     if settings.axis_scoring_enabled:
         _start_scoring(persona.id)
+    from app.phase0 import person_preparation
+    person_preparation.enqueue(persona.id)
 
     if existing is not None:
         # supplement/update 로 이미 있는 persona 를 갱신한 경우만 — 그 persona 로
@@ -2189,4 +2196,6 @@ def register_persona(
             session.persona_id = persona.id
             session.done = True
             storage.interviews.save(session.id, session)
-    return persona
+    from app.phase0 import person_preparation
+    person_preparation.enqueue(persona.id)
+    return storage.personas.get(persona.id) or persona

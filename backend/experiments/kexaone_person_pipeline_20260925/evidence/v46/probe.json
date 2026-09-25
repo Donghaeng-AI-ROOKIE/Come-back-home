@@ -1,0 +1,29 @@
+{
+  "notes": [
+    {
+      "id": "N0",
+      "text": "귀가 길을 놓치면 낮이든 밤이든 가족이 데리러 올 때까지 한곳에서 기다리는 것을 여러 번 보았어요. 시간에 따라 이동을 계속하는 쪽으로 달라진다는 관찰은 없습니다.",
+      "sources": [
+        {
+          "kind": "guardian_quote",
+          "slot": "synthetic"
+        }
+      ]
+    },
+    {
+      "id": "N1",
+      "text": "걷는 중 길을 다시 찾으실 때는 왔던 길을 그대로 되짚어 돌아가는 모습을 반복해서 봤어요. 낮과 밤에서 똑같이 봤습니다.",
+      "sources": [
+        {
+          "kind": "guardian_quote",
+          "slot": "synthetic"
+        }
+      ]
+    }
+  ],
+  "incident": {
+    "status": "not_reported",
+    "last_seen_time": null,
+    "context": "사건 전 사전등록"
+  }
+}

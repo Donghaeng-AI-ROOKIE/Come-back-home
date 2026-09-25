@@ -10,15 +10,20 @@ REVIEW = '''당신은 보호자 기록에서 시뮬레이션 초기 특성을 �
 정의에 맞는 근거가 있는 항목은 보존하고, 확실하지 않다는 이유만으로 전부 unknown으로 지우지 않는다. 관련 근거가 없거나 원문에서 미확인이라고 한 항목은 unknown이다. 판단과 근거 ID는 원문이 뒷받침하는 내용만 사용한다. 개인 관찰 없는 연구 경향을 특정 사람의 행동 사실로 바꾸지 않는다. 최종 스키마에 맞는 전체 core JSON만 반환한다.'''
 
 
-def request(payload, draft, model):
+def request(payload, draft, model, *, context=None):
     body = person_evidence.request(payload, model)
     body['messages'][0]['content'] += '\n최종 검토 과업:\n' + REVIEW
     visible = json.loads(body['messages'][1]['content'])
     compact={k:({name:{'value':v['value'],'note_ids':v['note_ids']} for name,v in values.items()}
                if k in ['goals','routes'] else {'value':values['value'],'note_ids':values['note_ids']})
              for k,values in draft.items() if k!='environment'}
+    compact={k:v for k,v in compact.items() if k in body['response_format']['json_schema']['schema']['properties']}
     visible['draft'] = {'status': 'unverified_model_interpretation', 'content': compact}
-    body['messages'][0]['content'] += '\n최종 응답에는 설명문 없이 value와 note_ids만 작성한다. 설명은 원문과 연결해 표시하므로 새로 생성하지 않는다.'
+    if context is not None:
+        visible['context_draft'] = {'status': 'unverified_model_interpretation', 'content': context}
+        body['messages'][0]['content'] += '\n조건 과업의 context_draft도 미검증 초안이다. 보호자 원문과 함께 재대조한다. 응답 스키마가 지정한 항목만 검토·출력한다. 조건 과업이 담당하는 방향·머무름을 별도의 목적지·경로 경험·보행 능력 사실로 넓히지 않는다. 목적 의도는 길 경험과 다르고 신체 능력은 이동 선택과 다르다.'
+
+    body['messages'][0]['content'] += '\n스키마에서 제외된 persistence/direction은 조건 과업 소유이며 최종 core에 출력하지 않는다.\n최종 응답에는 설명문 없이 value와 note_ids만 작성한다. 설명은 원문과 연결해 표시하므로 새로 생성하지 않는다.'
     body['messages'][1]['content'] = json.dumps(visible, ensure_ascii=False)
     return body
 

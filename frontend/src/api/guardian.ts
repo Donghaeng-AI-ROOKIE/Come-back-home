@@ -126,6 +126,7 @@ export type Case = {
     appearance?: CaseAppearance | null;
     situation?: string;
   };
+  prior?: { initial_interpretation?: { status?: string } } | null;
   tips: CaseTip[];
   last_alert_at?: string | null;
 };
@@ -278,6 +279,12 @@ export function createReport(body: {
   appearance?: Partial<Pick<CaseAppearance, 'top' | 'bottom' | 'shoes' | 'etc'>> | null;
 }) {
   return api<Case>('/phase1/reports', { method: 'POST', body: JSON.stringify(body) });
+}
+
+export function linkCasePersona(caseId: string, personaId: string) {
+  return api<Case>(`/phase1/cases/${caseId}/persona`, {
+    method: 'PATCH', body: JSON.stringify({ persona_id: personaId }),
+  });
 }
 
 export function getCase(caseId: string) {

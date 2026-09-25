@@ -32,12 +32,13 @@ def _active_cases_for(persona_id: str) -> list[Case]:
     ]
 
 
+@storage.serialize_case
 def _rerun_case(case_id: str, persona_version: int) -> None:
     from app.phase2 import pipeline
     from app.phase3 import poa_update
 
     case = storage.cases.get(case_id)
-    if case is None:
+    if case is None or case.status in (CaseStatus.found, CaseStatus.closed):
         return
     try:
         pipeline.run_prediction(case, now=datetime.now())

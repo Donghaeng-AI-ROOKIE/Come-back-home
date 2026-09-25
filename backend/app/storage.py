@@ -29,6 +29,7 @@ Repository 인터페이스(save/get/list/delete)는 그대로다. 호출부는 �
 """
 
 import json
+from functools import wraps
 import sqlite3
 import threading
 import uuid
@@ -90,6 +91,7 @@ class Repository(Generic[T]):
         self._model = model
         self._table = table
         self._loaded = False
+        self._mutation_lock = threading.RLock()
 
     # ── 내부 ────────────────────────────────────────────────
     def _persistent(self) -> sqlite3.Connection | None:
@@ -130,6 +132,19 @@ class Repository(Generic[T]):
 
     # ── 인터페이스 (호출부는 이 4개만 안다) ──────────────────
     def save(self, item_id: str, item: T) -> T:
+        with self._mutation_lock:
+            return self._save(item_id, item)
+
+    def update_existing(self, item_id: str, transform) -> T | None:
+        """Atomic guarded background update; None from transform means discard."""
+        with self._mutation_lock:
+            current = self.get(item_id)
+            if current is None:
+                return None
+            updated = transform(current)
+            return self._save(item_id, updated) if updated is not None else None
+
+    def _save(self, item_id: str, item: T) -> T:
         self._load()
         self._items[item_id] = item
         conn = self._persistent()
@@ -152,6 +167,10 @@ class Repository(Generic[T]):
         return list(self._items.values())
 
     def delete(self, item_id: str) -> None:
+        with self._mutation_lock:
+            self._delete(item_id)
+
+    def _delete(self, item_id: str) -> None:
         """메모리와 디스크 양쪽에서 지운다.
 
         물리 회수(VACUUM)는 여기서 하지 않는다 — 파기 1건마다 전체 DB 를 다시
@@ -165,6 +184,21 @@ class Repository(Generic[T]):
                 self._ensure_table(conn)
                 conn.execute(f"DELETE FROM {self._table} WHERE id = ?", (item_id,))
                 conn.commit()
+
+
+# Bounded stripes serialize prediction with post-report profile linking. Reentrant
+# because background update and API entry points both call run_prediction.
+_case_locks = [threading.RLock() for _ in range(64)]
+
+
+def serialize_case(fn):
+    @wraps(fn)
+    def wrapped(*args, **kwargs):
+        case_or_id = args[0] if args else kwargs.get("case", kwargs.get("case_id"))
+        key = case_or_id if isinstance(case_or_id, str) else case_or_id.id
+        with _case_locks[hash(key) % len(_case_locks)]:
+            return fn(*args, **kwargs)
+    return wrapped
 
 
 def new_id() -> str:

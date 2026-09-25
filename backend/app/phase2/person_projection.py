@@ -129,7 +129,7 @@ def compile_person(core, scope, payload, persona, sar, default, *, environment=N
     conditional_environment = set()
     for feature,item in scope['environment'].items():
         clauses=item.get('condition_clauses', [])
-        if (item['scope']=='conditional_category' and item['response'] in {'approach','avoid'}
+        if (item['scope'] in {'conditional_category','explicit_category'} and item['response'] in {'approach','avoid'}
                 and item['condition']=='추가 조건 필요' and clauses and not separate_environment):
             env.append({'feature':feature,'direction':'접근' if item['response']=='approach' else '회피',
                         'strength':.5,'condition_clauses':deepcopy(clauses)})
@@ -175,6 +175,7 @@ def compile_person(core, scope, payload, persona, sar, default, *, environment=N
         "environment_method": "separate_contract_agreement" if separate_environment else "single_context_contract",
         "unassigned_note_ids": [n for n, features in coverage.items() if not features],
         "conditional_environment": {f:deepcopy(scope['environment'][f]) for f in conditional_environment},
+        "environment_conditions": {f:deepcopy(v.get('condition_clauses', [])) for f,v in scope['environment'].items()},
         "condition_execution": "requires location/time-scoped observations; missing or conflicting signals stay neutral",
         "unrepresented": unrepresented, "projection_trace": trace, "sar_source": sar.source,
         "retrieval_audit": payload.get("retrieval_audit", []),

@@ -77,7 +77,7 @@ def list_slots(persona_type: PersonaType | None = None):
 
 # axis_quotes = 보호자 원발화 그대로(quote 검증용 내부 값) — 프론트가 쓸 일이 없어
 # API 응답에서 제외한다. 저장·파기·채점 로직에는 영향 없음(응답 스키마만 필터링).
-_PERSONA_EXCLUDE = {"axis_quotes", "onboarding_quotes"}
+_PERSONA_EXCLUDE = {"axis_quotes", "onboarding_quotes", "guardian_edited_notes", "prepared_initial"}
 
 
 @router.post("/personas", response_model=Persona, response_model_exclude=_PERSONA_EXCLUDE)
@@ -194,9 +194,19 @@ def update_persona(persona_id: str, body: UpdatePersonaIn):
     # 예측이 500 으로 실패했다("AI 분석만 다시 시도해 주세요"가 계속 뜨던 원인).
     # 디스크 데이터는 멀쩡했다 — dict 든 모델이든 같은 JSON 으로 저장되기 때문에,
     # 서버를 재시작하면 사라졌다가 수정할 때마다 되살아나는 형태였다.
-    updated = Persona.model_validate({**persona.model_dump(), **updates})
-    storage.personas.save(persona_id, updated)
-    return updated
+    def apply(current):
+        values = {**current.model_dump(), **updates, "version": current.version + 1}
+        if "behavior_notes" in updates:
+            values["guardian_edited_notes"] = updates["behavior_notes"]
+        return Persona.model_validate(values)
+    updated = storage.personas.update_existing(persona_id, apply)
+    if updated is None:
+        raise HTTPException(404, "페르소나 없음")
+    from app.phase0.person_preparation import enqueue
+    from app.phase0.persona_events import notify_persona_updated
+    enqueue(persona_id)
+    notify_persona_updated(persona_id, updated.version)
+    return storage.personas.get(persona_id) or updated
 
 
 class StartSessionIn(BaseModel):
@@ -294,3 +304,16 @@ def complete_session(session_id: str):
         "persona_status": status,
         "persona_version": persona.version if persona else None,
     }
+
+
+@router.post("/personas/{persona_id}/prepare")
+def prepare_initial_person(persona_id: str):
+    """기존 프로필 준비/실패 작업의 명시적 재요청. 응답은 작업 완료를 기다리지 않는다."""
+    if storage.personas.get(persona_id) is None:
+        raise HTTPException(404, "페르소나 없음")
+    from app.phase0.person_preparation import enqueue
+    enqueue(persona_id, retry=True)
+    current = storage.personas.get(persona_id)
+    if current is None:
+        raise HTTPException(404, "페르소나 없음")
+    return current.initial_preparation_status

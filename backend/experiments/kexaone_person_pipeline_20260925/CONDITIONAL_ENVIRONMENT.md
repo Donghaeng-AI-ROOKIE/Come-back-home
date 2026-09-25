@@ -3,7 +3,7 @@
 보호자 원문 ‘시장이 붐비고 시끄러울 때만 피한다’를 K가 의미 해석한다. 아래는 **코드 설명용 예시**이며 실제 v41 모델 출력에 새 필드를 덧붙인 것이 아니다.
 
 ```json
-{"response":"avoid","scope":"conditional_category","condition":"present","note_ids":["N3"],"condition_clauses":[[{"signal":"crowded","state":"present"},{"signal":"noisy","state":"present"}]]}
+{"response":"avoid","spatial_scope":"category","condition":"present","note_ids":["N3"],"condition_clauses":[[{"signal":"crowded","state":"present"},{"signal":"noisy","state":"present"}]]}
 ```
 
 위 조건은 혼잡 AND 소음이다. OR이면 두 항을 서로 다른 안쪽 배열에 넣는다. 근거 없는 조건식은 빈 배열로 보류한다. `noisy=absent`는 소음 없음이 관측돼야 하며, 미확인은 충족하지 않는다. 특정 장소 한 곳 회피, 어두움·날씨 등 미지원 조건은 임의로 혼잡/소음으로 바꾸지 않는다.
@@ -36,6 +36,6 @@
 
 ## 설정 및 실행
 
-`KEXAONE_API_KEY`, `KEXAONE_BASE_URL`, `KEXAONE_MODEL`이 설정된 서버에서 초기 예측 시 K 해석이 연결된다. `.env.example`에 키 없는 항목을 추가했다. 추가 기능 스위치는 없다. 자동 재시도 없이 정상 K 3회이며, 실패 시 SAR 복귀 상태를 기록한다. `RESEARCH_USAGE_LEDGER_PATH`는 영속 저장 위치를 지정해야 한다. 모델 단가·지원 차수·실청구액은 정산 자료가 없으면 null이다.
+`KEXAONE_API_KEY`, `KEXAONE_BASE_URL`, `KEXAONE_MODEL`이 설정된 서버에서 온보딩 완료·정보 수정 뒤 K 해석을 백그라운드로 준비한다. 초기 예측은 저장된 해석을 소비한다. `.env.example`에 키 없는 항목을 추가했다. 추가 기능 스위치는 없다. 자동 재시도 없이 정상 K 3회이며, 준비 실패·중단 상태를 남기고, 신고는 확보된 정보로 진행한다. `RESEARCH_USAGE_LEDGER_PATH`는 영속 저장 위치를 지정해야 한다. 모델 단가·지원 차수·실청구액은 정산 자료가 없으면 null이다.
 
 신고마다 관측을 전달할 수 있으며, 관측 없이 ‘시장’이라는 이유만으로 회피를 활성화하지 않는다. 시간별 POA는 같은 사건별 조건을 사용한다. 이 조건 처리에는 새 LLM 호출이 없다.

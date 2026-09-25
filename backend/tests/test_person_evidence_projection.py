@@ -289,7 +289,7 @@ def test_new_projection_shared_by_initial_and_time_preview(sample,monkeypatch):
     case=Case(id='new-person-pipeline',report=r,status=CaseStatus.intake,lkp=r.lkp,lkp_time=r.lkp_time)
     seen=[]
     monkeypatch.setattr(pipeline.exaone,'generate_prior',lambda *a:sar)
-    monkeypatch.setattr(initial_person,'refine',lambda *a:final)
+    monkeypatch.setattr(pipeline,'apply_prepared',lambda *a:final)
     monkeypatch.setattr(pipeline,'_load_roadnet',lambda *a:(None,'off'))
     monkeypatch.setattr(pipeline.topdown,'topdown_poa',lambda *a:{'cell':1.})
     def simulate(lkp,prior,person,elapsed,**kw):
