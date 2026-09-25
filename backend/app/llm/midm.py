@@ -75,23 +75,27 @@ class MidmClient(LLMClient):
         return self.chat([{"role": "user", "content": prompt}], **kwargs)
 
     # ── Phase 0 온보딩 엘리시테이션 ─────────────────────────────────
-    def extract_answer(self, target_slot: SlotSpec, conversation: list[dict]) -> dict:
-        """직전 답변에서 슬롯값 추출 + 충족 판정.
+    def extract_answer(self, target_slot: SlotSpec, conversation: list[dict],
+                       *, recheck_places: bool = False) -> dict:
+        """직전 답변에서 슬롯값 추출 + 답변 유형·충족 판정.
 
-        반환: {"fields", "attraction_points", "behavior_notes", "slot_filled"}.
-        스텁 모드에서는 빈 추출(slot_filled=True 로 진행만 시킴).
+        반환: {"answer_kind", "fields", "attraction_points", "behavior_notes", "slot_filled"}.
+        스텁 모드에서는 빈 추출 + 'informative'(slot_filled=True 로 진행만 시킴).
+        recheck_places: 첫 추출이 장소를 놓쳤을 때 다시 보라는 안내를 붙인다.
         """
         if self.is_stub:
-            return {"fields": {}, "attraction_points": [],
+            return {"answer_kind": "informative", "fields": {}, "attraction_points": [],
                     "behavior_notes": [], "slot_filled": True}
         try:
             raw = self.chat(
                 [
                     {"role": "system", "content": prompts.EXTRACT_SYSTEM},
-                    {"role": "user", "content": prompts.build_extract_input(target_slot, conversation)},
+                    {"role": "user", "content": prompts.build_extract_input(
+                        target_slot, conversation, recheck_places=recheck_places)},
                 ],
                 temperature=settings.midm_temp_extract,
-                max_tokens=400,
+                # 답변 유형·원문 구절이 늘어 400 은 장소가 여럿일 때 잘린다.
+                max_tokens=700,
             )
         except Exception:  # noqa: BLE001 — 호출 실패(엔드포인트 만료 등)가 인터뷰를 죽이면 안 됨.
             # 빈 추출 + 미충족으로 처리 — 같은 슬롯을 한 번 더 묻고(MAX_ASKS_PER_SLOT),
@@ -108,7 +112,8 @@ class MidmClient(LLMClient):
         스텁·호출 실패는 빈 결과 → 호출부가 기존 슬롯 재추출 경로로 폴백한다.
         """
         if self.is_stub:
-            return {"fields": {}, "place_ops": []}
+            # 키 없는 개발 모드는 파이프라인만 이어 준다 — 어떤 답이든 확인으로 본다.
+            return {"intent": "confirm", "fields": {}, "place_ops": []}
         try:
             raw = self.chat(
                 [
@@ -123,8 +128,49 @@ class MidmClient(LLMClient):
             )
         except Exception:  # noqa: BLE001 — 정정 실패가 등록 흐름을 죽이면 안 된다
             self.call_failures += 1
-            return {"fields": {}, "place_ops": []}
+            return {"intent": None, "fields": {}, "place_ops": []}
         return prompts.parse_correction(raw, place_labels)
+
+    def verify_found(self, label: str, question: str, answer: str) -> bool | None:
+        """보호자가 '과거 실종 때 이 장소에서 발견됐다'고 말했는지 한 가지만 묻는다.
+
+        추출기가 최상위 근거(previous_missing_found)를 냈을 때만 부른다. 스텁·실패는
+        None — 호출부는 확인되지 않은 최상위 근거를 인정하지 않는다.
+        """
+        if self.is_stub:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.FOUND_CHECK_SYSTEM},
+                    {"role": "user", "content": prompts.build_found_check_input(
+                        label, question, answer)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=60,
+            )
+        except Exception:  # noqa: BLE001 — 확인 실패는 '확인 안 됨'으로 흡수
+            self.call_failures += 1
+            return None
+        return prompts.parse_found_check(raw)
+
+    def extract_area(self, label: str, answer: str) -> str | None:
+        """되물은 장소의 동네 답 → 지도 검색에 쓸 지역 표현. 없거나 실패면 None."""
+        if self.is_stub:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.AREA_SYSTEM},
+                    {"role": "user", "content": prompts.build_area_input(label, answer)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=80,
+            )
+        except Exception:  # noqa: BLE001 — 실패는 '지역 없음'으로 흡수(되묻기는 1회뿐)
+            self.call_failures += 1
+            return None
+        return prompts.parse_area(raw)
 
     def probe_gap(
         self,

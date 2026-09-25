@@ -3,6 +3,9 @@
 라이브 실측(2026-08-07): 요약 화면의 '아니요, 수정할게요' 칩(프런트 CONFIRM_CHIPS)이
 그 문구를 그대로 보내는데, 서버는 일반 정정으로 흘렸다. Mi:dm 은 바꿀 대상을 못
 찾고, **똑같은 요약이 다시 떠서** 보호자는 무엇을 해야 할지 모른 채 멈췄다.
+
+'고치겠다고만 했다'는 판정은 Mi:dm 정정 호출의 intent(correct_unspecified)로 받는다
+(예전: 의사 표현 단어를 지우고 남는 글자 수를 세던 정규식).
 """
 
 from app import storage
@@ -27,33 +30,18 @@ def _at_gate(**kw) -> InterviewSession:
     return InterviewSession(**{**base, **kw})
 
 
-# ── 감지 ─────────────────────────────────────────────────────────────
-
-def test_detects_bare_correction_request():
-    for t in [CHIP, "수정할게요", "고칠래요", "아니 틀렸어요", "바꿔주세요", "잘못됐어요"]:
-        assert interview._is_bare_correction_request(t), t
-
-
-def test_real_correction_is_not_bare():
-    """무엇을 고칠지 말한 발화는 기존 정정 경로로 가야 한다."""
-    for t in ["집 주소가 틀렸어요 마포구 신수동이에요",
-              "이름이 잘못됐어요 김순희예요",
-              "망원시장은 빼주세요",
-              "주소를 백범로로 변경해주세요"]:
-        assert not interview._is_bare_correction_request(t), t
-
-
-def test_affirmative_is_not_bare_correction():
-    for t in ["네, 맞아요", "이대로 등록해주세요"]:
-        assert not interview._is_bare_correction_request(t), t
-
-
 # ── 흐름 ─────────────────────────────────────────────────────────────
 
-def test_gate_asks_what_to_correct():
+def _intent(monkeypatch, intent, **result):
+    monkeypatch.setattr(interview.midm, "extract_correction",
+                        lambda labels, u: {"intent": intent, "fields": {}, "place_ops": [], **result})
+
+
+def test_gate_asks_what_to_correct(monkeypatch):
     """요약 재낭독이 아니라 '어느 부분을 고칠까요?' 가 나가고, 게이트는 열려 있다."""
     s = _at_gate(id="cc-flow")
     storage.interviews.save(s.id, s)
+    _intent(monkeypatch, "correct_unspecified")
 
     out = interview.answer_interview(s.id, CHIP)
     q = out.messages[-1]["text"]
@@ -77,10 +65,9 @@ def test_correction_after_menu_still_applies(monkeypatch):
     """되물은 다음 턴의 실제 정정은 종전대로 반영된다."""
     s = _at_gate(id="cc-then")
     storage.interviews.save(s.id, s)
+    _intent(monkeypatch, "correct_unspecified")
     interview.answer_interview(s.id, CHIP)
 
-    monkeypatch.setattr(interview.midm, "extract_correction",
-                        lambda labels, u: {"fields": {},
-                                           "place_ops": [{"op": "remove", "target": "망원시장"}]})
+    _intent(monkeypatch, "correct", place_ops=[{"op": "remove", "target": "망원시장"}])
     out = interview.answer_interview(s.id, "망원시장은 빼주세요")
     assert all(a.get("label") != "망원시장" for a in out.draft_attractions)

@@ -42,35 +42,67 @@ def _convo(conversation: list[dict]) -> str:
 
 # ── (A) 추출 ─────────────────────────────────────────────────────────
 
+# 답변 유형·장소 근거는 **모델이 판정**한다. 코드는 보호자 문장을 단어 목록으로
+# 분류하지 않는다(2026-09-26 사용자 결정: 규칙 기반 단어 매핑 금지). 대신 모델이
+# 근거로 삼은 원문 구절(quote)을 함께 내게 해, 그 구절이 답변에 실제로 있는지만
+# 코드가 확인한다(axis_scoring 의 quote 실존 검증과 같은 원칙).
+ANSWER_KINDS = ("informative", "none", "yes_only", "unknown",
+                "unclear_question", "already_answered")
+
 EXTRACT_SYSTEM = """\
 너는 '돌아오길' 온보딩 인터뷰의 추출기다. 보호자의 마지막 답변에서 실종자 페르소나에
 쓸 사실만 뽑아 JSON 으로 낸다. 답변에 없는 내용을 지어내지 마라(환각 금지).
-아래 JSON 스키마의 주석 예시 문구를 절대 출력에 복사하지 마라.
-장소는 지오코딩 가능한 동/랜드마크 표현이 있으면 area_text 로 남긴다.
+아래 JSON 의 <…> 자리표시는 설명일 뿐이니 그대로 출력하지 마라.
+
+answer_kind — 마지막 답변이 직전 질문에 어떻게 답했는지 하나만 고른다:
+- "informative": 대상자에 관한 사실(행동·장소·습관·상태)이 하나라도 있다. 모른다는 \
+말이 섞여 있어도 사실이 하나라도 있으면 이것이다
+- "none": 질문이 묻는 일이 대상자에게 없다고 답했다 ("딱히 없어요", "그런 적 없어요")
+- "yes_only": "네", "맞아요"처럼 질문에 긍정만 하고 다른 사실은 말하지 않았다
+- "unknown": 모른다·기억나지 않는다고만 답했다
+- "unclear_question": 질문의 뜻을 되묻거나 이해하지 못했다고 했다
+- "already_answered": 이미 답했다고 말했다
+
+attraction_points — 대상자가 다니는·다녔던·가려 하는·살았던·발견된 장소. 이름이 없는 \
+곳도 넣는다("예전에 살던 집", "옛 직장", "고향"). 지금 사는 집은 넣지 않는다.
+- label: 답변에 나온 표현 그대로의 장소 이름
+- area_text: 답변에 나온 동 이름·랜드마크. 답변에 없으면 빈 문자열 "" (지어내지 마라)
+- quote: 그 장소와 근거가 나오는 마지막 답변의 원문 구절을 글자 그대로 복사
+- evidence: 그 장소가 왜 중요한지의 근거 강도. 위에서부터 먼저 해당하는 것:
+  - "previous_missing_found": 과거에 길을 잃었을 때 그곳에서 **발견됐다**고 말함
+  - "caregiver_report": **자주 간다 / 가려고 한다 / 가야 한다고 반복해서 말한다** 중 \
+하나라도 있음. 반복되는 '말'도 관찰된 지향이다
+  - "mention_only": 반복·지향 표현 없이 배경으로만 언급됨 ("젊을 때 다니셨대요")
 
 behavior_notes 규칙:
 - 보호자 답변에 실제로 담긴 '관찰된 행동 사실'만. 답변 문장을 그대로 복사하지 말고
   "~하는 편", "~함" 같은 짧은 서술로 요약한다.
-- 보호자가 "모르겠다", "글쎄요"라고 하거나 답에 정보가 없으면 빈 배열 [] — 무지·거부·
-  잡담은 사실이 아니다.
-
-evidence — 그 장소가 왜 중요한지의 근거 강도. 위에서부터 먼저 해당하는 것:
-- "previous_missing_found": 과거에 길을 잃었을 때 그곳에서 **발견됐다**고 말함
-- "caregiver_report": **자주 간다 / 가려고 한다 / 가야 한다고 반복해서 말한다** 중 \
-하나라도 있음. 반복되는 '말'도 관찰된 지향이다
-- "mention_only": 반복·지향 표현 없이 배경으로만 언급됨 ("젊을 때 다니셨대요")
+- answer_kind 가 unknown·unclear_question·already_answered 이면 빈 배열 [].
 
 반드시 아래 JSON 하나만 출력:
 {
+  "answer_kind": "<위 여섯 값 중 하나>",
   "fields": {},               // name/age/home 중 이번 답에서 확인된 것만
-  "attraction_points": [],    // [{"label":"옛 직장","area_text":"면목동","place_type":"workplace","evidence":"previous_missing_found"}] 좌표로 특정 가능한 장소 단서
-  "behavior_notes": [],       // ["길 잃으면 계속 걷는 편"] 관찰된 행동 사실(짧게)
+  "attraction_points": [],    // [{"label":"<장소>","area_text":"<동·랜드마크 또는 빈 문자열>","place_type":"<장소 유형>","evidence":"<근거 강도>","quote":"<답변 원문 구절>"}]
+  "behavior_notes": [],       // ["<관찰된 행동 사실(짧게)>"]
   "slot_filled": false        // 아래 지정된 슬롯의 '충족 기준'을 이 답이 만족하면 true
 }
 """
 
 
-def build_extract_input(target_slot: SlotSpec, conversation: list[dict]) -> str:
+# 과거 장소 슬롯에서 첫 추출이 이 답변의 장소를 하나도 못 냈을 때 한 번 더 부른다.
+# 고유명사가 없는 과거 장소("예전에 살던 집")는 라이브 실측 0/3 으로 장소로 안 잡혔다
+# (2026-07-21). 예전에는 정규식이 발화에서 라벨을 직접 만들었지만, 이제는 모델에게
+# 무엇이 빠졌는지만 알려 다시 판단하게 한다.
+_RECHECK_PLACES = """
+
+[재확인] 방금 이 답변을 추출했을 때 이 답변에 나온 장소가 하나도 잡히지 않았다. \
+이름이 없는 곳("예전에 살던 집", "옛 직장")이나 발견된 곳을 포함해, 이 답변에 나온 \
+장소가 있으면 빠짐없이 attraction_points 에 넣어라. 정말 없으면 빈 배열로 둔다."""
+
+
+def build_extract_input(target_slot: SlotSpec, conversation: list[dict],
+                        *, recheck_places: bool = False) -> str:
     """추출 입력 — 이전 대화는 '맥락 참고용', 마지막 보호자 발화는 '추출 대상'으로 분리.
 
     통짜 대화 뒤에 "마지막 발화를 대상으로 추출하라"만 붙이던 구버전은, 대화가
@@ -95,7 +127,7 @@ def build_extract_input(target_slot: SlotSpec, conversation: list[dict]) -> str:
 보호자: {conversation[-1].get('text', '')}
 
 위 '추출 대상' 발화에만 담긴 사실을 추출하라. 이전 대화에서 이미 나온 장소는 \
-다시 넣지 마라. 위 JSON 하나만 출력."""
+다시 넣지 마라. 위 JSON 하나만 출력.""" + (_RECHECK_PLACES if recheck_places else "")
 
 
 # ── (A') 확인 게이트 정정 ────────────────────────────────────────────
@@ -111,10 +143,17 @@ CORRECTION_SYSTEM = """\
 
 반드시 아래 JSON 하나만 출력:
 {
+  "intent": "<confirm | correct | correct_unspecified>",
   "fields": {},      // 바꿀 기본 정보만. 키는 name/age/home 중 실제로 정정된 것만. \
 장소(가시려 할 만한 곳) 정정은 여기 넣지 마라 — home 은 '지금 사시는 집'을 고칠 때만.
   "place_ops": []    // 장소 변경 지시 배열
 }
+
+intent — 보호자가 요약을 보고 무엇을 원하는지 하나만:
+- "confirm": 요약이 맞으니 이대로 등록하라는 말뿐이다("네", "맞아요", "등록해 주세요"). \
+고칠 내용이 조금이라도 있으면 confirm 이 아니다.
+- "correct": 무엇을 어떻게 고칠지 말했다.
+- "correct_unspecified": 고치고 싶다고만 하고 무엇을 고칠지는 말하지 않았다("아니요, 수정할게요").
 
 place_ops 의 각 항목:
 - {"op":"rename","target":"<기존 장소명>","value":"<새 장소명>"}   이름이 틀렸을 때
@@ -152,7 +191,7 @@ CORRECTION_FEWSHOT_USER = """\
 위 JSON 하나만 출력."""
 
 CORRECTION_FEWSHOT_ASSISTANT = """\
-{"fields": {}, "place_ops": [\
+{"intent": "correct", "fields": {}, "place_ops": [\
 {"op":"set_area","target":"예전에 살던 집","value":"수곡동"}, \
 {"op":"rename","target":"망원중학교","value":"망원초등학교"}]}"""
 
@@ -160,9 +199,15 @@ CORRECTION_FEWSHOT_ASSISTANT = """\
 _PLACE_OPS = ("rename", "set_area", "remove", "add")
 
 
+CORRECTION_INTENTS = ("confirm", "correct", "correct_unspecified")
+
+
 def parse_correction(raw: str, place_labels: list[str]) -> dict:
-    """정정 응답 → 검증된 {fields, place_ops}. 실존 라벨·닫힌 동작만 통과."""
-    empty: dict = {"fields": {}, "place_ops": []}
+    """정정 응답 → 검증된 {intent, fields, place_ops}. 실존 라벨·닫힌 동작만 통과.
+
+    intent 를 모르면 None — 호출부는 등록을 확정하지 않는다(판정 없이 확정 금지).
+    """
+    empty: dict = {"intent": None, "fields": {}, "place_ops": []}
     try:
         data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
     except (ValueError, json.JSONDecodeError):
@@ -192,20 +237,101 @@ def parse_correction(raw: str, place_labels: list[str]) -> dict:
         if op in ("rename", "set_area") and not value:
             continue
         ops.append({"op": op, "target": target, "value": value})
-    return {"fields": fields, "place_ops": ops}
+    intent = data.get("intent") if data.get("intent") in CORRECTION_INTENTS else None
+    return {"intent": intent, "fields": fields, "place_ops": ops}
 
 
 def parse_extract(raw: str) -> dict:
+    """추출 응답 → 정규화된 dict. 해석 실패·모르는 answer_kind 는 None(판정 없음).
+
+    answer_kind 가 None 이면 호출부는 어떤 유형 판정(소진·충족·되묻기)도 하지 않는다
+    — 코드가 문장을 대신 분류하지 않기 위해서다.
+    """
+    empty = {"answer_kind": None, "fields": {}, "attraction_points": [],
+             "behavior_notes": [], "slot_filled": False}
     try:
         data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
     except (ValueError, json.JSONDecodeError):
-        return {"fields": {}, "attraction_points": [],
-                "behavior_notes": [], "slot_filled": False}
-    data.setdefault("fields", {})
-    data.setdefault("attraction_points", [])
-    data.setdefault("behavior_notes", [])
-    data.setdefault("slot_filled", False)
+        return empty
+    if not isinstance(data, dict):
+        return empty
+    if data.get("answer_kind") not in ANSWER_KINDS:
+        data["answer_kind"] = None
+    if not isinstance(data.get("fields"), dict):
+        data["fields"] = {}
+    points = data.get("attraction_points")
+    data["attraction_points"] = [p for p in points if isinstance(p, dict)] \
+        if isinstance(points, list) else []
+    notes = data.get("behavior_notes")
+    data["behavior_notes"] = [n for n in notes if isinstance(n, str) and n.strip()] \
+        if isinstance(notes, list) else []
+    data["slot_filled"] = data.get("slot_filled") is True
     return data
+
+
+# ── (A'') 과거 발견지 확인 · 되물은 장소의 지역 ────────────────────────
+# 과거 발견지(previous_missing_found)는 가중치 최상위(0.9)라 오분류 비용이 가장 크다.
+# 실측(2026-07-22): "망원시장에서 가게를 하신 적이 있어서 거기에 가야 한다고…"를
+# 추출기가 발견지로 분류했다. 예전에는 '발견' 같은 단어가 있는지 코드가 봤지만,
+# 이제는 같은 판정을 좁은 질문 하나로 모델에게 다시 묻는다(여러 일을 한 번에 시키는
+# 추출 호출보다 한 가지만 묻는 호출이 덜 흔들린다).
+FOUND_CHECK_SYSTEM = """\
+너는 보호자 답변을 읽고 한 가지만 판정한다: 대상자가 **과거에 길을 잃었다가(실종됐다가)
+그 장소에서 발견되었다**고 보호자가 말했는가.
+- 그곳에 자주 간다·가려 한다·예전에 일했다·살았다는 말은 발견이 아니다.
+- 직전 질문이 발견 장소를 물었고 보호자가 그 장소를 답했다면 발견이다.
+반드시 아래 JSON 하나만 출력:
+{"found_here": true 또는 false}"""
+
+
+def build_found_check_input(label: str, question: str, answer: str) -> str:
+    return f"""\
+[장소] {label}
+[직전 질문] {question or "(없음)"}
+[보호자 답변] {answer}
+
+위 JSON 하나만 출력."""
+
+
+def parse_found_check(raw: str) -> bool | None:
+    try:
+        data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    except (ValueError, json.JSONDecodeError):
+        return None
+    value = data.get("found_here") if isinstance(data, dict) else None
+    return value if isinstance(value, bool) else None
+
+
+# 장소의 동네를 되물은 답에서 지도 검색에 쓸 지역 표현만 고른다. 예전에는 정규식이
+# '○○시장·○○역' 같은 접미어로 지명을 집었는데, 이제는 모델이 고르고 코드는 그
+# 표현이 답에 실제로 있는지만 확인한다. 라이브 실측(2026-08-07): "'예전 가게'은
+# 어느 동네인가요?"에 "망원시장에서 생선가게를 하셨어요"라고 답했다 — 문장을
+# 통째로 지역으로 쓰면 지오코딩이 실패해 그 장소가 등록에서 사라졌다.
+AREA_SYSTEM = """\
+너는 보호자에게 어떤 장소가 어느 동네인지 물은 뒤, 그 답에서 지도 검색에 쓸 지역 \
+표현 하나만 고른다.
+- 답변에 나온 표현을 글자 그대로 쓴다(동 이름, 건물·가게·역 이름, 도로명 주소). \
+뒤에 붙은 조사("에서", "이요")는 뺀다.
+- 모른다고 했거나 지역 표현이 없으면 null.
+반드시 아래 JSON 하나만 출력:
+{"area": "<지역 표현>" 또는 null}"""
+
+
+def build_area_input(label: str, answer: str) -> str:
+    return f"""\
+[물어본 장소] {label}
+[보호자 답변] {answer}
+
+위 JSON 하나만 출력."""
+
+
+def parse_area(raw: str) -> str | None:
+    try:
+        data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    except (ValueError, json.JSONDecodeError):
+        return None
+    value = data.get("area") if isinstance(data, dict) else None
+    return value.strip() if isinstance(value, str) and value.strip() else None
 
 
 # ── (B) 문장화 ───────────────────────────────────────────────────────

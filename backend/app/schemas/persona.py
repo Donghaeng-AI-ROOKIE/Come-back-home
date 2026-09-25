@@ -196,6 +196,9 @@ class InterviewSession(BaseModel):
     slot_quotes: dict[str, list[str]] = {}
     # 보호자 답 전체 — 질문과 짝지어 필터 없이 기록(finalize 에서 Persona.onboarding_turns).
     slot_turns: list[dict] = []
+    # 추출 결과를 원문에 대조하다 버리거나 내린 것 — {"event","label",...}. 모델 판정을
+    # 코드가 고치지 않고 받지 않은 이유만 남긴다(무엇이 왜 빠졌는지 추적용).
+    extraction_audit: list[dict] = []
     awaiting_confirmation: bool = False   # 요약 확인("이게 맞나요?") 대기 중
     asked_more_places: bool = False       # 요약 전 '추가 장소 스윕' 1회 보장용 플래그
     # 지역 표기 없는 끌림점의 주소 되묻기 — 없으면 지오코딩이 실패해 그 장소가
