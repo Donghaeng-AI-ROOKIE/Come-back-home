@@ -114,16 +114,21 @@ def _local_naive(dt):
     return dt.astimezone().replace(tzinfo=None) if dt.tzinfo else dt
 
 
-def apply_prepared(persona, report, sar, default):
+def apply_prepared(persona, report, sar, default, situation_links=None):
     try:
-        return _apply_prepared(persona, report, sar, default)
+        return _apply_prepared(persona, report, sar, default, situation_links)
     except (KeyError, ValueError, TypeError, AttributeError):
         return sar.model_copy(update={'initial_interpretation':{'status':'preparation_invalid',
             'version':VERSION,'K_called_during_prediction':False}})
 
 
-def _apply_prepared(persona, report, sar, default):
-    """Local compilation only. Prepared day/night rules stay separate until incident."""
+def _apply_prepared(persona, report, sar, default, situation_links=None):
+    """Local compilation only. Prepared day/night rules stay separate until incident.
+
+    situation_links: validated links from the report's situation text to registered places
+    (phase2.situation_link, judged by Mi:dm at report time). A place the person set out for
+    that day becomes the incident's current destination, overriding registration-time timing.
+    """
     from app.phase2.person_projection import compile_person
     if persona is None:
         return sar.model_copy(update={'initial_interpretation':{'status':'no_persona',
@@ -153,6 +158,15 @@ def _apply_prepared(persona, report, sar, default):
         elif registered_before_incident and leaf['value'] in {'current_statement','recent_action','explicit_rejection'}:
             leaf['value']='historical_only'
             leaf['explanation']='사전등록 당시 보고. 이번 사건의 현재 의도는 미확인.'
+    applied_links=[]
+    for link in situation_links or []:
+        leaf=core['goals'].get(link['place'])
+        if leaf is None:
+            continue
+        leaf['value']='current_statement' if link['relation']=='stated_destination' else 'recent_action'
+        leaf['note_ids']=sorted(set(leaf.get('note_ids',[]))|{'N_incident'})
+        leaf['explanation']='신고 상황에 적힌 이번 외출의 목적지: "'+link['quote']+'"'
+        applied_links.append(link)
     # Supported clock-period rules are typed K output, never parsed guardian words.
     for dimension in ('persistence','direction'):
         candidates=[r for r in rules if r['dimension']==dimension and r['period']==period]
@@ -164,6 +178,11 @@ def _apply_prepared(persona, report, sar, default):
                 'evidence':'supported' if candidates else 'missing','pattern':'conditional' if candidates else 'unresolved',
                 'explanation':'저장된 시간대별 개인 관찰의 적용.'}
     payload=initial_behavior.build_payload(persona,report,[],sar);payload['retrieval_audit']=saved.get('retrieval_audit',[])
+    if applied_links:
+        # The guardian's own report text is the source of an incident destination, kept
+        # apart from onboarding answers by its kind.
+        payload['notes'].append({'id':'N_incident','text':report.situation,
+                                 'sources':[{'kind':'guardian_incident_report','slot':'situation'}]})
     try:
         result=compile_person(core,scope,payload,persona,sar,default)
     except (ValueError,KeyError,TypeError):
@@ -175,6 +194,7 @@ def _apply_prepared(persona, report, sar, default):
         preparation_fingerprint=saved['fingerprint'],profile_snapshot_at=saved.get('profile_snapshot_at'),
         goal_temporality='recurring goals kept in their clock period; single reports before the incident treated as historical',
         registered_before_incident=registered_before_incident,preparation_audit=saved.get('audit',{}),
+        situation_links=applied_links,
         behavior_rules=rules,selected_clock_period=period,
         clock_period_definition='Asia/Seoul 06:00–18:00 clock_day; otherwise clock_night; not observed brightness')
     return result

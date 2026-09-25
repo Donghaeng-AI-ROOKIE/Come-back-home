@@ -19,6 +19,7 @@ from app.llm import exaone
 from app.phase2 import combine, radius, simulation, topdown, initial_person
 from app.llm.initial_behavior import simulation_persona
 from app.phase0.person_preparation import apply_prepared
+from app.phase2 import situation_link
 from app.schemas.case import Case, CaseStatus
 from app.schemas.debug import PredictionDebug, SimTrace
 from app.schemas.prediction import MindState, POA, PredictionResult
@@ -96,8 +97,11 @@ def run_prediction(
 
     # 온보딩 뒤 백그라운드에서 저장한 K 해석을 로컬 컴파일한다(여기서 K 호출 없음).
     # 보호자 사실은 저장소에 그대로 두고 사건별 추정 사본을 두 MC에 같이 전달.
+    # 신고 상황 문장이 등록 장소 중 어디로 이어지는지는 Mi:dm 이 사례당 한 번 판정한다
+    # (같은 문장·같은 준비 결과면 재예측 때 다시 부르지 않는다 — situation_link.cached).
+    links = situation_link.cached(case, persona)
     prior = apply_prepared(persona, case.report, prior,
-                           exaone._default_prior(persona, case.report))
+                           exaone._default_prior(persona, case.report), links)
     persona = simulation_persona(persona, prior)
     _lap("initial_person_ms")
 

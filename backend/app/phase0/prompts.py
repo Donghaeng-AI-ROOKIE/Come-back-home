@@ -374,6 +374,60 @@ def parse_area(raw: str) -> str | None:
     return value.strip() if isinstance(value, str) and value.strip() else None
 
 
+# ── (D) 신고 상황 ↔ 등록 장소 ─────────────────────────────────────────
+# 신고서의 '실종 당시 상황'에 오늘의 목적지가 적혀 있는 경우가 많다("출근하셔야 한다며",
+# "오늘 옛집에 가신다고"). 개인 해석(K)은 사건 전에 준비되므로 이 문장을 못 읽고, SAR 는
+# 장소 등급을 가르지 못했다(v49 보류 H3·H7: 전부 '상'). 신고 시점에 이 문장이 등록된
+# 장소 중 어디로 이어지는지만 모델이 판정하고, 코드는 등록된 이름인지·근거 구절이 신고
+# 문장에 그대로 있는지만 본다.
+SITUATION_LINK_RELATIONS = ("stated_destination", "usual_outing")
+
+SITUATION_LINK_SYSTEM = """\
+너는 실종 신고서의 '실종 당시 상황' 문장이 등록된 장소 중 어디와 이어지는지만 판정한다.
+- stated_destination: 대상자가 오늘 그곳에 가겠다고 말했거나 그곳에 가려고 나갔다고 적혀 있다. \
+그곳을 부르는 다른 말도 포함한다(옛 직장에 '출근한다', 예전 집에 '집에 간다' 등 — 장소 설명을 본다).
+- usual_outing: 늘 하던 산책·외출을 하러 나갔다고 적혀 있고, 그 외출이 그 장소와 관련된다.
+- 문장이 어느 장소와도 이어지지 않으면 links 는 빈 배열이다. 추측하지 마라.
+- quote 는 판정 근거가 된 상황 문장의 구절을 글자 그대로 복사한다.
+반드시 아래 JSON 하나만 출력:
+{"links": [{"place": "<등록된 장소 이름 그대로>", "relation": "<stated_destination 또는 usual_outing>", "quote": "<상황 문장 구절>"}]}"""
+
+
+def build_situation_link_input(situation: str, places: list[dict]) -> str:
+    lines = []
+    for p in places:
+        about = " / ".join(p.get("context") or []) or "(설명 없음)"
+        lines.append(f"- {p['label']}: {about}")
+    return f"""\
+[등록된 장소와 보호자가 전에 한 말]
+{chr(10).join(lines) if lines else "(없음)"}
+
+[실종 당시 상황]
+{situation}
+
+위 JSON 하나만 출력."""
+
+
+def parse_situation_link(raw: str, labels: list[str]) -> list[dict] | None:
+    """링크 응답 → [{place, relation, quote}]. 해석 실패는 None, 등록 밖 이름·모르는 관계는 버린다."""
+    try:
+        data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    except (ValueError, json.JSONDecodeError):
+        return None
+    items = data.get("links") if isinstance(data, dict) else None
+    if not isinstance(items, list):
+        return None
+    out = []
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        place, relation = str(item.get("place") or "").strip(), item.get("relation")
+        quote = str(item.get("quote") or "").strip()
+        if place in labels and relation in SITUATION_LINK_RELATIONS and quote:
+            out.append({"place": place, "relation": relation, "quote": quote})
+    return out
+
+
 # ── (B) 문장화 ───────────────────────────────────────────────────────
 
 PHRASE_SYSTEM = """\

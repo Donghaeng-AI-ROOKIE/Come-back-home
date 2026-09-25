@@ -175,6 +175,24 @@ class MidmClient(LLMClient):
             return None
         return prompts.parse_yes_no(raw)
 
+    def link_situation(self, situation: str, places: list[dict]) -> list[dict] | None:
+        """신고 상황 문장 → 등록 장소 링크. 스텁·실패·해석 불가는 None(링크 판정 없음)."""
+        if self.is_stub or not situation.strip() or not places:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.SITUATION_LINK_SYSTEM},
+                    {"role": "user", "content": prompts.build_situation_link_input(situation, places)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=300,
+            )
+        except Exception:  # noqa: BLE001 — 링크 실패가 예측을 막으면 안 된다
+            self.call_failures += 1
+            return None
+        return prompts.parse_situation_link(raw, [p["label"] for p in places])
+
     def extract_area(self, label: str, answer: str) -> str | None:
         """되물은 장소의 동네 답 → 지도 검색에 쓸 지역 표현. 없거나 실패면 None."""
         if self.is_stub:
