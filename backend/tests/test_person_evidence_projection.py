@@ -32,10 +32,12 @@ def sample():
     sar = sar.model_copy(update={'strategy_before_behavior': dict(default.strategy_probs)})
     payload = initial_behavior.build_payload(p, r, [], sar)
     leaf = lambda v='unknown': {'value': v, 'note_ids': [], 'explanation': '관련 개인 관찰 정보 미확인.'}
-    core = {'goals': {x.label: leaf() for x in p.attraction_points},
+    core = {'goals': {x.label: {**leaf(), 'period': 'unspecified'} for x in p.attraction_points},
             'routes': {x.label: leaf() for x in p.attraction_points},
+            'found_history': {x.label: leaf('not_reported') for x in p.attraction_points},
             'environment': {x: leaf() for x in ['water','forest','park','market']},
-            **{x:leaf() for x in ['persistence','direction','mobility','emotion']}}
+            **{x:leaf() for x in ['persistence','direction','mobility','emotion']},
+            'other_traits': []}
     scope = {'persistence': {'evidence':'missing','pattern':'unresolved','value':'unknown',
                             'note_ids':[], 'explanation':'관련 선택 관찰 미확인.'},
              'environment':{x:{'response':'unknown','scope':'unknown','condition':'미확인',
@@ -222,7 +224,7 @@ def test_final_json_envelope_does_not_repair_or_select_between_answers():
 
 def test_compact_core_preserves_semantics_without_free_prose(sample):
     core=copy.deepcopy(sample[-2]);core.pop('environment')
-    for section in ['goals','routes']:
+    for section in ['goals','routes','found_history']:
         for leaf in core[section].values():leaf.pop('explanation')
     for field in ['persistence','direction','mobility','emotion']:core[field].pop('explanation')
     core['direction'].update(value='retrace',note_ids=['N0'])
@@ -231,7 +233,7 @@ def test_compact_core_preserves_semantics_without_free_prose(sample):
     assert all(e['value']=='unknown' for e in parsed['environment'].values())
 
 
-def test_refine_uses_three_logged_tasks_and_failure_is_visible(sample,monkeypatch,tmp_path):
+def test_refine_uses_four_logged_tasks_and_failure_is_visible(sample,monkeypatch,tmp_path):
     from app.phase2 import initial_person
     from app.config import settings
     p,r,sar,default,payload,core,scope=sample
@@ -245,13 +247,13 @@ def test_refine_uses_three_logged_tasks_and_failure_is_visible(sample,monkeypatc
     def request(url,body,**kw):
         calls.append(kw)
         obj={'initial_person_core':core,'initial_person_context':scope,'initial_person_environment':environment,
-             'initial_person_semantic_audit':core}[kw['role']]
+             'initial_person_semantic_audit':core,'initial_person_context_review':scope}[kw['role']]
         return {'choices':[{'finish_reason':'stop','message':{'content':json.dumps(obj)}}]}
     monkeypatch.setattr(initial_person,'logged_json_request',request)
     result=initial_person.refine(p,r,sar,default)
     assert result.initial_interpretation['status']=='applied'
-    assert len(calls)==3 and all(c['max_started']==3 for c in calls)
-    assert len({c['run_id'] for c in calls})==1 and len({c['logical_request_id'] for c in calls})==3
+    assert len(calls)==4 and all(c['max_started']==4 for c in calls)
+    assert len({c['run_id'] for c in calls})==1 and len({c['logical_request_id'] for c in calls})==4
     assert result.initial_interpretation['environment_method']=='single_context_contract'
     calls.clear()
     def fail(*a,**kw):
@@ -261,7 +263,7 @@ def test_refine_uses_three_logged_tasks_and_failure_is_visible(sample,monkeypatc
     result=initial_person.refine(p,r,sar,default)
     assert result.initial_interpretation['status']=='fallback_to_sar'
     assert result.strategy_probs==sar.strategy_probs
-    assert len(calls)<=3
+    assert len(calls)<=4
     assert 'provider content' not in json.dumps(result.initial_interpretation)
 
 
@@ -348,3 +350,27 @@ def test_compact_context_validates_typed_conditions_and_legacy(sample):
     with pytest.raises(ValueError):person_scope.validate(wrap(scope),payload)
     scope['environment']['market']['condition_clauses']=[[{'signal':'crowded','state':'present'},{'signal':'crowded','state':'absent'}]]
     with pytest.raises(ValueError):person_scope.validate(wrap(scope),payload)
+
+
+def test_sar_prompt_shows_korean_clock_even_on_utc_server():
+    import importlib
+    import os
+    import time
+    exaone_module=importlib.import_module('app.llm.exaone')
+    old=os.environ.get('TZ')
+    os.environ['TZ']='UTC'
+    time.tzset()
+    try:
+        r=MissingReport(id='tz',missing_type='dementia',lkp=GeoPoint(lat=37.6,lng=127.),
+            lkp_time='2026-10-19T18:20:00+09:00',situation='저녁 외출')
+        assert r.lkp_time.hour==9
+        assert '18:20 마지막 목격' in exaone_module._build_prior_input(None,r)
+        payload=initial_behavior.build_payload(Persona(id='tz',type='dementia',name='비공개',age=80,
+            home=GeoPoint(lat=37.6,lng=127.)),r,[],None)
+        assert payload['incident']['last_seen_time'].startswith('2026-10-19T18:20:00+09:00')
+    finally:
+        if old is None:
+            os.environ.pop('TZ',None)
+        else:
+            os.environ['TZ']=old
+        time.tzset()

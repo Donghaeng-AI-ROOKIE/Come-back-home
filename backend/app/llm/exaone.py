@@ -20,6 +20,7 @@ import random
 import urllib.request
 from datetime import datetime
 from time import perf_counter
+from zoneinfo import ZoneInfo
 
 from app.config import settings
 from app.llm import mind_v2
@@ -305,7 +306,8 @@ def _build_prior_input(persona: Persona | None, report: MissingReport) -> str:
             lines += [f"  - {note}" for note in persona.behavior_notes]
     else:
         lines.append(f"- 유형: {_TYPE_LABEL[report.missing_type]} (사전 등록 정보 없음)")
-    lines.append(f"- 실종 상황: {report.lkp_time:%H:%M} 마지막 목격")
+    # 저장 시각은 서버 로컬(naive)이다. 컨테이너가 UTC여도 모델에는 한국 시각으로 보인다.
+    lines.append(f"- 실종 상황: {report.lkp_time.astimezone(ZoneInfo('Asia/Seoul')):%H:%M} 마지막 목격")
     if report.situation:
         lines.append(f"- 신고된 출발 경위·상황(관찰과 추측 구분 필요): {report.situation}")
     return "\n".join(lines)

@@ -14,9 +14,9 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 from app import storage
 from app.config import settings
-from app.llm import initial_behavior
+from app.llm import initial_behavior, person_evidence
 
-VERSION = "onboarding-person-v1"
+VERSION = "onboarding-person-v2"
 _jobs = queue.Queue()
 _start_lock = threading.Lock()
 _started = False
@@ -109,6 +109,10 @@ def recover():
             storage.personas.update_existing(p.id,interrupt)
 
 
+def _local_naive(dt):
+    return dt.astimezone().replace(tzinfo=None) if dt.tzinfo else dt
+
+
 def apply_prepared(persona, report, sar, default):
     try:
         return _apply_prepared(persona, report, sar, default)
@@ -131,16 +135,23 @@ def _apply_prepared(persona, report, sar, default):
     baseline_direction=scope.pop('baseline_direction',None)
     if baseline_direction is not None:
         core['direction']={**baseline_direction,'explanation':'조건 과업의 무조건 방향 판단.'}
-    # Registration can precede an incident by months. A then-current statement is
-    # not evidence of the person's current destination at the missing incident.
-    for label,leaf in core['goals'].items():
-        if leaf['value'] in {'current_statement','recent_action','explicit_rejection'}:
-            leaf['value']='historical_only'
-            leaf['explanation']='사전등록 당시 보고. 이번 사건의 현재 의도는 미확인.'
     # Stored naive timestamps follow server-local time; evaluate Korean clock rules
     # in the service region even when the container itself runs in UTC.
     incident_hour = report.lkp_time.astimezone(ZoneInfo('Asia/Seoul')).hour
     period='clock_day' if 6 <= incident_hour < 18 else 'clock_night'
+    # One statement or trip describes the registration time; months later it is not the
+    # incident's intention. Recurring habits persist, but only in the clock period they
+    # occur. A profile first created after the incident (urgent report) describes the
+    # incident itself, so its single reports are not demoted.
+    registered_before_incident=_local_naive(persona.created_at)<_local_naive(report.lkp_time)
+    for label,leaf in core['goals'].items():
+        if leaf['value'] in person_evidence.PERSISTENT_GOALS:
+            if leaf.get('period','unspecified') not in ('unspecified',period):
+                leaf['value']='historical_only'
+                leaf['explanation']='다른 시간대의 반복 목적. 이번 사건 시간대에는 적용하지 않음.'
+        elif registered_before_incident and leaf['value'] in {'current_statement','recent_action','explicit_rejection'}:
+            leaf['value']='historical_only'
+            leaf['explanation']='사전등록 당시 보고. 이번 사건의 현재 의도는 미확인.'
     # Supported clock-period rules are typed K output, never parsed guardian words.
     for dimension in ('persistence','direction'):
         candidates=[r for r in rules if r['dimension']==dimension and r['period']==period]
@@ -161,6 +172,7 @@ def _apply_prepared(persona, report, sar, default):
         prepared_before_incident=(prepared_at < report.lkp_time if prepared_at is not None else None),
         prepared_outside_prediction=True,K_called_during_prediction=False,
         preparation_fingerprint=saved['fingerprint'],profile_snapshot_at=saved.get('profile_snapshot_at'),
-        goal_temporality='registration report, not incident-confirmed intention',behavior_rules=rules,selected_clock_period=period,
+        goal_temporality='recurring goals kept in their clock period; single reports before the incident treated as historical',
+        registered_before_incident=registered_before_incident,behavior_rules=rules,selected_clock_period=period,
         clock_period_definition='Asia/Seoul 06:00–18:00 clock_day; otherwise clock_night; not observed brightness')
     return result

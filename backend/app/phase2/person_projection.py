@@ -12,6 +12,10 @@ from app.phase2 import guardrail
 
 
 
+# Goals that make a place a destination at the incident, after incident-time filtering.
+CURRENT_GOALS = {"recent_action", "current_statement", *person_evidence.PERSISTENT_GOALS}
+
+
 def agreed_environment(environment, scope):
     """A type-wide update requires agreement on direction AND spatial scope.
 
@@ -101,17 +105,22 @@ def compile_person(core, scope, payload, persona, sar, default, *, environment=N
         boost("direction.same_heading", {"direction_keeping": 3.})
     elif direction == "retrace":
         boost("direction.retrace", guardrail.TENDENCY_BOOST["backtrack"])
-    current = [k for k, v in z["goals"].items() if v["value"] in {"recent_action", "current_statement"}]
+    current = [k for k, v in z["goals"].items() if v["value"] in CURRENT_GOALS]
     if current:
         boost("current_destination", {"landmark_seeking": 2.})
     if current and all(z["routes"][k]["value"] == "new_route" for k in current):
         boost("destination_without_route_experience", {"route_following": 1 / 3})
     strategy = guardrail.sanitize_strategy_probs(strategy, sar.strategy_probs)
 
-    levels = {k: "상" if v["value"] in {"recent_action", "current_statement"}
+    levels = {k: "상" if v["value"] in CURRENT_GOALS
               else "하" if v["value"] == "explicit_rejection" else "중"
               for k, v in z["goals"].items()}
-    weights = guardrail.sanitize_attraction_levels(levels, persona)
+    # Evidence strength comes from K's reading of the guardian's own words, not from
+    # onboarding tags that surface-word rules may have upgraded or downgraded.
+    evidence = {k: "previous_missing_found" if z["found_history"][k]["value"] == "found_here"
+                else "caregiver_report" if z["goals"][k]["value"] in person_evidence.PERSISTENT_GOALS
+                else "mention_only" for k in z["goals"]}
+    weights = guardrail.sanitize_attraction_levels(levels, persona, evidence=evidence)
     route_grades = dict(zip(person_evidence.ROUTES[:5], [.1, .3, .5, .7, .9]))
     routes = [{"route": k, "score": route_grades[v["value"]]}
               for k, v in z["routes"].items() if v["value"] in route_grades]
@@ -151,16 +160,22 @@ def compile_person(core, scope, payload, persona, sar, default, *, environment=N
         unrepresented.append({"feature": "persistence", "reason": "no_observed_wait_walk_timing_model"})
     if scope["persistence"]["pattern"] == "conditional":
         unrepresented.append({"feature": "persistence", "reason": "initial_context_only_not_future_time_transition"})
+    for trait in z["other_traits"]:
+        unrepresented.append({"feature": "trait." + trait["type"], "period": trait["period"],
+                              "note_ids": list(trait["note_ids"]), "reason": "no_engine_consumer_yet"})
     coverage = {n["id"]: [key for key, leaf in person_evidence.leaves(z) if n["id"] in leaf["note_ids"]]
+                         + ["trait." + t["type"] for t in z["other_traits"] if n["id"] in t["note_ids"]]
                 for n in payload["notes"]}
     # Render semantic state; a separate free-form model explanation must not silently
     # turn unobserved events into absent events or repeated visits into daily visits.
-    goal_text = {"recent_action": "최근 이동 관찰", "current_statement": "현재 가려는 의도 진술", "historical_only": "과거 관련 정보만 확인", "explicit_rejection": "현재 거부 진술", "unknown": "목적지 관계 미확인", "conflict": "목적지 보고 상충"}
+    goal_text = {"habitual_visit": "반복 방문 습관", "repeated_statement": "반복해서 가려는 발언", "recent_action": "최근 이동 관찰", "current_statement": "현재 가려는 의도 진술", "historical_only": "과거 관련 정보만 확인", "explicit_rejection": "현재 거부 진술", "unknown": "목적지 관계 미확인", "conflict": "목적지 보고 상충"}
     route_text = {"new_route": "경로 경험 없음", "accompanied_only": "동행 경험만 확인", "partial_recognition": "일부 구간 인식", "repeated_independent": "반복 독립 이동 경험", "routine_independent": "익숙한 경로의 독립 이동 경험", "unknown": "경로 인지 미확인", "conflict": "경로 보고 상충"}
     persistence_text = {"wait_for_help": "길을 잃었을 때 도움을 기다린 근거", "keep_moving": "길을 잃었을 때 이동을 이어간 근거", "alternating": "이동과 대기를 번갈아 한 근거", "unknown": "길 잃음 대응 미확인", "conflict": "길 잃음 대응 보고 상충"}
     direction_text = {"same_heading": "같은 방향을 유지한 근거", "change_heading": "이동 중 방향을 바꾼 근거", "retrace": "왔던 길을 되짚은 근거", "unknown": "방향 선택 미확인", "conflict": "방향 선택 보고 상충"}
     mobility_text = {"A": "독립 보행 제약", "B": "짧은 보행과 휴식 필요", "C": "생활권 보행 능력", "D": "수 km 보행 능력", "E": "장거리 보행 이력", "unknown": "보행 능력 미확인", "conflict": "보행 능력 보고 상충"}
-    sentences = [f"{k}: {goal_text[v['value']]}, {route_text[z['routes'][k]['value']]}" for k, v in z["goals"].items()]
+    sentences = [f"{k}: {goal_text[v['value']]}, {route_text[z['routes'][k]['value']]}"
+                 + (", 과거 실종 때 발견된 곳" if z["found_history"][k]["value"] == "found_here" else "")
+                 for k, v in z["goals"].items()]
     sentences += [persistence_text[persistence], direction_text[direction], mobility_text[mobility]]
     if scope["persistence"]["pattern"] == "conditional":
         sentences.append("길 잃음 대응은 사건 조건에 따라 달라짐")

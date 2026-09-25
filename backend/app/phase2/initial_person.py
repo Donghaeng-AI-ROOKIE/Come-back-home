@@ -54,31 +54,42 @@ def refine(persona, report, sar, default):
 
 
 def interpret(payload):
-    """Three logged K requests; used asynchronously before an incident."""
+    """Four logged K requests; used asynchronously before an incident.
+
+    Core and context drafts are independent. Each draft is then re-judged against the
+    guardian's original notes before anything reaches the engine; the context review
+    exists because unreviewed context drafts produced most engine-visible errors (v47).
+    """
     base = settings.kexaone_base_url.rstrip("/")
     url = base if base.endswith("/chat/completions") else base + (
         "/chat/completions" if base.endswith("/v1") else "/v1/chat/completions")
     run_id = "initial-person:" + str(uuid.uuid4())
-    contracts = {"core": person_evidence, "context": person_scope}
 
-    def interpret(item):
-        group, contract = item
-        body = contract.request(payload, settings.kexaone_model)
-        response = logged_json_request(url, body,
+    def call(role, body):
+        return logged_json_request(url, body,
             headers={"Authorization": "Bearer " + settings.kexaone_api_key, "Content-Type": "application/json"},
-            provider="FriendliAI", model=settings.kexaone_model, role="initial_person_" + group,
-            run_id=run_id, logical_request_id=run_id + ":" + group, timeout=settings.kexaone_timeout,
-            ledger_path=settings.research_usage_ledger_path, max_started=3)
-        return group, contract.validate(response, payload)
+            provider="FriendliAI", model=settings.kexaone_model, role=role,
+            run_id=run_id, logical_request_id=run_id + ":" + role, timeout=settings.kexaone_timeout,
+            ledger_path=settings.research_usage_ledger_path, max_started=4)
 
-    # Person features and contextual scope are independent; the audit follows.
+    drafts = {"core": (person_evidence, "initial_person_core"),
+              "context": (person_scope, "initial_person_context")}
+
+    def draft(item):
+        group, (contract, role) = item
+        return group, contract.validate(call(role, contract.request(payload, settings.kexaone_model)), payload)
+
     with ThreadPoolExecutor(max_workers=2) as pool:
-        parsed = dict(pool.map(interpret, contracts.items()))
-    body = person_audit.request(payload, parsed['core'], settings.kexaone_model, context=parsed['context'])
-    response = logged_json_request(url, body,
-        headers={"Authorization": "Bearer " + settings.kexaone_api_key, "Content-Type": "application/json"},
-        provider="FriendliAI", model=settings.kexaone_model, role="initial_person_semantic_audit",
-        run_id=run_id, logical_request_id=run_id+":semantic_audit", timeout=settings.kexaone_timeout,
-        ledger_path=settings.research_usage_ledger_path, max_started=3)
-    parsed['core'] = person_audit.validate(response, payload)
-    return parsed
+        parsed = dict(pool.map(draft, drafts.items()))
+
+    def review_core():
+        body = person_audit.request(payload, parsed['core'], settings.kexaone_model, context=parsed['context'])
+        return person_audit.validate(call("initial_person_semantic_audit", body), payload)
+
+    def review_context():
+        body = person_scope.review_request(payload, parsed['context'], settings.kexaone_model)
+        return person_scope.validate(call("initial_person_context_review", body), payload)
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        core, context = pool.submit(review_core), pool.submit(review_context)
+        return {"core": core.result(), "context": context.result()}

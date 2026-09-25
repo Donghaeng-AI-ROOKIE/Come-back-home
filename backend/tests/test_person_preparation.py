@@ -92,6 +92,7 @@ def test_failures_require_explicit_retry_and_recovery_does_not_retry_running(sam
 
 def test_saved_traits_reused_without_k_and_goal_not_assumed_current(sample,monkeypatch):
     p=make_ready(sample);p.prepared_initial['core']['goals']['공원'].update(value='current_statement',note_ids=['N2'])
+    p.created_at=datetime(2026,1,1,9)
     monkeypatch.setattr(initial_person,'interpret',lambda *a:pytest.fail('K on prediction'))
     r=sample[1].model_copy(update={'lkp_time':datetime(2026,9,25,10)})
     for _ in range(2):
@@ -230,12 +231,12 @@ def test_final_audit_receives_context_draft_and_original_evidence(sample,monkeyp
     calls=[]
     def fake(url,body,**kwargs):
         calls.append((kwargs['role'],body))
-        parsed=sample[-1] if kwargs['role']=='initial_person_context' else sample[-2]
+        parsed=sample[-1] if kwargs['role'] in ('initial_person_context','initial_person_context_review') else sample[-2]
         return {'choices':[{'finish_reason':'stop','message':{'content':json.dumps(parsed)}}]}
     monkeypatch.setattr(initial_person,'logged_json_request',fake)
     result=initial_person.interpret(payload)
     assert result['core']==sample[-2]
-    assert len(calls)==3
+    assert len(calls)==4
     audit=next(body for role,body in calls if role=='initial_person_semantic_audit')
     visible=json.loads(audit['messages'][-1]['content'])
     assert visible['incident']['status']=='not_reported'
@@ -247,7 +248,7 @@ def test_preincident_core_has_no_competing_behavior_owner(sample):
     from app.llm import person_evidence, person_audit
     payload=initial_behavior.build_payload(sample[0],None,[],None)
     schema=person_evidence.request_schema(payload)
-    assert set(schema['properties'])=={'goals','routes','mobility','emotion'}
+    assert set(schema['properties'])=={'goals','routes','found_history','mobility','emotion','other_traits'}
     body=person_audit.request(payload,sample[-2],'test',context=sample[-1])
     draft=json.loads(body['messages'][-1]['content'])['draft']['content']
     assert 'direction' not in draft and 'persistence' not in draft
@@ -269,3 +270,79 @@ def test_missing_clock_branch_cannot_inherit_other_period_heading(sample):
     r=type(sample[1]).model_validate({**sample[1].model_dump(),'lkp_time':datetime(2026,9,25,21,tzinfo=timezone(timedelta(hours=9)))})
     out=prep.apply_prepared(p,r,sample[2],sample[3])
     assert out.initial_interpretation['semantic_contract']['direction']['value']=='unknown'
+
+
+def ready_with_goal(sample, value, period='unspecified', created=datetime(2026,1,1,9)):
+    p=make_ready(sample).model_copy(deep=True)
+    p.created_at=created
+    p.prepared_initial['core']['goals']['공원'].update(value=value,period=period,note_ids=['N2'])
+    return p
+
+
+def at_hour(sample, hour):
+    return type(sample[1]).model_validate({**sample[1].model_dump(),
+        'lkp_time':datetime(2026,9,25,hour,tzinfo=timezone(timedelta(hours=9)))})
+
+
+def test_habitual_goal_reaches_engine_only_in_its_clock_period(sample):
+    p=ready_with_goal(sample,'habitual_visit','clock_day')
+    day=prep.apply_prepared(p,at_hour(sample,10),sample[2],sample[3])
+    night=prep.apply_prepared(p,at_hour(sample,22),sample[2],sample[3])
+    assert day.initial_interpretation['semantic_contract']['goals']['공원']['value']=='habitual_visit'
+    assert night.initial_interpretation['semantic_contract']['goals']['공원']['value']=='historical_only'
+    assert day.attraction_weights['공원']>night.attraction_weights['공원']
+    assert day.strategy_probs['landmark_seeking']>night.strategy_probs['landmark_seeking']
+
+
+def test_unspecified_habit_applies_at_any_hour_and_single_report_is_demoted(sample):
+    habit=ready_with_goal(sample,'repeated_statement')
+    single=ready_with_goal(sample,'current_statement')
+    for hour in (10,22):
+        r=at_hour(sample,hour)
+        kept=prep.apply_prepared(habit,r,sample[2],sample[3]).initial_interpretation['semantic_contract']
+        demoted=prep.apply_prepared(single,r,sample[2],sample[3]).initial_interpretation['semantic_contract']
+        assert kept['goals']['공원']['value']=='repeated_statement'
+        assert demoted['goals']['공원']['value']=='historical_only'
+
+
+def test_profile_created_after_incident_keeps_incident_time_statement(sample):
+    p=ready_with_goal(sample,'current_statement',created=datetime(2026,9,25,11))
+    out=prep.apply_prepared(p,at_hour(sample,10),sample[2],sample[3])
+    assert out.initial_interpretation['registered_before_incident'] is False
+    assert out.initial_interpretation['semantic_contract']['goals']['공원']['value']=='current_statement'
+
+
+def test_found_history_sets_weight_without_onboarding_tag(sample):
+    p=make_ready(sample)
+    p.prepared_initial['core']['found_history']['시장'].update(value='found_here',note_ids=['N0'])
+    out=prep.apply_prepared(p,sample[1],sample[2],sample[3])
+    assert all(ap.evidence.value=='mention_only' for ap in p.attraction_points)
+    assert out.attraction_weights['시장']>out.attraction_weights['공원']
+    assert '과거 실종 때 발견된 곳' in out.reasoning
+
+
+def test_other_traits_are_preserved_with_type_and_source(sample):
+    p=make_ready(sample)
+    p.prepared_initial['core']['other_traits']=[{'type':'transport_use','period':'unspecified','note_ids':['N1']}]
+    out=prep.apply_prepared(p,sample[1],sample[2],sample[3])
+    kept=[u for u in out.initial_interpretation['unrepresented'] if u['feature']=='trait.transport_use']
+    assert kept==[{'feature':'trait.transport_use','period':'unspecified','note_ids':['N1'],'reason':'no_engine_consumer_yet'}]
+    assert 'trait.transport_use' in out.initial_interpretation['coverage']['N1']
+
+
+def test_context_review_replaces_unreviewed_context_draft(sample,monkeypatch):
+    payload=initial_behavior.build_payload(sample[0],None,[],None)
+    reviewed=copy.deepcopy(sample[-1])
+    reviewed['environment']['water'].update(response='approach',scope='explicit_category',
+        condition='추가 조건 없음',note_ids=['N0'])
+    seen={}
+    def fake(url,body,**kwargs):
+        seen[kwargs['role']]=body
+        parsed={'initial_person_context':sample[-1],'initial_person_context_review':reviewed}.get(kwargs['role'],sample[-2])
+        return {'choices':[{'finish_reason':'stop','message':{'content':json.dumps(parsed)}}]}
+    monkeypatch.setattr(initial_person,'logged_json_request',fake)
+    result=initial_person.interpret(payload)
+    assert result['context']['environment']['water']['response']=='approach'
+    draft=json.loads(seen['initial_person_context_review']['messages'][-1]['content'])['draft']
+    assert draft['status']=='unverified_model_interpretation'
+    assert draft['content']['environment']['water']['spatial_scope']=='unknown'

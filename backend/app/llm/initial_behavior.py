@@ -7,6 +7,7 @@ from __future__ import annotations
 import math
 import json
 import re
+from zoneinfo import ZoneInfo
 from app.schemas.persona import Persona, RouteFamiliarity, EnvResponse
 from app.schemas.prediction import PriorParams
 
@@ -51,7 +52,7 @@ def build_payload(persona: Persona, report, research: list[dict], sar: PriorPara
                 index[text]["sources"].append({"kind": kind, "slot": slot})
     return {"person": {"type": persona.type.value, "age": persona.age}, "notes": notes,
             "places": [{"label": p.label, "evidence": p.evidence.value, "origin_slot": p.origin_slot} for p in persona.attraction_points],
-            "incident": ({"last_seen_time": report.lkp_time.isoformat(), "context": report.situation}
+            "incident": ({"last_seen_time": report.lkp_time.astimezone(ZoneInfo("Asia/Seoul")).isoformat(), "context": report.situation}
                          if report is not None else {"status":"not_reported","last_seen_time":None,"context":"신고 전 사전 준비. 현재 사건을 가정하지 않음."}),
             "research": [{**r, "id": f"R{i}",
                           "evidence_scope": "research_excerpt_not_personal_observation"}

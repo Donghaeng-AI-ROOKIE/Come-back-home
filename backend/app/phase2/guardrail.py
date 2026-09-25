@@ -83,7 +83,8 @@ def sanitize_strategy_probs(raw, default: dict[str, float]) -> dict[str, float]:
     return {name: v / total for name, v in floored.items()}
 
 
-def sanitize_attraction_levels(raw, persona: Persona | None) -> dict[str, float]:
+def sanitize_attraction_levels(raw, persona: Persona | None,
+                               evidence: dict[str, str] | None = None) -> dict[str, float]:
     """(EXAONE 등급 × evidence 계수) → 정규화 → 상한. 지어낸 라벨은 버리고 빠진 라벨은 '중'.
 
     두 신호의 곱셈 병합(팀 결정 2026-07-21):
@@ -99,9 +100,11 @@ def sanitize_attraction_levels(raw, persona: Persona | None) -> dict[str, float]
     if persona is None or not persona.attraction_points:
         return {}
     levels = raw if isinstance(raw, dict) else {}
+    # evidence: 호출자가 보호자 원문 해석으로 근거 강도를 따로 판정했을 때만 준다(K 경로).
+    evidence = evidence or {}
     weights = {
         ap.label: (LEVEL_WEIGHTS.get(levels.get(ap.label), LEVEL_WEIGHTS["중"])
-                   * evidence_prior_weight(ap.evidence))
+                   * evidence_prior_weight(evidence.get(ap.label, ap.evidence)))
         for ap in persona.attraction_points
     }
     total = sum(weights.values())
