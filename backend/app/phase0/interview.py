@@ -169,8 +169,11 @@ def _ask_area_for_new_place(
         if area and _area_grounded(area, utterance):
             continue          # 보호자가 직접 말한 지역 — 물을 필요 없다
         ap["area_text"] = ""  # 지어낸 값은 버린다(그대로 두면 엉뚱한 좌표가 된다)
-        if _geocodable(label):
-            continue          # 라벨만으로 좌표가 나온다("대흥역 2번 출구") — 묻지 않는다
+        # 고유한 이름("대흥역 2번 출구")은 라벨만으로 좌표가 나오면 묻지 않는다. 이름 없이
+        # 부른 곳(모델 판정 name_kind=generic: "교회", "예전 집")은 라벨 검색이 집 근처 아무
+        # 곳이나 찾으므로(E2E 2026-09-26) 늘 동네를 묻는다.
+        if ap.get("name_kind") != "generic" and _geocodable(label):
+            continue
         session.asked_area_labels.append(label)
         session.pending_area_label = label
         return (f"'{label}'은 어느 동네인가요? 동 이름이나 근처 건물·가게 이름을 "
@@ -965,6 +968,8 @@ def _apply_extraction(
             kept["area_text"] = ap["area_text"]
         if not kept.get("origin_slot") and ap.get("origin_slot"):
             kept["origin_slot"] = ap["origin_slot"]   # 어느 슬롯에서 처음 나왔는지도 first-wins
+        if not kept.get("name_kind") and ap.get("name_kind"):
+            kept["name_kind"] = ap["name_kind"]       # 고유 이름/일반 명칭 판정도 처음 것을 유지
     got_note = False
     # 모른다·질문을 되물음·이미 답함(모델 판정)은 사실이 아니다 — 노트를 받지 않는다.
     # 실측(2026-07-17): Mi:dm 이 "잘 모르겠어요"를 노트로 복사했다.

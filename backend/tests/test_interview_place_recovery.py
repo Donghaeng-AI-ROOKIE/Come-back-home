@@ -267,3 +267,26 @@ def test_question_examples_stripped_for_extraction():
     assert out[0]["text"] == "어디에서 발견됐는지 알려주세요."
     assert out[1]["text"] == "원평중학교 앞에서요"
     assert "(예:" in msgs[0]["text"]        # 원본 불변
+
+
+def test_generic_place_area_is_asked_even_if_label_geocodes(monkeypatch):
+    """이름 없이 부른 곳('교회')은 라벨로 좌표가 나와도 동네를 묻는다 — 집 옆 아무 교회가 걸린다."""
+    from app import storage
+
+    s = _session(id="pr-generic", draft_fields={"name": "이순례", "age": "77세",
+                                                "home": "고양시 일산서구 대화동"},
+                 filled_keys=["identity", "home"],
+                 prev_target_key="autobiographical_destination_pull")
+    storage.interviews.save(s.id, s)
+    monkeypatch.setattr(interview.midm, "extract_answer",
+                        lambda slot, conv, **_: {"answer_kind": "informative", "fields": {},
+                                                 "behavior_notes": [], "slot_filled": True,
+                                                 "attraction_points": [
+                                                     {"label": "교회", "area_text": "", "name_kind": "generic",
+                                                      "evidence": "caregiver_report",
+                                                      "quote": "일요일 아침마다 교회에 가야 한다고 하세요"}]})
+    monkeypatch.setattr(interview, "_geocodable", lambda label: True)
+    out = interview.answer_interview(s.id, "요즘 일요일 아침마다 교회에 가야 한다고 하세요.")
+    assert out.pending_area_label == "교회"
+    assert "'교회'은 어느 동네인가요" in out.messages[-1]["text"]
+    assert out.draft_attractions[0]["name_kind"] == "generic"

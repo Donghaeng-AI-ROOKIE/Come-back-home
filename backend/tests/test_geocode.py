@@ -264,3 +264,45 @@ def test_kakao_denial_is_logged_once_and_falls_back(capsys, monkeypatch):
     assert out.count("카카오 지오코딩 거부") == 1       # 호출마다가 아니라 한 번만
     assert "403" in out and "OPEN_MAP_AND_LOCAL" in out  # 원인이 그대로 보인다
     assert "dummy-key" not in out                        # 키는 절대 로그로 새지 않는다
+
+
+# ── 이름 없이 부른 장소(모델 판정 name_kind=generic) — 보호자가 말한 동네로 ─────────
+# E2E(2026-09-26): '교회'(보호자: 파주시 아동동)가 집 60m 옆 교회로 좌표화됐다. 카카오
+# 키워드 검색이 집 기준 거리순이라 동네가 붙어도 가장 가까운 아무 교회가 첫 결과였다.
+
+def test_generic_place_uses_the_stated_area_not_the_nearest_match():
+    from app.geo.geocode import GeoPoint
+
+    home = GeoPoint(lat=37.6779, lng=126.7526)
+    near_church = GeoPoint(lat=37.6783, lng=126.7530)   # 집 옆 교회(엉뚱한 곳)
+    adong = GeoPoint(lat=37.7600, lng=126.7800)         # 파주시 아동동
+    g = GazetteerGeocoder({"교회": near_church, "아동동": adong})
+    points, unresolved = to_attraction_points(
+        [{"label": "교회", "area_text": "파주시 아동동", "name_kind": "generic"}], geocoder=g, anchor=home)
+    assert not unresolved
+    assert (points[0].location.lat, points[0].location.lng) == (adong.lat, adong.lng)
+    assert points[0].label == "교회"
+
+
+def test_generic_place_without_area_is_not_placed():
+    """동네를 모르는 '예전에 살던 집'은 좌표를 만들지 않는다 — 집 근처 아무 '…집'이 걸리지 않게."""
+    from app.geo.geocode import GeoPoint
+
+    g = GazetteerGeocoder({"집": GeoPoint(lat=37.6780, lng=126.7527)})
+    points, unresolved = to_attraction_points(
+        [{"label": "예전에 살던 집", "area_text": "", "name_kind": "generic"}], geocoder=g,
+        anchor=GeoPoint(lat=37.6779, lng=126.7526))
+    assert points == []
+    assert unresolved[0]["reason"] == "이름 없는 장소 — 동네 미확인"
+
+
+def test_proper_name_keeps_label_search():
+    """고유한 이름은 종전대로 라벨을 먼저 찾는다(라벨-좌표 일치)."""
+    from app.geo.geocode import GeoPoint
+
+    station = GeoPoint(lat=37.5476, lng=126.9422)
+    dong = GeoPoint(lat=37.5510, lng=126.9419)
+    g = GazetteerGeocoder({"대흥역": station, "대흥동": dong})
+    points, _ = to_attraction_points(
+        [{"label": "대흥역", "area_text": "대흥동", "name_kind": "proper"}], geocoder=g)
+    assert abs(points[0].location.lat - station.lat) < 1e-6

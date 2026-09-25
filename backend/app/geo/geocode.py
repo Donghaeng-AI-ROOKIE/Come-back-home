@@ -298,9 +298,26 @@ def to_attraction_points(
     unresolved: list[dict] = []
     for d in drafts:
         label = str(d.get("label") or "").strip()
-        # 구버전 세션·직접 호출로 들어온 "언급 없음" 류도 여기서 한 번 더 막는다
-        # (인터뷰 단계에서 이미 정규화되지만, 이 함수가 마지막 관문이다).
         area = clean_area_text(d.get("area_text"))
+        if d.get("name_kind") == "generic":
+            # 고유한 이름 없이 부른 곳("교회", "예전에 살던 집" — 온보딩 모델 판정)은 라벨로
+            # 검색하면 집에서 가장 가까운 아무 교회·'…집' 가게가 걸린다. E2E(2026-09-26):
+            # 보호자가 '파주시 아동동'이라고 답한 '교회'가 집 60m 옆 교회로 찍혔다(키워드
+            # 검색이 집 기준 거리순). 보호자가 말한 동네의 좌표를 쓰고, 동네를 모르면
+            # 좌표를 만들지 않는다 — 틀린 곳에 목적지를 두는 것보다 비워 두는 편이 낫다.
+            res = geocoder.locate(area, anchor) if area else None
+            far = (res is not None and anchor is not None
+                   and h3grid.haversine_km(anchor, res.point) > ANCHOR_MAX_KM)
+            if res is None or far:
+                reason = (f"집 기준 {ANCHOR_MAX_KM:.0f}km 밖 매칭 — 오검색 의심" if far
+                          else "이름 없는 장소 — 동네 미확인" if not area else "동네 좌표화 실패")
+                unresolved.append({**d, "reason": reason})
+                continue
+            points.append(AttractionPoint(
+                label=label or area, location=res.point, precision=res.precision,
+                place_type=str(d.get("place_type") or ""), evidence=coerce_evidence(d.get("evidence")),
+                origin_slot=str(d.get("origin_slot") or "")))
+            continue
         # 후보 쿼리는 구체 장소(라벨) 우선. area_text 를 먼저 쓰던 구버전은 라벨
         # "대흥역"이 area "대흥동"의 동 중심 좌표로 찍히는 라벨-좌표 불일치를 냈다
         # (라이브 실측 2026-07-17). "지역+라벨" 결합 → 라벨 → 지역 순으로 시도하고,
