@@ -11,7 +11,7 @@ from zoneinfo import ZoneInfo
 from app.schemas.persona import Persona, RouteFamiliarity, EnvResponse
 from app.schemas.prediction import PriorParams
 
-SOURCE_PRECEDENCE = '''각 notes.provenance를 확인한다. guardian_original은 보호자 직접 기록이고 model_extracted_unverified는 이전 AI의 미검증 추출·요약이다. 두 종류가 같은 사실에 관해 다르면 보호자 원문을 우선하며 이를 두 보호자의 미해결 상충으로 만들지 않는다. AI 요약에만 있는 행동을 보호자가 관찰한 사실로 확정하지 않는다. 보호자 원문끼리의 정정·시간 차이·실제 상충은 문맥으로 판단한다. 입력 배열 순서나 N 번호는 관찰 시각이 아니다. 서로 다른 특성은 모순으로 취급하지 않는다.'''
+SOURCE_PRECEDENCE = '''각 notes.provenance를 확인한다. guardian_original은 보호자 직접 기록이고 model_extracted_unverified는 이전 AI의 미검증 추출·요약이다. 두 종류가 같은 사실에 관해 다르면 보호자 원문을 우선하며 이를 두 보호자의 미해결 상충으로 만들지 않는다. AI 요약에만 있는 행동을 보호자가 관찰한 사실로 확정하지 않는다. 보호자 원문끼리의 정정·시간 차이·실제 상충은 문맥으로 판단한다. 입력 배열 순서나 N 번호는 관찰 시각이 아니다. 서로 다른 특성은 모순으로 취급하지 않는다. text가 '질문: …/답변: …' 형식이면 질문은 챗봇이 한 말이고 보호자 진술이 아니다. 답변만 보호자 진술이며, 짧은 답은 그 질문의 맥락으로 해석한다.'''
 
 
 def evidence_notes(payload):
@@ -41,6 +41,16 @@ def build_payload(persona: Persona, report, research: list[dict], sar: PriorPara
     # Preserve all source associations for identical words used in different slots.
     sources = [("guardian_quote", persona.onboarding_quotes), ("guardian_axis_quote", persona.axis_quotes),
                ("extracted_axis_note", persona.axis_evidence), ("extracted_note", {"behavior": persona.behavior_notes})]
+    turns = getattr(persona, "onboarding_turns", None) or []
+    if turns:
+        # Interview answers with their questions replace the bare answer quotes, which
+        # are the same answers stripped of the context that gives short replies meaning.
+        grouped = {}
+        for turn in turns:
+            text = (f"질문: {turn['question']}\n답변: {turn['answer']}" if turn.get("question")
+                    else f"답변: {turn['answer']}")
+            grouped.setdefault(turn["slot"], []).append(text)
+        sources = [("guardian_turn", grouped), *sources[2:]]
     if persona.guardian_edited_notes is not None:
         sources = [("guardian_edit", {"behavior": persona.guardian_edited_notes})]
     for kind, groups in sources:

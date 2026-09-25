@@ -131,6 +131,9 @@ class Persona(BaseModel):
     # 축이 없는 일상 목적지·실종 대처 슬롯도 원문을 잃지 않는다.
     # 신규 K 초기 해석의 입력. API 표시용 요약과 분리하며 Persona와 함께 파기.
     onboarding_quotes: dict[str, list[str]] = {}
+    # 인터뷰의 모든 보호자 답을 그때의 질문과 함께 필터 없이 보존 — [{"slot","question","answer"}].
+    # 짧은 답("네", "가끔요")은 질문이 있어야 뜻이 통하고, 무지·부정 답도 해석은 K 가 한다.
+    onboarding_turns: list[dict] = []
     # Persisted with Persona; private typed preparation, never raw API reasoning.
     guardian_edited_notes: list[str] | None = None
     prepared_initial: dict = Field(default_factory=dict)
@@ -191,6 +194,8 @@ class InterviewSession(BaseModel):
     # 근거가 나온 보호자 원발화 원문 — {slot_key: [발화...]}. 노트는 Mi:dm 재서술이라
     # 정보가 깎이므로 원문을 병행 보존 → finalize 에서 Persona.axis_quotes 가 된다.
     slot_quotes: dict[str, list[str]] = {}
+    # 보호자 답 전체 — 질문과 짝지어 필터 없이 기록(finalize 에서 Persona.onboarding_turns).
+    slot_turns: list[dict] = []
     awaiting_confirmation: bool = False   # 요약 확인("이게 맞나요?") 대기 중
     asked_more_places: bool = False       # 요약 전 '추가 장소 스윕' 1회 보장용 플래그
     # 지역 표기 없는 끌림점의 주소 되묻기 — 없으면 지오코딩이 실패해 그 장소가

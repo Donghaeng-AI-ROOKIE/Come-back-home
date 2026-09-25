@@ -72,6 +72,11 @@ _IDENTITY = slot_by_key("identity")
 DEFAULT_PERSONA_TYPE = PersonaType.dementia
 
 
+def _last_question(session: InterviewSession) -> str:
+    """방금 들어온 보호자 답 바로 앞의 챗봇 발화."""
+    return next((m["text"] for m in reversed(session.messages[:-1]) if m["role"] == "assistant"), "")
+
+
 def _user_turns(session: InterviewSession) -> list[str]:
     return [m["text"] for m in session.messages if m["role"] == "user"]
 
@@ -1299,6 +1304,11 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
 
     # 1) 직전 겨냥 슬롯 추출 (+ identity/home 은 규칙 폴백으로 최후 방어)
     prev_slot = slot_by_key(session.prev_target_key) if session.prev_target_key else None
+    # 보호자 답은 어떤 판정보다 먼저, 질문과 함께 그대로 남긴다. 모름·부정·짧은 답의
+    # 뜻은 K 가 원문으로 해석한다. 신원·집 주소는 개인정보 필드라 행동 근거에서 제외.
+    if prev_slot is not None and prev_slot.axis != Axis.profile:
+        session.slot_turns.append({"slot": prev_slot.key, "question": _last_question(session),
+                                   "answer": clean})
 
     # 0.5) "그게 무슨 뜻이에요?" — 답을 못 받은 게 아니라 질문이 잘못 나간 것이다.
     #      추출도 하지 않고(내용이 없다) 재질문 예산도 깎지 않은 채, 쉬운 말로 풀어
@@ -1718,6 +1728,8 @@ def _apply_correction(session: InterviewSession, utterance: str) -> bool:
 def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSession:
     """요약 확인 응답 처리: 긍정→등록 완료 / 정정→관련 슬롯 반영 후 재요약."""
     session.messages.append({"role": "user", "text": clean})
+    session.slot_turns.append({"slot": "confirmation", "question": "등록 요약을 보고 확인·정정하는 단계",
+                               "answer": clean})
 
     if _is_affirmative(clean):
         try:
@@ -2117,6 +2129,10 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
         bucket.extend(q for q in quotes if q not in bucket)
         if persona.guardian_edited_notes is not None:
             persona.guardian_edited_notes.extend(q for q in quotes if q not in persona.guardian_edited_notes)
+
+    for turn in session.slot_turns:
+        if turn not in persona.onboarding_turns:
+            persona.onboarding_turns.append(dict(turn))
 
     # completed_tiers — 이번 세션이 커버한 tier 를 합집합으로 반영. target_tiers 가
     # None(기존 흐름·create/scope=all)이면 3개 tier 전부 커버한 것으로 본다.
