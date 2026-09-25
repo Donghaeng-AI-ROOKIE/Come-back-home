@@ -207,6 +207,17 @@ Tip {
 | POST | `/privacy/purge-expired` | — | `{ purged_case_ids, purged_interview_ids, count }` — TTL 만료분 일괄 파기(수동 트리거) |
 | GET | `/privacy/audit` | — | `[AuditRecord]` — 개인정보 미포함, ID·행위·사유 코드만 |
 
+자동 파기 관제 API는 `X-Privacy-Admin-Key` 헤더가 설정된 운영 환경에서 관리자 키가
+필요하다. 응답의 작업 목록에서는 대상 내부 ID를 제외한다. 화면은 별도 구현이며,
+이 API가 제공하는 상태를 사용한다.
+
+| 메서드 | 경로 | 요청/쿼리 | 응답 |
+|---|---|---|---|
+| GET | `/privacy/automation/status` | — | 최근·다음 실행, 생존 신호, 기한 초과·재시도·최종 실패 건수 |
+| GET | `/privacy/automation/runs` | `?page=1&size=50` | 실행 회차 목록과 검사·성공·실패 수 |
+| GET | `/privacy/automation/jobs` | `?page=1&size=50` | 작업 상태·단계·시도 횟수·다음 재시도 시각 |
+| POST | `/privacy/automation/jobs/{job_id}/retry` | — | `{ job_id, state }` — 관리자 수동 재시도 예약 |
+
 ### 디버그·관제 (debug) — 시연·검증용, 프로덕션 계약 아님
 
 | 메서드 | 경로 | 요청/쿼리 | 응답 |

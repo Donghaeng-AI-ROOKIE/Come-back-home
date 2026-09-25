@@ -54,7 +54,11 @@ async def lifespan(app: FastAPI):
     from app.phase2 import refresher
 
     refresher.start()
+    from app.privacy import scheduler as privacy_scheduler
+
+    privacy_scheduler.start()
     yield
+    privacy_scheduler.stop()
 
 
 app = FastAPI(

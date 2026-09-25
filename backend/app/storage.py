@@ -175,6 +175,7 @@ def reset_for_tests() -> None:
     """테스트 격리용 — 메모리와 커넥션을 비운다. 운영 경로에서 쓰지 않는다."""
     global _conn
     for repo in (personas, interviews, cases, debug_traces, audit_logs,
+                 privacy_runs, privacy_jobs, privacy_scheduler, privacy_alerts,
                  walk_sessions, walk_tip_counts):
         repo._items.clear()
         repo._loaded = False
@@ -190,7 +191,9 @@ from app.schemas.case import Case
 from app.schemas.debug import PredictionDebug
 from app.schemas.device import Device
 from app.schemas.persona import InterviewSession, Persona
-from app.schemas.privacy import AuditRecord
+from app.schemas.privacy import (
+    AuditRecord, PrivacyAlert, PrivacyJob, PrivacyRun, PrivacySchedulerState,
+)
 from app.schemas.walk import WalkSession
 
 # 평시 장기보관 — 이게 남지 않으면 사전등록이라는 기능 자체가 성립하지 않는다.
@@ -206,6 +209,11 @@ debug_traces = Repository(PredictionDebug)
 # 파기 증적 — 개인정보가 없어 파일 보존이 파기 원칙과 모순되지 않는다.
 # 별도로 JSONL 에도 append 된다(privacy.lifecycle._append_audit_file).
 audit_logs = Repository(AuditRecord, "audit_logs")
+# 자동 파기 제어 상태. 본체 개인정보와 분리해 회차·재시작 상태만 보존한다.
+privacy_runs = Repository(PrivacyRun, "privacy_runs")
+privacy_jobs = Repository(PrivacyJob, "privacy_jobs")
+privacy_scheduler = Repository(PrivacySchedulerState, "privacy_scheduler")
+privacy_alerts = Repository(PrivacyAlert, "privacy_alerts")
 
 # 안심 산책 (시민 참여) — 수색 케이스와 생명주기가 분리돼 있다.
 walk_sessions = Repository(WalkSession, "walk_sessions")

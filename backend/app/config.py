@@ -492,6 +492,17 @@ class Settings(BaseSettings):
     # 감사로그 영속 파일 (JSONL append-only) — 인메모리 storage 는 재시작 시
     # 증발하므로 파기 증적만은 파일로 남긴다. DB 전환 시 테이블로 임포트.
     privacy_audit_path: str = "data/audit_log.jsonl"
+    # 개인정보 자동 파기 워커. 화면 없이도 API와 로그로 상태를 확인한다.
+    privacy_scheduler_enabled: bool = True
+    # 만료 대상 전체 탐색은 하루 한 번. 재시작 직후에는 즉시 한 번 수행한다.
+    privacy_scheduler_interval_seconds: int = 86400
+    # 이미 등록된 실패 작업의 재시도 시각만 이 간격으로 확인한다.
+    privacy_retry_poll_seconds: int = 30
+    privacy_retry_base_seconds: int = 60
+    privacy_retry_max_attempts: int = 5
+    privacy_control_retention_days: int = 90
+    # 관리자 API 보호용 공유 키. 비어 있으면 관리자 API를 비활성화한다.
+    privacy_admin_key: str = ""
 
 
 settings = Settings()
