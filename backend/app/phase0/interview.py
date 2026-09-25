@@ -333,8 +333,10 @@ def _extract_tracked(session: InterviewSession, slot: SlotSpec,
                      *, recheck_places: bool = False) -> dict:
     before = midm.call_failures
     conversation = _strip_question_examples(session.messages)
-    out = (midm.extract_answer(slot, conversation, recheck_places=True) if recheck_places
-           else midm.extract_answer(slot, conversation))
+    known = list(dict.fromkeys(str(a.get("label")) for a in session.draft_attractions
+                               if a.get("label")))
+    extra = {k: v for k, v in (("recheck_places", recheck_places), ("known_places", known)) if v}
+    out = midm.extract_answer(slot, conversation, **extra)
     if midm.call_failures > before:
         session.llm_call_failures += midm.call_failures - before
         session.llm_degraded = True
@@ -871,36 +873,29 @@ def _is_dup_note(note: str, seen: list[str]) -> bool:
     return False
 
 
-def _looks_like_past_home(label: str) -> bool:
-    """'예전에 살던 집'·'옛집'·'마포구 신수동 옛날 집'처럼 과거 거주지 라벨인가.
-
-    Mi:dm 이 옛집을 나중 턴에 변종 라벨로 반복 재추출하는 실측(2026-07-23 D2:
-    routine·복약 턴에 '예전 집'·'마포구 신수동 옛날 집'을 새 장소로 되뱉음)이 있다.
-    비연속 부분열이라('예전집'⊄'예전에살던집') 라벨 포함매칭이 못 잡아 같은 집이
-    3조각으로 쌓였다. 옛집류는 지역이 호환되면 한 장소로 병합한다(_merge_target).
-    """
-    n = _norm(label)
-    return ("옛" in n or "예전" in n) and "집" in n
-
-
 def _merge_target(ap: dict, by_key: dict) -> str | None:
-    """새 끌림점을 병합할 기존 라벨 키 — 포함매칭 + 옛집류 + 지역-둔갑 병합. 없으면 None."""
+    """새 끌림점을 병합할 기존 라벨 키 — 모델의 same_as + 라벨 포함 + 지역-둔갑. 없으면 None.
+
+    같은 곳을 다른 말로 부른 것("옛날 집" = "예전에 살던 집")은 모델이 same_as 로 짚는다
+    (prompts.EXTRACT_SYSTEM, 등록된 장소 목록을 함께 준다). 실측(2026-07-23 D2): Mi:dm 이
+    옛집을 나중 턴에 '예전 집'·'마포구 신수동 옛날 집'으로 되뱉어 같은 집이 3조각으로
+    쌓였다. 예전에는 라벨에 '옛·예전'과 '집'이 있는지 코드가 봤다. 이제 답에 없는 재출력은
+    원문 대조(_ground_point)가 버리고, 답에 다시 나온 같은 곳은 모델이 same_as 로 묶는다.
+    """
     key = _norm(ap.get("label"))
-    area = _norm(_clean_area(ap.get("area_text")))
     if not key:
         return None
     if key in by_key:
         return key
+    same = _norm(ap.get("same_as"))
+    if same and same in by_key:
+        return same
     for k, ex in by_key.items():
         # ① 포함 관계 라벨("대흥역" vs "대흥역 2번 출구") — 3자 미만은 오병합 위험
         if (k in key and len(k) >= 3) or (key in k and len(key) >= 3):
             return k
         ex_area = _norm(_clean_area(ex.get("area_text")))
-        # ② 옛집류끼리 지역이 호환되면 같은 집 — 변종 라벨 재추출 흡수
-        if _looks_like_past_home(ap.get("label")) and _looks_like_past_home(ex.get("label")):
-            if not area or not ex_area or area in ex_area or ex_area in area:
-                return k
-        # ③ 지역이 라벨로 둔갑 — 새 라벨이 기존 장소의 지역 그 자체(되묻기 주소가
+        # ② 지역이 라벨로 둔갑 — 새 라벨이 기존 장소의 지역 그 자체(되묻기 주소가
         #    이후 턴에 별개 장소로 재추출됨). "신수동"⊂"마포구 신수동" 도 흡수.
         if ex_area and len(key) >= 2 and (key == ex_area or key in ex_area):
             return k
@@ -940,10 +935,17 @@ def _apply_extraction(
             continue
         if home_txt and key in home_txt:
             continue
-        ap["area_text"] = _clean_area(ap.get("area_text"))   # "언급 없음" → "" (병합·되묻기 판정의 전제)
+        ap["area_text"] = _clean_area(ap.get("area_text"))
         # 이 답변 원문에 대조 — 재출력·지어낸 장소는 버리고, 근거 없는 강도는 내린다.
         if utterance and not _ground_point(session, ap, utterance, last_q):
             continue
+        # 지역 표기도 답에 있어야 한다. 모델이 "언급 없음" 같은 자리표시나 현재 집 동네를
+        # 채우는 실측(2026-07-21)이 있었다 — 예전에는 자리표시 단어 목록으로 걸렀다.
+        if utterance and ap["area_text"] and not _area_grounded(ap["area_text"], utterance):
+            session.extraction_audit.append(
+                {"event": "area_not_in_answer", "label": str(ap.get("label")),
+                 "area": ap["area_text"]})
+            ap["area_text"] = ""
         # 이 답변이 나온 슬롯 — unfamiliarity 게이지 폴백 판단(작업4)의 origin_slot 원료.
         ap.setdefault("origin_slot", prev_slot.key)
         # 포함 관계 라벨("대흥역" vs "대흥역 2번 출구") + 옛집류 변종 + 지역-둔갑 병합.
@@ -1442,17 +1444,6 @@ def _dedupe_question(session: InterviewSession, target: SlotSpec, question: str)
     return _REASK_PREFIXES[n % len(_REASK_PREFIXES)] + seed
 
 
-# 자택 정정으로 인정할 신호 — '지금 사는 집'을 명시할 때만 수색 원점을 바꾼다.
-_HOME_CORRECTION_RE = re.compile(
-    r"(지금|현재|요즘|사시는|사는|거주|계시는)\s*(집|곳|데)|자택|본가|사시는데")
-
-
-# 삭제는 되돌릴 수 없다 — 보호자가 실제로 뺄 것을 요구했을 때만 인정한다.
-# 라이브 실측(2026-07-21): "원평중학교가 아니라 원평초등학교예요"(이름 정정)에
-# 모델이 remove 를 내서 장소가 이름 교체 없이 통째로 사라졌다.
-_REMOVE_CUE_RE = re.compile(r"빼|삭제|지워|지우|제외|없애|안\s*가|이제\s*안|해당\s*없")
-
-
 def _mentioned_place(session: InterviewSession, utterance: str) -> dict | None:
     """발화가 지목한 등록 장소 (가장 긴 라벨 우선). 없으면 None."""
     text = _norm(utterance)
@@ -1462,23 +1453,28 @@ def _mentioned_place(session: InterviewSession, utterance: str) -> dict | None:
     return max(hits, key=lambda a: len(_norm(a.get("label")))) if hits else None
 
 
-def _is_place_correction(session: InterviewSession, utterance: str) -> bool:
-    """등록된 끌림점 이름을 지목한 발화인가 — 그렇다면 자택 정정이 아니다.
+def _home_change_check(session: InterviewSession, utterance: str) -> bool | None:
+    """정정 발화의 집 주소 변경이 정말 '지금 사는 집'을 고치는 것인가.
 
     라이브 실측(2026-07-21): "예전에 살던 집은 산남동이 아니라 수곡동이에요"라는
     **끌림점** 정정에 슬롯 랭킹이 home 을 골라, 수색 원점이 조용히 수곡동으로
     바뀌었다. 확인 게이트는 overwrite=True 라 first-wins 보호가 풀려 있어
     (끌림점은 그대로인 채) 자택만 틀어지는 최악의 조합이 된다.
+    등록된 장소를 지목한 발화일 때만 모델에게 한 번 더 묻는다(True=집 변경, False=그
+    장소 얘기, None=확인 못 함). 장소를 지목하지 않았으면 모델의 home 판정 그대로(True).
     """
-    if _HOME_CORRECTION_RE.search(utterance):
-        return False       # '지금 사는 집' 을 명시했으면 자택 정정이 맞다
-    return _mentioned_place(session, utterance) is not None
+    place = _mentioned_place(session, utterance)
+    if place is None:
+        return True
+    return _midm_tracked(session, lambda: midm.yes_no(
+        f"보호자가 고치려는 것이 대상자가 지금 사는 집의 주소인가요? "
+        f"'{place['label']}'의 위치를 고치는 말이면 아니오입니다.", utterance))
 
 
 def _guard_home_overwrite(session: InterviewSession, extracted: dict, utterance: str) -> None:
-    """장소를 지목한 정정이면 home 필드 변경을 버린다 (수색 원점 보호)."""
+    """집 주소 변경이 확인되지 않으면 버린다 (수색 원점 보호)."""
     fields = extracted.get("fields") or {}
-    if "home" in fields and _is_place_correction(session, utterance):
+    if "home" in fields and _home_change_check(session, utterance) is not True:
         fields.pop("home")
 
 
@@ -1491,7 +1487,10 @@ def _apply_correction(session: InterviewSession, utterance: str, result: dict) -
     changed = False
     ops = list(result.get("place_ops") or [])
     for key, value in _grounded_fields(session, result.get("fields") or {}, utterance).items():
-        if key == "home" and _is_place_correction(session, utterance):
+        home_check = _home_change_check(session, utterance) if key == "home" else True
+        if home_check is None:
+            continue   # 집 변경인지 확인 못 했다 — 수색 원점은 건드리지 않는다
+        if home_check is False:
             # 장소의 동네 정정을 모델이 home 으로 잘못 보내는 실측(2/2) — 수색 원점을
             # 지키는 데서 끝내지 않고, 지목된 장소의 지역 정정으로 되돌려 살린다.
             # (그냥 버리면 보호자에게는 "또 안 먹혔다"로 보인다.)
@@ -1511,8 +1510,9 @@ def _apply_correction(session: InterviewSession, utterance: str, result: dict) -
             label = op["value"]
             if any(_norm(a.get("label")) == _norm(label) for a in session.draft_attractions):
                 continue
+            area = clean_area_text(op.get("area"))
             session.draft_attractions.append({
-                "label": label, "area_text": clean_area_text(op.get("area")),
+                "label": label, "area_text": area if _area_grounded(area, utterance) else "",
                 "evidence": "caregiver_report", "origin_slot": "routine_destinations"})
             changed = True
             continue
@@ -1521,8 +1521,16 @@ def _apply_correction(session: InterviewSession, utterance: str, result: dict) -
         if target is None:
             continue
         if kind == "remove":
-            if not _REMOVE_CUE_RE.search(utterance):
-                continue   # 보호자가 빼달라고 한 적 없다 — 이름 정정을 삭제로 낸 오분류
+            # 삭제는 되돌릴 수 없다 — 모델에게 한 번 더 확인하고, 아니면(또는 확인 못 하면)
+            # 지우지 않는다. 실측(2026-07-21): 이름 정정 한 마디에 장소가 통째로 사라졌다.
+            asked = str(target.get("label") or "")
+            question = (f"보호자가 '{asked}'을(를) 등록된 장소 목록에서 빼 달라고 했나요? "
+                        "이름이나 위치를 고치는 말이면 아니오입니다.")
+            removal = _midm_tracked(session, lambda q=question: midm.yes_no(q, utterance))
+            if removal is not True:
+                session.extraction_audit.append(
+                    {"event": "remove_not_confirmed", "label": asked})
+                continue
             session.draft_attractions.remove(target)
             changed = True
         elif kind == "rename":

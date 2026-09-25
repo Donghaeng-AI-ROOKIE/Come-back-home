@@ -68,6 +68,8 @@ attraction_points — 대상자가 다니는·다녔던·가려 하는·살았�
 - label: 답변에 나온 표현 그대로의 장소 이름
 - area_text: 답변에 나온 동 이름·랜드마크. 답변에 없으면 빈 문자열 "" (지어내지 마라)
 - quote: 그 장소와 근거가 나오는 마지막 답변의 원문 구절을 글자 그대로 복사
+- same_as: 아래 [이미 등록된 장소] 중 같은 곳을 다른 말로 부른 것이면 그 이름을 글자 그대로, \
+아니면 빈 문자열 ("옛날 집"과 "예전에 살던 집"처럼 같은 곳이면 같은 곳이다)
 - evidence: 그 장소가 왜 중요한지의 근거 강도. 위에서부터 먼저 해당하는 것:
   - "previous_missing_found": 과거에 길을 잃었을 때 그곳에서 **발견됐다**고 말함
   - "caregiver_report": **자주 간다 / 가려고 한다 / 가야 한다고 반복해서 말한다** 중 \
@@ -89,7 +91,7 @@ behavior_notes 규칙:
 {
   "answer_kind": "<위 여섯 값 중 하나>",
   "fields": {},               // 이번 답에서 확인된 것만: {"name":"<사람 이름>","age":<나이 숫자>,"home":"<지금 사는 곳 주소>"}
-  "attraction_points": [],    // [{"label":"<장소>","area_text":"<동·랜드마크 또는 빈 문자열>","place_type":"<장소 유형>","evidence":"<근거 강도>","quote":"<답변 원문 구절>"}]
+  "attraction_points": [],    // [{"label":"<장소>","area_text":"<동·랜드마크 또는 빈 문자열>","place_type":"<장소 유형>","evidence":"<근거 강도>","quote":"<답변 원문 구절>","same_as":"<등록된 같은 장소 이름 또는 빈 문자열>"}]
   "behavior_notes": [],       // ["<관찰된 행동 사실(짧게)>"]
   "slot_filled": false        // 아래 지정된 슬롯의 '충족 기준'을 이 답이 만족하면 true
 }
@@ -108,7 +110,8 @@ _RECHECK_PLACES = """
 
 
 def build_extract_input(target_slot: SlotSpec, conversation: list[dict],
-                        *, recheck_places: bool = False) -> str:
+                        *, recheck_places: bool = False,
+                        known_places: list[str] | None = None) -> str:
     """추출 입력 — 이전 대화는 '맥락 참고용', 마지막 보호자 발화는 '추출 대상'으로 분리.
 
     통짜 대화 뒤에 "마지막 발화를 대상으로 추출하라"만 붙이던 구버전은, 대화가
@@ -122,6 +125,7 @@ def build_extract_input(target_slot: SlotSpec, conversation: list[dict],
 [방금 겨냥했던 슬롯]
 - key: {target_slot.key} · {target_slot.label}
 - 충족 기준: {target_slot.filled_when}
+[이미 등록된 장소] {", ".join(known_places) if known_places else "(없음)"}
 """
     if not conversation or conversation[-1].get("role") != "user":
         return head + f"\n[대화]\n{_convo(conversation)}\n\n마지막 '보호자:' 발화를 대상으로 추출하라. 위 JSON 하나만 출력."
@@ -306,6 +310,35 @@ def parse_found_check(raw: str) -> bool | None:
     except (ValueError, json.JSONDecodeError):
         return None
     value = data.get("found_here") if isinstance(data, dict) else None
+    return value if isinstance(value, bool) else None
+
+
+# 확인 단계의 정정 중 되돌리기 어려운 것(장소 삭제, 수색 원점인 집 주소 변경)은 모델이
+# 낸 지시를 좁은 예/아니오 질문으로 한 번 더 확인한다. 예전에는 "빼·삭제·지워" 같은
+# 단어나 "지금 사는 집" 같은 표현이 있는지 코드가 봤다. 실측(2026-07-21):
+# "원평중학교가 아니라 원평초등학교예요"(이름 정정)에 모델이 remove 를 내 장소가 통째로
+# 사라졌고, 장소의 동네 정정을 모델이 home 으로 보내 수색 원점이 바뀌었다(2/2).
+YES_NO_SYSTEM = """\
+너는 보호자가 한 말을 읽고 주어진 질문 하나에 예/아니오로만 답한다. 보호자가 그렇게 \
+말했다고 분명히 읽힐 때만 true, 애매하거나 다른 뜻이면 false.
+반드시 아래 JSON 하나만 출력:
+{"answer": true 또는 false}"""
+
+
+def build_yes_no_input(question: str, utterance: str) -> str:
+    return f"""\
+[질문] {question}
+[보호자의 말] {utterance}
+
+위 JSON 하나만 출력."""
+
+
+def parse_yes_no(raw: str) -> bool | None:
+    try:
+        data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    except (ValueError, json.JSONDecodeError):
+        return None
+    value = data.get("answer") if isinstance(data, dict) else None
     return value if isinstance(value, bool) else None
 
 

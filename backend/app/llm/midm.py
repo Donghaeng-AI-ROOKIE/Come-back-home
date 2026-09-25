@@ -76,12 +76,14 @@ class MidmClient(LLMClient):
 
     # ── Phase 0 온보딩 엘리시테이션 ─────────────────────────────────
     def extract_answer(self, target_slot: SlotSpec, conversation: list[dict],
-                       *, recheck_places: bool = False) -> dict:
+                       *, recheck_places: bool = False,
+                       known_places: list[str] | None = None) -> dict:
         """직전 답변에서 슬롯값 추출 + 답변 유형·충족 판정.
 
         반환: {"answer_kind", "fields", "attraction_points", "behavior_notes", "slot_filled"}.
         스텁 모드에서는 빈 추출 + 'informative'(slot_filled=True 로 진행만 시킴).
         recheck_places: 첫 추출이 장소를 놓쳤을 때 다시 보라는 안내를 붙인다.
+        known_places: 이미 등록된 장소 이름 — 같은 곳을 다른 말로 부르면 same_as 로 짚게 한다.
         """
         if self.is_stub:
             return {"answer_kind": "informative", "fields": {}, "attraction_points": [],
@@ -91,7 +93,8 @@ class MidmClient(LLMClient):
                 [
                     {"role": "system", "content": prompts.EXTRACT_SYSTEM},
                     {"role": "user", "content": prompts.build_extract_input(
-                        target_slot, conversation, recheck_places=recheck_places)},
+                        target_slot, conversation, recheck_places=recheck_places,
+                        known_places=known_places)},
                 ],
                 temperature=settings.midm_temp_extract,
                 # 답변 유형·원문 구절이 늘어 400 은 장소가 여럿일 때 잘린다.
@@ -153,6 +156,24 @@ class MidmClient(LLMClient):
             self.call_failures += 1
             return None
         return prompts.parse_found_check(raw)
+
+    def yes_no(self, question: str, utterance: str) -> bool | None:
+        """보호자 말에 대한 예/아니오 확인 한 가지. 스텁·실패는 None(확인 안 됨)."""
+        if self.is_stub:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.YES_NO_SYSTEM},
+                    {"role": "user", "content": prompts.build_yes_no_input(question, utterance)},
+                ],
+                temperature=settings.midm_temp_correction,
+                max_tokens=40,
+            )
+        except Exception:  # noqa: BLE001 — 확인 실패는 '확인 안 됨'으로 흡수
+            self.call_failures += 1
+            return None
+        return prompts.parse_yes_no(raw)
 
     def extract_area(self, label: str, answer: str) -> str | None:
         """되물은 장소의 동네 답 → 지도 검색에 쓸 지역 표현. 없거나 실패면 None."""

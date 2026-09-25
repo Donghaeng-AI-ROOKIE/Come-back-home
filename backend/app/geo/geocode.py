@@ -348,14 +348,6 @@ def to_attraction_points(
     return points, unresolved
 
 
-# LLM 이 '없음'을 빈 값이 아니라 문자열로 채우는 실측(2026-07-21 라이브: area_text
-# "언급 없음") — 그대로 두면 (1) 이 문자열이 지오코딩 질의로 나가 실패하고,
-# (2) truthy 라서 나중에 들어온 진짜 지역 표기가 병합·정정에서 막힌다.
-_PLACEHOLDER_AREA_RE = re.compile(
-    r"^(언급\s*없음|없음|미상|불명|모름|모르겠\S*|알\s*수\s*없음|해당\s*없음|"
-    r"n\s*/\s*a|none|null|unknown|-+)$", re.IGNORECASE)
-
-
 # 장소명 뒤에 붙는 '만난 지점' 표현 — 지오코더가 못 찾는 꼬리표다.
 _PLACE_SUFFIX_RE = re.compile(
     r"\s*(\d+\s*번\s*출구|출구|입구|정문|후문|앞|뒤|옆|근처|주변|건너편|맞은편)\s*$")
@@ -434,9 +426,14 @@ def locate_home(geocoder: Geocoder, text: str) -> GeoResult | None:
 
 
 def clean_area_text(raw) -> str:
-    """area_text 정규화 — 플레이스홀더는 빈 문자열로. '지역 미상'과 '미기입'을 같게 만든다."""
-    text = str(raw or "").strip()
-    return "" if _PLACEHOLDER_AREA_RE.match(text) else text
+    """area_text 정규화 — 공백만 정리한다.
+
+    LLM 이 '없음'을 빈 값 대신 "언급 없음" 같은 문자열로 채우는 실측(2026-07-21)은
+    예전에 자리표시 단어 목록으로 걸렀다. 이제는 온보딩이 지역 표기를 보호자 답과
+    대조해(phase0.interview._area_grounded) 답에 없는 값을 비운다 — 단어의 뜻을 코드가
+    정하지 않는다.
+    """
+    return " ".join(str(raw or "").split())
 
 
 def coerce_evidence(raw) -> AttractionEvidence:

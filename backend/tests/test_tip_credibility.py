@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from app.config import settings
 from app.geo import reachability
 from app.llm import tip_llm
-from app.llm.tip_llm import _stub_structure_tip
+from app.llm.tip_llm import TipLLMClient, _stub_structure_tip
 from app.phase3 import trust
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
@@ -166,7 +166,31 @@ def test_next_question_fixed_order():
     assert "몇 시" in tip_llm.next_tip_question(got_loc)
 
 
+def test_llm_failure_makes_no_keyword_judgment(monkeypatch):
+    """운영에서 구조화 호출이 실패하면 키워드로 등급·시각을 추정하지 않는다(판정 없음).
+
+    구체성 None 은 신뢰도 p 에서 그 항이 빠진다(재정규화) — 단어로 만든 등급이 p 를
+    흔들지 않는다(2026-09-26 결정).
+    """
+    client = TipLLMClient()
+    monkeypatch.setattr(type(client), "is_stub", property(lambda self: False))
+
+    def _boom(*a, **k):
+        raise RuntimeError("HTTP 410 Gone")
+
+    monkeypatch.setattr(client, "chat", _boom)
+    out = client.structure_tip("대흥역 앞에서 방금 파란 셔츠 입은 사람을 봤어요")
+    assert out["specificity"] is None
+    assert out["time_kind"] == "none" and out["time_minutes_ago"] is None
+    assert out["appearance_cues"] == [] and out["direction"] is None
+    assert client.call_failures == 1
+    p = trust.score_tip(_tip(location=_pt_km_north(0.1), created_at=T0 + timedelta(minutes=10)),
+                        lkp=LKP, lkp_time=T0, persona_type=PersonaType.dementia, structured=out)
+    assert 0.0 <= p <= 1.0
+
+
 def test_stub_structure_specificity_grades():
+    """키 없는 개발 모드 스텁 전용 — 운영(키 설정)에서는 실행되지 않는다."""
     rich = _stub_structure_tip("대흥역 앞에서 방금 파란 셔츠 입은 사람을 봤어요")
     poor = _stub_structure_tip("아까 비슷한 사람 봤어요")
     assert rich["specificity"] == "상"

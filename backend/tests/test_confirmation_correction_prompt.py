@@ -69,5 +69,6 @@ def test_correction_after_menu_still_applies(monkeypatch):
     interview.answer_interview(s.id, CHIP)
 
     _intent(monkeypatch, "correct", place_ops=[{"op": "remove", "target": "망원시장"}])
+    monkeypatch.setattr(interview.midm, "yes_no", lambda question, utterance: True)   # 삭제 확인
     out = interview.answer_interview(s.id, "망원시장은 빼주세요")
     assert all(a.get("label") != "망원시장" for a in out.draft_attractions)

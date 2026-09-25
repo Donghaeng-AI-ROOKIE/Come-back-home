@@ -21,9 +21,10 @@ def _session(**kw) -> InterviewSession:
 # ── ① 주소 없는 끌림점 탐지·되묻기·확정 ──────────────────────────────
 
 def test_arealess_attraction_detected():
+    # 자리표시("언급 없음")는 추출 단계에서 원문 대조로 이미 비워진다(test_interview_correction)
     s = _session(draft_attractions=[
         {"label": "원마루 공원", "area_text": "분평동"},
-        {"label": "예전에 살던 집", "area_text": "언급 없음"},   # 플레이스홀더 = 없음
+        {"label": "예전에 살던 집", "area_text": "  "},
         {"label": "옛 직장", "area_text": ""},
     ])
     assert [a["label"] for a in interview._arealess_attractions(s)] == ["예전에 살던 집", "옛 직장"]
@@ -134,11 +135,11 @@ def test_past_place_area_asked_immediately(monkeypatch):
                  prev_target_key="autobiographical_destination_pull")
     storage.interviews.save(s.id, s)
     monkeypatch.setattr(interview.midm, "extract_answer",
-                        lambda slot, conv: {"fields": {}, "behavior_notes": [],
-                                            "slot_filled": True,
-                                            "attraction_points": [
-                                                {"label": "예전에 살던 집",
-                                                 "area_text": "청주시 서원구 분평동"}]})
+                        lambda slot, conv, **_: {"fields": {}, "behavior_notes": [],
+                                                 "slot_filled": True,
+                                                 "attraction_points": [
+                                                     {"label": "예전에 살던 집",
+                                                      "area_text": "청주시 서원구 분평동"}]})
     monkeypatch.setattr(interview.midm, "extract_area", lambda label, answer: "청주시 서원구 산남동")
     out = interview.answer_interview(s.id, "예전에 살던 집에 가야한다는 말을 종종 합니다")
     # 발화에 없는 지역(= 현재 집 동네를 복사한 값)은 버리고 되묻는다
@@ -190,7 +191,7 @@ def test_summary_gate_asks_for_missing_area(monkeypatch):
     s = _session(id="pr-gate", draft_fields={"name": "송복남", "age": "82세",
                                              "home": "청주시 서원구 분평동"},
                  filled_keys=["identity", "home"],
-                 draft_attractions=[{"label": "예전에 살던 집", "area_text": "언급 없음",
+                 draft_attractions=[{"label": "예전에 살던 집", "area_text": "",
                                      "origin_slot": "autobiographical_destination_pull"}],
                  asked_more_places=True,          # 장소 스윕은 이미 끝난 상태
                  prev_target_key="routine_destinations")
@@ -198,9 +199,9 @@ def test_summary_gate_asks_for_missing_area(monkeypatch):
 
     # LLM 없이 결정론적으로 — 추출은 빈손, 다음 슬롯 없음(= 종료 판정 진입)
     monkeypatch.setattr(interview.midm, "extract_answer",
-                        lambda slot, conv: {"fields": {}, "attraction_points": [],
-                                            "behavior_notes": [],
-                                            "slot_filled": True})
+                        lambda slot, conv, **_: {"fields": {}, "attraction_points": [],
+                                                 "behavior_notes": [],
+                                                 "slot_filled": True})
     monkeypatch.setattr(interview, "_next_slot", lambda *a, **k: None)
     monkeypatch.setattr(interview.midm, "extract_area", lambda label, answer: "청주시 서원구 산남동")
 

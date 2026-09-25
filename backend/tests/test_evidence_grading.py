@@ -73,7 +73,8 @@ def test_evidence_not_transferred_to_unmentioned_place():
            "대흥역에서 발견한 적이 한번 있어요", question="과거에 길을 잃으셨을 때 어디서 찾으셨나요?")
     found = next(a for a in s.draft_attractions if a["label"] == "망원시장")
     assert found["evidence"] == "caregiver_report"     # 0.9 로 둔갑하지 않는다
-    assert s.extraction_audit[-1]["reason"] == "place_not_named_here"
+    downgraded = [e for e in s.extraction_audit if e["event"] == "evidence_downgraded"]
+    assert downgraded[-1]["reason"] == "place_not_named_here"
 
 
 def test_place_named_in_question_can_take_evidence(monkeypatch):
@@ -190,7 +191,7 @@ def test_reemitted_old_place_triggers_recheck(monkeypatch):
                                                "evidence": "caregiver_report"}])
     calls = []
 
-    def extractor(slot, conv, recheck_places=False):
+    def extractor(slot, conv, recheck_places=False, **_):
         calls.append(recheck_places)
         point = ({"label": "대흥역", "evidence": "previous_missing_found",
                   "quote": "대흥역에서 발견한 적이 있어요"} if recheck_places else

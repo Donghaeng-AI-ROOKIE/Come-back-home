@@ -833,6 +833,7 @@ def test_past_home_variant_labels_merge_not_fragment():
     라이브 실측(2026-07-23 D2): '예전에 살던 집'(마포구 신수동)이 이후 턴에
     '예전 집'·'마포구 신수동 옛날 집'·되묻기 주소 '마포구 신수동'으로 재추출돼
     같은 집이 3~4조각으로 쌓였다(비연속 부분열이라 라벨 포함매칭이 못 잡음).
+    예전에는 라벨의 '옛·예전·집' 글자로 묶었다. 이제는 세 경로로 막는다.
     """
     s = InterviewSession(
         id="merge-pasthome", guardian_name="보호자", persona_type=PersonaType.dementia,
@@ -841,15 +842,57 @@ def test_past_home_variant_labels_merge_not_fragment():
                             "origin_slot": "autobiographical_destination_pull"}],
     )
     slot = slot_by_key("autobiographical_destination_pull")
-    for label in ("예전 집", "마포구 신수동 옛날 집", "마포구 신수동"):
-        interview._apply_extraction(s, slot, {
+    # ① 답에 없는 재출력(실측: routine·복약 턴) — 원문 대조가 버린다
+    for label in ("예전 집", "마포구 신수동 옛날 집"):
+        interview._apply_extraction(s, slot_by_key("medication"), {
             "attraction_points": [{"label": label, "area_text": "마포구 신수동",
                                    "evidence": "mention_only"}],
             "slot_filled": True,
-        }, utterance="늘 옛날 집 얘기만 하세요")
+        }, utterance="혈압약을 저녁에만 드세요")
+    # ② 답에 다시 나온 같은 집 — 모델이 same_as 로 등록된 이름을 짚는다
+    interview._apply_extraction(s, slot, {
+        "attraction_points": [{"label": "옛날 집", "area_text": "", "evidence": "mention_only",
+                               "quote": "늘 옛날 집 얘기만 하세요", "same_as": "예전에 살던 집"}],
+        "slot_filled": True,
+    }, utterance="늘 옛날 집 얘기만 하세요")
+    # ③ 되묻기 주소가 이후 턴에 장소처럼 다시 나온 것 — 지역-둔갑 병합
+    interview._apply_extraction(s, slot, {
+        "attraction_points": [{"label": "마포구 신수동", "area_text": "마포구 신수동",
+                               "evidence": "mention_only", "quote": "마포구 신수동 쪽이요"}],
+        "slot_filled": True,
+    }, utterance="마포구 신수동 쪽이요")
     labels = [a["label"] for a in s.draft_attractions]
     assert len(s.draft_attractions) == 1, f"옛집이 조각남: {labels}"
     assert labels[0] == "예전에 살던 집"
+
+
+def test_same_as_must_name_a_registered_place():
+    """same_as 가 등록되지 않은 이름이면 병합하지 않는다(모델이 지어낸 대상)."""
+    s = InterviewSession(
+        id="merge-sameas", guardian_name="보호자", persona_type=PersonaType.dementia,
+        draft_attractions=[{"label": "정릉시장", "area_text": "", "evidence": "caregiver_report"}])
+    interview._apply_extraction(s, slot_by_key("routine_destinations"), {
+        "attraction_points": [{"label": "원마루 공원", "evidence": "mention_only",
+                               "quote": "원마루 공원에도 가세요", "same_as": "없는 곳"}],
+        "slot_filled": True,
+    }, utterance="원마루 공원에도 가세요")
+    assert sorted(a["label"] for a in s.draft_attractions) == ["원마루 공원", "정릉시장"]
+
+
+def test_registered_places_are_sent_to_the_extractor(monkeypatch):
+    """추출기는 등록된 장소 목록을 받아 같은 곳을 same_as 로 짚을 수 있어야 한다."""
+    seen = {}
+
+    def extractor(slot, conv, **kw):
+        seen.update(kw)
+        return {"answer_kind": "informative", "fields": {}, "attraction_points": [],
+                "behavior_notes": [], "slot_filled": True}
+
+    monkeypatch.setattr(interview.midm, "extract_answer", extractor)
+    s = InterviewSession(id="known-places", guardian_name="보호자", persona_type=PersonaType.dementia,
+                         draft_attractions=[{"label": "정릉시장"}, {"label": "예전에 살던 집"}])
+    interview._extract_tracked(s, slot_by_key("routine_destinations"))
+    assert seen == {"known_places": ["정릉시장", "예전에 살던 집"]}
 
 
 def test_distinct_places_not_over_merged():

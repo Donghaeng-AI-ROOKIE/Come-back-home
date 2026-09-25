@@ -69,11 +69,17 @@ _PLACE_SLOT = slot_by_key("autobiographical_destination_pull")
 
 
 def test_placeholder_area_normalized_to_empty():
-    """Mi:dm 이 area_text 를 '언급 없음' 문자열로 채우던 실측 — 빈 값으로 정규화."""
+    """Mi:dm 이 area_text 를 '언급 없음' 문자열로 채우던 실측 — 답에 없는 지역이라 비운다.
+
+    예전에는 자리표시 단어 목록으로 걸렀다. 이제는 보호자 답에 있는지만 본다.
+    """
     s = _session()
     interview._apply_extraction(s, _PLACE_SLOT, {"attraction_points": [
-        {"label": "예전에 살던 집", "area_text": "언급 없음"}]})
+        {"label": "예전에 살던 집", "area_text": "언급 없음"}]},
+        utterance="예전에 살던 집에 가려고 하세요")
     assert s.draft_attractions[0]["area_text"] == ""
+    assert s.extraction_audit[-1] == {"event": "area_not_in_answer", "label": "예전에 살던 집",
+                                      "area": "언급 없음"}
 
 
 def test_correction_overwrites_existing_area_text():
@@ -126,6 +132,7 @@ def test_rename_carries_stale_area_text(monkeypatch):
 
 
 def test_correction_removes_place(monkeypatch):
+    monkeypatch.setattr(interview.midm, "yes_no", lambda question, utterance: True)   # 삭제 확인
     s = _place_session()
     assert _correct(s, "원마루 공원은 이제 안 가세요. 빼주세요",
         {"place_ops": [{"op": "remove", "target": "원마루 공원"}]})
@@ -171,17 +178,26 @@ def test_rename_misclassified_as_remove_is_rejected(monkeypatch):
     """'A가 아니라 B'에 모델이 remove 를 내도 장소를 지우지 않는다.
 
     실측(2026-07-21): 이름 정정 한 마디에 등록된 장소가 통째로 사라졌다.
-    삭제는 되돌릴 수 없으므로 보호자 발화에 뺄 의사가 있을 때만 인정한다.
+    삭제는 되돌릴 수 없으므로 모델에게 한 번 더 확인해 아니라면 지우지 않는다
+    (예전: "빼·삭제" 같은 단어가 발화에 있는지 코드가 봤다).
     """
+    asked = []
+    monkeypatch.setattr(interview.midm, "yes_no",
+                        lambda question, utterance: asked.append(question) or False)
     s = _place_session()
     assert not _correct(s, "원평중학교가 아니라 원평초등학교예요",
         {"place_ops": [{"op": "remove", "target": "원평중학교"}]})
+    assert "'원평중학교'을(를) 등록된 장소 목록에서 빼 달라고" in asked[0]
     assert [a["label"] for a in s.draft_attractions] == ["원마루 공원", "원평중학교"]
 
 
 def test_home_misclassification_salvaged_as_place_area(monkeypatch):
-    """장소의 동네 정정을 모델이 home 으로 보내면, 그 장소의 지역 정정으로 되살린다."""
+    """장소의 동네 정정을 모델이 home 으로 보내면, 그 장소의 지역 정정으로 되살린다.
+
+    등록된 장소를 지목한 발화라 집 주소 변경인지 모델에게 확인하고(아니오), 그 장소로 옮긴다.
+    """
     monkeypatch.setattr(interview, "_GEO", _GEO_CHEONGJU)
+    monkeypatch.setattr(interview.midm, "yes_no", lambda question, utterance: False)
     s = _place_session()
     assert _correct(s, "원마루 공원은 분평동이 아니라 수곡동이에요",
         {"fields": {"home": "수곡동"}})          # place_ops 없음 = 실측 그대로
@@ -211,7 +227,7 @@ def test_correction_falls_back_when_llm_returns_nothing(monkeypatch):
     monkeypatch.setattr(interview.retrieval, "rank_next_slots",
                         lambda *a, **k: ([_Hit()], []))
     monkeypatch.setattr(interview.midm, "extract_answer",
-                        lambda slot, conv: {"fields": {"age": "83세"},
+                        lambda slot, conv, **_: {"fields": {"age": "83세"},
                                             "attraction_points": [], "behavior_notes": [],
                                             "slot_filled": True})
     out = interview._handle_confirmation(s, "아니요 83세예요")
