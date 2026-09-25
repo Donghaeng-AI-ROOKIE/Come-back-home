@@ -5,6 +5,9 @@
   ② Mi:dm 호출 실패가 침묵 — "이상한 반복 인터뷰"로만 체감
   ③ name/age/home 추출이 Mi:dm 단일 장애점 — 엔드포인트 다운이면 등록 퍼널 전체 실패
   ④ 재질문이 직전 질문을 토씨까지 재낭독(Q5=Q6) + 폴백 씨앗 질문의 복합 문형
+
+③은 2026-09-26 에 결정이 바뀌었다: 보호자 문장을 규칙으로 해석하지 않기로 해 정규식
+폴백을 없앴다. 장애 중에는 값을 지어내지 않고 다시 묻는다(아래 테스트가 그 동작을 지킨다).
 """
 
 from app import storage
@@ -47,7 +50,11 @@ def test_finalize_failure_keeps_session_alive_and_recovers(monkeypatch):
     assert "home" not in out.filled_keys
     assert out.prev_target_key == "home"       # 다음 답변은 home 으로 추출
 
-    # 집 재답변 (스텁 추출은 빈손 — 규칙 폴백이 채운다) → 요약 확인 재진입
+    # 집 재답변 (모델이 주소를 뽑는다) → 요약 확인 재진입
+    monkeypatch.setattr(interview.midm, "extract_answer",
+                        lambda slot, conv: {"answer_kind": "informative", "fields": {"home": "성북구 정릉동"},
+                                            "attraction_points": [], "behavior_notes": [],
+                                            "slot_filled": True})
     out = interview.answer_interview(s.id, "성북구 정릉동이에요")
     assert out.draft_fields.get("home") == "성북구 정릉동"
     assert out.awaiting_confirmation
@@ -74,9 +81,9 @@ def test_llm_failure_sets_degraded_flag(monkeypatch):
 
     assert out.llm_degraded
     assert out.llm_call_failures >= 1
-    # 장애 중에도 규칙 폴백으로 필수 필드는 확보 (③과 결합)
-    assert out.draft_fields.get("name") == "김순자"
-    assert out.draft_fields.get("age") == "78세"
+    # 장애 중에는 이름·나이를 규칙으로 지어내지 않는다 — 같은 질문을 다시 묻는다
+    assert "name" not in out.draft_fields and "age" not in out.draft_fields
+    assert "identity" not in out.filled_keys
 
 
 def test_stub_mode_is_not_degraded():
@@ -86,34 +93,62 @@ def test_stub_mode_is_not_degraded():
     assert not out.llm_degraded and out.llm_call_failures == 0
 
 
-# ── ③ 규칙 기반 최소 추출 (identity/home) ────────────────────────────
+# ── ③ 이름·나이·집 주소 — 모델 추출값의 원문 대조 ────────────────────
 
-def test_rule_extract_identity():
-    f = interview._rule_extract_fields("identity", "저희 어머니 김순자님이고 78세예요")
-    assert f == {"name": "김순자", "age": "78세"}
-    f = interview._rule_extract_fields("identity", "이름은 박말녀, 여든이 넘으셨어요")
-    assert f.get("name") == "박말녀"          # 나이는 숫자 표현이 없으면 못 뽑는다(보수적)
-    f = interview._rule_extract_fields("identity", "할머니세요, 82살이요")
-    assert f.get("name") is None and f.get("age") == "82세"   # 호칭을 이름으로 오인 금지
+def _fields(s, fields, utterance):
+    return interview._grounded_fields(s, fields, utterance)
 
 
-def test_rule_extract_home():
-    f = interview._rule_extract_fields("home", "서울 성북구 정릉동이에요")
-    assert f["home"].endswith("정릉동")
-    f = interview._rule_extract_fields("home", "면목로 12에 살아요")
-    assert f["home"] == "면목로 12"
-    assert interview._rule_extract_fields("home", "잘 모르겠어요") == {}
+def test_name_must_appear_in_answer():
+    s = InterviewSession(id="gf-name", guardian_name="보호자", persona_type=PersonaType.dementia)
+    assert _fields(s, {"name": "김순자"}, "저희 어머니 김순자님이고 78세예요") == {"name": "김순자"}
+    assert _fields(s, {"name": "박말녀"}, "저희 어머니 김순자님이세요") == {}
+    assert s.extraction_audit[-1] == {"event": "field_not_in_answer", "field": "name", "value": "박말녀"}
 
 
-def test_stub_interview_captures_required_fields_end_to_end():
-    """엔드포인트 없이(스텁)도 name/age/home 이 실제로 쌓인다 — 등록 퍼널 방어선."""
+def test_age_is_the_model_number_and_matches_answer_digits():
+    s = InterviewSession(id="gf-age", guardian_name="보호자", persona_type=PersonaType.dementia)
+    assert _fields(s, {"age": 78}, "김순자님이고 78세예요") == {"age": "78세"}
+    assert _fields(s, {"age": "82세"}, "82살이세요") == {"age": "82세"}
+    # 우리말 나이는 모델이 숫자로 바꾼다 — 답에 숫자가 없으면 모델 값을 받는다
+    assert _fields(s, {"age": 82}, "여든둘이세요") == {"age": "82세"}
+    # 답의 숫자와 다르면(지어낸 값) 받지 않는다
+    assert _fields(s, {"age": 80}, "78세예요") == {}
+    # 숫자가 아니면 코드가 읽지 않는다(고유어 수사 사전 없음)
+    assert _fields(s, {"age": "여든둘"}, "여든둘이세요") == {}
+
+
+def test_home_must_be_in_answer_and_on_map(monkeypatch):
+    monkeypatch.setattr(interview, "_GEO", GazetteerGeocoder())
+    s = InterviewSession(id="gf-home", guardian_name="보호자", persona_type=PersonaType.dementia)
+    assert _fields(s, {"home": "성북구 정릉동"}, "서울 성북구 정릉동이에요") == {"home": "성북구 정릉동"}
+    # 과거 거주지 답에 현재 집 동네를 채운 값(답에 없음)은 받지 않는다
+    assert _fields(s, {"home": "성북구 정릉동"}, "예전에 살던 집에 가려고 하세요") == {}
+    assert s.extraction_audit[-1]["event"] == "field_not_in_answer"
+
+
+def test_model_fields_captured_end_to_end(monkeypatch):
+    """모델이 뽑은 name/age/home 이 원문 대조를 거쳐 쌓이고 두 슬롯이 닫힌다."""
+    monkeypatch.setattr(interview, "_GEO", GazetteerGeocoder())
+    answers = iter([{"name": "김순자", "age": 78}, {"home": "성북구 정릉동"}])
+    monkeypatch.setattr(interview.midm, "extract_answer",
+                        lambda slot, conv: {"answer_kind": "informative", "fields": next(answers),
+                                            "attraction_points": [], "behavior_notes": [],
+                                            "slot_filled": True})
     s = interview.start_interview("보호자", PersonaType.dementia)
     out = interview.answer_interview(s.id, "김순자님이고 78세, 치매 어르신이에요")
     out = interview.answer_interview(s.id, "성북구 정릉동 살아요")
     assert out.draft_fields.get("name") == "김순자"
     assert out.draft_fields.get("age") == "78세"
     assert out.draft_fields.get("home") == "성북구 정릉동"
-    assert "home" in out.filled_keys
+    assert {"identity", "home"} <= set(out.filled_keys)
+
+
+def test_stub_mode_does_not_invent_profile_fields():
+    """키 없는 스텁은 값을 만들지 않는다 — 규칙 폴백이 없으니 이름·주소가 비어 있다."""
+    s = interview.start_interview("보호자", PersonaType.dementia)
+    out = interview.answer_interview(s.id, "김순자님이고 78세, 치매 어르신이에요")
+    assert "name" not in out.draft_fields and "age" not in out.draft_fields
 
 
 # ── ④ 재질문 UX — 토씨까지 같은 재낭독 금지 + 단일 질문 폴백 ─────────
@@ -325,10 +360,15 @@ def test_confirmation_address_correction_overwrites_home(monkeypatch):
     intents = iter(["correct", "confirm"])
     monkeypatch.setattr(interview.midm, "extract_correction",
                         lambda labels, u: {"intent": next(intents), "fields": {}, "place_ops": []})
+    # 정정 지시가 비면 슬롯 재추출 — 모델이 주소를 뽑는다
+    monkeypatch.setattr(interview.midm, "extract_answer",
+                        lambda slot, conv: {"answer_kind": "informative", "fields": {"home": "정릉동"},
+                                            "attraction_points": [], "behavior_notes": [],
+                                            "slot_filled": True})
     out = interview.answer_interview(s.id, "정릉동이 정확한 주소예요")
     assert not out.done                              # 구버전: 긍정 오판 → 그대로 등록
     assert out.awaiting_confirmation                 # 재요약 후 다시 확인 대기
-    assert out.draft_fields["home"] == "정릉동"      # 규칙 백스톱 + overwrite 반영
+    assert out.draft_fields["home"] == "정릉동"      # 원문 대조 통과 + overwrite 반영
     assert "정릉동" in out.messages[-1]["text"]      # 재요약에 정정 주소 노출
 
     out = interview.answer_interview(s.id, "네 맞아요")
@@ -613,12 +653,12 @@ def test_pure_ignorance_exhausts_slot():
     assert out.asked_counts["hazard_awareness_vulnerability"] >= interview.MAX_ASKS_PER_SLOT
 
 
-def test_sentence_like_home_rejected():
-    """문장형 답("집에 주로 계세요")은 home 으로 수용하지 않는다 — 장소 표현만."""
-    assert not interview._valid_home_text("집에 주로 계세요")
-    assert not interview._valid_home_text("잘 모르겠어요")
-    assert interview._valid_home_text("마포구 신수동")
-    assert interview._valid_home_text("서울역 근처")
+def test_sentence_like_home_rejected(monkeypatch):
+    """문장형 답("집에 주로 계세요")은 home 으로 수용하지 않는다 — 지도에서 안 찾아진다.
+
+    예전에는 서술어 어미 정규식으로 막았다. 이제는 지오코더가 판정한다(_home_on_map).
+    """
+    monkeypatch.setattr(interview, "_GEO", GazetteerGeocoder())
 
     s = interview.start_interview("보호자", PersonaType.dementia)
     s.persona_type = PersonaType.dementia
@@ -830,19 +870,20 @@ def test_distinct_places_not_over_merged():
 
 # ── 고유어 나이 파싱 (2026-07-23 골드셋 실측: Mi:dm 이 "여든둘" 그대로 저장) ──
 
-def test_korean_native_age_parsing():
-    """고유어 나이 수사를 정수로 변환한다 — Mi:dm 이 '여든둘'을 그대로 넣는 실측.
+def test_korean_native_age_is_converted_by_the_model():
+    """우리말 나이는 모델이 숫자로 바꿔 낸다 — 코드는 수사 사전을 두지 않는다.
 
     골드셋에서 이름 100% 인데 나이 대부분 0% 였던 원인: 나이 칸에 '여든둘'·
-    '일흔여덟' 같은 한글 수사가 그대로 저장돼 숫자 파싱이 실패했다.
+    '일흔여덟' 같은 한글 수사가 그대로 저장돼 숫자 파싱이 실패했다(2026-07-23).
+    이제는 추출 지시에 숫자 변환을 넣고, 숫자가 아니면 받지 않는다(그 슬롯을 다시 묻는다).
     """
-    assert interview._parse_age("일흔여덟") == 78
-    assert interview._parse_age("여든둘") == 82
-    assert interview._parse_age("스물다섯") == 25
-    assert interview._parse_age("여든") == 80
-    assert interview._parse_age("열아홉") == 19
-    assert interview._parse_age("여든둘이세요") == 82   # 조사 '세요'가 셋(3)으로 오염 안 됨
-    assert interview._parse_age("78세") == 78           # 아라비아 숫자 경로 유지
+    from app.phase0 import prompts
+
+    assert "82 로 바꿔 적는다" in prompts.EXTRACT_SYSTEM
+    assert interview._model_age(82) == 82
+    assert interview._model_age("78세") == 78
+    assert interview._model_age("여든둘") is None
+    assert interview._parse_age("78세") == 78
     assert interview._parse_age("") == 0
 
 

@@ -7,9 +7,14 @@ first-wins 는 인터뷰 중간(과거 거주지가 현재 집을 덮는 것 방
 정정 발화는 보호자의 명시적 수정 의사이므로 덮어써야 한다.
 """
 
+from app.geo.geocode import GazetteerGeocoder
 from app.phase0 import interview
 from app.phase0.slots import slot_by_key
+from app.schemas.common import GeoPoint
 from app.schemas.persona import InterviewSession, PersonaType
+
+# 정정된 집 주소도 지도에서 찾아져야 받는다(_home_on_map) — 네트워크 없는 사전 지오코더.
+_GEO_CHEONGJU = GazetteerGeocoder({"수곡동": GeoPoint(lat=36.6200, lng=127.4700)})
 
 
 def _session(**fields) -> InterviewSession:
@@ -129,16 +134,26 @@ def test_correction_removes_place(monkeypatch):
 
 def test_correction_sets_area_without_touching_home(monkeypatch):
     """장소 위치 정정이 자택을 덮지 않는다 — 실측 최악 케이스의 회귀 테스트."""
+    monkeypatch.setattr(interview, "_GEO", _GEO_CHEONGJU)
     s = _place_session()
     assert _correct(s, "원마루 공원은 분평동이 아니라 수곡동이에요",
         {"fields": {"home": "청주시 서원구 수곡동"},          # 모델이 home 으로 오해해도
-        "place_ops": [{"op": "set_area", "target": "원마루 공원", "value": "수곡동이요"}]})
-    assert s.draft_attractions[0]["area_text"] == "수곡동"     # 조사 제거해서 반영
+        "place_ops": [{"op": "set_area", "target": "원마루 공원", "value": "수곡동"}]})
+    assert s.draft_attractions[0]["area_text"] == "수곡동"
     assert s.draft_fields["home"] == "청주시 서원구 분평동"     # 수색 원점 불변
+
+
+def test_correction_area_not_in_utterance_is_rejected(monkeypatch):
+    """모델이 답에 없는 동네를 set_area 로 내면(지어낸 값) 반영하지 않는다."""
+    s = _place_session()
+    assert not _correct(s, "원마루 공원 위치가 틀렸어요",
+        {"place_ops": [{"op": "set_area", "target": "원마루 공원", "value": "수곡동"}]})
+    assert s.draft_attractions[0]["area_text"] == "청주시 서원구 분평동"
 
 
 def test_correction_allows_explicit_home_change(monkeypatch):
     """'지금 사시는 집'을 명시하면 자택 정정은 정상 동작해야 한다."""
+    monkeypatch.setattr(interview, "_GEO", _GEO_CHEONGJU)
     s = _place_session()
     assert _correct(s, "지금 사시는 집은 수곡동이에요",
         {"fields": {"home": "청주시 서원구 수곡동"}})
@@ -166,6 +181,7 @@ def test_rename_misclassified_as_remove_is_rejected(monkeypatch):
 
 def test_home_misclassification_salvaged_as_place_area(monkeypatch):
     """장소의 동네 정정을 모델이 home 으로 보내면, 그 장소의 지역 정정으로 되살린다."""
+    monkeypatch.setattr(interview, "_GEO", _GEO_CHEONGJU)
     s = _place_session()
     assert _correct(s, "원마루 공원은 분평동이 아니라 수곡동이에요",
         {"fields": {"home": "수곡동"}})          # place_ops 없음 = 실측 그대로

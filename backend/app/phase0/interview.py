@@ -376,56 +376,6 @@ def _phrase_tracked(session: InterviewSession, slot: SlotSpec, is_followup: bool
     return raw
 
 
-# ── 규칙 기반 최소 추출 폴백 (identity/home 전용) ────────────────────
-# name/age/home 추출이 Mi:dm 단일 장애점이면 엔드포인트가 죽는 순간 등록 퍼널
-# 전체가 실패한다(라이브 실측). 필수 3필드만 규칙으로 최후 방어한다.
-# 행동·장소 슬롯은 규칙 오추출 위험이 커서 다루지 않는다(소진 처리로 넘어감).
-
-_AGE_RE = re.compile(r"(\d{1,3})\s*(?:세|살)")
-# 이름으로 오인하기 쉬운 호칭·관계어 — 후보에서 제외
-_NAME_STOP = {"어머니", "아버지", "할머니", "할아버지", "할머", "할아버",
-              "어르신", "아드", "보호자", "선생", "환자"}
-_NAME_RES = [
-    re.compile(r"(?:이름은|성함은|이름이|성함이)\s*([가-힣]{2,4})"),
-    re.compile(r"([가-힣]{2,3})(?:님|씨)(?:이고|이며|이에요|예요|입니다|인데|이|,|\.|\s|$)"),
-    re.compile(r"([가-힣]{2,4})(?:이라고|라고)\s*(?:하|부|해)"),
-]
-# 지오코딩 가능한 주소 표면 — "성북구 정릉동", "면목로 12" 수준까지
-_HOME_RE = re.compile(
-    r"((?:[가-힣]+(?:특별시|광역시|시|도)\s+)?(?:[가-힣]+(?:구|군|시)\s+)?"
-    r"[가-힣0-9]+(?:동|읍|면|리)(?:\s*\d+(?:-\d+)?)?"
-    r"|[가-힣0-9]+(?:로|길)\s*\d+(?:-\d+)?)"
-)
-
-
-_TAIL_PARTICLE_RE = re.compile(r"(?:에|에서|이요|이에요|예요|입니다|이|가|은|는|요)\s*$")
-
-
-def _strip_tail_particles(text: str) -> str:
-    """말끝 조사 제거 — "산남동이요" → "산남동". 지오코딩 질의로 나갈 값에 필요."""
-    return _TAIL_PARTICLE_RE.sub("", str(text or "").strip()).strip()
-
-
-def _valid_home_text(value) -> bool:
-    """home 필드 값이 지오코딩을 시도할 만한 '장소 표현'인지 — 문장형 답 차단.
-
-    라이브 실측(2026-07-17 2차): "주로 머무시는 곳이 어디신가요?"에 "집에 주로
-    계세요"라고 답하자 그 문장이 통째로 home 에 저장돼 filled 처리됨. 주소 표면
-    (_HOME_RE)이 있으면 통과, 없으면 서술어가 없는 짧은 명사구(랜드마크)만 허용.
-    """
-    t = str(value or "").strip()
-    if not t or any(k in t for k in ("모르", "몰라", "글쎄")):
-        return False
-    if _HOME_RE.search(t):
-        return True
-    core = _strip_tail_particles(t)
-    # 과거형 서술어(하셨어·일했어)도 문장이다 — "망원시장에서 생선가게를 하셨어요"가
-    # 이 필터를 통과해 지역 표기로 저장되던 실측(2026-08-07).
-    if re.search(r"(?:계세|계셔|살|다니|지내|있어|있으|해요|세요|어요|네요|니다|셨|했)", core):
-        return False
-    return 2 <= len(core) <= 20
-
-
 # 답변 유형(모름·해당 없음·긍정만·질문 되물음·이미 답함)은 Mi:dm 추출의 answer_kind 로
 # 받는다(prompts.EXTRACT_SYSTEM). 예전에는 정규식이 "모르"·"없어요"·"네" 같은 표면형으로
 # 분류했지만, 보호자 문장을 단어 목록으로 해석하지 않기로 했다(2026-09-26 사용자 결정).
@@ -433,47 +383,91 @@ def _valid_home_text(value) -> bool:
 # 만든 라이브 실측 사례는 answer_interview 의 해당 분기 주석에 남겨 두었다.
 
 
-def _rule_extract_fields(slot_key: str, text: str) -> dict:
-    fields: dict = {}
-    if slot_key == "identity":
-        m = _AGE_RE.search(text)
-        if m:
-            fields["age"] = f"{m.group(1)}세"
-        for pat in _NAME_RES:
-            for cand in pat.findall(text):
-                if cand not in _NAME_STOP:
-                    fields["name"] = cand
-                    break
-            if "name" in fields:
-                break
-    elif slot_key == "home":
-        m = _HOME_RE.search(text)
-        if m:
-            fields["home"] = m.group(1).strip()
-    return fields
+# ── 이름·나이·집 주소 — 모델 추출값의 원문 대조 ──────────────────────
+# 예전에는 Mi:dm 이 빈손이면 정규식으로 이름("○○님")·나이("○○세")·주소("○○동")를
+# 직접 뽑았다(엔드포인트 장애 대비, 2026-07-16 실측). 보호자 문장을 단어 규칙으로
+# 해석하지 않기로 하면서(2026-09-26 사용자 결정) 추출은 모델만 한다. 모델이 장애면
+# 이 슬롯은 다시 묻는다 — 장애 중에는 등록이 끝나지 않는 대신, 틀린 값(특히 수색
+# 원점이 되는 집 주소)을 규칙이 만들어 넣는 일은 없다.
 
 
-def _merge_rule_fallback(session: InterviewSession, prev_slot: SlotSpec,
-                         extracted: dict, utterance: str) -> None:
-    """identity/home 은 Mi:dm 이 빈손이어도 규칙으로 최소 추출 — LLM 추출이 우선."""
-    if prev_slot.key not in ("identity", "home"):
-        return
-    fields = extracted.setdefault("fields", {})
-    for k, v in _rule_extract_fields(prev_slot.key, utterance).items():
-        fields.setdefault(k, v)
-    # home 은 장소 표현일 때만 수용 — Mi:dm 이 문장형 답("집에 주로 계세요")을
-    # 그대로 home 으로 뽑아 지오코딩 불가 값이 filled 되는 것을 차단.
-    if prev_slot.key == "home" and fields.get("home") \
-            and not _valid_home_text(fields["home"]):
-        fields.pop("home")
-        extracted["slot_filled"] = False
-    # 필수 필드가 (세션 누적 기준으로) 확보되면 충족 처리 — 스텁·장애 모드에서
-    # 같은 것을 무한 재질문하다 소진되는 것을 막는다.
+def _model_age(value) -> int | None:
+    """모델이 낸 나이 값 → 정수. 숫자(또는 '82세'처럼 단위만 붙은 숫자)가 아니면 None.
+
+    고유어 나이("여든둘")를 숫자로 바꾸는 일은 모델에 맡긴다(prompts.EXTRACT_SYSTEM).
+    """
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value if 0 < value < 130 else None
+    m = re.fullmatch(r"\s*(\d{1,3})\s*(?:세|살)?\s*", str(value or ""))
+    return int(m.group(1)) if m and 0 < int(m.group(1)) < 130 else None
+
+
+def _grounded_fields(session: InterviewSession, fields: dict, utterance: str) -> dict:
+    """모델이 뽑은 name/age/home 중 이 답에 근거가 있는 것만 남긴다.
+
+    - 이름: 답에 글자 그대로 있어야 한다(지어낸 이름 차단).
+    - 나이: 숫자여야 하고, 답에 아라비아 숫자가 있으면 그중 하나와 같아야 한다.
+    - 집 주소: 주소 표현의 낱말이 답에 있어야 하고(라이브 실측 2026-07-21: 과거 거주지
+      답에 모델이 **현재 집 동네**를 채워 넣었다), 지도에서 찾아져야 한다(_home_on_map).
+    받지 않은 값은 extraction_audit 에 남긴다.
+    """
+    kept: dict = {}
+    for key, value in _flatten_fields(fields or {}).items():
+        if key not in ("name", "age", "home"):
+            kept[key] = value
+            continue
+        if key == "name":
+            ok = _in_answer(value, utterance)
+        elif key == "age":
+            age = _model_age(value)
+            digits = re.findall(r"\d+", utterance)
+            ok = age is not None and (not digits or str(age) in digits)
+            value = f"{age}세" if ok else value
+        else:
+            ok = _area_grounded(str(value), utterance)
+            if ok and not _home_on_map(str(value)):
+                session.extraction_audit.append({"event": "home_not_on_map", "value": str(value)})
+                continue
+        if ok:
+            kept[key] = value
+        else:
+            session.extraction_audit.append(
+                {"event": "field_not_in_answer", "field": key, "value": str(value)})
+    return kept
+
+
+def _home_on_map(text: str) -> bool:
+    """집 주소가 지도에서 찾아지나 — 못 찾는 값(문장형 답·지어낸 주소)은 받지 않는다.
+
+    라이브 실측(2026-07-17 2차): "주로 머무시는 곳이 어디신가요?"에 "집에 주로
+    계세요"라고 답하자 그 문장이 통째로 home 에 저장돼 충족 처리됐다. 예전에는 서술어
+    어미 정규식으로 막았지만, 이제는 지오코더가 판정한다 — 등록(finalize)과 같은 후보
+    사다리(locate_home)로 미리 확인해, 틀린 값이면 그 자리에서 다시 묻는다.
+    """
+    try:
+        return locate_home(_GEO, text) is not None
+    except Exception:  # noqa: BLE001 — 지오코더 장애는 '확인 못 함'(다시 묻는다)
+        return False
+
+
+def _ground_profile_fields(session: InterviewSession, prev_slot: SlotSpec,
+                           extracted: dict, utterance: str) -> None:
+    """추출된 기본 정보를 원문에 대조하고, 신원·집 슬롯의 충족 여부를 정한다.
+
+    충족 판정은 **값이 확보됐는가**만 본다(세션 누적 기준) — 문장을 해석하지 않는다.
+    """
+    fields = _grounded_fields(session, extracted.get("fields") or {}, utterance)
+    extracted["fields"] = fields
+
     def _have(key: str) -> bool:
         return bool(session.draft_fields.get(key) or fields.get(key))
 
-    if prev_slot.key == "home" and _have("home"):
-        extracted["slot_filled"] = True
+    if prev_slot.key == "home":
+        # 모델이 충족이라 해도 근거 있는 주소가 없으면 다시 묻는다(문장형 답이 주소로
+        # 저장돼 충족되던 실측 2026-07-17 — "집에 주로 계세요").
+        extracted["slot_filled"] = _have("home")
     if prev_slot.key == "identity" and _have("name") and _have("age"):
         extracted["slot_filled"] = True
 
@@ -1133,7 +1127,7 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
     clean = safety.sanitize_input(user_text)
     session.messages.append({"role": "user", "text": clean})
 
-    # 1) 직전 겨냥 슬롯 추출 (+ identity/home 은 규칙 폴백으로 최후 방어)
+    # 1) 직전 겨냥 슬롯 추출 (이름·나이·집 주소는 원문 대조 후 반영)
     prev_slot = slot_by_key(session.prev_target_key) if session.prev_target_key else None
     # 보호자 답은 어떤 판정보다 먼저, 질문과 함께 그대로 남긴다. 모름·부정·짧은 답의
     # 뜻은 K 가 원문으로 해석한다. 신원·집 주소는 개인정보 필드라 행동 근거에서 제외.
@@ -1174,7 +1168,7 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
             retry = _extract_tracked(session, prev_slot, recheck_places=True)
             if _new_places_in_answer(session, retry, clean):
                 extracted = {**retry, "answer_kind": kind}
-        _merge_rule_fallback(session, prev_slot, extracted, clean)
+        _ground_profile_fields(session, prev_slot, extracted, clean)
         got_something = bool(
             extracted.get("fields") or extracted.get("attraction_points")
             or extracted.get("behavior_notes")
@@ -1496,7 +1490,7 @@ def _apply_correction(session: InterviewSession, utterance: str, result: dict) -
     """
     changed = False
     ops = list(result.get("place_ops") or [])
-    for key, value in (result.get("fields") or {}).items():
+    for key, value in _grounded_fields(session, result.get("fields") or {}, utterance).items():
         if key == "home" and _is_place_correction(session, utterance):
             # 장소의 동네 정정을 모델이 home 으로 잘못 보내는 실측(2/2) — 수색 원점을
             # 지키는 데서 끝내지 않고, 지목된 장소의 지역 정정으로 되돌려 살린다.
@@ -1506,8 +1500,6 @@ def _apply_correction(session: InterviewSession, utterance: str, result: dict) -
                     o["op"] in ("set_area", "rename", "remove")
                     and _norm(o.get("target")) == _norm(place.get("label")) for o in ops):
                 ops.append({"op": "set_area", "target": str(place["label"]), "value": value})
-            continue
-        if key == "home" and not _valid_home_text(value):
             continue
         if session.draft_fields.get(key) != value:
             session.draft_fields[key] = value
@@ -1542,8 +1534,10 @@ def _apply_correction(session: InterviewSession, utterance: str, result: dict) -
                 target["area_text"] = op["value"]
             changed = True
         elif kind == "set_area":
-            area = _strip_tail_particles(clean_area_text(op["value"]))
-            if area:
+            # 지역 표현은 모델이 조사 없이 낸다(prompts.CORRECTION_SYSTEM). 답에 근거가
+            # 없는 값(지어낸 동네)은 받지 않는다.
+            area = clean_area_text(op["value"])
+            if area and _area_grounded(area, utterance):
                 target["area_text"] = area
                 changed = True
     return changed
@@ -1610,7 +1604,7 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
         )
         if ranked:
             ext = _extract_tracked(session, ranked[0].slot)
-            _merge_rule_fallback(session, ranked[0].slot, ext, clean)   # 주소 정정 등 규칙 백스톱
+            _ground_profile_fields(session, ranked[0].slot, ext, clean)
             _guard_home_overwrite(session, ext, clean)
             _apply_extraction(session, ranked[0].slot, ext, overwrite=True, utterance=clean)
 
@@ -1636,35 +1630,6 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
 
 
 _GEO = get_geocoder(use_nominatim=True)   # 카카오 → nominatim → gazetteer
-
-
-# 고유어 나이 수사 — Mi:dm 이 나이 칸에 "여든둘"·"일흔여덟"처럼 한글 수사를 그대로
-# 넣는 실측(2026-07-23 골드셋: 이름 100% 인데 나이 대부분 0% — 숫자 파싱 실패).
-# 아라비아 숫자가 없을 때만 고유어를 정수로 변환한다.
-_KO_AGE_TENS = {"아흔": 90, "여든": 80, "일흔": 70, "예순": 60, "쉰": 50,
-                "마흔": 40, "서른": 30, "스물": 20, "열": 10}
-_KO_AGE_ONES = {"아홉": 9, "여덟": 8, "일곱": 7, "여섯": 6, "다섯": 5,
-                "넷": 4, "네": 4, "셋": 3, "세": 3, "둘": 2, "두": 2, "하나": 1, "한": 1}
-
-
-def _korean_age_to_int(value) -> int:
-    """고유어 나이 → 정수. '일흔여덟'→78, '여든둘'→82, '스물다섯'→25. 못 읽으면 0."""
-    t = re.sub(r"\s+", "", str(value or ""))
-    total, matched = 0, False
-    for tens, val in _KO_AGE_TENS.items():
-        if tens in t:
-            total += val
-            t = t.replace(tens, "", 1)
-            matched = True
-            break
-    # 일의 자리는 십의 자리 바로 뒤(접두)에서만 — "여든둘이세요"의 조사 '세요'가
-    # 셋(3)으로 오매칭되지 않게 startswith 로 본다.
-    for ones, val in _KO_AGE_ONES.items():
-        if t.startswith(ones):
-            total += val
-            matched = True
-            break
-    return total if matched else 0
 
 
 def _flatten_fields(fields: dict) -> dict:
@@ -1695,13 +1660,11 @@ def _flatten_fields(fields: dict) -> dict:
 
 
 def _parse_age(value) -> int:
+    """저장된 나이 값 → 정수. 추출 단계에서 숫자로 확정되므로 숫자가 없으면 0(미상)."""
     if isinstance(value, int):
         return value
-    s = str(value or "")
-    m = re.search(r"\d+", s)
-    if m:
-        return int(m.group())
-    return _korean_age_to_int(s)   # 아라비아 숫자 없으면 고유어 폴백
+    m = re.search(r"\d+", str(value or ""))
+    return int(m.group()) if m else 0
 
 
 _SCORING_IN_PROGRESS = "채점 진행 중(백그라운드)"   # 값 그대로 유지 — 기존 테스트가 이 문자열을 검사
