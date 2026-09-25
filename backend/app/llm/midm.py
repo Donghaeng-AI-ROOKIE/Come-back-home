@@ -175,6 +175,24 @@ class MidmClient(LLMClient):
             return None
         return prompts.parse_yes_no(raw)
 
+    def check_claim(self, notes: list[str], statement: str) -> bool | None:
+        """보호자 기록에서 문장 하나가 분명히 읽히는지(제3 판독). 스텁·실패는 None."""
+        if self.is_stub:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.CLAIM_CHECK_SYSTEM},
+                    {"role": "user", "content": prompts.build_claim_check_input(notes, statement)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=40,
+            )
+        except Exception:  # noqa: BLE001 — 확인 실패는 '확인 안 됨'으로 흡수
+            self.call_failures += 1
+            return None
+        return prompts.parse_yes_no(raw)
+
     def link_situation(self, situation: str, places: list[dict]) -> list[dict] | None:
         """신고 상황 문장 → 등록 장소 링크. 스텁·실패·해석 불가는 None(링크 판정 없음)."""
         if self.is_stub or not situation.strip() or not places:

@@ -44,19 +44,32 @@ def places_context(persona) -> list[dict]:
 
 
 def link(persona, report) -> dict:
-    """{"status", "links", "rejected"} — status: linked / none / unavailable / not_prepared."""
+    """{"status", "links", "rejected", "unconfirmed"} — status: linked / none / unavailable / not_prepared."""
     places = places_context(persona) if persona is not None else []
     if not places or not report.situation.strip():
-        return {"status": "not_prepared" if not places else "none", "links": [], "rejected": []}
+        return {"status": "not_prepared" if not places else "none", "links": [], "rejected": [], "unconfirmed": []}
     judged = midm.link_situation(report.situation, places)
     if judged is None:
-        return {"status": "unavailable", "links": [], "rejected": []}
+        return {"status": "unavailable", "links": [], "rejected": [], "unconfirmed": []}
     situation = _compact(report.situation)
-    links, rejected = [], []
+    grounded, rejected = [], []
     for item in judged:
         quote = _compact(item["quote"])
-        (links if quote and quote in situation else rejected).append(item)
-    return {"status": "linked" if links else "none", "links": links, "rejected": rejected}
+        (grounded if quote and quote in situation else rejected).append(item)
+    # 원문에 있는 구절이라도 뜻이 이어지는지는 다른 질문으로 한 번 더 묻는다 — 4회차 개발 세트:
+    # "비 오는 오후, 우산을 두고 나가셨음"(S10)·"잠깐 나갔다 오신다고"(H8)가 '평소 외출'로 이어졌다.
+    context = ["신고 상황: " + report.situation] + [
+        f"'{p['label']}'에 대한 보호자 기록: " + " / ".join(p["context"]) for p in places if p["context"]]
+    links, unconfirmed = [], []
+    for item in grounded:
+        statement = (f"대상자는 이번에 '{item['place']}'에 가려고 나갔다." if item["relation"] == "stated_destination"
+                     else f"대상자는 이번에 평소 하던 외출(산책 등)을 하러 나갔고, 그 외출은 '{item['place']}'와 관련된다.")
+        answer = midm.check_claim(context, statement)
+        (links if answer is True else unconfirmed).append({**item, "check": answer})
+    # 확인 호출이 실패한 링크가 있으면 캐시하지 않고 다음 예측 때 다시 묻는다(cached 참고).
+    status = ("unavailable" if any(x["check"] is None for x in unconfirmed)
+              else "linked" if links else "none")
+    return {"status": status, "links": links, "rejected": rejected, "unconfirmed": unconfirmed}
 
 
 def _key(case, persona) -> str:

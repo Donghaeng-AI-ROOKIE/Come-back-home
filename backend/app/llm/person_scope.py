@@ -197,7 +197,7 @@ def agree(draft, review):
             disagreements.append({'field':'environment.'+feature,'draft':[de['response'],de['scope']],'review':[e['response'],e['scope']]})
     db,rb=draft.get('baseline_direction'),review.get('baseline_direction')
     if db is not None and rb is not None and db['value']!=rb['value']:
-        out['baseline_direction']={'value':'unknown','note_ids':[]}
+        out['baseline_direction']={'value':'unknown','note_ids':sorted(set(db['note_ids'])|set(rb['note_ids']))}
         disagreements.append({'field':'baseline_direction','draft':db['value'],'review':rb['value']})
     def key(rule):
         return (rule['period'],rule['dimension'],rule['value'])

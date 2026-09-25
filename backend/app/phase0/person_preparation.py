@@ -80,6 +80,9 @@ def run_job(persona_id, job_id):
         research=initial_person.cached_research(snapshot,None)
         payload=initial_behavior.build_payload(snapshot,None,research,None)
         parsed=initial_person.interpret(payload)
+        # Engine-visible values get a narrow yes/no check by another model (phase2.claim_check).
+        from app.phase2 import claim_check
+        parsed=claim_check.verify(parsed,payload)
         prepared={'version':VERSION,'fingerprint':key,'core':parsed['core'],'scope':parsed['context'],
                   'audit':parsed.get('audit',{}),
                   'retrieval_audit':payload['retrieval_audit'],'prepared_at':datetime.now().isoformat(),

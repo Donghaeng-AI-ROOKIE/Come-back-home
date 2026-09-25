@@ -144,6 +144,14 @@ def interpret(payload):
 
     if not isinstance(core_review, Exception):
         core = core_review
+        if not isinstance(core_draft, Exception):
+            # The review replaces the draft; keep what it reversed so a third reading can
+            # judge it (v50 dev S4: a cited found place dropped to not_reported, uncited).
+            audit["core_review_changes"] = [
+                {"field": f"found_history.{label}", "draft": leaf["value"], "review": core["found_history"][label]["value"],
+                 "draft_note_ids": list(leaf.get("note_ids", []))}
+                for label, leaf in core_draft["found_history"].items()
+                if label in core["found_history"] and leaf["value"] != core["found_history"][label]["value"]]
     elif not isinstance(core_draft, Exception):
         audit["fallbacks"].append(f"core_review_failed:{type(core_review).__name__}")
         core = core_draft

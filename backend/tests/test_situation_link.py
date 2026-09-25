@@ -61,10 +61,27 @@ def test_quote_must_be_in_the_situation(sample, monkeypatch):
     monkeypatch.setattr(situation_link.midm, 'link_situation', lambda situation, places: [
         {'place': '공원', 'relation': 'stated_destination', 'quote': '공원 산책 간다고'},
         {'place': '시장', 'relation': 'stated_destination', 'quote': '시장 간다고'}])
+    monkeypatch.setattr(situation_link.midm, 'check_claim', lambda notes, statement: True)
     out = situation_link.link(p, report)
     assert out['status'] == 'linked'
     assert [x['place'] for x in out['links']] == ['공원']
     assert [x['place'] for x in out['rejected']] == ['시장']
+
+
+def test_link_must_pass_a_second_question(sample, monkeypatch):
+    """원문 구절이 있어도 뜻이 이어지는지 다시 묻는다 — S10 '비 오는 오후, 우산을 두고 나가셨음'."""
+    p = _ready(sample)
+    report = sample[1].model_copy(update={'situation': '비 오는 오후, 우산을 두고 나가셨음.'})
+    monkeypatch.setattr(situation_link.midm, 'link_situation', lambda situation, places: [
+        {'place': '공원', 'relation': 'usual_outing', 'quote': '비 오는 오후, 우산을 두고 나가셨음.'}])
+    asked = []
+    monkeypatch.setattr(situation_link.midm, 'check_claim',
+                        lambda notes, statement: asked.append((notes[0], statement)) or False)
+    out = situation_link.link(p, report)
+    assert out['links'] == [] and out['status'] == 'none'
+    assert out['unconfirmed'][0]['check'] is False
+    assert asked[0][0] == '신고 상황: 비 오는 오후, 우산을 두고 나가셨음.'
+    assert "평소 하던 외출" in asked[0][1]
 
 
 def test_link_is_cached_per_situation_and_failures_are_retried(sample, monkeypatch):
@@ -75,11 +92,12 @@ def test_link_is_cached_per_situation_and_failures_are_retried(sample, monkeypat
     answers = iter([None, [{'place': '공원', 'relation': 'stated_destination', 'quote': '공원 간다고'}]])
     monkeypatch.setattr(situation_link.midm, 'link_situation',
                         lambda situation, places: calls.append(1) or next(answers))
+    monkeypatch.setattr(situation_link.midm, 'check_claim', lambda notes, statement: True)
     assert situation_link.cached(case, p) == []              # 판정 실패 — 캐시하지 않는다
     assert case.situation_links['status'] == 'unavailable'
     first = situation_link.cached(case, p)
     again = situation_link.cached(case, p)
-    assert first == again == [{'place': '공원', 'relation': 'stated_destination', 'quote': '공원 간다고'}]
+    assert first == again == [{'place': '공원', 'relation': 'stated_destination', 'quote': '공원 간다고', 'check': True}]
     assert len(calls) == 2
 
 
