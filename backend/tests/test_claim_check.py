@@ -70,7 +70,7 @@ def test_conditional_reaction_question_carries_the_condition(sample, monkeypatch
         condition_clauses=[[{'signal': 'crowded', 'state': 'present'}, {'signal': 'noisy', 'state': 'present'}]])
     asked = _answers(monkeypatch, {'시장': True})
     claim_check.verify(parsed, _payload(sample))
-    assert '(사람이 많음 그리고 시끄러움)일 때만' in asked[0]
+    assert asked[0] == '대상자는 시장에서 사람이 많을 때 그리고 시끄러울 때에는 피하거나 빠져나오는 편이다.'
 
 
 def test_unconfirmed_clock_rule_is_removed(sample, monkeypatch):

@@ -81,7 +81,9 @@ def test_link_must_pass_a_second_question(sample, monkeypatch):
     assert out['links'] == [] and out['status'] == 'none'
     assert out['unconfirmed'][0]['check'] is False
     assert asked[0][0] == '신고 상황: 비 오는 오후, 우산을 두고 나가셨음.'
-    assert "평소 하던 외출" in asked[0][1]
+    # 관계 종류와 무관한 한 문장 — 종류를 잘못 붙였다고 맞는 링크를 버리지 않게(6회차 H10)
+    assert asked[0][1] == ("대상자는 이번에 '공원'(으)로 가려고 나갔거나, 그곳이 포함된 평소 외출을 하러 나갔다. "
+                           "어디로 가는지 신고 상황에서 읽힌다.")
 
 
 def test_link_is_cached_per_situation_and_failures_are_retried(sample, monkeypatch):
