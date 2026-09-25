@@ -48,6 +48,14 @@ def test_parse_keeps_only_registered_places_and_known_relations():
     assert prompts.parse_situation_link('설명만', ['공원']) is None
 
 
+def test_parse_reads_intact_objects_when_one_stray_character_breaks_the_array():
+    """7회차 H10: 두 실행 모두 '{...}.]}' — 객체는 온전하므로 객체 단위로 읽는다."""
+    raw = '{"links": [{"place": "공원", "relation": "usual_outing", "quote": "애들 끝날 시간 됐다"}.]}'
+    assert prompts.parse_situation_link(raw, ['공원']) == [
+        {'place': '공원', 'relation': 'usual_outing', 'quote': '애들 끝날 시간 됐다'}]
+    assert prompts.parse_situation_link('{"links": [{"place": "공원", "relation"', ['공원']) is None
+
+
 def test_places_context_uses_notes_k_cited(sample):
     p = _ready(sample)
     context = {c['label']: c['context'] for c in situation_link.places_context(p)}
@@ -81,9 +89,9 @@ def test_link_must_pass_a_second_question(sample, monkeypatch):
     assert out['links'] == [] and out['status'] == 'none'
     assert out['unconfirmed'][0]['check'] is False
     assert asked[0][0] == '신고 상황: 비 오는 오후, 우산을 두고 나가셨음.'
-    # 관계 종류와 무관한 한 문장 — 종류를 잘못 붙였다고 맞는 링크를 버리지 않게(6회차 H10)
-    assert asked[0][1] == ("대상자는 이번에 '공원'(으)로 가려고 나갔거나, 그곳이 포함된 평소 외출을 하러 나갔다. "
-                           "어디로 가는지 신고 상황에서 읽힌다.")
+    # 관계 종류와 무관하게, 인용 구절이 그 장소를 가리키는지만 묻는다(6회차 H10·7회차 H13·H16)
+    assert asked[0][1] == ("신고 상황의 '비 오는 오후, 우산을 두고 나가셨음.'(이)라는 말은 대상자가 이번에 "
+                           "'공원'에 가려 했거나 그곳에서 하던 일을 하러 나갔다는 뜻이다.")
 
 
 def test_link_is_cached_per_situation_and_failures_are_retried(sample, monkeypatch):

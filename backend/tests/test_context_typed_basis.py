@@ -188,3 +188,23 @@ def test_sar_tilt_is_damped(sample):
     out = prep.apply_prepared(p, sample[1], sar, sample[3])
     ratio = out.attraction_weights['공원'] / out.attraction_weights['시장']
     assert ratio == pytest.approx((1.5 / .5) ** .5, rel=1e-6)
+
+
+def test_repeated_note_ids_are_kept_once(sample):
+    """4회차 H7 재검토: K 가 한 배열에 같은 노트 번호를 663개 반복 생성했다 — 순서대로 한 번씩만 남긴다."""
+    from app.llm import person_evidence
+    payload = initial_behavior.build_payload(sample[0], None, [], None)
+    z = {'persistence': {'evidence': 'supported', 'pattern': 'consistent', 'value': 'keep_moving',
+                         'note_ids': ['N0'] * 5, 'basis_situations': [{'note_id': 'N0', 'situation': 'lost_or_confused'}]},
+         'environment': _unknown_env(park={'response': 'avoid', 'spatial_scope': 'explicit_category',
+                                           'condition': 'none_stated', 'note_ids': ['N0', 'N0', 'N0'] * 200,
+                                           'basis_situations': [{'note_id': 'N0', 'situation': 'encounter_reaction'}]})}
+    cleaned, _ = person_scope.soft_clean(z, payload)
+    assert cleaned['persistence']['note_ids'] == ['N0']
+    assert cleaned['environment']['park']['note_ids'] == ['N0']
+    core = copy.deepcopy(sample[-2])
+    label = next(iter(core['goals']))
+    core['goals'][label].update(value='habitual_visit', note_ids=['N0', 'N0'])
+    cleaned, dropped = person_evidence.soft_clean(core, payload)
+    assert cleaned['goals'][label]['note_ids'] == ['N0']
+    assert {'field': 'goals.' + label, 'reason': 'duplicate_note_ids'} in dropped

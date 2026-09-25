@@ -62,10 +62,11 @@ def link(persona, report) -> dict:
         f"'{p['label']}'에 대한 보호자 기록: " + " / ".join(p["context"]) for p in places if p["context"]]
     links, unconfirmed = [], []
     for item in grounded:
-        # 관계 종류(말한 목적지/평소 외출)와 무관하게 묻는다 — 종류를 잘못 붙였다고 맞는 링크를
-        # 버리지 않게(6회차 H10: '애들 끝날 시간'을 평소 외출로 붙여 확인에서 탈락).
-        statement = (f"대상자는 이번에 '{item['place']}'(으)로 가려고 나갔거나, 그곳이 포함된 평소 외출을 "
-                     "하러 나갔다. 어디로 가는지 신고 상황에서 읽힌다.")
+        # 인용 구절이 그 장소를 가리키는지만 묻는다. 관계 종류와 무관하게(6회차 H10: 종류를 잘못
+        # 붙여 맞는 링크 탈락), 시간대 습관 추론은 제외한다(7회차 H13 '바람 좀 쐬고 온다'→텃밭,
+        # H16 '어디 가신다는 말씀은 없으셨어요'→대화역 — 습관 시간대는 K 의 목적 시간대가 맡는다).
+        statement = (f"신고 상황의 '{item['quote']}'(이)라는 말은 대상자가 이번에 '{item['place']}'에 가려 했거나 "
+                     "그곳에서 하던 일을 하러 나갔다는 뜻이다.")
         answer = midm.check_claim(context, statement)
         (links if answer is True else unconfirmed).append({**item, "check": answer})
     # 확인 호출이 실패한 링크가 있으면 캐시하지 않고 다음 예측 때 다시 묻는다(cached 참고).

@@ -26,7 +26,8 @@ DIRECTION = {"same_heading": "길을 잃으면 처음 가던 방향으로 계속
              "retrace": "길을 잃으면 방금 걸어온 길을 거꾸로 되돌아간다"}
 PERIOD = {"clock_day": "낮(오전 6시~오후 6시)에", "clock_night": "밤(오후 6시~오전 6시)에"}
 # 시간대 규칙은 '낮과 밤이 다르다'가 핵심이다 — 행동만 묻으면 시간대와 무관한 행동도 규칙으로
-# 통과한다(6회차 H5·H10: 초안의 '낮에만' 규칙이 근거 없이 복원됐다).
+# 통과한다(6회차 H5·H10). 한 문장에 둘을 합쳐 물으면 뒤 절만 보고 답한다(7회차 H5) — 따로 묻는다.
+DIFFERS = "대상자는 길을 잃었을 때 낮과 밤에 서로 다르게 행동한다고 보호자가 말했다."
 RULE_ACTION = {"wait_for_help": "그 자리에 머물며 도움을 기다린다", "keep_moving": "멈추지 않고 계속 걷는다",
                "alternating": "걷다가 멈추기를 번갈아 한다", "same_heading": "처음 가던 방향으로 계속 간다",
                "change_heading": "가던 방향을 자주 바꾼다", "retrace": "방금 걸어온 길을 거꾸로 되돌아간다"}
@@ -53,8 +54,7 @@ def environment_statement(feature: str, response: str, clauses=None) -> str:
 
 
 def rule_statement(period: str, value: str) -> str:
-    return (f"대상자는 길을 잃었을 때 낮과 밤에 하는 행동이 서로 다르고, {PERIOD[period]} 길을 잃으면 "
-            f"{RULE_ACTION[value]}.")
+    return f"대상자는 {PERIOD[period]} 길을 잃으면 {RULE_ACTION[value]}."
 
 
 def found_statement(label: str) -> str:
@@ -68,10 +68,23 @@ def verify(parsed: dict, payload: dict) -> dict:
     audit = parsed.setdefault("audit", {})
     checks: list[dict] = []
 
+    asked: dict[str, bool | None] = {}
+
     def ask(field: str, statement: str, value) -> bool | None:
-        answer = midm.check_claim(notes, statement)
-        checks.append({"field": field, "value": value, "statement": statement, "answer": answer})
-        return answer
+        if statement not in asked:   # 같은 사례 안에서 같은 문장은 한 번만 묻는다
+            asked[statement] = midm.check_claim(notes, statement)
+            checks.append({"field": field, "value": value, "statement": statement, "answer": asked[statement]})
+        return asked[statement]
+
+    def rule_holds(period: str, value: str, field: str, rule) -> bool | None:
+        """낮밤 차이와 그 시간대 행동을 따로 물어 합친다. 하나라도 '아니오'면 False, 둘 다 '예'면 True."""
+        differs = ask("behavior_rules:day_night", DIFFERS, None)
+        if differs is False:
+            return False
+        action = ask(field, rule_statement(period, value), rule)
+        if action is False:
+            return False
+        return True if (differs and action) else None
 
     held = "제3 판독에서 확인되지 않아 적용 보류."
     # 1) 조건 과업의 주입 값 — '아니오'면 내린다
@@ -83,8 +96,8 @@ def verify(parsed: dict, payload: dict) -> dict:
         b["value"] = "unknown"
     kept = []
     for rule in context.get("behavior_rules", []):
-        if rule["value"] in RULE_ACTION and ask("behavior_rules", rule_statement(rule["period"], rule["value"]),
-                                                [rule["period"], rule["dimension"], rule["value"]]) is False:
+        if rule["value"] in RULE_ACTION and rule_holds(rule["period"], rule["value"], "behavior_rules",
+                                                       [rule["period"], rule["dimension"], rule["value"]]) is False:
             continue
         kept.append(rule)
     if "behavior_rules" in context:
@@ -117,22 +130,35 @@ def verify(parsed: dict, payload: dict) -> dict:
             table = PERSIST if dimension == "persistence" else DIRECTION
             rules = context.setdefault("behavior_rules", [])
             if value in table and not any((r["period"], r["dimension"]) == (period, dimension) for r in rules) \
-                    and ask("behavior_rules:disagreement", rule_statement(period, value), d["rule"]) is True:
+                    and rule_holds(period, value, "behavior_rules:disagreement", d["rule"]) is True:
                 rules.append({"period": period, "dimension": dimension, "value": value, "note_ids": list(d["note_ids"])})
                 d["resolved"] = d["rule"]
             if not rules:
                 context.pop("behavior_rules")
         elif isinstance(field, str) and field.startswith("environment."):
             feature = field.split(".", 1)[1]
-            pairs = [tuple(x) for x in (d.get("draft"), d.get("review")) if isinstance(x, list)]
-            candidates = [x for x in dict.fromkeys(pairs) if x[0] in RESPONSE and x[1] == "explicit_category"]
-            confirmed = [x for x in candidates if ask(field + ":disagreement",
-                                                      environment_statement(feature, x[0]), list(x)) is True]
-            if len(confirmed) == 1 and candidates and feature in context["environment"]:
+            # (반응, 범위, 조건식) 후보 — 유형 전체 반응과 조건부 반응(조건식 포함)을 함께 본다(7회차 H12:
+            # 초안의 '붐비는 장날 시장 회피'가 재검토 unknown 과 엇갈려 막혔다)
+            candidates = []
+            for side in ("draft", "review"):
+                x, clauses = d.get(side), d.get(side + "_clauses") or []
+                if not (isinstance(x, list) and x[0] in RESPONSE):
+                    continue
+                if x[1] == "explicit_category" or (x[1] == "conditional_category" and clauses):
+                    cand = (x[0], x[1], clauses if x[1] == "conditional_category" else [])
+                    if cand not in candidates:
+                        candidates.append(cand)
+            confirmed = [c for c in candidates if ask(field + ":disagreement",
+                                                      environment_statement(feature, c[0], c[2]), [c[0], c[1]]) is True]
+            if len(confirmed) == 1 and feature in context["environment"]:
+                response, scope, clauses = confirmed[0]
                 context["environment"][feature].update(
-                    response=confirmed[0][0], scope="explicit_category", condition="추가 조건 없음",
+                    response=response, scope=scope,
+                    condition="추가 조건 필요" if clauses else "추가 조건 없음",
                     explanation="두 판독이 엇갈려 제3 판독으로 확인한 반응.")
-                d["resolved"] = list(confirmed[0])
+                if clauses:
+                    context["environment"][feature]["condition_clauses"] = clauses
+                d["resolved"] = [response, scope]
 
     # 3) 핵심 과업의 과거 발견지
     for label, leaf in core["found_history"].items():

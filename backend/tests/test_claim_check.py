@@ -148,7 +148,38 @@ def test_rule_blocked_without_second_reading_is_restored_when_confirmed(sample, 
          'note_ids': ['N1'], 'cause': 'no_second_reading'},
         {'field': 'behavior_rules', 'rule': ['clock_night', 'persistence', 'wait_for_help'], 'in': 'draft',
          'note_ids': ['N2'], 'cause': 'no_second_reading'}])
-    _answers(monkeypatch, {'낮(': True, '밤(': False})
+    asked = _answers(monkeypatch, {'서로 다르게': True, '낮(': True, '밤(': False})
     out = claim_check.verify(parsed, _payload(sample))
     assert out['context']['behavior_rules'] == [
         {'period': 'clock_day', 'dimension': 'persistence', 'value': 'keep_moving', 'note_ids': ['N1']}]
+    assert sum(claim_check.DIFFERS == x for x in asked) == 1   # 낮밤 차이는 사례당 한 번만 묻는다
+
+
+def test_rule_needs_a_stated_day_night_difference(sample, monkeypatch):
+    """7회차 H5: 한 문장에 '낮밤이 다르고, 낮에는 계속 걷는다'를 합치면 뒤 절만 보고 '예'라 답했다.
+    낮밤 차이를 따로 물어 '아니오'면 규칙을 두지도, 되살리지도 않는다."""
+    parsed = _parsed(sample, context_disagreements=[
+        {'field': 'behavior_rules', 'rule': ['clock_day', 'persistence', 'keep_moving'], 'in': 'draft',
+         'note_ids': ['N1'], 'cause': 'no_second_reading'}])
+    parsed['context']['behavior_rules'] = [
+        {'period': 'clock_night', 'dimension': 'direction', 'value': 'retrace', 'note_ids': ['N0']}]
+    asked = _answers(monkeypatch, {'서로 다르게': False, '낮(': True, '밤(': True})
+    out = claim_check.verify(parsed, _payload(sample))
+    assert 'behavior_rules' not in out['context']
+    assert asked == [claim_check.DIFFERS]   # 차이가 없으면 시간대 행동은 묻지 않는다
+    assert '낮과 밤' not in claim_check.rule_statement('clock_day', 'keep_moving')
+
+
+def test_conditional_reaction_disagreement_is_restored_with_its_condition(sample, monkeypatch):
+    """7회차 H12: 초안 '붐비는 장날 시장 회피'(조건부)와 재검토 unknown 이 엇갈려 막혔다.
+    조건식까지 넣은 문장을 제3 판독이 인정하면 조건부 반응으로 되살린다."""
+    clauses = [[{'signal': 'crowded', 'state': 'present'}]]
+    parsed = _parsed(sample, context_disagreements=[
+        {'field': 'environment.market', 'draft': ['avoid', 'conditional_category'], 'review': ['unknown', 'unknown'],
+         'draft_clauses': clauses, 'review_clauses': []}])
+    asked = _answers(monkeypatch, {'사람이 많을 때에는 피하거나': True})
+    out = claim_check.verify(parsed, _payload(sample))
+    market = out['context']['environment']['market']
+    assert (market['response'], market['scope'], market['condition']) == ('avoid', 'conditional_category', '추가 조건 필요')
+    assert market['condition_clauses'] == clauses
+    assert asked == ['대상자는 시장에서 사람이 많을 때에는 피하거나 빠져나오는 편이다.']

@@ -114,9 +114,9 @@ def soft_clean(z, payload):
  def fix(path,leaf,empty):
   if not isinstance(leaf,dict) or not isinstance(leaf.get('note_ids'),list) or 'value' not in leaf:
    return
-  kept=[i for i in leaf['note_ids'] if i in ids]
+  kept=list(dict.fromkeys(i for i in leaf['note_ids'] if i in ids))
   if kept!=leaf['note_ids']:
-   dropped.append({'field':path,'reason':'unknown_note_ids'})
+   dropped.append({'field':path,'reason':'unknown_note_ids' if set(kept)!=set(leaf['note_ids']) else 'duplicate_note_ids'})
    leaf['note_ids']=kept
   if leaf['value'] not in ('unknown',empty) and not kept:
    dropped.append({'field':path,'reason':'uncited_claim','value':leaf['value']})
@@ -131,7 +131,7 @@ def soft_clean(z, payload):
  if isinstance(z.get('other_traits'),list):
   kept_traits=[]
   for trait in z['other_traits']:
-   cited=[i for i in trait.get('note_ids',[]) if i in ids] if isinstance(trait,dict) and isinstance(trait.get('note_ids'),list) else []
+   cited=list(dict.fromkeys(i for i in trait['note_ids'] if i in ids)) if isinstance(trait,dict) and isinstance(trait.get('note_ids'),list) else []
    if cited:
     kept_traits.append({**trait,'note_ids':cited})
    else:

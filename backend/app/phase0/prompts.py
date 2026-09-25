@@ -448,12 +448,32 @@ def build_situation_link_input(situation: str, places: list[dict]) -> str:
 위 JSON 하나만 출력."""
 
 
+def _link_objects(raw: str) -> list | None:
+    """'links' 배열 안의 객체만 하나씩 읽는다 — 7회차 H10 '{...}.]}' 처럼 객체 사이 문자 하나로
+    전체가 깨진 응답에서 객체 자체는 온전하면 살린다. 형식 복구일 뿐 내용은 해석하지 않는다."""
+    start = raw.find('"links"')
+    if start < 0:
+        return None
+    decoder, items, i = json.JSONDecoder(), [], raw.find("[", start)
+    if i < 0:
+        return None
+    while True:
+        i = raw.find("{", i)
+        if i < 0:
+            return items
+        try:
+            obj, i = decoder.raw_decode(raw, i)
+        except json.JSONDecodeError:
+            return None
+        items.append(obj)
+
+
 def parse_situation_link(raw: str, labels: list[str]) -> list[dict] | None:
     """링크 응답 → [{place, relation, quote}]. 해석 실패는 None, 등록 밖 이름·모르는 관계는 버린다."""
     try:
         data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
     except (ValueError, json.JSONDecodeError):
-        return None
+        data = {"links": _link_objects(raw)}
     items = data.get("links") if isinstance(data, dict) else None
     if not isinstance(items, list):
         return None

@@ -100,7 +100,8 @@ def soft_clean(z, payload):
     ids={n['id'] for n in evidence_notes(payload)}
 
     def cited(leaf):
-        return [i for i in leaf.get('note_ids',[]) if i in ids] if isinstance(leaf.get('note_ids'),list) else []
+        # 순서를 지킨 중복 제거 — K 가 같은 번호를 반복 생성하는 경우가 있다(4회차 H7: 663개)
+        return list(dict.fromkeys(i for i in leaf['note_ids'] if i in ids)) if isinstance(leaf.get('note_ids'),list) else []
 
     def typed(leaf, kind, field, value):
         """Pop K's situation typing; True when a cited note has an admissible situation."""
@@ -194,7 +195,8 @@ def agree(draft, review):
             out['environment'][feature]={'response':'unknown','condition':'조건 미확인',
                 'note_ids':sorted(set(de['note_ids'])|set(e['note_ids'])),'scope':'unknown',
                 'explanation':'두 해석이 일치하지 않아 적용 보류.'}
-            disagreements.append({'field':'environment.'+feature,'draft':[de['response'],de['scope']],'review':[e['response'],e['scope']]})
+            disagreements.append({'field':'environment.'+feature,'draft':[de['response'],de['scope']],'review':[e['response'],e['scope']],
+                                  'draft_clauses':de.get('condition_clauses',[]),'review_clauses':e.get('condition_clauses',[])})
     db,rb=draft.get('baseline_direction'),review.get('baseline_direction')
     if db is not None and rb is not None and db['value']!=rb['value']:
         out['baseline_direction']={'value':'unknown','note_ids':sorted(set(db['note_ids'])|set(rb['note_ids']))}
