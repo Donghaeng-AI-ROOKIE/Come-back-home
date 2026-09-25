@@ -330,7 +330,7 @@ def test_other_traits_are_preserved_with_type_and_source(sample):
     assert 'trait.transport_use' in out.initial_interpretation['coverage']['N1']
 
 
-def test_context_review_replaces_unreviewed_context_draft(sample,monkeypatch):
+def test_context_review_addition_is_not_injected_without_agreement(sample,monkeypatch):
     payload=initial_behavior.build_payload(sample[0],None,[],None)
     reviewed=copy.deepcopy(sample[-1])
     reviewed['environment']['water'].update(response='approach',scope='explicit_category',
@@ -342,7 +342,8 @@ def test_context_review_replaces_unreviewed_context_draft(sample,monkeypatch):
         return {'choices':[{'finish_reason':'stop','message':{'content':json.dumps(parsed)}}]}
     monkeypatch.setattr(initial_person,'logged_json_request',fake)
     result=initial_person.interpret(payload)
-    assert result['context']['environment']['water']['response']=='approach'
+    assert result['context']['environment']['water']['response']=='unknown'
+    assert result['audit']['context_disagreements'][0]['field']=='environment.water'
     draft=json.loads(seen['initial_person_context_review']['messages'][-1]['content'])['draft']
     assert draft['status']=='unverified_model_interpretation'
     assert draft['content']['environment']['water']['spatial_scope']=='unknown'
@@ -364,3 +365,90 @@ def test_sar_incident_levels_tilt_prepared_weights(sample):
     assert tilted.attraction_weights['공원']>tilted.attraction_weights['시장']
     trace=tilted.initial_interpretation['projection_trace']
     assert {'consumer':'attraction_weights','incident_levels_from_sar':{'공원':'상','시장':'하'}} in trace
+
+
+
+def respond(obj,finish='stop'):
+    return {'choices':[{'finish_reason':finish,'message':{'content':json.dumps(obj) if finish=='stop' else ' '*50}}]}
+
+
+def test_uncited_core_claim_is_dropped_not_fatal(sample):
+    from app.llm import person_evidence
+    payload=initial_behavior.build_payload(sample[0],None,[],None)
+    core=person_evidence.request_schema(payload)
+    z={'goals':{'공원':{'value':'habitual_visit','period':'unspecified','note_ids':['N2']},'시장':{'value':'unknown','period':'unspecified','note_ids':[]}},
+       'routes':{'공원':{'value':'routine_independent','note_ids':[]},'시장':{'value':'unknown','note_ids':[]}},
+       'found_history':{'공원':{'value':'found_here','note_ids':['N9']},'시장':{'value':'not_reported','note_ids':[]}},
+       'mobility':{'value':'C','note_ids':['N1']},'emotion':{'value':'unknown','note_ids':[]},
+       'other_traits':[{'type':'transport_use','period':'unspecified','note_ids':[]}]}
+    assert set(z)==set(core['properties'])
+    cleaned,dropped=person_evidence.soft_clean(z,payload)
+    parsed=person_evidence.validate(respond(cleaned),payload)
+    assert parsed['goals']['공원']['value']=='habitual_visit'
+    assert parsed['routes']['공원']['value']=='unknown' and parsed['found_history']['공원']['value']=='not_reported'
+    assert parsed['other_traits']==[]
+    assert {d['field'] for d in dropped}=={'routes.공원','found_history.공원','other_traits'}
+
+
+def test_uncited_context_claims_and_unknown_rules_are_dropped(sample):
+    payload=initial_behavior.build_payload(sample[0],None,[],None)
+    z={'persistence':{'evidence':'conflicting','pattern':'unresolved','value':'unknown','note_ids':[]},
+       'environment':{f:{'response':'unknown','condition':'unknown','note_ids':[],'condition_clauses':[],'spatial_scope':'unknown'} for f in ('water','forest','park','market')},
+       'baseline_direction':{'value':'retrace','note_ids':[]},
+       'behavior_rules':[{'period':'clock_day','dimension':'direction','value':'unknown','note_ids':[]},
+                         {'period':'clock_night','dimension':'persistence','value':'keep_moving','note_ids':['N0']},
+                         {'period':'clock_night','dimension':'persistence','value':'same_heading','note_ids':['N0']}]}
+    z['environment']['market'].update(response='avoid',spatial_scope='category',condition='none',note_ids=[])
+    cleaned,dropped=person_scope.soft_clean(z,payload)
+    parsed=person_scope.validate(respond(cleaned),payload)
+    assert parsed['persistence']['evidence']=='missing' and parsed['environment']['market']['response']=='unknown'
+    assert parsed['baseline_direction']['value']=='unknown'
+    assert parsed['behavior_rules']==[{'period':'clock_night','dimension':'persistence','value':'keep_moving','note_ids':['N0']}]
+    assert [d['field'] for d in dropped]==['persistence','environment.market','baseline_direction','behavior_rules']
+
+
+def test_context_agreement_keeps_shared_claims_and_blocks_changes(sample):
+    draft=copy.deepcopy(sample[-1])
+    draft['persistence'].update(evidence='supported',pattern='conditional',value='unknown',note_ids=['N0'])
+    draft['baseline_direction']={'value':'unknown','note_ids':[]}
+    draft['behavior_rules']=[{'period':'clock_night','dimension':'persistence','value':'keep_moving','note_ids':['N0']},
+                             {'period':'clock_day','dimension':'persistence','value':'wait_for_help','note_ids':['N0']}]
+    draft['environment']['water'].update(response='approach',scope='explicit_category',condition='추가 조건 없음',note_ids=['N1'])
+    review=copy.deepcopy(draft)
+    review['behavior_rules']=draft['behavior_rules'][:1]
+    review['baseline_direction']={'value':'same_heading','note_ids':['N0']}
+    out,dis=person_scope.agree(draft,review)
+    assert out['behavior_rules']==draft['behavior_rules'][:1]
+    assert out['environment']['water']['response']=='approach'
+    assert out['baseline_direction']['value']=='unknown'
+    assert {d['field'] for d in dis}=={'behavior_rules','baseline_direction'}
+
+
+def test_failed_core_draft_falls_back_to_review_without_extra_request(sample,monkeypatch):
+    payload=initial_behavior.build_payload(sample[0],None,[],None)
+    calls=[]
+    def fake(url,body,**kwargs):
+        calls.append(kwargs['role'])
+        if kwargs['role']=='initial_person_core':
+            return respond(None,finish='length')
+        parsed=sample[-1] if 'context' in kwargs['role'] else sample[-2]
+        return respond(parsed)
+    monkeypatch.setattr(initial_person,'logged_json_request',fake)
+    result=initial_person.interpret(payload)
+    assert result['core']==sample[-2] and len(calls)==4
+    assert result['audit']['fallbacks']==['core_draft_failed:ValueError']
+
+
+def test_failed_context_review_keeps_draft_claims_out_of_engine(sample,monkeypatch):
+    payload=initial_behavior.build_payload(sample[0],None,[],None)
+    drafted=copy.deepcopy(sample[-1])
+    drafted['environment']['water'].update(response='approach',scope='explicit_category',condition='추가 조건 없음',note_ids=['N1'])
+    def fake(url,body,**kwargs):
+        if kwargs['role']=='initial_person_context_review':
+            return respond(None,finish='length')
+        return respond(drafted if kwargs['role']=='initial_person_context' else sample[-2])
+    monkeypatch.setattr(initial_person,'logged_json_request',fake)
+    result=initial_person.interpret(payload)
+    assert result['context']['environment']['water']['response']=='unknown'
+    assert result['audit']['fallbacks']==['context_review_failed:ValueError']
+    assert result['audit']['context_disagreements'][0]['cause']=='no_second_reading'

@@ -16,7 +16,7 @@ from app import storage
 from app.config import settings
 from app.llm import initial_behavior, person_evidence
 
-VERSION = "onboarding-person-v2"
+VERSION = "onboarding-person-v3"
 _jobs = queue.Queue()
 _start_lock = threading.Lock()
 _started = False
@@ -81,6 +81,7 @@ def run_job(persona_id, job_id):
         payload=initial_behavior.build_payload(snapshot,None,research,None)
         parsed=initial_person.interpret(payload)
         prepared={'version':VERSION,'fingerprint':key,'core':parsed['core'],'scope':parsed['context'],
+                  'audit':parsed.get('audit',{}),
                   'retrieval_audit':payload['retrieval_audit'],'prepared_at':datetime.now().isoformat(),
                   'profile_snapshot_at':snapshot.initial_preparation_status['updated_at'],'persona_version':snapshot.version}
         state='ready';error=None
@@ -173,6 +174,7 @@ def _apply_prepared(persona, report, sar, default):
         prepared_outside_prediction=True,K_called_during_prediction=False,
         preparation_fingerprint=saved['fingerprint'],profile_snapshot_at=saved.get('profile_snapshot_at'),
         goal_temporality='recurring goals kept in their clock period; single reports before the incident treated as historical',
-        registered_before_incident=registered_before_incident,behavior_rules=rules,selected_clock_period=period,
+        registered_before_incident=registered_before_incident,preparation_audit=saved.get('audit',{}),
+        behavior_rules=rules,selected_clock_period=period,
         clock_period_definition='Asia/Seoul 06:00–18:00 clock_day; otherwise clock_night; not observed brightness')
     return result

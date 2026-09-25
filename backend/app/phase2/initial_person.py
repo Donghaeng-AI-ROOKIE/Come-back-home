@@ -7,6 +7,7 @@ configured credentials enable the candidate; provider/contract failures remain v
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
+import json
 import logging
 import uuid
 
@@ -53,17 +54,33 @@ def refine(persona, report, sar, default):
         return status("fallback_to_sar", error_type=type(exc).__name__)
 
 
-def interpret(payload):
-    """Four logged K requests; used asynchronously before an incident.
+def _empty_context(payload, reason):
+    """Stored-form context with no personal claim, for a missing or failed context task."""
+    ctx = {"persistence": {"evidence": "missing", "pattern": "unresolved", "value": "unknown",
+                           "note_ids": [], "explanation": reason},
+           "environment": {f: {"response": "unknown", "condition": "조건 미확인", "note_ids": [],
+                               "scope": "unknown", "explanation": reason}
+                           for f in ("water", "forest", "park", "market")}}
+    if payload["incident"].get("status") == "not_reported":
+        ctx["baseline_direction"] = {"value": "unknown", "note_ids": []}
+    return ctx
 
-    Core and context drafts are independent. Each draft is then re-judged against the
-    guardian's original notes before anything reaches the engine; the context review
-    exists because unreviewed context drafts produced most engine-visible errors (v47).
+
+def interpret(payload):
+    """At most four logged K requests; used asynchronously before an incident.
+
+    Core and context drafts are independent; each is re-judged against the guardian's
+    notes. The core review replaces its draft. Context claims reach the engine only when
+    draft and review agree, because a lone context reading produced most engine-visible
+    errors (v47) and a review alone added new ones (v48 dev). Claims without a cited note
+    are dropped item by item instead of voiding the preparation; every drop, disagreement
+    and fallback is kept in the returned audit.
     """
     base = settings.kexaone_base_url.rstrip("/")
     url = base if base.endswith("/chat/completions") else base + (
         "/chat/completions" if base.endswith("/v1") else "/v1/chat/completions")
     run_id = "initial-person:" + str(uuid.uuid4())
+    audit = {"dropped": [], "context_disagreements": [], "fallbacks": []}
 
     def call(role, body):
         return logged_json_request(url, body,
@@ -72,24 +89,62 @@ def interpret(payload):
             run_id=run_id, logical_request_id=run_id + ":" + role, timeout=settings.kexaone_timeout,
             ledger_path=settings.research_usage_ledger_path, max_started=4)
 
-    drafts = {"core": (person_evidence, "initial_person_core"),
-              "context": (person_scope, "initial_person_context")}
+    def checked(contract, cleaner, role, body):
+        response = call(role, body)
+        choice = response["choices"][0]
+        if choice.get("finish_reason") == "stop":
+            z, dropped = cleaner(initial_behavior.decode_json_content(choice["message"].get("content")), payload)
+            audit["dropped"] += [{**d, "task": role} for d in dropped]
+            response = {"choices": [{"finish_reason": "stop",
+                                     "message": {"content": json.dumps(z, ensure_ascii=False)}}]}
+        return contract.validate(response, payload)
 
-    def draft(item):
-        group, (contract, role) = item
-        return group, contract.validate(call(role, contract.request(payload, settings.kexaone_model)), payload)
+    def attempt(fn):
+        try:
+            return fn()
+        except Exception as exc:  # type only; provider text can contain personal content
+            return exc
 
+    model = settings.kexaone_model
     with ThreadPoolExecutor(max_workers=2) as pool:
-        parsed = dict(pool.map(draft, drafts.items()))
+        core_f = pool.submit(attempt, lambda: checked(person_evidence, person_evidence.soft_clean,
+            "initial_person_core", person_evidence.request(payload, model)))
+        ctx_f = pool.submit(attempt, lambda: checked(person_scope, person_scope.soft_clean,
+            "initial_person_context", person_scope.request(payload, model)))
+        core_draft, ctx_draft = core_f.result(), ctx_f.result()
+    for name, value in (("core_draft", core_draft), ("context_draft", ctx_draft)):
+        if isinstance(value, Exception):
+            audit["fallbacks"].append(f"{name}_failed:{type(value).__name__}")
 
     def review_core():
-        body = person_audit.request(payload, parsed['core'], settings.kexaone_model, context=parsed['context'])
-        return person_audit.validate(call("initial_person_semantic_audit", body), payload)
+        draft = {} if isinstance(core_draft, Exception) else core_draft
+        context = None if isinstance(ctx_draft, Exception) else ctx_draft
+        return checked(person_audit, person_evidence.soft_clean, "initial_person_semantic_audit",
+                       person_audit.request(payload, draft, model, context=context))
 
     def review_context():
-        body = person_scope.review_request(payload, parsed['context'], settings.kexaone_model)
-        return person_scope.validate(call("initial_person_context_review", body), payload)
+        return checked(person_scope, person_scope.soft_clean, "initial_person_context_review",
+                       person_scope.review_request(payload, ctx_draft, model))
 
     with ThreadPoolExecutor(max_workers=2) as pool:
-        core, context = pool.submit(review_core), pool.submit(review_context)
-        return {"core": core.result(), "context": context.result()}
+        core_r = pool.submit(attempt, review_core)
+        ctx_r = None if isinstance(ctx_draft, Exception) else pool.submit(attempt, review_context)
+        core_review = core_r.result()
+        ctx_review = ctx_r.result() if ctx_r else None
+
+    if not isinstance(core_review, Exception):
+        core = core_review
+    elif not isinstance(core_draft, Exception):
+        audit["fallbacks"].append(f"core_review_failed:{type(core_review).__name__}")
+        core = core_draft
+    else:
+        raise core_review
+    if isinstance(ctx_draft, Exception):
+        context = _empty_context(payload, "조건 과업 실패로 미확인.")
+    elif ctx_review is None or isinstance(ctx_review, Exception):
+        audit["fallbacks"].append("context_review_failed" + (f":{type(ctx_review).__name__}" if ctx_review else ""))
+        context, disagreements = person_scope.agree(ctx_draft, _empty_context(payload, "재검토 실패로 적용 보류."))
+        audit["context_disagreements"] = [{**d, "cause": "no_second_reading"} for d in disagreements]
+    else:
+        context, audit["context_disagreements"] = person_scope.agree(ctx_draft, ctx_review)
+    return {"core": core, "context": context, "audit": audit}

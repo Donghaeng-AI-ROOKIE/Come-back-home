@@ -99,4 +99,45 @@ def validate(response,payload):
    raise ValueError('trait_without_source')
  return z
 
-VERSION = "person-evidence-v48-temporal-review"
+def soft_clean(z, payload):
+ """Drop only the claims that cite no guardian note, before strict validation.
+
+ An uncited value becomes unknown/not_reported and is recorded, so one omission no
+ longer voids the whole preparation. Nothing here reads guardian words; it checks the
+ model's own note ids against the notes it was given.
+ """
+ dropped=[]
+ if not isinstance(z,dict):
+  return z,dropped
+ ids={n['id'] for n in evidence_notes(payload)}
+
+ def fix(path,leaf,empty):
+  if not isinstance(leaf,dict) or not isinstance(leaf.get('note_ids'),list) or 'value' not in leaf:
+   return
+  kept=[i for i in leaf['note_ids'] if i in ids]
+  if kept!=leaf['note_ids']:
+   dropped.append({'field':path,'reason':'unknown_note_ids'})
+   leaf['note_ids']=kept
+  if leaf['value'] not in ('unknown',empty) and not kept:
+   dropped.append({'field':path,'reason':'uncited_claim','value':leaf['value']})
+   leaf['value']=empty
+   if 'period' in leaf:
+    leaf['period']='unspecified'
+ for section,empty in (('goals','unknown'),('routes','unknown'),('found_history','not_reported')):
+  for label,leaf in (z.get(section) or {}).items():
+   fix(section+'.'+label,leaf,empty)
+ for key in ('persistence','direction','mobility','emotion'):
+  fix(key,z.get(key),'unknown')
+ if isinstance(z.get('other_traits'),list):
+  kept_traits=[]
+  for trait in z['other_traits']:
+   cited=[i for i in trait.get('note_ids',[]) if i in ids] if isinstance(trait,dict) and isinstance(trait.get('note_ids'),list) else []
+   if cited:
+    kept_traits.append({**trait,'note_ids':cited})
+   else:
+    dropped.append({'field':'other_traits','reason':'uncited_trait','type':trait.get('type') if isinstance(trait,dict) else None})
+  z['other_traits']=kept_traits[:MAX_TRAITS]
+ return z,dropped
+
+
+VERSION = "person-evidence-v49-agreement"
