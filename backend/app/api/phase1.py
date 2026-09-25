@@ -3,7 +3,8 @@
 from datetime import datetime
 
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from app.schemas.environment import EnvironmentObservation
 
 from app import storage
 from app.phase1 import intake
@@ -27,6 +28,7 @@ class CreateReportIn(BaseModel):
     # 규칙 기반으로 추출한다. 사진·문서 첨부는 받지 않는다(2026-08-07 결정 —
     # 실제로 동작한 적 없는 스텁이었다).
     appearance: Appearance | None = None
+    environment_observations: list[EnvironmentObservation] = Field(default_factory=list, max_length=100)
 
 
 @router.post("/reports", response_model=Case)
@@ -38,6 +40,7 @@ def create_report(body: CreateReportIn):
         persona_id=body.persona_id,
         situation=body.situation,
         appearance=body.appearance,
+        environment_observations=body.environment_observations,
     )
 
 

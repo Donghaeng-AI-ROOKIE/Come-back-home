@@ -1,0 +1,16 @@
+{
+  "self_hosted_vLLM": {
+    "requests": 2,
+    "reported_total_tokens": 3817,
+    "actual_cost": null,
+    "unit_price": null,
+    "support_round": null
+  },
+  "FriendliAI": {
+    "requests": 6,
+    "reported_total_tokens": 52199,
+    "actual_cost": null,
+    "unit_price": null,
+    "support_round": null
+  }
+}

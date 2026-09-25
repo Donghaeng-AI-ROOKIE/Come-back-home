@@ -77,7 +77,7 @@ def list_slots(persona_type: PersonaType | None = None):
 
 # axis_quotes = 보호자 원발화 그대로(quote 검증용 내부 값) — 프론트가 쓸 일이 없어
 # API 응답에서 제외한다. 저장·파기·채점 로직에는 영향 없음(응답 스키마만 필터링).
-_PERSONA_EXCLUDE = {"axis_quotes"}
+_PERSONA_EXCLUDE = {"axis_quotes", "onboarding_quotes"}
 
 
 @router.post("/personas", response_model=Persona, response_model_exclude=_PERSONA_EXCLUDE)
@@ -90,7 +90,7 @@ def register_persona(body: RegisterPersonaIn):
     )
 
 
-@router.get("/personas", response_model=list[Persona], response_model_exclude=_PERSONA_EXCLUDE)
+@router.get("/personas", response_model=list[Persona], response_model_exclude={"__all__": _PERSONA_EXCLUDE})
 def list_personas(guardian_id: str | None = None):
     """이 보호자가 등록한 가족만 — 보호자 홈의 '사전 등록된 가족'.
 

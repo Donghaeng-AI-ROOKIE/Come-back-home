@@ -6,6 +6,7 @@ from enum import Enum
 from pydantic import BaseModel, Field, model_validator
 
 from app.schemas.common import GeoPoint
+from app.schemas.environment import EnvironmentCondition
 
 
 class PersonaType(str, Enum):
@@ -98,6 +99,17 @@ class EnvResponse(BaseModel):
     feature: str        # water | forest | park | market (envlayer 카테고리)
     direction: str      # "접근" | "회피"
     strength: float     # 0.1~0.9 — 등급을 코드가 매핑한 값
+    # OR of AND clauses. Empty outer list is the legacy unconditional response.
+    condition_clauses: list[list[EnvironmentCondition]] = Field(default_factory=list, max_length=4)
+
+    @model_validator(mode="after")
+    def valid_conditions(self):
+        for clause in self.condition_clauses:
+            if not clause or len(clause) > 4:
+                raise ValueError("empty or oversized condition clause")
+            if len({c.signal for c in clause}) != len(clause):
+                raise ValueError("duplicate/contradictory condition signal")
+        return self
 
 
 class Persona(BaseModel):
@@ -116,6 +128,9 @@ class Persona(BaseModel):
     # 축별 보호자 원발화 — Mi:dm 재서술 노트(axis_evidence)의 정보 손실을 우회하는
     # 채점 1차 근거 (골드셋 실험: 원문 quote 검증이 환각 필터로 작동).
     axis_quotes: dict[str, list[str]] = {}
+    # 축이 없는 일상 목적지·실종 대처 슬롯도 원문을 잃지 않는다.
+    # 신규 K 초기 해석의 입력. API 표시용 요약과 분리하며 Persona와 함께 파기.
+    onboarding_quotes: dict[str, list[str]] = {}
     # 축 점수(0.1~0.9) — phase0.axis_scoring 이 채움. F(판정 불가)·근거 없음 축은
     # 키 자체가 없다 → Phase 2 는 없는 축을 유형 기본 prior 로 폴백.
     # 리포트의 축별 F·quote 실패 카운트 = 앞단 추출 품질 감시 지표.

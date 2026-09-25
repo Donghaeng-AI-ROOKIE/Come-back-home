@@ -1,0 +1,14 @@
+{
+  "content": "{\"goals\":{\"시장\":{\"value\":\"unknown\",\"note_ids\":[\"N3\"]},\"공원\":{\"value\":\"unknown\",\"note_ids\":[\"N2\"]},\"복지관\":{\"value\":\"unknown\",\"note_ids\":[\"N2\"]}},\"routes\":{\"시장\":{\"value\":\"unknown\",\"note_ids\":[\"N3\"]},\"공원\":{\"value\":\"unknown\",\"note_ids\":[\"N2\"]},\"복지관\":{\"value\":\"unknown\",\"note_ids\":[\"N2\"]}},\"persistence\":{\"value\":\"alternating\",\"note_ids\":[\"N0\"]},\"direction\":{\"value\":\"same_heading\",\"note_ids\":[\"N1\"]},\"mobility\":{\"value\":\"C\",\"note_ids\":[\"N2\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]}}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6118,
+    "prompt_tokens": 2562,
+    "prompt_tokens_details": {
+      "cached_tokens": 1760
+    },
+    "total_tokens": 8680
+  },
+  "model": "depmkuykpfon9lg",
+  "note": "Provider response content preserved. Request, RAG full text, reasoning channel and credentials excluded."
+}

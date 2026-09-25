@@ -1,0 +1,24 @@
+{
+  "backend_tests": {
+    "passed": 941,
+    "skipped": 2,
+    "warnings": 1,
+    "seconds": 35.22,
+    "command": "pytest -q tests --ignore=tests/test_person_model_service.py --ignore=tests/test_person_plan.py --ignore=tests/test_person_representation.py",
+    "excluded_reason": "pre-existing unrelated untracked prototypes; not included in this PR"
+  },
+  "live_v41": {
+    "cases_pass": 2,
+    "cases": 2,
+    "K_calls": 6,
+    "SAR_calls": 2,
+    "condition_clauses_present": false
+  },
+  "new_condition_contract": {
+    "offline_tested": true,
+    "new_live_API_calls": 0,
+    "real_time_crowd_provider": false
+  },
+  "deployment": false,
+  "training": false
+}

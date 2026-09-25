@@ -16,7 +16,8 @@ from time import perf_counter
 from app import storage
 from app.config import settings
 from app.llm import exaone
-from app.phase2 import combine, radius, simulation, topdown
+from app.phase2 import combine, radius, simulation, topdown, initial_person
+from app.llm.initial_behavior import simulation_persona
 from app.schemas.case import Case, CaseStatus
 from app.schemas.debug import PredictionDebug, SimTrace
 from app.schemas.prediction import MindState, POA, PredictionResult
@@ -91,6 +92,13 @@ def run_prediction(
                   and exaone.call_log[-1]["kind"] == "prior" else None)
     _lap("prior_ms")
 
+    # 온보딩 맥락 + SAR/RAG → K가 최종 초기 행동을 해석한다.
+    # 보호자 사실은 저장소에 그대로 두고 사건별 추정 사본을 두 MC에 같이 전달.
+    prior = initial_person.refine(persona, case.report, prior,
+                                 exaone._default_prior(persona, case.report))
+    persona = simulation_persona(persona, prior)
+    _lap("initial_person_ms")
+
     # 마음 상태 초기화 (이후 제보의 심리 단서로 갱신됨)
     mind = case.mind or MindState()
 
@@ -103,10 +111,12 @@ def run_prediction(
     _lap("topdown_ms")
     poa_bu = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed,
-        trace=sim_trace)
+        trace=sim_trace, environment_observations=case.report.environment_observations,
+        started_at=case.lkp_time)
     _lap("bottomup_ms")
     poa_stat = simulation.run_monte_carlo(
-        case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed)
+        case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed,
+        environment_observations=case.report.environment_observations, started_at=case.lkp_time)
     _lap("statistical_ms")
 
     # ③ α-pool 통합 — bottom-up·statistical 2-way. bottom-up 이 AI 개인화가 있는
@@ -175,11 +185,14 @@ def poa_at_elapsed(case: Case, elapsed_hours: float, *, seed: int | None = 42) -
         raise ValueError("prior 없음 — 먼저 예측을 실행해야 한다")
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     elapsed = max(elapsed_hours, 0.05)
+    persona = simulation_persona(persona, case.prior)
     net, _ = _load_roadnet(case, case.prior, persona, elapsed)
     mind = case.mind or MindState()
     bu = simulation.run_monte_carlo(
         case.lkp, case.prior, persona, elapsed, mode="agent", net=net,
-        mind=mind, seed=seed)
+        mind=mind, seed=seed,
+        environment_observations=case.report.environment_observations, started_at=case.lkp_time)
     stat = simulation.run_monte_carlo(
-        case.lkp, case.prior, persona, elapsed, mode="statistical", net=net, seed=seed)
+        case.lkp, case.prior, persona, elapsed, mode="statistical", net=net, seed=seed,
+        environment_observations=case.report.environment_observations, started_at=case.lkp_time)
     return combine.alpha_pool([bu, stat], alphas=[0.7, 0.3], mode="linear")

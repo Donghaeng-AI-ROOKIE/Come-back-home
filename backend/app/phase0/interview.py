@@ -2105,6 +2105,14 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
             axis_quotes=axis_quotes,
         )
 
+    # 축이 아닌 행동 슬롯의 원발화도 초기 행동 해석에 전달한다.
+    # 신원·집 주소 전용 답은 제외. 슬롯은 출처일 뿐 행동 분류 규칙이 아니다.
+    for key, quotes in session.slot_quotes.items():
+        if key in {"identity", "home"}:
+            continue
+        bucket = persona.onboarding_quotes.setdefault(key, [])
+        bucket.extend(q for q in quotes if q not in bucket)
+
     # completed_tiers — 이번 세션이 커버한 tier 를 합집합으로 반영. target_tiers 가
     # None(기존 흐름·create/scope=all)이면 3개 tier 전부 커버한 것으로 본다.
     covered = session.target_tiers if session.target_tiers is not None else [1, 2, 3]

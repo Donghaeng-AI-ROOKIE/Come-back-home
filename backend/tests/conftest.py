@@ -12,6 +12,7 @@ from pathlib import Path
 for _key in (
     "EXAONE_API_KEY", "EXAONE_BASE_URL", "EXAONE_MODEL",
     "MIDM_API_KEY", "MIDM_BASE_URL", "MIDM_MODEL",
+    "KEXAONE_API_KEY", "KEXAONE_BASE_URL", "KEXAONE_MODEL",
 ):
     os.environ[_key] = ""
 

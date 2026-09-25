@@ -1,0 +1,44 @@
+{
+  "destination_case": {
+    "baseline_attraction": {
+      "시장": 0.33333333333333337,
+      "공원": 0.33333333333333337,
+      "복지관": 0.33333333333333337
+    },
+    "final_attraction": {
+      "시장": 0.16666666666666669,
+      "공원": 0.5,
+      "복지관": 0.33333333333333337
+    },
+    "baseline_radius": {
+      "mu": 0.495,
+      "sigma": 1.48
+    },
+    "final_radius": {
+      "mu": -0.30500000000000005,
+      "sigma": 1.48
+    }
+  },
+  "OSM_v32_means": {
+    "welfare_retrace": {
+      "same_person_SAR": {
+        "mean_road_km": 3.053142392326082,
+        "mean_endpoint_km": 0.5132015334578728
+      },
+      "K_front": {
+        "mean_road_km": 2.8230470770665566,
+        "mean_endpoint_km": 0.5172711275109332
+      }
+    },
+    "changed_destination_capacity": {
+      "same_person_SAR": {
+        "mean_road_km": 3.4479436750866705,
+        "mean_endpoint_km": 0.6050467429968441
+      },
+      "K_front": {
+        "mean_road_km": 2.8616003630929563,
+        "mean_endpoint_km": 0.5385591142240335
+      }
+    }
+  }
+}

@@ -18,6 +18,7 @@ from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
 from app.schemas.report import Appearance, MissingReport
+from app.schemas.environment import EnvironmentObservation
 
 
 def create_report(
@@ -28,6 +29,7 @@ def create_report(
     persona_id: str | None = None,
     situation: str = "",
     appearance: Appearance | None = None,
+    environment_observations: list[EnvironmentObservation] | None = None,
 ) -> Case:
     """신고 접수 → Case 생성.
 
@@ -43,6 +45,7 @@ def create_report(
         lkp=lkp,
         lkp_time=lkp_time,
         situation=situation,
+        environment_observations=environment_observations or [],
         appearance=appearance.model_copy(deep=True) if appearance is not None else None,
     )
 

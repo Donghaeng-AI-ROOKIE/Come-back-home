@@ -28,6 +28,13 @@ class PriorParams(BaseModel):
     source: Literal["exaone", "fallback", "stub"] = "exaone"
     # 폴백 사유(예외 타입). source != "exaone" 일 때만 채워진다 — 운영 진단용.
     fallback_reason: str = ""
+    # Exact SAR strategy before legacy behavior_tendency, used once by K compilation.
+    # This contains numeric weights only; older persisted priors have no snapshot.
+    strategy_before_behavior: dict[str, float] = Field(default_factory=dict)
+    # K 초기 행동 해석과 실제 적용 내역. 원발화·API 원문은 저장하지 않는다.
+    initial_interpretation: dict = Field(default_factory=dict)
+    # 사건별 해석 결과. 등록된 보호자 사실을 덮어쓰지 않고 보행 입력에만 투영.
+    persona_adjustments: dict = Field(default_factory=dict)
 
 
 class MindState(BaseModel):

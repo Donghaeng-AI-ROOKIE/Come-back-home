@@ -154,7 +154,7 @@ def test_water_reaches_walker_movement(net, monkeypatch):
     real = gauges.env_response_weight
     monkeypatch.setattr(
         gauges, "env_response_weight",
-        lambda env, persona: seen.append(real(env, persona)) or seen[-1])
+        lambda env, persona, **kw: seen.append(real(env, persona, **kw)) or seen[-1])
     # 전 노드에 물가를 얹어 반응이 반드시 걸리게 한다
     monkeypatch.setattr(type(net), "env", lambda self, node: {"water_m": 15.0})
 

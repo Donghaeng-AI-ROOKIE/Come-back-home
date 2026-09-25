@@ -306,6 +306,8 @@ def _build_prior_input(persona: Persona | None, report: MissingReport) -> str:
     else:
         lines.append(f"- 유형: {_TYPE_LABEL[report.missing_type]} (사전 등록 정보 없음)")
     lines.append(f"- 실종 상황: {report.lkp_time:%H:%M} 마지막 목격")
+    if report.situation:
+        lines.append(f"- 신고된 출발 경위·상황(관찰과 추측 구분 필요): {report.situation}")
     return "\n".join(lines)
 
 
@@ -321,10 +323,28 @@ def _build_rag_query(persona: Persona | None, missing_type=None) -> str:
         return f"{label} 실종 시 이동 성향과 수색 범위"
     parts = [f"{_TYPE_LABEL[persona.type]} 실종자의 이동 성향, 배회 행동, 길찾기"]
     if persona.attraction_points:
-        parts.append("자주 가던 장소: "
-                     + ", ".join(ap.label for ap in persona.attraction_points[:4]))
-    if getattr(persona, "behavior_notes", None):
-        parts.append(" ".join(persona.behavior_notes[:3]))
+        # A registered candidate is not evidence of frequent visits or current intent.
+        parts.append("등록된 후보 장소(방문·의도 확인과 별개): "
+                     + ", ".join(ap.label for ap in persona.attraction_points))
+    # Lost-response observations often arrive after destination/route/body questions.
+    # Keeping only the first three notes silently omitted precisely that evidence.
+    # Preserve verbatim source text and deduplicate without semantic/keyword mapping.
+    notes = []
+    seen = set()
+    for groups in (getattr(persona, "onboarding_quotes", {}), persona.axis_quotes):
+        for slot, values in groups.items():
+            if slot in {"identity", "home", "consent"}:
+                continue
+            for text in values:
+                if text.strip() and text not in seen:
+                    notes.append(text)
+                    seen.add(text)
+    for text in persona.behavior_notes:
+        if text.strip() and text not in seen:
+            notes.append(text)
+            seen.add(text)
+    if notes:
+        parts.append("보호자 기록: " + " ".join(notes))
     return " / ".join(parts)
 
 
@@ -534,7 +554,8 @@ class ExaoneClient(LLMClient):
         # 축점수(phase0.axis_scoring) 반영 — 스텁이든 실호출이든 항상 실행.
         # 가드레일 안에만 넣으면 스텁 모드(로컬 개발 기본값)에서 효과가 안 보인다.
         axis_scores = persona.axis_scores if persona else {}
-        return guardrail.apply_axis_scores(prior, axis_scores, persona, default.radius_lognormal)
+        result = guardrail.apply_axis_scores(prior, axis_scores, persona, default.radius_lognormal)
+        return result.model_copy(update={"strategy_before_behavior": dict(prior.strategy_probs)})
 
     def _default_prior(self, persona: Persona | None, report: MissingReport) -> PriorParams:
         """프로파일 통계 기본값 — 스텁 모드이자 가드레일의 항목별 폴백 기준.
