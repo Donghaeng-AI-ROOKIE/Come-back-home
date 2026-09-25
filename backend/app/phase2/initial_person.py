@@ -72,15 +72,19 @@ def interpret(payload):
     Core and context drafts are independent; each is re-judged against the guardian's
     notes. The core review replaces its draft. Context claims reach the engine only when
     draft and review agree, because a lone context reading produced most engine-visible
-    errors (v47) and a review alone added new ones (v48 dev). Claims without a cited note
-    are dropped item by item instead of voiding the preparation; every drop, disagreement
-    and fallback is kept in the returned audit.
+    errors (v47) and a review alone added new ones (v48 dev). Every context claim must also
+    carry K's situation typing of its cited notes, and only admissible situations count
+    (person_scope.ADMISSIBLE). When the context draft itself fails, the fourth request judges
+    the notes afresh and its typed claims are used as a single reading (audited as such)
+    rather than dropping every context claim (v49: S9, S10). Claims without a cited note
+    are dropped item by item instead of voiding the preparation; every drop, disagreement,
+    typing and fallback is kept in the returned audit.
     """
     base = settings.kexaone_base_url.rstrip("/")
     url = base if base.endswith("/chat/completions") else base + (
         "/chat/completions" if base.endswith("/v1") else "/v1/chat/completions")
     run_id = "initial-person:" + str(uuid.uuid4())
-    audit = {"dropped": [], "context_disagreements": [], "fallbacks": []}
+    audit = {"dropped": [], "context_disagreements": [], "fallbacks": [], "context_basis": []}
 
     def call(role, body):
         return logged_json_request(url, body,
@@ -94,7 +98,9 @@ def interpret(payload):
         choice = response["choices"][0]
         if choice.get("finish_reason") == "stop":
             z, dropped = cleaner(initial_behavior.decode_json_content(choice["message"].get("content")), payload)
-            audit["dropped"] += [{**d, "task": role} for d in dropped]
+            # K's situation typing of kept claims is a record, not a drop.
+            audit["context_basis"] += [{**d, "task": role} for d in dropped if d.get("reason") == "basis"]
+            audit["dropped"] += [{**d, "task": role} for d in dropped if d.get("reason") != "basis"]
             response = {"choices": [{"finish_reason": "stop",
                                      "message": {"content": json.dumps(z, ensure_ascii=False)}}]}
         return contract.validate(response, payload)
@@ -123,14 +129,18 @@ def interpret(payload):
                        person_audit.request(payload, draft, model, context=context))
 
     def review_context():
+        # A failed draft is judged again from the guardian's notes alone (like the core review)
+        # instead of leaving the fourth request unused and every context claim unknown.
+        draft = (_empty_context(payload, "초안 없음 — 원문에서 새로 판단.")
+                 if isinstance(ctx_draft, Exception) else ctx_draft)
         return checked(person_scope, person_scope.soft_clean, "initial_person_context_review",
-                       person_scope.review_request(payload, ctx_draft, model))
+                       person_scope.review_request(payload, draft, model))
 
     with ThreadPoolExecutor(max_workers=2) as pool:
         core_r = pool.submit(attempt, review_core)
-        ctx_r = None if isinstance(ctx_draft, Exception) else pool.submit(attempt, review_context)
+        ctx_r = pool.submit(attempt, review_context)
         core_review = core_r.result()
-        ctx_review = ctx_r.result() if ctx_r else None
+        ctx_review = ctx_r.result()
 
     if not isinstance(core_review, Exception):
         core = core_review
@@ -139,10 +149,16 @@ def interpret(payload):
         core = core_draft
     else:
         raise core_review
-    if isinstance(ctx_draft, Exception):
+    if isinstance(ctx_draft, Exception) and isinstance(ctx_review, Exception):
         context = _empty_context(payload, "조건 과업 실패로 미확인.")
-    elif ctx_review is None or isinstance(ctx_review, Exception):
-        audit["fallbacks"].append("context_review_failed" + (f":{type(ctx_review).__name__}" if ctx_review else ""))
+        audit["fallbacks"].append(f"context_review_failed:{type(ctx_review).__name__}")
+    elif isinstance(ctx_draft, Exception):
+        # One reading only. Its claims already passed the typed-basis check in soft_clean;
+        # the audit marks them so single-reading claims can be judged separately.
+        context = ctx_review
+        audit["fallbacks"].append("context_single_reading")
+    elif isinstance(ctx_review, Exception):
+        audit["fallbacks"].append(f"context_review_failed:{type(ctx_review).__name__}")
         context, disagreements = person_scope.agree(ctx_draft, _empty_context(payload, "재검토 실패로 적용 보류."))
         audit["context_disagreements"] = [{**d, "cause": "no_second_reading"} for d in disagreements]
     else:

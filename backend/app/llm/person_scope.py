@@ -3,6 +3,16 @@ import json
 from app.llm.initial_behavior import _obj, _enum, _validate_shape, _unique, evidence_notes, SOURCE_PRECEDENCE, decode_json_content
 
 
+# Situation type of each cited note, judged by K before it picks a value. Code only checks
+# that a value's own typed basis is admissible for that value's definition (v49 dev:
+# both readings turned a bus trip into keep_moving/same_heading, and a neutral "doesn't
+# particularly like parks" into park avoidance, so agreement alone was not enough).
+SITUATIONS = ('lost_or_confused', 'encounter_reaction', 'routine_outing', 'destination_trip',
+              'preference_or_neutral', 'visit_or_range', 'physical_or_health', 'other')
+ADMISSIBLE = {'persistence': {'lost_or_confused'}, 'direction': {'lost_or_confused'},
+              'environment': {'encounter_reaction'}}
+
+
 def schema(payload):
     ids = [n['id'] for n in payload['notes']]
     arr = {'type':'array','items':_enum(ids) if ids else {'type':'string'}}
@@ -28,8 +38,9 @@ value: 이번 사건 조건에 적용할 wait_for_help/keep_moving/alternating/u
 environment는 물가 water, 숲 forest, 공원 park, 시장 market의 접근·회피를 나타낸다. response: approach/avoid/unknown. spatial_scope: place_specific=한 장소에 한정, category=장소와 무관하게 유형 전체에 적용, unknown=미확인. 공간 범위에는 조건 유무를 넣지 않는다. condition: present=추가 조건 필요, none=추가 조건 없음, unknown=조건 미확인.
 condition_clauses는 적용에 필요한 조건식이다. 바깥 배열은 OR, 안쪽 배열은 AND이다. 각 항은 signal(crowded/noisy), state(present/absent)다. 혼잡과 소음 모두 필요하면 같은 절, 둘 중 하나면 별도 절에 둔다. 조용함은 noisy absent로 해석하되 사람 없음으로 바꾸지 않는다. 원문이 AND/OR 또는 조건을 뒷받침하지 않거나 지원하지 않는 조건이면 빈 배열을 반환한다. 조건 없는 반응·unknown 반응도 빈 배열이다. 지원하지 않는 조건(예: 실제 어두움)이라 조건식을 만들 수 없더라도, 원문에서 확인된 회피/접근과 공간 범위는 보존하고 condition은 present, condition_clauses만 빈 배열로 둔다. 지원하지 않는 조건 때문에 알려진 반응을 unknown으로 지우지 않는다. 특정 장소에만 적용되는 반응도 조건식이 있으면 보존한다. response unknown이면 spatial_scope와 condition도 unknown으로 두고 condition_clauses는 비운다. 조건식은 개인 반응의 발동 조건이며 실제 장소가 혼잡하다는 관측이 아니다.
 environment는 물가·숲·공원·시장이라는 환경 자체에 대한 접근·회피 반응이다. 시장(market)은 사람과 상점이 밀집한 장터 환경을 뜻한다. 특정 가게나 목적지에 다니는 것, 신체 문제로 가지 않게 된 것, 그 환경에 가 본 적이 없는 것, 좋아하지도 싫어하지도 않는다는 진술, 한 번도 벗어난 적 없다는 행동 범위는 접근·회피 반응의 근거가 아니며 unknown이다. 유형 전체(category)는 원문이 장소와 무관하게 그 유형 전반에 반응한다고 말할 때만 쓴다.
-특정 목적지에 가려는 의도나 방문 이력은 같은 유형의 모든 환경을 좋아한다는 근거가 아니다. 유형 범위를 확대하지 않고 조건을 유지한다. 관찰하지 못했다는 것은 행동이 없다는 뜻이 아니다. 관련 N ID만 연결하며 없는 행동·조건·시점을 만들지 않는다.'''
-    s=request_schema(payload, separated=True)
+특정 목적지에 가려는 의도나 방문 이력은 같은 유형의 모든 환경을 좋아한다는 근거가 아니다. 유형 범위를 확대하지 않고 조건을 유지한다. 관찰하지 못했다는 것은 행동이 없다는 뜻이 아니다. 관련 N ID만 연결하며 없는 행동·조건·시점을 만들지 않는다.
+basis_situations: 값을 정하기 전에, 그 값에 연결한 각 근거 원문이 어떤 상황의 기록인지 먼저 적는다(note_id, situation). lost_or_confused=길을 잃었거나 혼란스러운 상황에서의 행동(그런 상황에서 보통 어떻게 한다는 진술 포함), encounter_reaction=물가·숲·공원·시장을 마주쳤을 때 다가가거나 피한 반응, routine_outing=평소 외출·산책·늘 다니는 길, destination_trip=목적지를 향한 이동·교통수단 이용, preference_or_neutral=좋고 싫음 또는 특별한 반응이 없다는 진술, visit_or_range=가 본 적 있음·없음·다니는 범위, physical_or_health=신체·건강 제약, other=그 밖. persistence·baseline_direction·behavior_rules의 값은 lost_or_confused 근거가 있을 때만, environment의 접근·회피는 encounter_reaction 근거가 있을 때만 정한다. 그런 근거가 없으면 unknown이며, unknown 값의 basis_situations는 빈 배열이다.'''
+    s=request_schema(payload, separated=True, typed=True)
     if payload['incident'].get('status')=='not_reported':
         system+='\nbaseline_direction은 조건 없이 적용할 방향만 same_heading/change_heading/retrace/unknown으로 기록하며 관련 note_ids를 연결한다. 방향·머무름의 시간대 규칙은 이 과업만 담당한다. 특정 시간대에서만 관찰된 방향을 baseline_direction에 넣지 않는다.\n신고 전 사전 준비다. 사건 시각을 가정하지 않는다. 조건 없이 적용할 persistence만 본문 value에 두고, 낮/밤에 따라 다른 persistence 또는 direction은 behavior_rules에 각각 저장한다. period는 clock_day(06~18시), clock_night(18~06시)라는 엔진 시간대다. 이는 일출/일몰이나 실제 밝기가 아니다. 실제 밝기·날씨·지원되지 않는 상황만 조건인 행동을 시간대 규칙으로 바꾸지 않는다. 명시적 근거 없는 규칙은 만들지 않는다. 규칙이 없으면 빈 배열. 서로 다른 시간대의 방향을 core의 무조건 방향으로 합치지 않는다.'
     return {'model':model,'temperature':1.,'top_p':.95,'presence_penalty':0.,'max_tokens':28000,
@@ -90,6 +101,20 @@ def soft_clean(z, payload):
 
     def cited(leaf):
         return [i for i in leaf.get('note_ids',[]) if i in ids] if isinstance(leaf.get('note_ids'),list) else []
+
+    def typed(leaf, kind, field, value):
+        """Pop K's situation typing; True when a cited note has an admissible situation."""
+        raw=leaf.pop('basis_situations',None)
+        if raw is None:
+            return True   # untyped legacy shape (stored drafts, old responses)
+        keep=set(cited(leaf))
+        basis=[{'note_id':b.get('note_id'),'situation':b.get('situation')} for b in raw
+               if isinstance(b,dict) and b.get('note_id') in keep] if isinstance(raw,list) else []
+        ok=any(b['situation'] in ADMISSIBLE[kind] for b in basis)
+        if value!='unknown':
+            dropped.append({'field':field,'reason':'basis' if ok else 'basis_not_admissible',
+                            'value':value,'basis':basis})
+        return ok
     p=z.get('persistence')
     if isinstance(p,dict):
         p['note_ids']=cited(p)
@@ -99,6 +124,8 @@ def soft_clean(z, payload):
         if p.get('evidence') in ('missing','conflicting') and (p.get('value')!='unknown' or p.get('pattern')!='unresolved'):
             dropped.append({'field':'persistence','reason':'unresolved_with_value','value':p.get('value')})
             p.update(value='unknown',pattern='unresolved')
+        if not typed(p,'persistence','persistence',p.get('value')) and p.get('value')!='unknown':
+            p.update(evidence='missing',pattern='unresolved',value='unknown')
     for feature,e in (z.get('environment') or {}).items():
         if not isinstance(e,dict):
             continue
@@ -106,6 +133,10 @@ def soft_clean(z, payload):
         spatial=e.get('spatial_scope',e.get('scope'))
         if e.get('response')!='unknown' and (not e['note_ids'] or spatial=='unknown'):
             dropped.append({'field':'environment.'+feature,'reason':'uncited_or_unscoped','response':e.get('response')})
+            e['response']='unknown'
+            e['spatial_scope' if 'spatial_scope' in e else 'scope']='unknown'
+            e['condition']='unknown' if 'spatial_scope' in e else '조건 미확인'
+        if not typed(e,'environment','environment.'+feature,e.get('response')) and e.get('response')!='unknown':
             e['response']='unknown'
             e['spatial_scope' if 'spatial_scope' in e else 'scope']='unknown'
             e['condition']='unknown' if 'spatial_scope' in e else '조건 미확인'
@@ -118,9 +149,14 @@ def soft_clean(z, payload):
         if b.get('value')!='unknown' and not b['note_ids']:
             dropped.append({'field':'baseline_direction','reason':'uncited_claim','value':b.get('value')})
             b['value']='unknown'
+        if not typed(b,'direction','baseline_direction',b.get('value')) and b.get('value')!='unknown':
+            b['value']='unknown'
     if isinstance(z.get('behavior_rules'),list):
         kept=[]
         for rule in z['behavior_rules']:
+            if (isinstance(rule,dict) and rule.get('dimension') in ADMISSIBLE and 'basis_situations' in rule
+                    and not typed(rule,rule['dimension'],'behavior_rules',rule.get('value'))):
+                continue   # recorded as basis_not_admissible
             ok=(isinstance(rule,dict) and set(rule)=={'period','dimension','value','note_ids'}
                 and rule['period'] in ('clock_day','clock_night')
                 and rule['value'] in RULE_VALUES.get(rule['dimension'],set()) and cited(rule))
@@ -179,8 +215,12 @@ def agree(draft, review):
     return out,disagreements
 
 
-def request_schema(payload, *, conditions=True, separated=False):
-    """Only semantic decisions; no unused free-text explanation generation."""
+def request_schema(payload, *, conditions=True, separated=False, typed=False):
+    """Only semantic decisions; no unused free-text explanation generation.
+
+    typed=True adds basis_situations to every claim for the K request. soft_clean judges and
+    removes them before validation, so the validated and stored shapes are unchanged.
+    """
     import copy
     s=copy.deepcopy(schema(payload))
     p=s['properties']['persistence']
@@ -210,6 +250,15 @@ def request_schema(payload, *, conditions=True, separated=False):
             'value':_enum(['wait_for_help','keep_moving','alternating','same_heading','change_heading','retrace','unknown']),
             'note_ids':{'type':'array','items':_enum(ids) if ids else {'type':'string'}}})}
         s['required'].append('behavior_rules')
+    if typed:
+        basis={'type':'array','items':_obj({'note_id':_enum(ids) if ids else {'type':'string'},
+                                            'situation':_enum(SITUATIONS)})}
+        leaves=[s['properties']['persistence'],*s['properties']['environment']['properties'].values()]
+        if 'baseline_direction' in s['properties']:
+            leaves+=[s['properties']['baseline_direction'],s['properties']['behavior_rules']['items']]
+        for leaf in leaves:
+            leaf['properties']['basis_situations']=copy.deepcopy(basis)
+            leaf['required'].append('basis_situations')
     return s
 
 
