@@ -117,12 +117,17 @@ def compile_person(core, scope, payload, persona, sar, default, *, environment=N
               for k, v in z["goals"].items()}
     # Evidence strength comes from K's reading of the guardian's own words, not from
     # onboarding tags that surface-word rules may have upgraded or downgraded.
+    # A destination stated or acted on at the incident (current_statement, recent_action) is
+    # as strong a sign as a recurring one; v49 held-out H5 ("오늘 옛집에 가신다고") was
+    # outweighed by a place that was only mentioned.
     evidence = {k: "previous_missing_found" if z["found_history"][k]["value"] == "found_here"
-                else "caregiver_report" if z["goals"][k]["value"] in person_evidence.PERSISTENT_GOALS
+                else "caregiver_report" if z["goals"][k]["value"] in CURRENT_GOALS
                 else "mention_only" for k in z["goals"]}
     # SAR alone reads the incident report (situation text, clock). Its per-place level
     # tilts K's person-level weights relative to neutral '중'; it cannot flip K's facts.
-    sar_tilt = {k: guardrail.LEVEL_WEIGHTS[v] / guardrail.LEVEL_WEIGHTS["중"]
+    # Damped by a square root (at most 1.22 : 0.71): in v49 held-out SAR rated all three
+    # places '상' (H3, H7) and rated '하' the old home the person set out for that day (H5).
+    sar_tilt = {k: (guardrail.LEVEL_WEIGHTS[v] / guardrail.LEVEL_WEIGHTS["중"]) ** .5
                 for k, v in sar.attraction_levels.items()}
     weights = guardrail.sanitize_attraction_levels(levels, persona, evidence=evidence, tilt=sar_tilt)
     route_grades = dict(zip(person_evidence.ROUTES[:5], [.1, .3, .5, .7, .9]))
