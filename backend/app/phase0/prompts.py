@@ -418,9 +418,10 @@ SITUATION_LINK_SYSTEM = """\
 그곳을 부르는 다른 말도 포함한다(옛 직장에 '출근한다', 예전 집에 '집에 간다' 등 — 장소 설명을 본다).
 - usual_outing: 늘 하던 산책·외출을 하러 나갔다고 적혀 있고, 그 외출이 그 장소와 관련된다.
 - 문장이 어느 장소와도 이어지지 않으면 links 는 빈 배열이다. 추측하지 마라.
-- quote 는 판정 근거가 된 상황 문장의 구절을 글자 그대로 복사한다.
+- quote 는 [실종 당시 상황] 문장에서만 글자 그대로 복사한다. [참고] 아래의 보호자가 전에 \
+한 말은 장소를 이해하는 데만 쓰고 인용하지 않는다.
 반드시 아래 JSON 하나만 출력:
-{"links": [{"place": "<등록된 장소 이름 그대로>", "relation": "<stated_destination 또는 usual_outing>", "quote": "<상황 문장 구절>"}]}"""
+{"links": [{"place": "<등록된 장소 이름 그대로>", "relation": "<stated_destination 또는 usual_outing>", "quote": "<실종 당시 상황 문장의 구절>"}]}"""
 
 
 def build_situation_link_input(situation: str, places: list[dict]) -> str:
@@ -429,11 +430,11 @@ def build_situation_link_input(situation: str, places: list[dict]) -> str:
         about = " / ".join(p.get("context") or []) or "(설명 없음)"
         lines.append(f"- {p['label']}: {about}")
     return f"""\
-[등록된 장소와 보호자가 전에 한 말]
-{chr(10).join(lines) if lines else "(없음)"}
-
-[실종 당시 상황]
+[실종 당시 상황] — quote 는 이 문장에서만
 {situation}
+
+[참고] 등록된 장소와 보호자가 전에 한 말 — 인용하지 않는다
+{chr(10).join(lines) if lines else "(없음)"}
 
 위 JSON 하나만 출력."""
 

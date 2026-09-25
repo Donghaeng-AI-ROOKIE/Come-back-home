@@ -206,9 +206,11 @@ def agree(draft, review):
     for rule in review.get('behavior_rules',[]):
         if key(rule) in drafted:
             agreed.append({**rule,'note_ids':sorted(set(rule['note_ids'])|set(drafted[key(rule)]['note_ids']))})
-    reviewed={key(x) for x in review.get('behavior_rules',[])}
-    for k in sorted(set(drafted)^reviewed):
-        disagreements.append({'field':'behavior_rules','rule':list(k),'in':'draft' if k in drafted else 'review'})
+    reviewed={key(x):x for x in review.get('behavior_rules',[])}
+    for k in sorted(set(drafted)^set(reviewed)):
+        source=drafted.get(k) or reviewed.get(k)
+        disagreements.append({'field':'behavior_rules','rule':list(k),'in':'draft' if k in drafted else 'review',
+                              'note_ids':list(source['note_ids'])})
     out.pop('behavior_rules',None)
     if agreed:
         out['behavior_rules']=agreed

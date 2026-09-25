@@ -60,7 +60,7 @@ def test_category_reaction_both_readings_shared_is_checked(sample, monkeypatch):
     out = claim_check.verify(parsed, _payload(sample))
     assert out['context']['environment']['water']['response'] == 'unknown'
     assert out['context']['environment']['park']['response'] == 'approach'
-    assert len(asked) == 1 and '그런 곳 전반' in asked[0]
+    assert len(asked) == 1 and '어느 한 장소에서만 그런 것이 아니라' in asked[0]
 
 
 def test_conditional_reaction_question_carries_the_condition(sample, monkeypatch):
@@ -139,3 +139,16 @@ def test_preparation_job_runs_the_check(sample, monkeypatch):
     assert saved.prepared_initial['scope']['persistence']['value'] == 'unknown'
     assert saved.prepared_initial['audit']['claim_checks'][0]['field'] == 'persistence'
     storage.reset_for_tests()
+
+
+def test_rule_blocked_without_second_reading_is_restored_when_confirmed(sample, monkeypatch):
+    """H13: 조건 재검토가 실패해 막힌 낮/밤 규칙도 제3 판독이 인정하면 되살린다(인용 노트 유지)."""
+    parsed = _parsed(sample, context_disagreements=[
+        {'field': 'behavior_rules', 'rule': ['clock_day', 'persistence', 'keep_moving'], 'in': 'draft',
+         'note_ids': ['N1'], 'cause': 'no_second_reading'},
+        {'field': 'behavior_rules', 'rule': ['clock_night', 'persistence', 'wait_for_help'], 'in': 'draft',
+         'note_ids': ['N2'], 'cause': 'no_second_reading'}])
+    _answers(monkeypatch, {'낮(': True, '밤(': False})
+    out = claim_check.verify(parsed, _payload(sample))
+    assert out['context']['behavior_rules'] == [
+        {'period': 'clock_day', 'dimension': 'persistence', 'value': 'keep_moving', 'note_ids': ['N1']}]

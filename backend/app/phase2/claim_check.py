@@ -26,7 +26,7 @@ DIRECTION = {"same_heading": "길을 잃으면 처음 가던 방향으로 계속
              "retrace": "길을 잃으면 방금 걸어온 길을 거꾸로 되돌아간다"}
 PERIOD = {"clock_day": "낮(오전 6시~오후 6시)에", "clock_night": "밤(오후 6시~오전 6시)에"}
 FEATURE = {"water": "물가(강·호수·개천·분수 등)", "forest": "숲이나 산", "park": "공원", "market": "시장"}
-RESPONSE = {"approach": "다가간다", "avoid": "피한다"}
+RESPONSE = {"approach": "보이면 그쪽으로 가거나 들어가는 편이다", "avoid": "보이면 피하거나 멀리하는 편이다"}
 SIGNAL = {("crowded", "present"): "사람이 많음", ("crowded", "absent"): "사람이 많지 않음",
           ("noisy", "present"): "시끄러움", ("noisy", "absent"): "조용함"}
 CATEGORY = ("explicit_category", "conditional_category")
@@ -37,8 +37,8 @@ def _person(statement: str) -> str:
 
 
 def environment_statement(feature: str, response: str, clauses=None) -> str:
-    text = (f"대상자는 {FEATURE[feature]}을(를) 마주치면 {RESPONSE[response]}. 특정 한 곳이 아니라 "
-            "그런 곳 전반에서 그렇다.")
+    text = (f"대상자는 {FEATURE[feature]}이(가) {RESPONSE[response]}. 어느 한 장소에서만 그런 것이 "
+            "아니라 그런 곳이면 대체로 그렇다.")
     if clauses:
         cond = " 또는 ".join("(" + " 그리고 ".join(SIGNAL[(c["signal"], c["state"])] for c in group) + ")"
                             for group in clauses)
@@ -102,6 +102,16 @@ def verify(parsed: dict, payload: dict) -> dict:
                 elif b is not None:
                     b["value"] = confirmed[0]
                 d["resolved"] = confirmed[0]
+        elif field == "behavior_rules" and d.get("rule") and d.get("note_ids"):
+            period, dimension, value = d["rule"]
+            table = PERSIST if dimension == "persistence" else DIRECTION
+            rules = context.setdefault("behavior_rules", [])
+            if value in table and not any((r["period"], r["dimension"]) == (period, dimension) for r in rules) \
+                    and ask("behavior_rules:disagreement", _person(PERIOD[period] + " " + table[value]), d["rule"]) is True:
+                rules.append({"period": period, "dimension": dimension, "value": value, "note_ids": list(d["note_ids"])})
+                d["resolved"] = d["rule"]
+            if not rules:
+                context.pop("behavior_rules")
         elif isinstance(field, str) and field.startswith("environment."):
             feature = field.split(".", 1)[1]
             pairs = [tuple(x) for x in (d.get("draft"), d.get("review")) if isinstance(x, list)]

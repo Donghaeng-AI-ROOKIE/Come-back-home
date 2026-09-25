@@ -124,3 +124,12 @@ def test_usual_outing_marks_the_place_as_acted_on(sample):
     links = [{'place': '시장', 'relation': 'usual_outing', 'quote': '늘 하던 산책'}]
     out = prep.apply_prepared(p, sample[1], sample[2], sample[3], links)
     assert out.initial_interpretation['semantic_contract']['goals']['시장']['value'] == 'recent_action'
+
+
+def test_link_input_puts_the_situation_first_and_marks_notes_as_reference():
+    """모델이 등록 노트를 근거 구절로 인용해 링크가 버려졌다(4·5회차 S4·S7·H5·H10·H15·H16).
+    신고 문장을 먼저 두고, 노트는 인용하지 않는 참고로 표시한다."""
+    text = prompts.build_situation_link_input('오늘 시장 간다고 나가셨어요',
+                                             [{'label': '시장', 'context': ['매일 시장에 가세요']}])
+    assert text.index('오늘 시장 간다고') < text.index('매일 시장에 가세요')
+    assert '인용하지 않는다' in text
