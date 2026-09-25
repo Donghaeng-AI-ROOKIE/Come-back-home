@@ -38,6 +38,9 @@ class AttractionEvidence(str, Enum):
 # 한 장소의 독식을 막는다.
 EVIDENCE_PRIOR_WEIGHTS: dict[str, float] = {
     "previous_missing_found": 0.9,   # 과거 실제 발견지 — 가장 강한 근거
+    # 이번 사건에 대한 진술(신고 상황에 적힌 오늘의 목적지, 사건 뒤 등록 때의 당일 발언) —
+    # 과거 발견지와 같은 최상위. K 경로의 사건 적용(phase2.person_projection)에서만 쓴다.
+    "incident_statement": 0.9,
     "caregiver_report": 0.5,         # 보호자 관찰
     "mention_only": 0.3,             # 언급만
 }

@@ -161,15 +161,24 @@ def _ready_three(sample, goal_value, *, after_incident=False):
 
 
 def test_statement_at_incident_counts_as_strong_evidence(sample):
-    """사건 당일 한 발언(current_statement)은 반복 목적지와 같은 근거 등급 — 언급만 된 곳에 밀리지 않는다.
+    """사건 당일 한 발언(current_statement)은 이번 사건에 대한 진술 — 과거 발견지와 같은 최상위 근거.
 
-    v49 보류 H5: "오늘 옛집에 가신다고"라고 한 옛집이 언급만 된 시장보다 약했다.
-    상(3)×관찰(0.5)=1.5 대 중(2)×언급(0.3)=0.6 두 곳 → 1.5/2.7. 예전(언급 0.3)이면 0.9/2.1.
+    v49 보류 H5: "오늘 옛집에 가신다고"라고 한 옛집이 과거 발견지(시장 입구)에 밀렸다.
+    상(3)×사건 진술(0.9)=2.7 대 중(2)×언급(0.3)=0.6 두 곳 → 독식 상한 0.6 에 걸린다.
     """
     p = _ready_three(sample, 'current_statement', after_incident=True)
     out = prep.apply_prepared(p, sample[1], sample[2], sample[3])
     assert out.initial_interpretation['semantic_contract']['goals']['공원']['value'] == 'current_statement'
-    assert out.attraction_weights['공원'] == pytest.approx(1.5 / 2.7)
+    assert out.attraction_weights['공원'] == pytest.approx(0.6)
+    assert out.attraction_weights['시장'] == pytest.approx(0.2)
+
+
+def test_sar_cannot_push_an_incident_destination_below_neutral(sample):
+    """SAR 는 사건 목적지를 올릴 수는 있어도 중립 아래로 내리지는 못한다(H5: 옛집 '하')."""
+    p = _ready_three(sample, 'current_statement', after_incident=True)
+    low = sample[2].model_copy(update={'attraction_levels': {'공원': '하'}})
+    assert (prep.apply_prepared(p, sample[1], low, sample[3]).attraction_weights
+            == prep.apply_prepared(p, sample[1], sample[2], sample[3]).attraction_weights)
 
 
 def test_sar_tilt_is_damped(sample):
