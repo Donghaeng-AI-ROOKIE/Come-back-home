@@ -294,6 +294,16 @@ def test_habitual_goal_reaches_engine_only_in_its_clock_period(sample):
     assert day.strategy_probs['landmark_seeking']>night.strategy_probs['landmark_seeking']
 
 
+def test_habit_near_the_period_boundary_stays_active(sample):
+    """최종 게이트 1회차 P03: '새벽마다' 밭에 가는 습관(clock_night)이 07:07 사건에서 꺼졌다.
+    보호자의 새벽·저녁은 정확한 시각이 아니라 경계 앞뒤 GOAL_PERIOD_MARGIN_H 시간은 살려 둔다."""
+    p=ready_with_goal(sample,'habitual_visit','clock_night')
+    goal=lambda hour: prep.apply_prepared(p,at_hour(sample,hour),sample[2],sample[3]) \
+        .initial_interpretation['semantic_contract']['goals']['공원']['value']
+    assert prep.GOAL_PERIOD_MARGIN_H==2
+    assert [goal(h) for h in (7,9,16,22)]==['habitual_visit','historical_only','habitual_visit','habitual_visit']
+
+
 def test_unspecified_habit_applies_at_any_hour_and_single_report_is_demoted(sample):
     habit=ready_with_goal(sample,'repeated_statement')
     single=ready_with_goal(sample,'current_statement')

@@ -77,21 +77,39 @@ def test_quote_must_be_in_the_situation(sample, monkeypatch):
 
 
 def test_link_must_pass_a_second_question(sample, monkeypatch):
-    """원문 구절이 있어도 뜻이 이어지는지 다시 묻는다 — S10 '비 오는 오후, 우산을 두고 나가셨음'."""
+    """원문 구절이 있어도 뜻이 이어지는지 다시 묻는다 — S10 '비 오는 오후, 우산을 두고 나가셨음'.
+    첫 질문은 신고 문장만 주고 그 구절에 목적·행선지가 있는지, 둘째는 기록과 함께 그 장소를 가리키는지."""
     p = _ready(sample)
     report = sample[1].model_copy(update={'situation': '비 오는 오후, 우산을 두고 나가셨음.'})
     monkeypatch.setattr(situation_link.midm, 'link_situation', lambda situation, places: [
         {'place': '공원', 'relation': 'usual_outing', 'quote': '비 오는 오후, 우산을 두고 나가셨음.'}])
     asked = []
     monkeypatch.setattr(situation_link.midm, 'check_claim',
-                        lambda notes, statement: asked.append((notes[0], statement)) or False)
+                        lambda notes, statement: asked.append((notes, statement)) or len(asked) == 1)
     out = situation_link.link(p, report)
     assert out['links'] == [] and out['status'] == 'none'
     assert out['unconfirmed'][0]['check'] is False
-    assert asked[0][0] == '신고 상황: 비 오는 오후, 우산을 두고 나가셨음.'
+    assert asked[0][0] == ['신고 상황: 비 오는 오후, 우산을 두고 나가셨음.']      # 목적 질문 — 장소 기록 없이
+    assert '무엇을 하러 나갔는지' in asked[0][1]
+    assert asked[1][0][0] == '신고 상황: 비 오는 오후, 우산을 두고 나가셨음.'
     # 관계 종류와 무관하게, 인용 구절이 그 장소를 가리키는지만 묻는다(6회차 H10·7회차 H13·H16)
-    assert asked[0][1] == ("신고 상황의 '비 오는 오후, 우산을 두고 나가셨음.'(이)라는 말은 대상자가 이번에 "
+    assert asked[1][1] == ("신고 상황의 '비 오는 오후, 우산을 두고 나가셨음.'(이)라는 말은 대상자가 이번에 "
                            "'공원'에 가려 했거나 그곳에서 하던 일을 하러 나갔다는 뜻이다.")
+
+
+def test_quote_without_purpose_is_dropped_before_the_place_question(sample, monkeypatch):
+    """최종 게이트 1회차 P02: '혼자 댁을 나서셨는데'가 '혼자 나가시면 딸 집으로 오려고 하신다'는 기록 때문에
+    딸 집 목적지로 확인됐다. 구절 자체에 목적이 없으면 장소 질문 없이 버린다."""
+    p = _ready(sample)
+    report = sample[1].model_copy(update={'situation': '저녁에 혼자 댁을 나서셨는데 아직 안 들어오셨어요.'})
+    monkeypatch.setattr(situation_link.midm, 'link_situation', lambda situation, places: [
+        {'place': '공원', 'relation': 'stated_destination', 'quote': '혼자 댁을 나서셨는데'}])
+    asked = []
+    monkeypatch.setattr(situation_link.midm, 'check_claim',
+                        lambda notes, statement: asked.append(statement) or False)
+    out = situation_link.link(p, report)
+    assert out['links'] == [] and out['unconfirmed'][0]['purpose'] is False
+    assert len(asked) == 1
 
 
 def test_link_is_cached_per_situation_and_failures_are_retried(sample, monkeypatch):

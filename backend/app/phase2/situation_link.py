@@ -62,6 +62,15 @@ def link(persona, report) -> dict:
         f"'{p['label']}'에 대한 보호자 기록: " + " / ".join(p["context"]) for p in places if p["context"]]
     links, unconfirmed = [], []
     for item in grounded:
+        # 먼저 신고 문장만 보고 그 구절에 목적·행선지가 있는지 묻는다. 보호자 기록을 함께 주면
+        # 습관에서 행선지를 추론해 버린다 — 최종 게이트 1회차 P02: "혼자 댁을 나서셨는데"가 '혼자
+        # 나가시면 딸 집으로 오려고 하신다'는 기록 때문에 딸 집 목적지로 확인됐다.
+        purpose = midm.check_claim(["신고 상황: " + report.situation],
+                                   f"신고 상황의 '{item['quote']}'(이)라는 말에는 대상자가 이번에 어디로 가려 "
+                                   "했는지나 무엇을 하러 나갔는지가 적혀 있다.")
+        if purpose is False:
+            unconfirmed.append({**item, "check": False, "purpose": False})
+            continue
         # 인용 구절이 그 장소를 가리키는지만 묻는다. 관계 종류와 무관하게(6회차 H10: 종류를 잘못
         # 붙여 맞는 링크 탈락), 시간대 습관 추론은 제외한다(7회차 H13 '바람 좀 쐬고 온다'→텃밭,
         # H16 '어디 가신다는 말씀은 없으셨어요'→대화역 — 습관 시간대는 K 의 목적 시간대가 맡는다).

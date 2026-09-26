@@ -183,3 +183,31 @@ def test_conditional_reaction_disagreement_is_restored_with_its_condition(sample
     assert (market['response'], market['scope'], market['condition']) == ('avoid', 'conditional_category', '추가 조건 필요')
     assert market['condition_clauses'] == clauses
     assert asked == ['대상자는 시장에서 사람이 많을 때에는 피하거나 빠져나오는 편이다.']
+
+
+def test_current_goal_needs_a_current_reading(sample, monkeypatch):
+    """최종 게이트 1회차 P01: '삼송역 같은 지하철역에서 찾은 적이 있어요'를 '평소 가는 곳'으로 읽었다.
+    사건 때도 살아 있는 목적(반복 방문·반복 발언)은 제3 판독이 아니라면 미확인으로 내린다."""
+    parsed = _parsed(sample)
+    parsed['core']['goals']['공원'].update(value='habitual_visit', period='clock_day', note_ids=['N0'])
+    parsed['core']['goals']['시장'].update(value='repeated_statement', note_ids=['N1'])
+    asked = _answers(monkeypatch, {"'공원'에 반복해서": False, "'시장'에 가야 한다고": True})
+    out = claim_check.verify(parsed, _payload(sample))
+    assert (out['core']['goals']['공원']['value'], out['core']['goals']['공원']['period']) == ('unknown', 'unspecified')
+    assert out['core']['goals']['시장']['value'] == 'repeated_statement'
+    assert any('다른 이름으로 부르는 경우도 포함' in x for x in asked)
+
+
+@pytest.mark.parametrize('answers,expected', [
+    ({'집 근처만 짧게': True}, 'B'),                                            # K 등급 확인
+    ({'집 근처만 짧게': False, '30분에서 1시간': True, '거의 걷지 못한다': False}, 'C'),   # 옆 등급 하나만
+    ({'집 근처만 짧게': False, '30분에서 1시간': True, '거의 걷지 못한다': True}, 'unknown'),
+    ({'집 근처만 짧게': False}, 'unknown'),                                      # 옆 등급 판정 없음
+    ({'집 근처만 짧게': None}, 'B'),                                             # 호출 실패 — K 결과 유지
+])
+def test_mobility_grade_is_checked_and_moves_only_to_one_confirmed_neighbour(sample, monkeypatch, answers, expected):
+    """최종 게이트 1회차 P03: 걸어서 20분 밭을 매일 다니는 사람을 B 로 읽었다(기준 C)."""
+    parsed = _parsed(sample)
+    parsed['core']['mobility'].update(value='B', note_ids=['N1'])
+    _answers(monkeypatch, answers)
+    assert claim_check.verify(parsed, _payload(sample))['core']['mobility']['value'] == expected
