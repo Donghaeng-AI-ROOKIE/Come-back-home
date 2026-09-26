@@ -16,7 +16,7 @@ from app import storage
 from app.config import settings
 from app.llm import initial_behavior, person_evidence
 
-VERSION = "onboarding-person-v4-evidence-revisions"
+VERSION = "onboarding-person-v6-grounded-conditions"
 # 반복 목적의 시간대(06~18시 낮 / 18~06시 밤) 경계 앞뒤로 두 시간대를 모두 살려 두는 시간(시간 단위).
 # 보호자의 '새벽'·'저녁'은 정확한 시각이 아니다. 잠정값 — 근거 연구 없음, 민감도 노브.
 GOAL_PERIOD_MARGIN_H = 2
@@ -130,6 +130,9 @@ def apply_prepared(persona, report, sar, default, situation_links=None):
 
 def _apply_prepared(persona, report, sar, default, situation_links=None):
     """Local compilation only. Prepared day/night rules stay separate until incident.
+
+    ``sar`` is the legacy argument name for a numeric baseline. The prepared
+    production path passes an explicit profile baseline without calling SAR.
 
     situation_links: validated links from the report's situation text to registered places
     (phase2.situation_link, judged by Mi:dm at report time). A place the person set out for

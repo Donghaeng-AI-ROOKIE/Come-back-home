@@ -1,0 +1,813 @@
+[
+  {
+    "file": "calls/E1/K_initial_person_context_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"persistence\": {\"evidence\": \"missing\", \"pattern\": \"unresolved\", \"value\": \"unknown\", \"note_ids\": [], \"basis_situations\": []}, \"environment\": {\"water\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}, \"forest\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}, \"park\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}, \"market\": {\"response\": \"approach\", \"condition\": \"present\", \"note_ids\": [\"N2\"], \"condition_clauses\": [[{\"signal\": \"crowded\", \"state\": \"present\"}, {\"signal\": \"noisy\", \"state\": \"present\"}]], \"spatial_scope\": \"category\", \"basis_situations\": [{\"note_id\": \"N2\", \"situation\": \"encounter_reaction\"}]}}\n\n, \"baseline_direction\": {\"value\": \"unknown\", \"note_ids\": [], \"basis_situations\": []}, \"behavior_rules\": []}",
+    "usage": {
+      "completion_tokens": 992,
+      "prompt_tokens": 4135,
+      "prompt_tokens_details": {
+        "cached_tokens": 4128
+      },
+      "total_tokens": 5127
+    }
+  },
+  {
+    "file": "calls/E1/K_initial_person_context_review_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{ \"persistence\": {\"evidence\": \"supported\", \"pattern\": \"consistent\", \"value\": \"alternating\", \"note_ids\": [\"N1\"], \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"lost_or_confused\"} ] }, \"environment\": { \"water\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [] }, \"forest\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [] }, \"park\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [] }, \"market\": {\"response\": \"avoid\", \"condition\": \"present\", \"note_ids\": [\"N2\"], \"condition_clauses\": [[{\"signal\": \"crowded\", \"state\": \"present\"}, {\"signal\": \"noisy\", \"state\": \"present\"}]], \"spatial_scope\": \"category\", \"basis_situations\": [{\"note_id\": \"N2\", \"situation\": \"encounter_reaction\"} ] } }, \"baseline_direction\": {\"value\": \"unknown\", \"note_ids\": [] , \"basis_situations\": [] }, \"behavior_rules\": [] }",
+    "usage": {
+      "completion_tokens": 981,
+      "prompt_tokens": 4603,
+      "prompt_tokens_details": {
+        "cached_tokens": 4384
+      },
+      "total_tokens": 5584
+    }
+  },
+  {
+    "file": "calls/E1/K_initial_person_core_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\n  \"goals\": {\n    \"다온공원\": {\n      \"value\": \"unknown\",\n      \"period\": \"unspecified\",\n      \"note_ids\": [\"N0\"]\n    },\n    \"푸른시장\": {\n      \"value\": \"unknown\",\n      \"period\": \"unspecified\",\n      \"note_ids\": [\"N0\"]\n    },\n    \"은빛경로당\": {\n      \"value\": \"unknown\",\n      \"period\": \"unspecified\",\n      \"note_ids\": [\"N0\"]\n    }\n  },\n  \"routes\": {\n    \"다온공원\": {\n      \"value\": \"unknown\",\n      \"note_ids\": [\"N0\"]\n    },\n    \"푸른시장\": {\n      \"value\": \"unknown\",\n      \"note_ids\": [\"N0\"]\n    },\n    \"은빛경로당\": {\n      \"value\": \"unknown\",\n      \"note_ids\": [\"N0\"]\n    }\n  },\n  \"found_history\": {\n    \"다온공원\": {\n      \"value\": \"not_reported\",\n      \"note_ids\": [\"N0\"]\n    },\n    \"푸른시장\": {\n      \"value\": \"not_reported\",\n      \"note_ids\": [\"N0\"]\n    },\n    \"은빛경로당\": {\n      \"value\": \"not_reported\",\n      \"note_ids\": [\"N0\"]\n    }\n  },\n  \"mobility\": {\n    \"value\": \"C\",\n    \"note_ids\": [\"N1\"]\n  },\n  \"emotion\": {\n    \"value\": \"unknown\",\n    \"note_ids\": []\n  },\n  \"other_traits\": []\n}",
+    "usage": {
+      "completion_tokens": 6218,
+      "prompt_tokens": 3709,
+      "prompt_tokens_details": {
+        "cached_tokens": 2784
+      },
+      "total_tokens": 9927
+    }
+  },
+  {
+    "file": "calls/E1/K_initial_person_semantic_audit_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"goals\":{\"다온공원\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]},\"푸른시장\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]},\"은빛경로당\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]}},\"routes\":{\"다온공원\":{\"value\":\"unknown\",\"note_ids\":[\"N0\"]},\"푸른시장\":{\"value\":\"unknown\",\"note_ids\":[\"N0\"]},\"은빛경로당\":{\"value\":\"unknown\",\"note_ids\":[\"N0\"]}},\"found_history\":{\"다온공원\":{\"value\":\"not_reported\",\"note_ids\":[\"N0\"]},\"푸른시장\":{\"value\":\"not_reported\",\"note_ids\":[\"N0\"]},\"은빛경로당\":{\"value\":\"not_reported\",\"note_ids\":[\"N0\"]}},\"mobility\":{\"value\":\"C\",\"note_ids\":[\"N1\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]},\"other_traits\":[]}",
+    "usage": {
+      "completion_tokens": 4935,
+      "prompt_tokens": 4963,
+      "prompt_tokens_details": {
+        "cached_tokens": 3456
+      },
+      "total_tokens": 9898
+    }
+  },
+  {
+    "file": "calls/E1/Midm_midm_chat_1.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 892,
+      "completion_tokens": 9,
+      "total_tokens": 901
+    }
+  },
+  {
+    "file": "calls/E1/Midm_midm_chat_2.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 899,
+      "completion_tokens": 9,
+      "total_tokens": 908
+    }
+  },
+  {
+    "file": "calls/E1/Midm_midm_chat_3.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 899,
+      "completion_tokens": 9,
+      "total_tokens": 908
+    }
+  },
+  {
+    "file": "calls/E1/Midm_midm_chat_4.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 944,
+      "completion_tokens": 9,
+      "total_tokens": 953
+    }
+  },
+  {
+    "file": "calls/E1/Midm_midm_chat_5.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 899,
+      "completion_tokens": 9,
+      "total_tokens": 908
+    }
+  },
+  {
+    "file": "calls/E2/K_initial_person_context_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"persistence\": {\"evidence\": \"missing\", \"pattern\": \"unresolved\", \"value\": \"unknown\", \"note_ids\": [\"N1\"], \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"lost_or_confused\"}]}, \"environment\": {\"water\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}, \"forest\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}, \"park\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}, \"market\": {\"response\": \"approach\", \"condition\": \"present\", \"note_ids\": [\"N2\"], \"condition_clauses\": [[{\"signal\": \"crowded\", \"state\": \"absent\"}, {\"signal\": \"noisy\", \"state\": \"absent\"}]], \"spatial_scope\": \"category\", \"basis_situations\": [{\"note_id\": \"N2\", \"situation\": \"encounter_reaction\"}]}}\n\n \n \n \n \n \n \n \n \n\n \n \n  \n  \n\n \n \n \n\n \n  \n \n  \n\n \n  \n \n\n \n  \n  \n  \n\n \n  \n \n\n \n  \n\n \n\n \n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n \n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n\n\n  \n \n\n  \n  \n \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n  \n\n  \n  \n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n                       \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n    \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n  \n\n,\n\n  \"baseline_direction\": {\"value\": \"conflict\",\"note_ids\":[\"N0\",\"N1\"],\"basis_situations\":[{\"note_id\":\"N0\",\"situation\":\"lost_or_confused\"},{\"note_id\":\"N2\",\"situation\":\"encounter_reaction\"}]}, \"behavior_rules\": []}",
+    "usage": {
+      "completion_tokens": 13278,
+      "prompt_tokens": 4138,
+      "prompt_tokens_details": {
+        "cached_tokens": 4128
+      },
+      "total_tokens": 17416
+    }
+  },
+  {
+    "file": "calls/E2/K_initial_person_context_review_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{ \"persistence\": {\"evidence\": \"missing\", \"pattern\": \"unresolved\", \"value\": \"unknown\", \"note_ids\": [\"N1\"], \"basis_situations\": []}\n\n    ,\"environment\": {\"water\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\"\n\n    ,\"basis_situations\": []},\"forest\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\"\n\n    ,\"basis_situations\": []},\"park\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\"\n\n    ,\"basis_situations\": []},\"market\": {\"response\": \"approach\", \"condition\": \"present\", \"note_ids\": [\"N2\"], \"condition_clauses\": [[{\"signal\": \"crowded\", \"state\": \"absent\"}, {\"signal\": \"noisy\", \"state\": \"absent\"}]], \"spatial_scope\": \"category\"\n\n    ,\"basis_situations\": []}\n\n    },\"baseline_direction\": {\"value\": \"conflict\", \"note_ids\": [\"N0\", \"N1\"]\n\n    ,\"basis_situations\": []},\"behavior_rules\": []}",
+    "usage": {
+      "completion_tokens": 1004,
+      "prompt_tokens": 4619,
+      "prompt_tokens_details": {
+        "cached_tokens": 4512
+      },
+      "total_tokens": 5623
+    }
+  },
+  {
+    "file": "calls/E2/K_initial_person_core_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"goals\":{\"다온공원\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]},\"푸른시장\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]},\"은빛경로당\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]}},\"routes\":{\"다온공원\":{\"value\":\"unknown\",\"note_ids\":[\"N0\"]},\"푸른시장\":{\"value\":\"unknown\",\"note_ids\":[\"N0\"]},\"은빛경로당\":{\"value\":\"unknown\",\"note_ids\":[\"N0\"]}},\"found_history\":{\"다온공원\":{\"value\":\"not_reported\",\"note_ids\":[\"N0\"]},\"푸른시장\":{\"value\":\"not_reported\",\"note_ids\":[\"N0\"]},\"은빛경로당\":{\"value\":\"not_reported\",\"note_ids\":[\"N0\"]}},\"mobility\":{\"value\":\"C\",\"note_ids\":[\"N1\"]},\"emotion\":{\"value\":\"reported\",\"note_ids\":[\"N2\"]},\"other_traits\":[]}",
+    "usage": {
+      "completion_tokens": 7597,
+      "prompt_tokens": 3712,
+      "prompt_tokens_details": {
+        "cached_tokens": 2784
+      },
+      "total_tokens": 11309
+    }
+  },
+  {
+    "file": "calls/E2/K_initial_person_semantic_audit_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"goals\":{\"다온공원\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]},\"푸른시장\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]},\"은빛경로당\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]}},\"routes\":{\"다온공원\":{\"value\":\"unknown\",\"note_ids\":[\"N0\"]},\"푸른시장\":{\"value\":\"unknown\",\"note_ids\":[\"N0\"]},\"은빛경로당\":{\"value\":\"unknown\",\"note_ids\":[\"N0\"]}},\"found_history\":{\"다온공원\":{\"value\":\"not_reported\",\"note_ids\":[\"N0\"]},\"푸른시장\":{\"value\":\"not_reported\",\"note_ids\":[\"N0\"]},\"은빛경로당\":{\"value\":\"not_reported\",\"note_ids\":[\"N0\"]}},\"mobility\":{\"value\":\"C\",\"note_ids\":[\"N1\"]},\"emotion\":{\"value\":\"reported\",\"note_ids\":[\"N2\"]},\"other_traits\":[]}",
+    "usage": {
+      "completion_tokens": 7756,
+      "prompt_tokens": 4983,
+      "prompt_tokens_details": {
+        "cached_tokens": 3680
+      },
+      "total_tokens": 12739
+    }
+  },
+  {
+    "file": "calls/E2/Midm_midm_chat_1.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 907,
+      "completion_tokens": 9,
+      "total_tokens": 916
+    }
+  },
+  {
+    "file": "calls/E2/Midm_midm_chat_2.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 906,
+      "completion_tokens": 9,
+      "total_tokens": 915
+    }
+  },
+  {
+    "file": "calls/G1/K_initial_person_context_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{ \"persistence\": {\"evidence\": \"missing\", \"pattern\": \"unresolved\", \"value\": \"unknown\", \"note_ids\": [\"N1\"], \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"lost_or_confused\"}]}, \"environment\": {\"water\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}, \"forest\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}, \"park\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [\"N1\"], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"}]}, \"market\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [\"N1\"], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"}]}}, \"baseline_direction\": {\"value\": \"unknown\", \"note_ids\": [], \"basis_situations\": []}, \"behavior_rules\": []}",
+    "usage": {
+      "completion_tokens": 4826,
+      "prompt_tokens": 4139,
+      "prompt_tokens_details": {
+        "cached_tokens": 4128
+      },
+      "total_tokens": 8965
+    }
+  },
+  {
+    "file": "calls/G1/K_initial_person_context_review_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\n\n\"persistence\":{\"evidence\":\"missing\",\"pattern\":\"unresolved\",\"value\":\"unknown\",\"note_ids\":[\"N1\"],\"basis_situations\":[{\"note_id\":\"N1\",\"situation\":\"lost_or_confused\"}]},\"environment\":{\"water\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[{\"note_id\":\"N1\",\"situation\":\"encounter_reaction\"}]},\"forest\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[{\"note_id\":\"N2\",\"situation\":\"encounter_reaction\"}]},\"park\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]},\"market\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[{\"note_id\":\"N2\",\"situation\":\"encounter_reaction\"}]}},\"baseline_direction\":{\"value\":\"unknown\",\"note_ids\":[\"N1\"],\"basis_situations\":[{\"note_id\":\"N1\",\"situation\":\"lost_or_confused\"}]},\"behavior_rules\":[]}",
+    "usage": {
+      "completion_tokens": 3557,
+      "prompt_tokens": 4583,
+      "prompt_tokens_details": {
+        "cached_tokens": 4544
+      },
+      "total_tokens": 8140
+    }
+  },
+  {
+    "file": "calls/G1/K_initial_person_core_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"goals\":{\"다온공원\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"historical_only\",\"period\":\"unspecified\",\"note_ids\":[\"N2\"]},\"은빛경로당\":{\"value\":\"habitual_visit\",\"period\":\"clock_day\",\"note_ids\":[\"N0\"]}},\"routes\":{\"다온공원\":{\"value\":\"unknown\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"repeated_independent\",\"note_ids\":[\"N2\"]},\"은빛경로당\":{\"value\":\"routine_independent\",\"note_ids\":[\"N0\"]}},\"found_history\":{\"다온공원\":{\"value\":\"not_reported\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"not_reported\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"not_reported\",\"note_ids\":[]}},\"mobility\":{\"value\":\"C\",\"note_ids\":[\"N0\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]},\"other_traits\":[{\"type\":\"time_pattern\",\"period\":\"clock_day\",\"note_ids\":[\"N0\"]},{\"type\":\"routine_route\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]},{\"type\":\"past_role\",\"period\":\"unspecified\",\"note_ids\":[\"N2\"]}]}",
+    "usage": {
+      "completion_tokens": 9466,
+      "prompt_tokens": 3713,
+      "prompt_tokens_details": {
+        "cached_tokens": 2784
+      },
+      "total_tokens": 13179
+    }
+  },
+  {
+    "file": "calls/G1/K_initial_person_semantic_audit_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"goals\":{\"다온공원\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"historical_only\",\"period\":\"unspecified\",\"note_ids\":[\"N2\"]},\"은빛경로당\":{\"value\":\"habitual_visit\",\"period\":\"clock_day\",\"note_ids\":[\"N0\"]}},\"routes\":{\"다온공원\":{\"value\":\"unknown\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"repeated_independent\",\"note_ids\":[\"N2\"]},\"은빛경로당\":{\"value\":\"routine_independent\",\"note_ids\":[\"N0\"]}},\"found_history\":{\"다온공원\":{\"value\":\"not_reported\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"not_reported\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"not_reported\",\"note_ids\":[]}},\"mobility\":{\"value\":\"C\",\"note_ids\":[\"N0\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]},\"other_traits\":[{\"type\":\"time_pattern\",\"period\":\"clock_day\",\"note_ids\":[\"N0\"]},{\"type\":\"routine_route\",\"period\":\"clock_day\",\"note_ids\":[\"N0\"]}]}",
+    "usage": {
+      "completion_tokens": 7033,
+      "prompt_tokens": 4998,
+      "prompt_tokens_details": {
+        "cached_tokens": 3456
+      },
+      "total_tokens": 12031
+    }
+  },
+  {
+    "file": "calls/G1/Midm_midm_chat_1.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 946,
+      "completion_tokens": 9,
+      "total_tokens": 955
+    }
+  },
+  {
+    "file": "calls/G1/Midm_midm_chat_2.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 905,
+      "completion_tokens": 9,
+      "total_tokens": 914
+    }
+  },
+  {
+    "file": "calls/G1/Midm_midm_chat_3.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G1/Midm_midm_chat_4.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G1/Midm_midm_chat_5.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 796,
+      "completion_tokens": 9,
+      "total_tokens": 805
+    }
+  },
+  {
+    "file": "calls/G2/K_initial_person_context_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"persistence\": {\"evidence\": \"missing\", \"pattern\": \"unresolved\", \"value\": \"unknown\", \"note_ids\": [\"N1\"], \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"lost_or_confused\"}]},\"environment\": {\"water\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [\"N1\"], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"}]},\"forest\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [\"N1\"], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"}]},\"park\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [\"N1\"], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"}]},\"market\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [\"N1\"], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"}]}},\"baseline_direction\": {\"value\": \"unknown\", \"note_ids\": [\"N0\",\"N1\",\"N2\"], \"basis_situations\": [{\"note_id\": \"N0\", \"situation\": \"routine_outing\"},{\"note_id\": \"N1\", \"situation\": \"lost_or_confused\"},{\"note_id\": \"N2\", \"situation\": \"routine_outing\"}]},\"behavior_rules\": []}",
+    "usage": {
+      "completion_tokens": 3904,
+      "prompt_tokens": 4139,
+      "prompt_tokens_details": {
+        "cached_tokens": 4128
+      },
+      "total_tokens": 8043
+    }
+  },
+  {
+    "file": "calls/G2/K_initial_person_context_review_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"persistence\": {\"evidence\": \"missing\", \"pattern\": \"unresolved\", \"value\": \"unknown\", \"note_ids\": [\"N1\"], \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"lost_or_confused\"}]}, \"environment\": {\"water\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [\"N1\"], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"}]}, \"forest\": { \"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [\"N1\"], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"}]}, \"park\": { \"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [\"N1\"], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"}]}, \"market\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [\"N1\"], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"}]}}\n\n\n\n\n\n\n\n, \"baseline_direction\": {\"value\": \"unknown\", \"note_ids\": [\"N0\", \"N1\", \"N2\"], \"basis_situations\": [{\"note_id\": \"N0\", \"situation\": \"routine_outing\"}, {\"note_id\": \"N1\", \"situation\": \"lost_or_confused\"}, {\"note_id\": \"N2\", \"situation\": \"destination_trip\"}]}, \"behavior_rules\": []}",
+    "usage": {
+      "completion_tokens": 4717,
+      "prompt_tokens": 4600,
+      "prompt_tokens_details": {
+        "cached_tokens": 4416
+      },
+      "total_tokens": 9317
+    }
+  },
+  {
+    "file": "calls/G2/K_initial_person_core_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{ \n  \"goals\": {\n    \"다온공원\": {\n      \"value\": \"unknown\",\n      \"period\": \"unspecified\",\n      \"note_ids\": []\n    },\n    \"푸른시장\": {\n      \"value\": \"habitual_visit\",\n      \"period\": \"clock_day\",\n      \"note_ids\": [\"N2\"]\n    },\n    \"은빛경로당\": {\n      \"value\": \"habitual_visit\",\n      \"period\": \"clock_day\",\n      \"note_ids\": [\"N0\"]\n    }\n  },\n  \"routes\": {\n    \"다온공원\": {\n      \"value\": \"unknown\",\n      \"note_ids\": []\n    },\n    \"푸른시장\": {\n      \"value\": \"routine_independent\",\n      \"note_ids\": [\"N2\"]\n    },\n    \"은빛경로당\": {\n      \"value\": \"routine_independent\",\n      \"note_ids\": [\"N0\"]\n    }\n  },\n  \"found_history\": {\n    \"다온공원\": {\n      \"value\": \"not_reported\",\n      \"note_ids\": []\n    },\n    \"푸른시장\": {\n      \"value\": \"not_reported\",\n      \"note_ids\": []\n    },\n    \"은빛경로당\": {\n      \"value\": \"not_reported\",\n      \"note_ids\": []\n    }\n  },\n  \"mobility\": {\n    \"value\": \"C\",\n    \"note_ids\": [\"N0\"]\n  },\n  \"emotion\": {\n    \"value\": \"unknown\",\n    \"note_ids\": []\n  },\n  \"other_traits\": [\n    {\n      \"type\": \"routine_route\",\n      \"period\": \"clock_day\",\n      \"note_ids\": [\"N0\"]\n    }\n  ]\n}",
+    "usage": {
+      "completion_tokens": 2985,
+      "prompt_tokens": 3713,
+      "prompt_tokens_details": {
+        "cached_tokens": 2784
+      },
+      "total_tokens": 6698
+    }
+  },
+  {
+    "file": "calls/G2/K_initial_person_semantic_audit_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"goals\":{\"다온공원\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"habitual_visit\",\"period\":\"clock_day\",\"note_ids\":[\"N2\"]},\"은빛경로당\":{\"value\":\"habitual_visit\",\"period\":\"clock_day\",\"note_ids\":[\"N0\"]}},\"routes\":{\"다온공원\":{\"value\":\"unknown\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"routine_independent\",\"note_ids\":[\"N2\"]},\"은빛경로당\":{\"value\":\"routine_independent\",\"note_ids\":[\"N0\"]}},\"found_history\":{\"다온공원\":{\"value\":\"not_reported\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"not_reported\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"not_reported\",\"note_ids\":[]}},\"mobility\":{\"value\":\"C\",\"note_ids\":[\"N0\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]},\"other_traits\":[{\"type\":\"past_role\",\"period\":\"unspecified\",\"note_ids\":[\"N2\"]}]}",
+    "usage": {
+      "completion_tokens": 8801,
+      "prompt_tokens": 4968,
+      "prompt_tokens_details": {
+        "cached_tokens": 3456
+      },
+      "total_tokens": 13769
+    }
+  },
+  {
+    "file": "calls/G2/Midm_midm_chat_1.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 908,
+      "completion_tokens": 9,
+      "total_tokens": 917
+    }
+  },
+  {
+    "file": "calls/G2/Midm_midm_chat_2.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 799,
+      "completion_tokens": 9,
+      "total_tokens": 808
+    }
+  },
+  {
+    "file": "calls/G2/Midm_midm_chat_3.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/H_history/K_initial_person_context_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\n  \"persistence\": {\n    \"evidence\": \"missing\",\n    \"pattern\": \"unresolved\",\n    \"value\": \"unknown\",\n    \"note_ids\": [\"N1\"],\n    \"basis_situations\": []\n  },\n  \"environment\": {\n    \"water\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": []\n    },\n    \"forest\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": []\n    },\n    \"park\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": []\n    },\n    \"market\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": []\n    }\n  }\n  ,\n  \"baseline_direction\": {\n    \"value\": \"unknown\",\n    \"note_ids\": [],\n    \"basis_situations\": []\n  },\n\n\n  \"behavior_rules\": []\n}",
+    "usage": {
+      "completion_tokens": 2453,
+      "prompt_tokens": 4160,
+      "prompt_tokens_details": {
+        "cached_tokens": 4000
+      },
+      "total_tokens": 6613
+    }
+  },
+  {
+    "file": "calls/H_history/K_initial_person_context_review_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\n  \"persistence\": {\n    \"evidence\": \"missing\",\n    \"pattern\": \"unresolved\",\n    \"value\": \"unknown\",\n    \"note_ids\": [\"N1\"],\n    \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"lost_or_confused\"}]\n  },\n  \"environment\": {\n    \"water\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": []\n    },\n    \"forest\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": []\n    },\n    \"park\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [\"N1\",\n      \"N1\",\n      \"N1\",\n      \"N1\",\n      \"N1\"\n    ],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": [{\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"}]\n    },\n    \"market\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [\"N1\", \"N2\"],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": [\n        {\"note_id\": \"N1\", \"situation\": \"encounter_reaction\"},\n        {\"note_id\": \"N2\", \"situation\": \"encounter_reaction\"}\n      ]\n    }\n  },\n  \"baseline_direction\": {\"value\": \"unknown\", \"note_ids\": [], \"basis_situations\": []},\n  \"behavior_rules\": []\n}",
+    "usage": {
+      "completion_tokens": 9326,
+      "prompt_tokens": 4598,
+      "prompt_tokens_details": {
+        "cached_tokens": 4224
+      },
+      "total_tokens": 13924
+    }
+  },
+  {
+    "file": "calls/H_history/K_initial_person_core_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"goals\": {\"다온공원\": {\"value\": \"unknown\", \"period\": \"unspecified\", \"note_ids\": []}, \"푸른시장\": {\"value\": \"historical_only\", \"period\": \"unspecified\", \"note_ids\": [\"N2\"]}, \"은빛경로당\": {\"value\": \"habitual_visit\", \"period\": \"clock_day\", \"note_ids\": [\"N0\"]}}, \"routes\": {\"다온공원\": {\"value\": \"unknown\", \"note_ids\": []}, \"푸른시장\": {\"value\": \"unknown\", \"note_ids\": []}, \"은빛경로당\": {\"value\": \"routine_independent\", \"note_ids\": [\"N0\"]}}, \"found_history\": {\"다온공원\": {\"value\": \"not_reported\", \"note_ids\": []}, \"푸른시장\": {\"value\": \"not_reported\", \"note_ids\": []}, \"은빛경로당\": {\"value\": \"not_reported\", \"note_ids\": []}}, \"mobility\": {\"value\": \"D\", \"note_ids\": [\"N0\"]}, \"emotion\": {\"value\": \"unknown\", \"note_ids\": []}, \"other_traits\": []}",
+    "usage": {
+      "completion_tokens": 3336,
+      "prompt_tokens": 3734,
+      "prompt_tokens_details": {
+        "cached_tokens": 3040
+      },
+      "total_tokens": 7070
+    }
+  },
+  {
+    "file": "calls/H_history/K_initial_person_semantic_audit_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\n  \"goals\": {\n    \"다온공원\": {\"value\": \"unknown\", \"period\": \"unspecified\", \"note_ids\": []},\n    \"푸른시장\": {\"value\": \"historical_only\", \"period\": \"unspecified\", \"note_ids\": [\"N2\"]},\n    \"은빛경로당\": {\"value\": \"habitual_visit\", \"period\": \"clock_day\", \"note_ids\": [\"N0\"]}\n  },\n  \"routes\": {\n    \"다온공원\": {\"value\": \"unknown\", \"note_ids\": []},\n    \"푸른시장\": {\"value\": \"repeated_independent\", \"note_ids\": [\"N2\"]},\n    \"은빛경로당\": {\"value\": \"routine_independent\", \"note_ids\": [\"N0\"]}\n  },\n  \"found_history\": {\n    \"다온공원\": {\"value\": \"not_reported\", \"note_ids\": []},\n    \"푸른시장\": {\"value\": \"not_reported\", \"note_ids\": []},\n    \"은빛경로당\": {\"value\": \"not_reported\", \"note_ids\": []}\n  },\n  \"mobility\": {\"value\": \"C\", \"note_ids\": [\"N0\"]},\n  \"emotion\": {\"value\": \"unknown\", \"note_ids\": []},\n  \"other_traits\": [\n    {\"type\": \"routine_route\", \"period\": \"clock_day\", \"note_ids\": [\"N0\"]},\n    {\"type\": \"time_pattern\", \"period\": \"clock_day\", \"note_ids\": [\"N0\"]},\n    {\"type\": \"past_role\", \"period\": \"unspecified\", \"note_ids\": [\"N2\"]}\n  ]\n}",
+    "usage": {
+      "completion_tokens": 4048,
+      "prompt_tokens": 4938,
+      "prompt_tokens_details": {
+        "cached_tokens": 3712
+      },
+      "total_tokens": 8986
+    }
+  },
+  {
+    "file": "calls/H_history/Midm_midm_chat_1.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 966,
+      "completion_tokens": 9,
+      "total_tokens": 975
+    }
+  },
+  {
+    "file": "calls/H_history/Midm_midm_chat_2.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 925,
+      "completion_tokens": 9,
+      "total_tokens": 934
+    }
+  },
+  {
+    "file": "calls/H_history/Midm_midm_chat_3.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/H_history/Midm_midm_chat_4.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/H_history/Midm_midm_chat_5.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 816,
+      "completion_tokens": 9,
+      "total_tokens": 825
+    }
+  },
+  {
+    "file": "calls/H_wait/K_initial_person_context_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"persistence\":{\"evidence\":\"supported\",\"pattern\":\"consistent\",\"value\":\"wait_for_help\",\"note_ids\":[\"N2\"],\"basis_situations\":[{\"note_id\":\"N2\",\"situation\":\"lost_or_confused\"}]},\"environment\":{\"water\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]},\"forest\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]},\"park\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[\"N1\"],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[{\"note_id\":\"N1\",\"situation\":\"visit_or_range\"}]},\"market\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]}}, \"baseline_direction\":{\"value\":\"unknown\",\"note_ids\":[],\"basis_situations\":[]},\"behavior_rules\":[]}",
+    "usage": {
+      "completion_tokens": 5487,
+      "prompt_tokens": 4158,
+      "prompt_tokens_details": {
+        "cached_tokens": 4000
+      },
+      "total_tokens": 9645
+    }
+  },
+  {
+    "file": "calls/H_wait/K_initial_person_context_review_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{ \"persistence\": { \"evidence\": \"supported\", \"pattern\": \"consistent\", \"value\": \"wait_for_help\", \"note_ids\": [\"N2\"], \"basis_situations\": [{\"note_id\": \"N2\", \"situation\": \"lost_or_confused\"}] }, \"environment\": { \"water\": { \"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\" , \"basis_situations\": []}, \"forest\": { \"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\" , \"basis_situations\": []}, \"park\": { \"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\" , \"basis_situations\": []}, \"market\": { \"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\" , \"basis_situations\": []} }, \"baseline_direction\": { \"value\": \"unknown\", \"note_ids\": [], \"basis_situations\": []}, \"behavior_rules\": []}",
+    "usage": {
+      "completion_tokens": 7664,
+      "prompt_tokens": 4601,
+      "prompt_tokens_details": {
+        "cached_tokens": 4224
+      },
+      "total_tokens": 12265
+    }
+  },
+  {
+    "file": "calls/H_wait/K_initial_person_core_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"goals\":{\"다온공원\":{\"value\":\"repeated_statement\",\"period\":\"clock_day\",\"note_ids\":[\"N1\"]},\"푸른시장\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N1\"]},\"은빛경로당\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N1\"]}},\"routes\":{\"다온공원\":{\"value\":\"new_route\",\"note_ids\":[\"N1\"]},\"푸른시장\":{\"value\":\"unknown\",\"note_ids\":[\"N1\"]},\"은빛경로당\":{\"value\":\"unknown\",\"note_ids\":[\"N1\"]}},\"found_history\":{\"다온공원\":{\"value\":\"not_reported\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"not_reported\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"not_reported\",\"note_ids\":[]}},\"mobility\":{\"value\":\"B\",\"note_ids\":[\"N0\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]},\"other_traits\":[{\"type\":\"wayfinding_failure\",\"period\":\"unspecified\",\"note_ids\":[\"N2\"]},{\"type\":\"hiding_or_staying\",\"period\":\"unspecified\",\"note_ids\":[\"N2\"]}]}",
+    "usage": {
+      "completion_tokens": 4833,
+      "prompt_tokens": 3732,
+      "prompt_tokens_details": {
+        "cached_tokens": 3040
+      },
+      "total_tokens": 8565
+    }
+  },
+  {
+    "file": "calls/H_wait/K_initial_person_semantic_audit_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"goals\":{\"다온공원\":{\"value\":\"repeated_statement\",\"period\":\"clock_day\",\"note_ids\":[\"N1\"]},\"푸른시장\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N1\"]},\"은빛경로당\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[\"N1\"]}}, \"routes\":{\"다온공원\":{\"value\":\"new_route\",\"note_ids\":[\"N0\"]},\"푸른시장\":{\"value\":\"unknown\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"unknown\",\"note_ids\":[]}},\"found_history\":{\"다온공원\":{\"value\":\"not_reported\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"not_reported\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"not_reported\",\"note_ids\":[]}},\"mobility\":{\"value\":\"B\",\"note_ids\":[\"N0\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]},\"other_traits\":[{\"type\":\"wayfinding_failure\",\"period\":\"unspecified\",\"note_ids\":[\"N2\"]},{\"type\":\"hiding_or_staying\",\"period\":\"unspecified\",\"note_ids\":[\"N2\"]}]}",
+    "usage": {
+      "completion_tokens": 5311,
+      "prompt_tokens": 4996,
+      "prompt_tokens_details": {
+        "cached_tokens": 3712
+      },
+      "total_tokens": 10307
+    }
+  },
+  {
+    "file": "calls/H_wait/Midm_midm_chat_1.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 919,
+      "completion_tokens": 9,
+      "total_tokens": 928
+    }
+  },
+  {
+    "file": "calls/H_wait/Midm_midm_chat_2.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 923,
+      "completion_tokens": 9,
+      "total_tokens": 932
+    }
+  },
+  {
+    "file": "calls/H_wait/Midm_midm_chat_3.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 827,
+      "completion_tokens": 9,
+      "total_tokens": 836
+    }
+  },
+  {
+    "file": "calls/H_wait/Midm_midm_chat_4.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 820,
+      "completion_tokens": 9,
+      "total_tokens": 829
+    }
+  },
+  {
+    "file": "calls/W1/K_initial_person_context_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"persistence\":{\"evidence\":\"supported\",\"pattern\":\"consistent\",\"value\":\"wait_for_help\",\"note_ids\":[\"N2\"],\"basis_situations\":[{\"note_id\":\"N2\",\"situation\":\"lost_or_confused\"}]},\"environment\":{\"water\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]},\"forest\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]},\"park\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]},\"market\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]}}\n\n    ,\"baseline_direction\":{\"value\":\"unknown\",\"note_ids\":[\"N2\",\"N2\"],\"basis_situations\":[{\"note_id\":\"N2\",\"situation\":\"lost_or_confused\"}]},\"behavior_rules\":[]}",
+    "usage": {
+      "completion_tokens": 3218,
+      "prompt_tokens": 4133,
+      "prompt_tokens_details": {
+        "cached_tokens": 4000
+      },
+      "total_tokens": 7351
+    }
+  },
+  {
+    "file": "calls/W1/K_initial_person_context_review_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"persistence\":{\"evidence\":\"supported\",\"pattern\":\"consistent\",\"value\":\"wait_for_help\",\"note_ids\":[\"N2\"],\"basis_situations\":[{\"note_id\":\"N2\",\"situation\":\"lost_or_confused\"}]},\"environment\":{\"water\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]},\"forest\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]},\"park\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]},\"market\":{\"response\":\"unknown\",\"condition\":\"unknown\",\"note_ids\":[],\"condition_clauses\":[],\"spatial_scope\":\"unknown\",\"basis_situations\":[]}},\"baseline_direction\":{\"value\":\"unknown\",\"note_ids\":[],\"basis_situations\":[]},\"behavior_rules\":[]}",
+    "usage": {
+      "completion_tokens": 9956,
+      "prompt_tokens": 4576,
+      "prompt_tokens_details": {
+        "cached_tokens": 4544
+      },
+      "total_tokens": 14532
+    }
+  },
+  {
+    "file": "calls/W1/K_initial_person_core_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\n  \"goals\": {\n    \"다온공원\": {\n      \"value\": \"repeated_statement\",\n      \"period\": \"clock_day\",\n      \"note_ids\": [\"N1\"]\n    },\n    \"푸른시장\": {\n      \"value\": \"unknown\",\n      \"period\": \"unspecified\",\n      \"note_ids\": []\n    },\n    \"은빛경로당\": {\n      \"value\": \"unknown\",\n      \"period\": \"unspecified\",\n      \"note_ids\": []\n    }\n  },\n  \"routes\": {\n    \"다온공원\": {\n      \"value\": \"new_route\",\n      \"note_ids\": [\"N1\"]\n    },\n    \"푸른시장\": {\n      \"value\": \"unknown\",\n      \"note_ids\": []\n    },\n    \"은빛경로당\": {\n      \"value\": \"unknown\",\n      \"note_ids\": []\n    }\n  },\n  \"found_history\": {\n    \"다온공원\": {\n      \"value\": \"not_reported\",\n      \"note_ids\": []\n    },\n    \"푸른시장\": {\n      \"value\": \"not_reported\",\n      \"note_ids\": []\n    },\n\n\n    \"은빛경로당\": {\n      \"value\": \"not_reported\",\n      \"note_ids\": []\n    }\n  },\n  \"mobility\": {\n    \"value\": \"A\",\n    \"note_ids\": [\"N0\"]\n  },\n  \"emotion\": {\n    \"value\": \"unknown\",\n    \"note_ids\": []\n  },\n  \"other_traits\": [\n    {\n      \"type\": \"rest_pattern\",\n      \"period\": \"unspecified\",\n      \"note_ids\": [\"N0\"]\n    },\n    {\n      \"type\": \"help_seeking\",\n      \"period\": \"unspecified\",\n      \"note_ids\": [\"N2\"]\n    }\n  ]\n}",
+    "usage": {
+      "completion_tokens": 5279,
+      "prompt_tokens": 3707,
+      "prompt_tokens_details": {
+        "cached_tokens": 672
+      },
+      "total_tokens": 8986
+    }
+  },
+  {
+    "file": "calls/W1/K_initial_person_semantic_audit_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"goals\":{\"다온공원\":{\"value\":\"repeated_statement\",\"period\":\"clock_day\",\"note_ids\":[\"N1\"]},\"푸른시장\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[]}},\"routes\":{\"다온공원\":{\"value\":\"new_route\",\"note_ids\":[\"N1\"]},\"푸른시장\":{\"value\":\"unknown\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"unknown\",\"note_ids\":[]}},\"found_history\":{\"다온공원\":{\"value\":\"not_reported\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"not_reported\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"not_reported\",\"note_ids\":[]}},\"mobility\":{\"value\":\"B\",\"note_ids\":[\"N0\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]},\"other_traits\":[{\"type\":\"rest_pattern\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]},{\"type\":\"wayfinding_failure\",\"period\":\"unspecified\",\"note_ids\":[\"N2\"]}]}",
+    "usage": {
+      "completion_tokens": 7181,
+      "prompt_tokens": 4956,
+      "prompt_tokens_details": {
+        "cached_tokens": 2752
+      },
+      "total_tokens": 12137
+    }
+  },
+  {
+    "file": "calls/W1/Midm_midm_chat_1.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 899,
+      "completion_tokens": 9,
+      "total_tokens": 908
+    }
+  },
+  {
+    "file": "calls/W1/Midm_midm_chat_2.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 903,
+      "completion_tokens": 9,
+      "total_tokens": 912
+    }
+  },
+  {
+    "file": "calls/W1/Midm_midm_chat_3.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 801,
+      "completion_tokens": 9,
+      "total_tokens": 810
+    }
+  },
+  {
+    "file": "calls/W1/Midm_midm_chat_4.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 807,
+      "completion_tokens": 9,
+      "total_tokens": 816
+    }
+  },
+  {
+    "file": "calls/W1/Midm_midm_chat_5.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 820,
+      "completion_tokens": 9,
+      "total_tokens": 829
+    }
+  },
+  {
+    "file": "calls/W2/K_initial_person_context_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"persistence\": {\"evidence\": \"supported\", \"pattern\": \"consistent\", \"value\": \"keep_moving\", \"note_ids\": [\"N2\"], \"basis_situations\": [{\"note_id\": \"N2\", \"situation\": \"lost_or_confused\"}]}, \"environment\": {\"water\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}, \"forest\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}, \"park\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}, \"market\": {\"response\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": [], \"spatial_scope\": \"unknown\", \"basis_situations\": []}}, \"baseline_direction\": {\"value\": \"unknown\", \"note_ids\": [], \"basis_situations\": []}, \"behavior_rules\": []}",
+    "usage": {
+      "completion_tokens": 2482,
+      "prompt_tokens": 4136,
+      "prompt_tokens_details": {
+        "cached_tokens": 4128
+      },
+      "total_tokens": 6618
+    }
+  },
+  {
+    "file": "calls/W2/K_initial_person_context_review_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\n  \"persistence\": {\n    \"evidence\": \"supported\",\n    \"pattern\": \"consistent\",\n    \"value\": \"keep_moving\",\n    \"note_ids\": [\"N2\"],\n    \"basis_situations\": [\n      {\n        \"note_id\": \"N2\",\n        \"situation\": \"lost_or_confused\"\n      }\n    ]\n  },\n  \"environment\": {\n    \"water\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": []\n    },\n    \"forest\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": []\n    },\n    \"park\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": []\n    },\n    \"market\": {\n      \"response\": \"unknown\",\n      \"condition\": \"unknown\",\n      \"note_ids\": [],\n      \"condition_clauses\": [],\n      \"spatial_scope\": \"unknown\",\n      \"basis_situations\": []\n    }\n  },\n  \"baseline_direction\": {\n    \"value\": \"unknown\",\n    \"note_ids\": [],\n    \"basis_situations\": []\n  },\n  \"behavior_rules\": []\n}",
+    "usage": {
+      "completion_tokens": 8446,
+      "prompt_tokens": 4576,
+      "prompt_tokens_details": {
+        "cached_tokens": 4544
+      },
+      "total_tokens": 13022
+    }
+  },
+  {
+    "file": "calls/W2/K_initial_person_core_2.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{ \"goals\": {\n  \"다온공원\": {\n    \"value\": \"repeated_statement\",\n    \"period\": \"clock_day\",\n    \"note_ids\": [\"N1\"]\n  },\n  \"푸른시장\": {\n    \"value\": \"unknown\",\n    \"period\": \"unspecified\",\n    \"note_ids\": []\n  },\n  \"은빛경로당\": {\n    \"value\": \"unknown\",\n    \"period\": \"unspecified\",\n    \"note_ids\": []\n  }\n}, \"routes\": {\n  \"다온공원\": {\n    \"value\": \"new_route\",\n    \"note_ids\": [\"N1\"]\n  },\n  \"푸른시장\": {\n    \"value\": \"unknown\",\n    \"note_ids\": []\n  },\n  \"은빛경로당\": {\n    \"value\": \"unknown\",\n    \"note_ids\": []\n  }\n}, \"found_history\": {\n  \"다온공원\": {\n    \"value\": \"not_reported\",\n    \"note_ids\": []\n  },\n  \"푸른시장\": {\n          \"value\": \"not_reported\",\n          \"note_ids\": []\n        },\n      \"은빛경로당\": {\n        \"value\": \"not_reported\",\n        \"note_ids\": []\n      }\n    }, \"mobility\": {\n      \"value\": \"B\",\n      \"note_ids\": [\"N0\"]\n    }, \"emotion\": {\n      \"value\": \"unknown\",\n      \"note_ids\": []\n    }, \"other_traits\": [\n      {\n        \"type\": \"wayfinding_failure\",\n        \"period\": \"unspecified\",\n        \"note_ids\": [\"N2\"]\n      },\n      {\n        \"type\": \"rest_pattern\",\n        \"period\": \"unspecified\",\n        \"note_ids\": [\"N0\"]\n      }\n    ]\n  }",
+    "usage": {
+      "completion_tokens": 6066,
+      "prompt_tokens": 3710,
+      "prompt_tokens_details": {
+        "cached_tokens": 672
+      },
+      "total_tokens": 9776
+    }
+  },
+  {
+    "file": "calls/W2/K_initial_person_semantic_audit_4.json",
+    "model": "depmkuykpfon9lg",
+    "finish_reason": "stop",
+    "final_content": "{\"goals\":{\"다온공원\":{\"value\":\"repeated_statement\",\"period\":\"clock_day\",\"note_ids\":[\"N1\"]},\"푸른시장\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"unknown\",\"period\":\"unspecified\",\"note_ids\":[]}},\"routes\":{\"다온공원\":{\"value\":\"new_route\",\"note_ids\":[\"N1\"]},\"푸른시장\":{\"value\":\"unknown\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"unknown\",\"note_ids\":[]}},\"found_history\":{\"다온공원\":{\"value\":\"not_reported\",\"note_ids\":[]},\"푸른시장\":{\"value\":\"not_reported\",\"note_ids\":[]},\"은빛경로당\":{\"value\":\"not_reported\",\"note_ids\":[]}},\"mobility\":{\"value\":\"B\",\"note_ids\":[\"N0\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]},\"other_traits\":[{\"type\":\"wayfinding_failure\",\"period\":\"unspecified\",\"note_ids\":[\"N2\"]},{\"type\":\"rest_pattern\",\"period\":\"unspecified\",\"note_ids\":[\"N0\"]}]}",
+    "usage": {
+      "completion_tokens": 4469,
+      "prompt_tokens": 4956,
+      "prompt_tokens_details": {
+        "cached_tokens": 2752
+      },
+      "total_tokens": 9425
+    }
+  },
+  {
+    "file": "calls/W2/Midm_midm_chat_1.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 894,
+      "completion_tokens": 9,
+      "total_tokens": 903
+    }
+  },
+  {
+    "file": "calls/W2/Midm_midm_chat_2.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 901,
+      "completion_tokens": 9,
+      "total_tokens": 910
+    }
+  },
+  {
+    "file": "calls/W2/Midm_midm_chat_3.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 805,
+      "completion_tokens": 9,
+      "total_tokens": 814
+    }
+  },
+  {
+    "file": "calls/W2/Midm_midm_chat_4.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 801,
+      "completion_tokens": 9,
+      "total_tokens": 810
+    }
+  }
+]

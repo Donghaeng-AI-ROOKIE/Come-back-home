@@ -1,0 +1,2669 @@
+{
+  "method": "assistant-designed supplementary checks triggered by output inspection, not independent human scoring",
+  "records": [
+    {
+      "stage": "base",
+      "case": "E1",
+      "record": "E1_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "E1",
+      "record": "E1_r1",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "E1",
+      "record": "E1_r1",
+      "arm": "C",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "E1",
+      "record": "E1_r2",
+      "arm": "A",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "E1",
+      "record": "E1_r2",
+      "arm": "B",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "E1",
+      "record": "E1_r2",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "E2",
+      "record": "E2_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "E2",
+      "record": "E2_r1",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "E2",
+      "record": "E2_r1",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "hazard_unawareness",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "emotion_inferred_without_explicit_report"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "E2",
+      "record": "E2_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "E2",
+      "record": "E2_r2",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "E2",
+      "record": "E2_r2",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G1",
+      "record": "G1_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        },
+        {
+          "kind": "unsupported_extra_trait",
+          "trait": "wayfinding_failure"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G1",
+      "record": "G1_r1",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        },
+        {
+          "kind": "unsupported_extra_trait",
+          "trait": "wayfinding_failure"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G1",
+      "record": "G1_r1",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G1",
+      "record": "G1_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G1",
+      "record": "G1_r2",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G1",
+      "record": "G1_r2",
+      "arm": "C",
+      "traits": [],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G2",
+      "record": "G2_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G2",
+      "record": "G2_r1",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G2",
+      "record": "G2_r1",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G2",
+      "record": "G2_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G2",
+      "record": "G2_r2",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "G2",
+      "record": "G2_r2",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W1",
+      "record": "W1_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unsupported_extra_trait",
+          "trait": "help_seeking"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W1",
+      "record": "W1_r1",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unsupported_extra_trait",
+          "trait": "help_seeking"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W1",
+      "record": "W1_r1",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "person_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unsupported_extra_trait",
+          "trait": "person_seeking"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W1",
+      "record": "W1_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unsupported_extra_trait",
+          "trait": "help_seeking"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W1",
+      "record": "W1_r2",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unsupported_extra_trait",
+          "trait": "help_seeking"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W1",
+      "record": "W1_r2",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unsupported_extra_trait",
+          "trait": "help_seeking"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W2",
+      "record": "W2_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W2",
+      "record": "W2_r1",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W2",
+      "record": "W2_r1",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W2",
+      "record": "W2_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W2",
+      "record": "W2_r2",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "base",
+      "case": "W2",
+      "record": "W2_r2",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E1",
+      "record": "E1_r1_A",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E1",
+      "record": "E1_r1_B",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E1",
+      "record": "E1_r1_C",
+      "arm": "C",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E1",
+      "record": "E1_r2_A",
+      "arm": "A",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E1",
+      "record": "E1_r2_B",
+      "arm": "B",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E1",
+      "record": "E1_r2_C",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E2",
+      "record": "E2_r1_A",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E2",
+      "record": "E2_r1_B",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E2",
+      "record": "E2_r1_C",
+      "arm": "C",
+      "traits": [],
+      "issues": [
+        {
+          "kind": "emotion_inferred_without_explicit_report"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E2",
+      "record": "E2_r2_A",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E2",
+      "record": "E2_r2_B",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "E2",
+      "record": "E2_r2_C",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "other",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "unspecified_other_trait_not_semantically_verified",
+          "trait": "other"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G1",
+      "record": "G1_r1_A",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G1",
+      "record": "G1_r1_B",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G1",
+      "record": "G1_r1_C",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G1",
+      "record": "G1_r2_A",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G1",
+      "record": "G1_r2_B",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G1",
+      "record": "G1_r2_C",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G2",
+      "record": "G2_r1_A",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G2",
+      "record": "G2_r1_B",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G2",
+      "record": "G2_r1_C",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G2",
+      "record": "G2_r2_A",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G2",
+      "record": "G2_r2_B",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "G2",
+      "record": "G2_r2_C",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W1",
+      "record": "W1_r1_A",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W1",
+      "record": "W1_r1_B",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W1",
+      "record": "W1_r1_C",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W1",
+      "record": "W1_r2_A",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W1",
+      "record": "W1_r2_B",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W1",
+      "record": "W1_r2_C",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W2",
+      "record": "W2_r1_A",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W2",
+      "record": "W2_r1_B",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W2",
+      "record": "W2_r1_C",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W2",
+      "record": "W2_r2_A",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W2",
+      "record": "W2_r2_B",
+      "arm": "B",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "repair",
+      "case": "W2",
+      "record": "W2_r2_C",
+      "arm": "C",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0",
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "fresh",
+      "case": "E1",
+      "record": "E1",
+      "arm": "A",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "fresh",
+      "case": "E2",
+      "record": "E2",
+      "arm": "A",
+      "traits": [],
+      "issues": [
+        {
+          "kind": "emotion_inferred_without_explicit_report"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "fresh",
+      "case": "G1",
+      "record": "G1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "fresh",
+      "case": "G2",
+      "record": "G2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "fresh",
+      "case": "H_history",
+      "record": "H_history",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "fresh",
+      "case": "H_wait",
+      "record": "H_wait",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "hiding_or_staying",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "rest_pattern"
+        },
+        {
+          "kind": "route_citation_does_not_support_value",
+          "place": "다온공원",
+          "expected_note": "N1",
+          "actual": [
+            "N0"
+          ]
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "fresh",
+      "case": "W1",
+      "record": "W1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "fresh",
+      "case": "W2",
+      "record": "W2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "E1",
+      "record": "E1_r1",
+      "arm": "A",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "E1",
+      "record": "E1_r2",
+      "arm": "A",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "E2",
+      "record": "E2_r1",
+      "arm": "A",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "E2",
+      "record": "E2_r2",
+      "arm": "A",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "G1",
+      "record": "G1_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "G1",
+      "record": "G1_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "G2",
+      "record": "G2_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "G2",
+      "record": "G2_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "H_history",
+      "record": "H_history_r1",
+      "arm": "A",
+      "traits": [],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "H_history",
+      "record": "H_history_r2",
+      "arm": "A",
+      "traits": [],
+      "issues": [
+        {
+          "kind": "missing_distinct_trait",
+          "trait": "past_role"
+        }
+      ],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "H_wait",
+      "record": "H_wait_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "hiding_or_staying",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "H_wait",
+      "record": "H_wait_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "hiding_or_staying",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "W1",
+      "record": "W1_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "W1",
+      "record": "W1_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "W2",
+      "record": "W2_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v2",
+      "case": "W2",
+      "record": "W2_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "E1",
+      "record": "E1_r1",
+      "arm": "A",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "E1",
+      "record": "E1_r2",
+      "arm": "A",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "E2",
+      "record": "E2_r1",
+      "arm": "A",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "E2",
+      "record": "E2_r2",
+      "arm": "A",
+      "traits": [],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "G1",
+      "record": "G1_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "G1",
+      "record": "G1_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "G2",
+      "record": "G2_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "G2",
+      "record": "G2_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "H_history",
+      "record": "H_history_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "H_history",
+      "record": "H_history_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "past_role",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "H_wait",
+      "record": "H_wait_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "hiding_or_staying",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "H_wait",
+      "record": "H_wait_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "hiding_or_staying",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "W1",
+      "record": "W1_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "W1",
+      "record": "W1_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "W2",
+      "record": "W2_r1",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    },
+    {
+      "stage": "grounding_v3",
+      "case": "W2",
+      "record": "W2_r2",
+      "arm": "A",
+      "traits": [
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ],
+      "issues": [],
+      "posthoc_not_preregistered": true
+    }
+  ]
+}

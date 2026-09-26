@@ -63,6 +63,33 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
     return net, ""
 
 
+def _initial_prior(persona, report, links):
+    """Compile prepared personal evidence first; legacy SAR is the unavailable path.
+
+    No model is called when a current preparation can be applied. The fallback is
+    continuity for an urgent/missing/invalid preparation, not evidence that SAR
+    improves a successfully prepared K interpretation.
+    """
+    default = exaone._default_prior(persona, report)
+    default = default.model_copy(update={
+        'source': 'profile_baseline',
+        'strategy_before_behavior': dict(default.strategy_probs),
+    })
+    prepared = apply_prepared(persona, report, default, default, links)
+    if prepared.initial_interpretation.get('status') == 'applied':
+        prepared.source = 'prepared_person'
+        prepared.fallback_reason = ''
+        prepared.initial_interpretation.update(
+            initial_prior_path='prepared_person', numeric_baseline_source='profile_baseline',
+            sar_source=None, SAR_called_during_prediction=False)
+        return prepared
+    prior = exaone.generate_prior(persona, report)
+    prior.initial_interpretation = dict(prepared.initial_interpretation,
+        initial_prior_path='legacy_SAR_fallback', numeric_baseline_source=prior.source,
+        SAR_called_during_prediction=not exaone.is_stub)
+    return prior
+
+
 @storage.serialize_case
 def run_prediction(
     case: Case,
@@ -87,21 +114,16 @@ def run_prediction(
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     _lap("prepare_ms")
 
-    # ① Few-shot CoT → prior (EXAONE, 좌표 아님)
+    # Stored K traits are compiled locally. The incident's destination link is
+    # separately grounded in the report; it is not inferred from SAR weights.
+    links = situation_link.cached(case, persona)
     last_call = exaone.call_log[-1] if exaone.call_log else None
-    prior = exaone.generate_prior(persona, case.report)
+    prior = _initial_prior(persona, case.report, links)
     prior_call = (exaone.call_log[-1]
                   if exaone.call_log and exaone.call_log[-1] is not last_call
                   and exaone.call_log[-1]["kind"] == "prior" else None)
     _lap("prior_ms")
 
-    # 온보딩 뒤 백그라운드에서 저장한 K 해석을 로컬 컴파일한다(여기서 K 호출 없음).
-    # 보호자 사실은 저장소에 그대로 두고 사건별 추정 사본을 두 MC에 같이 전달.
-    # 신고 상황 문장이 등록 장소 중 어디로 이어지는지는 Mi:dm 이 사례당 한 번 판정한다
-    # (같은 문장·같은 준비 결과면 재예측 때 다시 부르지 않는다 — situation_link.cached).
-    links = situation_link.cached(case, persona)
-    prior = apply_prepared(persona, case.report, prior,
-                           exaone._default_prior(persona, case.report), links)
     persona = simulation_persona(persona, prior)
     _lap("initial_person_ms")
 

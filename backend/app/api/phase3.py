@@ -266,6 +266,8 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
         # 표시하면서 실제로는 프로파일 평균을 보여주게 된다 (2026-08-05 실측 사례).
         "prior_source": case.prior.source if case.prior else "unknown",
         "prior_fallback_reason": case.prior.fallback_reason if case.prior else "",
+        "initial_prior_path": case.prior.initial_interpretation.get("initial_prior_path") if case.prior else None,
+        "personal_interpretation_status": case.prior.initial_interpretation.get("status") if case.prior else None,
         # 도로망 위에서 걸었는지. 로딩 실패 시 연속 공간 폴백이 조용히 일어나
         # "도로 제약 없는 예측"이 나가므로 같이 내려준다 (Case.roadnet_used 주석).
         "roadnet_used": case.roadnet_used,

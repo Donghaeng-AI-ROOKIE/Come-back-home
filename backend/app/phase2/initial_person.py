@@ -145,6 +145,14 @@ def interpret(payload):
     if not isinstance(core_review, Exception):
         core = core_review
         if not isinstance(core_draft, Exception):
+            # A review may drop a distinct fact while keeping a related one (past
+            # occupation vs destination history, physical capacity vs rest pattern).
+            # Preserve candidates for the independent source check, never restore
+            # them merely because the draft contained them.
+            audit['route_draft_candidates'] = {label:dict(leaf) for label,leaf in core_draft.get('routes',{}).items()}
+            final_trait_types = {t['type'] for t in core.get('other_traits', [])}
+            audit['trait_review_omissions'] = [dict(t) for t in core_draft.get('other_traits', [])
+                                              if t['type'] not in final_trait_types]
             # The review replaces the draft; keep what it reversed so a third reading can
             # judge it (v50 dev S4: a cited found place dropped to not_reported, uncited).
             audit["core_review_changes"] = [

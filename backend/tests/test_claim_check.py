@@ -32,6 +32,81 @@ def _answers(monkeypatch, table):
     return asked
 
 
+def test_waiting_does_not_create_a_help_request_and_rest_is_preserved(sample, monkeypatch):
+    parsed = _parsed(sample)
+    parsed['core']['other_traits'] = [
+        {'type': 'help_seeking', 'period': 'unspecified', 'note_ids': ['N0']},
+        {'type': 'rest_pattern', 'period': 'unspecified', 'note_ids': ['N1']}]
+    payload = _payload(sample)
+    payload['notes'] = [
+        {'id': 'N0', 'text': '가족이 올 때까지 그 자리에서 기다렸다.', 'sources': [{'kind': 'guardian_quote'}]},
+        {'id': 'N1', 'text': '무릎 때문에 오 분마다 앉아서 쉬어야 한다.', 'sources': [{'kind': 'guardian_quote'}]}]
+    seen = []
+    def check(notes, statement):
+        seen.append((notes, statement))
+        if statement == claim_check.TRAIT['help_seeking']:
+            assert notes == ['가족이 올 때까지 그 자리에서 기다렸다.']
+            return False
+        if statement == claim_check.TRAIT['rest_pattern']:
+            assert notes == ['무릎 때문에 오 분마다 앉아서 쉬어야 한다.']
+            return True
+        return None
+    monkeypatch.setattr(claim_check.midm, 'check_claim', check)
+    out = claim_check.verify(parsed, payload)
+    assert [t['type'] for t in out['core']['other_traits']] == ['rest_pattern']
+    assert out['audit']['rejected_traits'][0]['type'] == 'help_seeking'
+    assert out['audit']['unconfirmed_traits'] == []
+    assert len(out['audit']['trait_checks']) == 2
+
+
+def test_unavailable_trait_check_preserves_evidence_but_marks_it_unconfirmed(sample, monkeypatch):
+    parsed = _parsed(sample)
+    trait = {'type': 'help_seeking', 'period': 'unspecified', 'note_ids': ['N0']}
+    parsed['core']['other_traits'] = [trait]
+    _answers(monkeypatch, {})
+    out = claim_check.verify(parsed, _payload(sample))
+    assert out['core']['other_traits'] == [trait]
+    assert out['audit']['trait_checks'][0]['answer'] is None
+    assert out['audit']['unconfirmed_traits'][0]['reason'] == 'verification_unavailable'
+
+
+def test_trait_cannot_borrow_support_from_an_uncited_original(sample, monkeypatch):
+    parsed = _parsed(sample)
+    parsed['core']['other_traits'] = [{'type': 'help_seeking', 'period': 'unspecified', 'note_ids': ['missing']}]
+    asked = _answers(monkeypatch, {claim_check.TRAIT['help_seeking']: True})
+    out = claim_check.verify(parsed, _payload(sample))
+    assert out['core']['other_traits'] == []
+    assert claim_check.TRAIT['help_seeking'] not in asked
+
+
+@pytest.mark.parametrize('answer', [True, False, None])
+def test_discontinued_destination_keeps_confirmed_past_route_without_becoming_current(sample, monkeypatch, answer):
+    parsed = _parsed(sample)
+    parsed['core']['goals']['시장'].update(value='historical_only',note_ids=['N1'])
+    parsed['core']['routes']['시장'].update(value='unknown',note_ids=[])
+    def check(notes, statement):
+        if "과거에 '시장'까지" in statement:
+            assert notes == [_payload(sample)['notes'][1]['text']]
+            return answer
+        return None
+    monkeypatch.setattr(claim_check.midm,'check_claim',check)
+    out=claim_check.verify(parsed,_payload(sample))
+    assert out['core']['routes']['시장']['value'] == ('repeated_independent' if answer is True else 'unknown')
+    assert out['core']['goals']['시장']['value'] == 'historical_only'
+    assert out['audit']['route_history_checks'][0]['current_navigation_ability']=='not_established_by_past_experience'
+
+
+@pytest.mark.parametrize('answer', [True, False, None])
+def test_review_omission_is_restored_only_with_positive_source_check(sample, monkeypatch, answer):
+    trait={'type':'past_role','period':'unspecified','note_ids':['N0']}
+    parsed=_parsed(sample,trait_review_omissions=[trait])
+    parsed['core']['other_traits']=[]
+    _answers(monkeypatch,{claim_check.TRAIT['past_role']:answer})
+    out=claim_check.verify(parsed,_payload(sample))
+    assert out['core']['other_traits']==([trait] if answer is True else [])
+    assert out['audit']['restored_traits']==([trait] if answer is True else [])
+
+
 def test_unconfirmed_persistence_is_held(sample, monkeypatch):
     parsed = _parsed(sample)
     parsed['context']['persistence'].update(evidence='supported', pattern='consistent', value='keep_moving', note_ids=['N0'])
@@ -182,7 +257,8 @@ def test_conditional_reaction_disagreement_is_restored_with_its_condition(sample
     market = out['context']['environment']['market']
     assert (market['response'], market['scope'], market['condition']) == ('avoid', 'conditional_category', '추가 조건 필요')
     assert market['condition_clauses'] == clauses
-    assert asked == ['대상자는 시장에서 사람이 많을 때에는 피하거나 빠져나오는 편이다.']
+    assert asked == ['대상자는 시장에서 사람이 많을 때에는 피하거나 빠져나오는 편이다.',
+                     claim_check.category_scope_statement('market')]
 
 
 def test_current_goal_needs_a_current_reading(sample, monkeypatch):
@@ -214,3 +290,93 @@ def test_mobility_grade_is_checked_and_moves_only_to_one_confirmed_neighbour(sam
     parsed['core']['mobility'].update(value='B', note_ids=['N1'])
     _answers(monkeypatch, answers)
     assert claim_check.verify(parsed, _payload(sample))['core']['mobility']['value'] == expected
+
+
+@pytest.mark.parametrize('answer,expected', [(False,'unknown'),(True,'historical_only'),(None,'historical_only')])
+def test_candidate_list_is_not_a_historical_relationship(sample, monkeypatch, answer, expected):
+    parsed = _parsed(sample)
+    parsed['core']['goals']['시장'].update(value='historical_only', period='unspecified', note_ids=['N1'])
+    _answers(monkeypatch, {'과거 개인 이력': answer})
+    out = claim_check.verify(parsed, _payload(sample))
+    assert out['core']['goals']['시장']['value'] == expected
+
+
+@pytest.mark.parametrize('answer,scope', [(False,'place_specific'),(True,'conditional_category'),(None,'conditional_category')])
+def test_condition_truth_does_not_prove_category_wide_scope(sample,monkeypatch,answer,scope):
+    parsed=_parsed(sample)
+    clauses=[[{'signal':'crowded','state':'present'},{'signal':'noisy','state':'present'}]]
+    parsed['context']['environment']['market'].update(response='avoid',scope='conditional_category',condition='추가 조건 필요',condition_clauses=clauses,note_ids=['N0'])
+    _answers(monkeypatch,{'그 유형의 장소 전반':answer,'피하거나 빠져나오는':True})
+    out=claim_check.verify(parsed,_payload(sample))
+    assert out['context']['environment']['market']['scope']==scope
+    assert out['context']['environment']['market']['condition_clauses']==clauses
+    assert out['audit']['environment_scope_checks']==[{'feature':'market','answer':answer}]
+
+
+def test_condition_cube_reduction_preserves_every_verified_combination():
+    from itertools import product
+    rows=list(product((False,True),repeat=2))
+    for mask in range(1,15):
+        positive={row for i,row in enumerate(rows) if mask & (1<<i)}
+        clauses=claim_check._condition_cubes(positive)
+        actual={row for row in rows if any(all(row[('crowded','noisy').index(c['signal'])]==(c['state']=='present') for c in group) for group in clauses)}
+        assert actual==positive
+    assert claim_check._condition_cubes(set(rows))==[]
+
+
+def test_rejected_inverse_reaction_recovers_only_independently_confirmed_or(sample,monkeypatch):
+    parsed=_parsed(sample,context_disagreements=[{'field':'environment.market',
+        'draft':['approach','conditional_category'],'review':['unknown','unknown'],
+        'draft_clauses':[[{'signal':'crowded','state':'absent'},{'signal':'noisy','state':'absent'}]],'review_clauses':[]}])
+    parsed['context']['environment']['market']['note_ids']=['N0']
+    def check(notes,statement):
+        if '직접 관찰했다고 보고했다' in statement:
+            return '피하거나 빠져나오는' in statement
+        if '피하거나 빠져나오는 편이다' in statement:
+            return ('사람이 많을 때' in statement or '시끄러울 때' in statement)
+        if '그 유형의 장소 전반' in statement:return True
+        return False if '그쪽으로 가거나 들어가는' in statement else None
+    monkeypatch.setattr(claim_check.midm,'check_claim',check)
+    out=claim_check.verify(parsed,_payload(sample))
+    market=out['context']['environment']['market']
+    assert market['response']=='avoid'
+    assert sorted(market['condition_clauses'],key=str)==sorted([[{'signal':'crowded','state':'present'}],[{'signal':'noisy','state':'present'}]],key=str)
+    assert len(out['audit']['condition_recovery'][0]['cells'])==4
+
+
+def test_no_avoidance_does_not_automatically_create_approach(sample,monkeypatch):
+    parsed=_parsed(sample,context_disagreements=[{'field':'environment.market',
+        'draft':['approach','conditional_category'],'review':['unknown','unknown'],
+        'draft_clauses':[[{'signal':'noisy','state':'absent'}]],'review_clauses':[]}])
+    parsed['context']['environment']['market']['note_ids']=['N0']
+    monkeypatch.setattr(claim_check.midm,'check_claim',lambda *a:False)
+    out=claim_check.verify(parsed,_payload(sample))
+    assert out['context']['environment']['market']['response']=='unknown'
+    assert out['audit']['condition_recovery'][0]['cells']==[]
+
+
+def test_route_value_cannot_keep_a_wrong_citation(sample,monkeypatch):
+    parsed=_parsed(sample,route_draft_candidates={'시장':{'value':'new_route','note_ids':['N1']}})
+    parsed['core']['routes']['시장'].update(value='new_route',note_ids=['N0'])
+    payload=_payload(sample);by_id={n['id']:n['text'] for n in initial_behavior.evidence_notes(payload)}
+    def check(notes,statement):
+        if statement==claim_check.route_statement('시장','new_route'):
+            return notes==[by_id['N1']]
+        return None
+    monkeypatch.setattr(claim_check.midm,'check_claim',check)
+    out=claim_check.verify(parsed,payload)
+    assert out['core']['routes']['시장']['value']=='new_route'
+    assert out['core']['routes']['시장']['note_ids']==['N1']
+
+
+@pytest.mark.parametrize('has_rest',[False,True])
+def test_short_walking_does_not_imply_rest_without_source_confirmation(sample,monkeypatch,has_rest):
+    parsed=_parsed(sample);parsed['core']['mobility'].update(value='B',note_ids=['N0']);parsed['core']['other_traits']=[]
+    seen=[]
+    def check(notes,statement):
+        if statement==claim_check.TRAIT['rest_pattern']:seen.append(statement);return has_rest
+        return None
+    monkeypatch.setattr(claim_check.midm,'check_claim',check)
+    out=claim_check.verify(parsed,_payload(sample))
+    assert any(t['type']=='rest_pattern' for t in out['core']['other_traits']) is has_rest
+    assert len(seen)==1  # same cited proposition is not billed again in the trait pass
