@@ -1155,6 +1155,50 @@ def _looks_like_past_home(label: str) -> bool:
     return ("옛" in n or "예전" in n) and "집" in n
 
 
+def _label_grounded(label: str, utterance: str) -> bool:
+    """끌림점 라벨이 **이번 발화**에 실제로 있나 — 없으면 이전 대화에서 되뱉은 것이다.
+
+    프롬프트(prompts.build_extract_input)가 "이전 대화에서 이미 나온 장소는 다시 넣지
+    마라"고 해도 Mi:dm 2.5 는 장소가 하나도 없는 복약 답변("혈압약이랑 치매약을…")에
+    '면목동 방앗간'을 붙여 보냈다(run_eval D1 추적 2026-09-26). 그 결과 같은 방앗간이
+    '옛 방앗간'·'면목동 방앗간' 두 개로 쌓이고 과다추출로 잡혔다. _area_grounded 와
+    같은 원칙 — 발화에 없는 값은 모델이 지어낸 것. 라벨 전체 또는 토큰의 **앞 2자**
+    (어간 근사: '예전에'→'예전', '살던'→'살던')가 하나라도 발화에 있으면 통과 —
+    관대한 쪽이다. "예전에 살던 집"은 "예전 집에 가야한다고"에서 살아남아야 한다.
+    """
+    n, u = _norm(label), _norm(utterance)
+    if not n or not u:
+        return True
+    if n in u:
+        return True
+    return any(tok[:2] in u for tok in re.findall(r"[가-힣A-Za-z0-9]{2,}", str(label)))
+
+
+# 집 위치를 설명하는 꼬리표 — "정릉초등학교 **근처**예요"의 학교는 가는 곳이 아니다.
+_LOCATOR_SUFFIXES = ("근처", "옆", "앞", "뒤", "부근", "인근", "건너편", "맞은편", "사거리")
+
+
+def _is_home_locator(label: str, utterance: str) -> bool:
+    """집 답변에서 라벨 바로 뒤에 위치 꼬리표가 붙었나 — 그러면 집을 가리키는 기준점이다.
+
+    Mi:dm 2.5 는 "성북구 정릉동이요. 정릉초등학교 근처예요"에서 정릉초등학교를 끌림점으로
+    뽑을 때가 있다(run_eval 9개 중 7개, 2.0 은 0건). 집 턴의 장소를 전부 버리면
+    "주중 낮에는 주간보호센터에 계십니다"(슬롯 probes 가 묻는 것)까지 잃으므로, 꼬리표가
+    붙은 기준점만 거른다.
+    """
+    # 라벨 자체가 꼬리표를 달고 올 때가 있다("정릉초등학교 근처" — 라이브 실측 2026-09-26).
+    # 그러면 발화에서 라벨 뒤는 "예요"라 위 규칙을 빠져나가므로, 꼬리표를 뗀 핵심
+    # 지명으로 다시 본다. 뗀 결과가 달라졌다는 것 자체가 기준점 표현이라는 뜻이다.
+    core = base_place_name(str(label or ""))
+    if core != str(label or "").strip():
+        return True
+    n, u = _norm(core), _norm(utterance)
+    if not n or n not in u:
+        return False
+    tail = u[u.index(n) + len(n):]
+    return tail.startswith(_LOCATOR_SUFFIXES)
+
+
 def _merge_target(ap: dict, by_key: dict) -> str | None:
     """새 끌림점을 병합할 기존 라벨 키 — 포함매칭 + 옛집류 + 지역-둔갑 병합. 없으면 None."""
     key = _norm(ap.get("label"))
@@ -1210,6 +1254,12 @@ def _apply_extraction(
             continue
         if home_txt and key in home_txt:
             continue
+        if utterance and not _label_grounded(str(ap.get("label")), utterance):
+            print(f"[phase0] 발화에 없는 끌림점 버림(이전 대화 재추출): {ap.get('label')!r} "
+                  f"(slot={prev_slot.key})")
+            continue
+        if utterance and prev_slot.key == "home" and _is_home_locator(str(ap.get("label")), utterance):
+            continue   # 집 위치 기준점("○○ 근처") — 가는 곳이 아니다
         ap["area_text"] = _clean_area(ap.get("area_text"))   # "언급 없음" → "" (병합·되묻기 판정의 전제)
         if utterance:
             _verify_found_evidence(ap, utterance, prev_slot.key)   # 최상위 등급 근거 검증
