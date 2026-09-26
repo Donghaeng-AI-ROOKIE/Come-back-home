@@ -438,8 +438,11 @@ def _choose_place(geocoder, chooser, d: dict, label: str, area: str, anchor: Geo
             r = results[idx]
             return GeoResult(r.point, "approx", r.source, r.matched, {**(r.detail or {}), "landmark": landmark}), "landmark"
     if area:
+        # 동네 좌표는 주소 검색 결과만 받는다 — 지역 검색도 주소가 없으면 키워드 첫 결과로 넘어가는데,
+        # 10회차 P02 에서 그 첫 결과가 다시 1.5km 떨어진 '오거리공원 화장실'이었다(area = 장소 이름 그대로).
         r = _locate_region(geocoder, area, anchor)
-        if r is not None and (anchor is None or h3grid.haversine_km(anchor, r.point) <= ANCHOR_MAX_KM):
+        if (r is not None and r.precision == "address"
+                and (anchor is None or h3grid.haversine_km(anchor, r.point) <= ANCHOR_MAX_KM)):
             return r, "area"
     return None, None
 

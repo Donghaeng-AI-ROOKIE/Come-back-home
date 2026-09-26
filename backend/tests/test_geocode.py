@@ -420,5 +420,17 @@ def test_place_chooser_rejects_a_pick_that_is_not_confirmed(monkeypatch):
     monkeypatch.setattr(interview.midm, 'yes_no', lambda q, u: asked.append(q) or False)
     assert interview._CHOOSER.pick({'label': '일산시장 앞 오거리', 'quote': '일산시장 앞 오거리에서 헤매세요'}, [r]) is None
     assert "'문화공원 오거리공원'(도시근린공원) 그 자체이거나" in asked[0]
-    monkeypatch.setattr(interview.midm, 'yes_no', lambda q, u: True)
+    # 랜드마크 고르기는 다시 묻지 않는다(10회차: 맞는 '일산쌍용아파트'를 확인 질문이 버렸다)
+    monkeypatch.setattr(interview.midm, 'yes_no', lambda q, u: pytest.fail('landmark pick must not be re-asked'))
     assert interview._CHOOSER.pick({'label': '일산시장 앞 오거리', 'quote': ''}, [r], landmark='일산시장') == 0
+
+
+def test_area_fallback_takes_only_an_address_result():
+    """10회차: 동네 대체가 주소 없이 키워드 첫 결과('오거리공원 화장실')를 다시 끌어왔다."""
+    class _PoiRegionGeo(_CandidateGeo):
+        def locate(self, query, anchor=None, *, region=False):
+            return GeoResult(GeoPoint(lat=37.676, lng=126.765), 'poi', 'kakao', '오거리공원 화장실')
+    geo = _PoiRegionGeo({})
+    pts, un = to_attraction_points([{'label': '쌍용아파트 앞 오거리', 'area_text': '쌍용아파트 앞 오거리'}], geo,
+                                   anchor=HOME, chooser=_Chooser({}))
+    assert not pts and un[0]['reason'] == '검색 후보 중 보호자가 말한 곳 없음'
