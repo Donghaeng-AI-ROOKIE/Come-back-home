@@ -16,10 +16,10 @@ _EMPTY = {"fields": {}, "attraction_points": [], "behavior_notes": [], "slot_fil
 
 
 def _session(**kw) -> InterviewSession:
-    base = dict(id="turns", guardian_name="보호자", persona_type=PersonaType.dementia,
-                draft_fields={"name": "김순자", "age": "82세", "home": "마포구 백범로 35"},
-                filled_keys=["identity", "home"],
-                messages=[{"role": "assistant", "text": "길을 잃으시면 어떻게 하세요?"}])
+    base = {"id": "turns", "guardian_name": "보호자", "persona_type": PersonaType.dementia,
+            "draft_fields": {"name": "김순자", "age": "82세", "home": "마포구 백범로 35"},
+            "filled_keys": ["identity", "home"],
+            "messages": [{"role": "assistant", "text": "길을 잃으시면 어떻게 하세요?"}]}
     return InterviewSession(**{**base, **kw})
 
 

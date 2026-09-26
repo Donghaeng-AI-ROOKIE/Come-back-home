@@ -50,7 +50,7 @@ basis_situations: 값을 정하기 전에, 그 값에 연결한 각 근거 원�
         'response_format':{'type':'json_schema','json_schema':{'schema':s}}}
 
 
-REVIEW='\n'.join([
+REVIEW='\n'.join([  # noqa: FLY002 — K 프롬프트 줄을 목록으로 두어 문구 변경을 줄 단위로 본다
     '당신은 조건 과업 초안의 최종 검토자다. draft는 다른 AI의 미검증 초안이며 정답도 개인 관찰도 아니다.',
     '보호자 원문에서 persistence, environment, baseline_direction, behavior_rules를 다시 판단하고 필요한 만큼 수정한다. 단순 형식 검토가 아니다.',
     '각 값에 대해 연결한 note_ids의 원문이 그 정의에 해당하는 관찰을 실제로 담고 있는지 확인한다. 담고 있지 않으면 unknown으로 되돌리고 조건식·규칙을 지운다.',

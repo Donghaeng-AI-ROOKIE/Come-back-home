@@ -92,9 +92,9 @@ def test_failures_require_explicit_retry_and_recovery_does_not_retry_running(sam
 
 def test_saved_traits_reused_without_k_and_goal_not_assumed_current(sample,monkeypatch):
     p=make_ready(sample);p.prepared_initial['core']['goals']['공원'].update(value='current_statement',note_ids=['N2'])
-    p.created_at=datetime(2026,1,1,9)
+    p.created_at=datetime(2026,1,1,9)  # noqa: DTZ001 — 저장소와 같은 naive 지역 시각
     monkeypatch.setattr(initial_person,'interpret',lambda *a:pytest.fail('K on prediction'))
-    r=sample[1].model_copy(update={'lkp_time':datetime(2026,9,25,10)})
+    r=sample[1].model_copy(update={'lkp_time':datetime(2026,9,25,10)})  # noqa: DTZ001
     for _ in range(2):
         out=prep.apply_prepared(p,r,sample[2],sample[3])
         assert out.initial_interpretation['K_called_during_prediction'] is False
@@ -272,7 +272,7 @@ def test_missing_clock_branch_cannot_inherit_other_period_heading(sample):
     assert out.initial_interpretation['semantic_contract']['direction']['value']=='unknown'
 
 
-def ready_with_goal(sample, value, period='unspecified', created=datetime(2026,1,1,9)):
+def ready_with_goal(sample, value, period='unspecified', created=datetime(2026,1,1,9)):  # noqa: DTZ001 — naive 지역 시각
     p=make_ready(sample).model_copy(deep=True)
     p.created_at=created
     p.prepared_initial['core']['goals']['공원'].update(value=value,period=period,note_ids=['N2'])
@@ -316,7 +316,7 @@ def test_unspecified_habit_applies_at_any_hour_and_single_report_is_demoted(samp
 
 
 def test_profile_created_after_incident_keeps_incident_time_statement(sample):
-    p=ready_with_goal(sample,'current_statement',created=datetime(2026,9,25,11))
+    p=ready_with_goal(sample,'current_statement',created=datetime(2026,9,25,11))  # noqa: DTZ001
     out=prep.apply_prepared(p,at_hour(sample,10),sample[2],sample[3])
     assert out.initial_interpretation['registered_before_incident'] is False
     assert out.initial_interpretation['semantic_contract']['goals']['공원']['value']=='current_statement'

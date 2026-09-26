@@ -108,7 +108,7 @@ def interpret(payload):
     def attempt(fn):
         try:
             return fn()
-        except Exception as exc:  # type only; provider text can contain personal content
+        except Exception as exc:  # noqa: BLE001 — type only; provider text can contain personal content
             return exc
 
     model = settings.kexaone_model
