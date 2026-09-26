@@ -314,3 +314,13 @@ def test_grounding_skipped_without_utterance():
     """발화 없이 직접 주입하는 호출(테스트·마이그레이션)은 그대로 통과."""
     s = _blank_session("over-5")
     assert _apply(s, "medication", ["아무데나"], "") == ["아무데나"]
+
+
+def test_home_turn_label_carrying_its_own_suffix_is_dropped():
+    """라벨이 '정릉초등학교 근처'처럼 꼬리표를 스스로 달고 와도 기준점이다(라이브 실측 2026-09-26)."""
+    s = _blank_session("over-6")
+    assert _apply(s, "home", ["정릉초등학교 근처"], "성북구 정릉동이요. 정릉초등학교 근처예요") == []
+    # 집 턴이 아니면 꼬리표 라벨도 그대로 — 발견지 "대흥역 2번 출구"류를 지키기 위해
+    s2 = _blank_session("over-7")
+    assert _apply(s2, "dementia_wandering_pattern", ["대흥역 2번 출구"],
+                  "대흥역 2번 출구에서 발견됐어요") == ["대흥역 2번 출구"]

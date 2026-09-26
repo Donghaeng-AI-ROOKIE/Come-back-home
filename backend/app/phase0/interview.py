@@ -1186,7 +1186,13 @@ def _is_home_locator(label: str, utterance: str) -> bool:
     "주중 낮에는 주간보호센터에 계십니다"(슬롯 probes 가 묻는 것)까지 잃으므로, 꼬리표가
     붙은 기준점만 거른다.
     """
-    n, u = _norm(label), _norm(utterance)
+    # 라벨 자체가 꼬리표를 달고 올 때가 있다("정릉초등학교 근처" — 라이브 실측 2026-09-26).
+    # 그러면 발화에서 라벨 뒤는 "예요"라 위 규칙을 빠져나가므로, 꼬리표를 뗀 핵심
+    # 지명으로 다시 본다. 뗀 결과가 달라졌다는 것 자체가 기준점 표현이라는 뜻이다.
+    core = base_place_name(str(label or ""))
+    if core != str(label or "").strip():
+        return True
+    n, u = _norm(core), _norm(utterance)
     if not n or n not in u:
         return False
     tail = u[u.index(n) + len(n):]
