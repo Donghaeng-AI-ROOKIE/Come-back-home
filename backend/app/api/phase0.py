@@ -1,5 +1,8 @@
 """Phase 0 API — 온보딩 인터뷰·페르소나 등록."""
 
+from datetime import datetime, timezone
+from difflib import SequenceMatcher
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
@@ -78,7 +81,7 @@ def list_slots(persona_type: PersonaType | None = None):
 # axis_quotes = 보호자 원발화 그대로(quote 검증용 내부 값) — 프론트가 쓸 일이 없어
 # API 응답에서 제외한다. 저장·파기·채점 로직에는 영향 없음(응답 스키마만 필터링).
 # onboarding_turns 는 보호자 질문·답 원문 전체다(K 입력용) — onboarding_quotes 와 같이 공개 응답에서 뺀다.
-_PERSONA_EXCLUDE = {"axis_quotes", "onboarding_quotes", "onboarding_turns", "guardian_edited_notes", "prepared_initial"}
+_PERSONA_EXCLUDE = {"axis_quotes", "onboarding_quotes", "onboarding_turns", "guardian_edited_notes", "guardian_note_revisions", "prepared_initial"}
 
 
 @router.post("/personas", response_model=Persona, response_model_exclude=_PERSONA_EXCLUDE)
@@ -184,6 +187,7 @@ def update_persona(persona_id: str, body: UpdatePersonaIn):
     if persona is None:
         raise HTTPException(404, "페르소나 없음")
     updates = body.model_dump(exclude_unset=True, exclude_none=True)
+    updates = {k: v for k, v in updates.items() if v != persona.model_dump()[k]}
     if not updates:
         return persona
     # **검증을 거쳐 다시 만든다.** `model_copy(update=...)` 를 쓰면 안 된다 —
@@ -198,7 +202,13 @@ def update_persona(persona_id: str, body: UpdatePersonaIn):
     def apply(current):
         values = {**current.model_dump(), **updates, "version": current.version + 1}
         if "behavior_notes" in updates:
-            values["guardian_edited_notes"] = updates["behavior_notes"]
+            before, after = current.behavior_notes, updates["behavior_notes"]
+            revisions = list(current.guardian_note_revisions)
+            for op, i, j, a, b in SequenceMatcher(a=before, b=after, autojunk=False).get_opcodes():
+                if op != "equal":
+                    revisions.append({"before": before[i:j], "after": after[a:b],
+                                      "recorded_at": datetime.now(timezone.utc).isoformat()})
+            values["guardian_note_revisions"] = revisions
         return Persona.model_validate(values)
     updated = storage.personas.update_existing(persona_id, apply)
     if updated is None:

@@ -15,7 +15,9 @@ midm_base_url(endpoint URL) / midm_model(endpoint ID) / midm_api_key 를 채우�
 from __future__ import annotations
 
 import json
-import urllib.request
+import uuid
+
+from app.llm.usage_ledger import logged_json_request
 
 from app.config import settings
 from app.llm.base import LLMClient
@@ -52,23 +54,16 @@ class MidmClient(LLMClient):
 
     def chat(self, messages: list[dict], *, temperature: float = 0.3, max_tokens: int = 512) -> str:
         """messages=[{role, content}...] → assistant content 문자열."""
-        payload = json.dumps({
-            "model": self.model,
-            "messages": messages,
-            "temperature": temperature,
-            "max_tokens": max_tokens,
-        }).encode("utf-8")
-        req = urllib.request.Request(
+        run_id = "midm:" + str(uuid.uuid4())
+        data = logged_json_request(
             self._chat_url(),
-            data=payload,
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {self.api_key}",
-            },
-            method="POST",
+            {"model": self.model, "messages": messages,
+             "temperature": temperature, "max_tokens": max_tokens},
+            headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.api_key}"},
+            provider="KT Mi:dm", model=self.model, role="midm_chat", run_id=run_id,
+            logical_request_id=run_id, timeout=settings.llm_timeout,
+            ledger_path=settings.research_usage_ledger_path,
         )
-        with urllib.request.urlopen(req, timeout=settings.llm_timeout) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
         return data["choices"][0]["message"]["content"]
 
     def _call_api(self, prompt: str, **kwargs) -> str:

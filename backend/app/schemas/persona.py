@@ -139,6 +139,8 @@ class Persona(BaseModel):
     onboarding_turns: list[dict] = []
     # Persisted with Persona; private typed preparation, never raw API reasoning.
     guardian_edited_notes: list[str] | None = None
+    # Only changed notes, with collection time; never replace unrelated interview evidence.
+    guardian_note_revisions: list[dict] = Field(default_factory=list)
     prepared_initial: dict = Field(default_factory=dict)
     initial_preparation_status: dict = Field(default_factory=dict)
     # 축 점수(0.1~0.9) — phase0.axis_scoring 이 채움. F(판정 불가)·근거 없음 축은

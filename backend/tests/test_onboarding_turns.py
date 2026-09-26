@@ -29,7 +29,8 @@ def test_every_answer_is_kept_with_its_question(monkeypatch):
     monkeypatch.setattr(interview.midm, "extract_answer", lambda slot, conv: dict(_EMPTY))
     answer = "집을 못 알아보세요. 기억이 안 나시는지 주소도 못 말씀하세요."
     out = interview.answer_interview(s.id, answer)
-    assert out.slot_turns == [{"slot": _LOST.key, "question": "길을 잃으시면 어떻게 하세요?", "answer": answer}]
+    assert [{k: v for k, v in t.items() if k != "recorded_at"} for t in out.slot_turns] == [{"slot": _LOST.key, "question": "길을 잃으시면 어떻게 하세요?", "answer": answer}]
+    assert out.slot_turns[0]["recorded_at"]
 
 
 def test_profile_answers_are_not_behavior_turns(monkeypatch):

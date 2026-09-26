@@ -54,7 +54,7 @@ def test_yes_is_not_stored_as_a_fact(monkeypatch):
     out = interview.answer_interview(s.id, "네")
     assert _HAZARD.key not in out.slot_notes
     assert out.draft_behaviors == []
-    assert out.slot_turns == [{"slot": _HAZARD.key, "question": "위험한 곳을 피하실 수 있나요?",
+    assert [{k: v for k, v in t.items() if k != "recorded_at"} for t in out.slot_turns] == [{"slot": _HAZARD.key, "question": "위험한 곳을 피하실 수 있나요?",
                                "answer": "네"}]
 
 

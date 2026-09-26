@@ -16,7 +16,7 @@ from app import storage
 from app.config import settings
 from app.llm import initial_behavior, person_evidence
 
-VERSION = "onboarding-person-v3"
+VERSION = "onboarding-person-v4-evidence-revisions"
 # 반복 목적의 시간대(06~18시 낮 / 18~06시 밤) 경계 앞뒤로 두 시간대를 모두 살려 두는 시간(시간 단위).
 # 보호자의 '새벽'·'저녁'은 정확한 시각이 아니다. 잠정값 — 근거 연구 없음, 민감도 노브.
 GOAL_PERIOD_MARGIN_H = 2
@@ -157,6 +157,18 @@ def _apply_prepared(persona, report, sar, default, situation_links=None):
     # occur. A profile first created after the incident (urgent report) describes the
     # incident itself, so its single reports are not demoted.
     registered_before_incident=_local_naive(persona.created_at)<_local_naive(report.lkp_time)
+    evidence = initial_behavior.build_payload(persona, report, [], sar)
+    fresh_note_ids = set()
+    for note in evidence["notes"]:
+        for source in note.get("sources", []):
+            stamp = source.get("recorded_at")
+            if stamp:
+                collected = _local_naive(datetime.fromisoformat(stamp))
+                if collected >= _local_naive(report.lkp_time):
+                    fresh_note_ids.add(note["id"])
+    # A fresh quote may still describe history: the model must first classify it as
+    # a current statement/action. Only the cited source's timestamp counts; changing
+    # the profile's name or another note cannot make an old statement current.
     # 반복 목적의 시간대는 보호자 말('새벽', '저녁')을 06·18시 두 칸에 넣은 것이라 경계가 거칠다.
     # 경계 앞뒤 GOAL_PERIOD_MARGIN_H 시간은 두 시간대 습관을 모두 살려 둔다(시간대 규칙에는 쓰지 않는다).
     t=local_time.hour+local_time.minute/60
@@ -167,7 +179,8 @@ def _apply_prepared(persona, report, sar, default, situation_links=None):
             if not active.get(leaf.get('period','unspecified'),True):
                 leaf['value']='historical_only'
                 leaf['explanation']='다른 시간대의 반복 목적. 이번 사건 시간대에는 적용하지 않음.'
-        elif registered_before_incident and leaf['value'] in {'current_statement','recent_action','explicit_rejection'}:
+        elif (registered_before_incident and not fresh_note_ids.intersection(leaf.get('note_ids', []))
+              and leaf['value'] in {'current_statement','recent_action','explicit_rejection'}):
             leaf['value']='historical_only'
             leaf['explanation']='사전등록 당시 보고. 이번 사건의 현재 의도는 미확인.'
     applied_links=[]

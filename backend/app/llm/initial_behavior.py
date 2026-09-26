@@ -11,7 +11,7 @@ from zoneinfo import ZoneInfo
 from app.schemas.persona import Persona, RouteFamiliarity, EnvResponse
 from app.schemas.prediction import PriorParams
 
-SOURCE_PRECEDENCE = '''각 notes.provenance를 확인한다. guardian_original은 보호자 직접 기록이고 model_extracted_unverified는 이전 AI의 미검증 추출·요약이다. 두 종류가 같은 사실에 관해 다르면 보호자 원문을 우선하며 이를 두 보호자의 미해결 상충으로 만들지 않는다. AI 요약에만 있는 행동을 보호자가 관찰한 사실로 확정하지 않는다. 보호자 원문끼리의 정정·시간 차이·실제 상충은 문맥으로 판단한다. 입력 배열 순서나 N 번호는 관찰 시각이 아니다. 서로 다른 특성은 모순으로 취급하지 않는다. text가 '질문: …/답변: …' 형식이면 질문은 챗봇이 한 말이고 보호자 진술이 아니다. 답변만 보호자 진술이며, 짧은 답은 그 질문의 맥락으로 해석한다.'''
+SOURCE_PRECEDENCE = '''각 notes.provenance를 확인한다. guardian_original은 보호자 직접 기록이고 model_extracted_unverified는 이전 AI의 미검증 추출·요약이다. 두 종류가 같은 사실에 관해 다르면 보호자 원문을 우선하며 이를 두 보호자의 미해결 상충으로 만들지 않는다. AI 요약에만 있는 행동을 보호자가 관찰한 사실로 확정하지 않는다. 보호자 원문끼리의 정정·시간 차이·실제 상충은 문맥으로 판단한다. 입력 배열 순서나 N 번호는 관찰 시각이 아니다. 서로 다른 특성은 모순으로 취급하지 않는다. text가 '질문: …/답변: …' 형식이면 질문은 챗봇이 한 말이고 보호자 진술이 아니다. 답변만 보호자 진술이며, 짧은 답은 그 질문의 맥락으로 해석한다. guardian_revision은 보호자의 수정·삭제 기록이다. before는 철회·수정 대상이고 after만 새 진술이며, 삭제는 그 특성의 반대를 뜻하지 않는다. 관련된 과거 진술만 대체하고 다른 개인 특성은 보존한다. recorded_at은 수집 시각이지 관찰 시각이 아니다. 새로 수집했어도 문맥상 과거 사건이면 현재 의도로 해석하지 않는다. guardian_legacy_edit은 수집 시각 미확인인 예전 수정 목록이다.'''
 
 
 def evidence_notes(payload):
@@ -21,6 +21,8 @@ def evidence_notes(payload):
     quotes, retain its unverified provenance rather than silently relabeling it.
     """
     notes = [{"id": n["id"], "text": n["text"],
+             "source_kinds": [s["kind"] for s in n.get("sources", [])],
+             "recorded_at": [s["recorded_at"] for s in n.get("sources", []) if s.get("recorded_at")],
              "provenance": "guardian_original" if any(
                  s["kind"].startswith("guardian") for s in n.get("sources", []))
              else "model_extracted_unverified"}
@@ -52,7 +54,8 @@ def build_payload(persona: Persona, report, research: list[dict], sar: PriorPara
             grouped.setdefault(turn["slot"], []).append(text)
         sources = [("guardian_turn", grouped), *sources[2:]]
     if persona.guardian_edited_notes is not None:
-        sources = [("guardian_edit", {"behavior": persona.guardian_edited_notes})]
+        sources.append(("guardian_legacy_edit", {"behavior": [
+            "과거 수정 목록(수집 시각 미확인): " + json.dumps(persona.guardian_edited_notes, ensure_ascii=False)]}))
     for kind, groups in sources:
         for slot, values in groups.items():
             for text in values:
@@ -60,6 +63,18 @@ def build_payload(persona: Persona, report, research: list[dict], sar: PriorPara
                     item = {"id": f"N{len(notes)}", "text": text, "sources": []}
                     notes.append(item); index[text] = item
                 index[text]["sources"].append({"kind": kind, "slot": slot})
+    for turn in turns:
+        text = (f"질문: {turn['question']}\n답변: {turn['answer']}" if turn.get("question")
+                else f"답변: {turn['answer']}")
+        if turn.get("recorded_at") and text in index:
+            for source in index[text]["sources"]:
+                if source["kind"] == "guardian_turn":
+                    source["recorded_at"] = turn["recorded_at"]
+    for revision in persona.guardian_note_revisions:
+        notes.append({"id": f"N{len(notes)}",
+                      "text": "보호자 수정 기록: " + json.dumps(revision, ensure_ascii=False),
+                      "sources": [{"kind": "guardian_revision", "slot": "behavior",
+                                   "recorded_at": revision["recorded_at"]}]})
     return {"person": {"type": persona.type.value, "age": persona.age}, "notes": notes,
             "places": [{"label": p.label, "evidence": p.evidence.value, "origin_slot": p.origin_slot} for p in persona.attraction_points],
             "incident": ({"last_seen_time": report.lkp_time.astimezone(ZoneInfo("Asia/Seoul")).isoformat(), "context": report.situation}

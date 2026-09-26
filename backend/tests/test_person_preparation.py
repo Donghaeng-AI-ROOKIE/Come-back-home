@@ -148,7 +148,10 @@ def test_edit_invalidates_ready_result_and_prefers_explicit_guardian_correction(
     updated=phase0.update_persona(p.id,phase0.UpdatePersonaIn(behavior_notes=['정정: 보호자를 기다리지 않고 계속 걷는다.']))
     assert updated.version==1 and updated.prepared_initial=={}
     payload=initial_behavior.build_payload(updated,None,[],None)
-    assert [n['text'] for n in initial_behavior.evidence_notes(payload)]==updated.behavior_notes
+    texts = [n['text'] for n in initial_behavior.evidence_notes(payload)]
+    assert any(updated.behavior_notes[0] in t for t in texts)
+    assert any('45분 산책' in t for t in texts)
+    assert updated.guardian_note_revisions[-1]['after'] == updated.behavior_notes
     assert updated.onboarding_quotes==p.onboarding_quotes
 
 def test_spatial_scope_and_or_condition_are_independent(sample):

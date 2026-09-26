@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from app import storage
 from app.llm import midm
@@ -1143,7 +1143,7 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
     # 뜻은 K 가 원문으로 해석한다. 신원·집 주소는 개인정보 필드라 행동 근거에서 제외.
     if prev_slot is not None and prev_slot.axis != Axis.profile:
         session.slot_turns.append({"slot": prev_slot.key, "question": _last_question(session),
-                                   "answer": clean})
+                                   "answer": clean, "recorded_at": datetime.now(timezone.utc).isoformat()})
 
     got_something = True   # 이번 답에서 뭐라도 건졌나 — 빈손이면 직전 슬롯 재선택 회피
     if prev_slot is not None:
@@ -1563,7 +1563,7 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
     """요약 확인 응답 처리: 긍정→등록 완료 / 정정→관련 슬롯 반영 후 재요약."""
     session.messages.append({"role": "user", "text": clean})
     session.slot_turns.append({"slot": "confirmation", "question": "등록 요약을 보고 확인·정정하는 단계",
-                               "answer": clean})
+                               "answer": clean, "recorded_at": datetime.now(timezone.utc).isoformat()})
 
     # 확인·정정 판정은 Mi:dm 이 한다(intent). 고칠 내용이 함께 나왔으면 확인이 아니다.
     labels = [str(a.get("label")) for a in session.draft_attractions if a.get("label")]
@@ -1975,8 +1975,6 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
             continue
         bucket = persona.onboarding_quotes.setdefault(key, [])
         bucket.extend(q for q in quotes if q not in bucket)
-        if persona.guardian_edited_notes is not None:
-            persona.guardian_edited_notes.extend(q for q in quotes if q not in persona.guardian_edited_notes)
 
     for turn in session.slot_turns:
         if turn not in persona.onboarding_turns:
