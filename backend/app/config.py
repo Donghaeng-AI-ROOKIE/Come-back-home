@@ -17,6 +17,12 @@ class Settings(BaseSettings):
     midm_base_url: str = ""
     midm_model: str = ""
     llm_timeout: float = 30.0        # LLM HTTP 타임아웃(초)
+    # Mi:dm 전용 상한 — 온보딩 한 턴은 Mi:dm 을 2~3번 부르고 앱은 그 턴 전체를 기다린다.
+    # 정상 응답은 1~2초(2.5 실측 2026-09-26)인데 게이트웨이가 멈추면 llm_timeout(30초)을
+    # 다 기다려 한 번만 걸려도 앱이 먼저 포기했다("서버가 끊겼어요"). 짧게 끊고 폴백
+    # (빈 추출→재질문·씨앗 질문)으로 넘기는 편이 대화를 살린다. EXAONE 은 로컬 7.8B
+    # 첫 호출이 길어 별도.
+    midm_timeout: float = 12.0
 
     # LG EXAONE 서빙 엔드포인트 (OpenAI 호환 chat completions) — Mi:dm 과 같은 규약
     #   exaone_base_url = 발급받은 endpoint URL (…/v1 또는 …/v1/chat/completions 앞부분)
