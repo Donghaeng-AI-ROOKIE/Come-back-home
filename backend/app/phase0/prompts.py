@@ -488,6 +488,62 @@ def parse_situation_link(raw: str, labels: list[str]) -> list[dict] | None:
     return out
 
 
+# ── 장소 좌표 고르기 — 지도 검색 후보 중 보호자가 말한 곳 ─────────────
+PLACE_PICK_SYSTEM = """\
+너는 보호자가 말한 장소를 지도 검색 결과 목록에서 고른다.
+- 보호자가 말한 바로 그 장소만 고른다. 이름 일부만 같은 다른 곳(예: 이름에 '오거리'가 들어간 공원 시설)은 고르지 않는다.
+- 보호자 말에 위치 단서(집 근처, 어디 가는 길 등)가 있으면 집에서의 거리가 맞는 결과를 고른다.
+- [랜드마크]가 있으면, 보호자가 말한 장소 바로 옆에 있는 그 랜드마크를 고른다.
+- 맞는 결과가 없으면 null 이다.
+반드시 아래 JSON 하나만 출력:
+{"pick": <결과 번호 또는 null>}"""
+
+
+def build_place_pick_input(label: str, quote: str, options: list[dict], landmark: str | None = None) -> str:
+    lines = []
+    for i, o in enumerate(options, 1):
+        extra = ", ".join(x for x in (o.get("category"), o.get("address"),
+                                      f"집에서 약 {o['distance_m']}m" if o.get("distance_m") is not None else "") if x)
+        lines.append(f"{i}. {o.get('name', '')}" + (f" ({extra})" if extra else ""))
+    return (f"[보호자가 말한 장소] {label}\n[보호자 말] {quote or '(없음)'}\n"
+            + (f"[랜드마크] {landmark}\n" if landmark else "")
+            + "[지도 검색 결과]\n" + "\n".join(lines) + "\n\n위 JSON 하나만 출력.")
+
+
+def parse_place_pick(raw: str, n: int) -> int | None:
+    """번호(1부터) → 0부터의 위치. null·범위 밖·해석 실패는 None."""
+    try:
+        data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    except (ValueError, json.JSONDecodeError):
+        return None
+    pick = data.get("pick") if isinstance(data, dict) else None
+    if isinstance(pick, bool) or not isinstance(pick, int) or not 1 <= pick <= n:
+        return None
+    return pick - 1
+
+
+PLACE_LANDMARK_SYSTEM = """\
+너는 지도에서 바로 찾아지지 않은 장소를 다시 찾기 위해, 보호자 말에 나온 이름 있는 장소 하나를 검색어로 고른다.
+- 보호자가 말한 장소 바로 옆에 있거나 그 장소 이름에 들어 있는 시장·가게·아파트·역·학교·공원·교회 같은 이름 있는 곳 하나.
+- [보호자가 말한 장소]나 [보호자 말]에 글자 그대로 있는 이름만 쓴다. 새로 만들지 않는다.
+- 그런 이름이 없으면 null 이다.
+반드시 아래 JSON 하나만 출력:
+{"query": "<이름 그대로>" 또는 null}"""
+
+
+def build_place_landmark_input(label: str, quote: str) -> str:
+    return f"[보호자가 말한 장소] {label}\n[보호자 말] {quote or '(없음)'}\n\n위 JSON 하나만 출력."
+
+
+def parse_place_landmark(raw: str) -> str | None:
+    try:
+        data = json.loads(raw[raw.index("{") : raw.rindex("}") + 1])
+    except (ValueError, json.JSONDecodeError):
+        return None
+    q = data.get("query") if isinstance(data, dict) else None
+    return q.strip() if isinstance(q, str) and q.strip() else None
+
+
 # ── (B) 문장화 ───────────────────────────────────────────────────────
 
 PHRASE_SYSTEM = """\

@@ -193,6 +193,42 @@ class MidmClient(LLMClient):
             return None
         return prompts.parse_yes_no(raw)
 
+    def pick_place(self, label: str, quote: str, options: list[dict], landmark: str | None = None) -> int | None:
+        """지도 검색 후보 중 보호자가 말한 곳의 위치(0부터). 없음·스텁·실패는 None."""
+        if self.is_stub or not options:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.PLACE_PICK_SYSTEM},
+                    {"role": "user", "content": prompts.build_place_pick_input(label, quote, options, landmark)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=40,
+            )
+        except Exception:  # noqa: BLE001 — 고르기 실패는 '고른 곳 없음'
+            self.call_failures += 1
+            return None
+        return prompts.parse_place_pick(raw, len(options))
+
+    def landmark_query(self, label: str, quote: str) -> str | None:
+        """보호자 말에 나온 랜드마크 이름(검색어). 없음·스텁·실패는 None. 원문 대조는 호출자가 한다."""
+        if self.is_stub:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.PLACE_LANDMARK_SYSTEM},
+                    {"role": "user", "content": prompts.build_place_landmark_input(label, quote)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=60,
+            )
+        except Exception:  # noqa: BLE001
+            self.call_failures += 1
+            return None
+        return prompts.parse_place_landmark(raw)
+
     def link_situation(self, situation: str, places: list[dict]) -> list[dict] | None:
         """신고 상황 문장 → 등록 장소 링크. 스텁·실패·해석 불가는 None(링크 판정 없음)."""
         if self.is_stub or not situation.strip() or not places:

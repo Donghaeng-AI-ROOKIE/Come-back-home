@@ -1648,6 +1648,26 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
 _GEO = get_geocoder(use_nominatim=True)   # 카카오 → nominatim → gazetteer
 
 
+class _PlaceChooser:
+    """지도 검색 후보 중 보호자가 말한 곳을 Mi:dm 이 고른다. 랜드마크 검색어는 보호자 말이나 장소
+    이름에 글자 그대로 있어야 쓴다(모델이 새 이름을 만들면 버린다)."""
+
+    def pick(self, draft: dict, results: list, landmark: str | None = None) -> int | None:
+        options = [{"name": r.matched or "", **{k: (r.detail or {}).get(k) for k in ("category", "address", "distance_m")}}
+                   for r in results]
+        return midm.pick_place(str(draft.get("label") or ""), str(draft.get("quote") or ""), options, landmark)
+
+    def landmark(self, draft: dict) -> str | None:
+        label, quote = str(draft.get("label") or ""), str(draft.get("quote") or "")
+        q = midm.landmark_query(label, quote)
+        if not q or _compact(q) == _compact(label) or not (_in_answer(q, label) or _in_answer(q, quote)):
+            return None
+        return q
+
+
+_CHOOSER = _PlaceChooser()
+
+
 def _flatten_fields(fields: dict) -> dict:
     """추출 결과의 중첩 dict 를 한 단계 편다.
 
@@ -1865,7 +1885,8 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
 
     # ② 끌림점 — home 앵커로 반경 내 근접 검색 (전국 키워드 오검색 차단). 이번
     #    세션에서 새로 나온 것만 대상 — 기존 끌림점은 아래 병합 단계에서 보존.
-    points, unresolved = to_attraction_points(session.draft_attractions, geo, anchor=home)
+    points, unresolved = to_attraction_points(session.draft_attractions, geo, anchor=home,
+                                              chooser=_CHOOSER if geocoder is None else None)
     if unresolved:
         # 되묻기(_arealess_attractions)까지 거치고도 좌표가 안 나온 장소 — 예측에서
         # 빠진다. 조용히 사라지면 원인 추적이 불가능하므로 최소한 로그로 남긴다.

@@ -9,7 +9,13 @@ import os
 
 import pytest
 
-from app.geo.geocode import GazetteerGeocoder, KakaoGeocoder, to_attraction_points
+from app.geo.geocode import (
+    GazetteerGeocoder,
+    GeoResult,
+    KakaoGeocoder,
+    to_attraction_points,
+)
+from app.schemas.common import GeoPoint
 
 
 def test_gazetteer_prefers_dong_over_gu():
@@ -325,3 +331,81 @@ def test_proper_name_keeps_label_search():
     points, _ = to_attraction_points(
         [{"label": "대흥역", "area_text": "대흥동", "name_kind": "proper"}], geocoder=g)
     assert abs(points[0].location.lat - station.lat) < 1e-6
+
+
+# ── 모델이 고르는 좌표화(chooser) — 최종 게이트 1회차: 교차로 2곳이 '오거리공원 화장실'로 찍혔다 ──
+class _CandidateGeo:
+    """키워드 후보 목록과 주소 검색을 흉내 낸다. 호출 기록을 남긴다."""
+
+    def __init__(self, table, regions=None):
+        self.table, self.regions, self.asked = table, regions or {}, []
+
+    def keyword_candidates(self, query, anchor=None, size=5):
+        self.asked.append(query)
+        return [GeoResult(GeoPoint(lat=lat, lng=lng), "poi", "kakao", name, {"category": cat, "distance_m": dist})
+                for name, lat, lng, cat, dist in self.table.get(query, [])]
+
+    def locate(self, query, anchor=None, *, region=False):
+        p = self.regions.get(query)
+        return GeoResult(p, "address", "kakao", query) if p else None
+
+
+class _Chooser:
+    def __init__(self, picks, landmark=None):
+        self.picks, self.lm, self.calls = picks, landmark, []
+
+    def pick(self, draft, results, landmark=None):
+        self.calls.append(([r.matched for r in results], landmark))
+        names = [r.matched for r in results]
+        want = self.picks.get(landmark or draft['label'])
+        return names.index(want) if want in names else None
+
+    def landmark(self, draft):
+        return self.lm
+
+
+HOME = GeoPoint(lat=37.6873, lng=126.7791)
+PARK_WC = ('오거리공원 화장실', 37.67605, 126.76456, '화장실', 1792)
+MARKET = ('일산시장', 37.68562, 126.77082, '시장', 756)
+
+
+def test_chooser_picks_the_guardian_place_among_candidates():
+    geo = _CandidateGeo({'쌍용아파트': [('쌍용아파트', 37.67054, 126.78872, '아파트', 2044),
+                                     ('일산쌍용아파트', 37.68657, 126.77686, '아파트', 216)]})
+    pts, un = to_attraction_points([{'label': '쌍용아파트', 'area_text': ''}], geo, anchor=HOME,
+                                   chooser=_Chooser({'쌍용아파트': '일산쌍용아파트'}))
+    assert not un and (pts[0].location.lat, pts[0].precision) == (37.68657, 'poi')
+
+
+def test_no_candidate_matches_then_landmark_in_the_guardian_words_is_used():
+    geo = _CandidateGeo({'일산시장 앞 오거리': [PARK_WC], '일산시장앞오거리': [PARK_WC], '일산시장': [MARKET]})
+    chooser = _Chooser({'일산시장': '일산시장'}, landmark='일산시장')
+    pts, un = to_attraction_points([{'label': '일산시장 앞 오거리', 'area_text': ''}], geo, anchor=HOME, chooser=chooser)
+    assert not un and (pts[0].location.lat, pts[0].precision) == (37.68562, 'approx')
+    assert len(chooser.calls) == 2      # 같은 후보 목록(띄어쓰기 변형)은 한 번만 묻는다 + 랜드마크 한 번
+
+
+def test_nothing_chosen_falls_back_to_the_area_and_then_to_unresolved():
+    geo = _CandidateGeo({'딸 집': [PARK_WC]}, regions={'대화동': GeoPoint(lat=37.677, lng=126.748)})
+    pts, _ = to_attraction_points([{'label': '딸 집', 'area_text': '대화동'}], geo, anchor=HOME, chooser=_Chooser({}))
+    assert pts[0].precision == 'address'
+    pts, un = to_attraction_points([{'label': '딸 집', 'area_text': ''}], geo, anchor=HOME, chooser=_Chooser({}))
+    assert not pts and un[0]['reason'] == '검색 후보 중 보호자가 말한 곳 없음'
+
+
+def test_place_chooser_rejects_a_landmark_not_in_the_guardian_words(monkeypatch):
+    from app.phase0 import interview
+    monkeypatch.setattr(interview.midm, 'landmark_query', lambda label, quote: '이마트')
+    assert interview._CHOOSER.landmark({'label': '일산시장 앞 오거리', 'quote': '일산시장 앞 오거리에서 헤매세요'}) is None
+    monkeypatch.setattr(interview.midm, 'landmark_query', lambda label, quote: '일산 시장')
+    assert interview._CHOOSER.landmark({'label': '일산시장 앞 오거리', 'quote': ''}) == '일산 시장'
+
+
+def test_place_pick_parsing():
+    from app.phase0 import prompts
+    assert prompts.parse_place_pick('{"pick": 2}', 3) == 1
+    assert prompts.parse_place_pick('{"pick": null}', 3) is None
+    assert prompts.parse_place_pick('{"pick": 4}', 3) is None
+    assert prompts.parse_place_pick('{"pick": true}', 3) is None
+    assert prompts.parse_place_landmark('{"query": " 일산시장 "}') == '일산시장'
+    assert prompts.parse_place_landmark('{"query": null}') is None
