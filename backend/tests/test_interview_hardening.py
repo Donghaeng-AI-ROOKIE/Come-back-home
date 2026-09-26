@@ -105,8 +105,9 @@ def test_rule_extract_home():
     assert interview._rule_extract_fields("home", "잘 모르겠어요") == {}
 
 
-def test_stub_interview_captures_required_fields_end_to_end():
+def test_stub_interview_captures_required_fields_end_to_end(monkeypatch):
     """엔드포인트 없이(스텁)도 name/age/home 이 실제로 쌓인다 — 등록 퍼널 방어선."""
+    monkeypatch.setattr(interview, "_GEO", GazetteerGeocoder())   # 집 답변 턴의 지도 확인을 오프라인으로
     s = interview.start_interview("보호자", PersonaType.dementia)
     out = interview.answer_interview(s.id, "김순자님이고 78세, 치매 어르신이에요")
     out = interview.answer_interview(s.id, "성북구 정릉동 살아요")

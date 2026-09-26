@@ -23,6 +23,7 @@ from app.geo.geocode import (
     base_place_name,
     clean_area_text,
     get_geocoder,
+    has_region_token,
     locate_home,
     to_attraction_points,
 )
@@ -476,10 +477,12 @@ _NAME_RES = [
     re.compile(r"([가-힣]{2,3})(?:님|씨)(?:이고|이며|이에요|예요|입니다|인데|이|,|\.|\s|$)"),
     re.compile(r"([가-힣]{2,4})(?:이라고|라고)\s*(?:하|부|해)"),
 ]
-# 지오코딩 가능한 주소 표면 — "성북구 정릉동", "면목로 12" 수준까지
+# 지오코딩 가능한 주소 표면 — "성북구 정릉동", "면목로 12" 수준까지.
+# 동/읍/면/리 뒤는 낱말 끝(공백·숫자·조사)이어야 한다 — 부분 검색이라 "우리집이요"의
+# '우리'가 '…리'로 잡혀 home 이 "우리"로 저장되던 라이브 실측(2026-09-26, 2.5 전환 테스트).
 _HOME_RE = re.compile(
     r"((?:[가-힣]+(?:특별시|광역시|시|도)\s+)?(?:[가-힣]+(?:구|군|시)\s+)?"
-    r"[가-힣0-9]+(?:동|읍|면|리)(?:\s*\d+(?:-\d+)?)?"
+    r"[가-힣0-9]{2,}(?:동|읍|면|리)(?=$|\s|\d|이|에|은|는|으|요|,|\.)(?:\s*\d+(?:-\d+)?)?"
     r"|[가-힣0-9]+(?:로|길)\s*\d+(?:-\d+)?)"
 )
 
@@ -510,6 +513,92 @@ def _valid_home_text(value) -> bool:
     if re.search(r"(?:계세|계셔|살|다니|지내|있어|있으|해요|세요|어요|네요|니다|셨|했)", core):
         return False
     return 2 <= len(core) <= 20
+
+
+# 지도 확인 실패로 집을 되묻는 상한. 그 뒤로는 **미확인인 채** 통과시킨다 — 지오코더가
+# 죽었을 때(카카오·OSM 장애는 조용한 미탐으로 돌아온다) 정확한 주소를 몇 번이나
+# 다시 적어도 계속 되묻는 막다른 길을 막기 위해서다. 통과한 값은 finalize 가
+# 기존대로 다시 좌표화를 시도하고, 그래도 실패하면 확인 게이트가 재질문한다.
+_HOME_CHECK_MAX_FAILURES = 2
+
+
+def _has_region_token(text: str) -> bool:
+    """시·구·동·도로명 등 지역 표기가 답에 있나 — 상호만 적은 답("우리집")과 가른다.
+
+    _HOME_RE 는 여기 못 쓴다 — 부분 문자열 검색이라 "우리집"의 '우리'를 '…리'로 잡는다.
+    """
+    return has_region_token(_strip_tail_particles(text))
+
+
+def _check_home(session: InterviewSession, utterance: str = "") -> str | None:
+    """home 초안을 **답을 받은 그 턴에** 지도로 확인 — 통과하면 None, 아니면 되물을 문장.
+
+    utterance 가 주어지고 초안에 home 이 **없으면** 발화 자체를 후보로 삼는다 — Mi:dm 2.5 는
+    "포켓몬랜드"를 아예 추출하지 않아(빈 결과) 검증할 텍스트가 없었고, 기존 흐름은
+    "집이 안 채워졌으면 다음 슬롯으로" 넘어가 버렸다(라이브 실측 2026-09-26). 집은
+    건너뛸 수 없는 고정 2번 질문이라 빈손도 그 자리에서 되묻는다. 무지·부정·항의
+    발화는 주소 시도가 아니므로 제외(그건 기존 소진 규칙이 다룬다).
+
+    구버전은 표면 검사(_valid_home_text)만 하고 좌표화는 finalize(요약 확인 뒤)에서만
+    했다. 그래서 "포켓몬랜드"가 짧은 명사구라는 이유로 통과해 다음 질문으로 넘어가고,
+    10여 개 질문을 다 끝낸 요약 확인에서야 "집 위치 미확보"가 떴다(2026-09-26).
+    수색 원점은 프로필의 뼈대라 여기서 바로 잡는다.
+
+    통과 기준은 '찾았다'만으로 부족하다. 카카오 키워드 검색은 퍼지해서 "우리집"→강남
+    식당, "하늘나라"→충주 추모공원처럼 **엉뚱한 좌표를 조용히** 돌려준다(실측). 그래서
+    (1) 주소·동 단위 매칭이거나 (2) 답에 지역 표기(시·구·동·도로명)가 있을 때만
+    받는다. 상호만 적은 답은 같은 이름이 전국에 흔해 어차피 지역을 물어야 맞다.
+
+    실패하면 초안에서 빼고(first-wins 가 새 답을 막지 않게) home 을 되묻되, 재질문
+    예산은 소진시키지 않는다 — 집은 건너뛸 수 있는 슬롯이 아니다. 대신 상한
+    (_HOME_CHECK_MAX_FAILURES)을 넘으면 미확인 상태로 통과시킨다(지오코더 장애 대비).
+    """
+    text = str(session.draft_fields.get("home") or "").strip()
+    from_utterance = False
+    if not text:
+        u = str(utterance or "").strip()
+        if (not u or _is_pure_ignorance(u) or _is_negative_answer(u) or _is_protest(u)
+                or _is_affirmative(u)):
+            return None
+        text, from_utterance = _strip_tail_particles(u), True
+    if session.home_geo and session.home_geo.get("query") == text:
+        return None                     # 이미 확인된 값 — 정정 없이 재진입한 경우
+    try:
+        res = locate_home(_GEO, text)
+    except Exception:  # noqa: BLE001 — 지오코더 장애가 인터뷰를 죽이면 안 됨
+        res = None
+    if res is not None and (res.precision in ("address", "dong") or _has_region_token(text)):
+        session.home_geo = {
+            "query": text, "lat": res.point.lat, "lng": res.point.lng,
+            "precision": res.precision, "source": res.source,
+            "matched": res.matched, "address": res.address,
+        }
+        if from_utterance:
+            # 추출기는 빈손이었지만 발화가 지도에 잡혔다 — 규칙 폴백과 같은 자격으로 채운다
+            session.draft_fields["home"] = text
+            if "home" not in session.filled_keys:
+                session.filled_keys.append("home")
+            session.asked_counts.pop("home", None)
+        return None
+    if session.home_check_failures >= _HOME_CHECK_MAX_FAILURES:
+        session.home_geo = None         # 미확인 통과 — finalize 가 다시 시도한다
+        return None
+    session.draft_fields.pop("home", None)
+    if "home" in session.filled_keys:
+        session.filled_keys.remove("home")
+    session.home_geo = None
+    session.home_check_failures += 1
+    session.prev_target_key = "home"
+    session.asked_counts["home"] = 1    # 2.5 게이트가 또 묻지 않게 + 소진(MAX)은 아니게
+    if from_utterance and not _valid_home_text(text):
+        # 문장형 답("집에 주로 계세요") — 장소명이 아니라 인용해 봐야 어색하다
+        return ("주소를 알아듣지 못했어요. 시·구·동 이름이나 도로명 주소로 알려주세요. "
+                "(예: 서울 중랑구 면목동, 하남시 하남대로 856)")
+    if res is None:
+        return (f"'{text}'은(는) 지도에서 찾지 못했어요. 시·구·동 이름이나 도로명 주소로 "
+                "다시 알려주세요. (예: 서울 중랑구 면목동, 하남시 하남대로 856)")
+    return (f"'{text}'만으로는 위치를 특정하기 어려워요. 어느 시·구·동에 있는지 함께 "
+            f"알려주세요. (예: ○○시 ○○동 {text})")
 
 
 # 순수 무지 답변("모르겠다니까요") — 재질문해도 얻을 게 없다. 정보가 섞인 답
@@ -806,7 +895,16 @@ def build_summary(session: InterviewSession) -> str:
     lines.append(f"• 대상자: {', '.join(who)}")
 
     if f.get("home"):
-        lines.append(f"• 지내시는 곳: {f['home']}")
+        # 지도에서 어디로 찾았는지 되비춘다 — 검색이 엉뚱한 곳에 걸렸을 때 보호자가
+        # 알아챌 수 있는 유일한 지점이 이 확인 화면이다.
+        geo = session.home_geo if (session.home_geo or {}).get("query") == f["home"] else None
+        found = str((geo or {}).get("address") or (geo or {}).get("matched") or "").strip()
+        if geo is None:
+            lines.append(f"• 지내시는 곳: {f['home']} (지도에서 아직 확인되지 않음)")
+        elif found and _norm(found) != _norm(str(f["home"])):
+            lines.append(f"• 지내시는 곳: {f['home']} (지도 확인: {found})")
+        else:
+            lines.append(f"• 지내시는 곳: {f['home']}")
 
     places = session.draft_attractions
     if places:
@@ -1340,6 +1438,13 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
             extracted["attraction_points"] = []
         _apply_extraction(session, prev_slot, extracted, utterance=clean)
         _resolve_pending_area(session, clean)
+        # 집 주소는 받은 자리에서 지도로 확인 — 못 찾으면 다음 질문 대신 되묻는다.
+        if prev_slot.key == "home":
+            home_reask = _check_home(session, utterance=clean)
+            if home_reask:
+                session.messages.append({"role": "assistant", "text": home_reask})
+                storage.interviews.save(session.id, session)
+                return session
         # 순수 무지 답변("모르겠다니까요")이면 그 슬롯은 즉시 소진 — 같은 것을
         # 또 물어 보호자를 지치게 하지 않는다(라이브 실측 2026-07-17 2차).
         if GUARDS["ignorance_exhaust"] and _is_pure_ignorance(clean) \
@@ -1461,6 +1566,7 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
                 # finalize 실패(예: home 좌표화 실패) — _handle_confirmation 의 동일
                 # 처리와 일관되게 세션을 열어둔 채 home 재질문으로 복귀시킨다.
                 session.draft_fields.pop("home", None)
+                session.home_geo = None
                 if "home" in session.filled_keys:
                     session.filled_keys.remove("home")
                 home_slot = slot_by_key("home")
@@ -1734,6 +1840,7 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
             # 세션을 열어둔 채 home 재질문 흐름으로 복귀한다.
             session.awaiting_confirmation = False
             session.draft_fields.pop("home", None)   # 좌표화 실패 값이 first-wins 로 새 답을 막지 않게
+            session.home_geo = None
             if "home" in session.filled_keys:
                 session.filled_keys.remove("home")
             home_slot = slot_by_key("home")
@@ -1765,6 +1872,15 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
             _merge_rule_fallback(session, ranked[0].slot, ext, clean)   # 주소 정정 등 규칙 백스톱
             _guard_home_overwrite(session, ext, clean)
             _apply_extraction(session, ranked[0].slot, ext, overwrite=True, utterance=clean)
+
+    # 정정으로 집 주소가 바뀌었으면 요약을 다시 띄우기 전에 지도로 확인한다 —
+    # 못 찾는 값을 요약에 실으면 "네"까지 간 뒤 finalize 에서야 되묻게 된다.
+    home_reask = _check_home(session)
+    if home_reask:
+        session.awaiting_confirmation = False
+        session.messages.append({"role": "assistant", "text": home_reask})
+        storage.interviews.save(session.id, session)
+        return session
 
     # 정정으로 새로 들어온 장소에 지역 표기가 없으면 요약 대신 주소부터 묻는다 —
     # 확인 단계에서 추가된 곳도 좌표가 없으면 그대로 사라지기 때문(요약 전 게이트와 동일 원칙).
@@ -2022,12 +2138,18 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     #    물었을 때) 기존 persona 의 home 을 그대로 쓴다. 둘 다 없으면 지금까지와
     #    같은 ValueError.
     if f.get("home"):
-        # 맨 문자열 한 번이 아니라 후보 사다리로 — 아파트 이름이 붙은 정상 주소가
-        # 통째로 실패해 등록이 막히던 문제(geocode.home_candidates 참고).
-        home_res = locate_home(geo, str(f["home"]))
-        if home_res is None:
-            raise ValueError("집 위치 미확보 — 집 주소/동네를 다시 확인해 주세요")
-        home = home_res.point
+        checked = session.home_geo if (session.home_geo or {}).get("query") == str(f["home"]) else None
+        if checked:
+            # 답변 턴에 이미 확인한 좌표(_check_home) — 요약에 보여준 그 지점을 그대로
+            # 쓴다. 다시 조회하면 백엔드 사정에 따라 다른 곳이 찍힐 수 있다.
+            home = GeoPoint(lat=float(checked["lat"]), lng=float(checked["lng"]))
+        else:
+            # 맨 문자열 한 번이 아니라 후보 사다리로 — 아파트 이름이 붙은 정상 주소가
+            # 통째로 실패해 등록이 막히던 문제(geocode.home_candidates 참고).
+            home_res = locate_home(geo, str(f["home"]))
+            if home_res is None:
+                raise ValueError("집 위치 미확보 — 집 주소/동네를 다시 확인해 주세요")
+            home = home_res.point
     elif existing is not None:
         home = existing.home
     else:
