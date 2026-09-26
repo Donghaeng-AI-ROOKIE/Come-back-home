@@ -265,3 +265,52 @@ def test_rule_extract_does_not_clip_word_ending_in_admin_suffix():
     assert interview._rule_extract_fields("home", "정릉동이에요")["home"] == "정릉동"
     assert interview._rule_extract_fields("home", "서울 성북구 정릉동에 살아요")["home"] == "성북구 정릉동"  # '서울'은 시/도 접미사가 없어 원래부터 빠진다
     assert interview._rule_extract_fields("home", "면목동 12")["home"] == "면목동 12"
+
+
+# ── 끌림점 과다추출 가드 (run_eval 2.5 추적, 2026-09-26) ──────────────────
+
+def _apply(session, slot_key, labels, utterance):
+    interview._apply_extraction(
+        session, slot_by_key(slot_key),
+        {"fields": {}, "attraction_points": [{"label": lb, "area_text": ""} for lb in labels],
+         "behavior_notes": [], "slot_filled": True},
+        utterance=utterance)
+    return [a["label"] for a in session.draft_attractions]
+
+
+def _blank_session(sid):
+    return InterviewSession(id=sid, guardian_name="보호자", persona_type=PersonaType.dementia,
+                            draft_fields={"name": "김순자", "age": "78세", "home": "성북구 정릉동"})
+
+
+def test_home_turn_locator_landmark_is_not_an_attraction():
+    """'정릉초등학교 근처예요' — 학교는 집의 기준점이지 가는 곳이 아니다."""
+    s = _blank_session("over-1")
+    assert _apply(s, "home", ["정릉초등학교"], "성북구 정릉동이요. 정릉초등학교 근처예요.") == []
+
+
+def test_home_turn_daycare_is_kept():
+    """집 턴이라도 '주간보호센터에 계십니다'는 실제로 머무는 곳 — 슬롯 probes 가 묻는 것."""
+    s = _blank_session("over-2")
+    assert _apply(s, "home", ["주간보호센터"],
+                  "면목동 ○○아파트에 살고, 주중 낮에는 주간보호센터에 계십니다.") == ["주간보호센터"]
+
+
+def test_label_absent_from_utterance_is_dropped():
+    """복약 답변에 '면목동 방앗간'이 붙어 오면 이전 대화 재추출 — 버린다."""
+    s = _blank_session("over-3")
+    assert _apply(s, "medication", ["면목동 방앗간"],
+                  "혈압약이랑 치매약을 아침저녁으로 드세요. 거르면 어지러워하세요.") == []
+
+
+def test_paraphrased_label_with_shared_token_is_kept():
+    """'옛 방앗간'은 발화("방앗간 문 열러…")에 토큰이 있으니 살린다 — 재서술 라벨 허용."""
+    s = _blank_session("over-4")
+    assert _apply(s, "autobiographical_destination_pull", ["옛 방앗간"],
+                  "예전에 면목동에서 방앗간을 오래 하셨는데, 아직도 새벽에 방앗간 문 열러 가야 한다고 나가려 하세요.") == ["옛 방앗간"]
+
+
+def test_grounding_skipped_without_utterance():
+    """발화 없이 직접 주입하는 호출(테스트·마이그레이션)은 그대로 통과."""
+    s = _blank_session("over-5")
+    assert _apply(s, "medication", ["아무데나"], "") == ["아무데나"]
