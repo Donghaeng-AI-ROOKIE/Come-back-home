@@ -409,3 +409,16 @@ def test_place_pick_parsing():
     assert prompts.parse_place_pick('{"pick": true}', 3) is None
     assert prompts.parse_place_landmark('{"query": " 일산시장 "}') == '일산시장'
     assert prompts.parse_place_landmark('{"query": null}') is None
+
+
+def test_place_chooser_rejects_a_pick_that_is_not_confirmed(monkeypatch):
+    """9회차: '일산시장 앞 오거리'에 2.2km 떨어진 '문화공원 오거리공원'을 골랐다 — 고른 뒤 한 번 더 묻는다."""
+    from app.phase0 import interview
+    r = GeoResult(GeoPoint(lat=37.676, lng=126.765), 'poi', 'kakao', '문화공원 오거리공원', {'category': '도시근린공원'})
+    monkeypatch.setattr(interview.midm, 'pick_place', lambda label, quote, options, landmark=None: 0)
+    asked = []
+    monkeypatch.setattr(interview.midm, 'yes_no', lambda q, u: asked.append(q) or False)
+    assert interview._CHOOSER.pick({'label': '일산시장 앞 오거리', 'quote': '일산시장 앞 오거리에서 헤매세요'}, [r]) is None
+    assert "'문화공원 오거리공원'(도시근린공원) 그 자체이거나" in asked[0]
+    monkeypatch.setattr(interview.midm, 'yes_no', lambda q, u: True)
+    assert interview._CHOOSER.pick({'label': '일산시장 앞 오거리', 'quote': ''}, [r], landmark='일산시장') == 0

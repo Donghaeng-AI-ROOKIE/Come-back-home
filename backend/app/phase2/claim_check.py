@@ -39,15 +39,18 @@ RESPONSE = {"approach": "보이면 그쪽으로 가거나 들어가는 편이다
 SIGNAL = {("crowded", "present"): "사람이 많음", ("crowded", "absent"): "사람이 많지 않음",
           ("noisy", "present"): "시끄러움", ("noisy", "absent"): "조용함"}
 CATEGORY = ("explicit_category", "conditional_category")
-# 사건 시점에도 살아 남는 목적만 묻는다(한 번의 발언·방문은 등록 시점 보고라 사건 때 강등된다).
+# 사건 시점에도 살아 남는 목적(반복 방문·반복 발언)을 묻는다. 과거에 발견된 곳이기도 한 장소만 묻는다 —
 # 최종 게이트 1회차 P01: "삼송역 같은 지하철역에서 찾은 적이 있어요"를 두 판독이 '평소 가는 곳'으로 읽었다.
+# 모든 목적에 물으면 '분명히 적혀 있지 않은' 습관까지 내린다(9회차 H6: "호수공원 분수대 앞에만 가면 한참
+# 서서 구경하세요"를 기준은 반복 방문으로 보는데 확인에서 탈락). 발견지와 목적지를 섞는 것이 이 확인의 과녁이다.
 GOAL = {"habitual_visit": "대상자는 요즘도 평소에 '{label}'에 반복해서 가거나 가려고 한다(가족이 데려가는 경우 포함).",
         "repeated_statement": "대상자는 요즘 여러 날에 걸쳐 '{label}'에 가야 한다고 반복해서 말한다. "
                               "그곳을 다른 이름으로 부르는 경우도 포함한다."}
 # 이동능력은 순서 있는 등급이다 — K 등급이 확인되지 않으면 바로 옆 등급만 묻고 하나만 맞을 때 바꾼다.
 # 최종 게이트 1회차 P03: "걸어서 20분쯤" 걸리는 밭을 매일 다니는 사람을 B(집 근처 짧은 보행)로 읽었다.
 MOBILITY = {"A": "대상자는 혼자서는 거의 걷지 못한다.",
-            "B": "대상자는 집 근처만 짧게 걷고, 오래 걷지 못하거나 걷다가 자주 쉬어야 한다.",
+            # 쉬는 이유를 몸으로 묶는다 — 9회차 H8: 길을 잃으면 걷다 멈춰 두리번거린다는 말이 '자주 쉰다'로 읽혔다.
+            "B": "대상자는 몸이 약해 집 근처만 짧게 걸을 수 있고, 조금만 걸어도 힘들어서 쉬어야 한다.",
             "C": "대상자는 혼자서 동네를 30분에서 1시간 정도 걸어 다닐 수 있다.",
             "D": "대상자는 혼자서 몇 km를 계속 걸을 수 있다.",
             "E": "대상자는 아주 먼 거리(10km 이상)를 걸어서 간 적이 있다."}
@@ -175,8 +178,9 @@ def verify(parsed: dict, payload: dict) -> dict:
 
     # 3) 핵심 과업: 사건 시점에도 살아 있는 목적, 이동능력 등급
     for label, leaf in core["goals"].items():
-        if leaf["value"] in GOAL and ask("goals." + label, GOAL[leaf["value"]].format(label=label),
-                                         leaf["value"]) is False:
+        found_too = core["found_history"].get(label, {}).get("value") == "found_here"
+        if leaf["value"] in GOAL and found_too and ask("goals." + label, GOAL[leaf["value"]].format(label=label),
+                                                       leaf["value"]) is False:
             leaf.update(value="unknown", period="unspecified", explanation=held)
     m = core.get("mobility")
     if m and m["value"] in MOBILITY and ask("mobility", MOBILITY[m["value"]], m["value"]) is False:

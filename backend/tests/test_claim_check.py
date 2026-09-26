@@ -187,15 +187,18 @@ def test_conditional_reaction_disagreement_is_restored_with_its_condition(sample
 
 def test_current_goal_needs_a_current_reading(sample, monkeypatch):
     """최종 게이트 1회차 P01: '삼송역 같은 지하철역에서 찾은 적이 있어요'를 '평소 가는 곳'으로 읽었다.
-    사건 때도 살아 있는 목적(반복 방문·반복 발언)은 제3 판독이 아니라면 미확인으로 내린다."""
+    과거 발견지이기도 한 장소의 반복 목적만 다시 묻는다 — 모든 목적에 물으면 '분명히 적혀 있지 않은' 습관까지
+    내린다(9회차 H6 호수공원 분수대)."""
     parsed = _parsed(sample)
     parsed['core']['goals']['공원'].update(value='habitual_visit', period='clock_day', note_ids=['N0'])
+    parsed['core']['found_history']['공원'].update(value='found_here', note_ids=['N0'])
     parsed['core']['goals']['시장'].update(value='repeated_statement', note_ids=['N1'])
-    asked = _answers(monkeypatch, {"'공원'에 반복해서": False, "'시장'에 가야 한다고": True})
+    asked = _answers(monkeypatch, {"'공원'에 반복해서": False, "'공원'에서 발견": True, "'시장'에 가야 한다고": False})
     out = claim_check.verify(parsed, _payload(sample))
     assert (out['core']['goals']['공원']['value'], out['core']['goals']['공원']['period']) == ('unknown', 'unspecified')
-    assert out['core']['goals']['시장']['value'] == 'repeated_statement'
-    assert any('다른 이름으로 부르는 경우도 포함' in x for x in asked)
+    assert out['core']['found_history']['공원']['value'] == 'found_here'
+    assert out['core']['goals']['시장']['value'] == 'repeated_statement'      # 발견지가 아닌 곳은 묻지 않는다
+    assert not any("'시장'에 가야 한다고" in x for x in asked)
 
 
 @pytest.mark.parametrize('answers,expected', [

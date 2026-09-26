@@ -43,6 +43,10 @@ def places_context(persona) -> list[dict]:
     return out
 
 
+PURPOSE = ("대상자가 이번에 어디로 가는지가 신고 상황에 적혀 있다.",
+           "대상자가 이번에 무엇을 하러 나갔는지(산책, 장보기, 출근처럼)가 신고 상황에 적혀 있다.")
+
+
 def link(persona, report) -> dict:
     """{"status", "links", "rejected", "unconfirmed"} — status: linked / none / unavailable / not_prepared."""
     places = places_context(persona) if persona is not None else []
@@ -61,13 +65,20 @@ def link(persona, report) -> dict:
     context = ["신고 상황: " + report.situation] + [
         f"'{p['label']}'에 대한 보호자 기록: " + " / ".join(p["context"]) for p in places if p["context"]]
     links, unconfirmed = [], []
+    # 먼저 신고 문장만 보고(보호자 기록 없이) 이번 외출의 행선지나 하려던 일이 적혀 있는지 묻는다.
+    # 기록을 함께 주면 습관에서 행선지를 추론한다 — 최종 게이트 1회차 P02: "혼자 댁을 나서셨는데"가
+    # '혼자 나가시면 딸 집으로 오려고 하신다'는 기록 때문에 딸 집 목적지로 확인됐다. 행선지와 하려던 일은
+    # 따로 묻는다 — 한 문장에 '~나 ~'로 묶으면 틀린다(9회차 H7 "늘 하시던 대로 산책을 나가셨는데"가 '없음').
+    purpose = None
+    if grounded:
+        answers = []
+        for question in PURPOSE:
+            answers.append(midm.check_claim(["신고 상황: " + report.situation], question))
+            if answers[-1] is True:
+                break
+        # 하나라도 '예'면 목적 있음, 둘 다 '아니오'면 없음, 판정 실패가 섞이면 모름(None — 버리지 않는다)
+        purpose = True if True in answers else (False if all(a is False for a in answers) else None)
     for item in grounded:
-        # 먼저 신고 문장만 보고 그 구절에 목적·행선지가 있는지 묻는다. 보호자 기록을 함께 주면
-        # 습관에서 행선지를 추론해 버린다 — 최종 게이트 1회차 P02: "혼자 댁을 나서셨는데"가 '혼자
-        # 나가시면 딸 집으로 오려고 하신다'는 기록 때문에 딸 집 목적지로 확인됐다.
-        purpose = midm.check_claim(["신고 상황: " + report.situation],
-                                   f"신고 상황의 '{item['quote']}'(이)라는 말에는 대상자가 이번에 어디로 가려 "
-                                   "했는지나 무엇을 하러 나갔는지가 적혀 있다.")
         if purpose is False:
             unconfirmed.append({**item, "check": False, "purpose": False})
             continue

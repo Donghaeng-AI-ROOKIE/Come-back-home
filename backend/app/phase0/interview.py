@@ -1653,9 +1653,19 @@ class _PlaceChooser:
     이름에 글자 그대로 있어야 쓴다(모델이 새 이름을 만들면 버린다)."""
 
     def pick(self, draft: dict, results: list, landmark: str | None = None) -> int | None:
+        label, quote = str(draft.get("label") or ""), str(draft.get("quote") or "")
         options = [{"name": r.matched or "", **{k: (r.detail or {}).get(k) for k in ("category", "address", "distance_m")}}
                    for r in results]
-        return midm.pick_place(str(draft.get("label") or ""), str(draft.get("quote") or ""), options, landmark)
+        idx = midm.pick_place(label, quote, options, landmark)
+        if idx is None:
+            return None
+        # 고른 곳이 맞는지 한 번 더 묻는다 — 9회차: '일산시장 앞 오거리'에 2.2km 떨어진 '문화공원 오거리공원'을
+        # 골랐다(같은 프롬프트로 '쌍용아파트 앞 오거리'에는 없음이라고 답했다). 확인되지 않으면 고르지 않는다.
+        o = options[idx]
+        where = f"지도의 '{o['name']}'({o.get('category') or '분류 없음'})"
+        question = (f"보호자가 말한 '{label}'은(는) {where} 바로 옆에 있는 곳인가요?" if landmark else
+                    f"보호자가 말한 '{label}'은(는) {where} 그 자체이거나 바로 붙어 있는 곳인가요?")
+        return idx if midm.yes_no(question, quote or label) is True else None
 
     def landmark(self, draft: dict) -> str | None:
         label, quote = str(draft.get("label") or ""), str(draft.get("quote") or "")

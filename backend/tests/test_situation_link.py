@@ -89,8 +89,7 @@ def test_link_must_pass_a_second_question(sample, monkeypatch):
     out = situation_link.link(p, report)
     assert out['links'] == [] and out['status'] == 'none'
     assert out['unconfirmed'][0]['check'] is False
-    assert asked[0][0] == ['신고 상황: 비 오는 오후, 우산을 두고 나가셨음.']      # 목적 질문 — 장소 기록 없이
-    assert '무엇을 하러 나갔는지' in asked[0][1]
+    assert asked[0] == (['신고 상황: 비 오는 오후, 우산을 두고 나가셨음.'], situation_link.PURPOSE[0])  # 장소 기록 없이
     assert asked[1][0][0] == '신고 상황: 비 오는 오후, 우산을 두고 나가셨음.'
     # 관계 종류와 무관하게, 인용 구절이 그 장소를 가리키는지만 묻는다(6회차 H10·7회차 H13·H16)
     assert asked[1][1] == ("신고 상황의 '비 오는 오후, 우산을 두고 나가셨음.'(이)라는 말은 대상자가 이번에 "
@@ -109,7 +108,7 @@ def test_quote_without_purpose_is_dropped_before_the_place_question(sample, monk
                         lambda notes, statement: asked.append(statement) or False)
     out = situation_link.link(p, report)
     assert out['links'] == [] and out['unconfirmed'][0]['purpose'] is False
-    assert len(asked) == 1
+    assert asked == list(situation_link.PURPOSE)       # 행선지·하려던 일을 따로 묻고, 장소 질문은 하지 않는다
 
 
 def test_link_is_cached_per_situation_and_failures_are_retried(sample, monkeypatch):
