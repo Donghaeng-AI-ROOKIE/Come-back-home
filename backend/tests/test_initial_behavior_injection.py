@@ -45,7 +45,7 @@ def test_raw_quotes_hidden_in_list_and_detail():
  p,*_=inputs();p.guardian_id='initial-owner';storage.personas.save(p.id,p);client=TestClient(app)
  rows=client.get('/phase0/personas',params={'guardian_id':'initial-owner'}).json()
  assert len(rows)==1
- for row in [rows[0],client.get('/phase0/personas/'+p.id).json()]:assert 'onboarding_quotes' not in row and 'axis_quotes' not in row and 'prepared_initial' not in row
+ for row in [rows[0],client.get('/phase0/personas/'+p.id).json()]:assert 'onboarding_quotes' not in row and 'onboarding_turns' not in row and 'axis_quotes' not in row and 'prepared_initial' not in row
 
 
 def test_derived_qa_not_promoted_to_behavioral_evidence():

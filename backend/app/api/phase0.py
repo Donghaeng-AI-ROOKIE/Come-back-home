@@ -77,7 +77,8 @@ def list_slots(persona_type: PersonaType | None = None):
 
 # axis_quotes = 보호자 원발화 그대로(quote 검증용 내부 값) — 프론트가 쓸 일이 없어
 # API 응답에서 제외한다. 저장·파기·채점 로직에는 영향 없음(응답 스키마만 필터링).
-_PERSONA_EXCLUDE = {"axis_quotes", "onboarding_quotes", "guardian_edited_notes", "prepared_initial"}
+# onboarding_turns 는 보호자 질문·답 원문 전체다(K 입력용) — onboarding_quotes 와 같이 공개 응답에서 뺀다.
+_PERSONA_EXCLUDE = {"axis_quotes", "onboarding_quotes", "onboarding_turns", "guardian_edited_notes", "prepared_initial"}
 
 
 @router.post("/personas", response_model=Persona, response_model_exclude=_PERSONA_EXCLUDE)
