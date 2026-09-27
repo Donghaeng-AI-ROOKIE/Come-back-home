@@ -6,6 +6,8 @@ from pathlib import Path
 
 import h3
 
+from evidence_hash import matches_text_digest
+
 from build_dataset import (BACKEND, HERE, SITES, TIMES, digest, distance,
                            load_graph, location, path_length, point_at_distance, write_json)
 
@@ -19,10 +21,10 @@ def validate(folder):
     read = lambda name: json.loads((folder / name).read_text(encoding="utf-8"))
     manifest = read("manifest.json")
     for name, expected in manifest["files"].items():
-        require(digest(folder / name) == expected, f"Hash changed: {name}")
-    require(digest(HERE / "build_dataset.py") == manifest["generator_sha256"], "Generator changed")
-    require(digest(HERE / "PROTOCOL.md") == manifest["protocol_sha256"], "Protocol changed")
-    require(digest(HERE / "SOURCES.md") == manifest["sources_sha256"], "Sources changed")
+        require(matches_text_digest(folder / name, expected), f"Hash changed: {name}")
+    require(matches_text_digest(HERE / "build_dataset.py", manifest["generator_sha256"]), "Generator changed")
+    require(matches_text_digest(HERE / "PROTOCOL.md", manifest["protocol_sha256"]), "Protocol changed")
+    require(matches_text_digest(HERE / "SOURCES.md", manifest["sources_sha256"]), "Sources changed")
     seen_scenarios, seen_profiles, results = set(), set(), {}
     descriptions = ["# 시나리오 검토 예시", "", "개발용 6명의 사례다. 평가용 결과는 모델 설정 선택에 사용하지 않는다.",
                     "실제 환자 또는 실제 거주지가 아닌 도로망 위 합성 인물·사건이다.", ""]

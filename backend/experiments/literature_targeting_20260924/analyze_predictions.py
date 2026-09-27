@@ -6,6 +6,7 @@ from pathlib import Path
 import h3
 
 from app.config import settings
+from experiments.literature_targeting_20260924.evidence_hash import matches_text_digest
 from experiments.personalized_alert_replay.analyze_targeting_resolution import (
     build_summary, evaluate_surface, load_pairs, fmt_metric,
 )
@@ -27,11 +28,11 @@ def main():
             raise ValueError(f"Targeting setting changed after prediction: {key}")
     inputs_path = HERE / "dataset_v1" / f"{args.split}_inputs.json"
     completion = read(args.predictions / f"{args.split}_complete.json")
-    if completion["input_sha256"] != sha(inputs_path):
+    if not matches_text_digest(inputs_path, completion["input_sha256"]):
         raise ValueError("Inputs changed after prediction")
     manifest = read(HERE / "dataset_v1/manifest.json")
     truth_path = HERE / "dataset_v1" / f"{args.split}_truth.json"
-    if sha(truth_path) != manifest["files"][truth_path.name]:
+    if not matches_text_digest(truth_path, manifest["files"][truth_path.name]):
         raise ValueError("Frozen truth changed")
     truth = read(truth_path)
     joined, moving = [], {}
