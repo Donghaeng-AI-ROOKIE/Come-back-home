@@ -1,6 +1,0 @@
-# Preserve raw evidence; collapse it by default during review.
-backend/experiments/literature_targeting_20260924/predictions_v2/** linguist-generated=true
-backend/experiments/literature_targeting_20260924/results/**/*.json linguist-generated=true
-backend/experiments/literature_targeting_20260924/results/**/*.jsonl linguist-generated=true
-backend/experiments/personalized_alert_replay/results/**/*.json linguist-generated=true
-backend/experiments/personalized_alert_replay/results/**/*.jsonl linguist-generated=true
