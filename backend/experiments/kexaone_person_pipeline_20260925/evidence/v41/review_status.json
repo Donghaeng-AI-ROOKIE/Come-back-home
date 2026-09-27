@@ -1,0 +1,10 @@
+{
+  "state": "complete_reviewed",
+  "prespecified_case_pass": 2,
+  "cases": 2,
+  "special_checks_pass": true,
+  "model_output_all_features_perfect": false,
+  "deployed": false,
+  "new_LoRA_training": false,
+  "approval_scope_respected": true
+}

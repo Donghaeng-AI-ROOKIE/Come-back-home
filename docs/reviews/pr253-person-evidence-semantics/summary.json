@@ -1,0 +1,122 @@
+{
+  "completed_outputs": 12,
+  "ready": 12,
+  "passed_preparations": 12,
+  "critical_checks": 100,
+  "passed_checks": 100,
+  "new_requests": {
+    "K": 48,
+    "Midm": 24
+  },
+  "finished_requests": {
+    "K": 48,
+    "Midm": 24
+  },
+  "usage": {
+    "K": {
+      "completion_tokens": 307190,
+      "prompt_tokens": 199762,
+      "total_tokens": 506952
+    },
+    "Midm": {
+      "prompt_tokens": 23292,
+      "completion_tokens": 216,
+      "total_tokens": 23508
+    }
+  },
+  "request_errors": [
+    {
+      "logical_request_id": "incident_update_old_profile_r1:initial_person_semantic_audit",
+      "outcome": "response_received",
+      "error_type": null,
+      "finish_reason": "length"
+    },
+    {
+      "logical_request_id": "incident_update_old_profile_r2:initial_person_core",
+      "outcome": "response_received",
+      "error_type": null,
+      "finish_reason": "length"
+    }
+  ],
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null,
+  "cases": {
+    "claim_deletion": {
+      "repeats": 2,
+      "passed": 2,
+      "same_observed_checks": false,
+      "failures": []
+    },
+    "fresh_collection_old_event": {
+      "repeats": 2,
+      "passed": 2,
+      "same_observed_checks": true,
+      "failures": []
+    },
+    "identity_only": {
+      "repeats": 2,
+      "passed": 2,
+      "same_observed_checks": false,
+      "failures": []
+    },
+    "incident_update_old_profile": {
+      "repeats": 2,
+      "passed": 2,
+      "same_observed_checks": true,
+      "failures": []
+    },
+    "one_behavior_correction": {
+      "repeats": 2,
+      "passed": 2,
+      "same_observed_checks": false,
+      "failures": []
+    },
+    "supplement_after_edit": {
+      "repeats": 2,
+      "passed": 2,
+      "same_observed_checks": true,
+      "failures": []
+    }
+  },
+  "http_statuses": {
+    "200": 72
+  },
+  "preparation_seconds": {
+    "minimum": 137.92,
+    "median": 226.9,
+    "maximum": 496.33
+  },
+  "partial_K_preparations": [
+    {
+      "case": "incident_update_old_profile",
+      "repeat": 1,
+      "fallbacks": [
+        "core_review_failed:ValueError"
+      ]
+    },
+    {
+      "case": "incident_update_old_profile",
+      "repeat": 2,
+      "fallbacks": [
+        "core_draft_failed:ValueError"
+      ]
+    }
+  ],
+  "passed_preregistered_gate": true,
+  "adjudication": "synthetic predefined rubric + automated checks + assistant review; no independent human evaluation",
+  "models_requested": [
+    {
+      "provider": "FriendliAI",
+      "model_requested": "depmkuykpfon9lg",
+      "calls": 48
+    },
+    {
+      "provider": "KT Mi:dm",
+      "model_requested": "midm-pro-fp8-kaic",
+      "calls": 24
+    }
+  ],
+  "resource_wall_seconds": 1587.6,
+  "all_final_JSON_success": false
+}

@@ -16,7 +16,10 @@ from time import perf_counter
 from app import storage
 from app.config import settings
 from app.llm import exaone
-from app.phase2 import combine, radius, simulation, topdown
+from app.phase2 import combine, radius, simulation, topdown, initial_person
+from app.llm.initial_behavior import simulation_persona
+from app.phase0.person_preparation import apply_prepared
+from app.phase2 import situation_link
 from app.schemas.case import Case, CaseStatus
 from app.schemas.debug import PredictionDebug, SimTrace
 from app.schemas.prediction import MindState, POA, PredictionResult
@@ -60,6 +63,29 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
     return net, ""
 
 
+def _initial_prior(persona, report, links):
+    """Preserve the existing numeric baseline while applying grounded K evidence.
+
+    The matched OSM audit does not establish that replacing SAR's numeric prior
+    with the placeholder strategy distribution is non-inferior. Keep that
+    replacement out of this fix; retaining SAR is not a claim of its superiority.
+    """
+    prior = exaone.generate_prior(persona, report)
+    default = exaone._default_prior(persona, report)
+    prepared = apply_prepared(persona, report, prior, default, links)
+    if prepared.initial_interpretation.get('status') == 'applied':
+        prepared.source = 'prepared_person'
+        prepared.initial_interpretation.update(
+            initial_prior_path='prepared_person', numeric_baseline_source=prior.source,
+            sar_source=prior.source, SAR_called_during_prediction=not exaone.is_stub)
+        return prepared
+    prior.initial_interpretation = dict(prepared.initial_interpretation,
+        initial_prior_path='legacy_SAR_fallback', numeric_baseline_source=prior.source,
+        SAR_called_during_prediction=not exaone.is_stub)
+    return prior
+
+
+@storage.serialize_case
 def run_prediction(
     case: Case,
     *,
@@ -83,13 +109,18 @@ def run_prediction(
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     _lap("prepare_ms")
 
-    # ① Few-shot CoT → prior (EXAONE, 좌표 아님)
+    # Stored K traits are compiled locally. The incident's destination link is
+    # separately grounded in the report; it is not inferred from SAR weights.
+    links = situation_link.cached(case, persona)
     last_call = exaone.call_log[-1] if exaone.call_log else None
-    prior = exaone.generate_prior(persona, case.report)
+    prior = _initial_prior(persona, case.report, links)
     prior_call = (exaone.call_log[-1]
                   if exaone.call_log and exaone.call_log[-1] is not last_call
                   and exaone.call_log[-1]["kind"] == "prior" else None)
     _lap("prior_ms")
+
+    persona = simulation_persona(persona, prior)
+    _lap("initial_person_ms")
 
     # 마음 상태 초기화 (이후 제보의 심리 단서로 갱신됨)
     mind = case.mind or MindState()
@@ -103,10 +134,12 @@ def run_prediction(
     _lap("topdown_ms")
     poa_bu = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed,
-        trace=sim_trace)
+        trace=sim_trace, environment_observations=case.report.environment_observations,
+        started_at=case.lkp_time)
     _lap("bottomup_ms")
     poa_stat = simulation.run_monte_carlo(
-        case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed)
+        case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed,
+        environment_observations=case.report.environment_observations, started_at=case.lkp_time)
     _lap("statistical_ms")
 
     # ③ α-pool 통합 — bottom-up·statistical 2-way. bottom-up 이 AI 개인화가 있는
@@ -175,11 +208,14 @@ def poa_at_elapsed(case: Case, elapsed_hours: float, *, seed: int | None = 42) -
         raise ValueError("prior 없음 — 먼저 예측을 실행해야 한다")
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     elapsed = max(elapsed_hours, 0.05)
+    persona = simulation_persona(persona, case.prior)
     net, _ = _load_roadnet(case, case.prior, persona, elapsed)
     mind = case.mind or MindState()
     bu = simulation.run_monte_carlo(
         case.lkp, case.prior, persona, elapsed, mode="agent", net=net,
-        mind=mind, seed=seed)
+        mind=mind, seed=seed,
+        environment_observations=case.report.environment_observations, started_at=case.lkp_time)
     stat = simulation.run_monte_carlo(
-        case.lkp, case.prior, persona, elapsed, mode="statistical", net=net, seed=seed)
+        case.lkp, case.prior, persona, elapsed, mode="statistical", net=net, seed=seed,
+        environment_observations=case.report.environment_observations, started_at=case.lkp_time)
     return combine.alpha_pool([bu, stat], alphas=[0.7, 0.3], mode="linear")

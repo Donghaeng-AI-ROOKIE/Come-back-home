@@ -4,9 +4,9 @@
   🙋 구체적 목격 사례가 무슨 의민지 모르겠어요
   🤖 어르신이 불안하거나 초조해지거나 …             ← 설명 없이 다음 슬롯으로
 
-보호자의 물음이 통째로 무시됐다. '답을 모른다'(_is_pure_ignorance, 슬롯 소진)와
-'질문을 못 알아들었다'는 다른 사건이다 — 후자는 질문이 잘못 나간 것이라 풀어서
-한 번 더 물어야 한다.
+보호자의 물음이 통째로 무시됐다. '답을 모른다'(answer_kind=unknown, 슬롯 소진)와
+'질문을 못 알아들었다'(unclear_question)는 다른 사건이다 — 후자는 질문이 잘못 나간
+것이라 풀어서 한 번 더 물어야 한다. 두 유형은 Mi:dm 이 판정한다(예전: 정규식).
 """
 
 from app import storage
@@ -24,27 +24,26 @@ def _session(**kw) -> InterviewSession:
     return InterviewSession(**{**base, **kw})
 
 
-# ── 감지: '못 알아들음' vs '답을 모름' ────────────────────────────────
-
-def test_detects_unclear_question():
-    for t in ["구체적 목격 사례가 무슨 의민지 모르겠어요",
-              "그게 무슨 말이에요?",
-              "질문이 어려워요",
-              "이해가 안 돼요",
-              "뭘 물어보시는 건가요"]:
-        assert interview._is_question_unclear(t), t
+def _judged(monkeypatch, kind):
+    monkeypatch.setattr(interview.midm, "extract_answer",
+                        lambda slot, conv: {"answer_kind": kind, "fields": {}, "attraction_points": [],
+                                            "behavior_notes": [], "slot_filled": False})
 
 
-def test_plain_ignorance_is_not_unclear():
-    """'답을 모른다'는 소진 경로 그대로 — 여기로 새면 무한 되묻기가 된다."""
-    for t in ["잘 모르겠어요", "모르겠어요", "몰라요"]:
-        assert not interview._is_question_unclear(t), t
-        assert interview._is_pure_ignorance(t), t
+# ── 갈림: '못 알아들음' vs '답을 모름' ────────────────────────────────
 
-
-def test_negative_answer_is_not_unclear():
-    for t in ["딱히 없어요", "아니요", "없어요"]:
-        assert not interview._is_question_unclear(t), t
+def test_unknown_answer_exhausts_instead_of_clarifying(monkeypatch):
+    """'답을 모른다'는 소진 경로 그대로 — 되묻기로 새면 무한 되묻기가 된다."""
+    s = _session(id="cl-unknown", prev_target_key="lost_behavior",
+                 messages=[{"role": "assistant", "text": "길을 잃으시면 어떻게 하세요?"}])
+    storage.interviews.save(s.id, s)
+    _judged(monkeypatch, "unknown")
+    called: list = []
+    monkeypatch.setattr(interview.midm, "clarify_question", lambda *a, **k: called.append(1) or "x")
+    out = interview.answer_interview(s.id, "잘 모르겠어요")
+    assert called == []
+    assert out.clarified_keys == []
+    assert "lost_behavior" in interview._exhausted_keys(out)
 
 
 # ── 흐름: 되묻되 같은 질문을 되풀이하지 않는다 ────────────────────────
@@ -61,6 +60,7 @@ def test_clarify_rephrases_instead_of_moving_on(monkeypatch):
                  probed_keys=["lost_behavior"],
                  messages=[{"role": "assistant", "text": confusing}])
     storage.interviews.save(s.id, s)
+    _judged(monkeypatch, "unclear_question")
     monkeypatch.setattr(
         interview.midm, "clarify_question",
         lambda ptype, slot, q, u: "실제로 길을 잃으셨던 때가 궁금해요. 그때 어디 계셨는지 기억나시나요?")
@@ -78,6 +78,7 @@ def test_clarify_does_not_spend_reask_budget(monkeypatch):
                  asked_counts={"lost_behavior": 1},
                  messages=[{"role": "assistant", "text": "구체적 목격 사례에 대해서도 알려주세요."}])
     storage.interviews.save(s.id, s)
+    _judged(monkeypatch, "unclear_question")
     monkeypatch.setattr(interview.midm, "clarify_question",
                         lambda *a, **k: "그때 어디 계셨는지 기억나시나요?")
 
@@ -92,6 +93,7 @@ def test_clarify_only_once_per_slot(monkeypatch):
                  clarified_keys=["lost_behavior"],
                  messages=[{"role": "assistant", "text": "구체적 목격 사례에 대해서도 알려주세요."}])
     storage.interviews.save(s.id, s)
+    _judged(monkeypatch, "unclear_question")
     called: list = []
     monkeypatch.setattr(interview.midm, "clarify_question",
                         lambda *a, **k: called.append(1) or "다시 묻기")
@@ -107,6 +109,7 @@ def test_clarify_falls_back_without_llm(monkeypatch):
     s = _session(id="cl-fb", prev_target_key="lost_behavior",
                  messages=[{"role": "assistant", "text": confusing}])
     storage.interviews.save(s.id, s)
+    _judged(monkeypatch, "unclear_question")
     monkeypatch.setattr(interview.midm, "clarify_question", lambda *a, **k: "")
 
     out = interview.answer_interview(s.id, "그게 무슨 말이에요?")
@@ -146,6 +149,7 @@ def test_clarify_refuses_to_echo_the_same_question(monkeypatch):
     s = _session(id="cl-echo", prev_target_key="lost_behavior",
                  messages=[{"role": "assistant", "text": confusing}])
     storage.interviews.save(s.id, s)
+    _judged(monkeypatch, "unclear_question")
     monkeypatch.setattr(interview.midm, "clarify_question", lambda *a, **k: confusing)
 
     out = interview.answer_interview(s.id, "그게 무슨 말이에요?")

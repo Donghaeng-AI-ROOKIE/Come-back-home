@@ -7,9 +7,14 @@ first-wins 는 인터뷰 중간(과거 거주지가 현재 집을 덮는 것 방
 정정 발화는 보호자의 명시적 수정 의사이므로 덮어써야 한다.
 """
 
+from app.geo.geocode import GazetteerGeocoder
 from app.phase0 import interview
 from app.phase0.slots import slot_by_key
+from app.schemas.common import GeoPoint
 from app.schemas.persona import InterviewSession, PersonaType
+
+# 정정된 집 주소도 지도에서 찾아져야 받는다(_home_on_map) — 네트워크 없는 사전 지오코더.
+_GEO_CHEONGJU = GazetteerGeocoder({"수곡동": GeoPoint(lat=36.6200, lng=127.4700)})
 
 
 def _session(**fields) -> InterviewSession:
@@ -50,6 +55,8 @@ def test_confirmation_correction_overwrites_field(monkeypatch):
                                             "attraction_points": [],
                                             "behavior_notes": [],
                                             "slot_filled": True})
+    monkeypatch.setattr(interview.midm, "extract_correction",
+                        lambda labels, u: {"intent": "correct", "fields": {}, "place_ops": []})
     out = interview._handle_confirmation(s, "아니요, 나이가 81세예요")
     assert out.draft_fields["age"] == "81세"          # 정정 반영 (구버전: 78세 유지)
     assert out.awaiting_confirmation                   # 재요약 후 다시 확인 대기
@@ -62,11 +69,17 @@ _PLACE_SLOT = slot_by_key("autobiographical_destination_pull")
 
 
 def test_placeholder_area_normalized_to_empty():
-    """Mi:dm 이 area_text 를 '언급 없음' 문자열로 채우던 실측 — 빈 값으로 정규화."""
+    """Mi:dm 이 area_text 를 '언급 없음' 문자열로 채우던 실측 — 답에 없는 지역이라 비운다.
+
+    예전에는 자리표시 단어 목록으로 걸렀다. 이제는 보호자 답에 있는지만 본다.
+    """
     s = _session()
     interview._apply_extraction(s, _PLACE_SLOT, {"attraction_points": [
-        {"label": "예전에 살던 집", "area_text": "언급 없음"}]})
+        {"label": "예전에 살던 집", "area_text": "언급 없음"}]},
+        utterance="예전에 살던 집에 가려고 하세요")
     assert s.draft_attractions[0]["area_text"] == ""
+    assert s.extraction_audit[-1] == {"event": "area_not_in_answer", "label": "예전에 살던 집",
+                                      "area": "언급 없음"}
 
 
 def test_correction_overwrites_existing_area_text():
@@ -96,15 +109,16 @@ def _place_session() -> InterviewSession:
     return s
 
 
-def _fake_correction(result: dict):
-    return lambda labels, utterance: {"fields": {}, "place_ops": [], **result}
+def _correct(s: InterviewSession, utterance: str, result: dict) -> bool:
+    """모델(extract_correction)이 낸 정정 지시를 그대로 적용한다 — 판정은 모델 몫."""
+    return interview._apply_correction(
+        s, utterance, {"intent": "correct", "fields": {}, "place_ops": [], **result})
 
 
 def test_correction_renames_place(monkeypatch):
     s = _place_session()
-    monkeypatch.setattr(interview.midm, "extract_correction", _fake_correction(
-        {"place_ops": [{"op": "rename", "target": "원평중학교", "value": "원평초등학교"}]}))
-    assert interview._apply_correction(s, "원평중학교가 아니라 원평초등학교예요")
+    assert _correct(s, "원평중학교가 아니라 원평초등학교예요",
+        {"place_ops": [{"op": "rename", "target": "원평중학교", "value": "원평초등학교"}]})
     assert [a["label"] for a in s.draft_attractions] == ["원마루 공원", "원평초등학교"]
 
 
@@ -112,45 +126,51 @@ def test_rename_carries_stale_area_text(monkeypatch):
     """area_text 가 옛 이름을 담고 있으면 함께 바뀐다 — 안 그러면 옛 장소로 좌표가 잡힌다."""
     s = _place_session()
     s.draft_attractions[1]["area_text"] = "원평중학교 앞"   # 실측 형태(라벨+부가어)
-    monkeypatch.setattr(interview.midm, "extract_correction", _fake_correction(
-        {"place_ops": [{"op": "rename", "target": "원평중학교", "value": "원평초등학교"}]}))
-    interview._apply_correction(s, "원평중학교가 아니라 원평초등학교예요")
+    _correct(s, "원평중학교가 아니라 원평초등학교예요",
+        {"place_ops": [{"op": "rename", "target": "원평중학교", "value": "원평초등학교"}]})
     assert s.draft_attractions[1] == {"label": "원평초등학교", "area_text": "원평초등학교"}
 
 
 def test_correction_removes_place(monkeypatch):
+    monkeypatch.setattr(interview.midm, "yes_no", lambda question, utterance: True)   # 삭제 확인
     s = _place_session()
-    monkeypatch.setattr(interview.midm, "extract_correction", _fake_correction(
-        {"place_ops": [{"op": "remove", "target": "원마루 공원"}]}))
-    assert interview._apply_correction(s, "원마루 공원은 이제 안 가세요. 빼주세요")
+    assert _correct(s, "원마루 공원은 이제 안 가세요. 빼주세요",
+        {"place_ops": [{"op": "remove", "target": "원마루 공원"}]})
     assert [a["label"] for a in s.draft_attractions] == ["원평중학교"]
 
 
 def test_correction_sets_area_without_touching_home(monkeypatch):
     """장소 위치 정정이 자택을 덮지 않는다 — 실측 최악 케이스의 회귀 테스트."""
+    monkeypatch.setattr(interview, "_GEO", _GEO_CHEONGJU)
     s = _place_session()
-    monkeypatch.setattr(interview.midm, "extract_correction", _fake_correction(
+    assert _correct(s, "원마루 공원은 분평동이 아니라 수곡동이에요",
         {"fields": {"home": "청주시 서원구 수곡동"},          # 모델이 home 으로 오해해도
-         "place_ops": [{"op": "set_area", "target": "원마루 공원", "value": "수곡동이요"}]}))
-    assert interview._apply_correction(s, "원마루 공원은 분평동이 아니라 수곡동이에요")
-    assert s.draft_attractions[0]["area_text"] == "수곡동"     # 조사 제거해서 반영
+        "place_ops": [{"op": "set_area", "target": "원마루 공원", "value": "수곡동"}]})
+    assert s.draft_attractions[0]["area_text"] == "수곡동"
     assert s.draft_fields["home"] == "청주시 서원구 분평동"     # 수색 원점 불변
+
+
+def test_correction_area_not_in_utterance_is_rejected(monkeypatch):
+    """모델이 답에 없는 동네를 set_area 로 내면(지어낸 값) 반영하지 않는다."""
+    s = _place_session()
+    assert not _correct(s, "원마루 공원 위치가 틀렸어요",
+        {"place_ops": [{"op": "set_area", "target": "원마루 공원", "value": "수곡동"}]})
+    assert s.draft_attractions[0]["area_text"] == "청주시 서원구 분평동"
 
 
 def test_correction_allows_explicit_home_change(monkeypatch):
     """'지금 사시는 집'을 명시하면 자택 정정은 정상 동작해야 한다."""
+    monkeypatch.setattr(interview, "_GEO", _GEO_CHEONGJU)
     s = _place_session()
-    monkeypatch.setattr(interview.midm, "extract_correction", _fake_correction(
-        {"fields": {"home": "청주시 서원구 수곡동"}}))
-    assert interview._apply_correction(s, "지금 사시는 집은 수곡동이에요")
+    assert _correct(s, "지금 사시는 집은 수곡동이에요",
+        {"fields": {"home": "청주시 서원구 수곡동"}})
     assert s.draft_fields["home"] == "청주시 서원구 수곡동"
 
 
 def test_correction_adds_place(monkeypatch):
     s = _place_session()
-    monkeypatch.setattr(interview.midm, "extract_correction", _fake_correction(
-        {"place_ops": [{"op": "add", "value": "청주 중앙시장", "area": "청주시 상당구"}]}))
-    assert interview._apply_correction(s, "청주 중앙시장도 자주 가세요")
+    assert _correct(s, "청주 중앙시장도 자주 가세요",
+        {"place_ops": [{"op": "add", "value": "청주 중앙시장", "area": "청주시 상당구"}]})
     assert s.draft_attractions[-1]["label"] == "청주 중앙시장"
 
 
@@ -158,21 +178,29 @@ def test_rename_misclassified_as_remove_is_rejected(monkeypatch):
     """'A가 아니라 B'에 모델이 remove 를 내도 장소를 지우지 않는다.
 
     실측(2026-07-21): 이름 정정 한 마디에 등록된 장소가 통째로 사라졌다.
-    삭제는 되돌릴 수 없으므로 보호자 발화에 뺄 의사가 있을 때만 인정한다.
+    삭제는 되돌릴 수 없으므로 모델에게 한 번 더 확인해 아니라면 지우지 않는다
+    (예전: "빼·삭제" 같은 단어가 발화에 있는지 코드가 봤다).
     """
+    asked = []
+    monkeypatch.setattr(interview.midm, "yes_no",
+                        lambda question, utterance: asked.append(question) or False)
     s = _place_session()
-    monkeypatch.setattr(interview.midm, "extract_correction", _fake_correction(
-        {"place_ops": [{"op": "remove", "target": "원평중학교"}]}))
-    assert not interview._apply_correction(s, "원평중학교가 아니라 원평초등학교예요")
+    assert not _correct(s, "원평중학교가 아니라 원평초등학교예요",
+        {"place_ops": [{"op": "remove", "target": "원평중학교"}]})
+    assert "'원평중학교'을(를) 등록된 장소 목록에서 빼 달라고" in asked[0]
     assert [a["label"] for a in s.draft_attractions] == ["원마루 공원", "원평중학교"]
 
 
 def test_home_misclassification_salvaged_as_place_area(monkeypatch):
-    """장소의 동네 정정을 모델이 home 으로 보내면, 그 장소의 지역 정정으로 되살린다."""
+    """장소의 동네 정정을 모델이 home 으로 보내면, 그 장소의 지역 정정으로 되살린다.
+
+    등록된 장소를 지목한 발화라 집 주소 변경인지 모델에게 확인하고(아니오), 그 장소로 옮긴다.
+    """
+    monkeypatch.setattr(interview, "_GEO", _GEO_CHEONGJU)
+    monkeypatch.setattr(interview.midm, "yes_no", lambda question, utterance: False)
     s = _place_session()
-    monkeypatch.setattr(interview.midm, "extract_correction", _fake_correction(
-        {"fields": {"home": "수곡동"}}))          # place_ops 없음 = 실측 그대로
-    assert interview._apply_correction(s, "원마루 공원은 분평동이 아니라 수곡동이에요")
+    assert _correct(s, "원마루 공원은 분평동이 아니라 수곡동이에요",
+        {"fields": {"home": "수곡동"}})          # place_ops 없음 = 실측 그대로
     assert s.draft_attractions[0]["area_text"] == "수곡동"    # 장소에 반영
     assert s.draft_fields["home"] == "청주시 서원구 분평동"    # 자택은 불변
 
@@ -180,25 +208,26 @@ def test_home_misclassification_salvaged_as_place_area(monkeypatch):
 def test_correction_ignores_unknown_target(monkeypatch):
     """등록에 없는 장소를 target 으로 지어내면 버린다 (실존 라벨만 인정)."""
     s = _place_session()
-    monkeypatch.setattr(interview.midm, "extract_correction", _fake_correction(
-        {"place_ops": [{"op": "remove", "target": "있지도 않은 공원"}]}))
-    assert not interview._apply_correction(s, "있지도 않은 공원 빼주세요")
+    assert not _correct(s, "있지도 않은 공원 빼주세요",
+        {"place_ops": [{"op": "remove", "target": "있지도 않은 공원"}]})
     assert len(s.draft_attractions) == 2
 
 
 def test_correction_falls_back_when_llm_returns_nothing(monkeypatch):
-    """스텁·호출 실패(빈 결과)면 기존 슬롯 재추출 경로로 폴백해 나이 정정이 살아난다."""
+    """정정 지시가 비면 기존 슬롯 재추출 경로로 폴백해 나이 정정이 살아난다."""
     s = _place_session()
     s.awaiting_confirmation = True
 
     class _Hit:
         slot = _SLOT
 
-    monkeypatch.setattr(interview.midm, "extract_correction", _fake_correction({}))
+    # 모델이 '정정'이라고만 판정하고 장소·기본 정보 지시는 못 낸 경우(예: 행동 내용 정정)
+    monkeypatch.setattr(interview.midm, "extract_correction",
+                        lambda labels, u: {"intent": "correct", "fields": {}, "place_ops": []})
     monkeypatch.setattr(interview.retrieval, "rank_next_slots",
                         lambda *a, **k: ([_Hit()], []))
     monkeypatch.setattr(interview.midm, "extract_answer",
-                        lambda slot, conv: {"fields": {"age": "83세"},
+                        lambda slot, conv, **_: {"fields": {"age": "83세"},
                                             "attraction_points": [], "behavior_notes": [],
                                             "slot_filled": True})
     out = interview._handle_confirmation(s, "아니요 83세예요")

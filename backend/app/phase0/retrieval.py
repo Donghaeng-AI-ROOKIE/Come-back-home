@@ -90,19 +90,19 @@ class OpenAICompatEmbedder:
         return f"{self.base_url}/embeddings"
 
     def encode(self, texts: list[str], role: str = "query") -> list[list[float]]:
-        import json
-        import urllib.request
+        import uuid
+        from app.config import settings
+        from app.llm.usage_ledger import logged_json_request
 
         model = self.model_passage if role == "passage" else self.model
-        payload = json.dumps({"model": model, "input": texts}).encode("utf-8")
-        req = urllib.request.Request(
-            self._url(),
-            data=payload,
+        # Record query embeddings separately, without guardian text in the ledger.
+        data = logged_json_request(
+            self._url(), {"model": model, "input": texts},
             headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.api_key}"},
-            method="POST",
+            provider="embedding_api", model=model, role="embedding_" + role,
+            run_id="embedding:" + str(uuid.uuid4()), timeout=self.timeout,
+            ledger_path=settings.research_usage_ledger_path,
         )
-        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
         # 입력 순서 보장 위해 index 정렬
         rows = sorted(data["data"], key=lambda r: r["index"])
         vecs = [r["embedding"] for r in rows]

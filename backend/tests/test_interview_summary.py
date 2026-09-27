@@ -48,7 +48,7 @@ def test_summary_shows_every_place_and_note():
 
 
 def test_summary_keeps_confirmation_prompt():
-    """확인 요청 문장은 그대로 — 확인 게이트의 응답 규약(_is_affirmative)이 여기 걸려 있다."""
+    """확인 요청 문장은 그대로 — 확인 게이트의 응답(확인·정정 판정)이 이 문장을 전제로 한다."""
     text = interview.build_summary(_session())
     assert "맞나요?" in text
 

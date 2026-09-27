@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="410" viewBox="0 0 1200 410">
+<rect width="1200" height="410" fill="white"/>
+<style>text{font-family:Arial,'Apple SD Gothic Neo',sans-serif;fill:#20242a} .title{font-size:25px;font-weight:700}.label{font-size:19px;font-weight:700}.body{font-size:18px}.small{font-size:15px;fill:#59616a}</style>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#707982"/></marker></defs>
+<text x="34" y="42" class="title">실제 합성 사례 W1: 가족을 기다림 ≠ 도움을 요청함</text>
+<text x="34" y="77" class="small">수정한 전체 준비 과정을 새로 호출한 결과 · 실제 환자 자료 아님</text>
+<rect x="34" y="106" width="350" height="198" rx="8" fill="#f5f7f8" stroke="#c5cbd0"/>
+<text x="54" y="144" class="label">보호자 원문</text>
+<text x="54" y="186" class="body">길을 놓친 뒤 그 자리에서</text>
+<text x="54" y="220" class="body">가족이 올 때까지 기다림.</text>
+<text x="54" y="254" class="body">무릎 때문에 짧게 걷고 쉼.</text>
+<rect x="420" y="106" width="350" height="198" rx="8" fill="#f5f7f8" stroke="#c5cbd0"/>
+<text x="440" y="144" class="label">K 해석 + 원문 판독</text>
+<text x="440" y="186" class="body">K: help_seeking 추가</text>
+<text x="440" y="220" class="body">Mi:dm: 요청 행동 근거 없음</text>
+<text x="440" y="254" class="body">거부 판정과 근거 ID 기록</text>
+<rect x="806" y="106" width="350" height="198" rx="8" fill="#f5f7f8" stroke="#c5cbd0"/>
+<text x="826" y="144" class="label">최종 저장·초기 입력</text>
+<text x="826" y="186" class="body">wait_for_help 유지</text>
+<text x="826" y="220" class="body">rest_pattern 유지</text>
+<text x="826" y="254" class="body">help_seeking 제거</text>
+<path d="M388,205 H415" stroke="#707982" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M774,205 H801" stroke="#707982" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="34" y="346" class="label">개선의 단위: K 단독이 아닌 해석·근거 보존·독립 모델 판독·코드 변환의 조합</text>
+<text x="34" y="378" class="small">의미와 초기 입력 검증. 도움 요청·휴식의 실제 보행 구현과 수색 성능은 별도 범위.</text>
+</svg>

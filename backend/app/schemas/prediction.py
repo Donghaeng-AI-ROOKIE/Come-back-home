@@ -13,7 +13,7 @@ class LognormalParams(BaseModel):
 
 
 class PriorParams(BaseModel):
-    """EXAONE Top-down 출력 — 좌표가 아니라 가중치·파라미터만 (LLM calibration 한계 반영)."""
+    """시뮬레이션 초기 입력 — 저장된 개인 해석 또는 기존 SAR 경로에서 만든 가중치·파라미터."""
     strategy_probs: dict[str, float]          # Hashimoto 6전략 확률 (합=1)
     attraction_weights: dict[str, float]      # 끌림점 label → 가중치 (합=1, 없으면 빈 dict)
     radius_lognormal: LognormalParams
@@ -25,9 +25,20 @@ class PriorParams(BaseModel):
     #   "exaone"   — 실호출 성공, 개인 맥락 반영
     #   "fallback" — 호출·파싱 실패로 프로파일 통계 기본값 (개인화 없음)
     #   "stub"     — 키 미설정으로 애초에 호출하지 않음 (개인화 없음)
-    source: Literal["exaone", "fallback", "stub"] = "exaone"
-    # 폴백 사유(예외 타입). source != "exaone" 일 때만 채워진다 — 운영 진단용.
+    source: Literal["exaone", "fallback", "stub", "profile_baseline", "prepared_person"] = "exaone"
+    # prepared_person: 저장된 K 해석 적용. profile_baseline: 모델을 부르지 않은 내부 기본값.
+    # 폴백 사유(예외 타입). fallback/stub 일 때 채워진다 — 운영 진단용.
     fallback_reason: str = ""
+    # Numeric baseline before legacy behavior_tendency, used once by K compilation.
+    # This contains numeric weights only; older persisted priors have no snapshot.
+    strategy_before_behavior: dict[str, float] = Field(default_factory=dict)
+    # 기존 SAR 경로의 장소별 등급(상/중/하, 검증된 라벨만).
+    # 준비된 K 경로는 별도 사건 목적지 연결을 쓰며 이 등급을 생성하지 않는다.
+    attraction_levels: dict[str, str] = Field(default_factory=dict)
+    # K 초기 행동 해석과 실제 적용 내역. 원발화·API 원문은 저장하지 않는다.
+    initial_interpretation: dict = Field(default_factory=dict)
+    # 사건별 해석 결과. 등록된 보호자 사실을 덮어쓰지 않고 보행 입력에만 투영.
+    persona_adjustments: dict = Field(default_factory=dict)
 
 
 class MindState(BaseModel):

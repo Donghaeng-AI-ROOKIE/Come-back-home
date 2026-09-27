@@ -1,0 +1,67 @@
+{
+  "api_calls": 48,
+  "http_errors": 0,
+  "empty_responses": 0,
+  "retries": 0,
+  "unusable_responses": 1,
+  "prompt_tokens": 71736,
+  "completion_tokens": 12389,
+  "total_tokens": 84125,
+  "by_condition": {
+    "A": {
+      "calls": 12,
+      "prompt_tokens": 20596,
+      "completion_tokens": 3369,
+      "total_tokens": 23965,
+      "mean_latency_s": 4.166459391650278
+    },
+    "B": {
+      "calls": 12,
+      "prompt_tokens": 11956,
+      "completion_tokens": 2972,
+      "total_tokens": 14928,
+      "mean_latency_s": 3.592497248406289
+    },
+    "C": {
+      "calls": 12,
+      "prompt_tokens": 22832,
+      "completion_tokens": 3225,
+      "total_tokens": 26057,
+      "mean_latency_s": 3.859335889351011
+    },
+    "D": {
+      "calls": 12,
+      "prompt_tokens": 16352,
+      "completion_tokens": 2823,
+      "total_tokens": 19175,
+      "mean_latency_s": 3.384321122081019
+    }
+  },
+  "provider_reported_cached_prompt_tokens": 65504,
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null,
+  "gpu_hours": null,
+  "sar_calls": 0,
+  "embedding_calls": 0,
+  "map_calls": 0,
+  "replays": 0,
+  "resource_session": {
+    "schema_version": 1,
+    "event_id": "8509a9b2-f713-4d70-9d36-f6144c991e02",
+    "recorded_at": "2026-09-23T00:43:11.457841+00:00",
+    "event_type": "resource_session_finished",
+    "run_id": "KEXAONE_representation_sweep_20260923",
+    "operation": "generate",
+    "stage": "s1",
+    "resource": "Mac mini isolated experiment CPU",
+    "status": "completed",
+    "wall_seconds": 180.24326504697092,
+    "process_cpu_seconds": 0.548735899,
+    "actual_cost": null,
+    "support_round": null
+  },
+  "events_synced": 98,
+  "new_events_added_this_sync": 98,
+  "canonical_ledger": "[local archive path omitted]"
+}

@@ -273,7 +273,7 @@ def terrain_difficulty(edge_attrs: dict) -> float:
 _ENV_RESPONSE_RANGE_M = {"water": 100.0, "forest": 60.0, "park": 60.0, "market": 60.0}
 
 
-def env_response_weight(env: dict | None, persona: Persona | None) -> float:
+def env_response_weight(env: dict | None, persona: Persona | None, *, conditions: dict | None = None) -> float:
     """개인 환경 반응 → 이동 확률 배수 (1.0 = 중립).
 
     "물가만 보면 다가간다" 같은, 축 기준표에 없는 개인 특성의 소비처
@@ -294,7 +294,10 @@ def env_response_weight(env: dict | None, persona: Persona | None) -> float:
     if strength_mult <= 0.0:
         return 1.0
     weight = 1.0
+    from app.phase2.environment_conditions import matches
     for r in persona.env_responses:
+        if not matches(r.condition_clauses, (conditions or {}).get(r.feature, {})):
+            continue
         dist = env.get(f"{r.feature}_m")
         if not isinstance(dist, (int, float)):
             continue

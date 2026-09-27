@@ -1,0 +1,441 @@
+{
+  "case": "night_heading_context",
+  "persona": {
+    "id": "night_heading_context",
+    "type": "dementia",
+    "name": "합성 사례",
+    "age": 80,
+    "home": {
+      "lat": 37.6061176,
+      "lng": 127.0110424
+    },
+    "attraction_points": [
+      {
+        "label": "시장",
+        "location": {
+          "lat": 37.6062041,
+          "lng": 127.0167742
+        },
+        "weight": 0.3,
+        "precision": "unknown",
+        "place_type": "market",
+        "evidence": "mention_only",
+        "origin_slot": "autobiographical_destination_pull"
+      },
+      {
+        "label": "공원",
+        "location": {
+          "lat": 37.6064663,
+          "lng": 127.0047953
+        },
+        "weight": 0.3,
+        "precision": "unknown",
+        "place_type": "",
+        "evidence": "mention_only",
+        "origin_slot": "autobiographical_destination_pull"
+      },
+      {
+        "label": "복지관",
+        "location": {
+          "lat": 37.6109043,
+          "lng": 127.0106411
+        },
+        "weight": 0.3,
+        "precision": "unknown",
+        "place_type": "",
+        "evidence": "mention_only",
+        "origin_slot": "autobiographical_destination_pull"
+      }
+    ],
+    "behavior_notes": [
+      "길을 놓친 낮에는 가족이 올 때까지 한곳에서 기다렸고, 해가 진 뒤에는 귀가 길을 찾으려고 계속 이동했어요. 같은 시간의 상반된 증언이 아니라 낮과 밤에 다른 행동을 본 겁니다.",
+      "어두운 시간에 길을 헤매는 모습을 봤을 때는 갈림길에서도 꺾지 않고 동일한 방위로 나아갔어요. 낮의 방향 선택은 관찰한 적 없어요.",
+      "평지에서는 혼자 서른여덟 분 정도 걸을 수 있습니다. 공원이나 복지관을 목적지로 정했는지는 확인하지 못했습니다.",
+      "시장은 붐비고 시끄러울 때만 들어가길 꺼렸고, 조용한 시장에서는 그런 반응이 없었습니다. 이번 외출이 시장에 가려는 것인지는 모릅니다."
+    ],
+    "axis_evidence": {},
+    "axis_quotes": {},
+    "onboarding_quotes": {
+      "synthetic_guardian": [
+        "길을 놓친 낮에는 가족이 올 때까지 한곳에서 기다렸고, 해가 진 뒤에는 귀가 길을 찾으려고 계속 이동했어요. 같은 시간의 상반된 증언이 아니라 낮과 밤에 다른 행동을 본 겁니다.",
+        "어두운 시간에 길을 헤매는 모습을 봤을 때는 갈림길에서도 꺾지 않고 동일한 방위로 나아갔어요. 낮의 방향 선택은 관찰한 적 없어요.",
+        "평지에서는 혼자 서른여덟 분 정도 걸을 수 있습니다. 공원이나 복지관을 목적지로 정했는지는 확인하지 못했습니다.",
+        "시장은 붐비고 시끄러울 때만 들어가길 꺼렸고, 조용한 시장에서는 그런 반응이 없었습니다. 이번 외출이 시장에 가려는 것인지는 모릅니다."
+      ]
+    },
+    "axis_scores": {},
+    "axis_scoring_report": {},
+    "route_familiarity": [],
+    "env_responses": [],
+    "behavior_tendency": null,
+    "created_at": "2026-09-22T12:00:00",
+    "guardian_id": "",
+    "version": 0,
+    "completed_tiers": []
+  },
+  "report": {
+    "id": "synthetic-night_heading_context",
+    "persona_id": "night_heading_context",
+    "missing_type": "dementia",
+    "lkp": {
+      "lat": 37.6061176,
+      "lng": 127.0110424
+    },
+    "lkp_time": "2026-09-25T22:15:00",
+    "situation": "밤에 집에서 나온 뒤 위치 미확인. 출입한 장소는 모름.",
+    "appearance": null,
+    "created_at": "2026-09-22T12:00:00"
+  },
+  "baseline": {
+    "strategy_probs": {
+      "route_following": 0.39215686274509803,
+      "direction_keeping": 0.24509803921568626,
+      "random_walk": 0.19607843137254902,
+      "backtracking": 0.049019607843137254,
+      "staying_put": 0.0196078431372549,
+      "landmark_seeking": 0.09803921568627451
+    },
+    "attraction_weights": {
+      "시장": 0.33333333333333337,
+      "공원": 0.33333333333333337,
+      "복지관": 0.33333333333333337
+    },
+    "radius_lognormal": {
+      "mu": 0.095,
+      "sigma": 1.48
+    },
+    "reasoning": "치매 노인이 낮에는 가족이 있는 곳에서 기다렸다가 밤에는 길을 찾으려 이동했다는 점에서, 낮에는 보호자의 감독 아래 있었고 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보인다. 이는 낮에는 보호자의 감독 아래 있었던 경로를 따라 이동했고 밤에는 배회하며 길을 찾으려 했던 것으로 해석된다. 이에 따라 경로 추종 확률을 높였다. 다만, 낮과 밤의 행동이 다르다는 점에서 밤에는 배회하며 길을 찾으려 했던 것으로 보이므로, 배회 확률도 높였다. 그러나 낮과 밤의 행동이 다르다는 점에서, 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보이므로, 보호자의 감독 아래 있었던 낮의 행동과는 달리 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보인다. 이에 따라 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보이므로, 보호자의 감독 아래 있었던 낮의 행동과는 달리 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보인다.",
+    "source": "exaone",
+    "fallback_reason": "",
+    "strategy_before_behavior": {
+      "route_following": 0.39215686274509803,
+      "direction_keeping": 0.24509803921568626,
+      "random_walk": 0.19607843137254902,
+      "backtracking": 0.049019607843137254,
+      "staying_put": 0.0196078431372549,
+      "landmark_seeking": 0.09803921568627451
+    },
+    "initial_interpretation": {},
+    "persona_adjustments": {}
+  },
+  "baseline_is_fresh_same_person_SAR": true,
+  "final_prior": {
+    "strategy_probs": {
+      "route_following": 0.2614151272220286,
+      "direction_keeping": 0.4901533635413035,
+      "random_walk": 0.1307075636110143,
+      "backtracking": 0.03267689090275357,
+      "staying_put": 0.01969327291739282,
+      "landmark_seeking": 0.06535378180550715
+    },
+    "attraction_weights": {
+      "시장": 0.33333333333333337,
+      "공원": 0.33333333333333337,
+      "복지관": 0.33333333333333337
+    },
+    "radius_lognormal": {
+      "mu": 0.095,
+      "sigma": 1.48
+    },
+    "reasoning": "시장: 목적지 관계 미확인, 경로 인지 미확인. 공원: 목적지 관계 미확인, 경로 인지 미확인. 복지관: 목적지 관계 미확인, 경로 인지 미확인. 길을 잃었을 때 이동을 이어간 근거. 같은 방향을 유지한 근거. 생활권 보행 능력. 길 잃음 대응은 사건 조건에 따라 달라짐.",
+    "source": "exaone",
+    "fallback_reason": "",
+    "strategy_before_behavior": {
+      "route_following": 0.39215686274509803,
+      "direction_keeping": 0.24509803921568626,
+      "random_walk": 0.19607843137254902,
+      "backtracking": 0.049019607843137254,
+      "staying_put": 0.0196078431372549,
+      "landmark_seeking": 0.09803921568627451
+    },
+    "initial_interpretation": {
+      "version": "person-evidence-v37-compact-core",
+      "status": "applied",
+      "model": "depmkuykpfon9lg",
+      "summary": "시장: 목적지 관계 미확인, 경로 인지 미확인. 공원: 목적지 관계 미확인, 경로 인지 미확인. 복지관: 목적지 관계 미확인, 경로 인지 미확인. 길을 잃었을 때 이동을 이어간 근거. 같은 방향을 유지한 근거. 생활권 보행 능력. 길 잃음 대응은 사건 조건에 따라 달라짐.",
+      "semantic_contract": {
+        "goals": {
+          "시장": {
+            "value": "unknown",
+            "note_ids": [
+              "N3"
+            ],
+            "explanation": "원문 근거를 연결한 초기 특성 판단."
+          },
+          "공원": {
+            "value": "unknown",
+            "note_ids": [
+              "N2"
+            ],
+            "explanation": "원문 근거를 연결한 초기 특성 판단."
+          },
+          "복지관": {
+            "value": "unknown",
+            "note_ids": [
+              "N2"
+            ],
+            "explanation": "원문 근거를 연결한 초기 특성 판단."
+          }
+        },
+        "routes": {
+          "시장": {
+            "value": "unknown",
+            "note_ids": [
+              "N3"
+            ],
+            "explanation": "원문 근거를 연결한 초기 특성 판단."
+          },
+          "공원": {
+            "value": "unknown",
+            "note_ids": [
+              "N2"
+            ],
+            "explanation": "원문 근거를 연결한 초기 특성 판단."
+          },
+          "복지관": {
+            "value": "unknown",
+            "note_ids": [
+              "N2"
+            ],
+            "explanation": "원문 근거를 연결한 초기 특성 판단."
+          }
+        },
+        "persistence": {
+          "value": "keep_moving",
+          "note_ids": [
+            "N0",
+            "N1"
+          ],
+          "explanation": "이동을 이어간 근거. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+        },
+        "direction": {
+          "value": "same_heading",
+          "note_ids": [
+            "N1"
+          ],
+          "explanation": "원문 근거를 연결한 초기 특성 판단."
+        },
+        "mobility": {
+          "value": "C",
+          "note_ids": [
+            "N2"
+          ],
+          "explanation": "원문 근거를 연결한 초기 특성 판단."
+        },
+        "emotion": {
+          "value": "unknown",
+          "note_ids": [],
+          "explanation": "원문 근거를 연결한 초기 특성 판단."
+        },
+        "environment": {
+          "water": {
+            "value": "unknown",
+            "note_ids": [],
+            "explanation": "물가: 반응 미확인, 범위 미확인, 조건 미확인."
+          },
+          "forest": {
+            "value": "unknown",
+            "note_ids": [],
+            "explanation": "숲: 반응 미확인, 범위 미확인, 조건 미확인."
+          },
+          "park": {
+            "value": "unknown",
+            "note_ids": [
+              "N2"
+            ],
+            "explanation": "공원: 반응 미확인, 범위 미확인, 조건 미확인."
+          },
+          "market": {
+            "value": "unknown",
+            "note_ids": [
+              "N3"
+            ],
+            "explanation": "시장: 환경 반응 근거, 환경 유형, 추가 조건 필요."
+          }
+        }
+      },
+      "context_scope": {
+        "persistence": {
+          "evidence": "supported",
+          "pattern": "conditional",
+          "value": "keep_moving",
+          "note_ids": [
+            "N0",
+            "N1"
+          ],
+          "explanation": "이동을 이어간 근거. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+        }
+      },
+      "model_explanations_unverified": true,
+      "environment_contract": {
+        "water": {
+          "note_ids": [],
+          "basis": "unknown",
+          "scope": "unknown",
+          "condition": "unknown",
+          "response": "unknown"
+        },
+        "forest": {
+          "note_ids": [],
+          "basis": "unknown",
+          "scope": "unknown",
+          "condition": "unknown",
+          "response": "unknown"
+        },
+        "park": {
+          "note_ids": [
+            "N2"
+          ],
+          "basis": "unknown",
+          "scope": "unknown",
+          "condition": "unknown",
+          "response": "unknown"
+        },
+        "market": {
+          "note_ids": [
+            "N3"
+          ],
+          "basis": "reaction",
+          "scope": "category",
+          "condition": "required",
+          "response": "avoid"
+        }
+      },
+      "environment_disagreements": [],
+      "coverage": {
+        "N0": [
+          "persistence"
+        ],
+        "N1": [
+          "persistence",
+          "direction"
+        ],
+        "N2": [
+          "goals.공원",
+          "goals.복지관",
+          "routes.공원",
+          "routes.복지관",
+          "environment.park",
+          "mobility"
+        ],
+        "N3": [
+          "goals.시장",
+          "routes.시장",
+          "environment.market"
+        ]
+      },
+      "environment_method": "single_context_contract",
+      "unassigned_note_ids": [],
+      "unrepresented": [
+        {
+          "feature": "environment.market",
+          "scope": "category",
+          "reason": "engine_has_no_place_or_condition_specific_environment_input"
+        },
+        {
+          "feature": "persistence",
+          "reason": "initial_context_only_not_future_time_transition"
+        }
+      ],
+      "projection_trace": [
+        {
+          "consumer": "strategy_probs",
+          "action": "start_before_legacy_behavior_tilt"
+        },
+        {
+          "consumer": "strategy_probs",
+          "semantic_evidence": "persistence.keep_moving",
+          "factors": {
+            "staying_put": 0.3333333333333333
+          }
+        },
+        {
+          "consumer": "strategy_probs",
+          "semantic_evidence": "direction.same_heading",
+          "factors": {
+            "direction_keeping": 3.0
+          }
+        },
+        {
+          "consumer": "attraction_weights",
+          "after": {
+            "시장": 0.33333333333333337,
+            "공원": 0.33333333333333337,
+            "복지관": 0.33333333333333337
+          }
+        },
+        {
+          "consumer": "route_familiarity",
+          "after": []
+        },
+        {
+          "consumer": "env_responses",
+          "after": []
+        },
+        {
+          "consumer": "radius_lognormal",
+          "after": {
+            "mu": 0.095,
+            "sigma": 1.48
+          }
+        }
+      ],
+      "sar_source": "exaone",
+      "retrieval_audit": [
+        {
+          "id": "R0",
+          "source": "[보행] 가족 돌봄 제공자의 치매노인 배회관리 경험",
+          "kind": "paper",
+          "use": "primary_excerpt"
+        },
+        {
+          "id": "R1",
+          "source": "2110.13128v1",
+          "kind": "qa",
+          "use": "excluded_derived_or_unclassified"
+        },
+        {
+          "id": "R2",
+          "source": "[보행] Persons with dementia missing in the community Is it wandering or something unique",
+          "kind": "qa",
+          "use": "excluded_derived_or_unclassified"
+        },
+        {
+          "id": "R3",
+          "source": "2110.13128v1",
+          "kind": "qa",
+          "use": "excluded_derived_or_unclassified"
+        }
+      ],
+      "source_audit": {
+        "evidence_note_ids": [
+          "N0",
+          "N1",
+          "N2",
+          "N3"
+        ],
+        "excluded_derived_note_ids": [],
+        "quality": "guardian_original",
+        "limitation": "원문이 없는 추출 정보는 개인 사실로 확정하지 않으며 별도 확인 필요"
+      },
+      "limitations": [
+        "수치 배율은 잠정 규약이며 임상 보정값이 아님",
+        "실제 기억한 경로·보행 후 휴식 간격·도움 요청은 현재 엔진이 직접 재현하지 못함",
+        "원문·해석을 보존해도 모든 특성이 경로로 실행된다는 뜻은 아님",
+        "기존 자동 추출 경로·환경 입력을 이번 사건 근거로 재구성; 보호자 원본은 변경하지 않음"
+      ],
+      "semantic_review": "original_evidence_rechecked_not_clinical_validation"
+    },
+    "persona_adjustments": {
+      "persona_id": "night_heading_context",
+      "persona_version": 0,
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5
+      },
+      "route_familiarity": [],
+      "env_responses": []
+    }
+  },
+  "status": "applied",
+  "elapsed_seconds": 163.00443050195463
+}

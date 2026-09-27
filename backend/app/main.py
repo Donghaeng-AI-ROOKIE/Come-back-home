@@ -54,6 +54,8 @@ async def lifespan(app: FastAPI):
     from app.phase2 import refresher
 
     refresher.start()
+    from app.phase0.person_preparation import recover
+    recover()
     yield
 
 

@@ -137,7 +137,7 @@ def to_tone_params(
         tendency=persona.behavior_tendency,
         # strength 는 넘기지 않는다 — 0.1~0.9 연속값이라 닫힌 어휘가 아니고,
         # 문구를 가르는 데도 쓰이지 않는다.
-        env=[(e.feature, e.direction) for e in persona.env_responses],
+        env=[(e.feature, e.direction) for e in persona.env_responses if not e.condition_clauses],
         elapsed_h=round(elapsed_h, 1),
         spread=spread,
         appearance=appearance,

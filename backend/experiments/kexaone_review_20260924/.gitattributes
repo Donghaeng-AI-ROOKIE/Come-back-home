@@ -1,0 +1,4 @@
+# Evidence exports are retained for audits; keep the editorial review readable.
+evidence/**/*.json linguist-generated=true
+assets/path_evidence.json linguist-generated=true
+usage_terminal_events.json linguist-generated=true

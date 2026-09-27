@@ -1,0 +1,2321 @@
+{
+  "H01_NO_RAG_1": {
+    "valid": false,
+    "errors": [
+      "shape:invalid_json:Invalid control character at: line 26 column 13 (char 911)"
+    ],
+    "post_hoc": true
+  },
+  "H01_NO_RAG_2": {
+    "valid": false,
+    "errors": [
+      "mobility_range:keys"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N0"
+          ],
+          "observation_summary": "과거에 시장, 공원, 복지관 방향으로 여러 차례 향한 적 있음.",
+          "hypotheses": [],
+          "unknowns": [
+            "향한 방향이 실제로 도착했는지 여부",
+            "이용한 경로 또는 이동 방식"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 외출 중 도중에 서 있는지, 계속 걷는지 여부가 관찰되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "보행 지속 여부",
+            "정지 또는 휴식의 빈도와 거리"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "갈림길에서의 움직임 방식이 관찰되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "갈림길 선택 기준 또는 패턴",
+            "방향 전환 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [],
+          "observation_summary": "보행 거리, 속도, 반경 등 이동 범위는 관찰되지 않음.",
+          "hyp,otheses": [],
+          "unknowns": [
+            "최대 보행 거리",
+            "보행 속도 또는 평균 이동 반경"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "H01_WITH_RAG_1": {
+    "valid": false,
+    "errors": [
+      "shape:invalid_json:Expecting property name enclosed in double quotes: line 33 column 1 (char 788)"
+    ],
+    "post_hoc": true
+  },
+  "H01_WITH_RAG_2": {
+    "valid": false,
+    "errors": [
+      "route_shape:keys"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N0"
+          ],
+          "observation_summary": "과거에 시장, 공원, 복지관 방향으로 여러 차례 걸어갔으나 도착 여부나 경로는 확인되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "해당 방향으로 실제로 도착했는지 여부",
+            "같은 경로를 이용했는지 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "최근 외출 시 목적지 방향, 도중 정지 여부, 지속 보행 여부, 걷는 거리와 속도가 확인되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "지속 보행 여부",
+            "걷는 거리와 속도"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N0",
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "갈림길에서의 움직임 양상, 경로 선택, 반복적 방향 지향이 관찰되었으나 구체적 경로 형태는 미확인.",
+          "hyp otes": [],
+          "unknowns": [
+            "갈림길에서의 움직임 양상",
+            "경로 선택 패턴"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "과거 특정 장소 방향으로 이동한 기록 있으나 현재 이동 거리, 반경, 최대 범위는 미확인.",
+          "hypotheses": [],
+          "unknowns": [
+            "현재 이동 가능한 거리 또는 반경",
+            "보행 속도"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "H02_NO_RAG_1": {
+    "valid": false,
+    "errors": [
+      "mobility_range:keys"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N0"
+          ],
+          "observation_summary": "가족이 시장 쪽으로 걸어가는 모습을 여러 번 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장에 도착했는지 여부",
+            "시장 방향으로 향한 빈도와 지속 시간"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "길을 몰라 헤맬 때 멈추지 않고 걷는 모습을 여러 번 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때의 구체적 위치",
+            "걷기 지속 시간과 거리"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [],
+          "observation_summary": "미확인",
+          "hypotheses": [],
+          "unknowns": [
+            "방향 전환 여부",
+            "경로 선택 패턴"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "보호자와 함께한 산책에서 80m 걷고 잠시 쉰 후 다시 걷는 모습을 관찰했다.",
+          "hypες": [],
+          "unknowns": [
+            "혼자 있을 때의 이동 거리",
+            "휴식 빈도와 지속 시간"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "H02_NO_RAG_2": {
+    "valid": false,
+    "errors": [
+      "route_shape:keys"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N0"
+          ],
+          "observation_summary": "가족이 시장 쪽으로 걸어가는 모습을 여러 번 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장에 도착했는지 여부",
+            "시장 방향으로 향한 빈도와 지속성"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "길을 몰라 헤맬 때 멈추지 않고 걷는 모습이 여러 번 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때의 구체적 위치",
+            "지속 걷기의 평균 지속 시간"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "방향 전환 방식은 관찰되지 않았고, 보호자와 산책 시 일정 거리 걷고 잠시 쉰 후 다시 걸었다.",
+          "hypeses": [],
+          "unknowns": [
+            "갈림길 선택 여부",
+            "휴식 후 이동 방향"
+          ],
+          "conf conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "보호자와 산책 시 약 80m 걷고 잠시 쉰 후 다시 걷는 모습을 관찰했고, 혼자 있을 때의 보행 거리나 휴식 여부는 미확인이다.",
+          "hypotheses": [],
+          "unknowns": [
+            "혼자 있을 때의 최대 보행 거리",
+            "휴식 간격과 빈도"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "H02_WITH_RAG_1": {
+    "valid": false,
+    "errors": [
+      "route_shape:keys"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N0"
+          ],
+          "observation_summary": "시장 쪽으로 걸어가는 모습을 여러 번 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장에 도착했는지 여부",
+            "시장 방향 선택의 빈도나 지속성"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "방향 전환 없이 멈추지 않고 걷는 모습을 여러 번 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "걷는 속도나 지속 시간의 일관성",
+            "휴식 없이 걷는 생리적 가능성"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [],
+          "observation_summary": "미확인",
+          "hypoth0eses": [],
+          "unknowns": [
+            "경로 이용 여부",
+            "같은 경로 반복 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "보호자 동행 산책에서 80m 걷고 잠시 쉰 후 다시 걷는 모습을 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "혼자 있을 때의 이동 거리",
+            "혼자 있을 때 휴식 여부"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "H02_WITH_RAG_2": {
+    "valid": false,
+    "errors": [
+      "shape:invalid_json:Expecting property name enclosed in double quotes: line 33 column 1 (char 764)"
+    ],
+    "post_hoc": true
+  },
+  "H03_NO_RAG_1": {
+    "valid": false,
+    "errors": [
+      "shape:invalid_json:Expecting property name enclosed in double quotes: line 22 column 1 (char 591)"
+    ],
+    "post_hoc": true
+  },
+  "H03_NO_RAG_2": {
+    "valid": false,
+    "errors": [
+      "shape:invalid_json:Expecting property name enclosed in double quotes: line 22 column 1 (char 728)"
+    ],
+    "post_hoc": true
+  },
+  "H03_WITH_RAG_1": {
+    "valid": false,
+    "errors": [
+      "movement_persistence:keys",
+      "route_shape:source_quote",
+      "mobility_range:keys"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N0"
+          ],
+          "observation_summary": "가족이 최근 한 달 동안 어르신이 시장 방향으로 향하는 모습을 여러 차례 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 방향으로 향한 것이 실제로 시장에 도착했는지 여부",
+            "향한 행동이 반복적인지, 단발성인지 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "목격자 B는 같은 오후 4시에 같은 공원 입구에서 어르신이 멈추지 않고 걷고 있었다고 말했다.",
+          "hyp otheses": [],
+          "unknowns": [
+            "어르신이 공원 입구에서 멈춘 적이 있었는지 여부",
+            "걷는 행동이 지속되었는지, 일시적인지 여부"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "목격자 A는 어르신이 공원 입구에서 멈춰 서 있었다고 했고, 목격자 B는 같은 시각 같은 장소에서 멈추지 않고 걷고 있었다고 했다.",
+          "hypotheses": [
+            {
+              "source_id": "R3",
+              "source_quote": "가족이 '항상 다니던 길로 갔을 텐데 그 길에서는 못 찾았다'고 진술하는 경우 이동 성향을 어떻게 판단해야 하는가?",
+              "claim": "익숙 경로 이탈 직후형 — 원래 경로 주변에서 재진입을 시도할 가능성",
+              "applicability_limit": "이탈이 대개 정상 경로의 일부를 공유한 뒤 갈라지는 형태로 나타난다는 점"
+            }
+          ],
+          "unknowns": [
+            "어르신이 실제로 방향을 바꿨는지 여부",
+            "어떤 경로를 통해 공원 입구에 도착했는지 여부"
+          ],
+          "conflicts": [
+            {
+              "note_ids": [
+                "N1",
+                "N2"
+              ],
+              "issue": "같은 장소, 같은 시각에 멈춰 섰는지 여부"
+            }
+          ]
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0"
+          ],
+          "observation_summary": "시장 방향으로 향한 행동이 관찰되었으나 도착 여부, 경로, 거리, 지속성은 미확인이다.",
+          "hypoth6eses": [],
+          "unknowns": [
+            "어르신이 실제로 시장에 도착했는지 여부",
+            "이동 거리와 지속 시간"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "H03_WITH_RAG_2": {
+    "valid": false,
+    "errors": [
+      "movement_persistence:keys"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N0"
+          ],
+          "observation_summary": "가족이 최근 한 달 동안 어르신이 혼자 외출 시 시장 방향으로 향하는 행동을 여러 차례 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 방향으로 향한 행동이 실제로 시장 근처까지 도달했는지 여부",
+            "해당 방향 지향이 반복적이고 일관된 패턴인지 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "목격자 A는 어제 오후 4시 공원 입구에서 어르신이 멈춰 서 있었다고 했고, 목격자 B는 같은 시각 같은 장소에서 멈추지 않고 걷고 있었다고 진술했다.",
+          "hyparies": [],
+          "unknowns": [
+            "같은 시각 같은 장소에서의 행동 차이가 발생한 원인",
+            "어르신이 실제로 멈춰 있었는지, 계속 걷고 있었는지 여부"
+          ],
+          "conflicts": [
+            {
+              "note_ids": [
+                "N1",
+                "N2"
+              ],
+              "issue": "같은 시각, 같은 장소에서 어르신이 멈춰 있었는지 아니면 계속 걷고 있었는지에 대한 진술이 상충한다."
+            }
+          ]
+        },
+        "route_shape": {
+          "observation_note_ids": [],
+          "observation_summary": "미확인",
+          "hypotheses": [],
+          "unknowns": [
+            "어르신이 이동 중 방향을 바꾼 적이 있는지 여부",
+            "어떤 경로를 통해 이동했는지 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N4"
+          ],
+          "observation_summary": "그때 방향을 바꾸었는지, 어떤 길로 왔는지, 얼마나 걸었는지는 모른다.",
+          "hypotheses": [],
+          "unknowns": [
+            "어르신이 실제로 얼마나 멀리 이동했는지",
+            "이동 중 휴식 여부거나 보행 지속성 여부"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "H04_NO_RAG_1": {
+    "valid": false,
+    "errors": [
+      "shape:invalid_json:Expecting property name enclosed in double quotes: line 24 column 1 (char 760)"
+    ],
+    "post_hoc": true
+  },
+  "H04_NO_RAG_2": {
+    "valid": false,
+    "errors": [
+      "shape:invalid_json:Expecting property name enclosed in double quotes: line 33 column 1 (char 735)"
+    ],
+    "post_hoc": true
+  },
+  "H04_WITH_RAG_1": {
+    "valid": false,
+    "errors": [
+      "movement_persistence:keys"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N0",
+            "N1"
+          ],
+          "observation_summary": "과거와 최근 관찰에서 도서관 쪽으로 향하는 모습이 확인되었으나 도착 여부는 미확인이다.",
+          "hypotheses": [],
+          "unknowns": [
+            "향하는 방향이 도서관 외 다른 장소를 포함하는지 여부",
+            "같은 장소로의 반복 이동이 경로 기억 또는 습관인지 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "길을 잃었을 때 멈추지 않고 계속 걷는 모습이 관찰되었으나 방향 전환 여부는 확인되지 않았다.",
+          "hypoth্মeses": [],
+          "unknowns": [
+            "지속적인 보행이 목적지 탐색인지, 특정 경로 반복인지 여부",
+            "보행 중 휴식 간격이 관찰 가능한지 여부"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N0",
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "도서관 쪽으로 향하는 방향 지향은 있으나 경로 이용, 왕복, 경로 기억은 관찰되지 않았다.",
+          "hypotheses": [],
+          "unknowns": [
+            "같은 장소로의 반복 이동이 동일 경로 이용을 의미하는지 여부",
+            "방향 전환이 관찰되지 않은 것이 실제 방향 전환이 없었는지 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "보행 거리, 속도, 보조기구 사용 여부에 대한 기록은 없다.",
+          "hypotheses": [],
+          "unknowns": [
+            "실제 보행 거리와 반경이 어느 정도인지 여부",
+            "보행 지속 시간과 휴식 간격이 관찰 가능한지 여부"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "H04_WITH_RAG_2": {
+    "valid": false,
+    "errors": [
+      "shape:invalid_json:Invalid control character at: line 42 column 10 (char 1353)"
+    ],
+    "post_hoc": true
+  },
+  "T02_NO_RAG_1": {
+    "valid": true,
+    "errors": [],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향하는 행동이 반복적인 방향 지향인지, 실제 도착 시도인지 미확인.",
+            "향하는 방향이 시장 입구인지, 시장 인근인지 구체적 위치 미확인."
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "계속 걷는 동안 방향 전환이 있었는지 여부 미확인.",
+            "보행 지속이 피로 회피, 혼란 상태, 또는 목적지 향한 행동인지 미확인."
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [],
+          "observation_summary": "미확인.",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때 방향 전환 여부 미확인.",
+            "익숙한 경로 이용 또는 반복 경로 사용 여부 미확인."
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [],
+          "observation_summary": "미확인.",
+          "hypotheses": [],
+          "unknowns": [
+            "보행 지속 거리 또는 반경 미확인.",
+            "시장 쪽으로 향하는 행동의 최대 이동 거리 또는 반복 반경 미확인."
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "resolved": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향하는 행동이 반복적인 방향 지향인지, 실제 도착 시도인지 미확인.",
+            "향하는 방향이 시장 입구인지, 시장 인근인지 구체적 위치 미확인."
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "계속 걷는 동안 방향 전환이 있었는지 여부 미확인.",
+            "보행 지속이 피로 회피, 혼란 상태, 또는 목적지 향한 행동인지 미확인."
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "route_shape": {
+          "observation_note_ids": [],
+          "observation_summary": "미확인.",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때 방향 전환 여부 미확인.",
+            "익숙한 경로 이용 또는 반복 경로 사용 여부 미확인."
+          ],
+          "conflicts": [],
+          "observation_sources": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [],
+          "observation_summary": "미확인.",
+          "hypotheses": [],
+          "unknowns": [
+            "보행 지속 거리 또는 반경 미확인.",
+            "시장 쪽으로 향하는 행동의 최대 이동 거리 또는 반복 반경 미확인."
+          ],
+          "conflicts": [],
+          "observation_sources": []
+        }
+      }
+    },
+    "post_hoc": true,
+    "shape_repairs": [
+      "map_four_unique_explicit_feature_labels"
+    ]
+  },
+  "T02_NO_RAG_2": {
+    "valid": true,
+    "errors": [],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 여러 번 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 후 실제로 도착했는지 여부",
+            "시장 방향 선택이 반복적이고 일관된지 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 여러 번 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "계속 걷는 동안 방향 전환 여부",
+            "지속적인 보행이 목적지 향한 행동인지 여부"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [],
+          "observation_summary": "미확인",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때 방향 전환 여부",
+            "익숙한 경로 이용 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [],
+          "observation_summary": "미확인",
+          "hypotheses": [],
+          "unknowns": [
+            "휴식 없이 걷는 최대 거리 또는 반경",
+            "보행 지속 시간과 거리 간의 관계"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "resolved": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 여러 번 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 후 실제로 도착했는지 여부",
+            "시장 방향 선택이 반복적이고 일관된지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 여러 번 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "계속 걷는 동안 방향 전환 여부",
+            "지속적인 보행이 목적지 향한 행동인지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "route_shape": {
+          "observation_note_ids": [],
+          "observation_summary": "미확인",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때 방향 전환 여부",
+            "익숙한 경로 이용 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [],
+          "observation_summary": "미확인",
+          "hypotheses": [],
+          "unknowns": [
+            "휴식 없이 걷는 최대 거리 또는 반경",
+            "보행 지속 시간과 거리 간의 관계"
+          ],
+          "conflicts": [],
+          "observation_sources": []
+        }
+      }
+    },
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T02_WITH_RAG_1": {
+    "valid": false,
+    "errors": [
+      "movement_persistence:source_quote"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "시장 쪽으로 걷는 모습이 관찰되었으나 도착 여부는 확인되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장에 도착했는지 여부",
+            "시장 외 다른 장소로의 이동 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 관찰됨.",
+          "hypotheses": [
+            {
+              "source_id": "R0",
+              "source_quote": "앞만 보고 걸어감. 쉬지 않고 계속 앞만 보고 걸어가며 그 속도가 빨라 아주 멀리 가버리는 상황이 발생되었다.",
+              "claim": "지속적인 보행은 방향 감각 상실과 관련될 수 있음",
+              "applicability_limit": "관찰된 지속 보행이 방향 상실 상태인지 여부는 확인되지 않음"
+            }
+          ],
+          "unknowns": [
+            "보행 중 방향 전환 여부",
+            "보행 속도의 정량적 수준"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 방향 전환 또는 익숙한 길 이용 여부는 관찰되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때 경로 변경 여부",
+            "익숙한 경로 사용 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1"
+          ],
+          "observation_summary": "시장·공원·복지관 세 장소로의 이동이 과거에 관찰되었으나 최근 이동 범위는 확인되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "최근 이동 반경 또는 최대 거리",
+            "공원 또는 복지관 방문 여부"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T02_WITH_RAG_2": {
+    "valid": false,
+    "errors": [
+      "movement_persistence:source_quote",
+      "mobility_range:source_quote"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "시장 쪽으로 걷는 모습이 관찰되었으나 도착 여부는 확인되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장에 도착했는지 여부",
+            "시장 외 다른 장소 향한 이동 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 관찰됨.",
+          "hypotheses": [
+            {
+              "source_id": "R0",
+              "source_quote": "앞만 보고 걸어감. 쉬지 않고 계속 앞만 보고 걸어가며 그 속도가 빨라 여차 하는 사이 아주 멀리 가버리는 상황이 발생되었다.",
+              "claim": "지속적인 보행은 방향 상실 상태에서 중단 없이 이동하는 경향을 나타낼 수 있음.",
+              "applicability_limit": "관찰된 보행 지속성은 방향 상실과 연관될 수 있으나, 반드시 직진이나 경로 기억을 의미하지는 않음."
+            }
+          ],
+          "unknowns": [
+            "보행 중 방향 전환 여부",
+            "보행 지속성의 원인(의도적 vs 혼란)"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 방향 전환 또는 익숙한 길 이용 여부는 직접 관찰되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때 경로 선택 방식",
+            "익숙한 경로 이용 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1"
+          ],
+          "observation_summary": "시장, 공원, 복지관 세 장소 향한 이동이 과거에 관찰되었으나 최근 이동 범위는 확인되지 않음.",
+          "hypotheses": [
+            {
+              "source_id": "R1",
+              "source_quote": "실종자가 평소 집·마트·복지관 세 곳만 반복해서 다녔다는 진술이 있을 때 끌림점 판단은 어떻게 해야 하는가? 답: 이 접근은 반복 체류 이력이 쌓인 소수의 지점을 지오펜스 영역으로 뽑아 그 사이의 이동만을 정상 패턴으로 삼는데, 치매 노인의 생활 반경이 단순하다는 전제가 실제 데이터로 뒷받침된다.",
+              "claim": "반복적으로 향한 장소는 끌림점으로 간주될 수 있으며, 이동 범위는 그 지점 간 왕복으로 제한될 수 있음.",
+              "applicability_limit": "과거 반복 이동은 생활 반경의 단순성을 시사하나, 최근 행동 변화로 인해 범위가 확장되었을 가능성은 배제되지 않음."
+            }
+          ],
+          "unknowns": [
+            "최근 이동 범위의 실제 반경",
+            "최근 외출 시 이동 거리"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T04_NO_RAG_1": {
+    "valid": true,
+    "errors": [],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "혼자 외출 시 시장 쪽으로 걷는 모습이 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향하는 행동이 반복적인지 여부",
+            "시장 도착 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "혼자 외출 시 시장 쪽으로 걷는 행동이 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "행동 지속 시간",
+            "이동 중단 여부"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N1",
+            "N3"
+          ],
+          "observation_summary": "시장 쪽으로 걷는 모습이 관찰되었으나, 경로 선택이나 방향 전환 여부는 확인되지 않았다.",
+          "hypotheses": [],
+          "unknowns": [
+            "경로 기억 여부",
+            "갈림길 선택 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 가까운 곳에 멈춰 머무는 모습이 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "휴식 거리",
+            "이동 가능한 최대 반경"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "resolved": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "혼자 외출 시 시장 쪽으로 걷는 모습이 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향하는 행동이 반복적인지 여부",
+            "시장 도착 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "혼자 외출 시 시장 쪽으로 걷는 행동이 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "행동 지속 시간",
+            "이동 중단 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N1",
+            "N3"
+          ],
+          "observation_summary": "시장 쪽으로 걷는 모습이 관찰되었으나, 경로 선택이나 방향 전환 여부는 확인되지 않았다.",
+          "hypotheses": [],
+          "unknowns": [
+            "경로 기억 여부",
+            "갈림길 선택 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            },
+            {
+              "note_id": "N3",
+              "original_text": "최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다."
+            }
+          ]
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 가까운 곳에 멈춰 머무는 모습이 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "휴식 거리",
+            "이동 가능한 최대 반경"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        }
+      }
+    },
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T04_NO_RAG_2": {
+    "valid": true,
+    "errors": [],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "혼자 외출 시 시장 쪽으로 걷는 모습이 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향하는 행동이 반복된 경로 이용을 의미하는지 여부",
+            "시장 방향으로의 이동이 목적지 도달을 의미하는지 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "혼자 외출 시 시장 쪽으로 걷는 행동과 헤맬 때 가까운 곳에 멈춰 머무는 행동이 각각 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 걷는 행동의 지속 시간 또는 거리",
+            "멈춰 머무는 행동이 일시적 휴식인지, 방향 상실 상태인지 여부"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 관찰되지 않았다.",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때의 실제 이동 경로 형태",
+            "익숙한 경로 사용 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 가까운 곳에 멈춰 머무는 행동이 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "멈춰 머문 위치의 최대 거리 또는 반경",
+            "휴식 간격 또는 지속 시간"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "resolved": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "혼자 외출 시 시장 쪽으로 걷는 모습이 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향하는 행동이 반복된 경로 이용을 의미하는지 여부",
+            "시장 방향으로의 이동이 목적지 도달을 의미하는지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "혼자 외출 시 시장 쪽으로 걷는 행동과 헤맬 때 가까운 곳에 멈춰 머무는 행동이 각각 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 걷는 행동의 지속 시간 또는 거리",
+            "멈춰 머무는 행동이 일시적 휴식인지, 방향 상실 상태인지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            },
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 관찰되지 않았다.",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때의 실제 이동 경로 형태",
+            "익숙한 경로 사용 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N3",
+              "original_text": "최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다."
+            }
+          ]
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 가까운 곳에 멈춰 머무는 행동이 여러 차례 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "멈춰 머문 위치의 최대 거리 또는 반경",
+            "휴식 간격 또는 지속 시간"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        }
+      }
+    },
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T04_WITH_RAG_1": {
+    "valid": true,
+    "errors": [],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향하는 행동이 목적지 도달 여부와 무관한지",
+            "해당 방향 지향이 반복적인지 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 가까운 곳에 멈춰 머무는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "멈춘 후 재이동 여부",
+            "휴식 간격이나 지속 시간의 패턴"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 방향 전환 여부나 익숙한 길 이용 여부는 가족이 직접 관찰하지 못함.",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때 실제로 방향을 바꾸는지",
+            "익숙한 경로를 이용하는지 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "등록된 시장·공원·복지관 세 장소 모두 예전에 여러 차례 향한 모습이 있으나, 최근 행동에 대한 구체적 경로는 관찰되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "최근 외출 시 실제로 어느 장소에 도달했는지",
+            "이동 반경이나 최대 거리"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "resolved": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향하는 행동이 목적지 도달 여부와 무관한지",
+            "해당 방향 지향이 반복적인지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 가까운 곳에 멈춰 머무는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "멈춘 후 재이동 여부",
+            "휴식 간격이나 지속 시간의 패턴"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 방향 전환 여부나 익숙한 길 이용 여부는 가족이 직접 관찰하지 못함.",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때 실제로 방향을 바꾸는지",
+            "익숙한 경로를 이용하는지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N3",
+              "original_text": "최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다."
+            }
+          ]
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "등록된 시장·공원·복지관 세 장소 모두 예전에 여러 차례 향한 모습이 있으나, 최근 행동에 대한 구체적 경로는 관찰되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "최근 외출 시 실제로 어느 장소에 도달했는지",
+            "이동 반경이나 최대 거리"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N0",
+              "original_text": "등록된 시장·공원·복지관 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근 행동은 아래 진술을 따른다."
+            },
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            },
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        }
+      }
+    },
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T04_WITH_RAG_2": {
+    "valid": false,
+    "errors": [
+      "mobility_range:source_quote"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 가족이 여러 번 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 방향으로 향한 후 도착 여부 미확인",
+            "해당 이동이 반복된 경로인지 여부 미확인"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 가까운 곳에 멈춰 머무는 모습이 가족이 여러 번 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "멈춘 후 재출발 여부 미확인",
+            "휴식 간격이나 지속 시간 미확인"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 방향 전환이나 익숙한 길 이용 여부는 가족이 직접 관찰하지 못함.",
+          "hypotheses": [],
+          "unknowns": [
+            "헤맬 때 실제로 방향을 바꾸는지 여부 미확인",
+            "익숙한 경로를 이용하는지 여부 미확인"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1",
+            "N2"
+          ],
+          "observation_summary": "등록된 시장·공원·복지관 세 장소 모두 예전에 여러 차례 향한 모습이 있었으며, 최근에도 시장 쪽으로 걷거나 헤맬 때 멈추는 행동이 관찰됨.",
+          "hypotheses": [
+            {
+              "source_id": "R1",
+              "source_quote": "치매 실종 사건 직전에 환자는 주로 평소처럼 동네를 산책하거나 차를 몰고 익숙한 곳으로 가는 일과였고, 대개 여러 차례 성공적으로 다녀온 경로였다.",
+              "claim": "익숙한 장소로의 이동은 정상 행동 패턴의 일부일 수 있음",
+              "applicability_limit": "해당 사례는 감독받는 활동 중 발생한 경우가 대부분이며, 정상적 외출 중 발생 가능"
+            }
+          ],
+          "unknowns": [
+            "시장·공원·복지관 간 이동 경로의 구체적 형태 미확인",
+            "최근 외출 시 다른 장소로의 이동 여부 미확인"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T05_NO_RAG_1": {
+    "valid": true,
+    "errors": [],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 여러 번 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 것이 실제로 시장에 도착했는지 여부",
+            "시장 쪽을 향한 방향이 반복적으로 동일한 경로인지 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 여러 번 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "계속 걷는 동안 보행 속도나 피로도 변화 여부",
+            "멈추지 않는 것이 의도적 지속인지 반사적 행동인지 여부"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습이 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "앞쪽으로 계속 걷는 것이 특정 경로 유지인지 무작위 직진인지 여부",
+            "갈림길 선택의 일관성이 과거 행동 패턴과 일치하는지 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1"
+          ],
+          "observation_summary": "등록된 시장·공원·복지관 세 장소 모두 예전에 여러 차례 향한 모습이 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "각 장소에 도달한 거리 또는 반경 범위",
+            "각 장소 향한 빈도와 최근 행동 간 연관성"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "resolved": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 여러 번 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 것이 실제로 시장에 도착했는지 여부",
+            "시장 쪽을 향한 방향이 반복적으로 동일한 경로인지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 여러 번 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "계속 걷는 동안 보행 속도나 피로도 변화 여부",
+            "멈추지 않는 것이 의도적 지속인지 반사적 행동인지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다."
+            },
+            {
+              "note_id": "N3",
+              "original_text": "최근 헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습을 가족이 여러 번 봤다. 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다."
+            }
+          ]
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습이 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "앞쪽으로 계속 걷는 것이 특정 경로 유지인지 무작위 직진인지 여부",
+            "갈림길 선택의 일관성이 과거 행동 패턴과 일치하는지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N3",
+              "original_text": "최근 헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습을 가족이 여러 번 봤다. 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다."
+            }
+          ]
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1"
+          ],
+          "observation_summary": "등록된 시장·공원·복지관 세 장소 모두 예전에 여러 차례 향한 모습이 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "각 장소에 도달한 거리 또는 반경 범위",
+            "각 장소 향한 빈도와 최근 행동 간 연관성"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N0",
+              "original_text": "등록된 시장·공원·복지관 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근 행동은 아래 진술을 따른다."
+            },
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        }
+      }
+    },
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T05_NO_RAG_2": {
+    "valid": false,
+    "errors": [
+      "movement_persistence:source_id"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향하는 행동이 반복되는지 여부",
+            "시장에 도착했는지 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [
+            {
+              "source_id": "R",
+              "source_quote": "치매 환자는 익숙한 경로를 따라 걷는 경향이 있으며, 갈림길에서도 방향 전환이 적고 직진하는 경향이 있다.",
+              "claim": "치매 환자는 갈림길에서 방향 전환이 적고 직진하는 경향이 있다.",
+              "applicability_limit": "이 발췌는 일반적인 경향을 설명하며, 본 사례의 관찰(N3)과 부분적으로 일치할 수 있으나, 익숙한지 여부는 확인되지 않음."
+            }
+          ],
+          "unknowns": [
+            "계속 걷는 행동이 보행 능력 저하 때문인지 여부",
+            "헤맬 때 걷는 거리나 지속 시간"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습이 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "같은 경로를 이용했는지 여부",
+            "갈림길 선택이 반복되는지 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N1",
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "혼자 외출 시 시장 쪽으로 걷고, 헤맬 때 멈추지 않고 걷는 행동이 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "걷는 거리나 반경",
+            "휴식 간격이나 지속 시간"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T05_WITH_RAG_1": {
+    "valid": true,
+    "errors": [],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "가족이 최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습을 여러 번 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 후 실제로 도착했는지 여부",
+            "시장 외 다른 장소로의 이동 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷고, 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습이 관찰되었다.",
+          "hypotheses": [
+            {
+              "source_id": "R0",
+              "source_quote": "앞만 보고 걸어감’의 배회 형태는 치매노인이 밖을 혼자 걸어 다닐 때의 양상이었다. 가족이 관찰하기에 치매노인은 주변을 둘러보지 못하고 정면만 보면서 직진하는 모습을 보였 고, 쉬지 않고 계속 앞만 보고 걸어가며 그 속도가 빨라 여차 하는 사이 아주 멀리 가버리는 상황이 발생되었다고 하였다.",
+              "claim": "치매 노인이 주변을 인지하지 못하고 정면 방향으로 지속적으로 보행하는 양상이 관찰됨",
+              "applicability_limit": "관찰된 방향 지속성은 R0의 '앞만 보고 걸어감' 양상과 유사하나, 실제 속도나 거리 측정은 없음"
+            }
+          ],
+          "unknowns": [
+            "보행 속도 또는 지속 시간",
+            "보행 중 주변 환경 인지 여부"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습이 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "해당 갈림길이 익숙한 경로의 일부인지 여부",
+            "방향 전환이 없는 이유가 경로 기억 때문인지, 인지 장애 때문인지"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0"
+          ],
+          "observation_summary": "등록된 시장, 공원, 복지관 세 장소 모두 예전에 여러 차례 향하는 모습이 가족이 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "최근 이동이 과거와 동일한 범위 내에 머무르는지 여부",
+            "각 장소 간 이동 빈도 또는 경로"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "resolved": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "가족이 최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습을 여러 번 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 후 실제로 도착했는지 여부",
+            "시장 외 다른 장소로의 이동 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷고, 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습이 관찰되었다.",
+          "hypotheses": [
+            {
+              "source_id": "R0",
+              "source_quote": "앞만 보고 걸어감’의 배회 형태는 치매노인이 밖을 혼자 걸어 다닐 때의 양상이었다. 가족이 관찰하기에 치매노인은 주변을 둘러보지 못하고 정면만 보면서 직진하는 모습을 보였 고, 쉬지 않고 계속 앞만 보고 걸어가며 그 속도가 빨라 여차 하는 사이 아주 멀리 가버리는 상황이 발생되었다고 하였다.",
+              "claim": "치매 노인이 주변을 인지하지 못하고 정면 방향으로 지속적으로 보행하는 양상이 관찰됨",
+              "applicability_limit": "관찰된 방향 지속성은 R0의 '앞만 보고 걸어감' 양상과 유사하나, 실제 속도나 거리 측정은 없음"
+            }
+          ],
+          "unknowns": [
+            "보행 속도 또는 지속 시간",
+            "보행 중 주변 환경 인지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다."
+            },
+            {
+              "note_id": "N3",
+              "original_text": "최근 헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습을 가족이 여러 번 봤다. 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다."
+            }
+          ]
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습이 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "해당 갈림길이 익숙한 경로의 일부인지 여부",
+            "방향 전환이 없는 이유가 경로 기억 때문인지, 인지 장애 때문인지"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N3",
+              "original_text": "최근 헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습을 가족이 여러 번 봤다. 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다."
+            }
+          ]
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0"
+          ],
+          "observation_summary": "등록된 시장, 공원, 복지관 세 장소 모두 예전에 여러 차례 향하는 모습이 가족이 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "최근 이동이 과거와 동일한 범위 내에 머무르는지 여부",
+            "각 장소 간 이동 빈도 또는 경로"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N0",
+              "original_text": "등록된 시장·공원·복지관 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근 행동은 아래 진술을 따른다."
+            }
+          ]
+        }
+      }
+    },
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T05_WITH_RAG_2": {
+    "valid": false,
+    "errors": [
+      "destination_pull:source_quote"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N0",
+            "N1"
+          ],
+          "observation_summary": "등록된 시장·공원·복지관 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다.",
+          "hypotheses": [
+            {
+              "source_id": "R1",
+              "source_quote": "실종자가 평소 집·마트·복지관 세 곳만 반복해서 다녔다는 진술이 있을 때 끌림점 판단은 어떻게 해야 하는가? 답: 이 접근은 반복 체류 이력이 쌓인 소수의 지점을 지오펜스 영역으로 뽑아 그 사이의 이동만을 정상 패턴으로 삼는데, 치매 노인의 생활 반경이 단순하다는 전제가 실제 데이터로 뒷받침된다. 따라서 끌림점 집중도 등급은 '상', 성향은 '소수 익숙 거점 회귀형'으로 판단하고, 근거는 정상 이동 패턴이 소수 거점 간 왕복으로 수렴한다는 점이다.",
+              "claim": "등록된 장소들이 반복 방문 지점으로 기능하며, 최근에도 시장 쪽으로 향하는 경향이 지속되고 있다.",
+              "applicability_limit": "관찰된 반복 방문 이력이 실제 이동 패턴과 일치하며, 최근 행동도 동일한 장소 지향성을 유지한다는 전제 하에 성립한다."
+            }
+          ],
+          "unknowns": [
+            "최근 시장 쪽으로 향하는 행동이 과거와 동일한 경로인지 여부는 가족이 직접 관찰하지 못했다.",
+            "시장·공원·복지관 중 어떤 장소가 가장 강한 끌림점으로 작용하는지는 확인되지 않았다."
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "최근 헤맬 때 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤으며, 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습을 관찰했다.",
+          "hypotheses": [
+            {
+              "source_id": "R0",
+              "source_quote": "‘앞만 보고 걸어감’의 배회 형태는 치매노인이 밖을 혼자 걸어 다닐 때의 양상이었다. 가족이 관찰하기에 치매노인은 주변을 둘러보지 못하고 정면만 보면서 직진하는 모습을 보였 고, 쉬지 않고 계속 앞만 보고 걸어가며 그 속도가 빨라 여차 하는 사이 아주 멀리 가버리는 상황이 발생되었다고 하였다.",
+              "claim": "치매 노인이 헤맬 때도 멈추지 않고 직진하는 경향이 있으며, 이는 방향 전환이 어려운 상태일 수 있다.",
+              "applicability_limit": "관찰된 행동이 정면 직진과 지속적 보행을 포함하며, 주변 환경 인식이 제한된 경우에 해당할 때 적용 가능하다."
+            }
+          ],
+          "unknowns": [
+            "계속 걷는 행동이 피로 또는 보행 능력 저하 때문인지, 아니면 방향 인식 상실 때문인지 구분되지 않는다.",
+            "계속 걷는 행동이 특정 장소 도착 여부와 무관하게 지속되는지 여부는 확인되지 않았다."
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습을 가족이 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "앞쪽으로 계속 걷는 경로가 익숙한 경로인지 여부는 가족이 직접 관찰하지 못했다.",
+            "갈림길에서의 직진 선택이 경로 기억에 기반한 것인지, 아니면 방향 인식 상실로 인한 것인지 불명확하다."
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1",
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "등록된 시장·공원·복지관 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했으며, 최근에도 시장 쪽으로 걷고, 헤맬 때 멈추지 않고 계속 걷고, 갈림길에서 방향을 거의 바꾸지 않고 직진하는 모습을 관찰했다.",
+          "hypotheses": [],
+          "unknowns": [
+            "최근 행동이 과거와 동일한 이동 반경 내에서 발생했는지 여부는 확인되지 않았다.",
+            "시장 쪽으로 향하는 행동이 특정 거리 또는 반경 내에서 제한되는지 여부는 관찰되지 않았다."
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T06_NO_RAG_1": {
+    "valid": true,
+    "errors": [],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 것이 실제로 시장에 도착했는지 여부",
+            "시장 쪽으로 향하는 행동이 반복적인 경로 이용인지 여부"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "계속 걷는 동안 보행 속도나 방향 유지 여부",
+            "휴식 없이 걷는 행동이 지속된 시간 또는 거리"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "방향 전환이 무작위인지, 특정 패턴을 따르는지",
+            "익숙한 경로인지 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1",
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "등록된 시장, 공원, 복지관 세 장소 모두 예전에 여러 차례 향한 모습이 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "각 장소에 도달한 거리 또는 반경",
+            "최근 외출 시 이동한 최대 거리"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "resolved": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "최근 한 달 동안 혼자 외출 시 시장 쪽으로 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 것이 실제로 시장에 도착했는지 여부",
+            "시장 쪽으로 향하는 행동이 반복적인 경로 이용인지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "계속 걷는 동안 보행 속도나 방향 유지 여부",
+            "휴식 없이 걷는 행동이 지속된 시간 또는 거리"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습이 여러 차례 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "방향 전환이 무작위인지, 특정 패턴을 따르는지",
+            "익숙한 경로인지 여부"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N3",
+              "original_text": "최근 헤맬 때 갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습을 가족이 여러 번 봤다. 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다."
+            }
+          ]
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1",
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "등록된 시장, 공원, 복지관 세 장소 모두 예전에 여러 차례 향한 모습이 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "각 장소에 도달한 거리 또는 반경",
+            "최근 외출 시 이동한 최대 거리"
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N0",
+              "original_text": "등록된 시장·공원·복지관 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근 행동은 아래 진술을 따른다."
+            },
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            },
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다."
+            },
+            {
+              "note_id": "N3",
+              "original_text": "최근 헤맬 때 갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습을 가족이 여러 번 봤다. 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다."
+            }
+          ]
+        }
+      }
+    },
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T06_NO_RAG_2": {
+    "valid": true,
+    "errors": [],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "시장 쪽으로 걷는 모습이 최근 한 달 동안 여러 번 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 것이 실제로 시장에 도착했는지는 미확인이다.",
+            "시장 쪽으로 향한 것이 반복적인 경로 선택인지, 우연한 방향인지 미확인이다."
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 여러 번 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "계속 걷는 것이 보행 능력 저하 때문인지, 목적지 향한 지속성 때문인지 미확인이다.",
+            "걷는 거리나 지속 시간에 대한 구체적 수치는 미확인이다."
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습이 여러 번 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "방향 전환이 경로 기억 부족 때문인지, 탐색 행동 때문인지 미확인이다.",
+            "방향 전환이 특정 패턴(예: 왕복, 나선형)인지 미확인이다."
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "시장 쪽으로 걷는 모습이 최근 한 달 동안 여러 번 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 최대 거리나 반경은 미확인이다.",
+            "시장 쪽으로 향한 것이 반복적인 이동 범위 내 행동인지 미확인이다."
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "resolved": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "시장 쪽으로 걷는 모습이 최근 한 달 동안 여러 번 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 것이 실제로 시장에 도착했는지는 미확인이다.",
+            "시장 쪽으로 향한 것이 반복적인 경로 선택인지, 우연한 방향인지 미확인이다."
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 여러 번 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "계속 걷는 것이 보행 능력 저하 때문인지, 목적지 향한 지속성 때문인지 미확인이다.",
+            "걷는 거리나 지속 시간에 대한 구체적 수치는 미확인이다."
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N2",
+              "original_text": "최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "헤맬 때 갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습이 여러 번 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "방향 전환이 경로 기억 부족 때문인지, 탐색 행동 때문인지 미확인이다.",
+            "방향 전환이 특정 패턴(예: 왕복, 나선형)인지 미확인이다."
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N3",
+              "original_text": "최근 헤맬 때 갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습을 가족이 여러 번 봤다. 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다."
+            }
+          ]
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "시장 쪽으로 걷는 모습이 최근 한 달 동안 여러 번 관찰되었다.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장 쪽으로 향한 최대 거리나 반경은 미확인이다.",
+            "시장 쪽으로 향한 것이 반복적인 이동 범위 내 행동인지 미확인이다."
+          ],
+          "conflicts": [],
+          "observation_sources": [
+            {
+              "note_id": "N1",
+              "original_text": "최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다."
+            }
+          ]
+        }
+      }
+    },
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T06_WITH_RAG_1": {
+    "valid": false,
+    "errors": [
+      "movement_persistence:source_quote"
+    ],
+    "structured": {
+      "features": {
+        "destination_pull": {
+          "observation_note_ids": [
+            "N1"
+          ],
+          "observation_summary": "시장 쪽으로 걷는 모습이 관찰되었으나 도착 여부는 확인되지 않음.",
+          "hypotheses": [],
+          "unknowns": [
+            "시장에 도착했는지 여부",
+            "시장 향한 이동이 반복적인 목적지 지향인지 일시적 방향인지"
+          ],
+          "conflicts": []
+        },
+        "movement_persistence": {
+          "observation_note_ids": [
+            "N2"
+          ],
+          "observation_summary": "헤맬 때 멈추지 않고 계속 걷는 모습이 관찰됨.",
+          "hypotheses": [
+            {
+              "source_id": "R0",
+              "source_quote": "앞만 보고 걸어감’의 배회 형태는 치매노인이 밖을 혼자 걸어 다닐 때의 양상이었다. ... 쉬지 않고 계속 앞만 보고 걸어가며 그 속도가 빨라 여차 하는 사이 아주 멀리 가버리는 상황이 발생되었다.",
+              "claim": "지속적인 보행은 방향 상실 상태에서 멈추지 않는 행동 양상을 나타낼 수 있음",
+              "applicability_limit": "이 발췌는 관찰된 사례가 아닌 문헌 기반 일반화이므로 직접 적용은 제한적임"
+            }
+          ],
+          "unknowns": [
+            "보행 지속이 의도적인지 반사적인지",
+            "보행 중 주변 환경 인지 여부"
+          ],
+          "conflicts": []
+        },
+        "route_shape": {
+          "observation_note_ids": [
+            "N3"
+          ],
+          "observation_summary": "갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습이 관찰됨.",
+          "hypotheses": [],
+          "unknowns": [
+            "방향 전환이 경로 기억 부족 때문인지 탐색 행동 때문인지",
+            "익숙한 경로를 이용 중인지 여부"
+          ],
+          "conflicts": []
+        },
+        "mobility_range": {
+          "observation_note_ids": [
+            "N0",
+            "N1",
+            "N2",
+            "N3"
+          ],
+          "observation_summary": "등록된 세 장소(시장, 공원, 복지관) 모두 향한 적 있으나, 최근 이동은 시장 쪽으로의 보행과 갈림길에서의 방향 전환이 중심임.",
+          "hypotheses": [],
+          "unknowns": [
+            "이동 반경의 실제 거리 또는 범위",
+            "각 장소 간 이동 빈도 또는 경로 일관성"
+          ],
+          "conflicts": []
+        }
+      }
+    },
+    "repairs": [],
+    "post_hoc": true,
+    "shape_repairs": [
+      "wrap_four_explicit_feature_keys"
+    ]
+  },
+  "T06_WITH_RAG_2": {
+    "valid": false,
+    "errors": [
+      "shape:invalid_json:Expecting property name enclosed in double quotes: line 24 column 1 (char 686)"
+    ],
+    "post_hoc": true
+  }
+}

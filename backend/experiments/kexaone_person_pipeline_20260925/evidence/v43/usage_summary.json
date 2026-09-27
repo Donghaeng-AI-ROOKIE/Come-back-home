@@ -1,0 +1,12 @@
+{
+  "experiment": "KEXAONE_conditions_live_v43_20260925",
+  "usage_bearing_events": 6,
+  "reported_tokens": {
+    "prompt_tokens": 11055,
+    "completion_tokens": 33886,
+    "total_tokens": 44941
+  },
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null
+}

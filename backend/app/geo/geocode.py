@@ -29,11 +29,8 @@ class GeoResult:
     precision: str          # poi | address | dong | approx
     source: str             # kakao | nominatim | gazetteer
     matched: str | None = None   # 실제 매칭된 장소/주소명
-    # 매칭 지점의 주소(있으면) — 온보딩이 "어디로 찾았는지"를 보호자에게 되비추는 데
-    # 쓴다. 키워드 검색은 상호만 돌려주면 "우리집"→강남 식당처럼 **엉뚱한 곳에 걸려도
-    # 보호자가 알 길이 없다**(실측 2026-09-26). matched 는 앱 검색 라벨로 이미 쓰여
-    # 형식을 바꾸지 않고 따로 둔다.
-    address: str | None = None
+    detail: dict | None = None   # 후보 고르기용(분류·주소·집에서 거리) — 좌표화 판정에는 쓰지 않는다
+    address: str | None = None   # 집 주소 확인 결과를 보호자에게 표시
 
 
 class Geocoder(Protocol):
@@ -159,10 +156,13 @@ class KakaoGeocoder(_BaseGeocoder):
             return []
 
     def _keyword(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
-        # 앵커(집)가 있으면 반경 내 근접순 검색 — "은행 앞" 같은 일반명사가
-        # 전국 아무 곳에나 걸리는 것을 API 단에서 차단 (radius 상한 20,000m).
+        # 앵커(집)가 있으면 반경 안에서만 찾는다 — "은행 앞" 같은 일반명사가 전국 아무
+        # 곳에나 걸리는 것을 API 단에서 차단(radius 상한 20,000m). 정렬은 정확도순이다.
+        # 거리순이면 이름이 겹치는 가장 가까운 가게가 첫 결과가 된다 — 2026-09-26 실측
+        # (집: 고양시 대화동): '킨텍스'→위피커피, '일산호수공원'→일산들밥, '대화동
+        # 노인복지관'→키위 방문요양센터. 정확도순은 셋 다 그 장소 자체를 찾았다.
         extra = ({"x": anchor.lng, "y": anchor.lat,
-                  "radius": int(ANCHOR_MAX_KM * 1000), "sort": "distance"}
+                  "radius": int(ANCHOR_MAX_KM * 1000), "sort": "accuracy"}
                  if anchor else None)
         docs = self._get(self.KEYWORD_URL, query, extra)
         if not docs:
@@ -171,6 +171,23 @@ class KakaoGeocoder(_BaseGeocoder):
         return GeoResult(GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
                          precision="poi", source="kakao", matched=d.get("place_name"),
                          address=d.get("road_address_name") or d.get("address_name") or None)
+
+    def keyword_candidates(self, query: str, anchor: GeoPoint | None = None, size: int = 5) -> list[GeoResult]:
+        """키워드 검색 상위 후보(정확도순). 보호자가 말한 곳인지는 호출자가 고른다(모델 판정).
+
+        첫 결과를 그대로 쓰면 이름 일부만 같은 곳이 걸린다 — 최종 게이트 1회차(2026-09-26):
+        '일산시장 앞 오거리'·'쌍용아파트 앞 오거리'가 둘 다 1.8km 떨어진 '오거리공원 화장실'로 찍혔다.
+        """
+        extra = {"size": size, **({"x": anchor.lng, "y": anchor.lat,
+                                   "radius": int(ANCHOR_MAX_KM * 1000), "sort": "accuracy"} if anchor else {})}
+        out = []
+        for d in self._get(self.KEYWORD_URL, query, extra):
+            out.append(GeoResult(GeoPoint(lat=float(d["y"]), lng=float(d["x"])), precision="poi", source="kakao",
+                                 matched=d.get("place_name"),
+                                 detail={"category": str(d.get("category_name") or "").split(" > ")[-1],
+                                         "address": d.get("road_address_name") or d.get("address_name") or "",
+                                         "distance_m": int(d["distance"]) if d.get("distance") else None}))
+        return out
 
     def _address(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
         # 주소검색 API 는 x/y 파라미터 미지원 — anchor 는 시그니처 통일용
@@ -182,11 +199,13 @@ class KakaoGeocoder(_BaseGeocoder):
                          precision="address", source="kakao", matched=d.get("address_name"),
                          address=d.get("address_name"))
 
-    def locate(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
+    def locate(self, query: str, anchor: GeoPoint | None = None, *, region: bool = False) -> GeoResult | None:
         if not query:
             return None
-        # 순수 지역명이면 주소→키워드, 상호/장소명이면 키워드→주소
-        steps = (self._address, self._keyword) if _looks_like_region(query) else (self._keyword, self._address)
+        # 순수 지역명이면 주소→키워드, 상호/장소명이면 키워드→주소. region=True 는 호출자가
+        # 동네(지역)를 찾는다고 알려 준 경우 — '파주'처럼 접미사 없는 지역명도 주소 먼저.
+        steps = ((self._address, self._keyword) if region or _looks_like_region(query)
+                 else (self._keyword, self._address))
         for step in steps:
             res = step(query, anchor)
             if res is not None:
@@ -282,9 +301,16 @@ class ChainGeocoder(_BaseGeocoder):
     def __init__(self, *backends: Geocoder) -> None:
         self.backends = backends
 
-    def locate(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
+    def keyword_candidates(self, query: str, anchor: GeoPoint | None = None, size: int = 5) -> list[GeoResult]:
         for b in self.backends:
-            hit = b.locate(query, anchor)
+            if hasattr(b, "keyword_candidates"):
+                return b.keyword_candidates(query, anchor, size)
+        return []
+
+    def locate(self, query: str, anchor: GeoPoint | None = None, *, region: bool = False) -> GeoResult | None:
+        for b in self.backends:
+            hit = b.locate(query, anchor, region=True) if region and isinstance(b, KakaoGeocoder) \
+                else b.locate(query, anchor)
             if hit is not None:
                 return hit
         return None
@@ -309,8 +335,14 @@ def to_attraction_points(
     geocoder: Geocoder | None = None,
     *,
     anchor: GeoPoint | None = None,
+    chooser=None,
 ) -> tuple[list[AttractionPoint], list[dict]]:
     """온보딩 초안 [{"label","area_text"}] → (AttractionPoint[], 미해결[]).
+
+    chooser(모델 판정기)가 있고 지오코더가 후보 목록을 줄 수 있으면, 이름 있는 장소는 검색 후보
+    중 보호자가 말한 곳을 chooser 가 고른다(없으면 보호자 말에 그대로 나온 랜드마크로 다시 찾아
+    그 옆으로 둔다, precision=approx). 고른 곳이 없으면 동네 좌표, 그것도 없으면 미해결 —
+    틀린 곳에 목적지를 두지 않는다. chooser 가 없으면 아래 기존 후보 사다리를 쓴다.
 
     지오코딩되면 좌표·정밀도(precision) 담아 AttractionPoint 생성, 안 되면 미해결.
     anchor(집 좌표)가 있으면: (1) 백엔드에 근접 검색 힌트로 전달하고,
@@ -331,9 +363,36 @@ def to_attraction_points(
     unresolved: list[dict] = []
     for d in drafts:
         label = str(d.get("label") or "").strip()
-        # 구버전 세션·직접 호출로 들어온 "언급 없음" 류도 여기서 한 번 더 막는다
-        # (인터뷰 단계에서 이미 정규화되지만, 이 함수가 마지막 관문이다).
         area = clean_area_text(d.get("area_text"))
+        if d.get("name_kind") == "generic":
+            # 고유한 이름 없이 부른 곳("교회", "예전에 살던 집" — 온보딩 모델 판정)은 라벨로
+            # 검색하면 집에서 가장 가까운 아무 교회·'…집' 가게가 걸린다. E2E(2026-09-26):
+            # 보호자가 '파주시 아동동'이라고 답한 '교회'가 집 60m 옆 교회로 찍혔다(키워드
+            # 검색이 집 기준 거리순). 보호자가 말한 동네의 좌표를 쓰고, 동네를 모르면
+            # 좌표를 만들지 않는다 — 틀린 곳에 목적지를 두는 것보다 비워 두는 편이 낫다.
+            res = _locate_region(geocoder, area, anchor) if area else None
+            far = (res is not None and anchor is not None
+                   and h3grid.haversine_km(anchor, res.point) > ANCHOR_MAX_KM)
+            if res is None or far:
+                reason = (f"집 기준 {ANCHOR_MAX_KM:.0f}km 밖 매칭 — 오검색 의심" if far
+                          else "이름 없는 장소 — 동네 미확인" if not area else "동네 좌표화 실패")
+                unresolved.append({**d, "reason": reason})
+                continue
+            points.append(AttractionPoint(
+                label=label or area, location=res.point, precision=res.precision,
+                place_type=str(d.get("place_type") or ""), evidence=coerce_evidence(d.get("evidence")),
+                origin_slot=str(d.get("origin_slot") or "")))
+            continue
+        if chooser is not None and hasattr(geocoder, "keyword_candidates"):
+            res, _ = _choose_place(geocoder, chooser, d, label, area, anchor)
+            if res is None:
+                unresolved.append({**d, "reason": "검색 후보 중 보호자가 말한 곳 없음"})
+                continue
+            points.append(AttractionPoint(
+                label=d.get("label") or area, location=res.point, precision=res.precision,
+                place_type=str(d.get("place_type") or ""), evidence=coerce_evidence(d.get("evidence")),
+                origin_slot=str(d.get("origin_slot") or "")))
+            continue
         # 후보 쿼리는 구체 장소(라벨) 우선. area_text 를 먼저 쓰던 구버전은 라벨
         # "대흥역"이 area "대흥동"의 동 중심 좌표로 찍히는 라벨-좌표 불일치를 냈다
         # (라이브 실측 2026-07-17). "지역+라벨" 결합 → 라벨 → 지역 순으로 시도하고,
@@ -381,17 +440,52 @@ def to_attraction_points(
     return points, unresolved
 
 
-# LLM 이 '없음'을 빈 값이 아니라 문자열로 채우는 실측(2026-07-21 라이브: area_text
-# "언급 없음") — 그대로 두면 (1) 이 문자열이 지오코딩 질의로 나가 실패하고,
-# (2) truthy 라서 나중에 들어온 진짜 지역 표기가 병합·정정에서 막힌다.
-_PLACEHOLDER_AREA_RE = re.compile(
-    r"^(언급\s*없음|없음|미상|불명|모름|모르겠\S*|알\s*수\s*없음|해당\s*없음|"
-    r"n\s*/\s*a|none|null|unknown|-+)$", re.IGNORECASE)
+def _choose_place(geocoder, chooser, d: dict, label: str, area: str, anchor: GeoPoint | None):
+    """(GeoResult, 방식) — 방식: picked / landmark / area. 못 고르면 (None, None)."""
+    from app.geo import h3grid
+
+    def near(results):
+        return [r for r in results if anchor is None or h3grid.haversine_km(anchor, r.point) <= ANCHOR_MAX_KM]
+
+    queries = ([f"{area} {label}"] if label and area and label not in area and area not in label else []) + [label]
+    queries += [re.sub(r"\s+", "", q) for q in queries]
+    seen = set()
+    for q in dict.fromkeys(q for q in queries if q):
+        results = near(geocoder.keyword_candidates(q, anchor))
+        key = tuple((r.matched, round(r.point.lat, 5), round(r.point.lng, 5)) for r in results)
+        if not results or key in seen:
+            continue      # 같은 후보 목록을 두 번 묻지 않는다(띄어쓰기 변형)
+        seen.add(key)
+        idx = chooser.pick(d, results)
+        if idx is not None:
+            return results[idx], "picked"
+    landmark = chooser.landmark(d)
+    if landmark:
+        results = near(geocoder.keyword_candidates(landmark, anchor))
+        idx = chooser.pick(d, results, landmark=landmark) if results else None
+        if idx is not None:
+            r = results[idx]
+            return GeoResult(r.point, "approx", r.source, r.matched, {**(r.detail or {}), "landmark": landmark}), "landmark"
+    if area:
+        # 동네 좌표는 주소 검색 결과만 받는다 — 지역 검색도 주소가 없으면 키워드 첫 결과로 넘어가는데,
+        # 10회차 P02 에서 그 첫 결과가 다시 1.5km 떨어진 '오거리공원 화장실'이었다(area = 장소 이름 그대로).
+        r = _locate_region(geocoder, area, anchor)
+        if (r is not None and r.precision == "address"
+                and (anchor is None or h3grid.haversine_km(anchor, r.point) <= ANCHOR_MAX_KM)):
+            return r, "area"
+    return None, None
 
 
 # 장소명 뒤에 붙는 '만난 지점' 표현 — 지오코더가 못 찾는 꼬리표다.
 _PLACE_SUFFIX_RE = re.compile(
     r"\s*(\d+\s*번\s*출구|출구|입구|정문|후문|앞|뒤|옆|근처|주변|건너편|맞은편)\s*$")
+
+
+def _locate_region(geocoder, area: str, anchor: GeoPoint | None) -> GeoResult | None:
+    """동네(지역) 좌표 — 카카오면 주소 검색을 먼저 쓴다('파주' 키워드 → 근처 낚시점 실측)."""
+    if isinstance(geocoder, (KakaoGeocoder, ChainGeocoder)):
+        return geocoder.locate(area, anchor, region=True)
+    return geocoder.locate(area, anchor)
 
 
 def base_place_name(query: str) -> str:
@@ -467,9 +561,14 @@ def locate_home(geocoder: Geocoder, text: str) -> GeoResult | None:
 
 
 def clean_area_text(raw) -> str:
-    """area_text 정규화 — 플레이스홀더는 빈 문자열로. '지역 미상'과 '미기입'을 같게 만든다."""
-    text = str(raw or "").strip()
-    return "" if _PLACEHOLDER_AREA_RE.match(text) else text
+    """area_text 정규화 — 공백만 정리한다.
+
+    LLM 이 '없음'을 빈 값 대신 "언급 없음" 같은 문자열로 채우는 실측(2026-07-21)은
+    예전에 자리표시 단어 목록으로 걸렀다. 이제는 온보딩이 지역 표기를 보호자 답과
+    대조해(phase0.interview._area_grounded) 답에 없는 값을 비운다 — 단어의 뜻을 코드가
+    정하지 않는다.
+    """
+    return " ".join(str(raw or "").split())
 
 
 def coerce_evidence(raw) -> AttractionEvidence:

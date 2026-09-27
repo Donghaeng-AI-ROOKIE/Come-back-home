@@ -1,0 +1,2234 @@
+[
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_A_chain_0",
+    "family": "F01",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.2,
+        "random_walk": 0.1,
+        "backtracking": 0.1,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "주민센터": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거에 자주 방문했던 곳으로, 보호자가 직접 반복 지향을 관찰했다. 최근에는 시장 쪽으로 향하는 모습을 자주 봤지만 공원은 관찰되지 않았다. 이는 치매 노인이 특정 장소를 반복적으로 향하는 성향이 있지만, 최근에는 시장에 더 집중하고 있음을 시사한다. 따라서 이들 장소는 모두 상위 끌림점으로 판단했다. 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_A_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.5,\n    \"direction_keeping\": 0.2,\n    \"random_walk\": 0.1,\n    \"backtracking\": 0.1,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.05\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"중\",\n    \"주민센터\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거에 자주 방문했던 곳으로, 보호자가 직접 반복 지향을 관찰했다. 최근에는 시장 쪽으로 향하는 모습을 자주 봤지만 공원은 관찰되지 않았다. 이는 치매 노인이 특정 장소를 반복적으로 향하는 성향이 있지만, 최근에는 시장에 더 집중하고 있음을 시사한다. 따라서 이들 장소는 모두 상위 끌림점으로 판단했다. 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "69705a456afc47bafaba471d130178b94ddd335cdd5d6c8816316fb5522276a2",
+    "source_file_sha256": "2600e44f71fcbb5ae10289865c99811767b3ba2882d7e5faace840f27704ee88",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2080,
+      "total_tokens": 2332,
+      "completion_tokens": 252,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F01_A_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_A_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F01",
+    "variant": "A",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"시장\", \"공원\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 두 달 동안 혼자 나서면 시장 쪽으로 걷는 모습을 여러 번 봤다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"시장\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"같은 기간 공원 쪽으로 향하는 모습은 보지 못했다.\",\n      \"kind\": \"observation_gap\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"공원\"]\n    }\n  ]\n}",
+    "raw_sha256": "03fd0303953b96494f5ae675566c773555ba615b9abefe972047b242e661baec",
+    "source_file_sha256": "2600e44f71fcbb5ae10289865c99811767b3ba2882d7e5faace840f27704ee88",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 210,
+      "prompt_tokens": 308,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 518
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_A_chain_1",
+    "family": "F01",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.6,
+        "direction_keeping": 0.2,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.03,
+        "landmark_seeking": 0.02
+      },
+      "attraction_weights": {
+        "시장": 0.5,
+        "공원": 0.3333333333333333,
+        "주민센터": 0.16666666666666666
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거 반복 지향을 직접 관찰한 근거가 있어 상위 끌림점으로 판단했다. 시장은 최근 두 달 동안 자주 향한 장소로, 공원은 같은 기간 관찰되지 않았다. 이는 시장이 더 강한 끌림점이라는 뜻이다. 치매 노인의 배회는 익숙한 경로를 따라감(route_following)이라는 전제에 따라 이 확률이 가장 높다. 최근의 방향성을 반영해 방향상실 등급은 '중상'으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_A_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.6,\n    \"direction_keeping\": 0.2,\n    \"random_walk\": 0.1,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.03,\n    \"landmark_seeking\": 0.02\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"중\",\n    \"주민센터\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거 반복 지향을 직접 관찰한 근거가 있어 상위 끌림점으로 판단했다. 시장은 최근 두 달 동안 자주 향한 장소로, 공원은 같은 기간 관찰되지 않았다. 이는 시장이 더 강한 끌림점이라는 뜻이다. 치매 노인의 배회는 익숙한 경로를 따라감(route_following)이라는 전제에 따라 이 확률이 가장 높다. 최근의 방향성을 반영해 방향상실 등급은 '중상'으로 판단했다.\"\n}\n```",
+    "raw_sha256": "fc216f272c6c1575cb816a29c6594365452c38dc0ff89154a45dee8c05b3d43e",
+    "source_file_sha256": "36a85919821a702bd484c5df179d4dd12ae2e8e57a044550bc9344241aec5771",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2080,
+      "total_tokens": 2342,
+      "completion_tokens": 262,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F01_A_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_A_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F01",
+    "variant": "A",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"시장\", \"공원\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 두 달 동안 혼자 나서면 시장 쪽으로 걷는 모습을 여러 번 봤다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"시장\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"같은 기간 공원 쪽으로 향하는 모습은 보지 못했다.\",\n      \"kind\": \"observation_gap\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"공원\"]\n    }\n  ]\n}",
+    "raw_sha256": "03fd0303953b96494f5ae675566c773555ba615b9abefe972047b242e661baec",
+    "source_file_sha256": "36a85919821a702bd484c5df179d4dd12ae2e8e57a044550bc9344241aec5771",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 210,
+      "prompt_tokens": 308,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 518
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_B_chain_0",
+    "family": "F01",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "주민센터": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거 반복 지향이 확인되어 상위 끌림점으로 판단했다. 최근 관찰에서는 공원으로 향하는 모습이 확인되었고 시장은 관찰되지 않았다. 이는 치매 노인이 특정 장소를 반복적으로 향하는 경향이 있지만, 최근에는 그 패턴이 변할 수 있음을 시사한다. 보행 능력에 특이사항이 없어 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_B_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.35,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.1,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.3\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"중\",\n    \"주민센터\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거 반복 지향이 확인되어 상위 끌림점으로 판단했다. 최근 관찰에서는 공원으로 향하는 모습이 확인되었고 시장은 관찰되지 않았다. 이는 치매 노인이 특정 장소를 반복적으로 향하는 경향이 있지만, 최근에는 그 패턴이 변할 수 있음을 시사한다. 보행 능력에 특이사항이 없어 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "1e0ffcfe18e3eff7fd0a05862bafc1cbe8b9fb5cc4b75cfbf02c06318a039f63",
+    "source_file_sha256": "0eeb3c36e1389113da3c7255c9b23618419b06a4799f06d8349805c52a108651",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2080,
+      "total_tokens": 2326,
+      "completion_tokens": 246,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F01_B_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_B_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F01",
+    "variant": "B",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"시장\", \"공원\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 두 달 동안 혼자 나서면 공원 쪽으로 걷는 모습을 여러 번 봤다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"공원\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"같은 기간 시장 쪽으로 향하는 모습은 보지 못했다.\",\n      \"kind\": \"observation_gap\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"시장\"]\n    }\n  ]\n}",
+    "raw_sha256": "66685675ea33f78f265595c88c7b832c4ac56b16862244445dfb69ff3afc08c3",
+    "source_file_sha256": "0eeb3c36e1389113da3c7255c9b23618419b06a4799f06d8349805c52a108651",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 210,
+      "prompt_tokens": 308,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      },
+      "total_tokens": 518
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_B_chain_1",
+    "family": "F01",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.25,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거에 자주 방문한 곳으로 보호자가 직접 반복 지향을 관찰했다. 최근에는 공원 쪽으로 향하는 모습이 관찰되었고 시장 쪽으로는 관찰되지 않았다. 이는 치매 노인이 특정 장소를 반복적으로 방문하는 성향을 보여주지만, 최근의 방향성은 아직 명확하지 않다. 따라서 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_B_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.25,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.05\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"주민센터\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거에 자주 방문한 곳으로 보호자가 직접 반복 지향을 관찰했다. 최근에는 공원 쪽으로 향하는 모습이 관찰되었고 시장 쪽으로는 관찰되지 않았다. 이는 치매 노인이 특정 장소를 반복적으로 방문하는 성향을 보여주지만, 최근의 방향성은 아직 명확하지 않다. 따라서 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "e19f35028dd4034ca9e9a0c47a7d8fd14aae511cf23373fb8553023ace4a5305",
+    "source_file_sha256": "277d970c9eef4545e0e70ef12beac6c40e85a505efaccc15048ef760314d4492",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2080,
+      "total_tokens": 2325,
+      "completion_tokens": 245,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F01_B_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_B_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F01",
+    "variant": "B",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"시장\", \"공원\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 두 달 동안 혼자 나서면 공원 쪽으로 걷는 모습을 여러 번 봤다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"공원\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"같은 기간 시장 쪽으로 향하는 모습은 보지 못했다.\",\n      \"kind\": \"observation_gap\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"시장\"]\n    }\n  ]\n}",
+    "raw_sha256": "66685675ea33f78f265595c88c7b832c4ac56b16862244445dfb69ff3afc08c3",
+    "source_file_sha256": "277d970c9eef4545e0e70ef12beac6c40e85a505efaccc15048ef760314d4492",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 210,
+      "prompt_tokens": 308,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 518
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_C_chain_0",
+    "family": "F01",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.25,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "주민센터": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거에 자주 방문했던 곳으로 보호자가 직접 관찰했다. 최근에는 시장으로 향하는 모습을 관찰했지만 공원은 관찰하지 못했다. 이는 치매 노인이 특정 장소를 반복적으로 향하는 성향을 보이지만, 최근의 행동 패턴은 관찰되지 않았음을 의미한다. 따라서 이들 장소는 모두 상위 끌림점으로 분류했다. 이동 반경은 치매 노인의 일반적인 이동 패턴과 일치하므로 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_C_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.5,\n    \"direction_keeping\": 0.25,\n    \"random_walk\": 0.1,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.05\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"중\",\n    \"주민센터\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거에 자주 방문했던 곳으로 보호자가 직접 관찰했다. 최근에는 시장으로 향하는 모습을 관찰했지만 공원은 관찰하지 못했다. 이는 치매 노인이 특정 장소를 반복적으로 향하는 성향을 보이지만, 최근의 행동 패턴은 관찰되지 않았음을 의미한다. 따라서 이들 장소는 모두 상위 끌림점으로 분류했다. 이동 반경은 치매 노인의 일반적인 이동 패턴과 일치하므로 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "4bdeee6986b8c7e5b6f3b2f5ce20cd820c9cdd8166de10a6c0df2bdce0f3a4c8",
+    "source_file_sha256": "f88c4b4bafc93a53f4a4299d401cf6855b7ab0a428dd22360110bd0418a14b72",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2086,
+      "total_tokens": 2348,
+      "completion_tokens": 262,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F01_C_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_C_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F01",
+    "variant": "C",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"시장\", \"공원\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"지난 두 달에 여러 번 지켜봤는데, 혼자 외출할 때 걸어간 방향은 시장이었다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"시장\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"그동안 공원을 향해 걷는 모습은 관찰하지 못했다.\",\n      \"kind\": \"observation_gap\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"공원\"]\n    }\n  ]\n}",
+    "raw_sha256": "e91fe84c39720fb9e1fc1f8a91f8ebbb42a418eef93cbcb27c548ecafda8764c",
+    "source_file_sha256": "f88c4b4bafc93a53f4a4299d401cf6855b7ab0a428dd22360110bd0418a14b72",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 213,
+      "prompt_tokens": 312,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      },
+      "total_tokens": 525
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_C_chain_1",
+    "family": "F01",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "주민센터": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거 이동 이력이 있어 상위 끌림점으로 판단했다. 최근 이동은 시장으로 한정되었지만, 공원은 관찰되지 않았다. 치매 노인의 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_C_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.35,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"중\",\n    \"주민센터\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거 이동 이력이 있어 상위 끌림점으로 판단했다. 최근 이동은 시장으로 한정되었지만, 공원은 관찰되지 않았다. 치매 노인의 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "3f5229e8e6f4e211b8e3d1288a7c31890915c4bb9fe45d20de044841fb7488af",
+    "source_file_sha256": "f4f03e19f78b1a139b190a60a0c9da8c2b6493d1e88ff5f0fda0f9a127421227",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2086,
+      "total_tokens": 2294,
+      "completion_tokens": 208,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F01_C_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F01_C_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F01",
+    "variant": "C",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"시장\", \"공원\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"지난 두 달에 여러 번 지켜봤는데, 혼자 외출할 때 걸어간 방향은 시장이었다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"시장\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"그동안 공원을 향해 걷는 모습은 관찰하지 못했다.\",\n      \"kind\": \"observation_gap\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"공원\"]\n    }\n  ]\n}",
+    "raw_sha256": "e91fe84c39720fb9e1fc1f8a91f8ebbb42a418eef93cbcb27c548ecafda8764c",
+    "source_file_sha256": "f4f03e19f78b1a139b190a60a0c9da8c2b6493d1e88ff5f0fda0f9a127421227",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 213,
+      "prompt_tokens": 312,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 525
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_A_chain_0",
+    "family": "F02",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "옛 공장": 0.375,
+        "경로당": 0.375,
+        "동네 도서관": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거에 자주 방문했던 곳으로 보호자가 직접 반복 지향을 관찰했다. 최근에는 경로당에 반복해서 가는 모습을 가족이 봤다. 하지만 최근 공장에 출근해야 한다고 말하거나 공장을 향해 나선 적은 관찰되지 않았다. 옛 공장 이야기는 과거 일을 회상할 때 하는 것으로 보아 현재는 그 장소를 목표로 하지 않는 것으로 보인다. 따라서 이들 장소는 모두 상위 끌림점으로 판단했다. 동네 도서관은 그 다음으로 자주 방문하는 장소지만, 다른 두 장소에 비해 덜 자주 방문하는 것으로 보아 중간 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_A_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.35,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거에 자주 방문했던 곳으로 보호자가 직접 반복 지향을 관찰했다. 최근에는 경로당에 반복해서 가는 모습을 가족이 봤다. 하지만 최근 공장에 출근해야 한다고 말하거나 공장을 향해 나선 적은 관찰되지 않았다. 옛 공장 이야기는 과거 일을 회상할 때 하는 것으로 보아 현재는 그 장소를 목표로 하지 않는 것으로 보인다. 따라서 이들 장소는 모두 상위 끌림점으로 판단했다. 동네 도서관은 그 다음으로 자주 방문하는 장소지만, 다른 두 장소에 비해 덜 자주 방문하는 것으로 보아 중간 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "69806439a08cca8b836d713ec9373f533e8f074cd330c155b98f6a54d6449cf4",
+    "source_file_sha256": "855d6cdbadb69abbb1f6bdb073bf969a835a6709b135003c39715aae42a66b37",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2246,
+      "total_tokens": 2542,
+      "completion_tokens": 296,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F02_A_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_A_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F02",
+    "variant": "A",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛 공장\", \"경로당\", \"동네 도서관\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"과거에 옛 공장에서 일했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛 공장\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"요즘에는 경로당에 반복해서 가는 모습을 가족이 봤다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"경로당\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"최근 공장에 출근해야 한다고 말하거나 공장을 향해 나선 적은 관찰하지 못했다.\",\n      \"kind\": \"observation_gap\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"옛 공장\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"옛 공장 이야기는 과거 일을 회상할 때 한다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛 공장\"]\n    }\n  ]\n}",
+    "raw_sha256": "8d4e9d21736361c0ad107a2bacfe6084ddf6356d0801ec611f766d75a6313f55",
+    "source_file_sha256": "855d6cdbadb69abbb1f6bdb073bf969a835a6709b135003c39715aae42a66b37",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 341,
+      "prompt_tokens": 330,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 671
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_A_chain_1",
+    "family": "F02",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.3,
+        "direction_keeping": 0.2,
+        "random_walk": 0.2,
+        "backtracking": 0.1,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "옛 공장": 0.375,
+        "경로당": 0.375,
+        "동네 도서관": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 세 장소 모두를 반복 지향으로 관찰했고, 이는 치매 노인이 평소에 자주 방문하는 장소라는 뜻이다. 따라서 이들은 모두 상위 끌림점으로 분류했다. 경로당은 치매 노인이 최근에도 자주 방문하는 모습을 가족이 관찰했기에 상위 끌림점으로 분류했다. 동네 도서관은 상위 끌림점으로 분류되지 않았다. 최근 공장에 출근해야 한다고 말하거나 공장을 향해 나선 적이 없었기 때문에, 이는 치매 노인이 현재 공장을 방문할 의도가 없다는 뜻이다. 따라서 이는 과거의 행동 패턴을 반영하는 것이며, 현재의 행동 패턴을 반영하지 않는다. 치매 노인이 최근에 방향을 잃고 배회하는 모습을 보이지 않았기 때문에, 이는 치매 노인이 현재 집 주변을 배회하고 있다는 뜻이다. 이는 치매 노인이 현재 집 주변을 배회하고 있다는 뜻이다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_A_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.3,\n    \"direction_keeping\": 0.2,\n    \"random_walk\": 0.2,\n    \"backtracking\": 0.1,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.15\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"보호자가 세 장소 모두를 반복 지향으로 관찰했고, 이는 치매 노인이 평소에 자주 방문하는 장소라는 뜻이다. 따라서 이들은 모두 상위 끌림점으로 분류했다. 경로당은 치매 노인이 최근에도 자주 방문하는 모습을 가족이 관찰했기에 상위 끌림점으로 분류했다. 동네 도서관은 상위 끌림점으로 분류되지 않았다. 최근 공장에 출근해야 한다고 말하거나 공장을 향해 나선 적이 없었기 때문에, 이는 치매 노인이 현재 공장을 방문할 의도가 없다는 뜻이다. 따라서 이는 과거의 행동 패턴을 반영하는 것이며, 현재의 행동 패턴을 반영하지 않는다. 치매 노인이 최근에 방향을 잃고 배회하는 모습을 보이지 않았기 때문에, 이는 치매 노인이 현재 집 주변을 배회하고 있다는 뜻이다. 이는 치매 노인이 현재 집 주변을 배회하고 있다는 뜻이다.\"\n}\n```",
+    "raw_sha256": "c11147d59a0920a6edf6cd66dbfffe8d39c0c6a46e0fc4a4f2e997fc535819b6",
+    "source_file_sha256": "6a3f0a123bc6b436d1bd3df416796de517de5ab46e65011185b99c78808ee475",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2246,
+      "total_tokens": 2605,
+      "completion_tokens": 359,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F02_A_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_A_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F02",
+    "variant": "A",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛 공장\", \"경로당\", \"동네 도서관\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"과거에 옛 공장에서 일했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛 공장\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"요즘에는 경로당에 반복해서 가는 모습을 가족이 봤다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"경로당\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"최근 공장에 출근해야 한다고 말하거나 공장을 향해 나선 적은 관찰하지 못했다.\",\n      \"kind\": \"observation_gap\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"옛 공장\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"옛 공장 이야기는 과거 일을 회상할 때 한다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛 공장\"]\n    }\n  ]\n}",
+    "raw_sha256": "8d4e9d21736361c0ad107a2bacfe6084ddf6356d0801ec611f766d75a6313f55",
+    "source_file_sha256": "6a3f0a123bc6b436d1bd3df416796de517de5ab46e65011185b99c78808ee475",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 341,
+      "prompt_tokens": 330,
+      "prompt_tokens_details": {
+        "cached_tokens": 320
+      },
+      "total_tokens": 671
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_B_chain_0",
+    "family": "F02",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.55,
+        "direction_keeping": 0.25,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "옛 공장": 0.42857142857142855,
+        "경로당": 0.42857142857142855,
+        "동네 도서관": 0.14285714285714285
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 세 장소 모두 과거에 여러 차례 향하는 모습을 관찰했다고 보고했다. 이는 치매 노인이 특정 장소를 반복적으로 지향하는 성향을 반영한다. 특히 옛 공장은 최근에도 출근해야 한다고 반복해서 말하며 향하는 모습을 보여, 가장 높은 끌림점 등급을 부여했다. 경로당과 동네 도서관도 같은 이유로 상위 등급을 부여했다. 최근의 방향성은 '출근해야 한다'는 말과 함께 공장을 향하는 모습으로 나타났다. 이는 과거의 반복 지향과 현재의 의도가 일치하는 것으로 해석된다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_B_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.55,\n    \"direction_keeping\": 0.25,\n    \"random_walk\": 0.05,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.05\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"보호자가 세 장소 모두 과거에 여러 차례 향하는 모습을 관찰했다고 보고했다. 이는 치매 노인이 특정 장소를 반복적으로 지향하는 성향을 반영한다. 특히 옛 공장은 최근에도 출근해야 한다고 반복해서 말하며 향하는 모습을 보여, 가장 높은 끌림점 등급을 부여했다. 경로당과 동네 도서관도 같은 이유로 상위 등급을 부여했다. 최근의 방향성은 '출근해야 한다'는 말과 함께 공장을 향하는 모습으로 나타났다. 이는 과거의 반복 지향과 현재의 의도가 일치하는 것으로 해석된다.\"\n}\n```",
+    "raw_sha256": "a823e47d436f8a08f44eef70ac61e983c80934b8d6871d78be99de30c1587564",
+    "source_file_sha256": "62be88abdaf3ac28a4b4d26c4d48a1f3731253bf7fc5b7321905a67f4a141f74",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2150,
+      "total_tokens": 2439,
+      "completion_tokens": 289,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F02_B_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_B_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F02",
+    "variant": "B",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛 공장\", \"경로당\", \"동네 도서관\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"과거에 옛 공장에서 일했다. 요즘에는 경로당에 반복해서 가는 모습을 가족이 봤다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛 공장\", \"경로당\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"최근 공장에 출근해야 한다고 반복해서 말하고 공장 방향으로 나서는 모습도 여러 번 관찰했다. 옛 공장 이야기를 하며 지금 출근하려고 한다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"옛 공장\"]\n    }\n  ]\n}",
+    "raw_sha256": "5de284dff8a301228053b04e425e0376450d9bf19b8aa842a92ba051aac01b2c",
+    "source_file_sha256": "62be88abdaf3ac28a4b4d26c4d48a1f3731253bf7fc5b7321905a67f4a141f74",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 239,
+      "prompt_tokens": 332,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 571
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_B_chain_1",
+    "family": "F02",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "옛 공장": 0.375,
+        "경로당": 0.375,
+        "동네 도서관": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거에 자주 방문했다는 점에서 모두 상위 끌림점으로 판단했다. 다만 동네 도서관은 다른 두 장소보다 덜 자주 방문했다는 점에서 중간 수준으로 분류했다. 최근의 방향성은 '출근'이라는 명확한 의도를 보여주지만, 이는 과거의 반복 지향과는 별개의 행동으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_B_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.35,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거에 자주 방문했다는 점에서 모두 상위 끌림점으로 판단했다. 다만 동네 도서관은 다른 두 장소보다 덜 자주 방문했다는 점에서 중간 수준으로 분류했다. 최근의 방향성은 '출근'이라는 명확한 의도를 보여주지만, 이는 과거의 반복 지향과는 별개의 행동으로 판단했다.\"\n}\n```",
+    "raw_sha256": "5e9ac57f24c1a9b73c8887eae278fb84d0927e8bea437784ff14a6096e1b33e3",
+    "source_file_sha256": "06f002b05d67d1ae1edd7ed2e08b7269892a5f98fc265e8bb5191335c411a340",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2203,
+      "total_tokens": 2440,
+      "completion_tokens": 237,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F02_B_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_B_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F02",
+    "variant": "B",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛 공장\", \"경로당\", \"동네 도서관\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"과거에 옛 공장에서 일했다. 요즘에는 경로당에 반복해서 가는 모습을 가족이 봤다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛 공장\", \"경로당\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"최근 공장에 출근해야 한다고 반복해서 말하고 공장 방향으로 나서는 모습도 여러 번 관찰했다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"옛 공장\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"옛 공장 이야기를 하며 지금 출근하려고 한다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"옛 공장\"]\n    }\n  ]\n}",
+    "raw_sha256": "d284cd181982e593daef3c825cbf3094961e0f031b582d19798a2f9e6c4f6c3d",
+    "source_file_sha256": "06f002b05d67d1ae1edd7ed2e08b7269892a5f98fc265e8bb5191335c411a340",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 294,
+      "prompt_tokens": 332,
+      "prompt_tokens_details": {
+        "cached_tokens": 320
+      },
+      "total_tokens": 626
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_C_chain_0",
+    "family": "F02",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.2,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "옛 공장": 0.375,
+        "경로당": 0.375,
+        "동네 도서관": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 과거에 자주 방문했던 장소임을 반영해 상위 끌림점으로 판단했다. '방향상실' 등급은 '중상'으로, 치매 노인이 과거에 자주 방문했던 장소를 반복적으로 방문하는 경향이 있으나 최근에는 그 방향성이 명확하지 않은 상태로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_C_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 과거에 자주 방문했던 장소임을 반영해 상위 끌림점으로 판단했다. '방향상실' 등급은 '중상'으로, 치매 노인이 과거에 자주 방문했던 장소를 반복적으로 방문하는 경향이 있으나 최근에는 그 방향성이 명확하지 않은 상태로 판단했다.\"\n}\n```",
+    "raw_sha256": "0c8869c2aba10488d4ab2abd7d140f92c1eb633cc50935a6f59f12219359e3c4",
+    "source_file_sha256": "4817f08164b6f354738e3b03fa68c80d3632d74a5d1b15f4aef1701ad8d77a3d",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1801,
+      "total_tokens": 2047,
+      "completion_tokens": 246,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F02_C_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_C_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F02",
+    "variant": "C",
+    "repeat": 0,
+    "raw_content": "[\n  {\n    \"note_index\": 0,\n    \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"옛 공장\", \"경로당\", \"동네 도서관\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"과거에 옛 공장에서 일했다. 요즘에는 경로당에 반복해서 가는 모습을 가족이 봤다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"옛 공장\", \"경로당\"]\n  },\n  {\n    \"note_index\": 2,\n    \"quote\": \"옛 공장은 지난 직장 생활을 떠올릴 때 이야기한다. 최근 그곳에 출근하겠다고 하거나 그 방향으로 나서는 모습은 본 적 없다.\",\n    \"kind\": \"observation_gap\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": [\"옛 공장\"]\n  }\n]",
+    "raw_sha256": "a6fdb88fd61217a04dd2195429e149a497c0e30b35e5277d91e216599592d77e",
+    "source_file_sha256": "4817f08164b6f354738e3b03fa68c80d3632d74a5d1b15f4aef1701ad8d77a3d",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 229,
+      "prompt_tokens": 331,
+      "prompt_tokens_details": {
+        "cached_tokens": 224
+      },
+      "total_tokens": 560
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_C_chain_1",
+    "family": "F02",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.2,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "옛 공장": 0.375,
+        "경로당": 0.375,
+        "동네 도서관": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 이들 장소를 자주 방문하는 것으로 보인다. 이들 장소는 치매 노인의 일상 생활에서 중요한 역할을 하는 것으로 판단되며, 이들 장소를 중심으로 이동할 가능성이 높다. 따라서 이들 장소를 상위 끌림점으로 판단하였다. 동네 도서관은 다른 두 장소에 비해 직접 관찰된 반복 지향이 덜 명확하여 중하로 판단하였다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_C_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 이들 장소를 자주 방문하는 것으로 보인다. 이들 장소는 치매 노인의 일상 생활에서 중요한 역할을 하는 것으로 판단되며, 이들 장소를 중심으로 이동할 가능성이 높다. 따라서 이들 장소를 상위 끌림점으로 판단하였다. 동네 도서관은 다른 두 장소에 비해 직접 관찰된 반복 지향이 덜 명확하여 중하로 판단하였다.\"\n}\n```",
+    "raw_sha256": "3d91f867b2b69e4accb91ca286773546dbaaf0f201c9633ce1995e741167e7d6",
+    "source_file_sha256": "6b06a928b327cf851761f0bf69ff8ceb79e70034050934441e47902e95e4ee4a",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1801,
+      "total_tokens": 2065,
+      "completion_tokens": 264,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F02_C_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F02_C_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F02",
+    "variant": "C",
+    "repeat": 1,
+    "raw_content": "[\n  {\n    \"note_index\": 0,\n    \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"옛 공장\", \"경로당\", \"동네 도서관\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"과거에 옛 공장에서 일했다. 요즘에는 경로당에 반복해서 가는 모습을 가족이 봤다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"옛 공장\", \"경로당\"]\n  },\n  {\n    \"note_index\": 2,\n    \"quote\": \"옛 공장은 지난 직장 생활을 떠올릴 때 이야기한다. 최근 그곳에 출근하겠다고 하거나 그 방향으로 나서는 모습은 본 적 없다.\",\n    \"kind\": \"observation_gap\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": [\"옛 공장\"]\n  }\n]",
+    "raw_sha256": "a6fdb88fd61217a04dd2195429e149a497c0e30b35e5277d91e216599592d77e",
+    "source_file_sha256": "6b06a928b327cf851761f0bf69ff8ceb79e70034050934441e47902e95e4ee4a",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 229,
+      "prompt_tokens": 331,
+      "prompt_tokens_details": {
+        "cached_tokens": 320
+      },
+      "total_tokens": 560
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_A_chain_0",
+    "family": "F03",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.42105263157894735,
+        "direction_keeping": 0.15789473684210525,
+        "random_walk": 0.10526315789473684,
+        "backtracking": 0.05263157894736842,
+        "staying_put": 0.05263157894736842,
+        "landmark_seeking": 0.21052631578947367
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자의 직접 관찰로 반복 지향이 확인되어 상위 끌림점으로 판단했다. 그 중 옛집과 복지관은 과거 거주·이용 이력이 있어 더욱 높게 평가했다. 최근의 방향성은 옛집과 복지관을 향해 걷다가 멈추는 모습으로, 이는 과거의 익숙한 경로를 따라 움직이는 것으로 해석했다. 따라서 이동 성향은 ' familiar place seeking — 익숙한 장소를 찾는 성향'으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_A_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.40,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.20\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자의 직접 관찰로 반복 지향이 확인되어 상위 끌림점으로 판단했다. 그 중 옛집과 복지관은 과거 거주·이용 이력이 있어 더욱 높게 평가했다. 최근의 방향성은 옛집과 복지관을 향해 걷다가 멈추는 모습으로, 이는 과거의 익숙한 경로를 따라 움직이는 것으로 해석했다. 따라서 이동 성향은 ' familiar place seeking — 익숙한 장소를 찾는 성향'으로 판단했다.\"\n}\n```",
+    "raw_sha256": "615245bc0261caac7e632642a10372cbdef9c9bb3ab77aaa555e60c8d400d569",
+    "source_file_sha256": "ce19c408298a92f418e65d2352880d94dc0bf96915135b17cdcc918af46ef53e",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1795,
+      "total_tokens": 2058,
+      "completion_tokens": 263,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F03_A_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_A_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F03",
+    "variant": "A",
+    "repeat": 0,
+    "raw_content": "[{\"note_index\": 0, \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\", \"kind\": \"past_history\", \"temporal_scope\": \"past\", \"evidence_status\": \"reported_present\", \"place_labels\": [\"옛집\", \"복지관\", \"동네 약국\"]}, {\"note_index\": 1, \"quote\": \"옛집에서 오래 살았으며 가족과 함께 그곳을 찾아간 적이 있다.\", \"kind\": \"past_history\", \"temporal_scope\": \"past\", \"evidence_status\": \"reported_present\", \"place_labels\": [\"옛집\"]}, {\"note_index\": 2, \"quote\": \"복지관에도 정기적으로 다녔다.\", \"kind\": \"past_history\", \"temporal_scope\": \"past\", \"evidence_status\": \"reported_present\", \"place_labels\": [\"복지관\"]}, {\"note_index\": 3, \"quote\": \"최근 익숙한 복지관을 향해 걷다가 입구에 도착하면 알아보고 멈추는 모습을 여러 번 봤다.\", \"kind\": \"observed_behavior\", \"temporal_scope\": \"recent\", \"evidence_status\": \"not_observed\", \"place_labels\": [\"복지관\"]}]",
+    "raw_sha256": "9c1029e40d59d4219367a7088528f3414c8917438fea5d163066748e3c5c0f21",
+    "source_file_sha256": "ce19c408298a92f418e65d2352880d94dc0bf96915135b17cdcc918af46ef53e",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 233,
+      "prompt_tokens": 323,
+      "prompt_tokens_details": {
+        "cached_tokens": 224
+      },
+      "total_tokens": 556
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_A_chain_1",
+    "family": "F03",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인의 생활 반경 내에서 중요한 역할을 하는 것으로 판단했다. 따라서 끌림점 집중도 등급은 모두 '상'으로 판단했다. 최근의 방향성은 '복지관'을 향해 걷다가 멈추는 모습이 반복되어, 이 장소가 최근의 목표가 되었을 가능성을 시사한다. '복지관'은 '옛집'과 함께 가장 높은 등급을 받았다. '동네 약국'은 다른 두 장소보다 덜 자주 언급되었지만, 여전히 중요한 장소로 판단되어 '중' 등급을 부여했다. 'route_following' 확률이 높은 것은 세 장소 모두 익숙한 경로로 인식되기 때문이다. 최근의 방향성은 '복지관'을 향해 걷다가 멈추는 모습이 반복되어, 이 장소가 최근의 목표가 되었을 가능성을 시사한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_A_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.10,\n    \"random_walk\": 0.05,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인의 생활 반경 내에서 중요한 역할을 하는 것으로 판단했다. 따라서 끌림점 집중도 등급은 모두 '상'으로 판단했다. 최근의 방향성은 '복지관'을 향해 걷다가 멈추는 모습이 반복되어, 이 장소가 최근의 목표가 되었을 가능성을 시사한다. '복지관'은 '옛집'과 함께 가장 높은 등급을 받았다. '동네 약국'은 다른 두 장소보다 덜 자주 언급되었지만, 여전히 중요한 장소로 판단되어 '중' 등급을 부여했다. 'route_following' 확률이 높은 것은 세 장소 모두 익숙한 경로로 인식되기 때문이다. 최근의 방향성은 '복지관'을 향해 걷다가 멈추는 모습이 반복되어, 이 장소가 최근의 목표가 되었을 가능성을 시사한다.\"\n}\n```",
+    "raw_sha256": "fb55f9ba58b27fb5986e31399bfe6fde9584bdaaad6427484175f05aa1a9f997",
+    "source_file_sha256": "17b3d221ed63c5ed8ee076b628308b802d7ba8a3ea028b865ee382155214175e",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1795,
+      "total_tokens": 2155,
+      "completion_tokens": 360,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F03_A_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_A_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F03",
+    "variant": "A",
+    "repeat": 1,
+    "raw_content": "[\n  {\n    \"note_index\": 0,\n    \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"옛집\", \"복지관\", \"동네 약국\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"옛집에서 오래 살았으며 가족과 함께 그곳을 찾아간 적이 있다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"옛집\"]\n  },\n  {\n    \"note_index\": 2,\n    \"quote\": \"복지관에도 정기적으로 다녔다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"복지관\"]\n  },\n  {\n    \"note_index\": 3,\n    \"quote\": \"최근 익숙한 복지관을 향해 걷다가 입구에 도착하면 알아보고 멈추는 모습을 여러 번 봤다.\",\n    \"kind\": \"observed_behavior\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": [\"복지관\"]\n  }\n]",
+    "raw_sha256": "43d35af1c31dc664943e36e8cfe7c1725ba2a8516e9eddceca78048a50761d7e",
+    "source_file_sha256": "17b3d221ed63c5ed8ee076b628308b802d7ba8a3ea028b865ee382155214175e",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 270,
+      "prompt_tokens": 323,
+      "prompt_tokens_details": {
+        "cached_tokens": 320
+      },
+      "total_tokens": 593
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_B_chain_0",
+    "family": "F03",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.1,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문한 익숙한 장소들이다. 이들은 모두 '상' 등급으로 분류되며, 그 중 옛집과 복지관은 치매 노인이 자주 방문한 장소로서 '상' 등급을 받았다. 동네 약국은 '중' 등급으로 분류되었다. 최근의 방향 혼동은 치매 노인이 방향을 잃고 있음을 시사하지만, 이는 이동 성향 자체를 바꾸지는 않는다. 따라서 배회 위험 등급은 '상', 성향은 '익숙 거점 순회 — 익숙한 장소들을 계속 방문하며 방향을 잃는 상태'로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_B_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.10,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.20\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문한 익숙한 장소들이다. 이들은 모두 '상' 등급으로 분류되며, 그 중 옛집과 복지관은 치매 노인이 자주 방문한 장소로서 '상' 등급을 받았다. 동네 약국은 '중' 등급으로 분류되었다. 최근의 방향 혼동은 치매 노인이 방향을 잃고 있음을 시사하지만, 이는 이동 성향 자체를 바꾸지는 않는다. 따라서 배회 위험 등급은 '상', 성향은 '익숙 거점 순회 — 익숙한 장소들을 계속 방문하며 방향을 잃는 상태'로 판단한다.\"\n}\n```",
+    "raw_sha256": "48b141e156b16deb6dcb3920a1d593918be074d9608c99fa3cb7ae1dfd16ea83",
+    "source_file_sha256": "c2b598336dd333fbb379e349a61ee20fa6f734a68706fc52e7b22dfebff8bdcd",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1799,
+      "total_tokens": 2102,
+      "completion_tokens": 303,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F03_B_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_B_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F03",
+    "variant": "B",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛집\", \"복지관\", \"동네 약국\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"옛집에서 오래 살았으며 가족과 함께 그곳을 찾아간 적이 있다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛집\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"복지관에도 정기적으로 다녔다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"복지관\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"최근 익숙한 복지관을 향해 걷다가 입구까지 갔지만 알아보지 못하고 지나쳐 계속 걷는 모습을 여러 번 봤다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"복지관\"]\n    }\n  ]\n}",
+    "raw_sha256": "8a772f6e8807a47d24aa8a19527060a4d2daef7775b4a228189a248e29848cfb",
+    "source_file_sha256": "c2b598336dd333fbb379e349a61ee20fa6f734a68706fc52e7b22dfebff8bdcd",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 281,
+      "prompt_tokens": 327,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 608
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_B_chain_1",
+    "family": "F03",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 직접 반복 지향을 관찰했으므로 모두 상위 끌림점으로 판단했다. 치매 노인이 세 장소를 모두 자주 방문했다는 점에서 ' familiar place preference' 성향을 반영했다. 최근 방향 혼동이 있었지만, 옛집과 복지관은 여전히 익숙한 경로로 인식되므로 ' familiar place preference' 성향이 유지된다. 따라서 배회 위험 등급은 '상', 성향은 ' familiar place preference with recent directional confusion — familiar places remain preferred destinations but recent confusion suggests possible wandering outside familiar routes'로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_B_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.35,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 직접 반복 지향을 관찰했으므로 모두 상위 끌림점으로 판단했다. 치매 노인이 세 장소를 모두 자주 방문했다는 점에서 ' familiar place preference' 성향을 반영했다. 최근 방향 혼동이 있었지만, 옛집과 복지관은 여전히 익숙한 경로로 인식되므로 ' familiar place preference' 성향이 유지된다. 따라서 배회 위험 등급은 '상', 성향은 ' familiar place preference with recent directional confusion — familiar places remain preferred destinations but recent confusion suggests possible wandering outside familiar routes'로 판단했다.\"\n}\n```",
+    "raw_sha256": "4459a8a2106796ae69e0a62ff3924eda82e0fcf342330b42c8bfca8c21fc8693",
+    "source_file_sha256": "f28871e6b039f49d063dcbf01d8a8afba67bc2057e70b4736b20b78780cd8a3f",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1799,
+      "total_tokens": 2076,
+      "completion_tokens": 277,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F03_B_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_B_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F03",
+    "variant": "B",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛집\", \"복지관\", \"동네 약국\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"옛집에서 오래 살았으며 가족과 함께 그곳을 찾아간 적이 있다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛집\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"복지관에도 정기적으로 다녔다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"복지관\"]\n    },\n    {\n      \"note_index\": 3,\n      \"quote\": \"최근 익숙한 복지관을 향해 걷다가 입구까지 갔지만 알아보지 못하고 지나쳐 계속 걷는 모습을 여러 번 봤다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"복지관\"]\n    }\n  ]\n}",
+    "raw_sha256": "3f29fed7c80812f064d7b12c8ee0b11b56c3b0b5f40824d8725632e6f383224e",
+    "source_file_sha256": "f28871e6b039f49d063dcbf01d8a8afba67bc2057e70b4736b20b78780cd8a3f",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 281,
+      "prompt_tokens": 327,
+      "prompt_tokens_details": {
+        "cached_tokens": 320
+      },
+      "total_tokens": 608
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_C_chain_0",
+    "family": "F03",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.16666666666666666,
+        "random_walk": 0.11111111111111112,
+        "backtracking": 0.05555555555555556,
+        "staying_put": 0.05555555555555556,
+        "landmark_seeking": 0.11111111111111112
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 최근에도 여러 차례 관찰되었다. 이는 치매 노인이 특정 장소를 반복적으로 방문하는 성향을 강하게 시사한다. 따라서 이들 장소는 모두 상위 끌림점으로 판단했다. 다만, 최근의 관찰에서 옛집과 복지관은 방향을 잡고 가다가 멈추는 모습을 보여, 의도적인 방문이 아닌 배회의 일환일 가능성도 배제할 수 없다. 따라서 배회 위험 등급은 '상'으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_C_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 최근에도 여러 차례 관찰되었다. 이는 치매 노인이 특정 장소를 반복적으로 방문하는 성향을 강하게 시사한다. 따라서 이들 장소는 모두 상위 끌림점으로 판단했다. 다만, 최근의 관찰에서 옛집과 복지관은 방향을 잡고 가다가 멈추는 모습을 보여, 의도적인 방문이 아닌 배회의 일환일 가능성도 배제할 수 없다. 따라서 배회 위험 등급은 '상'으로 판단했다.\"\n}\n```",
+    "raw_sha256": "3561d1a75379d1c3aa8da69c4aa10815335d260155895f02d0a193d3f124297e",
+    "source_file_sha256": "2a00947eb35e7b5b22f296df5a522ed34259d7f77a3476161d6a68d791399e75",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1792,
+      "total_tokens": 2064,
+      "completion_tokens": 272,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F03_C_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_C_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F03",
+    "variant": "C",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛집\", \"복지관\", \"동네 약국\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"옛집에서 오래 살았으며 가족과 함께 그곳을 찾아간 적이 있다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"옛집\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"복지관에도 정기적으로 다녔다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"복지관\"]\n    },\n    {\n      \"note_index\": 2,\n      \"quote\": \"요즘 여러 차례 관찰했는데, 익숙한 복지관을 향해 걸어가 입구를 알아본 다음 멈췄다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"복지관\"]\n    }\n  ]\n}",
+    "raw_sha256": "bc1578fcc4d723459ccb3777bff4dee753f0e0456e779ed5e40ee11419c99986",
+    "source_file_sha256": "2a00947eb35e7b5b22f296df5a522ed34259d7f77a3476161d6a68d791399e75",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 278,
+      "prompt_tokens": 324,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 602
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_C_chain_1",
+    "family": "F03",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인의 행동 패턴상 상위 끌림점으로 판단했다. 최근 관찰에서는 복지관을 향해 가다가 멈추는 모습이 있어, 그 장소를 목표로 하는 경향이 있음을 확인했다. 경로 추종 성향이 높은 것은 과거 이동 패턴이 익숙한 장소를 중심으로 이루어졌기 때문이다. 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_C_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.10,\n    \"random_walk\": 0.05,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인의 행동 패턴상 상위 끌림점으로 판단했다. 최근 관찰에서는 복지관을 향해 가다가 멈추는 모습이 있어, 그 장소를 목표로 하는 경향이 있음을 확인했다. 경로 추종 성향이 높은 것은 과거 이동 패턴이 익숙한 장소를 중심으로 이루어졌기 때문이다. 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "503bb946d313a5e446bb41e270bbc3f3c259dd5403515f97500b38e5911c084f",
+    "source_file_sha256": "2e7e999601dce59151dce464932519e2fa04879cb20a21d4ff7efff7b96e2024",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1792,
+      "total_tokens": 2048,
+      "completion_tokens": 256,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F03_C_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F03_C_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F03",
+    "variant": "C",
+    "repeat": 1,
+    "raw_content": "[\n  {\n    \"note_index\": 0,\n    \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"옛집\", \"복지관\", \"동네 약국\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"옛집에서 오래 살았으며 가족과 함께 그곳을 찾아간 적이 있다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"옛집\"]\n  },\n  {\n    \"note_index\": 2,\n    \"quote\": \"복지관에도 정기적으로 다녔다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"복지관\"]\n  },\n  {\n    \"note_index\": 3,\n    \"quote\": \"요즘 여러 차례 관찰했는데, 익숙한 복지관을 향해 걸어가 입구를 알아본 다음 멈췄다.\",\n    \"kind\": \"observed_behavior\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": [\"복지관\"]\n  }\n]",
+    "raw_sha256": "2c6ccb888458e4d9a5b98b9aa05c69715341a86242e45e4f601bf666f0481d68",
+    "source_file_sha256": "2e7e999601dce59151dce464932519e2fa04879cb20a21d4ff7efff7b96e2024",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 271,
+      "prompt_tokens": 324,
+      "prompt_tokens_details": {
+        "cached_tokens": 320
+      },
+      "total_tokens": 595
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_A_chain_0",
+    "family": "F04",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.16666666666666666,
+        "random_walk": 0.11111111111111112,
+        "backtracking": 0.05555555555555556,
+        "staying_put": 0.05555555555555556,
+        "landmark_seeking": 0.11111111111111112
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거 이동 패턴이 있었고 보호자가 반복 지향을 직접 관찰했으므로 이들을 상위 끌림점으로 판단했다. 최근의 반복적인 짧은 거리 이동은 방향상실의 특징을 보여주지만, 이는 이미 알려진 경로의 일부일 가능성이 높다. 따라서 배회 위험은 중간 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_A_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\",\n    \"기타\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거 이동 패턴이 있었고 보호자가 반복 지향을 직접 관찰했으므로 이들을 상위 끌림점으로 판단했다. 최근의 반복적인 짧은 거리 이동은 방향상실의 특징을 보여주지만, 이는 이미 알려진 경로의 일부일 가능성이 높다. 따라서 배회 위험은 중간 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "854357b8ac00da60fc331b64cbe886da7ecb765c3b1f0c26c96896803283fcd8",
+    "source_file_sha256": "c96fa395b099c4da988d11a07e79d8c9f1fd0d4a9ede2c2735d0769627c29f6a",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2049,
+      "total_tokens": 2289,
+      "completion_tokens": 240,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F04_A_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_A_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F04",
+    "variant": "A",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"성당\", \"시장\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 밖에서 걷는 모습을 여러 번 관찰했는데, 뚜렷한 목적지를 말하지 않고 같은 짧은 길을 오가며 이미 지난 구간을 반복해서 걷곤 했다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    }\n  ]\n}",
+    "raw_sha256": "dd286145a1d15c3199e51381e474dbf6dba1ff848058f3fc543cc880c11c2fde",
+    "source_file_sha256": "c96fa395b099c4da988d11a07e79d8c9f1fd0d4a9ede2c2735d0769627c29f6a",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 158,
+      "prompt_tokens": 311,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 469
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_A_chain_1",
+    "family": "F04",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.2,
+        "random_walk": 0.1,
+        "backtracking": 0.1,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거에 자주 방문했고 보호자가 직접 반복 지향을 관찰했다. 최근에는 뚜렷한 목적지 없이 같은 짧은 구간을 반복해서 걷는 모습을 보였다. 이는 방향상실이 있지만, 특정 장소를 반복적으로 찾는 성향이 강하게 나타나는 경우다. 따라서 이동 성향은 '목적 없는 반복 방문형 familiar_place_repeated_visit'으로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_A_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.5,\n    \"direction_keeping\": 0.2,\n    \"random_walk\": 0.1,\n    \"backtracking\": 0.1,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.05\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거에 자주 방문했고 보호자가 직접 반복 지향을 관찰했다. 최근에는 뚜렷한 목적지 없이 같은 짧은 구간을 반복해서 걷는 모습을 보였다. 이는 방향상실이 있지만, 특정 장소를 반복적으로 찾는 성향이 강하게 나타나는 경우다. 따라서 이동 성향은 '목적 없는 반복 방문형 familiar_place_repeated_visit'으로 판단한다.\"\n}\n```",
+    "raw_sha256": "f214bee98eb2d696ac2d32a25ae03c0a45bf4b69ec9fffccd05cec5cd78adf5d",
+    "source_file_sha256": "404a45521536ddd21df3a551ded8f954570b630d90434cb334416eb30d64c59f",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2049,
+      "total_tokens": 2293,
+      "completion_tokens": 244,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F04_A_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_A_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F04",
+    "variant": "A",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"성당\", \"시장\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 밖에서 걷는 모습을 여러 번 관찰했는데, 뚜렷한 목적지를 말하지 않고 같은 짧은 길을 오가며 이미 지난 구간을 반복해서 걷곤 했다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    }\n  ]\n}",
+    "raw_sha256": "dd286145a1d15c3199e51381e474dbf6dba1ff848058f3fc543cc880c11c2fde",
+    "source_file_sha256": "404a45521536ddd21df3a551ded8f954570b630d90434cb334416eb30d64c59f",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 158,
+      "prompt_tokens": 311,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 469
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_B_chain_0",
+    "family": "F04",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.2777777777777778,
+        "direction_keeping": 0.16666666666666666,
+        "random_walk": 0.16666666666666666,
+        "backtracking": 0.11111111111111112,
+        "staying_put": 0.05555555555555556,
+        "landmark_seeking": 0.22222222222222224
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거 이동 이력이 있고 보호자가 반복 지향을 직접 관찰한 곳이므로 상위 끌림점으로 분류했다. 최근 관찰에서는 방향성이 없고 여러 경로를 걷는 모습이 보고되어 배회 성향이 있다고 판단했다. 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_B_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.25,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.10,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.20\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\",\n    \"길가\": \"하\",\n    \"공원\": \"하\",\n    \"집\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거 이동 이력이 있고 보호자가 반복 지향을 직접 관찰한 곳이므로 상위 끌림점으로 분류했다. 최근 관찰에서는 방향성이 없고 여러 경로를 걷는 모습이 보고되어 배회 성향이 있다고 판단했다. 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "a2a1f0cc22c30ee59c39b12ea8d8b37b9bf25d4ddeef9ddf6a0c16d225b5815d",
+    "source_file_sha256": "5955d3dfdbf408a200c2901b1b031a63e6e8724dcc14958b5acbc891d74c0fb0",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2043,
+      "total_tokens": 2292,
+      "completion_tokens": 249,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F04_B_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_B_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F04",
+    "variant": "B",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"성당\", \"시장\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 밖에서 걷는 모습을 여러 번 관찰했는데, 뚜렷한 목적지를 말하지 않고 매번 다른 골목으로 방향을 바꾸며 여러 경로를 걷곤 했다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    }\n  ]\n}",
+    "raw_sha256": "8371cac36cc3ae3e55cc52f489b1943da59bbf395afff1fe768f6e36843334b8",
+    "source_file_sha256": "5955d3dfdbf408a200c2901b1b031a63e6e8724dcc14958b5acbc891d74c0fb0",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 158,
+      "prompt_tokens": 311,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      },
+      "total_tokens": 469
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_B_chain_1",
+    "family": "F04",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.2,
+        "backtracking": 0.1,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거 실종 때 실제 발견된 곳이고 보호자가 반복 지향을 직접 관찰했다. 최근에는 뚜렷한 목적지 없이 여러 경로를 걷는 모습을 보였다. 이는 배회 행동의 전형적인 형태다. 따라서 이 세 장소는 모두 높은 끌림점으로 판단했다. 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_B_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.4,\n    \"direction_keeping\": 0.1,\n    \"random_walk\": 0.2,\n    \"backtracking\": 0.1,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.15\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거 실종 때 실제 발견된 곳이고 보호자가 반복 지향을 직접 관찰했다. 최근에는 뚜렷한 목적지 없이 여러 경로를 걷는 모습을 보였다. 이는 배회 행동의 전형적인 형태다. 따라서 이 세 장소는 모두 높은 끌림점으로 판단했다. 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "5dd290bb79b7d406e5fdaa13b430624ade817e65567edbda4089bd1f53078186",
+    "source_file_sha256": "2e87cc41c8ce1b9695fec1a315859c1c06d61d6170efab11212f5dc7260b8905",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2043,
+      "total_tokens": 2272,
+      "completion_tokens": 229,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F04_B_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_B_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F04",
+    "variant": "B",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"성당\", \"시장\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 밖에서 걷는 모습을 여러 번 관찰했는데, 뚜렷한 목적지를 말하지 않고 매번 다른 골목으로 방향을 바꾸며 여러 경로를 걷곤 했다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    }\n  ]\n}",
+    "raw_sha256": "8371cac36cc3ae3e55cc52f489b1943da59bbf395afff1fe768f6e36843334b8",
+    "source_file_sha256": "2e87cc41c8ce1b9695fec1a315859c1c06d61d6170efab11212f5dc7260b8905",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 158,
+      "prompt_tokens": 311,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 469
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_C_chain_0",
+    "family": "F04",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4444444444444445,
+        "direction_keeping": 0.11111111111111112,
+        "random_walk": 0.11111111111111112,
+        "backtracking": 0.11111111111111112,
+        "staying_put": 0.11111111111111112,
+        "landmark_seeking": 0.11111111111111112
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거에 자주 방문했던 곳으로 보호자가 직접 반복 지향을 관찰했다. 최근에는 특정 방향으로 이동하지 않고 짧은 구간을 반복해서 왔다 갔다 하는 모습을 보였다. 이는 방향상실이 있지만, 특정 장소로의 이동을 시도하는 것으로 해석할 수 있다. 따라서 이동 성향은 '목적 지향형 익숙 거점 순회 — 익숙한 거점을 반복 방문하며 목적을 찾는 상태'로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_C_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.4,\n    \"direction_keeping\": 0.1,\n    \"random_walk\": 0.1,\n    \"backtracking\": 0.1,\n    \"staying_put\": 0.1,\n    \"landmark_seeking\": 0.1\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거에 자주 방문했던 곳으로 보호자가 직접 반복 지향을 관찰했다. 최근에는 특정 방향으로 이동하지 않고 짧은 구간을 반복해서 왔다 갔다 하는 모습을 보였다. 이는 방향상실이 있지만, 특정 장소로의 이동을 시도하는 것으로 해석할 수 있다. 따라서 이동 성향은 '목적 지향형 익숙 거점 순회 — 익숙한 거점을 반복 방문하며 목적을 찾는 상태'로 판단한다.\"\n}\n```",
+    "raw_sha256": "d0be55aac6d70f6e48d927f248dda7df39cba486bfc28612a25c7371e3b130ad",
+    "source_file_sha256": "b70ae2657d3a2a443cae78c12e3f62fbf6f56adae959cd94213a160c5ddabc0e",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2096,
+      "total_tokens": 2349,
+      "completion_tokens": 253,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F04_C_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_C_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F04",
+    "variant": "C",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"성당\", \"시장\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"어디에 가는지는 말하지 않았다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 여러 번 지켜본 모습은 짧은 동일 구간을 왔다 갔다 하면서 지나갔던 길을 다시 걷는 것이었다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": []\n    }\n  ]\n}",
+    "raw_sha256": "98a5c9cb3e21a9d9b4f38035429296c424290f3cc3efbc638126a877b6126b51",
+    "source_file_sha256": "b70ae2657d3a2a443cae78c12e3f62fbf6f56adae959cd94213a160c5ddabc0e",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 209,
+      "prompt_tokens": 310,
+      "prompt_tokens_details": {
+        "cached_tokens": 224
+      },
+      "total_tokens": 519
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_C_chain_1",
+    "family": "F04",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.2857142857142857,
+        "direction_keeping": 0.19047619047619047,
+        "random_walk": 0.14285714285714285,
+        "backtracking": 0.09523809523809523,
+        "staying_put": 0.047619047619047616,
+        "landmark_seeking": 0.23809523809523808
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 세 장소를 반복 지향하는 것을 직접 관찰했고, 이는 치매 노인의 행동 패턴에서 중요한 특징이다. 따라서 이 세 장소는 상위 끌림점으로 분류했다. 그 외의 장소는 근거가 없어 하 등급으로 분류했다. 최근의 방향이나 의도는 추가 관찰을 통해 판단해야 한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_C_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.3,\n    \"direction_keeping\": 0.2,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.1,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.25\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\",\n    \"그 외\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"보호자가 세 장소를 반복 지향하는 것을 직접 관찰했고, 이는 치매 노인의 행동 패턴에서 중요한 특징이다. 따라서 이 세 장소는 상위 끌림점으로 분류했다. 그 외의 장소는 근거가 없어 하 등급으로 분류했다. 최근의 방향이나 의도는 추가 관찰을 통해 판단해야 한다.\"\n}\n```",
+    "raw_sha256": "7109a742d628dd1c75b622835dae1caa9802ca1da9eea4b972ce65897c0acc24",
+    "source_file_sha256": "6efe588c413721607e3e89c3dd88521f1dafae1de0cbaafb254fb215fea92009",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2096,
+      "total_tokens": 2333,
+      "completion_tokens": 237,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F04_C_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F04_C_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F04",
+    "variant": "C",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"성당\", \"시장\", \"주민센터\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"어디에 가는지는 말하지 않았다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 여러 번 지켜본 모습은 짧은 동일 구간을 왔다 갔다 하면서 지나갔던 길을 다시 걷는 것이었다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": []\n    }\n  ]\n}",
+    "raw_sha256": "98a5c9cb3e21a9d9b4f38035429296c424290f3cc3efbc638126a877b6126b51",
+    "source_file_sha256": "6efe588c413721607e3e89c3dd88521f1dafae1de0cbaafb254fb215fea92009",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 209,
+      "prompt_tokens": 310,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 519
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_A_chain_0",
+    "family": "F05",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.16666666666666666,
+        "random_walk": 0.11111111111111112,
+        "backtracking": 0.05555555555555556,
+        "staying_put": 0.05555555555555556,
+        "landmark_seeking": 0.11111111111111112
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거에 자주 방문했고 보호자가 반복 지향을 직접 관찰했다. 최근에는 길을 몰라 헤매며 가까운 곳에 멈추는 모습을 보였다. 이는 배회의 핵심 신호로, 방향상실 등급은 '중상'이다. 성향은 '목적 상실형 — 익숙한 장소를 반복 방문하며 방향을 잃는 상태'로 판단한다. 근거는 배회가 익숙한 장소를 반복 방문하며 방향을 잃는 상태라는 점이다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_A_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"상\",\n    \"그 외\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거에 자주 방문했고 보호자가 반복 지향을 직접 관찰했다. 최근에는 길을 몰라 헤매며 가까운 곳에 멈추는 모습을 보였다. 이는 배회의 핵심 신호로, 방향상실 등급은 '중상'이다. 성향은 '목적 상실형 — 익숙한 장소를 반복 방문하며 방향을 잃는 상태'로 판단한다. 근거는 배회가 익숙한 장소를 반복 방문하며 방향을 잃는 상태라는 점이다.\"\n}\n```",
+    "raw_sha256": "abddde6e60fe4f1568ce35a0abb974432e5622da3de2176500d3ee33b73a6c11",
+    "source_file_sha256": "26658030ebce973f66578a668a32edc67f25d6388d1c8be718a9c5c9f9487fc9",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2037,
+      "total_tokens": 2307,
+      "completion_tokens": 270,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F05_A_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_A_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F05",
+    "variant": "A",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"동네 공원\", \"시장\", \"경로당\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 길을 몰라 헤매는 상황에서 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    }\n  ]\n}",
+    "raw_sha256": "ad1bf36ce40b5ab4b7e289116a42078bd6b01a9027719612ac7e9c51ddc1e7d2",
+    "source_file_sha256": "26658030ebce973f66578a668a32edc67f25d6388d1c8be718a9c5c9f9487fc9",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 150,
+      "prompt_tokens": 311,
+      "prompt_tokens_details": {
+        "cached_tokens": 224
+      },
+      "total_tokens": 461
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_A_chain_1",
+    "family": "F05",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.55,
+        "direction_keeping": 0.2,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 평소 자주 방문하는 곳이다. 이들 장소는 치매 노인의 배회 행동에서 중요한 역할을 할 가능성이 높다. 따라서 이들 장소를 상위 끌림점으로 판단했다. 최근 길을 몰라 헤매는 상황에서 가까운 곳에 멈춰 머무는 모습은 배회 행동의 특징 중 하나로, 이는 치매 노인이 방향을 잃고 있는 상태를 반영한다. 따라서 이동 성향은 'route_following'을 중심으로 하되, 'random_walk'도 일정 수준 반영했다. 배회 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_A_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.55,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.05\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 평소 자주 방문하는 곳이다. 이들 장소는 치매 노인의 배회 행동에서 중요한 역할을 할 가능성이 높다. 따라서 이들 장소를 상위 끌림점으로 판단했다. 최근 길을 몰라 헤매는 상황에서 가까운 곳에 멈춰 머무는 모습은 배회 행동의 특징 중 하나로, 이는 치매 노인이 방향을 잃고 있는 상태를 반영한다. 따라서 이동 성향은 'route_following'을 중심으로 하되, 'random_walk'도 일정 수준 반영했다. 배회 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "4ebbe8a64e2ca76fd981e32ff18c5148f17caeefd797f897adb358fd3ee648c7",
+    "source_file_sha256": "ee4dc43d911248a6011606f0abe2004fbcc09ca73d24ee612e0a1cfc668604a8",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1785,
+      "total_tokens": 2081,
+      "completion_tokens": 296,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F05_A_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_A_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F05",
+    "variant": "A",
+    "repeat": 1,
+    "raw_content": "[\n  {\n    \"note_index\": 0,\n    \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"동네 공원\", \"시장\", \"경로당\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"최근 길을 몰라 헤매는 상황에서 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다.\",\n    \"kind\": \"observed_behavior\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": []\n  }\n]",
+    "raw_sha256": "f809562e6a27233ed2e810cb80342ec3634344df34114ed4d61d0540cf79849b",
+    "source_file_sha256": "ee4dc43d911248a6011606f0abe2004fbcc09ca73d24ee612e0a1cfc668604a8",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 143,
+      "prompt_tokens": 311,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 454
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_B_chain_0",
+    "family": "F05",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.673076923076923,
+        "direction_keeping": 0.14423076923076922,
+        "random_walk": 0.04807692307692308,
+        "backtracking": 0.019230769230769232,
+        "staying_put": 0.019230769230769232,
+        "landmark_seeking": 0.09615384615384616
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 세 장소 모두를 반복 지향하는 것으로 보고했고, 이들 장소는 모두 과거에 자주 방문했던 곳이다. 최근에는 길을 몰라 헤매는 상황에서도 멈추지 않고 계속 걸어가는 모습을 보였다. 이는 치매 노인의 특징적인 배회 행동으로, 방향상실이 있더라도 목적 없이 계속 이동하는 성향을 반영한다. 따라서 이동 성향은 'route_following'으로 판단한다. 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_B_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.7,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.05,\n    \"backtracking\": 0.0,\n    \"staying_put\": 0.0,\n    \"landmark_seeking\": 0.1\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"상\",\n    \"기타\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"보호자가 세 장소 모두를 반복 지향하는 것으로 보고했고, 이들 장소는 모두 과거에 자주 방문했던 곳이다. 최근에는 길을 몰라 헤매는 상황에서도 멈추지 않고 계속 걸어가는 모습을 보였다. 이는 치매 노인의 특징적인 배회 행동으로, 방향상실이 있더라도 목적 없이 계속 이동하는 성향을 반영한다. 따라서 이동 성향은 'route_following'으로 판단한다. 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "703fa3f7beaa880c5c29ae818ea454d772e0e658a812105c13524ff5a4e3463d",
+    "source_file_sha256": "ece5e0f9c4fb573ca75640e9905c48ebd6354d83984ba0b152fdde85c3ecca40",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2039,
+      "total_tokens": 2308,
+      "completion_tokens": 269,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F05_B_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_B_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F05",
+    "variant": "B",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"동네 공원\", \"시장\", \"경로당\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    }\n  ]\n}",
+    "raw_sha256": "dfa15e9621d785f13ae80d1886ade30bc63c1ba4adac021056f8222beb054ef0",
+    "source_file_sha256": "ece5e0f9c4fb573ca75640e9905c48ebd6354d83984ba0b152fdde85c3ecca40",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 150,
+      "prompt_tokens": 311,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      },
+      "total_tokens": 461
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_B_chain_1",
+    "family": "F05",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5882352941176471,
+        "direction_keeping": 0.19607843137254902,
+        "random_walk": 0.09803921568627451,
+        "backtracking": 0.049019607843137254,
+        "staying_put": 0.049019607843137254,
+        "landmark_seeking": 0.0196078431372549
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 반복 지향을 직접 관찰한 세 장소 모두 평소 자주 가던 곳이며, 이들 장소를 향한 이동 성향이 강하다. 최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 관찰했지만, 어느 장소에 가겠다는 말은 하지 않았다. 이는 목적 없이 배회하는 상태를 시사한다. 배회 위험 등급은 '상', 성향은 '목적 없는 익숙 거점 순회 — 낯선 구역으로 크게 벗어나기보다 기존 거점 사이를 맴돌 가능성'으로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_B_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.60,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.00\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"상\",\n    \"기타\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"보호자가 반복 지향을 직접 관찰한 세 장소 모두 평소 자주 가던 곳이며, 이들 장소를 향한 이동 성향이 강하다. 최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 관찰했지만, 어느 장소에 가겠다는 말은 하지 않았다. 이는 목적 없이 배회하는 상태를 시사한다. 배회 위험 등급은 '상', 성향은 '목적 없는 익숙 거점 순회 — 낯선 구역으로 크게 벗어나기보다 기존 거점 사이를 맴돌 가능성'으로 판단한다.\"\n}\n```",
+    "raw_sha256": "28df4476cc68665c66946c91831e25099dccf21f3951667b7c2a7facbddbecee",
+    "source_file_sha256": "b16ef446b0fbc40efbacd54c3dd2356aabe633fec26def93d9583a75022f6892",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2102,
+      "total_tokens": 2388,
+      "completion_tokens": 286,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F05_B_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_B_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F05",
+    "variant": "B",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"동네 공원\", \"시장\", \"경로당\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"어느 장소에 가겠다는 말은 하지 않았다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    }\n  ]\n}",
+    "raw_sha256": "c07f0898688119822b20d23c6426c4a7e0a69903837920b309400993c9e993dc",
+    "source_file_sha256": "b16ef446b0fbc40efbacd54c3dd2356aabe633fec26def93d9583a75022f6892",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 210,
+      "prompt_tokens": 311,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 521
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_C_chain_0",
+    "family": "F05",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4736842105263158,
+        "direction_keeping": 0.15789473684210525,
+        "random_walk": 0.10526315789473685,
+        "backtracking": 0.052631578947368425,
+        "staying_put": 0.052631578947368425,
+        "landmark_seeking": 0.15789473684210525
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 반복 지향을 직접 관찰한 세 장소 모두 평소 자주 방문하는 곳으로, 이들은 치매 노인의 주요 이동 성향을 반영한다. 따라서 이들은 상위 끌림점으로 분류했다. '다른 장소'는 언급되지 않았지만, 치매 노인이 평소 자주 방문하지 않는 곳이라면 이들과 대비되는 '하' 등급을 부여했다. 최근 길을 몰라 헤맬 때 가까운 곳에 멈춰 머무는 모습은 배회 행동의 한 형태로, 이는 'random_walk' 확률을 높이는 근거다. 그러나 이는 배회 행동의 전부를 설명하지 않으므로 'random_walk' 확률은 10%로 제한했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_C_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.15\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"상\",\n    \"다른 장소\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"보호자가 반복 지향을 직접 관찰한 세 장소 모두 평소 자주 방문하는 곳으로, 이들은 치매 노인의 주요 이동 성향을 반영한다. 따라서 이들은 상위 끌림점으로 분류했다. '다른 장소'는 언급되지 않았지만, 치매 노인이 평소 자주 방문하지 않는 곳이라면 이들과 대비되는 '하' 등급을 부여했다. 최근 길을 몰라 헤맬 때 가까운 곳에 멈춰 머무는 모습은 배회 행동의 한 형태로, 이는 'random_walk' 확률을 높이는 근거다. 그러나 이는 배회 행동의 전부를 설명하지 않으므로 'random_walk' 확률은 10%로 제한했다.\"\n}\n```",
+    "raw_sha256": "004a679667d1e8b37e8b84631e4492345c4df4e04ec708655a96d89c8ba8c0b3",
+    "source_file_sha256": "42b88f10456c64f50e78f7083dd4f67a9d153b0b330d4a7cbef356be4b9136ae",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2097,
+      "total_tokens": 2417,
+      "completion_tokens": 320,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F05_C_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_C_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F05",
+    "variant": "C",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"동네 공원\", \"시장\", \"경로당\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"어디에 가려는지는 말하지 않았다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 길을 몰라 헤맬 때에는 가까운 곳에 멈춰 머무는 모습을 여러 차례 관찰했다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": []\n    }\n  ]\n}",
+    "raw_sha256": "bb4043b6a4295ee78be97be754ad2110ef9734c6b5d8564582f329b61a6bec45",
+    "source_file_sha256": "42b88f10456c64f50e78f7083dd4f67a9d153b0b330d4a7cbef356be4b9136ae",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 210,
+      "prompt_tokens": 311,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      },
+      "total_tokens": 521
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_C_chain_1",
+    "family": "F05",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 끌림점 모두 보호자가 반복 지향을 직접 관찰한 곳이고, 치매 노인이 과거에도 여러 차례 방문한 익숙한 장소들이다. 따라서 이들은 모두 상위 끌림점으로 분류했다. 치매 노인이 최근 길을 몰라 헤맬 때 멈추는 모습을 보였는데, 이는 배회 행동의 핵심 신호로 볼 수 있다. 배회 위험 등급은 '상', 성향은 '반복 지향형 — 익숙한 장소를 반복적으로 방문하며 방향상실을 보이는 상태'로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_C_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.35,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 끌림점 모두 보호자가 반복 지향을 직접 관찰한 곳이고, 치매 노인이 과거에도 여러 차례 방문한 익숙한 장소들이다. 따라서 이들은 모두 상위 끌림점으로 분류했다. 치매 노인이 최근 길을 몰라 헤맬 때 멈추는 모습을 보였는데, 이는 배회 행동의 핵심 신호로 볼 수 있다. 배회 위험 등급은 '상', 성향은 '반복 지향형 — 익숙한 장소를 반복적으로 방문하며 방향상실을 보이는 상태'로 판단한다.\"\n}\n```",
+    "raw_sha256": "05e1c7f7d2bf5d433f56255a8a1ee887204bda32c9c98dc76de37eb410a29b19",
+    "source_file_sha256": "4a22ea82bacaa03fd5d22d1648318473acdf4709ac6b16ff3d1315af9468c053",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1784,
+      "total_tokens": 2054,
+      "completion_tokens": 270,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F05_C_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F05_C_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F05",
+    "variant": "C",
+    "repeat": 1,
+    "raw_content": "[\n  {\n    \"note_index\": 0,\n    \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"동네 공원\", \"시장\", \"경로당\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"어디에 가려는지는 말하지 않았다.\",\n    \"kind\": \"observed_behavior\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": []\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"최근 길을 몰라 헤맬 때에는 가까운 곳에 멈춰 머무는 모습을 여러 차례 관찰했다.\",\n    \"kind\": \"observed_behavior\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": []\n  }\n]",
+    "raw_sha256": "aa3ec955b3cf117ba03cf7e226562889f6535bd258c8d95d45b64645e75e3b3d",
+    "source_file_sha256": "4a22ea82bacaa03fd5d22d1648318473acdf4709ac6b16ff3d1315af9468c053",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 203,
+      "prompt_tokens": 311,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 514
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_A_chain_0",
+    "family": "F06",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.6,
+        "direction_keeping": 0.15,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 향하는 장소로 판단했다. 최근에는 시장으로 향하는 모습을 가족이 직접 관찰했다. 이들 장소는 모두 치매 노인이 자주 향하는 장소로, 이동 성향은 'route_following'을 가장 높게 봤다. 배회 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_A_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.60,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.05,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 향하는 장소로 판단했다. 최근에는 시장으로 향하는 모습을 가족이 직접 관찰했다. 이들 장소는 모두 치매 노인이 자주 향하는 장소로, 이동 성향은 'route_following'을 가장 높게 봤다. 배회 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "c9ea178924ee4737f193013d4c5e7c18759b6643815fed7049677c0f02b154e0",
+    "source_file_sha256": "8bf0106756c12e9dd4ce9dc6a0adf5995c0efd46c4fba057820e8b37ca993efc",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1775,
+      "total_tokens": 2014,
+      "completion_tokens": 239,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F06_A_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_A_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F06",
+    "variant": "A",
+    "repeat": 0,
+    "raw_content": "[\n  {\n    \"note_index\": 0,\n    \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"시장\", \"공원\", \"복지관\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"최근 한 달 동안 혼자 나서면 시장 쪽으로 걸어간 모습을 가족이 여러 번 직접 봤다.\",\n    \"kind\": \"observed_behavior\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": [\"시장\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"공원이나 복지관으로 향했는지는 최근 관찰하지 못했다.\",\n    \"kind\": \"observation_gap\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": [\"공원\", \"복지관\"]\n  }\n]",
+    "raw_sha256": "880ed223a7703d7bf410775b8b5bcee84268751bc5eb5395f94ae4a809570c58",
+    "source_file_sha256": "8bf0106756c12e9dd4ce9dc6a0adf5995c0efd46c4fba057820e8b37ca993efc",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 209,
+      "prompt_tokens": 312,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      },
+      "total_tokens": 521
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_A_chain_1",
+    "family": "F06",
+    "variant": "A",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 평소 자주 가던 곳임을 반영해 모두 '상' 등급으로 판단했다. 최근 관찰에서는 시장으로 향한 모습이 확인되었으나, 다른 두 장소로 향한 모습은 확인되지 않았다. 이는 치매 노인이 특정 장소에 대한 강한 지향성을 보이지만, 그 지향성이 항상 일관되지 않을 수 있음을 시사한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_A_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.20\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 평소 자주 가던 곳임을 반영해 모두 '상' 등급으로 판단했다. 최근 관찰에서는 시장으로 향한 모습이 확인되었으나, 다른 두 장소로 향한 모습은 확인되지 않았다. 이는 치매 노인이 특정 장소에 대한 강한 지향성을 보이지만, 그 지향성이 항상 일관되지 않을 수 있음을 시사한다.\"\n}\n```",
+    "raw_sha256": "9ff9f0a8c710046f3184809e76d3cd06e3668d1ff20888b72a7cb1b556f6d989",
+    "source_file_sha256": "6d37e57f574d179b2ece1bc316af750c0340b1837035ca0a1b51a9c20345e076",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1775,
+      "total_tokens": 2029,
+      "completion_tokens": 254,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F06_A_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_A_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F06",
+    "variant": "A",
+    "repeat": 1,
+    "raw_content": "[\n  {\n    \"note_index\": 0,\n    \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"시장\", \"공원\", \"복지관\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"최근 한 달 동안 혼자 나서면 시장 쪽으로 걸어간 모습을 가족이 여러 번 직접 봤다.\",\n    \"kind\": \"observed_behavior\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": [\"시장\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"공원이나 복지관으로 향했는지는 최근 관찰하지 못했다.\",\n    \"kind\": \"observation_gap\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": [\"공원\", \"복지관\"]\n  }\n]",
+    "raw_sha256": "880ed223a7703d7bf410775b8b5bcee84268751bc5eb5395f94ae4a809570c58",
+    "source_file_sha256": "6d37e57f574d179b2ece1bc316af750c0340b1837035ca0a1b51a9c20345e076",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 209,
+      "prompt_tokens": 312,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 521
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_B_chain_0",
+    "family": "F06",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.16666666666666666,
+        "random_walk": 0.11111111111111112,
+        "backtracking": 0.05555555555555556,
+        "staying_put": 0.05555555555555556,
+        "landmark_seeking": 0.11111111111111112
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거 반복 지향을 직접 관찰한 근거가 있어 상위 끌림점으로 판단했다. 최근 한 달간 보호자가 방향을 직접 관찰하지 못했고, 현재 어느 곳으로 향하려 하는지는 알 수 없다. 그러나 과거 이동 패턴이 명확하므로, 현재도 그 패턴을 따를 가능성이 높다. 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_B_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거 반복 지향을 직접 관찰한 근거가 있어 상위 끌림점으로 판단했다. 최근 한 달간 보호자가 방향을 직접 관찰하지 못했고, 현재 어느 곳으로 향하려 하는지는 알 수 없다. 그러나 과거 이동 패턴이 명확하므로, 현재도 그 패턴을 따를 가능성이 높다. 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "2841656c3bf5b1b1026de8ba8dce85819695630273d414f888f8560e63e95b14",
+    "source_file_sha256": "6d063d8eda6d861640bc3d56399371369e7760eb551c2c844a287e3007785221",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2158,
+      "total_tokens": 2398,
+      "completion_tokens": 240,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F06_B_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_B_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F06",
+    "variant": "B",
+    "repeat": 0,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"시장\", \"공원\", \"복지관\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 한 달은 가족이 외출 방향을 직접 보지 못했다.\",\n      \"kind\": \"observation_gap\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"지금 어느 곳으로 향하려 하는지 모른다.\",\n      \"kind\": \"other_explicit_fact\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"unknown\",\n      \"place_labels\": []\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"시장이나 공원, 복지관 중 최근 선호를 확인할 근거가 없다.\",\n      \"kind\": \"other_explicit_fact\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"unknown\",\n      \"place_labels\": [\"시장\", \"공원\", \"복지관\"]\n    }\n  ]\n}",
+    "raw_sha256": "71d15c2d1a4948b4216f4b13075a6c994bda720e747593498731b3ec15ceafd6",
+    "source_file_sha256": "6d063d8eda6d861640bc3d56399371369e7760eb551c2c844a287e3007785221",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 271,
+      "prompt_tokens": 318,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      },
+      "total_tokens": 589
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_B_chain_1",
+    "family": "F06",
+    "variant": "B",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.16666666666666666,
+        "random_walk": 0.11111111111111112,
+        "backtracking": 0.05555555555555556,
+        "staying_put": 0.05555555555555556,
+        "landmark_seeking": 0.11111111111111112
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거 실종 때 실제 발견된 곳이고 보호자가 반복 지향을 직접 관찰했다. 최근의 방향이나 의도는 확인되지 않았지만, 과거 이동 패턴이 뚜렷해 이들 장소를 중심으로 한 경로 추종 확률을 높였다. 배회 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_B_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거 실종 때 실제 발견된 곳이고 보호자가 반복 지향을 직접 관찰했다. 최근의 방향이나 의도는 확인되지 않았지만, 과거 이동 패턴이 뚜렷해 이들 장소를 중심으로 한 경로 추종 확률을 높였다. 배회 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "cb4ea34a8f2ed659a3d26f9bcd9aaf30132b78ca0fd423d907ddda8b8c252e5b",
+    "source_file_sha256": "ffb0c8d65b7336128938dcc15798e2e9ec4aa1048d835b5b3f78b55d55c2a037",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2160,
+      "total_tokens": 2384,
+      "completion_tokens": 224,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F06_B_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_B_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F06",
+    "variant": "B",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"시장\", \"공원\", \"복지관\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"최근 한 달은 가족이 외출 방향을 직접 보지 못했다.\",\n      \"kind\": \"observation_gap\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": []\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"지금 어느 곳으로 향하려 하는지 모른다.\",\n      \"kind\": \"other_explicit_fact\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"unknown\",\n      \"place_labels\": []\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"시장이나 공원, 복지관 중 최근 선호를 확인할 근거가 없다.\",\n      \"kind\": \"other_explicit_fact\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"시장\", \"공원\", \"복지관\"]\n    }\n  ]\n}",
+    "raw_sha256": "35ceb8ba7542165b90ed68d33e5dc37cdbeaa42385db4bd48b8d0760b4baf219",
+    "source_file_sha256": "ffb0c8d65b7336128938dcc15798e2e9ec4aa1048d835b5b3f78b55d55c2a037",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 273,
+      "prompt_tokens": 318,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 591
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_C_chain_0",
+    "family": "F06",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5392156862745099,
+        "direction_keeping": 0.19607843137254902,
+        "random_walk": 0.14705882352941177,
+        "backtracking": 0.049019607843137254,
+        "staying_put": 0.0196078431372549,
+        "landmark_seeking": 0.049019607843137254
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 과거에 여러 차례 방문한 곳이라는 점에서 모두 상위 끌림점으로 판단했다. 최근 한 달 동안 직접 관찰한 방향은 시장 쪽이었고, 다른 두 장소는 확인되지 않았다. 이는 치매 노인이 특정 장소를 반복적으로 향하는 성향이 있지만, 최근에는 특정 장소에 대한 선호가 변화할 수 있음을 시사한다. 따라서 이동 성향은 '상'으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_C_chain_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.55,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.00,\n    \"landmark_seeking\": 0.05\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 과거에 여러 차례 방문한 곳이라는 점에서 모두 상위 끌림점으로 판단했다. 최근 한 달 동안 직접 관찰한 방향은 시장 쪽이었고, 다른 두 장소는 확인되지 않았다. 이는 치매 노인이 특정 장소를 반복적으로 향하는 성향이 있지만, 최근에는 특정 장소에 대한 선호가 변화할 수 있음을 시사한다. 따라서 이동 성향은 '상'으로 판단했다.\"\n}\n```",
+    "raw_sha256": "4277aa10ab56adf220fe9b25da4e037092164ec68177be450d3d6f3aca8ab5fa",
+    "source_file_sha256": "459edcc850aaa192e7fdae806908dfc18cf15b4b7b15df2aeb600d8dcbcf5b60",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1775,
+      "total_tokens": 2041,
+      "completion_tokens": 266,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F06_C_chain_0.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_C_chain_0:k_facts",
+    "model": "k_facts",
+    "family": "F06",
+    "variant": "C",
+    "repeat": 0,
+    "raw_content": "[\n  {\n    \"note_index\": 0,\n    \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n    \"kind\": \"past_history\",\n    \"temporal_scope\": \"past\",\n    \"evidence_status\": \"reported_present\",\n    \"place_labels\": [\"시장\", \"공원\", \"복지관\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"가족이 지난 한 달에 직접 여러 번 본 외출 방향은 시장 쪽이었다.\",\n    \"kind\": \"observed_behavior\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": [\"시장\"]\n  },\n  {\n    \"note_index\": 1,\n    \"quote\": \"같은 기간 공원 또는 복지관으로 향하는 모습은 확인하지 못했다.\",\n    \"kind\": \"observation_gap\",\n    \"temporal_scope\": \"recent\",\n    \"evidence_status\": \"not_observed\",\n    \"place_labels\": [\"공원\", \"복지관\"]\n  }\n]",
+    "raw_sha256": "8aaf63bb06114613502bad01ce9456bdd8e07a700f86f3e2c321db57e2cc69cf",
+    "source_file_sha256": "459edcc850aaa192e7fdae806908dfc18cf15b4b7b15df2aeb600d8dcbcf5b60",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 207,
+      "prompt_tokens": 309,
+      "prompt_tokens_details": {
+        "cached_tokens": 224
+      },
+      "total_tokens": 516
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_C_chain_1",
+    "family": "F06",
+    "variant": "C",
+    "model": "chain",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.49019607843137253,
+        "direction_keeping": 0.19607843137254902,
+        "random_walk": 0.09803921568627451,
+        "backtracking": 0.09803921568627451,
+        "staying_put": 0.0196078431372549,
+        "landmark_seeking": 0.09803921568627451
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 세 장소 모두를 반복 지향하는 것으로 확인했고, 이는 치매 노인의 이동 성향을 반영한다. 최근 관찰에서는 시장으로 향하는 모습이 가장 자주 관찰되었다. 따라서 이 세 장소는 모두 상위 끌림점으로 판단한다. 이동 반경은 유형 평균 수준으로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_C_chain_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.5,\n    \"direction_keeping\": 0.2,\n    \"random_walk\": 0.1,\n    \"backtracking\": 0.1,\n    \"staying_put\": 0.0,\n    \"landmark_seeking\": 0.1\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"보호자가 세 장소 모두를 반복 지향하는 것으로 확인했고, 이는 치매 노인의 이동 성향을 반영한다. 최근 관찰에서는 시장으로 향하는 모습이 가장 자주 관찰되었다. 따라서 이 세 장소는 모두 상위 끌림점으로 판단한다. 이동 반경은 유형 평균 수준으로 판단한다.\"\n}\n```",
+    "raw_sha256": "2e5b60f662c2d8cf6e897281f2d733b99da08653420931139814ff08d9534624",
+    "source_file_sha256": "40a1c53a7ebd18efb36a2bd14a25fb7ed31ba2a1853c5f6bce12c4739e8e3a62",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 2097,
+      "total_tokens": 2317,
+      "completion_tokens": 220,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "file": "F06_C_chain_1.json#k_response",
+    "id": "KEXAONE_SAR_chain_v1_20260922:F06_C_chain_1:k_facts",
+    "model": "k_facts",
+    "family": "F06",
+    "variant": "C",
+    "repeat": 1,
+    "raw_content": "{\n  \"facts\": [\n    {\n      \"note_index\": 0,\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\",\n      \"kind\": \"past_history\",\n      \"temporal_scope\": \"past\",\n      \"evidence_status\": \"reported_present\",\n      \"place_labels\": [\"시장\", \"공원\", \"복지관\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"가족이 지난 한 달에 직접 여러 번 본 외출 방향은 시장 쪽이었다.\",\n      \"kind\": \"observed_behavior\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"시장\"]\n    },\n    {\n      \"note_index\": 1,\n      \"quote\": \"같은 기간 공원 또는 복지관으로 향하는 모습은 확인하지 못했다.\",\n      \"kind\": \"observation_gap\",\n      \"temporal_scope\": \"recent\",\n      \"evidence_status\": \"not_observed\",\n      \"place_labels\": [\"공원\", \"복지관\"]\n    }\n  ]\n}",
+    "raw_sha256": "0828166a011c0a3e849516b7d91f9435e90bc666a1f32df9b89bafe8a26726f8",
+    "source_file_sha256": "40a1c53a7ebd18efb36a2bd14a25fb7ed31ba2a1853c5f6bce12c4739e8e3a62",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 214,
+      "prompt_tokens": 309,
+      "prompt_tokens_details": {
+        "cached_tokens": 288
+      },
+      "total_tokens": 523
+    },
+    "finish_reason": "stop"
+  }
+]

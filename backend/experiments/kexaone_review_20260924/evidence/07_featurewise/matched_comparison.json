@@ -1,0 +1,481 @@
+{
+  "selection": "Same case pair, K-repeat index, seed must have usable outputs in both conditions; selection uses usability only, never outcome. Missing repeats are not imputed. Seeds share model output and are not independent model samples.",
+  "rows": [
+    {
+      "id": "destination_when_stay",
+      "a": "C01",
+      "b": "C02",
+      "changed": "destination_pull",
+      "condition": "CONTROL",
+      "matched_repeats": [],
+      "values": {
+        "a": {
+          "runs": 0,
+          "near_origin": null,
+          "road_km": null,
+          "side_turn": null,
+          "zone_entry": {},
+          "strategy": {},
+          "attraction": {}
+        },
+        "b": {
+          "runs": 0,
+          "near_origin": null,
+          "road_km": null,
+          "side_turn": null,
+          "zone_entry": {},
+          "strategy": {},
+          "attraction": {}
+        }
+      }
+    },
+    {
+      "id": "destination_when_stay",
+      "a": "C01",
+      "b": "C02",
+      "changed": "destination_pull",
+      "condition": "FEATURES",
+      "matched_repeats": [],
+      "values": {
+        "a": {
+          "runs": 0,
+          "near_origin": null,
+          "road_km": null,
+          "side_turn": null,
+          "zone_entry": {},
+          "strategy": {},
+          "attraction": {}
+        },
+        "b": {
+          "runs": 0,
+          "near_origin": null,
+          "road_km": null,
+          "side_turn": null,
+          "zone_entry": {},
+          "strategy": {},
+          "attraction": {}
+        }
+      }
+    },
+    {
+      "id": "destination_when_continue",
+      "a": "C03",
+      "b": "C04",
+      "changed": "destination_pull",
+      "condition": "CONTROL",
+      "matched_repeats": [
+        0,
+        1
+      ],
+      "values": {
+        "a": {
+          "runs": 6,
+          "near_origin": 0.17566666666666667,
+          "road_km": 3.0805588315747268,
+          "side_turn": 0.48309817903858066,
+          "zone_entry": {
+            "시장": 0.12333333333333334,
+            "공원": 0.021666666666666667,
+            "복지관": 0.17833333333333334
+          },
+          "strategy": {
+            "route_following": 0.39509803921568626,
+            "direction_keeping": 0.34705882352941175,
+            "random_walk": 0.09901960784313726,
+            "backtracking": 0.04950980392156863,
+            "staying_put": 0.04950980392156863,
+            "landmark_seeking": 0.059803921568627454
+          },
+          "attraction": {
+            "시장": 0.3333333333333333,
+            "공원": 0.3333333333333333,
+            "복지관": 0.3333333333333333
+          }
+        },
+        "b": {
+          "runs": 6,
+          "near_origin": 0.16033333333333333,
+          "road_km": 3.3304510469897686,
+          "side_turn": 0.4736811945354984,
+          "zone_entry": {
+            "시장": 0.10133333333333333,
+            "공원": 0.033,
+            "복지관": 0.15633333333333332
+          },
+          "strategy": {
+            "route_following": 0.375,
+            "direction_keeping": 0.375,
+            "random_walk": 0.1,
+            "backtracking": 0.05,
+            "staying_put": 0.05,
+            "landmark_seeking": 0.05
+          },
+          "attraction": {
+            "시장": 0.2857142857142857,
+            "공원": 0.42857142857142855,
+            "복지관": 0.2857142857142857
+          }
+        }
+      }
+    },
+    {
+      "id": "destination_when_continue",
+      "a": "C03",
+      "b": "C04",
+      "changed": "destination_pull",
+      "condition": "FEATURES",
+      "matched_repeats": [
+        0,
+        1
+      ],
+      "values": {
+        "a": {
+          "runs": 6,
+          "near_origin": 0.18266666666666667,
+          "road_km": 2.995008626944898,
+          "side_turn": 0.48315552994702565,
+          "zone_entry": {
+            "시장": 0.12366666666666666,
+            "공원": 0.022,
+            "복지관": 0.17166666666666666
+          },
+          "strategy": {
+            "route_following": 0.4,
+            "direction_keeping": 0.35,
+            "random_walk": 0.07500000000000001,
+            "backtracking": 0.05,
+            "staying_put": 0.05,
+            "landmark_seeking": 0.07500000000000001
+          },
+          "attraction": {
+            "시장": 0.38095238095238093,
+            "공원": 0.30952380952380953,
+            "복지관": 0.30952380952380953
+          }
+        },
+        "b": {
+          "runs": 6,
+          "near_origin": 0.16366666666666668,
+          "road_km": 3.242278933617513,
+          "side_turn": 0.5005436505297374,
+          "zone_entry": {
+            "시장": 0.121,
+            "공원": 0.023666666666666666,
+            "복지관": 0.179
+          },
+          "strategy": {
+            "route_following": 0.35,
+            "direction_keeping": 0.25,
+            "random_walk": 0.175,
+            "backtracking": 0.05,
+            "staying_put": 0.05,
+            "landmark_seeking": 0.125
+          },
+          "attraction": {
+            "시장": 0.3333333333333333,
+            "공원": 0.3333333333333333,
+            "복지관": 0.3333333333333333
+          }
+        }
+      }
+    },
+    {
+      "id": "persistence_toward_market",
+      "a": "C01",
+      "b": "C03",
+      "changed": "movement_persistence",
+      "condition": "CONTROL",
+      "matched_repeats": [],
+      "values": {
+        "a": {
+          "runs": 0,
+          "near_origin": null,
+          "road_km": null,
+          "side_turn": null,
+          "zone_entry": {},
+          "strategy": {},
+          "attraction": {}
+        },
+        "b": {
+          "runs": 0,
+          "near_origin": null,
+          "road_km": null,
+          "side_turn": null,
+          "zone_entry": {},
+          "strategy": {},
+          "attraction": {}
+        }
+      }
+    },
+    {
+      "id": "persistence_toward_market",
+      "a": "C01",
+      "b": "C03",
+      "changed": "movement_persistence",
+      "condition": "FEATURES",
+      "matched_repeats": [],
+      "values": {
+        "a": {
+          "runs": 0,
+          "near_origin": null,
+          "road_km": null,
+          "side_turn": null,
+          "zone_entry": {},
+          "strategy": {},
+          "attraction": {}
+        },
+        "b": {
+          "runs": 0,
+          "near_origin": null,
+          "road_km": null,
+          "side_turn": null,
+          "zone_entry": {},
+          "strategy": {},
+          "attraction": {}
+        }
+      }
+    },
+    {
+      "id": "persistence_toward_park",
+      "a": "C02",
+      "b": "C04",
+      "changed": "movement_persistence",
+      "condition": "CONTROL",
+      "matched_repeats": [
+        1
+      ],
+      "values": {
+        "a": {
+          "runs": 3,
+          "near_origin": 0.19466666666666665,
+          "road_km": 3.087087729477117,
+          "side_turn": 0.4886021227244752,
+          "zone_entry": {
+            "시장": 0.11599999999999999,
+            "공원": 0.025333333333333333,
+            "복지관": 0.182
+          },
+          "strategy": {
+            "route_following": 0.4,
+            "direction_keeping": 0.25,
+            "random_walk": 0.1,
+            "backtracking": 0.05,
+            "staying_put": 0.1,
+            "landmark_seeking": 0.1
+          },
+          "attraction": {
+            "시장": 0.3333333333333333,
+            "공원": 0.3333333333333333,
+            "복지관": 0.3333333333333333
+          }
+        },
+        "b": {
+          "runs": 3,
+          "near_origin": 0.16066666666666665,
+          "road_km": 3.3804618938530817,
+          "side_turn": 0.47039717968053013,
+          "zone_entry": {
+            "시장": 0.10200000000000001,
+            "공원": 0.036000000000000004,
+            "복지관": 0.16
+          },
+          "strategy": {
+            "route_following": 0.35,
+            "direction_keeping": 0.4,
+            "random_walk": 0.1,
+            "backtracking": 0.05,
+            "staying_put": 0.05,
+            "landmark_seeking": 0.05
+          },
+          "attraction": {
+            "시장": 0.2857142857142857,
+            "공원": 0.42857142857142855,
+            "복지관": 0.2857142857142857
+          }
+        }
+      }
+    },
+    {
+      "id": "persistence_toward_park",
+      "a": "C02",
+      "b": "C04",
+      "changed": "movement_persistence",
+      "condition": "FEATURES",
+      "matched_repeats": [
+        1
+      ],
+      "values": {
+        "a": {
+          "runs": 3,
+          "near_origin": 0.26066666666666666,
+          "road_km": 2.608783560471588,
+          "side_turn": 0.5098736811459872,
+          "zone_entry": {
+            "시장": 0.10666666666666666,
+            "공원": 0.03133333333333333,
+            "복지관": 0.13066666666666665
+          },
+          "strategy": {
+            "route_following": 0.4,
+            "direction_keeping": 0.1,
+            "random_walk": 0.1,
+            "backtracking": 0.05,
+            "staying_put": 0.2,
+            "landmark_seeking": 0.15
+          },
+          "attraction": {
+            "시장": 0.2857142857142857,
+            "공원": 0.42857142857142855,
+            "복지관": 0.2857142857142857
+          }
+        },
+        "b": {
+          "runs": 3,
+          "near_origin": 0.17266666666666666,
+          "road_km": 3.0763314663341075,
+          "side_turn": 0.48964836557404223,
+          "zone_entry": {
+            "시장": 0.126,
+            "공원": 0.02,
+            "복지관": 0.18466666666666667
+          },
+          "strategy": {
+            "route_following": 0.4,
+            "direction_keeping": 0.3,
+            "random_walk": 0.1,
+            "backtracking": 0.05,
+            "staying_put": 0.05,
+            "landmark_seeking": 0.1
+          },
+          "attraction": {
+            "시장": 0.3333333333333333,
+            "공원": 0.3333333333333333,
+            "복지관": 0.3333333333333333
+          }
+        }
+      }
+    },
+    {
+      "id": "explicit_route_shape",
+      "a": "C05",
+      "b": "C06",
+      "changed": "route_shape",
+      "condition": "CONTROL",
+      "matched_repeats": [
+        0,
+        1
+      ],
+      "values": {
+        "a": {
+          "runs": 6,
+          "near_origin": 0.18266666666666667,
+          "road_km": 2.9940655727202534,
+          "side_turn": 0.4911280179344887,
+          "zone_entry": {
+            "시장": 0.1443333333333333,
+            "공원": 0.022666666666666665,
+            "복지관": 0.16533333333333333
+          },
+          "strategy": {
+            "route_following": 0.45,
+            "direction_keeping": 0.32499999999999996,
+            "random_walk": 0.07500000000000001,
+            "backtracking": 0.05,
+            "staying_put": 0.05,
+            "landmark_seeking": 0.05
+          },
+          "attraction": {
+            "시장": 0.42857142857142855,
+            "공원": 0.2857142857142857,
+            "복지관": 0.2857142857142857
+          }
+        },
+        "b": {
+          "runs": 6,
+          "near_origin": 0.17366666666666666,
+          "road_km": 3.3166599270992956,
+          "side_turn": 0.48617597474348573,
+          "zone_entry": {
+            "시장": 0.093,
+            "공원": 0.021666666666666667,
+            "복지관": 0.16133333333333333
+          },
+          "strategy": {
+            "route_following": 0.225,
+            "direction_keeping": 0.32499999999999996,
+            "random_walk": 0.2,
+            "backtracking": 0.05,
+            "staying_put": 0.05,
+            "landmark_seeking": 0.15000000000000002
+          },
+          "attraction": {
+            "시장": 0.3333333333333333,
+            "공원": 0.3333333333333333,
+            "복지관": 0.3333333333333333
+          }
+        }
+      }
+    },
+    {
+      "id": "explicit_route_shape",
+      "a": "C05",
+      "b": "C06",
+      "changed": "route_shape",
+      "condition": "FEATURES",
+      "matched_repeats": [
+        0,
+        1
+      ],
+      "values": {
+        "a": {
+          "runs": 6,
+          "near_origin": 0.17266666666666666,
+          "road_km": 3.038570896552368,
+          "side_turn": 0.4947705437655755,
+          "zone_entry": {
+            "시장": 0.15133333333333332,
+            "공원": 0.024,
+            "복지관": 0.16433333333333333
+          },
+          "strategy": {
+            "route_following": 0.4950980392156863,
+            "direction_keeping": 0.29705882352941176,
+            "random_walk": 0.07401960784313726,
+            "backtracking": 0.04950980392156863,
+            "staying_put": 0.04950980392156863,
+            "landmark_seeking": 0.03480392156862745
+          },
+          "attraction": {
+            "시장": 0.42857142857142855,
+            "공원": 0.2857142857142857,
+            "복지관": 0.2857142857142857
+          }
+        },
+        "b": {
+          "runs": 6,
+          "near_origin": 0.177,
+          "road_km": 3.456547875581221,
+          "side_turn": 0.507649193571755,
+          "zone_entry": {
+            "시장": 0.11933333333333333,
+            "공원": 0.017666666666666667,
+            "복지관": 0.14533333333333334
+          },
+          "strategy": {
+            "route_following": 0.225,
+            "direction_keeping": 0.22499999999999998,
+            "random_walk": 0.3,
+            "backtracking": 0.05,
+            "staying_put": 0.05,
+            "landmark_seeking": 0.15
+          },
+          "attraction": {
+            "시장": 0.42857142857142855,
+            "공원": 0.2857142857142857,
+            "복지관": 0.2857142857142857
+          }
+        }
+      }
+    }
+  ]
+}

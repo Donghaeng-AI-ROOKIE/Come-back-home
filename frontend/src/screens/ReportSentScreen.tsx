@@ -10,6 +10,8 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { useRunPrediction } from '../hooks/queries';
+import { useQuery } from '@tanstack/react-query';
+import { getCase } from '../api/guardian';
 import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import FigmaLogo from '../components/FigmaLogo';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
@@ -19,6 +21,11 @@ export default function ReportSentScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportSent'>>().params;
   const predict = useRunPrediction(caseId);
+  const { data: reportCase } = useQuery({ queryKey: ['guardianCase', caseId],
+    queryFn: () => getCase(caseId), refetchInterval: 5000 });
+  const interpretationStatus = reportCase?.prior?.initial_interpretation?.status;
+  const missingProfile = !!reportCase && !reportCase.report.persona_id;
+  const awaitingPreparation = interpretationStatus?.startsWith('preparation_');
   const [guideOpen, setGuideOpen] = React.useState(false);
   const addCase = useGuardianCaseStore((s) => s.addCase);
   // 신고의 유일한 착지점 — 여기서 기기에 사건 id 를 적어 둬야 알림 탭이 이 사건의
@@ -42,9 +49,15 @@ export default function ReportSentScreen() {
         </View>
         <View style={styles.notice}>
           <Text style={styles.noticeTitle}>안내사항</Text>
-          <Text style={styles.noticeText}>{predict.isError ? '신고는 접수됐습니다. AI 분석만 다시 시도해 주세요.' : '현재 AI가 실종자의 습관과 지형을 분석하여 이동 경로를 파악하고 있습니다. 인근 시민들의 제보가 확인되는 대로 안내해 드리겠습니다.'}</Text>
+          <Text style={styles.noticeText}>{predict.isError ? '신고는 접수됐습니다. AI 분석만 다시 시도해 주세요.' : '입력한 정보로 예상 위치를 계산하고 있습니다. 인근 시민들의 제보가 확인되는 대로 안내해 드리겠습니다.'}</Text>
+          {missingProfile ? <Text style={styles.noticeText}>사전등록 정보가 없어 개인별 습관은 아직 반영되지 않았습니다.</Text>
+            : awaitingPreparation ? <Text style={styles.noticeText}>현재 확보된 정보로 예측했습니다. 개인 특성 해석은 아직 반영되지 않았습니다.</Text> : null}
         </View>
         <View style={styles.actions}>
+          {missingProfile ? <Pressable style={styles.guide}
+            onPress={() => navigation.navigate('RegChat', { mode: 'quick', caseId })}>
+            <Text style={styles.guideText}>신고한 가족 정보 추가하기</Text>
+          </Pressable> : null}
           {predict.isError ? <Pressable style={styles.retry} onPress={() => predict.mutate()}><Text style={styles.retryText}>AI 분석 다시 시도</Text></Pressable> : null}
           {/* 이 버튼은 지침을 보여주는 자리인데 **홈으로 보내고 있었다** — 눌러도
               지침이 안 뜬다는 제보(08-12)의 원인. 신고 직후 보호자가 무엇을 해야

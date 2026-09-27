@@ -1,0 +1,20 @@
+{
+  "scope": "only experiments in this package",
+  "by_model": {
+    "embedding-query": {
+      "calls": 6,
+      "total_tokens": 714
+    },
+    "exaone-sar": {
+      "calls": 80,
+      "total_tokens": 172762
+    },
+    "depmkuykpfon9lg": {
+      "calls": 244,
+      "total_tokens": 458394
+    }
+  },
+  "actual_cost": null,
+  "support_round": null,
+  "gpu_hours": null
+}

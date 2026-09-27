@@ -277,7 +277,11 @@ def run_monte_carlo(
     mind: MindState | None = None,
     seed: int | None = None,
     trace: SimTrace | None = None,   # E2E 대시보드용 궤적·이벤트 수집 (결과 불변)
+    environment_observations=None,
+    started_at=None,
 ) -> dict[str, float]:
+    from app.phase2.environment_conditions import SceneConditions
+    scene = SceneConditions(net, environment_observations, started_at)
     rng = random.Random(seed)
     n = n_walkers or settings.mc_num_walkers
     # EXAONE 호출 예산은 예측 1회 스코프 — 모든 워커가 공유
@@ -320,7 +324,7 @@ def run_monte_carlo(
                                    use_mind=(mode == "agent"),
                                    mind=mind.model_copy() if mind else None,
                                    mind_pool=mind_pool, v_max_kmh=v_max,
-                                   trace=trace, walker_idx=i)
+                                   trace=trace, walker_idx=i, scene_conditions=scene)
         else:
             endpoint = _walk(rng, lkp, strategy, prior, attraction_locs, elapsed_hours,
                              use_mind=(mode == "agent"), mind=mind,
@@ -391,6 +395,7 @@ def _walk_graph(
     v_max_kmh: float | None = None,
     trace: SimTrace | None = None,
     walker_idx: int = 0,
+    scene_conditions=None,
 ) -> GeoPoint:
     """워커 1명이 도로망 위를 걷고 종착 좌표를 반환한다.
 
@@ -516,7 +521,8 @@ def _walk_graph(
             # 도로 위계 선호 — 간선 기피·이면 선호 (치매 한정, 기획팀 논문조사 2번)
             w *= gauge_mod.road_preference(net.edge_attrs(node, nb), persona)
             # 개인 환경 반응 — "물가만 보면 다가간다" 같은 축 밖 특성 (과제1 컴파일)
-            w *= gauge_mod.env_response_weight(net.env(nb), persona)
+            w *= gauge_mod.env_response_weight(net.env(nb), persona,
+                conditions=scene_conditions.at(nb, g.elapsed_min) if scene_conditions else None)
             if nb == prev and len(nbrs) > 1:
                 w *= 0.2  # 왔던 길 즉시 회귀 억제 (backtracking 도 새 경로로 돌아가게)
             weights.append(w)

@@ -15,9 +15,12 @@ midm_base_url(endpoint URL) / midm_model(endpoint ID) / midm_api_key 를 채우�
 from __future__ import annotations
 
 import json
+import uuid
+import logging
 import time
 import urllib.error
-import urllib.request
+
+from app.llm.usage_ledger import logged_json_request
 
 from app.config import settings
 from app.llm.base import LLMClient
@@ -54,38 +57,25 @@ class MidmClient(LLMClient):
 
     def chat(self, messages: list[dict], *, temperature: float = 0.3, max_tokens: int = 512) -> str:
         """messages=[{role, content}...] → assistant content 문자열."""
-        payload = json.dumps({
-            "model": self.model,
-            "messages": messages,
-            "temperature": temperature,
-            "max_tokens": max_tokens,
-        }).encode("utf-8")
-        req = urllib.request.Request(
-            self._chat_url(),
-            data=payload,
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {self.api_key}",
-            },
-            method="POST",
-        )
+        run_id = "midm:" + str(uuid.uuid4())
         started = time.monotonic()
         try:
-            with urllib.request.urlopen(req, timeout=settings.midm_timeout) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-        except Exception as e:  # noqa: BLE001 — 한 줄 남기고 그대로 올린다(호출부 폴백은 그대로)
-            # 호출부(extract_answer 등)는 실패를 삼키고 카운터만 올린다. 그래서 서버 로그에는
-            # 아무것도 안 남고 세션에 llm_degraded 만 찍혀, 429 인지 타임아웃인지 알 길이
-            # 없었다(라이브 실측 2026-09-26: 2.5 전환 뒤 한 턴에 실패 4회 — 원인 불명).
-            detail = ""
-            if isinstance(e, urllib.error.HTTPError):
-                try:
-                    detail = e.read().decode("utf-8", "replace")[:200]
-                except Exception:  # noqa: BLE001
-                    detail = ""
-                detail = f"HTTP {e.code} {detail}"
-            print(f"[midm] 호출 실패 {time.monotonic() - started:.1f}s — "
-                  f"{type(e).__name__}: {detail or str(e)[:200]}")
+            data = logged_json_request(
+                self._chat_url(),
+                {"model": self.model, "messages": messages,
+                 "temperature": temperature, "max_tokens": max_tokens},
+                headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.api_key}"},
+                provider="KT Mi:dm", model=self.model, role="midm_chat", run_id=run_id,
+                logical_request_id=run_id, timeout=settings.midm_timeout,
+                ledger_path=settings.research_usage_ledger_path,
+            )
+        except Exception as exc:
+            # The provider may echo guardian text or credentials. Record only metadata;
+            # the common ledger already keeps the failed attempt and any billed usage.
+            status = exc.code if isinstance(exc, urllib.error.HTTPError) else None
+            logging.getLogger(__name__).warning(
+                "Mi:dm call failed: type=%s http_status=%s elapsed_s=%.1f",
+                type(exc).__name__, status, time.monotonic() - started)
             raise
         return data["choices"][0]["message"]["content"]
 
@@ -93,23 +83,30 @@ class MidmClient(LLMClient):
         return self.chat([{"role": "user", "content": prompt}], **kwargs)
 
     # ── Phase 0 온보딩 엘리시테이션 ─────────────────────────────────
-    def extract_answer(self, target_slot: SlotSpec, conversation: list[dict]) -> dict:
-        """직전 답변에서 슬롯값 추출 + 충족 판정.
+    def extract_answer(self, target_slot: SlotSpec, conversation: list[dict],
+                       *, recheck_places: bool = False,
+                       known_places: list[str] | None = None) -> dict:
+        """직전 답변에서 슬롯값 추출 + 답변 유형·충족 판정.
 
-        반환: {"fields", "attraction_points", "behavior_notes", "slot_filled"}.
-        스텁 모드에서는 빈 추출(slot_filled=True 로 진행만 시킴).
+        반환: {"answer_kind", "fields", "attraction_points", "behavior_notes", "slot_filled"}.
+        스텁 모드에서는 빈 추출 + 'informative'(slot_filled=True 로 진행만 시킴).
+        recheck_places: 첫 추출이 장소를 놓쳤을 때 다시 보라는 안내를 붙인다.
+        known_places: 이미 등록된 장소 이름 — 같은 곳을 다른 말로 부르면 same_as 로 짚게 한다.
         """
         if self.is_stub:
-            return {"fields": {}, "attraction_points": [],
+            return {"answer_kind": "informative", "fields": {}, "attraction_points": [],
                     "behavior_notes": [], "slot_filled": True}
         try:
             raw = self.chat(
                 [
                     {"role": "system", "content": prompts.EXTRACT_SYSTEM},
-                    {"role": "user", "content": prompts.build_extract_input(target_slot, conversation)},
+                    {"role": "user", "content": prompts.build_extract_input(
+                        target_slot, conversation, recheck_places=recheck_places,
+                        known_places=known_places)},
                 ],
                 temperature=settings.midm_temp_extract,
-                max_tokens=400,
+                # 답변 유형·원문 구절이 늘어 400 은 장소가 여럿일 때 잘린다.
+                max_tokens=700,
             )
         except Exception:  # noqa: BLE001 — 호출 실패(엔드포인트 만료 등)가 인터뷰를 죽이면 안 됨.
             # 빈 추출 + 미충족으로 처리 — 같은 슬롯을 한 번 더 묻고(MAX_ASKS_PER_SLOT),
@@ -126,7 +123,8 @@ class MidmClient(LLMClient):
         스텁·호출 실패는 빈 결과 → 호출부가 기존 슬롯 재추출 경로로 폴백한다.
         """
         if self.is_stub:
-            return {"fields": {}, "place_ops": []}
+            # 키 없는 개발 모드는 파이프라인만 이어 준다 — 어떤 답이든 확인으로 본다.
+            return {"intent": "confirm", "fields": {}, "place_ops": []}
         try:
             raw = self.chat(
                 [
@@ -141,8 +139,139 @@ class MidmClient(LLMClient):
             )
         except Exception:  # noqa: BLE001 — 정정 실패가 등록 흐름을 죽이면 안 된다
             self.call_failures += 1
-            return {"fields": {}, "place_ops": []}
+            return {"intent": None, "fields": {}, "place_ops": []}
         return prompts.parse_correction(raw, place_labels)
+
+    def verify_found(self, label: str, question: str, answer: str) -> bool | None:
+        """보호자가 '과거 실종 때 이 장소에서 발견됐다'고 말했는지 한 가지만 묻는다.
+
+        추출기가 최상위 근거(previous_missing_found)를 냈을 때만 부른다. 스텁·실패는
+        None — 호출부는 확인되지 않은 최상위 근거를 인정하지 않는다.
+        """
+        if self.is_stub:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.FOUND_CHECK_SYSTEM},
+                    {"role": "user", "content": prompts.build_found_check_input(
+                        label, question, answer)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=60,
+            )
+        except Exception:  # noqa: BLE001 — 확인 실패는 '확인 안 됨'으로 흡수
+            self.call_failures += 1
+            return None
+        return prompts.parse_found_check(raw)
+
+    def yes_no(self, question: str, utterance: str) -> bool | None:
+        """보호자 말에 대한 예/아니오 확인 한 가지. 스텁·실패는 None(확인 안 됨)."""
+        if self.is_stub:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.YES_NO_SYSTEM},
+                    {"role": "user", "content": prompts.build_yes_no_input(question, utterance)},
+                ],
+                temperature=settings.midm_temp_correction,
+                max_tokens=40,
+            )
+        except Exception:  # noqa: BLE001 — 확인 실패는 '확인 안 됨'으로 흡수
+            self.call_failures += 1
+            return None
+        return prompts.parse_yes_no(raw)
+
+    def check_claim(self, notes: list[str], statement: str) -> bool | None:
+        """보호자 기록에서 문장 하나가 분명히 읽히는지(제3 판독). 스텁·실패는 None."""
+        if self.is_stub:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.CLAIM_CHECK_SYSTEM},
+                    {"role": "user", "content": prompts.build_claim_check_input(notes, statement)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=40,
+            )
+        except Exception:  # noqa: BLE001 — 확인 실패는 '확인 안 됨'으로 흡수
+            self.call_failures += 1
+            return None
+        return prompts.parse_yes_no(raw)
+
+    def pick_place(self, label: str, quote: str, options: list[dict], landmark: str | None = None) -> int | None:
+        """지도 검색 후보 중 보호자가 말한 곳의 위치(0부터). 없음·스텁·실패는 None."""
+        if self.is_stub or not options:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.PLACE_PICK_SYSTEM},
+                    {"role": "user", "content": prompts.build_place_pick_input(label, quote, options, landmark)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=40,
+            )
+        except Exception:  # noqa: BLE001 — 고르기 실패는 '고른 곳 없음'
+            self.call_failures += 1
+            return None
+        return prompts.parse_place_pick(raw, len(options))
+
+    def landmark_query(self, label: str, quote: str) -> str | None:
+        """보호자 말에 나온 랜드마크 이름(검색어). 없음·스텁·실패는 None. 원문 대조는 호출자가 한다."""
+        if self.is_stub:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.PLACE_LANDMARK_SYSTEM},
+                    {"role": "user", "content": prompts.build_place_landmark_input(label, quote)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=60,
+            )
+        except Exception:  # noqa: BLE001
+            self.call_failures += 1
+            return None
+        return prompts.parse_place_landmark(raw)
+
+    def link_situation(self, situation: str, places: list[dict]) -> list[dict] | None:
+        """신고 상황 문장 → 등록 장소 링크. 스텁·실패·해석 불가는 None(링크 판정 없음)."""
+        if self.is_stub or not situation.strip() or not places:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.SITUATION_LINK_SYSTEM},
+                    {"role": "user", "content": prompts.build_situation_link_input(situation, places)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=300,
+            )
+        except Exception:  # noqa: BLE001 — 링크 실패가 예측을 막으면 안 된다
+            self.call_failures += 1
+            return None
+        return prompts.parse_situation_link(raw, [p["label"] for p in places])
+
+    def extract_area(self, label: str, answer: str) -> str | None:
+        """되물은 장소의 동네 답 → 지도 검색에 쓸 지역 표현. 없거나 실패면 None."""
+        if self.is_stub:
+            return None
+        try:
+            raw = self.chat(
+                [
+                    {"role": "system", "content": prompts.AREA_SYSTEM},
+                    {"role": "user", "content": prompts.build_area_input(label, answer)},
+                ],
+                temperature=settings.midm_temp_extract,
+                max_tokens=80,
+            )
+        except Exception:  # noqa: BLE001 — 실패는 '지역 없음'으로 흡수(되묻기는 1회뿐)
+            self.call_failures += 1
+            return None
+        return prompts.parse_area(raw)
 
     def probe_gap(
         self,

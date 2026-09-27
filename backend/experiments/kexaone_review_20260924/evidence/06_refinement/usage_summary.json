@@ -1,0 +1,44 @@
+{
+  "new_k_calls": 24,
+  "new_sar_calls": 0,
+  "new_embedding_calls": 0,
+  "new_map_calls": 0,
+  "http_errors": 0,
+  "empty_responses": 0,
+  "retries": 0,
+  "unusable_priors": 2,
+  "new_replays": 66,
+  "new_walker_runs": 33000,
+  "prompt_tokens": 44268,
+  "completion_tokens": 17652,
+  "total_tokens": 61920,
+  "by_condition": {
+    "K_DIRECT": {
+      "calls": 12,
+      "envelope_valid": 4,
+      "usable_priors": 10,
+      "mean_latency_s": 10.188598031760193,
+      "prompt_tokens": 21020,
+      "completion_tokens": 8829,
+      "total_tokens": 29849
+    },
+    "SAR_K": {
+      "calls": 12,
+      "envelope_valid": 1,
+      "usable_priors": 12,
+      "mean_latency_s": 10.209048890828853,
+      "prompt_tokens": 23248,
+      "completion_tokens": 8823,
+      "total_tokens": 32071
+    }
+  },
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null,
+  "provider_gpu_hours": null,
+  "ledger_events_synced": 184,
+  "added_this_sync": 184,
+  "reused_SAR_outputs": 12,
+  "reused_SAR_replays": 36,
+  "reused_charged_again": false
+}

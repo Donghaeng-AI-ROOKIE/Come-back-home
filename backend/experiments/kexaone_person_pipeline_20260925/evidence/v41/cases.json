@@ -1,0 +1,236 @@
+[
+  {
+    "id": "park_intent_unfamiliar_wait",
+    "family": "park_intent_unfamiliar_wait",
+    "variant": 0,
+    "notes": [
+      {
+        "id": "N0",
+        "text": "요 며칠 아침마다 공원에 가서 친구를 만나야 한다고 말씀하세요. 실제로 친구를 만나거나 공원에 도착한 건 제가 확인하지 못했어요."
+      },
+      {
+        "id": "N1",
+        "text": "이번 달 옮겨 온 동네여서 그 공원으로 가는 길은 아직 이용한 일이 없습니다. 시장과 복지관 쪽 경험도 알지 못해요."
+      },
+      {
+        "id": "N2",
+        "text": "지난번 귀가 길을 놓친 두 차례에는 혼자 길을 더 찾지 않고 누군가 데리러 올 때까지 머물렀어요. 모퉁이에서 방향을 어떻게 고르는지는 모릅니다."
+      },
+      {
+        "id": "N3",
+        "text": "평탄한 곳이라면 마흔두 분가량 도움 없이 걸을 체력은 있습니다. 공원이라는 환경 자체에 특별히 끌리는지는 모르겠어요."
+      }
+    ],
+    "persona": {
+      "id": "park_intent_unfamiliar_wait",
+      "type": "dementia",
+      "name": "합성 사례",
+      "age": 80,
+      "home": {
+        "lat": 37.6061176,
+        "lng": 127.0110424
+      },
+      "attraction_points": [
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.6062041,
+            "lng": 127.0167742
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": "autobiographical_destination_pull"
+        },
+        {
+          "label": "공원",
+          "location": {
+            "lat": 37.6064663,
+            "lng": 127.0047953
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "mention_only",
+          "origin_slot": "autobiographical_destination_pull"
+        },
+        {
+          "label": "복지관",
+          "location": {
+            "lat": 37.6109043,
+            "lng": 127.0106411
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "mention_only",
+          "origin_slot": "autobiographical_destination_pull"
+        }
+      ],
+      "behavior_notes": [
+        "요 며칠 아침마다 공원에 가서 친구를 만나야 한다고 말씀하세요. 실제로 친구를 만나거나 공원에 도착한 건 제가 확인하지 못했어요.",
+        "이번 달 옮겨 온 동네여서 그 공원으로 가는 길은 아직 이용한 일이 없습니다. 시장과 복지관 쪽 경험도 알지 못해요.",
+        "지난번 귀가 길을 놓친 두 차례에는 혼자 길을 더 찾지 않고 누군가 데리러 올 때까지 머물렀어요. 모퉁이에서 방향을 어떻게 고르는지는 모릅니다.",
+        "평탄한 곳이라면 마흔두 분가량 도움 없이 걸을 체력은 있습니다. 공원이라는 환경 자체에 특별히 끌리는지는 모르겠어요."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": [],
+      "onboarding_quotes": {
+        "synthetic_guardian": [
+          "요 며칠 아침마다 공원에 가서 친구를 만나야 한다고 말씀하세요. 실제로 친구를 만나거나 공원에 도착한 건 제가 확인하지 못했어요.",
+          "이번 달 옮겨 온 동네여서 그 공원으로 가는 길은 아직 이용한 일이 없습니다. 시장과 복지관 쪽 경험도 알지 못해요.",
+          "지난번 귀가 길을 놓친 두 차례에는 혼자 길을 더 찾지 않고 누군가 데리러 올 때까지 머물렀어요. 모퉁이에서 방향을 어떻게 고르는지는 모릅니다.",
+          "평탄한 곳이라면 마흔두 분가량 도움 없이 걸을 체력은 있습니다. 공원이라는 환경 자체에 특별히 끌리는지는 모르겠어요."
+        ]
+      }
+    },
+    "report": {
+      "id": "synthetic-park_intent_unfamiliar_wait",
+      "persona_id": "park_intent_unfamiliar_wait",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6061176,
+        "lng": 127.0110424
+      },
+      "lkp_time": "2026-09-25T08:30:00",
+      "situation": "아침에 집에서 나간 뒤 돌아오지 않음. 외출 목적과 현재 위치는 미확인.",
+      "appearance": null,
+      "created_at": "2026-09-22T12:00:00"
+    },
+    "baseline_id": "unknown_0",
+    "expected": {
+      "goals.공원": "current_statement",
+      "routes.공원": "new_route",
+      "persistence": "wait_for_help",
+      "direction": "unknown",
+      "mobility": "C",
+      "environment.park": "unknown"
+    }
+  },
+  {
+    "id": "night_heading_context",
+    "family": "night_heading_context",
+    "variant": 0,
+    "notes": [
+      {
+        "id": "N0",
+        "text": "길을 놓친 낮에는 가족이 올 때까지 한곳에서 기다렸고, 해가 진 뒤에는 귀가 길을 찾으려고 계속 이동했어요. 같은 시간의 상반된 증언이 아니라 낮과 밤에 다른 행동을 본 겁니다."
+      },
+      {
+        "id": "N1",
+        "text": "어두운 시간에 길을 헤매는 모습을 봤을 때는 갈림길에서도 꺾지 않고 동일한 방위로 나아갔어요. 낮의 방향 선택은 관찰한 적 없어요."
+      },
+      {
+        "id": "N2",
+        "text": "평지에서는 혼자 서른여덟 분 정도 걸을 수 있습니다. 공원이나 복지관을 목적지로 정했는지는 확인하지 못했습니다."
+      },
+      {
+        "id": "N3",
+        "text": "시장은 붐비고 시끄러울 때만 들어가길 꺼렸고, 조용한 시장에서는 그런 반응이 없었습니다. 이번 외출이 시장에 가려는 것인지는 모릅니다."
+      }
+    ],
+    "persona": {
+      "id": "night_heading_context",
+      "type": "dementia",
+      "name": "합성 사례",
+      "age": 80,
+      "home": {
+        "lat": 37.6061176,
+        "lng": 127.0110424
+      },
+      "attraction_points": [
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.6062041,
+            "lng": 127.0167742
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": "autobiographical_destination_pull"
+        },
+        {
+          "label": "공원",
+          "location": {
+            "lat": 37.6064663,
+            "lng": 127.0047953
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "mention_only",
+          "origin_slot": "autobiographical_destination_pull"
+        },
+        {
+          "label": "복지관",
+          "location": {
+            "lat": 37.6109043,
+            "lng": 127.0106411
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "mention_only",
+          "origin_slot": "autobiographical_destination_pull"
+        }
+      ],
+      "behavior_notes": [
+        "길을 놓친 낮에는 가족이 올 때까지 한곳에서 기다렸고, 해가 진 뒤에는 귀가 길을 찾으려고 계속 이동했어요. 같은 시간의 상반된 증언이 아니라 낮과 밤에 다른 행동을 본 겁니다.",
+        "어두운 시간에 길을 헤매는 모습을 봤을 때는 갈림길에서도 꺾지 않고 동일한 방위로 나아갔어요. 낮의 방향 선택은 관찰한 적 없어요.",
+        "평지에서는 혼자 서른여덟 분 정도 걸을 수 있습니다. 공원이나 복지관을 목적지로 정했는지는 확인하지 못했습니다.",
+        "시장은 붐비고 시끄러울 때만 들어가길 꺼렸고, 조용한 시장에서는 그런 반응이 없었습니다. 이번 외출이 시장에 가려는 것인지는 모릅니다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": [],
+      "onboarding_quotes": {
+        "synthetic_guardian": [
+          "길을 놓친 낮에는 가족이 올 때까지 한곳에서 기다렸고, 해가 진 뒤에는 귀가 길을 찾으려고 계속 이동했어요. 같은 시간의 상반된 증언이 아니라 낮과 밤에 다른 행동을 본 겁니다.",
+          "어두운 시간에 길을 헤매는 모습을 봤을 때는 갈림길에서도 꺾지 않고 동일한 방위로 나아갔어요. 낮의 방향 선택은 관찰한 적 없어요.",
+          "평지에서는 혼자 서른여덟 분 정도 걸을 수 있습니다. 공원이나 복지관을 목적지로 정했는지는 확인하지 못했습니다.",
+          "시장은 붐비고 시끄러울 때만 들어가길 꺼렸고, 조용한 시장에서는 그런 반응이 없었습니다. 이번 외출이 시장에 가려는 것인지는 모릅니다."
+        ]
+      }
+    },
+    "report": {
+      "id": "synthetic-night_heading_context",
+      "persona_id": "night_heading_context",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6061176,
+        "lng": 127.0110424
+      },
+      "lkp_time": "2026-09-25T22:15:00",
+      "situation": "밤에 집에서 나온 뒤 위치 미확인. 출입한 장소는 모름.",
+      "appearance": null,
+      "created_at": "2026-09-22T12:00:00"
+    },
+    "baseline_id": "unknown_0",
+    "expected": {
+      "persistence": "keep_moving",
+      "direction": "same_heading",
+      "mobility": "C",
+      "environment.market": "unknown"
+    }
+  }
+]

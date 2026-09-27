@@ -1,0 +1,932 @@
+[
+  {
+    "case": "F01A",
+    "family": "F01",
+    "variant": "A",
+    "notes": [
+      "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+      "최근 두 달 동안 혼자 나서면 시장 쪽으로 걷는 모습을 여러 번 봤다. 같은 기간 공원 쪽으로 향하는 모습은 보지 못했다."
+    ],
+    "prior_input": "[실종자]\n- 유형: 치매 노인, 나이: 78세\n- 끌림점:\n  - 시장 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 공원 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 주민센터 — 근거: 보호자가 반복 지향을 직접 관찰\n- 평소 행동 사실:\n  - [N0] 등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.\n  - [N1] 최근 두 달 동안 혼자 나서면 시장 쪽으로 걷는 모습을 여러 번 봤다. 같은 기간 공원 쪽으로 향하는 모습은 보지 못했다.\n- 실종 상황: 12:00 마지막 목격",
+    "persona": {
+      "id": "F01A",
+      "type": "dementia",
+      "name": "가상 F01",
+      "age": 78,
+      "home": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "attraction_points": [
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.5,
+            "lng": 127.00567
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "공원",
+          "location": {
+            "lat": 37.5,
+            "lng": 126.99433
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "주민센터",
+          "location": {
+            "lat": 37.5045,
+            "lng": 127.0
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 두 달 동안 혼자 나서면 시장 쪽으로 걷는 모습을 여러 번 봤다. 같은 기간 공원 쪽으로 향하는 모습은 보지 못했다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "report": {
+      "id": "synthetic-F01A",
+      "persona_id": "F01A",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "lkp_time": "2026-09-22T12:00:00",
+      "situation": "",
+      "appearance": null,
+      "created_at": "2026-09-22T12:00:00"
+    },
+    "road_persona": {
+      "id": "F01A",
+      "type": "dementia",
+      "name": "가상 F01",
+      "age": 78,
+      "home": {
+        "lat": 37.6061176,
+        "lng": 127.0110424
+      },
+      "attraction_points": [
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.6062041,
+            "lng": 127.0167742
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "공원",
+          "location": {
+            "lat": 37.6064663,
+            "lng": 127.0047953
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "주민센터",
+          "location": {
+            "lat": 37.6109043,
+            "lng": 127.0106411
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 두 달 동안 혼자 나서면 시장 쪽으로 걷는 모습을 여러 번 봤다. 같은 기간 공원 쪽으로 향하는 모습은 보지 못했다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "case": "F01B",
+    "family": "F01",
+    "variant": "B",
+    "notes": [
+      "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+      "최근 두 달 동안 혼자 나서면 공원 쪽으로 걷는 모습을 여러 번 봤다. 같은 기간 시장 쪽으로 향하는 모습은 보지 못했다."
+    ],
+    "prior_input": "[실종자]\n- 유형: 치매 노인, 나이: 78세\n- 끌림점:\n  - 시장 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 공원 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 주민센터 — 근거: 보호자가 반복 지향을 직접 관찰\n- 평소 행동 사실:\n  - [N0] 등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.\n  - [N1] 최근 두 달 동안 혼자 나서면 공원 쪽으로 걷는 모습을 여러 번 봤다. 같은 기간 시장 쪽으로 향하는 모습은 보지 못했다.\n- 실종 상황: 12:00 마지막 목격",
+    "persona": {
+      "id": "F01B",
+      "type": "dementia",
+      "name": "가상 F01",
+      "age": 78,
+      "home": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "attraction_points": [
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.5,
+            "lng": 127.00567
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "공원",
+          "location": {
+            "lat": 37.5,
+            "lng": 126.99433
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "주민센터",
+          "location": {
+            "lat": 37.5045,
+            "lng": 127.0
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 두 달 동안 혼자 나서면 공원 쪽으로 걷는 모습을 여러 번 봤다. 같은 기간 시장 쪽으로 향하는 모습은 보지 못했다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "report": {
+      "id": "synthetic-F01B",
+      "persona_id": "F01B",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "lkp_time": "2026-09-22T12:00:00",
+      "situation": "",
+      "appearance": null,
+      "created_at": "2026-09-22T12:00:00"
+    },
+    "road_persona": {
+      "id": "F01B",
+      "type": "dementia",
+      "name": "가상 F01",
+      "age": 78,
+      "home": {
+        "lat": 37.6061176,
+        "lng": 127.0110424
+      },
+      "attraction_points": [
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.6062041,
+            "lng": 127.0167742
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "공원",
+          "location": {
+            "lat": 37.6064663,
+            "lng": 127.0047953
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "주민센터",
+          "location": {
+            "lat": 37.6109043,
+            "lng": 127.0106411
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 두 달 동안 혼자 나서면 공원 쪽으로 걷는 모습을 여러 번 봤다. 같은 기간 시장 쪽으로 향하는 모습은 보지 못했다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "case": "F05A",
+    "family": "F05",
+    "variant": "A",
+    "notes": [
+      "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+      "최근 길을 몰라 헤매는 상황에서 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다. 어느 장소에 가겠다는 말은 하지 않았다."
+    ],
+    "prior_input": "[실종자]\n- 유형: 치매 노인, 나이: 79세\n- 끌림점:\n  - 동네 공원 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 시장 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 경로당 — 근거: 보호자가 반복 지향을 직접 관찰\n- 평소 행동 사실:\n  - [N0] 등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.\n  - [N1] 최근 길을 몰라 헤매는 상황에서 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다. 어느 장소에 가겠다는 말은 하지 않았다.\n- 실종 상황: 12:00 마지막 목격",
+    "persona": {
+      "id": "F05A",
+      "type": "dementia",
+      "name": "가상 F05",
+      "age": 79,
+      "home": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "attraction_points": [
+        {
+          "label": "동네 공원",
+          "location": {
+            "lat": 37.5,
+            "lng": 127.00567
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.5,
+            "lng": 126.99433
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "경로당",
+          "location": {
+            "lat": 37.5045,
+            "lng": 127.0
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 길을 몰라 헤매는 상황에서 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다. 어느 장소에 가겠다는 말은 하지 않았다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "report": {
+      "id": "synthetic-F05A",
+      "persona_id": "F05A",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "lkp_time": "2026-09-22T12:00:00",
+      "situation": "",
+      "appearance": null,
+      "created_at": "2026-09-22T12:00:00"
+    },
+    "road_persona": {
+      "id": "F05A",
+      "type": "dementia",
+      "name": "가상 F05",
+      "age": 79,
+      "home": {
+        "lat": 37.6061176,
+        "lng": 127.0110424
+      },
+      "attraction_points": [
+        {
+          "label": "동네 공원",
+          "location": {
+            "lat": 37.6062041,
+            "lng": 127.0167742
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.6064663,
+            "lng": 127.0047953
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "경로당",
+          "location": {
+            "lat": 37.6109043,
+            "lng": 127.0106411
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 길을 몰라 헤매는 상황에서 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다. 어느 장소에 가겠다는 말은 하지 않았다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "case": "F05B",
+    "family": "F05",
+    "variant": "B",
+    "notes": [
+      "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+      "최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다. 어느 장소에 가겠다는 말은 하지 않았다."
+    ],
+    "prior_input": "[실종자]\n- 유형: 치매 노인, 나이: 79세\n- 끌림점:\n  - 동네 공원 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 시장 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 경로당 — 근거: 보호자가 반복 지향을 직접 관찰\n- 평소 행동 사실:\n  - [N0] 등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.\n  - [N1] 최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다. 어느 장소에 가겠다는 말은 하지 않았다.\n- 실종 상황: 12:00 마지막 목격",
+    "persona": {
+      "id": "F05B",
+      "type": "dementia",
+      "name": "가상 F05",
+      "age": 79,
+      "home": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "attraction_points": [
+        {
+          "label": "동네 공원",
+          "location": {
+            "lat": 37.5,
+            "lng": 127.00567
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.5,
+            "lng": 126.99433
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "경로당",
+          "location": {
+            "lat": 37.5045,
+            "lng": 127.0
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다. 어느 장소에 가겠다는 말은 하지 않았다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "report": {
+      "id": "synthetic-F05B",
+      "persona_id": "F05B",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "lkp_time": "2026-09-22T12:00:00",
+      "situation": "",
+      "appearance": null,
+      "created_at": "2026-09-22T12:00:00"
+    },
+    "road_persona": {
+      "id": "F05B",
+      "type": "dementia",
+      "name": "가상 F05",
+      "age": 79,
+      "home": {
+        "lat": 37.6061176,
+        "lng": 127.0110424
+      },
+      "attraction_points": [
+        {
+          "label": "동네 공원",
+          "location": {
+            "lat": 37.6062041,
+            "lng": 127.0167742
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.6064663,
+            "lng": 127.0047953
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "경로당",
+          "location": {
+            "lat": 37.6109043,
+            "lng": 127.0106411
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다. 어느 장소에 가겠다는 말은 하지 않았다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "case": "F06A",
+    "family": "F06",
+    "variant": "A",
+    "notes": [
+      "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+      "최근 한 달 동안 혼자 나서면 시장 쪽으로 걸어간 모습을 가족이 여러 번 직접 봤다. 공원이나 복지관으로 향했는지는 최근 관찰하지 못했다."
+    ],
+    "prior_input": "[실종자]\n- 유형: 치매 노인, 나이: 80세\n- 끌림점:\n  - 시장 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 공원 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 복지관 — 근거: 보호자가 반복 지향을 직접 관찰\n- 평소 행동 사실:\n  - [N0] 등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.\n  - [N1] 최근 한 달 동안 혼자 나서면 시장 쪽으로 걸어간 모습을 가족이 여러 번 직접 봤다. 공원이나 복지관으로 향했는지는 최근 관찰하지 못했다.\n- 실종 상황: 12:00 마지막 목격",
+    "persona": {
+      "id": "F06A",
+      "type": "dementia",
+      "name": "가상 F06",
+      "age": 80,
+      "home": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "attraction_points": [
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.5,
+            "lng": 127.00567
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "공원",
+          "location": {
+            "lat": 37.5,
+            "lng": 126.99433
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "복지관",
+          "location": {
+            "lat": 37.5045,
+            "lng": 127.0
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 한 달 동안 혼자 나서면 시장 쪽으로 걸어간 모습을 가족이 여러 번 직접 봤다. 공원이나 복지관으로 향했는지는 최근 관찰하지 못했다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "report": {
+      "id": "synthetic-F06A",
+      "persona_id": "F06A",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "lkp_time": "2026-09-22T12:00:00",
+      "situation": "",
+      "appearance": null,
+      "created_at": "2026-09-22T12:00:00"
+    },
+    "road_persona": {
+      "id": "F06A",
+      "type": "dementia",
+      "name": "가상 F06",
+      "age": 80,
+      "home": {
+        "lat": 37.6061176,
+        "lng": 127.0110424
+      },
+      "attraction_points": [
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.6062041,
+            "lng": 127.0167742
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "공원",
+          "location": {
+            "lat": 37.6064663,
+            "lng": 127.0047953
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "복지관",
+          "location": {
+            "lat": 37.6109043,
+            "lng": 127.0106411
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 한 달 동안 혼자 나서면 시장 쪽으로 걸어간 모습을 가족이 여러 번 직접 봤다. 공원이나 복지관으로 향했는지는 최근 관찰하지 못했다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "case": "F06B",
+    "family": "F06",
+    "variant": "B",
+    "notes": [
+      "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+      "최근 한 달은 가족이 외출 방향을 직접 보지 못했다. 지금 어느 곳으로 향하려 하는지 모른다. 시장이나 공원, 복지관 중 최근 선호를 확인할 근거가 없다."
+    ],
+    "prior_input": "[실종자]\n- 유형: 치매 노인, 나이: 80세\n- 끌림점:\n  - 시장 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 공원 — 근거: 보호자가 반복 지향을 직접 관찰\n  - 복지관 — 근거: 보호자가 반복 지향을 직접 관찰\n- 평소 행동 사실:\n  - [N0] 등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.\n  - [N1] 최근 한 달은 가족이 외출 방향을 직접 보지 못했다. 지금 어느 곳으로 향하려 하는지 모른다. 시장이나 공원, 복지관 중 최근 선호를 확인할 근거가 없다.\n- 실종 상황: 12:00 마지막 목격",
+    "persona": {
+      "id": "F06B",
+      "type": "dementia",
+      "name": "가상 F06",
+      "age": 80,
+      "home": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "attraction_points": [
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.5,
+            "lng": 127.00567
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "공원",
+          "location": {
+            "lat": 37.5,
+            "lng": 126.99433
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "복지관",
+          "location": {
+            "lat": 37.5045,
+            "lng": 127.0
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 한 달은 가족이 외출 방향을 직접 보지 못했다. 지금 어느 곳으로 향하려 하는지 모른다. 시장이나 공원, 복지관 중 최근 선호를 확인할 근거가 없다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "report": {
+      "id": "synthetic-F06B",
+      "persona_id": "F06B",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.5,
+        "lng": 127.0
+      },
+      "lkp_time": "2026-09-22T12:00:00",
+      "situation": "",
+      "appearance": null,
+      "created_at": "2026-09-22T12:00:00"
+    },
+    "road_persona": {
+      "id": "F06B",
+      "type": "dementia",
+      "name": "가상 F06",
+      "age": 80,
+      "home": {
+        "lat": 37.6061176,
+        "lng": 127.0110424
+      },
+      "attraction_points": [
+        {
+          "label": "시장",
+          "location": {
+            "lat": 37.6062041,
+            "lng": 127.0167742
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "공원",
+          "location": {
+            "lat": 37.6064663,
+            "lng": 127.0047953
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        },
+        {
+          "label": "복지관",
+          "location": {
+            "lat": 37.6109043,
+            "lng": 127.0106411
+          },
+          "weight": 0.5,
+          "precision": "unknown",
+          "place_type": "",
+          "evidence": "caregiver_report",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.",
+        "최근 한 달은 가족이 외출 방향을 직접 보지 못했다. 지금 어느 곳으로 향하려 하는지 모른다. 시장이나 공원, 복지관 중 최근 선호를 확인할 근거가 없다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "axis_scores": {
+        "mobility_transport_capacity": 0.5,
+        "autobiographical_destination_pull": 0.5
+      },
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-22T12:00:00",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  }
+]

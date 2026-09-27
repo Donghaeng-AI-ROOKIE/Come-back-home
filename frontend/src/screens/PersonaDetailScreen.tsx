@@ -110,12 +110,17 @@ export default function PersonaDetailScreen() {
     if (!persona || saving) return;
     setSaving(true); setError(null);
     try {
+      const nextName = name.trim() || persona.name;
+      const nextAge = Number(age.replace(/[^0-9]/g, '')) || persona.age;
+      const nextNotes = notes.map((n) => n.trim()).filter(Boolean);
+      // Send actual edits only: changing identity must not re-author AI summaries.
       const updated = await updatePersona(persona.id, {
-        name: name.trim() || persona.name,
-        age: Number(age.replace(/[^0-9]/g, '')) || persona.age,
-        // 빈 줄은 버린다 — 추가만 하고 안 적은 칸이 페르소나에 남으면 안 된다.
-        behavior_notes: notes.map((n) => n.trim()).filter(Boolean),
-        attraction_points: points,
+        ...(nextName !== persona.name ? { name: nextName } : {}),
+        ...(nextAge !== persona.age ? { age: nextAge } : {}),
+        ...(JSON.stringify(nextNotes) !== JSON.stringify(persona.behavior_notes ?? [])
+          ? { behavior_notes: nextNotes } : {}),
+        ...(JSON.stringify(points) !== JSON.stringify(persona.attraction_points ?? [])
+          ? { attraction_points: points } : {}),
       });
       setPersona(updated); setStorePersona(updated); setEditing(false);
       // 홈의 '사전 등록된 가족' 목록은 별도 쿼리라, 여기서 무효화하지 않으면

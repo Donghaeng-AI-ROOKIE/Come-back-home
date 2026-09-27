@@ -29,6 +29,12 @@ class Settings(BaseSettings):
     #   exaone_model    = 발급받은 endpoint ID (chat 요청의 model 필드로 들어감)
     exaone_base_url: str = ""
     exaone_model: str = ""
+    # SAR prior 다음의 K 초기 행동 해석. 접속 설정 시 항상 사용(별도 on/off 없음).
+    kexaone_api_key: str = ""
+    kexaone_base_url: str = ""
+    kexaone_model: str = ""
+    kexaone_timeout: float = 420.0
+    research_usage_ledger_path: str = "data/research_usage_events.jsonl"
 
     # Phase 3 제보 구조화 전용 — Mi:dm 2.0 Mini 확정(2026-07-29 4파전 실측,
     # llm/tip_llm.py 참고). Phase 0 온보딩 대화 전용 Mi:dm(midm_*)과는 별개

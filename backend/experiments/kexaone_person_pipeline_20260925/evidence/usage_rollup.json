@@ -1,0 +1,24 @@
+{
+  "scope": "v27–v42, including approved v41 live run",
+  "by_provider": {
+    "FriendliAI": {
+      "actual_requests": 129,
+      "reported_total_tokens": 915671,
+      "usage_missing_requests": 0,
+      "unit_price": null,
+      "actual_cost": null,
+      "support_round": null
+    },
+    "self_hosted_vLLM": {
+      "actual_requests": 14,
+      "reported_total_tokens": 24113,
+      "usage_missing_requests": 0,
+      "unit_price": null,
+      "actual_cost": null,
+      "support_round": null
+    }
+  },
+  "GPU_training_started": false,
+  "gpu_billed_hours": null,
+  "note": "Do not bill self-hosted SAR token counts as paid K usage; token count is not charge."
+}

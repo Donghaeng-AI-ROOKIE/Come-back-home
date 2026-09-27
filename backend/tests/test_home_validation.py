@@ -36,13 +36,12 @@ _CENTER_POI = GeoResult(GeoPoint(lat=37.6047, lng=127.0106), precision="poi", so
 
 
 def _fake_extractor(monkeypatch):
-    """스텁 Mi:dm 은 규칙(_HOME_RE)으로만 home 을 뽑아 '포켓몬랜드'를 못 만든다 —
-    실제 Mi:dm 이 그러듯 마지막 발화(조사 제거)를 home 으로 돌려주는 추출기."""
+    """실제 API 호출 대신 마지막 발화를 home으로 반환하는 테스트 추출기."""
     original = interview._extract_tracked
 
     def _extract(session, slot):
         if slot.key != "home":
-            return original(session, slot)          # 이름·나이 등은 스텁(규칙 폴백) 그대로
+            return original(session, slot)          # 다른 슬롯은 원래 테스트 스텁 유지
         text = interview._strip_tail_particles(session.messages[-1]["text"])
         return {"fields": {"home": text}, "attraction_points": [],
                 "behavior_notes": [], "slot_filled": True}
@@ -52,9 +51,12 @@ def _fake_extractor(monkeypatch):
 def _at_home_question() -> InterviewSession:
     """이름·나이 답변 직후 — 다음 질문이 집(고정 Q2)인 상태."""
     s = interview.start_interview("보호자", PersonaType.dementia)
-    out = interview.answer_interview(s.id, "김순자님이고 78세예요")
-    assert out.prev_target_key == "home"
-    return out
+    s.draft_fields.update(name="김순자", age="78세")
+    s.filled_keys.append("identity")
+    s.prev_target_key = "home"
+    s.messages.append({"role": "assistant", "text": slot_by_key("home").question})
+    storage.interviews.save(s.id, s)
+    return s
 
 
 # ── 지도에 없는 곳 → 그 자리에서 되묻기 ─────────────────────────────
@@ -148,6 +150,8 @@ def test_correction_to_unknown_place_reasks_instead_of_resummarizing(monkeypatch
     )
     storage.interviews.save(s.id, s)
 
+    monkeypatch.setattr(interview.midm, "extract_correction",
+                        lambda labels, text: {"intent": "correct", "fields": {"home": "포켓몬랜드"}, "place_ops": []})
     out = interview.answer_interview(s.id, "포켓몬랜드예요")
     assert not out.done and not out.awaiting_confirmation
     assert "home" not in out.draft_fields and out.prev_target_key == "home"
@@ -155,6 +159,8 @@ def test_correction_to_unknown_place_reasks_instead_of_resummarizing(monkeypatch
 
     out = interview.answer_interview(s.id, "성북구 정릉동이에요")
     assert out.awaiting_confirmation                       # 요약 확인 재진입
+    monkeypatch.setattr(interview.midm, "extract_correction",
+                        lambda labels, text: {"intent": "confirm", "fields": {}, "place_ops": []})
     out = interview.answer_interview(s.id, "네 맞아요")
     assert out.done and out.persona_id
 
@@ -215,7 +221,7 @@ def test_kakao_keyword_result_carries_address(monkeypatch):
 def test_empty_extraction_still_reasks_for_unknown_place(monkeypatch):
     """Mi:dm 2.5 는 '포켓몬랜드'를 아예 추출하지 않는다 — 그래도 다음 슬롯으로 넘어가면 안 된다.
 
-    스텁 추출은 빈손이고 규칙(_HOME_RE)도 안 걸리므로 이 테스트는 라이브와 같은 조건이다.
+    스텁 추출은 빈손이다. 지도 확인과 재질문만 API 없이 검증한다.
     """
     monkeypatch.setattr(interview, "_GEO", _FakeGeo({"성북구 정릉동": _JEONGNEUNG}))
     s = _at_home_question()
@@ -230,7 +236,7 @@ def test_empty_extraction_still_reasks_for_unknown_place(monkeypatch):
 
 
 def test_empty_extraction_fills_home_when_utterance_geocodes(monkeypatch):
-    """추출기·규칙이 다 놓친 답이라도 지도에 잡히면 그 발화로 채운다(규칙 폴백과 같은 자격)."""
+    """추출기가 놓친 답이라도 주소·지역 검증을 통과하면 그 발화로 채운다."""
     poi = GeoResult(GeoPoint(lat=37.5440, lng=127.2033), precision="poi", source="kakao",
                     matched="하남더샵센트럴뷰", address="경기 하남시 하남대로 856")
     monkeypatch.setattr(interview, "_GEO", _FakeGeo({"하남시 하남더샵센트럴뷰": poi}))
@@ -241,30 +247,34 @@ def test_empty_extraction_fills_home_when_utterance_geocodes(monkeypatch):
     assert out.prev_target_key != "home"
 
 
-def test_sentence_answer_is_reasked_without_quoting(monkeypatch):
+def test_sentence_answer_is_not_stored_as_a_home(monkeypatch):
     monkeypatch.setattr(interview, "_GEO", _FakeGeo({}))
     s = _at_home_question()
     out = interview.answer_interview(s.id, "집에 주로 계세요")
     assert out.prev_target_key == "home"
-    assert out.messages[-1]["text"].startswith("주소를 알아듣지 못했어요")
+    assert "home" not in out.draft_fields
+    assert "시·구·동 이름이나 도로명 주소" in out.messages[-1]["text"]
 
 
 def test_ignorance_and_yes_are_not_treated_as_address_attempts(monkeypatch):
     geo = _FakeGeo({})
     monkeypatch.setattr(interview, "_GEO", geo)
     s = _at_home_question()
+    monkeypatch.setattr(interview.midm, "extract_answer",
+                        lambda *a, **kw: {"answer_kind": "unknown", "fields": {}, "attraction_points": [], "behavior_notes": [], "slot_filled": False})
     out = interview.answer_interview(s.id, "잘 모르겠어요")
     assert geo.calls == []                                     # 지도 조회조차 안 한다
     assert "지도에서 찾지 못했어요" not in out.messages[-1]["text"]
 
 
-def test_rule_extract_does_not_clip_word_ending_in_admin_suffix():
-    """'우리집이요' → 규칙이 '우리'(…리)를 집으로 잡던 실측. 낱말 경계를 본다."""
-    assert interview._rule_extract_fields("home", "우리집이요") == {}
-    assert interview._rule_extract_fields("home", "우리 동네요") == {}
-    assert interview._rule_extract_fields("home", "정릉동이에요")["home"] == "정릉동"
-    assert interview._rule_extract_fields("home", "서울 성북구 정릉동에 살아요")["home"] == "성북구 정릉동"  # '서울'은 시/도 접미사가 없어 원래부터 빠진다
-    assert interview._rule_extract_fields("home", "면목동 12")["home"] == "면목동 12"
+def test_removed_rule_extractor_cannot_invent_home_from_admin_suffix(monkeypatch):
+    """#252 removed word-based identity/home extraction; failed map queries remain empty."""
+    assert not hasattr(interview, "_rule_extract_fields")
+    monkeypatch.setattr(interview, "_GEO", _FakeGeo({}))
+    for text in ("우리집이요", "우리 동네요"):
+        s = InterviewSession(id=text, guardian_name="보호자", persona_type=PersonaType.dementia)
+        assert interview._check_home(s, text)
+        assert "home" not in s.draft_fields
 
 
 # ── 끌림점 과다추출 가드 (run_eval 2.5 추적, 2026-09-26) ──────────────────

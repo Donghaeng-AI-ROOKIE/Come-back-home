@@ -1,0 +1,68 @@
+{
+  "backend_tests": {
+    "passed": 962,
+    "skipped": 2,
+    "warnings": 1,
+    "seconds": 38.92,
+    "command": "pytest -q tests --ignore=tests/test_person_model_service.py --ignore=tests/test_person_plan.py --ignore=tests/test_person_representation.py",
+    "excluded_reason": "pre-existing unrelated untracked prototypes; not included in this PR"
+  },
+  "live_v41": {
+    "cases_pass": 2,
+    "cases": 2,
+    "K_calls": 6,
+    "SAR_calls": 2,
+    "condition_clauses_present": false
+  },
+  "new_condition_contract": {
+    "offline_tested": true,
+    "live_v43": {
+      "K_calls": 6,
+      "structure_pass": 4,
+      "semantic_preregistered_pass": 2,
+      "cases": 6
+    },
+    "separated_v44": {
+      "K_calls_cap": 9,
+      "condition_semantic_pass": 6,
+      "condition_cases": 6,
+      "background_preparation": "final injection passed, intermediate raw direction failed preregistered target",
+      "preregistered_all_pass": false
+    },
+    "real_time_crowd_provider": false
+  },
+  "deployment": false,
+  "training": false,
+  "frontend": {
+    "typecheck": "passed",
+    "sighting_time_tests": "5 checks passed",
+    "visual_device_test": false
+  },
+  "deployment_gates": {
+    "status": "not_independently_validated",
+    "thresholds": "proposed_internal_not_clinical_standard"
+  },
+  "behavior_ownership": {
+    "v45_joint_audit": "failed: day-only retrace injected at night",
+    "v46": {
+      "preregistered_pass": true,
+      "whole_preparation_cases": 1,
+      "unconditional_context_probe": 1,
+      "independent_accuracy_established": false,
+      "K_calls_cap": 4,
+      "K_calls": 4,
+      "reported_tokens": 25937,
+      "elapsed_seconds": 124.353,
+      "osm_replay": {
+        "walkers": 2000,
+        "seeds": [
+          42
+        ],
+        "nonedge_transitions": 0,
+        "mind_events": 0,
+        "actual_route_accuracy_evidence": false
+      }
+    },
+    "offline_tested": true
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "experiment": "KEXAONE_joint_audit_v45_20260925",
+  "authorization": "User requested continuing alternatives until suitable for real integration; max 4 K scope announced",
+  "max_K_calls": 4,
+  "max_SAR_calls": 0,
+  "max_embedding_calls": 0,
+  "automatic_retries": false,
+  "regression": "same frozen v44 core/context, newly call audit with both drafts; preserve original failed v44 result",
+  "new_case": "opposite clock pattern with retrace and familiar destination",
+  "pass": {
+    "both_raw_core": {
+      "persistence": "unknown",
+      "direction": "unknown",
+      "mobility": "C"
+    },
+    "regression_goal": "공원 current_statement; new_route",
+    "new_goal": "복지관 current_statement; repeated_independent or routine_independent",
+    "day_injection": "keep_moving + retrace",
+    "night_injection": "wait_for_help + unknown direction",
+    "condition": "market avoid AND crowded present + noisy present; no actual observations assumed"
+  },
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null,
+  "hashes": {
+    "new_profile.json": "570894758441568a508875ec15d76df1f637b93b520eaac4301bcb7287ed8ca4",
+    "person_audit.py": "0b54e65745fdf1620fbb9a1198855b0e895c4e4c7c0cb005ed9855100e7daf97"
+  }
+}

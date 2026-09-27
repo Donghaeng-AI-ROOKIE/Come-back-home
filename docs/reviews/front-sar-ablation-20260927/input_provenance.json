@@ -1,0 +1,40 @@
+{
+  "type": "synthetic_guardian_records",
+  "RAG": [
+    {
+      "id": "R0",
+      "source": "[보행] 가족 돌봄 제공자의 치매노인 배회관리 경험",
+      "kind": "paper",
+      "limitation": "개인 관찰 아님; QA는 적용 해석이며 원논문의 개인 확률 검증 아님",
+      "characters": 926,
+      "text_sha256": "fc78a38d6de8e3269577fb28270a532a2211ce092a4fc6ce99f8a610f8fe9af7"
+    },
+    {
+      "id": "R1",
+      "source": "2110.13128v1",
+      "kind": "qa",
+      "limitation": "개인 관찰 아님; QA는 적용 해석이며 원논문의 개인 확률 검증 아님",
+      "characters": 256,
+      "text_sha256": "39dcc80ab8f69e5177c445cc836dc1ed4d1945c0554bae80591fd564afad72c4"
+    },
+    {
+      "id": "R2",
+      "source": "[보행] Persons with dementia missing in the community Is it wandering or something unique",
+      "kind": "qa",
+      "limitation": "개인 관찰 아님; QA는 적용 해석이며 원논문의 개인 확률 검증 아님",
+      "characters": 246,
+      "text_sha256": "0eefe280d772231187443946451a18a8cc4feca7fd7b45572e3faa1eb274c161"
+    },
+    {
+      "id": "R3",
+      "source": "2110.13128v1",
+      "kind": "qa",
+      "limitation": "개인 관찰 아님; QA는 적용 해석이며 원논문의 개인 확률 검증 아님",
+      "characters": 286,
+      "text_sha256": "4b8693aeebc168d2f049f78cf6f0228619038f0aca300eabf0c1431985522815"
+    }
+  ],
+  "source_commit": "44b8cd03a1ef12f0d09666dda0617649ebf742eb",
+  "preregistration_sha256": "4162c4e7b3e60a518715d0597230538f1eeda658305c1fd87dc593348aeb20cc",
+  "evaluation": "frozen synthetic rubric plus assistant audit, not independent clinical evaluation"
+}

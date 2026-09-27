@@ -1,0 +1,178 @@
+[
+  {
+    "file": "calls/E2_r1_1.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 854,
+      "completion_tokens": 9,
+      "total_tokens": 863
+    }
+  },
+  {
+    "file": "calls/E2_r1_2.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 854,
+      "completion_tokens": 9,
+      "total_tokens": 863
+    }
+  },
+  {
+    "file": "calls/E2_r1_3.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 820,
+      "completion_tokens": 9,
+      "total_tokens": 829
+    }
+  },
+  {
+    "file": "calls/E2_r1_4.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 820,
+      "completion_tokens": 9,
+      "total_tokens": 829
+    }
+  },
+  {
+    "file": "calls/E2_r1_5.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 819,
+      "completion_tokens": 9,
+      "total_tokens": 828
+    }
+  },
+  {
+    "file": "calls/E2_r1_6.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 819,
+      "completion_tokens": 9,
+      "total_tokens": 828
+    }
+  },
+  {
+    "file": "calls/E2_r1_7.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 951,
+      "completion_tokens": 9,
+      "total_tokens": 960
+    }
+  },
+  {
+    "file": "calls/E2_r2_10.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 820,
+      "completion_tokens": 9,
+      "total_tokens": 829
+    }
+  },
+  {
+    "file": "calls/E2_r2_11.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 820,
+      "completion_tokens": 9,
+      "total_tokens": 829
+    }
+  },
+  {
+    "file": "calls/E2_r2_12.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 819,
+      "completion_tokens": 9,
+      "total_tokens": 828
+    }
+  },
+  {
+    "file": "calls/E2_r2_13.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 819,
+      "completion_tokens": 9,
+      "total_tokens": 828
+    }
+  },
+  {
+    "file": "calls/E2_r2_14.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 951,
+      "completion_tokens": 9,
+      "total_tokens": 960
+    }
+  },
+  {
+    "file": "calls/E2_r2_8.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 854,
+      "completion_tokens": 9,
+      "total_tokens": 863
+    }
+  },
+  {
+    "file": "calls/E2_r2_9.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 854,
+      "completion_tokens": 9,
+      "total_tokens": 863
+    }
+  },
+  {
+    "file": "calls/H_wait_r1_15.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 809,
+      "completion_tokens": 9,
+      "total_tokens": 818
+    }
+  },
+  {
+    "file": "calls/H_wait_r2_16.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 809,
+      "completion_tokens": 9,
+      "total_tokens": 818
+    }
+  }
+]
