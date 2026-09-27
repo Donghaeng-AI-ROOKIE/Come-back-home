@@ -1,0 +1,73 @@
+{
+  "new_model_calls": 0,
+  "mind_enabled": false,
+  "network_enabled": false,
+  "code_commit": "24650adc938a17ddad1da9a2131cb6075b6d486b",
+  "graph_sha256": "101e41fdd38ad2bd96cd35c8604cacd422cd9c67ee446e21219f95d1a4ee2e00",
+  "cases": [
+    "W1",
+    "W2",
+    "G1",
+    "G2",
+    "E1",
+    "E2"
+  ],
+  "K_preparation": "grounding_v3/personas/*_r1.json, fixed across arms",
+  "SAR_baselines": "outputs/*_r1.json and *_r2.json B.baseline",
+  "seeds": [
+    41,
+    73,
+    109,
+    137,
+    173
+  ],
+  "hours": [
+    1,
+    4
+  ],
+  "layouts": [
+    0,
+    1
+  ],
+  "walkers": 500,
+  "expected_runs": 360,
+  "arms": [
+    "K_profile_baseline",
+    "K_SAR_r1",
+    "K_SAR_r2"
+  ],
+  "prespecified_expectations": [
+    "W1 waiting yields more endpoints within 100m than W2 continuing, same setting",
+    "W2 continuing yields greater mean path distance than W1 waiting, same setting",
+    "G2 current market routine yields more market endpoints than G1 historical-only, same setting",
+    "identical seed 1h/4h outputs are diagnostic, not automatically a failure",
+    "between-SAR-repeat variation is sensitivity, not an accuracy score"
+  ],
+  "decision_rule": "An explicit personal contrast reversal rejects adequacy on that contrast. Passing contrasts alone does not prove calibrated probabilities or clinical non-inferiority. No winner from concentration or path length alone.",
+  "limits": [
+    "small cached 800m OSM graph",
+    "synthetic places relocated to nodes; layout 1 rotates their locations",
+    "no real crowd/noise layers, E1/E2 environmental superiority not judged",
+    "same K outputs and development cases, no independent clinical sample"
+  ],
+  "sources": {
+    "grounding_v3/personas/W1_r1.json": "acc8f5761c40675ca078035e48cc1540e340854d623a22bc0936fcb394bbbe92",
+    "outputs/W1_r1.json": "89d6b378be142c1fc3c770557843960d6e64a05aba92e9bc22782cde7e56f25b",
+    "outputs/W1_r2.json": "226ed51f7864d141a435ea41ba8fda5adfdc4d60171fff05041d223ab549bbe2",
+    "grounding_v3/personas/W2_r1.json": "a1b04b6842b94c5f92bbef17dac46bbf3a3b7fc7e824a9cceee9aa65f79c46b4",
+    "outputs/W2_r1.json": "4b55c880bbe11bf0dad79fd1b09aa0ea9dd46469703ada50a38d1a9cd911dbb5",
+    "outputs/W2_r2.json": "ca4406a5bd814ba60b75d8de7861f9ff2464eef5ec366006f41348556ecdd200",
+    "grounding_v3/personas/G1_r1.json": "ddb1ad0fe61c364a6f1a5b286517b23ad36b06a638f85875df09fb914f5b3749",
+    "outputs/G1_r1.json": "97e49ddca4d5f913955e276bb4ea554d74173ab3c8f3d7eef8259eb3e4071014",
+    "outputs/G1_r2.json": "2b520c711810aaee843a130e99812c1634d278403d3058a15abe680ccf0ec715",
+    "grounding_v3/personas/G2_r1.json": "45f966c0ed045a66c6d4e34fb334c7668cd06ae8f73c7fce51828d341a7d4b77",
+    "outputs/G2_r1.json": "e030a0c60bf96986bce8ec0af0965c38bb902177c92289f59f586b1930cfe75a",
+    "outputs/G2_r2.json": "06c786711478b870576ae134ef311339413c3fd683eb9a11f6c9eca1b5fb9aaa",
+    "grounding_v3/personas/E1_r1.json": "533a787408587aa2cadcb77bed9ffc489180c042100e1d6ce60f018cc69f3233",
+    "outputs/E1_r1.json": "446971ca5580fbaf6b6dd00ceb41f2f226cd50d3cf6de80c9ce8e133524d6291",
+    "outputs/E1_r2.json": "112cecbe84d9d41785ce13388e91d4868852369f9a0d4b06c43e0c71461e4324",
+    "grounding_v3/personas/E2_r1.json": "12a57006955f25a714ef2ab1f8f4d2a7b05edb5bf3e7f90e97a54bd8be0c7416",
+    "outputs/E2_r1.json": "c65596fdab6151ecb52616f82c071308ab89339a0ae7edef86386bebea041584",
+    "outputs/E2_r2.json": "857d0212a43be0768496174272e30666a8ac95ea7119bb1930682d6329cbe6a1"
+  }
+}

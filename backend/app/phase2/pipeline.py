@@ -64,26 +64,21 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
 
 
 def _initial_prior(persona, report, links):
-    """Compile prepared personal evidence first; legacy SAR is the unavailable path.
+    """Preserve the existing numeric baseline while applying grounded K evidence.
 
-    No model is called when a current preparation can be applied. The fallback is
-    continuity for an urgent/missing/invalid preparation, not evidence that SAR
-    improves a successfully prepared K interpretation.
+    The matched OSM audit does not establish that replacing SAR's numeric prior
+    with the placeholder strategy distribution is non-inferior. Keep that
+    replacement out of this fix; retaining SAR is not a claim of its superiority.
     """
+    prior = exaone.generate_prior(persona, report)
     default = exaone._default_prior(persona, report)
-    default = default.model_copy(update={
-        'source': 'profile_baseline',
-        'strategy_before_behavior': dict(default.strategy_probs),
-    })
-    prepared = apply_prepared(persona, report, default, default, links)
+    prepared = apply_prepared(persona, report, prior, default, links)
     if prepared.initial_interpretation.get('status') == 'applied':
         prepared.source = 'prepared_person'
-        prepared.fallback_reason = ''
         prepared.initial_interpretation.update(
-            initial_prior_path='prepared_person', numeric_baseline_source='profile_baseline',
-            sar_source=None, SAR_called_during_prediction=False)
+            initial_prior_path='prepared_person', numeric_baseline_source=prior.source,
+            sar_source=prior.source, SAR_called_during_prediction=not exaone.is_stub)
         return prepared
-    prior = exaone.generate_prior(persona, report)
     prior.initial_interpretation = dict(prepared.initial_interpretation,
         initial_prior_path='legacy_SAR_fallback', numeric_baseline_source=prior.source,
         SAR_called_during_prediction=not exaone.is_stub)

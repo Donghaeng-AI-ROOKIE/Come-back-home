@@ -131,8 +131,9 @@ def apply_prepared(persona, report, sar, default, situation_links=None):
 def _apply_prepared(persona, report, sar, default, situation_links=None):
     """Local compilation only. Prepared day/night rules stay separate until incident.
 
-    ``sar`` is the legacy argument name for a numeric baseline. The prepared
-    production path passes an explicit profile baseline without calling SAR.
+    ``sar`` supplies the existing incident numeric baseline. Offline comparisons
+    can pass an explicit profile baseline, but production retains the SAR path
+    until the numeric replacement has independent behavioral validation.
 
     situation_links: validated links from the report's situation text to registered places
     (phase2.situation_link, judged by Mi:dm at report time). A place the person set out for

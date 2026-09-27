@@ -1,4 +1,4 @@
-"""Prepared K uses the tested explicit baseline; missing preparation stays visible."""
+"""Grounded K preserves the existing numeric baseline; absence stays visible."""
 import copy
 import pytest
 from app.phase0 import person_preparation as prep
@@ -15,16 +15,22 @@ def ready(sample):
     return p
 
 
-def test_prepared_person_skips_sar_and_matches_explicit_baseline(sample,monkeypatch):
+def test_prepared_person_preserves_sar_numeric_baseline(sample,monkeypatch):
     p=ready(sample);report=sample[1]
-    monkeypatch.setattr(pipeline.exaone,'generate_prior',lambda *a:pytest.fail('SAR must not run for a ready K preparation'))
+    calls=[]
+    sar=sample[2].model_copy(deep=True)
+    def generate(*args):
+        calls.append(args)
+        return sar.model_copy(deep=True)
+    monkeypatch.setattr(pipeline.exaone,'generate_prior',generate)
     baseline=pipeline.exaone._default_prior(p,report)
-    baseline=baseline.model_copy(update={'source':'profile_baseline','strategy_before_behavior':dict(baseline.strategy_probs)})
-    expected=prep.apply_prepared(p,report,baseline,baseline,[])
+    expected=prep.apply_prepared(p,report,sar,baseline,[])
     actual=pipeline._initial_prior(p,report,[])
+    assert len(calls)==1
     assert actual.source=='prepared_person'
-    assert actual.initial_interpretation['SAR_called_during_prediction'] is False
-    assert actual.initial_interpretation['sar_source'] is None
+    assert actual.initial_interpretation['SAR_called_during_prediction'] is (not pipeline.exaone.is_stub)
+    assert actual.initial_interpretation['sar_source']==sar.source
+    assert actual.initial_interpretation['numeric_baseline_source']==sar.source
     for field in ('strategy_probs','attraction_weights','radius_lognormal','persona_adjustments'):
         assert getattr(actual,field)==getattr(expected,field)
     assert sum(actual.strategy_probs.values())==pytest.approx(1)
@@ -47,10 +53,21 @@ def test_unavailable_preparation_uses_legacy_path_once(sample,monkeypatch,state)
     assert result.initial_interpretation['status']!='applied'
 
 
-def test_current_incident_link_is_applied_without_sar(sample,monkeypatch):
+def test_current_incident_link_applies_with_existing_numeric_baseline(sample,monkeypatch):
     p=ready(sample)
-    monkeypatch.setattr(pipeline.exaone,'generate_prior',lambda *a:pytest.fail('SAR unexpected'))
+    monkeypatch.setattr(pipeline.exaone,'generate_prior',lambda *a:sample[2].model_copy(deep=True))
     result=pipeline._initial_prior(p,sample[1],[{'place':'공원','relation':'stated_destination','quote':'오늘 공원에 간다고'}])
     assert result.initial_interpretation['status']=='applied'
     assert result.initial_interpretation['semantic_contract']['goals']['공원']['value']=='current_statement'
     assert result.initial_interpretation['situation_links'][0]['place']=='공원'
+
+
+def test_prepared_person_does_not_hide_sar_failure(sample,monkeypatch):
+    p=ready(sample)
+    failed=sample[2].model_copy(deep=True,update={'source':'fallback','fallback_reason':'upstream_timeout'})
+    monkeypatch.setattr(pipeline.exaone,'generate_prior',lambda *a:failed)
+    result=pipeline._initial_prior(p,sample[1],[])
+    assert result.source=='prepared_person'
+    assert result.initial_interpretation['status']=='applied'
+    assert result.initial_interpretation['numeric_baseline_source']=='fallback'
+    assert result.fallback_reason=='upstream_timeout'

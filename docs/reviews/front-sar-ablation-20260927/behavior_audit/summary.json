@@ -1,0 +1,74 @@
+{
+  "runs": 360,
+  "walkers": 180000,
+  "new_model_calls": 0,
+  "all_edges_valid": true,
+  "mind_events": 0,
+  "personal_contrast_results": {
+    "K_profile_baseline": {
+      "waiting_nearby_delta": {
+        "positive": 20,
+        "zero": 0,
+        "negative": 0,
+        "mean": 0.0601
+      },
+      "continuing_distance_delta": {
+        "positive": 20,
+        "zero": 0,
+        "negative": 0,
+        "mean": 0.5351785570808079
+      },
+      "current_market_delta": {
+        "positive": 20,
+        "zero": 0,
+        "negative": 0,
+        "mean": 0.0722
+      }
+    },
+    "K_SAR_r1": {
+      "waiting_nearby_delta": {
+        "positive": 20,
+        "zero": 0,
+        "negative": 0,
+        "mean": 0.0349
+      },
+      "continuing_distance_delta": {
+        "positive": 20,
+        "zero": 0,
+        "negative": 0,
+        "mean": 0.5694077806271087
+      },
+      "current_market_delta": {
+        "positive": 20,
+        "zero": 0,
+        "negative": 0,
+        "mean": 0.1074
+      }
+    },
+    "K_SAR_r2": {
+      "waiting_nearby_delta": {
+        "positive": 20,
+        "zero": 0,
+        "negative": 0,
+        "mean": 0.0427
+      },
+      "continuing_distance_delta": {
+        "positive": 19,
+        "zero": 0,
+        "negative": 1,
+        "mean": 0.38426944320020834
+      },
+      "current_market_delta": {
+        "positive": 20,
+        "zero": 0,
+        "negative": 0,
+        "mean": 0.1233
+      }
+    }
+  },
+  "identical_1h_4h_paths": 0,
+  "time_pairs": 180,
+  "mean_max_steps_share": 0.007622222222222222,
+  "mean_SAR_repeat_POA_TV": 0.13075,
+  "does_not_establish": "clinical accuracy, calibrated strategy probabilities, or equivalence in the enabled mind pipeline"
+}

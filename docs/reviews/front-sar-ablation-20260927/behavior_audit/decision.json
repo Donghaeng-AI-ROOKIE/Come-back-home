@@ -1,0 +1,11 @@
+{
+  "decision": "SAR_numeric_replacement_withdrawn",
+  "K_grounding_improvements": "retained",
+  "production_deployed": false,
+  "additional_model_calls": 0,
+  "offline_simulations": 360,
+  "walkers": 180000,
+  "backend_regression": "1072 passed, 2 skipped, 7 subtests passed",
+  "added_fallback_provenance_test": "7 tests in file passed",
+  "pr": "https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/258"
+}
