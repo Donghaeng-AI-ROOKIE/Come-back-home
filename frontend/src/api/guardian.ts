@@ -8,7 +8,7 @@
  * 슬롯 충족도에 따라 질문이 달라지므로 앱에 박아 두면 서버와 어긋난다.
  */
 import type { GeoPoint } from '../types/domain';
-import { SLOW_TIMEOUT_MS, api } from './config';
+import { CHAT_TIMEOUT_MS, SLOW_TIMEOUT_MS, api } from './config';
 
 export type PersonaType = 'dementia';
 
@@ -208,6 +208,7 @@ export function answerInterview(sessionId: string, text: string) {
   return api<InterviewSession>(`/phase0/interviews/${sessionId}/answers`, {
     method: 'POST',
     body: JSON.stringify({ text }),
+    timeoutMs: CHAT_TIMEOUT_MS,
   });
 }
 

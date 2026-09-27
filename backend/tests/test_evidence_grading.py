@@ -96,10 +96,23 @@ def test_evidence_not_transferred_to_unmentioned_place():
 
     "대흥역에서 발견한 적이 있어요"에 Mi:dm 이 (이전 턴의) 망원시장을 반환했고,
     승급 규칙이 그 '발견' 근거를 망원시장에 붙여 **엉뚱한 곳이 0.9** 를 받았다.
+
+    2026-09-26 부터는 한 단계 앞에서 막는다 — 발화에 없는 라벨은 근거 승급을 막는
+    데서 그치지 않고 **아예 추가되지 않는다**(_label_grounded, Mi:dm 2.5 가 장소 없는
+    복약 답변에도 이전 장소를 되뱉는 실측). 이미 등록된 망원시장이라면 병합 대상이
+    없어 그대로이고, 없었다면 새로 생기지 않는다 — 어느 쪽이든 0.9 는 못 받는다.
     """
     s = InterviewSession(id="ev-x", guardian_name="보호자", persona_type=PersonaType.dementia)
     interview._apply_extraction(s, _WANDER_SLOT, {"attraction_points": [
         {"label": "망원시장", "area_text": "망원시장", "evidence": "caregiver_report"}]},
+        utterance="대흥역에서 발견한 적이 한번 있어요")
+    assert not any(a["label"] == "망원시장" for a in s.draft_attractions)
+
+    # 이전 턴에 이미 등록된 경우 — 재추출은 흡수되고 근거는 그대로
+    s.draft_attractions.append({"label": "망원시장", "area_text": "망원시장",
+                                "evidence": "caregiver_report"})
+    interview._apply_extraction(s, _WANDER_SLOT, {"attraction_points": [
+        {"label": "망원시장", "area_text": "망원시장", "evidence": "previous_missing_found"}]},
         utterance="대흥역에서 발견한 적이 한번 있어요")
     found = next(a for a in s.draft_attractions if a["label"] == "망원시장")
     assert found["evidence"] == "caregiver_report"     # 0.9 로 둔갑하지 않는다
