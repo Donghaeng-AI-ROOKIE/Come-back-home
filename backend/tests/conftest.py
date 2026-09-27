@@ -43,3 +43,16 @@ os.environ["REVERSE_GEOCODE_ON_INTAKE"] = "false"
 # 않는다.
 os.environ["PRIVACY_AUDIT_PATH"] = str(
     Path(__file__).resolve().parent / ".pytest_audit.jsonl")
+
+
+import socket
+import pytest
+
+
+@pytest.fixture(autouse=True)
+def block_external_connections(monkeypatch):
+    """Live experiments have separate approval/ledgers; unit tests never contact APIs."""
+    def blocked(*args, **kwargs):
+        raise RuntimeError("External network is disabled in unit tests")
+    monkeypatch.setattr(socket.socket, "connect", blocked)
+    monkeypatch.setattr(socket, "create_connection", blocked)

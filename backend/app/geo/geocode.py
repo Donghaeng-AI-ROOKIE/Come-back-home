@@ -30,6 +30,7 @@ class GeoResult:
     source: str             # kakao | nominatim | gazetteer
     matched: str | None = None   # 실제 매칭된 장소/주소명
     detail: dict | None = None   # 후보 고르기용(분류·주소·집에서 거리) — 좌표화 판정에는 쓰지 않는다
+    address: str | None = None   # 집 주소 확인 결과를 보호자에게 표시
 
 
 class Geocoder(Protocol):
@@ -96,6 +97,31 @@ def _looks_like_region(query: str) -> bool:
     return bool(toks) and toks[-1].endswith(_ADMIN_SUFFIX)
 
 
+# 지역 표기 토큰 — 한글 2자 이상 + (숫자) + 행정구역/도로 접미사 (+ 번지 숫자).
+# 접미사 앞을 2자 이상으로 못 박는 이유: "잠시·우리·바로·친구·운동"처럼 흔한 낱말이
+# 한 글자 + 접미사 꼴이라 단순 endswith 로는 전부 지역으로 오인된다(실측: "우리집"→
+# 리, "잠시 머무는 곳"→시). 한글로 시작하게 해 아파트 "101동" 도 걸러낸다.
+_REGION_TOKEN_RE = re.compile(r"^[가-힣]{2,}[0-9]*(?:시|도|구|군|동|읍|면|리|로|길)[0-9]*$")
+# 한 글자 + 구 인데 실제 자치구인 것들("대전 중구") — 위 규칙의 유일한 예외.
+_SHORT_DISTRICTS = frozenset({"중구", "동구", "서구", "남구", "북구"})
+# 토큰 꼬리 조사 — "정릉동이요"를 "정릉동"으로. '로/으로'는 도로명 접미사와 겹쳐 뺀다.
+_TOKEN_PARTICLE_RE = re.compile(r"(?:이에요|예요|이요|입니다|에서|에|요|이|가|은|는)$")
+
+
+def has_region_token(text: str) -> bool:
+    """답 어딘가에 지역 표기(시·구·동·도로명)가 있나 — "하남시 더샵센트럴뷰"처럼 앞에 와도 잡는다.
+
+    _looks_like_region 은 검색 순서용(마지막 토큰만)이고, 이건 답에 지역 표기가
+    **있기는 한지**를 묻는다. 상호만 적은 답("우리집")은 같은 이름이 전국에 흔해
+    좌표를 믿을 수 없으므로 온보딩 집 주소 검증이 이걸로 가른다.
+    """
+    for tok in str(text or "").split():
+        for cand in (tok, _TOKEN_PARTICLE_RE.sub("", tok)):
+            if cand in _SHORT_DISTRICTS or _REGION_TOKEN_RE.match(cand):
+                return True
+    return False
+
+
 class KakaoGeocoder(_BaseGeocoder):
     """카카오 Local API — 입력 종류에 따라 검색 순서를 바꾼다.
 
@@ -143,7 +169,8 @@ class KakaoGeocoder(_BaseGeocoder):
             return None
         d = docs[0]
         return GeoResult(GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
-                         precision="poi", source="kakao", matched=d.get("place_name"))
+                         precision="poi", source="kakao", matched=d.get("place_name"),
+                         address=d.get("road_address_name") or d.get("address_name") or None)
 
     def keyword_candidates(self, query: str, anchor: GeoPoint | None = None, size: int = 5) -> list[GeoResult]:
         """키워드 검색 상위 후보(정확도순). 보호자가 말한 곳인지는 호출자가 고른다(모델 판정).
@@ -169,7 +196,8 @@ class KakaoGeocoder(_BaseGeocoder):
             return None
         d = docs[0]
         return GeoResult(GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
-                         precision="address", source="kakao", matched=d.get("address_name"))
+                         precision="address", source="kakao", matched=d.get("address_name"),
+                         address=d.get("address_name"))
 
     def locate(self, query: str, anchor: GeoPoint | None = None, *, region: bool = False) -> GeoResult | None:
         if not query:
@@ -224,6 +252,7 @@ class NominatimGeocoder(_BaseGeocoder):
         return GeoResult(
             GeoPoint(lat=float(r["lat"]), lng=float(r["lon"])),
             precision="approx", source="nominatim", matched=r.get("display_name"),
+            address=r.get("display_name"),
         )
 
 

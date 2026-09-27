@@ -73,8 +73,13 @@ def test_evidence_not_transferred_to_unmentioned_place():
            "대흥역에서 발견한 적이 한번 있어요", question="과거에 길을 잃으셨을 때 어디서 찾으셨나요?")
     found = next(a for a in s.draft_attractions if a["label"] == "망원시장")
     assert found["evidence"] == "caregiver_report"     # 0.9 로 둔갑하지 않는다
-    downgraded = [e for e in s.extraction_audit if e["event"] == "evidence_downgraded"]
-    assert downgraded[-1]["reason"] == "place_not_named_here"
+    rejected = [e for e in s.extraction_audit if e["event"] == "point_not_in_answer"]
+    assert rejected[-1]["label"] == "망원시장"
+    # #257: 이전 장소가 아예 없던 경우에도 무관한 발화의 quote만으로 새로 만들지 않는다.
+    s.draft_attractions.clear()
+    _apply(s, _WANDER_SLOT, [{"label": "망원시장", "quote": "대흥역에서 발견한 적이 한번 있어요"}],
+           "대흥역에서 발견한 적이 한번 있어요")
+    assert not s.draft_attractions
 
 
 def test_place_named_in_question_can_take_evidence(monkeypatch):

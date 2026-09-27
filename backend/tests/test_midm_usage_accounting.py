@@ -9,10 +9,13 @@ from app.llm import usage_ledger
 
 @pytest.mark.parametrize("fails", [False, True])
 def test_operating_midm_records_success_and_failure_without_content(
-    tmp_path, monkeypatch, fails
+    tmp_path, monkeypatch, caplog, fails
 ):
     ledger = tmp_path / "usage.jsonl"
     monkeypatch.setattr(settings, "research_usage_ledger_path", str(ledger))
+    monkeypatch.setattr(settings, "midm_timeout", 12.0)
+    monkeypatch.setattr(settings, "llm_timeout", 30.0)
+    calls=[]
     client = MidmClient()
     client.api_key = "private-test-key"
     client.base_url = "https://invalid.test"
@@ -41,6 +44,8 @@ def test_operating_midm_records_success_and_failure_without_content(
             ).encode()
 
     def request(*args, **kwargs):
+        calls.append(kwargs)
+        assert kwargs["timeout"] == 12.0
         if fails:
             raise TimeoutError("untrusted-provider-body")
         return Reply()
@@ -54,6 +59,10 @@ def test_operating_midm_records_success_and_failure_without_content(
             client.chat([{"role": "user", "content": "private-guardian-evidence"}])
             == "yes"
         )
+    assert len(calls)==1  # Mi:dm 2.5 diagnostics must not add a second transport request.
+    assert "untrusted-provider-body" not in caplog.text
+    if fails:
+        assert "TimeoutError" in caplog.text
     text = ledger.read_text()
     assert "private-test-key" not in text and "private-guardian-evidence" not in text
     assert "untrusted-provider-body" not in text
@@ -63,3 +72,10 @@ def test_operating_midm_records_success_and_failure_without_content(
     assert rows[-1]["event_type"] == "api_attempt_finished"
     if not fails:
         assert rows[-1]["usage"]["total_tokens"] == 12
+
+
+@pytest.mark.parametrize("endpoint", ["https://midm.kt.com", "https://midm.kt.com/v1", "https://midm.kt.com/v1/chat/completions"])
+def test_kt_endpoint_normalization(endpoint):
+    client=MidmClient()
+    client.base_url=endpoint
+    assert client._chat_url()=="https://midm.kt.com/v1/chat/completions"

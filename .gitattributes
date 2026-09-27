@@ -1,0 +1,4 @@
+# Large experiment outputs stay available, collapsed by default in PR review.
+docs/reviews/front-sar-ablation-20260927/**/*.json linguist-generated=true
+docs/reviews/front-sar-ablation-20260927/*.json linguist-generated=true
+docs/reviews/pr253-person-evidence-semantics/*.json linguist-generated=true

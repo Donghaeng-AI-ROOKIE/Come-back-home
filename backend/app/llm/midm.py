@@ -16,6 +16,9 @@ from __future__ import annotations
 
 import json
 import uuid
+import logging
+import time
+import urllib.error
 
 from app.llm.usage_ledger import logged_json_request
 
@@ -55,15 +58,25 @@ class MidmClient(LLMClient):
     def chat(self, messages: list[dict], *, temperature: float = 0.3, max_tokens: int = 512) -> str:
         """messages=[{role, content}...] → assistant content 문자열."""
         run_id = "midm:" + str(uuid.uuid4())
-        data = logged_json_request(
-            self._chat_url(),
-            {"model": self.model, "messages": messages,
-             "temperature": temperature, "max_tokens": max_tokens},
-            headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.api_key}"},
-            provider="KT Mi:dm", model=self.model, role="midm_chat", run_id=run_id,
-            logical_request_id=run_id, timeout=settings.llm_timeout,
-            ledger_path=settings.research_usage_ledger_path,
-        )
+        started = time.monotonic()
+        try:
+            data = logged_json_request(
+                self._chat_url(),
+                {"model": self.model, "messages": messages,
+                 "temperature": temperature, "max_tokens": max_tokens},
+                headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.api_key}"},
+                provider="KT Mi:dm", model=self.model, role="midm_chat", run_id=run_id,
+                logical_request_id=run_id, timeout=settings.midm_timeout,
+                ledger_path=settings.research_usage_ledger_path,
+            )
+        except Exception as exc:
+            # The provider may echo guardian text or credentials. Record only metadata;
+            # the common ledger already keeps the failed attempt and any billed usage.
+            status = exc.code if isinstance(exc, urllib.error.HTTPError) else None
+            logging.getLogger(__name__).warning(
+                "Mi:dm call failed: type=%s http_status=%s elapsed_s=%.1f",
+                type(exc).__name__, status, time.monotonic() - started)
+            raise
         return data["choices"][0]["message"]["content"]
 
     def _call_api(self, prompt: str, **kwargs) -> str:

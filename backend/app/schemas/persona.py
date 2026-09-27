@@ -191,6 +191,14 @@ class InterviewSession(BaseModel):
     prev_target_key: str | None = None   # 직전에 겨냥한 슬롯 (추출 대상)
     # 누적 추출 (종료 시 Persona 로 변환)
     draft_fields: dict = {}                       # name/age/home
+    # home 답변을 **받은 그 턴에** 지오코딩한 결과 — {"query","lat","lng","precision",
+    # "source","matched","address"}. query 가 draft_fields["home"] 과 같을 때만 유효
+    # (정정으로 텍스트가 바뀌면 다시 검증). 없으면 지도 확인이 안 된 상태다.
+    # 구버전은 finalize(요약 확인 뒤)에서만 좌표화해 "포켓몬랜드" 같은 답이 그대로
+    # 통과하고 10여 개 질문 뒤에야 실패가 드러났다(2026-09-26).
+    home_geo: dict | None = None
+    # 지도 확인 실패로 집을 되물은 횟수 — 지오코더 장애 시 무한 되묻기를 막는 상한.
+    home_check_failures: int = 0
     draft_attractions: list[dict] = []            # [{"label","area_text","place_type","evidence"}]
     draft_behaviors: list[str] = []
     # 어느 슬롯을 겨냥했을 때 나온 노트인지 — {slot_key: [노트...]}.

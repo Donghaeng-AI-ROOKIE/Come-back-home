@@ -105,3 +105,8 @@ flowchart TD
 - [현재 PR과 변경 내역](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/pull/258)
 - [실험·판정 정정·전체 수치](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/blob/fix/front-grounding-and-sar-ablation/docs/reviews/front-sar-ablation-20260927/README.md)
 - 현 문서 작성 중 새 모델 호출·실험·배포 없음. 문서의 ‘현재 구조’는 PR 후보이며 운영 서버 상태를 새로 확인한 결과가 아님.
+
+
+## 2026-09-28 통합 보충
+
+kmeenaa의 Mi:dm 2.5 및 주소 검증 변경(#254~#257)을 최신 develop에서 통합했다. [통합 범위와 검증](../pr-consolidation-20260928.md)을 참고한다. 위 9월 27일 실험 수치는 당시 기록된 모델 응답에 대한 결과이며, KT 2.5로 동일 실험을 다시 실행한 결과가 아니다.
