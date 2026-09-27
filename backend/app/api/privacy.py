@@ -107,7 +107,7 @@ def automation_status(x_privacy_admin_key: str | None = Header(default=None)):
     _require_admin(x_privacy_admin_key)
     now = __import__("datetime").datetime.now()
     jobs = storage.privacy_jobs.list()
-    overdue = [j for j in jobs if j.state != "completed" and j.due_at <= now]
+    overdue = [j for j in jobs if j.state not in {"completed", "cancelled"} and j.due_at <= now]
     retry_wait = [j for j in jobs if j.state == "retry_wait"]
     failed = [j for j in jobs if j.state == "failed"]
     state = storage.privacy_scheduler.get("singleton")

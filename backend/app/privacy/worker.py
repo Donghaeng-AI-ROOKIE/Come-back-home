@@ -54,11 +54,12 @@ def discover_jobs(now: datetime | None = None) -> tuple[int, int]:
     scanned = 0
     created = 0
     existing = {(j.target_type, j.target_id) for j in storage.privacy_jobs.list()
-                if j.state != "completed"}
+                if j.state not in {"completed", "cancelled"}}
     for case in storage.cases.list():
         scanned += 1
         due = lifecycle.purge_due_at(case)
-        if due and now >= due and ("case", case.id) not in existing:
+        if (case.status not in lifecycle.ACTIVE_STATUSES and due and now >= due
+                and ("case", case.id) not in existing):
             job = PrivacyJob(id=uuid.uuid4().hex[:12], target_type="case",
                              target_id=case.id, due_at=due)
             storage.privacy_jobs.save(job.id, job)
@@ -75,7 +76,17 @@ def discover_jobs(now: datetime | None = None) -> tuple[int, int]:
     return scanned, created
 
 
-def _execute(job: PrivacyJob, run_id: str, now: datetime) -> bool:
+def _cancel_stale_job(job: PrivacyJob, now: datetime) -> None:
+    """Discovery/retry snapshots do not authorize deletion after eligibility changes."""
+    job.state = "cancelled"
+    job.stage = "eligibility_changed"
+    job.completed_at = now
+    job.next_retry_at = None
+    job.last_error_code = ""
+    storage.privacy_jobs.save(job.id, job)
+
+
+def _execute(job: PrivacyJob, run_id: str, now: datetime) -> bool | None:
     job.state = "running"
     job.stage = "deleting"
     job.attempts += 1
@@ -85,9 +96,18 @@ def _execute(job: PrivacyJob, run_id: str, now: datetime) -> bool:
         if job.target_type == "case":
             target = storage.cases.get(job.target_id)
             if target is not None:
+                due = lifecycle.purge_due_at(target)
+                if target.status in lifecycle.ACTIVE_STATUSES or due is None or now < due:
+                    _cancel_stale_job(job, now)
+                    return None
                 lifecycle.purge_case(target, cause="ttl_expired")
         elif job.target_type == "interview":
-            if storage.interviews.get(job.target_id) is not None:
+            target = storage.interviews.get(job.target_id)
+            if target is not None:
+                due = target.last_active_at + timedelta(hours=settings.privacy_session_ttl_hours)
+                if target.persona_id is not None or now < due:
+                    _cancel_stale_job(job, now)
+                    return None
                 storage.interviews.delete(job.target_id)
                 lifecycle._audit("interview_purged", "interview", job.target_id, "abandoned_ttl")
         else:
@@ -129,7 +149,10 @@ def run_once(mode: str = "automatic", now: datetime | None = None,
             run.scanned_count = scanned
             run.target_count = len(jobs)
             for job in jobs:
-                if _execute(job, run.id, now):
+                result = _execute(job, run.id, now)
+                if result is None:
+                    run.skipped_count += 1
+                elif result:
                     run.success_count += 1
                 else:
                     run.failure_count += 1
@@ -171,7 +194,7 @@ def cleanup_control_records(now: datetime | None = None) -> None:
     now = now or _now()
     cutoff = now - timedelta(days=settings.privacy_control_retention_days)
     for job in storage.privacy_jobs.list():
-        if job.state == "completed" and job.completed_at and job.completed_at < cutoff:
+        if job.state in {"completed", "cancelled"} and job.completed_at and job.completed_at < cutoff:
             storage.privacy_jobs.delete(job.id)
     for run in storage.privacy_runs.list():
         if run.status == "completed" and run.finished_at and run.finished_at < cutoff:

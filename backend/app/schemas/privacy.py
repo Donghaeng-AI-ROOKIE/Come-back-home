@@ -31,6 +31,7 @@ class PrivacyRun(BaseModel):
     target_count: int = 0
     success_count: int = 0
     failure_count: int = 0
+    skipped_count: int = 0
     error_code: str = ""
 
 
@@ -41,7 +42,7 @@ class PrivacyJob(BaseModel):
     target_id: str
     policy_version: str = "privacy-v1"
     due_at: datetime
-    state: str = "pending"  # pending | running | retry_wait | blocked | failed | completed
+    state: str = "pending"  # pending | running | retry_wait | blocked | failed | completed | cancelled
     stage: str = "pending"
     attempts: int = 0
     next_retry_at: datetime | None = None
