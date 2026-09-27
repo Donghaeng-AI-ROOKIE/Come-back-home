@@ -29,6 +29,7 @@ Repository 인터페이스(save/get/list/delete)는 그대로다. 호출부는 �
 """
 
 import json
+from contextlib import contextmanager
 import sqlite3
 import threading
 import uuid
@@ -63,12 +64,36 @@ def _db() -> sqlite3.Connection | None:
     return _conn
 
 
+_compaction = threading.local()
+
+
+@contextmanager
+def batch_compaction():
+    """Defer this thread's full DB rewrite until the purge batch finishes.
+
+    Other threads keep their own compaction policy. Even a partial failed batch
+    flushes its already-deleted records before leaving this context.
+    """
+    depth = getattr(_compaction, "depth", 0)
+    _compaction.depth = depth + 1
+    try:
+        yield
+    finally:
+        _compaction.depth = depth
+        if depth == 0 and getattr(_compaction, "dirty", False):
+            _compaction.dirty = False
+            vacuum()
+
+
 def vacuum() -> None:
     """물리 회수 — `DELETE` 만으로는 페이지에 원본이 남는다.
 
     파기 경로가 호출한다(privacy.lifecycle). 전체 DB 를 다시 쓰므로 비싸다 —
     삭제할 때마다가 아니라 파기 트랜잭션 끝에 한 번 부른다.
     """
+    if getattr(_compaction, "depth", 0):
+        _compaction.dirty = True
+        return
     conn = _db()
     if conn is None:
         return

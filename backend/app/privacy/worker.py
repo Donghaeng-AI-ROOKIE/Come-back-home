@@ -109,6 +109,7 @@ def _execute(job: PrivacyJob, run_id: str, now: datetime) -> bool | None:
                     _cancel_stale_job(job, now)
                     return None
                 storage.interviews.delete(job.target_id)
+                storage.vacuum()
                 lifecycle._audit("interview_purged", "interview", job.target_id, "abandoned_ttl")
         else:
             raise ValueError("unsupported_target")
@@ -144,20 +145,20 @@ def run_once(mode: str = "automatic", now: datetime | None = None,
                          scheduled_at=now, started_at=now)
         storage.privacy_runs.save(run.id, run)
         try:
-            scanned, created = discover_jobs(now) if discover else (0, 0)
-            jobs = _due_jobs(now)
-            run.scanned_count = scanned
-            run.target_count = len(jobs)
-            for job in jobs:
-                result = _execute(job, run.id, now)
-                if result is None:
-                    run.skipped_count += 1
-                elif result:
-                    run.success_count += 1
-                else:
-                    run.failure_count += 1
-            cleanup_control_records(now)
-            storage.vacuum()
+            with storage.batch_compaction():
+                scanned, created = discover_jobs(now) if discover else (0, 0)
+                jobs = _due_jobs(now)
+                run.scanned_count = scanned
+                run.target_count = len(jobs)
+                for job in jobs:
+                    result = _execute(job, run.id, now)
+                    if result is None:
+                        run.skipped_count += 1
+                    elif result:
+                        run.success_count += 1
+                    else:
+                        run.failure_count += 1
+                cleanup_control_records(now)
             run.status = "completed"
         except Exception as exc:  # noqa: BLE001 — 회차 상태도 남긴다
             run.status = "failed"
@@ -193,12 +194,19 @@ def cleanup_control_records(now: datetime | None = None) -> None:
     """해결된 제어 기록만 정책 기간 후 정리한다. 미해결 작업·알림은 보존한다."""
     now = now or _now()
     cutoff = now - timedelta(days=settings.privacy_control_retention_days)
+    removed = False
     for job in storage.privacy_jobs.list():
         if job.state in {"completed", "cancelled"} and job.completed_at and job.completed_at < cutoff:
             storage.privacy_jobs.delete(job.id)
+            removed = True
     for run in storage.privacy_runs.list():
         if run.status == "completed" and run.finished_at and run.finished_at < cutoff:
             storage.privacy_runs.delete(run.id)
+            removed = True
     for alert in storage.privacy_alerts.list():
         if alert.state == "resolved" and alert.resolved_at and alert.resolved_at < cutoff:
             storage.privacy_alerts.delete(alert.id)
+            removed = True
+
+    if removed:
+        storage.vacuum()
