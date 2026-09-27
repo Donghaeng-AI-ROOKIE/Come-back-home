@@ -1,0 +1,46 @@
+{
+  "new_k_calls": 24,
+  "new_sar_calls": 0,
+  "new_embedding_calls": 0,
+  "new_map_calls": 0,
+  "http_errors": 0,
+  "empty_responses": 0,
+  "retries": 0,
+  "unusable_priors_under_frozen_protocol": 3,
+  "new_replays": 63,
+  "new_walker_runs": 31500,
+  "prompt_tokens": 52204,
+  "completion_tokens": 24506,
+  "total_tokens": 76710,
+  "by_condition": {
+    "CONTROL": {
+      "calls": 12,
+      "envelope_valid": 2,
+      "usable_priors": 11,
+      "mean_latency_s": 11.506135416343264,
+      "prompt_tokens": 25004,
+      "completion_tokens": 9721,
+      "total_tokens": 34725
+    },
+    "FEATURES": {
+      "calls": 12,
+      "envelope_valid": 0,
+      "usable_priors": 10,
+      "mean_latency_s": 17.399944507254986,
+      "prompt_tokens": 27200,
+      "completion_tokens": 14785,
+      "total_tokens": 41985
+    }
+  },
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null,
+  "provider_gpu_hours": null,
+  "ledger_events_synced": 182,
+  "added_this_sync": 182,
+  "reused_SAR_references": 1,
+  "reused_RAG_blocks": 1,
+  "reused_charged_again": false,
+  "offline_format_recovered_priors": 3,
+  "format_recovery_new_replays": 0
+}

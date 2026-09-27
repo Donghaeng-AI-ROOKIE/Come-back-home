@@ -1,0 +1,147 @@
+{
+  "checks_passed": true,
+  "counts": {
+    "SAR": {
+      "outputs": 8,
+      "valid_after_wrapper_guard": 6,
+      "json_decodable_after_wrapper_guard": 8,
+      "schema_fail_outputs": 0,
+      "quote_fail_outputs": 0,
+      "latency_median_seconds": 4.774,
+      "models_returned": [
+        "exaone-sar"
+      ]
+    },
+    "A": {
+      "outputs": 16,
+      "valid_after_wrapper_guard": 13,
+      "json_decodable_after_wrapper_guard": 16,
+      "schema_fail_outputs": 2,
+      "quote_fail_outputs": 1,
+      "latency_median_seconds": 15.936,
+      "models_returned": [
+        "depmkuykpfon9lg"
+      ]
+    },
+    "B": {
+      "outputs": 16,
+      "valid_after_wrapper_guard": 12,
+      "json_decodable_after_wrapper_guard": 15,
+      "schema_fail_outputs": 1,
+      "quote_fail_outputs": 2,
+      "latency_median_seconds": 15.29,
+      "models_returned": [
+        "depmkuykpfon9lg"
+      ]
+    }
+  },
+  "unsupported_straight_diagnostic": {
+    "post_hoc": true,
+    "definition": "direction unobserved: explicit personal straight-walking assertion in route_shape.interpretation; possibility-only claims excluded; malformed outputs manually read",
+    "cases": [
+      "T01",
+      "T02",
+      "T03",
+      "T04",
+      "T07",
+      "T08"
+    ],
+    "flagged_ids": [
+      "T03_A_1",
+      "T02_B_1",
+      "T02_B_2",
+      "T04_B_1",
+      "T04_B_2",
+      "T07_B_2"
+    ],
+    "counts": {
+      "A": {
+        "raw_reviewed": 12,
+        "explicit_unsupported_straight": 1,
+        "valid_subset": 9,
+        "valid_subset_flagged": 0
+      },
+      "B": {
+        "raw_reviewed": 12,
+        "explicit_unsupported_straight": 5,
+        "valid_subset": 9,
+        "valid_subset_flagged": 3
+      }
+    },
+    "evidence": {
+      "T03_A_1": {
+        "sha256": "8b0a88e96b6387252e5aa95a67557f492d152f900fcbe65ec3aa7464d969a73c",
+        "raw_contains_straight": true
+      },
+      "T02_B_1": {
+        "sha256": "eb794e15e6956774eac9b1e5aefac9d81c5ddf9e34656d90e565d39a375e565f",
+        "raw_contains_straight": true
+      },
+      "T02_B_2": {
+        "sha256": "6b4f736b0386fcff14789bb8f55e0fe60b105c17bb2b7ec71db00c6d2fa1dbef",
+        "raw_contains_straight": true
+      },
+      "T04_B_1": {
+        "sha256": "32d4d5427c3b3ab57229b5fe8e22b24f9c8f0a2c4a8b37894edbb9ef0b302c36",
+        "raw_contains_straight": true
+      },
+      "T04_B_2": {
+        "sha256": "e0c286908551d3f71779289c11a360b25c9cf09d10d4b89c064e99ded870836f",
+        "raw_contains_straight": true
+      },
+      "T07_B_2": {
+        "sha256": "3b6debfe86c94173d47c5a6010a7aa67dff39cf8db31a6e6c594d494d73311d0",
+        "raw_contains_straight": true
+      }
+    }
+  },
+  "frozen_inputs_intact": true,
+  "six_original_SAR_intact": true,
+  "matched_A_B_prefixes": true,
+  "canonical_events": 84,
+  "total_attempts": 40,
+  "retries": 0,
+  "all_finish_reasons_stop": true,
+  "all_outputs_sha256": {
+    "T01_A_1": "aef1e973228c7acab6c0c7d5b42292f2c235fe7a611b9180a18a4dc7b477e67f",
+    "T01_SAR": "03f1ba4395c50a5aa59ada7dcc0e63864ced7e9621e0aa8f6615a1c44aa5482f",
+    "T08_B_1": "0ba67fa96906548045333b813e5e8bba1e1ca369590926a779f35e493440777d",
+    "T03_B_1": "432f93ea8a822fc24c2579f040269a2ddd8918da655a3c327eaced334a5a36a9",
+    "T02_B_1": "eb794e15e6956774eac9b1e5aefac9d81c5ddf9e34656d90e565d39a375e565f",
+    "T04_A_2": "ceb73c0de781fa8bc7bddd9f5fd678e8cfdca49e315f424ae5861b290134bfc1",
+    "T05_A_2": "deb4084379e9e8c004d01e65d9f27040a927f807ec08b78235f456bc8a6d5854",
+    "T06_B_2": "0fb947248f6118a033e382b2f3a581b08e0c469ace7219f5beba9661c84d6413",
+    "T07_B_2": "3b6debfe86c94173d47c5a6010a7aa67dff39cf8db31a6e6c594d494d73311d0",
+    "T03_A_2": "383e8bd3ca763e3b7e00284408bb2e516b8d727fdaac28b14185f4bc905e1c03",
+    "T02_A_2": "25ac51d46866a6f6354f86f6efa9f18939be3864b8aab9151c0b7e8d7c053165",
+    "T08_A_2": "1dc5323ef2dffd0168a65b3f1c79731ec29fb88b2157c64149bd04dd43011331",
+    "T01_B_2": "5de54581fec7bcc2059ccf968d221b2ad616e0bbcb2b3928d3a3803470670835",
+    "T07_SAR": "7245f657b26e9fa473127ec8253d502a470822ed2abfc1ebd277597b83f21395",
+    "T06_SAR": "a25d0d3f9a5bd4df0ba604b6addfd659e97bfd2666450d5f41b3bd0ccecba18f",
+    "T06_A_1": "c5b3a845a2482b41688f5ef7080ec1d3f53e18ca729428dae1bd36ca1226e19e",
+    "T07_A_1": "baa4fa9f163e3246297cc4c301c49e8574a516595a03c6aca0fe8ef295e89b73",
+    "T04_B_1": "32d4d5427c3b3ab57229b5fe8e22b24f9c8f0a2c4a8b37894edbb9ef0b302c36",
+    "T05_B_1": "f9165853b6c934a29a8d208af48d4de702e3a7322026e661e1fd06758fae7e2b",
+    "T05_B_2": "8798b339df0e24bc6f042d08d3088e3a5bedd25e6ffda0b647715e59c5a7949f",
+    "T04_B_2": "e0c286908551d3f71779289c11a360b25c9cf09d10d4b89c064e99ded870836f",
+    "T07_A_2": "2f7302d009db452569e984e4fcc37b2aa0a24b4d7c75f0b083bcbf6bd9f7a1a1",
+    "T06_A_2": "c2be943d08e2f3e197dff6161230b80174f917dddb5e03ce456a760241abfb1a",
+    "T08_SAR": "3e4d8464dab310e8217fce23c177e865ce4653e3d8ec30e4b9e64923a4a62c08",
+    "T08_A_1": "8ac6714d1bf35bbdb24ac1fee8d07cb4b7c938b245de1e079ce97de811514c18",
+    "T01_B_1": "9137bafea05caec80c452e350717a74a3a148419ebcd538733be6d0e9ce8aa5e",
+    "T02_A_1": "56f959d838b0e1e4293f0dbe1c1c1fc262aac1c4fc68b49020782d035e24731f",
+    "T03_A_1": "8b0a88e96b6387252e5aa95a67557f492d152f900fcbe65ec3aa7464d969a73c",
+    "T03_SAR": "23d951d4bfaa392dbd8a9bdf60e5e4cb9454e2c823cfff999de2ad73c14c6c01",
+    "T02_SAR": "fb1bf33d4eb8484e062798335afa5a79602d84b3874b9564074b713c3ef93f86",
+    "T07_B_1": "fc4dab33b9ad4089fe3b909426939138a907129973f08d2dd425a9f9d5d2e5d3",
+    "T06_B_1": "b39f899fd31681a6602b5031dd007744845777bbbbe7fe1fb866cd69c8cce5a9",
+    "T04_SAR": "568a022d9f7f8149e34bc841a70541cf63e28bd2b727d7e4d487d28b43887b3f",
+    "T05_SAR": "7139c068005c6363a85a18b8479472a3fc40bb6b67b73a17f2439744e3d35b67",
+    "T05_A_1": "34be204a74f28f42e7cd12c122bd510822e9c14abdb504fd3fc37d66b84aadb5",
+    "T04_A_1": "658acc9d2f7ee7ca276681cf90b59aa827802d7fbde427f35a9f138a3bc28a5d",
+    "T02_B_2": "6b4f736b0386fcff14789bb8f55e0fe60b105c17bb2b7ec71db00c6d2fa1dbef",
+    "T03_B_2": "d026a6b3abd4d3b614f02877a4bb54cebe7a9ed3f1a6dfd8a36ef6c21cc2abbd",
+    "T01_A_2": "2f973dd400ccb6b4f8242612b14bfde65a45a9bce3c9381a7e58e69651c3636c",
+    "T08_B_2": "3094af7074aa47202f95326292593042eefc8b4b1da197d3f88a74b4b6203952"
+  }
+}
