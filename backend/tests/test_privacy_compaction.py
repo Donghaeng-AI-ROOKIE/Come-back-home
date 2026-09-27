@@ -48,3 +48,24 @@ def test_partial_failed_batch_still_compacts_deleted_bytes(database):
     assert len(database)==1
     from pathlib import Path
     assert marker.encode() not in Path(settings.storage_db_path).read_bytes()
+
+
+def test_scheduler_starts_once_and_stops_without_paid_work(monkeypatch):
+    import threading
+    from app.privacy import scheduler
+    scheduler.stop()
+    entered = threading.Event()
+    calls = []
+    def recovery(**kwargs):
+        calls.append(kwargs['mode'])
+        entered.set()
+    monkeypatch.setattr(settings, 'privacy_scheduler_enabled', True)
+    monkeypatch.setattr(scheduler, 'run_once', recovery)
+    thread = scheduler.start()
+    try:
+        assert entered.wait(2)
+        assert scheduler.start() is thread
+        assert calls == ['recovery']
+    finally:
+        scheduler.stop()
+    assert not thread.is_alive()
