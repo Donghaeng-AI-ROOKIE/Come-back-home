@@ -15,6 +15,8 @@ midm_base_url(endpoint URL) / midm_model(endpoint ID) / midm_api_key 를 채우�
 from __future__ import annotations
 
 import json
+import time
+import urllib.error
 import urllib.request
 
 from app.config import settings
@@ -67,8 +69,24 @@ class MidmClient(LLMClient):
             },
             method="POST",
         )
-        with urllib.request.urlopen(req, timeout=settings.llm_timeout) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
+        started = time.monotonic()
+        try:
+            with urllib.request.urlopen(req, timeout=settings.midm_timeout) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+        except Exception as e:  # noqa: BLE001 — 한 줄 남기고 그대로 올린다(호출부 폴백은 그대로)
+            # 호출부(extract_answer 등)는 실패를 삼키고 카운터만 올린다. 그래서 서버 로그에는
+            # 아무것도 안 남고 세션에 llm_degraded 만 찍혀, 429 인지 타임아웃인지 알 길이
+            # 없었다(라이브 실측 2026-09-26: 2.5 전환 뒤 한 턴에 실패 4회 — 원인 불명).
+            detail = ""
+            if isinstance(e, urllib.error.HTTPError):
+                try:
+                    detail = e.read().decode("utf-8", "replace")[:200]
+                except Exception:  # noqa: BLE001
+                    detail = ""
+                detail = f"HTTP {e.code} {detail}"
+            print(f"[midm] 호출 실패 {time.monotonic() - started:.1f}s — "
+                  f"{type(e).__name__}: {detail or str(e)[:200]}")
+            raise
         return data["choices"][0]["message"]["content"]
 
     def _call_api(self, prompt: str, **kwargs) -> str:

@@ -63,6 +63,9 @@ def match_slot(question: str, persona_type: str) -> str | None:
 _AREA_RE = re.compile(r"['‘]([^'’]+)['’]\s*은?\s*어느\s*동네")
 _SUMMARY_MARK = ("이렇게 등록할게요", "이게 맞나요", "맞나요?")
 _MORE_PLACES = ("또 있을까요", "또 있나요", "자주 가시거나 좋아하시는 곳이 또")
+# 집 주소 지도 확인 실패 되묻기(interview._check_home) — 슬롯 어휘 매칭으로는
+# 엉뚱한 슬롯에 걸린다(실측: communication_approach). 대본의 home 답을 그대로 준다.
+_HOME_RECHECK = ("지도에서 찾지 못했어요", "위치를 특정하기 어려워요")
 
 
 def is_summary_gate(question: str) -> bool:
@@ -84,6 +87,10 @@ def respond(question: str, scenario) -> str:
             if key in label or label in key:
                 return ans
         return "잘 모르겠어요."
+
+    # 2.5) 집 주소 되묻기 — 대본 home 답이 지도에서 안 잡힌 경우(상한 뒤 미확인 통과)
+    if any(m in q for m in _HOME_RECHECK) and "home" in scenario.answers:
+        return scenario.answers["home"]
 
     # 3) 추가 장소 스윕
     if any(m in q for m in _MORE_PLACES):
