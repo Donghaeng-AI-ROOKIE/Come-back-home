@@ -465,3 +465,40 @@ def test_failed_context_review_keeps_draft_claims_out_of_engine(sample,monkeypat
     assert result['context']['environment']['water']['response']=='unknown'
     assert result['audit']['fallbacks']==['context_review_failed:ValueError']
     assert result['audit']['context_disagreements'][0]['cause']=='no_second_reading'
+
+
+def test_slow_preparation_does_not_block_reads_or_resurrect_deleted_person(sample, monkeypatch, tmp_path):
+    """Real SQLite and a paused model stub: storage must stay usable meanwhile."""
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Event
+    from fastapi.testclient import TestClient
+    from app.main import app
+    from app.privacy import lifecycle
+    monkeypatch.setattr(settings, 'persist_storage', True)
+    monkeypatch.setattr(settings, 'storage_db_path', str(tmp_path / 'background.db'))
+    monkeypatch.setattr(settings, 'privacy_audit_path', str(tmp_path / 'audit.jsonl'))
+    monkeypatch.setattr(lifecycle, '_audit_loaded', False)
+    monkeypatch.setattr(initial_person, 'cached_research', lambda *a: [])
+    from app.phase2 import claim_check
+    monkeypatch.setattr(claim_check, 'verify', lambda parsed, payload: parsed)
+    entered, release = Event(), Event()
+    def interpret(payload):
+        entered.set()
+        assert release.wait(5)
+        return {'core':sample[-2], 'context':sample[-1]}
+    monkeypatch.setattr(initial_person, 'interpret', interpret)
+    p = queue(sample)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        job = pool.submit(prep.run_job, p.id, p.initial_preparation_status['job_id'])
+        assert entered.wait(3)
+        try:
+            response = pool.submit(lambda: TestClient(app).get('/phase0/personas')).result(2)
+            assert response.status_code == 200
+            assert not job.done()
+            pool.submit(lifecycle.purge_persona, p.id).result(2)
+        finally:
+            release.set()
+        job.result(3)
+    assert storage.personas.get(p.id) is None
+    storage.personas._items.clear(); storage.personas._loaded = False
+    assert storage.personas.get(p.id) is None
