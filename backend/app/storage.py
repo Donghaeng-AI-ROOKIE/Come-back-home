@@ -29,11 +29,11 @@ Repository 인터페이스(save/get/list/delete)는 그대로다. 호출부는 �
 """
 
 import json
-from contextlib import contextmanager
 import sqlite3
 import threading
 import uuid
 from pathlib import Path
+import contextlib
 from typing import Generic, TypeVar
 
 from pydantic import BaseModel
@@ -67,7 +67,7 @@ def _db() -> sqlite3.Connection | None:
 _compaction = threading.local()
 
 
-@contextmanager
+@contextlib.contextmanager
 def batch_compaction():
     """Defer this thread's full DB rewrite until the purge batch finishes.
 
