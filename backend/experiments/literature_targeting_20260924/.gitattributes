@@ -1,0 +1,3 @@
+predictions_v2/** linguist-generated=true
+results/**/*.json linguist-generated=true
+results/**/*.jsonl linguist-generated=true
