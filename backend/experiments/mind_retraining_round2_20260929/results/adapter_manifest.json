@@ -1,0 +1,58 @@
+{
+  "runs/original72/checkpoint-108/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "779fa2f101e5b54fc10069bed9c35f29846152ceba7771a6b2bcff14c21cd681"
+  },
+  "runs/original72/checkpoint-72/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "d62929bbf62dd663b2ae438d69af6eccf6e094dd410070a3ad5425ea6b73f70c"
+  },
+  "runs/original72/checkpoint-18/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "4bbc92ac68c22c9936dbac84bb37f76d716beaea5be179940ee535b7d3f55d65"
+  },
+  "runs/original72/checkpoint-90/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "916ca0ff835f1aff71520c1c20988782b829274eda6cb2f57a87ca7ee52376cd"
+  },
+  "runs/original72/checkpoint-54/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "0a778b03e1a8e15e0557975250182bb063391c479078fddf7e92d94ff9127b31"
+  },
+  "runs/original72/checkpoint-36/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "a46700399f2a26a6fcc653833208e81221167ef6f3f1505a55624ec8327aa77e"
+  },
+  "runs/original72/final/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "779fa2f101e5b54fc10069bed9c35f29846152ceba7771a6b2bcff14c21cd681"
+  },
+  "runs/augmented120/checkpoint-60/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "8d11b87403b0a461b4ac2f4abd432723cb58c0f247f8914d1a049a50f7a293ef"
+  },
+  "runs/augmented120/checkpoint-30/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "5204ea3e60c4c562c1da509ab63424f54df735e0647a68bc13da1eb0d0c16496"
+  },
+  "runs/augmented120/checkpoint-90/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "beec227cb80c78d2a0390fae24b6c1044faf35d517cd56ad4a3bff9ce7cd59fd"
+  },
+  "runs/augmented120/checkpoint-120/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "e414c883ce375cd241af0c03898fbe6029ef134399ad7f5112d0710175437e32"
+  },
+  "runs/augmented120/checkpoint-150/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "70fc757518c4959d00244f67b5d952ee4b212138df92783383c2ec16e21c9142"
+  },
+  "runs/augmented120/checkpoint-180/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "10f977e69ce2dfeebc5cfc6ca1b5bdd5f83fed93d05fb5ba0c264ab3d3c81233"
+  },
+  "runs/augmented120/final/adapter_model.safetensors": {
+    "bytes": 167833632,
+    "sha256": "10f977e69ce2dfeebc5cfc6ca1b5bdd5f83fed93d05fb5ba0c264ab3d3c81233"
+  }
+}

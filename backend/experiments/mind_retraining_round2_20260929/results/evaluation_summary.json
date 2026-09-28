@@ -1,0 +1,49 @@
+{
+  "scores": {
+    "original72_epoch2": {
+      "responses": 16,
+      "raw_contract_pass": 16,
+      "readable_action_match": 12,
+      "strict_action_match": 12,
+      "families_all_four_correct": 1
+    },
+    "original72_epoch4": {
+      "responses": 16,
+      "raw_contract_pass": 16,
+      "readable_action_match": 11,
+      "strict_action_match": 11,
+      "families_all_four_correct": 1
+    },
+    "original72_epoch6": {
+      "responses": 16,
+      "raw_contract_pass": 16,
+      "readable_action_match": 13,
+      "strict_action_match": 13,
+      "families_all_four_correct": 2
+    },
+    "augmented120_epoch2": {
+      "responses": 16,
+      "raw_contract_pass": 16,
+      "readable_action_match": 10,
+      "strict_action_match": 10,
+      "families_all_four_correct": 0
+    },
+    "augmented120_epoch4": {
+      "responses": 16,
+      "raw_contract_pass": 16,
+      "readable_action_match": 13,
+      "strict_action_match": 13,
+      "families_all_four_correct": 2
+    },
+    "augmented120_epoch6": {
+      "responses": 16,
+      "raw_contract_pass": 16,
+      "readable_action_match": 12,
+      "strict_action_match": 12,
+      "families_all_four_correct": 1
+    }
+  },
+  "not_clinical_accuracy": true,
+  "independent_human_review": false,
+  "explanation_review_required": true
+}
