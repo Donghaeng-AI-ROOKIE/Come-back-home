@@ -1,0 +1,411 @@
+{
+  "scope": "saved decision → executor, not new model interpretation",
+  "map": "cached KINTEX OSMnx",
+  "environment": "synthetic distances, no measured POI/noise",
+  "replayed": 7,
+  "rows": [
+    {
+      "case": "D01",
+      "saved_job": "c1_development_k_D01_1",
+      "saved_action": "rest",
+      "executor_action": "rest",
+      "elapsed_seconds": 3,
+      "moved_m": 0.0,
+      "target_after": "등록 장소 A",
+      "next_node": null,
+      "snapshot": {
+        "state": {
+          "elapsed_minutes": 60.05,
+          "distance_m": 500.0,
+          "fatigue": 0.9,
+          "confusion": 0.2,
+          "anxiety": 0.12,
+          "interpreted_confusion": 0.6,
+          "current_action": "rest",
+          "target_label": "등록 장소 A",
+          "target_reached": false,
+          "last_rest_end_minutes": null,
+          "recent_events": [
+            {
+              "kind": "decision",
+              "elapsed_minutes": 60.0,
+              "action": "rest",
+              "reason": "initial",
+              "target": "등록 장소 A"
+            }
+          ]
+        },
+        "node": 11262443088,
+        "edge_to": null,
+        "edge_progress_m": 0.0,
+        "termination_reason": null,
+        "path": [
+          {
+            "minute": 60.0,
+            "node": 11262443088
+          }
+        ],
+        "history": [
+          {
+            "kind": "decision",
+            "elapsed_minutes": 60.0,
+            "action": "rest",
+            "reason": "initial",
+            "target": "등록 장소 A"
+          }
+        ]
+      },
+      "saved_decision_consumptions": 1,
+      "new_model_calls": 0
+    },
+    {
+      "case": "D02",
+      "saved_job": "c1_development_k_D02_1",
+      "saved_action": "continue",
+      "executor_action": "seek",
+      "elapsed_seconds": 3,
+      "moved_m": 2.3999999999998636,
+      "target_after": "등록 장소 A",
+      "next_node": 4685385484,
+      "snapshot": {
+        "state": {
+          "elapsed_minutes": 60.05,
+          "distance_m": 502.39999999999986,
+          "fatigue": 0.10077999999999997,
+          "confusion": 0.20007642292513347,
+          "anxiety": 0.12004585375508008,
+          "interpreted_confusion": 0.35,
+          "current_action": "seek",
+          "target_label": "등록 장소 A",
+          "target_reached": false,
+          "last_rest_end_minutes": null,
+          "recent_events": [
+            {
+              "kind": "decision",
+              "elapsed_minutes": 60.0,
+              "action": "seek",
+              "reason": "initial",
+              "target": "등록 장소 A"
+            }
+          ]
+        },
+        "node": 11262443088,
+        "edge_to": 4685385484,
+        "edge_progress_m": 2.3999999999998636,
+        "termination_reason": null,
+        "path": [
+          {
+            "minute": 60.0,
+            "node": 11262443088
+          }
+        ],
+        "history": [
+          {
+            "kind": "decision",
+            "elapsed_minutes": 60.0,
+            "action": "seek",
+            "reason": "initial",
+            "target": "등록 장소 A"
+          }
+        ]
+      },
+      "saved_decision_consumptions": 1,
+      "new_model_calls": 0
+    },
+    {
+      "case": "D03",
+      "saved_job": "c1_development_k_D03_1",
+      "saved_action": "seek",
+      "executor_action": "seek",
+      "elapsed_seconds": 3,
+      "moved_m": 2.3999999999998636,
+      "target_after": "등록 장소 A",
+      "next_node": 4685385484,
+      "snapshot": {
+        "state": {
+          "elapsed_minutes": 60.05,
+          "distance_m": 502.39999999999986,
+          "fatigue": 0.20077999999999996,
+          "confusion": 0.20007642292513347,
+          "anxiety": 0.12004585375508008,
+          "interpreted_confusion": 0.35,
+          "current_action": "seek",
+          "target_label": "등록 장소 A",
+          "target_reached": false,
+          "last_rest_end_minutes": 59.0,
+          "recent_events": [
+            {
+              "kind": "rest_complete",
+              "elapsed_minutes": 59
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 60.0,
+              "action": "seek",
+              "reason": "initial",
+              "target": "등록 장소 A"
+            }
+          ]
+        },
+        "node": 11262443088,
+        "edge_to": 4685385484,
+        "edge_progress_m": 2.3999999999998636,
+        "termination_reason": null,
+        "path": [
+          {
+            "minute": 60.0,
+            "node": 11262443088
+          }
+        ],
+        "history": [
+          {
+            "kind": "rest_complete",
+            "elapsed_minutes": 59
+          },
+          {
+            "kind": "decision",
+            "elapsed_minutes": 60.0,
+            "action": "seek",
+            "reason": "initial",
+            "target": "등록 장소 A"
+          }
+        ]
+      },
+      "saved_decision_consumptions": 1,
+      "new_model_calls": 0
+    },
+    {
+      "case": "D05",
+      "saved_job": "c1_development_k_D05_1",
+      "saved_action": "stay",
+      "executor_action": "stay",
+      "elapsed_seconds": 3,
+      "moved_m": 0.0,
+      "target_after": "등록 장소 A",
+      "next_node": null,
+      "snapshot": {
+        "state": {
+          "elapsed_minutes": 60.05,
+          "distance_m": 500.0,
+          "fatigue": 0.2,
+          "confusion": 0.9,
+          "anxiety": 0.54,
+          "interpreted_confusion": 0.85,
+          "current_action": "stay",
+          "target_label": "등록 장소 A",
+          "target_reached": false,
+          "last_rest_end_minutes": null,
+          "recent_events": [
+            {
+              "kind": "orientation_lost",
+              "elapsed_minutes": 59
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 60.0,
+              "action": "stay",
+              "reason": "initial",
+              "target": "등록 장소 A"
+            }
+          ]
+        },
+        "node": 11262443088,
+        "edge_to": null,
+        "edge_progress_m": 0.0,
+        "termination_reason": null,
+        "path": [
+          {
+            "minute": 60.0,
+            "node": 11262443088
+          }
+        ],
+        "history": [
+          {
+            "kind": "orientation_lost",
+            "elapsed_minutes": 59
+          },
+          {
+            "kind": "decision",
+            "elapsed_minutes": 60.0,
+            "action": "stay",
+            "reason": "initial",
+            "target": "등록 장소 A"
+          }
+        ]
+      },
+      "saved_decision_consumptions": 1,
+      "new_model_calls": 0
+    },
+    {
+      "case": "D06",
+      "saved_job": "c1_development_k_D06_1",
+      "saved_action": "seek",
+      "executor_action": "seek",
+      "elapsed_seconds": 3,
+      "moved_m": 2.3999999999998636,
+      "target_after": "등록 장소 A",
+      "next_node": 4685385484,
+      "snapshot": {
+        "state": {
+          "elapsed_minutes": 60.05,
+          "distance_m": 502.39999999999986,
+          "fatigue": 0.20077999999999996,
+          "confusion": 0.9000764229251335,
+          "anxiety": 0.5400458537550801,
+          "interpreted_confusion": 0.85,
+          "current_action": "seek",
+          "target_label": "등록 장소 A",
+          "target_reached": false,
+          "last_rest_end_minutes": null,
+          "recent_events": [
+            {
+              "kind": "orientation_lost",
+              "elapsed_minutes": 59
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 60.0,
+              "action": "seek",
+              "reason": "initial",
+              "target": "등록 장소 A"
+            }
+          ]
+        },
+        "node": 11262443088,
+        "edge_to": 4685385484,
+        "edge_progress_m": 2.3999999999998636,
+        "termination_reason": null,
+        "path": [
+          {
+            "minute": 60.0,
+            "node": 11262443088
+          }
+        ],
+        "history": [
+          {
+            "kind": "orientation_lost",
+            "elapsed_minutes": 59
+          },
+          {
+            "kind": "decision",
+            "elapsed_minutes": 60.0,
+            "action": "seek",
+            "reason": "initial",
+            "target": "등록 장소 A"
+          }
+        ]
+      },
+      "saved_decision_consumptions": 1,
+      "new_model_calls": 0
+    },
+    {
+      "case": "D07",
+      "saved_job": "c1_development_k_D07_1",
+      "saved_action": "avoid",
+      "executor_action": "avoid",
+      "elapsed_seconds": 3,
+      "moved_m": 2.3999999999998636,
+      "target_after": "등록 장소 A",
+      "next_node": 4685385484,
+      "snapshot": {
+        "state": {
+          "elapsed_minutes": 60.05,
+          "distance_m": 502.39999999999986,
+          "fatigue": 0.20077999999999996,
+          "confusion": 0.20007642292513347,
+          "anxiety": 0.12004585375508008,
+          "interpreted_confusion": 0.35,
+          "current_action": "avoid",
+          "target_label": "등록 장소 A",
+          "target_reached": false,
+          "last_rest_end_minutes": null,
+          "recent_events": [
+            {
+              "kind": "decision",
+              "elapsed_minutes": 60.0,
+              "action": "avoid",
+              "reason": "initial",
+              "target": "등록 장소 A"
+            }
+          ]
+        },
+        "node": 11262443088,
+        "edge_to": 4685385484,
+        "edge_progress_m": 2.3999999999998636,
+        "termination_reason": null,
+        "path": [
+          {
+            "minute": 60.0,
+            "node": 11262443088
+          }
+        ],
+        "history": [
+          {
+            "kind": "decision",
+            "elapsed_minutes": 60.0,
+            "action": "avoid",
+            "reason": "initial",
+            "target": "등록 장소 A"
+          }
+        ]
+      },
+      "saved_decision_consumptions": 1,
+      "new_model_calls": 0
+    },
+    {
+      "case": "D08",
+      "saved_job": "c1_development_k_D08_1",
+      "saved_action": "continue",
+      "executor_action": "seek",
+      "elapsed_seconds": 3,
+      "moved_m": 2.3999999999998636,
+      "target_after": "등록 장소 A",
+      "next_node": 4685385484,
+      "snapshot": {
+        "state": {
+          "elapsed_minutes": 60.05,
+          "distance_m": 502.39999999999986,
+          "fatigue": 0.20077999999999996,
+          "confusion": 0.20007642292513347,
+          "anxiety": 0.12004585375508008,
+          "interpreted_confusion": 0.35,
+          "current_action": "seek",
+          "target_label": "등록 장소 A",
+          "target_reached": false,
+          "last_rest_end_minutes": null,
+          "recent_events": [
+            {
+              "kind": "decision",
+              "elapsed_minutes": 60.0,
+              "action": "seek",
+              "reason": "initial",
+              "target": "등록 장소 A"
+            }
+          ]
+        },
+        "node": 11262443088,
+        "edge_to": 4685385484,
+        "edge_progress_m": 2.3999999999998636,
+        "termination_reason": null,
+        "path": [
+          {
+            "minute": 60.0,
+            "node": 11262443088
+          }
+        ],
+        "history": [
+          {
+            "kind": "decision",
+            "elapsed_minutes": 60.0,
+            "action": "seek",
+            "reason": "initial",
+            "target": "등록 장소 A"
+          }
+        ]
+      },
+      "saved_decision_consumptions": 1,
+      "new_model_calls": 0
+    }
+  ],
+  "new_model_calls": 0
+}

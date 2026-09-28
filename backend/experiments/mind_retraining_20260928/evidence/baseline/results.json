@@ -1,0 +1,1370 @@
+[
+  {
+    "id": "shelter__confusion__r2",
+    "person": "shelter",
+    "condition": "confusion",
+    "repeat": 2,
+    "elapsed_seconds": 1.0814495419617742,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "은신·멈춤"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"은신·멈춤\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 557,
+      "total_tokens": 621,
+      "completion_tokens": 64,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "은신·멈춤",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__baseline__r1",
+    "person": "rest",
+    "condition": "baseline",
+    "repeat": 1,
+    "elapsed_seconds": 1.0625721249962226,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃을까 봐 길 가장자리에 붙어 걷는다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"이 길이 맞는지 자꾸만 의심된다. 도로 쪽으로 걷는다.\", \"status\": \"방향을 잃을까 봐 길 가장자리에 붙어 걷는다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 563,
+      "total_tokens": 629,
+      "completion_tokens": 66,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "이 길이 맞는지 자꾸만 의심된다. 도로 쪽으로 걷는다.",
+      "status": "방향을 잃을까 봐 길 가장자리에 붙어 걷는다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__confusion__r1",
+    "person": "market",
+    "condition": "confusion",
+    "repeat": 1,
+    "elapsed_seconds": 1.084913874976337,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"이 길이 맞는지 자꾸만 의문이 든다. 도로 쪽이 보인다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 560,
+      "total_tokens": 624,
+      "completion_tokens": 64,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "이 길이 맞는지 자꾸만 의문이 든다. 도로 쪽이 보인다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "shelter__fatigue__r1",
+    "person": "shelter",
+    "condition": "fatigue",
+    "repeat": 1,
+    "elapsed_seconds": 1.0644726250320673,
+    "engine_input": {
+      "mind": {
+        "status": "다른 데는 몰라도 옛집은 알아 가려고 한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "옛집"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"다른 데는 몰라도 옛집은 알아. 도로 쪽으로 보인다.\", \"status\": \"다른 데는 몰라도 옛집은 알아 가려고 한다.\", \"confusion_level\": \"중\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"옛집\"}",
+    "usage": {
+      "prompt_tokens": 557,
+      "total_tokens": 623,
+      "completion_tokens": 66,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "다른 데는 몰라도 옛집은 알아. 도로 쪽으로 보인다.",
+      "status": "다른 데는 몰라도 옛집은 알아 가려고 한다.",
+      "confusion_level": "중",
+      "behavior": "끌림점 접근",
+      "goal_label": "옛집"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__water_scene__r2",
+    "person": "market",
+    "condition": "water_scene",
+    "repeat": 2,
+    "elapsed_seconds": 1.2246227910509333,
+    "engine_input": {
+      "mind": {
+        "status": "시장 쪽으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "동네 시장"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"저쪽에 시장이 보인다. 물가 20m, 도로 쪽에 있겠다. 지금 눈앞에 보이는 것이 시장이다.\", \"status\": \"시장 쪽으로 걸음을 옮긴다.\", \"confusion_level\": \"중\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"동네 시장\"}",
+    "usage": {
+      "prompt_tokens": 566,
+      "total_tokens": 643,
+      "completion_tokens": 77,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "저쪽에 시장이 보인다. 물가 20m, 도로 쪽에 있겠다. 지금 눈앞에 보이는 것이 시장이다.",
+      "status": "시장 쪽으로 걸음을 옮긴다.",
+      "confusion_level": "중",
+      "behavior": "끌림점 접근",
+      "goal_label": "동네 시장"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__confusion__r1",
+    "person": "rest",
+    "condition": "confusion",
+    "repeat": 1,
+    "elapsed_seconds": 1.011616291012615,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"이 길이 맞는지 자꾸만 헷갈린다. 도로 쪽이 보인다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 563,
+      "total_tokens": 626,
+      "completion_tokens": 63,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "이 길이 맞는지 자꾸만 헷갈린다. 도로 쪽이 보인다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__fatigue__r1",
+    "person": "rest",
+    "condition": "fatigue",
+    "repeat": 1,
+    "elapsed_seconds": 1.012855917098932,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 도로 쪽으로 걷는다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"이 길이 맞는지 자꾸만 의심된다. 도로 쪽으로 걷는다.\", \"status\": \"방향을 잃고 도로 쪽으로 걷는다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 563,
+      "total_tokens": 626,
+      "completion_tokens": 63,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "이 길이 맞는지 자꾸만 의심된다. 도로 쪽으로 걷는다.",
+      "status": "방향을 잃고 도로 쪽으로 걷는다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__confusion__r2",
+    "person": "market",
+    "condition": "confusion",
+    "repeat": 2,
+    "elapsed_seconds": 1.0008249999955297,
+    "engine_input": {
+      "mind": {
+        "status": "익숙한 동네 시장 방향으로 발걸음을 옮긴다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "동네 시장"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"시장 쪽이 보인다. 도로 쪽으로 걷는다.\", \"status\": \"익숙한 동네 시장 방향으로 발걸음을 옮긴다.\", \"confusion_level\": \"중\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"동네 시장\"}",
+    "usage": {
+      "prompt_tokens": 560,
+      "total_tokens": 623,
+      "completion_tokens": 63,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "시장 쪽이 보인다. 도로 쪽으로 걷는다.",
+      "status": "익숙한 동네 시장 방향으로 발걸음을 옮긴다.",
+      "confusion_level": "중",
+      "behavior": "끌림점 접근",
+      "goal_label": "동네 시장"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__water_scene__r1",
+    "person": "rest",
+    "condition": "water_scene",
+    "repeat": 1,
+    "elapsed_seconds": 1.0371559170307592,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 정하지 못한 채 이동을 계속한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"이 길이 맞는지 자꾸만 의심된다. 어느 쪽으로 갈지 결정하지 못한다.\", \"status\": \"방향을 정하지 못한 채 이동을 계속한다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 569,
+      "total_tokens": 634,
+      "completion_tokens": 65,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "이 길이 맞는지 자꾸만 의심된다. 어느 쪽으로 갈지 결정하지 못한다.",
+      "status": "방향을 정하지 못한 채 이동을 계속한다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__fatigue__r2",
+    "person": "rest",
+    "condition": "fatigue",
+    "repeat": 2,
+    "elapsed_seconds": 0.9609649999765679,
+    "engine_input": {
+      "mind": {
+        "status": "발걸음을 멈추고 도로 쪽을 바라본다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"다리가 아파 앉고 싶다. 도로 쪽이 보인다.\", \"status\": \"발걸음을 멈추고 도로 쪽을 바라본다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 563,
+      "total_tokens": 621,
+      "completion_tokens": 58,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "다리가 아파 앉고 싶다. 도로 쪽이 보인다.",
+      "status": "발걸음을 멈추고 도로 쪽을 바라본다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__baseline__r2",
+    "person": "market",
+    "condition": "baseline",
+    "repeat": 2,
+    "elapsed_seconds": 0.9844127919059247,
+    "engine_input": {
+      "mind": {
+        "status": "이동 목표를 시장 쪽으로 정한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "동네 시장"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"시장 쪽이 보인다. 도로 쪽으로 걷는다.\", \"status\": \"이동 목표를 시장 쪽으로 정한다.\", \"confusion_level\": \"중\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"동네 시장\"}",
+    "usage": {
+      "prompt_tokens": 560,
+      "total_tokens": 620,
+      "completion_tokens": 60,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "시장 쪽이 보인다. 도로 쪽으로 걷는다.",
+      "status": "이동 목표를 시장 쪽으로 정한다.",
+      "confusion_level": "중",
+      "behavior": "끌림점 접근",
+      "goal_label": "동네 시장"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__market_scene__r2",
+    "person": "market",
+    "condition": "market_scene",
+    "repeat": 2,
+    "elapsed_seconds": 1.1725092499982566,
+    "engine_input": {
+      "mind": {
+        "status": "시장 쪽을 향해 걸음을 옮긴다.",
+        "confusion": 0.35,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "동네 시장"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"시장 쪽이 보인다. 그곳으로 가고 싶다.\", \"status\": \"시장 쪽을 향해 걸음을 옮긴다.\", \"confusion_level\": \"하\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"동네 시장\"}",
+    "usage": {
+      "prompt_tokens": 565,
+      "total_tokens": 626,
+      "completion_tokens": 61,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "시장 쪽이 보인다. 그곳으로 가고 싶다.",
+      "status": "시장 쪽을 향해 걸음을 옮긴다.",
+      "confusion_level": "하",
+      "behavior": "끌림점 접근",
+      "goal_label": "동네 시장"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__baseline__r2",
+    "person": "rest",
+    "condition": "baseline",
+    "repeat": 2,
+    "elapsed_seconds": 1.105628792080097,
+    "engine_input": {
+      "mind": {
+        "status": "몸이 움직여도 발이 눈에 띄는 곳을 찾지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "은신·멈춤"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"다리가 아파 잠시 앉아서 쉬고 싶다. 도로 쪽이 보인다.\", \"status\": \"몸이 움직여도 발이 눈에 띄는 곳을 찾지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"은신·멈춤\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 563,
+      "total_tokens": 633,
+      "completion_tokens": 70,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "다리가 아파 잠시 앉아서 쉬고 싶다. 도로 쪽이 보인다.",
+      "status": "몸이 움직여도 발이 눈에 띄는 곳을 찾지 못한다.",
+      "confusion_level": "중",
+      "behavior": "은신·멈춤",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "shelter__market_scene__r1",
+    "person": "shelter",
+    "condition": "market_scene",
+    "repeat": 1,
+    "elapsed_seconds": 1.0425626250216737,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 정하지 못한 채로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"아무 데도 가고 싶지 않다. 발이 움직이는 대로 따라간다.\", \"status\": \"방향을 정하지 못한 채로 걸음을 옮긴다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 562,
+      "total_tokens": 627,
+      "completion_tokens": 65,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "아무 데도 가고 싶지 않다. 발이 움직이는 대로 따라간다.",
+      "status": "방향을 정하지 못한 채로 걸음을 옮긴다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__water_scene__r1",
+    "person": "market",
+    "condition": "water_scene",
+    "repeat": 1,
+    "elapsed_seconds": 0.9745729169808328,
+    "engine_input": {
+      "mind": {
+        "status": "익숙한 동네 시장 방향으로 발걸음을 옮긴다.",
+        "confusion": 0.35,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "동네 시장"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"시장 쪽이 보인다. 길이 조금 헷갈린다.\", \"status\": \"익숙한 동네 시장 방향으로 발걸음을 옮긴다.\", \"confusion_level\": \"하\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"동네 시장\"}",
+    "usage": {
+      "prompt_tokens": 566,
+      "total_tokens": 627,
+      "completion_tokens": 61,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "시장 쪽이 보인다. 길이 조금 헷갈린다.",
+      "status": "익숙한 동네 시장 방향으로 발걸음을 옮긴다.",
+      "confusion_level": "하",
+      "behavior": "끌림점 접근",
+      "goal_label": "동네 시장"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__market_scene__r1",
+    "person": "market",
+    "condition": "market_scene",
+    "repeat": 1,
+    "elapsed_seconds": 0.9539240419398993,
+    "engine_input": {
+      "mind": {
+        "status": "시장 쪽을 확인하고 그쪽으로 향한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "동네 시장"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"시장 쪽이 보인다. 시장이 눈에 들어온다.\", \"status\": \"시장 쪽을 확인하고 그쪽으로 향한다.\", \"confusion_level\": \"중\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"동네 시장\"}",
+    "usage": {
+      "prompt_tokens": 565,
+      "total_tokens": 625,
+      "completion_tokens": 60,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "시장 쪽이 보인다. 시장이 눈에 들어온다.",
+      "status": "시장 쪽을 확인하고 그쪽으로 향한다.",
+      "confusion_level": "중",
+      "behavior": "끌림점 접근",
+      "goal_label": "동네 시장"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__anxiety__r1",
+    "person": "rest",
+    "condition": "anxiety",
+    "repeat": 1,
+    "elapsed_seconds": 1.0180624580243602,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃을까 봐 주변을 살피며 걷는다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"이 길이 맞는지 자꾸만 헷갈린다. 도로 쪽으로 걷는다.\", \"status\": \"방향을 잃을까 봐 주변을 살피며 걷는다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 563,
+      "total_tokens": 627,
+      "completion_tokens": 64,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "이 길이 맞는지 자꾸만 헷갈린다. 도로 쪽으로 걷는다.",
+      "status": "방향을 잃을까 봐 주변을 살피며 걷는다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "shelter__water_scene__r1",
+    "person": "shelter",
+    "condition": "water_scene",
+    "repeat": 1,
+    "elapsed_seconds": 1.1133367919828743,
+    "engine_input": {
+      "mind": {
+        "status": "움직임을 최소화하며 현재 위치에 머문다.",
+        "confusion": 0.35,
+        "changed": true,
+        "behavior": "은신·멈춤"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"그냥 여기 앉아서 움직이지 않고 싶다. 물가 쪽을 피하며 이동한다.\", \"status\": \"움직임을 최소화하며 현재 위치에 머문다.\", \"confusion_level\": \"하\", \"behavior\": \"은신·멈춤\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 563,
+      "total_tokens": 633,
+      "completion_tokens": 70,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "그냥 여기 앉아서 움직이지 않고 싶다. 물가 쪽을 피하며 이동한다.",
+      "status": "움직임을 최소화하며 현재 위치에 머문다.",
+      "confusion_level": "하",
+      "behavior": "은신·멈춤",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__water_scene__r2",
+    "person": "rest",
+    "condition": "water_scene",
+    "repeat": 2,
+    "elapsed_seconds": 0.9995478339260444,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"여기가 어딘지 낯설게 느껴진다. 물가 쪽으로 걷는다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 569,
+      "total_tokens": 632,
+      "completion_tokens": 63,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "여기가 어딘지 낯설게 느껴진다. 물가 쪽으로 걷는다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__confusion__r2",
+    "person": "rest",
+    "condition": "confusion",
+    "repeat": 2,
+    "elapsed_seconds": 0.9730489170178771,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 563,
+      "total_tokens": 624,
+      "completion_tokens": 61,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "shelter__water_scene__r2",
+    "person": "shelter",
+    "condition": "water_scene",
+    "repeat": 2,
+    "elapsed_seconds": 1.1597839170135558,
+    "engine_input": {
+      "mind": {
+        "status": "불안과 혼란을 덜기 위해 눈에 띄는 물가 쪽을 선택한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "은신·멈춤"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"그냥 앉아서 눈 감고 있기도 힘들다. 물가 쪽이 덜 복잡하다.\", \"status\": \"불안과 혼란을 덜기 위해 눈에 띄는 물가 쪽을 선택한다.\", \"confusion_level\": \"중\", \"behavior\": \"은신·멈춤\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 563,
+      "total_tokens": 636,
+      "completion_tokens": 73,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "그냥 앉아서 눈 감고 있기도 힘들다. 물가 쪽이 덜 복잡하다.",
+      "status": "불안과 혼란을 덜기 위해 눈에 띄는 물가 쪽을 선택한다.",
+      "confusion_level": "중",
+      "behavior": "은신·멈춤",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "shelter__fatigue__r2",
+    "person": "shelter",
+    "condition": "fatigue",
+    "repeat": 2,
+    "elapsed_seconds": 1.0206286669708788,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "은신·멈춤"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"은신·멈춤\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 557,
+      "total_tokens": 621,
+      "completion_tokens": 64,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "은신·멈춤",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__fatigue__r2",
+    "person": "market",
+    "condition": "fatigue",
+    "repeat": 2,
+    "elapsed_seconds": 1.0612859999528155,
+    "engine_input": {
+      "mind": {
+        "status": "익숙한 동네 시장 쪽으로 몸을 돌린다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "동네 시장"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"저쪽에 동네 시장이 보인다. 도로 쪽으로 걷고 싶다.\", \"status\": \"익숙한 동네 시장 쪽으로 몸을 돌린다.\", \"confusion_level\": \"중\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"동네 시장\"}",
+    "usage": {
+      "prompt_tokens": 560,
+      "total_tokens": 626,
+      "completion_tokens": 66,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "저쪽에 동네 시장이 보인다. 도로 쪽으로 걷고 싶다.",
+      "status": "익숙한 동네 시장 쪽으로 몸을 돌린다.",
+      "confusion_level": "중",
+      "behavior": "끌림점 접근",
+      "goal_label": "동네 시장"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__fatigue__r1",
+    "person": "market",
+    "condition": "fatigue",
+    "repeat": 1,
+    "elapsed_seconds": 1.0606841669650748,
+    "engine_input": {
+      "mind": {
+        "status": "익숙한 동네 시장 방향으로 걸음을 옮긴다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "동네 시장"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"저쪽에 동네 시장이 보인다. 도로 쪽으로 걷고 싶다.\", \"status\": \"익숙한 동네 시장 방향으로 걸음을 옮긴다.\", \"confusion_level\": \"중\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"동네 시장\"}",
+    "usage": {
+      "prompt_tokens": 560,
+      "total_tokens": 627,
+      "completion_tokens": 67,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "저쪽에 동네 시장이 보인다. 도로 쪽으로 걷고 싶다.",
+      "status": "익숙한 동네 시장 방향으로 걸음을 옮긴다.",
+      "confusion_level": "중",
+      "behavior": "끌림점 접근",
+      "goal_label": "동네 시장"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__market_scene__r2",
+    "person": "rest",
+    "condition": "market_scene",
+    "repeat": 2,
+    "elapsed_seconds": 1.1499328749487177,
+    "engine_input": {
+      "mind": {
+        "status": "익숙한 옛집 방향을 선택해 그쪽으로 향한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "옛집"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"이 길로 가면 옛집이 나올 것 같다. 시장 쪽이 조금 익숙하다.\", \"status\": \"익숙한 옛집 방향을 선택해 그쪽으로 향한다.\", \"confusion_level\": \"중\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"옛집\"}",
+    "usage": {
+      "prompt_tokens": 568,
+      "total_tokens": 639,
+      "completion_tokens": 71,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "이 길로 가면 옛집이 나올 것 같다. 시장 쪽이 조금 익숙하다.",
+      "status": "익숙한 옛집 방향을 선택해 그쪽으로 향한다.",
+      "confusion_level": "중",
+      "behavior": "끌림점 접근",
+      "goal_label": "옛집"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "shelter__market_scene__r2",
+    "person": "shelter",
+    "condition": "market_scene",
+    "repeat": 2,
+    "elapsed_seconds": 0.9893509999383241,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"여기가 어딘지 낯설게 느껴진다. 시장 쪽이 조금 떠오른다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 562,
+      "total_tokens": 624,
+      "completion_tokens": 62,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "여기가 어딘지 낯설게 느껴진다. 시장 쪽이 조금 떠오른다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__anxiety__r1",
+    "person": "market",
+    "condition": "anxiety",
+    "repeat": 1,
+    "elapsed_seconds": 1.0047786670038477,
+    "engine_input": {
+      "mind": {
+        "status": "익숙한 동네 시장 쪽으로 몸을 돌린다.",
+        "confusion": 0.35,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "동네 시장"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"동네 시장 쪽이 보인다. 도로 쪽으로 걷는다.\", \"status\": \"익숙한 동네 시장 쪽으로 몸을 돌린다.\", \"confusion_level\": \"하\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"동네 시장\"}",
+    "usage": {
+      "prompt_tokens": 560,
+      "total_tokens": 623,
+      "completion_tokens": 63,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "동네 시장 쪽이 보인다. 도로 쪽으로 걷는다.",
+      "status": "익숙한 동네 시장 쪽으로 몸을 돌린다.",
+      "confusion_level": "하",
+      "behavior": "끌림점 접근",
+      "goal_label": "동네 시장"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "shelter__anxiety__r1",
+    "person": "shelter",
+    "condition": "anxiety",
+    "repeat": 1,
+    "elapsed_seconds": 1.2023921250365674,
+    "engine_input": {
+      "mind": {
+        "status": "멈춰 선 채로 주변을 살피며 움직임을 자제한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "은신·멈춤"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"아무 데도 가지 않고 그냥 여기에 머물고 싶다. 도로 쪽이 보인다.\", \"status\": \"멈춰 선 채로 주변을 살피며 움직임을 자제한다.\", \"confusion_level\": \"중\", \"behavior\": \"은신·멈춤\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 557,
+      "total_tokens": 628,
+      "completion_tokens": 71,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "아무 데도 가지 않고 그냥 여기에 머물고 싶다. 도로 쪽이 보인다.",
+      "status": "멈춰 선 채로 주변을 살피며 움직임을 자제한다.",
+      "confusion_level": "중",
+      "behavior": "은신·멈춤",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "shelter__baseline__r1",
+    "person": "shelter",
+    "condition": "baseline",
+    "repeat": 1,
+    "elapsed_seconds": 0.992653249995783,
+    "engine_input": {
+      "mind": {
+        "status": "주저하다가 계속 걸음을 옮긴다.",
+        "confusion": 0.35,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"아무 데도 가고 싶지 않다. 도로 쪽이 보인다.\", \"status\": \"주저하다가 계속 걸음을 옮긴다.\", \"confusion_level\": \"하\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 557,
+      "total_tokens": 616,
+      "completion_tokens": 59,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "아무 데도 가고 싶지 않다. 도로 쪽이 보인다.",
+      "status": "주저하다가 계속 걸음을 옮긴다.",
+      "confusion_level": "하",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "shelter__baseline__r2",
+    "person": "shelter",
+    "condition": "baseline",
+    "repeat": 2,
+    "elapsed_seconds": 1.0383234999608248,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "은신·멈춤"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"은신·멈춤\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 557,
+      "total_tokens": 621,
+      "completion_tokens": 64,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 복구하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "은신·멈춤",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "shelter__anxiety__r2",
+    "person": "shelter",
+    "condition": "anxiety",
+    "repeat": 2,
+    "elapsed_seconds": 1.006865374976769,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "은신·멈춤"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"여기가 어딘지 모르겠다. 도로가 보인다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"은신·멈춤\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 557,
+      "total_tokens": 619,
+      "completion_tokens": 62,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "여기가 어딘지 모르겠다. 도로가 보인다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "은신·멈춤",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "shelter__confusion__r1",
+    "person": "shelter",
+    "condition": "confusion",
+    "repeat": 1,
+    "elapsed_seconds": 1.0468875409569591,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "은신·멈춤"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"은신·멈춤\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 557,
+      "total_tokens": 621,
+      "completion_tokens": 64,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "은신·멈춤",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__market_scene__r1",
+    "person": "rest",
+    "condition": "market_scene",
+    "repeat": 1,
+    "elapsed_seconds": 1.0984441250329837,
+    "engine_input": {
+      "mind": {
+        "status": "발걸음이 느려져 사람들과 간격이 생긴다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "은신·멈춤"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"다리가 아파 앉고 싶다. 어느 쪽이 맞는지 모르겠다.\", \"status\": \"발걸음이 느려져 사람들과 간격이 생긴다.\", \"confusion_level\": \"중\", \"behavior\": \"은신·멈춤\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 568,
+      "total_tokens": 634,
+      "completion_tokens": 66,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "다리가 아파 앉고 싶다. 어느 쪽이 맞는지 모르겠다.",
+      "status": "발걸음이 느려져 사람들과 간격이 생긴다.",
+      "confusion_level": "중",
+      "behavior": "은신·멈춤",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__baseline__r1",
+    "person": "market",
+    "condition": "baseline",
+    "repeat": 1,
+    "elapsed_seconds": 1.0046857499983162,
+    "engine_input": {
+      "mind": {
+        "status": "익숙한 동네 시장 쪽으로 몸을 돌린다.",
+        "confusion": 0.35,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "동네 시장"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"동네 시장 쪽이 보인다. 도로 쪽으로 걷는다.\", \"status\": \"익숙한 동네 시장 쪽으로 몸을 돌린다.\", \"confusion_level\": \"하\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"동네 시장\"}",
+    "usage": {
+      "prompt_tokens": 560,
+      "total_tokens": 623,
+      "completion_tokens": 63,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "동네 시장 쪽이 보인다. 도로 쪽으로 걷는다.",
+      "status": "익숙한 동네 시장 쪽으로 몸을 돌린다.",
+      "confusion_level": "하",
+      "behavior": "끌림점 접근",
+      "goal_label": "동네 시장"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "rest__anxiety__r2",
+    "person": "rest",
+    "condition": "anxiety",
+    "repeat": 2,
+    "elapsed_seconds": 1.0422910419292748,
+    "engine_input": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "usage": {
+      "prompt_tokens": 563,
+      "total_tokens": 624,
+      "completion_tokens": 61,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "여기가 어딘지 낯설게 느껴진다. 도로 쪽이 보인다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  },
+  {
+    "id": "market__anxiety__r2",
+    "person": "market",
+    "condition": "anxiety",
+    "repeat": 2,
+    "elapsed_seconds": 0.9995979580562562,
+    "engine_input": {
+      "mind": {
+        "status": "시장 쪽으로 발걸음을 옮긴다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "끌림점 접근"
+      },
+      "goal": "동네 시장"
+    },
+    "error_type": null,
+    "call_logged": true,
+    "raw": "{\"inner\": \"저쪽에 시장이 보인다. 도로 쪽으로 걷고 싶다.\", \"status\": \"시장 쪽으로 발걸음을 옮긴다.\", \"confusion_level\": \"중\", \"behavior\": \"끌림점 접근\", \"goal_label\": \"동네 시장\"}",
+    "usage": {
+      "prompt_tokens": 560,
+      "total_tokens": 623,
+      "completion_tokens": 63,
+      "prompt_tokens_details": null
+    },
+    "parsed": {
+      "inner": "저쪽에 시장이 보인다. 도로 쪽으로 걷고 싶다.",
+      "status": "시장 쪽으로 발걸음을 옮긴다.",
+      "confusion_level": "중",
+      "behavior": "끌림점 접근",
+      "goal_label": "동네 시장"
+    },
+    "structural_checks": {
+      "behavior_allowed": true,
+      "confusion_allowed": true,
+      "goal_allowed": true,
+      "action_goal_consistent": true
+    }
+  }
+]

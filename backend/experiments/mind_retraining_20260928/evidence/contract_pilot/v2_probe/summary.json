@@ -1,0 +1,14 @@
+{
+  "attempts": 4,
+  "responses_received": 0,
+  "timeouts": 4,
+  "contract_evaluable_responses": 0,
+  "semantic_evaluable_responses": 0,
+  "quality_outcome": "inconclusive_no_responses",
+  "total_tokens": null,
+  "actual_cost": null,
+  "gpu_billed_hours": null,
+  "support_round": null,
+  "automatic_retries": 0,
+  "note": "results.json contract_pass=false on transport failure is a runner completion flag, not evidence of invalid model output."
+}

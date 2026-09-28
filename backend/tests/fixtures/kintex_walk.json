@@ -1,0 +1,37 @@
+{
+  "region": "KINTEX, Goyang",
+  "center": {
+    "lat": 37.6652142,
+    "lng": 126.7483258
+  },
+  "query_half_extent_m": 1500,
+  "bbox_south_west_north_east": [
+    37.65173953237514,
+    126.73130361897792,
+    37.678688867624864,
+    126.76534798102209
+  ],
+  "nodes": 3260,
+  "edges": 9978,
+  "osmnx_version": "2.1.0",
+  "sha256": "b8bce04b2fda6db26f30bbaea428cce04179e695b462295b5471c66c5bbd418c",
+  "attribution": "© OpenStreetMap contributors, ODbL",
+  "source": "Overpass walking ways, Nominatim verified center",
+  "retrieved_at": "2026-09-28T12:38:28+0900",
+  "query_sha256": "ef48585fa3817759489d7efc4ce5f3fbfeba6f194f7f30b0dcaf91f044468053",
+  "geocode_calls": 1,
+  "prior_failed_road_queries": 2,
+  "additional_request_slot": 1,
+  "actual_cost": null,
+  "support_round": null,
+  "limitations": [
+    "Outdoor walking ways only; no indoor map",
+    "Not live crowd/noise or visibility observations",
+    "Disconnected components retained; limited map coverage",
+    "No environment feature layer attached by this acquisition"
+  ],
+  "center_identity": "Nominatim railway station 킨텍스, not exhibition entrance or booth",
+  "road_queries_total": 3,
+  "approved_additional_limit": 2,
+  "additional_used": 1
+}

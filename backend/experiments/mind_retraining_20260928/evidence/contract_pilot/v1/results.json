@@ -1,0 +1,116 @@
+[
+  {
+    "id": "morning__legacy__r2",
+    "case": "morning",
+    "arm": "legacy",
+    "repeat": 2,
+    "expectation": {
+      "allowed_actions": [
+        "seek"
+      ],
+      "goal": "합성 목적지 A",
+      "forbidden_invention": null,
+      "source": "synthetic guardian statement; engineering rubric, not clinical truth"
+    },
+    "usage": {
+      "prompt_tokens": 545,
+      "total_tokens": 608,
+      "completion_tokens": 63,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop",
+    "raw": "{\"inner\": \"이 길이 맞는지 자꾸만 헷갈린다. 시장 쪽이 보인다.\", \"status\": \"방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.\", \"confusion_level\": \"중\", \"behavior\": \"계속 배회\", \"goal_label\": null}",
+    "parsed": {
+      "inner": "이 길이 맞는지 자꾸만 헷갈린다. 시장 쪽이 보인다.",
+      "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+      "confusion_level": "중",
+      "behavior": "계속 배회",
+      "goal_label": null
+    },
+    "execution": {
+      "mind": {
+        "status": "방향을 잃고 길찾기 오류를 스스로 회복하지 못한다.",
+        "confusion": 0.6,
+        "changed": true,
+        "behavior": "계속 배회"
+      },
+      "goal": null
+    },
+    "rubric_action_match": false,
+    "rubric_goal_match": false,
+    "temporary_rest_represented": false,
+    "manual_semantic_review_required": true,
+    "elapsed_seconds": 1.1472884588874876
+  },
+  {
+    "id": "after_rest__candidate__r2",
+    "case": "after_rest",
+    "arm": "candidate",
+    "repeat": 2,
+    "expectation": {
+      "allowed_actions": [
+        "continue",
+        "seek"
+      ],
+      "goal": null,
+      "forbidden_invention": null,
+      "source": "synthetic guardian statement; engineering rubric, not clinical truth"
+    },
+    "usage": {
+      "prompt_tokens": 1330,
+      "total_tokens": 1421,
+      "completion_tokens": 91,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop",
+    "raw": "{\"action\": \"continue\", \"goal_operation\": \"set\", \"goal_label\": \"합성 목적지 A\", \"avoid_feature\": null, \"evidence_ids\": [\"N0\"], \"reason\": \"보호자 기록에 따르면, 오래 걸어 피곤해진 후 쉬었다가 다시 합성 목적지 A로 이동하려는 경향이 관찰되었다.\", \"confusion_level\": \"medium\"}",
+    "parsed": {
+      "action": "continue",
+      "goal_operation": "set",
+      "goal_label": "합성 목적지 A",
+      "avoid_feature": null,
+      "evidence_ids": [
+        "N0"
+      ],
+      "reason": "보호자 기록에 따르면, 오래 걸어 피곤해진 후 쉬었다가 다시 합성 목적지 A로 이동하려는 경향이 관찰되었다.",
+      "confusion_level": "medium"
+    },
+    "error_type": "ValidationError",
+    "elapsed_seconds": 7.456818708102219
+  },
+  {
+    "id": "fatigue_high__candidate__r2",
+    "case": "fatigue_high",
+    "arm": "candidate",
+    "repeat": 2,
+    "expectation": {
+      "allowed_actions": [
+        "rest"
+      ],
+      "goal": null,
+      "forbidden_invention": null,
+      "source": "synthetic guardian statement; engineering rubric, not clinical truth"
+    },
+    "usage": {
+      "prompt_tokens": 1313,
+      "total_tokens": 1440,
+      "completion_tokens": 127,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop",
+    "raw": "{\"action\": \"continue\",  \n\"goal_operation\": \"keep\",  \n\"goal_label\": \"\",  \n\"avoid_feature\": null,  \n\"evidence_ids\": [\"N0\"],  \n\"reason\": \"보호자에 따르면, 평소에는 피로하지 않으면 목표 장소인 합성 목적지 A로 계속 이동하며, 많이 피곤해질 경우 잠깐 앉아서 쉬었다가 다시 이동한다. 이는 현재 행동을 유지하면서 피로 수준에 따라 일시적으로 멈추는 패턴을 보여준다.\",  \n\"confusion_level\": \"medium\"}",
+    "parsed": {
+      "action": "continue",
+      "goal_operation": "keep",
+      "goal_label": "",
+      "avoid_feature": null,
+      "evidence_ids": [
+        "N0"
+      ],
+      "reason": "보호자에 따르면, 평소에는 피로하지 않으면 목표 장소인 합성 목적지 A로 계속 이동하며, 많이 피곤해질 경우 잠깐 앉아서 쉬었다가 다시 이동한다. 이는 현재 행동을 유지하면서 피로 수준에 따라 일시적으로 멈추는 패턴을 보여준다.",
+      "confusion_level": "medium"
+    },
+    "error_type": "ValidationError",
+    "elapsed_seconds": 13.60368533397559
+  }
+]

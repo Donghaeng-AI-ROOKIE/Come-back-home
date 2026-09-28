@@ -1,0 +1,20 @@
+{
+  "calls": 36,
+  "failed": 0,
+  "structural_checks_passed": {
+    "behavior_allowed": 36,
+    "confusion_allowed": 36,
+    "goal_allowed": 36,
+    "action_goal_consistent": 36
+  },
+  "input_tokens": 20226,
+  "output_tokens": 2323,
+  "total_tokens": 22549,
+  "median_response_seconds": 1.037739708495792,
+  "actual_cost": null,
+  "gpu_billed_hours": null,
+  "support_round": null,
+  "clinical_accuracy": null,
+  "new_walk_simulations": 0,
+  "offline_production_postprocess_matches": 36
+}
