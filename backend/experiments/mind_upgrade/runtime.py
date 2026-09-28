@@ -33,15 +33,18 @@ class RuntimePolicy:
 
 class WalkingSession:
     def __init__(self, net, persona, prior, start, started_at: datetime, provider,
-                 *, policy: RuntimePolicy, case_id='synthetic', observations=(), seed=42):
+                 *, policy: RuntimePolicy, case_id='synthetic', observations=(), seed=42,
+                 context_builder=None, decision_validator=None):
         self.net,self.persona,self.prior,self.provider=net,persona,prior,provider
         self.policy,self.case_id,self.started_at=policy,case_id,started_at
+        self.context_builder=context_builder
+        self.decision_validator=decision_validator or validate_decision
         self.scene=SceneConditions(net,list(observations),started_at)
         self.rng=random.Random(seed)
         self.node=net.nearest_node(start)
         self.g=gauges.Gauges(gauges.config_for(persona))
         self.distance=0.;self.mind_confusion=None;self.rest_end=None;self.hold_until=0.;self.next_review=0.
-        self.action='continue';self.travel_action='roam';self.avoid_feature=None
+        self.action='continue';self.travel_action=None;self.avoid_feature=None
         self.target=None;self.target_reached=False;self.last_rest_end=None
         self.labels={ap.label:net.nearest_node(ap.location) for ap in persona.attraction_points}
         self.edge_to=None;self.edge_remaining=0.;self.edge_length=0.
@@ -62,10 +65,15 @@ class WalkingSession:
                      recent_events=deepcopy(self.history[-8:]))
 
     def context(self,trigger):
-        return context_for(self.persona,self.prior,self.state(),case_id=self.case_id,
+        builder=self.context_builder or context_for
+        extra={} if self.context_builder is None else {'execution':{
+            'previous_travel_action':self.travel_action,
+            'previous_avoid_feature':self.avoid_feature,
+            'hold_until_minutes':self.hold_until if self.action in ('rest','stay') else None}}
+        return builder(self.persona,self.prior,self.state(),case_id=self.case_id,
                            started_at=self.started_at,trigger=trigger,
                            env=self.net.env(self.node),
-                           observations=self.scene.at(self.node,self.g.elapsed_min))
+                           observations=self.scene.at(self.node,self.g.elapsed_min),**extra)
 
     def _environment_key(self):
         env=self.net.env(self.node)
@@ -79,7 +87,7 @@ class WalkingSession:
     def _decide(self,reason):
         context=self.context(reason)
         # Provider exceptions are observable. No heuristic is relabeled as model output.
-        decision=validate_decision(self.provider(context),context)
+        decision=self.decision_validator(self.provider(context),context)
         self.decisions.append({'minute':self.g.elapsed_min,'context':context,
                                'decision':decision.model_dump(mode='json')})
         if decision.goal_operation=='set':
@@ -89,16 +97,17 @@ class WalkingSession:
         if decision.confusion_level != 'unknown':
             self.mind_confusion={'high':.85,'medium':.6,'low':.35}[decision.confusion_level]
         action=decision.action
-        if action=='continue':action=self.travel_action
+        if action=='continue':action=self.travel_action or 'roam'
         if action in ('seek','roam','avoid'):
             self.travel_action=action
         self.action=action
-        if action=='avoid':self.avoid_feature=decision.avoid_feature
-        elif action not in ('rest','stay'):self.avoid_feature=None
+        if decision.action=='avoid':self.avoid_feature=decision.avoid_feature
+        elif action not in ('rest','stay','avoid'):self.avoid_feature=None
         if action=='rest':self.hold_until=self.g.elapsed_min+self.policy.rest_minutes
         elif action=='stay':self.hold_until=self.g.elapsed_min+self.policy.reassess_minutes
         self.next_review=self.g.elapsed_min+self.policy.reassess_minutes
-        self._event('decision',action=self.action,reason=reason,target=self.target)
+        self._event('decision',action=self.action,requested_action=decision.action,
+                    avoid_feature=self.avoid_feature,reason=reason,target=self.target)
         self.previous_environment=self._environment_key()
         self.last_fatigue_band=2 if self.g.F>=.7 else 1 if self.g.F>=.4 else 0
         self.trigger=None
@@ -151,7 +160,8 @@ class WalkingSession:
                         self.last_rest_end=self.g.elapsed_min
                         self._event('rest_complete');self.trigger='rest_complete'
                     else:self.trigger='stay_review'
-                    self.action='continue'
+                    # Preserve the completed action until the next model decision.
+                    # The trigger + elapsed hold time distinguish completion from rest.
                 continue
             if self.edge_to is None:
                 if self.target and not self.target_reached and self.node==self.labels[self.target]:
