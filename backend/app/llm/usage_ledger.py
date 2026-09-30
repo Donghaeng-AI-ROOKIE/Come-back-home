@@ -6,9 +6,14 @@
 """
 from __future__ import annotations
 
-import fcntl
 import json
 import os
+
+try:
+    import fcntl
+except ImportError:  # Windows — fcntl 은 POSIX 전용이라 모듈 import 자체가 앱을 죽인다
+    fcntl = None
+    import msvcrt
 import time
 import uuid
 from datetime import datetime, timezone
@@ -36,7 +41,7 @@ def append_event(event, ledger_path=DEFAULT_LEDGER, *, max_started=None):
     payload = (json.dumps(record, ensure_ascii=False, allow_nan=False) + "\n").encode()
     fd = os.open(path, os.O_RDWR | os.O_CREAT | os.O_APPEND, 0o600)
     try:
-        fcntl.flock(fd, fcntl.LOCK_EX)
+        _lock(fd)
         if max_started is not None:
             # 같은 파일 잠금 안에서 확인·예약해 동시 호출도 상한을 지킨다.
             with os.fdopen(os.dup(fd), "r", encoding="utf-8") as reader:
@@ -54,8 +59,28 @@ def append_event(event, ledger_path=DEFAULT_LEDGER, *, max_started=None):
             view = view[written:]
         os.fsync(fd)
     finally:
+        _unlock(fd)
         os.close(fd)
     return record
+
+
+def _lock(fd) -> None:
+    """파일 배타 잠금 — POSIX 는 flock, Windows 는 0번 바이트 잠금(O_APPEND 라 쓰기는 끝에 간다)."""
+    if fcntl is not None:
+        fcntl.flock(fd, fcntl.LOCK_EX)
+        return
+    os.lseek(fd, 0, os.SEEK_SET)
+    msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
+
+
+def _unlock(fd) -> None:
+    if fcntl is not None:
+        return                                  # flock 은 close 로 풀린다
+    try:
+        os.lseek(fd, 0, os.SEEK_SET)
+        msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+    except OSError:
+        pass                                    # 잠금을 못 얻었던 경우 — 풀 것도 없다
 
 
 def _usage(value):
