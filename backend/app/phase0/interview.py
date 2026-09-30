@@ -20,9 +20,13 @@ from app import storage
 from app.llm import midm
 from app.phase0 import retrieval, safety
 from app.geo.geocode import (
+    HOME_ALT_MAX_LIST,
+    GeoResult,
     clean_area_text,
     get_geocoder,
     has_region_token,
+    region_tokens,
+    token_in_text,
     locate_home,
     to_attraction_points,
 )
@@ -504,11 +508,17 @@ def _check_home(session: InterviewSession, utterance: str = "", *, answer_kind: 
     except Exception:  # noqa: BLE001 — 지오코더 장애가 인터뷰를 죽이면 안 됨
         res = None
     if res is not None and (res.precision in ("address", "dong") or _has_region_token(text)):
+        # 찾았고 지역도 있다 — 그런데 **몇 곳**을 가리키는가. "산남동"은 파주와 청주,
+        # "마포구 스타벅스"는 15개 지점인데 지오코더는 첫 결과만 준다.
+        reask = _disambiguate_home(session, res, text)
+        if reask:
+            return reask
         session.home_geo = {
             "query": text, "lat": res.point.lat, "lng": res.point.lng,
             "precision": res.precision, "source": res.source,
             "matched": res.matched, "address": res.address,
         }
+        _clear_home_choice(session)
         if from_utterance:
             # 추출기는 빈손이었지만 발화가 주소·지역 조건을 충족하며 지도에 잡혔다
             session.draft_fields["home"] = text
@@ -519,18 +529,218 @@ def _check_home(session: InterviewSession, utterance: str = "", *, answer_kind: 
     if session.home_check_failures >= _HOME_CHECK_MAX_FAILURES:
         session.home_geo = None         # 미확인 통과 — finalize 가 다시 시도한다
         return None
-    session.draft_fields.pop("home", None)
-    if "home" in session.filled_keys:
-        session.filled_keys.remove("home")
-    session.home_geo = None
+    _reject_home(session)
     session.home_check_failures += 1
-    session.prev_target_key = "home"
-    session.asked_counts["home"] = 1    # 2.5 게이트가 또 묻지 않게 + 소진(MAX)은 아니게
     if res is None:
         return (f"'{text}'은(는) 지도에서 찾지 못했어요. 시·구·동 이름이나 도로명 주소로 "
                 "다시 알려주세요. (예: 서울 중랑구 면목동, 서울시 마포구 백범로 35)")
     return (f"'{text}'만으로는 위치를 특정하기 어려워요. 어느 시·구·동에 있는지 함께 "
             f"알려주세요. (예: ○○시 ○○동 {text})")
+
+
+def _reject_home(session: InterviewSession) -> None:
+    """집 초안을 걷어내고 다음 답을 다시 집으로 받게 한다 — 되묻기 공통 정리.
+
+    first-wins 병합이 새 답을 막지 않도록 초안에서 빼고, 2.5 게이트가 씨앗 질문을
+    또 내보내지 않도록 asked_counts 는 1로 둔다(소진 MAX 는 아니게 — 집은 건너뛸 수
+    없는 슬롯이다).
+    """
+    session.draft_fields.pop("home", None)
+    if "home" in session.filled_keys:
+        session.filled_keys.remove("home")
+    session.home_geo = None
+    session.prev_target_key = "home"
+    session.asked_counts["home"] = 1
+
+
+# ── 집 주소 다중 후보 되묻기 ──────────────────────────────────────────
+# 지오코더는 첫 결과 하나만 돌려준다(size=1). "산남동"은 파주·청주에 있고
+# "마포구 스타벅스"는 15개 지점인데, 지역 표기가 있다는 이유로 첫 결과가 조용히
+# 집으로 등록됐다(실측 2026-10-01: 산남동→파주, 마포구 스타벅스→망원한강공원점).
+# 요약의 "지도 확인:" 한 줄이 유일한 방어였다. 답이 가리키는 후보 집합을 세어
+# 2곳 이상이면 그 자리에서 한 번 되묻는다. (끌림점의 Mi:dm 후보 고르기(_PlaceChooser)
+# 는 finalize 의 장소용이고 집은 여전히 locate_home 첫 결과다 — 겹치지 않는다.)
+#
+# 한 집 답에 되묻는 상한. 6개 이상 → 보탬("합정동이요") → 나열 → 확정이 2회다.
+# 그래도 못 좁히면 첫 결과로 통과시킨다 — 되묻기가 등록을 막아선 안 된다.
+_HOME_CHOICE_MAX_ROUNDS = 2
+
+_ORDINALS = {"첫번째": 1, "첫째": 1, "하나": 1, "두번째": 2, "둘째": 2, "세번째": 3, "셋째": 3,
+             "네번째": 4, "넷째": 4, "다섯번째": 5, "다섯째": 5,
+             "①": 1, "②": 2, "③": 3, "④": 4, "⑤": 5}
+_CHOICE_NUMBER_RE = re.compile(r"^(\d+)(?:번|번째)?$")
+
+
+def _home_alternatives(res: GeoResult, text: str) -> list | None:
+    """후보 집합 조회 — 백엔드가 못 하거나 장애면 None(되묻지 않고 오늘처럼)."""
+    fn = getattr(_GEO, "home_alternatives", None)
+    if fn is None:
+        return None
+    try:
+        return fn(res, text)
+    except Exception:  # noqa: BLE001 — 후보 조회 장애가 첫 결과 통과를 막으면 안 됨
+        return None
+
+
+def _non_region_part(text: str) -> str:
+    """지역 토큰을 뺀 나머지 — "마포구 스타벅스" → "스타벅스", "산남동" → ""."""
+    region = set(region_tokens(text))
+    toks = [_strip_tail_particles(t) for t in str(text or "").split()]
+    return " ".join(t for t in toks if t and t not in region)
+
+
+def _clear_home_choice(session: InterviewSession) -> None:
+    session.home_choices = []
+    session.home_choice_text = ""
+    session.home_choice_rounds = 0
+
+
+def _disambiguate_home(session: InterviewSession, res: GeoResult, text: str) -> str | None:
+    """찾은 집 답이 여러 곳을 가리키면 되물을 문장, 유일하면 None(통과).
+
+    후보 0 = 첫 결과가 답에 적힌 지역 **밖**("강동구 ○○분식"이 타 구로 걸림) —
+    지오코더 미탐과 같은 급으로 실패 예산(_HOME_CHECK_MAX_FAILURES)을 쓴다.
+    2~HOME_ALT_MAX_LIST 는 번호 보기로 나열, 그 이상은 나열 대신 더 구체적으로
+    말해 달라고 하되 실제 후보에서 뽑은 예시를 붙여 답 형식을 바로 알게 한다.
+    """
+    if session.home_choice_rounds >= _HOME_CHOICE_MAX_ROUNDS:
+        return None
+    alts = _home_alternatives(res, text)
+    if alts is None or len(alts) == 1:
+        return None
+    region = " ".join(region_tokens(text))
+    rest = _non_region_part(text)
+    if not alts:
+        if session.home_check_failures >= _HOME_CHECK_MAX_FAILURES:
+            return None
+        _reject_home(session)
+        session.home_check_failures += 1
+        if region and rest:
+            return (f"'{region}'에서는 '{rest}'을(를) 찾지 못했어요. 지역이나 이름을 다시 "
+                    f"확인해 주세요. (예: {region} ○○동 {rest})")
+        return (f"'{text}'은(는) 지도에서 찾지 못했어요. 시·구·동 이름이나 도로명 주소로 "
+                "다시 알려주세요. (예: 서울 중랑구 면목동, 서울시 마포구 백범로 35)")
+    _reject_home(session)
+    session.home_choice_text = text
+    session.home_choice_rounds += 1
+    if len(alts) <= HOME_ALT_MAX_LIST:
+        session.home_choices = [
+            {"label": a.label, "address": a.address, "lat": a.point.lat, "lng": a.point.lng,
+             "precision": a.precision, "source": a.source} for a in alts]
+        listed = "\n".join(f"{i}. {a.label}" for i, a in enumerate(alts, 1))
+        return (f"'{text}'에 해당하는 곳이 여러 곳이에요. 어디인가요?\n{listed}\n"
+                "번호나 이름으로 답해 주세요.")
+    session.home_choices = []
+    if res.precision == "address" or not rest:
+        ex = ", ".join(a.address for a in alts[:2] if a.address)
+        return (f"'{text}'은(는) 전국에 여러 곳이에요. 시·군·구를 함께 알려주세요. "
+                f"(예: {ex})")
+    # POI — 첫 후보의 동을 빌려 "마포구 망원동 스타벅스"처럼 보탬 형식을 보여준다
+    dong = next((t for t in region_tokens(alts[0].address)
+                 if t.endswith(("동", "읍", "면", "리")) and not token_in_text(t, text)), "")
+    examples = [" ".join(x for x in (region, dong, rest) if x)] if dong else []
+    examples.append(alts[0].label)
+    return (f"'{region}'에 '{rest}'이(가) 여러 곳이에요. 동 이름이나 지점 이름을 함께 "
+            f"알려주세요. (예: {', '.join(examples)})")
+
+
+def _region_rank(tok: str) -> int:
+    """병합 정렬용 — 시/도(0) → 시/군/구(1) → 동(2) → 도로(3). 접미사 없는 "대전"은 맨 앞."""
+    if tok.endswith(("구", "군")) or tok in ("중구", "동구", "서구", "남구", "북구"):
+        return 1
+    if tok.endswith(("동", "읍", "면", "리")):
+        return 2
+    if tok.endswith(("로", "길")):
+        return 3
+    if tok.endswith(("시", "도")):
+        return 0
+    return -1
+
+
+def _merge_home_refinement(prev: str, addition: str) -> str:
+    """"마포구 스타벅스" + "합정동" → "마포구 합정동 스타벅스", "중앙동" + "대전 동구" → "대전 동구 중앙동".
+
+    되묻기 뒤의 짧은 보탬을 새 답으로 취급하면 "합정동" 동 중심이 집이 되고 상호가
+    사라진다. 지역 토큰들을 행정 단위 순으로 세우고 나머지(상호)는 뒤에 둔다.
+
+    보탬은 **없던 행정 단위**를 채운다(동에 구를, 구에 동을). 같은 단위가 또 오면
+    ("산남동" 뒤에 "성북구 정릉동") 고쳐 말한 새 답이지 보탬이 아니다 — 합치면
+    "성북구 산남동 정릉동"이 된다. 그 경우와 보탤 게 없는 경우는 원문을 그대로
+    돌려준다 — 호출부가 무변경을 보고 새 답 경로로 넘긴다.
+    """
+    prev_toks = prev.split()
+    region_prev = [t for t in prev_toks if has_region_token(t)]
+    rest = [t for t in prev_toks if t not in region_prev]
+    new = [t for t in (_strip_tail_particles(t) for t in addition.split()) if t and t not in prev_toks]
+    if not new:
+        return prev
+    prev_levels = {_region_rank(t) for t in region_prev}
+    if any(_region_rank(t) in prev_levels for t in new if has_region_token(t)):
+        return prev
+    # 상호가 있던 답에 지역 아닌 낱말이 또 오면("합정동 이마트") 가게를 바꾼 새 답이다.
+    # 순수 주소 답("중앙동")에는 접미사 없는 시/도 이름("대전 동구")을 허용해야 한다.
+    if rest and any(not has_region_token(t) for t in new):
+        return prev
+    return " ".join(sorted(region_prev + new, key=_region_rank) + rest)
+
+
+def _pick_home_choice(session: InterviewSession, utterance: str) -> dict | None:
+    """나열한 보기 중 답이 가리키는 하나 — 번호("2", "2번", "둘째") 또는 이름 부분일치."""
+    choices = session.home_choices
+    if not choices:
+        return None
+    compact = _strip_tail_particles(utterance).replace(" ", "")
+    m = _CHOICE_NUMBER_RE.match(compact)
+    n = int(m.group(1)) if m else _ORDINALS.get(compact)
+    if n and 1 <= n <= len(choices):
+        return choices[n - 1]
+    toks = [t for t in (_strip_tail_particles(t) for t in utterance.split()) if len(t) >= 2]
+    hits = [c for c in choices
+            if any(token_in_text(t, f"{c['label']} {c['address']}") for t in toks)]
+    return hits[0] if len(hits) == 1 else None
+
+
+def _accept_home_choice(session: InterviewSession, choice: dict) -> None:
+    """보기 하나로 집을 확정 — 텍스트는 유일한 표기로 바꿔 요약·finalize·재검증이 같은 곳을 본다."""
+    home_text = choice["address"] if choice["precision"] == "address" else choice["label"]
+    session.draft_fields["home"] = home_text
+    session.home_geo = {
+        "query": home_text, "lat": choice["lat"], "lng": choice["lng"],
+        "precision": choice["precision"], "source": choice.get("source", "kakao"),
+        "matched": choice["label"], "address": choice["address"],
+    }
+    if "home" not in session.filled_keys:
+        session.filled_keys.append("home")
+    session.asked_counts.pop("home", None)
+    _clear_home_choice(session)
+
+
+def _resolve_home_choice(session: InterviewSession, utterance: str) -> str | bool | None:
+    """되묻기 뒤 답 해석. True = 확정(추출 건너뜀), str = 다시 되물을 문장, None = 새 답으로 취급.
+
+    세 갈래 — (1) 보기 매치, (2) 지역 토큰만 보탠 답은 되물은 원문에 합쳐 재조회,
+    (3) 그 외는 처음부터 다시(집 답 전체를 새로 말한 경우). 이 함수는 **추출 전에**
+    불려야 한다 — "파주요"를 Mi:dm 에 넘기면 새 집이나 끌림점으로 뽑는다.
+    """
+    u = _strip_tail_particles(utterance)
+    pick = _pick_home_choice(session, u)
+    if pick is not None:
+        _accept_home_choice(session, pick)
+        return True
+    if session.home_choice_text and has_region_token(u) and len(u.split()) <= 3:
+        merged = _merge_home_refinement(session.home_choice_text, u)
+        if merged != session.home_choice_text:
+            session.draft_fields["home"] = merged
+            reask = _check_home(session)
+            if reask:
+                return reask
+            if "home" not in session.filled_keys:
+                session.filled_keys.append("home")
+            session.asked_counts.pop("home", None)
+            return True
+    session.home_choices = []
+    session.home_choice_text = ""
+    return None
 
 
 def _ground_profile_fields(session: InterviewSession, prev_slot: SlotSpec,
@@ -1279,7 +1489,17 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
                                    "answer": clean, "recorded_at": datetime.now(timezone.utc).isoformat()})
 
     got_something = True   # 이번 답에서 뭐라도 건졌나 — 빈손이면 직전 슬롯 재선택 회피
-    if prev_slot is not None:
+    # 0.7) 집 되묻기("산남동 — 파주요, 청주요?")에 대한 답은 **추출 전에** 가로챈다.
+    #      "2번이요"·"청주요"·"합정동이요"는 새 사실이 아니라 보기 선택이다.
+    chosen = False
+    if prev_slot is not None and prev_slot.key == "home" and session.home_choice_rounds > 0:
+        outcome = _resolve_home_choice(session, clean)
+        if isinstance(outcome, str):
+            session.messages.append({"role": "assistant", "text": outcome})
+            storage.interviews.save(session.id, session)
+            return session
+        chosen = outcome is True
+    if prev_slot is not None and not chosen:
         extracted = _extract_tracked(session, prev_slot)
         # 답변 유형은 모델 판정(answer_kind). None 이면(호출 실패) 유형별 처리를 하지
         # 않는다 — 같은 슬롯을 한 번 더 묻고, 계속 실패하면 재질문 예산이 소진시킨다.
