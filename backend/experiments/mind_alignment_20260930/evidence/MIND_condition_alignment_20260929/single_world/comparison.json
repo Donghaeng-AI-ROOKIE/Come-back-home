@@ -1,0 +1,94 @@
+{
+  "planned_calls": 12,
+  "completed_calls": 12,
+  "complete_json_objects": 12,
+  "contract_pass": 12,
+  "branch_action_matches": 11,
+  "planned_branch_opportunities": 12,
+  "complete_aggregate_cases": 4,
+  "aggregate_action_matches": 4,
+  "aggregate_case_total": 4,
+  "all_branch_actions_match": 3,
+  "stable_pairs": 1,
+  "pair_total": 2,
+  "length_finishes": 0,
+  "cases": [
+    {
+      "id": "H3_D04-1",
+      "repeat": 1,
+      "complete": true,
+      "aggregate_action_match": true,
+      "decision": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market",
+        "reason": "모든 가정 분기에서 같은 다음 명령을 선택. 분기별 모델 설명은 원본 결과에 보존.",
+        "evidence_ids": [
+          "N1"
+        ],
+        "confusion_level": "unknown"
+      },
+      "all_branch_actions_match": true
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 1,
+      "complete": true,
+      "aggregate_action_match": true,
+      "decision": {
+        "status": "insufficient_information",
+        "action": null,
+        "goal_operation": null,
+        "goal_label": null,
+        "avoid_feature": null,
+        "reason": "미확인 관측의 가능한 값에 따라 다음 명령이 달라 단일 행동을 확정하지 않음. 가능 명령: avoid_market, continue, seek_1",
+        "evidence_ids": [
+          "N1"
+        ],
+        "confusion_level": "unknown"
+      },
+      "all_branch_actions_match": false
+    },
+    {
+      "id": "H3_D04-1",
+      "repeat": 2,
+      "complete": true,
+      "aggregate_action_match": true,
+      "decision": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market",
+        "reason": "모든 가정 분기에서 같은 다음 명령을 선택. 분기별 모델 설명은 원본 결과에 보존.",
+        "evidence_ids": [
+          "N1"
+        ],
+        "confusion_level": "unknown"
+      },
+      "all_branch_actions_match": true
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 2,
+      "complete": true,
+      "aggregate_action_match": true,
+      "decision": {
+        "status": "insufficient_information",
+        "action": null,
+        "goal_operation": null,
+        "goal_label": null,
+        "avoid_feature": null,
+        "reason": "미확인 관측의 가능한 값에 따라 다음 명령이 달라 단일 행동을 확정하지 않음. 가능 명령: avoid_market, continue",
+        "evidence_ids": [
+          "N1"
+        ],
+        "confusion_level": "unknown"
+      },
+      "all_branch_actions_match": true
+    }
+  ],
+  "meaning_not_certified_by_this_script": true
+}

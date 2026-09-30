@@ -1,0 +1,68 @@
+{
+  "batch": "contrast_pilot1",
+  "results": {
+    "concise_person_scene": {
+      "planned": 40,
+      "completed": 6,
+      "not_run": 34,
+      "contract_pass": 6,
+      "command_correct": 5,
+      "source_correct": 6,
+      "slices": {
+        "all_conditions_known": {
+          "completed": 4,
+          "command_correct": 3
+        },
+        "has_unknown_condition": {
+          "completed": 2,
+          "command_correct": 2
+        }
+      },
+      "complete_pairs": 3,
+      "pairs_both_correct": 2,
+      "action_differing_pairs": 3,
+      "action_differing_pairs_both_correct": 2,
+      "all_explanations_semantically_reviewed": false
+    },
+    "observation_v2": {
+      "planned": 40,
+      "completed": 6,
+      "not_run": 34,
+      "contract_pass": 6,
+      "command_correct": 4,
+      "source_correct": 6,
+      "slices": {
+        "all_conditions_known": {
+          "completed": 4,
+          "command_correct": 3
+        },
+        "has_unknown_condition": {
+          "completed": 2,
+          "command_correct": 1
+        }
+      },
+      "complete_pairs": 3,
+      "pairs_both_correct": 1,
+      "action_differing_pairs": 3,
+      "action_differing_pairs_both_correct": 1,
+      "all_explanations_semantically_reviewed": false
+    }
+  },
+  "usage": {
+    "calls_started": 12,
+    "calls_ended": 12,
+    "complete_ledger_pairs": true,
+    "input_tokens": 15296,
+    "output_tokens": 24457,
+    "missing_usage": 0,
+    "unit_price": null,
+    "actual_cost": null,
+    "support_round": null,
+    "latency_median_seconds": 17.678476625937037,
+    "latency_max_seconds": 26.744962004944682
+  },
+  "final_evaluation_calls": 0,
+  "clinical_patients": 0,
+  "unique_development_profiles": 20,
+  "paired_source_groups": 10
+}

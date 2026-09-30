@@ -34,10 +34,11 @@ class RuntimePolicy:
 class WalkingSession:
     def __init__(self, net, persona, prior, start, started_at: datetime, provider,
                  *, policy: RuntimePolicy, case_id='synthetic', observations=(), seed=42,
-                 context_builder=None, decision_validator=None):
+                 context_builder=None, decision_validator=None, allow_abstention=False):
         self.net,self.persona,self.prior,self.provider=net,persona,prior,provider
         self.policy,self.case_id,self.started_at=policy,case_id,started_at
         self.context_builder=context_builder
+        self.allow_abstention=allow_abstention
         self.decision_validator=decision_validator or validate_decision
         self.scene=SceneConditions(net,list(observations),started_at)
         self.rng=random.Random(seed)
@@ -87,7 +88,17 @@ class WalkingSession:
     def _decide(self,reason):
         context=self.context(reason)
         # Provider exceptions are observable. No heuristic is relabeled as model output.
-        decision=self.decision_validator(self.provider(context),context)
+        value=self.provider(context)
+        if value is None:
+            if not self.allow_abstention:
+                raise ValueError('decision provider returned no action')
+            self.decisions.append({'minute':self.g.elapsed_min,'context':context,'decision':None,
+                                   'model_response':deepcopy(getattr(self.provider,'last_response',None)),
+                                   'execution_policy':'stop_probe_without_invented_action'})
+            self.terminated=True;self.termination_reason='model_abstained'
+            self._event('decision_deferred',reason=reason)
+            return
+        decision=self.decision_validator(value,context)
         self.decisions.append({'minute':self.g.elapsed_min,'context':context,
                                'decision':decision.model_dump(mode='json')})
         if decision.goal_operation=='set':
@@ -173,6 +184,7 @@ class WalkingSession:
                 if fatigue_band!=self.last_fatigue_band:self.trigger=self.trigger or 'fatigue_changed'
                 if self.g.elapsed_min>=self.next_review-1e-9:self.trigger=self.trigger or 'scheduled_review'
                 if self.trigger:self._decide(self.trigger)
+                if self.terminated:continue
                 if self.action in ('rest','stay'):continue
                 self._choose_edge()
                 if self.terminated:continue

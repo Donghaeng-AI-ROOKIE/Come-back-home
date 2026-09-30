@@ -1,0 +1,207 @@
+{
+  "pairs": [
+    {
+      "id": "H3_D01-1",
+      "expected_action": "rest",
+      "before": {
+        "max_tokens": 6000,
+        "final_content_present": false,
+        "finish_reason": "length",
+        "completion_tokens": 6000,
+        "behavior_match": false
+      },
+      "after": {
+        "max_tokens": 12000,
+        "final_content_present": true,
+        "finish_reason": "stop",
+        "completion_tokens": 3971,
+        "behavior_match": true
+      },
+      "per_branch": [
+        {
+          "branch": "b0",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": false,
+            "/hypothetical_only/companion_present": false
+          },
+          "model_command": "rest",
+          "model_reason": "피로 0.9로 높은 피로 수준에서 소음이 확인되었으나 개인 조건에 따라 휴식 우선",
+          "action_match": true,
+          "semantic_review_complete": false
+        },
+        {
+          "branch": "b1",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": false,
+            "/hypothetical_only/companion_present": true
+          },
+          "model_command": "rest",
+          "model_reason": "피로 0.9로 높은 피로 상태에서 소음이 있으나 개인 조건에 따라 휴식 우선",
+          "action_match": true,
+          "semantic_review_complete": false
+        },
+        {
+          "branch": "b2",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": true,
+            "/hypothetical_only/companion_present": false
+          },
+          "model_command": "rest",
+          "model_reason": "피로 0.9로 높은 피로 상태에서 소음이 있는 경우에도 휴식 우선",
+          "action_match": true,
+          "semantic_review_complete": false
+        },
+        {
+          "branch": "b3",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": true,
+            "/hypothetical_only/companion_present": true
+          },
+          "model_command": "rest",
+          "model_reason": "피로 0.9로 높은 피로 수준에서 소음이 있으나 개인 조건에 따라 휴식 우선",
+          "action_match": true,
+          "semantic_review_complete": false
+        }
+      ]
+    },
+    {
+      "id": "H3_D01-2",
+      "expected_action": "avoid",
+      "before": {
+        "max_tokens": 6000,
+        "final_content_present": true,
+        "finish_reason": "stop",
+        "completion_tokens": 3507,
+        "behavior_match": false
+      },
+      "after": {
+        "max_tokens": 12000,
+        "final_content_present": true,
+        "finish_reason": "stop",
+        "completion_tokens": 8889,
+        "behavior_match": true
+      },
+      "per_branch": [
+        {
+          "branch": "b0",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": false,
+            "/hypothetical_only/companion_present": false
+          },
+          "model_command": "avoid_park",
+          "model_reason": "공원 소음이 있으므로 공원 회피 (공원 혼잡 없음, 동반자 없음).",
+          "action_match": true,
+          "semantic_review_complete": false
+        },
+        {
+          "branch": "b1",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": false,
+            "/hypothetical_only/companion_present": true
+          },
+          "model_command": "avoid_park",
+          "model_reason": "공원 소음이 있으므로 공원 회피 (공원 혼잡 없음, 동반자 있음).",
+          "action_match": true,
+          "semantic_review_complete": false
+        },
+        {
+          "branch": "b2",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": true,
+            "/hypothetical_only/companion_present": false
+          },
+          "model_command": "avoid_park",
+          "model_reason": "공원 소음이 있으므로 공원 회피 (공원 혼잡 있음, 동반자 없음).",
+          "action_match": true,
+          "semantic_review_complete": false
+        },
+        {
+          "branch": "b3",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": true,
+            "/hypothetical_only/companion_present": true
+          },
+          "model_command": "avoid_park",
+          "model_reason": "공원 소음이 있으므로 공원 회피 (공원 혼잡 있음, 동반자 있음).",
+          "action_match": true,
+          "semantic_review_complete": false
+        }
+      ]
+    },
+    {
+      "id": "H3_D01-3",
+      "expected_action": "continue",
+      "before": {
+        "max_tokens": 6000,
+        "final_content_present": false,
+        "finish_reason": "length",
+        "completion_tokens": 6000,
+        "behavior_match": false
+      },
+      "after": {
+        "max_tokens": 12000,
+        "final_content_present": true,
+        "finish_reason": "stop",
+        "completion_tokens": 7527,
+        "behavior_match": true
+      },
+      "per_branch": [
+        {
+          "branch": "b0",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": false,
+            "/hypothetical_only/companion_present": false
+          },
+          "model_command": "continue",
+          "model_reason": "소음이 없고 피로가 낮아 목표 장소 A 향해 계속 탐색합니다.",
+          "action_match": true,
+          "semantic_review_complete": false
+        },
+        {
+          "branch": "b1",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": false,
+            "/hypothetical_only/companion_present": true
+          },
+          "model_command": "continue",
+          "model_reason": "소음이 없고 피로가 낮아 목표 장소 A 향해 계속 탐색합니다.",
+          "action_match": true,
+          "semantic_review_complete": false
+        },
+        {
+          "branch": "b2",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": true,
+            "/hypothetical_only/companion_present": false
+          },
+          "model_command": "continue",
+          "model_reason": "소음이 없고 피로가 낮아 목표 장소 A 향해 계속 탐색합니다.",
+          "action_match": true,
+          "semantic_review_complete": false
+        },
+        {
+          "branch": "b3",
+          "assumptions": {
+            "/environment/observed_signals/park/crowded": true,
+            "/hypothetical_only/companion_present": true
+          },
+          "model_command": "continue",
+          "model_reason": "소음이 없고 피로가 낮아 목표 장소 A 향해 계속 탐색합니다.",
+          "action_match": true,
+          "semantic_review_complete": false
+        }
+      ]
+    }
+  ],
+  "sample_size": 3,
+  "before_completed": 1,
+  "after_completed": 3,
+  "after_case_action_match": 3,
+  "after_branch_action_match": 12,
+  "after_branches_with_final_output": 12,
+  "comparison_limitations": [
+    "Same requests except max_tokens; temperature=1; no fixed seed; one run per input per cap.",
+    "Completeness, branch action correctness and reason fidelity are different metrics.",
+    "Synthetic familiar development cases, no deployment/clinical claims."
+  ]
+}

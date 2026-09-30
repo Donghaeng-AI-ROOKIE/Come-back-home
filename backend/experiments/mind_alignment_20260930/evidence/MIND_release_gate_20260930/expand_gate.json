@@ -1,0 +1,30 @@
+{
+  "approved_by_predefined_gate": false,
+  "verdict": "not_ready_for_production_replacement",
+  "completed_initial_calls": 176,
+  "conditional_remainder_not_run": 280,
+  "predefined_checks": {
+    "all_176_contracts_valid": false,
+    "frontend_all_allowed_commands": false,
+    "frontend_no_reviewed_meaning_failures": false,
+    "canary_command_at_least_95_percent": false,
+    "different_person_pairs_at_least_95_percent": false,
+    "natural_command_at_least_95_percent": false
+  },
+  "failed_checks": [
+    "all_176_contracts_valid",
+    "frontend_all_allowed_commands",
+    "frontend_no_reviewed_meaning_failures",
+    "canary_command_at_least_95_percent",
+    "different_person_pairs_at_least_95_percent",
+    "natural_command_at_least_95_percent"
+  ],
+  "new_lora_training_runs": 0,
+  "production_changes": 0,
+  "limitations": [
+    "synthetic data, not clinical performance",
+    "selected final-answer semantic review, not full independent human review",
+    "new candidate not connected to deployed engine",
+    "live hourly closed-loop and call-budget reuse not validated"
+  ]
+}

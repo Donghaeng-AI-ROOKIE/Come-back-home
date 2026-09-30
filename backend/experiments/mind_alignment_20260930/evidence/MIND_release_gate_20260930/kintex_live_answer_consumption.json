@@ -1,0 +1,394 @@
+{
+  "region": "KINTEX, Goyang",
+  "map_sha256": "b8bce04b2fda6db26f30bbaea428cce04179e695b462295b5471c66c5bbd418c",
+  "map_source": "Overpass walking ways, Nominatim verified center",
+  "map_retrieved_at": "2026-09-28T12:38:28+0900",
+  "osmnx_version": "2.1.0",
+  "center_identity": "Nominatim railway station 킨텍스, not exhibition entrance or booth",
+  "attribution": "© OpenStreetMap contributors, ODbL",
+  "new_model_calls": 0,
+  "new_map_calls": 0,
+  "recorded_live_responses": 16,
+  "consumed": 16,
+  "deferred_probe_terminations": 4,
+  "rows": [
+    {
+      "id": "E1_1",
+      "consumed": true,
+      "model_command": "continue",
+      "interpreted_action": "continue",
+      "runtime_action": "seek",
+      "before_target": "은빛경로당",
+      "after_target": "은빛경로당",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": false,
+      "context_equals_live_request": true,
+      "first_edge_choices": [
+        {
+          "node": 4685385484,
+          "probability": 0.14834586992565507
+        },
+        {
+          "node": 9218071379,
+          "probability": 0.01476911229337515
+        },
+        {
+          "node": 11262443089,
+          "probability": 0.7587140577000434
+        },
+        {
+          "node": 358923070,
+          "probability": 0.07817096008092636
+        }
+      ]
+    },
+    {
+      "id": "E1_2",
+      "consumed": true,
+      "model_command": "continue",
+      "interpreted_action": "continue",
+      "runtime_action": "seek",
+      "before_target": "은빛경로당",
+      "after_target": "은빛경로당",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true,
+      "first_edge_choices": [
+        {
+          "node": 4685385484,
+          "probability": 0.14834586992565507
+        },
+        {
+          "node": 9218071379,
+          "probability": 0.01476911229337515
+        },
+        {
+          "node": 11262443089,
+          "probability": 0.7587140577000434
+        },
+        {
+          "node": 358923070,
+          "probability": 0.07817096008092636
+        }
+      ]
+    },
+    {
+      "id": "E2_1",
+      "consumed": true,
+      "model_command": "avoid_market",
+      "interpreted_action": "avoid",
+      "runtime_action": "avoid",
+      "before_target": "은빛경로당",
+      "after_target": "은빛경로당",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true,
+      "first_edge_choices": [
+        {
+          "node": 4685385484,
+          "probability": 0.25
+        },
+        {
+          "node": 9218071379,
+          "probability": 0.25
+        },
+        {
+          "node": 11262443089,
+          "probability": 0.25
+        },
+        {
+          "node": 358923070,
+          "probability": 0.25
+        }
+      ]
+    },
+    {
+      "id": "E2_2",
+      "consumed": true,
+      "model_command": "continue",
+      "interpreted_action": "continue",
+      "runtime_action": "seek",
+      "before_target": "은빛경로당",
+      "after_target": "은빛경로당",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true,
+      "first_edge_choices": [
+        {
+          "node": 4685385484,
+          "probability": 0.14834586992565507
+        },
+        {
+          "node": 9218071379,
+          "probability": 0.01476911229337515
+        },
+        {
+          "node": 11262443089,
+          "probability": 0.7587140577000434
+        },
+        {
+          "node": 358923070,
+          "probability": 0.07817096008092636
+        }
+      ]
+    },
+    {
+      "id": "G1_1",
+      "consumed": true,
+      "model_command": "seek_2",
+      "interpreted_action": "seek",
+      "runtime_action": "seek",
+      "before_target": null,
+      "after_target": "은빛경로당",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true,
+      "first_edge_choices": [
+        {
+          "node": 4685385484,
+          "probability": 0.14834586992565507
+        },
+        {
+          "node": 9218071379,
+          "probability": 0.01476911229337515
+        },
+        {
+          "node": 11262443089,
+          "probability": 0.7587140577000434
+        },
+        {
+          "node": 358923070,
+          "probability": 0.07817096008092636
+        }
+      ]
+    },
+    {
+      "id": "G1_2",
+      "consumed": true,
+      "model_command": "defer",
+      "interpreted_action": null,
+      "runtime_action": "continue",
+      "before_target": null,
+      "after_target": null,
+      "termination_reason": "model_abstained",
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true
+    },
+    {
+      "id": "G2_1",
+      "consumed": true,
+      "model_command": "defer",
+      "interpreted_action": null,
+      "runtime_action": "continue",
+      "before_target": null,
+      "after_target": null,
+      "termination_reason": "model_abstained",
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true
+    },
+    {
+      "id": "G2_2",
+      "consumed": true,
+      "model_command": "defer",
+      "interpreted_action": null,
+      "runtime_action": "continue",
+      "before_target": null,
+      "after_target": null,
+      "termination_reason": "model_abstained",
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true
+    },
+    {
+      "id": "H_history_1",
+      "consumed": true,
+      "model_command": "seek_2",
+      "interpreted_action": "seek",
+      "runtime_action": "seek",
+      "before_target": null,
+      "after_target": "은빛경로당",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true,
+      "first_edge_choices": [
+        {
+          "node": 4685385484,
+          "probability": 0.14834586992565507
+        },
+        {
+          "node": 9218071379,
+          "probability": 0.01476911229337515
+        },
+        {
+          "node": 11262443089,
+          "probability": 0.7587140577000434
+        },
+        {
+          "node": 358923070,
+          "probability": 0.07817096008092636
+        }
+      ]
+    },
+    {
+      "id": "H_history_2",
+      "consumed": true,
+      "model_command": "defer",
+      "interpreted_action": null,
+      "runtime_action": "continue",
+      "before_target": null,
+      "after_target": null,
+      "termination_reason": "model_abstained",
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true
+    },
+    {
+      "id": "H_wait_1",
+      "consumed": true,
+      "model_command": "stay",
+      "interpreted_action": "stay",
+      "runtime_action": "stay",
+      "before_target": "다온공원",
+      "after_target": "다온공원",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true,
+      "first_minute_moved_m": 0.0,
+      "hold_until": 80.0
+    },
+    {
+      "id": "H_wait_2",
+      "consumed": true,
+      "model_command": "seek_0",
+      "interpreted_action": "seek",
+      "runtime_action": "seek",
+      "before_target": "다온공원",
+      "after_target": "다온공원",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true,
+      "first_edge_choices": [
+        {
+          "node": 4685385484,
+          "probability": 0.7722414780232951
+        },
+        {
+          "node": 9218071379,
+          "probability": 0.08802853800604717
+        },
+        {
+          "node": 11262443089,
+          "probability": 0.12528548270354695
+        },
+        {
+          "node": 358923070,
+          "probability": 0.014444501267110723
+        }
+      ]
+    },
+    {
+      "id": "W1_1",
+      "consumed": true,
+      "model_command": "stay",
+      "interpreted_action": "stay",
+      "runtime_action": "stay",
+      "before_target": "다온공원",
+      "after_target": "다온공원",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true,
+      "first_minute_moved_m": 0.0,
+      "hold_until": 80.0
+    },
+    {
+      "id": "W1_2",
+      "consumed": true,
+      "model_command": "rest",
+      "interpreted_action": "rest",
+      "runtime_action": "rest",
+      "before_target": "다온공원",
+      "after_target": "다온공원",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true,
+      "first_minute_moved_m": 0.0,
+      "hold_until": 65.0
+    },
+    {
+      "id": "W2_1",
+      "consumed": true,
+      "model_command": "continue",
+      "interpreted_action": "continue",
+      "runtime_action": "seek",
+      "before_target": "다온공원",
+      "after_target": "다온공원",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true,
+      "first_edge_choices": [
+        {
+          "node": 4685385484,
+          "probability": 0.7722414780232951
+        },
+        {
+          "node": 9218071379,
+          "probability": 0.08802853800604717
+        },
+        {
+          "node": 11262443089,
+          "probability": 0.12528548270354695
+        },
+        {
+          "node": 358923070,
+          "probability": 0.014444501267110723
+        }
+      ]
+    },
+    {
+      "id": "W2_2",
+      "consumed": true,
+      "model_command": "rest",
+      "interpreted_action": "rest",
+      "runtime_action": "rest",
+      "before_target": "다온공원",
+      "after_target": "다온공원",
+      "termination_reason": null,
+      "goal_preserved_as_commanded": true,
+      "model_command_matches_rubric": true,
+      "context_equals_live_request": true,
+      "first_minute_moved_m": 0.0,
+      "hold_until": 65.0
+    }
+  ],
+  "avoidance_checks": [
+    {
+      "id": "E2_1",
+      "feature": "market",
+      "environment_distances_available": false,
+      "environment_direction_verified": false,
+      "why": "Unmodified cached graph has no attached feature distances; selecting avoid alone does not establish environmental escape."
+    }
+  ],
+  "environment_nodes_loaded": 0,
+  "closed_loop_hourly_live_evaluation": false,
+  "limits": [
+    "Single-response mechanical replay at identical model facts; geometry relocated to cached KINTEX roads.",
+    "Prepared person was tested in the separate live frontend stage; synthetic executor persona is used only for command consumption.",
+    "No saved response reused at later fatigue/environment/time trigger.",
+    "No clinical trajectory or hourly model accuracy claim.",
+    "Current deployed predictor is not this experimental session."
+  ]
+}

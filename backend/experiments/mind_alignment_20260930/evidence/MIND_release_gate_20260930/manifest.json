@@ -1,0 +1,86 @@
+{
+  "status": "frozen_before_calls",
+  "execute_allowed": true,
+  "candidate": "separate_motion_and_goal",
+  "total_call_cap": 456,
+  "initial_calls": 176,
+  "remainder_calls": 280,
+  "max_tokens_per_call": 12000,
+  "max_input_byte_bound": 32768,
+  "concurrency": 4,
+  "retries": 0,
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null,
+  "new_gpu_training": 0,
+  "new_embedding_calls": 0,
+  "new_map_calls": 0,
+  "service_changes": 0,
+  "selection": "First known distinguishing pair and first unknown requiring defer pair within every one of 20 untouched groups. No model outputs consulted.",
+  "expansion_gate": "Expand to remaining 280 only if initial stages have no contract failures or critical semantic failures, canary command >=95%, paired accuracy >=95%, natural command >=95%, frontend accepted commands all valid; manually freeze expand_gate.json first.",
+  "verdict_limits": "Initial-stage failure can reject deployment. Initial-stage success alone cannot approve deployment. No full-evaluation accuracy if remainder not executed. No clinical accuracy claim.",
+  "files": {
+    "canary.jsonl": {
+      "rows": 80,
+      "sha256": "d6ccedd82fe033f5ad5b78e3d186f9ee177c0c3eb4066a495a5142df7a434e97"
+    },
+    "canary_requests.jsonl": {
+      "rows": 80,
+      "sha256": "78bf8bd30bdf54af2f1748f111a3329bbc2d4f905ad0632c2b726ef930846069"
+    },
+    "remainder.jsonl": {
+      "rows": 280,
+      "sha256": "580d66e511385e6966989df5c45be038c10973fdf57ffd734dba734252e2e56f"
+    },
+    "remainder_requests.jsonl": {
+      "rows": 280,
+      "sha256": "99cec72b2784ec69277e7748f7a020d32155aec0f172d7858b3dcba0c6ea14c1"
+    },
+    "natural.jsonl": {
+      "rows": 80,
+      "sha256": "81085f231873cf37fba65efbd14b1dd9818c6c9f86ab939caf4d5cddbd80a4cf"
+    },
+    "natural_requests.jsonl": {
+      "rows": 80,
+      "sha256": "62972d1b9248fe157a876e583ab3f95700e0217a56fd5a8728a7eb95ceed326a"
+    },
+    "frontend.jsonl": {
+      "rows": 16,
+      "sha256": "74f3cb1353669681054bd540e8510d53546ef14fd45d52474af979bb2da5f593"
+    },
+    "frontend_requests.jsonl": {
+      "rows": 16,
+      "sha256": "dd9fbd865c716dcce51b86d9ff584bc1467a842bafe4291ef9f534d09b68d98e"
+    }
+  },
+  "requests": {
+    "canary": {
+      "count": 80,
+      "max_input_byte_bound": 10647
+    },
+    "remainder": {
+      "count": 280,
+      "max_input_byte_bound": 10664
+    },
+    "natural": {
+      "count": 80,
+      "max_input_byte_bound": 10049
+    },
+    "frontend": {
+      "count": 16,
+      "max_input_byte_bound": 17464
+    }
+  },
+  "frozen": {
+    "MIND_state_alignment_20260930/motion_goal_candidate.py": "eb67a26df789b9380185e4329b8e2a4190f4418cb9817fa99e66d823e7a7e970",
+    "MIND_state_alignment_20260930/epistemic_candidate.py": "a3b0520aa3a44c9983bf076a39ba92914993d4e90d0ed16653285966cc26b4c9",
+    "MIND_state_alignment_20260930/unique_command_contract.py": "329f40ec0a1de5568e1d1936e0deb3588eb43fa9f6ed693a13f3364b23a1aa93",
+    "MIND_state_alignment_20260930/contrast_candidate.py": "73697ce1ed61fe3cbb3eb49774307f1fc3ffc9d0c192f76ebe5cf0db3ddb917a",
+    "MIND_state_alignment_20260930/observation_contract_v2.py": "d5bdc2ebbaf1f2271078cfcfb5a21acf3f4ec3d8b01ace9b2aa9ad87752c54d4",
+    "MIND_state_alignment_20260930/state_contract.py": "29ed2a802cda4c3ba3246e2a7b3f8479d4747e0d4854e067049184b47545a2d3",
+    "MIND_release_gate_20260930/prepare.py": "5e9d9aec45de8dfde2d3ceeebfcfe6471601ebb7f6655224ca0d633469353441",
+    "MIND_release_gate_20260930/run_release.py": "a71b88fa08534962502c225a0c54972fe5d49e53a838541be80d811e5b2d1a4a",
+    "MIND_release_gate_20260930/transport.py": "f074b678c92c63d12e49b71bc2746731ebbcd10086c208b388b0695c70d9cf5a",
+    "MIND_release_gate_20260930/frontend_amendments.json": "437867b9878c693144f25820a3ed54f8ff6816830eff11eb7878baf4988c4ebc"
+  }
+}

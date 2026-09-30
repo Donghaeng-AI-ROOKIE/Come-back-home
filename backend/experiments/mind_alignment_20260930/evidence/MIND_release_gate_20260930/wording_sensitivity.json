@@ -1,0 +1,12 @@
+{
+  "primary_n": 80,
+  "primary_correct": 72,
+  "excluded_profiles": [
+    "PC051_P1",
+    "PC065_P1"
+  ],
+  "excluded_n": 4,
+  "remaining_n": 76,
+  "remaining_correct": 70,
+  "method": "Exclude all canary rows of wording-flagged profiles, including their correct answers. Frozen primary scores unchanged."
+}

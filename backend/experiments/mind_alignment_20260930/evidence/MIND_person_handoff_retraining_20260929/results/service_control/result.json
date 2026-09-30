@@ -1,0 +1,18 @@
+{
+  "training_exit_codes": {
+    "fresh": 0,
+    "warm": 0
+  },
+  "service_restored": true,
+  "restored_models": [
+    "exaone-axis",
+    "exaone-base",
+    "exaone-mind-dem3",
+    "exaone-mind-dem4",
+    "exaone-mind-dem5",
+    "exaone-mind-v5",
+    "exaone-sar"
+  ],
+  "midm_original_process_alive": true,
+  "service_interruption_elapsed_seconds": 879.1879679569975
+}

@@ -1,0 +1,165 @@
+{
+  "source_train_sha256": "2472773887b556d3852fe6c33bded598300352e8136a96f4ef3eff38aa48f929",
+  "corrected_train_sha256": "28a2716a27a6b185787b7c76025ee6022d3576d7cf1f65e8fac026c88a69b4b7",
+  "train_records": 96,
+  "corrections": [
+    {
+      "id": "H3_T04-3",
+      "before": {
+        "action": "seek",
+        "avoid_feature": null,
+        "confusion_level": "unknown",
+        "evidence_ids": [
+          "N1",
+          "state",
+          "environment",
+          "history",
+          "clock"
+        ],
+        "goal_label": "등록 장소 B",
+        "goal_operation": "set",
+        "reason": "이미 기억한 목표가 B여도 현재 방향 상실 조건에 맞는 B 접근을 선택한다.",
+        "status": "decision"
+      },
+      "after": {
+        "action": "continue",
+        "avoid_feature": null,
+        "confusion_level": "unknown",
+        "evidence_ids": [
+          "N1",
+          "state",
+          "environment",
+          "history",
+          "clock"
+        ],
+        "goal_label": null,
+        "goal_operation": "keep",
+        "reason": "현재 개인 조건에 맞는 목적지를 향해 이미 걷고 있으므로 같은 목적지의 이동을 유지한다.",
+        "status": "decision"
+      },
+      "reason": "existing movement toward same goal must keep, not set",
+      "reviewer": "Codex",
+      "independent_review": false
+    },
+    {
+      "id": "H3_T07-1",
+      "before": {
+        "action": "seek",
+        "avoid_feature": null,
+        "confusion_level": "unknown",
+        "evidence_ids": [
+          "N1",
+          "state",
+          "environment",
+          "history",
+          "clock"
+        ],
+        "goal_label": "등록 장소 A",
+        "goal_operation": "set",
+        "reason": "오전 일과에 해당하는 등록 장소 A를 선택한다.",
+        "status": "decision"
+      },
+      "after": {
+        "action": "continue",
+        "avoid_feature": null,
+        "confusion_level": "unknown",
+        "evidence_ids": [
+          "N1",
+          "state",
+          "environment",
+          "history",
+          "clock"
+        ],
+        "goal_label": null,
+        "goal_operation": "keep",
+        "reason": "현재 개인 조건에 맞는 목적지를 향해 이미 걷고 있으므로 같은 목적지의 이동을 유지한다.",
+        "status": "decision"
+      },
+      "reason": "existing movement toward same goal must keep, not set",
+      "reviewer": "Codex",
+      "independent_review": false
+    },
+    {
+      "id": "H3_T07-4",
+      "before": {
+        "action": "seek",
+        "avoid_feature": null,
+        "confusion_level": "unknown",
+        "evidence_ids": [
+          "N1",
+          "state",
+          "environment",
+          "history",
+          "clock"
+        ],
+        "goal_label": "등록 장소 B",
+        "goal_operation": "set",
+        "reason": "저녁 일과에 맞는 B를 목표로 유지한다.",
+        "status": "decision"
+      },
+      "after": {
+        "action": "continue",
+        "avoid_feature": null,
+        "confusion_level": "unknown",
+        "evidence_ids": [
+          "N1",
+          "state",
+          "environment",
+          "history",
+          "clock"
+        ],
+        "goal_label": null,
+        "goal_operation": "keep",
+        "reason": "현재 개인 조건에 맞는 목적지를 향해 이미 걷고 있으므로 같은 목적지의 이동을 유지한다.",
+        "status": "decision"
+      },
+      "reason": "existing movement toward same goal must keep, not set",
+      "reviewer": "Codex",
+      "independent_review": false
+    },
+    {
+      "id": "H3_T14-4",
+      "before": {
+        "action": "seek",
+        "avoid_feature": null,
+        "confusion_level": "unknown",
+        "evidence_ids": [
+          "N1",
+          "state",
+          "environment",
+          "history",
+          "clock"
+        ],
+        "goal_label": "등록 장소 B",
+        "goal_operation": "set",
+        "reason": "가족이 없다는 확인에 따라 이미 기억한 B로 향한다.",
+        "status": "decision"
+      },
+      "after": {
+        "action": "continue",
+        "avoid_feature": null,
+        "confusion_level": "unknown",
+        "evidence_ids": [
+          "N1",
+          "state",
+          "environment",
+          "history",
+          "clock"
+        ],
+        "goal_label": null,
+        "goal_operation": "keep",
+        "reason": "현재 개인 조건에 맞는 목적지를 향해 이미 걷고 있으므로 같은 목적지의 이동을 유지한다.",
+        "status": "decision"
+      },
+      "reason": "existing movement toward same goal must keep, not set",
+      "reviewer": "Codex",
+      "independent_review": false
+    }
+  ],
+  "development_sha256": "0922be10dfa728dc848653733f34e17f058701b78efac0f93944bf45bc814196",
+  "held_out_path": "<local-user>/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/실험/MIND_person_handoff_retraining_20260929/dataset/evaluation.jsonl",
+  "held_out_sha256": "c84109eb6f3a72bb331298eb417f1542aaeb774b9c480ad06f6f17f9686df1b9",
+  "source_experiment_unchanged": true,
+  "new_model_calls": 0,
+  "training_not_executed": true
+}

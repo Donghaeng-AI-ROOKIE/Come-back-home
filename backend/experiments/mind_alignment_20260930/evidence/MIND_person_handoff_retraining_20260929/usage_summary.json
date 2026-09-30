@@ -1,0 +1,20 @@
+{
+  "k_api_attempts": 16,
+  "k_response_receipts": 16,
+  "k_input_tokens": 23354,
+  "k_output_tokens": 30776,
+  "k_length_without_content": 2,
+  "gpu_generation_attempts": 32,
+  "gpu_generation_completed": 32,
+  "gpu_input_tokens": 60592,
+  "gpu_output_tokens": 3047,
+  "training_runs_started": 2,
+  "training_runs_finished": 2,
+  "training_process_seconds_including_development_generation": 817.875009145122,
+  "gpu_tokens_are_not_separate_api_charges": true,
+  "actual_cost": null,
+  "unit_price": null,
+  "gpu_billed_hours": null,
+  "support_round": null,
+  "cost_status": "unconfirmed"
+}

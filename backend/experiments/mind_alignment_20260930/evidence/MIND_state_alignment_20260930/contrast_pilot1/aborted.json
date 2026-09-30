@@ -1,0 +1,9 @@
+{
+  "status": "aborted_for_command_menu_regression",
+  "planned_attempts": 80,
+  "actual_attempts": 12,
+  "remaining_not_called": 68,
+  "recovered_results": 2,
+  "reason": "Same active goal could be selected through both continue and seek_0; existing branch fix missing from single-scene path.",
+  "previous_scores_unchanged": true
+}
