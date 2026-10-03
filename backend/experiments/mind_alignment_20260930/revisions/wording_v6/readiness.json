@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "mechanically_ready_training_candidate": true,
+  "wording_blocker_resolved": true,
+  "source_version": "personal_contrasts_v6",
+  "training_rows": 2160,
+  "changed_rows": 81,
+  "unchanged_rows": 2079,
+  "regression_tests_passed": 96,
+  "tokenized_training_rows": 2160,
+  "max_train_tokens": 2724,
+  "token_limit": 8192,
+  "frozen_source_commit": "e5c3cdedc8ad1c9ace7ebfffe6a4f9ac3a3f779f",
+  "frozen_evidence_tree_sha": "1a28a3e87bce00e36cd05031dc415e99ed89af2a",
+  "evaluation_labels_or_scores_changed": false,
+  "training_runs": 0,
+  "model_calls": 0,
+  "model_semantic_regression_run": false,
+  "independent_human_review": false,
+  "clinical_validation": false,
+  "production_approval": false,
+  "scope": "Mechanical readiness of the repaired synthetic candidate only; original review flags and coverage limits remain"
+}

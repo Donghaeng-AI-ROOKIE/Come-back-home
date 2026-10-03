@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "tokenizer": {
+    "repository": "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct",
+    "revision": "553ea250b9a5317231459279d5847d6cf955b9aa",
+    "files": {
+      "config.json": "1cd6f8794383793dce16d24a08eac048c07b08b25c42333da4eeea0a774131f7",
+      "special_tokens_map.json": "ced989581d62fbb18d1ed3bb54cf3556f865b1fd751faa164faf4d4fac2337dd",
+      "tokenizer.json": "7c7507fef57dd4daa4c37103fa656a793748e4cbceb03f808ef292d0324aab10",
+      "tokenizer_config.json": "9a2e592b359d0abb00e0bf05cbc7f846335a70763e59d0d8ed705bb3a3284185"
+    }
+  },
+  "max_tokens": 8192,
+  "files": {
+    "train.jsonl": {
+      "rows": 2160,
+      "encoded": 2160,
+      "sha256": "29149ef027c3eb62f35f85ca60eab02260bc1a5f70aa75da8a355a8ddb17e735",
+      "total_tokens": 5305302,
+      "supervised_tokens": 143091,
+      "min_tokens": 2295,
+      "max_tokens": 2724,
+      "min_answer_tokens": 56
+    },
+    "train_base.jsonl": {
+      "rows": 720,
+      "encoded": 720,
+      "sha256": "f339860b720c4ca6770363492477ec4ebadfaeb4ad365a9d1f831f91129b92b1",
+      "total_tokens": 1759047,
+      "supervised_tokens": 47697,
+      "min_tokens": 2295,
+      "max_tokens": 2701,
+      "min_answer_tokens": 56
+    },
+    "development.jsonl": {
+      "rows": 180,
+      "encoded": 180,
+      "sha256": "cc94263f236a93e4c681c3b3e61d6bbca0b24893c017acce8270d87ab0227a07",
+      "total_tokens": 442184,
+      "supervised_tokens": 11723,
+      "min_tokens": 2315,
+      "max_tokens": 2676,
+      "min_answer_tokens": 56
+    }
+  },
+  "errors": [],
+  "encoding_method": "generation_prefix_plus_answer_tokens",
+  "local_files_only": true,
+  "gpu_disabled": true,
+  "inference_calls": 0,
+  "training_runs": 0,
+  "versions": {
+    "transformers": "4.57.6",
+    "tokenizers": "0.22.2"
+  }
+}
