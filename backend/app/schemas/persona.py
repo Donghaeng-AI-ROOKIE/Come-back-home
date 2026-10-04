@@ -199,6 +199,11 @@ class InterviewSession(BaseModel):
     home_geo: dict | None = None
     # 지도 확인 실패로 집을 되물은 횟수 — 지오코더 장애 시 무한 되묻기를 막는 상한.
     home_check_failures: int = 0
+    # 집 답이 여러 곳을 가리켜 되묻는 중인 상태 — "산남동"(파주/청주), "마포구 스타벅스"
+    # (15개 지점). 지오코더는 첫 결과만 주므로 조용히 엉뚱한 곳이 등록되던 갭(2026-10-01).
+    home_choices: list[dict] = []       # 나열한 보기 [{label,address,lat,lng,precision,source}] — 6개 이상이면 비움
+    home_choice_text: str = ""          # 되물은 답 원문 — "합정동이요" 같은 보탬을 여기에 합친다
+    home_choice_rounds: int = 0         # 이번 집 답에 되물은 횟수 — 상한 뒤엔 첫 결과로 통과
     draft_attractions: list[dict] = []            # [{"label","area_text","place_type","evidence"}]
     draft_behaviors: list[str] = []
     # 어느 슬롯을 겨냥했을 때 나온 노트인지 — {slot_key: [노트...]}.

@@ -51,8 +51,21 @@ import pytest
 
 @pytest.fixture(autouse=True)
 def block_external_connections(monkeypatch):
-    """Live experiments have separate approval/ledgers; unit tests never contact APIs."""
+    """Live experiments have separate approval/ledgers; unit tests never contact APIs.
+
+    루프백은 막지 않는다 — Windows 의 asyncio 는 이벤트 루프 자체 파이프를
+    socket.socketpair() 폴백으로 만드는데 그게 127.0.0.1 connect 라, 막으면
+    TestClient 를 쓰는 테스트 전부가 API 호출과 무관하게 죽는다(2026-10-01 실측 39건).
+    """
+    real_connect = socket.socket.connect
+
+    def blocked_connect(self, address, *args, **kwargs):
+        host = address[0] if isinstance(address, tuple) and address else ""
+        if host in ("127.0.0.1", "::1", "localhost"):
+            return real_connect(self, address, *args, **kwargs)
+        raise RuntimeError("External network is disabled in unit tests")
+
     def blocked(*args, **kwargs):
         raise RuntimeError("External network is disabled in unit tests")
-    monkeypatch.setattr(socket.socket, "connect", blocked)
+    monkeypatch.setattr(socket.socket, "connect", blocked_connect)
     monkeypatch.setattr(socket, "create_connection", blocked)
