@@ -43,6 +43,9 @@ class Case(BaseModel):
     prior: PriorParams | None = None
     # 신고 상황 문장 ↔ 등록 장소 링크(Mi:dm, phase2.situation_link). 같은 문장·같은 준비
     # 결과면 재예측 때 다시 부르지 않는다 — {"key", "status", "links", "rejected"}.
+    continuous_state: dict = Field(default_factory=dict)
+    prediction_quality: dict = Field(default_factory=dict)
+    prior_context_key: str = ""
     situation_links: dict | None = None
     mind: MindState | None = None
     baseline_poa: dict[str, float] | None = None   # 마지막 시뮬 직후 분포 (KL 이탈 비교 기준)

@@ -510,9 +510,11 @@ def _check_home(session: InterviewSession, utterance: str = "", *, answer_kind: 
     if res is not None and (res.precision in ("address", "dong") or _has_region_token(text)):
         # 찾았고 지역도 있다 — 그런데 **몇 곳**을 가리키는가. "산남동"은 파주와 청주,
         # "마포구 스타벅스"는 15개 지점인데 지오코더는 첫 결과만 준다.
-        reask = _disambiguate_home(session, res, text)
-        if reask:
-            return reask
+        resolution = _disambiguate_home(session, res, text)
+        if isinstance(resolution, str):
+            return resolution
+        if isinstance(resolution, GeoResult):
+            res = resolution
         session.home_geo = {
             "query": text, "lat": res.point.lat, "lng": res.point.lng,
             "precision": res.precision, "source": res.source,
@@ -595,8 +597,8 @@ def _clear_home_choice(session: InterviewSession) -> None:
     session.home_choice_rounds = 0
 
 
-def _disambiguate_home(session: InterviewSession, res: GeoResult, text: str) -> str | None:
-    """찾은 집 답이 여러 곳을 가리키면 되물을 문장, 유일하면 None(통과).
+def _disambiguate_home(session: InterviewSession, res: GeoResult, text: str) -> str | GeoResult | None:
+    """여러 후보면 되묻기, 유일한 다른 후보면 GeoResult, 원래 결과면 None.
 
     후보 0 = 첫 결과가 답에 적힌 지역 **밖**("강동구 ○○분식"이 타 구로 걸림) —
     지오코더 미탐과 같은 급으로 실패 예산(_HOME_CHECK_MAX_FAILURES)을 쓴다.
@@ -606,8 +608,17 @@ def _disambiguate_home(session: InterviewSession, res: GeoResult, text: str) -> 
     if session.home_choice_rounds >= _HOME_CHOICE_MAX_ROUNDS:
         return None
     alts = _home_alternatives(res, text)
-    if alts is None or len(alts) == 1:
+    if alts is None:
         return None
+    if len(alts) == 1:
+        # Region filtering may discard the original first hit. Persist the
+        # surviving candidate, not the out-of-region result we just rejected.
+        a = alts[0]
+        if (res.address == a.address and res.precision == a.precision
+                and (res.precision == 'address' or res.matched == a.label)):
+            return None  # The original hit already names the surviving place.
+        return GeoResult(a.point, precision=a.precision, source=a.source,
+                         matched=a.label, address=a.address, query=text)
     region = " ".join(region_tokens(text))
     rest = _non_region_part(text)
     if not alts:

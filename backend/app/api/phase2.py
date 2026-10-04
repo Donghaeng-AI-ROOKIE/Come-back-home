@@ -22,4 +22,8 @@ def predict(case_id: str, seed: int | None = None):
         lifecycle.ensure_not_closed(case)
     except lifecycle.AlreadyClosed as e:
         raise HTTPException(409, str(e))
-    return pipeline.run_prediction(case, seed=seed)
+    try:
+        return pipeline.run_prediction(case, seed=seed)
+    except pipeline.continuous_prediction.IncompletePredictionError:
+        raise HTTPException(503, {'reason':'prediction_incomplete',
+                                  'quality':case.prediction_quality})

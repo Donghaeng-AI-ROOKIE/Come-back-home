@@ -250,6 +250,8 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
 
             try:
                 cached = pipeline.poa_at_elapsed(case, elapsed_hours)
+            except pipeline.continuous_prediction.IncompletePredictionError:
+                raise HTTPException(503, '계산되지 않은 확률이 남아 시간별 지도를 만들 수 없음')
             except ValueError as e:
                 raise HTTPException(409, str(e)) from e
             case.poa_by_hour[key] = cached

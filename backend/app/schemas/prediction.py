@@ -64,4 +64,5 @@ class PredictionResult(BaseModel):
     poa_topdown: POA
     poa_bottomup: POA
     poa_statistical: POA
+    quality: dict = Field(default_factory=dict)
     poa_combined: POA                         # α-pool 통합 결과 (최종)

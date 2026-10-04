@@ -63,7 +63,7 @@ def enqueue(persona_id, *, retry=False):
             return None
         state='queued' if all((settings.kexaone_api_key,settings.kexaone_base_url,settings.kexaone_model)) else 'unconfigured'
         if not initial_behavior.build_payload(current,None,[],None)['notes']:state='no_person_evidence'
-        return current.model_copy(deep=True,update={'prepared_initial':{},'initial_preparation_status':{
+        return current.model_copy(deep=True,update={'prepared_initial':{},'prepared_mind':{},'mind_preparation_status':{},'initial_preparation_status':{
             'state':state,'job_id':job_id,'fingerprint':key,'version':VERSION,'updated_at':datetime.now().isoformat()}})
     updated=storage.personas.update_existing(persona_id,mark)
     if updated and updated.initial_preparation_status['state']=='queued':_dispatch(persona_id,job_id)
@@ -100,12 +100,16 @@ def run_job(persona_id, job_id):
                 error_type=error,updated_at=datetime.now().isoformat())})
     saved=storage.personas.update_existing(persona_id,finish)
     if saved and state=='ready':
+        from app.phase0 import mind_preparation
+        mind_preparation.prepare(persona_id)
         # Existing active cases can now use prepared traits without another K call.
         from app.phase0.persona_events import notify_persona_updated
         notify_persona_updated(persona_id,saved.version)
 
 
 def recover():
+    from app.phase0 import mind_preparation
+    mind_preparation.recover()
     for p in storage.personas.list():
         status=p.initial_preparation_status
         if status.get('state')=='queued':_dispatch(p.id,status['job_id'])

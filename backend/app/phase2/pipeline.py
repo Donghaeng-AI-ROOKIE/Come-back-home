@@ -19,7 +19,7 @@ from app.llm import exaone
 from app.phase2 import combine, radius, simulation, topdown, initial_person
 from app.llm.initial_behavior import simulation_persona
 from app.phase0.person_preparation import apply_prepared
-from app.phase2 import situation_link
+from app.phase2 import situation_link, continuous_prediction
 from app.schemas.case import Case, CaseStatus
 from app.schemas.debug import PredictionDebug, SimTrace
 from app.schemas.prediction import MindState, POA, PredictionResult
@@ -40,6 +40,15 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
     """
     if not settings.use_roadnet:
         return None, "off"
+    if settings.personal_walk_cache_path:
+        from app.geo import roadnet
+        try:
+            net=roadnet.verified_network(settings.personal_walk_cache_path)
+            if net.road_distance_km(case.lkp,case.lkp) is None:
+                return None,'verified regional map does not cover the report location'
+            return net,''
+        except (OSError,ValueError,KeyError) as exc:
+            return None,'verified regional map unavailable: '+type(exc).__name__
     r = None
     if (settings.roadnet_dynamic_radius and prior is not None
             and elapsed_hours is not None):
@@ -113,7 +122,12 @@ def run_prediction(
     # separately grounded in the report; it is not inferred from SAR weights.
     links = situation_link.cached(case, persona)
     last_call = exaone.call_log[-1] if exaone.call_log else None
-    prior = _initial_prior(persona, case.report, links)
+    prior_key = continuous_prediction.prior_key(case, persona)
+    if case.prior is not None and case.prior_context_key == prior_key:
+        prior = case.prior.model_copy(deep=True)
+    else:
+        prior = _initial_prior(persona, case.report, links)
+    source_persona = persona
     prior_call = (exaone.call_log[-1]
                   if exaone.call_log and exaone.call_log[-1] is not last_call
                   and exaone.call_log[-1]["kind"] == "prior" else None)
@@ -132,10 +146,16 @@ def run_prediction(
     sim_trace = SimTrace() if trace else None
     poa_td = topdown.topdown_poa(case.lkp, prior, persona, elapsed_hours)  # 디버그·시각화 전용
     _lap("topdown_ms")
-    poa_bu = simulation.run_monte_carlo(
+    poa_bu, quality = continuous_prediction.run(case, source_persona, prior, net, elapsed_hours, seed=seed)
+    if poa_bu is None:
+        poa_bu = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed,
         trace=sim_trace, environment_observations=case.report.environment_observations,
         started_at=case.lkp_time)
+    if quality.get('unresolved_mass',0)>1e-9:
+        case.prediction_quality=quality
+        storage.cases.save(case.id,case)
+        raise continuous_prediction.IncompletePredictionError('continuous prediction contains unresolved map probability mass')
     _lap("bottomup_ms")
     poa_stat = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed,
@@ -150,6 +170,9 @@ def run_prediction(
                                   alphas=[0.7, 0.3], mode=pool_mode)
 
     # 케이스 상태 갱신 — baseline 은 KL 이탈 트리거의 비교 기준
+    case.prior_context_key = prior_key
+    case.prediction_quality = quality
+    case.poa_by_hour = {}
     case.prior = prior
     case.mind = mind
     case.baseline_poa = dict(combined)
@@ -162,6 +185,7 @@ def run_prediction(
 
     result = PredictionResult(
         case_id=case.id,
+        quality=quality,
         prior=prior,
         poa_topdown=POA(cells=poa_td, source="topdown"),
         poa_bottomup=POA(cells=poa_bu, source="bottomup"),
@@ -208,10 +232,15 @@ def poa_at_elapsed(case: Case, elapsed_hours: float, *, seed: int | None = 42) -
         raise ValueError("prior 없음 — 먼저 예측을 실행해야 한다")
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     elapsed = max(elapsed_hours, 0.05)
+    source_persona = persona
     persona = simulation_persona(persona, case.prior)
     net, _ = _load_roadnet(case, case.prior, persona, elapsed)
     mind = case.mind or MindState()
-    bu = simulation.run_monte_carlo(
+    bu, quality = continuous_prediction.run(case, source_persona, case.prior, net, elapsed, seed=seed, persist=False)
+    if quality.get("unresolved_mass",0)>1e-9:
+        raise continuous_prediction.IncompletePredictionError("preview contains unresolved map probability mass")
+    if bu is None:
+        bu = simulation.run_monte_carlo(
         case.lkp, case.prior, persona, elapsed, mode="agent", net=net,
         mind=mind, seed=seed,
         environment_observations=case.report.environment_observations, started_at=case.lkp_time)

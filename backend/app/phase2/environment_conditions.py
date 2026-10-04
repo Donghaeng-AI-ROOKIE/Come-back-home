@@ -27,9 +27,18 @@ class SceneConditions:
             location=self.net.node_location(node)
             self._nearby[node]=[o for o in self.observations
                 if haversine_km(location,o.location)*1000 <= o.radius_m]
+        return self._values(self._nearby[node],elapsed_minutes)
+
+    def at_location(self,location,elapsed_minutes):
+        """For a walker partway along a road, use its actual interpolated position."""
+        if not self.observations or self.started_at is None:return {}
+        nearby=[o for o in self.observations if haversine_km(location,o.location)*1000<=o.radius_m]
+        return self._values(nearby,elapsed_minutes)
+
+    def _values(self,nearby,elapsed_minutes):
         when=self.started_at+timedelta(minutes=elapsed_minutes)
         values={}
-        for o in self._nearby[node]:
+        for o in nearby:
             if o.valid_from <= when < o.valid_until:
                 for signal in ('crowded','noisy'):
                     value=getattr(o,signal)

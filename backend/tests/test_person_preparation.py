@@ -16,6 +16,8 @@ from tests.test_person_evidence_projection import sample
 @pytest.fixture(autouse=True)
 def isolated(monkeypatch):
     storage.reset_for_tests()
+    from app.phase0 import mind_preparation
+    monkeypatch.setattr(mind_preparation,'prepare',lambda *a,**k:None)
     for name in ('kexaone_api_key','kexaone_base_url','kexaone_model'):
         monkeypatch.setattr(settings,name,'offline-test')
     monkeypatch.setattr(prep,'_dispatch',lambda *args: None)

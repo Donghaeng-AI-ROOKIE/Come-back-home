@@ -103,6 +103,19 @@ def test_backend_without_alternatives_keeps_first_result(monkeypatch):
     assert out.draft_fields["home"] == "산남동" and out.home_choice_rounds == 0
 
 
+def test_unique_filtered_candidate_replaces_out_of_region_first_hit(monkeypatch):
+    original = GeoResult(GeoPoint(lat=37.51, lng=127.10), precision="poi", source="kakao",
+                         matched="보배반점 잠실점", address="서울 송파구 잠실동 1")
+    valid = _alt("보배반점 길동점", "서울 강동구 길동 1", 37.54, 127.14, "poi")
+    s = _alt_session(monkeypatch, {"강동구 보배반점": original}, {"강동구 보배반점": [valid]})
+    out = interview.answer_interview(s.id, "강동구 보배반점이요")
+    assert out.home_geo["address"] == valid.address
+    assert out.home_geo["lat"] == valid.point.lat
+    assert out.home_geo["lng"] == valid.point.lng
+    assert out.home_geo["query"] == out.draft_fields["home"]
+    assert original.address == "서울 송파구 잠실동 1"
+
+
 def test_many_alternatives_ask_for_district_then_merge_refinement(monkeypatch):
     many = [_alt(f"{sido} 중앙동", f"{sido} 중앙동", 37.0 + i, 127.0) for i, sido in
             enumerate(("서울 관악구", "경기 과천시", "경기 성남시 중원구", "충북 제천시", "대전 동구", "강원 원주시"))]

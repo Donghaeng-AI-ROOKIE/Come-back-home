@@ -219,6 +219,7 @@ class Settings(BaseSettings):
     #   roadnet_preload=True 면 신고 접수(Phase 1) 시 LKP 반경 그래프를 미리 로딩.
     #   테스트·오프라인 환경 기본값은 False (시뮬레이션이 필요할 때 캐시에서 로딩).
     roadnet_preload: bool = False
+    personal_walk_cache_path: str = ""      # verified offline regional GraphML with adjacent manifest
     roadnet_radius_m: int = 3000            # 아키텍처 문서: LKP 반경 3km (동적 스케일의 하한)
     # P1-3 — 로딩 반경을 프로파일·경과시간의 p90 지원으로 스케일 (radius.roadnet_radius_m).
     #   고정 3km 는 치매 6h 중앙값 3.9km 가 그래프 밖(sim_testset 3h/6h dist_ratio 저하 실측).

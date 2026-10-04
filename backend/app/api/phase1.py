@@ -4,7 +4,7 @@ from datetime import datetime
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
-from app.schemas.environment import EnvironmentObservation
+from app.schemas.environment import EnvironmentObservation, BehaviorObservation
 
 from app import storage
 from app.phase1 import intake
@@ -29,9 +29,10 @@ class CreateReportIn(BaseModel):
     # 실제로 동작한 적 없는 스텁이었다).
     appearance: Appearance | None = None
     environment_observations: list[EnvironmentObservation] = Field(default_factory=list, max_length=100)
+    behavior_observations: list[BehaviorObservation] = Field(default_factory=list, max_length=100)
 
 
-@router.post("/reports", response_model=Case)
+@router.post("/reports", response_model=Case, response_model_exclude={"continuous_state", "prior_context_key"})
 def create_report(body: CreateReportIn):
     return intake.create_report(
         missing_type=body.missing_type,
@@ -41,10 +42,11 @@ def create_report(body: CreateReportIn):
         situation=body.situation,
         appearance=body.appearance,
         environment_observations=body.environment_observations,
+        behavior_observations=body.behavior_observations,
     )
 
 
-@router.get("/cases/{case_id}", response_model=Case)
+@router.get("/cases/{case_id}", response_model=Case, response_model_exclude={"continuous_state", "prior_context_key"})
 def get_case(case_id: str):
     case = storage.cases.get(case_id)
     if case is None:
@@ -56,7 +58,7 @@ class LinkPersonaIn(BaseModel):
     persona_id: str
 
 
-@router.patch("/cases/{case_id}/persona", response_model=Case)
+@router.patch("/cases/{case_id}/persona", response_model=Case, response_model_exclude={"continuous_state", "prior_context_key"})
 @storage.serialize_case
 def link_persona(case_id: str, body: LinkPersonaIn):
     """Attach post-report onboarding without creating another missing incident.

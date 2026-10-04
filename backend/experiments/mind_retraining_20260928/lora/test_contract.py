@@ -1,6 +1,6 @@
 import unittest
 from copy import deepcopy
-from contract import validate, executable, messages
+from experiments.mind_retraining_20260928.lora.contract import validate, executable, messages
 
 
 class ContractTest(unittest.TestCase):
