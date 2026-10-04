@@ -1,0 +1,13 @@
+{
+  "content": "{\n\n  \"next_command_id\": \"stay\",\n  \"source_ids\": [\"N0\"],\n  \"reason\": \"보호자 원문(N0)에 따라 은빛경로당에 평일 오전에 혼자 이동해 도착한 현재, 목표지점 도달 후 대기 행동 선택. 피로도 낮아 휴식 불필요하나 일상적 이동 후 대기 상태 유지.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2895,
+    "prompt_tokens": 7042,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 9937
+  },
+  "model": "depmkuykpfon9lg"
+}

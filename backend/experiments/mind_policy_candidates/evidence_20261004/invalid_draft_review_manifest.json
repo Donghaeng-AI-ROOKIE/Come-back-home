@@ -1,0 +1,25 @@
+{
+  "max_calls": 13,
+  "case_ids": [
+    "holdout_02",
+    "holdout_04",
+    "holdout_05",
+    "holdout_06",
+    "holdout_07",
+    "holdout_10",
+    "holdout_12",
+    "holdout_14",
+    "holdout_15",
+    "holdout_17",
+    "holdout_20",
+    "holdout_22",
+    "holdout_24"
+  ],
+  "max_total_calls_per_holdout_person": 2,
+  "purpose": "adaptive_second_step_completion_not_independent_holdout",
+  "prompt_change": false,
+  "input_representation": "public invalid draft string rather than decoded JSON",
+  "model": "depmkuykpfon9lg",
+  "cost": null,
+  "auto_retries": 0
+}

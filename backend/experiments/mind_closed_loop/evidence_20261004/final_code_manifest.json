@@ -1,0 +1,14 @@
+{
+  "base_commit": "a376c41869398b1a8c066cd4cbc2d055c6eaf2c2",
+  "code_sha256": {
+    "backend/app/phase0/interview.py": "65daa7deb6d24e6bd3e623142d2a4182b8a7879b8ddf410eb0ef7d0ffcd54527",
+    "backend/experiments/mind_upgrade/runtime.py": "de77806072cc96a245f3192a66613dedf186e2fe9222b673ab18269a098c84e9",
+    "backend/experiments/mind_closed_loop/bridge.py": "155fc710f2eea4fc290edcf07f66bf7b0021b257d9e8b62dc6836bc70fb42388",
+    "backend/tests/test_mind_closed_loop.py": "dbd0634789c75468f7203d08949e741e016267c3d5d84357e49d417ccacc8347",
+    "backend/tests/test_home_disambiguation.py": "baa50eb044257359b5aaa38b3ce4ce8cabbd5f9de36fac1645764f0c4e8e02d4"
+  },
+  "status": "local code, not merged or deployed",
+  "evidence": "8 synthetic prepared people; public outputs only",
+  "latest_runtime_live_full_rerun": false,
+  "targeted_repair_live_calls": 1
+}

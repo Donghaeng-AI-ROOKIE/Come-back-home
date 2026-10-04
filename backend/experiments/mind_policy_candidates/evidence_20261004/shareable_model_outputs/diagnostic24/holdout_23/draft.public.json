@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"rain_wait\",\n      \"action\": \"wait\",\n      \"when\": {\n        \"rain_observed\": true\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    },\n    {\n      \"id\": \"rain_stop_walk\",\n      \"action\": \"walk\",\n      \"when\": {\n        \"rain_observed\": false\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4776,
+    "prompt_tokens": 660,
+    "prompt_tokens_details": {
+      "cached_tokens": 640
+    },
+    "total_tokens": 5436
+  },
+  "source_sha256": "ca1d10dc605b123f4ea71fe4bfe3565e722533c9fa6149ab80bb54c56bb79412"
+}

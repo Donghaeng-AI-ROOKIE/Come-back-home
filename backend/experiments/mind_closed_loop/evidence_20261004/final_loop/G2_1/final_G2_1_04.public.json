@@ -1,0 +1,13 @@
+{
+  "content": "{ \"next_command_id\": \"defer\", \"source_ids\": [\"N0\", \"N1\", \"N2\"], \"reason\": \"환경 반응 미확인으로 행동 결정 유보: 시장 환경의 시끄러움 및 혼잡도가 확인되었으나 푸른시장/은빛경로당 반응 미확인 상태로 현재 조건과 개인 반응의 연관성을 알 수 없어 행동을 유보합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 771,
+    "prompt_tokens": 6676,
+    "prompt_tokens_details": {
+      "cached_tokens": 4608
+    },
+    "total_tokens": 7447
+  },
+  "model": "depmkuykpfon9lg"
+}

@@ -1,0 +1,15 @@
+{
+  "case": "H_wait_1",
+  "max_calls": 1,
+  "total_call_ceiling": 96,
+  "per_person_ceiling": 12,
+  "max_output_tokens": 12000,
+  "cost": null,
+  "support_round": null,
+  "code_sha256": {
+    "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_upgrade/runtime.py": "de77806072cc96a245f3192a66613dedf186e2fe9222b673ab18269a098c84e9",
+    "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_closed_loop/bridge.py": "155fc710f2eea4fc290edcf07f66bf7b0021b257d9e8b62dc6836bc70fb42388",
+    "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/실험/MIND_end_to_end_20261004/repair_check.py": "7e8e5f8bf62af93cdf52e3b681fac32ce71ebb46bd0a85aa911b0c8836981cb3"
+  },
+  "purpose": "Same stopped state; restore original observations with original timestamps. Targeted development check, not held-out or full 6-hour rerun."
+}

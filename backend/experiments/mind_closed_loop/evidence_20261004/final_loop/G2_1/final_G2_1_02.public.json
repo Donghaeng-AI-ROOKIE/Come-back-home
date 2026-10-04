@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"continue\", \"source_ids\": [\"N0\"], \"reason\": \"은빛경로당에 대한 습관적 방문 경로와 현재 목표지점이 일치하며, 피로도가 낮아 보행을 계속하는 것이 적절합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1946,
+    "prompt_tokens": 6501,
+    "prompt_tokens_details": {
+      "cached_tokens": 4608
+    },
+    "total_tokens": 8447
+  },
+  "model": "depmkuykpfon9lg"
+}

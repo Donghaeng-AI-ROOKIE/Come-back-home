@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"seek_0\", \"source_ids\": [\"N1\"], \"reason\": \"목표인 다온공원에 도달했으나 매번 휴식이 필요하며, 이전에 경험하지 못한 경로를 계속 시도하는 행동이 관찰됨.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2055,
+    "prompt_tokens": 7173,
+    "prompt_tokens_details": {
+      "cached_tokens": 4640
+    },
+    "total_tokens": 9228
+  },
+  "model": "depmkuykpfon9lg"
+}

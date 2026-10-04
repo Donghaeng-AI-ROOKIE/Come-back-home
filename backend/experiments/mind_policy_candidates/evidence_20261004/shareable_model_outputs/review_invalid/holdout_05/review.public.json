@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"walk_rest_10min\",\n      \"action\": \"rest\",\n      \"when\": {\n        \"continuous_walk_minutes\": {\n          \"gte\": 10\n        },\n        \"is_walking\": true\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": 3,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4578,
+    "prompt_tokens": 783,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 5361
+  },
+  "source_sha256": "c4d3d7ab9ce3e1b99d66c270b920d0b08f6d106f800de6c9350613bae01b2757"
+}

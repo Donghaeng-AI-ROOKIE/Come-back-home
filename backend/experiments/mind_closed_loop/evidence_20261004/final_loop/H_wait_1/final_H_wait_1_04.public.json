@@ -1,0 +1,13 @@
+{
+  "content": "{ \"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"N2에 따라 길을 잃었을 때 멈춰 서서 가족을 기다린 행동으로, 현재 자기가 길을 잃었음을 인지한 상태에서 동일한 대기 행동을 지속함.\" }",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4023,
+    "prompt_tokens": 6976,
+    "prompt_tokens_details": {
+      "cached_tokens": 4864
+    },
+    "total_tokens": 10999
+  },
+  "model": "depmkuykpfon9lg"
+}

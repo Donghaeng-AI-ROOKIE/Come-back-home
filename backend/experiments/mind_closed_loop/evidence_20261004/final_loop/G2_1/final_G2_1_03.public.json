@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"continue\", \"source_ids\": [\"N0\"], \"reason\": \"은빛경로당(N0)은 반복 방문 경로로, 현재 3분 보행 시 피로도 낮아 기존 이동 방식을 계속합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2540,
+    "prompt_tokens": 6587,
+    "prompt_tokens_details": {
+      "cached_tokens": 4608
+    },
+    "total_tokens": 9127
+  },
+  "model": "depmkuykpfon9lg"
+}

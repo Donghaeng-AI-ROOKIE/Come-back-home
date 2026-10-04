@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"avoid_market\", \"source_ids\": [\"N2\"], \"reason\": \"보호자는 시장에서 사람이 붐비고 시끄러울 때 피하는 반응을 보였다. 현재 시장이 혼잡하고 시끄러우므로 시장을 피하는 동작을 선택한다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6253,
+    "prompt_tokens": 6468,
+    "prompt_tokens_details": {
+      "cached_tokens": 6464
+    },
+    "total_tokens": 12721
+  },
+  "model": "depmkuykpfon9lg"
+}

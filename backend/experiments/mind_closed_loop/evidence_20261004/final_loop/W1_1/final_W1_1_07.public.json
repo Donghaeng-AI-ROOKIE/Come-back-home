@@ -1,0 +1,13 @@
+{
+  "content": "{\n  \"next_command_id\": \"stay\",\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"보호자 설명에 따라 길을 잃으면 도움을 기다리며 머무르는 행동을 하며, 현재 관측에서도 방향 감각 상실 상태와 자가 인식 확인, 대상 미도달 상태로 대기 행동이 일치함.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1900,
+    "prompt_tokens": 7046,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 8946
+  },
+  "model": "depmkuykpfon9lg"
+}

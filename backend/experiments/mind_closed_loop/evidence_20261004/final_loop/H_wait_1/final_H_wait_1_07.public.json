@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"길을 잃은 상황에서 도움 기다림이 보호자 보고 기반 행동이므로 현재 제자리 대기 유지\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3064,
+    "prompt_tokens": 7179,
+    "prompt_tokens_details": {
+      "cached_tokens": 4864
+    },
+    "total_tokens": 10243
+  },
+  "model": "depmkuykpfon9lg"
+}

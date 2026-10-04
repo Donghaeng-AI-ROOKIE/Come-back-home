@@ -1,0 +1,13 @@
+{
+  "content": "{\n  \"next_command_id\": \"stay\",\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"보호관찰 N2에 따라 길을 잃은 상태에서 가족이 올 때까지 기다리는 현재 상황에 'stay' 명령을 선택함\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3406,
+    "prompt_tokens": 6843,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 10249
+  },
+  "model": "depmkuykpfon9lg"
+}

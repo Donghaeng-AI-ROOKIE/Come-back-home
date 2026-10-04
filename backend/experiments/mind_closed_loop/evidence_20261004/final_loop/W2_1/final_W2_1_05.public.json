@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\":\"rest\",\"source_ids\":[\"N0\"],\"reason\":\"N0에 따라 5분 보행 후 휴식 필요. 현재 연속 보행 시간 6.25분으로 휴식 명령 선택.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3197,
+    "prompt_tokens": 7087,
+    "prompt_tokens_details": {
+      "cached_tokens": 4640
+    },
+    "total_tokens": 10284
+  },
+  "model": "depmkuykpfon9lg"
+}

@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"다온공원 경로 미경험(N1)과 길 잃음 시 대기(N2)로 인해 현재 머무름 선택\" }",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2707,
+    "prompt_tokens": 6997,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 9704
+  },
+  "model": "depmkuykpfon9lg"
+}

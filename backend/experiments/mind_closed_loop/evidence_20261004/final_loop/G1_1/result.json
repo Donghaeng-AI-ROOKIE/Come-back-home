@@ -1,0 +1,5340 @@
+{
+  "id": "G1_1",
+  "calls": 6,
+  "compiled_environment_responses": [],
+  "snapshots": {
+    "60": {
+      "state": {
+        "elapsed_minutes": 9.882954609677169,
+        "distance_m": 474.38182126450414,
+        "fatigue": 0.16367023453818105,
+        "confusion": 0.22226331071880867,
+        "anxiety": 0.13335798643128519,
+        "interpreted_confusion": null,
+        "current_action": "seek",
+        "target_label": "은빛경로당",
+        "target_reached": true,
+        "last_rest_end_minutes": null,
+        "recent_events": [
+          {
+            "kind": "decision",
+            "elapsed_minutes": 0.0,
+            "action": "seek",
+            "requested_action": "seek",
+            "avoid_feature": null,
+            "reason": "initial",
+            "target": "은빛경로당"
+          },
+          {
+            "kind": "decision",
+            "elapsed_minutes": 0.2957269880923593,
+            "action": "seek",
+            "requested_action": "continue",
+            "avoid_feature": null,
+            "reason": "environment_changed",
+            "target": "은빛경로당"
+          },
+          {
+            "kind": "decision",
+            "elapsed_minutes": 3.083786106855422,
+            "action": "seek",
+            "requested_action": "continue",
+            "avoid_feature": null,
+            "reason": "environment_changed",
+            "target": "은빛경로당"
+          },
+          {
+            "kind": "decision",
+            "elapsed_minutes": 5.420471430880685,
+            "action": "seek",
+            "requested_action": "continue",
+            "avoid_feature": null,
+            "reason": "environment_changed",
+            "target": "은빛경로당"
+          },
+          {
+            "kind": "decision",
+            "elapsed_minutes": 8.373707859504758,
+            "action": "seek",
+            "requested_action": "continue",
+            "avoid_feature": null,
+            "reason": "environment_changed",
+            "target": "은빛경로당"
+          },
+          {
+            "kind": "target_arrived",
+            "elapsed_minutes": 9.882954609677169,
+            "target": "은빛경로당"
+          },
+          {
+            "kind": "decision_deferred",
+            "elapsed_minutes": 9.882954609677169,
+            "reason": "target_arrived"
+          }
+        ]
+      },
+      "locomotion": {
+        "walking_minutes": 9.882954609677169,
+        "continuous_walking_minutes": 9.882954609677169,
+        "resting_minutes": 0.0,
+        "waiting_minutes": 0.0,
+        "source": "simulator_elapsed_time_accounting_not_clinical_observation"
+      },
+      "node": 9218103624,
+      "edge_to": null,
+      "edge_progress_m": 0.0,
+      "termination_reason": "model_abstained",
+      "path": [
+        {
+          "minute": 0.0,
+          "node": 9220648375
+        },
+        {
+          "minute": 0.2957269880923593,
+          "node": 9220648374
+        },
+        {
+          "minute": 0.678010764537452,
+          "node": 9218097201
+        },
+        {
+          "minute": 3.083786106855422,
+          "node": 9218097212
+        },
+        {
+          "minute": 3.196038009514184,
+          "node": 9218097216
+        },
+        {
+          "minute": 3.3045657334210587,
+          "node": 9218097206
+        },
+        {
+          "minute": 5.420471430880685,
+          "node": 9218072907
+        },
+        {
+          "minute": 5.687305832707763,
+          "node": 9218097195
+        },
+        {
+          "minute": 6.070855733368183,
+          "node": 9218103618
+        },
+        {
+          "minute": 8.373707859504758,
+          "node": 9218087041
+        },
+        {
+          "minute": 8.723799555438635,
+          "node": 9218087044
+        },
+        {
+          "minute": 9.026274405957288,
+          "node": 358930433
+        },
+        {
+          "minute": 9.398815467369177,
+          "node": 9218103626
+        },
+        {
+          "minute": 9.882954609677169,
+          "node": 9218103624
+        }
+      ],
+      "history": [
+        {
+          "kind": "decision",
+          "elapsed_minutes": 0.0,
+          "action": "seek",
+          "requested_action": "seek",
+          "avoid_feature": null,
+          "reason": "initial",
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 0.2957269880923593,
+          "action": "seek",
+          "requested_action": "continue",
+          "avoid_feature": null,
+          "reason": "environment_changed",
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 3.083786106855422,
+          "action": "seek",
+          "requested_action": "continue",
+          "avoid_feature": null,
+          "reason": "environment_changed",
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 5.420471430880685,
+          "action": "seek",
+          "requested_action": "continue",
+          "avoid_feature": null,
+          "reason": "environment_changed",
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 8.373707859504758,
+          "action": "seek",
+          "requested_action": "continue",
+          "avoid_feature": null,
+          "reason": "environment_changed",
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "target_arrived",
+          "elapsed_minutes": 9.882954609677169,
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "decision_deferred",
+          "elapsed_minutes": 9.882954609677169,
+          "reason": "target_arrived"
+        }
+      ]
+    }
+  },
+  "last_snapshot": {
+    "state": {
+      "elapsed_minutes": 9.882954609677169,
+      "distance_m": 474.38182126450414,
+      "fatigue": 0.16367023453818105,
+      "confusion": 0.22226331071880867,
+      "anxiety": 0.13335798643128519,
+      "interpreted_confusion": null,
+      "current_action": "seek",
+      "target_label": "은빛경로당",
+      "target_reached": true,
+      "last_rest_end_minutes": null,
+      "recent_events": [
+        {
+          "kind": "decision",
+          "elapsed_minutes": 0.0,
+          "action": "seek",
+          "requested_action": "seek",
+          "avoid_feature": null,
+          "reason": "initial",
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 0.2957269880923593,
+          "action": "seek",
+          "requested_action": "continue",
+          "avoid_feature": null,
+          "reason": "environment_changed",
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 3.083786106855422,
+          "action": "seek",
+          "requested_action": "continue",
+          "avoid_feature": null,
+          "reason": "environment_changed",
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 5.420471430880685,
+          "action": "seek",
+          "requested_action": "continue",
+          "avoid_feature": null,
+          "reason": "environment_changed",
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 8.373707859504758,
+          "action": "seek",
+          "requested_action": "continue",
+          "avoid_feature": null,
+          "reason": "environment_changed",
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "target_arrived",
+          "elapsed_minutes": 9.882954609677169,
+          "target": "은빛경로당"
+        },
+        {
+          "kind": "decision_deferred",
+          "elapsed_minutes": 9.882954609677169,
+          "reason": "target_arrived"
+        }
+      ]
+    },
+    "locomotion": {
+      "walking_minutes": 9.882954609677169,
+      "continuous_walking_minutes": 9.882954609677169,
+      "resting_minutes": 0.0,
+      "waiting_minutes": 0.0,
+      "source": "simulator_elapsed_time_accounting_not_clinical_observation"
+    },
+    "node": 9218103624,
+    "edge_to": null,
+    "edge_progress_m": 0.0,
+    "termination_reason": "model_abstained",
+    "path": [
+      {
+        "minute": 0.0,
+        "node": 9220648375
+      },
+      {
+        "minute": 0.2957269880923593,
+        "node": 9220648374
+      },
+      {
+        "minute": 0.678010764537452,
+        "node": 9218097201
+      },
+      {
+        "minute": 3.083786106855422,
+        "node": 9218097212
+      },
+      {
+        "minute": 3.196038009514184,
+        "node": 9218097216
+      },
+      {
+        "minute": 3.3045657334210587,
+        "node": 9218097206
+      },
+      {
+        "minute": 5.420471430880685,
+        "node": 9218072907
+      },
+      {
+        "minute": 5.687305832707763,
+        "node": 9218097195
+      },
+      {
+        "minute": 6.070855733368183,
+        "node": 9218103618
+      },
+      {
+        "minute": 8.373707859504758,
+        "node": 9218087041
+      },
+      {
+        "minute": 8.723799555438635,
+        "node": 9218087044
+      },
+      {
+        "minute": 9.026274405957288,
+        "node": 358930433
+      },
+      {
+        "minute": 9.398815467369177,
+        "node": 9218103626
+      },
+      {
+        "minute": 9.882954609677169,
+        "node": 9218103624
+      }
+    ],
+    "history": [
+      {
+        "kind": "decision",
+        "elapsed_minutes": 0.0,
+        "action": "seek",
+        "requested_action": "seek",
+        "avoid_feature": null,
+        "reason": "initial",
+        "target": "은빛경로당"
+      },
+      {
+        "kind": "decision",
+        "elapsed_minutes": 0.2957269880923593,
+        "action": "seek",
+        "requested_action": "continue",
+        "avoid_feature": null,
+        "reason": "environment_changed",
+        "target": "은빛경로당"
+      },
+      {
+        "kind": "decision",
+        "elapsed_minutes": 3.083786106855422,
+        "action": "seek",
+        "requested_action": "continue",
+        "avoid_feature": null,
+        "reason": "environment_changed",
+        "target": "은빛경로당"
+      },
+      {
+        "kind": "decision",
+        "elapsed_minutes": 5.420471430880685,
+        "action": "seek",
+        "requested_action": "continue",
+        "avoid_feature": null,
+        "reason": "environment_changed",
+        "target": "은빛경로당"
+      },
+      {
+        "kind": "decision",
+        "elapsed_minutes": 8.373707859504758,
+        "action": "seek",
+        "requested_action": "continue",
+        "avoid_feature": null,
+        "reason": "environment_changed",
+        "target": "은빛경로당"
+      },
+      {
+        "kind": "target_arrived",
+        "elapsed_minutes": 9.882954609677169,
+        "target": "은빛경로당"
+      },
+      {
+        "kind": "decision_deferred",
+        "elapsed_minutes": 9.882954609677169,
+        "reason": "target_arrived"
+      }
+    ]
+  },
+  "decisions": [
+    {
+      "minute": 0.0,
+      "context": {
+        "contract_version": "mind-person-action-v2",
+        "case_id": "G1_1",
+        "person_id": "fresh-G1",
+        "person_revision": "ffeaa3fc69c865fe42edf4ba2d407a276cb251a7bdcdb59ef2785d829e859fa2",
+        "person": {
+          "age": 79,
+          "type": "dementia",
+          "evidence_notes": [
+            {
+              "id": "N0",
+              "text": "질문: 다른 일상 행동은 어떤가요?\n답변: 요즘은 매주 평일 오전에 은빛경로당에 혼자 걸어서 다녀오세요. 집에서 십오 분 거리이고 혼자 그 길을 다니는 게 일상이에요. 연속해서 사십 분쯤 걸을 수 있어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N1",
+              "text": "질문: 길을 잃었을 때와 환경 반응은요?\n답변: 길을 놓쳤을 때 어떻게 하는지는 아직 보지 못했어요. 방향을 계속 유지하는지 되돌아가는지도 몰라요. 시장이나 공원을 좋아하거나 피하는 반응도 확인한 적 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N2",
+              "text": "질문: 푸른시장과 어떤 관계인가요?\n답변: 칠 년 전까지 푸른시장에서 가게를 하셨어요. 그때는 매일 혼자 걸어 다녔지만 지금은 가게도 정리했고 시장에 가는 일도, 가겠다고 말씀하는 일도 없어요. 본인이 싫다며 거부한 적은 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            }
+          ],
+          "initial_interpretation": {
+            "version": "person-evidence-v49-agreement",
+            "status": "applied",
+            "model": "K-EXAONE",
+            "summary": "다온공원: 목적지 관계 미확인, 경로 인지 미확인. 푸른시장: 과거 관련 정보만 확인, 반복 독립 이동 경험. 은빛경로당: 반복 방문 습관, 익숙한 경로의 독립 이동 경험. 길 잃음 대응 미확인. 방향 선택 미확인. 생활권 보행 능력.",
+            "semantic_contract": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "조건 과업의 무조건 방향 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "물가: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "숲: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "공원: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "시장: 반응 미확인, 범위 미확인, 조건 미확인."
+                }
+              }
+            },
+            "context_scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              }
+            },
+            "model_explanations_unverified": true,
+            "environment_contract": {
+              "water": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "forest": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "park": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "market": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              }
+            },
+            "environment_disagreements": [],
+            "coverage": {
+              "N0": [
+                "goals.은빛경로당",
+                "routes.은빛경로당",
+                "mobility",
+                "trait.time_pattern",
+                "trait.routine_route"
+              ],
+              "N1": [
+                "persistence",
+                "direction"
+              ],
+              "N2": [
+                "goals.푸른시장",
+                "routes.푸른시장",
+                "trait.past_role"
+              ]
+            },
+            "environment_method": "single_context_contract",
+            "unassigned_note_ids": [],
+            "conditional_environment": {},
+            "environment_conditions": {
+              "water": [],
+              "forest": [],
+              "park": [],
+              "market": []
+            },
+            "condition_execution": "requires location/time-scoped observations; missing or conflicting signals stay neutral",
+            "unrepresented": [
+              {
+                "feature": "trait.time_pattern",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.routine_route",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.past_role",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_engine_consumer_yet"
+              }
+            ],
+            "projection_trace": [
+              {
+                "consumer": "strategy_probs",
+                "action": "start_before_legacy_behavior_tilt"
+              },
+              {
+                "consumer": "strategy_probs",
+                "semantic_evidence": "current_destination",
+                "factors": {
+                  "landmark_seeking": 2.0
+                }
+              },
+              {
+                "consumer": "attraction_weights",
+                "incident_levels_from_sar": {}
+              },
+              {
+                "consumer": "attraction_weights",
+                "after": {
+                  "다온공원": 0.2222222222222222,
+                  "푸른시장": 0.2222222222222222,
+                  "은빛경로당": 0.5555555555555555
+                }
+              },
+              {
+                "consumer": "route_familiarity",
+                "after": [
+                  {
+                    "route": "푸른시장",
+                    "score": 0.7
+                  },
+                  {
+                    "route": "은빛경로당",
+                    "score": 0.9
+                  }
+                ]
+              },
+              {
+                "consumer": "env_responses",
+                "after": []
+              },
+              {
+                "consumer": "radius_lognormal",
+                "after": {
+                  "mu": 0.095,
+                  "sigma": 1.48
+                }
+              }
+            ],
+            "sar_source": null,
+            "retrieval_audit": [
+              {
+                "id": "R0",
+                "source": "[보행] 가족 돌봄 제공자의 치매노인 배회관리 경험",
+                "kind": "paper",
+                "use": "primary_excerpt"
+              },
+              {
+                "id": "R1",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R2",
+                "source": "[보행] Persons with dementia missing in the community Is it wandering or something unique",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R3",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              }
+            ],
+            "source_audit": {
+              "evidence_note_ids": [
+                "N0",
+                "N1",
+                "N2"
+              ],
+              "excluded_derived_note_ids": [],
+              "quality": "guardian_original",
+              "limitation": "원문이 없는 추출 정보는 개인 사실로 확정하지 않으며 별도 확인 필요"
+            },
+            "limitations": [
+              "수치 배율은 잠정 규약이며 임상 보정값이 아님",
+              "실제 기억한 경로·보행 후 휴식 간격·도움 요청은 현재 엔진이 직접 재현하지 못함",
+              "원문·해석을 보존해도 모든 특성이 경로로 실행된다는 뜻은 아님",
+              "기존 자동 추출 경로·환경 입력을 이번 사건 근거로 재구성; 보호자 원본은 변경하지 않음"
+            ],
+            "prepared_before_incident": true,
+            "prepared_outside_prediction": true,
+            "K_called_during_prediction": false,
+            "preparation_fingerprint": "35c3aa59992d8b7a0978266f0435f8845199a3c97f014d8ba10259c3e55a9426",
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "goal_temporality": "recurring goals kept in their clock period; single reports before the incident treated as historical",
+            "registered_before_incident": true,
+            "preparation_audit": {
+              "dropped": [],
+              "context_disagreements": [],
+              "fallbacks": [],
+              "context_basis": [],
+              "route_draft_candidates": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "trait_review_omissions": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "core_review_changes": [],
+              "condition_recovery": [],
+              "environment_scope_checks": [],
+              "route_history_checks": [],
+              "route_citation_checks": [
+                {
+                  "place": "푸른시장",
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "answer": true
+                },
+                {
+                  "place": "은빛경로당",
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "answer": true
+                }
+              ],
+              "claim_checks": [
+                {
+                  "field": "goals.푸른시장:historical_relationship",
+                  "value": "historical_only",
+                  "statement": "대상자에게 '푸른시장'을(를) 생활 목적지로 이용했거나 그곳에서 살거나 일했거나 그곳으로 가려는 행동·발언을 한 과거 개인 이력이 보호자 원문에 있다. 비교용 후보나 장소 주변에서의 환경 반응 관찰만으로 생활 목적지 이력이 있다고 판단하지 않는다.",
+                  "answer": true
+                },
+                {
+                  "field": "mobility",
+                  "value": "C",
+                  "statement": "대상자는 혼자서 동네를 30분에서 1시간 정도 걸어 다닐 수 있다.",
+                  "answer": true
+                }
+              ],
+              "trait_checks": [
+                {
+                  "type": "time_pattern",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자의 특정 시각·시간대·요일에 반복되는 행동이나 발언을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "routine_route",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자가 반복해서 다니는 특정 경로나 늘 같은 길을 도는 습관을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "past_role",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "statement": "대상자의 과거 직장이나 생활 역할에 관한 개인 정보를 보호자가 보고했다.",
+                  "answer": true
+                }
+              ],
+              "rejected_traits": [],
+              "unconfirmed_traits": [],
+              "restored_traits": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ]
+            },
+            "situation_links": [],
+            "behavior_rules": [],
+            "selected_clock_period": "clock_day",
+            "clock_period_definition": "Asia/Seoul 06:00–18:00 clock_day; otherwise clock_night; not observed brightness",
+            "initial_prior_path": "prepared_person",
+            "numeric_baseline_source": "profile_baseline",
+            "SAR_called_during_prediction": false
+          },
+          "initial_interpretation_status": "current",
+          "prepared_person_interpretation": {
+            "core": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                }
+              }
+            },
+            "scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "environment": {
+                "water": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "forest": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "park": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "market": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                }
+              },
+              "baseline_direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ]
+              }
+            },
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "prepared_at": "2026-09-27T03:37:28.810482",
+            "persona_version": 0,
+            "version": "onboarding-person-v6-grounded-conditions"
+          },
+          "compiled_environment_responses": [],
+          "interpretation_is_not_new_observation": true,
+          "preparation_status": "ready"
+        },
+        "known_places": [
+          {
+            "label": "다온공원",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "푸른시장",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "은빛경로당",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.5555555555555555
+          }
+        ],
+        "state": {
+          "elapsed_minutes": 0.0,
+          "distance_m": 0.0,
+          "fatigue": 0.1,
+          "confusion": 0.2,
+          "anxiety": 0.12,
+          "interpreted_confusion": null,
+          "current_action": "continue",
+          "target_label": null,
+          "target_reached": false,
+          "last_rest_end_minutes": null,
+          "recent_events": []
+        },
+        "execution": {
+          "previous_travel_action": null,
+          "previous_avoid_feature": null,
+          "hold_until_minutes": null
+        },
+        "clock_time": "2026-10-05T08:00:00",
+        "trigger": "initial",
+        "environment": {
+          "map_proximity_m": {
+            "water": null,
+            "forest": null,
+            "market": 262.84667849247376,
+            "park": 121.02796583381621
+          },
+          "observed_signals": {
+            "water": {
+              "noisy": null,
+              "crowded": null
+            },
+            "forest": {
+              "noisy": null,
+              "crowded": null
+            },
+            "market": {
+              "noisy": null,
+              "crowded": null
+            },
+            "park": {
+              "noisy": null,
+              "crowded": null
+            }
+          },
+          "observed_place_labels": [],
+          "visibility_of_other_places": "unknown"
+        },
+        "research": [],
+        "limitations": [
+          "gauges are provisional engine states, not clinical measurements",
+          "map proximity does not prove visibility or current noise"
+        ],
+        "observation_provenance": "synthetic spatial observations on real cached roads; fake facility locations",
+        "locomotion": {
+          "walking_minutes": 0.0,
+          "continuous_walking_minutes": 0.0,
+          "resting_minutes": 0.0,
+          "waiting_minutes": 0.0,
+          "source": "simulator_elapsed_time_accounting_not_clinical_observation"
+        }
+      },
+      "decision": {
+        "action": "seek",
+        "goal_operation": "set",
+        "goal_label": "은빛경로당",
+        "avoid_feature": null,
+        "evidence_ids": [
+          "N0"
+        ],
+        "reason": "N0에 따른 평일 오전 은빛경로당 방문 습관과 현재 시각이 시계일 기준 시간대 내므로 이동 시작합니다.",
+        "confusion_level": "unknown"
+      }
+    },
+    {
+      "minute": 0.2957269880923593,
+      "context": {
+        "contract_version": "mind-person-action-v2",
+        "case_id": "G1_1",
+        "person_id": "fresh-G1",
+        "person_revision": "ffeaa3fc69c865fe42edf4ba2d407a276cb251a7bdcdb59ef2785d829e859fa2",
+        "person": {
+          "age": 79,
+          "type": "dementia",
+          "evidence_notes": [
+            {
+              "id": "N0",
+              "text": "질문: 다른 일상 행동은 어떤가요?\n답변: 요즘은 매주 평일 오전에 은빛경로당에 혼자 걸어서 다녀오세요. 집에서 십오 분 거리이고 혼자 그 길을 다니는 게 일상이에요. 연속해서 사십 분쯤 걸을 수 있어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N1",
+              "text": "질문: 길을 잃었을 때와 환경 반응은요?\n답변: 길을 놓쳤을 때 어떻게 하는지는 아직 보지 못했어요. 방향을 계속 유지하는지 되돌아가는지도 몰라요. 시장이나 공원을 좋아하거나 피하는 반응도 확인한 적 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N2",
+              "text": "질문: 푸른시장과 어떤 관계인가요?\n답변: 칠 년 전까지 푸른시장에서 가게를 하셨어요. 그때는 매일 혼자 걸어 다녔지만 지금은 가게도 정리했고 시장에 가는 일도, 가겠다고 말씀하는 일도 없어요. 본인이 싫다며 거부한 적은 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            }
+          ],
+          "initial_interpretation": {
+            "version": "person-evidence-v49-agreement",
+            "status": "applied",
+            "model": "K-EXAONE",
+            "summary": "다온공원: 목적지 관계 미확인, 경로 인지 미확인. 푸른시장: 과거 관련 정보만 확인, 반복 독립 이동 경험. 은빛경로당: 반복 방문 습관, 익숙한 경로의 독립 이동 경험. 길 잃음 대응 미확인. 방향 선택 미확인. 생활권 보행 능력.",
+            "semantic_contract": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "조건 과업의 무조건 방향 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "물가: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "숲: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "공원: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "시장: 반응 미확인, 범위 미확인, 조건 미확인."
+                }
+              }
+            },
+            "context_scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              }
+            },
+            "model_explanations_unverified": true,
+            "environment_contract": {
+              "water": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "forest": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "park": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "market": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              }
+            },
+            "environment_disagreements": [],
+            "coverage": {
+              "N0": [
+                "goals.은빛경로당",
+                "routes.은빛경로당",
+                "mobility",
+                "trait.time_pattern",
+                "trait.routine_route"
+              ],
+              "N1": [
+                "persistence",
+                "direction"
+              ],
+              "N2": [
+                "goals.푸른시장",
+                "routes.푸른시장",
+                "trait.past_role"
+              ]
+            },
+            "environment_method": "single_context_contract",
+            "unassigned_note_ids": [],
+            "conditional_environment": {},
+            "environment_conditions": {
+              "water": [],
+              "forest": [],
+              "park": [],
+              "market": []
+            },
+            "condition_execution": "requires location/time-scoped observations; missing or conflicting signals stay neutral",
+            "unrepresented": [
+              {
+                "feature": "trait.time_pattern",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.routine_route",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.past_role",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_engine_consumer_yet"
+              }
+            ],
+            "projection_trace": [
+              {
+                "consumer": "strategy_probs",
+                "action": "start_before_legacy_behavior_tilt"
+              },
+              {
+                "consumer": "strategy_probs",
+                "semantic_evidence": "current_destination",
+                "factors": {
+                  "landmark_seeking": 2.0
+                }
+              },
+              {
+                "consumer": "attraction_weights",
+                "incident_levels_from_sar": {}
+              },
+              {
+                "consumer": "attraction_weights",
+                "after": {
+                  "다온공원": 0.2222222222222222,
+                  "푸른시장": 0.2222222222222222,
+                  "은빛경로당": 0.5555555555555555
+                }
+              },
+              {
+                "consumer": "route_familiarity",
+                "after": [
+                  {
+                    "route": "푸른시장",
+                    "score": 0.7
+                  },
+                  {
+                    "route": "은빛경로당",
+                    "score": 0.9
+                  }
+                ]
+              },
+              {
+                "consumer": "env_responses",
+                "after": []
+              },
+              {
+                "consumer": "radius_lognormal",
+                "after": {
+                  "mu": 0.095,
+                  "sigma": 1.48
+                }
+              }
+            ],
+            "sar_source": null,
+            "retrieval_audit": [
+              {
+                "id": "R0",
+                "source": "[보행] 가족 돌봄 제공자의 치매노인 배회관리 경험",
+                "kind": "paper",
+                "use": "primary_excerpt"
+              },
+              {
+                "id": "R1",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R2",
+                "source": "[보행] Persons with dementia missing in the community Is it wandering or something unique",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R3",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              }
+            ],
+            "source_audit": {
+              "evidence_note_ids": [
+                "N0",
+                "N1",
+                "N2"
+              ],
+              "excluded_derived_note_ids": [],
+              "quality": "guardian_original",
+              "limitation": "원문이 없는 추출 정보는 개인 사실로 확정하지 않으며 별도 확인 필요"
+            },
+            "limitations": [
+              "수치 배율은 잠정 규약이며 임상 보정값이 아님",
+              "실제 기억한 경로·보행 후 휴식 간격·도움 요청은 현재 엔진이 직접 재현하지 못함",
+              "원문·해석을 보존해도 모든 특성이 경로로 실행된다는 뜻은 아님",
+              "기존 자동 추출 경로·환경 입력을 이번 사건 근거로 재구성; 보호자 원본은 변경하지 않음"
+            ],
+            "prepared_before_incident": true,
+            "prepared_outside_prediction": true,
+            "K_called_during_prediction": false,
+            "preparation_fingerprint": "35c3aa59992d8b7a0978266f0435f8845199a3c97f014d8ba10259c3e55a9426",
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "goal_temporality": "recurring goals kept in their clock period; single reports before the incident treated as historical",
+            "registered_before_incident": true,
+            "preparation_audit": {
+              "dropped": [],
+              "context_disagreements": [],
+              "fallbacks": [],
+              "context_basis": [],
+              "route_draft_candidates": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "trait_review_omissions": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "core_review_changes": [],
+              "condition_recovery": [],
+              "environment_scope_checks": [],
+              "route_history_checks": [],
+              "route_citation_checks": [
+                {
+                  "place": "푸른시장",
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "answer": true
+                },
+                {
+                  "place": "은빛경로당",
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "answer": true
+                }
+              ],
+              "claim_checks": [
+                {
+                  "field": "goals.푸른시장:historical_relationship",
+                  "value": "historical_only",
+                  "statement": "대상자에게 '푸른시장'을(를) 생활 목적지로 이용했거나 그곳에서 살거나 일했거나 그곳으로 가려는 행동·발언을 한 과거 개인 이력이 보호자 원문에 있다. 비교용 후보나 장소 주변에서의 환경 반응 관찰만으로 생활 목적지 이력이 있다고 판단하지 않는다.",
+                  "answer": true
+                },
+                {
+                  "field": "mobility",
+                  "value": "C",
+                  "statement": "대상자는 혼자서 동네를 30분에서 1시간 정도 걸어 다닐 수 있다.",
+                  "answer": true
+                }
+              ],
+              "trait_checks": [
+                {
+                  "type": "time_pattern",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자의 특정 시각·시간대·요일에 반복되는 행동이나 발언을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "routine_route",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자가 반복해서 다니는 특정 경로나 늘 같은 길을 도는 습관을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "past_role",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "statement": "대상자의 과거 직장이나 생활 역할에 관한 개인 정보를 보호자가 보고했다.",
+                  "answer": true
+                }
+              ],
+              "rejected_traits": [],
+              "unconfirmed_traits": [],
+              "restored_traits": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ]
+            },
+            "situation_links": [],
+            "behavior_rules": [],
+            "selected_clock_period": "clock_day",
+            "clock_period_definition": "Asia/Seoul 06:00–18:00 clock_day; otherwise clock_night; not observed brightness",
+            "initial_prior_path": "prepared_person",
+            "numeric_baseline_source": "profile_baseline",
+            "SAR_called_during_prediction": false
+          },
+          "initial_interpretation_status": "current",
+          "prepared_person_interpretation": {
+            "core": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                }
+              }
+            },
+            "scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "environment": {
+                "water": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "forest": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "park": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "market": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                }
+              },
+              "baseline_direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ]
+              }
+            },
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "prepared_at": "2026-09-27T03:37:28.810482",
+            "persona_version": 0,
+            "version": "onboarding-person-v6-grounded-conditions"
+          },
+          "compiled_environment_responses": [],
+          "interpretation_is_not_new_observation": true,
+          "preparation_status": "ready"
+        },
+        "known_places": [
+          {
+            "label": "다온공원",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "푸른시장",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "은빛경로당",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.5555555555555555
+          }
+        ],
+        "state": {
+          "elapsed_minutes": 0.2957269880923593,
+          "distance_m": 14.194895428433247,
+          "fatigue": 0.10173000288034031,
+          "confusion": 0.2005358812115459,
+          "anxiety": 0.12032152872692753,
+          "interpreted_confusion": null,
+          "current_action": "seek",
+          "target_label": "은빛경로당",
+          "target_reached": false,
+          "last_rest_end_minutes": null,
+          "recent_events": [
+            {
+              "kind": "decision",
+              "elapsed_minutes": 0.0,
+              "action": "seek",
+              "requested_action": "seek",
+              "avoid_feature": null,
+              "reason": "initial",
+              "target": "은빛경로당"
+            }
+          ]
+        },
+        "execution": {
+          "previous_travel_action": "seek",
+          "previous_avoid_feature": null,
+          "hold_until_minutes": null
+        },
+        "clock_time": "2026-10-05T08:00:17.743619",
+        "trigger": "environment_changed",
+        "environment": {
+          "map_proximity_m": {
+            "water": null,
+            "forest": null,
+            "market": 248.67790133318545,
+            "park": 106.86399691643344
+          },
+          "observed_signals": {
+            "water": {
+              "noisy": null,
+              "crowded": null
+            },
+            "forest": {
+              "noisy": null,
+              "crowded": null
+            },
+            "market": {
+              "noisy": true,
+              "crowded": true
+            },
+            "park": {
+              "noisy": null,
+              "crowded": null
+            }
+          },
+          "observed_place_labels": [],
+          "visibility_of_other_places": "unknown"
+        },
+        "research": [],
+        "limitations": [
+          "gauges are provisional engine states, not clinical measurements",
+          "map proximity does not prove visibility or current noise"
+        ],
+        "observation_provenance": "synthetic spatial observations on real cached roads; fake facility locations",
+        "locomotion": {
+          "walking_minutes": 0.2957269880923593,
+          "continuous_walking_minutes": 0.2957269880923593,
+          "resting_minutes": 0.0,
+          "waiting_minutes": 0.0,
+          "source": "simulator_elapsed_time_accounting_not_clinical_observation"
+        }
+      },
+      "decision": {
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null,
+        "evidence_ids": [
+          "N0"
+        ],
+        "reason": "은빛경로당 방문 습관(N0)과 현재 이동 중인 목적지 간일치로 지속 이동 선택. 시장 환경 관측은 피하는 행동 미확인 상태이나 현재 목표인 은빛경로당 향해 계속 이동합니다.",
+        "confusion_level": "unknown"
+      }
+    },
+    {
+      "minute": 3.083786106855422,
+      "context": {
+        "contract_version": "mind-person-action-v2",
+        "case_id": "G1_1",
+        "person_id": "fresh-G1",
+        "person_revision": "ffeaa3fc69c865fe42edf4ba2d407a276cb251a7bdcdb59ef2785d829e859fa2",
+        "person": {
+          "age": 79,
+          "type": "dementia",
+          "evidence_notes": [
+            {
+              "id": "N0",
+              "text": "질문: 다른 일상 행동은 어떤가요?\n답변: 요즘은 매주 평일 오전에 은빛경로당에 혼자 걸어서 다녀오세요. 집에서 십오 분 거리이고 혼자 그 길을 다니는 게 일상이에요. 연속해서 사십 분쯤 걸을 수 있어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N1",
+              "text": "질문: 길을 잃었을 때와 환경 반응은요?\n답변: 길을 놓쳤을 때 어떻게 하는지는 아직 보지 못했어요. 방향을 계속 유지하는지 되돌아가는지도 몰라요. 시장이나 공원을 좋아하거나 피하는 반응도 확인한 적 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N2",
+              "text": "질문: 푸른시장과 어떤 관계인가요?\n답변: 칠 년 전까지 푸른시장에서 가게를 하셨어요. 그때는 매일 혼자 걸어 다녔지만 지금은 가게도 정리했고 시장에 가는 일도, 가겠다고 말씀하는 일도 없어요. 본인이 싫다며 거부한 적은 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            }
+          ],
+          "initial_interpretation": {
+            "version": "person-evidence-v49-agreement",
+            "status": "applied",
+            "model": "K-EXAONE",
+            "summary": "다온공원: 목적지 관계 미확인, 경로 인지 미확인. 푸른시장: 과거 관련 정보만 확인, 반복 독립 이동 경험. 은빛경로당: 반복 방문 습관, 익숙한 경로의 독립 이동 경험. 길 잃음 대응 미확인. 방향 선택 미확인. 생활권 보행 능력.",
+            "semantic_contract": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "조건 과업의 무조건 방향 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "물가: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "숲: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "공원: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "시장: 반응 미확인, 범위 미확인, 조건 미확인."
+                }
+              }
+            },
+            "context_scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              }
+            },
+            "model_explanations_unverified": true,
+            "environment_contract": {
+              "water": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "forest": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "park": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "market": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              }
+            },
+            "environment_disagreements": [],
+            "coverage": {
+              "N0": [
+                "goals.은빛경로당",
+                "routes.은빛경로당",
+                "mobility",
+                "trait.time_pattern",
+                "trait.routine_route"
+              ],
+              "N1": [
+                "persistence",
+                "direction"
+              ],
+              "N2": [
+                "goals.푸른시장",
+                "routes.푸른시장",
+                "trait.past_role"
+              ]
+            },
+            "environment_method": "single_context_contract",
+            "unassigned_note_ids": [],
+            "conditional_environment": {},
+            "environment_conditions": {
+              "water": [],
+              "forest": [],
+              "park": [],
+              "market": []
+            },
+            "condition_execution": "requires location/time-scoped observations; missing or conflicting signals stay neutral",
+            "unrepresented": [
+              {
+                "feature": "trait.time_pattern",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.routine_route",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.past_role",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_engine_consumer_yet"
+              }
+            ],
+            "projection_trace": [
+              {
+                "consumer": "strategy_probs",
+                "action": "start_before_legacy_behavior_tilt"
+              },
+              {
+                "consumer": "strategy_probs",
+                "semantic_evidence": "current_destination",
+                "factors": {
+                  "landmark_seeking": 2.0
+                }
+              },
+              {
+                "consumer": "attraction_weights",
+                "incident_levels_from_sar": {}
+              },
+              {
+                "consumer": "attraction_weights",
+                "after": {
+                  "다온공원": 0.2222222222222222,
+                  "푸른시장": 0.2222222222222222,
+                  "은빛경로당": 0.5555555555555555
+                }
+              },
+              {
+                "consumer": "route_familiarity",
+                "after": [
+                  {
+                    "route": "푸른시장",
+                    "score": 0.7
+                  },
+                  {
+                    "route": "은빛경로당",
+                    "score": 0.9
+                  }
+                ]
+              },
+              {
+                "consumer": "env_responses",
+                "after": []
+              },
+              {
+                "consumer": "radius_lognormal",
+                "after": {
+                  "mu": 0.095,
+                  "sigma": 1.48
+                }
+              }
+            ],
+            "sar_source": null,
+            "retrieval_audit": [
+              {
+                "id": "R0",
+                "source": "[보행] 가족 돌봄 제공자의 치매노인 배회관리 경험",
+                "kind": "paper",
+                "use": "primary_excerpt"
+              },
+              {
+                "id": "R1",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R2",
+                "source": "[보행] Persons with dementia missing in the community Is it wandering or something unique",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R3",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              }
+            ],
+            "source_audit": {
+              "evidence_note_ids": [
+                "N0",
+                "N1",
+                "N2"
+              ],
+              "excluded_derived_note_ids": [],
+              "quality": "guardian_original",
+              "limitation": "원문이 없는 추출 정보는 개인 사실로 확정하지 않으며 별도 확인 필요"
+            },
+            "limitations": [
+              "수치 배율은 잠정 규약이며 임상 보정값이 아님",
+              "실제 기억한 경로·보행 후 휴식 간격·도움 요청은 현재 엔진이 직접 재현하지 못함",
+              "원문·해석을 보존해도 모든 특성이 경로로 실행된다는 뜻은 아님",
+              "기존 자동 추출 경로·환경 입력을 이번 사건 근거로 재구성; 보호자 원본은 변경하지 않음"
+            ],
+            "prepared_before_incident": true,
+            "prepared_outside_prediction": true,
+            "K_called_during_prediction": false,
+            "preparation_fingerprint": "35c3aa59992d8b7a0978266f0435f8845199a3c97f014d8ba10259c3e55a9426",
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "goal_temporality": "recurring goals kept in their clock period; single reports before the incident treated as historical",
+            "registered_before_incident": true,
+            "preparation_audit": {
+              "dropped": [],
+              "context_disagreements": [],
+              "fallbacks": [],
+              "context_basis": [],
+              "route_draft_candidates": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "trait_review_omissions": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "core_review_changes": [],
+              "condition_recovery": [],
+              "environment_scope_checks": [],
+              "route_history_checks": [],
+              "route_citation_checks": [
+                {
+                  "place": "푸른시장",
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "answer": true
+                },
+                {
+                  "place": "은빛경로당",
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "answer": true
+                }
+              ],
+              "claim_checks": [
+                {
+                  "field": "goals.푸른시장:historical_relationship",
+                  "value": "historical_only",
+                  "statement": "대상자에게 '푸른시장'을(를) 생활 목적지로 이용했거나 그곳에서 살거나 일했거나 그곳으로 가려는 행동·발언을 한 과거 개인 이력이 보호자 원문에 있다. 비교용 후보나 장소 주변에서의 환경 반응 관찰만으로 생활 목적지 이력이 있다고 판단하지 않는다.",
+                  "answer": true
+                },
+                {
+                  "field": "mobility",
+                  "value": "C",
+                  "statement": "대상자는 혼자서 동네를 30분에서 1시간 정도 걸어 다닐 수 있다.",
+                  "answer": true
+                }
+              ],
+              "trait_checks": [
+                {
+                  "type": "time_pattern",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자의 특정 시각·시간대·요일에 반복되는 행동이나 발언을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "routine_route",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자가 반복해서 다니는 특정 경로나 늘 같은 길을 도는 습관을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "past_role",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "statement": "대상자의 과거 직장이나 생활 역할에 관한 개인 정보를 보호자가 보고했다.",
+                  "answer": true
+                }
+              ],
+              "rejected_traits": [],
+              "unconfirmed_traits": [],
+              "restored_traits": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ]
+            },
+            "situation_links": [],
+            "behavior_rules": [],
+            "selected_clock_period": "clock_day",
+            "clock_period_definition": "Asia/Seoul 06:00–18:00 clock_day; otherwise clock_night; not observed brightness",
+            "initial_prior_path": "prepared_person",
+            "numeric_baseline_source": "profile_baseline",
+            "SAR_called_during_prediction": false
+          },
+          "initial_interpretation_status": "current",
+          "prepared_person_interpretation": {
+            "core": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                }
+              }
+            },
+            "scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "environment": {
+                "water": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "forest": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "park": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "market": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                }
+              },
+              "baseline_direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ]
+              }
+            },
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "prepared_at": "2026-09-27T03:37:28.810482",
+            "persona_version": 0,
+            "version": "onboarding-person-v6-grounded-conditions"
+          },
+          "compiled_environment_responses": [],
+          "interpretation_is_not_new_observation": true,
+          "preparation_status": "ready"
+        },
+        "known_places": [
+          {
+            "label": "다온공원",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "푸른시장",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "은빛경로당",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.5555555555555555
+          }
+        ],
+        "state": {
+          "elapsed_minutes": 3.083786106855422,
+          "distance_m": 148.02173312906027,
+          "fatigue": 0.11804014872510424,
+          "confusion": 0.20684193784218638,
+          "anxiety": 0.12410516270531183,
+          "interpreted_confusion": null,
+          "current_action": "seek",
+          "target_label": "은빛경로당",
+          "target_reached": false,
+          "last_rest_end_minutes": null,
+          "recent_events": [
+            {
+              "kind": "decision",
+              "elapsed_minutes": 0.0,
+              "action": "seek",
+              "requested_action": "seek",
+              "avoid_feature": null,
+              "reason": "initial",
+              "target": "은빛경로당"
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 0.2957269880923593,
+              "action": "seek",
+              "requested_action": "continue",
+              "avoid_feature": null,
+              "reason": "environment_changed",
+              "target": "은빛경로당"
+            }
+          ]
+        },
+        "execution": {
+          "previous_travel_action": "seek",
+          "previous_avoid_feature": null,
+          "hold_until_minutes": null
+        },
+        "clock_time": "2026-10-05T08:03:05.027166",
+        "trigger": "environment_changed",
+        "environment": {
+          "map_proximity_m": {
+            "water": null,
+            "forest": null,
+            "market": 118.05886663451803,
+            "park": 32.01629166573068
+          },
+          "observed_signals": {
+            "water": {
+              "noisy": null,
+              "crowded": null
+            },
+            "forest": {
+              "noisy": null,
+              "crowded": null
+            },
+            "market": {
+              "noisy": true,
+              "crowded": true
+            },
+            "park": {
+              "noisy": null,
+              "crowded": null
+            }
+          },
+          "observed_place_labels": [],
+          "visibility_of_other_places": "unknown"
+        },
+        "research": [],
+        "limitations": [
+          "gauges are provisional engine states, not clinical measurements",
+          "map proximity does not prove visibility or current noise"
+        ],
+        "observation_provenance": "synthetic spatial observations on real cached roads; fake facility locations",
+        "locomotion": {
+          "walking_minutes": 3.083786106855422,
+          "continuous_walking_minutes": 3.083786106855422,
+          "resting_minutes": 0.0,
+          "waiting_minutes": 0.0,
+          "source": "simulator_elapsed_time_accounting_not_clinical_observation"
+        }
+      },
+      "decision": {
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null,
+        "evidence_ids": [
+          "N0"
+        ],
+        "reason": "보호자 원문(N0)에 따라 은빛경로당을 주간 평일 오전에 혼자 걸어가는 습관이 있으며, 현재 해당 목적지로의 이동 중이므로 기존 이동 방식(seek)을 계속 실행합니다.",
+        "confusion_level": "unknown"
+      }
+    },
+    {
+      "minute": 5.420471430880685,
+      "context": {
+        "contract_version": "mind-person-action-v2",
+        "case_id": "G1_1",
+        "person_id": "fresh-G1",
+        "person_revision": "ffeaa3fc69c865fe42edf4ba2d407a276cb251a7bdcdb59ef2785d829e859fa2",
+        "person": {
+          "age": 79,
+          "type": "dementia",
+          "evidence_notes": [
+            {
+              "id": "N0",
+              "text": "질문: 다른 일상 행동은 어떤가요?\n답변: 요즘은 매주 평일 오전에 은빛경로당에 혼자 걸어서 다녀오세요. 집에서 십오 분 거리이고 혼자 그 길을 다니는 게 일상이에요. 연속해서 사십 분쯤 걸을 수 있어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N1",
+              "text": "질문: 길을 잃었을 때와 환경 반응은요?\n답변: 길을 놓쳤을 때 어떻게 하는지는 아직 보지 못했어요. 방향을 계속 유지하는지 되돌아가는지도 몰라요. 시장이나 공원을 좋아하거나 피하는 반응도 확인한 적 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N2",
+              "text": "질문: 푸른시장과 어떤 관계인가요?\n답변: 칠 년 전까지 푸른시장에서 가게를 하셨어요. 그때는 매일 혼자 걸어 다녔지만 지금은 가게도 정리했고 시장에 가는 일도, 가겠다고 말씀하는 일도 없어요. 본인이 싫다며 거부한 적은 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            }
+          ],
+          "initial_interpretation": {
+            "version": "person-evidence-v49-agreement",
+            "status": "applied",
+            "model": "K-EXAONE",
+            "summary": "다온공원: 목적지 관계 미확인, 경로 인지 미확인. 푸른시장: 과거 관련 정보만 확인, 반복 독립 이동 경험. 은빛경로당: 반복 방문 습관, 익숙한 경로의 독립 이동 경험. 길 잃음 대응 미확인. 방향 선택 미확인. 생활권 보행 능력.",
+            "semantic_contract": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "조건 과업의 무조건 방향 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "물가: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "숲: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "공원: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "시장: 반응 미확인, 범위 미확인, 조건 미확인."
+                }
+              }
+            },
+            "context_scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              }
+            },
+            "model_explanations_unverified": true,
+            "environment_contract": {
+              "water": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "forest": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "park": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "market": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              }
+            },
+            "environment_disagreements": [],
+            "coverage": {
+              "N0": [
+                "goals.은빛경로당",
+                "routes.은빛경로당",
+                "mobility",
+                "trait.time_pattern",
+                "trait.routine_route"
+              ],
+              "N1": [
+                "persistence",
+                "direction"
+              ],
+              "N2": [
+                "goals.푸른시장",
+                "routes.푸른시장",
+                "trait.past_role"
+              ]
+            },
+            "environment_method": "single_context_contract",
+            "unassigned_note_ids": [],
+            "conditional_environment": {},
+            "environment_conditions": {
+              "water": [],
+              "forest": [],
+              "park": [],
+              "market": []
+            },
+            "condition_execution": "requires location/time-scoped observations; missing or conflicting signals stay neutral",
+            "unrepresented": [
+              {
+                "feature": "trait.time_pattern",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.routine_route",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.past_role",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_engine_consumer_yet"
+              }
+            ],
+            "projection_trace": [
+              {
+                "consumer": "strategy_probs",
+                "action": "start_before_legacy_behavior_tilt"
+              },
+              {
+                "consumer": "strategy_probs",
+                "semantic_evidence": "current_destination",
+                "factors": {
+                  "landmark_seeking": 2.0
+                }
+              },
+              {
+                "consumer": "attraction_weights",
+                "incident_levels_from_sar": {}
+              },
+              {
+                "consumer": "attraction_weights",
+                "after": {
+                  "다온공원": 0.2222222222222222,
+                  "푸른시장": 0.2222222222222222,
+                  "은빛경로당": 0.5555555555555555
+                }
+              },
+              {
+                "consumer": "route_familiarity",
+                "after": [
+                  {
+                    "route": "푸른시장",
+                    "score": 0.7
+                  },
+                  {
+                    "route": "은빛경로당",
+                    "score": 0.9
+                  }
+                ]
+              },
+              {
+                "consumer": "env_responses",
+                "after": []
+              },
+              {
+                "consumer": "radius_lognormal",
+                "after": {
+                  "mu": 0.095,
+                  "sigma": 1.48
+                }
+              }
+            ],
+            "sar_source": null,
+            "retrieval_audit": [
+              {
+                "id": "R0",
+                "source": "[보행] 가족 돌봄 제공자의 치매노인 배회관리 경험",
+                "kind": "paper",
+                "use": "primary_excerpt"
+              },
+              {
+                "id": "R1",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R2",
+                "source": "[보행] Persons with dementia missing in the community Is it wandering or something unique",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R3",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              }
+            ],
+            "source_audit": {
+              "evidence_note_ids": [
+                "N0",
+                "N1",
+                "N2"
+              ],
+              "excluded_derived_note_ids": [],
+              "quality": "guardian_original",
+              "limitation": "원문이 없는 추출 정보는 개인 사실로 확정하지 않으며 별도 확인 필요"
+            },
+            "limitations": [
+              "수치 배율은 잠정 규약이며 임상 보정값이 아님",
+              "실제 기억한 경로·보행 후 휴식 간격·도움 요청은 현재 엔진이 직접 재현하지 못함",
+              "원문·해석을 보존해도 모든 특성이 경로로 실행된다는 뜻은 아님",
+              "기존 자동 추출 경로·환경 입력을 이번 사건 근거로 재구성; 보호자 원본은 변경하지 않음"
+            ],
+            "prepared_before_incident": true,
+            "prepared_outside_prediction": true,
+            "K_called_during_prediction": false,
+            "preparation_fingerprint": "35c3aa59992d8b7a0978266f0435f8845199a3c97f014d8ba10259c3e55a9426",
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "goal_temporality": "recurring goals kept in their clock period; single reports before the incident treated as historical",
+            "registered_before_incident": true,
+            "preparation_audit": {
+              "dropped": [],
+              "context_disagreements": [],
+              "fallbacks": [],
+              "context_basis": [],
+              "route_draft_candidates": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "trait_review_omissions": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "core_review_changes": [],
+              "condition_recovery": [],
+              "environment_scope_checks": [],
+              "route_history_checks": [],
+              "route_citation_checks": [
+                {
+                  "place": "푸른시장",
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "answer": true
+                },
+                {
+                  "place": "은빛경로당",
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "answer": true
+                }
+              ],
+              "claim_checks": [
+                {
+                  "field": "goals.푸른시장:historical_relationship",
+                  "value": "historical_only",
+                  "statement": "대상자에게 '푸른시장'을(를) 생활 목적지로 이용했거나 그곳에서 살거나 일했거나 그곳으로 가려는 행동·발언을 한 과거 개인 이력이 보호자 원문에 있다. 비교용 후보나 장소 주변에서의 환경 반응 관찰만으로 생활 목적지 이력이 있다고 판단하지 않는다.",
+                  "answer": true
+                },
+                {
+                  "field": "mobility",
+                  "value": "C",
+                  "statement": "대상자는 혼자서 동네를 30분에서 1시간 정도 걸어 다닐 수 있다.",
+                  "answer": true
+                }
+              ],
+              "trait_checks": [
+                {
+                  "type": "time_pattern",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자의 특정 시각·시간대·요일에 반복되는 행동이나 발언을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "routine_route",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자가 반복해서 다니는 특정 경로나 늘 같은 길을 도는 습관을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "past_role",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "statement": "대상자의 과거 직장이나 생활 역할에 관한 개인 정보를 보호자가 보고했다.",
+                  "answer": true
+                }
+              ],
+              "rejected_traits": [],
+              "unconfirmed_traits": [],
+              "restored_traits": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ]
+            },
+            "situation_links": [],
+            "behavior_rules": [],
+            "selected_clock_period": "clock_day",
+            "clock_period_definition": "Asia/Seoul 06:00–18:00 clock_day; otherwise clock_night; not observed brightness",
+            "initial_prior_path": "prepared_person",
+            "numeric_baseline_source": "profile_baseline",
+            "SAR_called_during_prediction": false
+          },
+          "initial_interpretation_status": "current",
+          "prepared_person_interpretation": {
+            "core": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                }
+              }
+            },
+            "scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "environment": {
+                "water": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "forest": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "park": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "market": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                }
+              },
+              "baseline_direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ]
+              }
+            },
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "prepared_at": "2026-09-27T03:37:28.810482",
+            "persona_version": 0,
+            "version": "onboarding-person-v6-grounded-conditions"
+          },
+          "compiled_environment_responses": [],
+          "interpretation_is_not_new_observation": true,
+          "preparation_status": "ready"
+        },
+        "known_places": [
+          {
+            "label": "다온공원",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "푸른시장",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "은빛경로당",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.5555555555555555
+          }
+        ],
+        "state": {
+          "elapsed_minutes": 5.420471430880685,
+          "distance_m": 260.1826286822728,
+          "fatigue": 0.13170975787065203,
+          "confusion": 0.21178400903549596,
+          "anxiety": 0.12707040542129758,
+          "interpreted_confusion": null,
+          "current_action": "seek",
+          "target_label": "은빛경로당",
+          "target_reached": false,
+          "last_rest_end_minutes": null,
+          "recent_events": [
+            {
+              "kind": "decision",
+              "elapsed_minutes": 0.0,
+              "action": "seek",
+              "requested_action": "seek",
+              "avoid_feature": null,
+              "reason": "initial",
+              "target": "은빛경로당"
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 0.2957269880923593,
+              "action": "seek",
+              "requested_action": "continue",
+              "avoid_feature": null,
+              "reason": "environment_changed",
+              "target": "은빛경로당"
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 3.083786106855422,
+              "action": "seek",
+              "requested_action": "continue",
+              "avoid_feature": null,
+              "reason": "environment_changed",
+              "target": "은빛경로당"
+            }
+          ]
+        },
+        "execution": {
+          "previous_travel_action": "seek",
+          "previous_avoid_feature": null,
+          "hold_until_minutes": null
+        },
+        "clock_time": "2026-10-05T08:05:25.228286",
+        "trigger": "environment_changed",
+        "environment": {
+          "map_proximity_m": {
+            "water": null,
+            "forest": null,
+            "market": 39.369377900529685,
+            "park": 141.2977449363365
+          },
+          "observed_signals": {
+            "water": {
+              "noisy": null,
+              "crowded": null
+            },
+            "forest": {
+              "noisy": null,
+              "crowded": null
+            },
+            "market": {
+              "noisy": true,
+              "crowded": true
+            },
+            "park": {
+              "noisy": null,
+              "crowded": null
+            }
+          },
+          "observed_place_labels": [],
+          "visibility_of_other_places": "unknown"
+        },
+        "research": [],
+        "limitations": [
+          "gauges are provisional engine states, not clinical measurements",
+          "map proximity does not prove visibility or current noise"
+        ],
+        "observation_provenance": "synthetic spatial observations on real cached roads; fake facility locations",
+        "locomotion": {
+          "walking_minutes": 5.420471430880685,
+          "continuous_walking_minutes": 5.420471430880685,
+          "resting_minutes": 0.0,
+          "waiting_minutes": 0.0,
+          "source": "simulator_elapsed_time_accounting_not_clinical_observation"
+        }
+      },
+      "decision": {
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null,
+        "evidence_ids": [
+          "N0"
+        ],
+        "reason": "보호자 원문(N0)에 따르면 은빛경로당을 평일 오전에 혼자 걷는 습관이 있으며, 현재 시각(2026-10-05T08:05)은 주간 시간대에 해당하고 연속 보행 시간(5.42분)이 허용 범위(40분) 내에 있어 기존 이동.",
+        "confusion_level": "unknown"
+      }
+    },
+    {
+      "minute": 8.373707859504758,
+      "context": {
+        "contract_version": "mind-person-action-v2",
+        "case_id": "G1_1",
+        "person_id": "fresh-G1",
+        "person_revision": "ffeaa3fc69c865fe42edf4ba2d407a276cb251a7bdcdb59ef2785d829e859fa2",
+        "person": {
+          "age": 79,
+          "type": "dementia",
+          "evidence_notes": [
+            {
+              "id": "N0",
+              "text": "질문: 다른 일상 행동은 어떤가요?\n답변: 요즘은 매주 평일 오전에 은빛경로당에 혼자 걸어서 다녀오세요. 집에서 십오 분 거리이고 혼자 그 길을 다니는 게 일상이에요. 연속해서 사십 분쯤 걸을 수 있어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N1",
+              "text": "질문: 길을 잃었을 때와 환경 반응은요?\n답변: 길을 놓쳤을 때 어떻게 하는지는 아직 보지 못했어요. 방향을 계속 유지하는지 되돌아가는지도 몰라요. 시장이나 공원을 좋아하거나 피하는 반응도 확인한 적 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N2",
+              "text": "질문: 푸른시장과 어떤 관계인가요?\n답변: 칠 년 전까지 푸른시장에서 가게를 하셨어요. 그때는 매일 혼자 걸어 다녔지만 지금은 가게도 정리했고 시장에 가는 일도, 가겠다고 말씀하는 일도 없어요. 본인이 싫다며 거부한 적은 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            }
+          ],
+          "initial_interpretation": {
+            "version": "person-evidence-v49-agreement",
+            "status": "applied",
+            "model": "K-EXAONE",
+            "summary": "다온공원: 목적지 관계 미확인, 경로 인지 미확인. 푸른시장: 과거 관련 정보만 확인, 반복 독립 이동 경험. 은빛경로당: 반복 방문 습관, 익숙한 경로의 독립 이동 경험. 길 잃음 대응 미확인. 방향 선택 미확인. 생활권 보행 능력.",
+            "semantic_contract": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "조건 과업의 무조건 방향 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "물가: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "숲: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "공원: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "시장: 반응 미확인, 범위 미확인, 조건 미확인."
+                }
+              }
+            },
+            "context_scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              }
+            },
+            "model_explanations_unverified": true,
+            "environment_contract": {
+              "water": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "forest": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "park": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "market": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              }
+            },
+            "environment_disagreements": [],
+            "coverage": {
+              "N0": [
+                "goals.은빛경로당",
+                "routes.은빛경로당",
+                "mobility",
+                "trait.time_pattern",
+                "trait.routine_route"
+              ],
+              "N1": [
+                "persistence",
+                "direction"
+              ],
+              "N2": [
+                "goals.푸른시장",
+                "routes.푸른시장",
+                "trait.past_role"
+              ]
+            },
+            "environment_method": "single_context_contract",
+            "unassigned_note_ids": [],
+            "conditional_environment": {},
+            "environment_conditions": {
+              "water": [],
+              "forest": [],
+              "park": [],
+              "market": []
+            },
+            "condition_execution": "requires location/time-scoped observations; missing or conflicting signals stay neutral",
+            "unrepresented": [
+              {
+                "feature": "trait.time_pattern",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.routine_route",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.past_role",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_engine_consumer_yet"
+              }
+            ],
+            "projection_trace": [
+              {
+                "consumer": "strategy_probs",
+                "action": "start_before_legacy_behavior_tilt"
+              },
+              {
+                "consumer": "strategy_probs",
+                "semantic_evidence": "current_destination",
+                "factors": {
+                  "landmark_seeking": 2.0
+                }
+              },
+              {
+                "consumer": "attraction_weights",
+                "incident_levels_from_sar": {}
+              },
+              {
+                "consumer": "attraction_weights",
+                "after": {
+                  "다온공원": 0.2222222222222222,
+                  "푸른시장": 0.2222222222222222,
+                  "은빛경로당": 0.5555555555555555
+                }
+              },
+              {
+                "consumer": "route_familiarity",
+                "after": [
+                  {
+                    "route": "푸른시장",
+                    "score": 0.7
+                  },
+                  {
+                    "route": "은빛경로당",
+                    "score": 0.9
+                  }
+                ]
+              },
+              {
+                "consumer": "env_responses",
+                "after": []
+              },
+              {
+                "consumer": "radius_lognormal",
+                "after": {
+                  "mu": 0.095,
+                  "sigma": 1.48
+                }
+              }
+            ],
+            "sar_source": null,
+            "retrieval_audit": [
+              {
+                "id": "R0",
+                "source": "[보행] 가족 돌봄 제공자의 치매노인 배회관리 경험",
+                "kind": "paper",
+                "use": "primary_excerpt"
+              },
+              {
+                "id": "R1",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R2",
+                "source": "[보행] Persons with dementia missing in the community Is it wandering or something unique",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R3",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              }
+            ],
+            "source_audit": {
+              "evidence_note_ids": [
+                "N0",
+                "N1",
+                "N2"
+              ],
+              "excluded_derived_note_ids": [],
+              "quality": "guardian_original",
+              "limitation": "원문이 없는 추출 정보는 개인 사실로 확정하지 않으며 별도 확인 필요"
+            },
+            "limitations": [
+              "수치 배율은 잠정 규약이며 임상 보정값이 아님",
+              "실제 기억한 경로·보행 후 휴식 간격·도움 요청은 현재 엔진이 직접 재현하지 못함",
+              "원문·해석을 보존해도 모든 특성이 경로로 실행된다는 뜻은 아님",
+              "기존 자동 추출 경로·환경 입력을 이번 사건 근거로 재구성; 보호자 원본은 변경하지 않음"
+            ],
+            "prepared_before_incident": true,
+            "prepared_outside_prediction": true,
+            "K_called_during_prediction": false,
+            "preparation_fingerprint": "35c3aa59992d8b7a0978266f0435f8845199a3c97f014d8ba10259c3e55a9426",
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "goal_temporality": "recurring goals kept in their clock period; single reports before the incident treated as historical",
+            "registered_before_incident": true,
+            "preparation_audit": {
+              "dropped": [],
+              "context_disagreements": [],
+              "fallbacks": [],
+              "context_basis": [],
+              "route_draft_candidates": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "trait_review_omissions": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "core_review_changes": [],
+              "condition_recovery": [],
+              "environment_scope_checks": [],
+              "route_history_checks": [],
+              "route_citation_checks": [
+                {
+                  "place": "푸른시장",
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "answer": true
+                },
+                {
+                  "place": "은빛경로당",
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "answer": true
+                }
+              ],
+              "claim_checks": [
+                {
+                  "field": "goals.푸른시장:historical_relationship",
+                  "value": "historical_only",
+                  "statement": "대상자에게 '푸른시장'을(를) 생활 목적지로 이용했거나 그곳에서 살거나 일했거나 그곳으로 가려는 행동·발언을 한 과거 개인 이력이 보호자 원문에 있다. 비교용 후보나 장소 주변에서의 환경 반응 관찰만으로 생활 목적지 이력이 있다고 판단하지 않는다.",
+                  "answer": true
+                },
+                {
+                  "field": "mobility",
+                  "value": "C",
+                  "statement": "대상자는 혼자서 동네를 30분에서 1시간 정도 걸어 다닐 수 있다.",
+                  "answer": true
+                }
+              ],
+              "trait_checks": [
+                {
+                  "type": "time_pattern",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자의 특정 시각·시간대·요일에 반복되는 행동이나 발언을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "routine_route",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자가 반복해서 다니는 특정 경로나 늘 같은 길을 도는 습관을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "past_role",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "statement": "대상자의 과거 직장이나 생활 역할에 관한 개인 정보를 보호자가 보고했다.",
+                  "answer": true
+                }
+              ],
+              "rejected_traits": [],
+              "unconfirmed_traits": [],
+              "restored_traits": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ]
+            },
+            "situation_links": [],
+            "behavior_rules": [],
+            "selected_clock_period": "clock_day",
+            "clock_period_definition": "Asia/Seoul 06:00–18:00 clock_day; otherwise clock_night; not observed brightness",
+            "initial_prior_path": "prepared_person",
+            "numeric_baseline_source": "profile_baseline",
+            "SAR_called_during_prediction": false
+          },
+          "initial_interpretation_status": "current",
+          "prepared_person_interpretation": {
+            "core": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                }
+              }
+            },
+            "scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "environment": {
+                "water": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "forest": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "park": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "market": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                }
+              },
+              "baseline_direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ]
+              }
+            },
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "prepared_at": "2026-09-27T03:37:28.810482",
+            "persona_version": 0,
+            "version": "onboarding-person-v6-grounded-conditions"
+          },
+          "compiled_environment_responses": [],
+          "interpretation_is_not_new_observation": true,
+          "preparation_status": "ready"
+        },
+        "known_places": [
+          {
+            "label": "다온공원",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "푸른시장",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "은빛경로당",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.5555555555555555
+          }
+        ],
+        "state": {
+          "elapsed_minutes": 8.373707859504758,
+          "distance_m": 401.93797725622846,
+          "fatigue": 0.14898619097810287,
+          "confusion": 0.21857876478654065,
+          "anxiety": 0.13114725887192438,
+          "interpreted_confusion": null,
+          "current_action": "seek",
+          "target_label": "은빛경로당",
+          "target_reached": false,
+          "last_rest_end_minutes": null,
+          "recent_events": [
+            {
+              "kind": "decision",
+              "elapsed_minutes": 0.0,
+              "action": "seek",
+              "requested_action": "seek",
+              "avoid_feature": null,
+              "reason": "initial",
+              "target": "은빛경로당"
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 0.2957269880923593,
+              "action": "seek",
+              "requested_action": "continue",
+              "avoid_feature": null,
+              "reason": "environment_changed",
+              "target": "은빛경로당"
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 3.083786106855422,
+              "action": "seek",
+              "requested_action": "continue",
+              "avoid_feature": null,
+              "reason": "environment_changed",
+              "target": "은빛경로당"
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 5.420471430880685,
+              "action": "seek",
+              "requested_action": "continue",
+              "avoid_feature": null,
+              "reason": "environment_changed",
+              "target": "은빛경로당"
+            }
+          ]
+        },
+        "execution": {
+          "previous_travel_action": "seek",
+          "previous_avoid_feature": null,
+          "hold_until_minutes": null
+        },
+        "clock_time": "2026-10-05T08:08:22.422472",
+        "trigger": "environment_changed",
+        "environment": {
+          "map_proximity_m": {
+            "water": null,
+            "forest": null,
+            "market": 147.7891635573195,
+            "park": 280.7081741280397
+          },
+          "observed_signals": {
+            "water": {
+              "noisy": null,
+              "crowded": null
+            },
+            "forest": {
+              "noisy": null,
+              "crowded": null
+            },
+            "market": {
+              "noisy": true,
+              "crowded": true
+            },
+            "park": {
+              "noisy": null,
+              "crowded": null
+            }
+          },
+          "observed_place_labels": [],
+          "visibility_of_other_places": "unknown"
+        },
+        "research": [],
+        "limitations": [
+          "gauges are provisional engine states, not clinical measurements",
+          "map proximity does not prove visibility or current noise"
+        ],
+        "observation_provenance": "synthetic spatial observations on real cached roads; fake facility locations",
+        "locomotion": {
+          "walking_minutes": 8.373707859504758,
+          "continuous_walking_minutes": 8.373707859504758,
+          "resting_minutes": 0.0,
+          "waiting_minutes": 0.0,
+          "source": "simulator_elapsed_time_accounting_not_clinical_observation"
+        }
+      },
+      "decision": {
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null,
+        "evidence_ids": [
+          "N0"
+        ],
+        "reason": "보호자 보고에 따라 은빛경로당은 매일 평일 아침 정기적으로 방문하는 익숙한 목적지이며, 현재 보행 시간(8.37분)이 연속 보행 가능 시간(40분) 이내이므로 기존 이동 방식을 계속 실행합니다.",
+        "confusion_level": "unknown"
+      }
+    },
+    {
+      "minute": 9.882954609677169,
+      "context": {
+        "contract_version": "mind-person-action-v2",
+        "case_id": "G1_1",
+        "person_id": "fresh-G1",
+        "person_revision": "ffeaa3fc69c865fe42edf4ba2d407a276cb251a7bdcdb59ef2785d829e859fa2",
+        "person": {
+          "age": 79,
+          "type": "dementia",
+          "evidence_notes": [
+            {
+              "id": "N0",
+              "text": "질문: 다른 일상 행동은 어떤가요?\n답변: 요즘은 매주 평일 오전에 은빛경로당에 혼자 걸어서 다녀오세요. 집에서 십오 분 거리이고 혼자 그 길을 다니는 게 일상이에요. 연속해서 사십 분쯤 걸을 수 있어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N1",
+              "text": "질문: 길을 잃었을 때와 환경 반응은요?\n답변: 길을 놓쳤을 때 어떻게 하는지는 아직 보지 못했어요. 방향을 계속 유지하는지 되돌아가는지도 몰라요. 시장이나 공원을 좋아하거나 피하는 반응도 확인한 적 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            },
+            {
+              "id": "N2",
+              "text": "질문: 푸른시장과 어떤 관계인가요?\n답변: 칠 년 전까지 푸른시장에서 가게를 하셨어요. 그때는 매일 혼자 걸어 다녔지만 지금은 가게도 정리했고 시장에 가는 일도, 가겠다고 말씀하는 일도 없어요. 본인이 싫다며 거부한 적은 없어요.",
+              "source_kinds": [
+                "guardian_turn",
+                "extracted_note"
+              ],
+              "recorded_at": [
+                "2026-09-01T09:00:00+09:00"
+              ],
+              "provenance": "guardian_original"
+            }
+          ],
+          "initial_interpretation": {
+            "version": "person-evidence-v49-agreement",
+            "status": "applied",
+            "model": "K-EXAONE",
+            "summary": "다온공원: 목적지 관계 미확인, 경로 인지 미확인. 푸른시장: 과거 관련 정보만 확인, 반복 독립 이동 경험. 은빛경로당: 반복 방문 습관, 익숙한 경로의 독립 이동 경험. 길 잃음 대응 미확인. 방향 선택 미확인. 생활권 보행 능력.",
+            "semantic_contract": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "조건 과업의 무조건 방향 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "물가: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "숲: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "공원: 반응 미확인, 범위 미확인, 조건 미확인."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "시장: 반응 미확인, 범위 미확인, 조건 미확인."
+                }
+              }
+            },
+            "context_scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              }
+            },
+            "model_explanations_unverified": true,
+            "environment_contract": {
+              "water": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "forest": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "park": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              },
+              "market": {
+                "note_ids": [],
+                "basis": "unknown",
+                "scope": "unknown",
+                "condition": "unknown",
+                "response": "unknown"
+              }
+            },
+            "environment_disagreements": [],
+            "coverage": {
+              "N0": [
+                "goals.은빛경로당",
+                "routes.은빛경로당",
+                "mobility",
+                "trait.time_pattern",
+                "trait.routine_route"
+              ],
+              "N1": [
+                "persistence",
+                "direction"
+              ],
+              "N2": [
+                "goals.푸른시장",
+                "routes.푸른시장",
+                "trait.past_role"
+              ]
+            },
+            "environment_method": "single_context_contract",
+            "unassigned_note_ids": [],
+            "conditional_environment": {},
+            "environment_conditions": {
+              "water": [],
+              "forest": [],
+              "park": [],
+              "market": []
+            },
+            "condition_execution": "requires location/time-scoped observations; missing or conflicting signals stay neutral",
+            "unrepresented": [
+              {
+                "feature": "trait.time_pattern",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.routine_route",
+                "period": "clock_day",
+                "note_ids": [
+                  "N0"
+                ],
+                "reason": "no_engine_consumer_yet"
+              },
+              {
+                "feature": "trait.past_role",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_engine_consumer_yet"
+              }
+            ],
+            "projection_trace": [
+              {
+                "consumer": "strategy_probs",
+                "action": "start_before_legacy_behavior_tilt"
+              },
+              {
+                "consumer": "strategy_probs",
+                "semantic_evidence": "current_destination",
+                "factors": {
+                  "landmark_seeking": 2.0
+                }
+              },
+              {
+                "consumer": "attraction_weights",
+                "incident_levels_from_sar": {}
+              },
+              {
+                "consumer": "attraction_weights",
+                "after": {
+                  "다온공원": 0.2222222222222222,
+                  "푸른시장": 0.2222222222222222,
+                  "은빛경로당": 0.5555555555555555
+                }
+              },
+              {
+                "consumer": "route_familiarity",
+                "after": [
+                  {
+                    "route": "푸른시장",
+                    "score": 0.7
+                  },
+                  {
+                    "route": "은빛경로당",
+                    "score": 0.9
+                  }
+                ]
+              },
+              {
+                "consumer": "env_responses",
+                "after": []
+              },
+              {
+                "consumer": "radius_lognormal",
+                "after": {
+                  "mu": 0.095,
+                  "sigma": 1.48
+                }
+              }
+            ],
+            "sar_source": null,
+            "retrieval_audit": [
+              {
+                "id": "R0",
+                "source": "[보행] 가족 돌봄 제공자의 치매노인 배회관리 경험",
+                "kind": "paper",
+                "use": "primary_excerpt"
+              },
+              {
+                "id": "R1",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R2",
+                "source": "[보행] Persons with dementia missing in the community Is it wandering or something unique",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              },
+              {
+                "id": "R3",
+                "source": "2110.13128v1",
+                "kind": "qa",
+                "use": "excluded_derived_or_unclassified"
+              }
+            ],
+            "source_audit": {
+              "evidence_note_ids": [
+                "N0",
+                "N1",
+                "N2"
+              ],
+              "excluded_derived_note_ids": [],
+              "quality": "guardian_original",
+              "limitation": "원문이 없는 추출 정보는 개인 사실로 확정하지 않으며 별도 확인 필요"
+            },
+            "limitations": [
+              "수치 배율은 잠정 규약이며 임상 보정값이 아님",
+              "실제 기억한 경로·보행 후 휴식 간격·도움 요청은 현재 엔진이 직접 재현하지 못함",
+              "원문·해석을 보존해도 모든 특성이 경로로 실행된다는 뜻은 아님",
+              "기존 자동 추출 경로·환경 입력을 이번 사건 근거로 재구성; 보호자 원본은 변경하지 않음"
+            ],
+            "prepared_before_incident": true,
+            "prepared_outside_prediction": true,
+            "K_called_during_prediction": false,
+            "preparation_fingerprint": "35c3aa59992d8b7a0978266f0435f8845199a3c97f014d8ba10259c3e55a9426",
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "goal_temporality": "recurring goals kept in their clock period; single reports before the incident treated as historical",
+            "registered_before_incident": true,
+            "preparation_audit": {
+              "dropped": [],
+              "context_disagreements": [],
+              "fallbacks": [],
+              "context_basis": [],
+              "route_draft_candidates": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "trait_review_omissions": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "core_review_changes": [],
+              "condition_recovery": [],
+              "environment_scope_checks": [],
+              "route_history_checks": [],
+              "route_citation_checks": [
+                {
+                  "place": "푸른시장",
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "answer": true
+                },
+                {
+                  "place": "은빛경로당",
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "answer": true
+                }
+              ],
+              "claim_checks": [
+                {
+                  "field": "goals.푸른시장:historical_relationship",
+                  "value": "historical_only",
+                  "statement": "대상자에게 '푸른시장'을(를) 생활 목적지로 이용했거나 그곳에서 살거나 일했거나 그곳으로 가려는 행동·발언을 한 과거 개인 이력이 보호자 원문에 있다. 비교용 후보나 장소 주변에서의 환경 반응 관찰만으로 생활 목적지 이력이 있다고 판단하지 않는다.",
+                  "answer": true
+                },
+                {
+                  "field": "mobility",
+                  "value": "C",
+                  "statement": "대상자는 혼자서 동네를 30분에서 1시간 정도 걸어 다닐 수 있다.",
+                  "answer": true
+                }
+              ],
+              "trait_checks": [
+                {
+                  "type": "time_pattern",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자의 특정 시각·시간대·요일에 반복되는 행동이나 발언을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "routine_route",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "statement": "대상자가 반복해서 다니는 특정 경로나 늘 같은 길을 도는 습관을 보호자가 보고했다.",
+                  "answer": true
+                },
+                {
+                  "type": "past_role",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "statement": "대상자의 과거 직장이나 생활 역할에 관한 개인 정보를 보호자가 보고했다.",
+                  "answer": true
+                }
+              ],
+              "rejected_traits": [],
+              "unconfirmed_traits": [],
+              "restored_traits": [
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ]
+            },
+            "situation_links": [],
+            "behavior_rules": [],
+            "selected_clock_period": "clock_day",
+            "clock_period_definition": "Asia/Seoul 06:00–18:00 clock_day; otherwise clock_night; not observed brightness",
+            "initial_prior_path": "prepared_person",
+            "numeric_baseline_source": "profile_baseline",
+            "SAR_called_during_prediction": false
+          },
+          "initial_interpretation_status": "current",
+          "prepared_person_interpretation": {
+            "core": {
+              "goals": {
+                "다온공원": {
+                  "value": "unknown",
+                  "period": "unspecified",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "historical_only",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "habitual_visit",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "routes": {
+                "다온공원": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "repeated_independent",
+                  "note_ids": [
+                    "N2"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "routine_independent",
+                  "note_ids": [
+                    "N0"
+                  ],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "found_history": {
+                "다온공원": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "푸른시장": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                },
+                "은빛경로당": {
+                  "value": "not_reported",
+                  "note_ids": [],
+                  "explanation": "원문 근거를 연결한 초기 특성 판단."
+                }
+              },
+              "mobility": {
+                "value": "C",
+                "note_ids": [
+                  "N0"
+                ],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "emotion": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "other_traits": [
+                {
+                  "type": "time_pattern",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "routine_route",
+                  "period": "clock_day",
+                  "note_ids": [
+                    "N0"
+                  ]
+                },
+                {
+                  "type": "past_role",
+                  "period": "unspecified",
+                  "note_ids": [
+                    "N2"
+                  ]
+                }
+              ],
+              "persistence": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "direction": {
+                "value": "unknown",
+                "note_ids": [],
+                "explanation": "원문 근거를 연결한 초기 특성 판단."
+              },
+              "environment": {
+                "water": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "forest": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "park": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                },
+                "market": {
+                  "value": "unknown",
+                  "note_ids": [],
+                  "explanation": "환경 전용 해석 단계에서 별도 평가."
+                }
+              }
+            },
+            "scope": {
+              "persistence": {
+                "evidence": "missing",
+                "pattern": "unresolved",
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ],
+                "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+              },
+              "environment": {
+                "water": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "forest": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "park": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                },
+                "market": {
+                  "response": "unknown",
+                  "condition": "조건 미확인",
+                  "note_ids": [],
+                  "scope": "unknown",
+                  "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+                }
+              },
+              "baseline_direction": {
+                "value": "unknown",
+                "note_ids": [
+                  "N1"
+                ]
+              }
+            },
+            "profile_snapshot_at": "2026-09-27T03:37:28.807311",
+            "prepared_at": "2026-09-27T03:37:28.810482",
+            "persona_version": 0,
+            "version": "onboarding-person-v6-grounded-conditions"
+          },
+          "compiled_environment_responses": [],
+          "interpretation_is_not_new_observation": true,
+          "preparation_status": "ready"
+        },
+        "known_places": [
+          {
+            "label": "다온공원",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "푸른시장",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.2222222222222222
+          },
+          {
+            "label": "은빛경로당",
+            "place_type": "",
+            "evidence": "mention_only",
+            "attraction_weight": 0.5555555555555555
+          }
+        ],
+        "state": {
+          "elapsed_minutes": 9.882954609677169,
+          "distance_m": 474.38182126450414,
+          "fatigue": 0.16367023453818105,
+          "confusion": 0.22226331071880867,
+          "anxiety": 0.13335798643128519,
+          "interpreted_confusion": null,
+          "current_action": "seek",
+          "target_label": "은빛경로당",
+          "target_reached": true,
+          "last_rest_end_minutes": null,
+          "recent_events": [
+            {
+              "kind": "decision",
+              "elapsed_minutes": 0.0,
+              "action": "seek",
+              "requested_action": "seek",
+              "avoid_feature": null,
+              "reason": "initial",
+              "target": "은빛경로당"
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 0.2957269880923593,
+              "action": "seek",
+              "requested_action": "continue",
+              "avoid_feature": null,
+              "reason": "environment_changed",
+              "target": "은빛경로당"
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 3.083786106855422,
+              "action": "seek",
+              "requested_action": "continue",
+              "avoid_feature": null,
+              "reason": "environment_changed",
+              "target": "은빛경로당"
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 5.420471430880685,
+              "action": "seek",
+              "requested_action": "continue",
+              "avoid_feature": null,
+              "reason": "environment_changed",
+              "target": "은빛경로당"
+            },
+            {
+              "kind": "decision",
+              "elapsed_minutes": 8.373707859504758,
+              "action": "seek",
+              "requested_action": "continue",
+              "avoid_feature": null,
+              "reason": "environment_changed",
+              "target": "은빛경로당"
+            },
+            {
+              "kind": "target_arrived",
+              "elapsed_minutes": 9.882954609677169,
+              "target": "은빛경로당"
+            }
+          ]
+        },
+        "execution": {
+          "previous_travel_action": "seek",
+          "previous_avoid_feature": null,
+          "hold_until_minutes": null
+        },
+        "clock_time": "2026-10-05T08:09:52.977277",
+        "trigger": "target_arrived",
+        "environment": {
+          "map_proximity_m": {
+            "water": null,
+            "forest": null,
+            "market": 138.80421562733207,
+            "park": 278.8772008152544
+          },
+          "observed_signals": {
+            "water": {
+              "noisy": null,
+              "crowded": null
+            },
+            "forest": {
+              "noisy": null,
+              "crowded": null
+            },
+            "market": {
+              "noisy": true,
+              "crowded": true
+            },
+            "park": {
+              "noisy": null,
+              "crowded": null
+            }
+          },
+          "observed_place_labels": [],
+          "visibility_of_other_places": "unknown"
+        },
+        "research": [],
+        "limitations": [
+          "gauges are provisional engine states, not clinical measurements",
+          "map proximity does not prove visibility or current noise"
+        ],
+        "observation_provenance": "synthetic spatial observations on real cached roads; fake facility locations",
+        "locomotion": {
+          "walking_minutes": 9.882954609677169,
+          "continuous_walking_minutes": 9.882954609677169,
+          "resting_minutes": 0.0,
+          "waiting_minutes": 0.0,
+          "source": "simulator_elapsed_time_accounting_not_clinical_observation"
+        }
+      },
+      "decision": null,
+      "model_response": {
+        "content": "{\"next_command_id\": \"defer\", \"source_ids\": [\"N0\"], \"reason\": \"은빛경로당 도착 후 개인 반응이 원문(N0)에 명시되지 않아 해석 유보 필요.\"}",
+        "finish_reason": "stop",
+        "usage": {
+          "completion_tokens": 9960,
+          "prompt_tokens": 7044,
+          "prompt_tokens_details": {
+            "cached_tokens": 4736
+          },
+          "total_tokens": 17004
+        },
+        "model": "depmkuykpfon9lg"
+      },
+      "execution_policy": "stop_probe_without_invented_action"
+    }
+  ],
+  "bridge_audit": [
+    {
+      "request_sha256": "b7567bd97839992cff187fd8124b18da323d15a0b6f1f0830a5abb9112b0e701",
+      "source": "fresh_request",
+      "decision": {
+        "action": "seek",
+        "goal_operation": "set",
+        "goal_label": "은빛경로당",
+        "avoid_feature": null,
+        "reason": "N0에 따른 평일 오전 은빛경로당 방문 습관과 현재 시각이 시계일 기준 시간대 내므로 이동 시작합니다.",
+        "evidence_ids": [
+          "N0"
+        ],
+        "confusion_level": "unknown"
+      }
+    },
+    {
+      "request_sha256": "0f650732785411483c09605c753f2acbbfadaea15c5def9ce5b601f8634611e8",
+      "source": "fresh_request",
+      "decision": {
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null,
+        "reason": "은빛경로당 방문 습관(N0)과 현재 이동 중인 목적지 간일치로 지속 이동 선택. 시장 환경 관측은 피하는 행동 미확인 상태이나 현재 목표인 은빛경로당 향해 계속 이동합니다.",
+        "evidence_ids": [
+          "N0"
+        ],
+        "confusion_level": "unknown"
+      }
+    },
+    {
+      "request_sha256": "2cbf52f10c52c3de5525929365eada707d1c71102577f09cd3faa8818888bb06",
+      "source": "fresh_request",
+      "decision": {
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null,
+        "reason": "보호자 원문(N0)에 따라 은빛경로당을 주간 평일 오전에 혼자 걸어가는 습관이 있으며, 현재 해당 목적지로의 이동 중이므로 기존 이동 방식(seek)을 계속 실행합니다.",
+        "evidence_ids": [
+          "N0"
+        ],
+        "confusion_level": "unknown"
+      }
+    },
+    {
+      "request_sha256": "494c62e4282e75ea8be8ae729862498dee76260ca01c7afb7ef146c3717b95c8",
+      "source": "fresh_request",
+      "decision": {
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null,
+        "reason": "보호자 원문(N0)에 따르면 은빛경로당을 평일 오전에 혼자 걷는 습관이 있으며, 현재 시각(2026-10-05T08:05)은 주간 시간대에 해당하고 연속 보행 시간(5.42분)이 허용 범위(40분) 내에 있어 기존 이동.",
+        "evidence_ids": [
+          "N0"
+        ],
+        "confusion_level": "unknown"
+      }
+    },
+    {
+      "request_sha256": "7fa108ff210838948f459d6df02ac71b0d54da168813049f16cb918c0d724cf2",
+      "source": "fresh_request",
+      "decision": {
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null,
+        "reason": "보호자 보고에 따라 은빛경로당은 매일 평일 아침 정기적으로 방문하는 익숙한 목적지이며, 현재 보행 시간(8.37분)이 연속 보행 가능 시간(40분) 이내이므로 기존 이동 방식을 계속 실행합니다.",
+        "evidence_ids": [
+          "N0"
+        ],
+        "confusion_level": "unknown"
+      }
+    },
+    {
+      "request_sha256": "bb4e11489c1ca5604c2b1e7eb35b6a566b859d631e4836701141329e9b06293f",
+      "source": "fresh_request",
+      "decision": null
+    }
+  ],
+  "error_type": null,
+  "complete_to_360": false
+}

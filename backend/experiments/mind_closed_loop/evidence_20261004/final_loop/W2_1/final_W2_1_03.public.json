@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"continue\", \"source_ids\": [\"N2\"], \"reason\": \"길을 잃었을 때 계속 이동한 경험을 현재 조건과 맞춰 계속 이동을 선택\" }",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1310,
+    "prompt_tokens": 6846,
+    "prompt_tokens_details": {
+      "cached_tokens": 4640
+    },
+    "total_tokens": 8156
+  },
+  "model": "depmkuykpfon9lg"
+}

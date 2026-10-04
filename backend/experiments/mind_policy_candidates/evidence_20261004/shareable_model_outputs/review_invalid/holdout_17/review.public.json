@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"avoid_daon_park_noisy\",\n      \"action\": \"avoid\",\n      \"when\": {\n        \"park.noisy\": true\n      },\n      \"target\": null,\n      \"feature\": \"park\",\n      \"places\": [\n        \"다온공원\"\n      ],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2297,
+    "prompt_tokens": 1038,
+    "prompt_tokens_details": {
+      "cached_tokens": 640
+    },
+    "total_tokens": 3335
+  },
+  "source_sha256": "4535e7f9ca82adcbd22be10ead44fcbeb9619308633067d68ce04a514453fabc"
+}

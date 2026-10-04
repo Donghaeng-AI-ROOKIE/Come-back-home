@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"continue\", \"source_ids\": [\"N0\"], \"reason\": \"은빛경로당 방문 습관(N0)과 현재 이동 중인 목적지 간일치로 지속 이동 선택. 시장 환경 관측은 피하는 행동 미확인 상태이나 현재 목표인 은빛경로당 향해 계속 이동합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1239,
+    "prompt_tokens": 6637,
+    "prompt_tokens_details": {
+      "cached_tokens": 6624
+    },
+    "total_tokens": 7876
+  },
+  "model": "depmkuykpfon9lg"
+}

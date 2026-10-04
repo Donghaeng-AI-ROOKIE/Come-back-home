@@ -1,0 +1,1481 @@
+[
+  {
+    "id": "holdout_01",
+    "facts": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "wait"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_02",
+    "facts": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "walk"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_03",
+    "facts": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_04",
+    "facts": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "wait"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_05",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 10,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "rest"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_06",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_07",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 200,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "rest"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_08",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 20,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_09",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": true,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "rest"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_10",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "walk"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_11",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": true,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_12",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 30,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_13",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": true,
+      "market.crowded": true,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "avoid"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_14",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": true,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "walk",
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_15",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": true,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "avoid"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_16",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": true,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_17",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": true,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_18",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": true,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "avoid"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_19",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": true,
+      "target_recognized": true,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "wait"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_20",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": true,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "walk"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_21",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": true,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_22",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": true,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "wait"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_23",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "walk"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_24",
+    "facts": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": true,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "rest"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "primary"
+  },
+  {
+    "id": "holdout_01",
+    "facts": {
+      "lost_awareness": true,
+      "family_present": true,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_1"
+  },
+  {
+    "id": "holdout_05",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 9,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_1"
+  },
+  {
+    "id": "holdout_05",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 10,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_2"
+  },
+  {
+    "id": "holdout_07",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 199,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_1"
+  },
+  {
+    "id": "holdout_09",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "walk"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_1"
+  },
+  {
+    "id": "holdout_13",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": true,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "walk",
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_1"
+  },
+  {
+    "id": "holdout_13",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": true,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "walk",
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_2"
+  },
+  {
+    "id": "holdout_15",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_1"
+  },
+  {
+    "id": "holdout_19",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": true,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_1"
+  },
+  {
+    "id": "holdout_19",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": true,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "walk"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_2"
+  },
+  {
+    "id": "holdout_22",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "walk"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_1"
+  },
+  {
+    "id": "holdout_24",
+    "facts": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": false,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "wait"
+    ],
+    "near_places": [
+      "푸른시장",
+      "다온공원"
+    ],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "counterfactual_1"
+  },
+  {
+    "id": "holdout_13",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": true,
+      "market.crowded": true,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      null
+    ],
+    "near_places": [],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "other_market"
+  },
+  {
+    "id": "holdout_15",
+    "facts": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "is_walking": true,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "market.noisy": false,
+      "market.crowded": true,
+      "park.noisy": false,
+      "park.crowded": false,
+      "water.noisy": false,
+      "water.crowded": false,
+      "forest.noisy": false,
+      "forest.crowded": false
+    },
+    "allowed_actions": [
+      "avoid"
+    ],
+    "near_places": [],
+    "near_features": [
+      "market",
+      "park"
+    ],
+    "scene": "other_market"
+  }
+]

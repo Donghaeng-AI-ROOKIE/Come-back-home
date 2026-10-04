@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"walk_to_rest\",\n      \"action\": \"있습니다\",\n      \"when\": {\n        \"distance_since_rest_m\": {\n          \"gte\": 200\n        }\n      },\n      \"minutes\": null,\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 8057,
+    "prompt_tokens": 662,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 8719
+  },
+  "source_sha256": "67bdb6aba6ebf6834cfe9cef4bb73ae095ec7e81ab50231468acdccf518bc944"
+}

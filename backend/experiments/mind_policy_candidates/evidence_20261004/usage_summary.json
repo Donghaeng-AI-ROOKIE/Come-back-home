@@ -1,0 +1,50 @@
+{
+  "started": 110,
+  "finished": 110,
+  "pending_attempts": [],
+  "by_role": {
+    "mind_state_alignment_development": 62,
+    "mind_state_alignment_heldout": 48
+  },
+  "outcomes": {
+    "error": 9,
+    "response_received": 99,
+    "not_submitted": 2
+  },
+  "finish_reason": {
+    "None": 11,
+    "stop": 91,
+    "length": 8
+  },
+  "provider_reported_usage": {
+    "prompt_tokens": 154065,
+    "completion_tokens": 526007,
+    "total_tokens": 680072
+  },
+  "responses_with_usage": 99,
+  "actual_cost": null,
+  "estimated_cost": null,
+  "unit_prices": null,
+  "support_round": null,
+  "new_gpu_training_hours": 0,
+  "new_SAR_calls": 0,
+  "new_Midm_calls": 0,
+  "new_embedding_calls": 0,
+  "map_requests": 2,
+  "map_request_finishes": 2,
+  "notes": [
+    "2 SSH-blocked attempts count against approval cap; remote inspection confirmed they were never submitted",
+    "usage missing on failed requests is unknown, not zero",
+    "self-hosted GPU token costs not duplicated",
+    "no new GPU training; server relay usage logged through request receipts"
+  ],
+  "deployment_configuration_check": {
+    "host": "api.friendli.ai",
+    "path": "/dedicated/v1",
+    "deployment_alias": "depmkuykpfon9lg",
+    "secrets_printed": false,
+    "underlying_weight_revision": "not independently verified"
+  },
+  "first_started_at": "2026-10-04T08:02:33.405119+00:00",
+  "last_started_at": "2026-10-04T12:25:43.591330+00:00"
+}

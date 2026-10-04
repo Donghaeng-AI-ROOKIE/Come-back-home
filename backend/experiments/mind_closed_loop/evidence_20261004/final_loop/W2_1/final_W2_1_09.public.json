@@ -1,0 +1,13 @@
+{
+  "content": "{\n  \"next_command_id\": \"continue\",\n  \"source_ids\": [\"N0\"],\n  \"reason\": \"보행 지속이 필요한 상황이나, 5분 연속 보행 한계를 고려할 때 휴식 전까지는 이전 이동 방식(목적지 향한 보행)을 이어가야 합니다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1298,
+    "prompt_tokens": 7128,
+    "prompt_tokens_details": {
+      "cached_tokens": 4640
+    },
+    "total_tokens": 8426
+  },
+  "model": "depmkuykpfon9lg"
+}

@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"wait_target_recog\",\n      \"action\": \"wait\",\n      \"when\": {\n        \"physical_arrival\": true,\n        \"target_recognized\": true,\n        \"is_walking\": false\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    },\n    {\n      \"id\": \"walk_target_unrecog\",\n      \"action\": \"walk\",\n      \"when\": {\n        \"physical_arrival\": true,\n        \"target_recognized\": false,\n        \"is_walking\": true\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 9067,
+    "prompt_tokens": 703,
+    "prompt_tokens_details": {
+      "cached_tokens": 640
+    },
+    "total_tokens": 9770
+  },
+  "source_sha256": "dfbfbdc3978b2a85c2a7099a113aafac77d6d92a2694a35e7b15574d6c0ec02d"
+}

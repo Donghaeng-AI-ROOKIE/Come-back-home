@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"길을 잃었음을 인지하고(N2), 길을 잃었을 때 가족 기다립니다라는 개인 반응에 따라 현재 정지 동작을 유지합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5270,
+    "prompt_tokens": 6779,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 12049
+  },
+  "model": "depmkuykpfon9lg"
+}

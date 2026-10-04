@@ -1,0 +1,14 @@
+{
+  "final_content": "{\"rules\":[{\"id\":\"avoid_daon_park_noisy\",\"action\":\"avoid\",\"when\":{\"park.noisy\":true},\"target\":null,\"feature\":\"park\",\"places…\",\"minutes\":null,\"supersedes\":[],\"notes\":[\"N0\"]},\"unused_note_ids\":[]}",
+  "extraction_status": "unparseable_final",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 8242,
+    "prompt_tokens": 659,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 8901
+  },
+  "source_sha256": "7b82aec8f93db39d258f2b790a40e3abce3e7e9c48450ab7aaf7a4c0b1240ae8"
+}

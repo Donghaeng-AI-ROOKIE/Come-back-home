@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N0\"], \"reason\": \"대상지가 도달했으므로 이동을 멈추고 대기합니다. 현재 연속 보행 시간은 3.08분으로 휴식이 필요한 5분 한계치에 미치지 않아 즉시 휴식이 필수적이지 않으나, 이미 목적지에 도달했으므로 대기를 선택합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5956,
+    "prompt_tokens": 7121,
+    "prompt_tokens_details": {
+      "cached_tokens": 4640
+    },
+    "total_tokens": 13077
+  },
+  "model": "depmkuykpfon9lg"
+}

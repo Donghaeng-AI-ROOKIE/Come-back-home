@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"현재 관측에서 길을 잃은 것으로 확인되며, 보호자 원문 N2에 따라 길 잃었을 때 가족이 올 때까지 제자리에서 대기함.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2328,
+    "prompt_tokens": 6631,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 8959
+  },
+  "model": "depmkuykpfon9lg"
+}

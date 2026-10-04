@@ -1,0 +1,51 @@
+{
+  "run_id": "MIND_end_to_end_20261004",
+  "started_calls": 84,
+  "finished_calls": 84,
+  "requests_by_stage": {
+    "live": 7,
+    "projected": 18,
+    "final_loop": 58,
+    "repair_check": 1
+  },
+  "requests_by_person": {
+    "E1_1": 9,
+    "E2_1": 10,
+    "H_history_1": 12,
+    "G2_1": 5,
+    "G1_1": 12,
+    "W2_1": 12,
+    "W1_1": 12,
+    "H_wait_1": 12
+  },
+  "unreconciled_attempt_ids": [],
+  "outcomes": {
+    "response_received": 84
+  },
+  "finish_reasons": {
+    "stop": 83,
+    "length": 1
+  },
+  "provider_reported_tokens": {
+    "prompt_tokens": 576870,
+    "completion_tokens": 296501,
+    "total_tokens": 873371
+  },
+  "calls_without_usage": 0,
+  "latency_seconds": {
+    "mean": 52.98522608186717,
+    "median": 40.47575986455195,
+    "max": 178.88502476504073
+  },
+  "estimated_cost": null,
+  "actual_cost": null,
+  "unit_rate": null,
+  "support_round": null,
+  "gpu_billed_hours": null,
+  "notes": [
+    "Costs are unconfirmed, not zero.",
+    "All requests, including invalid development probes and interrupted-local recovered responses, are counted.",
+    "No retry, new GPU training, SAR, Mi:dm, embedding, or map calls.",
+    "Token totals include provider reasoning within completion usage if the provider counts it; no hidden reasoning text is exported."
+  ]
+}

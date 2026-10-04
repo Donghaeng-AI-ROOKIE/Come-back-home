@@ -1,0 +1,447 @@
+{
+  "purpose": "failure_characterization_not_release_pass",
+  "completed_people": 24,
+  "planned_people": 24,
+  "valid_policy_people": 9,
+  "scene_checks": 38,
+  "scene_checks_passed": 15,
+  "people_all_checks_passed": 9,
+  "independent_human_reviewers": 0,
+  "real_patient_count": 0,
+  "checks": [
+    {
+      "id": "holdout_01",
+      "scene": "primary",
+      "allowed_actions": [
+        "wait"
+      ],
+      "actual_actions": [
+        "wait"
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_02",
+      "scene": "primary",
+      "allowed_actions": [
+        "walk"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_03",
+      "scene": "primary",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": [
+        null
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_04",
+      "scene": "primary",
+      "allowed_actions": [
+        "wait"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_05",
+      "scene": "primary",
+      "allowed_actions": [
+        "rest"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_06",
+      "scene": "primary",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_07",
+      "scene": "primary",
+      "allowed_actions": [
+        "rest"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_08",
+      "scene": "primary",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": [
+        null
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_09",
+      "scene": "primary",
+      "allowed_actions": [
+        "rest"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_10",
+      "scene": "primary",
+      "allowed_actions": [
+        "walk"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_11",
+      "scene": "primary",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": [
+        null
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_12",
+      "scene": "primary",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_13",
+      "scene": "primary",
+      "allowed_actions": [
+        "avoid"
+      ],
+      "actual_actions": [
+        "avoid"
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_14",
+      "scene": "primary",
+      "allowed_actions": [
+        "walk",
+        null
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_15",
+      "scene": "primary",
+      "allowed_actions": [
+        "avoid"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_16",
+      "scene": "primary",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_17",
+      "scene": "primary",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_18",
+      "scene": "primary",
+      "allowed_actions": [
+        "avoid"
+      ],
+      "actual_actions": [
+        "avoid"
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_19",
+      "scene": "primary",
+      "allowed_actions": [
+        "wait"
+      ],
+      "actual_actions": [
+        "wait"
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_20",
+      "scene": "primary",
+      "allowed_actions": [
+        "walk"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_21",
+      "scene": "primary",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": [
+        null
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_22",
+      "scene": "primary",
+      "allowed_actions": [
+        "wait"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_23",
+      "scene": "primary",
+      "allowed_actions": [
+        "walk"
+      ],
+      "actual_actions": [
+        "walk"
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_24",
+      "scene": "primary",
+      "allowed_actions": [
+        "rest"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_01",
+      "scene": "counterfactual_1",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": [
+        null
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_05",
+      "scene": "counterfactual_1",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_05",
+      "scene": "counterfactual_2",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_07",
+      "scene": "counterfactual_1",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_09",
+      "scene": "counterfactual_1",
+      "allowed_actions": [
+        "walk"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_13",
+      "scene": "counterfactual_1",
+      "allowed_actions": [
+        "walk",
+        null
+      ],
+      "actual_actions": [
+        null
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_13",
+      "scene": "counterfactual_2",
+      "allowed_actions": [
+        "walk",
+        null
+      ],
+      "actual_actions": [
+        null
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_15",
+      "scene": "counterfactual_1",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_19",
+      "scene": "counterfactual_1",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": [
+        null
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_19",
+      "scene": "counterfactual_2",
+      "allowed_actions": [
+        "walk"
+      ],
+      "actual_actions": [
+        "walk"
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_22",
+      "scene": "counterfactual_1",
+      "allowed_actions": [
+        "walk"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_24",
+      "scene": "counterfactual_1",
+      "allowed_actions": [
+        "wait"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    },
+    {
+      "id": "holdout_13",
+      "scene": "other_market",
+      "allowed_actions": [
+        null
+      ],
+      "actual_actions": [
+        null
+      ],
+      "passed": true,
+      "error": null,
+      "unresolved_facts": []
+    },
+    {
+      "id": "holdout_15",
+      "scene": "other_market",
+      "allowed_actions": [
+        "avoid"
+      ],
+      "actual_actions": null,
+      "passed": false,
+      "error": "ValueError:model_output_unavailable"
+    }
+  ],
+  "limitations": [
+    "assistant-authored synthetic expected constraints",
+    "one draft plus one same-model source review is not independent repeat",
+    "action-level check does not establish all rule meanings or goal/scope completeness",
+    "failure cases included; not a clinical accuracy estimate"
+  ]
+}

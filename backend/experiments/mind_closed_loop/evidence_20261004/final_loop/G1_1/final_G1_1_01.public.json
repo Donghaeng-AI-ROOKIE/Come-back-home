@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"seek_2\", \"source_ids\": [\"N0\"], \"reason\": \"N0에 따른 평일 오전 은빛경로당 방문 습관과 현재 시각이 시계일 기준 시간대 내므로 이동 시작합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3228,
+    "prompt_tokens": 6465,
+    "prompt_tokens_details": {
+      "cached_tokens": 4832
+    },
+    "total_tokens": 9693
+  },
+  "model": "depmkuykpfon9lg"
+}

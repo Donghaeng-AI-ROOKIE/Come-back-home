@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"seek_2\", \"source_ids\": [\"N0\"], \"reason\": \"주간 오전에 은빛경로당 방문 습관이 확인되었으며, 현재 시각이 습관 적용 조건에 해당하므로 해당 목적지를 향해 이동합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5441,
+    "prompt_tokens": 6463,
+    "prompt_tokens_details": {
+      "cached_tokens": 4832
+    },
+    "total_tokens": 11904
+  },
+  "model": "depmkuykpfon9lg"
+}

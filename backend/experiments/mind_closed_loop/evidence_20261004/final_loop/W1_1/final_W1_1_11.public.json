@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N1\", \"N2\"], \"reason\": \"길을 잃은 경우 원문(N2)에 따라 도움 기다림. 현재 다온공원 미도달 및 경로 미경험(N1)으로 제자리 대기.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4753,
+    "prompt_tokens": 6996,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 11749
+  },
+  "model": "depmkuykpfon9lg"
+}

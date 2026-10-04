@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"N2에 따라 길을 잃었을 때 가족과 대기하는 행동이며, 현재도 길을 잃었음을 인지하여 계속 대기합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4974,
+    "prompt_tokens": 7190,
+    "prompt_tokens_details": {
+      "cached_tokens": 4864
+    },
+    "total_tokens": 12164
+  },
+  "model": "depmkuykpfon9lg"
+}

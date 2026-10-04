@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"continue\", \"source_ids\": [\"N2\"], \"reason\": \"시장에서 사람이 많고 시끄러울 때 피하는 행동이 확인되어, 현재 혼잡한 시장을 피하며 은빛경로당을 향해 이동을 계속합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2084,
+    "prompt_tokens": 6717,
+    "prompt_tokens_details": {
+      "cached_tokens": 6688
+    },
+    "total_tokens": 8801
+  },
+  "model": "depmkuykpfon9lg"
+}

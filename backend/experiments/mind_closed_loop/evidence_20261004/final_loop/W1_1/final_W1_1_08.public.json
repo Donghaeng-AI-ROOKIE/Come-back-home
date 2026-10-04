@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\":\"stay\",\"source_ids\":[\"N2\"],\"reason\":\"보호자 원문(N2)에 따르면 길을 잃었을 때 그 자리에 서서 기다리는 것을 확인했으며, 현재 _lost_awareness_observation이 true로 확인되어 제자리에 머무는 행동을 선택합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1159,
+    "prompt_tokens": 7057,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 8216
+  },
+  "model": "depmkuykpfon9lg"
+}

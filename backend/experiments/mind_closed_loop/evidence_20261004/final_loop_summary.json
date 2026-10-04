@@ -1,0 +1,74 @@
+{
+  "people": 8,
+  "calls": 58,
+  "completed_6h": 1,
+  "cases": [
+    {
+      "id": "E1_1",
+      "calls": 3,
+      "last_minute": 5.630257090670914,
+      "last_distance_m": 270.2523403522039,
+      "stop_reason": "model_abstained",
+      "complete_to_360": false
+    },
+    {
+      "id": "E2_1",
+      "calls": 3,
+      "last_minute": 5.630257090670914,
+      "last_distance_m": 270.2523403522039,
+      "stop_reason": "model_abstained",
+      "complete_to_360": false
+    },
+    {
+      "id": "G1_1",
+      "calls": 6,
+      "last_minute": 9.882954609677169,
+      "last_distance_m": 474.38182126450414,
+      "stop_reason": "model_abstained",
+      "complete_to_360": false
+    },
+    {
+      "id": "G2_1",
+      "calls": 4,
+      "last_minute": 5.420471430880685,
+      "last_distance_m": 260.1826286822728,
+      "stop_reason": "model_abstained",
+      "complete_to_360": false
+    },
+    {
+      "id": "H_history_1",
+      "calls": 7,
+      "last_minute": 44.88295460967717,
+      "last_distance_m": 474.38182126450414,
+      "stop_reason": "call_budget_exhausted_without_equivalent_context",
+      "complete_to_360": false
+    },
+    {
+      "id": "H_wait_1",
+      "calls": 11,
+      "last_minute": 275.0,
+      "last_distance_m": 0.0,
+      "stop_reason": "model_abstained",
+      "complete_to_360": false
+    },
+    {
+      "id": "W1_1",
+      "calls": 12,
+      "last_minute": 360.0,
+      "last_distance_m": 0.0,
+      "stop_reason": null,
+      "complete_to_360": true
+    },
+    {
+      "id": "W2_1",
+      "calls": 12,
+      "last_minute": 58.85732016852609,
+      "last_distance_m": 905.1513680892517,
+      "stop_reason": "call_budget_exhausted_without_equivalent_context",
+      "complete_to_360": false
+    }
+  ],
+  "clinical_accuracy_measured": false,
+  "elapsed_accounting_fixed": true,
+  "simulation_persona_applied": true
+}

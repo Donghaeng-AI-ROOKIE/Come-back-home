@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"avoid_market\", \"source_ids\": [\"N2\"], \"reason\": \"원문 N2에 따라 시장은 시끄럽거나 사람이 많을 때 회피하며, 현재 시장에서 시끄럽고 사람이 많음이 확인되어 회피 명령을 선택함.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5261,
+    "prompt_tokens": 6816,
+    "prompt_tokens_details": {
+      "cached_tokens": 6784
+    },
+    "total_tokens": 12077
+  },
+  "model": "depmkuykpfon9lg"
+}

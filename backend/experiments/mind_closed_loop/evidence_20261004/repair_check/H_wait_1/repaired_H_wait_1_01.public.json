@@ -1,0 +1,13 @@
+{
+  "content": "{ \"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"길을 잃었을 때 가족은 기다리며 제자리에 머무르는 행동 (N2). 현재 방향 감각 상실 및 자각 확인되어 대기 명령 수행.\" }",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2153,
+    "prompt_tokens": 7291,
+    "prompt_tokens_details": {
+      "cached_tokens": 5408
+    },
+    "total_tokens": 9444
+  },
+  "model": "depmkuykpfon9lg"
+}

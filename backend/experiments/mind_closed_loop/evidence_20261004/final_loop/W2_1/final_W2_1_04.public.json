@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"continue\", \"source_ids\": [\"N2\"], \"reason\": \"길을 잃었을 때 멈추지 않고 이동을 이어간다는 원문의 반응(N2)과 현재 잃어버린 상태를 인지하고 있으나 목표(다온공원)에 도착했음에도 방향 감각이 없는 관측이 일치합니다. 연속 보행 시간이 5분 미만이고 피로도가 낮아 잠시 더 이동할 수 있습니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2345,
+    "prompt_tokens": 6988,
+    "prompt_tokens_details": {
+      "cached_tokens": 4672
+    },
+    "total_tokens": 9333
+  },
+  "model": "depmkuykpfon9lg"
+}

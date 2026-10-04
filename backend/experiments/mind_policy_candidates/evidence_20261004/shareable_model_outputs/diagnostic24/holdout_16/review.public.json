@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"avoid_noisy_market\",\n      \"action\": \"avoid\",\n      \"when\": {\n        \"market.noisy\": true\n      },\n      \"feature\": \"market\",\n      \"places\": [\n        \"푸른시장\"\n      ],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4597,
+    "prompt_tokens": 762,
+    "prompt_tokens_details": {
+      "cached_tokens": 640
+    },
+    "total_tokens": 5359
+  },
+  "source_sha256": "c4396ce99fc851850254dbd9ddb8f302a9a82c69bfd544732f1ece4b2e25d53a"
+}

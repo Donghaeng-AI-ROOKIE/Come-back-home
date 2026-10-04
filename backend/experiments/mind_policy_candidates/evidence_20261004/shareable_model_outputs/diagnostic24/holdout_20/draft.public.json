@@ -1,0 +1,14 @@
+{
+  "final_content": "[완전한 최종 JSON을 추출하지 못함]",
+  "extraction_status": "unparseable_final",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5904,
+    "prompt_tokens": 665,
+    "prompt_tokens_details": {
+      "cached_tokens": 640
+    },
+    "total_tokens": 6569
+  },
+  "source_sha256": "8f30826dde6709481e36cd76cadc907ecc9e64735bc58dea0ca626e201fdb992"
+}

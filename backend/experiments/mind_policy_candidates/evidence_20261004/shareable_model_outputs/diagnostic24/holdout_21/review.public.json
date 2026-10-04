@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [],\n  \"unused_note_ids\": [\n    \"N0\"\n  ]\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1471,
+    "prompt_tokens": 710,
+    "prompt_tokens_details": {
+      "cached_tokens": 640
+    },
+    "total_tokens": 2181
+  },
+  "source_sha256": "efe64412bd05194e2c6763cffc66d35accf2546d33c22bf5d45777a19af6034d"
+}

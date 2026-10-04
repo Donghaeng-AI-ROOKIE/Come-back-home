@@ -1,0 +1,13 @@
+{
+  "content": "{ \"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"보호자 설명(N2)에 따라 길을 잃었을 때 대기하며 가족 도착을 기다린다는 행동 반응과 현재 본인이 길을 잃었음을 인지한 상태(self_lost_awareness_observation=참)가 일치하므로 제자리 대기(stay) 명령을 선택했습니다.\" }",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5270,
+    "prompt_tokens": 6713,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 11983
+  },
+  "model": "depmkuykpfon9lg"
+}

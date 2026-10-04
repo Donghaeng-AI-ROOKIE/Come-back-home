@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"원문 N2에 따르면 길을 잃으면 기다리며 대기하는 행동을 보입니다. 현재 본인도 길을 잃었다고 인지하고 있어 대기 명령이 적절합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2996,
+    "prompt_tokens": 6912,
+    "prompt_tokens_details": {
+      "cached_tokens": 4864
+    },
+    "total_tokens": 9908
+  },
+  "model": "depmkuykpfon9lg"
+}

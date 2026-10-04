@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"rest\", \"source_ids\": [\"N0\"], \"reason\": \"N0에 따라 무릎 통증으로 짧은 보행 후 휴식이 필요하며, 현재 이동 시도 중단으로 휴식이 적합함.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3817,
+    "prompt_tokens": 7130,
+    "prompt_tokens_details": {
+      "cached_tokens": 4864
+    },
+    "total_tokens": 10947
+  },
+  "model": "depmkuykpfon9lg"
+}

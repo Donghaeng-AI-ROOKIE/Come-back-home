@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"defer\", \"source_ids\": [\"N2\"], \"reason\": \"개인은 시장 혼잡 또는 시끄러움 시 회피 반응을 보입니다. 현재 시장 혼잡도와 시끄러움이 모두 미확인 상태이므로 조건 충족 여부 판단 불가로 결정을 유보합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3335,
+    "prompt_tokens": 7165,
+    "prompt_tokens_details": {
+      "cached_tokens": 7136
+    },
+    "total_tokens": 10500
+  },
+  "model": "depmkuykpfon9lg"
+}

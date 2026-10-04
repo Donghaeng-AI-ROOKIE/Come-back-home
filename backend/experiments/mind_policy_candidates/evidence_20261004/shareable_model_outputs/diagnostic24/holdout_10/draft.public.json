@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"rest_on_pain\",\n      \"action\": \"가깝습니다\",\n      \"when\": {\n        \"pain_observed\": true\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersakes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    },\n    {\n      \"id\": \"walk_when_no_pain\",\n      \"action\": \"walk(걷기)\",\n      \"when\": {\n        \"pain_observed\": false\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5243,
+    "prompt_tokens": 657,
+    "prompt_tokens_details": {
+      "cached_tokens": 640
+    },
+    "total_tokens": 5900
+  },
+  "source_sha256": "2c78bbc2f101b8f3c752b64a63b8c146a114f44440f676a4a7ea20876d0690c5"
+}

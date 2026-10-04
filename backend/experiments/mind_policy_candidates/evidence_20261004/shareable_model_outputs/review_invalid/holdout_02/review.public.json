@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"walk_when_lost\",\n      \"action\": \"walk\",\n      \"when\": {\n        \"lost_awareness\": true\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5149,
+    "prompt_tokens": 693,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 5842
+  },
+  "source_sha256": "92fc6d9dcc9bf580d4e56c2746ff050fca1a28b6e633e1895c1d7ca4069e62c5"
+}

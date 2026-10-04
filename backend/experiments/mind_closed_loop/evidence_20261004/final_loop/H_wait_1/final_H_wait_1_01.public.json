@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"N2에 따른 길 잃음 시 기다림 행동과 현재 길 잃음 상태(orientation_status='lost', self_lost_awareness=true)를 근거로 제자리 머무름 명령 선택.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3403,
+    "prompt_tokens": 6764,
+    "prompt_tokens_details": {
+      "cached_tokens": 736
+    },
+    "total_tokens": 10167
+  },
+  "model": "depmkuykpfon9lg"
+}

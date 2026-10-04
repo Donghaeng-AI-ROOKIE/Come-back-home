@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"seek_0\", \"source_ids\": [\"N2\"], \"reason\": \"원문의 반응(길을 잃었을 때 계속 이동)과 현재 조건(다온공원 목적지 설정, 실제 가본 적 없고 경로 미확인)이 일치하므로 목적지 향해 이동을 재개합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 9351,
+    "prompt_tokens": 7122,
+    "prompt_tokens_details": {
+      "cached_tokens": 4640
+    },
+    "total_tokens": 16473
+  },
+  "model": "depmkuykpfon9lg"
+}

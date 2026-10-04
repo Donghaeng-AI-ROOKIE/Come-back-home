@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"defer\", \"source_ids\": [\"N2\"], \"reason\": \"길을 잃으면 대기하지만 현재 상태 미확인으로 결정을 유보한다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4584,
+    "prompt_tokens": 7107,
+    "prompt_tokens_details": {
+      "cached_tokens": 4864
+    },
+    "total_tokens": 11691
+  },
+  "model": "depmkuykpfon9lg"
+}

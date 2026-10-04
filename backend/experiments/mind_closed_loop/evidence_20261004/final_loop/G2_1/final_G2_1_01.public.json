@@ -1,0 +1,13 @@
+{
+  "content": "{ \"next_command_id\": \"seek_2\", \"source_ids\": [\"N0\"], \"reason\": \"보호자 원문(N0)에 따라 평일 오전에 은빛경로당을 방문하는 습관이 있으므로 현재(월요일 오전 8시) 해당 장소로 이동 시작.\" }",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4099,
+    "prompt_tokens": 6329,
+    "prompt_tokens_details": {
+      "cached_tokens": 4672
+    },
+    "total_tokens": 10428
+  },
+  "model": "depmkuykpfon9lg"
+}

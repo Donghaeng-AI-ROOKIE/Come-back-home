@@ -1,0 +1,14 @@
+{
+  "final_content": "{\"rules\":[{\"id\":\"rest_on_pain\",\"action\":\"합니다\",\"when\":{\"pain_observed\":true},\"target\":null,\"feature\":null,\"places\":[],\"minutes\":null,\"supersedes\":[],\"notes\":[\"N0\"]},{\"id\":\"walk_when_no_pain\",\"action\":\"walk\",\"when\":{\"pain_obs erved\":false\"target\":null,\"feature\":null,\"places\":[],\"minutes\":null,\"supersedes\":[],\"notes\":[\"N0\"]}],\"unused_note_ids\":[]}",
+  "extraction_status": "unparseable_final",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6400,
+    "prompt_tokens": 1707,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 8107
+  },
+  "source_sha256": "500d6d3b1b222ab0a155df9bee14f7687b819b01ca9160bdf85e8f086e1197b0"
+}

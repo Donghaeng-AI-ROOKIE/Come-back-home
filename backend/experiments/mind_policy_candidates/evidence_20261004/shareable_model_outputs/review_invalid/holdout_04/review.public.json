@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"wait_lost\",\n      \"action\": \"wait\",\n      \"when\": {\n        \"lost_awareness\": true,\n        \"family_present\": false\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4976,
+    "prompt_tokens": 702,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 5678
+  },
+  "source_sha256": "81234acd9dbf992e1e41a17538e0dcc85fa3e02c10536bb13428508aad7dd395"
+}

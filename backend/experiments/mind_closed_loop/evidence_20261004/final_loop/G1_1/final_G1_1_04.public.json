@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"continue\", \"source_ids\": [\"N0\"], \"reason\": \"보호자 원문(N0)에 따르면 은빛경로당을 평일 오전에 혼자 걷는 습관이 있으며, 현재 시각(2026-10-05T08:05)은 주간 시간대에 해당하고 연속 보행 시간(5.42분)이 허용 범위(40분) 내에 있어 기존 이동.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2028,
+    "prompt_tokens": 6812,
+    "prompt_tokens_details": {
+      "cached_tokens": 6784
+    },
+    "total_tokens": 8840
+  },
+  "model": "depmkuykpfon9lg"
+}

@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"pain_rest_rule\",\n      \"action\": \"rest\",\n      \"when\": {\n        \"pain_observed\": true,\n        \"is_walking\": false\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    },\n    {\n      \"id\": \"pain_walk_rule\",\n      \"action\": \"walk\",\n      \"when\": {\n        \"pain_observed\": false,\n        \"is_walking\": true\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersides\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 11201,
+    "prompt_tokens": 816,
+    "prompt_tokens_details": {
+      "cached_tokens": 640
+    },
+    "total_tokens": 12017
+  },
+  "source_sha256": "2c66eb7d7f8606f806ff301031eba875a86c6846c9739c0b12e6929b4021181e"
+}

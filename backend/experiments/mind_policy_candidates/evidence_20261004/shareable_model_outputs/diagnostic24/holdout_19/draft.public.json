@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"wait_on_destination_recognition\",\n      \"action\": \"wait\",\n      \"when\": {\n        \"physical_arrival\": true,\n        \"target_recognized\": true\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    },\n    {\n      \"id\": \"walk_past_unrecognized\",\n      \"action\": \"walk\",\n      \"when\": {\n        \"physical_arrival\": true,\n        \"target_recognized\": false\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2992,
+    "prompt_tokens": 665,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 3657
+  },
+  "source_sha256": "797855c5609e922494b11da7e2b49a50d36bd1bac088b47c409597bd61b51429"
+}

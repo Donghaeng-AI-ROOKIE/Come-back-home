@@ -1,0 +1,29 @@
+{
+  "base": "a376c41869398b1a8c066cd4cbc2d055c6eaf2c2",
+  "branch": "codex/kintex-closed-loop-20261004",
+  "deployment": "not_deployed",
+  "release_gate": "not_qualified",
+  "remaining_failures": [
+    "model_output_format",
+    "source_condition_completeness",
+    "unobserved_personal_rest_and_population_response",
+    "Mac_mini_multi_case_load_and_region_environment_layer"
+  ],
+  "current_source_sha256": {
+    "app/llm/mind_policy.py": "f83c8e5fa99b45d739551af2d0dfb2f8946933fa964fcb25ea0defc9070bbfb6",
+    "app/llm/mind_policy_candidate.py": "d56889cc1d9d9030f9afad670dbdf9cf3a0443b7481d5c12bb7597340d39d473",
+    "app/phase0/mind_preparation.py": "cff21863832a48f839f1f915b3b6758c385a9fa9ff102af9ddbd1e0e055fbc99",
+    "app/phase2/person_walk.py": "a552a7722be452efed793f55f2dbf2ac6bd1ffbc055052a43aa3d394a35345fb",
+    "app/phase2/continuous_prediction.py": "46bd7de96447f1344dbe50a347d47180ebef4b60d13daecb56393acfb64f77bd",
+    "app/phase2/pipeline.py": "272b7579d1e8dc94581f495afdad6c22166339dec9b5dc04c4cffabe5ff37dc9",
+    "app/geo/roadnet.py": "2bcc87b18c5024c4b876084c35fc907f2f67e4487c75af84aa86b3560b5659c1",
+    "app/phase2/environment_conditions.py": "812582d9d83ec59aeda4b42dcf19249fc8032b22a3bc7e4a58559b2b48160cb6"
+  },
+  "tests": {
+    "backend_full_passed": 1440,
+    "skipped": 2,
+    "subtests_passed": 7,
+    "post_context_failure_fix_targeted_passed": 12
+  },
+  "packaging_note": "PR preparation removed one trailing blank line in mind_policy.py; no executable behavior changed."
+}

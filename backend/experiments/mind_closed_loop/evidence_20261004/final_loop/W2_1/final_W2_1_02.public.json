@@ -1,0 +1,13 @@
+{
+  "content": "{\n\n\"next_command_id\": \"continue\", \"source_ids\": [\"N2\"], \"reason\": \"길을 잃었을 때도 이동을 멈추지 않고 계속 걷는 행동 패턴(N2)에 따라 현재 seek 중인 다온공원을 향한 이동을 이어가고 있음\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 641,
+    "prompt_tokens": 6764,
+    "prompt_tokens_details": {
+      "cached_tokens": 4672
+    },
+    "total_tokens": 7405
+  },
+  "model": "depmkuykpfon9lg"
+}

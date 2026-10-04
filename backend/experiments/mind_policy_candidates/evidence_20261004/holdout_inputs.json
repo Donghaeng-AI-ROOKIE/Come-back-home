@@ -1,0 +1,2282 @@
+[
+  {
+    "id": "holdout_01",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 길을 잃었다는 것을 스스로 알면 그 자리에 서서 가족을 기다려요. 가족이 오기 전까지는 안 움직여요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_01",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "길을 잃었다는 것을 스스로 알면 그 자리에 서서 가족을 기다려요. 가족이 오기 전까지는 안 움직여요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.988510",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_02",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 어머니는 길을 모르겠다고 느껴도 멈춰 서지 않고 계속 발걸음을 옮기세요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_02",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "어머니는 길을 모르겠다고 느껴도 멈춰 서지 않고 계속 발걸음을 옮기세요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.988827",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_03",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 길을 잃어도 기다리라고 제가 말했지만, 실제로 그러는지는 본 적 없어 몰라요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_03",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "길을 잃어도 기다리라고 제가 말했지만, 실제로 그러는지는 본 적 없어 몰라요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.989053",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_04",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 예전에는 길을 잃으면 무작정 걸었어요. 요즘은 달라져서 길 잃음을 알면 가족이 올 때까지 거기 서 계세요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_04",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "예전에는 길을 잃으면 무작정 걸었어요. 요즘은 달라져서 길 잃음을 알면 가족이 올 때까지 거기 서 계세요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.989269",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_05",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 십 분 연속 걸으면 앉아서 삼 분 쉬고, 다시 걸어요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_05",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "십 분 연속 걸으면 앉아서 삼 분 쉬고, 다시 걸어요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.989473",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_06",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 십 분 쉬었다가 걷는 게 아니라, 십 분 걸은 뒤 삼 분 쉬세요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_06",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "십 분 쉬었다가 걷는 게 아니라, 십 분 걸은 뒤 삼 분 쉬세요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.989674",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_07",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 휴식 없이 이백 미터를 걸으면 멈춰서 쉬세요. 쉬는 시간은 재보지 않았어요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_07",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "휴식 없이 이백 미터를 걸으면 멈춰서 쉬세요. 쉬는 시간은 재보지 않았어요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.989877",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_08",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 산책을 이십 분 했다고 해서 이십 분 내내 걸은 건 아니에요. 걷는 한계는 저도 몰라요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_08",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "산책을 이십 분 했다고 해서 이십 분 내내 걸은 건 아니에요. 걷는 한계는 저도 몰라요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.990081",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_09",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 통증이 있으면 걷기를 멈추고 쉬고, 안 아플 때는 걸으세요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_09",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "통증이 있으면 걷기를 멈추고 쉬고, 안 아플 때는 걸으세요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.990277",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_10",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 통증이 있으면 걷기를 멈추고 쉬고, 안 아플 때는 걸으세요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_10",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "통증이 있으면 걷기를 멈추고 쉬고, 안 아플 때는 걸으세요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.990472",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_11",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 제가 아플까 봐 쉬시라고 권했을 뿐, 본인이 아파하거나 쉬는 모습은 관찰하지 않았어요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_11",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "제가 아플까 봐 쉬시라고 권했을 뿐, 본인이 아파하거나 쉬는 모습은 관찰하지 않았어요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.990666",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_12",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 자주 피곤하다는 말은 하지만 그때 멈추는지 계속 가는지는 몰라요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_12",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "자주 피곤하다는 말은 하지만 그때 멈추는지 계속 가는지는 몰라요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.990860",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_13",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 푸른시장 한 곳에서만 봤어요. 시끄러워도 한산하면 그냥 가고, 붐벼도 조용하면 가세요. 둘이 겹칠 때만 그 시장에서 멀어져요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_13",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "푸른시장 한 곳에서만 봤어요. 시끄러워도 한산하면 그냥 가고, 붐벼도 조용하면 가세요. 둘이 겹칠 때만 그 시장에서 멀어져요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.991054",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_14",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 푸른시장 한 곳에서만 봤어요. 시끄러워도 한산하면 그냥 가고, 붐벼도 조용하면 가세요. 둘이 겹칠 때만 그 시장에서 멀어져요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_14",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "푸른시장 한 곳에서만 봤어요. 시끄러워도 한산하면 그냥 가고, 붐벼도 조용하면 가세요. 둘이 겹칠 때만 그 시장에서 멀어져요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.991250",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_15",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 여러 시장에서 보니 사람만 많아도, 소리만 커도 돌아 나와요. 한 가지만 있어도 그래요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_15",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "여러 시장에서 보니 사람만 많아도, 소리만 커도 돌아 나와요. 한 가지만 있어도 그래요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.991447",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_16",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 시끄러운 시장을 피하는 건 저예요. 아버지가 어떤지는 몰라요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_16",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "시끄러운 시장을 피하는 건 저예요. 아버지가 어떤지는 몰라요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.991642",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_17",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 다온공원에서 소리가 클 때는 벗어나세요. 시장에서도 그럴지는 모르겠어요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_17",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "다온공원에서 소리가 클 때는 벗어나세요. 시장에서도 그럴지는 모르겠어요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.991834",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_18",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 다온공원에서 소리가 클 때는 벗어나세요. 시장에서도 그럴지는 모르겠어요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_18",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "다온공원에서 소리가 클 때는 벗어나세요. 시장에서도 그럴지는 모르겠어요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.992026",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_19",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 목적지에 도착해서 그곳인 줄 알아보면 서서 기다려요. 도착해도 못 알아보면 지나쳐 계속 걸어요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_19",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "목적지에 도착해서 그곳인 줄 알아보면 서서 기다려요. 도착해도 못 알아보면 지나쳐 계속 걸어요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.992223",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_20",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 목적지에 도착해서 그곳인 줄 알아보면 서서 기다려요. 도착해도 못 알아보면 지나쳐 계속 걸어요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_20",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "목적지에 도착해서 그곳인 줄 알아보면 서서 기다려요. 도착해도 못 알아보면 지나쳐 계속 걸어요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.992417",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_21",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 공원 근처에서 찍힌 사진만 있어요. 그곳을 알아봤는지, 거기서 기다렸는지는 알 수 없어요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_21",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "공원 근처에서 찍힌 사진만 있어요. 그곳을 알아봤는지, 거기서 기다렸는지는 알 수 없어요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.992609",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_22",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 비가 오는 걸 보면 걸음을 멈추고 기다려요. 비가 그치면 다시 걸어요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_22",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "비가 오는 걸 보면 걸음을 멈추고 기다려요. 비가 그치면 다시 걸어요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.992803",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_23",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 비가 오는 걸 보면 걸음을 멈추고 기다려요. 비가 그치면 다시 걸어요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_23",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "비가 오는 걸 보면 걸음을 멈추고 기다려요. 비가 그치면 다시 걸어요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.992996",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  },
+  {
+    "id": "holdout_24",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문: 직접 관찰한 반응과 조건을 알려주세요.\n답변: 길 잃음을 알면 가족을 기다리지만, 통증이 있으면 기다리는 중에도 먼저 앉아 쉬세요.",
+          "source_kinds": [
+            "guardian_turn"
+          ],
+          "recorded_at": [],
+          "provenance": "guardian_original"
+        }
+      ],
+      "places": [
+        {
+          "label": "푸른시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {
+        "core": null,
+        "scope": null,
+        "version": null
+      }
+    },
+    "persona": {
+      "id": "holdout_24",
+      "type": "dementia",
+      "name": "합성",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "푸른시장",
+          "location": {
+            "lat": 37.664,
+            "lng": 126.75
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "market",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "다온공원",
+          "location": {
+            "lat": 37.666,
+            "lng": 126.749
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "park",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "open_behavior",
+          "question": "직접 관찰한 반응과 조건을 알려주세요.",
+          "answer": "길 잃음을 알면 가족을 기다리지만, 통증이 있으면 기다리는 중에도 먼저 앉아 쉬세요."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "prepared_mind": {},
+      "mind_preparation_status": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-10-04T17:23:24.993187",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    }
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"N2에 따라 길을 잃었을 때 가족이 올 때까지 대기합니다. 현재 다온공원에 도달하지 못했고 4시간 동안 제자리에 머물러 있습니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 11829,
+    "prompt_tokens": 6994,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 18823
+  },
+  "model": "depmkuykpfon9lg"
+}

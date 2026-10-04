@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"길을 잃었을 때 가족이 올 때까지 기다린다는 반응(N2)이 현재 길 잃은 상태(self_lost_awareness=true)와 일치하므로 'stay' 명령을 선택함.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3381,
+    "prompt_tokens": 6914,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 10295
+  },
+  "model": "depmkuykpfon9lg"
+}

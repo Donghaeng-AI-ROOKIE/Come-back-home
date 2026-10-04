@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"길을 잃었을 때 기다리기 (원문 N2: \"  }",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1805,
+    "prompt_tokens": 6846,
+    "prompt_tokens_details": {
+      "cached_tokens": 4864
+    },
+    "total_tokens": 8651
+  },
+  "model": "depmkuykpfon9lg"
+}

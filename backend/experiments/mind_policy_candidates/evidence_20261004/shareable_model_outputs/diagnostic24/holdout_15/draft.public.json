@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"market_crowded\",\n      \"action\": \"avoid\",\n      \"when\": {\n        \"market.crowded\": true\n      },\n      \"target\": null,\n      \"feature\": \"market\",\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    },\n    {\n      \"id\": \"market_noisy\",\n      \"action\": \"avoid\",\n      \"when\": {\n        \"market.noisy\": true\n      },\n      \"target\": null,\n      \"feature\": \"market\",\n      \"places\": [],\n      \"minutes\": null,\n      \"supers viewers\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2858,
+    "prompt_tokens": 663,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 3521
+  },
+  "source_sha256": "3233661f04a8f668f75bdcf2da347828ac81bcc7118fba34fab479593f288f1c"
+}

@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"wait_when_lost\",\n      \"action\": \"wait\",\n      \"when\": {\n        \"lost_awareness\": true\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    },\n    {\n      \"id\": \"sit_when_pain\",\n      \"action\": \"sit\",\n      \"when\": {\n        \"pain_observed\": true\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 10957,
+    "prompt_tokens": 695,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 11652
+  },
+  "source_sha256": "35bbec47e9120da29b6f2d8594da4d9137493bded8162e9b70b1cbc0c5f515ca"
+}

@@ -1,0 +1,13 @@
+{
+  "content": "{\n\n\"next_command_id\": \"continue\", \"source_ids\": [\"N0\"], \"reason\": \"보호자 원문(N0)에 따라 은빛경로당을 평일 오전에 혼자 걸어가는 습관이 확인되었으며, 현재 보행 시간(5.42분)은 연속 보행 가능 시간(40분) 이내로 피로 지표가 낮습니다. 목적지(은빛경로당)를 향한 이동 목표가 존재하고, 미확인 환경 조건(시장 혼잡도/소음 외)은 행동 결정에 영향을 주지 않습니다. 현재 'seek' 동작이 적절히 유지되어야 합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1737,
+    "prompt_tokens": 6810,
+    "prompt_tokens_details": {
+      "cached_tokens": 6784
+    },
+    "total_tokens": 8547
+  },
+  "model": "depmkuykpfon9lg"
+}

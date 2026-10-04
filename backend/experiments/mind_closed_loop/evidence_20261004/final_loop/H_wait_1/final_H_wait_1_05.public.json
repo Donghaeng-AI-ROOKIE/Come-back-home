@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"길을 잃어버린 상태에서 멈출 때까지 기다렸다가 도움(가족)을 기다린 행동 이력(N2)에 따라 현재 정지 행동을 유지하는 것이 원문 반응과 일치함\" }",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 871,
+    "prompt_tokens": 7047,
+    "prompt_tokens_details": {
+      "cached_tokens": 4864
+    },
+    "total_tokens": 7918
+  },
+  "model": "depmkuykpfon9lg"
+}

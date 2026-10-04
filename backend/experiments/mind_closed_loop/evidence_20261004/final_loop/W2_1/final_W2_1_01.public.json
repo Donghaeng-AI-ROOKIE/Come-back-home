@@ -1,0 +1,13 @@
+{
+  "content": "{\n  \"next_command_id\": \"continue\",\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"본인이 길을 잃었음을 알고 있으나, 길을 잃었을 때 멈추지 않고 계속 걷는다는 보호자 관찰(N2)에 따라 현재 다온공원을 향한 이동을 계속함.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2609,
+    "prompt_tokens": 6544,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 9153
+  },
+  "model": "depmkuykpfon9lg"
+}

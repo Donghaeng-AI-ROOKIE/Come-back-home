@@ -1,0 +1,13 @@
+{
+  "content": "{\n\"next_command_id\": \"continue\",\n\"source_ids\": [\"N0\"],\n\"reason\": \"보호자 보고에 따라 은빛경로당은 매일 평일 아침 정기적으로 방문하는 익숙한 목적지이며, 현재 보행 시간(8.37분)이 연속 보행 가능 시간(40분) 이내이므로 기존 이동 방식을 계속 실행합니다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1552,
+    "prompt_tokens": 6901,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 8453
+  },
+  "model": "depmkuykpfon9lg"
+}

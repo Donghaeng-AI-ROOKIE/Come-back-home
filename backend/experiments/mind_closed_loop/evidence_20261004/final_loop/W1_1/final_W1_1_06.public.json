@@ -1,0 +1,13 @@
+{
+  "content": "{\n  \"next_command_id\": \"stay\",\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"길 잃었을 때 기다리는 행동(N2)은 현재 길 잃음과 인지 상태에 부합하므로 stay 명령을 선택합니다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2510,
+    "prompt_tokens": 6980,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 9490
+  },
+  "model": "depmkuykpfon9lg"
+}

@@ -1,0 +1,14 @@
+{
+  "final_content": "{\"rules\":[{\"id\":\"walk_rest_rule\",\"action\":\"rest\",\"when\":{\"continuous_walk_minutes\":{\"gte\":10}},\"target\":null,\"feature\":null,\"places\":[],\"minutes\":3,\"supersedes\":[],\"notes\":[\"N0\"}],\"unused_note_ids\":[]}",
+  "extraction_status": "unparseable_final",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4945,
+    "prompt_tokens": 661,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 5606
+  },
+  "source_sha256": "3778b08c72f08c4f54ff125a15f681ce38df835cc989772610d60b54911f0a93"
+}

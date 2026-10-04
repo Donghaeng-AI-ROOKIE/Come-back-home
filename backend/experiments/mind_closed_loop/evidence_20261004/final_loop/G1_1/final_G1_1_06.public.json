@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"defer\", \"source_ids\": [\"N0\"], \"reason\": \"은빛경로당 도착 후 개인 반응이 원문(N0)에 명시되지 않아 해석 유보 필요.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 9960,
+    "prompt_tokens": 7044,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 17004
+  },
+  "model": "depmkuykpfon9lg"
+}

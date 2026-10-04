@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"avoid_noisy\",\n      \"action\": \"avoid\",\n      \"when\": {\n        \"park.noisy\": true\n      },\n      \"target\": null,\n      \"feature\": \"park\",\n      \"places\": [\n        \"다온공원\"\n      ],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6245,
+    "prompt_tokens": 659,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 6904
+  },
+  "source_sha256": "9fe1948a5cbd7c2d9540f967e5d553d03ad841acb36ad8f39ac5357875c7ae1b"
+}

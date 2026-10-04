@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"continue\", \"source_ids\": [\"N0\"], \"reason\": \"원문 N0에 따라 은빛경로당으로의 정기적 방문이 가능하며, 현재 8.37분 연속 보행 중으로 40분 이내로 피로도 낮아 목적지 향해 지속 이동이 적절합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1662,
+    "prompt_tokens": 6899,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 8561
+  },
+  "model": "depmkuykpfon9lg"
+}

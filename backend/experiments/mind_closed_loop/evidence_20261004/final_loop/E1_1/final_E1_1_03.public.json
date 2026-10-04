@@ -1,0 +1,13 @@
+{
+  "content": "{ \"next_command_id\": \"defer\", \"source_ids\": [\"N2\"], \"reason\": \"시장 혼잡 및 소음 조건이 미확인 상태이며, 원문의 피하기 반응은 두 조건 모두 충족 시 발생하므로 행동을 유보함.\" }",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4396,
+    "prompt_tokens": 6817,
+    "prompt_tokens_details": {
+      "cached_tokens": 6816
+    },
+    "total_tokens": 11213
+  },
+  "model": "depmkuykpfon9lg"
+}

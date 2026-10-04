@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"seek_0\", \"source_ids\": [\"N2\"], \"reason\": \"길을 잃었을 때 이동을 이어받는 행동 패턴에 따라. 현재 조건(목표 도달 확인)에서도 이동하지 않고서는 이동 패턴을 유지해야 하므로 탐색을 계속해야 합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6654,
+    "prompt_tokens": 7105,
+    "prompt_tokens_details": {
+      "cached_tokens": 4640
+    },
+    "total_tokens": 13759
+  },
+  "model": "depmkuykpfon9lg"
+}

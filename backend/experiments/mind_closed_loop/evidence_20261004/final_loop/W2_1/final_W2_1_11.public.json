@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"rest\", \"source_ids\": [\"N0\"], \"reason\": \"보호자 기록. 연속 보행 시간 7.1분으로 5분 한계 초과, 이동 중지 및 휴식 필요.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1726,
+    "prompt_tokens": 7137,
+    "prompt_tokens_details": {
+      "cached_tokens": 4640
+    },
+    "total_tokens": 8863
+  },
+  "model": "depmkuykpfon9lg"
+}

@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"stay\", \"source_ids\": [\"N2\"], \"reason\": \"개인은 길을 잃었을 때 그 자리에서 머물며 가족 도착을 기다린다(해설: 원문 N2 기반). 현재 방향 감각 상실 상태이며, 잃어버린 것을 인지함(관측: orientation_status=lost; self_lost_awareness=true). 추가 정보 없이도 기존 대기 행동을 유지함.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2664,
+    "prompt_tokens": 7113,
+    "prompt_tokens_details": {
+      "cached_tokens": 4864
+    },
+    "total_tokens": 9777
+  },
+  "model": "depmkuykpfon9lg"
+}

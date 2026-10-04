@@ -1,0 +1,14 @@
+{
+  "final_content": "0",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 554,
+    "prompt_tokens": 656,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 1210
+  },
+  "source_sha256": "b55b01d1a8897009866a1a6d3e0817d17fa74b54f262cd2e0e08295538648081"
+}

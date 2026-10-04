@@ -1,0 +1,17 @@
+{
+  "purpose": "frozen_candidate_failure_characterization_not_release_qualification",
+  "candidate": "compact13",
+  "development_gate": "failed: invented walking limit and malformed W1 output",
+  "n_persons": 24,
+  "max_calls": 48,
+  "draft_and_source_review": true,
+  "no_retries": true,
+  "sha256": {
+    "compact13.py": "d9a8660eff383cff7932e88d2ef32c0fa57be93914efbad8c9cafda13b9fc237",
+    "live_compact13.py": "ad2f8fa1b7a39595a3a04c85b9e46d8310a2d4536b3ea80152926d8dcc8143c0",
+    "holdout_inputs.json": "ebf04e1915305be2e35d2248e4f1a961873c01c7faf62e6360756e8fd202eb61",
+    "holdout_scenarios.json": "8a6f76213aaef4706337a87b4d8694779d467bd5f4ca3231d6ee1182af382ccd"
+  },
+  "evaluation_labels": "assistant-authored synthetic, not clinical or independent human labels",
+  "prices_and_billing": null
+}

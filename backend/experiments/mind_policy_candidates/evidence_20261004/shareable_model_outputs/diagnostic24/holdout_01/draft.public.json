@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"wait_lost_no_family\",\n      \"action\": \"wait\",\n      \"when\": {\n        \"lost_awareness\": true,\n        \"family_present\": false\n      },\n      \"target\": null,\n      \"feature\": null,\n      \"places\": [],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4244,
+    "prompt_tokens": 663,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 4907
+  },
+  "source_sha256": "0f5c150610e239119c6987122a23f0817f180bbb732a2b5e12f2195e70e586a4"
+}

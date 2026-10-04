@@ -1,0 +1,13 @@
+{
+  "content": "{\"next_command_id\": \"continue\", \"source_ids\": [\"N2\", \"N0\"], \"reason\": \"시장은 시끄럽고 붐비므로 피해야 하나, 목적지 인지는 미확인이나 현재 이동 방향은 은빛경로당 향해 회피 지속이 일관됨\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5210,
+    "prompt_tokens": 7065,
+    "prompt_tokens_details": {
+      "cached_tokens": 7040
+    },
+    "total_tokens": 12275
+  },
+  "model": "depmkuykpfon9lg"
+}

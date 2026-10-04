@@ -1,0 +1,27 @@
+{
+  "candidate": "compiled_K_valid_initial_motion_production_reversal_penalty",
+  "overall_call_cap_including_original_probe": 96,
+  "case_caps": {
+    "E1_1": 6,
+    "E2_1": 5,
+    "G1_1": 6,
+    "G2_1": 11,
+    "H_history_1": 7,
+    "H_wait_1": 12,
+    "W1_1": 12,
+    "W2_1": 12
+  },
+  "code_sha256": {
+    "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_upgrade/runtime.py": "1df88077667564f388203f712554cb8caefa45d274ce655090620dcdb82ade07",
+    "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_closed_loop/bridge.py": "753db5010c136cf70846264b3223cc349b468bb8331054be9f6e4b162f3378de",
+    "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/실험/MIND_end_to_end_20261004/run_v3.py": "250aef40b9ff37cfa82a40e6e9592ebf6ee4cedd5f9dba70c7eeac541ef2d8e6",
+    "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/실험/MIND_end_to_end_20261004/run_final.py": "b6ed528978b406d4027b76da2bedb84f9666d382ec1c0155a48266c3e991b7c2"
+  },
+  "max_tokens": 12000,
+  "concurrency": 2,
+  "actual_cost": null,
+  "support_round": null,
+  "new_map_calls": 0,
+  "new_embedding_calls": 0,
+  "original_probe_role": "Original: missing projection. Projected: three seek-without-target inputs excluded. Final: source initialization preserved."
+}

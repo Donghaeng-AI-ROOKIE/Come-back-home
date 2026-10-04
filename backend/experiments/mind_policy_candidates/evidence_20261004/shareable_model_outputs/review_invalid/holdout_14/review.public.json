@@ -1,0 +1,14 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"id\": \"seek_noisy_not_crowded\",\n      \"action\": \"seek\",\n      \"when\": {\n        \"market.noisy\": true,\n        \"market.crowded\": false\n      },\n      \"target\": \"푸른시장\",\n      \"feature\": null,\n      \"places\": [\n        \"푸른시장\"\n      ],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    },\n    {\n      \"id\": \"seek_crowded_not_noisy\",\n      \"action\": \"seek\",\n      \"when\": {\n        \"market.crowded\": true,\n        \"market.noisy\": false\n      },\n      \"target\": \"푸른시장\",\n      \"feature\": null,\n      \"places\": [\n        \"푸른시장\"\n      ],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    },\n    {\n      \"id\": \"avoid_noisy_crowded\",\n      \"action\": \"avoid\",\n      \"when\": {\n        \"market.noisy\": true,\n        \"market.crowded\": true\n      },\n      \"target\": null,\n      \"feature\": \"market\",\n      \"places\": [\n        \"푸른시장\"\n      ],\n      \"minutes\": null,\n      \"supersedes\": [],\n      \"notes\": [\n        \"N0\"\n      ]\n    }\n  ],\n  \"unused_note_ids\": []\n}",
+  "extraction_status": "final_json",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 10843,
+    "prompt_tokens": 1061,
+    "prompt_tokens_details": {
+      "cached_tokens": 672
+    },
+    "total_tokens": 11904
+  },
+  "source_sha256": "056e2d38f9aa87a9afa8fc2a92c25813fecaf342b50bddb9542c9e45490afb3b"
+}

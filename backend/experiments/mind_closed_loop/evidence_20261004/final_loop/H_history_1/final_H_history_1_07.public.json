@@ -1,0 +1,13 @@
+{
+  "content": "{\n\"next_command_id\": \"rest\",\n\"source_ids\": [\"N0\"],\n\"reason\": \"은빛경로당에서 대기 중. 원래 증거(N0)에 따라 40분 연속 보행 가능하나, 현재는 정지 상태로 확인되었으며 휴식 필요성이 미확인이므로 휴식 명령을 선택함.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 990,
+    "prompt_tokens": 7137,
+    "prompt_tokens_details": {
+      "cached_tokens": 4736
+    },
+    "total_tokens": 8127
+  },
+  "model": "depmkuykpfon9lg"
+}
