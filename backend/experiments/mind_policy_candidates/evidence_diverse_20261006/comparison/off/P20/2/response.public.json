@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 N0에서 등록 장소 후보(느티공원, 해든상가, 솔빛쉼터)를 제시했으나, 그곳을 선호하거나 실제로 간다는 의미는 아니라고 명시함. N1에서 숲길에서 소리가 클 때 길 가장자리에서 멀어지는 행동을 관찰함. 비가 오는지, 사람이 많은지와는 무관함.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 95,
+    "prompt_tokens": 1688,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 1783
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"능력: 걸을 수 있음. 필요: 연속 십 분 보행 후 휴식 필요.\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and continuous_walk_minutes >= 10\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 96,
+    "prompt_tokens": 1701,
+    "prompt_tokens_details": {
+      "cached_tokens": 1696
+    },
+    "total_tokens": 1797
+  }
+}

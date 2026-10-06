@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "continuous_walk_minutes",
+            "op": "gte",
+            "value": 10
+          }
+        ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "몇 시든 실제로 십 분 연속 걸은 뒤에는 앉아서 쉬어야 했어요. 시계가 열 시가 된다는 뜻은 아니에요. 이미 앉아서 쉬고 있으면 새로 걷고 있다는 뜻도 아니고요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)가 후보 이름일 뿐 방문 의도가 없음을 명시했으며, 시계 시간과 무관하게 연속 보행 10분 후 반드시 휴식이 필요함을 관찰함."
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "job": "v4_P22_on_1",
+  "arm": "on",
+  "person_id": "P22",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "Guardian clarifies registered places are candidate names only; corrects avoidance of crowded water areas (not parks).",
+    "rules": [
+      {
+        "command": "avoid_water",
+        "condition": "water.crowded",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

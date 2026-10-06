@@ -1,0 +1,12 @@
+{
+  "final_content": ",\n\n{\n  \"source_assessment\": \"보호자가 걷는 중 무릎 통증 발생 시 삼 분간 휴식하는 행동을 관찰함.\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and pain_observed\",\n      \"place_labels\": [],\n      \"hold_minutes\": 3,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3169,
+    "prompt_tokens": 1682,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 4851
+  }
+}

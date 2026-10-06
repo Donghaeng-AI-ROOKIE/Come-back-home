@@ -1,0 +1,17 @@
+{
+  "job": "v4_P07_off_2",
+  "arm": "off",
+  "person_id": "P07",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "N0: 등록 장소는 느티공원, 해든상가, 솔빛쉼터이며, 이곳들을 좋아하거나 실제로 간다는 의미는 아니다. N1: 걷는 동안 무릎 통증 발생 시 앉아서 삼 분 정도 쉬었으며, 통증이 없을 때의 행동은 불명확하다.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

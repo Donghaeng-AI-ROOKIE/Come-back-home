@@ -1,0 +1,60 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "target_recognized",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "seek",
+      "goal_label": "해든상가",
+      "feature": null,
+      "place_labels": [
+        "해든상가"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "해든상가를 알아봤다고 말하면 실제로 그쪽으로 출발했어요. 그냥 근처에 도착했다는 것과는 달라요."
+        }
+      ]
+    },
+    {
+      "id": "k_1",
+      "when": [
+        [
+          {
+            "fact": "rain_observed",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N2",
+          "quote": "비가 오는 걸 알고는 그 자리에서 기다렸어요. 상가 출발과 비 대기가 겹쳤을 때는 못 봤어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "N0: 등록 장소 후보 이름 제시 및 실제 방문 의미 부정. N1: 해든상가 인지 시 실제 출발 관찰. N2: 비 인지 시 대기 행동 관찰."
+    }
+  ]
+}

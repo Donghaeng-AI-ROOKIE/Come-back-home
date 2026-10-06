@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐 실제 방문 의미 없음(N0). 보행 중 피로 또는 무릎 통증 시 휴식(N1).\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and (fatigue_high or pain_observed)\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2709,
+    "prompt_tokens": 1691,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 4400
+  }
+}

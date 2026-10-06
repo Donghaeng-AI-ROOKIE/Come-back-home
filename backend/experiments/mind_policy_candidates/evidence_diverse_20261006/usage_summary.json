@@ -1,0 +1,46 @@
+{
+  "run_id": "MIND_diverse_comparison_20261006",
+  "comparison_limit": 128,
+  "conditional_evaluation_limit": 64,
+  "total_limit": 192,
+  "started": 128,
+  "finished": 128,
+  "pending": 0,
+  "finish_reasons": {
+    "stop": 113,
+    "length": 15
+  },
+  "known_token_subtotals": {
+    "prompt_tokens": 218096,
+    "completion_tokens": 383341,
+    "total_tokens": 601437
+  },
+  "missing_usage_responses": 0,
+  "unit_price": null,
+  "actual_cost": null,
+  "support_round": null,
+  "new_map_calls": 0,
+  "new_RAG_calls": 0,
+  "new_GPU_training": false,
+  "deployment": false,
+  "by_arm": {
+    "on": {
+      "completed": 64,
+      "median_seconds": 70.6139876099769,
+      "known_token_subtotals": {
+        "prompt_tokens": 108984,
+        "completion_tokens": 375943,
+        "total_tokens": 484927
+      }
+    },
+    "off": {
+      "completed": 64,
+      "median_seconds": 1.7513358414871618,
+      "known_token_subtotals": {
+        "prompt_tokens": 109112,
+        "completion_tokens": 7398,
+        "total_tokens": 116510
+      }
+    }
+  }
+}

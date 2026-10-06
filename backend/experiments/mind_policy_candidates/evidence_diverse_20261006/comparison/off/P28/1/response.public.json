@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"원문에 따르면, 보호자는 '느티공원, 해든상가, 솔빛쉼터'가 등록 장소 후보일 뿐이며, 그곳을 좋아하거나 실제로 간다는 의미는 아니라고 명시했다. 또한, 연속 보행 시간(십 분)이 하루 시각보다 중요하며, 실제로 십 분 연속 걷고 나면 반드시 앉아서 쉬어야 한다는 신체적 필요를 언급했다. 이는 보행 중 휴식 조건과 관련된 조건부 반응을 나타낸다.\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and continuous_walk_minutes >= 10\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 157,
+    "prompt_tokens": 1701,
+    "prompt_tokens_details": {
+      "cached_tokens": 1696
+    },
+    "total_tokens": 1858
+  }
+}

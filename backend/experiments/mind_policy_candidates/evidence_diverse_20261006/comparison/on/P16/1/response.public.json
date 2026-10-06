@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"Registration places (느티공원, 해든상가, 솔빛쉼터) are candidate names without implying intent to visit. Waiting occurs only when physically arriving at 솔빛쉼터 and recognizing it as a shelter.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"physical_arrival and target_recognized\",\n      \"place_labels\": [\"솔빛쉼터\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2895,
+    "prompt_tokens": 1691,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 4586
+  }
+}

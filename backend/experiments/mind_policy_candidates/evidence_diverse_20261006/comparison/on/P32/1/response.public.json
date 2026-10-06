@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"N0: 등록 장소 후보 이름 제시 및 실제 방문 의미 부정. N1: 해든상가 인지 시 실제 출발 관찰. N2: 비 인지 시 대기 행동 관찰.\",\n  \"rules\": [\n    {\n      \"command\": \"seek_1\",\n      \"condition\": \"target_recognized\",\n      \"place_labels\": [\"해든상가\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"command\": \"wait\",\n      \"condition\": \"rain_observed\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5004,
+    "prompt_tokens": 1785,
+    "prompt_tokens_details": {
+      "cached_tokens": 1760
+    },
+    "total_tokens": 6789
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "lost_awareness",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "family_present",
+            "op": "eq",
+            "value": false
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "길을 잃었다고 알아차린 두 번에는 가족이 곁에 없으면 그 자리에서 기다렸어요. 가족이 오자 대기는 끝났고 그 이후 어디로 갔는지는 기억나지 않아요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "Guardian reports waiting in place when lost_awareness is true and family_present is false."
+    }
+  ]
+}

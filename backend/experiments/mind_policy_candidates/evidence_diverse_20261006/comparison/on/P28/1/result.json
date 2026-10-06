@@ -1,0 +1,26 @@
+{
+  "job": "v4_P28_on_1",
+  "arm": "on",
+  "person_id": "P28",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "Registration places are candidate names without visitation intent. Rest required after 10 minutes of continuous walking.",
+    "rules": [
+      {
+        "command": "rest",
+        "condition": "is_walking and continuous_walk_minutes >= 10",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

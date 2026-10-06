@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 N0에서 등록 장소 후보(느티공원, 해든상가, 솔빛쉼터)가 제시되었으나 실제 방문이나 선호를 의미하지 않는다고 명시했고, N1에서는 길을 잃은 상황에서 가족이 올 때까지 기다리는 모습을 직접 관찰했다고 진술함.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 82,
+    "prompt_tokens": 1673,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 1755
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "job": "v4_P28_off_2",
+  "arm": "off",
+  "person_id": "P28",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "능력: 걸을 수 있음. 필요: 연속 십 분 보행 후 휴식 필요.",
+    "rules": [
+      {
+        "command": "rest",
+        "condition": "is_walking and continuous_walk_minutes >= 10",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

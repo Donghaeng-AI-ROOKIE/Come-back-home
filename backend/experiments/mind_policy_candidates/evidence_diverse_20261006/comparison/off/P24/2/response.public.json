@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)에 대해 실제로 가거나 선호한다는 의미가 아니라고 명시했으며, 길을 잃었을 때 기다리지 않는다고 관찰했고, '네'라고 답한 것은 다른 가족의 사례였음을 설명했다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 80,
+    "prompt_tokens": 1682,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "total_tokens": 1762
+  }
+}

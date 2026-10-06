@@ -1,0 +1,38 @@
+{
+  "job": "v4_P31_on_2",
+  "arm": "on",
+  "person_id": "P31",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "Guardian notes specify avoiding crowded parks (park.crowded) and waiting when anxious without family (anxiety_high and not family_present).",
+    "rules": [
+      {
+        "command": "avoid_park",
+        "condition": "park.crowded",
+        "place_labels": [
+          "느티공원",
+          "솔빛쉼터"
+        ],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      },
+      {
+        "command": "wait",
+        "condition": "anxiety_high and not family_present",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

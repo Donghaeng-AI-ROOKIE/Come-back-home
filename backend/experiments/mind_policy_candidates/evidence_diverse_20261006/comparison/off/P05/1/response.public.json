@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보행 능력과 보행 후 휴식 필요성, 목적지 발언과 실제 출발, 관찰과 미관찰, 본인과 타인의 행동 구별이 명시됨. 보호자 원문은 직접 관찰한 사실에 기반하며, AI 추출 요약은 미검증 상태임.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 76,
+    "prompt_tokens": 1690,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 1766
+  }
+}

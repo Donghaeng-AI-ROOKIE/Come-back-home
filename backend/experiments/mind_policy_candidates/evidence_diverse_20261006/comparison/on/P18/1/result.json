@@ -1,0 +1,26 @@
+{
+  "job": "v4_P18_on_1",
+  "arm": "on",
+  "person_id": "P18",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자 원문에서 관찰된 조건부 반응은 '어둡고 가족이 없을 때만 멈춰 기다림'으로, 이는 명시적 행동 조건에 해당함. 등록 장소 관련 설명은 실제 행동이 아닌 개념 설명이므로 반응 규칙에 포함되지 않음.",
+    "rules": [
+      {
+        "command": "wait",
+        "condition": "dark_observed and not family_present",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "lost_awareness",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "anxiety_high",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "길을 잃은 걸 알고 불안하다고 표현할 때는 곁에 누가 있든 잠깐 멈춰 기다렸어요. 불안하지 않으면 그렇게 기다리지는 않았어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "Registration places are candidate names without preference or actual visits. When lost and anxious, brief waiting occurs regardless of companionship; otherwise, no waiting."
+    }
+  ]
+}

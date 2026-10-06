@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자 원문에 따르면, 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호를 의미하지 않으며, 단지 후보 이름일 뿐이다. 해든상가로의 출발은 오전 .\n  \n  N0과 N1은 보호자의 직접 기록(guardian_original)이며, 질문-답변 형식의 진술이다. N0은 장소의 의미에 대한 해석이고, N1은 조건부 출발 행동에 대한 관찰이다. 두 기록 모두 실제 행동이나 의도를 반영하지 않으며, 조건부로만 출발한다는 점을 명시한다.\",\n  \"rules\": [\n    {\n      \"command\": \"seek_1\",\n      \"condition\": \"is_walking and family_present and clock_hour >= 10 and clock_hour < 11\",\n      \"place_labels\": [\"해든상가\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 202,
+    "prompt_tokens": 1692,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1894
+  }
+}

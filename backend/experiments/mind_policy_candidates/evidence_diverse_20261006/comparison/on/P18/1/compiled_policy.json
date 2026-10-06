@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "dark_observed",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "family_present",
+            "op": "eq",
+            "value": false
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "여러 산책에서 어둡다고 본인이 느꼈고 가족도 곁에 없을 때만 멈춰 기다렸어요. 가족이 같이 있거나 밝으면 기다리지 않았어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자 원문에서 관찰된 조건부 반응은 '어둡고 가족이 없을 때만 멈춰 기다림'으로, 이는 명시적 행동 조건에 해당함. 등록 장소 관련 설명은 실제 행동이 아닌 개념 설명이므로 반응 규칙에 포함되지 않음."
+    }
+  ]
+}

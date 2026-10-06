@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)가 실제 방문이나 선호를 의미하지 않는다고 명시했으며, 통증 발생 시 걷는 중 무릎 통증을 느끼면 앉아 삼 분 정도 쉬었다고 관찰했다. 통증이 없을 때의 휴식 방식은 알 수 없다고 했으며, 이는 조건부 반응으로 해석된다.\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and pain_observed\",\n      \"place_labels\": [],\n      \"hold_minutes\": 3,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 138,
+    "prompt_tokens": 1684,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 1822
+  }
+}

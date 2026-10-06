@@ -1,0 +1,26 @@
+{
+  "job": "v4_P19_on_1",
+  "arm": "on",
+  "person_id": "P19",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐 실제 방문 의미 없음(N0). 보행 중 피로 또는 무릎 통증 시 휴식(N1).",
+    "rules": [
+      {
+        "command": "rest",
+        "condition": "is_walking and (fatigue_high or pain_observed)",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

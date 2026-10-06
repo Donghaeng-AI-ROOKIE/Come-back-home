@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 느티공원, 해든상가, 솔빛쉼터를 등록 장소로 언급하지만, 실제로 그곳에 간다는 의미는 아니라고 명시했다. 또한 느티공원에 가야 한다고 매일 말하지만 실제로 일어나 출발한 적은 확인되지 않았으며, 입구를 알아보는지도 모른다고 관찰했다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 85,
+    "prompt_tokens": 1684,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "total_tokens": 1769
+  }
+}

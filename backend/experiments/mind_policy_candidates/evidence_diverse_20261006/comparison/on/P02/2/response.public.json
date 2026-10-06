@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"Avoidance occurs when crowded or noisy; no avoidance when both absent.\",\n  \"rules\": [\n    {\n      \"command\": \"avoid_market\",\n      \"condition\": \"(market.crowded == True) or (market.noisy == True)\",\n      \"place_labels\": [\"해든상가\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"command\": \"avoid_park\",\n      \"condition\": \"(park.crowded == True) or (park.noisy == True)\",\n      \"place_labels\": [\"느티공원\", \"솔빛쉼터\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 10804,
+    "prompt_tokens": 1803,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 12607
+  }
+}

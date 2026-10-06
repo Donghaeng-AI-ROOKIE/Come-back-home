@@ -1,0 +1,17 @@
+{
+  "job": "v4_P21_on_2",
+  "arm": "on",
+  "person_id": "P21",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "N0 clarifies registered places as candidate names not actual destinations; N1 corrects waiting explanation to refer to father and notes mother continued walking when lost without stopping.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

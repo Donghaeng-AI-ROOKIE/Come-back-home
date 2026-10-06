@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"등록 장소는 후보 이름이며 실제 방문 의도 없음. 길을 잃고 가족 없을 때 대기.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"lost_awareness and not family_present\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N한\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4437,
+    "prompt_tokens": 1689,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 6126
+  }
+}

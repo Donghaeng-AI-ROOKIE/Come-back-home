@@ -1,0 +1,41 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "market.crowded",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "market.noisy",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [
+        "해든상가"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "제가 함께 간 두 번 모두 해든상가에서 사람도 많고 소리도 클 때에만 입구에서 돌아섰어요. 한 가지뿐이면 돌아서지 않았고, 다른 상가는 본 적 없어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐 실제 방문을 의미하지 않음. 해든상가에서 사람 많고 소리 클 때 입구에서 돌아옴."
+    }
+  ]
+}

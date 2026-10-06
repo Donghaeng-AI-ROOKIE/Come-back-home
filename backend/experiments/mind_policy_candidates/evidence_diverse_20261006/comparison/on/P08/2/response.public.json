@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"보호자는 N1에서 무릎 통증 언급 시에만 휴식하며, 보행 중 연속 12분 경과나 숨가쁨만으로는 멈추지 않았음을 관찰함\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"pain_observed\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2999,
+    "prompt_tokens": 1696,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 4695
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)가 후보 이름일 뿐 방문 의도가 없음을 명시했으며, 시계 시간과 무관하게 연속 보행 10분 후 반드시 휴식이 필요함을 관찰함.\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and continuous_walk_minutes >= 10\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3254,
+    "prompt_tokens": 1699,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 4953
+  }
+}

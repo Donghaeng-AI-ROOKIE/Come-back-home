@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자 원문에 따르면, 해든상가에서 사람 많고 소리가 클 때에만 입구에서 돌아섰으며, 그 외 조건에서는 돌아서지 않았다. 느티공원, 해든상가, 솔빛쉼터는 후보 장소일 뿐 실제 방문이나 선호를 의미하지 않는다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 79,
+    "prompt_tokens": 1695,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 1774
+  }
+}

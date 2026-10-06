@@ -1,0 +1,12 @@
+{
+  "final_content": "",
+  "finish_reason": "length",
+  "usage": {
+    "completion_tokens": 12000,
+    "prompt_tokens": 1690,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 13690
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "job": "v4_P06_on_1",
+  "arm": "on",
+  "person_id": "P06",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "등록 장소는 후보 이름이며 실제 방문을 의미하지 않습니다. 25분 보행 가능하지만 휴식 시점 관찰되지 않았습니다.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

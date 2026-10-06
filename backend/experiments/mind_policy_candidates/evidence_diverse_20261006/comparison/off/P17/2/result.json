@@ -1,0 +1,17 @@
+{
+  "job": "v4_P17_off_2",
+  "arm": "off",
+  "person_id": "P17",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 등록 장소 후보 장소(느티공원, 해든상가, 솔빛쉼터)에 대해 좋아하거나 실제로 간다는 의미가 아니라고 명시했다. 비가 오면 본인은 비가 오는 것을 인지하고 걷기를 멈추며, 비가 그치면 대기를 종료한다고 관찰했다.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

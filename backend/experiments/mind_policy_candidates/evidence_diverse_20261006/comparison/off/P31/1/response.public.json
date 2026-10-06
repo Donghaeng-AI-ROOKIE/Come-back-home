@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자 원문(N0, N1, N2)에 따르면, 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐 실제 방문이나 선호를 의미하지 않으며, 공원에서 사람이 붐비면 멀어지는 반응이 있고, 가족이 없을 때 불안하면 대기하다가 가족이 보이면 대기를 종료하는 조건부 반응이 관찰됨.\",\n  \"rules\": [\n    {\n      \"command\": \"avoid_park\",\n      \"condition\": \"park.crowded\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"command\": \"wait\",\n      \"condition\": \"lost_awareness and not family_present\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 191,
+    "prompt_tokens": 1775,
+    "prompt_tokens_details": {
+      "cached_tokens": 1760
+    },
+    "total_tokens": 1966
+  }
+}

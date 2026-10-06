@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "dark_observed",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "family_present",
+            "op": "eq",
+            "value": false
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "여러 산책에서 어둡다고 본인이 느꼈고 가족도 곁에 없을 때만 멈춰 기다렸어요. 가족이 같이 있거나 밝으면 기다리지 않았어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "N1에서 보호자는 어둡다고 느끼고 가족이 없을 때만 멈춰 기다렸으며, 가족이 동반되거나 밝을 때는 기다리지 않았다고 명시함. N0은 등록 장소 목록 제시만 있을 뿐 실제 행동이나 선호도를 나타내지 않음."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"Guardian clarifies registered places are candidate names only; corrects avoidance of crowded water areas (not parks).\",\n  \"rules\": [\n    {\n      \"command\": \"avoid_water\",\n      \"condition\": \"water.crowded\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5540,
+    "prompt_tokens": 1690,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 7230
+  }
+}

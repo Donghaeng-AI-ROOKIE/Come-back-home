@@ -1,0 +1,12 @@
+{
+  "final_content": "한\n\n{\n  \"source_assessment\": \"보호자 원문(N0, N1)에서 N0은 등록 장소가 실제 방문 의미 없음을 명시했고, N1은 숲길에서 소리가 클 때 길 가장자리에서 멀어지는 행동을 관찰함. 두 원문 모두 실제 행동 조건만 기술했으며, 추가 해석 없이 사실 기반 반응만 추출함.\",\n  \"rules\": [\n    {\n      \"command\": \"avoid_forest\",\n      \"condition\": \"forest.noisy\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2493,
+    "prompt_tokens": 1686,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 4179
+  }
+}

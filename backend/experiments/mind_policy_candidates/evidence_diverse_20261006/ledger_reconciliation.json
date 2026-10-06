@@ -1,0 +1,9 @@
+{
+  "remote_events": 256,
+  "remote_unique_events": 256,
+  "matching_existing_local_events": 256,
+  "synced_missing_events": 0,
+  "mismatches": [],
+  "duplicates": [],
+  "new_model_calls": 0
+}

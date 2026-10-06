@@ -1,0 +1,37 @@
+{
+  "job": "v4_P30_off_2",
+  "arm": "off",
+  "person_id": "P30",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자 원문에 따르면, 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호를 의미하지 않으며, 해든상가에서 시끄러우면 피했고, 걷다가 아프다고 말하면 쉬었다는 반응이 관찰되었다. 통증 반응은 소음 반응과 별개이며, 실제 출발 여부는 언급되지 않았다.",
+    "rules": [
+      {
+        "command": "rest",
+        "condition": "is_walking and pain_observed",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      },
+      {
+        "command": "avoid_market",
+        "condition": "market.noisy",
+        "place_labels": [
+          "해든상가"
+        ],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

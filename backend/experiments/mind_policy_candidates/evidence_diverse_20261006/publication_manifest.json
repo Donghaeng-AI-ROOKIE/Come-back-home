@@ -1,0 +1,3367 @@
+{
+  "created_date": "2026-10-07",
+  "source_run": "MIND_diverse_comparison_20261006",
+  "redaction": "workspace/home paths and remote address only; final model contents unchanged",
+  "files": [
+    {
+      "path": "KINTEX_시간별_P29_Thinking_off.png",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/KINTEX_시간별_P29_Thinking_off.png",
+      "original_sha256": "159c7de75230fe25f9c2af1a392072f9186416d419b6695ad945d126142838f6",
+      "published_sha256": "159c7de75230fe25f9c2af1a392072f9186416d419b6695ad945d126142838f6"
+    },
+    {
+      "path": "KINTEX_시간별_P29_Thinking_on.png",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/KINTEX_시간별_P29_Thinking_on.png",
+      "original_sha256": "726fe692299608de6d5188ba135dcf8a875fa3009bb78914a5a09af9b64c2c9c",
+      "published_sha256": "726fe692299608de6d5188ba135dcf8a875fa3009bb78914a5a09af9b64c2c9c"
+    },
+    {
+      "path": "PLAN.md",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/PLAN.md",
+      "original_sha256": "0a4281899e8bc561118d6a8f7fd4a5ebe236a7383c9cb25433e1b0332d03445c",
+      "published_sha256": "0a4281899e8bc561118d6a8f7fd4a5ebe236a7383c9cb25433e1b0332d03445c"
+    },
+    {
+      "path": "analyze_results.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/analyze_results.py",
+      "original_sha256": "f732aecca7ed21c22152a0e5fa6168675e55c7d37d1e08316b06d8db048b2091",
+      "published_sha256": "f732aecca7ed21c22152a0e5fa6168675e55c7d37d1e08316b06d8db048b2091"
+    },
+    {
+      "path": "authorization.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/authorization.json",
+      "original_sha256": "57db5b20ee3e9c79b6a0663e4e43868bff1e30709e0cdcf3b31840cd5f56f40c",
+      "published_sha256": "57db5b20ee3e9c79b6a0663e4e43868bff1e30709e0cdcf3b31840cd5f56f40c"
+    },
+    {
+      "path": "build_cases.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/build_cases.py",
+      "original_sha256": "9497d37aaf562418fdb14b882ff99f41be4ed755dc09865e2f86db98fe3b4dd2",
+      "published_sha256": "9497d37aaf562418fdb14b882ff99f41be4ed755dc09865e2f86db98fe3b4dd2"
+    },
+    {
+      "path": "comparison/execution_manifest.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/execution_manifest.json",
+      "original_sha256": "8e80ea963bdfa6798dc5f5938fe809b9b1491072c7e8d1406bf96eed5104d811",
+      "published_sha256": "08918550aaf8de746863d38c2d98bfd34bfad12762e0a69ff4649c8d1ecf224b"
+    },
+    {
+      "path": "comparison/off/P01/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P01/1/compiled_policy.json",
+      "original_sha256": "5f81c97a501784ed380e7c3a666793e3b48b7871a1986aa3a75587a027f78fe1",
+      "published_sha256": "5f81c97a501784ed380e7c3a666793e3b48b7871a1986aa3a75587a027f78fe1"
+    },
+    {
+      "path": "comparison/off/P01/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P01/1/request.json",
+      "original_sha256": "b1bdd73cda8676a97aa52b52c1b3e6436b65233744a0eff5e1a3cba75c2c1a72",
+      "published_sha256": "b1bdd73cda8676a97aa52b52c1b3e6436b65233744a0eff5e1a3cba75c2c1a72"
+    },
+    {
+      "path": "comparison/off/P01/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P01/1/response.public.json",
+      "original_sha256": "a4ce6f699656a0f361ce9604d8c3832d0895bce669501e3b99d5426839943255",
+      "published_sha256": "a4ce6f699656a0f361ce9604d8c3832d0895bce669501e3b99d5426839943255"
+    },
+    {
+      "path": "comparison/off/P01/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P01/1/result.json",
+      "original_sha256": "152cf859d2643e4134768aa7faaecd4c7e74a317ab84eb1c51eb325788c2ad57",
+      "published_sha256": "152cf859d2643e4134768aa7faaecd4c7e74a317ab84eb1c51eb325788c2ad57"
+    },
+    {
+      "path": "comparison/off/P01/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P01/2/compiled_policy.json",
+      "original_sha256": "c9469a0bde4e8e70cb0732af8475460b91cb1228b42855fec7710317ed2e9a39",
+      "published_sha256": "c9469a0bde4e8e70cb0732af8475460b91cb1228b42855fec7710317ed2e9a39"
+    },
+    {
+      "path": "comparison/off/P01/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P01/2/request.json",
+      "original_sha256": "b1bdd73cda8676a97aa52b52c1b3e6436b65233744a0eff5e1a3cba75c2c1a72",
+      "published_sha256": "b1bdd73cda8676a97aa52b52c1b3e6436b65233744a0eff5e1a3cba75c2c1a72"
+    },
+    {
+      "path": "comparison/off/P01/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P01/2/response.public.json",
+      "original_sha256": "a855ef8840a175df53a28aa5783afda364a92e2b03ba4f1606c94a350ca3e84e",
+      "published_sha256": "a855ef8840a175df53a28aa5783afda364a92e2b03ba4f1606c94a350ca3e84e"
+    },
+    {
+      "path": "comparison/off/P01/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P01/2/result.json",
+      "original_sha256": "2c108da24485f610033ce43cc127578d31270e1074b564af20e635628e0242bf",
+      "published_sha256": "2c108da24485f610033ce43cc127578d31270e1074b564af20e635628e0242bf"
+    },
+    {
+      "path": "comparison/off/P02/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P02/1/compiled_policy.json",
+      "original_sha256": "704bcd6ffae838c728fe7b8aa489e6645f321ccbaa2881588dbccd9240ef12aa",
+      "published_sha256": "704bcd6ffae838c728fe7b8aa489e6645f321ccbaa2881588dbccd9240ef12aa"
+    },
+    {
+      "path": "comparison/off/P02/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P02/1/request.json",
+      "original_sha256": "11af33daaa7c48fb889c3642c2821ed24b8d4c5b0ce9e1ed53b817407d19236e",
+      "published_sha256": "11af33daaa7c48fb889c3642c2821ed24b8d4c5b0ce9e1ed53b817407d19236e"
+    },
+    {
+      "path": "comparison/off/P02/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P02/1/response.public.json",
+      "original_sha256": "c5128cfdb0dcdf8b70e4525418841917a80b15f4b86e52c2ffdbc4d8ee7348dc",
+      "published_sha256": "c5128cfdb0dcdf8b70e4525418841917a80b15f4b86e52c2ffdbc4d8ee7348dc"
+    },
+    {
+      "path": "comparison/off/P02/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P02/1/result.json",
+      "original_sha256": "05fcadc2f2b7d31b0f29208e80caaff6854d968ae58b2b03cad4d2dda4335301",
+      "published_sha256": "05fcadc2f2b7d31b0f29208e80caaff6854d968ae58b2b03cad4d2dda4335301"
+    },
+    {
+      "path": "comparison/off/P02/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P02/2/compiled_policy.json",
+      "original_sha256": "87e55c52ccba5def3fd71a026b71dd4d9b4df772acfed5ffb94f636e4faaf08a",
+      "published_sha256": "87e55c52ccba5def3fd71a026b71dd4d9b4df772acfed5ffb94f636e4faaf08a"
+    },
+    {
+      "path": "comparison/off/P02/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P02/2/request.json",
+      "original_sha256": "11af33daaa7c48fb889c3642c2821ed24b8d4c5b0ce9e1ed53b817407d19236e",
+      "published_sha256": "11af33daaa7c48fb889c3642c2821ed24b8d4c5b0ce9e1ed53b817407d19236e"
+    },
+    {
+      "path": "comparison/off/P02/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P02/2/response.public.json",
+      "original_sha256": "cecdb77471f5655b0bf7b61b56827b20b46616f4ca3802161dd402fe1c19f278",
+      "published_sha256": "cecdb77471f5655b0bf7b61b56827b20b46616f4ca3802161dd402fe1c19f278"
+    },
+    {
+      "path": "comparison/off/P02/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P02/2/result.json",
+      "original_sha256": "51d958326d2a015246c36f18b3905f83481f54a7158e58b9a170e4d3a520ef58",
+      "published_sha256": "51d958326d2a015246c36f18b3905f83481f54a7158e58b9a170e4d3a520ef58"
+    },
+    {
+      "path": "comparison/off/P03/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P03/1/compiled_policy.json",
+      "original_sha256": "f3b9d3efa2564a69b86f6effdac9b6dd8984bbbbcd8fef8f8e32935ee12152cf",
+      "published_sha256": "f3b9d3efa2564a69b86f6effdac9b6dd8984bbbbcd8fef8f8e32935ee12152cf"
+    },
+    {
+      "path": "comparison/off/P03/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P03/1/request.json",
+      "original_sha256": "288aa1af3803dd4077d884c28fda6a61dc90340c60f7810e7e8bef5061917573",
+      "published_sha256": "288aa1af3803dd4077d884c28fda6a61dc90340c60f7810e7e8bef5061917573"
+    },
+    {
+      "path": "comparison/off/P03/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P03/1/response.public.json",
+      "original_sha256": "94f65288c1df5327a4cc07b125d391cd655f44a9e2f6b9eb027ab283123d7441",
+      "published_sha256": "94f65288c1df5327a4cc07b125d391cd655f44a9e2f6b9eb027ab283123d7441"
+    },
+    {
+      "path": "comparison/off/P03/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P03/1/result.json",
+      "original_sha256": "fc2cf758a31e33d41d5cd9c04805d70aa9921ac859106064b2b7d20c79dde233",
+      "published_sha256": "fc2cf758a31e33d41d5cd9c04805d70aa9921ac859106064b2b7d20c79dde233"
+    },
+    {
+      "path": "comparison/off/P03/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P03/2/compiled_policy.json",
+      "original_sha256": "57eccb845894462fe15fee285a8b47d3c6f757672558d10e00da53fafdc7629e",
+      "published_sha256": "57eccb845894462fe15fee285a8b47d3c6f757672558d10e00da53fafdc7629e"
+    },
+    {
+      "path": "comparison/off/P03/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P03/2/request.json",
+      "original_sha256": "288aa1af3803dd4077d884c28fda6a61dc90340c60f7810e7e8bef5061917573",
+      "published_sha256": "288aa1af3803dd4077d884c28fda6a61dc90340c60f7810e7e8bef5061917573"
+    },
+    {
+      "path": "comparison/off/P03/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P03/2/response.public.json",
+      "original_sha256": "f900dbfeb30a5f4aed49c29f4c11bbd7132602bdf6af3ec447fe89013a4efd06",
+      "published_sha256": "f900dbfeb30a5f4aed49c29f4c11bbd7132602bdf6af3ec447fe89013a4efd06"
+    },
+    {
+      "path": "comparison/off/P03/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P03/2/result.json",
+      "original_sha256": "fc4cc5578de8cf54c46c03dd4f008dad4932d9ce9019e7242585a80e17fee9d4",
+      "published_sha256": "fc4cc5578de8cf54c46c03dd4f008dad4932d9ce9019e7242585a80e17fee9d4"
+    },
+    {
+      "path": "comparison/off/P04/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P04/1/compiled_policy.json",
+      "original_sha256": "6b884af1e766b69e50731e373efe13e0486d367da993409def51d93ddf147a35",
+      "published_sha256": "6b884af1e766b69e50731e373efe13e0486d367da993409def51d93ddf147a35"
+    },
+    {
+      "path": "comparison/off/P04/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P04/1/request.json",
+      "original_sha256": "2a26f239397432bf35cd6f7cc93f2c35a5bfaa5430e14051545037ec7d400b5e",
+      "published_sha256": "2a26f239397432bf35cd6f7cc93f2c35a5bfaa5430e14051545037ec7d400b5e"
+    },
+    {
+      "path": "comparison/off/P04/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P04/1/response.public.json",
+      "original_sha256": "38adf3a1aa399e456537fc7080bb0c9a4639e0b10ea602e40f86ac89c02d2b0e",
+      "published_sha256": "38adf3a1aa399e456537fc7080bb0c9a4639e0b10ea602e40f86ac89c02d2b0e"
+    },
+    {
+      "path": "comparison/off/P04/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P04/1/result.json",
+      "original_sha256": "7effde79d7db772d46bdfae521f4a38744c22b8473b7c775700247129ec20d98",
+      "published_sha256": "7effde79d7db772d46bdfae521f4a38744c22b8473b7c775700247129ec20d98"
+    },
+    {
+      "path": "comparison/off/P04/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P04/2/compiled_policy.json",
+      "original_sha256": "f31e5b6a018d3ea125e8d4169fb6705e96575d90fcf56eef7b0ec189b79d0bd3",
+      "published_sha256": "f31e5b6a018d3ea125e8d4169fb6705e96575d90fcf56eef7b0ec189b79d0bd3"
+    },
+    {
+      "path": "comparison/off/P04/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P04/2/request.json",
+      "original_sha256": "2a26f239397432bf35cd6f7cc93f2c35a5bfaa5430e14051545037ec7d400b5e",
+      "published_sha256": "2a26f239397432bf35cd6f7cc93f2c35a5bfaa5430e14051545037ec7d400b5e"
+    },
+    {
+      "path": "comparison/off/P04/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P04/2/response.public.json",
+      "original_sha256": "54ccc860a4b5825b3b238599f0cd019b09a6762f2cff9b67509a58ba08d6f9c3",
+      "published_sha256": "54ccc860a4b5825b3b238599f0cd019b09a6762f2cff9b67509a58ba08d6f9c3"
+    },
+    {
+      "path": "comparison/off/P04/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P04/2/result.json",
+      "original_sha256": "73bb644c196db72b5a7597d13720311fe19963396e8144a2e94b19e6c547eff4",
+      "published_sha256": "73bb644c196db72b5a7597d13720311fe19963396e8144a2e94b19e6c547eff4"
+    },
+    {
+      "path": "comparison/off/P05/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P05/1/compiled_policy.json",
+      "original_sha256": "ebd14627600920acba5233d6560877f76dbf00d0082dfbed92cd5a6531fbbeb3",
+      "published_sha256": "ebd14627600920acba5233d6560877f76dbf00d0082dfbed92cd5a6531fbbeb3"
+    },
+    {
+      "path": "comparison/off/P05/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P05/1/request.json",
+      "original_sha256": "78f6435a59acc85490b5d59688e1b4895ef699b8c2f3edb406738408f1dc1397",
+      "published_sha256": "78f6435a59acc85490b5d59688e1b4895ef699b8c2f3edb406738408f1dc1397"
+    },
+    {
+      "path": "comparison/off/P05/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P05/1/response.public.json",
+      "original_sha256": "d6257d262c97b4d2cb8b5d2ac7bc15f81616169a8612a62a53b4c976287b8058",
+      "published_sha256": "d6257d262c97b4d2cb8b5d2ac7bc15f81616169a8612a62a53b4c976287b8058"
+    },
+    {
+      "path": "comparison/off/P05/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P05/1/result.json",
+      "original_sha256": "ad423458f5699b4a03fda38bfc7b3cc895285f3179ead2f84046a8b65e20bed0",
+      "published_sha256": "ad423458f5699b4a03fda38bfc7b3cc895285f3179ead2f84046a8b65e20bed0"
+    },
+    {
+      "path": "comparison/off/P05/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P05/2/compiled_policy.json",
+      "original_sha256": "5b8712325136bf2ae4b37d59aab67faa1042f1545cf53c8552f0e2a02de0e2e5",
+      "published_sha256": "5b8712325136bf2ae4b37d59aab67faa1042f1545cf53c8552f0e2a02de0e2e5"
+    },
+    {
+      "path": "comparison/off/P05/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P05/2/request.json",
+      "original_sha256": "78f6435a59acc85490b5d59688e1b4895ef699b8c2f3edb406738408f1dc1397",
+      "published_sha256": "78f6435a59acc85490b5d59688e1b4895ef699b8c2f3edb406738408f1dc1397"
+    },
+    {
+      "path": "comparison/off/P05/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P05/2/response.public.json",
+      "original_sha256": "8141ec981bef279cf9df1909d448c4341d371efd01f6308f79f1b794d13507ff",
+      "published_sha256": "8141ec981bef279cf9df1909d448c4341d371efd01f6308f79f1b794d13507ff"
+    },
+    {
+      "path": "comparison/off/P05/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P05/2/result.json",
+      "original_sha256": "57b58e06f55c923c7506a6af3e3b923fdcd06deaf285146a898219eab4d8c3f3",
+      "published_sha256": "57b58e06f55c923c7506a6af3e3b923fdcd06deaf285146a898219eab4d8c3f3"
+    },
+    {
+      "path": "comparison/off/P06/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P06/1/compiled_policy.json",
+      "original_sha256": "59388e3b0c8fb469774d0c9ed4d27eab1ed0752da56ed3498db455a8d1e2ef11",
+      "published_sha256": "59388e3b0c8fb469774d0c9ed4d27eab1ed0752da56ed3498db455a8d1e2ef11"
+    },
+    {
+      "path": "comparison/off/P06/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P06/1/request.json",
+      "original_sha256": "d87bf9c16647362327d36ffa6857a255aadff158dfd5cfac19dc506895392e14",
+      "published_sha256": "d87bf9c16647362327d36ffa6857a255aadff158dfd5cfac19dc506895392e14"
+    },
+    {
+      "path": "comparison/off/P06/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P06/1/response.public.json",
+      "original_sha256": "6a0f58339962d1dab658117c30db34da321952e152542ed0e63927b18e200ebe",
+      "published_sha256": "6a0f58339962d1dab658117c30db34da321952e152542ed0e63927b18e200ebe"
+    },
+    {
+      "path": "comparison/off/P06/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P06/1/result.json",
+      "original_sha256": "96dd6b9fb41b72ff7bd819de129780a3c76780ebcd27b50c75ab9e91902cc612",
+      "published_sha256": "96dd6b9fb41b72ff7bd819de129780a3c76780ebcd27b50c75ab9e91902cc612"
+    },
+    {
+      "path": "comparison/off/P06/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P06/2/compiled_policy.json",
+      "original_sha256": "c3f9b00a624e636ade314c73af4eaff8507b7d0f03bc186dbaa8dc8f2ccd04ae",
+      "published_sha256": "c3f9b00a624e636ade314c73af4eaff8507b7d0f03bc186dbaa8dc8f2ccd04ae"
+    },
+    {
+      "path": "comparison/off/P06/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P06/2/request.json",
+      "original_sha256": "d87bf9c16647362327d36ffa6857a255aadff158dfd5cfac19dc506895392e14",
+      "published_sha256": "d87bf9c16647362327d36ffa6857a255aadff158dfd5cfac19dc506895392e14"
+    },
+    {
+      "path": "comparison/off/P06/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P06/2/response.public.json",
+      "original_sha256": "2473f5d3fabbce291cbc83c5a32698f075fad53b78198b971cfdea7273b0f406",
+      "published_sha256": "2473f5d3fabbce291cbc83c5a32698f075fad53b78198b971cfdea7273b0f406"
+    },
+    {
+      "path": "comparison/off/P06/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P06/2/result.json",
+      "original_sha256": "a1d913f4441a284fe0e6d5899dc83fd035e780e3bc99be8b32b0d7dae70a1002",
+      "published_sha256": "a1d913f4441a284fe0e6d5899dc83fd035e780e3bc99be8b32b0d7dae70a1002"
+    },
+    {
+      "path": "comparison/off/P07/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P07/1/compiled_policy.json",
+      "original_sha256": "8d637e838a9ce27e98f51c21e48290ba0ae5ac21d188834356179484df5f687a",
+      "published_sha256": "8d637e838a9ce27e98f51c21e48290ba0ae5ac21d188834356179484df5f687a"
+    },
+    {
+      "path": "comparison/off/P07/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P07/1/request.json",
+      "original_sha256": "666672adfcdd1363d926462bd07ba7210095c7546fd697ab948d10980fbc857c",
+      "published_sha256": "666672adfcdd1363d926462bd07ba7210095c7546fd697ab948d10980fbc857c"
+    },
+    {
+      "path": "comparison/off/P07/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P07/1/response.public.json",
+      "original_sha256": "6f4539210672ff116f32726b086918f95f423913190d604b427871a9d5c0de9c",
+      "published_sha256": "6f4539210672ff116f32726b086918f95f423913190d604b427871a9d5c0de9c"
+    },
+    {
+      "path": "comparison/off/P07/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P07/1/result.json",
+      "original_sha256": "61829990a7e3cbf5cb6628afa84435665ac2a399b85c1658f6d91186c8b4f60f",
+      "published_sha256": "61829990a7e3cbf5cb6628afa84435665ac2a399b85c1658f6d91186c8b4f60f"
+    },
+    {
+      "path": "comparison/off/P07/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P07/2/compiled_policy.json",
+      "original_sha256": "cc34f93b16f25b072930eb93f9a69990ddef9f69a974962c48398428215e2394",
+      "published_sha256": "cc34f93b16f25b072930eb93f9a69990ddef9f69a974962c48398428215e2394"
+    },
+    {
+      "path": "comparison/off/P07/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P07/2/request.json",
+      "original_sha256": "666672adfcdd1363d926462bd07ba7210095c7546fd697ab948d10980fbc857c",
+      "published_sha256": "666672adfcdd1363d926462bd07ba7210095c7546fd697ab948d10980fbc857c"
+    },
+    {
+      "path": "comparison/off/P07/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P07/2/response.public.json",
+      "original_sha256": "6a15e4c988e5166641272db397a106375619cde18473f867d2aa50e8aa669f10",
+      "published_sha256": "6a15e4c988e5166641272db397a106375619cde18473f867d2aa50e8aa669f10"
+    },
+    {
+      "path": "comparison/off/P07/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P07/2/result.json",
+      "original_sha256": "8e91c06365948789b0f21a148818779b53462ee8c65336597f1c647723303250",
+      "published_sha256": "8e91c06365948789b0f21a148818779b53462ee8c65336597f1c647723303250"
+    },
+    {
+      "path": "comparison/off/P08/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P08/1/compiled_policy.json",
+      "original_sha256": "768ea3c419af3fc0ab1ef5e02d52d2aa6db92a6265dd9f7295a393e80b1dec9f",
+      "published_sha256": "768ea3c419af3fc0ab1ef5e02d52d2aa6db92a6265dd9f7295a393e80b1dec9f"
+    },
+    {
+      "path": "comparison/off/P08/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P08/1/request.json",
+      "original_sha256": "9d1b0e69000e1fea0e7d825b9ea8f53b78e1d84a98bbdeffd805d2c2dda8356c",
+      "published_sha256": "9d1b0e69000e1fea0e7d825b9ea8f53b78e1d84a98bbdeffd805d2c2dda8356c"
+    },
+    {
+      "path": "comparison/off/P08/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P08/1/response.public.json",
+      "original_sha256": "a603049d5c148dac99b7d4abe7ec46ed1dde0e40aa95f4ba2c7abb6b5379e4fe",
+      "published_sha256": "a603049d5c148dac99b7d4abe7ec46ed1dde0e40aa95f4ba2c7abb6b5379e4fe"
+    },
+    {
+      "path": "comparison/off/P08/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P08/1/result.json",
+      "original_sha256": "b462c06775d2722033e7433e0761583b3db8ceeb82431dd36b661ab13a987fd6",
+      "published_sha256": "b462c06775d2722033e7433e0761583b3db8ceeb82431dd36b661ab13a987fd6"
+    },
+    {
+      "path": "comparison/off/P08/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P08/2/compiled_policy.json",
+      "original_sha256": "587c0a631aa318bc220b07d2ecc728499505a900d8513004f76bac7414fa033b",
+      "published_sha256": "587c0a631aa318bc220b07d2ecc728499505a900d8513004f76bac7414fa033b"
+    },
+    {
+      "path": "comparison/off/P08/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P08/2/request.json",
+      "original_sha256": "9d1b0e69000e1fea0e7d825b9ea8f53b78e1d84a98bbdeffd805d2c2dda8356c",
+      "published_sha256": "9d1b0e69000e1fea0e7d825b9ea8f53b78e1d84a98bbdeffd805d2c2dda8356c"
+    },
+    {
+      "path": "comparison/off/P08/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P08/2/response.public.json",
+      "original_sha256": "cdb0f098f3a7a5c4d923a5ce903ac33b7ec5143cd4c90e34c38bc824fefa9f94",
+      "published_sha256": "cdb0f098f3a7a5c4d923a5ce903ac33b7ec5143cd4c90e34c38bc824fefa9f94"
+    },
+    {
+      "path": "comparison/off/P08/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P08/2/result.json",
+      "original_sha256": "644e653072c485e7f09f7c7956509a2631f4a9752f145005804922d75b8aa3dd",
+      "published_sha256": "644e653072c485e7f09f7c7956509a2631f4a9752f145005804922d75b8aa3dd"
+    },
+    {
+      "path": "comparison/off/P09/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P09/1/compiled_policy.json",
+      "original_sha256": "657d01d6bdfde90f38f92863d85263bfca30d48f504408eccd52ff108db553fd",
+      "published_sha256": "657d01d6bdfde90f38f92863d85263bfca30d48f504408eccd52ff108db553fd"
+    },
+    {
+      "path": "comparison/off/P09/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P09/1/request.json",
+      "original_sha256": "12209af954c92cc7432621955e866c6fb221e7c05a1a1100765f4276d5d44ca2",
+      "published_sha256": "12209af954c92cc7432621955e866c6fb221e7c05a1a1100765f4276d5d44ca2"
+    },
+    {
+      "path": "comparison/off/P09/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P09/1/response.public.json",
+      "original_sha256": "556f80805124fa638e0c306ca87eefb5b917c4caf874c8b9bf7d4fa1f393e4af",
+      "published_sha256": "556f80805124fa638e0c306ca87eefb5b917c4caf874c8b9bf7d4fa1f393e4af"
+    },
+    {
+      "path": "comparison/off/P09/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P09/1/result.json",
+      "original_sha256": "47c572441d16b0473d614c2b905d21397e376c6b03f83fc566771e285d3616d8",
+      "published_sha256": "47c572441d16b0473d614c2b905d21397e376c6b03f83fc566771e285d3616d8"
+    },
+    {
+      "path": "comparison/off/P09/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P09/2/compiled_policy.json",
+      "original_sha256": "a6aef16c0c31df31dfa3769da65c50baebd631f33e93e2a3b7ca84768e053070",
+      "published_sha256": "a6aef16c0c31df31dfa3769da65c50baebd631f33e93e2a3b7ca84768e053070"
+    },
+    {
+      "path": "comparison/off/P09/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P09/2/request.json",
+      "original_sha256": "12209af954c92cc7432621955e866c6fb221e7c05a1a1100765f4276d5d44ca2",
+      "published_sha256": "12209af954c92cc7432621955e866c6fb221e7c05a1a1100765f4276d5d44ca2"
+    },
+    {
+      "path": "comparison/off/P09/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P09/2/response.public.json",
+      "original_sha256": "6115285deffb57531b90b66631eb895ea17e8dddbc9d3b809d407b4a6eb0ecb3",
+      "published_sha256": "6115285deffb57531b90b66631eb895ea17e8dddbc9d3b809d407b4a6eb0ecb3"
+    },
+    {
+      "path": "comparison/off/P09/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P09/2/result.json",
+      "original_sha256": "9bf5f6a4305f5c7ae723bf3e19a30059aa4071bd37635b362fae76e3261829e0",
+      "published_sha256": "9bf5f6a4305f5c7ae723bf3e19a30059aa4071bd37635b362fae76e3261829e0"
+    },
+    {
+      "path": "comparison/off/P10/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P10/1/compiled_policy.json",
+      "original_sha256": "cd6fd88c0c885c7a773330038b41aa42c34a4069566d94954c97e6f9e4b8b7f8",
+      "published_sha256": "cd6fd88c0c885c7a773330038b41aa42c34a4069566d94954c97e6f9e4b8b7f8"
+    },
+    {
+      "path": "comparison/off/P10/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P10/1/request.json",
+      "original_sha256": "20197190e45886fc3d49442292774e0c48ae7212d5193e1d0b68fef21050c9f7",
+      "published_sha256": "20197190e45886fc3d49442292774e0c48ae7212d5193e1d0b68fef21050c9f7"
+    },
+    {
+      "path": "comparison/off/P10/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P10/1/response.public.json",
+      "original_sha256": "2083a7da4fbfb2bc944daed3d1c1258b071b86f7a013639d4e3fdab53e105ba5",
+      "published_sha256": "2083a7da4fbfb2bc944daed3d1c1258b071b86f7a013639d4e3fdab53e105ba5"
+    },
+    {
+      "path": "comparison/off/P10/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P10/1/result.json",
+      "original_sha256": "43dfd810a06c8767f816435c6595d5bdc91017b603e5994b9c842191ea63d231",
+      "published_sha256": "43dfd810a06c8767f816435c6595d5bdc91017b603e5994b9c842191ea63d231"
+    },
+    {
+      "path": "comparison/off/P10/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P10/2/compiled_policy.json",
+      "original_sha256": "732d5ababf219ea5051391e5f5032a69439a54dfa26fdcf8644c451c1c03ef36",
+      "published_sha256": "732d5ababf219ea5051391e5f5032a69439a54dfa26fdcf8644c451c1c03ef36"
+    },
+    {
+      "path": "comparison/off/P10/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P10/2/request.json",
+      "original_sha256": "20197190e45886fc3d49442292774e0c48ae7212d5193e1d0b68fef21050c9f7",
+      "published_sha256": "20197190e45886fc3d49442292774e0c48ae7212d5193e1d0b68fef21050c9f7"
+    },
+    {
+      "path": "comparison/off/P10/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P10/2/response.public.json",
+      "original_sha256": "ab0bf2cb391f2f2e15e0a7866151dcf8ac47d5a753a60a9a1eba3e3d7b7944cf",
+      "published_sha256": "ab0bf2cb391f2f2e15e0a7866151dcf8ac47d5a753a60a9a1eba3e3d7b7944cf"
+    },
+    {
+      "path": "comparison/off/P10/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P10/2/result.json",
+      "original_sha256": "078beb0c19e235b606e83abf8a33b69b5bc2311f647bf87212c6847b38813559",
+      "published_sha256": "078beb0c19e235b606e83abf8a33b69b5bc2311f647bf87212c6847b38813559"
+    },
+    {
+      "path": "comparison/off/P11/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P11/1/compiled_policy.json",
+      "original_sha256": "9aa85fa4d81a64d689c4fa19cb7dd8d57d4b96fb0babf895bd2b42610d4f6565",
+      "published_sha256": "9aa85fa4d81a64d689c4fa19cb7dd8d57d4b96fb0babf895bd2b42610d4f6565"
+    },
+    {
+      "path": "comparison/off/P11/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P11/1/request.json",
+      "original_sha256": "5c277ca0c419c897064ef8a7cc56658a59133e34801b84c2a1925d840e88a0b2",
+      "published_sha256": "5c277ca0c419c897064ef8a7cc56658a59133e34801b84c2a1925d840e88a0b2"
+    },
+    {
+      "path": "comparison/off/P11/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P11/1/response.public.json",
+      "original_sha256": "7e6424363297672b0f3157eecf38729aa2676a8ede72bf32c9ef4c9f464c2650",
+      "published_sha256": "7e6424363297672b0f3157eecf38729aa2676a8ede72bf32c9ef4c9f464c2650"
+    },
+    {
+      "path": "comparison/off/P11/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P11/1/result.json",
+      "original_sha256": "611f3ea20657379196c8c005cf15c1c076a7a6a1e4313a3cc7efc482686da76f",
+      "published_sha256": "611f3ea20657379196c8c005cf15c1c076a7a6a1e4313a3cc7efc482686da76f"
+    },
+    {
+      "path": "comparison/off/P11/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P11/2/compiled_policy.json",
+      "original_sha256": "6b0ef1e2234e96e9afe8ed950b2b87f180142548ee64614be1c6ac3516de93d1",
+      "published_sha256": "6b0ef1e2234e96e9afe8ed950b2b87f180142548ee64614be1c6ac3516de93d1"
+    },
+    {
+      "path": "comparison/off/P11/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P11/2/request.json",
+      "original_sha256": "5c277ca0c419c897064ef8a7cc56658a59133e34801b84c2a1925d840e88a0b2",
+      "published_sha256": "5c277ca0c419c897064ef8a7cc56658a59133e34801b84c2a1925d840e88a0b2"
+    },
+    {
+      "path": "comparison/off/P11/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P11/2/response.public.json",
+      "original_sha256": "25c97b283bb351d40a09360d5bde4a22e8b253b6efbcf765d1cd9d2f82dbfa76",
+      "published_sha256": "25c97b283bb351d40a09360d5bde4a22e8b253b6efbcf765d1cd9d2f82dbfa76"
+    },
+    {
+      "path": "comparison/off/P11/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P11/2/result.json",
+      "original_sha256": "0bdf9d113d6a31f5f7ad18c7f0dea710fc4c0765a25bea6af042f3380eaca8b7",
+      "published_sha256": "0bdf9d113d6a31f5f7ad18c7f0dea710fc4c0765a25bea6af042f3380eaca8b7"
+    },
+    {
+      "path": "comparison/off/P12/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P12/1/compiled_policy.json",
+      "original_sha256": "de73fd6d9d9bb27d346da9c1deb3381687e5c00530ff5241eb75d0899e579213",
+      "published_sha256": "de73fd6d9d9bb27d346da9c1deb3381687e5c00530ff5241eb75d0899e579213"
+    },
+    {
+      "path": "comparison/off/P12/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P12/1/request.json",
+      "original_sha256": "3fd0670ff91c3fd5a80f8d07934b0cd8f1539ac193415a2d770fc3420f59c8f1",
+      "published_sha256": "3fd0670ff91c3fd5a80f8d07934b0cd8f1539ac193415a2d770fc3420f59c8f1"
+    },
+    {
+      "path": "comparison/off/P12/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P12/1/response.public.json",
+      "original_sha256": "018f63d83d6cd084e9eb1657b3eadf47ba26f25dac694f4ad405e6443f4d2e05",
+      "published_sha256": "018f63d83d6cd084e9eb1657b3eadf47ba26f25dac694f4ad405e6443f4d2e05"
+    },
+    {
+      "path": "comparison/off/P12/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P12/1/result.json",
+      "original_sha256": "a7a4c4979572e19a887f731c289a3f5044677aa86acaabf26112265c3a4ff3cc",
+      "published_sha256": "a7a4c4979572e19a887f731c289a3f5044677aa86acaabf26112265c3a4ff3cc"
+    },
+    {
+      "path": "comparison/off/P12/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P12/2/compiled_policy.json",
+      "original_sha256": "95670f4d5bb552c3309d61097a73b83b43da8acdd2f13c52ed359dae2d18077b",
+      "published_sha256": "95670f4d5bb552c3309d61097a73b83b43da8acdd2f13c52ed359dae2d18077b"
+    },
+    {
+      "path": "comparison/off/P12/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P12/2/request.json",
+      "original_sha256": "3fd0670ff91c3fd5a80f8d07934b0cd8f1539ac193415a2d770fc3420f59c8f1",
+      "published_sha256": "3fd0670ff91c3fd5a80f8d07934b0cd8f1539ac193415a2d770fc3420f59c8f1"
+    },
+    {
+      "path": "comparison/off/P12/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P12/2/response.public.json",
+      "original_sha256": "c3a4ac887479a7b585dd9adb2dd89a06d75afd6048b193d57b1f279d7bdc7b52",
+      "published_sha256": "c3a4ac887479a7b585dd9adb2dd89a06d75afd6048b193d57b1f279d7bdc7b52"
+    },
+    {
+      "path": "comparison/off/P12/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P12/2/result.json",
+      "original_sha256": "ffc339fded9f2f6bbf070a5aecd9661154de54448364dbba4c1f5d5858310755",
+      "published_sha256": "ffc339fded9f2f6bbf070a5aecd9661154de54448364dbba4c1f5d5858310755"
+    },
+    {
+      "path": "comparison/off/P13/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P13/1/compiled_policy.json",
+      "original_sha256": "ade13116b7d50b418ab302a68bab040867702adde0c26b7b7c3c05d56afb0575",
+      "published_sha256": "ade13116b7d50b418ab302a68bab040867702adde0c26b7b7c3c05d56afb0575"
+    },
+    {
+      "path": "comparison/off/P13/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P13/1/request.json",
+      "original_sha256": "02ac5f5bd02ea01cd77187a771b5d8185b0584d3c3f0c2d182a9a572c546086c",
+      "published_sha256": "02ac5f5bd02ea01cd77187a771b5d8185b0584d3c3f0c2d182a9a572c546086c"
+    },
+    {
+      "path": "comparison/off/P13/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P13/1/response.public.json",
+      "original_sha256": "dd762c39ae8b5beaa5d4d19703ac8148a51b5a49fd00b1bec40a7dceb76f5553",
+      "published_sha256": "dd762c39ae8b5beaa5d4d19703ac8148a51b5a49fd00b1bec40a7dceb76f5553"
+    },
+    {
+      "path": "comparison/off/P13/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P13/1/result.json",
+      "original_sha256": "3f7c395c06291563f7b2521a2d3083350610c28a784d3d7780ea06cba9eac34f",
+      "published_sha256": "3f7c395c06291563f7b2521a2d3083350610c28a784d3d7780ea06cba9eac34f"
+    },
+    {
+      "path": "comparison/off/P13/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P13/2/compiled_policy.json",
+      "original_sha256": "aa7a181d8662e8900c355143c61be8b41b4cb2aceb46422ba51f9b00d89d7372",
+      "published_sha256": "aa7a181d8662e8900c355143c61be8b41b4cb2aceb46422ba51f9b00d89d7372"
+    },
+    {
+      "path": "comparison/off/P13/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P13/2/request.json",
+      "original_sha256": "02ac5f5bd02ea01cd77187a771b5d8185b0584d3c3f0c2d182a9a572c546086c",
+      "published_sha256": "02ac5f5bd02ea01cd77187a771b5d8185b0584d3c3f0c2d182a9a572c546086c"
+    },
+    {
+      "path": "comparison/off/P13/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P13/2/response.public.json",
+      "original_sha256": "8658d6519f32d4ab00ac6d551e6bf4f6dac9a7e2add37030c35fda554fa9bc2a",
+      "published_sha256": "8658d6519f32d4ab00ac6d551e6bf4f6dac9a7e2add37030c35fda554fa9bc2a"
+    },
+    {
+      "path": "comparison/off/P13/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P13/2/result.json",
+      "original_sha256": "7bc0ae09d3a1108e38b8e2ae46a87d551d596a895712e9101cadfc7ebc1ff292",
+      "published_sha256": "7bc0ae09d3a1108e38b8e2ae46a87d551d596a895712e9101cadfc7ebc1ff292"
+    },
+    {
+      "path": "comparison/off/P14/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P14/1/compiled_policy.json",
+      "original_sha256": "3e7dfa8ce5686aabe041cb2102fcb65c90b586944f5074d355f7ab0f5a0ec1f1",
+      "published_sha256": "3e7dfa8ce5686aabe041cb2102fcb65c90b586944f5074d355f7ab0f5a0ec1f1"
+    },
+    {
+      "path": "comparison/off/P14/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P14/1/request.json",
+      "original_sha256": "31b38f057595a5bb3b4ec42a526c6fa002727f5a45b2138dc7c204b47015c254",
+      "published_sha256": "31b38f057595a5bb3b4ec42a526c6fa002727f5a45b2138dc7c204b47015c254"
+    },
+    {
+      "path": "comparison/off/P14/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P14/1/response.public.json",
+      "original_sha256": "2c77ec3262a86073c68d09e8abccb4d67838ff37a9d89febb9cad6e579f35a93",
+      "published_sha256": "2c77ec3262a86073c68d09e8abccb4d67838ff37a9d89febb9cad6e579f35a93"
+    },
+    {
+      "path": "comparison/off/P14/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P14/1/result.json",
+      "original_sha256": "2a9899e48eb73e528394901baa5445676269fd8b7cc147b469feda21571f99e5",
+      "published_sha256": "2a9899e48eb73e528394901baa5445676269fd8b7cc147b469feda21571f99e5"
+    },
+    {
+      "path": "comparison/off/P14/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P14/2/request.json",
+      "original_sha256": "31b38f057595a5bb3b4ec42a526c6fa002727f5a45b2138dc7c204b47015c254",
+      "published_sha256": "31b38f057595a5bb3b4ec42a526c6fa002727f5a45b2138dc7c204b47015c254"
+    },
+    {
+      "path": "comparison/off/P14/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P14/2/response.public.json",
+      "original_sha256": "e9d19bdbea6f93b055858e39aa833b97c0940a032bf0ead423e1b9a19e6516b4",
+      "published_sha256": "e9d19bdbea6f93b055858e39aa833b97c0940a032bf0ead423e1b9a19e6516b4"
+    },
+    {
+      "path": "comparison/off/P14/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P14/2/result.json",
+      "original_sha256": "4edcaa503df8ee5a071c03f533e40c2aead030e62c1a5cb9d9573e1e502abbe6",
+      "published_sha256": "4edcaa503df8ee5a071c03f533e40c2aead030e62c1a5cb9d9573e1e502abbe6"
+    },
+    {
+      "path": "comparison/off/P15/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P15/1/compiled_policy.json",
+      "original_sha256": "1411d830e879953049f3fe56a46a8900e293b3b426b9018851cb03ef04c0e4a6",
+      "published_sha256": "1411d830e879953049f3fe56a46a8900e293b3b426b9018851cb03ef04c0e4a6"
+    },
+    {
+      "path": "comparison/off/P15/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P15/1/request.json",
+      "original_sha256": "646ac3ebc5ff585a25c676136ec38810e2b88330c6a443460f22a0f3007d765b",
+      "published_sha256": "646ac3ebc5ff585a25c676136ec38810e2b88330c6a443460f22a0f3007d765b"
+    },
+    {
+      "path": "comparison/off/P15/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P15/1/response.public.json",
+      "original_sha256": "fea89640813929d8d801c828c711a1f4d23e499a6e29d9e7fc2decc73a25fdd6",
+      "published_sha256": "fea89640813929d8d801c828c711a1f4d23e499a6e29d9e7fc2decc73a25fdd6"
+    },
+    {
+      "path": "comparison/off/P15/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P15/1/result.json",
+      "original_sha256": "6168e93b6cdc76a499161170c9f134832eebf233c9e03df3210bc71c26c54a1e",
+      "published_sha256": "6168e93b6cdc76a499161170c9f134832eebf233c9e03df3210bc71c26c54a1e"
+    },
+    {
+      "path": "comparison/off/P15/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P15/2/request.json",
+      "original_sha256": "646ac3ebc5ff585a25c676136ec38810e2b88330c6a443460f22a0f3007d765b",
+      "published_sha256": "646ac3ebc5ff585a25c676136ec38810e2b88330c6a443460f22a0f3007d765b"
+    },
+    {
+      "path": "comparison/off/P15/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P15/2/response.public.json",
+      "original_sha256": "49310aa91a3cf6395836ae38e5a8e1a65fae060d14bff192f57bf9ce668717c2",
+      "published_sha256": "49310aa91a3cf6395836ae38e5a8e1a65fae060d14bff192f57bf9ce668717c2"
+    },
+    {
+      "path": "comparison/off/P15/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P15/2/result.json",
+      "original_sha256": "7934ce517a3f03be1c9eb1d48251b30d2fa6c59982a5a59514dfba10be2ee14a",
+      "published_sha256": "7934ce517a3f03be1c9eb1d48251b30d2fa6c59982a5a59514dfba10be2ee14a"
+    },
+    {
+      "path": "comparison/off/P16/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P16/1/compiled_policy.json",
+      "original_sha256": "cd9cc9d2f0096123c2968b0e639153ca76e8f79aa16df34ab8337ea4e4253615",
+      "published_sha256": "cd9cc9d2f0096123c2968b0e639153ca76e8f79aa16df34ab8337ea4e4253615"
+    },
+    {
+      "path": "comparison/off/P16/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P16/1/request.json",
+      "original_sha256": "6cfdf9e40197dc6085c147e7de4915a3888d397b6f6cf046966988d96dc1f5e9",
+      "published_sha256": "6cfdf9e40197dc6085c147e7de4915a3888d397b6f6cf046966988d96dc1f5e9"
+    },
+    {
+      "path": "comparison/off/P16/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P16/1/response.public.json",
+      "original_sha256": "055c35c6cc7d46d6fb85d34634b3d68a31c9e133339f4b4473a851a75fd786b9",
+      "published_sha256": "055c35c6cc7d46d6fb85d34634b3d68a31c9e133339f4b4473a851a75fd786b9"
+    },
+    {
+      "path": "comparison/off/P16/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P16/1/result.json",
+      "original_sha256": "911d7ad647e701541f7e5d2dc5c90dcfcdd08cc7076ee4385bfc7fab02d0e7a3",
+      "published_sha256": "911d7ad647e701541f7e5d2dc5c90dcfcdd08cc7076ee4385bfc7fab02d0e7a3"
+    },
+    {
+      "path": "comparison/off/P16/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P16/2/compiled_policy.json",
+      "original_sha256": "671163053b4b239f43daad6b96d6092f95a2b92c57ef35062a5fbe9da98b16d2",
+      "published_sha256": "671163053b4b239f43daad6b96d6092f95a2b92c57ef35062a5fbe9da98b16d2"
+    },
+    {
+      "path": "comparison/off/P16/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P16/2/request.json",
+      "original_sha256": "6cfdf9e40197dc6085c147e7de4915a3888d397b6f6cf046966988d96dc1f5e9",
+      "published_sha256": "6cfdf9e40197dc6085c147e7de4915a3888d397b6f6cf046966988d96dc1f5e9"
+    },
+    {
+      "path": "comparison/off/P16/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P16/2/response.public.json",
+      "original_sha256": "7c741b6713681bf966b44fd49581eaea4143fddf2310e0416dcfb8e61b54fbf5",
+      "published_sha256": "7c741b6713681bf966b44fd49581eaea4143fddf2310e0416dcfb8e61b54fbf5"
+    },
+    {
+      "path": "comparison/off/P16/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P16/2/result.json",
+      "original_sha256": "4d567a19c22d85be054738295f4accc8c69a651c8c3b8a60f4872009d99f6dcf",
+      "published_sha256": "4d567a19c22d85be054738295f4accc8c69a651c8c3b8a60f4872009d99f6dcf"
+    },
+    {
+      "path": "comparison/off/P17/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P17/1/compiled_policy.json",
+      "original_sha256": "fcd15e3fd6ce56801a64b1ef7a35748a908adcfaf3321412eb9694d47fcaa9cb",
+      "published_sha256": "fcd15e3fd6ce56801a64b1ef7a35748a908adcfaf3321412eb9694d47fcaa9cb"
+    },
+    {
+      "path": "comparison/off/P17/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P17/1/request.json",
+      "original_sha256": "b15a90c13c29a4fd1801a928ed7ddf468421f521dbc2525c0d9a97c3bfdf2d32",
+      "published_sha256": "b15a90c13c29a4fd1801a928ed7ddf468421f521dbc2525c0d9a97c3bfdf2d32"
+    },
+    {
+      "path": "comparison/off/P17/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P17/1/response.public.json",
+      "original_sha256": "5430249631393638308ce93e854fdfbcc30b50f322c1be4a936ea3d3092869f4",
+      "published_sha256": "5430249631393638308ce93e854fdfbcc30b50f322c1be4a936ea3d3092869f4"
+    },
+    {
+      "path": "comparison/off/P17/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P17/1/result.json",
+      "original_sha256": "9894075fcd423465585eb565fde7124a1ba178c08f73e60c6c3c1db62e6df1d0",
+      "published_sha256": "9894075fcd423465585eb565fde7124a1ba178c08f73e60c6c3c1db62e6df1d0"
+    },
+    {
+      "path": "comparison/off/P17/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P17/2/compiled_policy.json",
+      "original_sha256": "8921105564a204369ffd5a0b402afa31b7d0747142faa8be5dd34f40440e8c4c",
+      "published_sha256": "8921105564a204369ffd5a0b402afa31b7d0747142faa8be5dd34f40440e8c4c"
+    },
+    {
+      "path": "comparison/off/P17/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P17/2/request.json",
+      "original_sha256": "b15a90c13c29a4fd1801a928ed7ddf468421f521dbc2525c0d9a97c3bfdf2d32",
+      "published_sha256": "b15a90c13c29a4fd1801a928ed7ddf468421f521dbc2525c0d9a97c3bfdf2d32"
+    },
+    {
+      "path": "comparison/off/P17/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P17/2/response.public.json",
+      "original_sha256": "9d59d12b8472b7298897711f23a507f77f76c01a7dc523c9e2a1fb4a416611ac",
+      "published_sha256": "9d59d12b8472b7298897711f23a507f77f76c01a7dc523c9e2a1fb4a416611ac"
+    },
+    {
+      "path": "comparison/off/P17/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P17/2/result.json",
+      "original_sha256": "7504579721acdbc23e9ac76a1a560464cc217e502b25b4ae34c6f614b2bc3fe6",
+      "published_sha256": "7504579721acdbc23e9ac76a1a560464cc217e502b25b4ae34c6f614b2bc3fe6"
+    },
+    {
+      "path": "comparison/off/P18/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P18/1/compiled_policy.json",
+      "original_sha256": "168ab9da2caacabd636292932f4e674bec925daf0b0dc870d001b2a397c4860a",
+      "published_sha256": "168ab9da2caacabd636292932f4e674bec925daf0b0dc870d001b2a397c4860a"
+    },
+    {
+      "path": "comparison/off/P18/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P18/1/request.json",
+      "original_sha256": "201a3da9fdc592935aec910b202602aa4d2318b4ad0dd8dcb7e67456c5045d59",
+      "published_sha256": "201a3da9fdc592935aec910b202602aa4d2318b4ad0dd8dcb7e67456c5045d59"
+    },
+    {
+      "path": "comparison/off/P18/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P18/1/response.public.json",
+      "original_sha256": "d7ca2aff7b474855c0551d1e243758a687ce10e30c6322ea95baa25e7e023bec",
+      "published_sha256": "d7ca2aff7b474855c0551d1e243758a687ce10e30c6322ea95baa25e7e023bec"
+    },
+    {
+      "path": "comparison/off/P18/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P18/1/result.json",
+      "original_sha256": "bf6c97a5af4e2a64a9d7a352a589718492c4d02aa7ce21d6c0b64518104cb6b9",
+      "published_sha256": "bf6c97a5af4e2a64a9d7a352a589718492c4d02aa7ce21d6c0b64518104cb6b9"
+    },
+    {
+      "path": "comparison/off/P18/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P18/2/request.json",
+      "original_sha256": "201a3da9fdc592935aec910b202602aa4d2318b4ad0dd8dcb7e67456c5045d59",
+      "published_sha256": "201a3da9fdc592935aec910b202602aa4d2318b4ad0dd8dcb7e67456c5045d59"
+    },
+    {
+      "path": "comparison/off/P18/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P18/2/response.public.json",
+      "original_sha256": "a84af5a0a8f839ec8631c71427f1d12f7439fa0d800d981272c0b4df7afb4654",
+      "published_sha256": "a84af5a0a8f839ec8631c71427f1d12f7439fa0d800d981272c0b4df7afb4654"
+    },
+    {
+      "path": "comparison/off/P18/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P18/2/result.json",
+      "original_sha256": "b0544edb2b8d73f600167e223bef58f32d270aab3af669c08f95eee3d33295d1",
+      "published_sha256": "b0544edb2b8d73f600167e223bef58f32d270aab3af669c08f95eee3d33295d1"
+    },
+    {
+      "path": "comparison/off/P19/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P19/1/compiled_policy.json",
+      "original_sha256": "e96a47c43ae2fa4ab3662847413f4ab5c496619ae8191863e0f1c5e392014766",
+      "published_sha256": "e96a47c43ae2fa4ab3662847413f4ab5c496619ae8191863e0f1c5e392014766"
+    },
+    {
+      "path": "comparison/off/P19/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P19/1/request.json",
+      "original_sha256": "751891777ca332b39b69fe205b235a8b633a3c5dc78978eab7167ce0ff540745",
+      "published_sha256": "751891777ca332b39b69fe205b235a8b633a3c5dc78978eab7167ce0ff540745"
+    },
+    {
+      "path": "comparison/off/P19/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P19/1/response.public.json",
+      "original_sha256": "44f47706cb9f3a68e3e19aa7e7c3e8549a42f256d05a4e9382e141a654264d4f",
+      "published_sha256": "44f47706cb9f3a68e3e19aa7e7c3e8549a42f256d05a4e9382e141a654264d4f"
+    },
+    {
+      "path": "comparison/off/P19/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P19/1/result.json",
+      "original_sha256": "20e47bac5f5899e008a0521d0020e6f773b04021a32270903421857a0502c5c7",
+      "published_sha256": "20e47bac5f5899e008a0521d0020e6f773b04021a32270903421857a0502c5c7"
+    },
+    {
+      "path": "comparison/off/P19/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P19/2/compiled_policy.json",
+      "original_sha256": "67e099626ac2dd2962fb69d3487eaaff827b5705b464d636502284bf55878855",
+      "published_sha256": "67e099626ac2dd2962fb69d3487eaaff827b5705b464d636502284bf55878855"
+    },
+    {
+      "path": "comparison/off/P19/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P19/2/request.json",
+      "original_sha256": "751891777ca332b39b69fe205b235a8b633a3c5dc78978eab7167ce0ff540745",
+      "published_sha256": "751891777ca332b39b69fe205b235a8b633a3c5dc78978eab7167ce0ff540745"
+    },
+    {
+      "path": "comparison/off/P19/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P19/2/response.public.json",
+      "original_sha256": "326d907ef461ffdb6645f60ce7d93f9bf370fe1f9c372337abf63967f348458f",
+      "published_sha256": "326d907ef461ffdb6645f60ce7d93f9bf370fe1f9c372337abf63967f348458f"
+    },
+    {
+      "path": "comparison/off/P19/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P19/2/result.json",
+      "original_sha256": "e9029464a24c22880b94ec1fa7d6f97583a6261b1baf413ad8ba09debf0f5005",
+      "published_sha256": "e9029464a24c22880b94ec1fa7d6f97583a6261b1baf413ad8ba09debf0f5005"
+    },
+    {
+      "path": "comparison/off/P20/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P20/1/compiled_policy.json",
+      "original_sha256": "6aeade767ff93e60e5364a3dd7658e04c8f193c97db19bc948ddaff1d3fd2fa5",
+      "published_sha256": "6aeade767ff93e60e5364a3dd7658e04c8f193c97db19bc948ddaff1d3fd2fa5"
+    },
+    {
+      "path": "comparison/off/P20/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P20/1/request.json",
+      "original_sha256": "e5d89a7647e1c54b88451a6a28061fbcc5f9e27e11f594cf76e0362ef0693e8e",
+      "published_sha256": "e5d89a7647e1c54b88451a6a28061fbcc5f9e27e11f594cf76e0362ef0693e8e"
+    },
+    {
+      "path": "comparison/off/P20/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P20/1/response.public.json",
+      "original_sha256": "f6547a2c152f1df1d73a49673f37d74b800f7100efdac0f08e97d750849a002f",
+      "published_sha256": "f6547a2c152f1df1d73a49673f37d74b800f7100efdac0f08e97d750849a002f"
+    },
+    {
+      "path": "comparison/off/P20/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P20/1/result.json",
+      "original_sha256": "26c9460c32d5619748c6efc4ff52e881a0535f922fdab0a5f58eab6439dee677",
+      "published_sha256": "26c9460c32d5619748c6efc4ff52e881a0535f922fdab0a5f58eab6439dee677"
+    },
+    {
+      "path": "comparison/off/P20/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P20/2/compiled_policy.json",
+      "original_sha256": "232e9f98e0c667f2a021d5208921e47205b3828b174e1c48f7d04f086286fd19",
+      "published_sha256": "232e9f98e0c667f2a021d5208921e47205b3828b174e1c48f7d04f086286fd19"
+    },
+    {
+      "path": "comparison/off/P20/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P20/2/request.json",
+      "original_sha256": "e5d89a7647e1c54b88451a6a28061fbcc5f9e27e11f594cf76e0362ef0693e8e",
+      "published_sha256": "e5d89a7647e1c54b88451a6a28061fbcc5f9e27e11f594cf76e0362ef0693e8e"
+    },
+    {
+      "path": "comparison/off/P20/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P20/2/response.public.json",
+      "original_sha256": "e580dc239d522f1e67c38c1313098f73ba6b7c9051ed91286a2da4a0a0abd6fb",
+      "published_sha256": "e580dc239d522f1e67c38c1313098f73ba6b7c9051ed91286a2da4a0a0abd6fb"
+    },
+    {
+      "path": "comparison/off/P20/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P20/2/result.json",
+      "original_sha256": "36540a1d46a0a338c8df7ee0e6ffdf710de7b8e7b82ce3bfce7c16c2f60ae4ca",
+      "published_sha256": "36540a1d46a0a338c8df7ee0e6ffdf710de7b8e7b82ce3bfce7c16c2f60ae4ca"
+    },
+    {
+      "path": "comparison/off/P21/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P21/1/compiled_policy.json",
+      "original_sha256": "443bf246ff5d93a0cd160f418ac1879f621902843ca22497c00837e76f392f21",
+      "published_sha256": "443bf246ff5d93a0cd160f418ac1879f621902843ca22497c00837e76f392f21"
+    },
+    {
+      "path": "comparison/off/P21/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P21/1/request.json",
+      "original_sha256": "84cb3f739dcf61a466d43e12ba2f0f73aaaa3da6b4c2a4f52b5823c6697601dc",
+      "published_sha256": "84cb3f739dcf61a466d43e12ba2f0f73aaaa3da6b4c2a4f52b5823c6697601dc"
+    },
+    {
+      "path": "comparison/off/P21/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P21/1/response.public.json",
+      "original_sha256": "4297cbd5dbfc309c20e5f1f5d734d6f182529772933d511157bff72a2a35ad6e",
+      "published_sha256": "4297cbd5dbfc309c20e5f1f5d734d6f182529772933d511157bff72a2a35ad6e"
+    },
+    {
+      "path": "comparison/off/P21/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P21/1/result.json",
+      "original_sha256": "823a9509ad33b4f7021ba0c672e6d43aca057fec23a26f9a8d104df62ca62fc5",
+      "published_sha256": "823a9509ad33b4f7021ba0c672e6d43aca057fec23a26f9a8d104df62ca62fc5"
+    },
+    {
+      "path": "comparison/off/P21/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P21/2/compiled_policy.json",
+      "original_sha256": "5c8dc6a61096f5a36b002a17cc95d433ccea5577951d7e51691cf8e68f075a62",
+      "published_sha256": "5c8dc6a61096f5a36b002a17cc95d433ccea5577951d7e51691cf8e68f075a62"
+    },
+    {
+      "path": "comparison/off/P21/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P21/2/request.json",
+      "original_sha256": "84cb3f739dcf61a466d43e12ba2f0f73aaaa3da6b4c2a4f52b5823c6697601dc",
+      "published_sha256": "84cb3f739dcf61a466d43e12ba2f0f73aaaa3da6b4c2a4f52b5823c6697601dc"
+    },
+    {
+      "path": "comparison/off/P21/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P21/2/response.public.json",
+      "original_sha256": "66504ee302c8255eedd4868c5712c22a1e913ca3252bc8052b0b696595754658",
+      "published_sha256": "66504ee302c8255eedd4868c5712c22a1e913ca3252bc8052b0b696595754658"
+    },
+    {
+      "path": "comparison/off/P21/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P21/2/result.json",
+      "original_sha256": "ba0a7b9786e2b346975fd2b2fd3c4df4952c694d2598854c93606b5f809187cc",
+      "published_sha256": "ba0a7b9786e2b346975fd2b2fd3c4df4952c694d2598854c93606b5f809187cc"
+    },
+    {
+      "path": "comparison/off/P22/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P22/1/compiled_policy.json",
+      "original_sha256": "18afaa89e079c3d2cd13dcd19958d0fb67f0a18f60c32da2708d309c52ac0ab8",
+      "published_sha256": "18afaa89e079c3d2cd13dcd19958d0fb67f0a18f60c32da2708d309c52ac0ab8"
+    },
+    {
+      "path": "comparison/off/P22/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P22/1/request.json",
+      "original_sha256": "e05cc9ed0699feda394ec5037dce2348b40ce485a989cf1efaa9919f0001e5b9",
+      "published_sha256": "e05cc9ed0699feda394ec5037dce2348b40ce485a989cf1efaa9919f0001e5b9"
+    },
+    {
+      "path": "comparison/off/P22/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P22/1/response.public.json",
+      "original_sha256": "4c428d80dc099bd829049c7c438f487588d331931c0ef39b1b0c77fb1612e6e7",
+      "published_sha256": "4c428d80dc099bd829049c7c438f487588d331931c0ef39b1b0c77fb1612e6e7"
+    },
+    {
+      "path": "comparison/off/P22/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P22/1/result.json",
+      "original_sha256": "7d900bb21c4e3d8545f3daadc9e01b56ba0fe82733ba1627ebbf99fc53017a95",
+      "published_sha256": "7d900bb21c4e3d8545f3daadc9e01b56ba0fe82733ba1627ebbf99fc53017a95"
+    },
+    {
+      "path": "comparison/off/P22/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P22/2/compiled_policy.json",
+      "original_sha256": "ae2c5d1f5e3ff8149477ef34fe744ba104034d0495c2bd431343cb9da5b5d584",
+      "published_sha256": "ae2c5d1f5e3ff8149477ef34fe744ba104034d0495c2bd431343cb9da5b5d584"
+    },
+    {
+      "path": "comparison/off/P22/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P22/2/request.json",
+      "original_sha256": "e05cc9ed0699feda394ec5037dce2348b40ce485a989cf1efaa9919f0001e5b9",
+      "published_sha256": "e05cc9ed0699feda394ec5037dce2348b40ce485a989cf1efaa9919f0001e5b9"
+    },
+    {
+      "path": "comparison/off/P22/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P22/2/response.public.json",
+      "original_sha256": "223f743178bdabdbcda70915e63e0983f61658ff425405bad5a4bdcb1486ec34",
+      "published_sha256": "223f743178bdabdbcda70915e63e0983f61658ff425405bad5a4bdcb1486ec34"
+    },
+    {
+      "path": "comparison/off/P22/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P22/2/result.json",
+      "original_sha256": "322b438b184bf11988459cac12ae820cfe1ee4a3498e36489df18b41f2f6cb15",
+      "published_sha256": "322b438b184bf11988459cac12ae820cfe1ee4a3498e36489df18b41f2f6cb15"
+    },
+    {
+      "path": "comparison/off/P23/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P23/1/compiled_policy.json",
+      "original_sha256": "1bb5e636f5d8e318b61f3ff82cb8bbc12cca19c40a73da5ae870a869ec01be61",
+      "published_sha256": "1bb5e636f5d8e318b61f3ff82cb8bbc12cca19c40a73da5ae870a869ec01be61"
+    },
+    {
+      "path": "comparison/off/P23/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P23/1/request.json",
+      "original_sha256": "a588792b20c23394c23e8c9f39b3b3040b63485b1d85d364dc1053736e6e692e",
+      "published_sha256": "a588792b20c23394c23e8c9f39b3b3040b63485b1d85d364dc1053736e6e692e"
+    },
+    {
+      "path": "comparison/off/P23/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P23/1/response.public.json",
+      "original_sha256": "e6799a61d0ab06bb51d9aa65d3721b6d87f859665aca7f9473fc4dea270bce85",
+      "published_sha256": "e6799a61d0ab06bb51d9aa65d3721b6d87f859665aca7f9473fc4dea270bce85"
+    },
+    {
+      "path": "comparison/off/P23/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P23/1/result.json",
+      "original_sha256": "87d72c991c9e14225148c6847507da961bbd11e71882b153f0ccac2dc7271105",
+      "published_sha256": "87d72c991c9e14225148c6847507da961bbd11e71882b153f0ccac2dc7271105"
+    },
+    {
+      "path": "comparison/off/P23/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P23/2/compiled_policy.json",
+      "original_sha256": "4d918e701d48f5dbad0d0ddc69bc8411db6d42a19e3428d550538fa610a4f545",
+      "published_sha256": "4d918e701d48f5dbad0d0ddc69bc8411db6d42a19e3428d550538fa610a4f545"
+    },
+    {
+      "path": "comparison/off/P23/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P23/2/request.json",
+      "original_sha256": "a588792b20c23394c23e8c9f39b3b3040b63485b1d85d364dc1053736e6e692e",
+      "published_sha256": "a588792b20c23394c23e8c9f39b3b3040b63485b1d85d364dc1053736e6e692e"
+    },
+    {
+      "path": "comparison/off/P23/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P23/2/response.public.json",
+      "original_sha256": "5ef8df6805185c1263cd954f8d40f863fd84967d1b0f6ca4b7a74770c19a9df3",
+      "published_sha256": "5ef8df6805185c1263cd954f8d40f863fd84967d1b0f6ca4b7a74770c19a9df3"
+    },
+    {
+      "path": "comparison/off/P23/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P23/2/result.json",
+      "original_sha256": "0090ce127403e33c94949999d61194cb54700c6cbedf8da2d8db1f7c0ec0e99f",
+      "published_sha256": "0090ce127403e33c94949999d61194cb54700c6cbedf8da2d8db1f7c0ec0e99f"
+    },
+    {
+      "path": "comparison/off/P24/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P24/1/compiled_policy.json",
+      "original_sha256": "83c88a5b735d7062972c2ebe827ea9cf558e615d8ecb5b0d6f47d94f2f067c69",
+      "published_sha256": "83c88a5b735d7062972c2ebe827ea9cf558e615d8ecb5b0d6f47d94f2f067c69"
+    },
+    {
+      "path": "comparison/off/P24/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P24/1/request.json",
+      "original_sha256": "a0b517c0fb36dc8ce960e5223feb6ae699e8cb4f1524503c0e835a9ef67b8e77",
+      "published_sha256": "a0b517c0fb36dc8ce960e5223feb6ae699e8cb4f1524503c0e835a9ef67b8e77"
+    },
+    {
+      "path": "comparison/off/P24/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P24/1/response.public.json",
+      "original_sha256": "ddb097dfd34c62579993b4e9ad17138785ac8ab6195cd0e430805b042401fa51",
+      "published_sha256": "ddb097dfd34c62579993b4e9ad17138785ac8ab6195cd0e430805b042401fa51"
+    },
+    {
+      "path": "comparison/off/P24/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P24/1/result.json",
+      "original_sha256": "cc9249ef0924bf6f84db5c2f87248dc176fcbeb2d9b1d3fda8e248c79e920bd2",
+      "published_sha256": "cc9249ef0924bf6f84db5c2f87248dc176fcbeb2d9b1d3fda8e248c79e920bd2"
+    },
+    {
+      "path": "comparison/off/P24/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P24/2/compiled_policy.json",
+      "original_sha256": "adaf3d504b26c2297bdd5c5741631cd85f49b70fb79ad552b3a091b5b81a1922",
+      "published_sha256": "adaf3d504b26c2297bdd5c5741631cd85f49b70fb79ad552b3a091b5b81a1922"
+    },
+    {
+      "path": "comparison/off/P24/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P24/2/request.json",
+      "original_sha256": "a0b517c0fb36dc8ce960e5223feb6ae699e8cb4f1524503c0e835a9ef67b8e77",
+      "published_sha256": "a0b517c0fb36dc8ce960e5223feb6ae699e8cb4f1524503c0e835a9ef67b8e77"
+    },
+    {
+      "path": "comparison/off/P24/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P24/2/response.public.json",
+      "original_sha256": "7a5baddced50f40442d571e4d42c3ec6843e9caf3d4d2708e9e78b818fcc1332",
+      "published_sha256": "7a5baddced50f40442d571e4d42c3ec6843e9caf3d4d2708e9e78b818fcc1332"
+    },
+    {
+      "path": "comparison/off/P24/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P24/2/result.json",
+      "original_sha256": "8b622a3596dff26efedb70adc5dc1805772acba58d857f9fa7cffbf56dc301b5",
+      "published_sha256": "8b622a3596dff26efedb70adc5dc1805772acba58d857f9fa7cffbf56dc301b5"
+    },
+    {
+      "path": "comparison/off/P25/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P25/1/compiled_policy.json",
+      "original_sha256": "810093b42bf12fcd60addfe10f320c4cf884be5f709d98e0f8b5db5534ae4ab3",
+      "published_sha256": "810093b42bf12fcd60addfe10f320c4cf884be5f709d98e0f8b5db5534ae4ab3"
+    },
+    {
+      "path": "comparison/off/P25/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P25/1/request.json",
+      "original_sha256": "7b5870bb515f42f4f447a4fd16033b5ac4d109bdecbf84063b6edbe010c2472e",
+      "published_sha256": "7b5870bb515f42f4f447a4fd16033b5ac4d109bdecbf84063b6edbe010c2472e"
+    },
+    {
+      "path": "comparison/off/P25/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P25/1/response.public.json",
+      "original_sha256": "3c4f5170ef8cf96d5279b2fb341301a4e096347f50508ed467288a72245082b5",
+      "published_sha256": "3c4f5170ef8cf96d5279b2fb341301a4e096347f50508ed467288a72245082b5"
+    },
+    {
+      "path": "comparison/off/P25/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P25/1/result.json",
+      "original_sha256": "aa3003924a7e51ccf8be0391b111d9e0954cd84f1261ff08a9085f583699c3d2",
+      "published_sha256": "aa3003924a7e51ccf8be0391b111d9e0954cd84f1261ff08a9085f583699c3d2"
+    },
+    {
+      "path": "comparison/off/P25/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P25/2/compiled_policy.json",
+      "original_sha256": "5a3bc36bf09a311a221645c18f5aa0b0c1746c2248c101f1d3755215741a1a3d",
+      "published_sha256": "5a3bc36bf09a311a221645c18f5aa0b0c1746c2248c101f1d3755215741a1a3d"
+    },
+    {
+      "path": "comparison/off/P25/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P25/2/request.json",
+      "original_sha256": "7b5870bb515f42f4f447a4fd16033b5ac4d109bdecbf84063b6edbe010c2472e",
+      "published_sha256": "7b5870bb515f42f4f447a4fd16033b5ac4d109bdecbf84063b6edbe010c2472e"
+    },
+    {
+      "path": "comparison/off/P25/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P25/2/response.public.json",
+      "original_sha256": "9d2805c95b2db7f7c61650941ecdfe055c14ecd7606462b9d489bb2ad893fc79",
+      "published_sha256": "9d2805c95b2db7f7c61650941ecdfe055c14ecd7606462b9d489bb2ad893fc79"
+    },
+    {
+      "path": "comparison/off/P25/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P25/2/result.json",
+      "original_sha256": "389132c0d00199119c0b598b75f5edd4ba3aec11797ca1c2698a946e82949b6f",
+      "published_sha256": "389132c0d00199119c0b598b75f5edd4ba3aec11797ca1c2698a946e82949b6f"
+    },
+    {
+      "path": "comparison/off/P26/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P26/1/compiled_policy.json",
+      "original_sha256": "ce1800e0bb316589b94ac7bf721d1e9ee58feb1491599b6a2d492a27de160706",
+      "published_sha256": "ce1800e0bb316589b94ac7bf721d1e9ee58feb1491599b6a2d492a27de160706"
+    },
+    {
+      "path": "comparison/off/P26/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P26/1/request.json",
+      "original_sha256": "8d27cad66b37a1f2a6c145aec12317c15b9237123e780e36b81670d8e4cb8d43",
+      "published_sha256": "8d27cad66b37a1f2a6c145aec12317c15b9237123e780e36b81670d8e4cb8d43"
+    },
+    {
+      "path": "comparison/off/P26/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P26/1/response.public.json",
+      "original_sha256": "6db656c867a54682556e7845c29d477d907423c5fef98cd88b0043612df15f02",
+      "published_sha256": "6db656c867a54682556e7845c29d477d907423c5fef98cd88b0043612df15f02"
+    },
+    {
+      "path": "comparison/off/P26/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P26/1/result.json",
+      "original_sha256": "5d5385bf5f36dd40e11541b7de179dc1fbe6ade3aeaa773f7da0a8c1c6febc2c",
+      "published_sha256": "5d5385bf5f36dd40e11541b7de179dc1fbe6ade3aeaa773f7da0a8c1c6febc2c"
+    },
+    {
+      "path": "comparison/off/P26/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P26/2/compiled_policy.json",
+      "original_sha256": "bec437d28f99b2f60295ae3ca88bdd7e5421cf93f2ff4b34e4475440cb17147d",
+      "published_sha256": "bec437d28f99b2f60295ae3ca88bdd7e5421cf93f2ff4b34e4475440cb17147d"
+    },
+    {
+      "path": "comparison/off/P26/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P26/2/request.json",
+      "original_sha256": "8d27cad66b37a1f2a6c145aec12317c15b9237123e780e36b81670d8e4cb8d43",
+      "published_sha256": "8d27cad66b37a1f2a6c145aec12317c15b9237123e780e36b81670d8e4cb8d43"
+    },
+    {
+      "path": "comparison/off/P26/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P26/2/response.public.json",
+      "original_sha256": "1d9c63e66f8154c8e0c272b1fb744481b79e04502de40ef1f218dab972768033",
+      "published_sha256": "1d9c63e66f8154c8e0c272b1fb744481b79e04502de40ef1f218dab972768033"
+    },
+    {
+      "path": "comparison/off/P26/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P26/2/result.json",
+      "original_sha256": "e69bc8a74c34fc0c7ca02ec7f0029581194bd97e0e9a3ff332815bd632d9bb7e",
+      "published_sha256": "e69bc8a74c34fc0c7ca02ec7f0029581194bd97e0e9a3ff332815bd632d9bb7e"
+    },
+    {
+      "path": "comparison/off/P27/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P27/1/compiled_policy.json",
+      "original_sha256": "3035deb343f63781d853ac1ab334e0a2b40aed6b74cf55fed75e0b45349daf80",
+      "published_sha256": "3035deb343f63781d853ac1ab334e0a2b40aed6b74cf55fed75e0b45349daf80"
+    },
+    {
+      "path": "comparison/off/P27/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P27/1/request.json",
+      "original_sha256": "994f782c0176c26dc35cf9a93fea4e462d09b2ad0239f05ec5bc6a26b58d3793",
+      "published_sha256": "994f782c0176c26dc35cf9a93fea4e462d09b2ad0239f05ec5bc6a26b58d3793"
+    },
+    {
+      "path": "comparison/off/P27/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P27/1/response.public.json",
+      "original_sha256": "2eaab6dd3f4c7c504c5af5813ad601accd73ee9778592a4d71a7ab55faf473bf",
+      "published_sha256": "2eaab6dd3f4c7c504c5af5813ad601accd73ee9778592a4d71a7ab55faf473bf"
+    },
+    {
+      "path": "comparison/off/P27/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P27/1/result.json",
+      "original_sha256": "fd0c2c618047e4853d6514976a7f7179ba8ebb7a752c2c4cb6088b8ed64af70c",
+      "published_sha256": "fd0c2c618047e4853d6514976a7f7179ba8ebb7a752c2c4cb6088b8ed64af70c"
+    },
+    {
+      "path": "comparison/off/P27/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P27/2/compiled_policy.json",
+      "original_sha256": "fc897cfed424762bd70eda299fc6d1259d864d4abe9de149d7593f09baf1e771",
+      "published_sha256": "fc897cfed424762bd70eda299fc6d1259d864d4abe9de149d7593f09baf1e771"
+    },
+    {
+      "path": "comparison/off/P27/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P27/2/request.json",
+      "original_sha256": "994f782c0176c26dc35cf9a93fea4e462d09b2ad0239f05ec5bc6a26b58d3793",
+      "published_sha256": "994f782c0176c26dc35cf9a93fea4e462d09b2ad0239f05ec5bc6a26b58d3793"
+    },
+    {
+      "path": "comparison/off/P27/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P27/2/response.public.json",
+      "original_sha256": "3da5cd8b58ca3d922188c9f06781168070fd8905a67d6e3a3038b817ba03192f",
+      "published_sha256": "3da5cd8b58ca3d922188c9f06781168070fd8905a67d6e3a3038b817ba03192f"
+    },
+    {
+      "path": "comparison/off/P27/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P27/2/result.json",
+      "original_sha256": "2ff999cd5e9b31fd7983b3272b95e8753ecc83dff6c7827afdb06c60abeed49b",
+      "published_sha256": "2ff999cd5e9b31fd7983b3272b95e8753ecc83dff6c7827afdb06c60abeed49b"
+    },
+    {
+      "path": "comparison/off/P28/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P28/1/compiled_policy.json",
+      "original_sha256": "6321d85531ded97e5d79ad0df13f4359db0349c44509b2b583cd5fa97e41a782",
+      "published_sha256": "6321d85531ded97e5d79ad0df13f4359db0349c44509b2b583cd5fa97e41a782"
+    },
+    {
+      "path": "comparison/off/P28/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P28/1/request.json",
+      "original_sha256": "7ec55a83f92ceaa11d0a0367b7dc91a62dfcc91b5e7c8a8d08e055972cee275e",
+      "published_sha256": "7ec55a83f92ceaa11d0a0367b7dc91a62dfcc91b5e7c8a8d08e055972cee275e"
+    },
+    {
+      "path": "comparison/off/P28/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P28/1/response.public.json",
+      "original_sha256": "5078c7d38815c76cfa665782e54eaf31139765962bc93ded4db98c5ee63e87c4",
+      "published_sha256": "5078c7d38815c76cfa665782e54eaf31139765962bc93ded4db98c5ee63e87c4"
+    },
+    {
+      "path": "comparison/off/P28/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P28/1/result.json",
+      "original_sha256": "8fa23f391c83f710f125645ae431bbf47d3dbcb671b9382f0642edf5adca592a",
+      "published_sha256": "8fa23f391c83f710f125645ae431bbf47d3dbcb671b9382f0642edf5adca592a"
+    },
+    {
+      "path": "comparison/off/P28/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P28/2/compiled_policy.json",
+      "original_sha256": "4b7e54d83cb28a039673e85667c2a5a6859771f1a56705ac60dbe2355cf0a0de",
+      "published_sha256": "4b7e54d83cb28a039673e85667c2a5a6859771f1a56705ac60dbe2355cf0a0de"
+    },
+    {
+      "path": "comparison/off/P28/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P28/2/request.json",
+      "original_sha256": "7ec55a83f92ceaa11d0a0367b7dc91a62dfcc91b5e7c8a8d08e055972cee275e",
+      "published_sha256": "7ec55a83f92ceaa11d0a0367b7dc91a62dfcc91b5e7c8a8d08e055972cee275e"
+    },
+    {
+      "path": "comparison/off/P28/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P28/2/response.public.json",
+      "original_sha256": "cd4383bde7794f9aa8d8b6b18819e9e4df8c6d2a4f772195c64e8ca9e25a4f87",
+      "published_sha256": "cd4383bde7794f9aa8d8b6b18819e9e4df8c6d2a4f772195c64e8ca9e25a4f87"
+    },
+    {
+      "path": "comparison/off/P28/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P28/2/result.json",
+      "original_sha256": "fd8e65a209c430cd7927af1aa083f0f567ed8ef71537aac83449fd58fcbc701e",
+      "published_sha256": "fd8e65a209c430cd7927af1aa083f0f567ed8ef71537aac83449fd58fcbc701e"
+    },
+    {
+      "path": "comparison/off/P29/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P29/1/compiled_policy.json",
+      "original_sha256": "75ad1bc91e3c00096b5984de0e9dcb4ebca5acecb24f1ccce1be70e9f56b15b1",
+      "published_sha256": "75ad1bc91e3c00096b5984de0e9dcb4ebca5acecb24f1ccce1be70e9f56b15b1"
+    },
+    {
+      "path": "comparison/off/P29/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P29/1/request.json",
+      "original_sha256": "3852ea59c0725dc4e9d8071cbb0a3fc2f273779970044f093bb86a28536c993c",
+      "published_sha256": "3852ea59c0725dc4e9d8071cbb0a3fc2f273779970044f093bb86a28536c993c"
+    },
+    {
+      "path": "comparison/off/P29/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P29/1/response.public.json",
+      "original_sha256": "bcb2beb248a44e875b93a71f35d28dff4e88c4a0032039d07a47d30b8881d34c",
+      "published_sha256": "bcb2beb248a44e875b93a71f35d28dff4e88c4a0032039d07a47d30b8881d34c"
+    },
+    {
+      "path": "comparison/off/P29/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P29/1/result.json",
+      "original_sha256": "b6e636e60b58a2a14c59b4844239d243cbbf9096eda865596ed9dfef20226abe",
+      "published_sha256": "b6e636e60b58a2a14c59b4844239d243cbbf9096eda865596ed9dfef20226abe"
+    },
+    {
+      "path": "comparison/off/P29/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P29/2/compiled_policy.json",
+      "original_sha256": "8e88a66ddcb46accb1d434eb284a1afbe245ea3c109b5dbf3da7ef86eafc60b7",
+      "published_sha256": "8e88a66ddcb46accb1d434eb284a1afbe245ea3c109b5dbf3da7ef86eafc60b7"
+    },
+    {
+      "path": "comparison/off/P29/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P29/2/request.json",
+      "original_sha256": "3852ea59c0725dc4e9d8071cbb0a3fc2f273779970044f093bb86a28536c993c",
+      "published_sha256": "3852ea59c0725dc4e9d8071cbb0a3fc2f273779970044f093bb86a28536c993c"
+    },
+    {
+      "path": "comparison/off/P29/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P29/2/response.public.json",
+      "original_sha256": "1777cc88258061f15b916e70eb54974b0940d64c92a6c86e92c92ac58eaff2c8",
+      "published_sha256": "1777cc88258061f15b916e70eb54974b0940d64c92a6c86e92c92ac58eaff2c8"
+    },
+    {
+      "path": "comparison/off/P29/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P29/2/result.json",
+      "original_sha256": "9b513309eaccbb3d39963f639e579aec89a8c9d8d1573d12bd93c84cbc22f146",
+      "published_sha256": "9b513309eaccbb3d39963f639e579aec89a8c9d8d1573d12bd93c84cbc22f146"
+    },
+    {
+      "path": "comparison/off/P30/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P30/1/compiled_policy.json",
+      "original_sha256": "0768e248b8b9a0b54209318d8a4cde984bbffa5087a825ff1e05803ece88360e",
+      "published_sha256": "0768e248b8b9a0b54209318d8a4cde984bbffa5087a825ff1e05803ece88360e"
+    },
+    {
+      "path": "comparison/off/P30/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P30/1/request.json",
+      "original_sha256": "33464a7bd345e8f87eff7bb8f18c98f5f6d14efe642ca711304529f106b34a7c",
+      "published_sha256": "33464a7bd345e8f87eff7bb8f18c98f5f6d14efe642ca711304529f106b34a7c"
+    },
+    {
+      "path": "comparison/off/P30/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P30/1/response.public.json",
+      "original_sha256": "d9d33ec778707a15413459367e6c95c5562ed29580d1b5b38e1fa346779ae401",
+      "published_sha256": "d9d33ec778707a15413459367e6c95c5562ed29580d1b5b38e1fa346779ae401"
+    },
+    {
+      "path": "comparison/off/P30/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P30/1/result.json",
+      "original_sha256": "0027ced9914763a59dc6a5fa012c66f7d5613995b3134037ae60379cdb8c9ce9",
+      "published_sha256": "0027ced9914763a59dc6a5fa012c66f7d5613995b3134037ae60379cdb8c9ce9"
+    },
+    {
+      "path": "comparison/off/P30/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P30/2/compiled_policy.json",
+      "original_sha256": "924ff4946f810687d61f88c1a4272589c2b530ea3f19d08c911befd8bd20662c",
+      "published_sha256": "924ff4946f810687d61f88c1a4272589c2b530ea3f19d08c911befd8bd20662c"
+    },
+    {
+      "path": "comparison/off/P30/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P30/2/request.json",
+      "original_sha256": "33464a7bd345e8f87eff7bb8f18c98f5f6d14efe642ca711304529f106b34a7c",
+      "published_sha256": "33464a7bd345e8f87eff7bb8f18c98f5f6d14efe642ca711304529f106b34a7c"
+    },
+    {
+      "path": "comparison/off/P30/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P30/2/response.public.json",
+      "original_sha256": "fdfe044112cc9956242918e8b74dbda686b2e4babb62dbd4647db087cc95964c",
+      "published_sha256": "fdfe044112cc9956242918e8b74dbda686b2e4babb62dbd4647db087cc95964c"
+    },
+    {
+      "path": "comparison/off/P30/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P30/2/result.json",
+      "original_sha256": "90cf60d55bc9366702d3a5901001e8bc3210a20492633a15f9ae8f1beb86ae46",
+      "published_sha256": "90cf60d55bc9366702d3a5901001e8bc3210a20492633a15f9ae8f1beb86ae46"
+    },
+    {
+      "path": "comparison/off/P31/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P31/1/compiled_policy.json",
+      "original_sha256": "d307b70bd49d2ab8c77f6a949aa24b607e5389691803ae4cf1f4913bbcafa34e",
+      "published_sha256": "d307b70bd49d2ab8c77f6a949aa24b607e5389691803ae4cf1f4913bbcafa34e"
+    },
+    {
+      "path": "comparison/off/P31/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P31/1/request.json",
+      "original_sha256": "8192b77c25b0061af724c7746b4fd00f91c6b0f4e838094828d6270344d61125",
+      "published_sha256": "8192b77c25b0061af724c7746b4fd00f91c6b0f4e838094828d6270344d61125"
+    },
+    {
+      "path": "comparison/off/P31/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P31/1/response.public.json",
+      "original_sha256": "269da95f90c572b123158a5e0d46fde2e31002cd6af11b81b362713eec2f86cc",
+      "published_sha256": "269da95f90c572b123158a5e0d46fde2e31002cd6af11b81b362713eec2f86cc"
+    },
+    {
+      "path": "comparison/off/P31/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P31/1/result.json",
+      "original_sha256": "7ceba236582ade33fea4a09b3a74b7aba9e2cbfa1be1f0ffc41609c3c91dd0bf",
+      "published_sha256": "7ceba236582ade33fea4a09b3a74b7aba9e2cbfa1be1f0ffc41609c3c91dd0bf"
+    },
+    {
+      "path": "comparison/off/P31/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P31/2/compiled_policy.json",
+      "original_sha256": "bea94b27ac2dea228307c16e46fda1847e562a8bf69da28f091a28aa497e4756",
+      "published_sha256": "bea94b27ac2dea228307c16e46fda1847e562a8bf69da28f091a28aa497e4756"
+    },
+    {
+      "path": "comparison/off/P31/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P31/2/request.json",
+      "original_sha256": "8192b77c25b0061af724c7746b4fd00f91c6b0f4e838094828d6270344d61125",
+      "published_sha256": "8192b77c25b0061af724c7746b4fd00f91c6b0f4e838094828d6270344d61125"
+    },
+    {
+      "path": "comparison/off/P31/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P31/2/response.public.json",
+      "original_sha256": "b3b9d500e53c7897ba522e20f254c95547cbe83600b285b1991a23f4deb3f185",
+      "published_sha256": "b3b9d500e53c7897ba522e20f254c95547cbe83600b285b1991a23f4deb3f185"
+    },
+    {
+      "path": "comparison/off/P31/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P31/2/result.json",
+      "original_sha256": "40615644593fdd9780c121a9b85610c3d673895f9a58a6790194ddb562ebaa64",
+      "published_sha256": "40615644593fdd9780c121a9b85610c3d673895f9a58a6790194ddb562ebaa64"
+    },
+    {
+      "path": "comparison/off/P32/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P32/1/compiled_policy.json",
+      "original_sha256": "acadd9c6d4379fc827d5c3b8e5c1cd430c7616164f1ee25ca4f47fd0613d1722",
+      "published_sha256": "acadd9c6d4379fc827d5c3b8e5c1cd430c7616164f1ee25ca4f47fd0613d1722"
+    },
+    {
+      "path": "comparison/off/P32/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P32/1/request.json",
+      "original_sha256": "47f466e1537a0f11546d29121443f7d283c3bea088c610b9316eb67f335c4218",
+      "published_sha256": "47f466e1537a0f11546d29121443f7d283c3bea088c610b9316eb67f335c4218"
+    },
+    {
+      "path": "comparison/off/P32/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P32/1/response.public.json",
+      "original_sha256": "48bfb5c5a16c27e1c2fa24ddc3968bc5cdd3feba8d55008d5f94dca542fbb254",
+      "published_sha256": "48bfb5c5a16c27e1c2fa24ddc3968bc5cdd3feba8d55008d5f94dca542fbb254"
+    },
+    {
+      "path": "comparison/off/P32/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P32/1/result.json",
+      "original_sha256": "77db2a62bd604869e31287735246f7c93f3fe428590c9d02abd588d955d5a0d8",
+      "published_sha256": "77db2a62bd604869e31287735246f7c93f3fe428590c9d02abd588d955d5a0d8"
+    },
+    {
+      "path": "comparison/off/P32/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P32/2/request.json",
+      "original_sha256": "47f466e1537a0f11546d29121443f7d283c3bea088c610b9316eb67f335c4218",
+      "published_sha256": "47f466e1537a0f11546d29121443f7d283c3bea088c610b9316eb67f335c4218"
+    },
+    {
+      "path": "comparison/off/P32/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P32/2/response.public.json",
+      "original_sha256": "e0b2b453c50a4b8afa22af9d9bd59eb3259ed64dcfa2e1c700d3ed25745fc861",
+      "published_sha256": "e0b2b453c50a4b8afa22af9d9bd59eb3259ed64dcfa2e1c700d3ed25745fc861"
+    },
+    {
+      "path": "comparison/off/P32/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/off/P32/2/result.json",
+      "original_sha256": "af3778f8d9500f97e2a4997469fa3bc5ced297ea70930e1e2448adeb266bb89a",
+      "published_sha256": "af3778f8d9500f97e2a4997469fa3bc5ced297ea70930e1e2448adeb266bb89a"
+    },
+    {
+      "path": "comparison/on/P01/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P01/1/compiled_policy.json",
+      "original_sha256": "6477d45344e47a1f7d50a6f47537ca8467c1456a276e2cc633c88c7acac8eab9",
+      "published_sha256": "6477d45344e47a1f7d50a6f47537ca8467c1456a276e2cc633c88c7acac8eab9"
+    },
+    {
+      "path": "comparison/on/P01/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P01/1/request.json",
+      "original_sha256": "4a6c15ce6bdeebbfde601510acfa7c7adab9f1fe5f167f798082da9e7c0f7dc0",
+      "published_sha256": "4a6c15ce6bdeebbfde601510acfa7c7adab9f1fe5f167f798082da9e7c0f7dc0"
+    },
+    {
+      "path": "comparison/on/P01/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P01/1/response.public.json",
+      "original_sha256": "4b0fa02ece082f525d5457ad519422e225bdd75047361ebef59e78829ecea7e7",
+      "published_sha256": "4b0fa02ece082f525d5457ad519422e225bdd75047361ebef59e78829ecea7e7"
+    },
+    {
+      "path": "comparison/on/P01/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P01/1/result.json",
+      "original_sha256": "6173b3700d41487dd6c65d750e3d57bb5f2f1d7f04c0aab289db800cd2cf26d4",
+      "published_sha256": "6173b3700d41487dd6c65d750e3d57bb5f2f1d7f04c0aab289db800cd2cf26d4"
+    },
+    {
+      "path": "comparison/on/P01/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P01/2/request.json",
+      "original_sha256": "4a6c15ce6bdeebbfde601510acfa7c7adab9f1fe5f167f798082da9e7c0f7dc0",
+      "published_sha256": "4a6c15ce6bdeebbfde601510acfa7c7adab9f1fe5f167f798082da9e7c0f7dc0"
+    },
+    {
+      "path": "comparison/on/P01/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P01/2/response.public.json",
+      "original_sha256": "2b17b94d145326b224be86445adb9488079b8c051ec5f0b0e18e0cc002751e9a",
+      "published_sha256": "2b17b94d145326b224be86445adb9488079b8c051ec5f0b0e18e0cc002751e9a"
+    },
+    {
+      "path": "comparison/on/P01/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P01/2/result.json",
+      "original_sha256": "9089769bc735410bf74febd2cad3a01abfd8a7ece25383c7efe60f814522a800",
+      "published_sha256": "9089769bc735410bf74febd2cad3a01abfd8a7ece25383c7efe60f814522a800"
+    },
+    {
+      "path": "comparison/on/P02/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P02/1/request.json",
+      "original_sha256": "98652ec1b686e3f0957ca0669e4a3f92dcdc5e3edc3e03a0337d3e7f23d95f9b",
+      "published_sha256": "98652ec1b686e3f0957ca0669e4a3f92dcdc5e3edc3e03a0337d3e7f23d95f9b"
+    },
+    {
+      "path": "comparison/on/P02/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P02/1/response.public.json",
+      "original_sha256": "7528e5249dc7bd5b5f590de026f2c65d41ee89c993206f3adb4d3d80ccef7426",
+      "published_sha256": "7528e5249dc7bd5b5f590de026f2c65d41ee89c993206f3adb4d3d80ccef7426"
+    },
+    {
+      "path": "comparison/on/P02/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P02/1/result.json",
+      "original_sha256": "93c5601fb1c71982019d959d25ab5128de6c13e42312acbd870954834e0eb393",
+      "published_sha256": "93c5601fb1c71982019d959d25ab5128de6c13e42312acbd870954834e0eb393"
+    },
+    {
+      "path": "comparison/on/P02/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P02/2/compiled_policy.json",
+      "original_sha256": "119a471d1e8d7f1d3914a850f39b863882036ad50e6779d86c2a17dc2a9d02ab",
+      "published_sha256": "119a471d1e8d7f1d3914a850f39b863882036ad50e6779d86c2a17dc2a9d02ab"
+    },
+    {
+      "path": "comparison/on/P02/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P02/2/request.json",
+      "original_sha256": "98652ec1b686e3f0957ca0669e4a3f92dcdc5e3edc3e03a0337d3e7f23d95f9b",
+      "published_sha256": "98652ec1b686e3f0957ca0669e4a3f92dcdc5e3edc3e03a0337d3e7f23d95f9b"
+    },
+    {
+      "path": "comparison/on/P02/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P02/2/response.public.json",
+      "original_sha256": "dac142b90a585730143850336ae4ae2bc077dc9ea41680939a93782637847279",
+      "published_sha256": "dac142b90a585730143850336ae4ae2bc077dc9ea41680939a93782637847279"
+    },
+    {
+      "path": "comparison/on/P02/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P02/2/result.json",
+      "original_sha256": "c2bcf3a4039c98fc160eaa794208d7c2e7dd286d73a6a05ddf14987a9f3ee007",
+      "published_sha256": "c2bcf3a4039c98fc160eaa794208d7c2e7dd286d73a6a05ddf14987a9f3ee007"
+    },
+    {
+      "path": "comparison/on/P03/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P03/1/compiled_policy.json",
+      "original_sha256": "d63c030db360a4009c4fdede2c4c26ed89aad42c6e572a5269cc39c886cea0cd",
+      "published_sha256": "d63c030db360a4009c4fdede2c4c26ed89aad42c6e572a5269cc39c886cea0cd"
+    },
+    {
+      "path": "comparison/on/P03/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P03/1/request.json",
+      "original_sha256": "e7a2075c234ff95d0057b50bdd12ef6ff5ae4c768dbc4540fb080d6f06dabc31",
+      "published_sha256": "e7a2075c234ff95d0057b50bdd12ef6ff5ae4c768dbc4540fb080d6f06dabc31"
+    },
+    {
+      "path": "comparison/on/P03/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P03/1/response.public.json",
+      "original_sha256": "955d2ad176c1a7ac1084cd9b769367bb8ca356bce8e47fb99eb1f42883ce920a",
+      "published_sha256": "955d2ad176c1a7ac1084cd9b769367bb8ca356bce8e47fb99eb1f42883ce920a"
+    },
+    {
+      "path": "comparison/on/P03/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P03/1/result.json",
+      "original_sha256": "ed87f3b523e8df51321904dd5c1336d07cde7cdfb7e971f766b870f8b2ba060e",
+      "published_sha256": "ed87f3b523e8df51321904dd5c1336d07cde7cdfb7e971f766b870f8b2ba060e"
+    },
+    {
+      "path": "comparison/on/P03/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P03/2/request.json",
+      "original_sha256": "e7a2075c234ff95d0057b50bdd12ef6ff5ae4c768dbc4540fb080d6f06dabc31",
+      "published_sha256": "e7a2075c234ff95d0057b50bdd12ef6ff5ae4c768dbc4540fb080d6f06dabc31"
+    },
+    {
+      "path": "comparison/on/P03/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P03/2/response.public.json",
+      "original_sha256": "3d802ee678384260db1b66fb966e2ef2c0c41e386cb0cec80c2888a9fd02906f",
+      "published_sha256": "3d802ee678384260db1b66fb966e2ef2c0c41e386cb0cec80c2888a9fd02906f"
+    },
+    {
+      "path": "comparison/on/P03/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P03/2/result.json",
+      "original_sha256": "2a6a490acf480c991789694e32d08a3e8030552273723c6e160e3283aad754bc",
+      "published_sha256": "2a6a490acf480c991789694e32d08a3e8030552273723c6e160e3283aad754bc"
+    },
+    {
+      "path": "comparison/on/P04/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P04/1/request.json",
+      "original_sha256": "9b0493d688b697de279febe71aef69cf9ad027ae92e668a03163b4e1b0b25d96",
+      "published_sha256": "9b0493d688b697de279febe71aef69cf9ad027ae92e668a03163b4e1b0b25d96"
+    },
+    {
+      "path": "comparison/on/P04/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P04/1/response.public.json",
+      "original_sha256": "ca9d9726494080afa107742ca66e6b84db32aa31dbbe0278ba80192627451310",
+      "published_sha256": "ca9d9726494080afa107742ca66e6b84db32aa31dbbe0278ba80192627451310"
+    },
+    {
+      "path": "comparison/on/P04/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P04/1/result.json",
+      "original_sha256": "db1f7bcd6df4c503c8d4ba4db4e7589df46e80bd00f1180f3991866add8fefd6",
+      "published_sha256": "db1f7bcd6df4c503c8d4ba4db4e7589df46e80bd00f1180f3991866add8fefd6"
+    },
+    {
+      "path": "comparison/on/P04/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P04/2/compiled_policy.json",
+      "original_sha256": "71730d1c6ecbc692cb30254ffccccd416db94ee1e4f5e93f842b4e076ce4804d",
+      "published_sha256": "71730d1c6ecbc692cb30254ffccccd416db94ee1e4f5e93f842b4e076ce4804d"
+    },
+    {
+      "path": "comparison/on/P04/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P04/2/request.json",
+      "original_sha256": "9b0493d688b697de279febe71aef69cf9ad027ae92e668a03163b4e1b0b25d96",
+      "published_sha256": "9b0493d688b697de279febe71aef69cf9ad027ae92e668a03163b4e1b0b25d96"
+    },
+    {
+      "path": "comparison/on/P04/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P04/2/response.public.json",
+      "original_sha256": "465637b2131e65870f44c21e48511634b6e94c3c92ab46a81958edc19ade885c",
+      "published_sha256": "465637b2131e65870f44c21e48511634b6e94c3c92ab46a81958edc19ade885c"
+    },
+    {
+      "path": "comparison/on/P04/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P04/2/result.json",
+      "original_sha256": "f10a0cc3397e7a0ea8437c03d32baf63abc68448feb5ac8f567432c48e4e57c3",
+      "published_sha256": "f10a0cc3397e7a0ea8437c03d32baf63abc68448feb5ac8f567432c48e4e57c3"
+    },
+    {
+      "path": "comparison/on/P05/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P05/1/request.json",
+      "original_sha256": "148ce8c6b0dc644650ad99afd3d1856345235b2244eb7f66826e5641ca2775f2",
+      "published_sha256": "148ce8c6b0dc644650ad99afd3d1856345235b2244eb7f66826e5641ca2775f2"
+    },
+    {
+      "path": "comparison/on/P05/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P05/1/response.public.json",
+      "original_sha256": "ed16e997cf15dd1f0e018e4b35db74c86f046518d06acef5f7f6810690356801",
+      "published_sha256": "ed16e997cf15dd1f0e018e4b35db74c86f046518d06acef5f7f6810690356801"
+    },
+    {
+      "path": "comparison/on/P05/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P05/1/result.json",
+      "original_sha256": "3ed1a38defcb1ff7a4afb848727a8666497d532659e6bcbca0e157636fed5a37",
+      "published_sha256": "3ed1a38defcb1ff7a4afb848727a8666497d532659e6bcbca0e157636fed5a37"
+    },
+    {
+      "path": "comparison/on/P05/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P05/2/compiled_policy.json",
+      "original_sha256": "9a17c5011db737f81ad046f01f883ce8c0cc1b8c3af795361ef35eb6a756bbf6",
+      "published_sha256": "9a17c5011db737f81ad046f01f883ce8c0cc1b8c3af795361ef35eb6a756bbf6"
+    },
+    {
+      "path": "comparison/on/P05/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P05/2/request.json",
+      "original_sha256": "148ce8c6b0dc644650ad99afd3d1856345235b2244eb7f66826e5641ca2775f2",
+      "published_sha256": "148ce8c6b0dc644650ad99afd3d1856345235b2244eb7f66826e5641ca2775f2"
+    },
+    {
+      "path": "comparison/on/P05/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P05/2/response.public.json",
+      "original_sha256": "c04052039586b394bf29f6a9d05f2f0b161b85557991ab0038fcb44cb8ca78a0",
+      "published_sha256": "c04052039586b394bf29f6a9d05f2f0b161b85557991ab0038fcb44cb8ca78a0"
+    },
+    {
+      "path": "comparison/on/P05/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P05/2/result.json",
+      "original_sha256": "d3425e96a403011ad5401fa57cecd85253396c50e9f035ef6d865c491267a01b",
+      "published_sha256": "d3425e96a403011ad5401fa57cecd85253396c50e9f035ef6d865c491267a01b"
+    },
+    {
+      "path": "comparison/on/P06/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P06/1/compiled_policy.json",
+      "original_sha256": "0bf6adaeb85292ad0a0efac9911dada73a5f823c718dfbbb379b94d0952f6479",
+      "published_sha256": "0bf6adaeb85292ad0a0efac9911dada73a5f823c718dfbbb379b94d0952f6479"
+    },
+    {
+      "path": "comparison/on/P06/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P06/1/request.json",
+      "original_sha256": "cad9290004742236837d2667bf3a785aa71329a186d1ff5519f0aa2dfcf0faa4",
+      "published_sha256": "cad9290004742236837d2667bf3a785aa71329a186d1ff5519f0aa2dfcf0faa4"
+    },
+    {
+      "path": "comparison/on/P06/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P06/1/response.public.json",
+      "original_sha256": "6f62dcd66ddcbf42115b6f47267b4c1d4b024404d4d31334d0489b90a3958edf",
+      "published_sha256": "6f62dcd66ddcbf42115b6f47267b4c1d4b024404d4d31334d0489b90a3958edf"
+    },
+    {
+      "path": "comparison/on/P06/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P06/1/result.json",
+      "original_sha256": "3ac58939749f3ffae4e761037a0384ea3054b5c8cd65c765eb9dd9483cbb5eb0",
+      "published_sha256": "3ac58939749f3ffae4e761037a0384ea3054b5c8cd65c765eb9dd9483cbb5eb0"
+    },
+    {
+      "path": "comparison/on/P06/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P06/2/compiled_policy.json",
+      "original_sha256": "5492460152dae9743aeeb0a6e800fb035344b6f9aa6ed0f33dac0d971763be30",
+      "published_sha256": "5492460152dae9743aeeb0a6e800fb035344b6f9aa6ed0f33dac0d971763be30"
+    },
+    {
+      "path": "comparison/on/P06/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P06/2/request.json",
+      "original_sha256": "cad9290004742236837d2667bf3a785aa71329a186d1ff5519f0aa2dfcf0faa4",
+      "published_sha256": "cad9290004742236837d2667bf3a785aa71329a186d1ff5519f0aa2dfcf0faa4"
+    },
+    {
+      "path": "comparison/on/P06/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P06/2/response.public.json",
+      "original_sha256": "0b985924b80494846448fe351a78cca7beb28d22c8fed287c49fc6180f874f32",
+      "published_sha256": "0b985924b80494846448fe351a78cca7beb28d22c8fed287c49fc6180f874f32"
+    },
+    {
+      "path": "comparison/on/P06/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P06/2/result.json",
+      "original_sha256": "e36bc3bd22773e9f3cd234ce38bfef4ddac8f6713bdc2c25afcaa7698a56c7b1",
+      "published_sha256": "e36bc3bd22773e9f3cd234ce38bfef4ddac8f6713bdc2c25afcaa7698a56c7b1"
+    },
+    {
+      "path": "comparison/on/P07/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P07/1/compiled_policy.json",
+      "original_sha256": "b8613c98ed482ab0e162cd72ac6ee29e4a14aafe660fc96d0dd8bdfe47300bee",
+      "published_sha256": "b8613c98ed482ab0e162cd72ac6ee29e4a14aafe660fc96d0dd8bdfe47300bee"
+    },
+    {
+      "path": "comparison/on/P07/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P07/1/request.json",
+      "original_sha256": "d3cb4e931747fc31f2ab96acf7b2b82f28651f9b63337c82143ac4993d0e3445",
+      "published_sha256": "d3cb4e931747fc31f2ab96acf7b2b82f28651f9b63337c82143ac4993d0e3445"
+    },
+    {
+      "path": "comparison/on/P07/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P07/1/response.public.json",
+      "original_sha256": "c657efa7c42bf8254fb0f60c7fe9678e87377f68aa31add97e9bd09fddd3e998",
+      "published_sha256": "c657efa7c42bf8254fb0f60c7fe9678e87377f68aa31add97e9bd09fddd3e998"
+    },
+    {
+      "path": "comparison/on/P07/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P07/1/result.json",
+      "original_sha256": "76681914e198245b1212c129fd31cfd7117c599d8cef3a83e0b362beea61dfc7",
+      "published_sha256": "76681914e198245b1212c129fd31cfd7117c599d8cef3a83e0b362beea61dfc7"
+    },
+    {
+      "path": "comparison/on/P07/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P07/2/request.json",
+      "original_sha256": "d3cb4e931747fc31f2ab96acf7b2b82f28651f9b63337c82143ac4993d0e3445",
+      "published_sha256": "d3cb4e931747fc31f2ab96acf7b2b82f28651f9b63337c82143ac4993d0e3445"
+    },
+    {
+      "path": "comparison/on/P07/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P07/2/response.public.json",
+      "original_sha256": "0f8ab6eaf4a26a1713386c1e73056d58357426ecb2960851691798df487bbeca",
+      "published_sha256": "0f8ab6eaf4a26a1713386c1e73056d58357426ecb2960851691798df487bbeca"
+    },
+    {
+      "path": "comparison/on/P07/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P07/2/result.json",
+      "original_sha256": "a7ecc8f8c1cebdd8f991726974ed9460f311385f4f1186f779c0cc3d812ad06c",
+      "published_sha256": "a7ecc8f8c1cebdd8f991726974ed9460f311385f4f1186f779c0cc3d812ad06c"
+    },
+    {
+      "path": "comparison/on/P08/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P08/1/compiled_policy.json",
+      "original_sha256": "bfc09280b9f2b855ade69260252fe5f94a84162bdf9ba8cd31b6caf396fe8f63",
+      "published_sha256": "bfc09280b9f2b855ade69260252fe5f94a84162bdf9ba8cd31b6caf396fe8f63"
+    },
+    {
+      "path": "comparison/on/P08/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P08/1/request.json",
+      "original_sha256": "c15a84b060351ccd2349d6f18ee4b81d3e62c1dbedefa875b835d6a9ca4ceb77",
+      "published_sha256": "c15a84b060351ccd2349d6f18ee4b81d3e62c1dbedefa875b835d6a9ca4ceb77"
+    },
+    {
+      "path": "comparison/on/P08/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P08/1/response.public.json",
+      "original_sha256": "f4f290a207b3d3b736188cac14af7143ce7072510fa098457ba7f8a66394502b",
+      "published_sha256": "f4f290a207b3d3b736188cac14af7143ce7072510fa098457ba7f8a66394502b"
+    },
+    {
+      "path": "comparison/on/P08/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P08/1/result.json",
+      "original_sha256": "74d87fd9fddcf0124e3927ee5ef9491cd7c854c240438a0736afcd2fbfcb83b3",
+      "published_sha256": "74d87fd9fddcf0124e3927ee5ef9491cd7c854c240438a0736afcd2fbfcb83b3"
+    },
+    {
+      "path": "comparison/on/P08/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P08/2/compiled_policy.json",
+      "original_sha256": "85f354d07b30b586dda18fd5cd6a12f46d27f9605e38f829780521f02115b21a",
+      "published_sha256": "85f354d07b30b586dda18fd5cd6a12f46d27f9605e38f829780521f02115b21a"
+    },
+    {
+      "path": "comparison/on/P08/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P08/2/request.json",
+      "original_sha256": "c15a84b060351ccd2349d6f18ee4b81d3e62c1dbedefa875b835d6a9ca4ceb77",
+      "published_sha256": "c15a84b060351ccd2349d6f18ee4b81d3e62c1dbedefa875b835d6a9ca4ceb77"
+    },
+    {
+      "path": "comparison/on/P08/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P08/2/response.public.json",
+      "original_sha256": "adb2544d6751a13de935573aa9a3017e16f87de18881d4c1d02704665929a4fc",
+      "published_sha256": "adb2544d6751a13de935573aa9a3017e16f87de18881d4c1d02704665929a4fc"
+    },
+    {
+      "path": "comparison/on/P08/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P08/2/result.json",
+      "original_sha256": "34b9ec1720a71cb6b0d8ef984841a87f391d21f1e9540b84436a3e38c999bb39",
+      "published_sha256": "34b9ec1720a71cb6b0d8ef984841a87f391d21f1e9540b84436a3e38c999bb39"
+    },
+    {
+      "path": "comparison/on/P09/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P09/1/compiled_policy.json",
+      "original_sha256": "046805b3b632e9e51207126d051495fd21f26f38a5c75677f4bbec4c5d6f0c84",
+      "published_sha256": "046805b3b632e9e51207126d051495fd21f26f38a5c75677f4bbec4c5d6f0c84"
+    },
+    {
+      "path": "comparison/on/P09/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P09/1/request.json",
+      "original_sha256": "cf2ca0d8f2a3b9689ceca18a8fcb9588b578a66ee3b5341b0b3fbe92dd13a157",
+      "published_sha256": "cf2ca0d8f2a3b9689ceca18a8fcb9588b578a66ee3b5341b0b3fbe92dd13a157"
+    },
+    {
+      "path": "comparison/on/P09/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P09/1/response.public.json",
+      "original_sha256": "1703f94cac4b0e04c6cfffd1ef00cbe445d135a7655ba9f032b55b859b999482",
+      "published_sha256": "1703f94cac4b0e04c6cfffd1ef00cbe445d135a7655ba9f032b55b859b999482"
+    },
+    {
+      "path": "comparison/on/P09/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P09/1/result.json",
+      "original_sha256": "9b35e533bb42b804f82efb6f99d8af5559c7904facfef737a165ea0f6dca47e9",
+      "published_sha256": "9b35e533bb42b804f82efb6f99d8af5559c7904facfef737a165ea0f6dca47e9"
+    },
+    {
+      "path": "comparison/on/P09/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P09/2/request.json",
+      "original_sha256": "cf2ca0d8f2a3b9689ceca18a8fcb9588b578a66ee3b5341b0b3fbe92dd13a157",
+      "published_sha256": "cf2ca0d8f2a3b9689ceca18a8fcb9588b578a66ee3b5341b0b3fbe92dd13a157"
+    },
+    {
+      "path": "comparison/on/P09/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P09/2/response.public.json",
+      "original_sha256": "1d951062dbf285c2f70ae382b3ebe4da755d1360d13397db51d0b80925dc118a",
+      "published_sha256": "1d951062dbf285c2f70ae382b3ebe4da755d1360d13397db51d0b80925dc118a"
+    },
+    {
+      "path": "comparison/on/P09/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P09/2/result.json",
+      "original_sha256": "572dddca7e422be5fbf6c71735b5e10f6fb70715f047e50f8a38e0a10532da2c",
+      "published_sha256": "572dddca7e422be5fbf6c71735b5e10f6fb70715f047e50f8a38e0a10532da2c"
+    },
+    {
+      "path": "comparison/on/P10/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P10/1/request.json",
+      "original_sha256": "67c2164924a00a35e964ce8a6db4ee6ac32173c265b8240f1e925fdd6845c82c",
+      "published_sha256": "67c2164924a00a35e964ce8a6db4ee6ac32173c265b8240f1e925fdd6845c82c"
+    },
+    {
+      "path": "comparison/on/P10/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P10/1/response.public.json",
+      "original_sha256": "8652b06d6f5a1bfb22526f0ad56272924dcd24cfc5db817c07a4708c550cf7e1",
+      "published_sha256": "8652b06d6f5a1bfb22526f0ad56272924dcd24cfc5db817c07a4708c550cf7e1"
+    },
+    {
+      "path": "comparison/on/P10/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P10/1/result.json",
+      "original_sha256": "eb6eea6830c93fd8a69aaeca3868aa6fabd8019f66d4fec9bd3a775e6bcc5d96",
+      "published_sha256": "eb6eea6830c93fd8a69aaeca3868aa6fabd8019f66d4fec9bd3a775e6bcc5d96"
+    },
+    {
+      "path": "comparison/on/P10/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P10/2/compiled_policy.json",
+      "original_sha256": "51032a5c3c8ef89060b520964a4ad3a4ec7ca395ef79daeaf366c0e329250c29",
+      "published_sha256": "51032a5c3c8ef89060b520964a4ad3a4ec7ca395ef79daeaf366c0e329250c29"
+    },
+    {
+      "path": "comparison/on/P10/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P10/2/request.json",
+      "original_sha256": "67c2164924a00a35e964ce8a6db4ee6ac32173c265b8240f1e925fdd6845c82c",
+      "published_sha256": "67c2164924a00a35e964ce8a6db4ee6ac32173c265b8240f1e925fdd6845c82c"
+    },
+    {
+      "path": "comparison/on/P10/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P10/2/response.public.json",
+      "original_sha256": "243a839f0833190692944964e4ef7dc566c4a02fb46482795a0a379180fe03ff",
+      "published_sha256": "243a839f0833190692944964e4ef7dc566c4a02fb46482795a0a379180fe03ff"
+    },
+    {
+      "path": "comparison/on/P10/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P10/2/result.json",
+      "original_sha256": "7ead194ccf03c73a8ecce0859a85ed1f88a7a77d9d34ea67bc2e39afe60b9659",
+      "published_sha256": "7ead194ccf03c73a8ecce0859a85ed1f88a7a77d9d34ea67bc2e39afe60b9659"
+    },
+    {
+      "path": "comparison/on/P11/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P11/1/compiled_policy.json",
+      "original_sha256": "229c7df47c8d7dcfae9429b156646eff4abb1cd4949bbffa5092c414b0c2b8cb",
+      "published_sha256": "229c7df47c8d7dcfae9429b156646eff4abb1cd4949bbffa5092c414b0c2b8cb"
+    },
+    {
+      "path": "comparison/on/P11/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P11/1/request.json",
+      "original_sha256": "c25517b280635109b7cfab7dfbd1f41e1268803b2eac9214723fccd68827c729",
+      "published_sha256": "c25517b280635109b7cfab7dfbd1f41e1268803b2eac9214723fccd68827c729"
+    },
+    {
+      "path": "comparison/on/P11/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P11/1/response.public.json",
+      "original_sha256": "53a3c999030c2b4889daab1cbf5e692008638f16525ef12ab7ef9c463803c640",
+      "published_sha256": "53a3c999030c2b4889daab1cbf5e692008638f16525ef12ab7ef9c463803c640"
+    },
+    {
+      "path": "comparison/on/P11/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P11/1/result.json",
+      "original_sha256": "355215d71b030a8a7a1393e390ae5d67b918225ad825185c046422710318823d",
+      "published_sha256": "355215d71b030a8a7a1393e390ae5d67b918225ad825185c046422710318823d"
+    },
+    {
+      "path": "comparison/on/P11/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P11/2/request.json",
+      "original_sha256": "c25517b280635109b7cfab7dfbd1f41e1268803b2eac9214723fccd68827c729",
+      "published_sha256": "c25517b280635109b7cfab7dfbd1f41e1268803b2eac9214723fccd68827c729"
+    },
+    {
+      "path": "comparison/on/P11/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P11/2/response.public.json",
+      "original_sha256": "facb1240754b493194ee4495fca7ae03ec9b5cc538fed0efd5916eeacb91a69b",
+      "published_sha256": "facb1240754b493194ee4495fca7ae03ec9b5cc538fed0efd5916eeacb91a69b"
+    },
+    {
+      "path": "comparison/on/P11/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P11/2/result.json",
+      "original_sha256": "e46f3de3d7006358852f722b202a080cd0219b8ec627ef75486e3e8f854f9ae6",
+      "published_sha256": "e46f3de3d7006358852f722b202a080cd0219b8ec627ef75486e3e8f854f9ae6"
+    },
+    {
+      "path": "comparison/on/P12/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P12/1/compiled_policy.json",
+      "original_sha256": "c2fc7e25f4125e11f9e50d5a7fe7469c83965373b791e5838ed6a1d85de15d76",
+      "published_sha256": "c2fc7e25f4125e11f9e50d5a7fe7469c83965373b791e5838ed6a1d85de15d76"
+    },
+    {
+      "path": "comparison/on/P12/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P12/1/request.json",
+      "original_sha256": "111a99fcf6bf3a191984e2f117dd4d8e269e36596d2b127d659af10ad34027a5",
+      "published_sha256": "111a99fcf6bf3a191984e2f117dd4d8e269e36596d2b127d659af10ad34027a5"
+    },
+    {
+      "path": "comparison/on/P12/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P12/1/response.public.json",
+      "original_sha256": "4f3878bbfbc7756d4e0fca51bb6c38946cefcdb861a836aff5551e1d451be1e8",
+      "published_sha256": "4f3878bbfbc7756d4e0fca51bb6c38946cefcdb861a836aff5551e1d451be1e8"
+    },
+    {
+      "path": "comparison/on/P12/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P12/1/result.json",
+      "original_sha256": "5c13cf01d09dade19612f234380bb4d1093b2c487a3ef38edfc472483e1447bb",
+      "published_sha256": "5c13cf01d09dade19612f234380bb4d1093b2c487a3ef38edfc472483e1447bb"
+    },
+    {
+      "path": "comparison/on/P12/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P12/2/request.json",
+      "original_sha256": "111a99fcf6bf3a191984e2f117dd4d8e269e36596d2b127d659af10ad34027a5",
+      "published_sha256": "111a99fcf6bf3a191984e2f117dd4d8e269e36596d2b127d659af10ad34027a5"
+    },
+    {
+      "path": "comparison/on/P12/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P12/2/response.public.json",
+      "original_sha256": "bab883590b2e43f1b271cd2ec2104275f60bd15f6867ddb2e52f0ad75b2760ca",
+      "published_sha256": "bab883590b2e43f1b271cd2ec2104275f60bd15f6867ddb2e52f0ad75b2760ca"
+    },
+    {
+      "path": "comparison/on/P12/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P12/2/result.json",
+      "original_sha256": "075e57f9f87d1208cab4d6e1bb8e4d4c965b3110a8752c05747cda5a97462cc9",
+      "published_sha256": "075e57f9f87d1208cab4d6e1bb8e4d4c965b3110a8752c05747cda5a97462cc9"
+    },
+    {
+      "path": "comparison/on/P13/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P13/1/compiled_policy.json",
+      "original_sha256": "79cd3922395dcfb908e51fce378f439c569b6349ec022eb8ee3fe62a61e5e198",
+      "published_sha256": "79cd3922395dcfb908e51fce378f439c569b6349ec022eb8ee3fe62a61e5e198"
+    },
+    {
+      "path": "comparison/on/P13/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P13/1/request.json",
+      "original_sha256": "697b1c8dfbf9aafb3697e08773d2f09e3d133451b82f3bf4f59b9094b2f6c292",
+      "published_sha256": "697b1c8dfbf9aafb3697e08773d2f09e3d133451b82f3bf4f59b9094b2f6c292"
+    },
+    {
+      "path": "comparison/on/P13/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P13/1/response.public.json",
+      "original_sha256": "f2ca85c0e602f3f329f1a9c64f3a10d41128fa5322ff711b279d95d3aad25abe",
+      "published_sha256": "f2ca85c0e602f3f329f1a9c64f3a10d41128fa5322ff711b279d95d3aad25abe"
+    },
+    {
+      "path": "comparison/on/P13/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P13/1/result.json",
+      "original_sha256": "72d16c1af71fb2de7a848994bc4eb875764bf89f47fde1db65382b01f740b424",
+      "published_sha256": "72d16c1af71fb2de7a848994bc4eb875764bf89f47fde1db65382b01f740b424"
+    },
+    {
+      "path": "comparison/on/P13/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P13/2/compiled_policy.json",
+      "original_sha256": "e298cf4cf0fe2ee1706b80078f56b131346e50a183f6e7e774cfbf4022ae7955",
+      "published_sha256": "e298cf4cf0fe2ee1706b80078f56b131346e50a183f6e7e774cfbf4022ae7955"
+    },
+    {
+      "path": "comparison/on/P13/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P13/2/request.json",
+      "original_sha256": "697b1c8dfbf9aafb3697e08773d2f09e3d133451b82f3bf4f59b9094b2f6c292",
+      "published_sha256": "697b1c8dfbf9aafb3697e08773d2f09e3d133451b82f3bf4f59b9094b2f6c292"
+    },
+    {
+      "path": "comparison/on/P13/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P13/2/response.public.json",
+      "original_sha256": "1beedab448068f9526e7da17319cc951e78bdf5e3b4c16e2b00139d94bd6e2bc",
+      "published_sha256": "1beedab448068f9526e7da17319cc951e78bdf5e3b4c16e2b00139d94bd6e2bc"
+    },
+    {
+      "path": "comparison/on/P13/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P13/2/result.json",
+      "original_sha256": "c8d44111cbd463bc3a75934eeb0d0f1200682197a608d67535a567cec72e69ab",
+      "published_sha256": "c8d44111cbd463bc3a75934eeb0d0f1200682197a608d67535a567cec72e69ab"
+    },
+    {
+      "path": "comparison/on/P14/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P14/1/request.json",
+      "original_sha256": "9967ffb8ee35bd68fd5801530e496bb64344e2b56dfa262a43e67444ae4c94d6",
+      "published_sha256": "9967ffb8ee35bd68fd5801530e496bb64344e2b56dfa262a43e67444ae4c94d6"
+    },
+    {
+      "path": "comparison/on/P14/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P14/1/response.public.json",
+      "original_sha256": "84a43cc2ec9fd737eb7e9c35d7502a1fbe2b6a51e0ae4387a07627085ec62d43",
+      "published_sha256": "84a43cc2ec9fd737eb7e9c35d7502a1fbe2b6a51e0ae4387a07627085ec62d43"
+    },
+    {
+      "path": "comparison/on/P14/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P14/1/result.json",
+      "original_sha256": "4d8c749acfbb0264ec09afaf24992faf915ce2dc5b89c8700e30406f31f31a3d",
+      "published_sha256": "4d8c749acfbb0264ec09afaf24992faf915ce2dc5b89c8700e30406f31f31a3d"
+    },
+    {
+      "path": "comparison/on/P14/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P14/2/compiled_policy.json",
+      "original_sha256": "eca66754b15bab196382026a52aeea61b6405c8e27c3d3bb265edb6ad2e88d99",
+      "published_sha256": "eca66754b15bab196382026a52aeea61b6405c8e27c3d3bb265edb6ad2e88d99"
+    },
+    {
+      "path": "comparison/on/P14/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P14/2/request.json",
+      "original_sha256": "9967ffb8ee35bd68fd5801530e496bb64344e2b56dfa262a43e67444ae4c94d6",
+      "published_sha256": "9967ffb8ee35bd68fd5801530e496bb64344e2b56dfa262a43e67444ae4c94d6"
+    },
+    {
+      "path": "comparison/on/P14/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P14/2/response.public.json",
+      "original_sha256": "35ca68bc7211053ccae1c10bd7f231befe0d3528f82f008838caf1100830c586",
+      "published_sha256": "35ca68bc7211053ccae1c10bd7f231befe0d3528f82f008838caf1100830c586"
+    },
+    {
+      "path": "comparison/on/P14/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P14/2/result.json",
+      "original_sha256": "91a7296ed282dc838aa88b3c24b837e4ad7108bff77856671e605a0b97e55df0",
+      "published_sha256": "91a7296ed282dc838aa88b3c24b837e4ad7108bff77856671e605a0b97e55df0"
+    },
+    {
+      "path": "comparison/on/P15/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P15/1/request.json",
+      "original_sha256": "5b4c848f3466cfc599d0afd4bf2b0a063c56f5be9a59e2d56d4608146eb4c6f4",
+      "published_sha256": "5b4c848f3466cfc599d0afd4bf2b0a063c56f5be9a59e2d56d4608146eb4c6f4"
+    },
+    {
+      "path": "comparison/on/P15/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P15/1/response.public.json",
+      "original_sha256": "9c363178fb5b8490916b2d367337153d70df0ac6da7b7a8b89dfb306e70508cc",
+      "published_sha256": "9c363178fb5b8490916b2d367337153d70df0ac6da7b7a8b89dfb306e70508cc"
+    },
+    {
+      "path": "comparison/on/P15/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P15/1/result.json",
+      "original_sha256": "473ab85705a25d65ccf1f4ad31caeb3a11e5bd59f0dfd13cc0b7b7dbbe766692",
+      "published_sha256": "473ab85705a25d65ccf1f4ad31caeb3a11e5bd59f0dfd13cc0b7b7dbbe766692"
+    },
+    {
+      "path": "comparison/on/P15/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P15/2/request.json",
+      "original_sha256": "5b4c848f3466cfc599d0afd4bf2b0a063c56f5be9a59e2d56d4608146eb4c6f4",
+      "published_sha256": "5b4c848f3466cfc599d0afd4bf2b0a063c56f5be9a59e2d56d4608146eb4c6f4"
+    },
+    {
+      "path": "comparison/on/P15/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P15/2/response.public.json",
+      "original_sha256": "561bb66576e60e7635d5ed7edd5cf96f7383f4468aced7c7bedd129617b5bda8",
+      "published_sha256": "561bb66576e60e7635d5ed7edd5cf96f7383f4468aced7c7bedd129617b5bda8"
+    },
+    {
+      "path": "comparison/on/P15/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P15/2/result.json",
+      "original_sha256": "9f5075fe5abc7114e07be99ff537cbe081b6dfd788858955ef572dce9cd5b8d1",
+      "published_sha256": "9f5075fe5abc7114e07be99ff537cbe081b6dfd788858955ef572dce9cd5b8d1"
+    },
+    {
+      "path": "comparison/on/P16/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P16/1/compiled_policy.json",
+      "original_sha256": "5db571252e5d5deaa48442cf400561c05d571fb4b8d1606ef46ce8bbcbd8a7f8",
+      "published_sha256": "5db571252e5d5deaa48442cf400561c05d571fb4b8d1606ef46ce8bbcbd8a7f8"
+    },
+    {
+      "path": "comparison/on/P16/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P16/1/request.json",
+      "original_sha256": "59813edce2c452d34b91348e11022635700752bba33045229716e0b0a10928c8",
+      "published_sha256": "59813edce2c452d34b91348e11022635700752bba33045229716e0b0a10928c8"
+    },
+    {
+      "path": "comparison/on/P16/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P16/1/response.public.json",
+      "original_sha256": "b1c73d1df3981fabcee98c859abed704e46a18c5b519eb86378d17f116362cde",
+      "published_sha256": "b1c73d1df3981fabcee98c859abed704e46a18c5b519eb86378d17f116362cde"
+    },
+    {
+      "path": "comparison/on/P16/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P16/1/result.json",
+      "original_sha256": "7b23853f0bd037a8c17ae31fe0d8ee3f4cfd2efcd63bf45f663f61c47d4e7293",
+      "published_sha256": "7b23853f0bd037a8c17ae31fe0d8ee3f4cfd2efcd63bf45f663f61c47d4e7293"
+    },
+    {
+      "path": "comparison/on/P16/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P16/2/request.json",
+      "original_sha256": "59813edce2c452d34b91348e11022635700752bba33045229716e0b0a10928c8",
+      "published_sha256": "59813edce2c452d34b91348e11022635700752bba33045229716e0b0a10928c8"
+    },
+    {
+      "path": "comparison/on/P16/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P16/2/response.public.json",
+      "original_sha256": "e62fb774fc3fcbe614b98a51c7f67befe93440246946edb8a31683257cc01967",
+      "published_sha256": "e62fb774fc3fcbe614b98a51c7f67befe93440246946edb8a31683257cc01967"
+    },
+    {
+      "path": "comparison/on/P16/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P16/2/result.json",
+      "original_sha256": "49460a69779ac5d264072fab7c1bb7708b2db157ebb436c752eae99ce532be14",
+      "published_sha256": "49460a69779ac5d264072fab7c1bb7708b2db157ebb436c752eae99ce532be14"
+    },
+    {
+      "path": "comparison/on/P17/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P17/1/request.json",
+      "original_sha256": "122e79baa34357065d9e2bb8e604c055051b8990c6ab801872881220293ce51d",
+      "published_sha256": "122e79baa34357065d9e2bb8e604c055051b8990c6ab801872881220293ce51d"
+    },
+    {
+      "path": "comparison/on/P17/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P17/1/response.public.json",
+      "original_sha256": "aa501a9fe0c7d4d6020bcaa6306f210c40e2c85a9b7f97bd212c01dc5344ce6f",
+      "published_sha256": "aa501a9fe0c7d4d6020bcaa6306f210c40e2c85a9b7f97bd212c01dc5344ce6f"
+    },
+    {
+      "path": "comparison/on/P17/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P17/1/result.json",
+      "original_sha256": "52b42ed8ae54712b9c3bca9d2aac0e5dac53789fae165bbf3a640fd3872404fa",
+      "published_sha256": "52b42ed8ae54712b9c3bca9d2aac0e5dac53789fae165bbf3a640fd3872404fa"
+    },
+    {
+      "path": "comparison/on/P17/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P17/2/compiled_policy.json",
+      "original_sha256": "8b4a03746714090621c8c10e0db4ea4fbd6a55768144e7f9612c8ef1da4effb6",
+      "published_sha256": "8b4a03746714090621c8c10e0db4ea4fbd6a55768144e7f9612c8ef1da4effb6"
+    },
+    {
+      "path": "comparison/on/P17/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P17/2/request.json",
+      "original_sha256": "122e79baa34357065d9e2bb8e604c055051b8990c6ab801872881220293ce51d",
+      "published_sha256": "122e79baa34357065d9e2bb8e604c055051b8990c6ab801872881220293ce51d"
+    },
+    {
+      "path": "comparison/on/P17/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P17/2/response.public.json",
+      "original_sha256": "d0f5c545bc334f5ce9eff1cc4d180ab0fc563cbfe196cfcae1bc5180bc79835a",
+      "published_sha256": "d0f5c545bc334f5ce9eff1cc4d180ab0fc563cbfe196cfcae1bc5180bc79835a"
+    },
+    {
+      "path": "comparison/on/P17/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P17/2/result.json",
+      "original_sha256": "eb6f418f874342c05cb2fc8e2b69a147e12a1a3684e84db2864dc7bdc4b56eef",
+      "published_sha256": "eb6f418f874342c05cb2fc8e2b69a147e12a1a3684e84db2864dc7bdc4b56eef"
+    },
+    {
+      "path": "comparison/on/P18/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P18/1/compiled_policy.json",
+      "original_sha256": "0e76ec623cae8b8c5341ac8d8543df67bc3794ff440a376fa10f28e9cebac94f",
+      "published_sha256": "0e76ec623cae8b8c5341ac8d8543df67bc3794ff440a376fa10f28e9cebac94f"
+    },
+    {
+      "path": "comparison/on/P18/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P18/1/request.json",
+      "original_sha256": "8c6c8c128c9f9a97a4d78df713361d893be4f337f6519ad7c87b9bacf67d74ca",
+      "published_sha256": "8c6c8c128c9f9a97a4d78df713361d893be4f337f6519ad7c87b9bacf67d74ca"
+    },
+    {
+      "path": "comparison/on/P18/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P18/1/response.public.json",
+      "original_sha256": "a1e003088d47145dea73823f03e4a5ae7871c778460f4b6b385dba9fa67ab718",
+      "published_sha256": "a1e003088d47145dea73823f03e4a5ae7871c778460f4b6b385dba9fa67ab718"
+    },
+    {
+      "path": "comparison/on/P18/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P18/1/result.json",
+      "original_sha256": "dc23845f66186d486254d82ae45c7ff4ddb33ce405bc339a2f6dfce923819ab9",
+      "published_sha256": "dc23845f66186d486254d82ae45c7ff4ddb33ce405bc339a2f6dfce923819ab9"
+    },
+    {
+      "path": "comparison/on/P18/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P18/2/compiled_policy.json",
+      "original_sha256": "8db7402a227964d0546bbd1e83ca1d2f18b06d3f46f916f77bcb2e6de2bba753",
+      "published_sha256": "8db7402a227964d0546bbd1e83ca1d2f18b06d3f46f916f77bcb2e6de2bba753"
+    },
+    {
+      "path": "comparison/on/P18/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P18/2/request.json",
+      "original_sha256": "8c6c8c128c9f9a97a4d78df713361d893be4f337f6519ad7c87b9bacf67d74ca",
+      "published_sha256": "8c6c8c128c9f9a97a4d78df713361d893be4f337f6519ad7c87b9bacf67d74ca"
+    },
+    {
+      "path": "comparison/on/P18/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P18/2/response.public.json",
+      "original_sha256": "859c1988452abb62e62005491bc1eb2fb40b90af6f4af9d76ad1104495b208eb",
+      "published_sha256": "859c1988452abb62e62005491bc1eb2fb40b90af6f4af9d76ad1104495b208eb"
+    },
+    {
+      "path": "comparison/on/P18/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P18/2/result.json",
+      "original_sha256": "f67ecfb7eab96969c5356b4bd3ece142fc0765a3ec89348868ff8bb9f6d0e3b5",
+      "published_sha256": "f67ecfb7eab96969c5356b4bd3ece142fc0765a3ec89348868ff8bb9f6d0e3b5"
+    },
+    {
+      "path": "comparison/on/P19/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P19/1/compiled_policy.json",
+      "original_sha256": "de19dcd1659df54d977ba19d4a32ff19ab3f34b4096e422c9e4235a08c59453c",
+      "published_sha256": "de19dcd1659df54d977ba19d4a32ff19ab3f34b4096e422c9e4235a08c59453c"
+    },
+    {
+      "path": "comparison/on/P19/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P19/1/request.json",
+      "original_sha256": "b9ac92e6e7a4765cdfe1719b9cf8d935f4cbf7ec0f0155433e2f58a5c5e0b0cf",
+      "published_sha256": "b9ac92e6e7a4765cdfe1719b9cf8d935f4cbf7ec0f0155433e2f58a5c5e0b0cf"
+    },
+    {
+      "path": "comparison/on/P19/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P19/1/response.public.json",
+      "original_sha256": "3da7b32c29090ccea59663d9593bb71642ff9d1be687b4b4e58ecd53ec28dd95",
+      "published_sha256": "3da7b32c29090ccea59663d9593bb71642ff9d1be687b4b4e58ecd53ec28dd95"
+    },
+    {
+      "path": "comparison/on/P19/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P19/1/result.json",
+      "original_sha256": "ee56de1e142f41ae9353f8f6a74da1ab389998ebce818ea66fc0f03a7c63ab8a",
+      "published_sha256": "ee56de1e142f41ae9353f8f6a74da1ab389998ebce818ea66fc0f03a7c63ab8a"
+    },
+    {
+      "path": "comparison/on/P19/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P19/2/compiled_policy.json",
+      "original_sha256": "e0d61f7ecaed559958604a574a8fabf3c3ec98f901665f639e7de86d6a557db6",
+      "published_sha256": "e0d61f7ecaed559958604a574a8fabf3c3ec98f901665f639e7de86d6a557db6"
+    },
+    {
+      "path": "comparison/on/P19/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P19/2/request.json",
+      "original_sha256": "b9ac92e6e7a4765cdfe1719b9cf8d935f4cbf7ec0f0155433e2f58a5c5e0b0cf",
+      "published_sha256": "b9ac92e6e7a4765cdfe1719b9cf8d935f4cbf7ec0f0155433e2f58a5c5e0b0cf"
+    },
+    {
+      "path": "comparison/on/P19/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P19/2/response.public.json",
+      "original_sha256": "828c6cd4bcfe841572a42382334e7f915d77966a150eeb0205d9c9aa94604030",
+      "published_sha256": "828c6cd4bcfe841572a42382334e7f915d77966a150eeb0205d9c9aa94604030"
+    },
+    {
+      "path": "comparison/on/P19/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P19/2/result.json",
+      "original_sha256": "686782adabd00c6b8167bbfd22475c4024f668645f843bb6942ae697d51ab03b",
+      "published_sha256": "686782adabd00c6b8167bbfd22475c4024f668645f843bb6942ae697d51ab03b"
+    },
+    {
+      "path": "comparison/on/P20/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P20/1/request.json",
+      "original_sha256": "1f6fe66d1113a6367dc3f0e7aa008a4f31817ee05656039a29493b844dab5b91",
+      "published_sha256": "1f6fe66d1113a6367dc3f0e7aa008a4f31817ee05656039a29493b844dab5b91"
+    },
+    {
+      "path": "comparison/on/P20/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P20/1/response.public.json",
+      "original_sha256": "cf97043aaea3fd23426cca388c3d3b4f973040739dc92e37952cec58c5f8fde6",
+      "published_sha256": "cf97043aaea3fd23426cca388c3d3b4f973040739dc92e37952cec58c5f8fde6"
+    },
+    {
+      "path": "comparison/on/P20/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P20/1/result.json",
+      "original_sha256": "8203f20b05d52423391d3592a54eae5b942085249c0fa6e2975bd17dde0f9730",
+      "published_sha256": "8203f20b05d52423391d3592a54eae5b942085249c0fa6e2975bd17dde0f9730"
+    },
+    {
+      "path": "comparison/on/P20/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P20/2/request.json",
+      "original_sha256": "1f6fe66d1113a6367dc3f0e7aa008a4f31817ee05656039a29493b844dab5b91",
+      "published_sha256": "1f6fe66d1113a6367dc3f0e7aa008a4f31817ee05656039a29493b844dab5b91"
+    },
+    {
+      "path": "comparison/on/P20/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P20/2/response.public.json",
+      "original_sha256": "ca9d9726494080afa107742ca66e6b84db32aa31dbbe0278ba80192627451310",
+      "published_sha256": "ca9d9726494080afa107742ca66e6b84db32aa31dbbe0278ba80192627451310"
+    },
+    {
+      "path": "comparison/on/P20/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P20/2/result.json",
+      "original_sha256": "09333c9b32095fc32e6c7a9e5181140e6ee34cca51f2a903a6ac4e25b177546a",
+      "published_sha256": "09333c9b32095fc32e6c7a9e5181140e6ee34cca51f2a903a6ac4e25b177546a"
+    },
+    {
+      "path": "comparison/on/P21/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P21/1/compiled_policy.json",
+      "original_sha256": "50f6756f7af871110cef033f0c325ec6c43368749a65c22142a87b6b023d63b8",
+      "published_sha256": "50f6756f7af871110cef033f0c325ec6c43368749a65c22142a87b6b023d63b8"
+    },
+    {
+      "path": "comparison/on/P21/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P21/1/request.json",
+      "original_sha256": "e4aadbafe79d250116fa6e59e41a6c092a10dbafe3307a43ce86e07d9b0746ba",
+      "published_sha256": "e4aadbafe79d250116fa6e59e41a6c092a10dbafe3307a43ce86e07d9b0746ba"
+    },
+    {
+      "path": "comparison/on/P21/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P21/1/response.public.json",
+      "original_sha256": "283d2a128fe643897c04a2d5bab2c3d60e82bf609983500212cf061b3dcfeb70",
+      "published_sha256": "283d2a128fe643897c04a2d5bab2c3d60e82bf609983500212cf061b3dcfeb70"
+    },
+    {
+      "path": "comparison/on/P21/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P21/1/result.json",
+      "original_sha256": "32148bde8c877437a5daaadb73b7409330dacbb94d1043a02190e978b5f4522b",
+      "published_sha256": "32148bde8c877437a5daaadb73b7409330dacbb94d1043a02190e978b5f4522b"
+    },
+    {
+      "path": "comparison/on/P21/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P21/2/compiled_policy.json",
+      "original_sha256": "47f0f1941ae1ccc554dcde83a8cced36a8321d45b1ebb0470cf3153d711e5325",
+      "published_sha256": "47f0f1941ae1ccc554dcde83a8cced36a8321d45b1ebb0470cf3153d711e5325"
+    },
+    {
+      "path": "comparison/on/P21/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P21/2/request.json",
+      "original_sha256": "e4aadbafe79d250116fa6e59e41a6c092a10dbafe3307a43ce86e07d9b0746ba",
+      "published_sha256": "e4aadbafe79d250116fa6e59e41a6c092a10dbafe3307a43ce86e07d9b0746ba"
+    },
+    {
+      "path": "comparison/on/P21/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P21/2/response.public.json",
+      "original_sha256": "86114f7eea30688b09c92b4d304cdceecb80a52472a71608168bf727e2e9265a",
+      "published_sha256": "86114f7eea30688b09c92b4d304cdceecb80a52472a71608168bf727e2e9265a"
+    },
+    {
+      "path": "comparison/on/P21/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P21/2/result.json",
+      "original_sha256": "c911236dff7d867591e37391862ece18dc7b10b49aa2058d19bce81e21e12ff8",
+      "published_sha256": "c911236dff7d867591e37391862ece18dc7b10b49aa2058d19bce81e21e12ff8"
+    },
+    {
+      "path": "comparison/on/P22/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P22/1/compiled_policy.json",
+      "original_sha256": "eab96ce301633fd25246cd1a6a43e62fc3e6c2970e6a2b6f707aed96c8bcc926",
+      "published_sha256": "eab96ce301633fd25246cd1a6a43e62fc3e6c2970e6a2b6f707aed96c8bcc926"
+    },
+    {
+      "path": "comparison/on/P22/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P22/1/request.json",
+      "original_sha256": "52371e6fc43c1fe49254c394e1e637e03a3c7faa24296e85082809d75cc89ab9",
+      "published_sha256": "52371e6fc43c1fe49254c394e1e637e03a3c7faa24296e85082809d75cc89ab9"
+    },
+    {
+      "path": "comparison/on/P22/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P22/1/response.public.json",
+      "original_sha256": "4abae11972cb9c8fb7ba3235895414a52525b0b70b32685adab570ee2cad6988",
+      "published_sha256": "4abae11972cb9c8fb7ba3235895414a52525b0b70b32685adab570ee2cad6988"
+    },
+    {
+      "path": "comparison/on/P22/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P22/1/result.json",
+      "original_sha256": "342357abf805bce21c2c83741fa47d414422b60d0b1882255960e2c7a9ed6eca",
+      "published_sha256": "342357abf805bce21c2c83741fa47d414422b60d0b1882255960e2c7a9ed6eca"
+    },
+    {
+      "path": "comparison/on/P22/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P22/2/request.json",
+      "original_sha256": "52371e6fc43c1fe49254c394e1e637e03a3c7faa24296e85082809d75cc89ab9",
+      "published_sha256": "52371e6fc43c1fe49254c394e1e637e03a3c7faa24296e85082809d75cc89ab9"
+    },
+    {
+      "path": "comparison/on/P22/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P22/2/response.public.json",
+      "original_sha256": "84a43cc2ec9fd737eb7e9c35d7502a1fbe2b6a51e0ae4387a07627085ec62d43",
+      "published_sha256": "84a43cc2ec9fd737eb7e9c35d7502a1fbe2b6a51e0ae4387a07627085ec62d43"
+    },
+    {
+      "path": "comparison/on/P22/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P22/2/result.json",
+      "original_sha256": "5f60480632133a21dbda94b9bc6eebaac05eeec167f672d6120d3899c69bdb1f",
+      "published_sha256": "5f60480632133a21dbda94b9bc6eebaac05eeec167f672d6120d3899c69bdb1f"
+    },
+    {
+      "path": "comparison/on/P23/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P23/1/compiled_policy.json",
+      "original_sha256": "6265600a4541d6db6f98a7ba2f1782cea5b4234eca186d5bb07a42718cbcaeb6",
+      "published_sha256": "6265600a4541d6db6f98a7ba2f1782cea5b4234eca186d5bb07a42718cbcaeb6"
+    },
+    {
+      "path": "comparison/on/P23/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P23/1/request.json",
+      "original_sha256": "ffa9964869e28e37d4af315bd399619656ebe0e7e4ada99e6a4e9f9012fe810c",
+      "published_sha256": "ffa9964869e28e37d4af315bd399619656ebe0e7e4ada99e6a4e9f9012fe810c"
+    },
+    {
+      "path": "comparison/on/P23/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P23/1/response.public.json",
+      "original_sha256": "d262fd2c8f82fef44d4976d43b7f257a5c5ff2ecb8de889a78ea9edba76c4a12",
+      "published_sha256": "d262fd2c8f82fef44d4976d43b7f257a5c5ff2ecb8de889a78ea9edba76c4a12"
+    },
+    {
+      "path": "comparison/on/P23/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P23/1/result.json",
+      "original_sha256": "97c8f570b285f2c09c2c6bcd49024ffed93735579339b80470bf5c408dfab476",
+      "published_sha256": "97c8f570b285f2c09c2c6bcd49024ffed93735579339b80470bf5c408dfab476"
+    },
+    {
+      "path": "comparison/on/P23/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P23/2/compiled_policy.json",
+      "original_sha256": "29c02068f3b86226d75f28ea7bf345e94b21256fdb176c8f368f4b4b85edc2e7",
+      "published_sha256": "29c02068f3b86226d75f28ea7bf345e94b21256fdb176c8f368f4b4b85edc2e7"
+    },
+    {
+      "path": "comparison/on/P23/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P23/2/request.json",
+      "original_sha256": "ffa9964869e28e37d4af315bd399619656ebe0e7e4ada99e6a4e9f9012fe810c",
+      "published_sha256": "ffa9964869e28e37d4af315bd399619656ebe0e7e4ada99e6a4e9f9012fe810c"
+    },
+    {
+      "path": "comparison/on/P23/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P23/2/response.public.json",
+      "original_sha256": "5a7544bb4f6af7b72a83f9eea38ba8f53bf8fd4880ea2b20834aec29111c66a9",
+      "published_sha256": "5a7544bb4f6af7b72a83f9eea38ba8f53bf8fd4880ea2b20834aec29111c66a9"
+    },
+    {
+      "path": "comparison/on/P23/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P23/2/result.json",
+      "original_sha256": "271ec14814c07631240356f173f0b907da21f5c9b225d615f2de6e87c078e0b1",
+      "published_sha256": "271ec14814c07631240356f173f0b907da21f5c9b225d615f2de6e87c078e0b1"
+    },
+    {
+      "path": "comparison/on/P24/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P24/1/compiled_policy.json",
+      "original_sha256": "d4430b84f56d66ed748bfc31ef453d5179b6ba1ed91d5f099d2522891f33e56e",
+      "published_sha256": "d4430b84f56d66ed748bfc31ef453d5179b6ba1ed91d5f099d2522891f33e56e"
+    },
+    {
+      "path": "comparison/on/P24/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P24/1/request.json",
+      "original_sha256": "ee7fa24619686d5b1e86ce25cb5de6c38f24442629de8d376418f2a550222b5a",
+      "published_sha256": "ee7fa24619686d5b1e86ce25cb5de6c38f24442629de8d376418f2a550222b5a"
+    },
+    {
+      "path": "comparison/on/P24/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P24/1/response.public.json",
+      "original_sha256": "f17b7620d2f4d5f889dc8a6616912f0a174717ee6c54afeb756a3d2a846430d1",
+      "published_sha256": "f17b7620d2f4d5f889dc8a6616912f0a174717ee6c54afeb756a3d2a846430d1"
+    },
+    {
+      "path": "comparison/on/P24/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P24/1/result.json",
+      "original_sha256": "cb994938164badf16ebea254f1c7c0f11639f80344db7c3079365a1fa6fdadd1",
+      "published_sha256": "cb994938164badf16ebea254f1c7c0f11639f80344db7c3079365a1fa6fdadd1"
+    },
+    {
+      "path": "comparison/on/P24/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P24/2/compiled_policy.json",
+      "original_sha256": "eb46564c0f14b0c84e525e36bdd854b73f3785607d1145cf6ab52b83f8a62059",
+      "published_sha256": "eb46564c0f14b0c84e525e36bdd854b73f3785607d1145cf6ab52b83f8a62059"
+    },
+    {
+      "path": "comparison/on/P24/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P24/2/request.json",
+      "original_sha256": "ee7fa24619686d5b1e86ce25cb5de6c38f24442629de8d376418f2a550222b5a",
+      "published_sha256": "ee7fa24619686d5b1e86ce25cb5de6c38f24442629de8d376418f2a550222b5a"
+    },
+    {
+      "path": "comparison/on/P24/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P24/2/response.public.json",
+      "original_sha256": "7cb5e4c0f7be659414fb599e9c60a6203b09acc9f4fb668b0542e8269b7dd4b1",
+      "published_sha256": "7cb5e4c0f7be659414fb599e9c60a6203b09acc9f4fb668b0542e8269b7dd4b1"
+    },
+    {
+      "path": "comparison/on/P24/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P24/2/result.json",
+      "original_sha256": "3276cc2ba63df36f186c45e27d89c1da1e322726e0ca2f83181385953a98171b",
+      "published_sha256": "3276cc2ba63df36f186c45e27d89c1da1e322726e0ca2f83181385953a98171b"
+    },
+    {
+      "path": "comparison/on/P25/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P25/1/request.json",
+      "original_sha256": "c1a456bdd5db494d49329b1967aabea0c3196a8ecc72601ba7a05fb52854877a",
+      "published_sha256": "c1a456bdd5db494d49329b1967aabea0c3196a8ecc72601ba7a05fb52854877a"
+    },
+    {
+      "path": "comparison/on/P25/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P25/1/response.public.json",
+      "original_sha256": "2b17b94d145326b224be86445adb9488079b8c051ec5f0b0e18e0cc002751e9a",
+      "published_sha256": "2b17b94d145326b224be86445adb9488079b8c051ec5f0b0e18e0cc002751e9a"
+    },
+    {
+      "path": "comparison/on/P25/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P25/1/result.json",
+      "original_sha256": "6be2b595f33dabc7ea0f67d9a59b488582dd64c411799113161d6fd531de0e7b",
+      "published_sha256": "6be2b595f33dabc7ea0f67d9a59b488582dd64c411799113161d6fd531de0e7b"
+    },
+    {
+      "path": "comparison/on/P25/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P25/2/request.json",
+      "original_sha256": "c1a456bdd5db494d49329b1967aabea0c3196a8ecc72601ba7a05fb52854877a",
+      "published_sha256": "c1a456bdd5db494d49329b1967aabea0c3196a8ecc72601ba7a05fb52854877a"
+    },
+    {
+      "path": "comparison/on/P25/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P25/2/response.public.json",
+      "original_sha256": "efcfa45e01d2dbd57491aee842e93a16a58dfebdb61d94a5643e187e7c0b1f63",
+      "published_sha256": "efcfa45e01d2dbd57491aee842e93a16a58dfebdb61d94a5643e187e7c0b1f63"
+    },
+    {
+      "path": "comparison/on/P25/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P25/2/result.json",
+      "original_sha256": "e118ff80bda8a04d717b95bfc3128bc6236eaf23d99fb64730b98091b47a6616",
+      "published_sha256": "e118ff80bda8a04d717b95bfc3128bc6236eaf23d99fb64730b98091b47a6616"
+    },
+    {
+      "path": "comparison/on/P26/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P26/1/compiled_policy.json",
+      "original_sha256": "51dc74f1fb86e5b682cc746865643276e237d0736d3aff5069f8b29402c472c6",
+      "published_sha256": "51dc74f1fb86e5b682cc746865643276e237d0736d3aff5069f8b29402c472c6"
+    },
+    {
+      "path": "comparison/on/P26/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P26/1/request.json",
+      "original_sha256": "ab299b44f77196b69bfc9ba73296a177cedccbaec95cdcf1dc436236cc2d1c0e",
+      "published_sha256": "ab299b44f77196b69bfc9ba73296a177cedccbaec95cdcf1dc436236cc2d1c0e"
+    },
+    {
+      "path": "comparison/on/P26/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P26/1/response.public.json",
+      "original_sha256": "52a8efce2fe3f8622ba528ec13a2baf3e4585e5eb752ac7c0ab91991423c6c7b",
+      "published_sha256": "52a8efce2fe3f8622ba528ec13a2baf3e4585e5eb752ac7c0ab91991423c6c7b"
+    },
+    {
+      "path": "comparison/on/P26/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P26/1/result.json",
+      "original_sha256": "fb96eac981152c8818e2b8a82308083493e6005170747744735802b8ffebf6be",
+      "published_sha256": "fb96eac981152c8818e2b8a82308083493e6005170747744735802b8ffebf6be"
+    },
+    {
+      "path": "comparison/on/P26/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P26/2/compiled_policy.json",
+      "original_sha256": "24724abf277241907ed3771b82ccf64ed05019d0dca60ffa6a55c553d44f6b79",
+      "published_sha256": "24724abf277241907ed3771b82ccf64ed05019d0dca60ffa6a55c553d44f6b79"
+    },
+    {
+      "path": "comparison/on/P26/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P26/2/request.json",
+      "original_sha256": "ab299b44f77196b69bfc9ba73296a177cedccbaec95cdcf1dc436236cc2d1c0e",
+      "published_sha256": "ab299b44f77196b69bfc9ba73296a177cedccbaec95cdcf1dc436236cc2d1c0e"
+    },
+    {
+      "path": "comparison/on/P26/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P26/2/response.public.json",
+      "original_sha256": "c2e0fc8c9125c48a80beeb9ad1c3eaff03e3d8106060bf8f07f9c12bb646b13b",
+      "published_sha256": "c2e0fc8c9125c48a80beeb9ad1c3eaff03e3d8106060bf8f07f9c12bb646b13b"
+    },
+    {
+      "path": "comparison/on/P26/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P26/2/result.json",
+      "original_sha256": "81647f7db6038063315129e824e4ef478081d84aa4f5b186fff684ed14a6f3b4",
+      "published_sha256": "81647f7db6038063315129e824e4ef478081d84aa4f5b186fff684ed14a6f3b4"
+    },
+    {
+      "path": "comparison/on/P27/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P27/1/request.json",
+      "original_sha256": "3b4b55934c614f95dcbb1ad8124c1a87cb36b1875e6c8105332d655d362348bd",
+      "published_sha256": "3b4b55934c614f95dcbb1ad8124c1a87cb36b1875e6c8105332d655d362348bd"
+    },
+    {
+      "path": "comparison/on/P27/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P27/1/response.public.json",
+      "original_sha256": "f0d1207a5c3baacbe852ffc683065bf341bf670a5746a8587ac86d761f5633ce",
+      "published_sha256": "f0d1207a5c3baacbe852ffc683065bf341bf670a5746a8587ac86d761f5633ce"
+    },
+    {
+      "path": "comparison/on/P27/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P27/1/result.json",
+      "original_sha256": "b1902882434897fd2b82ec7e31eb6ed5dd7a3929737608e7739ced6004282647",
+      "published_sha256": "b1902882434897fd2b82ec7e31eb6ed5dd7a3929737608e7739ced6004282647"
+    },
+    {
+      "path": "comparison/on/P27/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P27/2/compiled_policy.json",
+      "original_sha256": "f458f4be985d8bd04b34cc7d97469107fe0c53c29593fcd0d51107a4d9a82912",
+      "published_sha256": "f458f4be985d8bd04b34cc7d97469107fe0c53c29593fcd0d51107a4d9a82912"
+    },
+    {
+      "path": "comparison/on/P27/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P27/2/request.json",
+      "original_sha256": "3b4b55934c614f95dcbb1ad8124c1a87cb36b1875e6c8105332d655d362348bd",
+      "published_sha256": "3b4b55934c614f95dcbb1ad8124c1a87cb36b1875e6c8105332d655d362348bd"
+    },
+    {
+      "path": "comparison/on/P27/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P27/2/response.public.json",
+      "original_sha256": "d5fdef54a0277134b500fdabf63001f65f312de4c5b6cdc7d36525f676e6eb97",
+      "published_sha256": "d5fdef54a0277134b500fdabf63001f65f312de4c5b6cdc7d36525f676e6eb97"
+    },
+    {
+      "path": "comparison/on/P27/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P27/2/result.json",
+      "original_sha256": "bf150e36690c6c908373cebc03c846725b278b5ea8760ac3726c170bb9c7ca83",
+      "published_sha256": "bf150e36690c6c908373cebc03c846725b278b5ea8760ac3726c170bb9c7ca83"
+    },
+    {
+      "path": "comparison/on/P28/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P28/1/compiled_policy.json",
+      "original_sha256": "057d1cb6f4645387b452673096f1fabda747be9d9210bd8f90af1a5663684124",
+      "published_sha256": "057d1cb6f4645387b452673096f1fabda747be9d9210bd8f90af1a5663684124"
+    },
+    {
+      "path": "comparison/on/P28/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P28/1/request.json",
+      "original_sha256": "9db40082e4702ae47eb81bd5e3eb84ca285fd3d67a2fdcda3eb8713adb822d6b",
+      "published_sha256": "9db40082e4702ae47eb81bd5e3eb84ca285fd3d67a2fdcda3eb8713adb822d6b"
+    },
+    {
+      "path": "comparison/on/P28/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P28/1/response.public.json",
+      "original_sha256": "63956ef973ec5910f6ba3f97014fb0216966aa7e10c3b7c33fe9641ec144d1b4",
+      "published_sha256": "63956ef973ec5910f6ba3f97014fb0216966aa7e10c3b7c33fe9641ec144d1b4"
+    },
+    {
+      "path": "comparison/on/P28/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P28/1/result.json",
+      "original_sha256": "4d5937e6f4be22108183facc8f76cc6c1c93a63d2adf7abedede6c3b32581c09",
+      "published_sha256": "4d5937e6f4be22108183facc8f76cc6c1c93a63d2adf7abedede6c3b32581c09"
+    },
+    {
+      "path": "comparison/on/P28/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P28/2/compiled_policy.json",
+      "original_sha256": "f621a67c7328837f66ba6e1a50795adaa12b0bd2a62af5c842ddc07ac9f57e5e",
+      "published_sha256": "f621a67c7328837f66ba6e1a50795adaa12b0bd2a62af5c842ddc07ac9f57e5e"
+    },
+    {
+      "path": "comparison/on/P28/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P28/2/request.json",
+      "original_sha256": "9db40082e4702ae47eb81bd5e3eb84ca285fd3d67a2fdcda3eb8713adb822d6b",
+      "published_sha256": "9db40082e4702ae47eb81bd5e3eb84ca285fd3d67a2fdcda3eb8713adb822d6b"
+    },
+    {
+      "path": "comparison/on/P28/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P28/2/response.public.json",
+      "original_sha256": "2d7ebc1c7df5183d9d0cdc97cd130929b027f53db841d5988955ad5db37a804e",
+      "published_sha256": "2d7ebc1c7df5183d9d0cdc97cd130929b027f53db841d5988955ad5db37a804e"
+    },
+    {
+      "path": "comparison/on/P28/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P28/2/result.json",
+      "original_sha256": "4bb996074b76e7f048bba4c7e4d6810d9cbdb784744481a36d5dc471da2df76f",
+      "published_sha256": "4bb996074b76e7f048bba4c7e4d6810d9cbdb784744481a36d5dc471da2df76f"
+    },
+    {
+      "path": "comparison/on/P29/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P29/1/compiled_policy.json",
+      "original_sha256": "edb6da83f07c8b64b63aa018e74732c28a8bba43f22898488394d0dac7d4b3a0",
+      "published_sha256": "edb6da83f07c8b64b63aa018e74732c28a8bba43f22898488394d0dac7d4b3a0"
+    },
+    {
+      "path": "comparison/on/P29/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P29/1/request.json",
+      "original_sha256": "a423c6d7b58b80e202d7d46c17766ebb3a52db2cfce7bee12a653f9c09722aae",
+      "published_sha256": "a423c6d7b58b80e202d7d46c17766ebb3a52db2cfce7bee12a653f9c09722aae"
+    },
+    {
+      "path": "comparison/on/P29/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P29/1/response.public.json",
+      "original_sha256": "455978a001f992b57f83d94d261cb4c3f9cd83697c34bd6377336572936761b8",
+      "published_sha256": "455978a001f992b57f83d94d261cb4c3f9cd83697c34bd6377336572936761b8"
+    },
+    {
+      "path": "comparison/on/P29/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P29/1/result.json",
+      "original_sha256": "af15ff27f90fba996c205269476cc5b45a07c7629886d2bcdfaedefd57285654",
+      "published_sha256": "af15ff27f90fba996c205269476cc5b45a07c7629886d2bcdfaedefd57285654"
+    },
+    {
+      "path": "comparison/on/P29/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P29/2/request.json",
+      "original_sha256": "a423c6d7b58b80e202d7d46c17766ebb3a52db2cfce7bee12a653f9c09722aae",
+      "published_sha256": "a423c6d7b58b80e202d7d46c17766ebb3a52db2cfce7bee12a653f9c09722aae"
+    },
+    {
+      "path": "comparison/on/P29/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P29/2/response.public.json",
+      "original_sha256": "943933fdbc12a82d85085732c4a656817c4020989d5587e51e0da357d98b22db",
+      "published_sha256": "943933fdbc12a82d85085732c4a656817c4020989d5587e51e0da357d98b22db"
+    },
+    {
+      "path": "comparison/on/P29/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P29/2/result.json",
+      "original_sha256": "726ddc8c75785da67319411bdbdb67f8c4dec159ee6373a587bcb87ae026698f",
+      "published_sha256": "726ddc8c75785da67319411bdbdb67f8c4dec159ee6373a587bcb87ae026698f"
+    },
+    {
+      "path": "comparison/on/P30/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P30/1/compiled_policy.json",
+      "original_sha256": "69298cc1d6013b784b7a0e34416e25819308f1574a8a580dbf805687a04bac21",
+      "published_sha256": "69298cc1d6013b784b7a0e34416e25819308f1574a8a580dbf805687a04bac21"
+    },
+    {
+      "path": "comparison/on/P30/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P30/1/request.json",
+      "original_sha256": "348d6eee3b4b633517e61b75ff0e72126f3954b09a4b641513c10e0f4ee8ae90",
+      "published_sha256": "348d6eee3b4b633517e61b75ff0e72126f3954b09a4b641513c10e0f4ee8ae90"
+    },
+    {
+      "path": "comparison/on/P30/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P30/1/response.public.json",
+      "original_sha256": "7531ef2b6a1ce9536bc657d200c357622f04c8faffcc19d21b4fe2f5fa76527c",
+      "published_sha256": "7531ef2b6a1ce9536bc657d200c357622f04c8faffcc19d21b4fe2f5fa76527c"
+    },
+    {
+      "path": "comparison/on/P30/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P30/1/result.json",
+      "original_sha256": "b4c2e5771456b39e6cfed61783fc34099ec59f775709119cda5dc8aac3744013",
+      "published_sha256": "b4c2e5771456b39e6cfed61783fc34099ec59f775709119cda5dc8aac3744013"
+    },
+    {
+      "path": "comparison/on/P30/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P30/2/compiled_policy.json",
+      "original_sha256": "07b79762fdb50c83ee261d63045be46eed8d9a179ec68ad14bc9d58960677629",
+      "published_sha256": "07b79762fdb50c83ee261d63045be46eed8d9a179ec68ad14bc9d58960677629"
+    },
+    {
+      "path": "comparison/on/P30/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P30/2/request.json",
+      "original_sha256": "348d6eee3b4b633517e61b75ff0e72126f3954b09a4b641513c10e0f4ee8ae90",
+      "published_sha256": "348d6eee3b4b633517e61b75ff0e72126f3954b09a4b641513c10e0f4ee8ae90"
+    },
+    {
+      "path": "comparison/on/P30/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P30/2/response.public.json",
+      "original_sha256": "9f8361cfe03be97ce1fc63ead8595f4c41cfb97f26203eb18c409ff91c26d329",
+      "published_sha256": "9f8361cfe03be97ce1fc63ead8595f4c41cfb97f26203eb18c409ff91c26d329"
+    },
+    {
+      "path": "comparison/on/P30/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P30/2/result.json",
+      "original_sha256": "064f40dd5713e5b0867b96e7853066ac804ac36d14fc44b75b7276da97c3d4e0",
+      "published_sha256": "064f40dd5713e5b0867b96e7853066ac804ac36d14fc44b75b7276da97c3d4e0"
+    },
+    {
+      "path": "comparison/on/P31/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P31/1/request.json",
+      "original_sha256": "6e14e48fa42e5a7a9d050e2da7805ff431b3214d19a6d046bb2e12132d51cab2",
+      "published_sha256": "6e14e48fa42e5a7a9d050e2da7805ff431b3214d19a6d046bb2e12132d51cab2"
+    },
+    {
+      "path": "comparison/on/P31/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P31/1/response.public.json",
+      "original_sha256": "5b35ca4b2d013a9301b8a5f1153d6d75fecb523f8eb241e0064a512872ead08d",
+      "published_sha256": "5b35ca4b2d013a9301b8a5f1153d6d75fecb523f8eb241e0064a512872ead08d"
+    },
+    {
+      "path": "comparison/on/P31/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P31/1/result.json",
+      "original_sha256": "57e5f624eeb9e53ee7af12d45ccb33bd92a2d868c37747a4b186c4993bf6effb",
+      "published_sha256": "57e5f624eeb9e53ee7af12d45ccb33bd92a2d868c37747a4b186c4993bf6effb"
+    },
+    {
+      "path": "comparison/on/P31/2/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P31/2/compiled_policy.json",
+      "original_sha256": "8bcb97f8e6146e0d4aa824ec01a5a332e1c67d460d1d3ffcc48431004f140f71",
+      "published_sha256": "8bcb97f8e6146e0d4aa824ec01a5a332e1c67d460d1d3ffcc48431004f140f71"
+    },
+    {
+      "path": "comparison/on/P31/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P31/2/request.json",
+      "original_sha256": "6e14e48fa42e5a7a9d050e2da7805ff431b3214d19a6d046bb2e12132d51cab2",
+      "published_sha256": "6e14e48fa42e5a7a9d050e2da7805ff431b3214d19a6d046bb2e12132d51cab2"
+    },
+    {
+      "path": "comparison/on/P31/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P31/2/response.public.json",
+      "original_sha256": "c8e93bd23dcae03d9ac07586db1c95fdc2c16783e50f9b6acc09a21db56f07d1",
+      "published_sha256": "c8e93bd23dcae03d9ac07586db1c95fdc2c16783e50f9b6acc09a21db56f07d1"
+    },
+    {
+      "path": "comparison/on/P31/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P31/2/result.json",
+      "original_sha256": "9e86e34ad23325bad6ed89daf6ca64108f55ee4d08febcd301aa55d0c212aa7d",
+      "published_sha256": "9e86e34ad23325bad6ed89daf6ca64108f55ee4d08febcd301aa55d0c212aa7d"
+    },
+    {
+      "path": "comparison/on/P32/1/compiled_policy.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P32/1/compiled_policy.json",
+      "original_sha256": "81fa579b85af429e52626092cc00a9dc6a7fce253543bdb7d0b04c4565217ab3",
+      "published_sha256": "81fa579b85af429e52626092cc00a9dc6a7fce253543bdb7d0b04c4565217ab3"
+    },
+    {
+      "path": "comparison/on/P32/1/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P32/1/request.json",
+      "original_sha256": "5587ade5e2496383665b076a4ac9e615014e33f11bb2ab67ee094a58cc4ce1df",
+      "published_sha256": "5587ade5e2496383665b076a4ac9e615014e33f11bb2ab67ee094a58cc4ce1df"
+    },
+    {
+      "path": "comparison/on/P32/1/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P32/1/response.public.json",
+      "original_sha256": "fa05902ce3df22c2af3e3e95a3084c965bffc69e7f30e71b270a6ffa7e979ab5",
+      "published_sha256": "fa05902ce3df22c2af3e3e95a3084c965bffc69e7f30e71b270a6ffa7e979ab5"
+    },
+    {
+      "path": "comparison/on/P32/1/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P32/1/result.json",
+      "original_sha256": "e1a85cb2ec42ba16c2cc1d28d409731da3c6395d3a69474a962a417ce21391da",
+      "published_sha256": "e1a85cb2ec42ba16c2cc1d28d409731da3c6395d3a69474a962a417ce21391da"
+    },
+    {
+      "path": "comparison/on/P32/2/request.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P32/2/request.json",
+      "original_sha256": "5587ade5e2496383665b076a4ac9e615014e33f11bb2ab67ee094a58cc4ce1df",
+      "published_sha256": "5587ade5e2496383665b076a4ac9e615014e33f11bb2ab67ee094a58cc4ce1df"
+    },
+    {
+      "path": "comparison/on/P32/2/response.public.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P32/2/response.public.json",
+      "original_sha256": "b24966aff2813758840da029ef064551c9cc628a6137d3598478a0602674714e",
+      "published_sha256": "b24966aff2813758840da029ef064551c9cc628a6137d3598478a0602674714e"
+    },
+    {
+      "path": "comparison/on/P32/2/result.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/on/P32/2/result.json",
+      "original_sha256": "9f14b2097078add4c382615fdc07eee308c0e25eafd542bee071f9f9e4d70243",
+      "published_sha256": "9f14b2097078add4c382615fdc07eee308c0e25eafd542bee071f9f9e4d70243"
+    },
+    {
+      "path": "comparison/summary.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/comparison/summary.json",
+      "original_sha256": "999c937b0becd3b4571f8c82086ab392c5bbd0a21c1f2d0d6c93cf27bcc4a56b",
+      "published_sha256": "999c937b0becd3b4571f8c82086ab392c5bbd0a21c1f2d0d6c93cf27bcc4a56b"
+    },
+    {
+      "path": "completion_diagnostic.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/completion_diagnostic.json",
+      "original_sha256": "7485bafe6406f444f488a93af36a8de8f54232b6387fc79f491c041f637c1a75",
+      "published_sha256": "7485bafe6406f444f488a93af36a8de8f54232b6387fc79f491c041f637c1a75"
+    },
+    {
+      "path": "diagnose_completion.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/diagnose_completion.py",
+      "original_sha256": "76984207a62c0db3bda9f69707cd293b8e0f989f6ccf09695332a9a966218d37",
+      "published_sha256": "76984207a62c0db3bda9f69707cd293b8e0f989f6ccf09695332a9a966218d37"
+    },
+    {
+      "path": "final_status.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/final_status.json",
+      "original_sha256": "39cecee86b7d6dfdb9793bc9faf57b7932012f9cef83cfd1f10183f0a7f10867",
+      "published_sha256": "39cecee86b7d6dfdb9793bc9faf57b7932012f9cef83cfd1f10183f0a7f10867"
+    },
+    {
+      "path": "finalize_report.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/finalize_report.py",
+      "original_sha256": "4cf91c9796d8a87fa82011b31d31ff8581b44103fc4f1a4f20bd0e0f6778ad61",
+      "published_sha256": "4cf91c9796d8a87fa82011b31d31ff8581b44103fc4f1a4f20bd0e0f6778ad61"
+    },
+    {
+      "path": "ledger_reconciliation.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/ledger_reconciliation.json",
+      "original_sha256": "05e75a98e63053284c4bd8b7996d06e8d5b5350aec5ea5125c32e99d4ae7e79f",
+      "published_sha256": "05e75a98e63053284c4bd8b7996d06e8d5b5350aec5ea5125c32e99d4ae7e79f"
+    },
+    {
+      "path": "manifest.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/manifest.json",
+      "original_sha256": "56c60b8862969e392003f09ef2de502110fe677e12f6e7426875d57e8f8ae53b",
+      "published_sha256": "099c882d7a3c108374d26765c84005f269b9c8393d11b2ca698a52a3098fb028"
+    },
+    {
+      "path": "plot_rest_case.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/plot_rest_case.py",
+      "original_sha256": "43145d57a22d7f64c2e920dd3e2ee4821421eb6cd5fcc1db29204147f039ed15",
+      "published_sha256": "43145d57a22d7f64c2e920dd3e2ee4821421eb6cd5fcc1db29204147f039ed15"
+    },
+    {
+      "path": "plot_results.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/plot_results.py",
+      "original_sha256": "e7ec821d895d8b536fa2703c398b540ae64e8d49a9e56009803043baea7f95e9",
+      "published_sha256": "e7ec821d895d8b536fa2703c398b540ae64e8d49a9e56009803043baea7f95e9"
+    },
+    {
+      "path": "prepare_sites.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/prepare_sites.py",
+      "original_sha256": "dfea941f9657547e10bb8f533b85163abebfcbfc2255f656a2faa32abb02f620",
+      "published_sha256": "dfea941f9657547e10bb8f533b85163abebfcbfc2255f656a2faa32abb02f620"
+    },
+    {
+      "path": "previous_authorization_before_transfer.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/previous_authorization_before_transfer.json",
+      "original_sha256": "60d6d6d8715c61acd212de54b4085eff47065463accdef5fa3bf5b33a5990212",
+      "published_sha256": "60d6d6d8715c61acd212de54b4085eff47065463accdef5fa3bf5b33a5990212"
+    },
+    {
+      "path": "profiles.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/profiles.json",
+      "original_sha256": "085ad72c740e3b00aabb54902c27c499a1f1f275d6fa5b548410fa967190260c",
+      "published_sha256": "085ad72c740e3b00aabb54902c27c499a1f1f275d6fa5b548410fa967190260c"
+    },
+    {
+      "path": "reconcile_remote.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/reconcile_remote.py",
+      "original_sha256": "476412314e0394d4e719bf46d243229e51b9e30a61871fa17c6bcd81a598813f",
+      "published_sha256": "ec310e2a912e1a32b450c9be29af0be7c8a26d864e99b8604f42309eb6553167"
+    },
+    {
+      "path": "reference_policies.NOT_MODEL_INPUT.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/reference_policies.NOT_MODEL_INPUT.json",
+      "original_sha256": "dff0b1142a5abdf2ff7d921e8e148172b58dc6def886b34ffb50b44d17130e06",
+      "published_sha256": "dff0b1142a5abdf2ff7d921e8e148172b58dc6def886b34ffb50b44d17130e06"
+    },
+    {
+      "path": "remote_usage_events.jsonl",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/remote_usage_events.jsonl",
+      "original_sha256": "c78978f8f1d34eb558bc2d8bf6c5cffe30305c1cda6af934750f49129a29bfee",
+      "published_sha256": "c78978f8f1d34eb558bc2d8bf6c5cffe30305c1cda6af934750f49129a29bfee"
+    },
+    {
+      "path": "replay_comparison.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/replay_comparison.py",
+      "original_sha256": "999fc5ab53282757a4ee94cfde0194feb5ae14ca0ced70567006a8e8f9a6c355",
+      "published_sha256": "999fc5ab53282757a4ee94cfde0194feb5ae14ca0ced70567006a8e8f9a6c355"
+    },
+    {
+      "path": "replayed_results.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/replayed_results.json",
+      "original_sha256": "0a08a35911940685b6b4ef258ed97de53b9b5c296dd9de5b7460a58da6d29d68",
+      "published_sha256": "0a08a35911940685b6b4ef258ed97de53b9b5c296dd9de5b7460a58da6d29d68"
+    },
+    {
+      "path": "run_comparison.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/run_comparison.py",
+      "original_sha256": "fb73e488b5016d60cc2adcad2863f38bf59a29b8100367a51a2f7222805c52d6",
+      "published_sha256": "fb73e488b5016d60cc2adcad2863f38bf59a29b8100367a51a2f7222805c52d6"
+    },
+    {
+      "path": "run_evaluation.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/run_evaluation.py",
+      "original_sha256": "e38c5d031dec1f7e30b66fc2e94ba6aa049dcce5d4100053c6c09f45403cc02d",
+      "published_sha256": "e38c5d031dec1f7e30b66fc2e94ba6aa049dcce5d4100053c6c09f45403cc02d"
+    },
+    {
+      "path": "runtime_versions.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/runtime_versions.json",
+      "original_sha256": "71d229a4b18ea97a9ea3ae92997aecc720bc4b2a9e054b3bccdb57b48e8caa97",
+      "published_sha256": "71d229a4b18ea97a9ea3ae92997aecc720bc4b2a9e054b3bccdb57b48e8caa97"
+    },
+    {
+      "path": "scenes.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/scenes.json",
+      "original_sha256": "adee53b09225501c9758ca9973dcfc3faf76bfc63a31745edbbb2edbfb1512d7",
+      "published_sha256": "adee53b09225501c9758ca9973dcfc3faf76bfc63a31745edbbb2edbfb1512d7"
+    },
+    {
+      "path": "scorer_sanity.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/scorer_sanity.json",
+      "original_sha256": "c0cf76e10fe84fb6a450577603ff3dfd6d445784710bd3cdf68f6ce18d309e3b",
+      "published_sha256": "c0cf76e10fe84fb6a450577603ff3dfd6d445784710bd3cdf68f6ce18d309e3b"
+    },
+    {
+      "path": "selection.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/selection.json",
+      "original_sha256": "d31c5347316334ad805f01a50be3e19761d25f462116a77df5541044253b5bd4",
+      "published_sha256": "d31c5347316334ad805f01a50be3e19761d25f462116a77df5541044253b5bd4"
+    },
+    {
+      "path": "sites.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/sites.json",
+      "original_sha256": "3a05c90627864fc0233a416dc617b2419cc31bcdfbe245f18bebb5282d020167",
+      "published_sha256": "cbb6165dfc688d0b3446600b08392ec1c93a1e083d4f27251db19c9ce44a5430"
+    },
+    {
+      "path": "source_snapshot/build_cases.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/build_cases.py",
+      "original_sha256": "9497d37aaf562418fdb14b882ff99f41be4ed755dc09865e2f86db98fe3b4dd2",
+      "published_sha256": "9497d37aaf562418fdb14b882ff99f41be4ed755dc09865e2f86db98fe3b4dd2"
+    },
+    {
+      "path": "source_snapshot/condition_program.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/condition_program.py",
+      "original_sha256": "78c44368954f31bbd66ed7290849e58e64674767ab7772fde0c4c0ad1dfd4470",
+      "published_sha256": "78c44368954f31bbd66ed7290849e58e64674767ab7772fde0c4c0ad1dfd4470"
+    },
+    {
+      "path": "source_snapshot/initial_behavior.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/initial_behavior.py",
+      "original_sha256": "cca68aa53fa0ae890b701384f7151660f74f036f9316de87aebbb915c1c1af7c",
+      "published_sha256": "cca68aa53fa0ae890b701384f7151660f74f036f9316de87aebbb915c1c1af7c"
+    },
+    {
+      "path": "source_snapshot/mind_policy.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/mind_policy.py",
+      "original_sha256": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+      "published_sha256": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2"
+    },
+    {
+      "path": "source_snapshot/note_policy_eval.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/note_policy_eval.py",
+      "original_sha256": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+      "published_sha256": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13"
+    },
+    {
+      "path": "source_snapshot/prepare_sites.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/prepare_sites.py",
+      "original_sha256": "dfea941f9657547e10bb8f533b85163abebfcbfc2255f656a2faa32abb02f620",
+      "published_sha256": "dfea941f9657547e10bb8f533b85163abebfcbfc2255f656a2faa32abb02f620"
+    },
+    {
+      "path": "source_snapshot/run_comparison.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/run_comparison.py",
+      "original_sha256": "fb73e488b5016d60cc2adcad2863f38bf59a29b8100367a51a2f7222805c52d6",
+      "published_sha256": "fb73e488b5016d60cc2adcad2863f38bf59a29b8100367a51a2f7222805c52d6"
+    },
+    {
+      "path": "source_snapshot/transport.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/transport.py",
+      "original_sha256": "eb6a65b1107688dd118b7715ded93412a60835ab96fc1df01418555733d47073",
+      "published_sha256": "e536f7179ea8f009a335de3d0aba2b019b391f6b6bc36992797294ae2afa5984"
+    },
+    {
+      "path": "source_snapshot/walking/environment_conditions.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/walking/environment_conditions.py",
+      "original_sha256": "812582d9d83ec59aeda4b42dcf19249fc8032b22a3bc7e4a58559b2b48160cb6",
+      "published_sha256": "812582d9d83ec59aeda4b42dcf19249fc8032b22a3bc7e4a58559b2b48160cb6"
+    },
+    {
+      "path": "source_snapshot/walking/gauges.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/walking/gauges.py",
+      "original_sha256": "59991ec7e2b789eb506ad6bb2aac49f0f85aee9d06fffcb8506496f357cc26ff",
+      "published_sha256": "59991ec7e2b789eb506ad6bb2aac49f0f85aee9d06fffcb8506496f357cc26ff"
+    },
+    {
+      "path": "source_snapshot/walking/person_walk.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/walking/person_walk.py",
+      "original_sha256": "9c35ae75aadcd6e5528e6defb0271b9724662e785064470e1d5e22c95dcfdbeb",
+      "published_sha256": "9c35ae75aadcd6e5528e6defb0271b9724662e785064470e1d5e22c95dcfdbeb"
+    },
+    {
+      "path": "source_snapshot/walking/radius.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/source_snapshot/walking/radius.py",
+      "original_sha256": "80220a2a39e759939d67140d1148a7cbb943d0832df866d27ba90b686050be66",
+      "published_sha256": "80220a2a39e759939d67140d1148a7cbb943d0832df866d27ba90b686050be66"
+    },
+    {
+      "path": "spatial_behavior_audit.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/spatial_behavior_audit.json",
+      "original_sha256": "bee469299cc90ba4c066309c351971b4f3aa462086c2a121c7385d941088dff9",
+      "published_sha256": "bee469299cc90ba4c066309c351971b4f3aa462086c2a121c7385d941088dff9"
+    },
+    {
+      "path": "spatial_behavior_audit.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/spatial_behavior_audit.py",
+      "original_sha256": "f0abcf175f5bd01ab923907599162ff25360ac6287ae5921135ff4b49fad7021",
+      "published_sha256": "f0abcf175f5bd01ab923907599162ff25360ac6287ae5921135ff4b49fad7021"
+    },
+    {
+      "path": "spatial_plan.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/spatial_plan.json",
+      "original_sha256": "6ac81da0568290eec1b466404c6dab23869736728b8c7c7ce002567756deff90",
+      "published_sha256": "6ac81da0568290eec1b466404c6dab23869736728b8c7c7ce002567756deff90"
+    },
+    {
+      "path": "spatial_summary.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/spatial_summary.json",
+      "original_sha256": "7a8d619609879207251278a27c3e5c821c1de1b60e15288300eea980823c99ea",
+      "published_sha256": "7a8d619609879207251278a27c3e5c821c1de1b60e15288300eea980823c99ea"
+    },
+    {
+      "path": "transport.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/transport.py",
+      "original_sha256": "eb6a65b1107688dd118b7715ded93412a60835ab96fc1df01418555733d47073",
+      "published_sha256": "e536f7179ea8f009a335de3d0aba2b019b391f6b6bc36992797294ae2afa5984"
+    },
+    {
+      "path": "usage_summary.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/usage_summary.json",
+      "original_sha256": "4e6f1e2af02c68f737f8c801b08b0cd82c7ce896e0769240d435eba7fa227e57",
+      "published_sha256": "4e6f1e2af02c68f737f8c801b08b0cd82c7ce896e0769240d435eba7fa227e57"
+    },
+    {
+      "path": "verification_summary.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/verification_summary.json",
+      "original_sha256": "966bb42725669a026d305862bd9fd11b7df5ab70b82520c465920cc1e40783b3",
+      "published_sha256": "a37bd5531008ee03492ad0de71639bbda2fc20f698ec3ecaa0c689e73f995689"
+    },
+    {
+      "path": "watch_spatial.py",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/watch_spatial.py",
+      "original_sha256": "f1c4ad9af8fd54369f6240907dac873e500963e0957365fec2ccf934341f1620",
+      "published_sha256": "f1c4ad9af8fd54369f6240907dac873e500963e0957365fec2ccf934341f1620"
+    },
+    {
+      "path": "같은원문_휴식과거리_반복차이.png",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/같은원문_휴식과거리_반복차이.png",
+      "original_sha256": "38e3a6216b61bcd0a1eb9cdc083d752dbcd3b59e27213fd5b1d147f13b5dfea4",
+      "published_sha256": "38e3a6216b61bcd0a1eb9cdc083d752dbcd3b59e27213fd5b1d147f13b5dfea4"
+    },
+    {
+      "path": "보고서4_1_이번실험사용량.md",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/보고서4_1_이번실험사용량.md",
+      "original_sha256": "a639af89973f993cd39b2a059116ed61af1c95ef0d12142c34781267a1d768d7",
+      "published_sha256": "a639af89973f993cd39b2a059116ed61af1c95ef0d12142c34781267a1d768d7"
+    },
+    {
+      "path": "실험요약.md",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/실험요약.md",
+      "original_sha256": "e3ef958817a13beee4aa0020172c866d43d457135080b97d264fbc0076744824",
+      "published_sha256": "e3ef958817a13beee4aa0020172c866d43d457135080b97d264fbc0076744824"
+    },
+    {
+      "path": "오류원인_수정후보.md",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/오류원인_수정후보.md",
+      "original_sha256": "a33b876bbf6799ce20404a51f4401f7eec7e6f33b93a93740bd8745ab19b9b6a",
+      "published_sha256": "a33b876bbf6799ce20404a51f4401f7eec7e6f33b93a93740bd8745ab19b9b6a"
+    },
+    {
+      "path": "행동군별_확대비교.png",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/행동군별_확대비교.png",
+      "original_sha256": "ef55a979e6f4e95b4a5902f972e067ab85ba5af87aeef75175f9d5cf2e2a2d99",
+      "published_sha256": "ef55a979e6f4e95b4a5902f972e067ab85ba5af87aeef75175f9d5cf2e2a2d99"
+    },
+    {
+      "path": "현재상태.md",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/현재상태.md",
+      "original_sha256": "541b2b32f61c2469ed2179e89850f4536302124d6f7c1ab3c7f2719443508bea",
+      "published_sha256": "541b2b32f61c2469ed2179e89850f4536302124d6f7c1ab3c7f2719443508bea"
+    },
+    {
+      "path": "확대비교_결과보고서.md",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/확대비교_결과보고서.md",
+      "original_sha256": "1b3549575d9d0efe8cddf40ecbfb804a02d92bdecbb8bc6c3e100e2260d385bd",
+      "published_sha256": "1b3549575d9d0efe8cddf40ecbfb804a02d92bdecbb8bc6c3e100e2260d385bd"
+    },
+    {
+      "path": "spatial_examples/P05_off_1_C_17.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/spatial/P05_off_1_C_17.json",
+      "original_sha256": "3b9545a2ea0cc95fa8cb58c7f3fc5c8453ff6484863d64964cb5155ded31a6bb",
+      "published_sha256": "3b9545a2ea0cc95fa8cb58c7f3fc5c8453ff6484863d64964cb5155ded31a6bb"
+    },
+    {
+      "path": "spatial_examples/P05_off_2_C_17.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/spatial/P05_off_2_C_17.json",
+      "original_sha256": "40ff2f27bd9c8fc96fc57ff41e232b3f110b6b79e6ad5fda2b6228efc288264d",
+      "published_sha256": "40ff2f27bd9c8fc96fc57ff41e232b3f110b6b79e6ad5fda2b6228efc288264d"
+    },
+    {
+      "path": "spatial_examples/P14_on_2_C_17.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/spatial/P14_on_2_C_17.json",
+      "original_sha256": "fff6ed87c438720ff0dd84edc63396a02f0baa886c0b2ed580ce67eb0f11c4f1",
+      "published_sha256": "fff6ed87c438720ff0dd84edc63396a02f0baa886c0b2ed580ce67eb0f11c4f1"
+    },
+    {
+      "path": "spatial_examples/P29_on_1_C_17.json",
+      "source": "결선/실험/MIND_diverse_comparison_20261006/spatial/P29_on_1_C_17.json",
+      "original_sha256": "2b37c6c4b0ff2cd80bd05c0077bc0bff10a856dc549db08363bf548c9ce33fe6",
+      "published_sha256": "2b37c6c4b0ff2cd80bd05c0077bc0bff10a856dc549db08363bf548c9ce33fe6"
+    },
+    {
+      "path": "handoff/마음모델_다음개선계획.md",
+      "source": "결선/실험/MIND_handoff_20261006/마음모델_다음개선계획.md",
+      "original_sha256": "ba94ab5efbabc5e4bff3484911641010d943ff2589233dda82ca940cb2674ce1",
+      "published_sha256": "ba94ab5efbabc5e4bff3484911641010d943ff2589233dda82ca940cb2674ce1"
+    },
+    {
+      "path": "handoff/데이터_증강_설계.md",
+      "source": "결선/실험/MIND_handoff_20261006/데이터_증강_설계.md",
+      "original_sha256": "69e3689f234c288197c020fa4e4f7e520e9d6544dc9973a0d446c7827c4f49e7",
+      "published_sha256": "69e3689f234c288197c020fa4e4f7e520e9d6544dc9973a0d446c7827c4f49e7"
+    },
+    {
+      "path": "handoff/다음_AI_인계프롬프트.md",
+      "source": "결선/실험/MIND_handoff_20261006/다음_AI_인계프롬프트.md",
+      "original_sha256": "8dbea2c2cea2dfa298c6052ab4c2b517347acc6c23e2486f45b8032d956d4381",
+      "published_sha256": "16f8e3739eeb2f428e9913063e53cb9dfc57e5eb93496d804a08ec27e57d73fa"
+    },
+    {
+      "path": "handoff/augmentation/split_protocol.json",
+      "source": "결선/실험/MIND_handoff_20261006/augmentation/split_protocol.json",
+      "original_sha256": "014c9a745ab4357730847bb33b4310d27909b5ca838abb689ebd11b0049b7ced",
+      "published_sha256": "014c9a745ab4357730847bb33b4310d27909b5ca838abb689ebd11b0049b7ced"
+    },
+    {
+      "path": "handoff/augmentation/input_examples.draft.jsonl",
+      "source": "결선/실험/MIND_handoff_20261006/augmentation/input_examples.draft.jsonl",
+      "original_sha256": "8048e5bf5a896d03eff842e12b50f645584fc79f3bc5841d297ab59002b2af85",
+      "published_sha256": "8048e5bf5a896d03eff842e12b50f645584fc79f3bc5841d297ab59002b2af85"
+    },
+    {
+      "path": "handoff/augmentation/review_examples.NOT_MODEL_INPUT.jsonl",
+      "source": "결선/실험/MIND_handoff_20261006/augmentation/review_examples.NOT_MODEL_INPUT.jsonl",
+      "original_sha256": "1b93685529e41dfa3f76052373208901b70aba94876abebcd9b37eb39a290b6b",
+      "published_sha256": "1b93685529e41dfa3f76052373208901b70aba94876abebcd9b37eb39a290b6b"
+    },
+    {
+      "path": "map/kintex_walk.json",
+      "source": "결선/실험/MIND_completion_20261004/map_full_support/kintex_walk.json",
+      "original_sha256": "79f89b0e88bf94f6ac20c9aa595f60290018fe7b7d681f5b466936908a2c3f38",
+      "published_sha256": "79f89b0e88bf94f6ac20c9aa595f60290018fe7b7d681f5b466936908a2c3f38"
+    },
+    {
+      "path": "map/query.txt",
+      "source": "결선/실험/MIND_completion_20261004/map_full_support/query.txt",
+      "original_sha256": "5c17b1643fa4190e8816a6af86156935806c69b1aaed7f7c590a3ab87d520b68",
+      "published_sha256": "5c17b1643fa4190e8816a6af86156935806c69b1aaed7f7c590a3ab87d520b68"
+    },
+    {
+      "path": "PUBLICATION.md",
+      "source": null,
+      "original_sha256": null,
+      "published_sha256": "9986ad3225bd63b82c0b8e4aed31f6e073dd8f0b5a8b8c492f2850afb2a8fbd8"
+    },
+    {
+      "path": "handoff/README.md",
+      "source": null,
+      "original_sha256": null,
+      "published_sha256": "eeee784e8c7da0d87801305fe768f7edf7be23bb9617afafe9c9b6fff665839c"
+    },
+    {
+      "path": "map/README.md",
+      "source": null,
+      "original_sha256": null,
+      "published_sha256": "15f9e893db7b21985c713580633025f69c9fc6eb3cd20779ce613830b946e5e8"
+    },
+    {
+      "path": "spatial_archive_manifest.json",
+      "source": null,
+      "original_sha256": null,
+      "published_sha256": "9fac8bc9569a2bb71b017624173866a432fc93faa77887a254b583d79bad11f8"
+    },
+    {
+      "path": "spatial_index.json",
+      "source": null,
+      "original_sha256": null,
+      "published_sha256": "3f53871174ab352023a4c925e60884c2537c6eff7a4ecd151e7f25374c04b217"
+    },
+    {
+      "path": "spatial_records.tar.gz",
+      "source": null,
+      "original_sha256": null,
+      "published_sha256": "743bf9f48aeb408ae4f4108ffcfc2194817b6db9c3dbdda4e2ccfd732b26f06b"
+    }
+  ]
+}

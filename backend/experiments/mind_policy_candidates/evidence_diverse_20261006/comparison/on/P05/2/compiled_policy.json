@@ -1,0 +1,51 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "continuous_walk_minutes",
+            "op": "gte",
+            "value": 8
+          }
+        ],
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "distance_since_rest_m",
+            "op": "gte",
+            "value": 450
+          }
+        ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "연속 팔 분 정도 걷거나 사백오십 미터쯤 가면 무릎 때문에 앉아 쉬어야 해요. 둘 다 채워야 하는 건 아니고 먼저 힘든 쪽에서 쉬어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자는 보행 중 연속 8분 이상 또는 450m 이상 이동 시 무릎 통증으로 인해 휴식이 필요하다고 명시했습니다."
+    }
+  ]
+}

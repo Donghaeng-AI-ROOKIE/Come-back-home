@@ -1,0 +1,34 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "dark_observed",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "시각은 관계없어요. 지하 통로처럼 본인이 어둡다고 말한 곳에서는 기다리고, 밝은 곳에서는 그 기다림이 끝났어요. 밤이라고 무조건 기다리지는 않았어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "Registered places are candidate names without actual, waiting occurs in dark places (dark_observed), not based on time."
+    }
+  ]
+}

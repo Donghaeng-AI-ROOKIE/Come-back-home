@@ -1,0 +1,348 @@
+{
+  "posthoc_only": true,
+  "primary_results_changed": false,
+  "model_calls": 0,
+  "counts": {
+    "on": {
+      "failed_outputs_observed": 24,
+      "incomplete_outputs": 15,
+      "intact_json_with_short_framing": 5,
+      "posthoc_matching_scenes": 20
+    },
+    "off": {
+      "failed_outputs_observed": 4,
+      "incomplete_outputs": 0,
+      "intact_json_with_short_framing": 0,
+      "posthoc_matching_scenes": 0
+    }
+  },
+  "outputs": [
+    {
+      "job": "v4_P14_off_2",
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "stop",
+      "diagnostic_error": "ValueError"
+    },
+    {
+      "job": "v4_P15_off_2",
+      "person_id": "P15",
+      "arm": "off",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "stop",
+      "diagnostic_error": "ValueError"
+    },
+    {
+      "job": "v4_P18_off_2",
+      "person_id": "P18",
+      "arm": "off",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "stop",
+      "diagnostic_error": "ValueError"
+    },
+    {
+      "job": "v4_P32_off_2",
+      "person_id": "P32",
+      "arm": "off",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "stop",
+      "diagnostic_error": "ValueError"
+    },
+    {
+      "job": "v4_P01_on_2",
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P02_on_1",
+      "person_id": "P02",
+      "arm": "on",
+      "rep": 1,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P03_on_2",
+      "person_id": "P03",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "stop",
+      "diagnostic_error": "ValueError"
+    },
+    {
+      "job": "v4_P04_on_1",
+      "person_id": "P04",
+      "arm": "on",
+      "rep": 1,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P05_on_1",
+      "person_id": "P05",
+      "arm": "on",
+      "rep": 1,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P07_on_2",
+      "person_id": "P07",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": true,
+      "finish_reason": "stop",
+      "removed_framing": ",",
+      "posthoc_scene_checks": [
+        {
+          "id": "P07_S1",
+          "pass": true
+        },
+        {
+          "id": "P07_S2",
+          "pass": true
+        },
+        {
+          "id": "P07_S3",
+          "pass": true
+        },
+        {
+          "id": "P07_S4",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "job": "v4_P09_on_2",
+      "person_id": "P09",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "stop",
+      "diagnostic_error": "ValueError"
+    },
+    {
+      "job": "v4_P10_on_1",
+      "person_id": "P10",
+      "arm": "on",
+      "rep": 1,
+      "recoverable_framing_only": false,
+      "finish_reason": "stop",
+      "diagnostic_error": "ValueError"
+    },
+    {
+      "job": "v4_P11_on_2",
+      "person_id": "P11",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P12_on_2",
+      "person_id": "P12",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": true,
+      "finish_reason": "stop",
+      "removed_framing": "0",
+      "posthoc_scene_checks": [
+        {
+          "id": "P12_S1",
+          "pass": true
+        },
+        {
+          "id": "P12_S2",
+          "pass": true
+        },
+        {
+          "id": "P12_S3",
+          "pass": true
+        },
+        {
+          "id": "P12_S4",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "job": "v4_P14_on_1",
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 1,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P15_on_1",
+      "person_id": "P15",
+      "arm": "on",
+      "rep": 1,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P15_on_2",
+      "person_id": "P15",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P16_on_2",
+      "person_id": "P16",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": true,
+      "finish_reason": "stop",
+      "removed_framing": ".",
+      "posthoc_scene_checks": [
+        {
+          "id": "P16_S1",
+          "pass": true
+        },
+        {
+          "id": "P16_S2",
+          "pass": true
+        },
+        {
+          "id": "P16_S3",
+          "pass": true
+        },
+        {
+          "id": "P16_S4",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "job": "v4_P17_on_1",
+      "person_id": "P17",
+      "arm": "on",
+      "rep": 1,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P20_on_1",
+      "person_id": "P20",
+      "arm": "on",
+      "rep": 1,
+      "recoverable_framing_only": true,
+      "finish_reason": "stop",
+      "removed_framing": "한",
+      "posthoc_scene_checks": [
+        {
+          "id": "P20_S1",
+          "pass": true
+        },
+        {
+          "id": "P20_S2",
+          "pass": true
+        },
+        {
+          "id": "P20_S3",
+          "pass": true
+        },
+        {
+          "id": "P20_S4",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "job": "v4_P20_on_2",
+      "person_id": "P20",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P22_on_2",
+      "person_id": "P22",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P25_on_1",
+      "person_id": "P25",
+      "arm": "on",
+      "rep": 1,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P25_on_2",
+      "person_id": "P25",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": true,
+      "finish_reason": "stop",
+      "removed_framing": ".",
+      "posthoc_scene_checks": [
+        {
+          "id": "P25_S1",
+          "pass": true
+        },
+        {
+          "id": "P25_S2",
+          "pass": true
+        },
+        {
+          "id": "P25_S3",
+          "pass": true
+        },
+        {
+          "id": "P25_S4",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "job": "v4_P27_on_1",
+      "person_id": "P27",
+      "arm": "on",
+      "rep": 1,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P29_on_2",
+      "person_id": "P29",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "stop",
+      "diagnostic_error": "ValueError"
+    },
+    {
+      "job": "v4_P31_on_1",
+      "person_id": "P31",
+      "arm": "on",
+      "rep": 1,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    },
+    {
+      "job": "v4_P32_on_2",
+      "person_id": "P32",
+      "arm": "on",
+      "rep": 2,
+      "recoverable_framing_only": false,
+      "finish_reason": "length"
+    }
+  ]
+}

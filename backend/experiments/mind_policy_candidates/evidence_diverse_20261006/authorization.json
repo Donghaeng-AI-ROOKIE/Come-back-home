@@ -1,0 +1,22 @@
+{
+  "status": "approved",
+  "human_request": "16으로 하지말고 이제 최신 반복 비교를 더 늘려서 해봐.다양한곳에서.",
+  "human_approval": "승인",
+  "comparison_max": 128,
+  "evaluation_carried_max": 64,
+  "evaluation_only_after_comparison_pass": true,
+  "total_max": 192,
+  "unit_price": null,
+  "actual_cost": null,
+  "support_round": null,
+  "approved_at": "2026-10-06T11:04:01.868397+00:00",
+  "basis": "Human approved the immediately preceding scope: new comparison 128 calls and carried evaluation 64 calls only for a passing frozen candidate.",
+  "max_input_utf8_bytes": 40000,
+  "max_output_tokens_per_call": 12000,
+  "concurrency": 2,
+  "automatic_model_retries": false,
+  "execution_state": "completed",
+  "comparison_used": 128,
+  "evaluation_used": 0,
+  "evaluation_not_executed_reason": "No arm passed all prospective criteria"
+}

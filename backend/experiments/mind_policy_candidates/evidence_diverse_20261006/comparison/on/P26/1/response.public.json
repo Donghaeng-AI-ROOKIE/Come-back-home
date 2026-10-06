@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"보호자는 느티공원, 해든상가, 솔빛쉼터를 등록 장소 후보로 언급했으나 실제 방문이나 선호를 의미하지 않는다고 명시했으며, 밤 23시부터 새벽 1시 전까지 가족이 없으면 기다리며, 새벽 1시에 기다림이 종료된다고 관찰 기록함.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"(clock_hour >= 23 or clock_hour < 1) and not family_present\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6081,
+    "prompt_tokens": 1694,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 7775
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"N0: 등록 장소는 느티공원, 해든상가, 솔빛쉼터이며, 이곳들을 좋아하거나 실제로 간다는 의미는 아니다. N1: 걷는 동안 무릎 통증 발생 시 앉아서 삼 분 정도 쉬었으며, 통증이 없을 때의 행동은 불명확하다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 82,
+    "prompt_tokens": 1684,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1766
+  }
+}

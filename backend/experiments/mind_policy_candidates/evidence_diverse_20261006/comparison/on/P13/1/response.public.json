@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"The guardian clarifies that mentioned locations (느티공원, 해든상가, 솔빛쉼터) are candidate names without actual visit intent (N0). Additionally, daily need to go to 느티공원 is stated but no observed departure or entrance recognition (N1).\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1764,
+    "prompt_tokens": 1682,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 3446
+  }
+}

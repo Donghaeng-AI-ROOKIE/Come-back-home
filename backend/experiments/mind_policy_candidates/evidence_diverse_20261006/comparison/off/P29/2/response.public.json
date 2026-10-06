@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록 장소 후보(느티공원, 해든상가, 솔빛쉼터)에 대한 선호나 실제 방문 의도를 부인하며, 보행 후 휴식은 무릎 통증으로 인해 6분 또는 280m 연속 보행 시 도달한 지점에서 쉬어야 한다고 명시함. 길을 잃은 상황에서 가족이 없을 경우 그 자리에서 대기하며, 가족이 도착하면 대기 종료.\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and (continuous_walk_minutes >= 6 or distance_since_rest_m >= 280)\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"command\": \"wait\",\n      \"condition\": \"lost_awareness and not family_present\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 211,
+    "prompt_tokens": 1788,
+    "prompt_tokens_details": {
+      "cached_tokens": 1760
+    },
+    "total_tokens": 1999
+  }
+}

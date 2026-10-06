@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록 장소가 실제 방문이나 선호를 의미하지 않으며, 길을 잃었을 때 가족이 없으면 대기하고, 가족 도착 후 이동 경로는 기억하지 못한다고 진술함.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 63,
+    "prompt_tokens": 1691,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1754
+  }
+}

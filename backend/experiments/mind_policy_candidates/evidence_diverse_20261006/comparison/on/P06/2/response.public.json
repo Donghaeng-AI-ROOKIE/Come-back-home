@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"Registration places are candidate names, not indicating preference or actual visits. The person can walk 25 minutes without rest, but it's not observed that they rested at 25 minutes.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6811,
+    "prompt_tokens": 1686,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 8497
+  }
+}

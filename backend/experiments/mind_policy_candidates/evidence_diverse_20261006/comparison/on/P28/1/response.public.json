@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"Registration places are candidate names without visitation intent. Rest required after 10 minutes of continuous walking.\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and continuous_walk_minutes >= 10\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3437,
+    "prompt_tokens": 1699,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 5136
+  }
+}

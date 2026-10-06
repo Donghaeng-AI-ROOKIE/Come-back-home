@@ -1,0 +1,12 @@
+{
+  "final_content": "{ \"source_assessment\": \"Registered places are candidate names without actual, waiting occurs in dark places (dark_observed), not based on time.\", \"rules\": [{\"command\": \"wait\", \"condition\": \"dark_observed\", \"place_labels\": [], \"hold_minutes\": 0, \"note_ids\": [\"N1\"]}], \"non_action_note_ids\": [\"N0\"]}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4154,
+    "prompt_tokens": 1692,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 5846
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐 실제 방문 의도 없음. 혼자일 경우 기다려야 한다는 규칙이 있으나 관찰된 장면 없음.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4110,
+    "prompt_tokens": 1677,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 5787
+  }
+}

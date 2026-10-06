@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 본인이 쉬지 않고 25분까지 보행이 가능하다고 진술했으나, 25분 경과 시 반드시 쉬어야 한다는 관찰은 없으며, 휴식 시점은 확인하지 못했다고 명시함. 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호를 의미하지 않는다고 명시함.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 94,
+    "prompt_tokens": 1688,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 1782
+  }
+}

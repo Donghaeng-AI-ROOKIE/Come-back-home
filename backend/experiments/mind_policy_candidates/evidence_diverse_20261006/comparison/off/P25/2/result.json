@@ -1,0 +1,17 @@
+{
+  "job": "v4_P25_off_2",
+  "arm": "off",
+  "person_id": "P25",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "N0과 N1은 보호자의 직접 기록(guardian_original)으로, 등록 장소의 의미와 특정 시간대의 행동에 대한 설명이다. N0은 등록 장소가 실제 방문이나 선호를 의미하지 않음을 명시하며, N1은 오전 �로 특정 시간대(8~9시 전)에 현관에서 기다리는 행동이 있었으나 이후 행동은 기록되지 않았음을 나타낸다. 두 기록 모두 실제 행동의 조건부 반응을 뒷받침하지만, 명령 실행이나 반복적 행동 패턴은 명시되지 않았다.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

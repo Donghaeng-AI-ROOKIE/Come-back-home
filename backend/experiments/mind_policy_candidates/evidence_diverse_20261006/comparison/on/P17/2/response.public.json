@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"보호자 원문 분석: N0은 등록 장소 후보 이름에 대한 해석으로 실제 방문이나 선호도를 나타내지 않음. N1은 비가 올 때 걷기를 멈추고 대기하는 행동을 관찰함.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"rain_observed\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1939,
+    "prompt_tokens": 1685,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 3624
+  }
+}

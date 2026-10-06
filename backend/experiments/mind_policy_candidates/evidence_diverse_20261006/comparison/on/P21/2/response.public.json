@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"N0 clarifies registered places as candidate names not actual destinations; N1 corrects waiting explanation to refer to father and notes mother continued walking when lost without stopping.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2632,
+    "prompt_tokens": 1688,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 4320
+  }
+}

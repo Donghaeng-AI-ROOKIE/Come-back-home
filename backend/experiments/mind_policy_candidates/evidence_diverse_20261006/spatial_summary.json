@@ -1,0 +1,293 @@
+{
+  "planned_slots": 384,
+  "saved_slots": 384,
+  "status_counts": {
+    "not_executable_model_output": 108,
+    "executed": 276
+  },
+  "engineering": {
+    "mass_conserved": {
+      "passed": 276,
+      "total": 276
+    },
+    "clock_accounting": {
+      "passed": 276,
+      "total": 276
+    },
+    "distance_matches_walk_time": {
+      "passed": 276,
+      "total": 276
+    },
+    "full_horizon_resolved": {
+      "passed": 276,
+      "total": 276
+    },
+    "checkpoint_equal": {
+      "passed": 23,
+      "total": 23
+    }
+  },
+  "by_person_arm": {
+    "P01_on": {
+      "executed": 12,
+      "all_authored_checks_passed": 12,
+      "checks": {
+        "avoid_executed": {
+          "passed": 12,
+          "total": 12
+        }
+      }
+    },
+    "P01_off": {
+      "executed": 24,
+      "all_authored_checks_passed": 0,
+      "checks": {
+        "avoid_executed": {
+          "passed": 0,
+          "total": 24
+        }
+      }
+    },
+    "P05_on": {
+      "executed": 12,
+      "all_authored_checks_passed": 12,
+      "checks": {
+        "personal_rest_executed": {
+          "passed": 12,
+          "total": 12
+        },
+        "walking_distance_limit_preserved": {
+          "passed": 12,
+          "total": 12
+        },
+        "walking_time_limit_preserved": {
+          "passed": 12,
+          "total": 12
+        }
+      }
+    },
+    "P05_off": {
+      "executed": 24,
+      "all_authored_checks_passed": 12,
+      "checks": {
+        "personal_rest_executed": {
+          "passed": 12,
+          "total": 24
+        },
+        "walking_distance_limit_preserved": {
+          "passed": 12,
+          "total": 24
+        },
+        "walking_time_limit_preserved": {
+          "passed": 12,
+          "total": 24
+        }
+      }
+    },
+    "P09_on": {
+      "executed": 12,
+      "all_authored_checks_passed": 12,
+      "checks": {
+        "wait_first_hour": {
+          "passed": 12,
+          "total": 12
+        },
+        "waiting_released": {
+          "passed": 12,
+          "total": 12
+        },
+        "walking_after_release": {
+          "passed": 12,
+          "total": 12
+        }
+      }
+    },
+    "P09_off": {
+      "executed": 24,
+      "all_authored_checks_passed": 0,
+      "checks": {
+        "wait_first_hour": {
+          "passed": 0,
+          "total": 24
+        },
+        "waiting_released": {
+          "passed": 0,
+          "total": 24
+        },
+        "walking_after_release": {
+          "passed": 24,
+          "total": 24
+        }
+      }
+    },
+    "P14_on": {
+      "executed": 12,
+      "all_authored_checks_passed": 0,
+      "checks": {
+        "seek_executed": {
+          "passed": 0,
+          "total": 12
+        }
+      }
+    },
+    "P14_off": {
+      "executed": 12,
+      "all_authored_checks_passed": 0,
+      "checks": {
+        "seek_executed": {
+          "passed": 0,
+          "total": 12
+        }
+      }
+    },
+    "P17_on": {
+      "executed": 12,
+      "all_authored_checks_passed": 12,
+      "checks": {
+        "wait_first_hour": {
+          "passed": 12,
+          "total": 12
+        },
+        "waiting_released": {
+          "passed": 12,
+          "total": 12
+        },
+        "walking_after_release": {
+          "passed": 12,
+          "total": 12
+        }
+      }
+    },
+    "P17_off": {
+      "executed": 24,
+      "all_authored_checks_passed": 12,
+      "checks": {
+        "wait_first_hour": {
+          "passed": 12,
+          "total": 24
+        },
+        "waiting_released": {
+          "passed": 12,
+          "total": 24
+        },
+        "walking_after_release": {
+          "passed": 24,
+          "total": 24
+        }
+      }
+    },
+    "P21_on": {
+      "executed": 24,
+      "all_authored_checks_passed": 12,
+      "checks": {
+        "no_invented_wait": {
+          "passed": 24,
+          "total": 24
+        },
+        "personal_walk_executed": {
+          "passed": 12,
+          "total": 24
+        }
+      }
+    },
+    "P21_off": {
+      "executed": 24,
+      "all_authored_checks_passed": 0,
+      "checks": {
+        "no_invented_wait": {
+          "passed": 24,
+          "total": 24
+        },
+        "personal_walk_executed": {
+          "passed": 0,
+          "total": 24
+        }
+      }
+    },
+    "P25_on": {
+      "executed": 0,
+      "all_authored_checks_passed": 0,
+      "checks": {}
+    },
+    "P25_off": {
+      "executed": 24,
+      "all_authored_checks_passed": 0,
+      "checks": {
+        "wait_first_hour": {
+          "passed": 0,
+          "total": 24
+        },
+        "waiting_released": {
+          "passed": 0,
+          "total": 24
+        },
+        "walking_after_release": {
+          "passed": 24,
+          "total": 24
+        }
+      }
+    },
+    "P29_on": {
+      "executed": 12,
+      "all_authored_checks_passed": 12,
+      "checks": {
+        "personal_rest_executed": {
+          "passed": 12,
+          "total": 12
+        },
+        "wait_first_hour": {
+          "passed": 12,
+          "total": 12
+        },
+        "waiting_released": {
+          "passed": 12,
+          "total": 12
+        },
+        "walking_after_release": {
+          "passed": 12,
+          "total": 12
+        },
+        "walking_distance_limit_preserved": {
+          "passed": 12,
+          "total": 12
+        },
+        "walking_time_limit_preserved": {
+          "passed": 12,
+          "total": 12
+        }
+      }
+    },
+    "P29_off": {
+      "executed": 24,
+      "all_authored_checks_passed": 24,
+      "checks": {
+        "personal_rest_executed": {
+          "passed": 24,
+          "total": 24
+        },
+        "wait_first_hour": {
+          "passed": 24,
+          "total": 24
+        },
+        "waiting_released": {
+          "passed": 24,
+          "total": 24
+        },
+        "walking_after_release": {
+          "passed": 24,
+          "total": 24
+        },
+        "walking_distance_limit_preserved": {
+          "passed": 24,
+          "total": 24
+        },
+        "walking_time_limit_preserved": {
+          "passed": 24,
+          "total": 24
+        }
+      }
+    }
+  },
+  "clinical_accuracy_measured": false,
+  "new_model_calls": 0
+}

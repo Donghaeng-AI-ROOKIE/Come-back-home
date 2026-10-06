@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 질문에 나온 후보 이름일 뿐, 좋아하거나 실제로 간다는 의미는 아닙니다. 길을 잃은 경우 기다리는 모습을 관찰하지 못했으며, '네'라고 답한 것은 다른 가족이 돌보는 분에 대한 이야기였습니다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4789,
+    "prompt_tokens": 1680,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 6469
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자 원문에 따르면, 길을 잃었음을 인지하고 불안해할 경우 동행이 돌아올 때까지 잠시 멈춰 기다리는 행동을 한다. 불안하지 않으면 기다리지 않는다. 등록 장소 후보(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호를 의미하지 않는다.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"lost_awareness and anxiety_high\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 129,
+    "prompt_tokens": 1688,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 1817
+  }
+}

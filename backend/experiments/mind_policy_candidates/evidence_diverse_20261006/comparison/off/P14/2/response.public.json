@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록 장소가 특정 장소(느티공원, 해든상가, 솔빛쉼터)를 의미할 뿐, 그곳을 선호하거나 실제로 방문한다는 의미는 아니라고 명시함. 또한, 익숙한 공원(느티공원)을 인식했을 때 실제로 그쪽으로 걸어 출발한 행동을 관찰함.\",\n  \"rules\": [\n    {\n      \"command\": \"seek_0\",\n      \"condition\": \"target_recognized and target_label == '느티공원'\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 140,
+    "prompt_tokens": 1692,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1832
+  }
+}

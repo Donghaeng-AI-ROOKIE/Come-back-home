@@ -1,0 +1,35 @@
+{
+  "job": "v4_P29_on_1",
+  "arm": "on",
+  "person_id": "P29",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "Registration places 느티공원, 해든상가, 솔빛쉼터 listed without intention to visit. Rest required after 6 minutes or 280 meters of walking. Wait when lost awareness and no family present.",
+    "rules": [
+      {
+        "command": "rest",
+        "condition": "is_walking and (continuous_walk_minutes >=6 or distance_since_rest_m >=280)",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      },
+      {
+        "command": "wait",
+        "condition": "lost_awareness and not family_present",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}
