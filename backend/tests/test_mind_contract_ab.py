@@ -299,3 +299,42 @@ def test_d2_accounts_hearsay_and_trait_loss_without_actions():
     assert acct['trait_loss_sentence_ids'] == ['N1.s2'] and acct['by_kind']['hearsay_or_general'] == 1
     for pid, units in D_CORRECT.items():
         assert all(scenes_pass(contract_d2.compile_d2({'units': units}, personal(pid)), pid).values())
+
+
+def to_d3(units):
+    behaviors, others = [], []
+    for u in units:
+        if u['kind'] in ('observed_response', 'functional_need'):
+            behaviors.append({k: u[k] for k in ('sentence_ids', 'kind', 'action', 'goal_place', 'applies_only_at',
+                                                 'start_when_any', 'end_when_any', 'hold_minutes')})
+        else:
+            others.append({'sentence_ids': u['sentence_ids'], 'subject': u['subject'], 'kind': u['kind']})
+    return {'behaviors': behaviors, 'other_sentences': others}
+
+
+@pytest.mark.parametrize('pid', sorted(D_CORRECT))
+def test_d3_split_lists_compile_the_same_behavior(pid):
+    from experiments.mind_contract_ab_20261007 import contract_d3
+    policy = contract_d3.compile_d3(to_d3(D_CORRECT[pid]), personal(pid))
+    assert all(scenes_pass(policy, pid).values())
+    assert scoring.critical(policy, personal(pid), REFERENCE[pid], pid) == []
+
+
+def test_d3_rejects_missing_sentences_empty_conditions_and_foreign_trait_loss():
+    from experiments.mind_contract_ab_20261007 import contract_d3
+    out = to_d3(D_CORRECT['P21'])
+    out['other_sentences'] = [o for o in out['other_sentences'] if o['sentence_ids'] != ['N1.s3']]
+    with pytest.raises(ValueError, match='sentence_not_classified:N1.s3'):
+        contract_d3.compile_d3(out, personal('P21'))
+    out = to_d3(D_CORRECT['P05'])
+    out['behaviors'][0]['start_when_any'] = []
+    with pytest.raises(ValueError, match='behavior_without_condition'):
+        contract_d3.compile_d3(out, personal('P05'))
+    out = to_d3(D_CORRECT['P21'])
+    out['other_sentences'].append({'sentence_ids': ['N1.s1'], 'subject': 'other_person', 'kind': 'not_representable'})
+    with pytest.raises(ValueError, match='not_representable_must_be_the_person'):
+        contract_d3.compile_d3(out, personal('P21'))
+    schema = contract_d3.schema(personal('P21'))['properties']
+    assert 'start_when_any' not in schema['other_sentences']['items']['properties']
+    assert 'subject' not in schema['behaviors']['items']['properties']
+    assert 'none' not in schema['behaviors']['items']['properties']['action']['enum']

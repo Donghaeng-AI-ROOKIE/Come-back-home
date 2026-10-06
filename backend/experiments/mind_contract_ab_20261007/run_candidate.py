@@ -19,13 +19,14 @@ from concurrent.futures import ThreadPoolExecutor
 from math import ceil
 from pathlib import Path
 
-from experiments.mind_contract_ab_20261007 import completion, contract_c, contract_d, contract_d2, scoring, transport
+from experiments.mind_contract_ab_20261007 import completion, contract_c, contract_d, contract_d2, contract_d3, scoring, transport
 from app.llm.initial_behavior import decode_json_content
 from experiments.mind_contract_ab_20261007.run_stage import BACKEND, HERE, digest, write
 from experiments.mind_policy_candidates import note_policy_eval as ev
 
 CANDIDATES = {'c': (contract_c, contract_c.compile_c, 'PLAN_c.md'), 'd': (contract_d, contract_d.compile_d, 'PLAN_d.md'),
-              'd2': (contract_d2, contract_d2.compile_d2, 'PLAN_d2.md')}
+              'd2': (contract_d2, contract_d2.compile_d2, 'PLAN_d2.md'),
+              'd3': (contract_d3, contract_d3.compile_d3, 'PLAN_d3.md')}
 COMMON = [HERE / n for n in ('contract_c.py', 'contracts.py', 'completion.py', 'scoring.py',
                              'transport.py', 'run_candidate.py')] + [
     BACKEND / p for p in ('experiments/mind_policy_candidates/condition_program.py',
@@ -36,7 +37,7 @@ DEV8 = ['P05', 'P06', 'P13', 'P14', 'P21', 'P24', 'P25', 'P29']
 
 def sources(cand):
     module, _, plan = CANDIDATES[cand]
-    extra = [HERE / 'contract_d.py'] if cand == 'd2' else []
+    extra = {'d2': [HERE / 'contract_d.py'], 'd3': [HERE / 'contract_d.py', HERE / 'contract_d2.py']}.get(cand, [])
     return [HERE / plan, Path(module.__file__)] + extra + [p for p in COMMON if p != Path(module.__file__)]
 
 
