@@ -1,0 +1,125 @@
+{
+ "summary": {
+  "responses": 16,
+  "decisions": 64,
+  "first_pass_passed": 56,
+  "passed": 60,
+  "first_valid": 14,
+  "final_valid": 15,
+  "corrections": 2,
+  "problems": {
+   "first_problem": {
+    "non_behavior_unit_with_action": 1,
+    "sentence_not_classified:N1.s1,N1.s2,N1.s3": 1
+   },
+   "final_problem": {
+    "non_behavior_unit_with_action": 1
+   }
+  },
+  "critical": {},
+  "by_family": {
+   "destination": {
+    "passed": 12,
+    "total": 16
+   },
+   "multiple_behaviors": {
+    "passed": 8,
+    "total": 8
+   },
+   "physical_rest": {
+    "passed": 16,
+    "total": 16
+   },
+   "source_fidelity": {
+    "passed": 16,
+    "total": 16
+   },
+   "time_context": {
+    "passed": 8,
+    "total": 8
+   }
+  },
+  "by_form": {
+   "original": {
+    "passed": 60,
+    "total": 64
+   }
+  },
+  "by_expected_status": {
+   "no_personal_reaction": {
+    "passed": 38,
+    "total": 42
+   },
+   "supported": {
+    "passed": 18,
+    "total": 18
+   },
+   "unknown": {
+    "passed": 4,
+    "total": 4
+   }
+  },
+  "by_input": {
+   "P05": {
+    "passed": 8,
+    "total": 8
+   },
+   "P06": {
+    "passed": 8,
+    "total": 8
+   },
+   "P13": {
+    "passed": 4,
+    "total": 8
+   },
+   "P14": {
+    "passed": 8,
+    "total": 8
+   },
+   "P21": {
+    "passed": 8,
+    "total": 8
+   },
+   "P24": {
+    "passed": 8,
+    "total": 8
+   },
+   "P25": {
+    "passed": 8,
+    "total": 8
+   },
+   "P29": {
+    "passed": 8,
+    "total": 8
+   }
+  },
+  "trait_accounting": {
+   "responses_counted": 15,
+   "by_kind": {
+    "observed_response": 8,
+    "functional_need": 4,
+    "capacity_only": 2,
+    "stated_goal": 1,
+    "unobserved": 11,
+    "corrected_away": 8,
+    "hearsay_or_general": 0,
+    "other_information": 14,
+    "not_representable": 0
+   },
+   "responses_with_trait_loss": 0,
+   "trait_loss_sentences": 0,
+   "note": "not_representable = guardian-observed trait the engine cannot express (trait loss)"
+  },
+  "repeat_identical_policy": 7,
+  "inputs": 8
+ },
+ "gate": {
+  "checks": {
+   "decisions": true,
+   "final_valid": true,
+   "no_critical": true
+  },
+  "advance": true,
+  "meaning": "synthetic development data; not location accuracy or clinical validity"
+ }
+}
