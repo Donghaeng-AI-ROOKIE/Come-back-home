@@ -19,7 +19,7 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 
-from experiments.mind_contract_ab_20261007 import scoring
+from experiments.mind_contract_ab_20261007 import contract_d, scoring
 from experiments.mind_contract_ab_20261007.dataset.build_dev128 import ROLES, case, nearby, scene, spec
 from experiments.mind_policy_candidates import condition_program as v4
 from experiments.mind_policy_candidates import note_policy_eval as ev
@@ -33,7 +33,7 @@ class PersonaBuilder:
         self.records, self.rows, self.oracles, self.reviews = [], [], {}, []
 
     def persona(self, pid, family, research_basis, places, qa, rules, cases, summary,
-                checks, representable=True, author='AI draft (Claude), 2026-10-07'):
+                checks, unsupported_sentences=(), author='AI draft (Claude), 2026-10-07'):
         if any(r['id'] == pid for r in self.records):
             raise ValueError('duplicate ' + pid)
         unknown = set(research_basis) - self.evidence_ids
@@ -45,6 +45,9 @@ class PersonaBuilder:
                   'source_kinds': ['guardian_turn'], 'recorded_at': ['2026-10-01T10:00:00+09:00']}
                  for i, (q, a) in enumerate(qa)]
         personal = {'notes': notes, 'places': places, 'prepared_initial': {}}
+        sentence_ids = {x['id'] for x in contract_d.sentences(personal)}
+        if not set(unsupported_sentences) <= sentence_ids:
+            raise ValueError(f'{pid}: unsupported_sentences must be sentence IDs {sorted(sentence_ids)}')
         used = {n for r in rules for n in r['note_ids']}
         out = {'source_assessment': '수기 참조 규칙. 모델 평가나 임상 근거가 아님.', 'rules': rules,
                'non_action_note_ids': [n['id'] for n in notes if n['id'] not in used]}
@@ -64,7 +67,8 @@ class PersonaBuilder:
         self.oracles[pid] = policy.model_dump()
         self.reviews.append({'id': pid, 'family': family, 'research_basis': list(research_basis),
                              'summary': summary, 'required_scene_checks': list(checks),
-                             'representable_in_current_contract': representable, 'reviewer': None,
+                             'expected_trait_loss_sentences': list(unsupported_sentences),
+                             'sentences': contract_d.sentences(personal), 'reviewer': None,
                              'review_status': 'draft_unreviewed', 'model_calls': 0,
                              'clinical_validity_reviewed': False})
 
