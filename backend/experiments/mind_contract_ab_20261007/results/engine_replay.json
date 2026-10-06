@@ -1,0 +1,3042 @@
+{
+ "scope": "handwritten fixtures and saved failing policies replayed on roads; not model accuracy",
+ "model_calls": 0,
+ "map_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+ "sites": [
+  "C",
+  "NW"
+ ],
+ "seeds": [
+  17,
+  73
+ ],
+ "walkers": 100,
+ "start_clock": "2026-09-28T08:00:00",
+ "observations": "synthetic; target recognized always (P14), family absent always (P25), lost and family absent until 90 min then present (P29)",
+ "results": [
+  {
+   "person_id": "P14",
+   "arm": "A_fixture",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.35,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.65,
+     "mean_path_km": 2.815,
+     "mean_km_to_first_place": 0.144,
+     "arrived_first_place": 30
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 6.46,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 113.54,
+     "mean_path_km": 5.45,
+     "mean_km_to_first_place": 0.238,
+     "arrived_first_place": 64
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 18.22,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 221.78,
+     "mean_path_km": 10.645,
+     "mean_km_to_first_place": 0.568,
+     "arrived_first_place": 89
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 30.72,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 329.28,
+     "mean_path_km": 15.805,
+     "mean_km_to_first_place": 0.815,
+     "arrived_first_place": 96
+    }
+   ],
+   "max_continuous_walk_min": 137.0,
+   "max_distance_since_rest_m": 6576.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "A_fixture",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.45,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.55,
+     "mean_path_km": 2.81,
+     "mean_km_to_first_place": 0.15,
+     "arrived_first_place": 33
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 6.76,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 113.24,
+     "mean_path_km": 5.436,
+     "mean_km_to_first_place": 0.259,
+     "arrived_first_place": 58
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 18.96,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 221.04,
+     "mean_path_km": 10.61,
+     "mean_km_to_first_place": 0.517,
+     "arrived_first_place": 82
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 30.77,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 329.23,
+     "mean_path_km": 15.803,
+     "mean_km_to_first_place": 0.729,
+     "arrived_first_place": 95
+    }
+   ],
+   "max_continuous_walk_min": 150.0,
+   "max_distance_since_rest_m": 7200.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "A_fixture",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 2.02,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.98,
+     "mean_path_km": 2.783,
+     "mean_km_to_first_place": 0.369,
+     "arrived_first_place": 98
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.03,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.97,
+     "mean_path_km": 5.327,
+     "mean_km_to_first_place": 0.568,
+     "arrived_first_place": 99
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.31,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.69,
+     "mean_path_km": 10.449,
+     "mean_km_to_first_place": 0.884,
+     "arrived_first_place": 100
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 35.85,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 324.15,
+     "mean_path_km": 15.559,
+     "mean_km_to_first_place": 1.045,
+     "arrived_first_place": 100
+    }
+   ],
+   "max_continuous_walk_min": 115.0,
+   "max_distance_since_rest_m": 5520.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "A_fixture",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 2.22,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.78,
+     "mean_path_km": 2.773,
+     "mean_km_to_first_place": 0.362,
+     "arrived_first_place": 100
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.19,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.81,
+     "mean_path_km": 5.319,
+     "mean_km_to_first_place": 0.556,
+     "arrived_first_place": 100
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.31,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.69,
+     "mean_path_km": 10.449,
+     "mean_km_to_first_place": 0.853,
+     "arrived_first_place": 100
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 35.15,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 324.85,
+     "mean_path_km": 15.593,
+     "mean_km_to_first_place": 1.14,
+     "arrived_first_place": 100
+    }
+   ],
+   "max_continuous_walk_min": 111.0,
+   "max_distance_since_rest_m": 5328.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "B_fixture",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.35,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.65,
+     "mean_path_km": 2.815,
+     "mean_km_to_first_place": 0.144,
+     "arrived_first_place": 30
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 6.46,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 113.54,
+     "mean_path_km": 5.45,
+     "mean_km_to_first_place": 0.238,
+     "arrived_first_place": 64
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 18.22,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 221.78,
+     "mean_path_km": 10.645,
+     "mean_km_to_first_place": 0.568,
+     "arrived_first_place": 89
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 30.72,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 329.28,
+     "mean_path_km": 15.805,
+     "mean_km_to_first_place": 0.815,
+     "arrived_first_place": 96
+    }
+   ],
+   "max_continuous_walk_min": 137.0,
+   "max_distance_since_rest_m": 6576.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "B_fixture",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.45,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.55,
+     "mean_path_km": 2.81,
+     "mean_km_to_first_place": 0.15,
+     "arrived_first_place": 33
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 6.76,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 113.24,
+     "mean_path_km": 5.436,
+     "mean_km_to_first_place": 0.259,
+     "arrived_first_place": 58
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 18.96,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 221.04,
+     "mean_path_km": 10.61,
+     "mean_km_to_first_place": 0.517,
+     "arrived_first_place": 82
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 30.77,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 329.23,
+     "mean_path_km": 15.803,
+     "mean_km_to_first_place": 0.729,
+     "arrived_first_place": 95
+    }
+   ],
+   "max_continuous_walk_min": 150.0,
+   "max_distance_since_rest_m": 7200.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "B_fixture",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 2.02,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.98,
+     "mean_path_km": 2.783,
+     "mean_km_to_first_place": 0.369,
+     "arrived_first_place": 98
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.03,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.97,
+     "mean_path_km": 5.327,
+     "mean_km_to_first_place": 0.568,
+     "arrived_first_place": 99
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.31,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.69,
+     "mean_path_km": 10.449,
+     "mean_km_to_first_place": 0.884,
+     "arrived_first_place": 100
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 35.85,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 324.15,
+     "mean_path_km": 15.559,
+     "mean_km_to_first_place": 1.045,
+     "arrived_first_place": 100
+    }
+   ],
+   "max_continuous_walk_min": 115.0,
+   "max_distance_since_rest_m": 5520.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "B_fixture",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 2.22,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.78,
+     "mean_path_km": 2.773,
+     "mean_km_to_first_place": 0.362,
+     "arrived_first_place": 100
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.19,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.81,
+     "mean_path_km": 5.319,
+     "mean_km_to_first_place": 0.556,
+     "arrived_first_place": 100
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.31,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.69,
+     "mean_path_km": 10.449,
+     "mean_km_to_first_place": 0.853,
+     "arrived_first_place": 100
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 35.15,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 324.85,
+     "mean_path_km": 15.593,
+     "mean_km_to_first_place": 1.14,
+     "arrived_first_place": 100
+    }
+   ],
+   "max_continuous_walk_min": 111.0,
+   "max_distance_since_rest_m": 5328.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "saved_v4_on_2_walk_scoped",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.46,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.54,
+     "mean_path_km": 2.81,
+     "mean_km_to_first_place": 0.566,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.72,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.28,
+     "mean_path_km": 5.389,
+     "mean_km_to_first_place": 0.683,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.51,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 219.49,
+     "mean_path_km": 10.536,
+     "mean_km_to_first_place": 0.917,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 32.59,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 327.41,
+     "mean_path_km": 15.716,
+     "mean_km_to_first_place": 1.048,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 118.0,
+   "max_distance_since_rest_m": 5664.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "saved_v4_on_2_walk_scoped",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.9,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.1,
+     "mean_path_km": 2.789,
+     "mean_km_to_first_place": 0.535,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.9,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.1,
+     "mean_path_km": 5.381,
+     "mean_km_to_first_place": 0.671,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 21.05,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 218.95,
+     "mean_path_km": 10.51,
+     "mean_km_to_first_place": 0.882,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 33.61,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 326.39,
+     "mean_path_km": 15.667,
+     "mean_km_to_first_place": 0.923,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 125.0,
+   "max_distance_since_rest_m": 6000.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "saved_v4_on_2_walk_scoped",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.78,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.22,
+     "mean_path_km": 2.795,
+     "mean_km_to_first_place": 0.424,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 111.0,
+     "mean_path_km": 5.328,
+     "mean_km_to_first_place": 0.62,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.6,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.4,
+     "mean_path_km": 10.435,
+     "mean_km_to_first_place": 0.875,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.2,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.8,
+     "mean_path_km": 15.542,
+     "mean_km_to_first_place": 1.157,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 105.0,
+   "max_distance_since_rest_m": 5040.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "saved_v4_on_2_walk_scoped",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 2.29,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.71,
+     "mean_path_km": 2.77,
+     "mean_km_to_first_place": 0.488,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.26,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.74,
+     "mean_path_km": 5.316,
+     "mean_km_to_first_place": 0.625,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.77,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.23,
+     "mean_path_km": 10.427,
+     "mean_km_to_first_place": 0.881,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.05,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.95,
+     "mean_path_km": 15.55,
+     "mean_km_to_first_place": 1.066,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 97.0,
+   "max_distance_since_rest_m": 4656.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "no_policy",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.51,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.49,
+     "mean_path_km": 2.808,
+     "mean_km_to_first_place": 0.567,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.7,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.3,
+     "mean_path_km": 5.39,
+     "mean_km_to_first_place": 0.681,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.51,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 219.49,
+     "mean_path_km": 10.536,
+     "mean_km_to_first_place": 0.932,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 32.77,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 327.23,
+     "mean_path_km": 15.707,
+     "mean_km_to_first_place": 1.067,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 118.0,
+   "max_distance_since_rest_m": 5664.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "no_policy",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.85,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.15,
+     "mean_path_km": 2.791,
+     "mean_km_to_first_place": 0.528,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.9,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.1,
+     "mean_path_km": 5.381,
+     "mean_km_to_first_place": 0.642,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.83,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 219.17,
+     "mean_path_km": 10.52,
+     "mean_km_to_first_place": 0.901,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 33.3,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 326.7,
+     "mean_path_km": 15.682,
+     "mean_km_to_first_place": 0.955,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 125.0,
+   "max_distance_since_rest_m": 6000.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "no_policy",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.93,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.07,
+     "mean_path_km": 2.787,
+     "mean_km_to_first_place": 0.415,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.02,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.98,
+     "mean_path_km": 5.327,
+     "mean_km_to_first_place": 0.634,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.68,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.32,
+     "mean_path_km": 10.431,
+     "mean_km_to_first_place": 0.845,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.09,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.91,
+     "mean_path_km": 15.548,
+     "mean_km_to_first_place": 1.161,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  },
+  {
+   "person_id": "P14",
+   "arm": "no_policy",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 2.29,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.71,
+     "mean_path_km": 2.77,
+     "mean_km_to_first_place": 0.476,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.37,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.63,
+     "mean_path_km": 5.31,
+     "mean_km_to_first_place": 0.628,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.64,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.36,
+     "mean_path_km": 10.433,
+     "mean_km_to_first_place": 0.946,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.06,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.94,
+     "mean_path_km": 15.549,
+     "mean_km_to_first_place": 1.093,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "A_fixture",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.09,
+     "mean_personal_rest": 19.94,
+     "mean_walk": 39.91,
+     "mean_path_km": 1.916,
+     "mean_km_to_first_place": 0.504,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 45.02,
+     "mean_personal_rest": 44.77,
+     "mean_walk": 74.98,
+     "mean_path_km": 3.599,
+     "mean_km_to_first_place": 0.615,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 90.24,
+     "mean_personal_rest": 89.76,
+     "mean_walk": 149.76,
+     "mean_path_km": 7.188,
+     "mean_km_to_first_place": 0.728,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 136.57,
+     "mean_personal_rest": 135.63,
+     "mean_walk": 223.43,
+     "mean_path_km": 10.725,
+     "mean_km_to_first_place": 0.785,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 8.0,
+   "max_distance_since_rest_m": 384.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "A_fixture",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.08,
+     "mean_personal_rest": 19.93,
+     "mean_walk": 39.92,
+     "mean_path_km": 1.916,
+     "mean_km_to_first_place": 0.511,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 45.05,
+     "mean_personal_rest": 44.4,
+     "mean_walk": 74.95,
+     "mean_path_km": 3.598,
+     "mean_km_to_first_place": 0.616,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 90.37,
+     "mean_personal_rest": 89.47,
+     "mean_walk": 149.63,
+     "mean_path_km": 7.182,
+     "mean_km_to_first_place": 0.746,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 136.66,
+     "mean_personal_rest": 135.5,
+     "mean_walk": 223.34,
+     "mean_path_km": 10.72,
+     "mean_km_to_first_place": 0.91,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 8.0,
+   "max_distance_since_rest_m": 384.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "A_fixture",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.09,
+     "mean_personal_rest": 19.94,
+     "mean_walk": 39.91,
+     "mean_path_km": 1.916,
+     "mean_km_to_first_place": 0.341,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 45.02,
+     "mean_personal_rest": 44.77,
+     "mean_walk": 74.98,
+     "mean_path_km": 3.599,
+     "mean_km_to_first_place": 0.491,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 90.33,
+     "mean_personal_rest": 89.71,
+     "mean_walk": 149.67,
+     "mean_path_km": 7.184,
+     "mean_km_to_first_place": 0.772,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 136.69,
+     "mean_personal_rest": 135.6,
+     "mean_walk": 223.31,
+     "mean_path_km": 10.719,
+     "mean_km_to_first_place": 0.941,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 8.0,
+   "max_distance_since_rest_m": 384.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "A_fixture",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.08,
+     "mean_personal_rest": 19.93,
+     "mean_walk": 39.92,
+     "mean_path_km": 1.916,
+     "mean_km_to_first_place": 0.372,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 45.05,
+     "mean_personal_rest": 44.35,
+     "mean_walk": 74.95,
+     "mean_path_km": 3.598,
+     "mean_km_to_first_place": 0.559,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 90.42,
+     "mean_personal_rest": 89.37,
+     "mean_walk": 149.58,
+     "mean_path_km": 7.18,
+     "mean_km_to_first_place": 0.858,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 136.8,
+     "mean_personal_rest": 135.39,
+     "mean_walk": 223.2,
+     "mean_path_km": 10.714,
+     "mean_km_to_first_place": 1.067,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 8.0,
+   "max_distance_since_rest_m": 384.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "B_fixture",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.09,
+     "mean_personal_rest": 19.94,
+     "mean_walk": 39.91,
+     "mean_path_km": 1.916,
+     "mean_km_to_first_place": 0.504,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 45.02,
+     "mean_personal_rest": 44.77,
+     "mean_walk": 74.98,
+     "mean_path_km": 3.599,
+     "mean_km_to_first_place": 0.615,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 90.24,
+     "mean_personal_rest": 89.76,
+     "mean_walk": 149.76,
+     "mean_path_km": 7.188,
+     "mean_km_to_first_place": 0.728,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 136.57,
+     "mean_personal_rest": 135.63,
+     "mean_walk": 223.43,
+     "mean_path_km": 10.725,
+     "mean_km_to_first_place": 0.785,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 8.0,
+   "max_distance_since_rest_m": 384.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "B_fixture",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.08,
+     "mean_personal_rest": 19.93,
+     "mean_walk": 39.92,
+     "mean_path_km": 1.916,
+     "mean_km_to_first_place": 0.511,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 45.05,
+     "mean_personal_rest": 44.4,
+     "mean_walk": 74.95,
+     "mean_path_km": 3.598,
+     "mean_km_to_first_place": 0.616,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 90.37,
+     "mean_personal_rest": 89.47,
+     "mean_walk": 149.63,
+     "mean_path_km": 7.182,
+     "mean_km_to_first_place": 0.746,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 136.66,
+     "mean_personal_rest": 135.5,
+     "mean_walk": 223.34,
+     "mean_path_km": 10.72,
+     "mean_km_to_first_place": 0.91,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 8.0,
+   "max_distance_since_rest_m": 384.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "B_fixture",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.09,
+     "mean_personal_rest": 19.94,
+     "mean_walk": 39.91,
+     "mean_path_km": 1.916,
+     "mean_km_to_first_place": 0.341,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 45.02,
+     "mean_personal_rest": 44.77,
+     "mean_walk": 74.98,
+     "mean_path_km": 3.599,
+     "mean_km_to_first_place": 0.491,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 90.33,
+     "mean_personal_rest": 89.71,
+     "mean_walk": 149.67,
+     "mean_path_km": 7.184,
+     "mean_km_to_first_place": 0.772,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 136.69,
+     "mean_personal_rest": 135.6,
+     "mean_walk": 223.31,
+     "mean_path_km": 10.719,
+     "mean_km_to_first_place": 0.941,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 8.0,
+   "max_distance_since_rest_m": 384.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "B_fixture",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.08,
+     "mean_personal_rest": 19.93,
+     "mean_walk": 39.92,
+     "mean_path_km": 1.916,
+     "mean_km_to_first_place": 0.372,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 45.05,
+     "mean_personal_rest": 44.35,
+     "mean_walk": 74.95,
+     "mean_path_km": 3.598,
+     "mean_km_to_first_place": 0.559,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 90.42,
+     "mean_personal_rest": 89.37,
+     "mean_walk": 149.58,
+     "mean_path_km": 7.18,
+     "mean_km_to_first_place": 0.858,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 136.8,
+     "mean_personal_rest": 135.39,
+     "mean_walk": 223.2,
+     "mean_path_km": 10.714,
+     "mean_km_to_first_place": 1.067,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 8.0,
+   "max_distance_since_rest_m": 384.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "saved_v4_off_1_rules_empty",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.51,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.49,
+     "mean_path_km": 2.808,
+     "mean_km_to_first_place": 0.567,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.7,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.3,
+     "mean_path_km": 5.39,
+     "mean_km_to_first_place": 0.681,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.51,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 219.49,
+     "mean_path_km": 10.536,
+     "mean_km_to_first_place": 0.932,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 32.77,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 327.23,
+     "mean_path_km": 15.707,
+     "mean_km_to_first_place": 1.067,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 118.0,
+   "max_distance_since_rest_m": 5664.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "saved_v4_off_1_rules_empty",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.85,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.15,
+     "mean_path_km": 2.791,
+     "mean_km_to_first_place": 0.528,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.9,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.1,
+     "mean_path_km": 5.381,
+     "mean_km_to_first_place": 0.642,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.83,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 219.17,
+     "mean_path_km": 10.52,
+     "mean_km_to_first_place": 0.901,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 33.3,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 326.7,
+     "mean_path_km": 15.682,
+     "mean_km_to_first_place": 0.955,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 125.0,
+   "max_distance_since_rest_m": 6000.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "saved_v4_off_1_rules_empty",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.93,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.07,
+     "mean_path_km": 2.787,
+     "mean_km_to_first_place": 0.415,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.02,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.98,
+     "mean_path_km": 5.327,
+     "mean_km_to_first_place": 0.634,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.68,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.32,
+     "mean_path_km": 10.431,
+     "mean_km_to_first_place": 0.845,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.09,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.91,
+     "mean_path_km": 15.548,
+     "mean_km_to_first_place": 1.161,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "saved_v4_off_1_rules_empty",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 2.29,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.71,
+     "mean_path_km": 2.77,
+     "mean_km_to_first_place": 0.476,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.37,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.63,
+     "mean_path_km": 5.31,
+     "mean_km_to_first_place": 0.628,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.64,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.36,
+     "mean_path_km": 10.433,
+     "mean_km_to_first_place": 0.946,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.06,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.94,
+     "mean_path_km": 15.549,
+     "mean_km_to_first_place": 1.093,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "no_policy",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.51,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.49,
+     "mean_path_km": 2.808,
+     "mean_km_to_first_place": 0.567,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.7,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.3,
+     "mean_path_km": 5.39,
+     "mean_km_to_first_place": 0.681,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.51,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 219.49,
+     "mean_path_km": 10.536,
+     "mean_km_to_first_place": 0.932,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 32.77,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 327.23,
+     "mean_path_km": 15.707,
+     "mean_km_to_first_place": 1.067,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 118.0,
+   "max_distance_since_rest_m": 5664.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "no_policy",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.85,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.15,
+     "mean_path_km": 2.791,
+     "mean_km_to_first_place": 0.528,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.9,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.1,
+     "mean_path_km": 5.381,
+     "mean_km_to_first_place": 0.642,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.83,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 219.17,
+     "mean_path_km": 10.52,
+     "mean_km_to_first_place": 0.901,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 33.3,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 326.7,
+     "mean_path_km": 15.682,
+     "mean_km_to_first_place": 0.955,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 125.0,
+   "max_distance_since_rest_m": 6000.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "no_policy",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.93,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.07,
+     "mean_path_km": 2.787,
+     "mean_km_to_first_place": 0.415,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.02,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.98,
+     "mean_path_km": 5.327,
+     "mean_km_to_first_place": 0.634,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.68,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.32,
+     "mean_path_km": 10.431,
+     "mean_km_to_first_place": 0.845,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.09,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.91,
+     "mean_path_km": 15.548,
+     "mean_km_to_first_place": 1.161,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  },
+  {
+   "person_id": "P05",
+   "arm": "no_policy",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 2.29,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.71,
+     "mean_path_km": 2.77,
+     "mean_km_to_first_place": 0.476,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.37,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.63,
+     "mean_path_km": 5.31,
+     "mean_km_to_first_place": 0.628,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.64,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.36,
+     "mean_path_km": 10.433,
+     "mean_km_to_first_place": 0.946,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.06,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.94,
+     "mean_path_km": 15.549,
+     "mean_km_to_first_place": 1.093,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "A_fixture",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.233,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 1.65,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.35,
+     "mean_path_km": 2.801,
+     "mean_km_to_first_place": 0.575,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 13.77,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 166.23,
+     "mean_path_km": 7.979,
+     "mean_km_to_first_place": 0.873,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 26.11,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 273.89,
+     "mean_path_km": 13.147,
+     "mean_km_to_first_place": 1.08,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 133.0,
+   "max_distance_since_rest_m": 6384.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "A_fixture",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.233,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 2.02,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.98,
+     "mean_path_km": 2.783,
+     "mean_km_to_first_place": 0.529,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 15.04,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 164.96,
+     "mean_path_km": 7.918,
+     "mean_km_to_first_place": 0.891,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 27.14,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 272.86,
+     "mean_path_km": 13.097,
+     "mean_km_to_first_place": 1.041,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 132.0,
+   "max_distance_since_rest_m": 6336.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "A_fixture",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.198,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 2.01,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.99,
+     "mean_path_km": 2.784,
+     "mean_km_to_first_place": 0.377,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 15.66,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 164.34,
+     "mean_path_km": 7.888,
+     "mean_km_to_first_place": 0.736,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 29.02,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 270.98,
+     "mean_path_km": 13.007,
+     "mean_km_to_first_place": 0.933,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 101.0,
+   "max_distance_since_rest_m": 4848.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "A_fixture",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.198,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 2.41,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.59,
+     "mean_path_km": 2.764,
+     "mean_km_to_first_place": 0.418,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 15.57,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 164.43,
+     "mean_path_km": 7.893,
+     "mean_km_to_first_place": 0.746,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 28.7,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 271.3,
+     "mean_path_km": 13.022,
+     "mean_km_to_first_place": 1.022,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "B_fixture",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.233,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 1.65,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.35,
+     "mean_path_km": 2.801,
+     "mean_km_to_first_place": 0.575,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 13.77,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 166.23,
+     "mean_path_km": 7.979,
+     "mean_km_to_first_place": 0.873,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 26.11,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 273.89,
+     "mean_path_km": 13.147,
+     "mean_km_to_first_place": 1.08,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 133.0,
+   "max_distance_since_rest_m": 6384.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "B_fixture",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.233,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 2.02,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.98,
+     "mean_path_km": 2.783,
+     "mean_km_to_first_place": 0.529,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 15.04,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 164.96,
+     "mean_path_km": 7.918,
+     "mean_km_to_first_place": 0.891,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 27.14,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 272.86,
+     "mean_path_km": 13.097,
+     "mean_km_to_first_place": 1.041,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 132.0,
+   "max_distance_since_rest_m": 6336.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "B_fixture",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.198,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 2.01,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.99,
+     "mean_path_km": 2.784,
+     "mean_km_to_first_place": 0.377,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 15.66,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 164.34,
+     "mean_path_km": 7.888,
+     "mean_km_to_first_place": 0.736,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 29.02,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 270.98,
+     "mean_path_km": 13.007,
+     "mean_km_to_first_place": 0.933,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 101.0,
+   "max_distance_since_rest_m": 4848.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "B_fixture",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.198,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 2.41,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.59,
+     "mean_path_km": 2.764,
+     "mean_km_to_first_place": 0.418,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 15.57,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 164.43,
+     "mean_path_km": 7.893,
+     "mean_km_to_first_place": 0.746,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 28.7,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 271.3,
+     "mean_path_km": 13.022,
+     "mean_km_to_first_place": 1.022,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "no_policy",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.51,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.49,
+     "mean_path_km": 2.808,
+     "mean_km_to_first_place": 0.567,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.7,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.3,
+     "mean_path_km": 5.39,
+     "mean_km_to_first_place": 0.681,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.51,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 219.49,
+     "mean_path_km": 10.536,
+     "mean_km_to_first_place": 0.932,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 32.77,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 327.23,
+     "mean_path_km": 15.707,
+     "mean_km_to_first_place": 1.067,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 118.0,
+   "max_distance_since_rest_m": 5664.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "no_policy",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.85,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.15,
+     "mean_path_km": 2.791,
+     "mean_km_to_first_place": 0.528,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.9,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.1,
+     "mean_path_km": 5.381,
+     "mean_km_to_first_place": 0.642,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.83,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 219.17,
+     "mean_path_km": 10.52,
+     "mean_km_to_first_place": 0.901,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 33.3,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 326.7,
+     "mean_path_km": 15.682,
+     "mean_km_to_first_place": 0.955,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 125.0,
+   "max_distance_since_rest_m": 6000.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "no_policy",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.93,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.07,
+     "mean_path_km": 2.787,
+     "mean_km_to_first_place": 0.415,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.02,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.98,
+     "mean_path_km": 5.327,
+     "mean_km_to_first_place": 0.634,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.68,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.32,
+     "mean_path_km": 10.431,
+     "mean_km_to_first_place": 0.845,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.09,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.91,
+     "mean_path_km": 15.548,
+     "mean_km_to_first_place": 1.161,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  },
+  {
+   "person_id": "P25",
+   "arm": "no_policy",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 2.29,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.71,
+     "mean_path_km": 2.77,
+     "mean_km_to_first_place": 0.476,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.37,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.63,
+     "mean_path_km": 5.31,
+     "mean_km_to_first_place": 0.628,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.64,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.36,
+     "mean_path_km": 10.433,
+     "mean_km_to_first_place": 0.946,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.06,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.94,
+     "mean_path_km": 15.549,
+     "mean_km_to_first_place": 1.093,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "A_fixture",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.233,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 12.5,
+     "mean_personal_rest": 12.5,
+     "mean_walk": 17.5,
+     "mean_path_km": 0.84,
+     "mean_km_to_first_place": 0.378,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 68.38,
+     "mean_personal_rest": 68.23,
+     "mean_walk": 81.62,
+     "mean_path_km": 3.918,
+     "mean_km_to_first_place": 0.643,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 124.25,
+     "mean_personal_rest": 123.7,
+     "mean_walk": 145.75,
+     "mean_path_km": 6.996,
+     "mean_km_to_first_place": 0.822,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 5.833,
+   "max_distance_since_rest_m": 280.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "A_fixture",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.233,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 12.52,
+     "mean_personal_rest": 12.47,
+     "mean_walk": 17.47,
+     "mean_path_km": 0.839,
+     "mean_km_to_first_place": 0.389,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 68.43,
+     "mean_personal_rest": 68.13,
+     "mean_walk": 81.57,
+     "mean_path_km": 3.916,
+     "mean_km_to_first_place": 0.665,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 124.27,
+     "mean_personal_rest": 123.7,
+     "mean_walk": 145.73,
+     "mean_path_km": 6.995,
+     "mean_km_to_first_place": 0.837,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 5.833,
+   "max_distance_since_rest_m": 280.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "A_fixture",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.198,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 12.52,
+     "mean_personal_rest": 12.47,
+     "mean_walk": 17.48,
+     "mean_path_km": 0.839,
+     "mean_km_to_first_place": 0.242,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 68.43,
+     "mean_personal_rest": 68.09,
+     "mean_walk": 81.57,
+     "mean_path_km": 3.915,
+     "mean_km_to_first_place": 0.512,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 124.3,
+     "mean_personal_rest": 123.5,
+     "mean_walk": 145.7,
+     "mean_path_km": 6.994,
+     "mean_km_to_first_place": 0.787,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 5.833,
+   "max_distance_since_rest_m": 280.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "A_fixture",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.198,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 12.53,
+     "mean_personal_rest": 12.48,
+     "mean_walk": 17.47,
+     "mean_path_km": 0.839,
+     "mean_km_to_first_place": 0.263,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 68.46,
+     "mean_personal_rest": 68.06,
+     "mean_walk": 81.54,
+     "mean_path_km": 3.914,
+     "mean_km_to_first_place": 0.468,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 124.3,
+     "mean_personal_rest": 123.58,
+     "mean_walk": 145.7,
+     "mean_path_km": 6.994,
+     "mean_km_to_first_place": 0.702,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 5.833,
+   "max_distance_since_rest_m": 280.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "B_fixture",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.233,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 12.5,
+     "mean_personal_rest": 12.5,
+     "mean_walk": 17.5,
+     "mean_path_km": 0.84,
+     "mean_km_to_first_place": 0.378,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 68.38,
+     "mean_personal_rest": 68.23,
+     "mean_walk": 81.62,
+     "mean_path_km": 3.918,
+     "mean_km_to_first_place": 0.643,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 124.25,
+     "mean_personal_rest": 123.7,
+     "mean_walk": 145.75,
+     "mean_path_km": 6.996,
+     "mean_km_to_first_place": 0.822,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 5.833,
+   "max_distance_since_rest_m": 280.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "B_fixture",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.233,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 12.52,
+     "mean_personal_rest": 12.47,
+     "mean_walk": 17.47,
+     "mean_path_km": 0.839,
+     "mean_km_to_first_place": 0.389,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 68.43,
+     "mean_personal_rest": 68.13,
+     "mean_walk": 81.57,
+     "mean_path_km": 3.916,
+     "mean_km_to_first_place": 0.665,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 124.27,
+     "mean_personal_rest": 123.7,
+     "mean_walk": 145.73,
+     "mean_path_km": 6.995,
+     "mean_km_to_first_place": 0.837,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 5.833,
+   "max_distance_since_rest_m": 280.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "B_fixture",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.198,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 12.52,
+     "mean_personal_rest": 12.47,
+     "mean_walk": 17.48,
+     "mean_path_km": 0.839,
+     "mean_km_to_first_place": 0.242,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 68.43,
+     "mean_personal_rest": 68.09,
+     "mean_walk": 81.57,
+     "mean_path_km": 3.915,
+     "mean_km_to_first_place": 0.512,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 124.3,
+     "mean_personal_rest": 123.5,
+     "mean_walk": 145.7,
+     "mean_path_km": 6.994,
+     "mean_km_to_first_place": 0.787,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 5.833,
+   "max_distance_since_rest_m": 280.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "B_fixture",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 60.0,
+     "mean_rest": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 0.0,
+     "mean_path_km": 0.0,
+     "mean_km_to_first_place": 0.198,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 12.53,
+     "mean_personal_rest": 12.48,
+     "mean_walk": 17.47,
+     "mean_path_km": 0.839,
+     "mean_km_to_first_place": 0.263,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 68.46,
+     "mean_personal_rest": 68.06,
+     "mean_walk": 81.54,
+     "mean_path_km": 3.914,
+     "mean_km_to_first_place": 0.468,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 90.0,
+     "mean_rest": 124.3,
+     "mean_personal_rest": 123.58,
+     "mean_walk": 145.7,
+     "mean_path_km": 6.994,
+     "mean_km_to_first_place": 0.702,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 5.833,
+   "max_distance_since_rest_m": 280.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "no_policy",
+   "site_id": "C",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.51,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.49,
+     "mean_path_km": 2.808,
+     "mean_km_to_first_place": 0.567,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.7,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.3,
+     "mean_path_km": 5.39,
+     "mean_km_to_first_place": 0.681,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.51,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 219.49,
+     "mean_path_km": 10.536,
+     "mean_km_to_first_place": 0.932,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 32.77,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 327.23,
+     "mean_path_km": 15.707,
+     "mean_km_to_first_place": 1.067,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 118.0,
+   "max_distance_since_rest_m": 5664.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "no_policy",
+   "site_id": "C",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.85,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.15,
+     "mean_path_km": 2.791,
+     "mean_km_to_first_place": 0.528,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 7.9,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 112.1,
+     "mean_path_km": 5.381,
+     "mean_km_to_first_place": 0.642,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 20.83,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 219.17,
+     "mean_path_km": 10.52,
+     "mean_km_to_first_place": 0.901,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 33.3,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 326.7,
+     "mean_path_km": 15.682,
+     "mean_km_to_first_place": 0.955,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 125.0,
+   "max_distance_since_rest_m": 6000.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "no_policy",
+   "site_id": "NW",
+   "seed": 17,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 1.93,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 58.07,
+     "mean_path_km": 2.787,
+     "mean_km_to_first_place": 0.415,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.02,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.98,
+     "mean_path_km": 5.327,
+     "mean_km_to_first_place": 0.634,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.68,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.32,
+     "mean_path_km": 10.431,
+     "mean_km_to_first_place": 0.845,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.09,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.91,
+     "mean_path_km": 15.548,
+     "mean_km_to_first_place": 1.161,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  },
+  {
+   "person_id": "P29",
+   "arm": "no_policy",
+   "site_id": "NW",
+   "seed": 73,
+   "snapshots": [
+    {
+     "minute": 60,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 2.29,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 57.71,
+     "mean_path_km": 2.77,
+     "mean_km_to_first_place": 0.476,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 120,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 9.37,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 110.63,
+     "mean_path_km": 5.31,
+     "mean_km_to_first_place": 0.628,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 240,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 22.64,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 217.36,
+     "mean_path_km": 10.433,
+     "mean_km_to_first_place": 0.946,
+     "arrived_first_place": 0
+    },
+    {
+     "minute": 360,
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_rest": 36.06,
+     "mean_personal_rest": 0.0,
+     "mean_walk": 323.94,
+     "mean_path_km": 15.549,
+     "mean_km_to_first_place": 1.093,
+     "arrived_first_place": 0
+    }
+   ],
+   "max_continuous_walk_min": 107.0,
+   "max_distance_since_rest_m": 5136.0
+  }
+ ]
+}
