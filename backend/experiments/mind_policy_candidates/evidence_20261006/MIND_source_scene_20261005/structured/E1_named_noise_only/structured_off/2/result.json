@@ -1,0 +1,9 @@
+{
+  "id": "E1_named_noise_only",
+  "arm": "structured_off",
+  "rep": 2,
+  "output": null,
+  "format_valid": false,
+  "label_pass": false,
+  "error_type": "RuntimeError"
+}

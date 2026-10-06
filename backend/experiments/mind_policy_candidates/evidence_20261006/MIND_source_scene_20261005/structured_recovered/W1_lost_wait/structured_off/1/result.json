@@ -1,0 +1,18 @@
+{
+  "id": "W1_lost_wait",
+  "arm": "structured_off",
+  "rep": 1,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "wait"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "원문에서 길을 잃었을 때 그 자리에서 기다렸다고 명시되어 있으므로 현재 'wait' 동작이 일치함."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

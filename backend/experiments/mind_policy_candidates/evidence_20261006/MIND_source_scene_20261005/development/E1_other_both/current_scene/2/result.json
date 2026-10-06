@@ -1,0 +1,18 @@
+{
+  "id": "E1_other_both",
+  "arm": "current_scene",
+  "rep": 2,
+  "output": {
+    "status": "no_personal_reaction",
+    "commands": [
+      "baseline"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "N2는 푸른시장 입구에서만 관찰된 회피 반응으로, 현재 장면의 미등록 다른 시장에 대한 일반화 근거가 없음. 조건(crowded/noisy)은 충족되나 장소 특정적 관찰로 다른 시장 적용 불가."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

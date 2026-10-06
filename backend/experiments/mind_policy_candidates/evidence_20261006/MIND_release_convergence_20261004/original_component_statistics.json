@@ -1,0 +1,115 @@
+{
+  "quantiles": "H3 cell centers, weighted probability",
+  "statistical_contains_personal_information": true,
+  "clinical_accuracy_measured": false,
+  "statistics": [
+    {
+      "hour": 1,
+      "component": "agent",
+      "mass500": 0.5580000000000004,
+      "p90_km": 1.012456157255957,
+      "tv_previous": null,
+      "identical_to_previous": null,
+      "cells": 55
+    },
+    {
+      "hour": 1,
+      "component": "statistical",
+      "mass500": 0.596,
+      "p90_km": 1.085167640212163,
+      "tv_previous": null,
+      "identical_to_previous": null,
+      "cells": 58
+    },
+    {
+      "hour": 1,
+      "component": "combined",
+      "mass500": 0.5694000000000001,
+      "p90_km": 1.0347277932424577,
+      "tv_previous": null,
+      "identical_to_previous": null,
+      "cells": 82
+    },
+    {
+      "hour": 2,
+      "component": "agent",
+      "mass500": 0.3560000000000002,
+      "p90_km": 1.300304322716267,
+      "tv_previous": 0.28400000000000014,
+      "identical_to_previous": false,
+      "cells": 88
+    },
+    {
+      "hour": 2,
+      "component": "statistical",
+      "mass500": 0.5700000000000001,
+      "p90_km": 1.0876243971642936,
+      "tv_previous": 0.144,
+      "identical_to_previous": false,
+      "cells": 58
+    },
+    {
+      "hour": 2,
+      "component": "combined",
+      "mass500": 0.4202,
+      "p90_km": 1.291759487246899,
+      "tv_previous": 0.22080000000000002,
+      "identical_to_previous": false,
+      "cells": 106
+    },
+    {
+      "hour": 4,
+      "component": "agent",
+      "mass500": 0.2640000000000001,
+      "p90_km": 1.806871646604353,
+      "tv_previous": 0.2860000000000001,
+      "identical_to_previous": false,
+      "cells": 130
+    },
+    {
+      "hour": 4,
+      "component": "statistical",
+      "mass500": 0.548,
+      "p90_km": 1.3234482441945472,
+      "tv_previous": 0.194,
+      "identical_to_previous": false,
+      "cells": 77
+    },
+    {
+      "hour": 4,
+      "component": "combined",
+      "mass500": 0.34920000000000007,
+      "p90_km": 1.7041524766971823,
+      "tv_previous": 0.234,
+      "identical_to_previous": false,
+      "cells": 157
+    },
+    {
+      "hour": 6,
+      "component": "agent",
+      "mass500": 0.1980000000000001,
+      "p90_km": 2.0055648699472086,
+      "tv_previous": 0.30000000000000004,
+      "identical_to_previous": false,
+      "cells": 163
+    },
+    {
+      "hour": 6,
+      "component": "statistical",
+      "mass500": 0.548,
+      "p90_km": 1.3234482441945472,
+      "tv_previous": 0.0,
+      "identical_to_previous": true,
+      "cells": 77
+    },
+    {
+      "hour": 6,
+      "component": "combined",
+      "mass500": 0.30300000000000005,
+      "p90_km": 1.852066365204797,
+      "tv_previous": 0.21000000000000002,
+      "identical_to_previous": false,
+      "cells": 174
+    }
+  ]
+}

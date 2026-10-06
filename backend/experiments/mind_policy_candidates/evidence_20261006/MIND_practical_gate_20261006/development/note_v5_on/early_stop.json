@@ -1,0 +1,8 @@
+{
+  "time": "2026-10-06T07:14:44.493165+00:00",
+  "reason": "First capacity-only note exhausted 12000 tokens without final output. Stop pending launches; preserve remote in-flight requests for recovery. Test the same source-focused prompt with Thinking OFF.",
+  "stopped_local_pids": [
+    73796
+  ],
+  "automatic_retries": false
+}

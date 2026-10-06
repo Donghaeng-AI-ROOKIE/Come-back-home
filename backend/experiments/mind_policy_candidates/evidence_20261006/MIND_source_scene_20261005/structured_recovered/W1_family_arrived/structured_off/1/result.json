@@ -1,0 +1,20 @@
+{
+  "id": "W1_family_arrived",
+  "arm": "structured_off",
+  "rep": 1,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "wait"
+    ],
+    "source_ids": [
+      "N0",
+      "N1",
+      "N2"
+    ],
+    "reason": "원문에 따르면 길을 잃었을 때 실제 행동은 자리에 서서 가족이 올 때까지 기다리는 것이며, 현재도 걷지 않고 대기 중이므로 'wait' 명령이 조건에 부합한다."
+  },
+  "format_valid": true,
+  "label_pass": false,
+  "error_type": null
+}

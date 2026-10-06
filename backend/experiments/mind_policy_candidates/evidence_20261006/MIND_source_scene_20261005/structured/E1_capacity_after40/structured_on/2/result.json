@@ -1,0 +1,9 @@
+{
+  "id": "E1_capacity_after40",
+  "arm": "structured_on",
+  "rep": 2,
+  "output": null,
+  "format_valid": false,
+  "label_pass": false,
+  "error_type": "RuntimeError"
+}

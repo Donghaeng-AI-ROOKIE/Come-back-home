@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"status\": \"supported\",\n  \"commands\": [\"avoid_market\"],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"원문 N2에 따라 현재 푸른시장의 소음 확인(true)으로 인해 시장 환경을 피하는 반응이 성립함.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2035,
+    "prompt_tokens": 1412,
+    "prompt_tokens_details": {
+      "cached_tokens": 1408
+    },
+    "total_tokens": 3447
+  }
+}

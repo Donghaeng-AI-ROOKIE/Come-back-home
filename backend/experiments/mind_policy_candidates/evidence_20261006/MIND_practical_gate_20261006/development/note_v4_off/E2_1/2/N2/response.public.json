@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\":[],\"unrepresented_reason\":\"No conditional reaction based on caregiver evidence was observed or described in the provided notes. The focus note (N2) describes avoidance behavior at markets in response to noise and crowding, but does not specify a reaction tied to a measurable condition (e.g., duration of walking, elapsed time, or functional rest need). It reports a behavioral pattern—avoiding markets when noisy or crowded—but no rule is triggered by a quantifiable threshold or state change. Other notes mention walking capacity (N1) and lack of route familiarity (N0), but no observed reaction to a condition such as continuous walking duration or arrival at a place. Therefore, no rule can be extracted.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 132,
+    "prompt_tokens": 1285,
+    "prompt_tokens_details": {
+      "cached_tokens": 1280
+    },
+    "total_tokens": 1417
+  }
+}

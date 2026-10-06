@@ -6,6 +6,8 @@ This verifies the archive, not clinical accuracy or release qualification.
 import hashlib
 import json
 import re
+import argparse
+import subprocess
 from pathlib import Path
 
 from app.llm.initial_behavior import decode_json_content
@@ -75,9 +77,22 @@ def verify_evaluation(adaptive=False):
 
 
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--source-ref',help='Check archived implementation hashes at this local Git commit; no checkout or network')
+    args=parser.parse_args()
     manifest = read(EVIDENCE / "implementation_manifest.json")
+    ref=None
+    if args.source_ref:
+        ref=subprocess.check_output(['git','rev-parse','--verify',args.source_ref+'^{commit}'],cwd=BACKEND.parent,text=True).strip()
+        # The replay below still imports these two current semantic modules.
+        # Pin them independently instead of falsely claiming an old engine was
+        # executed merely because its archived blobs match.
+        for relative in ('app/llm/mind_policy.py','app/llm/mind_policy_candidate.py'):
+            require(hashlib.sha256((BACKEND/relative).read_bytes()).hexdigest()==manifest['current_source_sha256'][relative],f'current replay module differs: {relative}')
     for relative, expected in manifest["current_source_sha256"].items():
-        require(hashlib.sha256((BACKEND / relative).read_bytes()).hexdigest() == expected, f"implementation hash differs: {relative}")
+        data=(subprocess.check_output(['git','show',ref+':backend/'+relative],cwd=BACKEND.parent)
+              if ref else (BACKEND/relative).read_bytes())
+        require(hashlib.sha256(data).hexdigest() == expected, f"implementation hash differs: {relative}")
     usage = read(EVIDENCE / "usage_summary.json")
     require(usage["started"] == usage["finished"] and not usage["pending_attempts"], "unreconciled usage")
     require(sum(usage["outcomes"].values()) == usage["finished"], "usage outcomes differ")
@@ -95,6 +110,8 @@ def main():
         "original_frozen_evaluation": verify_evaluation(),
         "adaptive_followup_not_independent_holdout": verify_evaluation(adaptive=True),
         "implementation_hashes_checked": len(manifest["current_source_sha256"]),
+        "implementation_source_ref":ref or 'working_tree',
+        "walking_engine_rerun":False,
         "usage_attempts_reconciled": usage["finished"],
         "external_requests": 0,
         "release_qualification": "not_passed",

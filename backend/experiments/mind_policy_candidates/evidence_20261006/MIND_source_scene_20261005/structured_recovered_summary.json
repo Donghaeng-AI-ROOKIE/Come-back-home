@@ -1,0 +1,519 @@
+{
+  "n": 32,
+  "results": [
+    {
+      "id": "E1_named_both",
+      "arm": "structured_off",
+      "rep": 1,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_named_both",
+      "arm": "structured_on",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "푸른시장 입구에서 혼잡과 소음이 모두 확인되어 원문 N2의 반응 조건 성립"
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_named_both",
+      "arm": "structured_off",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "walk"
+        ],
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "원문 N1에 따르면 평소 40분 정도 연속 보행 가능하며, 현재 보행 시간은 2분으로 피로 조건에 도달하지 않아 걷는 것이 적절함."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "E1_named_both",
+      "arm": "structured_on",
+      "rep": 2,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_other_both",
+      "arm": "structured_off",
+      "rep": 1,
+      "output": {
+        "status": "unknown",
+        "commands": [],
+        "source_ids": [],
+        "reason": "원문에서 관찰된 반응은 특정 조건(사람 많고 시끄러울 때)에서만 나타나며, 현재 장소는 사람 많고 소음 있음이 확인되었으나 혼잡 여부는 미확인이므로 조건 성립 여부 불확실함."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "arm": "structured_on",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "walk"
+        ],
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "원문 N1의 40분 보행 가능 조건 미도달로 현재 보행 지속"
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "arm": "structured_off",
+      "rep": 2,
+      "output": {
+        "status": "unknown",
+        "commands": [],
+        "source_ids": [],
+        "reason": "원문(N2)에 따르면 푸른시장 입구에서만 혼잡과 소음이 동시에 있을 때 회피 반응을 보였으며, 다른 시장 상황에 대한 관찰은 없음. 현재 장소는 미등록 다른 시장이며 혼잡과 소음이 모두 확인되었으나, 원문에서 관찰된 조건(혼잡+소음)과 장소(푸른시장 입구)가 일치하지 않음. 따라서 회피 행동을 일반화할 수 없음."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "arm": "structured_on",
+      "rep": 2,
+      "output": {
+        "status": "unknown",
+        "commands": [],
+        "source_ids": [],
+        "reason": "원문 N2는 푸른시장 입구에서만 관찰된 반응으로, 현재 미등록 다른 시장에서의 혼잡 및 소음 조건에 대한 직접적 증거 없음"
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_capacity_after40",
+      "arm": "structured_off",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "walk"
+        ],
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "원문에서 평소 40분 연속 보행 가능하며, 현재 45분 연속 보행 중이므로 휴식 조건에 도달하지 않아 걷는 것이 적절하다."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "E1_capacity_after40",
+      "arm": "structured_on",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "rest"
+        ],
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "원문에서 40분 연속 보행 시 휴식 조건 충족, 현재 45분 보행으로 조건 성립"
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "E1_capacity_after40",
+      "arm": "structured_off",
+      "rep": 2,
+      "output": {
+        "status": "unknown",
+        "commands": [],
+        "source_ids": [],
+        "reason": "원문에 따르면 푸른시장 입구에서 혼잡과 소음이 동시에 있을 때만 회피 반응을 보였고, 현재 장소의 혼잡과 소음 여부가 확인되지 않아 반응 조건이 성립하지 않음."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_capacity_after40",
+      "arm": "structured_on",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "rest"
+        ],
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "원문 N1에서 40분 보행 가능하나 현재 45분 경과로 휴식 조건 충족"
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "W1_lost_wait",
+      "arm": "structured_off",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문에서 길을 잃었을 때 그 자리에서 기다렸다고 명시되어 있으므로 현재 'wait' 동작이 일치함."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_lost_wait",
+      "arm": "structured_on",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "길을 잃었을 때 가족이 올 때까지 기다리는 행동이 관찰되었으며, 현재 길을 잃었고 가족이 없는 상황이므로 대기 명령이 적절합니다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_lost_wait",
+      "arm": "structured_off",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문에서 길을 잃었을 때 그 자리에 서서 기다렸다고 관찰되었으며, 현재도 길을 잃었다고 알고 있고 가족이 곁에 없으므로 기다리는 것이 적절하다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_lost_wait",
+      "arm": "structured_on",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에서 길을 잃었을 때 기다린 행동이 확인되었으며, 현재 길을 잃었다고 알고 있는 상태와 일치함"
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_walk_rest",
+      "arm": "structured_off",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "rest"
+        ],
+        "source_ids": [
+          "N0"
+        ],
+        "reason": "원문에서 무릎 통증으로 인해 300m 보행 후 휴식이 필요하다고 관찰되었으며, 현재 마지막 휴식 후 300m를 걷고 6.25분 경과한 상태로, 원문에 명시된 보행 한계 조건에 도달했으므로 휴식이 적절하다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_walk_rest",
+      "arm": "structured_on",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "rest"
+        ],
+        "source_ids": [
+          "N0"
+        ],
+        "reason": "원문에서 300m 보행 후 휴식 필요 조건 성립, 현재 300m 보행 완료."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_walk_rest",
+      "arm": "structured_off",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "rest"
+        ],
+        "source_ids": [
+          "N0"
+        ],
+        "reason": "원문에서 무릎 통증으로 인해 300m 보행 후 휴식이 필요하다고 관찰되었으며, 현재 마지막 휴식 이후 6.25분 보행한 상태이므로 휴식 조건이 성립한다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_walk_rest",
+      "arm": "structured_on",
+      "rep": 2,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E2_noise_only",
+      "arm": "structured_off",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문에 따르면 붐비거나 시끄러운 시장 환경에서 입구에서 몸을 돌려 멀어지는 반응을 보였으며, 현재 장소는 소음이 확인되었고 혼잡은 확인되지 않았지만 시장 환경이므로 피하는 반응이 조건에 부합한다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E2_noise_only",
+      "arm": "structured_on",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에서 시장 소음 또는 혼잡 시 회피 반응 관찰됨. 현재 푸른시장 소음 확인됨."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E2_noise_only",
+      "arm": "structured_off",
+      "rep": 2,
+      "output": {
+        "status": "unknown",
+        "commands": [],
+        "source_ids": [],
+        "reason": "원문 N2에 따르면 붐비거나 시끄러운 시장 환경에서 입구에서 몸을 돌려 멀어지는 반응을 보였으나, 현재 장소는 '푸른시장'이며 혼잡은 확인되지 않았고 소음만 확인됨. 원문에서 혼잡과 소음 중 하나만 있어도 회피 반응을 보였다고 명시되어 있으므로, 현재 소음이 확인된 사실만으로도 회피 조건이 성립할 수 있으나, 혼잡 여부는 미확인이므로 전체 조건 성립 여부는 불확실함. 따라서 회피 명령(avoid_market)은 지원되지 않음. 현재 동작은 걷고 있으며, 원문에서 보행 중 회피 반응에 대한 직접적 언급은 없고, 오직 시장 환경에서의 회피만 기술됨. 회피 조건이 완전히 성립하지 않으므로 명령 미지원."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "E2_noise_only",
+      "arm": "structured_on",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에 따라 소음이 확인된 시장 환경에서 멀어짐 필요"
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_named_noise_only",
+      "arm": "structured_off",
+      "rep": 1,
+      "output": {
+        "status": "unknown",
+        "commands": [],
+        "source_ids": [],
+        "reason": "원문에 따르면, 어르신은 혼잡하고 시끄러운 시장 입구에서 몸을 돌려 멀어지는 반응을 보였으나, 현재 장소는 혼잡함이 확인되지 않았고 소음만 확인된 상태이므로 해당 조건이 성립하지 않음."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_named_noise_only",
+      "arm": "structured_on",
+      "rep": 1,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_named_noise_only",
+      "arm": "structured_off",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에 따르면 푸른시장 입구에서 혼잡과 소음이 동시에 있을 때 몸을 돌려 멀어지는 반응을 보였으며, 현재 사실에서 소음은 확인되었고 혼잡은 미확인이지만 시장 환경에 해당하므로 조건 성립."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "E1_named_noise_only",
+      "arm": "structured_on",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "walk"
+        ],
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "원문 N1에서 평소 40분 연속 보행 가능하나 현재 마지막 휴식 후 2분 경과로 휴식 조건 미충족, 현재 푸른시장(혼잡 없음, 소음 있음)에서 N2 기준 회피 조건(혼잡+소음) 미충족하여 기존 보행 유지"
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "W1_family_arrived",
+      "arm": "structured_off",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N0",
+          "N1",
+          "N2"
+        ],
+        "reason": "원문에 따르면 길을 잃었을 때 실제 행동은 자리에 서서 가족이 올 때까지 기다리는 것이며, 현재도 걷지 않고 대기 중이므로 'wait' 명령이 조건에 부합한다."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "W1_family_arrived",
+      "arm": "structured_on",
+      "rep": 1,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_family_arrived",
+      "arm": "structured_off",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "길을 잃었을 때 그 자리에 서서 기다렸다는 관찰된 반응이 현재 상황과 일치함."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "W1_family_arrived",
+      "arm": "structured_on",
+      "rep": 2,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    }
+  ],
+  "arms": {
+    "structured_off": {
+      "n": 16,
+      "format_valid": 15,
+      "label_pass": 9,
+      "not_submitted": 0
+    },
+    "structured_on": {
+      "n": 16,
+      "format_valid": 11,
+      "label_pass": 7,
+      "not_submitted": 0
+    }
+  }
+}

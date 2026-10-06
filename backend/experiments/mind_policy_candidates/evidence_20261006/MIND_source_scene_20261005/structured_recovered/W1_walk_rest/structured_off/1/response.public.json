@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"supported\",\n  \"commands\": [\"rest\"],\n  \"source_ids\": [\"N0\"],\n  \"reason\": \"원문에서 무릎 통증으로 인해 300m 보행 후 휴식이 필요하다고 관찰되었으며, 현재 마지막 휴식 후 300m를 걷고 6.25분 경과한 상태로, 원문에 명시된 보행 한계 조건에 도달했으므로 휴식이 적절하다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 84,
+    "prompt_tokens": 1214,
+    "prompt_tokens_details": {
+      "cached_tokens": 704
+    },
+    "total_tokens": 1298
+  }
+}

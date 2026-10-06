@@ -1,0 +1,9 @@
+{
+  "id": "E1_capacity_after40",
+  "arm": "current_scene",
+  "rep": 1,
+  "output": null,
+  "format_valid": false,
+  "label_pass": false,
+  "error_type": "ValueError"
+}

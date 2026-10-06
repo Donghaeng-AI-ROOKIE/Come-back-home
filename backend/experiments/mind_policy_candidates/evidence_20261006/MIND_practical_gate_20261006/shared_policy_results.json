@@ -1,0 +1,70 @@
+{
+  "policy_source": "authored_executor_test_not_model_output",
+  "region": "KINTEX, Goyang",
+  "map_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+  "map_path": "<workspace>/결선/실험/MIND_completion_20261004/map_full_support/kintex_walk.graphml",
+  "map_metadata_source": "<workspace>/결선/실험/MIND_completion_20261004/map_full_support/kintex_walk.json",
+  "source_attribution": "© OpenStreetMap contributors, ODbL",
+  "synthetic_people": 1,
+  "random_seeds": 3,
+  "new_model_calls": 0,
+  "new_map_calls": 0,
+  "clinical_patients": 0,
+  "clinical_accuracy_measured": false,
+  "rows": [
+    {
+      "seed": 17,
+      "particles_per_channel": 100,
+      "previous_60min_mass_outside_personal_wait_cells": 0.28199999999999986,
+      "shared_60min_mass_outside_personal_wait_cells": 0,
+      "shared_waiting_minutes_at60": [
+        60.0,
+        60.0
+      ],
+      "shared_waiting_minutes_at93": [
+        90.0,
+        90.0
+      ],
+      "shared_walking_minutes_after_release": [
+        2.999999999999995,
+        2.999999999999995
+      ]
+    },
+    {
+      "seed": 43,
+      "particles_per_channel": 100,
+      "previous_60min_mass_outside_personal_wait_cells": 0.28799999999999987,
+      "shared_60min_mass_outside_personal_wait_cells": 0,
+      "shared_waiting_minutes_at60": [
+        60.0,
+        60.0
+      ],
+      "shared_waiting_minutes_at93": [
+        90.0,
+        90.0
+      ],
+      "shared_walking_minutes_after_release": [
+        2.999999999999996,
+        2.999999999999996
+      ]
+    },
+    {
+      "seed": 79,
+      "particles_per_channel": 100,
+      "previous_60min_mass_outside_personal_wait_cells": 0.2759999999999999,
+      "shared_60min_mass_outside_personal_wait_cells": 0,
+      "shared_waiting_minutes_at60": [
+        60.0,
+        60.0
+      ],
+      "shared_waiting_minutes_at93": [
+        90.0,
+        90.0
+      ],
+      "shared_walking_minutes_after_release": [
+        2.9999999999999947,
+        2.9999999999999947
+      ]
+    }
+  ]
+}

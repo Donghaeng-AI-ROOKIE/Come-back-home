@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"command\": \"seek_0\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"target_recognized\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [\"다온공원\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"command\": \"wait\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"lost_awareness\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          },\n          {\n            \"fact\": \"family_present\",\n            \"op\": \"eq\",\n            \"value\": \"false\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    },\n    {\n      \"command\": \"rest\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"is_walking\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N0\"]\n    }\n  ],\n  \"unrepresented_reason\": \"무릎 통증으로 인한 휴식 필요성은 기능적 조건이나, 통증 자체는 직접 관측되지 않음. 보행 시간 제한(5분, 300m, 1시간)은 행동 규칙의 hold_minutes나 when 조건에 직접 반영되지 않음. 다온공원 방문 의도는 있으나 실제 이동이나 길 경험은 없음. 길 잃음 인지 후 대기 행동은 관찰되었으나, 회피나 대체 경로 선택은 없음. 시장·공원·경로당에 대한 소음·혼잡·인지 여부는 언급되지 않음.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 362,
+    "prompt_tokens": 1575,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 1937
+  }
+}

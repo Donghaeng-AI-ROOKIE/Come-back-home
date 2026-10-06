@@ -1,0 +1,12 @@
+{
+  "final_content": "0{\"status\":\"supported\",\"commands\":[\"wait\"],\"source_ids\":[\"N2\"],\"reason\":\"원문 N2에 따라 길을 잃었을 때 가족이 올 때까지 기다리는 행동이 관찰되었으며, 현재 길을 잃은 상태에서 가족이 없는 상황과 일치합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2148,
+    "prompt_tokens": 1404,
+    "prompt_tokens_details": {
+      "cached_tokens": 480
+    },
+    "total_tokens": 3552
+  }
+}

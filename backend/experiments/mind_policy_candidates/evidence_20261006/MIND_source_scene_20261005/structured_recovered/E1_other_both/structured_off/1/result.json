@@ -1,0 +1,14 @@
+{
+  "id": "E1_other_both",
+  "arm": "structured_off",
+  "rep": 1,
+  "output": {
+    "status": "unknown",
+    "commands": [],
+    "source_ids": [],
+    "reason": "원문에서 관찰된 반응은 특정 조건(사람 많고 시끄러울 때)에서만 나타나며, 현재 장소는 사람 많고 소음 있음이 확인되었으나 혼잡 여부는 미확인이므로 조건 성립 여부 불확실함."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

@@ -1,0 +1,477 @@
+{
+  "n": 32,
+  "results": [
+    {
+      "id": "E1_named_both",
+      "arm": "current_scene",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "푸른시장 입구에서 사람이 붐비고 시끄러울 때 몸을 돌려 멀어진 관찰(N2)이 현재 장면의 푸른시장(crowded: true, noisy: true)과 조건이 일치함"
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_named_both",
+      "arm": "source_scene",
+      "rep": 1,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_named_both",
+      "arm": "current_scene",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "현재 푸른시장이 시끄럽고 혼잡한 상태로, N2에서 관찰된 반응 조건(혼잡+시끄러움)이 충족되어 회피 반응이 성립함."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_named_both",
+      "arm": "source_scene",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에 따르면 푸른시장 입구에서 사람이 붐비고 시끄러울 때 몸을 돌려 멀어지는 반응을 보였습니다. 현재 푸른시장에서의 소음과 혼잡이 확인되어 해당 반응이 성립합니다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "arm": "current_scene",
+      "rep": 1,
+      "output": {
+        "status": "unknown",
+        "commands": [],
+        "source_ids": [],
+        "reason": "현재 장면의 미등록 다른 시장에서의 혼잡 및 소음 조건이 N2의 푸른시장 입구 관찰 조건과 유사하나, 특정 장소에서의 반응을 다른 시장으로 확대할 수 없다는 원칙에 따라 판단 불가."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "arm": "source_scene",
+      "rep": 1,
+      "output": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에서 푸른시장 입구에서만 혼잡+시끄러움 조건에서 회피 행동이 관찰되었으나, 현재 장소(미등록 다른 시장)는 원문에서 특정 장소(푸른시장)로 한정된 관찰 대상과 동일하지 않음. 집단 연구나 이전 요약으로 원문을 덮지 않으며, 특정 장소 반응을 다른 시장으로 확대할 수 없음. 현재 소음·혼잡 조건은 충족되나 장소 특이성으로 인해 개인 반응 적용 불가."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "arm": "current_scene",
+      "rep": 2,
+      "output": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "N2는 푸른시장 입구에서만 관찰된 회피 반응으로, 현재 장면의 미등록 다른 시장에 대한 일반화 근거가 없음. 조건(crowded/noisy)은 충족되나 장소 특정적 관찰로 다른 시장 적용 불가."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "arm": "source_scene",
+      "rep": 2,
+      "output": {
+        "status": "unknown",
+        "commands": [],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에서 푸른시장 입구에서만 소음과 혼잡이 있을 때 회피했으나, 다른 시장에서의 반응은 알 수 없어 현재 미등록 다른 시장에서의 반응을 판단할 수 없음"
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_capacity_after40",
+      "arm": "current_scene",
+      "rep": 1,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_capacity_after40",
+      "arm": "source_scene",
+      "rep": 1,
+      "output": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "source_ids": [],
+        "reason": "현재 장면에서 소음·혼잡 여부와 장소 이름이 미확인되어 N2의 '푸른시장 입구에서 붐비고 시끄러울 때 몸을 돌림' 조건 충족 불가. N1의 보행 가능 시간(40분)은 현재 45분 보행과 약간 차이 있으나, 원문에 '40분 경과 후 특정 반응 관찰' 명시되지 않아 보행 지속 여부 판단 불가. 길 잃음 인지·가족 동반 여부 등 추가 조건 미확인으로 특정 반응 성립 근거 없음."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_capacity_after40",
+      "arm": "current_scene",
+      "rep": 2,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_capacity_after40",
+      "arm": "source_scene",
+      "rep": 2,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_lost_wait",
+      "arm": "current_scene",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에 따라 길을 잃었을 때 기다리는 행동이 관찰된 바 있습니다. 현재 장면에서 길을 잃은 상태(lost_awareness: true)에서 기다리는 반응이 일치합니다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_lost_wait",
+      "arm": "source_scene",
+      "rep": 1,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_lost_wait",
+      "arm": "current_scene",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "N2에 따르면 길을 잃었을 때 가족이 올 때까지 기다리는 행동이 관찰되었으며, 현재 장면에서 길을 잃은 상태(lost_awareness: true)이고 가족이 없음(family_present: false)으로 인해 기다림 반응이 성립합니다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_lost_wait",
+      "arm": "source_scene",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "N2 원문에서 길을 잃었을 때 가족이 올 때까지 기다렸으며, 현재 길을 잃은 상태에서 가족이 없으므로 기다림 반응이 성립합니다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_walk_rest",
+      "arm": "current_scene",
+      "rep": 1,
+      "output": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "source_ids": [
+          "N0"
+        ],
+        "reason": "원문 N0에 따르면 300m 보행 후 휴식이 필요하나 현재 장면에서 보행 중이며 피로도 높음(false)이지만 통증 관찰됨. 그러나 원문 기준 휴식 필요 시점 도달했으나 보행 지속 중이므로 개인 반응 미지원."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "W1_walk_rest",
+      "arm": "source_scene",
+      "rep": 1,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_walk_rest",
+      "arm": "current_scene",
+      "rep": 2,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_walk_rest",
+      "arm": "source_scene",
+      "rep": 2,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E2_noise_only",
+      "arm": "current_scene",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에 따르면 시끄러운 시장 환경에서 시장 입구에서 몸을 돌려 멀어지는 반응이 관찰됨"
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E2_noise_only",
+      "arm": "source_scene",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에서 시장 환경에서 소음만 있어도 입구에서 멀어지는 반응을 관찰했으며, 현재 푸른시장에서 소음이 확인되었으나 혼잡은 미확인 상태이므로 소음 조건만으로도 회피 반응이 성립함"
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E2_noise_only",
+      "arm": "current_scene",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "N2에서 시장 환경에서 시끄럽거나 혼잡할 때 입구에서 몸을 돌려 멀어지는 반응이 관찰됨. 현재 장면은 시끄럽지만 혼잡하지 않아 조건 일부 충족."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E2_noise_only",
+      "arm": "source_scene",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에 따라 현재 푸른시장의 소음 확인(true)으로 인해 시장 환경을 피하는 반응이 성립함."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_named_noise_only",
+      "arm": "current_scene",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "walk"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에 따라 사람이 붐비고 시끄러울 때만 피하므로, 현재 시끄럽지만 붐비지 않은 푸른시장에서는 피하지 않고 걷는 것이 원문에 근거함."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "E1_named_noise_only",
+      "arm": "source_scene",
+      "rep": 1,
+      "output": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에 따르면 혼잡과 소음이 동시에 있을 때만 회피하지만, 현재 혼잡은 없고 소음만 있어 회피 반응이 성립하지 않음"
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_named_noise_only",
+      "arm": "current_scene",
+      "rep": 2,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_named_noise_only",
+      "arm": "source_scene",
+      "rep": 2,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_family_arrived",
+      "arm": "current_scene",
+      "rep": 1,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "N2에 따라 길을 잃었을 때 가족이 올 때까지 기다리는 행동이 기술되었으며, 현재 lost_awareness가 true이고 family_present가 true인 상황과 정확히 일치합니다."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "W1_family_arrived",
+      "arm": "source_scene",
+      "rep": 1,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_family_arrived",
+      "arm": "current_scene",
+      "rep": 2,
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "N2에 따르면 길을 잃었을 때 가족이 올 때까지 기다리는 행동을 보였으며, 현재 장면에서 길을 잃은 상태(lost_awareness: true)이고 가족이 동반 중(family_present: true)이므로 대기 행동이 원문에 근거해 성립합니다."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "W1_family_arrived",
+      "arm": "source_scene",
+      "rep": 2,
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    }
+  ],
+  "arms": {
+    "current_scene": {
+      "n": 16,
+      "format_valid": 12,
+      "label_pass": 8
+    },
+    "source_scene": {
+      "n": 16,
+      "format_valid": 8,
+      "label_pass": 8
+    }
+  }
+}

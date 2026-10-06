@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\"status\":\"supported\",\"commands\":[\"walk\"],\"source_ids\":[\"N1\"],\"reason\":\"원문 N1에 따르면 평소 연속 40분 정도 보행 가능하며, 현재 45분 보행 중이나 '평소' 표현으로 지속 보행이 지원됨.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3454,
+    "prompt_tokens": 2096,
+    "prompt_tokens_details": {
+      "cached_tokens": 2080
+    },
+    "total_tokens": 5550
+  }
+}

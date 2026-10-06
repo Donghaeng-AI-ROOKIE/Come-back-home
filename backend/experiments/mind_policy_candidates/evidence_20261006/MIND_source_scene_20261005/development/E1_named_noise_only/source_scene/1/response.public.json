@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"no_personal_reaction\",\n  \"commands\": [\"baseline\"],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"원문 N2에 따르면 혼잡과 소음이 동시에 있을 때만 회피하지만, 현재 혼잡은 없고 소음만 있어 회피 반응이 성립하지 않음\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6073,
+    "prompt_tokens": 1409,
+    "prompt_tokens_details": {
+      "cached_tokens": 1152
+    },
+    "total_tokens": 7482
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "supersedes": "unexecuted v1",
+  "change_reason": "Pre-call coverage audit found only one seek and three rest/wait scenes; replace five synthetic profiles before any calls. No labels changed based on model results.",
+  "changed_person_ids": [
+    "H03",
+    "H04",
+    "H29",
+    "H30",
+    "H32"
+  ],
+  "synthetic_people": 32,
+  "scenes": 64,
+  "repetitions_planned": 2,
+  "max_calls": 128,
+  "action_labels": {
+    "avoid_market": 11,
+    "walk": 20,
+    "seek_1": 1,
+    "seek_0": 2,
+    "rest": 5,
+    "unknown": 10,
+    "avoid_park": 3,
+    "wait": 6,
+    "baseline": 6
+  },
+  "sha256": "7b941f695f0513e1ee4578121d8fe5f87ca8ca4106fe6e77f37edf58523f8d39",
+  "source": "AI-authored synthetic caregiver narratives; not independent human review",
+  "model_calls": 0,
+  "prepared_initial": "empty; does not evaluate new onboarding extraction",
+  "status": "frozen_before_calls_pending_human_review"
+}

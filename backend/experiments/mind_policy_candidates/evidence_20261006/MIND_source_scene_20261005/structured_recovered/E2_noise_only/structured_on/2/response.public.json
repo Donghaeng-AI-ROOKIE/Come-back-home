@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\": \"supported\", \"commands\": [\"avoid_market\"], \"source_ids\": [\"N2\"], \"reason\": \"원문 N2에 따라 소음이 확인된 시장 환경에서 멀어짐 필요\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1833,
+    "prompt_tokens": 1212,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 3045
+  }
+}

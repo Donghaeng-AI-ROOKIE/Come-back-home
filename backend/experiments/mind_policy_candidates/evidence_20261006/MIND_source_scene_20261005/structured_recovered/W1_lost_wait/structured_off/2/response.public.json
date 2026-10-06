@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"supported\",\n  \"commands\": [\"wait\"],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"원문에서 길을 잃었을 때 그 자리에 서서 기다렸다고 관찰되었으며, 현재도 길을 잃었다고 알고 있고 가족이 곁에 없으므로 기다리는 것이 적절하다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 60,
+    "prompt_tokens": 1206,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 1266
+  }
+}

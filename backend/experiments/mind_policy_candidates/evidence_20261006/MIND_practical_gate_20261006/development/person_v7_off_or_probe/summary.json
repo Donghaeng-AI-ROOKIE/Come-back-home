@@ -1,0 +1,235 @@
+{
+  "manifest": {
+    "phase": "development",
+    "candidate": "person_v7_off_or_probe",
+    "thinking": "off",
+    "calls": 2,
+    "scene_decisions": 2,
+    "input_sha256": "f261dce6fc633950593e055634adf4b0de345f90a764de676d84afd8faad47a3",
+    "code_sha256": {
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy.py": "a977a4db957c419f5555d4a9ca5d2fb47273a45472c72f8e09201a9f1da261fa",
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy_eval.py": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+      "<workspace>/결선/실험/MIND_practical_gate_20261006/run_candidate.py": "0c20a5141e923cdf817ad515105f68542daf5ef7c6288e28a39ebf6b52233be4",
+      "<workspace>/결선/실험/MIND_practical_gate_20261006/transport.py": "4bc8f936aad24e1ef256322d946a5772755bfda366ec0e0e97404f47ab0472c0"
+    },
+    "repetitions": 2,
+    "max_request_bytes": 8497,
+    "automatic_retries": false,
+    "probe_note": null,
+    "whole_person": true,
+    "diagnostic_person": "E2_1"
+  },
+  "model_outputs": [
+    {
+      "job": "person_v7_off_or_probe_E2_1_ALL_1",
+      "person_id": "E2_1",
+      "rep": 1,
+      "note_id": "ALL",
+      "output": null,
+      "valid": false,
+      "error_type": "ValidationError",
+      "submitted": true
+    },
+    {
+      "job": "person_v7_off_or_probe_E2_1_ALL_2",
+      "person_id": "E2_1",
+      "rep": 2,
+      "note_id": "ALL",
+      "output": {
+        "source_summary": "N0: 목적지나 길 경험에 대해 모른다고 답변. 세 장소는 후보일 뿐 경험 없음. N1: 평소 40분 연속 걷기 가능하나, 길 잃음 대응은 관찰되지 않음. N2: 세 시장에서 붐비거나 시끄러우면 입구에서 몸을 돌려 멀어짐. 둘 다 없을 때는 피하지 않음. 미관찰: 길 잃음 대응, 시장 외 장소 반응, 구체적 출발 조건.",
+        "rules": [
+          {
+            "command": "avoid_market",
+            "when": [
+              [
+                {
+                  "fact": "market.noisy",
+                  "op": "eq",
+                  "value": "true"
+                },
+                {
+                  "fact": "market.crowded",
+                  "op": "eq",
+                  "value": "true"
+                }
+              ],
+              [
+                {
+                  "fact": "market.noisy",
+                  "op": "eq",
+                  "value": "true"
+                },
+                {
+                  "fact": "market.crowded",
+                  "op": "eq",
+                  "value": "false"
+                }
+              ],
+              [
+                {
+                  "fact": "market.noisy",
+                  "op": "eq",
+                  "value": "false"
+                },
+                {
+                  "fact": "market.crowded",
+                  "op": "eq",
+                  "value": "true"
+                }
+              ]
+            ],
+            "place_labels": [
+              "푸른시장"
+            ],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N2"
+            ]
+          },
+          {
+            "command": "seek_0",
+            "when": [
+              [
+                {
+                  "fact": "market.noisy",
+                  "op": "eq",
+                  "value": "false"
+                },
+                {
+                  "fact": "market.crowded",
+                  "op": "eq",
+                  "value": "false"
+                }
+              ]
+            ],
+            "place_labels": [
+              "다온공원"
+            ],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N0"
+            ]
+          },
+          {
+            "command": "seek_1",
+            "when": [
+              [
+                {
+                  "fact": "market.noisy",
+                  "op": "eq",
+                  "value": "false"
+                },
+                {
+                  "fact": "market.crowded",
+                  "op": "eq",
+                  "value": "false"
+                }
+              ]
+            ],
+            "place_labels": [
+              "푸른시장"
+            ],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N0"
+            ]
+          },
+          {
+            "command": "seek_2",
+            "when": [
+              [
+                {
+                  "fact": "market.noisy",
+                  "op": "eq",
+                  "value": "false"
+                },
+                {
+                  "fact": "market.crowded",
+                  "op": "eq",
+                  "value": "false"
+                }
+              ]
+            ],
+            "place_labels": [
+              "은빛경로당"
+            ],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N0"
+            ]
+          }
+        ],
+        "unrepresented_reason": "길 잃음 대응, 시장 외 장소 반응, 구체적 출발 조건은 원문에 없음."
+      },
+      "valid": true,
+      "error_type": null,
+      "submitted": true
+    }
+  ],
+  "results": [
+    {
+      "id": "E2_noise_only",
+      "person_id": "E2_1",
+      "rep": 1,
+      "label": "avoid_market",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E2_noise_only",
+      "person_id": "E2_1",
+      "rep": 2,
+      "label": "avoid_market",
+      "pass": true,
+      "decision": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "possible_commands": [
+          "avoid_market"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    }
+  ],
+  "gate": {
+    "total": 2,
+    "passed": 1,
+    "required": 2,
+    "success_rate": 0.5,
+    "advance_to_integration": false,
+    "interpretation": "synthetic_behavior_action_agreement_not_location_accuracy",
+    "by_action": {
+      "avoid_market": {
+        "total": 2,
+        "passed": 1
+      }
+    },
+    "by_repetition": {
+      "1": {
+        "total": 1,
+        "passed": 0
+      },
+      "2": {
+        "total": 1,
+        "passed": 1
+      }
+    },
+    "by_person": {
+      "E2_1": {
+        "total": 2,
+        "passed": 1
+      }
+    },
+    "errors": {
+      "ValueError": 1
+    },
+    "reason": "development diagnostics only; complete both predeclared repetitions"
+  },
+  "clinical_patients": 0,
+  "independent_human_raters": 0
+}

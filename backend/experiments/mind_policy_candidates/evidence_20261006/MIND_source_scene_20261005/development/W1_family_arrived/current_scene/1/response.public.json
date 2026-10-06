@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"status\": \"supported\",\n  \"commands\": [\"wait\"],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"N2에 따라 길을 잃었을 때 가족이 올 때까지 기다리는 행동이 기술되었으며, 현재 lost_awareness가 true이고 family_present가 true인 상황과 정확히 일치합니다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 953,
+    "prompt_tokens": 2101,
+    "prompt_tokens_details": {
+      "cached_tokens": 1824
+    },
+    "total_tokens": 3054
+  }
+}

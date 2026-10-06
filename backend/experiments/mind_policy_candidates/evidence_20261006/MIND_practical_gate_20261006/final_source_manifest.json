@@ -1,0 +1,72 @@
+[
+  {
+    "source": "결선/개발/cbh-simulation-integration-20261004/backend/app/llm/mind_policy.py",
+    "snapshot": "final_source_snapshot/backend/app/llm/mind_policy.py",
+    "sha256": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2"
+  },
+  {
+    "source": "결선/개발/cbh-simulation-integration-20261004/backend/app/phase2/continuous_prediction.py",
+    "snapshot": "final_source_snapshot/backend/app/phase2/continuous_prediction.py",
+    "sha256": "ef577e5a8ca5fafc213a8c409abd0102e14b107776ba926892600741ab6358ca"
+  },
+  {
+    "source": "결선/개발/cbh-simulation-integration-20261004/backend/app/phase2/person_walk.py",
+    "snapshot": "final_source_snapshot/backend/app/phase2/person_walk.py",
+    "sha256": "9c35ae75aadcd6e5528e6defb0271b9724662e785064470e1d5e22c95dcfdbeb"
+  },
+  {
+    "source": "결선/개발/cbh-simulation-integration-20261004/backend/app/phase2/pipeline.py",
+    "snapshot": "final_source_snapshot/backend/app/phase2/pipeline.py",
+    "sha256": "b0da81de3a4c8d72c97a7e306d1d3b1a38ac23b1223623b0cddd35c6ebf09178"
+  },
+  {
+    "source": "결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy.py",
+    "snapshot": "final_source_snapshot/backend/experiments/mind_policy_candidates/note_policy.py",
+    "sha256": "a977a4db957c419f5555d4a9ca5d2fb47273a45472c72f8e09201a9f1da261fa"
+  },
+  {
+    "source": "결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy_eval.py",
+    "snapshot": "final_source_snapshot/backend/experiments/mind_policy_candidates/note_policy_eval.py",
+    "sha256": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13"
+  },
+  {
+    "source": "결선/개발/cbh-simulation-integration-20261004/backend/tests/test_note_policy_candidate.py",
+    "snapshot": "final_source_snapshot/backend/tests/test_note_policy_candidate.py",
+    "sha256": "f58ed1e2777c413096adca13c5935ca733fa895cd9782a8a750e5823873be28e"
+  },
+  {
+    "source": "결선/개발/cbh-simulation-integration-20261004/backend/tests/test_continuous_prediction.py",
+    "snapshot": "final_source_snapshot/backend/tests/test_continuous_prediction.py",
+    "sha256": "ce428315a0447e36cbddb2f0b156ab6a10a8150bb5a385c4f4ccb42096fde0c7"
+  },
+  {
+    "source": "결선/실험/MIND_practical_gate_20261006/run_candidate.py",
+    "snapshot": "final_source_snapshot/runner/run_candidate.py",
+    "sha256": "0c20a5141e923cdf817ad515105f68542daf5ef7c6288e28a39ebf6b52233be4"
+  },
+  {
+    "source": "결선/실험/MIND_practical_gate_20261006/freeze_candidate.py",
+    "snapshot": "final_source_snapshot/runner/freeze_candidate.py",
+    "sha256": "c33b3776dbd263a18508be2162ca281fd44ec90e34e766186a76763049a95273"
+  },
+  {
+    "source": "결선/실험/MIND_practical_gate_20261006/transport.py",
+    "snapshot": "final_source_snapshot/runner/transport.py",
+    "sha256": "4bc8f936aad24e1ef256322d946a5772755bfda366ec0e0e97404f47ab0472c0"
+  },
+  {
+    "source": "결선/실험/MIND_practical_gate_20261006/reconcile_usage.py",
+    "snapshot": "final_source_snapshot/runner/reconcile_usage.py",
+    "sha256": "464e485180f5d4d25e416904b548c14ba7fefd814693fbeb8208ef257986df96"
+  },
+  {
+    "source": "결선/실험/MIND_practical_gate_20261006/replay_actual_k.py",
+    "snapshot": "final_source_snapshot/runner/replay_actual_k.py",
+    "sha256": "49b678a8df0b7787f4f7a2c0070def64d44699fd0fb499e084e603e06659df85"
+  },
+  {
+    "source": "결선/실험/MIND_practical_gate_20261006/plot_actual_k.py",
+    "snapshot": "final_source_snapshot/runner/plot_actual_k.py",
+    "sha256": "328224bbe7d678b07562ac54fa025c00b321057b811a6eec6be5feb4e5eafb14"
+  }
+]

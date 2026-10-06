@@ -1,0 +1,29 @@
+{
+  "rules": [
+    {
+      "id": "n0_r0",
+      "when": [
+        [
+          {
+            "fact": "market.crowded",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N2",
+          "quote": "서로 다른 시장 세 곳에서 직접 봤어요. 어느 시장이든 사람이 붐비거나 소리가 시끄러우면 둘 중 하나만 있어도 입구에서 몸을 돌려 멀어지셨어요. 붐비지만 조용한 때도 피했고, 시끄럽지만 한산한 때도 피했어요. 둘 다 없을 때는 피하지 않았어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": []
+}

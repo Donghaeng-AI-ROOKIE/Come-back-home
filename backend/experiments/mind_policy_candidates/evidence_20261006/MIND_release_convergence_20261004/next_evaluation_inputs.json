@@ -1,0 +1,3766 @@
+[
+  {
+    "id": "H01_noise_only",
+    "person_id": "H01",
+    "family": "environment_logic",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "느티시장에서는 소리도 크고 사람까지 많아야 몸을 돌려 나왔어요. 둘 중 하나만 있으면 하던 길을 계속 걸었고요. 제가 옆에서 네 번 봤습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "느티시장",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H01_both",
+    "person_id": "H01",
+    "family": "environment_logic",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "느티시장에서는 소리도 크고 사람까지 많아야 몸을 돌려 나왔어요. 둘 중 하나만 있으면 하던 길을 계속 걸었고요. 제가 옆에서 네 번 봤습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": true,
+      "current_place_label": "느티시장",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H02_noise_only",
+    "person_id": "H02",
+    "family": "environment_logic",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "엄마는 느티시장에 사람이 몰려 있거나 소리가 요란하면 나가는 쪽으로 발걸음을 돌려요. 붐비기만 한 날과 시끄럽기만 한 날 모두 직접 봤어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "느티시장",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H02_both",
+    "person_id": "H02",
+    "family": "environment_logic",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "엄마는 느티시장에 사람이 몰려 있거나 소리가 요란하면 나가는 쪽으로 발걸음을 돌려요. 붐비기만 한 날과 시끄럽기만 한 날 모두 직접 봤어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": true,
+      "current_place_label": "느티시장",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H03_noise_only",
+    "person_id": "H03",
+    "family": "environment_logic",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "시장 소리가 커도 아버지는 신경 쓰지 않고 걷던 길을 가셨어요. 하지만 사람들이 몰려 통로가 붐비면 반대편으로 멀어지셨습니다. 특정 시장에 국한된 관찰은 아닙니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H03_crowd_only",
+    "person_id": "H03",
+    "family": "environment_logic",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "시장 소리가 커도 아버지는 신경 쓰지 않고 걷던 길을 가셨어요. 하지만 사람들이 몰려 통로가 붐비면 반대편으로 멀어지셨습니다. 특정 시장에 국한된 관찰은 아닙니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H04_noise_only",
+    "person_id": "H04",
+    "family": "environment_logic",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "저희 할머니는 한산한 시장에서도 소리가 크면 멀어지는 길을 택했어요. 조용한 시장에서는 사람이 많아도 걷던 방향을 그대로 유지했고요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H04_crowd_only",
+    "person_id": "H04",
+    "family": "environment_logic",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "저희 할머니는 한산한 시장에서도 소리가 크면 멀어지는 길을 택했어요. 조용한 시장에서는 사람이 많아도 걷던 방향을 그대로 유지했고요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H05_named",
+    "person_id": "H05",
+    "family": "spatial_scope",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "느티시장 앞에서 소리가 요란하면 아버지가 등을 돌려 멀어지는 걸 봤어요. 다른 시장에는 함께 간 적이 없어서 같은 반응일지 모르겠습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "느티시장",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H05_other",
+    "person_id": "H05",
+    "family": "spatial_scope",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "느티시장 앞에서 소리가 요란하면 아버지가 등을 돌려 멀어지는 걸 봤어요. 다른 시장에는 함께 간 적이 없어서 같은 반응일지 모르겠습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "다른 시장",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown"
+    ],
+    "expected_commands": []
+  },
+  {
+    "id": "H06_named",
+    "person_id": "H06",
+    "family": "spatial_scope",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "느티시장뿐 아니라 처음 간 시장 두 곳에서도 소리가 시끄러우면 어머니가 멀어지셨습니다. 시장 이름과 상관없이 같은 반응을 반복해서 봤어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "느티시장",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H06_other",
+    "person_id": "H06",
+    "family": "spatial_scope",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "느티시장뿐 아니라 처음 간 시장 두 곳에서도 소리가 시끄러우면 어머니가 멀어지셨습니다. 시장 이름과 상관없이 같은 반응을 반복해서 봤어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "다른 시장",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H07_named",
+    "person_id": "H07",
+    "family": "spatial_scope",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "해솔쉼터에서 사람들이 붐빌 때만 할아버지가 걸어 나오는 걸 봤어요. 해솔쉼터는 공원입니다. 다른 공원에서의 반응은 아직 못 봤습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "해솔쉼터",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_park"
+    ]
+  },
+  {
+    "id": "H07_other",
+    "person_id": "H07",
+    "family": "spatial_scope",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "해솔쉼터에서 사람들이 붐빌 때만 할아버지가 걸어 나오는 걸 봤어요. 해솔쉼터는 공원입니다. 다른 공원에서의 반응은 아직 못 봤습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "처음 온 공원",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown"
+    ],
+    "expected_commands": []
+  },
+  {
+    "id": "H08_named",
+    "person_id": "H08",
+    "family": "spatial_scope",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "저희 엄마는 처음 방문한 곳을 포함해 여러 공원에서 사람이 붐비면 멀어지는 쪽으로 걸었어요. 어느 공원인지보다 붐비는 상황에서 나타난 반응입니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "해솔쉼터",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_park"
+    ]
+  },
+  {
+    "id": "H08_other",
+    "person_id": "H08",
+    "family": "spatial_scope",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "저희 엄마는 처음 방문한 곳을 포함해 여러 공원에서 사람이 붐비면 멀어지는 쪽으로 걸었어요. 어느 공원인지보다 붐비는 상황에서 나타난 반응입니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "처음 온 공원",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_park"
+    ]
+  },
+  {
+    "id": "H09_absent",
+    "person_id": "H09",
+    "family": "family_exception",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아버지는 시끄러운 시장에서 가족 없이 걷던 때에는 밖으로 멀어졌어요. 제가 옆에 있으면 소리가 커도 원래 방향으로 계속 걸었어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H09_present",
+    "person_id": "H09",
+    "family": "family_exception",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아버지는 시끄러운 시장에서 가족 없이 걷던 때에는 밖으로 멀어졌어요. 제가 옆에 있으면 소리가 커도 원래 방향으로 계속 걸었어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H10_absent",
+    "person_id": "H10",
+    "family": "family_exception",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "할머니는 소리가 큰 시장을 피해 걸었어요. 제가 곁에 있을 때도, 가족 없이 걷는 모습을 건너편에서 지켜봤을 때도 똑같이 멀어지셨습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H10_present",
+    "person_id": "H10",
+    "family": "family_exception",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "할머니는 소리가 큰 시장을 피해 걸었어요. 제가 곁에 있을 때도, 가족 없이 걷는 모습을 건너편에서 지켜봤을 때도 똑같이 멀어지셨습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H11_absent",
+    "person_id": "H11",
+    "family": "family_exception",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "어머니는 길을 잃었다고 알아차리면 가족이 올 때까지 그 자리에 서서 기다렸어요. 제가 도착해 곁에 서면 기다림을 마치고 다시 걷기 시작했어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "wait",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "wait"
+    ]
+  },
+  {
+    "id": "H11_present",
+    "person_id": "H11",
+    "family": "family_exception",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "어머니는 길을 잃었다고 알아차리면 가족이 올 때까지 그 자리에 서서 기다렸어요. 제가 도착해 곁에 서면 기다림을 마치고 다시 걷기 시작했어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "wait",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": true,
+      "family_present": true,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H12_absent",
+    "person_id": "H12",
+    "family": "family_exception",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아빠가 길을 잘 모르겠다고 하면서도 계속 걷는 걸 봤어요. 가족을 기다리려고 멈추지는 않았고, 가족이 곁에 있어도 걷던 동작을 이어 갔어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H12_present",
+    "person_id": "H12",
+    "family": "family_exception",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아빠가 길을 잘 모르겠다고 하면서도 계속 걷는 걸 봤어요. 가족을 기다리려고 멈추지는 않았고, 가족이 곁에 있어도 걷던 동작을 이어 갔어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": true,
+      "family_present": true,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H13_elapsed_only",
+    "person_id": "H13",
+    "family": "time_distance",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "어머니는 여덟 분을 쉬지 않고 걸으면 앉아 쉬어요. 그전에는 멈추지 않고 걸었습니다. 집을 나선 뒤 시간이 아니라 실제로 연속해서 걸은 시간을 재어 봤어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 70,
+      "actual_walking_minutes": 3,
+      "continuous_walk_minutes": 3,
+      "distance_since_rest_m": 144,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H13_walked",
+    "person_id": "H13",
+    "family": "time_distance",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "어머니는 여덟 분을 쉬지 않고 걸으면 앉아 쉬어요. 그전에는 멈추지 않고 걸었습니다. 집을 나선 뒤 시간이 아니라 실제로 연속해서 걸은 시간을 재어 봤어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 70,
+      "actual_walking_minutes": 8,
+      "continuous_walk_minutes": 8,
+      "distance_since_rest_m": 384,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "rest"
+    ]
+  },
+  {
+    "id": "H14_short",
+    "person_id": "H14",
+    "family": "time_distance",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "할아버지는 연속 이백 미터를 걷고 나면 앉아 쉬었다가 다시 걷는 모습을 반복했어요. 이백 미터에 못 미친 구간에서는 계속 걸었어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 3,
+      "distance_since_rest_m": 144,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H14_reached",
+    "person_id": "H14",
+    "family": "time_distance",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "할아버지는 연속 이백 미터를 걷고 나면 앉아 쉬었다가 다시 걷는 모습을 반복했어요. 이백 미터에 못 미친 구간에서는 계속 걸었어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 5,
+      "distance_since_rest_m": 240,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "rest"
+    ]
+  },
+  {
+    "id": "H15_before",
+    "person_id": "H15",
+    "family": "capacity_not_action",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아버지가 삼십 분 정도는 걸을 체력이 있다는 것만 알아요. 삼십 분 지난 뒤에 쉬는지 계속 가는지는 직접 재거나 본 적이 없어요. 길을 잃었을 때 반응도 모릅니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 20,
+      "distance_since_rest_m": 960,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown",
+      "no_personal_reaction"
+    ],
+    "expected_commands": [
+      "baseline"
+    ]
+  },
+  {
+    "id": "H15_after",
+    "person_id": "H15",
+    "family": "capacity_not_action",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아버지가 삼십 분 정도는 걸을 체력이 있다는 것만 알아요. 삼십 분 지난 뒤에 쉬는지 계속 가는지는 직접 재거나 본 적이 없어요. 길을 잃었을 때 반응도 모릅니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 35,
+      "distance_since_rest_m": 1680,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown",
+      "no_personal_reaction"
+    ],
+    "expected_commands": [
+      "baseline"
+    ]
+  },
+  {
+    "id": "H16_before",
+    "person_id": "H16",
+    "family": "capacity_not_action",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "어머니가 십 분까지 걸을 수 있다는 말은 들었지만 제가 확인하지는 못했어요. 잠깐 앉았다가 다시 걷는 주기나 길을 잃었을 때 행동은 아직 모르겠어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 5,
+      "distance_since_rest_m": 240,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown",
+      "no_personal_reaction"
+    ],
+    "expected_commands": [
+      "baseline"
+    ]
+  },
+  {
+    "id": "H16_after",
+    "person_id": "H16",
+    "family": "capacity_not_action",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "어머니가 십 분까지 걸을 수 있다는 말은 들었지만 제가 확인하지는 못했어요. 잠깐 앉았다가 다시 걷는 주기나 길을 잃었을 때 행동은 아직 모르겠어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 15,
+      "distance_since_rest_m": 720,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown",
+      "no_personal_reaction"
+    ],
+    "expected_commands": [
+      "baseline"
+    ]
+  },
+  {
+    "id": "H17_noisy",
+    "person_id": "H17",
+    "family": "correction",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "처음에는 시장이 시끄러우면 피해 간다고 적었는데 정정합니다. 그건 동생 이야기였어요. 실종된 어머니는 시장 소리가 커도 조용해도 같은 방향으로 걸어가는 걸 제가 봤습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H17_quiet",
+    "person_id": "H17",
+    "family": "correction",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "처음에는 시장이 시끄러우면 피해 간다고 적었는데 정정합니다. 그건 동생 이야기였어요. 실종된 어머니는 시장 소리가 커도 조용해도 같은 방향으로 걸어가는 걸 제가 봤습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H18_noisy",
+    "person_id": "H18",
+    "family": "correction",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "앞에서 시끄러운 시장에서도 계속 걷는다고 답한 건 예전 일이에요. 최근 몇 달 직접 같이 다닌 관찰로 수정하면, 시끄러울 때는 멀어지고 조용할 때는 걷던 방향을 유지했어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H18_quiet",
+    "person_id": "H18",
+    "family": "correction",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "앞에서 시끄러운 시장에서도 계속 걷는다고 답한 건 예전 일이에요. 최근 몇 달 직접 같이 다닌 관찰로 수정하면, 시끄러울 때는 멀어지고 조용할 때는 걷던 방향을 유지했어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H19_crowded",
+    "person_id": "H19",
+    "family": "subject_or_advice",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "시장이 붐비면 피해 가라고 제가 아버지께 부탁했어요. 실제 아버지가 붐비는 시장을 만났을 때 어느 쪽으로 움직이는지는 못 봤습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown"
+    ],
+    "expected_commands": []
+  },
+  {
+    "id": "H19_unknown_crowd",
+    "person_id": "H19",
+    "family": "subject_or_advice",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "시장이 붐비면 피해 가라고 제가 아버지께 부탁했어요. 실제 아버지가 붐비는 시장을 만났을 때 어느 쪽으로 움직이는지는 못 봤습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": null,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown"
+    ],
+    "expected_commands": []
+  },
+  {
+    "id": "H20_crowded",
+    "person_id": "H20",
+    "family": "subject_or_advice",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아버지께 시장이 붐비면 돌아가라고 말한 뒤, 직접 지켜보니 붐벼도 계속 들어가서 걸으셨어요. 제가 바랐던 행동과 실제 관찰이 달랐습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H20_unknown_crowd",
+    "person_id": "H20",
+    "family": "subject_or_advice",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아버지께 시장이 붐비면 돌아가라고 말한 뒤, 직접 지켜보니 붐벼도 계속 들어가서 걸으셨어요. 제가 바랐던 행동과 실제 관찰이 달랐습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": null,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown"
+    ],
+    "expected_commands": []
+  },
+  {
+    "id": "H21_unrecognized",
+    "person_id": "H21",
+    "family": "arrival_recognition",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아버지는 해솔쉼터에 도착하고 그곳을 알아보면 거기서 기다렸어요. 위치상 도착했어도 못 알아보면 계속 걸었습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": "해솔쉼터",
+      "physical_arrival": true,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "해솔쉼터",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H21_recognized",
+    "person_id": "H21",
+    "family": "arrival_recognition",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아버지는 해솔쉼터에 도착하고 그곳을 알아보면 거기서 기다렸어요. 위치상 도착했어도 못 알아보면 계속 걸었습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": "해솔쉼터",
+      "physical_arrival": true,
+      "target_recognized": true,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "해솔쉼터",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "wait"
+    ]
+  },
+  {
+    "id": "H22_unrecognized",
+    "person_id": "H22",
+    "family": "arrival_recognition",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "할머니는 해솔쉼터를 알아봐도 거기서 머물지 않고 계속 걸어 나왔어요. 못 알아봤을 때도 그냥 걷던 동작을 이어 갔습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": "해솔쉼터",
+      "physical_arrival": true,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "해솔쉼터",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H22_recognized",
+    "person_id": "H22",
+    "family": "arrival_recognition",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "할머니는 해솔쉼터를 알아봐도 거기서 머물지 않고 계속 걸어 나왔어요. 못 알아봤을 때도 그냥 걷던 동작을 이어 갔습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": "해솔쉼터",
+      "physical_arrival": true,
+      "target_recognized": true,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "해솔쉼터",
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H23_morning",
+    "person_id": "H23",
+    "family": "clock_and_goal",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "어머니는 오전 아홉 시가 되면 앉아 있다가 해솔쉼터로 향해 걷기 시작했고, 저녁 아홉 시에는 가족을 기다리며 그 자리에 머물렀어요. 같은 날 시간대에 따라 직접 본 다른 행동입니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "wait",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 9,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "seek_0"
+    ]
+  },
+  {
+    "id": "H23_evening",
+    "person_id": "H23",
+    "family": "clock_and_goal",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "어머니는 오전 아홉 시가 되면 앉아 있다가 해솔쉼터로 향해 걷기 시작했고, 저녁 아홉 시에는 가족을 기다리며 그 자리에 머물렀어요. 같은 날 시간대에 따라 직접 본 다른 행동입니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "wait",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 21,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "wait"
+    ]
+  },
+  {
+    "id": "H24_morning",
+    "person_id": "H24",
+    "family": "clock_and_goal",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아버지는 해솔쉼터에 가야 한다고 아침 저녁 말씀만 하셨어요. 그 뒤 실제로 출발하거나 그곳으로 걸어가는 행동은 본 적이 없어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "wait",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 9,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown",
+      "no_personal_reaction"
+    ],
+    "expected_commands": [
+      "baseline"
+    ]
+  },
+  {
+    "id": "H24_evening",
+    "person_id": "H24",
+    "family": "clock_and_goal",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "아버지는 해솔쉼터에 가야 한다고 아침 저녁 말씀만 하셨어요. 그 뒤 실제로 출발하거나 그곳으로 걸어가는 행동은 본 적이 없어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "wait",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 21,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown",
+      "no_personal_reaction"
+    ],
+    "expected_commands": [
+      "baseline"
+    ]
+  },
+  {
+    "id": "H25_pain",
+    "person_id": "H25",
+    "family": "pain_response",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "엄마는 무릎이 아프다고 할 때마다 바로 앉아 쉬었어요. 통증이 없는 걸 확인한 때에는 걷던 동작을 계속했어요. 가족이 옆에 있어도 이 반응은 같았어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": true,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "rest"
+    ]
+  },
+  {
+    "id": "H25_no_pain",
+    "person_id": "H25",
+    "family": "pain_response",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "엄마는 무릎이 아프다고 할 때마다 바로 앉아 쉬었어요. 통증이 없는 걸 확인한 때에는 걷던 동작을 계속했어요. 가족이 옆에 있어도 이 반응은 같았어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H26_pain",
+    "person_id": "H26",
+    "family": "pain_response",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "할아버지는 다리가 아프다고 말해도 앉지 않고 계속 걷는 모습을 반복했어요. 안 아프다고 할 때도 계속 걸었습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": true,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H26_no_pain",
+    "person_id": "H26",
+    "family": "pain_response",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "할아버지는 다리가 아프다고 말해도 앉지 않고 계속 걷는 모습을 반복했어요. 안 아프다고 할 때도 계속 걸었습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H27_false_and_unknown",
+    "person_id": "H27",
+    "family": "unknown_condition",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "어머니는 시장이 시끄러우면서 붐빌 때만 멀어지고, 두 조건 중 하나라도 아니면 원래 길을 계속 걸었어요. 각각의 상황을 직접 봤습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": null,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H27_true_and_unknown",
+    "person_id": "H27",
+    "family": "unknown_condition",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "어머니는 시장이 시끄러우면서 붐빌 때만 멀어지고, 두 조건 중 하나라도 아니면 원래 길을 계속 걸었어요. 각각의 상황을 직접 봤습니다.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": null,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown"
+    ],
+    "expected_commands": []
+  },
+  {
+    "id": "H28_true_or_unknown",
+    "person_id": "H28",
+    "family": "unknown_condition",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "할머니는 시장에서 소리가 크거나 사람이 많으면 멀어지셨고, 둘 다 아닐 때에는 그대로 걸었어요. 이 외에 필요한 조건은 관찰하지 않았어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": null,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H28_false_or_unknown",
+    "person_id": "H28",
+    "family": "unknown_condition",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "할머니는 시장에서 소리가 크거나 사람이 많으면 멀어지셨고, 둘 다 아닐 때에는 그대로 걸었어요. 이 외에 필요한 조건은 관찰하지 않았어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": null,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown"
+    ],
+    "expected_commands": []
+  },
+  {
+    "id": "H29_noisy",
+    "person_id": "H29",
+    "family": "negation",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문이 “시장 소리가 크면 피하나요?”였죠. 아니요. 아버지는 시끄러워도 피하지 않고 원래 방향으로 계속 걸었어요. 조용해도 같은 방향을 유지했고요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H29_quiet",
+    "person_id": "H29",
+    "family": "negation",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "질문이 “시장 소리가 크면 피하나요?”였죠. 아니요. 아버지는 시끄러워도 피하지 않고 원래 방향으로 계속 걸었어요. 조용해도 같은 방향을 유지했고요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H30_noisy",
+    "person_id": "H30",
+    "family": "negation",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "“시장 소리가 크면 피하지 않나요?”라는 질문에, 네, 피하지 않는다는 뜻으로 답했어요. 어머니는 소리가 클 때도 조용할 때도 원래 길로 계속 걸었어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H30_quiet",
+    "person_id": "H30",
+    "family": "negation",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "“시장 소리가 크면 피하지 않나요?”라는 질문에, 네, 피하지 않는다는 뜻으로 답했어요. 어머니는 소리가 클 때도 조용할 때도 원래 길로 계속 걸었어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  },
+  {
+    "id": "H31_crowded",
+    "person_id": "H31",
+    "family": "source_subject",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "시장이 붐비면 길을 바꿔 멀어지는 사람은 저예요. 실종된 할머니가 그렇게 반응했다는 이야기는 아닙니다. 할머니의 그 상황 행동은 아직 못 봤어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown"
+    ],
+    "expected_commands": []
+  },
+  {
+    "id": "H31_quiet",
+    "person_id": "H31",
+    "family": "source_subject",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "시장이 붐비면 길을 바꿔 멀어지는 사람은 저예요. 실종된 할머니가 그렇게 반응했다는 이야기는 아닙니다. 할머니의 그 상황 행동은 아직 못 봤어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "unknown"
+    ],
+    "expected_commands": []
+  },
+  {
+    "id": "H32_crowded",
+    "person_id": "H32",
+    "family": "source_subject",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "딸인 저는 사람이 많아도 시장 길을 계속 가는데, 실종된 어머니는 반대예요. 직접 모시고 다녀보니 붐비면 멀어지고 한산할 때는 계속 걸었어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "avoid_market"
+    ]
+  },
+  {
+    "id": "H32_quiet",
+    "person_id": "H32",
+    "family": "source_subject",
+    "personal": {
+      "notes": [
+        {
+          "id": "N0",
+          "text": "딸인 저는 사람이 많아도 시장 길을 계속 가는데, 실종된 어머니는 반대예요. 직접 모시고 다녀보니 붐비면 멀어지고 한산할 때는 계속 걸었어요.",
+          "provenance": "synthetic_guardian_not_real_patient"
+        }
+      ],
+      "places": [
+        {
+          "label": "해솔쉼터",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "느티시장",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "prepared_initial": {}
+    },
+    "scene": {
+      "elapsed_minutes": 10,
+      "actual_walking_minutes": 2,
+      "continuous_walk_minutes": 2,
+      "distance_since_rest_m": 96,
+      "fatigue_high": false,
+      "current_action": "walk",
+      "current_target_label": null,
+      "physical_arrival": false,
+      "target_recognized": false,
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "clock_hour": 8,
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": null,
+      "map_distance_m": {
+        "market": 20,
+        "park": 20,
+        "forest": null,
+        "water": null
+      },
+      "scene_provenance": "synthetic conditions, not observed patient data",
+      "latent_fatigue_provenance": "provisional engine band, not a clinical measurement"
+    },
+    "expected_statuses": [
+      "supported"
+    ],
+    "expected_commands": [
+      "walk"
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\": \"unknown\", \"commands\": [], \"source_ids\": [], \"reason\": \"원문 N2는 푸른시장 입구에서만 관찰된 반응으로, 현재 미등록 다른 시장에서의 혼잡 및 소음 조건에 대한 직접적 증거 없음\" }",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1140,
+    "prompt_tokens": 1211,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 2351
+  }
+}

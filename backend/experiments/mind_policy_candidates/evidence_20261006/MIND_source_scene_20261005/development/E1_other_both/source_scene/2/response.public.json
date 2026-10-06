@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"status\": \"unknown\",\n  \"commands\": [],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"원문 N2에서 푸른시장 입구에서만 소음과 혼잡이 있을 때 회피했으나, 다른 시장에서의 반응은 알 수 없어 현재 미등록 다른 시장에서의 반응을 판단할 수 없음\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3842,
+    "prompt_tokens": 1411,
+    "prompt_tokens_details": {
+      "cached_tokens": 1152
+    },
+    "total_tokens": 5253
+  }
+}

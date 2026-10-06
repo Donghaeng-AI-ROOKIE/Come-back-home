@@ -1,0 +1,14 @@
+{
+  "id": "E1_other_both",
+  "arm": "current_scene",
+  "rep": 1,
+  "output": {
+    "status": "unknown",
+    "commands": [],
+    "source_ids": [],
+    "reason": "현재 장면의 미등록 다른 시장에서의 혼잡 및 소음 조건이 N2의 푸른시장 입구 관찰 조건과 유사하나, 특정 장소에서의 반응을 다른 시장으로 확대할 수 없다는 원칙에 따라 판단 불가."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\"status\":\"unknown\",\"commands\":[],\"source_ids\":[],\"reason\":\"원문 N2는 푸른시장 입구에서만 관찰된 반응으로, 다른 시장에서의 반응은 확인되지 않음. 현재 장면의 소음·혼잡 조건이 N2의 조건과 유사하나, 특정 장소에서의 반응을 동일 유형의 모든 장소로 확대할 수 없음.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6792,
+    "prompt_tokens": 2115,
+    "prompt_tokens_details": {
+      "cached_tokens": 2112
+    },
+    "total_tokens": 8907
+  }
+}

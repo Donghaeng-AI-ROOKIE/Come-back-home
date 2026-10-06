@@ -1,0 +1,17 @@
+{
+  "status": "development_failed_not_release_pass",
+  "format_valid": 2,
+  "cases": 2,
+  "independent_human_review": false,
+  "findings": {
+    "E1_1": [
+      "40분 보행 가능/평소 보행을 40분 이후 걷기 조건으로 변환",
+      "place-specific avoidance widened to category"
+    ],
+    "W1_1": [
+      "wait preserves lost awareness and absence of family",
+      "rest preserves five-minute threshold and does not add a false 60-minute rest",
+      "300m observation not represented; approximation relation requires review"
+    ]
+  }
+}

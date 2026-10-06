@@ -1,0 +1,14 @@
+{
+  "id": "E1_other_both",
+  "arm": "structured_on",
+  "rep": 2,
+  "output": {
+    "status": "unknown",
+    "commands": [],
+    "source_ids": [],
+    "reason": "원문 N2는 푸른시장 입구에서만 관찰된 반응으로, 현재 미등록 다른 시장에서의 혼잡 및 소음 조건에 대한 직접적 증거 없음"
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

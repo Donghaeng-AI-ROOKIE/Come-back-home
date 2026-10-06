@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\": [], \"unrepresented_reason\": \"N0 문답에서 관찰된 행동이 없음.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1291,
+    "prompt_tokens": 1356,
+    "prompt_tokens_details": {
+      "cached_tokens": 1344
+    },
+    "total_tokens": 2647
+  }
+}

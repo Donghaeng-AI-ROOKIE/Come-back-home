@@ -1,0 +1,18 @@
+{
+  "id": "W1_walk_rest",
+  "arm": "current_scene",
+  "rep": 1,
+  "output": {
+    "status": "no_personal_reaction",
+    "commands": [
+      "baseline"
+    ],
+    "source_ids": [
+      "N0"
+    ],
+    "reason": "원문 N0에 따르면 300m 보행 후 휴식이 필요하나 현재 장면에서 보행 중이며 피로도 높음(false)이지만 통증 관찰됨. 그러나 원문 기준 휴식 필요 시점 도달했으나 보행 지속 중이므로 개인 반응 미지원."
+  },
+  "format_valid": true,
+  "label_pass": false,
+  "error_type": null
+}

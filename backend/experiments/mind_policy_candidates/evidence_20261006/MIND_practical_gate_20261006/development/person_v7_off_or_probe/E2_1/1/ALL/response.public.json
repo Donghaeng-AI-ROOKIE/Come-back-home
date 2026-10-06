@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_summary\": \"보호자는 목적지나 길 경험에 대해 모른다고 답했으며, 보행과 길 잃음 대응은 평소 40분 정도 연속 걷지만 길을 잃은 상황에서의 대처나 방향 전환은 관찰되지 않았다고 했다. 시장을 마주쳤을 때는 세 곳의 시장에서 직접 관찰했으며, 붐비거나 시끄러운 경우(혼잡 또는 소음 중 하나라도 해당) 입구에서 몸을 돌려 피했고, 둘 다 없을 때는 피하지 않았다.\",\n  \"rules\": [\n    {\n  \n      \"command\": \"avoid_market\",\n      \"when\": [\n        [\n          {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"true\"},\n          {\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"true\"}\n        ],\n        [\n          {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"true\"},\n          {\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"false\"}\n        ],\n        [\n          {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"false\"},\n          {\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"true\"}\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    },\n    {\n      \"command\": \"walk\",\n      \"when\": [\n        [\n          {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"false\"},\n          {\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"false\"}\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    },\n    {\n\n      \"command\": \"wait\",\n      \"when\": [],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N0\", \"N1\"]\n    },\n    {\n      \"command\": \"rest\",\n      \"when\": [\n        [\n          {\"fact\": \"continuous_walk_minutes\", \"op\": \"gte\", \"value\": \"40\"}\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"unrepresented_reason\": \"길 잃음 대응이나 방향 전환에 대한 구체적 행동은 관찰되지 않았으며, 시장 외 장소(공원, 숲, 물가)에 대한 소음·혼잡 반응도 언급되지 않음. '목록에 적은 세 곳은 비교용 후보'라는 설명은 등록 장소로의 출발 명령과 무관함.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 539,
+    "prompt_tokens": 1352,
+    "prompt_tokens_details": {
+      "cached_tokens": 1344
+    },
+    "total_tokens": 1891
+  }
+}

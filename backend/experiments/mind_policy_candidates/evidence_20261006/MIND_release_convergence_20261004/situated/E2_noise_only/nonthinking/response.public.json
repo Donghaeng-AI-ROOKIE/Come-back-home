@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"supported\",\n  \"commands\": [\"avoid_market\"],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"원문(N2)에 따르면, 시장이 시끄럽거나 붐비면 입구에서 몸을 돌려 멀어지는 반응을 보였으며, 현재 장면에서 'noisy': true, 'crowce\": false이지만 'noisy': true이므로 시끄러운 환경에서의 회피 반응이 성립한다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 83,
+    "prompt_tokens": 2138,
+    "prompt_tokens_details": {
+      "cached_tokens": 704
+    },
+    "total_tokens": 2221
+  }
+}

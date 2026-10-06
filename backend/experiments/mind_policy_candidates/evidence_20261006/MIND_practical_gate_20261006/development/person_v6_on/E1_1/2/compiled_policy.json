@@ -1,0 +1,29 @@
+{
+  "rules": [
+    {
+      "id": "n0_r0",
+      "when": [
+        [
+          {
+            "fact": "continuous_walk_minutes",
+            "op": "eq",
+            "value": 40
+          }
+        ]
+      ],
+      "action": "walk",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "평소 연속으로 사십 분 정도는 걸으세요. 길을 잃은 순간의 대처나 방향은 아직 관찰하지 못했어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": []
+}

@@ -1,0 +1,45 @@
+{
+  "run_id": "MIND_practical_gate_20261006",
+  "approved_total": 128,
+  "approved_development": 64,
+  "approved_evaluation": 64,
+  "reserved_attempts": 64,
+  "finished_attempts": 64,
+  "pending_attempts": [],
+  "started_by_role": {
+    "mind_state_alignment_development": 64
+  },
+  "outcomes": {
+    "error": 18,
+    "response_received": 46
+  },
+  "http_status": {
+    "422": 18,
+    "200": 46
+  },
+  "finish_reasons": {
+    "None": 18,
+    "stop": 40,
+    "length": 6
+  },
+  "known_usage_subtotals": {
+    "prompt_tokens": 63319,
+    "completion_tokens": 139446,
+    "total_tokens": 202765
+  },
+  "responses_with_usage": 46,
+  "responses_without_usage": 18,
+  "missing_usage_is_zero": false,
+  "unit_price": null,
+  "actual_cost": null,
+  "support_round": null,
+  "gpu_billed_hours": null,
+  "automatic_retries": false,
+  "new_training": false,
+  "new_SAR": 0,
+  "new_Midm": 0,
+  "new_RAG_queries": 0,
+  "new_embeddings": 0,
+  "new_maps": 0,
+  "deployed": false
+}

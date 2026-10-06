@@ -1,0 +1,13 @@
+{
+  "final_content": "{\"rules\":[{\"id\":\"walk_40min\",\"action\":\"walk\",\"when\":{\"continuous_walk_minutes\":{\"gte\":40}},\"target\":null,\"feature\":null,\"places\":[],\"minutes\":null,\"supersedes\":[],\"notes\":[\"N1\"]},{\"id\":\"avoid_market\",\"action\":\"avoid\",\"when\":{\"market.crowded\":true,\"market.noisy\":true},\"target\":null,\"feature\":\"market\",\"places\":[],\"minutes\":null,\"supersedes\":[],\"notes\":[\"N2\"]}],\"unused_note_ids\":[\"N0\"]}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 127,
+    "prompt_tokens": 1251,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 1378
+  },
+  "response_id": "chatcmpl-a648afa9daea46da92d7eda0bcb8569b"
+}

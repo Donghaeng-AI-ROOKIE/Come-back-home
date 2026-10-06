@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\":[{\"command\":\"avoid_market\",\"when\":[[{\"fact\":\"market.crowded\",\"op\":\"eq\",\"value\":\"true\"},{\"fact\":\"market.noisy\",\"op\":\"eq\",\"value\":\"true\"}]],\"place_labels\":[\"푸른시장\"],\"hold_minutes\":0,\"note_ids\":[\"N2\"]},{\"command\":\"avoid_market\",\"when\":[[{\"fact\":\"market.crowded\",\"op\":\"eq\",\"value\":\"true\"},{\"fact\":\"market.noisy\",\"op\":\"eq\",\"value\":\"false\"}]],\"place_labels\":[\"푸른시장\"],\"hold_minutes\":0,\"note_ids\":[\"N2\"]},{\"command\":\"avoid_market\",\"when\":[[{\"fact\":\"market.crowded\",\"op\":\"eq\",\"value\":\"false\"},{\"fact\":\"market.noisy\",\"op\":\"eq\",\"value\":\"true\"}]],\"place_labels\":[\"푸른시장\"],\"hold_minutes\":0,\"note_ids\":[\"N2\"]},{\"command\":\"avoid_market\",\"when\":[[{\"fact\":\"market.crowded\",\"op\":\"eq\",\"value\":\"false\"},{\"fact\":\"market.noisy\",\"op\":\"eq\",\"value\":\"false\"}]],\"place_labels\":[\"푸른시장\"],\"hold_minutes\":0,\"note_ids\":[\"N2\"]}],\"unrepresented_reason\":\"\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 266,
+    "prompt_tokens": 1285,
+    "prompt_tokens_details": {
+      "cached_tokens": 864
+    },
+    "total_tokens": 1551
+  }
+}

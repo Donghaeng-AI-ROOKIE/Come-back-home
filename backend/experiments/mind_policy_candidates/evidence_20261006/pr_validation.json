@@ -1,0 +1,14 @@
+{
+  "backend_passed": 1475,
+  "backend_skipped": 2,
+  "backend_subtests_passed": 7,
+  "backend_seconds": 78.06,
+  "external_model_calls_during_PR": 0,
+  "large_map_rerun_during_PR": false,
+  "same_saved_action_metric": {
+    "previous": 9,
+    "current_best": 13,
+    "denominator": 16
+  },
+  "release_qualified": false
+}

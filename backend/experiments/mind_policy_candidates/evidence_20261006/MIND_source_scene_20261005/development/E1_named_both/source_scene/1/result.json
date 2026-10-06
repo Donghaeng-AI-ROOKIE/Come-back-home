@@ -1,0 +1,9 @@
+{
+  "id": "E1_named_both",
+  "arm": "source_scene",
+  "rep": 1,
+  "output": null,
+  "format_valid": false,
+  "label_pass": false,
+  "error_type": "ValueError"
+}

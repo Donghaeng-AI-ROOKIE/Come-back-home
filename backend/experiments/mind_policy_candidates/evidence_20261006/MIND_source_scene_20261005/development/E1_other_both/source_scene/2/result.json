@@ -1,0 +1,16 @@
+{
+  "id": "E1_other_both",
+  "arm": "source_scene",
+  "rep": 2,
+  "output": {
+    "status": "unknown",
+    "commands": [],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "원문 N2에서 푸른시장 입구에서만 소음과 혼잡이 있을 때 회피했으나, 다른 시장에서의 반응은 알 수 없어 현재 미등록 다른 시장에서의 반응을 판단할 수 없음"
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

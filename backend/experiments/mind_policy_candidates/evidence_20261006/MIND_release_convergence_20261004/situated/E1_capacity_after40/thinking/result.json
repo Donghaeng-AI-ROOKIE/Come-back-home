@@ -1,0 +1,17 @@
+{
+  "id": "E1_capacity_after40",
+  "arm": "thinking",
+  "output": {
+    "status": "supported",
+    "commands": [
+      "walk"
+    ],
+    "source_ids": [
+      "N1"
+    ],
+    "reason": "원문 N1에 따르면 평소 연속 40분 정도 보행 가능하며, 현재 45분 보행 중이나 '평소' 표현으로 지속 보행이 지원됨."
+  },
+  "format_valid": true,
+  "label_pass": false,
+  "error_type": null
+}

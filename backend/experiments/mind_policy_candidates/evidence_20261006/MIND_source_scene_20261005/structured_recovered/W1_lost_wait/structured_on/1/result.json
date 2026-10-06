@@ -1,0 +1,18 @@
+{
+  "id": "W1_lost_wait",
+  "arm": "structured_on",
+  "rep": 1,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "wait"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "길을 잃었을 때 가족이 올 때까지 기다리는 행동이 관찰되었으며, 현재 길을 잃었고 가족이 없는 상황이므로 대기 명령이 적절합니다."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\": \"supported\", \"commands\": [\"avoid_market\"], \"source_ids\": [\"N2\"], \"reason\": \"원문 N2에서 시장 소음 또는 혼잡 시 회피 반응 관찰됨. 현재 푸른시장 소음 확인됨.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1718,
+    "prompt_tokens": 1212,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 2930
+  }
+}

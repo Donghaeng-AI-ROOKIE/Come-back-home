@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_summary\": \"N0: 목적지나 길 경험에 대해 모른다고 답변. 세 장소는 후보일 뿐 경험 없음. N1: 평소 40분 연속 걷기 가능하나, 길 잃음 대응은 관찰되지 않음. N2: 세 시장에서 붐비거나 시끄러우면 입구에서 몸을 돌려 멀어짐. 둘 다 없을 때는 피하지 않음. 미관찰: 길 잃음 대응, 시장 외 장소 반응, 구체적 출발 조건.\",\n  \"rules\": [\n    {\n       \"command\": \"avoid_market\",\n       \"when\": [\n           [\n               {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"true\"},\n               {\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"true\"}\n           ],\n           [\n               {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"true\"},\n               {\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"false\"}\n           ],\n           [\n               {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"false\"},\n               {\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"true\"}\n           ]\n       ],\n       \"place_labels\": [\"푸른시장\"],\n       \"hold_minutes\": 0,\n       \"note_ids\": [\"N2\"]\n    },\n    {\n        \"command\": \"seek_0\",\n        \"when\": [\n            [\n                {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"false\"},\n                {\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"false\"}\n            ]\n        ],\n        \"place_labels\": [\"다온공원\"],\n        \"hold_minutes\": 0,\n        \"note_ids\": [\"N0\"]\n    },\n    {\n          \"command\": \"seek_1\",\n        \"when\": [\n            [\n                {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"false\"},\n                {\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"false\"}\n            ]\n        ],\n        \"place_labels\": [\"푸른시장\"],\n        \"hold_minutes\": 0,\n        \"note_ids\": [\"N0\"]\n    },\n    {\n        \"command\": \"seek_2\",\n        \"when\": [\n            [\n                {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"false\"},\n                {\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"false\"}\n            ]\n        ],\n        \"place_labels\": [\"은빛경로당\"],\n        \"hold_minutes\": 0,\n        \"note_ids\": [\"N0\"]\n    }\n  ],\n  \"unrepresented_reason\": \"길 잃음 대응, 시장 외 장소 반응, 구체적 출발 조건은 원문에 없음.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 590,
+    "prompt_tokens": 1352,
+    "prompt_tokens_details": {
+      "cached_tokens": 1344
+    },
+    "total_tokens": 1942
+  }
+}

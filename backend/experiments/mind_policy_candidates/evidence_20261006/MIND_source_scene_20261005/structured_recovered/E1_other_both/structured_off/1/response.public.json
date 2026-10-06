@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"unknown\",\n  \"commands\": [],\n  \"source_ids\": [],\n  \"reason\": \"원문에서 관찰된 반응은 특정 조건(사람 많고 시끄러울 때)에서만 나타나며, 현재 장소는 사람 많고 소음 있음이 확인되었으나 혼잡 여부는 미확인이므로 조건 성립 여부 불확실함.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 64,
+    "prompt_tokens": 1213,
+    "prompt_tokens_details": {
+      "cached_tokens": 960
+    },
+    "total_tokens": 1277
+  }
+}

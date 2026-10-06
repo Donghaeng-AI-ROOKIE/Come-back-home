@@ -1,0 +1,12 @@
+{
+  "final_content": ".\n{\n  \"status\": \"supported\",\n  \"commands\": [\"rest\"],\n  \"source_ids\": [\"N0\"],\n  \"reason\": \"원문 N0에서 300미터 보행 후 휴식이 필요하다고 명시했으며, 현재 장면에서 300미터 보행 후 휴식 반응이 성립합니다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4830,
+    "prompt_tokens": 2109,
+    "prompt_tokens_details": {
+      "cached_tokens": 2080
+    },
+    "total_tokens": 6939
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "source": "MIND_completion_20261004/product_benchmark_final.json",
+  "source_sha256": "330f574f9dc3b814dee233ccefcd9b29e25fda7344283a7fdcd41899fdd58687",
+  "quantile_measure": "H3 cell-center straight-line distance from original point, weighted by combined probability; not cumulative walking",
+  "statistics": [
+    {
+      "hour": 1,
+      "n_cells": 82,
+      "mass_within_500m": 0.5694000000000001,
+      "mass_within_1km": 0.8912000000000001,
+      "median_radial_km": 0.34698475416764046,
+      "radial_p90_km": 1.0347277932424577,
+      "radial_p95_km": 1.3578419493742764,
+      "peak_cell_mass": 0.19680000000000003,
+      "tv_from_previous": null,
+      "effective_cells": 21.584689625067377,
+      "baseline_time_fraction_agent": 0.9450702464778331
+    },
+    {
+      "hour": 2,
+      "n_cells": 106,
+      "mass_within_500m": 0.4202,
+      "mass_within_1km": 0.7968000000000001,
+      "median_radial_km": 0.5504037400513232,
+      "radial_p90_km": 1.291759487246899,
+      "radial_p95_km": 1.6790781726925474,
+      "peak_cell_mass": 0.15880000000000002,
+      "tv_from_previous": 0.22080000000000002,
+      "effective_cells": 36.227071284077454,
+      "baseline_time_fraction_agent": 0.9725351232389166
+    },
+    {
+      "hour": 4,
+      "n_cells": 157,
+      "mass_within_500m": 0.34920000000000007,
+      "mass_within_1km": 0.6942,
+      "median_radial_km": 0.6562388288392585,
+      "radial_p90_km": 1.7041524766971823,
+      "radial_p95_km": 2.0853525912212674,
+      "peak_cell_mass": 0.16160000000000005,
+      "tv_from_previous": 0.234,
+      "effective_cells": 56.6545592725822,
+      "baseline_time_fraction_agent": 0.9845342267702176
+    },
+    {
+      "hour": 6,
+      "n_cells": 174,
+      "mass_within_500m": 0.30300000000000005,
+      "mass_within_1km": 0.6284000000000001,
+      "median_radial_km": 0.7847070357622222,
+      "radial_p90_km": 1.852066365204797,
+      "radial_p95_km": 2.49047259964025,
+      "peak_cell_mass": 0.14620000000000005,
+      "tv_from_previous": 0.21000000000000002,
+      "effective_cells": 71.80211360916414,
+      "baseline_time_fraction_agent": 0.9890093757929913
+    }
+  ],
+  "replay_source": "MIND_completion_20261004/live_policy_replay_final.json",
+  "replay_policy_relation": "Executable rules identical; unrepresented-note explanations differ",
+  "replay_means": [
+    {
+      "minute": 60,
+      "distance": 2620.8,
+      "walking": 54.6,
+      "rest": 0.0,
+      "waiting": 5.4,
+      "fatigue": 0.425831827957062,
+      "confusion": 0.2960766578644529
+    },
+    {
+      "minute": 120,
+      "distance": 5241.6,
+      "walking": 109.2,
+      "rest": 0.0,
+      "waiting": 10.8,
+      "fatigue": 0.9045782042840048,
+      "confusion": 0.7437925225372943
+    },
+    {
+      "minute": 240,
+      "distance": 10483.199999999999,
+      "walking": 218.4,
+      "rest": 0.0,
+      "waiting": 21.6,
+      "fatigue": 1.9302796238508257,
+      "confusion": 1.8694548286803936
+    },
+    {
+      "minute": 360,
+      "distance": 15724.799999999997,
+      "walking": 327.6,
+      "rest": 0.0,
+      "waiting": 32.4,
+      "fatigue": 3.0349624458444673,
+      "confusion": 3.172426848101676
+    }
+  ],
+  "new_model_calls": 0,
+  "new_map_calls": 0,
+  "clinical_accuracy_measured": false
+}

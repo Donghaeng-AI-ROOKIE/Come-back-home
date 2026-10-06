@@ -1,0 +1,18 @@
+{
+  "id": "E2_noise_only",
+  "arm": "structured_off",
+  "rep": 1,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "avoid_market"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "원문에 따르면 붐비거나 시끄러운 시장 환경에서 입구에서 몸을 돌려 멀어지는 반응을 보였으며, 현재 장소는 소음이 확인되었고 혼잡은 확인되지 않았지만 시장 환경이므로 피하는 반응이 조건에 부합한다."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

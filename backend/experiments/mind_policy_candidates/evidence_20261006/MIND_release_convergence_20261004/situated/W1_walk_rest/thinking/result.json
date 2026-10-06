@@ -1,0 +1,17 @@
+{
+  "id": "W1_walk_rest",
+  "arm": "thinking",
+  "output": {
+    "status": "supported",
+    "commands": [
+      "rest"
+    ],
+    "source_ids": [
+      "N0"
+    ],
+    "reason": "원문 N0에 따라 무릎 문제로 300m 보행 후 휴식이 필요하며, 현재 장면에서 300m 보행 후 휴식이 필요함."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

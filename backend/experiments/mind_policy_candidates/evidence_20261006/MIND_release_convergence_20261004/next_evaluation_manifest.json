@@ -1,0 +1,37 @@
+{
+  "created": "2026-10-05",
+  "synthetic_people": 32,
+  "scenes": 64,
+  "repetitions_planned": 2,
+  "max_calls": 128,
+  "families": {
+    "environment_logic": 4,
+    "spatial_scope": 4,
+    "family_exception": 4,
+    "time_distance": 2,
+    "capacity_not_action": 2,
+    "correction": 2,
+    "subject_or_advice": 2,
+    "arrival_recognition": 2,
+    "clock_and_goal": 2,
+    "pain_response": 2,
+    "unknown_condition": 2,
+    "negation": 2,
+    "source_subject": 2
+  },
+  "action_labels": {
+    "walk": 25,
+    "avoid_market": 14,
+    "unknown": 9,
+    "avoid_park": 3,
+    "wait": 3,
+    "rest": 3,
+    "baseline": 6,
+    "seek_0": 1
+  },
+  "sha256": "e050127ebf398a8343418d3310f0ffc2802847015f2e75f1ebcfac5547992cd7",
+  "source": "AI-authored synthetic caregiver narratives; no patient data or independent human validation",
+  "prepared_initial": "empty by design; only tests direct source-to-current-action, not fresh frontend model extraction",
+  "model_calls": 0,
+  "status": "frozen_before_calls_pending_label_review"
+}

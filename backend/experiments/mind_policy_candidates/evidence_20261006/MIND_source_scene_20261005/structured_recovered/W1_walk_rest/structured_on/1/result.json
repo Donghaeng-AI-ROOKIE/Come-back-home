@@ -1,0 +1,18 @@
+{
+  "id": "W1_walk_rest",
+  "arm": "structured_on",
+  "rep": 1,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "rest"
+    ],
+    "source_ids": [
+      "N0"
+    ],
+    "reason": "원문에서 300m 보행 후 휴식 필요 조건 성립, 현재 300m 보행 완료."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

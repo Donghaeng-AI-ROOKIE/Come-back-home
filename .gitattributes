@@ -2,3 +2,8 @@
 docs/reviews/front-sar-ablation-20260927/**/*.json linguist-generated=true
 docs/reviews/front-sar-ablation-20260927/*.json linguist-generated=true
 docs/reviews/pr253-person-evidence-semantics/*.json linguist-generated=true
+backend/experiments/mind_policy_candidates/evidence_20261006/**/*.json linguist-generated=true
+backend/experiments/mind_policy_candidates/evidence_20261006/*.json linguist-generated=true
+backend/experiments/mind_policy_candidates/evidence_20261006/**/*.xml linguist-generated=true
+backend/experiments/mind_policy_candidates/evidence_20261006/**/source_snapshot/** linguist-generated=true
+backend/experiments/mind_policy_candidates/evidence_20261006/**/final_source_snapshot/** linguist-generated=true

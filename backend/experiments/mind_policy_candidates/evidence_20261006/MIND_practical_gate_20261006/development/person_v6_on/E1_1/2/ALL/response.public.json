@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"command\": \"walk\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"continuous_walk_minutes\",\n            \"op\": \"eq\",\n            \"value\": \"40\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"unrepresented_reason\": \"\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2068,
+    "prompt_tokens": 1577,
+    "prompt_tokens_details": {
+      "cached_tokens": 1568
+    },
+    "total_tokens": 3645
+  }
+}

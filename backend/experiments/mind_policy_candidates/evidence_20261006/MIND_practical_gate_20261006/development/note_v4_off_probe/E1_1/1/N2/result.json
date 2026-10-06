@@ -1,0 +1,38 @@
+{
+  "job": "note_v4_off_probe_E1_1_N2_1",
+  "person_id": "E1_1",
+  "rep": 1,
+  "note_id": "N2",
+  "output": {
+    "rules": [
+      {
+        "command": "avoid_market",
+        "when": [
+          [
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "true"
+            },
+            {
+              "fact": "market.noisy",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [
+          "푸른시장"
+        ],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      }
+    ],
+    "unrepresented_reason": ""
+  },
+  "valid": true,
+  "error_type": null,
+  "submitted": true
+}

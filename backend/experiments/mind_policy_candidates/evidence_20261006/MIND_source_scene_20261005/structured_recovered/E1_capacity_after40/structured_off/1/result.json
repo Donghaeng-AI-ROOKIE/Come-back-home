@@ -1,0 +1,18 @@
+{
+  "id": "E1_capacity_after40",
+  "arm": "structured_off",
+  "rep": 1,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "walk"
+    ],
+    "source_ids": [
+      "N1"
+    ],
+    "reason": "원문에서 평소 40분 연속 보행 가능하며, 현재 45분 연속 보행 중이므로 휴식 조건에 도달하지 않아 걷는 것이 적절하다."
+  },
+  "format_valid": true,
+  "label_pass": false,
+  "error_type": null
+}

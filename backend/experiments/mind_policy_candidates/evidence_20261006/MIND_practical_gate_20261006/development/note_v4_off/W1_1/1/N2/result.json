@@ -1,0 +1,36 @@
+{
+  "job": "note_v4_off_W1_1_N2_1",
+  "person_id": "W1_1",
+  "rep": 1,
+  "note_id": "N2",
+  "output": {
+    "rules": [
+      {
+        "command": "wait",
+        "when": [
+          [
+            {
+              "fact": "is_walking",
+              "op": "eq",
+              "value": "false"
+            },
+            {
+              "fact": "lost_awareness",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      }
+    ],
+    "unrepresented_reason": ""
+  },
+  "valid": true,
+  "error_type": null,
+  "submitted": true
+}

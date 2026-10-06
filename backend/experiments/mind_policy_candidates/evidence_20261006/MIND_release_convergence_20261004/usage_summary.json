@@ -1,0 +1,63 @@
+{
+  "original_envelope_cumulative": {
+    "started": 128,
+    "finished": 128,
+    "pending_attempts": [],
+    "by_role": {
+      "mind_state_alignment_development": 80,
+      "mind_state_alignment_heldout": 48
+    },
+    "outcomes": {
+      "error": 9,
+      "response_received": 117,
+      "not_submitted": 2
+    },
+    "finish_reason": {
+      "None": 11,
+      "stop": 108,
+      "length": 9
+    },
+    "provider_reported_usage": {
+      "prompt_tokens": 191041,
+      "completion_tokens": 559850,
+      "total_tokens": 750891
+    },
+    "responses_with_usage": 117,
+    "unit_prices": null,
+    "actual_cost": null,
+    "support_round": null,
+    "missing_usage_is_zero": false
+  },
+  "this_turn_incremental": {
+    "started": 18,
+    "finished": 18,
+    "pending_attempts": [],
+    "by_role": {
+      "mind_state_alignment_development": 18
+    },
+    "outcomes": {
+      "response_received": 18
+    },
+    "finish_reason": {
+      "stop": 17,
+      "length": 1
+    },
+    "provider_reported_usage": {
+      "prompt_tokens": 36976,
+      "completion_tokens": 33843,
+      "total_tokens": 70819
+    },
+    "responses_with_usage": 18,
+    "unit_prices": null,
+    "actual_cost": null,
+    "support_round": null,
+    "missing_usage_is_zero": false
+  },
+  "new_model_training": false,
+  "new_map_requests": 0,
+  "new_embedding_requests": 0,
+  "new_SAR_requests": 0,
+  "new_Midm_requests": 0,
+  "actual_cost": null,
+  "support_round": null
+}

@@ -1,0 +1,45 @@
+{
+  "rules": [
+    {
+      "id": "n0_r0",
+      "when": [
+        [
+          {
+            "fact": "market.crowded",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "market.noisy",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [
+        "푸른시장"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N2",
+          "quote": "푸른시장 입구에서만 직접 봤어요. 사람이 붐비고 동시에 시끄러울 때 두 번 모두 입구에서 몸을 돌려 멀어지셨어요. 사람만 많고 조용한 때나, 소리만 크고 한산한 때에는 피하지 않았어요. 다른 시장에서 어떨지는 전혀 몰라요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "N1에서 40분 연속 걷기 언급되었으나 조건적 행동이 아니므로 규칙 미포함"
+    },
+    {
+      "note_id": "N1",
+      "reason": "N1에서 40분 연속 걷기 언급되었으나 조건적 행동이 아니므로 규칙 미포함"
+    }
+  ]
+}

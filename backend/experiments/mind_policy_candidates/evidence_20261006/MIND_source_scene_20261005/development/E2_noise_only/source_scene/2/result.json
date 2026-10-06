@@ -1,0 +1,18 @@
+{
+  "id": "E2_noise_only",
+  "arm": "source_scene",
+  "rep": 2,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "avoid_market"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "원문 N2에 따라 현재 푸른시장의 소음 확인(true)으로 인해 시장 환경을 피하는 반응이 성립함."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

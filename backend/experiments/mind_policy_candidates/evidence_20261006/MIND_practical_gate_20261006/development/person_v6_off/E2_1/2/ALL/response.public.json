@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"command\": \"avoid_market\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"market.noisy\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ],\n        [\n          {\n            \"fact\": \"market.crowded\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    },\n    {\n      \"command\": \"avoid_market\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"market.noisy\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ],\n        [\n          {\n            \"fact\": \"market.crowded\",\n            \"op\": \"eq\",\n            \"value\": \"false\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    },\n    {\n      \"command\": \"avoid_market\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"market.noisy\",\n            \"op\": \"eq\",\n            \"value\": \"false\"\n          }\n        ],\n        [\n          {\n            \"fact\": \"market.crowded\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    },\n    {\n      \"command\": \"walk\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"is_walking\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n   \"command\": \"rest\",\n   \"when\": [\n     [\n       {\n         \"fact\": \"fatigue_high\",\n         \"op\": \"eq\",\n         \"value\": \"true\"\n       }\n     ]\n   ],\n   \"place_labels\": [],\n   \"hold_minutes\": 0,\n   \"note_ids\": []\n  }\n],\n  \"unrepresented_reason\": \"시장 회피는 소음 또는 혼잡 중 하나만 있어도 발생하며, 둘 다 없을 때만 회피하지 않음. 보행은 연속 40분 가능하나 길 잃음 대응은 관찰되지 않음. 등록 장소로의 실제 출발은 언급되지 않음.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 514,
+    "prompt_tokens": 1585,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "total_tokens": 2099
+  }
+}

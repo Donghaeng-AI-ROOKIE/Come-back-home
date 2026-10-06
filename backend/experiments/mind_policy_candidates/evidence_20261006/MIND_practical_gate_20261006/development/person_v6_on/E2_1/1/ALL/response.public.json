@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\": [], \"unrepresented_reason\": \"No observed actions found; no valid actions extracted from the provided text.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2163,
+    "prompt_tokens": 1583,
+    "prompt_tokens_details": {
+      "cached_tokens": 1568
+    },
+    "total_tokens": 3746
+  }
+}

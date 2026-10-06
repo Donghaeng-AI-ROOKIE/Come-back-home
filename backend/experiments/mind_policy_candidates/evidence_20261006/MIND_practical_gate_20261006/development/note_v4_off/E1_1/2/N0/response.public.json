@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\":[],\"unrepresented_reason\":\"No observed reaction to market crowding and noise was described as a conditional behavioral response with explicit onset or cessation criteria. The note describes avoidance behavior only at the entrance of 푸른시장 under specific sensory conditions (crowded and noisy), but does not link this to a measurable threshold or state transition (e.g., continuous_walk_minutes, is_walking, or market.crowded/market.noisy with op/value). While the behavior is contextually tied to market.crowded=true and market.noisy=true, no rule can be formed without a clear conditional command (e.g., avoid_market) triggered by those facts. Additionally, no duration condition or time-based condition is specified. Therefore, no valid rule can be extracted.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 151,
+    "prompt_tokens": 1282,
+    "prompt_tokens_details": {
+      "cached_tokens": 1280
+    },
+    "total_tokens": 1433
+  }
+}

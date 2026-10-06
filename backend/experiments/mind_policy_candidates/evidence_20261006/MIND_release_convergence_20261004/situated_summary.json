@@ -1,0 +1,217 @@
+{
+  "manifest": {
+    "purpose": "development_current_scene_selection_not_fresh_holdout",
+    "n_scenes": 6,
+    "new_persons": 0,
+    "arms": [
+      "nonthinking",
+      "thinking"
+    ],
+    "max_new_calls": 12,
+    "max_total_original_calls": 128,
+    "max_original_development_calls": 80,
+    "input_bytes_cap": 40000,
+    "nonthinking_output_cap": 4096,
+    "thinking_output_cap": 12000,
+    "max_new_output_tokens": 96576,
+    "no_retries": true,
+    "concurrency": 2,
+    "actual_cost": null,
+    "support_round": null,
+    "input_sha256": "930e71da6fc49f133346c0e92edafa65a022b06c73fefcdbe8603c9c01d95f00",
+    "candidate_sha256": "57a45f876e855280ab2c30f1288aebfd005f6167dd93c610cf3644084472b2da",
+    "labels": "assistant-authored synthetic constraints before call; not human/clinical labels"
+  },
+  "arms": {
+    "nonthinking": {
+      "n": 6,
+      "format_valid": 5,
+      "label_pass": 3
+    },
+    "thinking": {
+      "n": 6,
+      "format_valid": 5,
+      "label_pass": 4
+    }
+  },
+  "results": [
+    {
+      "id": "E1_named_both",
+      "arm": "nonthinking",
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문(N2)에 따르면 푸른시장 입구에서 사람이 붐비고 시끄러울 때 몸을 돌려 멀어지는 반응을 보였으며, 현재 장면에서도 푸른시장에서 시끄럽고 혼잡한 조건이 충족되므로 회피 반응이 성립한다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_named_both",
+      "arm": "thinking",
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "N2에 따르면 푸른시장 입구에서 사람이 붐비고 시끄러울 때 몸을 돌려 멀어지는 반응을 보였으며, 현재 장면도 붐비고 시끄러운 푸른시장 상황이므로 회피 반응이 성립합니다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "arm": "nonthinking",
+      "output": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "푸른시장 입구에서 사람이 붐비고 시끄러울 때 몸을 돌려 멀어진 반응이 관찰되었으며, 현재 장면도 사람이 붐비고 시끄러운 미등록 다른 시장 환경이므로 동일한 회피 반응이 성립한다."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "arm": "thinking",
+      "output": {
+        "status": "unknown",
+        "commands": [],
+        "source_ids": [],
+        "reason": "원문 N2는 푸른시장 입구에서만 관찰된 반응으로, 다른 시장에서의 반응은 확인되지 않음. 현재 장면의 소음·혼잡 조건이 N2의 조건과 유사하나, 특정 장소에서의 반응을 동일 유형의 모든 장소로 확대할 수 없음."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_capacity_after40",
+      "arm": "nonthinking",
+      "output": {
+        "status": "unknown",
+        "commands": [],
+        "source_ids": [],
+        "reason": "현재 장면에서 개인의 반응 판단에 필요한 정보가 부족함. 관찰된 행동, 보행 능력, 목적지 발언, 보호자 권고, 못 본 행동을 구분하여 원문과 대조한 결과, 현재 상황(보행 중, 피로 없음, 소음 없음, 혼잡 없음, 길 잃음 인지 없음, 가족 없음)에서 특정 반응(회피, 기다림, 휴식 등)을 유도할 만한 조건이 충족되지 않음. 원문(N0, N1, N2)은 과거 경험, 보행 지속 가능성, 시장에서의 회피 반응을 기술하지만, 현재 장면의 환경 조건(소음 없음, 혼잡 없음)이나 인지 상태(길 잃음 인지 없음)와 일치하지 않아 반응 적용 근거가 부족함."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E1_capacity_after40",
+      "arm": "thinking",
+      "output": {
+        "status": "supported",
+        "commands": [
+          "walk"
+        ],
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "원문 N1에 따르면 평소 연속 40분 정도 보행 가능하며, 현재 45분 보행 중이나 '평소' 표현으로 지속 보행이 지원됨."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "W1_lost_wait",
+      "arm": "nonthinking",
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에 따르면 길을 잃었을 때 그 자리에 서서 가족이 올 때까지 기다렸으며, 이는 휴식과 별개의 행동으로 명시되어 있다. 현재 장면에서 lost_awareness가 true이고 family_present가 false이므로, 기다리기 행동이 성립한다."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_lost_wait",
+      "arm": "thinking",
+      "output": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "원문 N2에서 길을 잃었을 때 가족이 올 때까지 기다린다고 명시했으며, 현재 장면에서 길을 잃은 상태(lost_awareness: true)이고 가족이 현장에 없음(family_present: false)이지만 기다림 행동이 관찰됨."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "W1_walk_rest",
+      "arm": "nonthinking",
+      "output": {
+        "status": "supported",
+        "commands": [
+          "walk"
+        ],
+        "source_ids": [
+          "N0"
+        ],
+        "reason": "원문 N0에 따르면 보행 능력은 무릎 통증으로 인해 한 번에 약 5분, 300미터 걷고 난 후 휴식이 필요하나, 휴식 후 다시 걷는 것이 가능하며 연속 보행 시간은 1시간을 넘지 못한다고 명시되어 있다. 현재 장면에서 실제 보행 시간은 6.25분, 거리 300미터로 이 한계 내에 있으며, 피로도는 높지 않고 보행 중이며, 통증도 관찰되었고, 휴식이나 회피, 기다림 등의 반응은 나타나지 않았다. 따라서 현재 보행 중인 행동은 원문에서 제시된 보행 능력과 일치하며, 보행 반응이 성립한다."
+      },
+      "format_valid": true,
+      "label_pass": false,
+      "error_type": null
+    },
+    {
+      "id": "W1_walk_rest",
+      "arm": "thinking",
+      "output": {
+        "status": "supported",
+        "commands": [
+          "rest"
+        ],
+        "source_ids": [
+          "N0"
+        ],
+        "reason": "원문 N0에 따라 무릎 문제로 300m 보행 후 휴식이 필요하며, 현재 장면에서 300m 보행 후 휴식이 필요함."
+      },
+      "format_valid": true,
+      "label_pass": true,
+      "error_type": null
+    },
+    {
+      "id": "E2_noise_only",
+      "arm": "nonthinking",
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E2_noise_only",
+      "arm": "thinking",
+      "output": null,
+      "format_valid": false,
+      "label_pass": false,
+      "error_type": "ValueError"
+    }
+  ]
+}

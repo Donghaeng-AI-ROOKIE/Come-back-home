@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\": \"supported\", \"commands\": [\"rest\"], \"source_ids\": [\"N0\"], \"reason\": \"원문에서 무릎 통증으로 인해 300m 보행 후 휴식이 필요하다고 관찰되었으며, 현재 마지막 휴식 이후 6.25분 보행한 상태이므로 휴식 조건이 성립한다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 61,
+    "prompt_tokens": 1214,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 1275
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\"status\":\"supported\",\"commands\":[\"wait\"],\"source_ids\":[\"N2\"],\"reason\":\"N2 원문에서 길을 잃었을 때 가족이 올 때까지 기다렸으며, 현재 길을 잃은 상태에서 가족이 없으므로 기다림 반응이 성립합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1292,
+    "prompt_tokens": 1404,
+    "prompt_tokens_details": {
+      "cached_tokens": 1376
+    },
+    "total_tokens": 2696
+  }
+}

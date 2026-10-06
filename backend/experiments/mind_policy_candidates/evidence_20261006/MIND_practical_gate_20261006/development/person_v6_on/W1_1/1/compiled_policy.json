@@ -1,0 +1,75 @@
+{
+  "rules": [
+    {
+      "id": "n0_r0",
+      "when": [
+        [
+          {
+            "fact": "continuous_walk_minutes",
+            "op": "gte",
+            "value": 5
+          },
+          {
+            "fact": "distance_since_rest_m",
+            "op": "gte",
+            "value": 300
+          }
+        ],
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N0",
+          "quote": "무릎 때문에 한 번에 오 분 정도, 삼백 미터쯤 걸으면 앉아서 쉬어야 해요. 쉬고 난 뒤에 다시 걷는 것은 가능해요. 한 시간 연속으로 걷지는 못해요."
+        }
+      ]
+    },
+    {
+      "id": "n0_r1",
+      "when": [
+        [
+          {
+            "fact": "lost_awareness",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "family_present",
+            "op": "eq",
+            "value": false
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N2",
+          "quote": "제가 곁에서 직접 본 두 번 모두 길을 놓쳤다는 걸 알고는 그 자리에 서서 가족이 올 때까지 기다렸어요. 다리가 아파 잠깐 쉬는 행동과는 별개예요. 방향 선택은 본 적 없어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N1",
+      "reason": "No observed avoidance or departure to destination; ability statements not observed actions."
+    }
+  ]
+}

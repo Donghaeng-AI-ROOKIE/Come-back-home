@@ -1,0 +1,17 @@
+{
+  "synthetic_people": 32,
+  "scenes": 64,
+  "expected_commands_available": true,
+  "requests_exclude_labels": true,
+  "original_notes_preserved": true,
+  "model_calls": 0,
+  "independent_human_reviews": 0,
+  "source_sha256": "e050127ebf398a8343418d3310f0ffc2802847015f2e75f1ebcfac5547992cd7",
+  "caveats": [
+    "Only 3 rest and 3 wait scenes and 1 seek scene; not balanced across all actions.",
+    "Structured initial interpretation is empty for new holdout; this is a mind-source test, not onboarding extraction accuracy.",
+    "All scenes are authored, not sampled patient trajectories.",
+    "Same-place facility conditions are synthetic and do not establish measured noise/crowds.",
+    "Human review is pending; no clinical validity claim."
+  ]
+}

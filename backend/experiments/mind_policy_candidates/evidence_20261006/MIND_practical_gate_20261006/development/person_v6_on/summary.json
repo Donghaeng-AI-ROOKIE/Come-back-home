@@ -1,0 +1,637 @@
+{
+  "manifest": {
+    "phase": "development",
+    "candidate": "person_v6_on",
+    "thinking": "on",
+    "calls": 6,
+    "scene_decisions": 16,
+    "input_sha256": "f261dce6fc633950593e055634adf4b0de345f90a764de676d84afd8faad47a3",
+    "code_sha256": {
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy.py": "129f1e4c34a8b0e4928b9dc5f8bf89f577d3951cebeb0051047550efde2bcdf9",
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy_eval.py": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+      "<workspace>/결선/실험/MIND_practical_gate_20261006/run_candidate.py": "81123eaacdaaf8600024bf5361ec3e70d250bdc389d66798cbffbd5abfb562cc",
+      "<workspace>/결선/실험/MIND_practical_gate_20261006/transport.py": "4bc8f936aad24e1ef256322d946a5772755bfda366ec0e0e97404f47ab0472c0"
+    },
+    "repetitions": 2,
+    "max_request_bytes": 9098,
+    "automatic_retries": false,
+    "probe_note": null,
+    "whole_person": true
+  },
+  "model_outputs": [
+    {
+      "job": "person_v6_on_E1_1_ALL_1",
+      "person_id": "E1_1",
+      "rep": 1,
+      "note_id": "ALL",
+      "output": {
+        "rules": [
+          {
+            "command": "avoid_market",
+            "when": [
+              [
+                {
+                  "fact": "market.crowded",
+                  "op": "eq",
+                  "value": "true"
+                },
+                {
+                  "fact": "market.noisy",
+                  "op": "eq",
+                  "value": "true"
+                }
+              ]
+            ],
+            "place_labels": [
+              "푸른시장"
+            ],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N2"
+            ]
+          }
+        ],
+        "unrepresented_reason": "N1에서 40분 연속 걷기 언급되었으나 조건적 행동이 아니므로 규칙 미포함"
+      },
+      "valid": true,
+      "error_type": null,
+      "submitted": true
+    },
+    {
+      "job": "person_v6_on_E1_1_ALL_2",
+      "person_id": "E1_1",
+      "rep": 2,
+      "note_id": "ALL",
+      "output": {
+        "rules": [
+          {
+            "command": "walk",
+            "when": [
+              [
+                {
+                  "fact": "continuous_walk_minutes",
+                  "op": "eq",
+                  "value": "40"
+                }
+              ]
+            ],
+            "place_labels": [],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N1"
+            ]
+          }
+        ],
+        "unrepresented_reason": ""
+      },
+      "valid": true,
+      "error_type": null,
+      "submitted": true
+    },
+    {
+      "job": "person_v6_on_E2_1_ALL_1",
+      "person_id": "E2_1",
+      "rep": 1,
+      "note_id": "ALL",
+      "output": {
+        "rules": [],
+        "unrepresented_reason": "No observed actions found; no valid actions extracted from the provided text."
+      },
+      "valid": true,
+      "error_type": null,
+      "submitted": true
+    },
+    {
+      "job": "person_v6_on_E2_1_ALL_2",
+      "person_id": "E2_1",
+      "rep": 2,
+      "note_id": "ALL",
+      "output": {
+        "rules": [
+          {
+            "command": "avoid_market",
+            "when": [
+              [
+                {
+                  "fact": "market.crowded",
+                  "op": "eq",
+                  "value": "true"
+                }
+              ]
+            ],
+            "place_labels": [],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N2"
+            ]
+          }
+        ],
+        "unrepresented_reason": ""
+      },
+      "valid": true,
+      "error_type": null,
+      "submitted": true
+    },
+    {
+      "job": "person_v6_on_W1_1_ALL_1",
+      "person_id": "W1_1",
+      "rep": 1,
+      "note_id": "ALL",
+      "output": {
+        "rules": [
+          {
+            "command": "rest",
+            "when": [
+              [
+                {
+                  "fact": "continuous_walk_minutes",
+                  "op": "gte",
+                  "value": "5"
+                },
+                {
+                  "fact": "distance_since_rest_m",
+                  "op": "gte",
+                  "value": "300"
+                }
+              ],
+              [
+                {
+                  "fact": "is_walking",
+                  "op": "eq",
+                  "value": "true"
+                }
+              ]
+            ],
+            "place_labels": [],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N0"
+            ]
+          },
+          {
+            "command": "wait",
+            "when": [
+              [
+                {
+                  "fact": "lost_awareness",
+                  "op": "eq",
+                  "value": "true"
+                },
+                {
+                  "fact": "family_present",
+                  "op": "eq",
+                  "value": "false"
+                }
+              ]
+            ],
+            "place_labels": [],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N2"
+            ]
+          }
+        ],
+        "unrepresented_reason": "No observed avoidance or departure to destination; ability statements not observed actions."
+      },
+      "valid": true,
+      "error_type": null,
+      "submitted": true
+    },
+    {
+      "job": "person_v6_on_W1_1_ALL_2",
+      "person_id": "W1_1",
+      "rep": 2,
+      "note_id": "ALL",
+      "output": {
+        "rules": [
+          {
+            "command": "rest",
+            "when": [
+              [
+                {
+                  "fact": "is_walking",
+                  "op": "eq",
+                  "value": "true"
+                },
+                {
+                  "fact": "continuous_walk_minutes",
+                  "op": "gte",
+                  "value": "5"
+                }
+              ],
+              [
+                {
+                  "fact": "is_walking",
+                  "op": "eq",
+                  "value": "true"
+                },
+                {
+                  "fact": "distance_since_rest_m",
+                  "op": "gte",
+                  "value": "300"
+                }
+              ]
+            ],
+            "place_labels": [],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N0"
+            ]
+          },
+          {
+            "command": "seek_0",
+            "when": [
+              [
+                {
+                  "fact": "target_recognized",
+                  "op": "eq",
+                  "value": "true"
+                }
+              ]
+            ],
+            "place_labels": [
+              "다온공원"
+            ],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N1"
+            ]
+          },
+          {
+            "command": "wait",
+            "when": [
+              [
+                {
+                  "fact": "lost_awareness",
+                  "op": "eq",
+                  "value": "true"
+                },
+                {
+                  "fact": "family_present",
+                  "op": "eq",
+                  "value": "false"
+                }
+              ]
+            ],
+            "place_labels": [],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N2"
+            ]
+          }
+        ],
+        "unrepresented_reason": ""
+      },
+      "valid": true,
+      "error_type": null,
+      "submitted": true
+    }
+  ],
+  "results": [
+    {
+      "id": "E1_named_both",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "avoid_market",
+      "pass": true,
+      "decision": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "possible_commands": [
+          "avoid_market"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "E1_capacity_after40",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "unknown",
+        "commands": [],
+        "possible_commands": [
+          "avoid_market",
+          "baseline"
+        ],
+        "unknown_facts": [
+          "market.crowded",
+          "market.noisy",
+          "spatial_scope:places:[\"푸른시장\"]"
+        ]
+      },
+      "error_type": null
+    },
+    {
+      "id": "E1_named_noise_only",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "E1_named_both",
+      "person_id": "E1_1",
+      "rep": 2,
+      "label": "avoid_market",
+      "pass": false,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "person_id": "E1_1",
+      "rep": 2,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "E1_capacity_after40",
+      "person_id": "E1_1",
+      "rep": 2,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "E1_named_noise_only",
+      "person_id": "E1_1",
+      "rep": 2,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "W1_lost_wait",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "wait",
+      "pass": true,
+      "decision": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "possible_commands": [
+          "wait"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "W1_walk_rest",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "rest",
+      "pass": true,
+      "decision": {
+        "status": "supported",
+        "commands": [
+          "rest"
+        ],
+        "possible_commands": [
+          "rest"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "W1_family_arrived",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "W1_lost_wait",
+      "person_id": "W1_1",
+      "rep": 2,
+      "label": "wait",
+      "pass": true,
+      "decision": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "possible_commands": [
+          "wait"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "W1_walk_rest",
+      "person_id": "W1_1",
+      "rep": 2,
+      "label": "rest",
+      "pass": true,
+      "decision": {
+        "status": "supported",
+        "commands": [
+          "rest"
+        ],
+        "possible_commands": [
+          "rest"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "W1_family_arrived",
+      "person_id": "W1_1",
+      "rep": 2,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "E2_noise_only",
+      "person_id": "E2_1",
+      "rep": 1,
+      "label": "avoid_market",
+      "pass": false,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "E2_noise_only",
+      "person_id": "E2_1",
+      "rep": 2,
+      "label": "avoid_market",
+      "pass": false,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    }
+  ],
+  "gate": {
+    "total": 16,
+    "passed": 13,
+    "required": 15,
+    "success_rate": 0.8125,
+    "advance_to_integration": false,
+    "interpretation": "synthetic_behavior_action_agreement_not_location_accuracy",
+    "by_action": {
+      "avoid_market": {
+        "total": 4,
+        "passed": 1
+      },
+      "baseline": {
+        "total": 8,
+        "passed": 8
+      },
+      "rest": {
+        "total": 2,
+        "passed": 2
+      },
+      "wait": {
+        "total": 2,
+        "passed": 2
+      }
+    },
+    "by_repetition": {
+      "1": {
+        "total": 8,
+        "passed": 7
+      },
+      "2": {
+        "total": 8,
+        "passed": 6
+      }
+    },
+    "by_person": {
+      "E1_1": {
+        "total": 8,
+        "passed": 7
+      },
+      "E2_1": {
+        "total": 2,
+        "passed": 0
+      },
+      "W1_1": {
+        "total": 6,
+        "passed": 6
+      }
+    },
+    "errors": {}
+  },
+  "clinical_patients": 0,
+  "independent_human_raters": 0
+}

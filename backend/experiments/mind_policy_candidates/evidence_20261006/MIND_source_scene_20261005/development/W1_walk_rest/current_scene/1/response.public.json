@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"status\": \"no_personal_reaction\",\n  \"commands\": [\"baseline\"],\n  \"source_ids\": [\"N0\"],\n  \"reason\": \"원문 N0에 따르면 300m 보행 후 휴식이 필요하나 현재 장면에서 보행 중이며 피로도 높음(false)이지만 통증 관찰됨. 그러나 원문 기준 휴식 필요 시점 도달했으나 보행 지속 중이므로 개인 반응 미지원.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5073,
+    "prompt_tokens": 2109,
+    "prompt_tokens_details": {
+      "cached_tokens": 2080
+    },
+    "total_tokens": 7182
+  }
+}

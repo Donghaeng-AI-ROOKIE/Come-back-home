@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\": [{\"command\": \"avoid_market\", \"when\": [[{\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"true\"}, {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"true\"}]], \"place_labels\": [\"푸른시장\"], \"hold_minutes\": 0, \"note_ids\": [\"N2\"]}, {\"command\": \"avoid_market\", \"when\": [[{\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"true\"}, {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"true\"}]], \"place_labels\": [\"푸른시장\"], \"hold_minutes\": 0, \"note_ids\": [\"N2\"]}]\n\n, \"unrepresented_reason\": \"다른 시장에 대한 관찰 없음\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4074,
+    "prompt_tokens": 1373,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 5447
+  }
+}

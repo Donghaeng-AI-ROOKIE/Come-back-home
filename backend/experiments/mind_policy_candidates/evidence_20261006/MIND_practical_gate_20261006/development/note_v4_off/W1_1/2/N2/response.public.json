@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\":[],\"unrepresented_reason\":\"No walking or resting reaction was explicitly described in response to being lost; the response only states that when lost, the person stood still and waited until family arrived, with no mention of walking or resting triggered by distance or time. The note distinguishes waiting from resting due to knee pain, but does not link any observed behavior to a walking threshold or rest requirement upon arrival at a destination. Therefore, no rule can be extracted for a conditional reaction based on walking duration or location.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 93,
+    "prompt_tokens": 1280,
+    "prompt_tokens_details": {
+      "cached_tokens": 1248
+    },
+    "total_tokens": 1373
+  }
+}

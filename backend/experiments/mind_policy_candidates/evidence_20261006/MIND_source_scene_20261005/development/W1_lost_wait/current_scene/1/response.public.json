@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\":\"supported\",\"commands\":[\"wait\"],\"source_ids\":[\"N2\"],\"reason\":\"원문 N2에 따라 길을 잃었을 때 기다리는 행동이 관찰된 바 있습니다. 현재 장면에서 길을 잃은 상태(lost_awareness: true)에서 기다리는 반응이 일치합니다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2872,
+    "prompt_tokens": 2101,
+    "prompt_tokens_details": {
+      "cached_tokens": 2080
+    },
+    "total_tokens": 4973
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "manifest": {
+    "phase": "development",
+    "candidate": "note_v3_probe",
+    "thinking": "on",
+    "calls": 1,
+    "scene_decisions": 8,
+    "input_sha256": "f261dce6fc633950593e055634adf4b0de345f90a764de676d84afd8faad47a3",
+    "code_sha256": {
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy.py": "5b5994fb9db2d790b54939ac9b2f226d6a1e1ad729a48ecde2bdc2dbecb83e45",
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy_eval.py": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+      "<workspace>/결선/실험/MIND_practical_gate_20261006/run_candidate.py": "a84cc7f5b7d8d4cd276467c1a38ea520887bd984497e6863c4d9100079b6fa56",
+      "<workspace>/결선/실험/MIND_practical_gate_20261006/transport.py": "4bc8f936aad24e1ef256322d946a5772755bfda366ec0e0e97404f47ab0472c0"
+    },
+    "repetitions": 1,
+    "max_request_bytes": 8015,
+    "automatic_retries": false,
+    "probe_note": "N2"
+  },
+  "model_outputs": [
+    {
+      "job": "note_v3_probe_E1_1_N2_1",
+      "person_id": "E1_1",
+      "rep": 1,
+      "note_id": "N2",
+      "output": null,
+      "valid": false,
+      "error_type": "ValidationError",
+      "submitted": true
+    }
+  ],
+  "results": [
+    {
+      "id": "E1_named_both",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "avoid_market",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_other_both",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_capacity_after40",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_named_noise_only",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_lost_wait",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "wait",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_walk_rest",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "rest",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_family_arrived",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E2_noise_only",
+      "person_id": "E2_1",
+      "rep": 1,
+      "label": "avoid_market",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    }
+  ],
+  "gate": {
+    "total": 8,
+    "passed": 0,
+    "required": 8,
+    "success_rate": 0.0,
+    "advance_to_integration": false,
+    "interpretation": "synthetic_behavior_action_agreement_not_location_accuracy",
+    "by_action": {
+      "avoid_market": {
+        "total": 2,
+        "passed": 0
+      },
+      "baseline": {
+        "total": 4,
+        "passed": 0
+      },
+      "rest": {
+        "total": 1,
+        "passed": 0
+      },
+      "wait": {
+        "total": 1,
+        "passed": 0
+      }
+    },
+    "by_repetition": {
+      "1": {
+        "total": 8,
+        "passed": 0
+      }
+    },
+    "by_person": {
+      "E1_1": {
+        "total": 4,
+        "passed": 0
+      },
+      "E2_1": {
+        "total": 1,
+        "passed": 0
+      },
+      "W1_1": {
+        "total": 3,
+        "passed": 0
+      }
+    },
+    "errors": {
+      "ValueError": 8
+    },
+    "reason": "development diagnostics only; complete both predeclared repetitions"
+  },
+  "clinical_patients": 0,
+  "independent_human_raters": 0
+}

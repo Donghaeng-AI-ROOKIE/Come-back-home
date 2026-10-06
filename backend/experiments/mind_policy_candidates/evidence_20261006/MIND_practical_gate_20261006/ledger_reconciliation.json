@@ -1,0 +1,8 @@
+{
+  "remote_events": 128,
+  "local_events": 128,
+  "event_ids_match": true,
+  "event_id_set_sha256": "85102f0752d2d668e64dabfbf6b103af9711fa1378cf125a8282e29d18b0661c",
+  "remote_ledger": "/tmp/MIND_practical_gate_20261006/usage_events.jsonl",
+  "model_calls_added_by_this_check": 0
+}

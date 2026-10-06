@@ -1,0 +1,55 @@
+{
+  "run_id": "MIND_practical_gate_20261006",
+  "authorization_status": "approved",
+  "old_unspent_evaluation_calls": 128,
+  "requested_reallocation": {
+    "development": 64,
+    "evaluation": 64,
+    "total": 128
+  },
+  "development_people": 3,
+  "development_notes": 9,
+  "development_scenes": 8,
+  "evaluation_people": 32,
+  "evaluation_notes_per_person": 1,
+  "evaluation_repetitions": 2,
+  "evaluation_calls": 64,
+  "evaluation_scene_decisions": 128,
+  "candidate": "note-policy-v1-research",
+  "model": "depmkuykpfon9lg",
+  "provider": "K_EXAONE_API",
+  "max_input_utf8_bytes": 40000,
+  "max_output_tokens_per_call": 12000,
+  "max_output_tokens_total": 1536000,
+  "concurrency": 2,
+  "automatic_retries": false,
+  "unit_price": null,
+  "actual_cost": null,
+  "support_round": null,
+  "new_training": false,
+  "new_RAG_queries": false,
+  "new_map_queries": false,
+  "new_embeddings": false,
+  "new_Midm": false,
+  "new_SAR": false,
+  "deployment": false,
+  "stage_gate": {
+    "minimum_success_fraction": 0.9,
+    "development_required": 15,
+    "development_denominator": 16,
+    "evaluation_required": 116,
+    "evaluation_denominator": 128,
+    "errors_and_empty_responses_count_as_failures": true,
+    "progression": "advance_to_KINTEX_integration_not_real_patient_release"
+  },
+  "evaluation_disclosure": "Synthetic texts and labels authored/read by developer; no model responses used for tuning yet. Not an independent human evaluation or blind clinical holdout. Model requests exclude all scenes and labels.",
+  "input_sha256": {
+    "development_inputs.json": "f261dce6fc633950593e055634adf4b0de345f90a764de676d84afd8faad47a3",
+    "evaluation_inputs.json": "7b941f695f0513e1ee4578121d8fe5f87ca8ca4106fe6e77f37edf58523f8d39"
+  },
+  "initial_code_sha256": {
+    "experiments/mind_policy_candidates/note_policy.py": "4a8f2bb5dfcfe2720297978c35c709150e228868d2586588bf3c7dd2ec8885f1",
+    "experiments/mind_policy_candidates/note_policy_eval.py": "c318bfcadef20d9331372c06fad2e3fb35f941560262bb6e6eb50ca3fd7db515",
+    "app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2"
+  }
+}

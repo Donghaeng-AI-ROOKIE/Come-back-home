@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"command\": \"avoid_market\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"market.crowded\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          },\n          {\n            \"fact\": \"market.noisy\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [\"푸른시장\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    },\n    {\n      \"command\": \"seek_0\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"target_recognized\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": []\n    },\n    {\n      \"command\": \"seek_1\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"target_recognized\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": []\n    },\n    {\n      \"command\": \"seek_2\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"target_recognized\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": []\n    },\n    {\n      \"command\": \"walk\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"is_walking\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": []\n    },\n    {\n \n      \"command\": \"rest\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"fatigue_high\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": []\n    }\n  ],\n  \"unrepresented_reason\": \"시장 회피는 혼잡과 소음이 동시에 있을 때만 발생. 다른 시장에 대한 일반화는 불가능. 목적지 인식 여부에 따라 seek 명령이 발동되나, 실제 출발 여부는 확인되지 않음. 휴식 조건은 피로 관찰 시 적용되나, 구체적 시간이나 거리 기준 없음.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 520,
+    "prompt_tokens": 1579,
+    "prompt_tokens_details": {
+      "cached_tokens": 32
+    },
+    "total_tokens": 2099
+  }
+}

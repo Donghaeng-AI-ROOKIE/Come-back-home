@@ -1,0 +1,18 @@
+{
+  "id": "W1_lost_wait",
+  "arm": "source_scene",
+  "rep": 2,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "wait"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "N2 원문에서 길을 잃었을 때 가족이 올 때까지 기다렸으며, 현재 길을 잃은 상태에서 가족이 없으므로 기다림 반응이 성립합니다."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

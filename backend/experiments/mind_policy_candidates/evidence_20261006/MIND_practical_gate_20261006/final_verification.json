@@ -1,0 +1,12 @@
+{
+  "development_calls": 64,
+  "evaluation_calls": 0,
+  "pending_attempts": 0,
+  "matched_local_remote_events": 128,
+  "source_snapshot_hashes_verified": 14,
+  "selected_candidate": false,
+  "deployed": false,
+  "final_candidate_tests": 13,
+  "diff_check": "passed",
+  "figure_visually_checked": true
+}

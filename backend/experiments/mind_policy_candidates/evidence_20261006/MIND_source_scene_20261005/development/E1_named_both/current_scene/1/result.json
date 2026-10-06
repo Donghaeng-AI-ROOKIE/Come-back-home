@@ -1,0 +1,18 @@
+{
+  "id": "E1_named_both",
+  "arm": "current_scene",
+  "rep": 1,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "avoid_market"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "푸른시장 입구에서 사람이 붐비고 시끄러울 때 몸을 돌려 멀어진 관찰(N2)이 현재 장면의 푸른시장(crowded: true, noisy: true)과 조건이 일치함"
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

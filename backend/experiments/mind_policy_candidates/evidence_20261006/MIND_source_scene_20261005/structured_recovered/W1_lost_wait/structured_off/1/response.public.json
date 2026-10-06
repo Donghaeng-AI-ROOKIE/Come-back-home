@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"supported\",\n  \"commands\": [\"wait\"],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"원문에서 길을 잃었을 때 그 자리에서 기다렸다고 명시되어 있으므로 현재 'wait' 동작이 일치함.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 52,
+    "prompt_tokens": 1206,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    },
+    "total_tokens": 1258
+  }
+}

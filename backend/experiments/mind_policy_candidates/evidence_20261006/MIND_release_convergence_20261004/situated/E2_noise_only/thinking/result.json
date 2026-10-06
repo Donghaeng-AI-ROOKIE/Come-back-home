@@ -1,0 +1,8 @@
+{
+  "id": "E2_noise_only",
+  "arm": "thinking",
+  "output": null,
+  "format_valid": false,
+  "label_pass": false,
+  "error_type": "ValueError"
+}

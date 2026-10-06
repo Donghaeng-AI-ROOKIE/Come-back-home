@@ -1,0 +1,14 @@
+{
+  "id": "E1_capacity_after40",
+  "arm": "structured_off",
+  "rep": 2,
+  "output": {
+    "status": "unknown",
+    "commands": [],
+    "source_ids": [],
+    "reason": "원문에 따르면 푸른시장 입구에서 혼잡과 소음이 동시에 있을 때만 회피 반응을 보였고, 현재 장소의 혼잡과 소음 여부가 확인되지 않아 반응 조건이 성립하지 않음."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

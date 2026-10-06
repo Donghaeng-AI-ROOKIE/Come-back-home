@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\"status\":\"unknown\",\"commands\":[],\"source_ids\":[],\"reason\":\"현재 장면의 미등록 다른 시장에서의 혼잡 및 소음 조건이 N2의 푸른시장 입구 관찰 조건과 유사하나, 특정 장소에서의 반응을 다른 시장으로 확대할 수 없다는 원칙에 따라 판단 불가.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1435,
+    "prompt_tokens": 2115,
+    "prompt_tokens_details": {
+      "cached_tokens": 2112
+    },
+    "total_tokens": 3550
+  }
+}

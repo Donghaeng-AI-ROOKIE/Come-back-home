@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\"status\":\"supported\",\"commands\":[\"avoid_market\"],\"source_ids\":[\"N2\"],\"reason\":\"현재 푸른시장이 시끄럽고 혼잡한 상태로, N2에서 관찰된 반응 조건(혼잡+시끄러움)이 충족되어 회피 반응이 성립함.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2335,
+    "prompt_tokens": 2113,
+    "prompt_tokens_details": {
+      "cached_tokens": 2112
+    },
+    "total_tokens": 4448
+  }
+}

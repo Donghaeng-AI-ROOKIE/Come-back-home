@@ -1,0 +1,12 @@
+{
+  "final_content": "j\n\n{\n  \"status\": \"supported\",\n  \"commands\": [\"avoid_market\"],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"N2에서 붐비고 시끄러울 때 푸른시장 입구에서 몸을 돌려 멀어지는 반응이 관찰되었으며, 현재 푸른시장에서의 소음과 혼잡이 확인되어 해당 반응이 성립합니다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2443,
+    "prompt_tokens": 1409,
+    "prompt_tokens_details": {
+      "cached_tokens": 448
+    },
+    "total_tokens": 3852
+  }
+}

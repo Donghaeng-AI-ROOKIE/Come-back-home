@@ -1,0 +1,18 @@
+{
+  "id": "E1_named_noise_only",
+  "arm": "source_scene",
+  "rep": 1,
+  "output": {
+    "status": "no_personal_reaction",
+    "commands": [
+      "baseline"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "원문 N2에 따르면 혼잡과 소음이 동시에 있을 때만 회피하지만, 현재 혼잡은 없고 소음만 있어 회피 반응이 성립하지 않음"
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

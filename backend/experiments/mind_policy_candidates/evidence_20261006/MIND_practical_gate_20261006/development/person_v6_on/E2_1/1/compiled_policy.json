@@ -1,0 +1,17 @@
+{
+  "rules": [],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "No observed actions found; no valid actions extracted from the provided text."
+    },
+    {
+      "note_id": "N1",
+      "reason": "No observed actions found; no valid actions extracted from the provided text."
+    },
+    {
+      "note_id": "N2",
+      "reason": "No observed actions found; no valid actions extracted from the provided text."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "W1_lost_wait",
+  "arm": "nonthinking",
+  "output": {
+    "status": "supported",
+    "commands": [
+      "wait"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "원문 N2에 따르면 길을 잃었을 때 그 자리에 서서 가족이 올 때까지 기다렸으며, 이는 휴식과 별개의 행동으로 명시되어 있다. 현재 장면에서 lost_awareness가 true이고 family_present가 false이므로, 기다리기 행동이 성립한다."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

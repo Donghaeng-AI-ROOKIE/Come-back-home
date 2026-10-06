@@ -1,0 +1,18 @@
+{
+  "id": "E1_capacity_after40",
+  "arm": "structured_on",
+  "rep": 1,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "rest"
+    ],
+    "source_ids": [
+      "N1"
+    ],
+    "reason": "원문에서 40분 연속 보행 시 휴식 조건 충족, 현재 45분 보행으로 조건 성립"
+  },
+  "format_valid": true,
+  "label_pass": false,
+  "error_type": null
+}

@@ -1,0 +1,43 @@
+{
+  "runs": 12,
+  "synthetic_walkers": 6000,
+  "summary": [
+    {
+      "assumption": "no_population_rest",
+      "seeds": 3,
+      "walking_min_mean": 327.12000000000006,
+      "rest_min_mean": 0.0,
+      "distance_km_mean": 15.701759999999997,
+      "unresolved_max": 0.0,
+      "time_error_max": 0.0
+    },
+    {
+      "assumption": "rest_2min",
+      "seeds": 3,
+      "walking_min_mean": 314.73,
+      "rest_min_mean": 12.39,
+      "distance_km_mean": 15.10704,
+      "unresolved_max": 0.0,
+      "time_error_max": 2.8421709430404007e-13
+    },
+    {
+      "assumption": "rest_5min",
+      "seeds": 3,
+      "walking_min_mean": 298.2126666666666,
+      "rest_min_mean": 28.907333333333337,
+      "distance_km_mean": 14.314207999999999,
+      "unresolved_max": 0.0,
+      "time_error_max": 5.115907697472721e-13
+    },
+    {
+      "assumption": "rest_10min",
+      "seeds": 3,
+      "walking_min_mean": 275.1193333333333,
+      "rest_min_mean": 52.00066666666667,
+      "distance_km_mean": 13.205727999999997,
+      "unresolved_max": 0.0,
+      "time_error_max": 9.094947017729282e-13
+    }
+  ],
+  "interpretation": "fatigue execution restored; no clinical fit or best duration selected"
+}

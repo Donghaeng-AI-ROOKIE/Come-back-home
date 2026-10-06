@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"unknown\",\n  \"commands\": [],\n  \"source_ids\": [],\n  \"reason\": \"원문에 따르면, 어르신은 혼잡하고 시끄러운 시장 입구에서 몸을 돌려 멀어지는 반응을 보였으나, 현재 장소는 혼잡함이 확인되지 않았고 소음만 확인된 상태이므로 해당 조건이 성립하지 않음.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 62,
+    "prompt_tokens": 1211,
+    "prompt_tokens_details": {
+      "cached_tokens": 960
+    },
+    "total_tokens": 1273
+  }
+}

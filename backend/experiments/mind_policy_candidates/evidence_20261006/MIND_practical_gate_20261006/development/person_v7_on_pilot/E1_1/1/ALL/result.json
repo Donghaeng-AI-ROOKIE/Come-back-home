@@ -1,0 +1,41 @@
+{
+  "job": "person_v7_on_pilot_E1_1_ALL_1",
+  "person_id": "E1_1",
+  "rep": 1,
+  "note_id": "ALL",
+  "output": {
+    "source_summary": "N0: 목적지 경험 없음. N1: 평소 40분 연속 보행, 길 잃음 대응 미관찰. N2: 푸른시장 입구에서 혼잡+시끄러울 때 회피 관찰, 단일 조건에서만 회피.",
+    "rules": [
+      {
+        "command": "avoid_market",
+        "when": [
+          [
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "true"
+            },
+            {
+              "fact": "market.noisy",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [
+          "푸른시장"
+        ],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N0",
+          "N1",
+          "N2"
+        ]
+      }
+    ],
+    "unrepresented_reason": ""
+  },
+  "valid": true,
+  "error_type": null,
+  "submitted": true
+}

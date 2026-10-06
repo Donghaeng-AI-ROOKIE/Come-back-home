@@ -1,0 +1,18 @@
+{
+  "id": "W1_family_arrived",
+  "arm": "structured_off",
+  "rep": 2,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "wait"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "길을 잃었을 때 그 자리에 서서 기다렸다는 관찰된 반응이 현재 상황과 일치함."
+  },
+  "format_valid": true,
+  "label_pass": false,
+  "error_type": null
+}

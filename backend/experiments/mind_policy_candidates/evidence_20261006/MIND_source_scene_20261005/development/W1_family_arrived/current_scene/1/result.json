@@ -1,0 +1,18 @@
+{
+  "id": "W1_family_arrived",
+  "arm": "current_scene",
+  "rep": 1,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "wait"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "N2에 따라 길을 잃었을 때 가족이 올 때까지 기다리는 행동이 기술되었으며, 현재 lost_awareness가 true이고 family_present가 true인 상황과 정확히 일치합니다."
+  },
+  "format_valid": true,
+  "label_pass": false,
+  "error_type": null
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"when\": [\n        [\n          {\"fact\": \"continuous_walk_minutes\", \"op\": \"gte\", \"value\": \"13\"},\n          {\"fact\": \"is_walking\", \"op\": \"eq\", \"value\": \"true\"}\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 2,\n      \"note_ids\": [\"N0\"]\n    },\n    {\n      \"command\": \"wait\",\n      \"when\": [\n        [\n          {\"fact\": \"lost_awareness\", \"op\": \"eq\", \"value\": \"true\"}\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"unrepresented_reason\": \"\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 175,
+    "prompt_tokens": 1280,
+    "prompt_tokens_details": {
+      "cached_tokens": 640
+    },
+    "total_tokens": 1455
+  }
+}

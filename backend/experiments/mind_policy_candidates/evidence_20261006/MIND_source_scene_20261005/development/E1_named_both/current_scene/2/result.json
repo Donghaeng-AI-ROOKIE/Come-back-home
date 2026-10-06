@@ -1,0 +1,18 @@
+{
+  "id": "E1_named_both",
+  "arm": "current_scene",
+  "rep": 2,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "avoid_market"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "현재 푸른시장이 시끄럽고 혼잡한 상태로, N2에서 관찰된 반응 조건(혼잡+시끄러움)이 충족되어 회피 반응이 성립함."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

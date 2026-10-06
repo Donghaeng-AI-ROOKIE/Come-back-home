@@ -1,0 +1,11 @@
+{
+  "run_id": "MIND_source_scene_20261005",
+  "stage2_events": 0,
+  "stage2_launch_files": 0,
+  "stage2_completion_files": 0,
+  "remote_evidence": "Read-only docker query on Mac mini /tmp/MIND_source_scene_20261005 after all 32 local SSH attempts; exact counts returned by server",
+  "local_error": "ssh: connect to host 100.73.27.46 port 22: Operation not permitted",
+  "interpretation": "All 32 local attempts are reserved but were not submitted to a remote worker or model. Resume identical payloads with identical job/attempt IDs; exclusive launch prevents duplicate model invocation. Preserve initial transport-failure results separately.",
+  "automatic_model_retries": 0,
+  "additional_reserved_attempts": 0
+}

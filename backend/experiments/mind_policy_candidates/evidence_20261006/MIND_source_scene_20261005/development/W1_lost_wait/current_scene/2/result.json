@@ -1,0 +1,18 @@
+{
+  "id": "W1_lost_wait",
+  "arm": "current_scene",
+  "rep": 2,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "wait"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "N2에 따르면 길을 잃었을 때 가족이 올 때까지 기다리는 행동이 관찰되었으며, 현재 장면에서 길을 잃은 상태(lost_awareness: true)이고 가족이 없음(family_present: false)으로 인해 기다림 반응이 성립합니다."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

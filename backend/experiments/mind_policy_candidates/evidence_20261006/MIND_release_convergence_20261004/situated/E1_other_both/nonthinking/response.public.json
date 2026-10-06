@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\":\"supported\",\"commands\":[\"avoid_market\"],\"source_ids\":[\"N2\"],\"reason\":\"푸른시장 입구에서 사람이 붐비고 시끄러울 때 몸을 돌려 멀어진 반응이 관찰되었으며, 현재 장면도 사람이 붐비고 시끄러운 미등록 다른 시장 환경이므로 동일한 회피 반응이 성립한다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 62,
+    "prompt_tokens": 2117,
+    "prompt_tokens_details": {
+      "cached_tokens": 1888
+    },
+    "total_tokens": 2179
+  }
+}

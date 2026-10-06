@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"is_walking\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          },\n          {\n            \"fact\": \"continuous_walk_minutes\",\n            \"op\": \"gte\",\n            \"value\": \"5\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N0\"]\n    },\n    {\n      \"command\": \"seek_0\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"target_recognized\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          },\n          {\n            \"fact\": \"is_walking\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [\"다온공원\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"command\": \"wait\",\n      \"when\": [\n        [\n          {\n            \"fact\": \"lost_awareness\",\n            \"op\": \"eq\",\n            \"value\": \"true\"\n          }\n        ]\n      ],\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"unrepresented_reason\": \"가족이 올 때까지 기다림은 관찰되었으나, 그 지속 시간이나 정확한 조건은 기록되지 않음. '다온공원' 방문은 언급되었으나 실제 이동이나 도착은 관찰되지 않음. '푸른시장'과 '은빛경로당'은 등록 장소로 언급되었으나, 그곳으로의 출발이나 방문은 확인되지 않음. 보행 중 휴식은 관찰되었으나, 휴식 후 재보행 여부는 확인되지 않음. 방향 선택이나 회피 행동은 관찰되지 않음.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 381,
+    "prompt_tokens": 1575,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 1956
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "job": "person_v6_on_E2_1_ALL_2",
+  "person_id": "E2_1",
+  "rep": 2,
+  "note_id": "ALL",
+  "output": {
+    "rules": [
+      {
+        "command": "avoid_market",
+        "when": [
+          [
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      }
+    ],
+    "unrepresented_reason": ""
+  },
+  "valid": true,
+  "error_type": null,
+  "submitted": true
+}

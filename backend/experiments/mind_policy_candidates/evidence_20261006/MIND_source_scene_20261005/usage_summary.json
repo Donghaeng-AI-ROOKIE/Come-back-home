@@ -1,0 +1,41 @@
+{
+  "run_id": "MIND_source_scene_20261005",
+  "approved_total": 192,
+  "approved_development": 64,
+  "approved_evaluation": 128,
+  "reserved_attempts": 64,
+  "finished_attempts": 64,
+  "pending_attempts": [],
+  "finished_by_role": {
+    "mind_state_alignment_development": 64
+  },
+  "outcomes": {
+    "response_received": 64
+  },
+  "finish_reason": {
+    "stop": 50,
+    "length": 14
+  },
+  "usage": {
+    "prompt_tokens": 94918,
+    "completion_tokens": 266242,
+    "total_tokens": 361160
+  },
+  "responses_with_usage": 64,
+  "transport_events": {
+    "api_transport_incomplete": 32,
+    "api_transport_resumed": 32
+  },
+  "transport_explanation": "32 SSH launches initially blocked before reaching remote; remote evidence confirmed zero launches/events. Same reserved attempts and unchanged payloads then submitted once, not new model retries.",
+  "unit_price": null,
+  "actual_cost": null,
+  "support_round": null,
+  "gpu_billed_hours": null,
+  "missing_usage_is_zero": false,
+  "new_GPU_training": false,
+  "new_SAR": 0,
+  "new_Midm": 0,
+  "new_embedding": 0,
+  "new_maps": 0,
+  "deployed": false
+}

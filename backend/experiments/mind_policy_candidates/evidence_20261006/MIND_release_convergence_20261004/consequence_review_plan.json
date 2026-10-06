@@ -1,0 +1,11 @@
+{
+  "max_calls": 2,
+  "input_bytes": [
+    13131,
+    13235
+  ],
+  "output_tokens_per_call": 4096,
+  "same_original_development_envelope": true,
+  "no_retries": true,
+  "prompt_sha256": "084e6e2d4645f086711fdeb889b3078cda7799d79f792262847d1c7f7b0f5a91"
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\": [{\"command\": \"avoid_market\", \"when\": [[{\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"true\"}, {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"true\"}]], \"place_labels\": [\"푸른시장\"], \"hold_minutes\": 0, \"note_ids\": [\"N2\"]}], \"unrepresented_reason\": \"N1에서 40분 연속 걷기 언급되었으나 조건적 행동이 아니므로 규칙 미포함\"\n\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2023,
+    "prompt_tokens": 1577,
+    "prompt_tokens_details": {
+      "cached_tokens": 1568
+    },
+    "total_tokens": 3600
+  }
+}

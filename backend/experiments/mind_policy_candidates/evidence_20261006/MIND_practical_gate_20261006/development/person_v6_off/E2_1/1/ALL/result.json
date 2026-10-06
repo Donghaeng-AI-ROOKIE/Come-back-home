@@ -1,0 +1,145 @@
+{
+  "job": "person_v6_off_E2_1_ALL_1",
+  "person_id": "E2_1",
+  "rep": 1,
+  "note_id": "ALL",
+  "output": {
+    "rules": [
+      {
+        "command": "avoid_market",
+        "when": [
+          [
+            {
+              "fact": "market.noisy",
+              "op": "eq",
+              "value": "true"
+            }
+          ],
+          [
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      },
+      {
+        "command": "avoid_market",
+        "when": [
+          [
+            {
+              "fact": "market.noisy",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      },
+      {
+        "command": "avoid_market",
+        "when": [
+          [
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      },
+      {
+        "command": "avoid_market",
+        "when": [
+          [
+            {
+              "fact": "market.noisy",
+              "op": "eq",
+              "value": "true"
+            },
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      },
+      {
+        "command": "seek_1",
+        "when": [
+          [
+            {
+              "fact": "target_recognized",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N0"
+        ]
+      },
+      {
+        "command": "walk",
+        "when": [
+          [
+            {
+              "fact": "is_walking",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      },
+      {
+        "command": "rest",
+        "when": [
+          [
+            {
+              "fact": "continuous_walk_minutes",
+              "op": "gte",
+              "value": "40"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "unrepresented_reason": "시장 회피는 소음 또는 혼잡 중 하나만 있어도 발생하며, 둘 다 있을 때도 포함된다. 대상 인식 후 출발은 N0에서 언급된 후보지 인식 여부에 따라 seek_1로 처리. 걷기와 휴식은 N1에서 연속 40분 보행 후 휴식 필요성을 관찰한 것으로 해석되며, 실제 휴식 시간은 명시되지 않아 hold_minutes는 0으로 설정. 장소별 회피나 추가 행동은 언급되지 않음."
+  },
+  "valid": true,
+  "error_type": null,
+  "submitted": true
+}

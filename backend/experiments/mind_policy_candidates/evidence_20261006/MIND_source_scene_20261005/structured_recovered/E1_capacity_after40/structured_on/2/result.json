@@ -1,0 +1,18 @@
+{
+  "id": "E1_capacity_after40",
+  "arm": "structured_on",
+  "rep": 2,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "rest"
+    ],
+    "source_ids": [
+      "N1"
+    ],
+    "reason": "원문 N1에서 40분 보행 가능하나 현재 45분 경과로 휴식 조건 충족"
+  },
+  "format_valid": true,
+  "label_pass": false,
+  "error_type": null
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "{  \n  \"status\": \"supported\",  \n  \"commands\": [\"rest\"],  \n  \"source_ids\": [\"N0\"],  \n  \"reason\": \"원문에서 300m 보행 후 휴식 필요 조건 성립, 현재 300m 보행 완료.\"  \n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 7446,
+    "prompt_tokens": 1212,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 8658
+  }
+}

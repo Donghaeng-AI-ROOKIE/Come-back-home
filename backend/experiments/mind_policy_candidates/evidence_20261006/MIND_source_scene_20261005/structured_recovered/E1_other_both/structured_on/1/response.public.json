@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\": \"supported\", \"commands\": [\"walk\"], \"source_ids\": [\"N1\"], \"reason\": \"원문 N1의 40분 보행 가능 조건 미도달로 현재 보행 지속\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5364,
+    "prompt_tokens": 1211,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 6575
+  }
+}

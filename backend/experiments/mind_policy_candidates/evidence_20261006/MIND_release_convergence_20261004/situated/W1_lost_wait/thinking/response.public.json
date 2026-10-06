@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\"status\":\"supported\",\"commands\":[\"wait\"],\"source_ids\":[\"N2\"],\"reason\":\"원문 N2에서 길을 잃었을 때 가족이 올 때까지 기다린다고 명시했으며, 현재 장면에서 길을 잃은 상태(lost_awareness: true)이고 가족이 현장에 없음(family_present: false)이지만 기다림 행동이 관찰됨.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2442,
+    "prompt_tokens": 2101,
+    "prompt_tokens_details": {
+      "cached_tokens": 2080
+    },
+    "total_tokens": 4543
+  }
+}

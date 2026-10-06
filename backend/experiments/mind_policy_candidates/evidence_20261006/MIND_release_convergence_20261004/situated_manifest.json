@@ -1,0 +1,23 @@
+{
+  "purpose": "development_current_scene_selection_not_fresh_holdout",
+  "n_scenes": 6,
+  "new_persons": 0,
+  "arms": [
+    "nonthinking",
+    "thinking"
+  ],
+  "max_new_calls": 12,
+  "max_total_original_calls": 128,
+  "max_original_development_calls": 80,
+  "input_bytes_cap": 40000,
+  "nonthinking_output_cap": 4096,
+  "thinking_output_cap": 12000,
+  "max_new_output_tokens": 96576,
+  "no_retries": true,
+  "concurrency": 2,
+  "actual_cost": null,
+  "support_round": null,
+  "input_sha256": "930e71da6fc49f133346c0e92edafa65a022b06c73fefcdbe8603c9c01d95f00",
+  "candidate_sha256": "57a45f876e855280ab2c30f1288aebfd005f6167dd93c610cf3644084472b2da",
+  "labels": "assistant-authored synthetic constraints before call; not human/clinical labels"
+}

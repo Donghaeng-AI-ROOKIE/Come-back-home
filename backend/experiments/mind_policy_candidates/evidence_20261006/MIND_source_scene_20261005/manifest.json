@@ -1,0 +1,38 @@
+{
+  "run_id": "MIND_source_scene_20261005",
+  "approval": "User explicit 192회 범위 승인 on 2026-10-05 in this thread",
+  "total_call_cap": 192,
+  "development_cap": 64,
+  "heldout_cap": 128,
+  "batch": "current_scene_vs_source_scene",
+  "batch_calls": 32,
+  "scenes": 8,
+  "arms": [
+    "current_scene",
+    "source_scene"
+  ],
+  "repetitions": 2,
+  "automatic_retries": false,
+  "concurrency": 2,
+  "input_utf8_bytes_max": 40000,
+  "output_tokens_per_call_max": 12000,
+  "batch_output_max": 384000,
+  "whole_envelope_output_max": 2304000,
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null,
+  "new_GPU_training": false,
+  "new_maps": false,
+  "new_embeddings": false,
+  "new_SAR": false,
+  "new_Midm": false,
+  "source_research_excerpts": 0,
+  "input_sha256": "f261dce6fc633950593e055634adf4b0de345f90a764de676d84afd8faad47a3",
+  "code_sha256": {
+    "situated_actions.py": "57a45f876e855280ab2c30f1288aebfd005f6167dd93c610cf3644084472b2da",
+    "source_scene.py": "654a15aff851dd9522d4d7431a95649d5c2794fc1a80c16eacafc319f645b1d1"
+  },
+  "expand_gate": "8 scenes x 2 repeats with correct original-source action constraints and no critical semantic errors; no holdout if no candidate passes",
+  "heldout_inputs_sha256": "7b941f695f0513e1ee4578121d8fe5f87ca8ca4106fe6e77f37edf58523f8d39",
+  "clinical_patients": 0
+}

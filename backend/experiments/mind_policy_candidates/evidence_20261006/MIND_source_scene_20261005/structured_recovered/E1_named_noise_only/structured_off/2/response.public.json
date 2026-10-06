@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"supported\",\n  \"commands\": [\"wait\"],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"원문 N2에 따르면 푸른시장 입구에서 혼잡과 소음이 동시에 있을 때 몸을 돌려 멀어지는 반응을 보였으며, 현재 사실에서 소음은 확인되었고 혼잡은 미확인이지만 시장 환경에 해당하므로 조건 성립.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 73,
+    "prompt_tokens": 1211,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 1284
+  }
+}

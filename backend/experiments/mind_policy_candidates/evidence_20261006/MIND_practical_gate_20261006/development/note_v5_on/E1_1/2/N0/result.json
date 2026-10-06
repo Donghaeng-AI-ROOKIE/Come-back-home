@@ -1,0 +1,13 @@
+{
+  "job": "note_v5_on_E1_1_N0_2",
+  "person_id": "E1_1",
+  "rep": 2,
+  "note_id": "N0",
+  "output": {
+    "rules": [],
+    "unrepresented_reason": "N0 문답에서 관찰된 행동이 없음."
+  },
+  "valid": true,
+  "error_type": null,
+  "submitted": true
+}

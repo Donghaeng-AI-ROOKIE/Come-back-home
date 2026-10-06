@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"status\": \"supported\",\n  \"commands\": [\"wait\"],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"N2에 따르면 길을 잃었을 때 가족이 올 때까지 기다리는 행동을 보였으며, 현재 장면에서 길을 잃은 상태(lost_awareness: true)이고 가족이 동반 중(family_present: true)이므로 대기 행동이 원문에 근거해 성립합니다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1259,
+    "prompt_tokens": 2101,
+    "prompt_tokens_details": {
+      "cached_tokens": 2080
+    },
+    "total_tokens": 3360
+  }
+}

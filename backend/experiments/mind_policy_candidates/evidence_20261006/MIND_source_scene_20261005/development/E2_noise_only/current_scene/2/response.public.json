@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\"status\":\"supported\",\"commands\":[\"avoid_market\"],\"source_ids\":[\"N2\"],\"reason\":\"N2에서 시장 환경에서 시끄럽거나 혼잡할 때 입구에서 몸을 돌려 멀어지는 반응이 관찰됨. 현재 장면은 시끄럽지만 혼잡하지 않아 조건 일부 충족.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4878,
+    "prompt_tokens": 2136,
+    "prompt_tokens_details": {
+      "cached_tokens": 2112
+    },
+    "total_tokens": 7014
+  }
+}

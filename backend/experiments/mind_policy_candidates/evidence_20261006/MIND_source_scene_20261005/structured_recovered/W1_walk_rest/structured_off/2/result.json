@@ -1,0 +1,18 @@
+{
+  "id": "W1_walk_rest",
+  "arm": "structured_off",
+  "rep": 2,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "rest"
+    ],
+    "source_ids": [
+      "N0"
+    ],
+    "reason": "원문에서 무릎 통증으로 인해 300m 보행 후 휴식이 필요하다고 관찰되었으며, 현재 마지막 휴식 이후 6.25분 보행한 상태이므로 휴식 조건이 성립한다."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

@@ -1,0 +1,14 @@
+{
+  "method": "Codex unblinded source-and-final-output comparison; not independent human review",
+  "notes": {
+    "E1_other_both/nonthinking": "Wrongly applies named-place behavior to another market.",
+    "E1_capacity_after40/thinking": "Wrongly interprets capability as supported continued walking.",
+    "W1_walk_rest/nonthinking": "Ignores walking/rest threshold and cites 60-minute upper limit as support.",
+    "E2_noise_only/nonthinking": "Final answer contains malformed JSON; not repaired or counted as executable.",
+    "E2_noise_only/thinking": "12,000 completion tokens exhausted without final content.",
+    "E1_capacity_after40/nonthinking": "Action abstention passes; explanation overstates not-high fatigue as no fatigue.",
+    "W1_lost_wait/thinking": "Action wait passes; current simulated action is worded as observed behavior.",
+    "E1_other_both/thinking": "Reason cites N2 but source_ids is empty; allowed by current abstention schema, incomplete traceability."
+  },
+  "qualification": "not_passed"
+}

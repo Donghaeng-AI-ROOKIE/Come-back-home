@@ -1,0 +1,66 @@
+{
+  "persons": 3,
+  "scenes": 8,
+  "repeats": 2,
+  "calls": 64,
+  "arms": {
+    "current_scene": {
+      "n": 16,
+      "complete_json_object": 12,
+      "contract_valid": 12,
+      "action_label_pass": 8,
+      "all_development_gate_passed": false,
+      "finish_reasons": {
+        "stop": 13,
+        "length": 3
+      },
+      "provider_seconds_median": 46.49194800644182,
+      "provider_seconds_max": 184.94326926604845
+    },
+    "source_scene": {
+      "n": 16,
+      "complete_json_object": 8,
+      "contract_valid": 8,
+      "action_label_pass": 8,
+      "all_development_gate_passed": false,
+      "finish_reasons": {
+        "stop": 10,
+        "length": 6
+      },
+      "provider_seconds_median": 53.879427773994394,
+      "provider_seconds_max": 182.567930880934
+    },
+    "structured_off": {
+      "n": 16,
+      "complete_json_object": 16,
+      "contract_valid": 15,
+      "action_label_pass": 9,
+      "all_development_gate_passed": false,
+      "finish_reasons": {
+        "stop": 16
+      },
+      "provider_seconds_median": 1.05047441390343,
+      "provider_seconds_max": 2.3782414458692074
+    },
+    "structured_on": {
+      "n": 16,
+      "complete_json_object": 11,
+      "contract_valid": 11,
+      "action_label_pass": 7,
+      "all_development_gate_passed": false,
+      "finish_reasons": {
+        "stop": 11,
+        "length": 5
+      },
+      "provider_seconds_median": 62.28439232695382,
+      "provider_seconds_max": 187.53675306285731
+    }
+  },
+  "separate_evaluation_calls": 0,
+  "evaluation_gate": "16/16 source-faithful development actions and no critical invented evidence; no candidate passed even action-only gate",
+  "clinical_accuracy_measured": false,
+  "assessor": "automated predeclared source constraints; public reason spot-check by assistant, independent human evaluation absent",
+  "deployed": false,
+  "model_retries": 0,
+  "network_recovery_did_not_resubmit_any_model_request": true
+}

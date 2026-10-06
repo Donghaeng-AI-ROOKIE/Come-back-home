@@ -1,0 +1,13 @@
+{
+  "status": "not_adopted",
+  "round": "consequence_review",
+  "n_cases": 2,
+  "unchanged_from_previous": [
+    "E1_1",
+    "W1_1"
+  ],
+  "limitations": [
+    "development only",
+    "same model reviewer; not independent human review"
+  ]
+}

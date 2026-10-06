@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\":\"supported\",\"commands\":[\"walk\"],\"source_ids\":[\"N0\"],\"reason\":\"원문 N0에 따르면 보행 능력은 무릎 통증으로 인해 한 번에 약 5분, 300미터 걷고 난 후 휴식이 필요하나, 휴식 후 다시 걷는 것이 가능하며 연속 보행 시간은 1시간을 넘지 못한다고 명시되어 있다. 현재 장면에서 실제 보행 시간은 6.25분, 거리 300미터로 이 한계 내에 있으며, 피로도는 높지 않고 보행 중이며, 통증도 관찰되었고, 휴식이나 회피, 기다림 등의 반응은 나타나지 않았다. 따라서 현재 보행 중인 행동은 원문에서 제시된 보행 능력과 일치하며, 보행 반응이 성립한다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 132,
+    "prompt_tokens": 2111,
+    "prompt_tokens_details": {
+      "cached_tokens": 1760
+    },
+    "total_tokens": 2243
+  }
+}

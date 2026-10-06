@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\": \"supported\", \"commands\": [\"rest\"], \"source_ids\": [\"N1\"], \"reason\": \"원문 N1에서 40분 보행 가능하나 현재 45분 경과로 휴식 조건 충족\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3908,
+    "prompt_tokens": 1192,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 5100
+  }
+}

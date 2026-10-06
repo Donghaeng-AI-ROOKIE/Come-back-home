@@ -1,0 +1,16 @@
+{
+  "status": "approved",
+  "requested_scope": "reallocate unspent 128: development <=64, evaluation <=64",
+  "human_approval": "승인",
+  "approved_at": "2026-10-06T06:54:04.675527+00:00",
+  "scope": {
+    "development_max_calls": 64,
+    "evaluation_max_calls": 64,
+    "total_max_calls": 128,
+    "max_input_utf8_bytes": 40000,
+    "max_output_tokens_per_call": 12000,
+    "concurrency": 2,
+    "automatic_retries": false
+  },
+  "basis": "Human approved the immediately preceding 128-call reallocation request in this conversation."
+}

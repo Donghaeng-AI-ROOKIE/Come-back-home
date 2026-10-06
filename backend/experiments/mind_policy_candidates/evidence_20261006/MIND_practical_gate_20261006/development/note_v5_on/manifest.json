@@ -1,0 +1,19 @@
+{
+  "phase": "development",
+  "candidate": "note_v5_on",
+  "thinking": "on",
+  "calls": 18,
+  "scene_decisions": 16,
+  "input_sha256": "f261dce6fc633950593e055634adf4b0de345f90a764de676d84afd8faad47a3",
+  "code_sha256": {
+    "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy.py": "1485e6341b3f5aa9244c024665bfa2614a8caf4f80eca4b982a125f7c1eaf0cd",
+    "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy_eval.py": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+    "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+    "<workspace>/결선/실험/MIND_practical_gate_20261006/run_candidate.py": "a84cc7f5b7d8d4cd276467c1a38ea520887bd984497e6863c4d9100079b6fa56",
+    "<workspace>/결선/실험/MIND_practical_gate_20261006/transport.py": "4bc8f936aad24e1ef256322d946a5772755bfda366ec0e0e97404f47ab0472c0"
+  },
+  "repetitions": 2,
+  "max_request_bytes": 8308,
+  "automatic_retries": false,
+  "probe_note": null
+}

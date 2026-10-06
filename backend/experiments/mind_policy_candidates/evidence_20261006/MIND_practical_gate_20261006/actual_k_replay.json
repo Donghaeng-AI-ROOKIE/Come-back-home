@@ -1,0 +1,139 @@
+{
+  "kind": "failed_candidate_diagnostic_not_release_validation",
+  "synthetic_people": 1,
+  "particles_per_repeat": 100,
+  "source": "actual saved K final output, no rule edits",
+  "model_calls": 0,
+  "map_calls": 0,
+  "region": "KINTEX, Goyang",
+  "map_metadata": "kintex_map_metadata.json",
+  "synthetic_goal_location": true,
+  "observations": "authored family arrival at 90 minutes; not patient observations",
+  "clinical_accuracy_measured": false,
+  "results": [
+    {
+      "model_repeat": 1,
+      "source_policy": "<workspace>/결선/실험/MIND_practical_gate_20261006/development/person_v6_on/W1_1/1/compiled_policy.json",
+      "policy_sha256": "069193fbfb28816160fb163aa38e274ac38cc1c80ad624bb60bcc9efad592f1c",
+      "snapshots": [
+        {
+          "minute": 60,
+          "mass": 1.0000000000000007,
+          "unresolved_mass": 0.0,
+          "mean_wait": 57.5,
+          "mean_rest": 2.5,
+          "mean_walk": 0.0,
+          "mean_path_km": 0.0,
+          "moved_particles": 0,
+          "change_from_previous_tv": null
+        },
+        {
+          "minute": 90,
+          "mass": 1.0000000000000007,
+          "unresolved_mass": 0.0,
+          "mean_wait": 87.5,
+          "mean_rest": 2.5,
+          "mean_walk": 0.0,
+          "mean_path_km": 0.0,
+          "moved_particles": 0,
+          "change_from_previous_tv": 0.0
+        },
+        {
+          "minute": 120,
+          "mass": 1.0000000000000004,
+          "unresolved_mass": 0.0,
+          "mean_wait": 87.5,
+          "mean_rest": 29.374523433034746,
+          "mean_walk": 3.12547656696525,
+          "mean_path_km": 0.150022875214332,
+          "moved_particles": 100,
+          "change_from_previous_tv": 0.30000000000000016
+        },
+        {
+          "minute": 240,
+          "mass": 1.0,
+          "unresolved_mass": 0.0,
+          "mean_wait": 87.5,
+          "mean_rest": 137.19096366381746,
+          "mean_walk": 15.309036336182535,
+          "mean_path_km": 0.7348337441367616,
+          "moved_particles": 100,
+          "change_from_previous_tv": 0.5300000000000001
+        },
+        {
+          "minute": 360,
+          "mass": 1.0,
+          "unresolved_mass": 0.0,
+          "mean_wait": 87.5,
+          "mean_rest": 245.36055177593985,
+          "mean_walk": 27.139448224060143,
+          "mean_path_km": 1.3026935147548868,
+          "moved_particles": 100,
+          "change_from_previous_tv": 0.23000000000000004
+        }
+      ]
+    },
+    {
+      "model_repeat": 2,
+      "source_policy": "<workspace>/결선/실험/MIND_practical_gate_20261006/development/person_v6_on/W1_1/2/compiled_policy.json",
+      "policy_sha256": "79e4efe5babae83f6ae4fb9b86d23d98602b82936e6494bbb1599e016e512d29",
+      "snapshots": [
+        {
+          "minute": 60,
+          "mass": 1.0000000000000007,
+          "unresolved_mass": 0.0,
+          "mean_wait": 59.50724207783059,
+          "mean_rest": 0.0,
+          "mean_walk": 0.4927579221694083,
+          "mean_path_km": 0.023652380264131592,
+          "moved_particles": 50,
+          "change_from_previous_tv": null
+        },
+        {
+          "minute": 90,
+          "mass": 1.0000000000000007,
+          "unresolved_mass": 0.0,
+          "mean_wait": 89.5072420778306,
+          "mean_rest": 0.0,
+          "mean_walk": 0.4927579221694083,
+          "mean_path_km": 0.023652380264131592,
+          "moved_particles": 50,
+          "change_from_previous_tv": 0.0
+        },
+        {
+          "minute": 120,
+          "mass": 1.0,
+          "unresolved_mass": 0.0,
+          "mean_wait": 89.5072420778306,
+          "mean_rest": 14.975455623228703,
+          "mean_walk": 15.517302298940695,
+          "mean_path_km": 0.7448305103491533,
+          "moved_particles": 100,
+          "change_from_previous_tv": 0.7500000000000003
+        },
+        {
+          "minute": 240,
+          "mass": 1.0,
+          "unresolved_mass": 0.0,
+          "mean_wait": 89.5072420778306,
+          "mean_rest": 74.96184768937482,
+          "mean_walk": 75.53091023279454,
+          "mean_path_km": 3.625483691174138,
+          "moved_particles": 100,
+          "change_from_previous_tv": 0.47000000000000003
+        },
+        {
+          "minute": 360,
+          "mass": 1.0,
+          "unresolved_mass": 0.0,
+          "mean_wait": 89.5072420778306,
+          "mean_rest": 134.9818476893748,
+          "mean_walk": 135.5109102327945,
+          "mean_path_km": 6.5045236911741355,
+          "moved_particles": 100,
+          "change_from_previous_tv": 0.43
+        }
+      ]
+    }
+  ]
+}

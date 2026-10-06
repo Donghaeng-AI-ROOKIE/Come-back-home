@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"unknown\",\n  \"commands\": [],\n  \"source_ids\": [],\n  \"reason\": \"원문에 따르면 푸른시장 입구에서 혼잡과 소음이 동시에 있을 때만 회피 반응을 보였고, 현재 장소의 혼잡과 소음 여부가 확인되지 않아 반응 조건이 성립하지 않음.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 59,
+    "prompt_tokens": 1194,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 1253
+  }
+}

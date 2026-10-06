@@ -1,0 +1,18 @@
+{
+  "id": "E2_noise_only",
+  "arm": "source_scene",
+  "rep": 1,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "avoid_market"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "원문 N2에서 시장 환경에서 소음만 있어도 입구에서 멀어지는 반응을 관찰했으며, 현재 푸른시장에서 소음이 확인되었으나 혼잡은 미확인 상태이므로 소음 조건만으로도 회피 반응이 성립함"
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

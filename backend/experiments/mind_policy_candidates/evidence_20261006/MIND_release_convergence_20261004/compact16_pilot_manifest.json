@@ -1,0 +1,15 @@
+{
+  "parent_envelope": "MIND_completion_20261004",
+  "group": "pilot",
+  "max_new_calls": 4,
+  "started_before": 110,
+  "max_total_calls": 128,
+  "max_development_calls": 80,
+  "max_output_tokens_per_call": 4096,
+  "max_input_bytes": 40000,
+  "concurrency": 2,
+  "automatic_retries": 0,
+  "prompt_sha256": "d545e0327f8bcb81353399b16455c3841cb60dd55c80ad36d2473c580d94491b",
+  "actual_cost": null,
+  "support_round": null
+}

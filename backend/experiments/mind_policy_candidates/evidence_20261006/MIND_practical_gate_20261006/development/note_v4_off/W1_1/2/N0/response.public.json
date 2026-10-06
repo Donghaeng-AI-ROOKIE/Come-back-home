@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\":[{\"command\":\"rest\",\"when\":[[{\"fact\":\"continuous_walk_minutes\",\"op\":\"gte\",\"value\":\"3\"},{\"fact\":\"is_walking\",\"op\":\"eq\",\"value\":\"true\"}]],\"place_labels\":[],\"hold_minutes\":2,\"note_ids\":[\"N0\"]}],\"unrepresented_reason\":\"\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 72,
+    "prompt_tokens": 1280,
+    "prompt_tokens_details": {
+      "cached_tokens": 1248
+    },
+    "total_tokens": 1352
+  }
+}

@@ -1,0 +1,797 @@
+{
+  "design": "2 underlying physical profiles; 4 scenes including an authored behavior counterfactual; 3 seeds; 500 per channel",
+  "counts": {
+    "runs": 12,
+    "particles": 12000,
+    "snapshots": 96,
+    "actual_patients": 0,
+    "new_K_calls": 0
+  },
+  "clinical_accuracy_measured": false,
+  "release_candidate": false,
+  "max_unresolved_mass": 0.0,
+  "max_time_error_minutes": 8.242295734817162e-13,
+  "minimum_completed_clocks": 500,
+  "rows": [
+    {
+      "scene": "E2_changing",
+      "seed": 104,
+      "wall_seconds": 53.39981387500302,
+      "personal": {
+        "tv_4_to_6": 0.3380000000000001,
+        "means_6h": {
+          "distance": 14321.375999999997,
+          "walking": 298.362,
+          "rest": 29.238,
+          "waiting": 32.4,
+          "fatigue": 0.4492007898857763,
+          "confusion": 2.7614471672405756,
+          "population_rest_minutes": 29.238
+        },
+        "distance_gain_4_to_6_m": 4664.543999999998,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 4.547473508864641e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "initial_env_market": 1433.062814231859
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.334,
+        "means_6h": {
+          "distance": 14310.431999999999,
+          "walking": 298.134,
+          "rest": 29.466,
+          "waiting": 32.4,
+          "fatigue": 0.4535599396467291,
+          "confusion": 2.9052157441090514,
+          "population_rest_minutes": 29.466
+        },
+        "distance_gain_4_to_6_m": 4671.264000000001,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 3.979039320256561e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    },
+    {
+      "scene": "E2_changing",
+      "seed": 205,
+      "wall_seconds": 51.94824983301805,
+      "personal": {
+        "tv_4_to_6": 0.31200000000000006,
+        "means_6h": {
+          "distance": 14183.807999999997,
+          "walking": 295.496,
+          "rest": 29.224,
+          "waiting": 35.28,
+          "fatigue": 0.47557365756926817,
+          "confusion": 2.7878275921718676,
+          "population_rest_minutes": 29.224
+        },
+        "distance_gain_4_to_6_m": 4635.839999999998,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 5.684341886080801e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "initial_env_market": 1303.720615409981
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.31200000000000006,
+        "means_6h": {
+          "distance": 14172.095999999998,
+          "walking": 295.252,
+          "rest": 29.468,
+          "waiting": 35.28,
+          "fatigue": 0.4600714896853571,
+          "confusion": 2.861430998099042,
+          "population_rest_minutes": 29.468
+        },
+        "distance_gain_4_to_6_m": 4628.448,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 5.684341886080801e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    },
+    {
+      "scene": "E2_changing",
+      "seed": 306,
+      "wall_seconds": 52.212582959007705,
+      "personal": {
+        "tv_4_to_6": 0.30600000000000005,
+        "means_6h": {
+          "distance": 14361.695999999998,
+          "walking": 299.202,
+          "rest": 29.838,
+          "waiting": 30.96,
+          "fatigue": 0.47111890925418065,
+          "confusion": 2.8829091566434957,
+          "population_rest_minutes": 29.838
+        },
+        "distance_gain_4_to_6_m": 4686.719999999999,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 4.547473508864641e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "initial_env_market": 1272.0178611703618
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.34600000000000003,
+        "means_6h": {
+          "distance": 14346.527999999998,
+          "walking": 298.886,
+          "rest": 30.154,
+          "waiting": 30.96,
+          "fatigue": 0.4749467885445339,
+          "confusion": 2.992333159273032,
+          "population_rest_minutes": 30.154
+        },
+        "distance_gain_4_to_6_m": 4676.928,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 3.410605131648481e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    },
+    {
+      "scene": "E2_quiet",
+      "seed": 104,
+      "wall_seconds": 52.25246066699037,
+      "personal": {
+        "tv_4_to_6": 0.31800000000000006,
+        "means_6h": {
+          "distance": 14300.831999999999,
+          "walking": 297.934,
+          "rest": 29.666,
+          "waiting": 32.4,
+          "fatigue": 0.4583995525821146,
+          "confusion": 2.9033813306624916,
+          "population_rest_minutes": 29.666
+        },
+        "distance_gain_4_to_6_m": 4666.368,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 3.979039320256561e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "initial_env_market": 0
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.31800000000000006,
+        "means_6h": {
+          "distance": 14300.831999999999,
+          "walking": 297.934,
+          "rest": 29.666,
+          "waiting": 32.4,
+          "fatigue": 0.4583995525821146,
+          "confusion": 2.9033813306624916,
+          "population_rest_minutes": 29.666
+        },
+        "distance_gain_4_to_6_m": 4666.368,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 3.979039320256561e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    },
+    {
+      "scene": "E2_quiet",
+      "seed": 205,
+      "wall_seconds": 51.80831112500164,
+      "personal": {
+        "tv_4_to_6": 0.32800000000000007,
+        "means_6h": {
+          "distance": 14168.447999999999,
+          "walking": 295.176,
+          "rest": 29.544,
+          "waiting": 35.28,
+          "fatigue": 0.46768909148736854,
+          "confusion": 2.8656660803274767,
+          "population_rest_minutes": 29.544
+        },
+        "distance_gain_4_to_6_m": 4633.344000000001,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 5.684341886080801e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "initial_env_market": 0
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.32800000000000007,
+        "means_6h": {
+          "distance": 14168.447999999999,
+          "walking": 295.176,
+          "rest": 29.544,
+          "waiting": 35.28,
+          "fatigue": 0.46768909148736854,
+          "confusion": 2.8656660803274767,
+          "population_rest_minutes": 29.544
+        },
+        "distance_gain_4_to_6_m": 4633.344000000001,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 5.684341886080801e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    },
+    {
+      "scene": "E2_quiet",
+      "seed": 306,
+      "wall_seconds": 53.64180883299559,
+      "personal": {
+        "tv_4_to_6": 0.32000000000000006,
+        "means_6h": {
+          "distance": 14342.687999999998,
+          "walking": 298.806,
+          "rest": 30.234,
+          "waiting": 30.96,
+          "fatigue": 0.46825658511082285,
+          "confusion": 2.9654709185553356,
+          "population_rest_minutes": 30.234
+        },
+        "distance_gain_4_to_6_m": 4670.592000000001,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 3.410605131648481e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "initial_env_market": 0
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.32000000000000006,
+        "means_6h": {
+          "distance": 14342.687999999998,
+          "walking": 298.806,
+          "rest": 30.234,
+          "waiting": 30.96,
+          "fatigue": 0.46825658511082285,
+          "confusion": 2.9654709185553356,
+          "population_rest_minutes": 30.234
+        },
+        "distance_gain_4_to_6_m": 4670.592000000001,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 3.410605131648481e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    },
+    {
+      "scene": "W_wait_then_resume",
+      "seed": 104,
+      "wall_seconds": 31.357189375004964,
+      "personal": {
+        "tv_4_to_6": 0.19600000000000006,
+        "means_6h": {
+          "distance": 4782.047999999996,
+          "walking": 99.62599999999993,
+          "rest": 99.634,
+          "waiting": 160.74,
+          "fatigue": 0.025765607008022638,
+          "confusion": 0.7966918488533811,
+          "population_rest_minutes": 0.5
+        },
+        "distance_gain_4_to_6_m": 2125.2479999999973,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 6.536993168992922e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "waiting": 45000.0,
+          "resting": 49567.0
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.28400000000000003,
+        "means_6h": {
+          "distance": 11580.959999999997,
+          "walking": 241.27,
+          "rest": 24.41,
+          "waiting": 94.32,
+          "fatigue": 0.36931558451872676,
+          "confusion": 2.441726038594704,
+          "population_rest_minutes": 24.41
+        },
+        "distance_gain_4_to_6_m": 3778.463999999998,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 5.684341886080801e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    },
+    {
+      "scene": "W_wait_then_resume",
+      "seed": 205,
+      "wall_seconds": 32.66087108300417,
+      "personal": {
+        "tv_4_to_6": 0.23800000000000007,
+        "means_6h": {
+          "distance": 4949.759999999997,
+          "walking": 103.11999999999993,
+          "rest": 103.16,
+          "waiting": 153.72,
+          "fatigue": 0.026568031538376214,
+          "confusion": 0.8388354503032395,
+          "population_rest_minutes": 0.45
+        },
+        "distance_gain_4_to_6_m": 2199.7439999999983,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 6.252776074688882e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "waiting": 45000.0,
+          "resting": 51355.0
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.268,
+        "means_6h": {
+          "distance": 12020.447999999999,
+          "walking": 250.426,
+          "rest": 24.614,
+          "waiting": 84.96,
+          "fatigue": 0.40383234607800567,
+          "confusion": 2.4792011715448217,
+          "population_rest_minutes": 24.614
+        },
+        "distance_gain_4_to_6_m": 3934.655999999999,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 5.115907697472721e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    },
+    {
+      "scene": "W_wait_then_resume",
+      "seed": 306,
+      "wall_seconds": 31.705676916986704,
+      "personal": {
+        "tv_4_to_6": 0.23200000000000007,
+        "means_6h": {
+          "distance": 4808.159999999997,
+          "walking": 100.16999999999993,
+          "rest": 100.17,
+          "waiting": 159.66,
+          "fatigue": 0.025921109208159928,
+          "confusion": 0.8032853077783889,
+          "population_rest_minutes": 0.42
+        },
+        "distance_gain_4_to_6_m": 2136.9599999999987,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 5.684341886080801e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "waiting": 45000.0,
+          "resting": 49875.0
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.254,
+        "means_6h": {
+          "distance": 11657.951999999997,
+          "walking": 242.874,
+          "rest": 24.246,
+          "waiting": 92.88,
+          "fatigue": 0.375536577433002,
+          "confusion": 2.4026418249555404,
+          "population_rest_minutes": 24.246
+        },
+        "distance_gain_4_to_6_m": 3806.1119999999983,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 2.8421709430404007e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    },
+    {
+      "scene": "W_continue_with_rest",
+      "seed": 104,
+      "wall_seconds": 39.14915462501813,
+      "personal": {
+        "tv_4_to_6": 0.2720000000000001,
+        "means_6h": {
+          "distance": 8639.711999999994,
+          "walking": 179.99399999999991,
+          "rest": 180.006,
+          "waiting": 0.0,
+          "fatigue": 0.03933615600319799,
+          "confusion": 1.679477263948658,
+          "population_rest_minutes": 0.99
+        },
+        "distance_gain_4_to_6_m": 2879.8079999999964,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 6.821210263296962e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "continuing": 89996.99999999996,
+          "resting": 89508.0
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.28400000000000003,
+        "means_6h": {
+          "distance": 11580.959999999997,
+          "walking": 241.27,
+          "rest": 24.41,
+          "waiting": 94.32,
+          "fatigue": 0.36931558451872676,
+          "confusion": 2.441726038594704,
+          "population_rest_minutes": 24.41
+        },
+        "distance_gain_4_to_6_m": 3778.463999999998,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 5.684341886080801e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    },
+    {
+      "scene": "W_continue_with_rest",
+      "seed": 205,
+      "wall_seconds": 40.67498258402338,
+      "personal": {
+        "tv_4_to_6": 0.31200000000000006,
+        "means_6h": {
+          "distance": 8638.175999999994,
+          "walking": 179.9619999999999,
+          "rest": 180.038,
+          "waiting": 0.0,
+          "fatigue": 0.0380363087325874,
+          "confusion": 1.6636623528844983,
+          "population_rest_minutes": 0.86
+        },
+        "distance_gain_4_to_6_m": 2878.5599999999968,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 6.536993168992922e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "continuing": 89980.99999999996,
+          "resting": 89589.0
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.268,
+        "means_6h": {
+          "distance": 12020.447999999999,
+          "walking": 250.426,
+          "rest": 24.614,
+          "waiting": 84.96,
+          "fatigue": 0.40383234607800567,
+          "confusion": 2.4792011715448217,
+          "population_rest_minutes": 24.614
+        },
+        "distance_gain_4_to_6_m": 3934.655999999999,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 5.115907697472721e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    },
+    {
+      "scene": "W_continue_with_rest",
+      "seed": 306,
+      "wall_seconds": 37.90261112499866,
+      "personal": {
+        "tv_4_to_6": 0.2780000000000001,
+        "means_6h": {
+          "distance": 8639.135999999995,
+          "walking": 179.9819999999999,
+          "rest": 180.018,
+          "waiting": 0.0,
+          "fatigue": 0.03629524171830999,
+          "confusion": 1.647768484161793,
+          "population_rest_minutes": 0.72
+        },
+        "distance_gain_4_to_6_m": 2879.615999999998,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 8.242295734817162e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {
+          "continuing": 89990.99999999996,
+          "resting": 89649.0
+        }
+      },
+      "statistical": {
+        "tv_4_to_6": 0.254,
+        "means_6h": {
+          "distance": 11657.951999999997,
+          "walking": 242.874,
+          "rest": 24.246,
+          "waiting": 92.88,
+          "fatigue": 0.375536577433002,
+          "confusion": 2.4026418249555404,
+          "population_rest_minutes": 24.246
+        },
+        "distance_gain_4_to_6_m": 3806.1119999999983,
+        "unresolved_mass_max": 0.0,
+        "time_error_max": 2.8421709430404007e-13,
+        "completed_clocks_min": 500,
+        "rule_minutes_6h": {}
+      }
+    }
+  ],
+  "personal_contrasts": [
+    {
+      "seed": 104,
+      "observed_noise_changes_tv_6h": 0.25000000000000006,
+      "quiet_without_rules_tv_6h": 0.0,
+      "wait_first_hour_minutes": 60.0,
+      "continuing_first_hour_walk_minutes": 29.999999999999996,
+      "continuing_first_hour_rest_minutes": 30.0,
+      "waiter_walk_minutes_after_family_arrival_6h": 99.62599999999993
+    },
+    {
+      "seed": 205,
+      "observed_noise_changes_tv_6h": 0.21200000000000005,
+      "quiet_without_rules_tv_6h": 0.0,
+      "wait_first_hour_minutes": 60.0,
+      "continuing_first_hour_walk_minutes": 29.999999999999996,
+      "continuing_first_hour_rest_minutes": 30.0,
+      "waiter_walk_minutes_after_family_arrival_6h": 103.11999999999993
+    },
+    {
+      "seed": 306,
+      "observed_noise_changes_tv_6h": 0.20200000000000004,
+      "quiet_without_rules_tv_6h": 0.0,
+      "wait_first_hour_minutes": 60.0,
+      "continuing_first_hour_walk_minutes": 29.999999999999996,
+      "continuing_first_hour_rest_minutes": 30.0,
+      "waiter_walk_minutes_after_family_arrival_6h": 100.16999999999993
+    }
+  ],
+  "old_new_E2_seed104": [
+    {
+      "hour": 1,
+      "old": {
+        "agent": {
+          "mass500m": 0.5580000000000004,
+          "p90_km": 1.0124561572559054,
+          "cells": 55,
+          "mass": 1.0000000000000007
+        },
+        "statistical": {
+          "mass500m": 0.596,
+          "p90_km": 1.0851676402121238,
+          "cells": 58,
+          "mass": 1.0000000000000002
+        },
+        "combined": {
+          "mass500m": 0.5694000000000001,
+          "p90_km": 1.0347277932426213,
+          "cells": 82,
+          "mass": 1.0000000000000004
+        }
+      },
+      "new": {
+        "personal": {
+          "mass500m": 0.5840000000000004,
+          "p90_km": 0.8263204589292349,
+          "cells": 54,
+          "mass": 1.0000000000000007
+        },
+        "statistical": {
+          "mass500m": 0.43000000000000027,
+          "p90_km": 1.0124561572559054,
+          "cells": 61,
+          "mass": 1.0000000000000007
+        },
+        "combined": {
+          "mass500m": 0.5378000000000001,
+          "p90_km": 0.943884222105961,
+          "cells": 64,
+          "mass": 1.0000000000000004
+        }
+      },
+      "old_means": {
+        "distance": 2620.8,
+        "walking": 54.6,
+        "rest": 0.0,
+        "waiting": 5.4,
+        "fatigue": 0.425831827957062,
+        "confusion": 0.2960766578644529
+      },
+      "new_means": {
+        "distance": 2574.528,
+        "walking": 53.636,
+        "rest": 0.964,
+        "waiting": 5.4,
+        "fatigue": 0.3880241674638375,
+        "confusion": 0.2851450912973994,
+        "population_rest_minutes": 0.964
+      }
+    },
+    {
+      "hour": 2,
+      "old": {
+        "agent": {
+          "mass500m": 0.3560000000000002,
+          "p90_km": 1.3003043227162578,
+          "cells": 88,
+          "mass": 1.0000000000000007
+        },
+        "statistical": {
+          "mass500m": 0.5700000000000001,
+          "p90_km": 1.0876243971643371,
+          "cells": 58,
+          "mass": 1.0000000000000002
+        },
+        "combined": {
+          "mass500m": 0.4202,
+          "p90_km": 1.291759487246918,
+          "cells": 106,
+          "mass": 0.9999999999999994
+        }
+      },
+      "new": {
+        "personal": {
+          "mass500m": 0.38400000000000023,
+          "p90_km": 1.3310176959031013,
+          "cells": 87,
+          "mass": 1.0000000000000007
+        },
+        "statistical": {
+          "mass500m": 0.3460000000000002,
+          "p90_km": 1.4263612587903227,
+          "cells": 95,
+          "mass": 1.0000000000000007
+        },
+        "combined": {
+          "mass500m": 0.3726000000000001,
+          "p90_km": 1.3664607893522978,
+          "cells": 101,
+          "mass": 1.0000000000000007
+        }
+      },
+      "old_means": {
+        "distance": 5241.6,
+        "walking": 109.2,
+        "rest": 0.0,
+        "waiting": 10.8,
+        "fatigue": 0.9045782042840048,
+        "confusion": 0.7437925225372943
+      },
+      "new_means": {
+        "distance": 4956.384,
+        "walking": 103.258,
+        "rest": 5.942,
+        "waiting": 10.8,
+        "fatigue": 0.4504033625163333,
+        "confusion": 0.6544767943207275,
+        "population_rest_minutes": 5.942
+      }
+    },
+    {
+      "hour": 4,
+      "old": {
+        "agent": {
+          "mass500m": 0.2640000000000001,
+          "p90_km": 1.8068716466041914,
+          "cells": 130,
+          "mass": 1.0000000000000007
+        },
+        "statistical": {
+          "mass500m": 0.548,
+          "p90_km": 1.323448244194649,
+          "cells": 77,
+          "mass": 1.0000000000000002
+        },
+        "combined": {
+          "mass500m": 0.34920000000000007,
+          "p90_km": 1.7041524766972536,
+          "cells": 157,
+          "mass": 0.9999999999999992
+        }
+      },
+      "new": {
+        "personal": {
+          "mass500m": 0.27400000000000013,
+          "p90_km": 1.7284774164074324,
+          "cells": 132,
+          "mass": 1.0000000000000007
+        },
+        "statistical": {
+          "mass500m": 0.28400000000000014,
+          "p90_km": 1.8056828974765646,
+          "cells": 133,
+          "mass": 1.0000000000000007
+        },
+        "combined": {
+          "mass500m": 0.2770000000000001,
+          "p90_km": 1.7338864854179534,
+          "cells": 155,
+          "mass": 1.0000000000000004
+        }
+      },
+      "old_means": {
+        "distance": 10483.199999999999,
+        "walking": 218.4,
+        "rest": 0.0,
+        "waiting": 21.6,
+        "fatigue": 1.9302796238508257,
+        "confusion": 1.8694548286803936
+      },
+      "new_means": {
+        "distance": 9656.831999999999,
+        "walking": 201.184,
+        "rest": 17.216,
+        "waiting": 21.6,
+        "fatigue": 0.4666864796262859,
+        "confusion": 1.6275962750680002,
+        "population_rest_minutes": 17.216
+      }
+    },
+    {
+      "hour": 6,
+      "old": {
+        "agent": {
+          "mass500m": 0.1980000000000001,
+          "p90_km": 2.0055648699467743,
+          "cells": 163,
+          "mass": 1.0000000000000007
+        },
+        "statistical": {
+          "mass500m": 0.548,
+          "p90_km": 1.323448244194649,
+          "cells": 77,
+          "mass": 1.0000000000000002
+        },
+        "combined": {
+          "mass500m": 0.30300000000000005,
+          "p90_km": 1.8520663652050078,
+          "cells": 174,
+          "mass": 0.999999999999998
+        }
+      },
+      "new": {
+        "personal": {
+          "mass500m": 0.23800000000000013,
+          "p90_km": 2.341603919934186,
+          "cells": 169,
+          "mass": 1.0000000000000007
+        },
+        "statistical": {
+          "mass500m": 0.24200000000000013,
+          "p90_km": 2.2063383870392745,
+          "cells": 168,
+          "mass": 1.0000000000000007
+        },
+        "combined": {
+          "mass500m": 0.23920000000000005,
+          "p90_km": 2.25556269922977,
+          "cells": 204,
+          "mass": 1.0000000000000002
+        }
+      },
+      "old_means": {
+        "distance": 15724.799999999997,
+        "walking": 327.6,
+        "rest": 0.0,
+        "waiting": 32.4,
+        "fatigue": 3.0349624458444673,
+        "confusion": 3.172426848101676
+      },
+      "new_means": {
+        "distance": 14321.375999999997,
+        "walking": 298.362,
+        "rest": 29.238,
+        "waiting": 32.4,
+        "fatigue": 0.4492007898857763,
+        "confusion": 2.7614471672405756,
+        "population_rest_minutes": 29.238
+      }
+    }
+  ],
+  "mechanical_checks": {
+    "all_particle_clocks_complete": true,
+    "no_unresolved_map_mass_in_these_scenarios": true,
+    "movement_rest_wait_conserve_elapsed_time": true,
+    "moving_baseline_continues_after_four_hours": true,
+    "false_environment_condition_does_not_create_policy_effect": true,
+    "sourced_wait_holds_for_first_hour": true,
+    "sourced_movement_and_rest_both_execute": true,
+    "family_arrival_ends_that_wait_rule_at_90_minutes": true
+  },
+  "mechanical_checks_passed": true
+}

@@ -1,0 +1,6 @@
+{
+  "old_best_same_action_metric": 9,
+  "denominator": 16,
+  "source": "../MIND_source_scene_20261005/structured_recovered_summary.json",
+  "new_model_calls": 0
+}

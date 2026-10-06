@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"status\": \"supported\",\n  \"commands\": [\"rest\"],\n  \"source_ids\": [\"N0\"],\n  \"reason\": \"원문 N0에 따라 무릎 문제로 300m 보행 후 휴식이 필요하며, 현재 장면에서 300m 보행 후 휴식이 필요함.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6552,
+    "prompt_tokens": 2109,
+    "prompt_tokens_details": {
+      "cached_tokens": 2080
+    },
+    "total_tokens": 8661
+  }
+}

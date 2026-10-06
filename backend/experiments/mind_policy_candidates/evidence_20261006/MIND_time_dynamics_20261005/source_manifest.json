@@ -1,0 +1,12 @@
+{
+  "git_head": "2d6af78fb3c76ab73da0c23e8105c9b49568b843",
+  "uncommitted_candidate": true,
+  "release_qualified": false,
+  "files": {
+    "backend/app/phase2/person_walk.py": "3ed05d07d6db77123419f71758793ff27bc59191578c13a2874252298154c8e3",
+    "backend/app/phase2/continuous_prediction.py": "1168d28560a98420c80ed69fa8b89caf2c13d8e94aaad0b9f396274715d84a63",
+    "backend/app/phase2/pipeline.py": "e6db8ce345c994cd7d5726b9ecf84e2693ac90b66140bb845302daa2f726db7f",
+    "backend/tests/test_person_walk_release.py": "3723d09624721137f1f4b3091e32a20297e05510f9e2c499a96ba02ea13f6091",
+    "backend/tests/test_continuous_prediction.py": "e1e4f7891c34b5a2e36c43cb651c7f45a4d910e4d257c315cac857df3b92d3f4"
+  }
+}

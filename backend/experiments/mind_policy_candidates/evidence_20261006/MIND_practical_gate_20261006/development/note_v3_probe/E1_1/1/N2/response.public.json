@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\": [{\"action\": \"avoid\", \"when\": [[{\"fact\": \"market.crowded\", \"op\": \"eq\", \"value\": \"true\"}, {\"fact\": \"market.noisy\", \"op\": \"eq\", \"value\": \"true\"}]], \"goal_label\": \"\", \"feature\": \"\", \"place_labels\": [], \"hold_minutes\": 0, \"note_ids\": [\"N2\"]}], \"unrepresented_reason\": \"\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4051,
+    "prompt_tokens": 1295,
+    "prompt_tokens_details": {
+      "cached_tokens": 576
+    },
+    "total_tokens": 5346
+  }
+}

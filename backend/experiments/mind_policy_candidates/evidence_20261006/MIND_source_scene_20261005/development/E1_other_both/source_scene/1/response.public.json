@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\"status\":\"no_personal_reaction\",\"commands\":[\"baseline\"],\"source_ids\":[\"N2\"],\"reason\":\"원문 N2에서 푸른시장 입구에서만 혼잡+시끄러움 조건에서 회피 행동이 관찰되었으나, 현재 장소(미등록 다른 시장)는 원문에서 특정 장소(푸른시장)로 한정된 관찰 대상과 동일하지 않음. 집단 연구나 이전 요약으로 원문을 덮지 않으며, 특정 장소 반응을 다른 시장으로 확대할 수 없음. 현재 소음·혼잡 조건은 충족되나 장소 특이성으로 인해 개인 반응 적용 불가.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2241,
+    "prompt_tokens": 1411,
+    "prompt_tokens_details": {
+      "cached_tokens": 1152
+    },
+    "total_tokens": 3652
+  }
+}

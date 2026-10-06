@@ -1,0 +1,44 @@
+{
+  "job": "note_v5_on_E1_1_N1_2",
+  "end": {
+    "attempt_id": "d80df491-ef6d-4c81-8496-4814f4df2938",
+    "logical_request_id": "note_v5_on_E1_1_N1_2",
+    "attempt": 1,
+    "run_id": "MIND_practical_gate_20261006",
+    "role": "mind_state_alignment_development",
+    "provider": "K_EXAONE_API",
+    "model_requested": "depmkuykpfon9lg",
+    "actual_cost": null,
+    "support_round": null,
+    "billing_basis": "API_rate_unconfirmed",
+    "event_id": "33986534-9017-4202-9e96-ca3ecd5313fa",
+    "event_type": "api_attempt_finished",
+    "usage": {
+      "completion_tokens": 12000,
+      "prompt_tokens": 1348,
+      "prompt_tokens_details": {
+        "cached_tokens": 1344
+      },
+      "total_tokens": 13348
+    },
+    "estimated_cost": null,
+    "gpu_billed_hours": null,
+    "http_status": 200,
+    "outcome": "response_received",
+    "provider_response_id": "chatcmpl-e93e89b5635c4a8989bbb461d510c716",
+    "finish_reason": "length",
+    "duration_seconds": 111.20245793415233
+  },
+  "public": {
+    "final_content": null,
+    "finish_reason": "length",
+    "usage": {
+      "completion_tokens": 12000,
+      "prompt_tokens": 1348,
+      "prompt_tokens_details": {
+        "cached_tokens": 1344
+      },
+      "total_tokens": 13348
+    }
+  }
+}

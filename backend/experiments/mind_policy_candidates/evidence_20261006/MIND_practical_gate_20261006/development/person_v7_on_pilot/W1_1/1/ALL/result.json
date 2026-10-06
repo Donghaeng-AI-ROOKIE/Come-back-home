@@ -1,0 +1,59 @@
+{
+  "job": "person_v7_on_pilot_W1_1_ALL_1",
+  "person_id": "W1_1",
+  "rep": 1,
+  "note_id": "ALL",
+  "output": {
+    "source_summary": "N0: 보행 능력 및 휴식 조건, N2: 길 잃음 시 대기 행동. N1: 다온공원 언급만 존재하나 실제 이동 없음.",
+    "rules": [
+      {
+        "command": "rest",
+        "when": [
+          [
+            {
+              "fact": "continuous_walk_minutes",
+              "op": "gte",
+              "value": "5"
+            },
+            {
+              "fact": "distance_since_rest_m",
+              "op": "gte",
+              "value": "300"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N0"
+        ]
+      },
+      {
+        "command": "wait",
+        "when": [
+          [
+            {
+              "fact": "lost_awareness",
+              "op": "eq",
+              "value": "true"
+            },
+            {
+              "fact": "family_present",
+              "op": "eq",
+              "value": "false"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      }
+    ],
+    "unrepresented_reason": "한 시간 연속 보행 불가 조건은 휴식 트리거 규칙에 포함되지 않음. 등록 장소(다온공원 등)로의 실제 이동 관찰 없음. 보행 중 환경 소음/혼잡도 미관찰."
+  },
+  "valid": true,
+  "error_type": null,
+  "submitted": true
+}

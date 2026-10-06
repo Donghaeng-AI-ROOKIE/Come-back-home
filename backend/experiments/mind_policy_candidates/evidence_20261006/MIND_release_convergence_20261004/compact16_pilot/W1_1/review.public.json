@@ -1,0 +1,13 @@
+{
+  "final_content": "{\"rules\":[{\"id\":\"wait_lost_awareness\",\"action\":\"wait\",\"when\":{\"lost_awareness\":true,\"family_present\":false},\"target\":null,\"feature\":null,\"places\":[],\"minutes\":null,\"supersedes\":[],\"notes\":[\"N2\"]},{\"id\":\"rest_after_walking\",\"action\":\"rest\",\"when\":{\"continuous_walk_minutes\":{\"gte\":5},\"is_walking\":true},\"target\":null,\"feature\":null,\"places\":[],\"minutes\":null,\"supersedes\":[],\"notes\":[\"N0\"]}],\"unused_note_ids\":[\"N1\"]}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 135,
+    "prompt_tokens": 1453,
+    "prompt_tokens_details": {
+      "cached_tokens": 1216
+    },
+    "total_tokens": 1588
+  },
+  "response_id": "chatcmpl-b5d1efd10b344e3e8d8db2fbb5a989da"
+}

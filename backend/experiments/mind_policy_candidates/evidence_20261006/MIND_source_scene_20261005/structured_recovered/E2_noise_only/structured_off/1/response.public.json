@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"supported\",\n  \"commands\": [\"avoid_market\"],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"원문에 따르면 붐비거나 시끄러운 시장 환경에서 입구에서 몸을 돌려 멀어지는 반응을 보였으며, 현재 장소는 소음이 확인되었고 혼잡은 확인되지 않았지만 시장 환경이므로 피하는 반응이 조건에 부합한다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 71,
+    "prompt_tokens": 1214,
+    "prompt_tokens_details": {
+      "cached_tokens": 480
+    },
+    "total_tokens": 1285
+  }
+}

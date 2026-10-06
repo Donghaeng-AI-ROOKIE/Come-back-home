@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"supported\",\n  \"commands\": [\"walk\"],\n  \"source_ids\": [\"N1\"],\n  \"reason\": \"원문 N1에 따르면 평소 40분 정도 연속 보행 가능하며, 현재 보행 시간은 2분으로 피로 조건에 도달하지 않아 걷는 것이 적절함.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 60,
+    "prompt_tokens": 1211,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 1271
+  }
+}

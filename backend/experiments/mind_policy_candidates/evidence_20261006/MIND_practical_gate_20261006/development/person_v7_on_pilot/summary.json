@@ -1,0 +1,326 @@
+{
+  "manifest": {
+    "phase": "development",
+    "candidate": "person_v7_on_pilot",
+    "thinking": "on",
+    "calls": 3,
+    "scene_decisions": 8,
+    "input_sha256": "f261dce6fc633950593e055634adf4b0de345f90a764de676d84afd8faad47a3",
+    "code_sha256": {
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy.py": "a977a4db957c419f5555d4a9ca5d2fb47273a45472c72f8e09201a9f1da261fa",
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy_eval.py": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+      "<workspace>/결선/실험/MIND_practical_gate_20261006/run_candidate.py": "81123eaacdaaf8600024bf5361ec3e70d250bdc389d66798cbffbd5abfb562cc",
+      "<workspace>/결선/실험/MIND_practical_gate_20261006/transport.py": "4bc8f936aad24e1ef256322d946a5772755bfda366ec0e0e97404f47ab0472c0"
+    },
+    "repetitions": 1,
+    "max_request_bytes": 8496,
+    "automatic_retries": false,
+    "probe_note": null,
+    "whole_person": true
+  },
+  "model_outputs": [
+    {
+      "job": "person_v7_on_pilot_E1_1_ALL_1",
+      "person_id": "E1_1",
+      "rep": 1,
+      "note_id": "ALL",
+      "output": {
+        "source_summary": "N0: 목적지 경험 없음. N1: 평소 40분 연속 보행, 길 잃음 대응 미관찰. N2: 푸른시장 입구에서 혼잡+시끄러울 때 회피 관찰, 단일 조건에서만 회피.",
+        "rules": [
+          {
+            "command": "avoid_market",
+            "when": [
+              [
+                {
+                  "fact": "market.crowded",
+                  "op": "eq",
+                  "value": "true"
+                },
+                {
+                  "fact": "market.noisy",
+                  "op": "eq",
+                  "value": "true"
+                }
+              ]
+            ],
+            "place_labels": [
+              "푸른시장"
+            ],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N0",
+              "N1",
+              "N2"
+            ]
+          }
+        ],
+        "unrepresented_reason": ""
+      },
+      "valid": true,
+      "error_type": null,
+      "submitted": true
+    },
+    {
+      "job": "person_v7_on_pilot_E2_1_ALL_1",
+      "person_id": "E2_1",
+      "rep": 1,
+      "note_id": "ALL",
+      "output": null,
+      "valid": false,
+      "error_type": "ValueError",
+      "submitted": true
+    },
+    {
+      "job": "person_v7_on_pilot_W1_1_ALL_1",
+      "person_id": "W1_1",
+      "rep": 1,
+      "note_id": "ALL",
+      "output": {
+        "source_summary": "N0: 보행 능력 및 휴식 조건, N2: 길 잃음 시 대기 행동. N1: 다온공원 언급만 존재하나 실제 이동 없음.",
+        "rules": [
+          {
+            "command": "rest",
+            "when": [
+              [
+                {
+                  "fact": "continuous_walk_minutes",
+                  "op": "gte",
+                  "value": "5"
+                },
+                {
+                  "fact": "distance_since_rest_m",
+                  "op": "gte",
+                  "value": "300"
+                }
+              ]
+            ],
+            "place_labels": [],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N0"
+            ]
+          },
+          {
+            "command": "wait",
+            "when": [
+              [
+                {
+                  "fact": "lost_awareness",
+                  "op": "eq",
+                  "value": "true"
+                },
+                {
+                  "fact": "family_present",
+                  "op": "eq",
+                  "value": "false"
+                }
+              ]
+            ],
+            "place_labels": [],
+            "hold_minutes": 0,
+            "note_ids": [
+              "N2"
+            ]
+          }
+        ],
+        "unrepresented_reason": "한 시간 연속 보행 불가 조건은 휴식 트리거 규칙에 포함되지 않음. 등록 장소(다온공원 등)로의 실제 이동 관찰 없음. 보행 중 환경 소음/혼잡도 미관찰."
+      },
+      "valid": true,
+      "error_type": null,
+      "submitted": true
+    }
+  ],
+  "results": [
+    {
+      "id": "E1_named_both",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "avoid_market",
+      "pass": true,
+      "decision": {
+        "status": "supported",
+        "commands": [
+          "avoid_market"
+        ],
+        "possible_commands": [
+          "avoid_market"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "E1_other_both",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "E1_capacity_after40",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "unknown",
+        "commands": [],
+        "possible_commands": [
+          "avoid_market",
+          "baseline"
+        ],
+        "unknown_facts": [
+          "market.crowded",
+          "market.noisy",
+          "spatial_scope:places:[\"푸른시장\"]"
+        ]
+      },
+      "error_type": null
+    },
+    {
+      "id": "E1_named_noise_only",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "W1_lost_wait",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "wait",
+      "pass": true,
+      "decision": {
+        "status": "supported",
+        "commands": [
+          "wait"
+        ],
+        "possible_commands": [
+          "wait"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "W1_walk_rest",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "rest",
+      "pass": true,
+      "decision": {
+        "status": "supported",
+        "commands": [
+          "rest"
+        ],
+        "possible_commands": [
+          "rest"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "W1_family_arrived",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": true,
+      "decision": {
+        "status": "no_personal_reaction",
+        "commands": [
+          "baseline"
+        ],
+        "possible_commands": [
+          "baseline"
+        ],
+        "unknown_facts": []
+      },
+      "error_type": null
+    },
+    {
+      "id": "E2_noise_only",
+      "person_id": "E2_1",
+      "rep": 1,
+      "label": "avoid_market",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    }
+  ],
+  "gate": {
+    "total": 8,
+    "passed": 7,
+    "required": 8,
+    "success_rate": 0.875,
+    "advance_to_integration": false,
+    "interpretation": "synthetic_behavior_action_agreement_not_location_accuracy",
+    "by_action": {
+      "avoid_market": {
+        "total": 2,
+        "passed": 1
+      },
+      "baseline": {
+        "total": 4,
+        "passed": 4
+      },
+      "rest": {
+        "total": 1,
+        "passed": 1
+      },
+      "wait": {
+        "total": 1,
+        "passed": 1
+      }
+    },
+    "by_repetition": {
+      "1": {
+        "total": 8,
+        "passed": 7
+      }
+    },
+    "by_person": {
+      "E1_1": {
+        "total": 4,
+        "passed": 4
+      },
+      "E2_1": {
+        "total": 1,
+        "passed": 0
+      },
+      "W1_1": {
+        "total": 3,
+        "passed": 3
+      }
+    },
+    "errors": {
+      "ValueError": 1
+    },
+    "reason": "development diagnostics only; complete both predeclared repetitions"
+  },
+  "clinical_patients": 0,
+  "independent_human_raters": 0
+}

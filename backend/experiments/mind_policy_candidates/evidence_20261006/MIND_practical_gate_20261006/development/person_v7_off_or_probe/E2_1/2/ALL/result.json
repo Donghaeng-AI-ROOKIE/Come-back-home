@@ -1,0 +1,135 @@
+{
+  "job": "person_v7_off_or_probe_E2_1_ALL_2",
+  "person_id": "E2_1",
+  "rep": 2,
+  "note_id": "ALL",
+  "output": {
+    "source_summary": "N0: 목적지나 길 경험에 대해 모른다고 답변. 세 장소는 후보일 뿐 경험 없음. N1: 평소 40분 연속 걷기 가능하나, 길 잃음 대응은 관찰되지 않음. N2: 세 시장에서 붐비거나 시끄러우면 입구에서 몸을 돌려 멀어짐. 둘 다 없을 때는 피하지 않음. 미관찰: 길 잃음 대응, 시장 외 장소 반응, 구체적 출발 조건.",
+    "rules": [
+      {
+        "command": "avoid_market",
+        "when": [
+          [
+            {
+              "fact": "market.noisy",
+              "op": "eq",
+              "value": "true"
+            },
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "true"
+            }
+          ],
+          [
+            {
+              "fact": "market.noisy",
+              "op": "eq",
+              "value": "true"
+            },
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "false"
+            }
+          ],
+          [
+            {
+              "fact": "market.noisy",
+              "op": "eq",
+              "value": "false"
+            },
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [
+          "푸른시장"
+        ],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      },
+      {
+        "command": "seek_0",
+        "when": [
+          [
+            {
+              "fact": "market.noisy",
+              "op": "eq",
+              "value": "false"
+            },
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "false"
+            }
+          ]
+        ],
+        "place_labels": [
+          "다온공원"
+        ],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N0"
+        ]
+      },
+      {
+        "command": "seek_1",
+        "when": [
+          [
+            {
+              "fact": "market.noisy",
+              "op": "eq",
+              "value": "false"
+            },
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "false"
+            }
+          ]
+        ],
+        "place_labels": [
+          "푸른시장"
+        ],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N0"
+        ]
+      },
+      {
+        "command": "seek_2",
+        "when": [
+          [
+            {
+              "fact": "market.noisy",
+              "op": "eq",
+              "value": "false"
+            },
+            {
+              "fact": "market.crowded",
+              "op": "eq",
+              "value": "false"
+            }
+          ]
+        ],
+        "place_labels": [
+          "은빛경로당"
+        ],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N0"
+        ]
+      }
+    ],
+    "unrepresented_reason": "길 잃음 대응, 시장 외 장소 반응, 구체적 출발 조건은 원문에 없음."
+  },
+  "valid": true,
+  "error_type": null,
+  "submitted": true
+}

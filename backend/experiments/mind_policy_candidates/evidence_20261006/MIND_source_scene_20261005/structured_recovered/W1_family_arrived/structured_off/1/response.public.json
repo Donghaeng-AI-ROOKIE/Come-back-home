@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"status\": \"supported\",\n  \"commands\": [\"wait\"],\n  \"source_ids\": [\"N0\", \"N1\", \"N2\"],\n  \"reason\": \"원문에 따르면 길을 잃었을 때 실제 행동은 자리에 서서 가족이 올 때까지 기다리는 것이며, 현재도 걷지 않고 대기 중이므로 'wait' 명령이 조건에 부합한다.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 71,
+    "prompt_tokens": 1206,
+    "prompt_tokens_details": {
+      "cached_tokens": 864
+    },
+    "total_tokens": 1277
+  }
+}

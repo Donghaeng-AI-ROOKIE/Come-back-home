@@ -1,0 +1,34 @@
+[
+  {
+    "path": "app/llm/mind_policy.py",
+    "sha256": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2"
+  },
+  {
+    "path": "app/phase2/continuous_prediction.py",
+    "sha256": "ef577e5a8ca5fafc213a8c409abd0102e14b107776ba926892600741ab6358ca"
+  },
+  {
+    "path": "app/phase2/person_walk.py",
+    "sha256": "9c35ae75aadcd6e5528e6defb0271b9724662e785064470e1d5e22c95dcfdbeb"
+  },
+  {
+    "path": "app/phase2/pipeline.py",
+    "sha256": "b0da81de3a4c8d72c97a7e306d1d3b1a38ac23b1223623b0cddd35c6ebf09178"
+  },
+  {
+    "path": "experiments/mind_policy_candidates/note_policy.py",
+    "sha256": "4a8f2bb5dfcfe2720297978c35c709150e228868d2586588bf3c7dd2ec8885f1"
+  },
+  {
+    "path": "experiments/mind_policy_candidates/note_policy_eval.py",
+    "sha256": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13"
+  },
+  {
+    "path": "tests/test_note_policy_candidate.py",
+    "sha256": "0445903ab12f3a18bc02d6d012cbd708f1ba60060c4f98ca11f7b06638b667e7"
+  },
+  {
+    "path": "tests/test_continuous_prediction.py",
+    "sha256": "ce428315a0447e36cbddb2f0b156ab6a10a8150bb5a385c4f4ccb42096fde0c7"
+  }
+]

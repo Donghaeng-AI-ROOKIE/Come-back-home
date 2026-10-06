@@ -1,0 +1,18 @@
+{
+  "id": "E1_named_both",
+  "arm": "structured_on",
+  "rep": 1,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "avoid_market"
+    ],
+    "source_ids": [
+      "N2"
+    ],
+    "reason": "푸른시장 입구에서 혼잡과 소음이 모두 확인되어 원문 N2의 반응 조건 성립"
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

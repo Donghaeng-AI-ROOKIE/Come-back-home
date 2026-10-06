@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\":\"supported\",\"commands\":[\"wait\"],\"source_ids\":[\"N2\"],\"reason\":\"원문 N2에 따르면 길을 잃었을 때 그 자리에 서서 가족이 올 때까지 기다렸으며, 이는 휴식과 별개의 행동으로 명시되어 있다. 현재 장면에서 lost_awareness가 true이고 family_present가 false이므로, 기다리기 행동이 성립한다.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 70,
+    "prompt_tokens": 2103,
+    "prompt_tokens_details": {
+      "cached_tokens": 480
+    },
+    "total_tokens": 2173
+  }
+}

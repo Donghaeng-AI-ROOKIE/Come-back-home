@@ -1,0 +1,36 @@
+{
+  "job": "note_v4_off_W1_1_N0_2",
+  "person_id": "W1_1",
+  "rep": 2,
+  "note_id": "N0",
+  "output": {
+    "rules": [
+      {
+        "command": "rest",
+        "when": [
+          [
+            {
+              "fact": "continuous_walk_minutes",
+              "op": "gte",
+              "value": "3"
+            },
+            {
+              "fact": "is_walking",
+              "op": "eq",
+              "value": "true"
+            }
+          ]
+        ],
+        "place_labels": [],
+        "hold_minutes": 2,
+        "note_ids": [
+          "N0"
+        ]
+      }
+    ],
+    "unrepresented_reason": ""
+  },
+  "valid": true,
+  "error_type": null,
+  "submitted": true
+}

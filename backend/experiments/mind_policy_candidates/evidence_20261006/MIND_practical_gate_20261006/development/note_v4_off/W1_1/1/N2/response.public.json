@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\":[{\"command\":\"wait\",\"when\":[[{\"fact\":\"is_walking\",\"op\":\"eq\",\"value\":\"false\"},{\"fact\":\"lost_awareness\",\"op\":\"eq\",\"value\":\"true\"}]],\"place_labels\":[],\"hold_minutes\":0,\"note_ids\":[\"N2\"]}],\"unrepresented_reason\":\"\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 73,
+    "prompt_tokens": 1280,
+    "prompt_tokens_details": {
+      "cached_tokens": 640
+    },
+    "total_tokens": 1353
+  }
+}

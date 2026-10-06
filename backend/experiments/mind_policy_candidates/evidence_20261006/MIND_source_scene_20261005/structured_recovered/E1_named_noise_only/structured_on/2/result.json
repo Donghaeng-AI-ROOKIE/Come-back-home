@@ -1,0 +1,18 @@
+{
+  "id": "E1_named_noise_only",
+  "arm": "structured_on",
+  "rep": 2,
+  "output": {
+    "status": "supported",
+    "commands": [
+      "walk"
+    ],
+    "source_ids": [
+      "N1"
+    ],
+    "reason": "원문 N1에서 평소 40분 연속 보행 가능하나 현재 마지막 휴식 후 2분 경과로 휴식 조건 미충족, 현재 푸른시장(혼잡 없음, 소음 있음)에서 N2 기준 회피 조건(혼잡+소음) 미충족하여 기존 보행 유지"
+  },
+  "format_valid": true,
+  "label_pass": false,
+  "error_type": null
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\":[],\"unrepresented_reason\":\"No observed reaction to market conditions was described as a conditional behavioral response with functional rest or avoidance triggered by specific sensory or environmental factors. The note describes avoidance only at the entrance of 푸른시장 when both crowded and noisy, but does not link this to a preceding walking duration, rest need, or functional threshold. No rule can be extracted with sufficient conditionality, duration, or observed behavioral trigger meeting the required structure.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 87,
+    "prompt_tokens": 1282,
+    "prompt_tokens_details": {
+      "cached_tokens": 608
+    },
+    "total_tokens": 1369
+  }
+}

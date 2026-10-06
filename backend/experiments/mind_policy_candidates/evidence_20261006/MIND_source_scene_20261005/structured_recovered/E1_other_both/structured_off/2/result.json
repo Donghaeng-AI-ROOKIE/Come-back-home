@@ -1,0 +1,14 @@
+{
+  "id": "E1_other_both",
+  "arm": "structured_off",
+  "rep": 2,
+  "output": {
+    "status": "unknown",
+    "commands": [],
+    "source_ids": [],
+    "reason": "원문(N2)에 따르면 푸른시장 입구에서만 혼잡과 소음이 동시에 있을 때 회피 반응을 보였으며, 다른 시장 상황에 대한 관찰은 없음. 현재 장소는 미등록 다른 시장이며 혼잡과 소음이 모두 확인되었으나, 원문에서 관찰된 조건(혼잡+소음)과 장소(푸른시장 입구)가 일치하지 않음. 따라서 회피 행동을 일반화할 수 없음."
+  },
+  "format_valid": true,
+  "label_pass": true,
+  "error_type": null
+}

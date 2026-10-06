@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"rules\": [], \"unrepresented_reason\": \"No observed actions related to destination or path experience were found in the target Q&A.\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2380,
+    "prompt_tokens": 1356,
+    "prompt_tokens_details": {
+      "cached_tokens": 544
+    },
+    "total_tokens": 3736
+  }
+}

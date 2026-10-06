@@ -1,0 +1,43 @@
+{
+  "stage": "development2",
+  "run_id": "MIND_source_scene_20261005",
+  "approved_total_cap": 192,
+  "approved_development_cap": 64,
+  "calls": 32,
+  "people": 3,
+  "scenes": 8,
+  "repeats": 2,
+  "arms": [
+    "structured_off",
+    "structured_on"
+  ],
+  "input_sha256": "f261dce6fc633950593e055634adf4b0de345f90a764de676d84afd8faad47a3",
+  "code_sha256": {
+    "structured_scene.py": "4f7269e421bcb99f5ed5f051f12eca10eab9cdb697daffbf7bd21a33321247a2",
+    "situated_actions.py": "57a45f876e855280ab2c30f1288aebfd005f6167dd93c610cf3644084472b2da",
+    "source_scene.py": "654a15aff851dd9522d4d7431a95649d5c2794fc1a80c16eacafc319f645b1d1"
+  },
+  "reason": "First input-view comparison has output-framing, length failures and a rest-condition semantic failure. Shorter instructions + dynamic JSON Schema are one new candidate; Thinking OFF/ON are compared with identical token ceilings.",
+  "max_tokens_per_call": 12000,
+  "max_input_bytes": 40000,
+  "concurrency": 2,
+  "automatic_retries": 0,
+  "external_resources": [
+    "existing K-EXAONE endpoint via Mac mini"
+  ],
+  "excluded": [
+    "GPU training",
+    "SAR",
+    "Mi:dm",
+    "new RAG",
+    "new embedding",
+    "new map",
+    "deployment"
+  ],
+  "estimated_cost": null,
+  "actual_cost": null,
+  "support_round": null,
+  "labels": "AI-authored explicit source constraints, not independent clinical labels",
+  "guide": "https://friendli.ai/docs/guides/structured-outputs",
+  "request_validation": "All source notes preserved; expected labels absent; ON/OFF bodies differ only in enable_thinking"
+}

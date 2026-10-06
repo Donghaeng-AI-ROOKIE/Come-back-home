@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\": \"supported\", \"commands\": [\"avoid_market\"], \"source_ids\": [\"N2\"], \"reason\": \"푸른시장 입구에서 혼잡과 소음이 모두 확인되어 원문 N2의 반응 조건 성립\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2922,
+    "prompt_tokens": 1209,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 4131
+  }
+}

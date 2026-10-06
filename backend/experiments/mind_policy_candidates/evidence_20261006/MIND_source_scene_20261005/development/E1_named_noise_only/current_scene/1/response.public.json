@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"status\": \"supported\",\n  \"commands\": [\"walk\"],\n  \"source_ids\": [\"N2\"],\n  \"reason\": \"원문 N2에 따라 사람이 붐비고 시끄러울 때만 피하므로, 현재 시끄럽지만 붐비지 않은 푸른시장에서는 피하지 않고 걷는 것이 원문에 근거함.\"\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3294,
+    "prompt_tokens": 2113,
+    "prompt_tokens_details": {
+      "cached_tokens": 1888
+    },
+    "total_tokens": 5407
+  }
+}

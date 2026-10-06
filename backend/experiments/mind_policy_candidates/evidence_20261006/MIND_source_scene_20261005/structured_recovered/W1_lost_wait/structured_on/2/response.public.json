@@ -1,0 +1,12 @@
+{
+  "final_content": "{\"status\": \"supported\", \"commands\": [\"wait\"], \"source_ids\": [\"N2\"], \"reason\": \"원문 N2에서 길을 잃었을 때 기다린 행동이 확인되었으며, 현재 길을 잃었다고 알고 있는 상태와 일치함\"}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3652,
+    "prompt_tokens": 1204,
+    "prompt_tokens_details": {
+      "cached_tokens": 1184
+    },
+    "total_tokens": 4856
+  }
+}

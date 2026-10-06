@@ -1,0 +1,403 @@
+{
+  "manifest": {
+    "phase": "development",
+    "candidate": "note_v1_off",
+    "thinking": "off",
+    "calls": 18,
+    "scene_decisions": 16,
+    "input_sha256": "f261dce6fc633950593e055634adf4b0de345f90a764de676d84afd8faad47a3",
+    "code_sha256": {
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy.py": "4a8f2bb5dfcfe2720297978c35c709150e228868d2586588bf3c7dd2ec8885f1",
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy_eval.py": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+      "<workspace>/결선/개발/cbh-simulation-integration-20261004/backend/app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+      "<workspace>/결선/실험/MIND_practical_gate_20261006/run_candidate.py": "08e9320337fc97ac6b149910b6898e5141fd5dc935da5bc3d580c52753b05b0f",
+      "<workspace>/결선/실험/MIND_practical_gate_20261006/transport.py": "4bc8f936aad24e1ef256322d946a5772755bfda366ec0e0e97404f47ab0472c0"
+    },
+    "repetitions": 2,
+    "max_request_bytes": 8010,
+    "automatic_retries": false
+  },
+  "model_outputs": [
+    {
+      "job": "note_v1_off_E1_1_N0_1",
+      "person_id": "E1_1",
+      "rep": 1,
+      "note_id": "N0",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_E1_1_N1_1",
+      "person_id": "E1_1",
+      "rep": 1,
+      "note_id": "N1",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_E1_1_N2_1",
+      "person_id": "E1_1",
+      "rep": 1,
+      "note_id": "N2",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_E1_1_N0_2",
+      "person_id": "E1_1",
+      "rep": 2,
+      "note_id": "N0",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_E1_1_N1_2",
+      "person_id": "E1_1",
+      "rep": 2,
+      "note_id": "N1",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_E1_1_N2_2",
+      "person_id": "E1_1",
+      "rep": 2,
+      "note_id": "N2",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_E2_1_N0_1",
+      "person_id": "E2_1",
+      "rep": 1,
+      "note_id": "N0",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_E2_1_N1_1",
+      "person_id": "E2_1",
+      "rep": 1,
+      "note_id": "N1",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_E2_1_N2_1",
+      "person_id": "E2_1",
+      "rep": 1,
+      "note_id": "N2",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_E2_1_N0_2",
+      "person_id": "E2_1",
+      "rep": 2,
+      "note_id": "N0",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_E2_1_N1_2",
+      "person_id": "E2_1",
+      "rep": 2,
+      "note_id": "N1",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_E2_1_N2_2",
+      "person_id": "E2_1",
+      "rep": 2,
+      "note_id": "N2",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_W1_1_N0_1",
+      "person_id": "W1_1",
+      "rep": 1,
+      "note_id": "N0",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_W1_1_N1_1",
+      "person_id": "W1_1",
+      "rep": 1,
+      "note_id": "N1",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_W1_1_N2_1",
+      "person_id": "W1_1",
+      "rep": 1,
+      "note_id": "N2",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_W1_1_N0_2",
+      "person_id": "W1_1",
+      "rep": 2,
+      "note_id": "N0",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_W1_1_N1_2",
+      "person_id": "W1_1",
+      "rep": 2,
+      "note_id": "N1",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    },
+    {
+      "job": "note_v1_off_W1_1_N2_2",
+      "person_id": "W1_1",
+      "rep": 2,
+      "note_id": "N2",
+      "output": null,
+      "valid": false,
+      "error_type": "RuntimeError",
+      "submitted": true
+    }
+  ],
+  "results": [
+    {
+      "id": "E1_named_both",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "avoid_market",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_other_both",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_capacity_after40",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_named_noise_only",
+      "person_id": "E1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_named_both",
+      "person_id": "E1_1",
+      "rep": 2,
+      "label": "avoid_market",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_other_both",
+      "person_id": "E1_1",
+      "rep": 2,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_capacity_after40",
+      "person_id": "E1_1",
+      "rep": 2,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E1_named_noise_only",
+      "person_id": "E1_1",
+      "rep": 2,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_lost_wait",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "wait",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_walk_rest",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "rest",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_family_arrived",
+      "person_id": "W1_1",
+      "rep": 1,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_lost_wait",
+      "person_id": "W1_1",
+      "rep": 2,
+      "label": "wait",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_walk_rest",
+      "person_id": "W1_1",
+      "rep": 2,
+      "label": "rest",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "W1_family_arrived",
+      "person_id": "W1_1",
+      "rep": 2,
+      "label": "baseline",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E2_noise_only",
+      "person_id": "E2_1",
+      "rep": 1,
+      "label": "avoid_market",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    },
+    {
+      "id": "E2_noise_only",
+      "person_id": "E2_1",
+      "rep": 2,
+      "label": "avoid_market",
+      "pass": false,
+      "decision": null,
+      "error_type": "ValueError"
+    }
+  ],
+  "gate": {
+    "total": 16,
+    "passed": 0,
+    "required": 15,
+    "success_rate": 0.0,
+    "advance_to_integration": false,
+    "interpretation": "synthetic_behavior_action_agreement_not_location_accuracy",
+    "by_action": {
+      "avoid_market": {
+        "total": 4,
+        "passed": 0
+      },
+      "baseline": {
+        "total": 8,
+        "passed": 0
+      },
+      "rest": {
+        "total": 2,
+        "passed": 0
+      },
+      "wait": {
+        "total": 2,
+        "passed": 0
+      }
+    },
+    "by_repetition": {
+      "1": {
+        "total": 8,
+        "passed": 0
+      },
+      "2": {
+        "total": 8,
+        "passed": 0
+      }
+    },
+    "by_person": {
+      "E1_1": {
+        "total": 8,
+        "passed": 0
+      },
+      "E2_1": {
+        "total": 2,
+        "passed": 0
+      },
+      "W1_1": {
+        "total": 6,
+        "passed": 0
+      }
+    },
+    "errors": {
+      "ValueError": 16
+    }
+  },
+  "clinical_patients": 0,
+  "independent_human_raters": 0
+}
