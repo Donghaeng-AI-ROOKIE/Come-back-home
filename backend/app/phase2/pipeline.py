@@ -146,7 +146,8 @@ def run_prediction(
     sim_trace = SimTrace() if trace else None
     poa_td = topdown.topdown_poa(case.lkp, prior, persona, elapsed_hours)  # 디버그·시각화 전용
     _lap("topdown_ms")
-    poa_bu, quality = continuous_prediction.run(case, source_persona, prior, net, elapsed_hours, seed=seed)
+    staged_case = case.model_copy(deep=True)
+    poa_bu, poa_stat, quality = continuous_prediction.run_pair(staged_case, source_persona, prior, net, elapsed_hours, seed=seed)
     if poa_bu is None:
         poa_bu = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed,
@@ -157,19 +158,22 @@ def run_prediction(
         storage.cases.save(case.id,case)
         raise continuous_prediction.IncompletePredictionError('continuous prediction contains unresolved map probability mass')
     _lap("bottomup_ms")
-    poa_stat = simulation.run_monte_carlo(
-        case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed,
-        environment_observations=case.report.environment_observations, started_at=case.lkp_time)
+    if poa_stat is None:
+        poa_stat = simulation.run_monte_carlo(
+            case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed,
+            environment_observations=case.report.environment_observations, started_at=case.lkp_time)
     _lap("statistical_ms")
 
-    # ③ α-pool 통합 — bottom-up·statistical 2-way. bottom-up 이 AI 개인화가 있는
-    #    쪽이라 더 큰 가중(0.7 : 0.3, 기존 3-way 비율 0.5:0.2 을 그대로 재정규화한 값).
+    # ③ α-pool 통합 — 양쪽 모두 초기 개인 정보를 공유한다. 연속 엔진에서는
+    #    조건별 개인 정책도 양쪽에서 보존하고 갱신된 마음 상태만 bottom-up에 적용한다.
+    #    0.7:0.3은 기존 고정값이며 새 연속 대조 경로에 최적화한 값이 아니다.
     #    초기(제보 없음)엔 linear (넓게), 제보 누적 후 log-linear (좁게)
     pool_mode = "log_linear" if len(case.tips) >= 3 else "linear"
     combined = combine.alpha_pool([poa_bu, poa_stat],
                                   alphas=[0.7, 0.3], mode=pool_mode)
 
     # 케이스 상태 갱신 — baseline 은 KL 이탈 트리거의 비교 기준
+    case.continuous_state = staged_case.continuous_state
     case.prior_context_key = prior_key
     case.prediction_quality = quality
     case.poa_by_hour = {}
@@ -236,7 +240,7 @@ def poa_at_elapsed(case: Case, elapsed_hours: float, *, seed: int | None = 42) -
     persona = simulation_persona(persona, case.prior)
     net, _ = _load_roadnet(case, case.prior, persona, elapsed)
     mind = case.mind or MindState()
-    bu, quality = continuous_prediction.run(case, source_persona, case.prior, net, elapsed, seed=seed, persist=False)
+    bu, stat, quality = continuous_prediction.run_pair(case, source_persona, case.prior, net, elapsed, seed=seed, persist=False)
     if quality.get("unresolved_mass",0)>1e-9:
         raise continuous_prediction.IncompletePredictionError("preview contains unresolved map probability mass")
     if bu is None:
@@ -244,7 +248,8 @@ def poa_at_elapsed(case: Case, elapsed_hours: float, *, seed: int | None = 42) -
         case.lkp, case.prior, persona, elapsed, mode="agent", net=net,
         mind=mind, seed=seed,
         environment_observations=case.report.environment_observations, started_at=case.lkp_time)
-    stat = simulation.run_monte_carlo(
-        case.lkp, case.prior, persona, elapsed, mode="statistical", net=net, seed=seed,
-        environment_observations=case.report.environment_observations, started_at=case.lkp_time)
+    if stat is None:
+        stat = simulation.run_monte_carlo(
+            case.lkp, case.prior, persona, elapsed, mode="statistical", net=net, seed=seed,
+            environment_observations=case.report.environment_observations, started_at=case.lkp_time)
     return combine.alpha_pool([bu, stat], alphas=[0.7, 0.3], mode="linear")

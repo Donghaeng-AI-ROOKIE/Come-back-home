@@ -32,9 +32,14 @@ def run(case,persona,prior,net,hours,*,seed=None,persist=True):
     if net is None or getattr(net,'coverage_bbox',None) is None:
         return None,{'engine':'legacy','personal_policy_status':status,'continuous_clock':False,
                      'reason':'verified_map_coverage_missing'}
+    return _run_policy(case,persona,prior,net,hours,policy,status,seed=seed,persist=persist)
+
+
+def _run_policy(case,persona,prior,net,hours,policy,status,*,seed=None,persist=True):
     previous=case.continuous_state
     effective_seed=seed if seed is not None else previous.get('seed',42)
     key=digest({'version':VERSION,'person':prior_key(case,persona),'prior':prior.model_dump(mode='json'),
+        'policy':policy.model_dump(mode='json'),
         'mind':(case.mind or MindState()).model_dump(mode='json'),
         'graph':graph_key(net),'environment':net.node_env,'seed':effective_seed,'walkers':settings.mc_num_walkers})
     checkpoint=None
@@ -54,12 +59,67 @@ def run(case,persona,prior,net,hours,*,seed=None,persist=True):
             'unresolved_reasons':{'invalid_simulation_context':settings.mc_num_walkers},
             'personal_policy_status':status,'continuous_clock':True,
             'preview':not persist,'error_type':'ValueError'}
-    result['quality'].update(personal_policy_status='ready',continuous_clock=True,
+    result['quality'].update(personal_policy_status=status,continuous_clock=True,
         checkpoint_reused=checkpoint is not None,preview=not persist,
         semantic_validation='synthetic_only_not_clinical')
-    if persist:
+    # The caller rejects incomplete probability maps. Do not commit their
+    # censored particles either: the next retry must start from the last
+    # complete checkpoint, not from permanently blocked walkers.
+    complete=result['quality']['unresolved_mass']<=1e-9
+    result['quality']['checkpoint_committed']=bool(persist and complete)
+    if persist and complete:
         case.continuous_state={'key':key,'seed':effective_seed,'checkpoint':pop.checkpoint()}
     return result['cells'],result['quality']
+
+
+def run_pair(case,persona,prior,net,hours,*,seed=None,persist=True):
+    """Same initial person, two continuous clocks, one atomic checkpoint.
+
+    Both channels retain the same prepared conditional personal policy. Only the
+    agent channel receives the updated mind state. Removing personal reactions
+    is an experimental ablation, not the second person in a production mixture.
+    The statistical name is kept for compatibility; it is not independent of
+    personal information. Fixed 0.7:0.3 weights are not retuned here.
+    """
+    staged=case.model_copy(deep=True)
+    bu,quality=run(staged,persona,prior,net,hours,seed=seed,persist=True)
+    quality.update(preview=not persist,checkpoint_committed=False)
+    if bu is None or quality.get('unresolved_mass',0)>1e-9:
+        return bu,None,quality
+    shared_policy,status=mind_preparation.ready(persona)
+    if shared_policy is None:
+        # Never silently replace a policy that became unavailable with an empty
+        # program and publish that counterfactual as 30% of the final map.
+        quality.update(unresolved_mass=1.,resolved_mass=0.,
+            unresolved_reasons={'shared_personal_policy_unavailable':settings.mc_num_walkers},
+            personal_policy_status=status)
+        return {},{},quality
+    statistical=case.model_copy(deep=True)
+    statistical.mind=None
+    statistical.continuous_state=deepcopy(case.continuous_state.get('statistical',{}))
+    # Common initial random numbers make the no-policy contrast interpretable;
+    # each channel then persists its own random state independently.
+    stat,sq=_run_policy(statistical,persona,prior,net,hours,
+        shared_policy,status,
+        seed=staged.continuous_state['seed'],persist=True)
+    complete=quality.get('unresolved_mass',0)<=1e-9 and sq.get('unresolved_mass',0)<=1e-9
+    committed=bool(persist and complete)
+    sq.update(preview=not persist,checkpoint_committed=committed)
+    quality.update(statistical=sq,checkpoint_committed=committed,
+        both_channels_continuous=True,
+        statistical_definition='same_initial_person_and_conditional_policy_without_updated_mind',
+        personal_policy_shared_between_channels=True,
+        policy_free_ablation_included_in_mixture=False,
+        mixture_weights_status='fixed_0.7_0.3_not_revalidated_for_continuous_pair')
+    if not complete:
+        quality['personal_unresolved_mass']=quality.get('unresolved_mass',0)
+        quality['unresolved_mass']=.7*quality['personal_unresolved_mass']+.3*sq['unresolved_mass']
+        quality['resolved_mass']=.7*sum(bu.values())+.3*sum(stat.values())
+        quality['unresolved_reasons']={'statistical:'+k:v for k,v in sq['unresolved_reasons'].items()}
+    if committed:
+        staged.continuous_state['statistical']=statistical.continuous_state
+        case.continuous_state=staged.continuous_state
+    return bu,stat,quality
 
 
 class IncompletePredictionError(RuntimeError):

@@ -2,13 +2,15 @@
 
 No LLM call in a particle loop. K interprets evidence into a versioned policy;
 this executor reevaluates its typed conditions using the current world state.
-The existing statistical channel is retained by pipeline.py as a separate prior.
+Both channels can share this clock. A policy-free channel still shares initial
+personal traits; it is not a population-only statistical baseline.
 """
 from __future__ import annotations
 from copy import deepcopy
 from dataclasses import dataclass,field,asdict
 from datetime import datetime,timedelta
 from zoneinfo import ZoneInfo
+from bisect import bisect_right
 import math,random,hashlib,json
 from app.geo.h3grid import haversine_km,cell_of
 from app.llm import mind_policy
@@ -17,8 +19,29 @@ from app.phase2 import gauges,radius
 from app.phase2.environment_conditions import SceneConditions
 from app.phase2.simulation import _bearing,_kappa,STRATEGIES
 from app.schemas.common import GeoPoint
+from app.schemas.prediction import MindState
 
-VERSION='continuous-person-v2'
+VERSION='continuous-person-v4'
+
+
+@dataclass(frozen=True)
+class BaselineRestPolicy:
+    """Research assumption, not a measured individual rest prescription.
+
+    Reuse the existing fatigue logistic curve and recovery fraction, but evaluate
+    it once per simulation minute rather than once per road edge. Rest duration
+    remains provisional. Explicit responses to physical conditions take
+    precedence. General movement intent does not imply unlimited endurance.
+    """
+    enabled: bool = True
+    minutes: float = 5.
+    recovery_fraction: float = .4
+
+    def __post_init__(self):
+        if type(self.enabled) is not bool or not 0 < self.minutes <= 60:
+            raise ValueError('invalid population rest assumption')
+        if not 0 <= self.recovery_fraction < 1:
+            raise ValueError('invalid fatigue recovery assumption')
 
 def _tuples(value):
     return tuple(_tuples(v) for v in value) if isinstance(value,list) else value
@@ -63,17 +86,27 @@ class Particle:
     blocked:bool=False
     events:list=field(default_factory=list)
     rng_state:object=None
+    next_population_rest_check:float=1.
+    population_rest_minutes:float=0.
 
 class Population:
     def __init__(self,net,persona,prior,policy,start,started_at,*,count=500,seed=42,
-                 environment_observations=(),behavior_observations=(),mind=None,checkpoint=None,trace_hook=None):
+                 environment_observations=(),behavior_observations=(),mind=None,checkpoint=None,trace_hook=None,
+                 rest_policy=None):
         if net is None or not hasattr(net,'graph'):raise ValueError('continuous walking requires an OSM road graph')
         if count<=0:raise ValueError('positive walker count required')
         self.trace_hook=trace_hook
         self.net=net;self.persona=simulation_persona(persona,prior);self.prior=prior
         self.policy=policy;self.start=start;self.started_at=started_at;self.seed=seed
-        self.clock_origin=started_at.astimezone(ZoneInfo('Asia/Seoul'))
+        # Historical stored naive timestamps are Korean local time. Never let
+        # the deployment host's timezone change clock-conditioned behavior.
+        self.clock_origin=(started_at.replace(tzinfo=ZoneInfo('Asia/Seoul'))
+                           if started_at.tzinfo is None else started_at.astimezone(ZoneInfo('Asia/Seoul')))
         self.observations=list(behavior_observations);self.scene=SceneConditions(net,environment_observations,started_at)
+        self.rest_policy=rest_policy if rest_policy is not None else BaselineRestPolicy()
+        self.observation_boundaries=sorted({(time-started_at).total_seconds()/60
+            for observation in self.observations+self.scene.observations
+            for time in (observation.valid_from,observation.valid_until) if time>started_at})
         self.locations={n:net.node_location(n) for n in net.graph.nodes}
         self.neighbors={n:net.neighbors(n) for n in net.graph.nodes}
         self.attrs={(n,v):net.edge_attrs(n,v) for n,ns in self.neighbors.items() for v in ns}
@@ -84,7 +117,12 @@ class Population:
         self.routine_labels={a.label for a in self.persona.attraction_points if a.origin_slot=='routine_destinations'}
         self.cfg=gauges.config_for(self.persona);self.speed=gauges.walk_speed(self.persona)
         self.cap=radius.statistical_p95_km(prior.radius_lognormal)
-        self.mind_confusion=mind.confusion if mind is not None and mind.changed else None
+        self.mind_confusion=(mind.confusion if mind is not None and mind.changed
+                             else MindState().confusion)
+        if not math.isfinite(self.mind_confusion) or not 0<=self.mind_confusion<=1:
+            raise ValueError('invalid directional state')
+        self.direction_state_source=('updated_mind_state' if mind is not None and mind.changed
+                                     else 'unobserved_default_0.5')
         self._near_cache={};self._direction_cache={};self._policy_cache={}
         self.coverage_bbox=getattr(net,'coverage_bbox',None)
         if self.coverage_bbox is None:raise ValueError('map coverage bounds missing')
@@ -95,6 +133,8 @@ class Population:
         if checkpoint:
             if checkpoint['version']!=VERSION or checkpoint['policy_digest']!=self.policy_digest:
                 raise ValueError('stale continuous checkpoint')
+            if checkpoint.get('rest_policy')!=asdict(self.rest_policy):
+                raise ValueError('population rest assumptions changed')
             self.particles=[Particle(**p) for p in checkpoint['particles']]
             if len(self.particles)!=count:raise ValueError('walker count changed')
         else:
@@ -111,6 +151,7 @@ class Population:
 
     def checkpoint(self):
         return {'version':VERSION,'policy_digest':self.policy_digest,'seed':self.seed,
+                'rest_policy':asdict(self.rest_policy),
                 'particles':[asdict(p) for p in self.particles]}
 
     def _event(self,p,kind,**extra):
@@ -179,6 +220,34 @@ class Population:
         if p.strategy=='staying_put':return 'wait',30.,None,None
         return 'walk',None,None,None
 
+    def _population_rest(self,p):
+        """No guardian word matching or invented personal endurance capacity.
+
+        An independent per-person, per-minute draw makes the probability
+        independent of road-node count and repeated API/checkpoint requests.
+        This is a declared population hypothesis, not a clinical calibration.
+        """
+        if not self.rest_policy.enabled or p.minute < p.next_population_rest_check-1e-8:
+            return False
+        minute=math.floor(p.minute+1e-8)
+        p.next_population_rest_check=minute+1.
+        rng=random.Random(p.seed ^ (minute*1000003) ^ 0x5E571)
+        return rng.random() < gauges.p_trigger(p.fatigue,self.cfg.theta_f,self.cfg.beta_f)
+
+    @staticmethod
+    def _explicit_physical_walk(rule,facts):
+        """Typed model interpretation, never a keyword search in guardian text.
+
+        'Walk when lost' says nothing about endurance. A supported branch that
+        explicitly describes walking under fatigue/pain or a walking limit does.
+        Do not use an inactive OR clause to override physical rest.
+        """
+        if rule is None or rule.action!='walk':return False
+        physical={'fatigue_high','continuous_walk_minutes','distance_since_rest_m'}
+        return any(mind_policy.truth([clause],facts) is not False and
+                   any(a.fact in physical or (a.fact=='pain_observed' and a.value is True)
+                       for a in clause) for clause in rule.when)
+
     def _decide(self,p,rng):
         f=self.facts(p);labels,features=self.near(p)
         if p.mode=='rest' and p.minute<p.hold_until-1e-8:
@@ -201,6 +270,15 @@ class Population:
             mode,hold,goal,feature=self._baseline(p,rng,f);scope=[];rid=None
         else:
             mode=rule.action;hold=rule.hold_minutes;goal=rule.goal_label;feature=rule.feature;scope=rule.place_labels;rid=rule.id
+        # Keep movement intent, but do not interpret it as physical endurance.
+        # An explicit physical walk response, rest or wait remains authoritative.
+        # The source of a general fatigue rest is recorded separately.
+        can_rest=mode in ('walk','seek','avoid') and not self._explicit_physical_walk(rule,f)
+        if can_rest and self._population_rest(p):
+            self._event(p,'population_rest_start',fatigue=p.fatigue,
+                        interrupted_action=mode,interrupted_rule_id=rid,
+                        assumption='existing_curve_one_check_per_minute_provisional')
+            mode='rest';hold=self.rest_policy.minutes;baseline=True;rid=None
         old_mode=p.mode;old_feature=p.avoid_feature
         if goal is not None and goal!=p.target:
             p.target=goal;p.arrived=False;p.recognized=None;p.recognition_source='unobserved'
@@ -264,7 +342,10 @@ class Population:
             attrs=self.attrs[p.node,nb]
             if haversine_km(self.start,self.locations[nb])>self.cap:
                 weights.append(0.);continue
-            w=1. if p.mode=='avoid' else math.exp(_kappa(self.mind_confusion if self.mind_confusion is not None else min(1.,p.confusion))*math.cos(_bearing(here,self.locations[nb])-desired))
+            # C is an unbounded accumulated trigger gauge, not a 0..1 estimate
+            # of directional impairment. Feeding C into kappa made all walkers
+            # converge to maximum dispersion merely through elapsed time.
+            w=1. if p.mode=='avoid' else math.exp(_kappa(self.mind_confusion)*math.cos(_bearing(here,self.locations[nb])-desired))
             if distances is not None and p.node in distances and nb in distances:
                 improvement=(distances[p.node]-distances[nb])/max(float(attrs.get('length',30)),1.)
                 w*=math.exp(max(-2.,min(2.,improvement*2*known)))
@@ -291,24 +372,29 @@ class Population:
             uncertain,baseline=self._decide(p,rng)
             if p.blocked:break
             boundary=min(end,math.floor(p.minute+1e-7)+1.)
+            next_observation=bisect_right(self.observation_boundaries,p.minute+1e-8)
+            if next_observation<len(self.observation_boundaries):
+                boundary=min(boundary,self.observation_boundaries[next_observation])
             # Stop at supplied continuous-walking limits, including fractional values.
             if p.mode in ('walk','avoid','seek'):
                 for rule in self.policy.rules:
                     for clause in rule.when:
                         for a in clause:
-                            if a.fact=='continuous_walk_minutes' and a.op=='gte' and a.value>p.continuous_walk+1e-8:
+                            if a.fact=='continuous_walk_minutes' and a.op in ('gte','lt') and a.value>p.continuous_walk+1e-8:
                                 boundary=min(boundary,p.minute+float(a.value)-p.continuous_walk)
-                            elif a.fact=='distance_since_rest_m' and a.op=='gte' and a.value>p.distance_since_rest+1e-8:
+                            elif a.fact=='distance_since_rest_m' and a.op in ('gte','lt') and a.value>p.distance_since_rest+1e-8:
                                 boundary=min(boundary,p.minute+(float(a.value)-p.distance_since_rest)/self.speed)
             dt=boundary-p.minute
             if p.mode in ('wait','rest'):
                 dt=min(dt,p.hold_until-p.minute)
                 if dt<=1e-8:raise ValueError('nonadvancing hold')
-                if p.mode=='rest':p.rest+=dt
+                if p.mode=='rest':
+                    p.rest+=dt
+                    if baseline:p.population_rest_minutes+=dt
                 else:p.waiting+=dt
                 p.minute+=dt
                 if p.minute>=p.hold_until-1e-8 and p.mode=='rest':
-                    p.fatigue*=.4;self._event(p,'rest_complete')
+                    p.fatigue*=self.rest_policy.recovery_fraction;self._event(p,'rest_complete')
             else:
                 if p.edge_to is None:self._edge(p,rng)
                 if p.blocked:break
@@ -355,6 +441,13 @@ class Population:
             'unresolved_reasons':reasons,
             'uncertain_time_fraction':sum(p.uncertain_minutes for p in self.particles)/denominator if denominator else 0.,
             'population_prior_time_fraction':sum(p.baseline_minutes for p in self.particles)/denominator if denominator else 0.,
+            'population_rest_minutes':sum(p.population_rest_minutes for p in self.particles),
+            'population_rest_is_provisional':True,'population_rest_policy':asdict(self.rest_policy),
+            'population_rest_priority':'pause_movement_intent; preserve_explicit_physical_walk_rest_wait',
+            'direction_state_source':self.direction_state_source,
+            'direction_state':self.mind_confusion,
+            'cumulative_confusion_role':'condition_trigger_only_not_direction_probability',
+            'population_rest_trigger':'existing_gauge_curve_once_per_simulation_minute_not_per_road_node',
             'unknown_branch_weighting':'equal_distinct_supported_actions_not_calibrated',
             'unobserved_recognition':'unknown; branches only when a personal rule depends on it',
             'arrival_default':'completed_goal_with_unchanged_movement_prior_not_automatic_wait',

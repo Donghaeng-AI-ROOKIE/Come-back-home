@@ -12,7 +12,7 @@ from itertools import product
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, model_validator
 from app.llm.initial_behavior import build_payload, evidence_notes
 
-VERSION = 'mind-policy-compact13-research'
+VERSION = 'mind-policy-compact13-strict-bounds-research'
 # This candidate failed source-faithfulness checks. A valid JSON response is not
 # a deployment qualification. This is an evidence gate, not a user-facing toggle.
 RELEASE_QUALIFIED = False
@@ -34,7 +34,7 @@ class Evidence(Strict):
 
 class Atom(Strict):
     fact: FactName
-    op: Literal['eq','gte','lte']
+    op: Literal['eq','gte','lte','gt','lt']
     value: StrictBool | StrictInt | StrictFloat
 
     @model_validator(mode='after')
@@ -129,7 +129,12 @@ def atom_value(atom, facts):
         return actual is atom.value
     if type(actual) not in (int,float):return None
     if atom.op=='eq':return actual==atom.value
-    return actual>=atom.value-1e-8 if atom.op=='gte' else actual<=atom.value+1e-8
+    # Strict and inclusive bounds must partition the same boundary. Otherwise
+    # "before eight minutes" can overlap "from eight minutes, rest".
+    if atom.op=='gte':return actual>=atom.value-1e-8
+    if atom.op=='lte':return actual<=atom.value+1e-8
+    if atom.op=='gt':return actual>atom.value+1e-8
+    return actual<atom.value-1e-8
 
 
 def truth(clauses,facts):
