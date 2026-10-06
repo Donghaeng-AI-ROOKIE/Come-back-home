@@ -1,0 +1,12 @@
+{
+ "final_content": "{ \n  \"units\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"느티공원, 해든상가, 솔빛쉼터는 질문에 나온 후보 이름이에요.\",\n      \"subject\": \"unclear\",\n      \"kind\": \"other_information\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_condition\": \"\",\n      \"end_condition\": \"\",\n      \"hold_minutes\": 0\n    },\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"그곳을 좋아하거나 실제로 간다는 뜻은 아니에요.\",\n      \"subject\": \"unclear\",\n      \"kind\": \"corrected_away\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_condition\": \"\",\n      \"end_condition\": \"\",\n      \"hold_minutes\": 0\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"기다리는 모습은 관찰하지 못했어요.\",\n      \"subject\": \"patient\",\n      \"kind\": \"unobserved\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_condition\": \"\",\n      \"end_condition\": \"\",\n      \"hold_minutes\": 0\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"이 질문에 네라고 답한 것은 다른 사람이 돌보는 분 이야기였어요.\",\n      \"subject\": \"other_person\",\n      \"kind\": \"corrected_away\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_condition\": \"\",\n      \"end_condition\": \"\",\n      \"hold_minutes\": 0\n    }\n  ]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 4347,
+  "prompt_tokens": 2558,
+  "prompt_tokens_details": {
+   "cached_tokens": 2304
+  },
+  "total_tokens": 6905
+ }
+}

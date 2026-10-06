@@ -190,3 +190,71 @@ def test_c_compiles_the_b_fixtures_unchanged():
     from experiments.mind_contract_ab_20261007 import contract_c
     for pid, out in B_CORRECT.items():
         assert contract_c.compile_c(out, personal(pid)).model_dump() == contracts.compile_b(out, personal(pid)).model_dump()
+
+
+def du(ids, kind='other_information', subject='patient', action='none', start=(), end=(), goal='', scope=(), hold=0):
+    return {'sentence_ids': list(ids), 'subject': subject, 'kind': kind, 'action': action, 'goal_place': goal,
+            'applies_only_at': list(scope), 'start_when_any': list(start), 'end_when_any': list(end),
+            'hold_minutes': hold}
+
+
+def cl(true=(), false=(), numbers=()):
+    return {'true': list(true), 'false': list(false),
+            'numbers': [{'fact': f, 'op': o, 'value': v} for f, o, v in numbers]}
+
+
+D0 = du(['N0.s1', 'N0.s2'])
+D_CORRECT = {
+    'P05': [D0, du(['N1.s1', 'N1.s2'], 'functional_need', action='rest',
+                   start=[cl(['is_walking'], numbers=[('continuous_walk_minutes', '>=', 8)]),
+                          cl(['is_walking'], numbers=[('distance_since_rest_m', '>=', 450)])])],
+    'P14': [D0, du(['N1.s1'], 'observed_response', action='seek', goal='느티공원', start=[cl(['target_recognized'])]),
+            du(['N1.s2'], 'unobserved')],
+    'P21': [D0, du(['N1.s1'], 'corrected_away', subject='other_person'),
+            du(['N1.s2'], 'observed_response', action='walk', start=[cl(['lost_awareness'])]),
+            du(['N1.s3'], 'unobserved')],
+    'P25': [D0, du(['N1.s1', 'N1.s2'], 'observed_response', action='wait',
+                   start=[cl(false=['family_present'], numbers=[('clock_hour', '>=', 8)])],
+                   end=[cl(numbers=[('clock_hour', '>=', 9)])]),
+            du(['N1.s3'], 'unobserved')],
+    'P29': [D0, du(['N1.s1'], 'functional_need', action='rest',
+                   start=[cl(['is_walking'], numbers=[('continuous_walk_minutes', '>=', 6)]),
+                          cl(['is_walking'], numbers=[('distance_since_rest_m', '>=', 280)])]),
+            du(['N2.s1', 'N2.s2'], 'observed_response', action='wait',
+               start=[cl(['lost_awareness'], ['family_present'])], end=[cl(['family_present'])])],
+    'P06': [D0, du(['N1.s1'], 'capacity_only'), du(['N1.s2', 'N1.s3'], 'unobserved')],
+}
+
+
+@pytest.mark.parametrize('pid', sorted(D_CORRECT))
+def test_d_correct_fixture_compiles_with_verbatim_sentences_and_matches_scenes(pid):
+    from experiments.mind_contract_ab_20261007 import contract_d
+    policy = contract_d.compile_d({'units': D_CORRECT[pid]}, personal(pid))
+    assert all(scenes_pass(policy, pid).values())
+    assert scoring.critical(policy, personal(pid), REFERENCE[pid], pid) == []
+
+
+def test_d_rejects_unclassified_sentence_degenerate_condition_and_empty_clause():
+    from experiments.mind_contract_ab_20261007 import contract_d
+    with pytest.raises(ValueError, match='sentence_not_classified:N1.s3'):
+        contract_d.compile_d({'units': D_CORRECT['P21'][:3]}, personal('P21'))
+    degenerate = [D0, du(['N1.s1', 'N1.s2'], 'functional_need', action='rest', start=[cl(['is_walking'])])]
+    with pytest.raises(ValueError, match='degenerate_condition_only_is_walking'):
+        contract_d.compile_d({'units': degenerate}, personal('P05'))
+    empty = [D0, du(['N1.s1', 'N1.s2'], 'functional_need', action='rest', start=[cl()])]
+    with pytest.raises(ValueError, match='empty_condition_clause|degenerate'):
+        contract_d.compile_d({'units': empty}, personal('P05'))
+
+
+def test_d_schema_constrains_fact_names_and_sentence_ids():
+    from experiments.mind_contract_ab_20261007 import contract_d
+    bad = [D0, du(['N1.s1', 'N1.s2'], 'functional_need', action='rest',
+                  start=[cl(['is_walking'], numbers=[('거리_since_rest_m', '>=', 450)])])]
+    with pytest.raises(ValueError, match='unknown enum'):
+        contract_d.compile_d({'units': bad}, personal('P05'))
+    with pytest.raises(ValueError, match='unknown enum'):
+        contract_d.compile_d({'units': [du(['N9.s1'])]}, personal('P05'))
+    body = contract_d.request(personal('P29'), 'model-x')
+    assert body['response_format']['json_schema']['schema'] == contract_d.schema(personal('P29'))
+    assert [s['id'] for s in json.loads(body['messages'][1]['content'])['answer_sentences']] == \
+        ['N0.s1', 'N0.s2', 'N1.s1', 'N2.s1', 'N2.s2']
