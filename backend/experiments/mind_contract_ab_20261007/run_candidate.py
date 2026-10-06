@@ -1,6 +1,7 @@
 """Run a candidate module (first call + at most one validator-feedback correction).
 
-Candidates: c (contract_c), d (contract_d). Stages: <cand>_dev8 (the eight dev8
+Candidates: c (contract_c), d (contract_d), d2 (contract_d2; adds per-response
+trait accounting). Stages: <cand>_dev8 (the eight dev8
 profiles), <cand>_dev128 (dataset/dev128). Without
 --execute it freezes the manifest only. Every call goes to the ledger; a job
 submitted without a saved result stops the run for explicit recovery. Scores
@@ -18,11 +19,13 @@ from concurrent.futures import ThreadPoolExecutor
 from math import ceil
 from pathlib import Path
 
-from experiments.mind_contract_ab_20261007 import completion, contract_c, contract_d, scoring, transport
+from experiments.mind_contract_ab_20261007 import completion, contract_c, contract_d, contract_d2, scoring, transport
+from app.llm.initial_behavior import decode_json_content
 from experiments.mind_contract_ab_20261007.run_stage import BACKEND, HERE, digest, write
 from experiments.mind_policy_candidates import note_policy_eval as ev
 
-CANDIDATES = {'c': (contract_c, contract_c.compile_c, 'PLAN_c.md'), 'd': (contract_d, contract_d.compile_d, 'PLAN_d.md')}
+CANDIDATES = {'c': (contract_c, contract_c.compile_c, 'PLAN_c.md'), 'd': (contract_d, contract_d.compile_d, 'PLAN_d.md'),
+              'd2': (contract_d2, contract_d2.compile_d2, 'PLAN_d2.md')}
 COMMON = [HERE / n for n in ('contract_c.py', 'contracts.py', 'completion.py', 'scoring.py',
                              'transport.py', 'run_candidate.py')] + [
     BACKEND / p for p in ('experiments/mind_policy_candidates/condition_program.py',
@@ -33,7 +36,17 @@ DEV8 = ['P05', 'P06', 'P13', 'P14', 'P21', 'P24', 'P25', 'P29']
 
 def sources(cand):
     module, _, plan = CANDIDATES[cand]
-    return [HERE / plan, Path(module.__file__)] + [p for p in COMMON if p != Path(module.__file__)]
+    extra = [HERE / 'contract_d.py'] if cand == 'd2' else []
+    return [HERE / plan, Path(module.__file__)] + extra + [p for p in COMMON if p != Path(module.__file__)]
+
+
+def traits(module, public):
+    """Unit counts by kind for candidates that report them; None otherwise."""
+    if not hasattr(module, 'trait_accounting') or not public:
+        return None
+    if completion.classify(public)[0] != 'complete_json':
+        return None
+    return module.trait_accounting(decode_json_content(public['final_content']))
 
 
 def dataset(stage):
@@ -82,7 +95,7 @@ def read(path):
 
 
 def score(stage, out):
-    compile_fn = CANDIDATES[stage.split('_')[0]][1]
+    module, compile_fn, _ = CANDIDATES[stage.split('_')[0]]
     inputs, scenes, reference, _ = dataset(stage)
     rows = []
     for j in jobs_for(stage):
@@ -90,8 +103,10 @@ def score(stage, out):
         f = out / r['id'] / str(j['rep'])
         first_problem, first_policy = judge(read(f / 'first' / 'response.public.json'), r['personal'], compile_fn)
         final_problem, final_policy = first_problem, first_policy
+        final_public = read(f / 'first' / 'response.public.json')
         if first_problem is not None:
-            final_problem, final_policy = judge(read(f / 'fix' / 'response.public.json'), r['personal'], compile_fn)
+            final_public = read(f / 'fix' / 'response.public.json')
+            final_problem, final_policy = judge(final_public, r['personal'], compile_fn)
         key = r['root_id'] if r.get('form') == 'original' else r['id']
         mine = [s for s in scenes if s['input_id'] == r['id']]
         row = {'input_id': r['id'], 'root_id': r['root_id'], 'form': r.get('form'), 'family': r['family'],
@@ -105,6 +120,7 @@ def score(stage, out):
                                   'first_pass': scoring.scene_pass(d1, s), 'pass': scoring.scene_pass(d2, s),
                                   'decision': d2})
         row['critical'] = scoring.critical(final_policy, r['personal'], reference[r['id']], key)
+        row['traits'] = traits(module, final_public) if final_problem is None else None
         row['policy'] = final_policy.model_dump() if final_policy else None
         rows.append(row)
     decisions = [s | {'family': r['family'], 'form': r['form']} for r in rows for s in r['scenes']]
@@ -136,6 +152,15 @@ def score(stage, out):
                'by_input': {i: {'passed': sum(s['pass'] for r in rows if r['input_id'] == i for s in r['scenes']),
                                 'total': sum(len(r['scenes']) for r in rows if r['input_id'] == i)}
                             for i in sorted({r['input_id'] for r in rows})},
+               'trait_accounting': {
+                   'responses_counted': sum(r['traits'] is not None for r in rows),
+                   'by_kind': {k: sum((r['traits'] or {}).get('by_kind', {}).get(k, 0) for r in rows)
+                               for k in getattr(module, 'KINDS', ())},
+                   'responses_with_trait_loss': sum(bool((r['traits'] or {}).get('trait_loss_sentence_ids'))
+                                                    for r in rows),
+                   'trait_loss_sentences': sum(len((r['traits'] or {}).get('trait_loss_sentence_ids', []))
+                                               for r in rows),
+                   'note': 'not_representable = guardian-observed trait the engine cannot express (trait loss)'},
                'repeat_identical_policy': sum(len(set(v)) == 1 and v[0] != 'null' for v in policies.values()),
                'inputs': len(policies)}
     total = summary['decisions']

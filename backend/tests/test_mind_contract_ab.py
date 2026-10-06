@@ -258,3 +258,44 @@ def test_d_schema_constrains_fact_names_and_sentence_ids():
     assert body['response_format']['json_schema']['schema'] == contract_d.schema(personal('P29'))
     assert [s['id'] for s in json.loads(body['messages'][1]['content'])['answer_sentences']] == \
         ['N0.s1', 'N0.s2', 'N1.s1', 'N2.s1', 'N2.s2']
+
+
+def test_d2_prompt_examples_share_no_numbers_or_times_with_development_data():
+    import re
+    from pathlib import Path
+    from experiments.mind_contract_ab_20261007 import contract_d2
+    data = Path(contract_d2.__file__).parent / 'dataset' / 'dev128' / 'dev128_inputs.jsonl'
+    answers = ' '.join(n['text'] for line in data.read_text().splitlines() if line.strip()
+                       for n in json.loads(line)['personal']['notes'])
+    numbers = set(re.findall(r'"value":(\d+)', contract_d2.CONDITION_FORMAT))
+    assert numbers == {'13', '730', '14', '15'}
+    for word in ('십삼 분', '13분', '칠백삼십', '730', '오후 2시', '오후 두 시', '14시'):
+        assert word not in answers
+    for leaked in ('450', '팔 분', '8분', '오전 8', '여덟 시', '이백팔십', '십칠 분', '스무 분'):
+        assert leaked not in contract_d2.SYSTEM_D2
+
+
+def test_d2_rejects_more_than_five_sentences_instead_of_truncating():
+    from experiments.mind_contract_ab_20261007 import contract_d2
+    p = {'notes': [{'id': 'N0', 'text': '질문: q\n답변: ' + ' '.join(f'문장{i}이에요.' for i in range(7))}],
+         'places': [{'label': '장소', 'place_type': 'park'}], 'prepared_initial': {}}
+    ids = [s['id'] for s in contract_d2.sentences(p)]
+    assert len(ids) == 7
+    unit = du(ids[:6], 'observed_response', action='wait', start=[cl(['rain_observed'])])
+    with pytest.raises(ValueError, match='too_many_sentences_for_one_rule'):
+        contract_d2.compile_d2({'units': [unit, du(ids[6:])]}, p)
+    ok = contract_d2.compile_d2({'units': [du(ids[:5], 'observed_response', action='wait', start=[cl(['rain_observed'])]),
+                                            du(ids[5:])]}, p)
+    assert len(ok.rules[0].evidence) == 5
+
+
+def test_d2_accounts_hearsay_and_trait_loss_without_actions():
+    from experiments.mind_contract_ab_20261007 import contract_d2
+    units = [D0, du(['N1.s1'], 'corrected_away', subject='other_person'),
+             du(['N1.s2'], 'not_representable'), du(['N1.s3'], 'hearsay_or_general')]
+    policy = contract_d2.compile_d2({'units': units}, personal('P21'))
+    assert policy.rules == []
+    acct = contract_d2.trait_accounting({'units': units})
+    assert acct['trait_loss_sentence_ids'] == ['N1.s2'] and acct['by_kind']['hearsay_or_general'] == 1
+    for pid, units in D_CORRECT.items():
+        assert all(scenes_pass(contract_d2.compile_d2({'units': units}, personal(pid)), pid).values())
