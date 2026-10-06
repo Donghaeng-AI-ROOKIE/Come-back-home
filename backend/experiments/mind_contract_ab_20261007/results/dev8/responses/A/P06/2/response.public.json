@@ -1,0 +1,12 @@
+{
+ "final_content": "{\n  \"source_assessment\": \"Registered places are candidate names without't indicate actual visit intent. Can walk 25 minutes without rest; rest timing not observed at exactly 25 minutes.\",\n  \"rules\": [\n    {\n      \"action\": \"rest\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"condition\": \"is_walking and continuous_walk_minutes >=25\",\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 6525,
+  "prompt_tokens": 1704,
+  "prompt_tokens_details": {
+   "cached_tokens": 1056
+  },
+  "total_tokens": 8229
+ }
+}

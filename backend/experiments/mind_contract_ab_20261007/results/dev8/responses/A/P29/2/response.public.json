@@ -1,0 +1,12 @@
+{
+ "final_content": "\n\n{\n  \"source_assessment\": \"보호자는 등록 장소가 실제 방문 의도가 아님을 확인했으며, 보행 시 6분 또는 280미터 이동 후 휴식이 필요하고, 길을 잃었을 때 가족이 없으면 대기하는.\",\n  \"rules\": [\n    {\n      \"action\": \"rest\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"condition\": \"is_walking and (continuous_walk_minutes >= 6 or distance_since_rest_m >= 280)\",\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"action\": \"wait\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"condition\": \"lost_awareness and not family_present\",\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 2902,
+  "prompt_tokens": 1800,
+  "prompt_tokens_details": {
+   "cached_tokens": 1056
+  },
+  "total_tokens": 4702
+ }
+}

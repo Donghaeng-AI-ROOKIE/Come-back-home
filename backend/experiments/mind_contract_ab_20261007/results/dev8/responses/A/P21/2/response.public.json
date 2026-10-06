@@ -1,0 +1,12 @@
+{
+ "final_content": "{\n  \"source_assessment\": \"Registered places are candidate names without implication of actual visits. When mother realizes she is lost, she continues walking without stopping; no wait action observed.\",\n  \"rules\": [\n    {\n      \"action\": \"walk\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"condition\": \"lost_awareness == True\",\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 6563,
+  "prompt_tokens": 1706,
+  "prompt_tokens_details": {
+   "cached_tokens": 1696
+  },
+  "total_tokens": 8269
+ }
+}

@@ -1,0 +1,12 @@
+{
+ "final_content": "\n\n{\"source_assessment\": \"N0: 등록 장소 후보 이름 설명 (실제 방문 의미 없음). N1: 가족 없을 때 오전 8-9시 현관 대기 (wait 조건 성립 시 실행).\", \"rules\": [{\"action\": \"wait\", \"goal_place\": \"\", \"applies_only_at\": [], \"condition\": \"family_present == False and clock_hour >=8 and clock_hour <9\", \"hold_minutes\": 60, \"note_ids\": [\"N1\"]}], \"non_action_note_ids\": [\"N0\"]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 2176,
+  "prompt_tokens": 1711,
+  "prompt_tokens_details": {
+   "cached_tokens": 1056
+  },
+  "total_tokens": 3887
+ }
+}

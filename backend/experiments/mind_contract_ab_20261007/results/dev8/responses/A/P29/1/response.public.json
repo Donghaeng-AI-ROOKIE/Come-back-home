@@ -1,0 +1,12 @@
+{
+ "final_content": ".\n{\n  \"source_assessment\": \"등록 장소는 후보 이름일 뿐 실제 목적지가 아님. 보행 6분 또는 280m 후 휴식 필요. 길을 잃고 가족 없을 때 기다림.\",\n  \"rules\": [\n    {\n      \"action\": \"rest\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"condition\": \"is_walking and (continuous_walk_minutes >= 6 or distance_since_rest_m >= 280)\",\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"action\": \"wait\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"condition\": \"lost_awareness and not family_present\",\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 3987,
+  "prompt_tokens": 1800,
+  "prompt_tokens_details": {
+   "cached_tokens": 1056
+  },
+  "total_tokens": 5787
+ }
+}

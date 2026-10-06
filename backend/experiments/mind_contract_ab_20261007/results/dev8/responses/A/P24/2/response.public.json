@@ -1,0 +1,12 @@
+{
+ "final_content": ".\n{\n  \"source_assessment\": \"등록 장소 후보명(느티공원, 해든상가, 솔빛쉼터)은 실제 방문 의미 없음. 길 잃음 시 기다림 관찰되지 않음.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 1862,
+  "prompt_tokens": 1698,
+  "prompt_tokens_details": {
+   "cached_tokens": 1056
+  },
+  "total_tokens": 3560
+ }
+}

@@ -1,0 +1,12 @@
+{
+ "final_content": "\n\n{\"source_assessment\": \"느티공원 입구 인식 시 해당 방향으로 이동. 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 실제 방문 의미 없음.\", \"rules\": [{\"action\": \"seek\", \"goal_place\": \"느티공원\", \"applies_only_at\": [], \"condition\": \"target_recognized == True\", \"hold_minutes\": 0, \"note_ids\": [\"N1\"]}], \"non_action_note_ids\": [\"N0\"]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 4190,
+  "prompt_tokens": 1708,
+  "prompt_tokens_details": {
+   "cached_tokens": 1056
+  },
+  "total_tokens": 5898
+ }
+}
