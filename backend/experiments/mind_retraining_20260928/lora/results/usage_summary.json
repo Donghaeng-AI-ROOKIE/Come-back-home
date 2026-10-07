@@ -1,0 +1,30 @@
+{
+  "training_runs": 1,
+  "epochs": 2,
+  "optimizer_steps": 36,
+  "generation_attempts": 32,
+  "generation_responses": 32,
+  "input_tokens": 40246,
+  "output_tokens": 8283,
+  "tokens_are_self_hosted_not_billed_api": true,
+  "process_elapsed_seconds": 364.8373512199614,
+  "trainer_runtime_seconds": 82.3836,
+  "actual_cost": null,
+  "gpu_billed_hours": null,
+  "support_round": null,
+  "per_candidate": {
+    "base": {
+      "calls": 16,
+      "input_tokens": 20123,
+      "output_tokens": 6801
+    },
+    "lora_final": {
+      "calls": 16,
+      "input_tokens": 20123,
+      "output_tokens": 1482
+    }
+  },
+  "ledger_ids_match": true,
+  "event_count": 135,
+  "service_restored": true
+}

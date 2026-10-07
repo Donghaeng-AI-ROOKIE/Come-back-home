@@ -1,0 +1,88 @@
+{
+  "reviewer": "Codex, qualitative inspection of saved responses",
+  "independent_human_review": false,
+  "clinical_review": false,
+  "criterion": "explicit input contradiction or unsupported asserted fact; a pass means no clear issue found, not validated clinical truth",
+  "rows": [
+    {
+      "id": "D01-1",
+      "assessment": "행동 일치·설명 문제",
+      "note": "피로를 우선한다는 조건 대신 소음 때문에 회피하며 쉰다고 설명. rest 출력은 회피를 실행하지 않음."
+    },
+    {
+      "id": "D01-2",
+      "assessment": "행동·설명 오류",
+      "note": "시끄러운 공원을 회피해야 하나 계속 이동. 조용하지 않아서 피하지 않는다는 역전 설명."
+    },
+    {
+      "id": "D01-3",
+      "assessment": "명확한 문제 미발견",
+      "note": "조용한 공원·낮은 피로에 따라 이동 유지."
+    },
+    {
+      "id": "D01-4",
+      "assessment": "행동·설명 오류",
+      "note": "소음 미확인을 소음 없음으로 바꾸어 계속 이동."
+    },
+    {
+      "id": "D02-1",
+      "assessment": "행동 일치·설명 문제",
+      "note": "B 선택은 맞지만 현재 낮이라고 표현하며 조건이 무관하다고 설명. 입력의 일몰 true와 충돌."
+    },
+    {
+      "id": "D02-2",
+      "assessment": "명확한 문제 미발견",
+      "note": "일몰 이후 B 도착 완료에 맞게 대기."
+    },
+    {
+      "id": "D02-3",
+      "assessment": "행동·설명 오류",
+      "note": "낮 행동이 미확인인데 계속 이동을 확정."
+    },
+    {
+      "id": "D02-4",
+      "assessment": "행동·설명 오류",
+      "note": "일몰 미확인인데 조건이 현재 시간에 맞는다고 단정하여 B로 이동."
+    },
+    {
+      "id": "D03-1",
+      "assessment": "행동 일치·설명 문제",
+      "note": "관찰되지 않아 일치 여부를 모르는 상황을 실제로 일치하지 않는 상황으로 표현."
+    },
+    {
+      "id": "D03-2",
+      "assessment": "행동·설명 오류",
+      "note": "수락했다는 답변만 있고 후속 관찰이 없는데 계속 이동을 확정."
+    },
+    {
+      "id": "D03-3",
+      "assessment": "명확한 문제 미발견",
+      "note": "현재 길 잃음과 과거 반복 관찰을 연결해 대기. 설명은 구체성이 부족함."
+    },
+    {
+      "id": "D03-4",
+      "assessment": "명확한 문제 미발견",
+      "note": "최근 관찰을 반영하여 목적지 없는 이동. 설명은 구체성이 부족함."
+    },
+    {
+      "id": "D04-1",
+      "assessment": "행동·설명 오류",
+      "note": "소음+가족 부재의 회피 조건을 누락하고 혼잡 미확인을 혼잡 없음으로 서술."
+    },
+    {
+      "id": "D04-2",
+      "assessment": "행동 일치·설명 문제",
+      "note": "동행 예외로 이동해야 하는데 혼잡이 없기 때문이라고 설명. 혼잡은 미확인."
+    },
+    {
+      "id": "D04-3",
+      "assessment": "행동 일치·설명 문제",
+      "note": "조용함이 근거여야 하는데 미확인 혼잡을 없다고 설명."
+    },
+    {
+      "id": "D04-4",
+      "assessment": "행동·설명 오류",
+      "note": "가족 동행 미확인에도 이동 확정. 혼잡 미확인을 없음으로 서술."
+    }
+  ]
+}

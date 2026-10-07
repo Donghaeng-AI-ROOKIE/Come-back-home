@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "stdout": "[{\"schema\": \"v1\", \"accepted_by_xgrammar\": true, \"cpu_wall_seconds\": 0.0008803601376712322}, {\"schema\": \"v2\", \"accepted_by_xgrammar\": true, \"cpu_wall_seconds\": 0.0027266901452094316}]\n",
+  "stderr": "",
+  "new_model_calls": 0
+}

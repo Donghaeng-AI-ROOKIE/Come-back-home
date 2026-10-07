@@ -1,0 +1,80 @@
+{
+  "DEM24": {
+    "title": "가족 돌봄 제공자의 치매노인 배회관리 경험",
+    "year": 2015,
+    "url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART002072174",
+    "verified_scope": "KCI 초록 및 기존 로컬 DEM-24 원문 추출 PDF 7쪽 확인",
+    "population": "지역사회 치매 어르신 가족 돌봄 제공자 10명 면담",
+    "finding": "가족은 낯선 상황, 친숙한 사람의 부재, 충족되지 않은 욕구와 관련한 배회 경험을 보고했다.",
+    "input_summary": "보호자 면담에서 낯선 상황·익숙한 사람의 부재와 이동의 관련 경험이 보고됨.",
+    "limit": "회고 면담. 개인의 확정 행동이나 발생 확률 아님.",
+    "already_in_local_training_corpus": true,
+    "training_reuse_permission": "원문 사용 조건 별도 확인; 현재는 짧은 연구 요약과 새 합성 원문만 사용"
+  },
+  "CAREGIVER": {
+    "title": "Experiences of family caregivers taking care getting lost of persons with dementia: a qualitative study",
+    "year": 2024,
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11186165/",
+    "doi": "10.1186/s12888-024-05891-0",
+    "verified_scope": "검색 도구가 반환한 본문 Methods·Results·Limitations, PMC 직접 열기는 브라우저 확인 제한",
+    "population": "대만 북부 가족 돌봄 제공자 20명",
+    "finding": "기다리겠다고 답했으나 떠난 상황이 보호자 면담에 보고됨.",
+    "input_summary": "보호자 면담에 기다리겠다는 대답과 이후 실제 행동이 다른 사례가 있음.",
+    "limit": "사례 하나의 회고. 모든 환자가 지시를 따르지 않는다는 뜻 아님.",
+    "training_reuse_permission": "원문 재배포 조건 미확정; 최소 요약만 보존"
+  },
+  "ACOUSTIC": {
+    "title": "The Influence of Everyday Acoustic Environments on the Challenging Behavior in Dementia: A Participatory Observation Study in Nursing Homes",
+    "year": 2023,
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10002302/",
+    "doi": "10.3390/ijerph20054191",
+    "verified_scope": "본문 Abstract·Table 2·3.2.1~3.2.4·3.3 확인",
+    "population": "요양시설 거주자 35명 참여관찰",
+    "finding": "소음 공간을 떠나는 행동과 머무르는 반응이 함께 관찰됨. 친숙함과 동행 맥락도 다뤄짐.",
+    "input_summary": "시설 관찰에서 소리 환경에 대한 반응은 개인마다 달랐음.",
+    "limit": "시설 관찰. 야외 개인 반응 확정 금지.",
+    "training_reuse_permission": "본문 CC BY 4.0 표시 확인; 출처와 변경 사실 표기"
+  },
+  "OUTDOOR": {
+    "title": "Strategies used by people with Alzheimer's disease for outdoor wayfinding: A repeated observational study",
+    "year": 2021,
+    "url": "https://pubmed.ncbi.nlm.nih.gov/31874572/",
+    "verified_scope": "초록 검색 결과; 직접 열기 제한, 원문 전체 미확인",
+    "population": "재가 알츠하이머병 당사자 5명과 야외 반복 관찰·대화",
+    "finding": "랜드마크, 멈춰 살피기, 익숙한 경로 등이 보고됨.",
+    "input_summary": "소규모 야외 관찰에서 멈춰 살피기와 익숙한 경로 이용이 보고됨.",
+    "limit": "전략 사례. 개인의 인식 성공·확률을 보장하지 않음.",
+    "training_reuse_permission": "전문 사용 조건 미확인; 초록의 짧은 요약만 보존"
+  },
+  "TIME": {
+    "title": "Wandering in dementia: a longitudinal study",
+    "year": 2001,
+    "url": "https://pubmed.ncbi.nlm.nih.gov/11495390/",
+    "verified_scope": "초록 검색 결과",
+    "population": "치매 배회에 대한 10년 종단 연구",
+    "finding": "보행 유형의 장기 변화와 야간 보행·일주기 리듬의 관계를 논의함.",
+    "input_summary": "장기 종단 연구는 야간 보행과 일주기 리듬을 다룸.",
+    "limit": "매시간 목표를 바꾸라는 근거 아님. 개인 일과는 합성 설정.",
+    "training_reuse_permission": "전문 사용 조건 미확인; 초록의 짧은 요약만 보존"
+  },
+  "NETWORK": {
+    "title": "Impact of road network structure on dementia-related missing incidents: a spatial buffer approach",
+    "year": 2020,
+    "url": "https://www.nature.com/articles/s41598-020-74915-y",
+    "verified_scope": "본문 및 한계 확인",
+    "finding": "도로망 특성과 실종 사건 위치의 연관성 분석. 기록된 위치가 실제 방향 상실 위치와 다를 수 있음.",
+    "input_summary": "",
+    "limit": "개인 경로의 방향·확률 라벨로 변환하지 않음.",
+    "use": "KINTEX 환경 평가 설계 참고; SFT 정답에서 제외"
+  },
+  "GAIT": {
+    "title": "Characterizing Walking Behaviors in Aged Residential Care Using Accelerometry, With Comparison Across Care Levels, Cognitive Status, and Physical Function: Cross-Sectional Study",
+    "year": 2024,
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11185191/",
+    "verified_scope": "초록 검색 결과; 본문 미확인",
+    "finding": "시설 내 보행량·보행 구간 패턴을 비교한 연구 후보.",
+    "input_summary": "",
+    "limit": "피로 0.7 임계값·휴식 5분·회복 비율의 검증 자료 아님.",
+    "use": "후속 원문 확인 후보; 현재 SFT 정답에서 제외"
+  }
+}

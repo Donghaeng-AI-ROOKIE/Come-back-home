@@ -1,0 +1,20 @@
+{
+  "inference_attempts": 3,
+  "legacy_attempts": 1,
+  "candidate_attempts": 2,
+  "candidate_contract_accepted": 0,
+  "clinical_accuracy": null,
+  "comparison_completed": false,
+  "token_usage": {
+    "prompt_tokens": 3188,
+    "completion_tokens": 281,
+    "total_tokens": 3469
+  },
+  "actual_cost": null,
+  "gpu_billed_hours": null,
+  "support_round": null,
+  "new_K_calls": 0,
+  "new_RAG_calls": 0,
+  "new_map_calls": 0,
+  "interpretation": "Stopped by prespecified two-consecutive-validation-errors rule. No model performance comparison is estimable from this incomplete sample."
+}
