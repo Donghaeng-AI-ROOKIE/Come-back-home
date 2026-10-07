@@ -10,7 +10,7 @@
 | 장면 | 256개 (상태: 반응 95, 개인 반응 없음 103, 미관측 58) |
 | 지원 불가 특성이 들어 있는 페르소나 | 41명 |
 | 연구 근거 | 모든 페르소나가 검증된 근거 ID를 1개 이상 인용(빌더가 확인) |
-| 개발 자료와의 겹침 | 0명 (문자 3-gram Jaccard 최대 0.089, 같은 행동군·같은 규칙 구조 0) |
+| 개발 자료와의 겹침 | 문장: 0명(문자 3-gram Jaccard 최대 0.089). **구조: 세밀 서명 일치 8명, 거친 서명만 일치 4명**(아래). 첫 판정 '구조 0'은 검사기 결함(행동군 이름이 같을 때만 비교)이었음 |
 | 독립성 | 작성 에이전트는 개발 자료(dev128, 변형 파일, 10/06 원형)를 읽지 않도록 지시. 실제 열람 여부는 에이전트 기록으로만 확인 가능 |
 
 ## 작성·검토 과정
@@ -104,3 +104,26 @@
 - 휴식 인물을 더 줄이는 일(노트): 03만 walk로 바꿔 4/8에서 멈췄다. 07의 휴식은 남겼다. 07 should_fix가 요구한 '멈춤과 이동이 실제로 부딪치는 겹침'을 이루는 멈춤 쪽이기 때문이다.
 - 브리프 예시 문장이 모델 프롬프트에 들어가는지 확인하는 일(노트): 허용된 파일만으로는 확인할 수 없어 '검증 필요'로 남긴다. 대신 지적된 03 N2.s1·N3.s1과 06 N2.s1의 표현을 고쳤다. 비교 기준은 candidate_catalog.json의 caregiver_phrasings로 삼았다.
 
+
+## 구조 겹침 (2026-10-07 검사기 수정 후, `leakage_check_v2.json`)
+
+처음 검사기는 행동군 이름이 같을 때만 규칙 구조를 비교했습니다. 개발 자료(`physical_rest` 등)와 평가 자료(`rest_endurance` 등)는 이름이 달라 대부분 비교되지 않았습니다. 수정본은 행동군과 무관하게 비교합니다.
+- 세밀 서명: 명령 역할과 조건(사실·연산자·값)이 같음 → **다시 쓰거나 개발 자료로 옮겨야 함**
+- 거친 서명: 명령 역할과 사실 종류만 같고 값은 다름 → 검토만
+
+| 평가 페르소나 | 판정 | 같은 구조의 개발 입력 |
+|---|---|---|
+| R_rest_endurance_01 | 거친(검토) | DEV_P28_original, DEV_P06_counterfactual, DEV_P28_preserve |
+| R_rest_endurance_07 | 거친(검토) | DEV_P05_original, DEV_P05_preserve, DEV_P05_counterfactual |
+| R_time_weather_01 | 세밀(재작성 필요) | DEV_P18_original, DEV_P18_preserve, DEV_P18_hard |
+| R_time_weather_06 | 거친(검토) | DEV_P15_original, DEV_P15_preserve, DEV_P15_counterfactual |
+| R_lost_reaction_04 | 세밀(재작성 필요) | DEV_P09_counterfactual |
+| R_lost_reaction_05 | 세밀(재작성 필요) | DEV_P10_original, DEV_P10_preserve, DEV_P10_hard |
+| R_lost_reaction_08 | 세밀(재작성 필요) | DEV_P09_original, DEV_P23_original, DEV_P09_preserve |
+| R_unsupported_traits_01 | 세밀(재작성 필요) | DEV_P22_original, DEV_P22_preserve, DEV_P22_hard |
+| R_unsupported_traits_06 | 세밀(재작성 필요) | DEV_P27_original, DEV_P17_counterfactual, DEV_P27_preserve |
+| R_source_certainty_03 | 세밀(재작성 필요) | DEV_P04_counterfactual |
+| R_source_certainty_04 | 세밀(재작성 필요) | DEV_P17_original, DEV_P17_preserve, DEV_P17_hard |
+| R_multiple_behaviors_05 | 거친(검토) | DEV_P28_original, DEV_P06_counterfactual, DEV_P28_preserve |
+
+평가 사례를 보고 D4 등 후보를 고쳤다면, 그 사례는 개발 사용으로 표시하고 다음 판정에는 새 사례를 씁니다.
