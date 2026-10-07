@@ -1,0 +1,12 @@
+{
+ "final_content": "{ \"behaviors\": [\n  {\n    \"sentence_ids\": [\"N1.s2\"],\n    \"kind\": \"observed_response\",\n    \"action\": \"walk\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [{\"true\": [\"lost_awareness\"], \"false\": [], \"numbers\": []}],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  }\n],\n\n\"other_sentences\": [\n  {\n    \"sentence_ids\": [\"N0.s1\"],\n    \"subject\": \"unclear\",\n    \"kind\": \"other_information\"\n  },\n  {\n    \"sentence_ids\": [\"N0.s2\"],\n    \"subject\": \"unclear\",\n    \"kind\": \"other_information\"\n  },\n  {\n    \"sentence_ids\": [\"N1.s1\"],\n    \"subject\": \"other_person\",\n    \"kind\": \"corrected_away\"\n  },\n  {\n    \"sentence_ids\": [\"N1.s3\"],\n    \"subject\": \"patient\",\n    \"kind\": \"unobserved\"\n  }\n]\n\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 4027,
+  "prompt_tokens": 3763,
+  "prompt_tokens_details": {
+   "cached_tokens": 2048
+  },
+  "total_tokens": 7790
+ }
+}

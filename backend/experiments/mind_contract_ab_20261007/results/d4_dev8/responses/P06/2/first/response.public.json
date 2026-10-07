@@ -1,0 +1,12 @@
+{
+ "final_content": "{\n\n\"behaviors\": [],\n\"other_sentences\": [\n  {\n    \"sentence_ids\": [\"N0.s1\", \"N0.s2\"],\n    \"subject\": \"unclear\",\n    \"kind\": \"other_information\"\n  },\n  {\n    \"sentence_ids\": [\"N1.s1\"],\n    \"subject\": \"patient\",\n    \"kind\": \"capacity_only\"\n  },\n  {\n    \"sentence_ids\": [\"N1.s2\", \"N1.s3\"],\n    \"subject\": \"other_person\",\n    \"kind\": \"unobserved\"\n  }\n]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 4057,
+  "prompt_tokens": 3761,
+  "prompt_tokens_details": {
+   "cached_tokens": 2048
+  },
+  "total_tokens": 7818
+ }
+}
