@@ -1,0 +1,57 @@
+{
+  "contract": "mind-sft-evidence-v1",
+  "records": 152,
+  "families": 34,
+  "files": {
+    "train.jsonl": {
+      "records": 120,
+      "families": 26,
+      "sha256": "b1884090ea07b1ae31f42ddaaaaaabd732e6c6a0ad116d2634b208e5639b57f7",
+      "actions": {
+        "rest": 10,
+        "continue": 38,
+        "stay": 12,
+        "seek": 14,
+        "avoid": 12,
+        "insufficient_information": 27,
+        "roam": 7
+      }
+    },
+    "development.jsonl": {
+      "records": 16,
+      "families": 4,
+      "sha256": "e6225a721891139d1d4a9d13f4df546edcbfd757007721ea0b41d3234cf5b59b",
+      "actions": {
+        "rest": 1,
+        "avoid": 2,
+        "continue": 3,
+        "insufficient_information": 6,
+        "seek": 1,
+        "stay": 2,
+        "roam": 1
+      }
+    },
+    "evaluation.jsonl": {
+      "records": 16,
+      "families": 4,
+      "sha256": "6b3932cb9ba5653966521f7c77e03bd7ffa9d9bf5f3f714a08ab938ab9cb16dd",
+      "actions": {
+        "avoid": 2,
+        "continue": 3,
+        "insufficient_information": 4,
+        "rest": 3,
+        "stay": 2,
+        "roam": 1,
+        "seek": 1
+      }
+    }
+  },
+  "augmentation": "48 authored contrast records, no model generation",
+  "model_calls": 0,
+  "gpu_training": false,
+  "human_review": false,
+  "clinical_validation": false,
+  "development_role": "previously inspected development set; augmentation guided by its error categories",
+  "evaluation_role": "previously authored/visible 16-state holdout; not independent clinical or blind evaluation",
+  "comparison_limit": "fixed epoch count also changes optimizer steps when dataset size changes; not a compute-matched ablation"
+}

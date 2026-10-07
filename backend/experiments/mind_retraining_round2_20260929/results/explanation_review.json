@@ -1,0 +1,1011 @@
+{
+  "reviewer": "Codex, unblinded input/output comparison",
+  "independent_human_review": false,
+  "clinical_validation": false,
+  "scores": {
+    "original72_epoch2": {
+      "reviewed": 16,
+      "supported_explanation": 7,
+      "joint_pass": 7,
+      "contradicted": 5,
+      "incomplete_or_unclear": 4
+    },
+    "original72_epoch4": {
+      "reviewed": 16,
+      "supported_explanation": 9,
+      "joint_pass": 9,
+      "contradicted": 7,
+      "incomplete_or_unclear": 0
+    },
+    "original72_epoch6": {
+      "reviewed": 16,
+      "supported_explanation": 9,
+      "joint_pass": 9,
+      "contradicted": 5,
+      "incomplete_or_unclear": 2
+    },
+    "augmented120_epoch2": {
+      "reviewed": 16,
+      "supported_explanation": 5,
+      "joint_pass": 5,
+      "contradicted": 9,
+      "incomplete_or_unclear": 2
+    },
+    "augmented120_epoch4": {
+      "reviewed": 16,
+      "supported_explanation": 8,
+      "joint_pass": 8,
+      "contradicted": 6,
+      "incomplete_or_unclear": 2
+    },
+    "augmented120_epoch6": {
+      "reviewed": 16,
+      "supported_explanation": 10,
+      "joint_pass": 10,
+      "contradicted": 4,
+      "incomplete_or_unclear": 2
+    }
+  },
+  "rows": [
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D01-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"rest\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"소음이 있어 공원 접근을 피하고 휴식을 취한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "contradicted",
+      "review_note": "휴식 행동은 맞지만 피로 우선 대신 소음 회피를 휴식 원인으로 바꿨다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D01-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"소음이 있지만 피로가 낮아 기존 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "낮은 피로이면 소음을 피해 가야 하는데 낮은 피로를 지속 이동 이유로 삼았다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D01-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"조용한 공원에서의 이동을 유지하는 개인 조건이 현재 사실과 맞는다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "확인된 조용함과 이동 유지 개인 조건을 연결한다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D01-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"낮은 피로와 미확인 소음으로 기존 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "소음 미확인을 언급하면서도 근거 없이 이동을 확정했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D02-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"seek\", \"goal_operation\": \"set\", \"goal_label\": \"등록 장소 B\", \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 진 뒤의 개인 행동이 B 방문이며 이는 낮의 낮은 목적과 무관하다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "unclear",
+      "review_note": "일몰 뒤 B는 맞지만 낮의 낮은 목적이라는 표현은 원문의 낮 목적 미확인을 명료하게 보존하지 않는다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D02-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"stay\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 진 뒤의 B 방문은 이미 완료되었고, 낮의 행동은 미확인이다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "incomplete",
+      "review_note": "B 도착은 보존했으나 도착 후 기다리는 개인 조건 대신 무관한 낮 정보로 대기 결정을 설명했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D02-3",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"낮의 외출 목적이 미확인이며 이는 개인 조건이 아니다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "낮의 외출 목적이 미확인이라는 판단 보류의 핵심 근거가 있다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D02-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"seek\", \"goal_operation\": \"set\", \"goal_label\": \"등록 장소 B\", \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 진 뒤 B에 가는 개인 조건이 현재 사실과 맞는다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "일몰 관측은 미확인인데 해가 진 조건이 현재 사실과 맞는다고 확정했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D03-1",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"보호자의 요청만으로 대기 행동을 확정하지 않는다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "보호자 요청만으로 실제 대기를 확정하지 않는다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D03-2",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"보호자의 기억만으로 개인의 현재 행동을 확정하지 않는다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "incomplete",
+      "review_note": "기억만이라는 일반론으로 수락 발언과 이후 미관찰의 구분을 설명하지 못했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D03-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"stay\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"보호자의 관찰은 개인의 행동을 확인하는 것이지 미래 행동을 확정하지 않는다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "incomplete",
+      "review_note": "미래를 확정할 수 없다는 일반론만 있고 방향 상실 때 반복 관찰한 대기와 현재 행동의 연결이 없다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D03-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"roam\", \"goal_operation\": \"clear\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"방향 상실 후 목적지 없이 걷는 개인 행동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "방향 상실 후 목적지 없는 최근 행동을 현재 이동에 연결한다. 과거 정정의 언급은 생략했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D04-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"시끄러움만으로 가족 동반 여부를 추정하지 않고 주어진 조건에 따라 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "가족 부재가 관측됐는데 추정할 수 없다는 이유로 혼자인 경우의 회피를 누락했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D04-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"가족이 있어도 소음이 있으면 원래 이동을 유지한다는 개인 조건이 우선한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "가족 동행과 소음이 함께 있는 현재 조건에서 이동 유지 예외를 연결한다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D04-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"시끄러움이 없어 개인의 조용한 이동 조건을 적용한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "확인된 소음 부재를 조용할 때의 개인 이동 조건과 연결한다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 2,
+      "id": "D04-4",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"시각만으로 가족 동반 여부를 알 수 없어 추가 확인이 필요하다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "시각 언급은 불필요하지만 가족 동행을 알 수 없다는 정보 부족을 보존한다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D01-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"rest\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"높은 피로에 반응해 휴식을 취하며 공원 소음은 이 경우의 우선 요인이 아니다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "높은 피로 우선과 소음의 비우선 조건을 함께 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D01-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"소음이 있지만 아직 덜 지쳐 있어 원래 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "낮은 피로를 이유로 소음 회피 조건을 무시했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D01-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"조용한 공원에서 지치지 않아 기존 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "조용함과 낮은 피로를 이동 유지에 연결했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D01-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"조용한 공원에서 원래 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "미확인 소음을 조용한 공원이라고 바꿨다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D02-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"seek\", \"goal_operation\": \"set\", \"goal_label\": \"등록 장소 B\", \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 진 뒤 B에 가는 개인 행동이 현재 목표를 바꾼다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "일몰 후 B로 바꾸는 개인 조건을 반영했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D02-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"stay\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 졌지만 B에 도착하지 않았으므로 기다리는 상태가 아니다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "contradicted",
+      "review_note": "실제 B 도착이 확인됐는데 도착하지 않았다고 반전했고 대기 행동과 설명도 충돌한다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D02-3",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"낮과 밤의 구분이 없어 낮 외출의 개인 행동을 추가 확인해야 한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "contradicted",
+      "review_note": "일몰 false와 오전 시각이 제공됐는데 낮과 밤의 구분이 없다고 설명했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D02-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"seek\", \"goal_operation\": \"set\", \"goal_label\": \"등록 장소 B\", \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 진 뒤 B에 가는 것이 기록된 개인 행동이다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "일몰이 미확인인 현재에 과거 일몰 후 행동을 그대로 적용했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D03-1",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"기다리라는 요청만 있었고 실제로 대기하는 행동이 확인되지 않았다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "보호자 요청과 실제 대기 미관찰을 구분했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D03-2",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"방향 상실 후 행동은 확인되지 않아 선택을 더 관찰해야 한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "방향 상실 후 행동을 못 봤다는 정보 부족을 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D03-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"stay\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"방향 상실이 확인되어 이전 목표 접근을 유지하는 것이 아니라 대기한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "현재 방향 상실에 연결되는 대기 전환을 설명했다. 반복 관찰 언급은 생략했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D03-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"roam\", \"goal_operation\": \"clear\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"방향 상실이 최근 행동의 트리거이고, 어제와 그제의 패턴이 현재를 설명한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "현재 방향 상실과 최근 어제·그제 행동 패턴을 연결했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D04-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"시끄러움만으로 가족이 있다고 만들지 않고 주어진 조건에 따라 원래 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "가족 부재가 관측됐는데 혼자일 때의 회피를 적용하지 않았다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D04-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"가족이 옆에 있으므로 시끄러운 시장에서 원래 길을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "가족 동행이 소음 회피의 예외임을 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D04-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"조용한 시장에서 혼자 이동하는 개인 조건이 충족된다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "조용함과 혼자라는 현재 조건에서 이동 유지를 설명했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 4,
+      "id": "D04-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"혼잡이 없다는 관측이 없으므로 가족과 함께 이동하는 조건이 충족되지 않는다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "미확인 가족 여부를 혼잡과 연결해 잘못 판단하고 근거 없이 이동을 확정했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D01-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"rest\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"높은 피로에 반응해 휴식을 취하며 이 사람의 피로 반응은 소음과 무관하다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "높은 피로의 휴식 우선 조건을 소음보다 우선했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D01-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"소음이 있어도 방향 상실이 없어 원래 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "방향 상실이 없다는 사실로 개인 소음 회피 조건을 무시했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D01-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"조용한 공원에서 방향 상실이 없으므로 기존 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "incomplete",
+      "review_note": "조용함은 맞지만 개인 원문에 없는 방향 상실 여부를 이동 유지의 결정 조건으로 추가하고 피로 조건은 생략했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D01-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"조용한 공원에서 방향 상실이 없으므로 원래 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "미확인 소음을 조용함으로 바꾸고 방향 상실 여부로 이동을 확정했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D02-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"seek\", \"goal_operation\": \"set\", \"goal_label\": \"등록 장소 B\", \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 진 뒤 B에 가는 개인 조건이 현재 사실과 맞는다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "확인된 일몰과 B 이동 개인 조건을 연결했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D02-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"stay\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"이미 B에 도착했으므로 기다리는 개인 행동을 선택한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "B 도착과 도착 후 기다리는 개인 조건을 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D02-3",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"낮과 밤의 구분이 없어 해당 개인 조건을 확정할 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "contradicted",
+      "review_note": "일몰 false와 오전 시각을 받았는데 낮밤 구분이 없다고 말했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D02-4",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 진 뒤 B에 가는 조건이 충족되었는지 확인되지 않았다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "일몰 조건이 충족됐는지 미확인이라는 핵심을 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D03-1",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"보호자의 요청만 있으며 이 사람이 실제로 기다렸는지 확인되지 않았다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "요청과 실제 행동 미관찰을 구분했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D03-2",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"알겠다는 답변만 있으며 이 사람이 실제로 방향 상실 후 무엇을 했는지 확인되지 않았다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "수락 발언과 방향 상실 이후 행동 미관찰을 구분했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D03-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"stay\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"방향 상실 후 목적지 없이 기다리는 개인 행동 이력이 현재 조건을 뒷받침한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "incomplete",
+      "review_note": "방향 상실 후 대기는 맞지만 목적지 없이 기다린다는 원문에 없는 성격을 추가했다. 목표는 입력에 남아 있다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D03-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"roam\", \"goal_operation\": \"clear\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"방향 상실 후 목적지 없이 걷는 개인 행동 이력이 현재 상황과 맞는다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "방향 상실 후 최근 목적지 없는 이동 이력을 반영했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D04-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"혼잡이 없다는 현재 관측과 개인 기록을 함께 읽는다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "혼잡은 미확인인데 혼잡이 없다는 현재 관측을 만들어내고 혼자일 때의 소음 회피를 놓쳤다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D04-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"가족이 있어도 원래 이동을 유지한 개인 기록이 있다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "가족이 함께일 때 이동 유지라는 예외 조건을 적용했다. 소음의 명시적 언급은 생략했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D04-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"조용한 시장에서 혼자 이동하는 개인 조건에 해당한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "조용함과 혼자인 상태의 개인 이동 조건을 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "original72",
+      "epoch": 6,
+      "id": "D04-4",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"현재 소음은 미확인이고 가족 동반 여부도 없으므로 이 조건들을 확정할 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "contradicted",
+      "review_note": "소음 true를 미확인으로 바꿨다. 가족 미확인은 맞아도 전체 설명이 현재 관측을 보존하지 못한다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D01-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"avoid\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": \"park\", \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"소음이 확인됐고 이 사람은 소음을 피해 걷는다고 기록됐다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "소음 회피를 적용하면서 높은 피로에서는 먼저 쉬는 개인 우선순위를 누락했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D01-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"소음이 확인됐고 피로가 낮아 기존 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "낮은 피로에서는 소음 회피를 해야 하는데 이동 유지 이유로 바꿨다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D01-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"소음이 미확인이지만 피로가 낮아 기존 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "contradicted",
+      "review_note": "소음 false가 주어졌는데 미확인이라고 바꿨다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D01-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"소음은 미확인이지만 피로가 낮아 기존 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "소음 미확인을 보존했으나 낮은 피로만으로 이동을 확정했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D02-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 졌다고 해서 낮의 행동을 바꿀 수 없으며 현재 목표는 A이다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "개인이 일몰 뒤 B로 이동한다고 했는데 기존 A를 유지해야 한다며 거꾸로 해석했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D02-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"stay\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"이미 B에 도착했고 대기 중이라는 사실을 기억하며, 낮의 행동은 미확인이다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "contradicted",
+      "review_note": "현재 행동은 seek이며 도착 후 대기로 전환해야 하는데 이미 대기 중이라는 기억을 만들어냈다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D02-3",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"낮의 행동은 원문에서 확인되지 않아 낮의 이동을 확정할 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "원문에 낮 행동이 알려져 있지 않다는 판단 보류 근거를 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D02-4",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 졌는지 미확인이라 낮의 행동을 적용할 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "incomplete",
+      "review_note": "일몰 미확인은 보존했지만 적용 불가능한 조건을 일몰 후 행동이 아닌 낮 행동으로 설명했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D03-1",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"보호자의 지시만으로 실제 대기 행동을 확정할 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "지시와 실제 대기 행동을 구분했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D03-2",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"보호자의 지시는 원문과 다르므로 원문을 확인해야 한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "contradicted",
+      "review_note": "지시와 원문의 불일치가 주어지지 않았는데 그런 불일치를 만들어냈다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D03-3",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"과거 길 잃은 상황에서의 대기는 현재 소음 관측과 무관하며 대기의 이유를 더 알아야 한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "현재 방향 상실과 반복 대기 관찰을 연결하지 못하고 무관한 소음 확인을 끌어왔다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D03-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"roam\", \"goal_operation\": \"clear\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"최근 원문은 방향을 잃고 걷는 것이며, 어제와 그제도 같은 행동이었다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "최근 어제·그제의 방향 상실 후 이동 관찰을 반영했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D04-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"혼잡은 미확인이지만 소음이 확인됐고 보호자가 없다는 사실만으로 방향 전환을 확정할 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "소음과 가족 부재를 읽었지만 명시된 회피 조건을 충분하지 않다고 바꿨다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D04-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"보호자의 동반은 원문에서 언급한 개인 반응과 다르므로 원문에 기록된 개인 행동을 따른다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "incomplete",
+      "review_note": "가족 동반 예외를 보존했다는 설명이 없고 원문 개인 반응과 다르다는 불명료한 일반론이다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D04-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"혼잡은 미확인이지만 조용하다는 관측과 함께 가족이 없다는 사실을 연결한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "조용함과 가족 부재 관측을 보존하고 혼잡은 미확인으로 유지했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 2,
+      "id": "D04-4",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"보호자의 동반 여부가 미확인이라 소음만으로 개인의 이동을 확정할 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "동행 미확인 때문에 소음만으로 결정을 확정할 수 없음을 설명했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D01-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"rest\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"현재 소음이 확인됐고 이 사람의 회피 조건은 소음이므로 휴식을 선택한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "contradicted",
+      "review_note": "휴식은 맞지만 높은 피로 대신 소음 회피를 휴식 원인으로 설명했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D01-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"혼잡이 미확인이므로 소음만으로 공원을 회피하지 않는다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "이 사람의 회피 조건은 소음인데 원문에 없는 혼잡 확인을 추가로 요구했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D01-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"소음은 미확인이며 낮은 피로에서는 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "contradicted",
+      "review_note": "소음 false가 관측됐는데 미확인으로 바꿨다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D01-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"소음은 미확인이지만 현재 낮은 피로에서는 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "소음 미확인을 읽어도 낮은 피로만으로 이동을 확정했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D02-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"seek\", \"goal_operation\": \"set\", \"goal_label\": \"등록 장소 B\", \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 졌으므로 이전 기억의 A 목표를 B로 바꾼다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "일몰 후 A에서 B로 목표를 바꾸는 조건을 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D02-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"stay\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 졌지만 이미 B에 도착해 기다리는 조건이 성립한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "일몰과 B 도착에 따른 대기 조건을 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D02-3",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"낮과 밤의 조건이 달라 선택을 확정할 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "incomplete",
+      "review_note": "낮밤이 다르다는 일반론만 있고 낮의 개인 목적이 미확인이라는 결정 근거를 설명하지 못했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D02-4",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 졌는지 확인되지 않아 야간 이동 조건을 확정할 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "일몰 미확인으로 야간 조건을 확정할 수 없음을 설명했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D03-1",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"보호자의 지시만 있으며 이 사람이 실제로 대기했는지 확인되지 않았다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "보호자 지시와 실제 행동 미관찰을 구분했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D03-2",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"수락 발언만으로 실제로 이동을 유지했다고 볼 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "incomplete",
+      "review_note": "수락만으로 행동을 확정하지 않는 방향은 맞지만 확인 대상인 대기를 이동 유지로 잘못 표현했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D03-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"stay\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"과거 길 잃은 상황에서의 대기 관찰이 현재 조건을 뒷받침한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "과거 반복 대기 관찰과 현재 방향 상실 조건을 연결했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D03-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"roam\", \"goal_operation\": \"clear\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"최근 행동은 목적지 없이 걷는 것이지만 이 사람의 현재 조건은 방향 상실이다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "최근 목적지 없는 이동과 현재 방향 상실을 모두 보존했다. 이지만이라는 접속은 부자연스럽지만 관측을 뒤집지는 않았다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D04-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"혼잡은 미확인이지만 보호자의 조용함 조건은 확인되어 소음과 무관하게 이동한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "소음 true인데 조용함이 확인됐다고 반전하고 회피를 누락했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D04-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"현재 소음은 확인됐고 보호자가 함께 있으므로 개인의 반응을 선택한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "소음과 동행 확인을 함께 읽어 가족 동반 상황의 개인 반응을 적용했다. 예외라는 명시는 생략했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D04-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"혼잡은 미확인이며 조용함만으로 소음 반응을 만들지 않는다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "혼잡은 미확인으로 보존하고 조용함에 소음 회피를 만들지 않았다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 4,
+      "id": "D04-4",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"혼잡 관측이 없어 보호자 지시를 선택 근거로 삼을 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "contradicted",
+      "review_note": "가족 동행 미확인이 핵심인데 혼잡과 보호자 지시의 근거 문제로 바꿨다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D01-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"rest\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"공원 소음과 높은 피로에 반응해 잠시 쉬며 소음을 회피한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "incomplete",
+      "review_note": "높은 피로는 반영했지만 피로 우선의 휴식과 소음 회피를 섞어 설명했다. 휴식만으로 소음을 회피한다는 연결은 입력에 없다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D01-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"avoid\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": \"park\", \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"공원의 소음이 확인되어 이 사람의 회피 조건이 충족된다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "확인된 공원 소음과 개인 회피 조건을 연결했다. 이 사례는 앞선 다섯 후보가 모두 놓쳤다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D01-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"공원은 조용하고 덜 지쳐 있어 원래 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "조용함과 낮은 피로를 모두 보존해 이동 유지를 설명했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D01-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"공원은 가깝지만 조용하다는 현재 조건과 낮은 피로가 함께 주어져 원래 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "소음은 미확인인데 조용하다는 현재 조건이 주어졌다고 만들어냈다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D02-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"seek\", \"goal_operation\": \"set\", \"goal_label\": \"등록 장소 B\", \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 진 후 B로 가는 개인 행동 이력에 따라 목표를 정한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "확인된 일몰 후 B 이동 이력에 근거해 목표를 정했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D02-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"stay\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"해가 졌지만 B에 도착해 기다리는 개인 조건이다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "일몰 후 B 도착과 대기 조건을 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D02-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"낮에는 B로의 이동 목적이 불분명하므로 원래 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "낮 목적이 불분명한데 이를 기존 이동 유지의 근거로 바꿨다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D02-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"seek\", \"goal_operation\": \"set\", \"goal_label\": \"등록 장소 B\", \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"저녁에는 B로 이동하고 기다리는 개인 행동 이력을 적용한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "개인 조건은 관측된 일몰 이후인데 저녁 시각으로 대체해 B 이동을 확정했다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D03-1",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"기다리라는 요청은 실제 대기 행동의 관찰과 달라 선택을 확정할 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "기다리라는 요청과 실제 행동 관찰을 구분했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D03-2",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"방향 상실 후 행동은 중요하지만 그 사람의 개인 행동 이력은 더 확인해야 한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "방향 상실 후 개인 행동 이력의 추가 확인이 필요함을 보존했다. 수락 발언과의 구체적 대비는 생략했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D03-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"stay\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"방향을 잃은 후 원래 이동을 중단하고 기다리는 개인 행동을 기록했다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "방향 상실 후 멈춰 기다리는 개인 이력을 반영했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D03-4",
+      "raw": "{\"status\": \"decision\", \"action\": \"roam\", \"goal_operation\": \"clear\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"방향을 잃은 후에는 목적지 없이 걷는 최근 행동을 적용한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "최근 방향 상실 후 목적지 없는 이동을 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D04-1",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"혼잡은 미확인이나 확인된 소음과 혼자라는 조건으로 돌아갑니다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": false,
+      "reason_assessment": "contradicted",
+      "review_note": "설명은 소음·혼자 조건에서 돌아간다고 해석했지만 실행 행동은 continue이다. 입력 이해의 일부와 실행 선택이 모순된다.",
+      "joint_pass": false
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D04-2",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"혼잡은 미확인이지만 가족이 있으므로 원래 이동을 유지한다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "혼잡은 미확인으로 유지하고 가족 동반을 이동 유지의 이유로 적용했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D04-3",
+      "raw": "{\"status\": \"decision\", \"action\": \"continue\", \"goal_operation\": \"keep\", \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"혼잡은 미확인이나 조용하고 보호자가 없어도 원래 이동을 유지한 기록이다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "supported",
+      "review_note": "조용함과 가족 부재를 읽고 혼잡은 미확인으로 보존했다.",
+      "joint_pass": true
+    },
+    {
+      "arm": "augmented120",
+      "epoch": 6,
+      "id": "D04-4",
+      "raw": "{\"status\": \"insufficient_information\", \"action\": null, \"goal_operation\": null, \"goal_label\": null, \"avoid_feature\": null, \"evidence_ids\": [\"N1\", \"state\", \"environment\", \"history\", \"clock\"], \"reason\": \"소음과 함께 있는 사람의 존재 여부가 확인되지 않아 소음 상황에서의 개인 행동을 확정할 수 없다.\", \"confusion_level\": \"unknown\"}",
+      "action_match": true,
+      "reason_assessment": "unclear",
+      "review_note": "가족 존재 미확인을 다루지만 소음까지 미확인이라는 뜻으로도 읽히는 문장이다. 소음 true와 가족 unknown을 명료하게 구분하지 못했다.",
+      "joint_pass": false
+    }
+  ]
+}
