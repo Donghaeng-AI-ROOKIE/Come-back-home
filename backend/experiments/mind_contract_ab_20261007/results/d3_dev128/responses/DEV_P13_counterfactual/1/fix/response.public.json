@@ -1,0 +1,12 @@
+{
+ "final_content": "{\n  \"behaviors\": [{\n    \"sentence_ids\": [\"N1.s1\", \"N1.s2\", \"N1.s3\"],\n    \"kind\": \"observed_response\",\n    \"action\": \"seek\",\n    \"goal_place\": \"느티공원\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [{\n      \"true\": [],\n      \"false\": [],\n      \"numbers\": [\n        {\"fact\": \"clock_hour\", \"op\": \">=\", \"value\": 9},\n        {\"fact\": \"clock_hour\", \"op\": \"<\", \"value\": 10}\n      ]\n    }],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  }],\n  \"other_sentences\": [\n    {\"sentence_ids\": [\"N0.s1\"], \"subject\": \"unclear\", \"kind\": \"other_information\"},\n    {\"sentence_ids\": [\"N0.s2\"], \"subject\": \"unclear\", \"kind\": \"other_information\"},\n    {\"sentence_ids\": [\"N1.s4\"], \"subject\": \"patient\", \"kind\": \"other_information\"}\n  ]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 4737,
+  "prompt_tokens": 3910,
+  "prompt_tokens_details": {
+   "cached_tokens": 3616
+  },
+  "total_tokens": 8647
+ }
+}

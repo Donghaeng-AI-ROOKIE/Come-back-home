@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [{\"sentence_ids\": [\"N1.s1\", \"N2.s1\"], \"kind\": \"observed_response\", \"action\": \"wait\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_when_any\": [{\"true\": [], \"false\": [\"family_present\"], \"numbers\": [{\"fact\": \"clock_hour\", \"op\": \">=\", \"value\": 23}]}], \"end_when_any\": [{\"true\": [], \"false\": [], \"numbers\": [{\"fact\": \"clock_hour\", \"op\": \">=\", \"value\": 1}]}], \"hold_minutes\": 0}], \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\", \"N0.s2\"], \"subject\": \"patient\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N2.s2\"], \"subject\": \"patient\", \"kind\": \"unobserved\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 2998,
+  "prompt_tokens": 4048,
+  "prompt_tokens_details": {
+   "cached_tokens": 3776
+  },
+  "total_tokens": 7046
+ }
+}

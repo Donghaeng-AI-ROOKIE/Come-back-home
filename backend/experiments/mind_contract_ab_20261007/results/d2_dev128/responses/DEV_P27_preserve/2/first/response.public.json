@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"units\":[{\"sentence_ids\":[\"N0.s1\"],\"subject\":\"unclear\",\"kind\":\"other_information\",\"action\":\"none\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_when_any\":[],\"end_when_any\":[],\"hold_minutes\":0},{\"sentence_ids\":[\"N0.s2\"],\"subject\":\"unclear\",\"kind\":\"corrected_away\",\"action\":\"none\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_when_any\":[],\"end_when_any\":[],\"hold_minutes\":0},{\"sentence_ids\":[\"N1.s1\"],\"subject\":\"unclear\",\"kind\":\"other_information\",\"action\":\"none\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_when_any\":[],\"end_when_any\":[],\"hold_minutes\":0},{\"sentence_ids\":[\"N1.s2\"],\"subject\":\"patient\",\"kind\":\"observed_response\",\"action\":\"wait\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_when_any\":[{\"true\":[\"dark_observed\"],\"false\":[],\"numbers\":[]}],\"end_when_any\":[{\"true\":[],\"false\":[\"dark_observed\"],\"numbers\":[]}],\"hold_minutes\":0},{\"sentence_ids\":[\"N1.s3\"],\"subject\":\"unclear\",\"kind\":\"corrected_away\",\"action\":\"none\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_when_any\":[],\"end_when_any\":[],\"hold_minutes\":0}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 5700,
+  "prompt_tokens": 3454,
+  "prompt_tokens_details": {
+   "cached_tokens": 3424
+  },
+  "total_tokens": 9154
+ }
+}

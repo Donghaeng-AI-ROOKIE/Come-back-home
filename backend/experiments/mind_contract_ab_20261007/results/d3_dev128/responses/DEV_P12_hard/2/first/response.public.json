@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [{\"sentence_ids\": [\"N2.s3\"], \"kind\": \"observed_response\", \"action\": \"wait\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_when_any\": [{\"true\": [], \"false\": [\"family_present\"], \"numbers\": []}], \"end_when_any\": [{\"true\": [\"family_present\"], \"false\": [], \"numbers\": []}], \"hold_minutes\": 0}]\n\n, \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\"], \"subject\": \"other_person\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N0.s2\"], \"subject\": \"other_person\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N1.s1\"], \"subject\": \"other_person\", \"kind\": \"corrected_away\"}, {\"sentence_ids\": [\"N2.s1\"], \"subject\": \"other_person\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N2.s2\"], \"subject\": \"patient\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N3.s1\"], \"subject\": \"other_person\", \"kind\": \"other_information\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 6087,
+  "prompt_tokens": 3834,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 9921
+ }
+}

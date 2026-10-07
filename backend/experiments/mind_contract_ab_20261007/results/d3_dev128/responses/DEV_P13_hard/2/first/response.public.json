@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [], \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\"], \"subject\": \"patient\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N0.s2\"], \"subject\": \"patient\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N1.s1\"], \"subject\": \"patient\", \"kind\": \"stated_goal\"}, {\"sentence_ids\": [\"N2.s1\"], \"subject\": \"other_person\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N2.s2\"], \"subject\": \"patient\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N3.s1\"], \"subject\": \"unclear\", \"kind\": \"unobserved\"}, {\"sentence_ids\": [\"N3.s2\"], \"subject\": \"patient\", \"kind\": \"other_information\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 7789,
+  "prompt_tokens": 3821,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 11610
+ }
+}

@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\":[{\"sentence_ids\":[\"N1.s1\"],\"kind\":\"functional_need\",\"action\":\"rest\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_when_any\":[{\"true\":[\"is_walking\"],\"false\":[],\"numbers\":[{\"fact\":\"clock_hour\",\"op\":\">=\",\"value\":10},{\"fact\":\"clock_hour\",\"op\":\"<\",\"value\":11}]}],\"end_when_any\":[],\"hold_minutes\":0}],\"other_sentences\":[{\"sentence_ids\":[\"N0.s1\",\"N0.s2\"],\"subject\":\"unclear\",\"kind\":\"other_information\"},{\"sentence_ids\":[\"N1.s2\"],\"subject\":\"unclear\",\"kind\":\"other_information\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 8091,
+  "prompt_tokens": 3556,
+  "prompt_tokens_details": {
+   "cached_tokens": 1888
+  },
+  "total_tokens": 11647
+ }
+}

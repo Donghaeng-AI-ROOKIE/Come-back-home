@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"units\": [\n  {\n    \"sentence_ids\": [\"N0.s1\"],\n    \"subject\": \"unclear\",\n    \"kind\": \"other_information\",\n    \"action\": \"none\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N0.s2\"],\n    \"subject\": \"unclear\",\n    \"kind\": \"other_information\",\n    \"action\": \"none\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N1.s1\"],\n    \"subject\": \"patient\",\n    \"kind\": \"observed_response\",\n    \"action\": \"avoid_park\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [\"느티공원\", \"솔빛쉼터\"],\n    \"start_when_any\": [{\"true\": [\"park.crowded\", \"park.noisy\"], \"false\": [], \"numbers\": []}],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N2.s1\"],\n    \"subject\": \"patient\",\n    \"kind\": \"stated_goal\",\n    \"action\": \"none\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [{\"true\": [\"anxiety_high\"], \"false\": [], \"numbers\": []}],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N2.s2\"],\n    \"subject\": \"unclear\",\n    \"kind\": \"unobserved\",\n    \"action\": \"none\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  }\n]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 3914,
+  "prompt_tokens": 4126,
+  "prompt_tokens_details": {
+   "cached_tokens": 3520
+  },
+  "total_tokens": 8040
+ }
+}

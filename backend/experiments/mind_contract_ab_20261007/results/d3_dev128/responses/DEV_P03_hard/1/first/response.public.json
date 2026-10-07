@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [{\"sentence_ids\": [\"N1.s1\", \"N2.s2\", \"N2.s3\", \"N3.s1\"], \"kind\": \"observed_response\", \"action\": \"avoid_park\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_when_any\": [{\"true\": [\"park.crowded\", \"dark_observed\"], \"false\": [], \"numbers\": []}], \"end_when_any\": [{\"true\": [], \"false\": [\"park.crowded\"], \"numbers\": []}, {\"true\": [], \"false\": [\"dark_observed\"], \"numbers\": []}], \"hold_minutes\": 0}], \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N0.s2\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N2.s1\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 7864,
+  "prompt_tokens": 3832,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 11696
+ }
+}

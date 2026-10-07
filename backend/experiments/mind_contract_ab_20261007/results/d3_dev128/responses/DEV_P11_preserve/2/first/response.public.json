@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [], \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\", \"N0.s2\", \"N1.s1\", \"N1.s2\", \"N1.s3\"], \"subject\": \"other_person\", \"kind\": \"other_information\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 1273,
+  "prompt_tokens": 3586,
+  "prompt_tokens_details": {
+   "cached_tokens": 3584
+  },
+  "total_tokens": 4859
+ }
+}

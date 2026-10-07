@@ -1,0 +1,12 @@
+{
+ "final_content": "{ \"units\": [\n\n{\n\n\"sentence_ids\": [\"N0.s1\", \"N0.s2\"],\n\n\"subject\": \"unclear\",\n\n\"kind\": \"other_information\",\n\n\"action\": \"none\",\n\n\"goal_place\": \"\",\n\n\"applies_only_at\": [],\n\n\"start_when_any\": [],\n\n\"end_when_any\": [],\n\n\"hold_minutes\": 0\n\n},\n\n{\n\n\"sentence_ids\": [\"N1.s1\"],\n\n\"subject\": \"patient\",\n\n\"kind\": \"functional_need\",\n\n\"action\": \"rest\",\n\n\"goal_place\": \"\",\n\n\"applies_only_at\": [],\n\n\"start_when_any\": [\n\n{\"true\": [\"is_walking\"], \"false\": [], \"numbers\": [{\"fact\": \"continuous_walk_minutes\", \"op\": \">=\", \"value\": 6}]},\n\n{\"true\": [\"is_walking\", \"is_walking\"], \"false\": [], \"numbers\": [{\"fact\": \"distance_since_rest_m\", \"op\": \">=\", \"value\": 280}]\n\n}\n\n],\n\n\"end_when_any\": [],\n\n\"hold_minutes\": 280\n\n},\n\n{\n\n\"sentence_ids\": [\"N2.s1\", \"N2.s2\"],\n\n\"subject\": \"patient\",\n\n\"kind\": \"observed_response\",\n\n\"action\": \"wait\",\n\n\"goal_place\": \"\",\n\n\"applies_only_at\": [],\n\n\"start_when_any\": [{\"true\": [\"lost_awareness\"], \"false\": [\"family_present\"], \"numbers\": []}],\n\n\"end_when_any\": [{\"true\": [\"family_present\"], \"false\": [], \"numbers\": []}],\n\n\"hold_minutes\": 0\n\n},\n\n{\n\n\"sentence_ids\": [\"N3.s1\", \"N3.s2\"],\n\n\"subject\": \"patient\",\n\n\"kind\": \"functional_need\",\n\n\"action\": \"rest\",\n\n\"goal_place\": \"\",\n\n\"applies_only_at\": [],\n\n\"start_when_any\": [{\"true\": [\"is_walking\"], \"false\": [], \"numbers\": [{\"fact\": \"continuous_walk_minutes\", \"op\": \">=\", \"value\": 6}]},\n\n{\"true\": [\"is_walking\"], \"false\": [], \"numbers\": [{\"fact\": \"distance_since_rest_m\", \"op\": \">=\", \"value\": 280}]\n\n}\n\n],\n\n\"end_when_any\": [],\n\n\"hold_minutes\": 0\n\n}\n\n]\n\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 4452,
+  "prompt_tokens": 3708,
+  "prompt_tokens_details": {
+   "cached_tokens": 1824
+  },
+  "total_tokens": 8160
+ }
+}

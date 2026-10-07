@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"units\": [{\"sentence_ids\": [\"N2.s3\", \"N3.s1\"], \"subject\": \"patient\", \"kind\": \"observed_response\", \"action\": \"wait\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_when_any\": [{\"true\": [], \"false\": [\"family_present\"], \"numbers\": []}], \"end_when_any\": [{\"true\": [\"family_present\"], \"false\": [], \"numbers\": []}], \"hold_minutes\": 0},\n\n{\n\n\"sentence_ids\": [\"N0.s1\"],\n\n\"subject\": \"unclear\",\n\n\"kind\": \"other_information\",\n\n\"action\": \"none\",\n\n\"goal_place\": \"\",\n\n\"applies_only_at\": [],\n\n\"start_when_any\": [],\n\n\"end_when_any\": [],\n\n\"hold_minutes\": 0\n\n},\n\n{\n\n\"sentence_ids\": [\"N0.s2\"],\n\n\"subject\": \"unclear\",\n\n\"kind\": \"other_information\",\n\n\"action\": \"none\",\n\n\"goal_place\": \"\",\n\n\"applies_only_at\": [],\n\n\"start_when_any\": [],\n\n\"end_when_any\": [],\n\n\"hold_minutes\": 0\n\n},\n\n{\n\n\"sentence_ids\": [\"N1.s1\"],\n\n\"subject\": \"patient\",\n\n\"kind\": \"hearsay_or_general\",\n\n\"action\": \"none\",\n\n\"goal_place\": \"\",\n\n\"applies_only_at\": [],\n\n\"start_when_any\": [],\n\n\"end_when_any\": [],\n\n\"hold_minutes\": 0\n\n},\n\n{\n\n\"sentence_ids\": [\"N2.s1\"],\n\n\"subject\": \"other_person\",\n\n\"kind\": \"corrected_away\",\n\n\"action\": \"none\",\n\n\"goal_place\": \"\",\n\n\"applies_only_at\": [],\n\n\"start_when_any\": [],\n\n\"end_when_any\": [],\n\n\"hold_minutes\": 0\n\n},\n\n{\n\n\"sentence_ids\": [\"N2.s2\"],\n\n\"subject\": \"patient\",\n\n\"kind\": \"corrected_away\",\n\n\"action\": \"none\",\n\n\"goal_place\": \"\",\n\n\"applies_only_at\": [],\n\n\"start_when_any\": [],\n\n\"end_when_any\": [],\n\n\"hold_minutes\": 0\n\n}\n\n]\n\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 9528,
+  "prompt_tokens": 3687,
+  "prompt_tokens_details": {
+   "cached_tokens": 3680
+  },
+  "total_tokens": 13215
+ }
+}

@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [], \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\", \"N0.s2\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N1.s1\"], \"subject\": \"patient\", \"kind\": \"stated_goal\"}, {\"sentence_ids\": [\"N1.s2\"], \"subject\": \"patient\", \"kind\": \"unobserved\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 4797,
+  "prompt_tokens": 3544,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 8341
+ }
+}

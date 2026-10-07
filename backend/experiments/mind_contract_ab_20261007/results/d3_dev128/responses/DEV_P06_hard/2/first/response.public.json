@@ -1,0 +1,12 @@
+{
+ "final_content": "{\n  \"behaviors\": [],\n  \"other_sentences\": [\n    {\n      \"sentence_ids\": [\"N0.s1\"],\n      \"subject\": \"patient\",\n      \"kind\": \"other_information\"\n    },\n    {\n      \"sentence_ids\": [\"N0.s2\"],\n      \"subject\": \"patient\",\n      \"kind\": \"other_information\"\n    },\n    {\n      \"sentence_ids\": [\"N1.s1\"],\n      \"subject\": \"patient\",\n      \"kind\": \"capacity_only\"\n    },\n    {\n      \"sentence_ids\": [\"N2.s1\"],\n      \"subject\": \"other_person\",\n      \"kind\": \"hearsay_or_general\"\n    },\n    {\n      \"sentence_ids\": [\"N2.s2\"],\n      \"subject\": \"other_person\",\n      \"kind\": \"hearsay_or_general\"\n    },\n    {\n      \"sentence_ids\": [\"N2.s2\"],\n      \"subject\": \"patient\",\n      \"kind\": \"unobserved\"\n    },\n    {\n      \"sentence_ids\": [\"N3.s1\"],\n      \"subject\": \"patient\",\n      \"kind\": \"other_information\"\n    },\n    {\n  \n\n      \"sentence_ids\": [\"N3.s1\"],\n      \"subject\": \"patient\",\n      \"kind\": \"unobserved\"\n    }\n  ]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 8187,
+  "prompt_tokens": 3793,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 11980
+ }
+}

@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [{\"sentence_ids\": [\"N0.s1\", \"N0.s2\"], \"kind\": \"observed_response\", \"action\": \"seek\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_when_any\": [{\"true\": [], \"false\": [], \"numbers\": []}], \"end_when_any\": [{\"true\": [], \"false\": [], \"numbers\": []}], \"hold_minutes\": 0}, {\"sentence_ids\": [\"N1.s1\", \"N1.s2\"], \"kind\": \"functional_need\", \"action\": \"rest\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_when_any\": [{\"true\": [], \"false\": [], \"numbers\": []}], \"end_when_any\": [{\"true\": [], \"false\": [], \"numbers\": []}], \"hold_minutes\": 0}], \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\", \"N0.s2\"], \"subject\": \"patient\", \"kind\": \"capacity_only\"}, {\"sentence_ids\": [\"N1.s1\", \"N1.s2\"], \"subject\": \"patient\", \"kind\": \"stated_goal\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 737,
+  "prompt_tokens": 3532,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 4269
+ }
+}

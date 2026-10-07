@@ -1,0 +1,12 @@
+{
+ "final_content": "{ \"behaviors\": [{\"sentence_ids\": [\"N2.s2\"], \"kind\": \"functional_need\", \"action\": \"rest\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_when_any\": [{\"true\": [\"is_walking\"], \"false\": [], \"numbers\": [{\"fact\": \"continuous_walk_minutes\", \"op\": \">=\", \"value\": 3}]}], \"end_when_any\": [], \"hold_minutes\": 3}]\n,\n\"other_sentences\": [{\"sentence_ids\": [\"N0.s1\", \"N0.s2\"], \"subject\": \"other_person\", \"kind\": \"corrected_away\"}, {\"sentence_ids\": [\"N1.s1\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N2.s1\", \"N2.s3\"], \"subject\": \"patient\", \"kind\": \"stated_goal\"}, {\"sentence_ids\": [\"N3.s1\", \"N3.s2\"], \"subject\": \"patient\", \"kind\": \"stated_goal\"}]\n\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 1457,
+  "prompt_tokens": 4102,
+  "prompt_tokens_details": {
+   "cached_tokens": 3840
+  },
+  "total_tokens": 5559
+ }
+}

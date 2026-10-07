@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [{\"sentence_ids\": [\"N1.s1\", \"N1.s2\"], \"kind\": \"functional_need\", \"action\": \"rest\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_when_any\": [{\"true\": [\"is_walking\"], \"false\": [], \"numbers\": [{\"fact\": \"distance_since_rest_m\", \"op\": \">=\", \"value\": 450}]}, {\"true\": [\"is_walking\"], \"false\": [], \"numbers\": [{\"fact\": \"continuous_walk_minutes\", \"op\": \">=\", \"value\": 8}]}], \"end_when_any\": [], \"hold_minutes\": 0}], \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N0.s2\"], \"subject\": \"patient\", \"kind\": \"other_information\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 7387,
+  "prompt_tokens": 3583,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 10970
+ }
+}

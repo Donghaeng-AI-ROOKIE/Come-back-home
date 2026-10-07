@@ -1,0 +1,12 @@
+{
+ "final_content": "{ \"units\": [{\"sentence_ids\": [\"N1.s1\", \"N1.s2\"], \"subject\": \"patient\", \"kind\": \"observed_response\", \"action\": \"rest\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_when_any\": [{\"true\": [\"dark_observed\"], \"false\": [\"family_present\"], \"numbers\": []}], \"end_when_any\": [{\"true\": [\"family_present\"], \"false\": [], \"numbers\": []}, {\"true\": [], \"false\": [\"dark_observed\"], \"numbers\": []}], \"hold_minutes\": 0}]\n\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 4812,
+  "prompt_tokens": 3477,
+  "prompt_tokens_details": {
+   "cached_tokens": 1824
+  },
+  "total_tokens": 8289
+ }
+}

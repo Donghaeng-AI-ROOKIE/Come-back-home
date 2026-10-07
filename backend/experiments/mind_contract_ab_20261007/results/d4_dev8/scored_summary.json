@@ -1,0 +1,168 @@
+{
+ "scored_with": "scoring_v2",
+ "runner": "run_v2",
+ "manifest_sha256": "fe797794b6b0c51eb64648483de9eb375fdd7c014782f4391f64327b8a25463f",
+ "summary": {
+  "responses": 16,
+  "decisions": 64,
+  "complete": true,
+  "incomplete_responses": [],
+  "first_pass_passed": 50,
+  "passed": 58,
+  "first_valid": 13,
+  "final_valid": 15,
+  "corrections": 3,
+  "no_response": 0,
+  "not_submitted": 0,
+  "policy_too_complex": 0,
+  "ignored_fix_after_no_response": 0,
+  "problems": {
+   "first_problem": {
+    "walking_limited_rest_unguarded": 1,
+    "incomplete_length": 1,
+    "sentence_not_classified:N2.s1,N2.s2": 1
+   },
+   "final_problem": {
+    "sentence_not_classified:N1.s1": 1
+   }
+  },
+  "problem_kinds": {
+   "first_problem": {
+    "walking_limited_rest_unguarded": 1,
+    "incomplete_length": 1,
+    "sentence_not_classified": 1
+   },
+   "final_problem": {
+    "sentence_not_classified": 1
+   }
+  },
+  "critical": {},
+  "critical_coverage": {
+   "goal_scope_swap": 2,
+   "explicit_rest_deleted": 4,
+   "action_without_reference": 6,
+   "withheld_action_injected": 4
+  },
+  "responses_with_commands_not_in_reference": 0,
+  "by_family": {
+   "destination": {
+    "passed": 16,
+    "total": 16
+   },
+   "multiple_behaviors": {
+    "passed": 4,
+    "total": 8
+   },
+   "physical_rest": {
+    "passed": 16,
+    "total": 16
+   },
+   "source_fidelity": {
+    "passed": 16,
+    "total": 16
+   },
+   "time_context": {
+    "passed": 6,
+    "total": 8
+   }
+  },
+  "by_form": {
+   "original": {
+    "passed": 58,
+    "total": 64
+   }
+  },
+  "by_expected_status": {
+   "no_personal_reaction": {
+    "passed": 40,
+    "total": 42
+   },
+   "supported": {
+    "passed": 14,
+    "total": 18
+   },
+   "unknown": {
+    "passed": 4,
+    "total": 4
+   }
+  },
+  "by_input": {
+   "P05": {
+    "passed": 8,
+    "total": 8
+   },
+   "P06": {
+    "passed": 8,
+    "total": 8
+   },
+   "P13": {
+    "passed": 8,
+    "total": 8
+   },
+   "P14": {
+    "passed": 8,
+    "total": 8
+   },
+   "P21": {
+    "passed": 8,
+    "total": 8
+   },
+   "P24": {
+    "passed": 8,
+    "total": 8
+   },
+   "P25": {
+    "passed": 6,
+    "total": 8
+   },
+   "P29": {
+    "passed": 4,
+    "total": 8
+   }
+  },
+  "trait_accounting": {
+   "responses_counted": 16,
+   "responses_counted_compiled": 15,
+   "responses_counted_rejected": 1,
+   "responses_unreadable": 0,
+   "by_kind": {
+    "observed_response": 8,
+    "functional_need": 3,
+    "capacity_only": 2,
+    "stated_goal": 2,
+    "unobserved": 13,
+    "corrected_away": 5,
+    "hearsay_or_general": 0,
+    "other_information": 20,
+    "not_representable": 0
+   },
+   "responses_with_trait_loss": 0,
+   "trait_loss_sentences": 0,
+   "rejected": {
+    "responses_with_trait_loss": 0,
+    "trait_loss_sentences": 0
+   },
+   "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+  },
+  "repeat_identical_policy": 6,
+  "inputs": 8
+ },
+ "gate": {
+  "checks": {
+   "complete": true,
+   "decisions": true,
+   "final_valid": true,
+   "no_critical": true
+  },
+  "machine_checks_passed": true,
+  "advance": true,
+  "meaning": "synthetic development data; not location accuracy or clinical validity",
+  "critical_coverage": {
+   "goal_scope_swap": 2,
+   "explicit_rest_deleted": 4,
+   "action_without_reference": 6,
+   "withheld_action_injected": 4
+  },
+  "critical_unmeasured": []
+ }
+}
