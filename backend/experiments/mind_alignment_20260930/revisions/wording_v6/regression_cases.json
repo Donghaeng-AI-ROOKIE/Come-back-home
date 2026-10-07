@@ -1,0 +1,300 @@
+[
+  {
+    "id": "observed_subject_true",
+    "category": "observed_subject",
+    "value": true,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "제가 여러 번 직접 본 대상자의 행동입니다. 시장이 시끄러우면 시장에서 멀어지는 쪽으로 돌아가고, 시끄럽지 않은 것이 확인되면 원래 하던 이동과 목표를 유지합니다. 소음 여부를 모르면 어느 반응인지 확정할 수 없습니다."
+      }
+    ],
+    "expected_command": "avoid_market",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "observed_subject_false",
+    "category": "observed_subject",
+    "value": false,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "제가 여러 번 직접 본 대상자의 행동입니다. 시장이 시끄러우면 시장에서 멀어지는 쪽으로 돌아가고, 시끄럽지 않은 것이 확인되면 원래 하던 이동과 목표를 유지합니다. 소음 여부를 모르면 어느 반응인지 확정할 수 없습니다."
+      }
+    ],
+    "expected_command": "continue",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "observed_subject_unknown",
+    "category": "observed_subject",
+    "value": null,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "제가 여러 번 직접 본 대상자의 행동입니다. 시장이 시끄러우면 시장에서 멀어지는 쪽으로 돌아가고, 시끄럽지 않은 것이 확인되면 원래 하던 이동과 목표를 유지합니다. 소음 여부를 모르면 어느 반응인지 확정할 수 없습니다."
+      }
+    ],
+    "expected_command": "defer",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "guardian_request_only_true",
+    "category": "guardian_request_only",
+    "value": true,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "대상자에게 시장이 시끄러우면 피해서 가라고 제가 부탁했어요. 실제로 대상자가 소리가 클 때나 작을 때 어떻게 걷는지는 본 적 없어요."
+      }
+    ],
+    "expected_command": "defer",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "guardian_request_only_false",
+    "category": "guardian_request_only",
+    "value": false,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "대상자에게 시장이 시끄러우면 피해서 가라고 제가 부탁했어요. 실제로 대상자가 소리가 클 때나 작을 때 어떻게 걷는지는 본 적 없어요."
+      }
+    ],
+    "expected_command": "defer",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "guardian_request_only_unknown",
+    "category": "guardian_request_only",
+    "value": null,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "대상자에게 시장이 시끄러우면 피해서 가라고 제가 부탁했어요. 실제로 대상자가 소리가 클 때나 작을 때 어떻게 걷는지는 본 적 없어요."
+      }
+    ],
+    "expected_command": "defer",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "observed_other_only_true",
+    "category": "observed_other_only",
+    "value": true,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "시장이 시끄러우면 피해서 걷는 사람은 대상자가 아니라 대상자의 형입니다. 대상자 본인의 소음에 따른 행동은 아직 관찰하지 못했습니다."
+      }
+    ],
+    "expected_command": "defer",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "observed_other_only_false",
+    "category": "observed_other_only",
+    "value": false,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "시장이 시끄러우면 피해서 걷는 사람은 대상자가 아니라 대상자의 형입니다. 대상자 본인의 소음에 따른 행동은 아직 관찰하지 못했습니다."
+      }
+    ],
+    "expected_command": "defer",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "observed_other_only_unknown",
+    "category": "observed_other_only",
+    "value": null,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "시장이 시끄러우면 피해서 걷는 사람은 대상자가 아니라 대상자의 형입니다. 대상자 본인의 소음에 따른 행동은 아직 관찰하지 못했습니다."
+      }
+    ],
+    "expected_command": "defer",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "request_with_subject_observation_true",
+    "category": "request_with_subject_observation",
+    "value": true,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "제가 여러 번 직접 본 대상자의 행동입니다. 시장이 시끄러우면 시장에서 멀어지는 쪽으로 돌아가고, 시끄럽지 않은 것이 확인되면 원래 하던 이동과 목표를 유지합니다. 소음 여부를 모르면 어느 반응인지 확정할 수 없습니다."
+      },
+      {
+        "id": "N2",
+        "text": "보호자인 저는 시끄러울 때 제자리에 기다리라고 부탁했지만, 이분이 그렇게 하는지는 관찰하지 못했습니다."
+      }
+    ],
+    "expected_command": "avoid_market",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "request_with_subject_observation_false",
+    "category": "request_with_subject_observation",
+    "value": false,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "제가 여러 번 직접 본 대상자의 행동입니다. 시장이 시끄러우면 시장에서 멀어지는 쪽으로 돌아가고, 시끄럽지 않은 것이 확인되면 원래 하던 이동과 목표를 유지합니다. 소음 여부를 모르면 어느 반응인지 확정할 수 없습니다."
+      },
+      {
+        "id": "N2",
+        "text": "보호자인 저는 시끄러울 때 제자리에 기다리라고 부탁했지만, 이분이 그렇게 하는지는 관찰하지 못했습니다."
+      }
+    ],
+    "expected_command": "continue",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "request_with_subject_observation_unknown",
+    "category": "request_with_subject_observation",
+    "value": null,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "제가 여러 번 직접 본 대상자의 행동입니다. 시장이 시끄러우면 시장에서 멀어지는 쪽으로 돌아가고, 시끄럽지 않은 것이 확인되면 원래 하던 이동과 목표를 유지합니다. 소음 여부를 모르면 어느 반응인지 확정할 수 없습니다."
+      },
+      {
+        "id": "N2",
+        "text": "보호자인 저는 시끄러울 때 제자리에 기다리라고 부탁했지만, 이분이 그렇게 하는지는 관찰하지 못했습니다."
+      }
+    ],
+    "expected_command": "defer",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "other_with_subject_observation_true",
+    "category": "other_with_subject_observation",
+    "value": true,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "제가 여러 번 직접 본 대상자의 행동입니다. 시장이 시끄러우면 시장에서 멀어지는 쪽으로 돌아가고, 시끄럽지 않은 것이 확인되면 원래 하던 이동과 목표를 유지합니다. 소음 여부를 모르면 어느 반응인지 확정할 수 없습니다."
+      },
+      {
+        "id": "N2",
+        "text": "동행한 형은 시장이 시끄러우면 제자리에 서서 기다립니다. 이 행동의 주체는 대상자가 아니라 형입니다."
+      }
+    ],
+    "expected_command": "avoid_market",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "other_with_subject_observation_false",
+    "category": "other_with_subject_observation",
+    "value": false,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "제가 여러 번 직접 본 대상자의 행동입니다. 시장이 시끄러우면 시장에서 멀어지는 쪽으로 돌아가고, 시끄럽지 않은 것이 확인되면 원래 하던 이동과 목표를 유지합니다. 소음 여부를 모르면 어느 반응인지 확정할 수 없습니다."
+      },
+      {
+        "id": "N2",
+        "text": "동행한 형은 시장이 시끄러우면 제자리에 서서 기다립니다. 이 행동의 주체는 대상자가 아니라 형입니다."
+      }
+    ],
+    "expected_command": "continue",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "other_with_subject_observation_unknown",
+    "category": "other_with_subject_observation",
+    "value": null,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "제가 여러 번 직접 본 대상자의 행동입니다. 시장이 시끄러우면 시장에서 멀어지는 쪽으로 돌아가고, 시끄럽지 않은 것이 확인되면 원래 하던 이동과 목표를 유지합니다. 소음 여부를 모르면 어느 반응인지 확정할 수 없습니다."
+      },
+      {
+        "id": "N2",
+        "text": "동행한 형은 시장이 시끄러우면 제자리에 서서 기다립니다. 이 행동의 주체는 대상자가 아니라 형입니다."
+      }
+    ],
+    "expected_command": "defer",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "구조 검사는 원문과 관측 보존만 확인한다. 실제 모델의 문구 해석 및 설명은 별도 검토한다."
+  },
+  {
+    "id": "route_unspecified_A",
+    "category": "no_invented_route",
+    "value": true,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "제가 여러 번 직접 본 대상자의 행동입니다. 시장이 시끄러우면 시장에서 멀어지는 쪽으로 돌아가고, 시끄럽지 않은 것이 확인되면 원래 하던 이동과 목표를 유지합니다. 소음 여부를 모르면 어느 반응인지 확정할 수 없습니다."
+      }
+    ],
+    "target_label": "등록 장소 A",
+    "expected_command": "avoid_market",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "목표와 시장의 경로 관계는 입력에 없다. 기억한 목적지를 이유로 관찰된 시장 회피를 취소하지 않는다."
+  },
+  {
+    "id": "route_unspecified_B",
+    "category": "no_invented_route",
+    "value": true,
+    "notes": [
+      {
+        "id": "N1",
+        "text": "제가 여러 번 직접 본 대상자의 행동입니다. 시장이 시끄러우면 시장에서 멀어지는 쪽으로 돌아가고, 시끄럽지 않은 것이 확인되면 원래 하던 이동과 목표를 유지합니다. 소음 여부를 모르면 어느 반응인지 확정할 수 없습니다."
+      }
+    ],
+    "target_label": "등록 장소 B",
+    "expected_command": "avoid_market",
+    "expected_source_ids": [
+      "N1"
+    ],
+    "review_reason": "목표와 시장의 경로 관계는 입력에 없다. 기억한 목적지를 이유로 관찰된 시장 회피를 취소하지 않는다."
+  }
+]

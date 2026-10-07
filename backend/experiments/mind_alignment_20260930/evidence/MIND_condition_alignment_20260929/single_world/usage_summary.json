@@ -1,0 +1,18 @@
+{
+  "api_attempts": 99,
+  "input_tokens": 196831,
+  "output_tokens": 304251,
+  "new_calls": 12,
+  "new_input_tokens": 27280,
+  "new_output_tokens": 27674,
+  "new_latency_median_seconds": 17.853259716415778,
+  "new_latency_max_seconds": 37.17837131698616,
+  "length_finishes": 0,
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null,
+  "complete_ledger_pairs": true,
+  "new_gpu_rag_map_calls": 0,
+  "service_interruption": false,
+  "deployment_performed": false
+}

@@ -1,0 +1,24 @@
+{
+  "status": "tokenization_candidate_only_not_trained",
+  "files": {
+    "train.jsonl": {
+      "rows": 2160,
+      "sha256": "9257005408e395bacfe80f0d920005aa2ed98e613bb70eb0ff131e65fc0b596f"
+    },
+    "train_base.jsonl": {
+      "rows": 720,
+      "sha256": "63d642c0d8c44990649cf8ca1c3a02d4ba3a94a7a2a8c09c10ddac344dff8df9"
+    },
+    "development.jsonl": {
+      "rows": 180,
+      "sha256": "eb18311856c4ad5240741f10f0ec878e16863a7f943720a908015df4497d5cd5"
+    }
+  },
+  "source_version": "personal_contrasts_v5",
+  "contract": "motion_goal_candidate: separate_motion_and_goal (development candidate, not adopted)",
+  "human_review": false,
+  "clinical_validation": false,
+  "cpu_tokenization_allowed": true,
+  "gpu_training_started": false,
+  "evaluation_included": false
+}

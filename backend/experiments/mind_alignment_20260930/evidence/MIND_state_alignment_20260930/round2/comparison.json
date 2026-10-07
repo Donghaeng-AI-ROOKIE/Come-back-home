@@ -1,0 +1,11 @@
+{
+  "scene_evidence_first_v2": {
+    "planned": 16,
+    "completed": 16,
+    "contract_pass": 16,
+    "behavior_match": 12,
+    "length_finishes": 0,
+    "input_tokens": 23092,
+    "output_tokens": 39798
+  }
+}

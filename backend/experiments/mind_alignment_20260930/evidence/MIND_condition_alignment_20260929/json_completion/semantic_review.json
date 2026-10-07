@@ -1,0 +1,378 @@
+{
+  "method": "Codex unblinded final-output review; no independent human or clinical review",
+  "counts": {
+    "pass": 7,
+    "needs_input_clarification": 4,
+    "fail": 1
+  },
+  "branches": [
+    {
+      "id": "H3_D04-1",
+      "repeat": 1,
+      "branch": "b0",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": false
+      },
+      "expected": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "actual": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "action_match": true,
+      "reason": "혼자이고 시장 소음이 있으므로 시장 환경에서 멀어지는 이동",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "pass",
+      "semantic_note": "시장 소음과 혼자라는 관측/가정을 근거로 회피 선택; 원문과 일치."
+    },
+    {
+      "id": "H3_D04-1",
+      "repeat": 1,
+      "branch": "b1",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": true
+      },
+      "expected": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "actual": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "action_match": true,
+      "reason": "혼자이고 시장 소음이 있으므로 시장 환경에서 멀어지는 이동",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "pass",
+      "semantic_note": "시장 소음과 혼자라는 관측/가정을 근거로 회피 선택; 원문과 일치."
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 1,
+      "branch": "b0",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": false,
+        "/state/recent_events/1/value": false
+      },
+      "expected": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "actual": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "action_match": true,
+      "reason": "시장 소음이 있고 동행자가 없으므로 시장에서 벗어나는 행동을 선택합니다.",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "pass",
+      "semantic_note": "시장 소음과 혼자라는 관측/가정을 근거로 회피 선택; 원문과 일치."
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 1,
+      "branch": "b1",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": false,
+        "/state/recent_events/1/value": true
+      },
+      "expected": {
+        "status": "decision",
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null
+      },
+      "actual": {
+        "status": "decision",
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null
+      },
+      "action_match": true,
+      "reason": "시장 소음이 있으나 동행자가 있어 원래 길을 계속 진행합니다.",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "needs_input_clarification",
+      "semantic_note": "고정 정답과는 일치하나 가족 동행 예외를 일반 동행 가정에 적용함. 기존 입력의 관계 누락으로 의미 통과 확정 불가."
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 1,
+      "branch": "b2",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": true,
+        "/state/recent_events/1/value": false
+      },
+      "expected": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "actual": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "action_match": true,
+      "reason": "시장 소음이 있고 동행자가 없으므로 시장에서 벗어나는 행동을 선택합니다.",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "pass",
+      "semantic_note": "시장 소음과 혼자라는 관측/가정을 근거로 회피 선택; 원문과 일치."
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 1,
+      "branch": "b3",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": true,
+        "/state/recent_events/1/value": true
+      },
+      "expected": {
+        "status": "decision",
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null
+      },
+      "actual": {
+        "status": "decision",
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null
+      },
+      "action_match": true,
+      "reason": "시장 소음이 있으나 동행자가 있어 원래 길을 계속 진행합니다.",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "needs_input_clarification",
+      "semantic_note": "고정 정답과는 일치하나 가족 동행 예외를 일반 동행 가정에 적용함. 기존 입력의 관계 누락으로 의미 통과 확정 불가."
+    },
+    {
+      "id": "H3_D04-1",
+      "repeat": 2,
+      "branch": "b0",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": false
+      },
+      "expected": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "actual": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "action_match": true,
+      "reason": "시장 소음이 있지만 동행자가 없음 확인되어 시장 회피 필요",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "pass",
+      "semantic_note": "시장 소음과 혼자라는 관측/가정을 근거로 회피 선택; 원문과 일치."
+    },
+    {
+      "id": "H3_D04-1",
+      "repeat": 2,
+      "branch": "b1",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": true
+      },
+      "expected": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "actual": {
+        "status": "decision",
+        "action": "seek",
+        "goal_operation": "set",
+        "goal_label": "등록 장소 B",
+        "avoid_feature": null
+      },
+      "action_match": false,
+      "reason": "시장 소음이 있으나 동행자 없어도 등록 장소 B로 이동 필요",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "fail",
+      "semantic_note": "원문·현재 관측에 없는 등록 장소 B 이동 필요성을 생성함. 혼잡 가정만으로 새 목적지 선택을 정당화할 수 없음."
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 2,
+      "branch": "b0",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": false,
+        "/state/recent_events/1/value": false
+      },
+      "expected": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "actual": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "action_match": true,
+      "reason": "시장 소음이 있고 혼자일 때 준수 규칙에 따라 시장 회피 행동을 선택했습니다.",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "pass",
+      "semantic_note": "시장 소음과 혼자라는 관측/가정을 근거로 회피 선택; 원문과 일치."
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 2,
+      "branch": "b1",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": false,
+        "/state/recent_events/1/value": true
+      },
+      "expected": {
+        "status": "decision",
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null
+      },
+      "actual": {
+        "status": "decision",
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null
+      },
+      "action_match": true,
+      "reason": "동행자가 있어 소음 상황에서도 원래 목표 지점으로 이동을 유지합니다.",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "needs_input_clarification",
+      "semantic_note": "고정 정답과는 일치하나 가족 동행 예외를 일반 동행 가정에 적용함. 기존 입력의 관계 누락으로 의미 통과 확정 불가."
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 2,
+      "branch": "b2",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": true,
+        "/state/recent_events/1/value": false
+      },
+      "expected": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "actual": {
+        "status": "decision",
+        "action": "avoid",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": "market"
+      },
+      "action_match": true,
+      "reason": "시장 소음이 있고 혼자일 때 준수 규칙에 따라 시장 회피 행동을 선택했습니다.",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "pass",
+      "semantic_note": "시장 소음과 혼자라는 관측/가정을 근거로 회피 선택; 원문과 일치."
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 2,
+      "branch": "b3",
+      "assumptions": {
+        "/environment/observed_signals/market/crowded": true,
+        "/state/recent_events/1/value": true
+      },
+      "expected": {
+        "status": "decision",
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null
+      },
+      "actual": {
+        "status": "decision",
+        "action": "continue",
+        "goal_operation": "keep",
+        "goal_label": null,
+        "avoid_feature": null
+      },
+      "action_match": true,
+      "reason": "동행자가 있어 소음 상황에서도 원래 목표 지점으로 이동을 유지합니다.",
+      "source_ids": [
+        "N1"
+      ],
+      "semantic_review_complete": true,
+      "semantic_status": "needs_input_clarification",
+      "semantic_note": "고정 정답과는 일치하나 가족 동행 예외를 일반 동행 가정에 적용함. 기존 입력의 관계 누락으로 의미 통과 확정 불가."
+    }
+  ]
+}

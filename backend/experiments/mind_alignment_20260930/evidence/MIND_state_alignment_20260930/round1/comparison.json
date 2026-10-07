@@ -1,0 +1,20 @@
+{
+  "baseline": {
+    "planned": 16,
+    "completed": 16,
+    "contract_pass": 16,
+    "behavior_match": 12,
+    "length_finishes": 0,
+    "input_tokens": 29850,
+    "output_tokens": 39538
+  },
+  "scene_v1": {
+    "planned": 16,
+    "completed": 16,
+    "contract_pass": 16,
+    "behavior_match": 14,
+    "length_finishes": 0,
+    "input_tokens": 19332,
+    "output_tokens": 45865
+  }
+}

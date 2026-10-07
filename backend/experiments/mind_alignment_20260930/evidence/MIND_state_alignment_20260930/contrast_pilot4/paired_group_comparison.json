@@ -1,0 +1,21 @@
+{
+  "baseline": "concise_person_scene",
+  "candidate": "separate_motion_and_goal",
+  "unchanged": 25,
+  "improved": 13,
+  "regressed": 2,
+  "groups": 10,
+  "inputs": 40,
+  "accuracy_difference": 0.275,
+  "bootstrap_percentile_95": [
+    0.125,
+    0.4
+  ],
+  "seed": 930,
+  "bootstrap_repetitions": 10000,
+  "limitations": [
+    "Adaptive development comparison, not untouched evaluation.",
+    "Ten authored source groups, not clinical patients.",
+    "One generation per input; repeated-sampling variability unmeasured."
+  ]
+}

@@ -1,0 +1,434 @@
+[
+  {
+    "candidate": "fresh_epoch_2_development",
+    "id": "H3_D01-1",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "4a435e22924ecda24171d143d1d05b82d70eedbe7a20235576589f8c0b7a725a"
+  },
+  {
+    "candidate": "fresh_epoch_2_development",
+    "id": "H3_D01-2",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "0213cf5417f3208f1fcef2f1757ef0638b0b7b24d5806f9e707e86f001cbb187"
+  },
+  {
+    "candidate": "fresh_epoch_2_development",
+    "id": "H3_D01-3",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "ee5923ff75835d112fc2454eefb7c0178f4866a695f338a1ec2e02caf3a22d79"
+  },
+  {
+    "candidate": "fresh_epoch_2_development",
+    "id": "H3_D01-4",
+    "note": "소음 미확인에서 낮은 피로만으로 이동 이력을 일반화. 필요한 조건 유보 실패.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "99fd91c58c6c6f493e05fd2340051f71844568bfb2ac8a1c61b22671ec8796c9"
+  },
+  {
+    "candidate": "fresh_epoch_2_development",
+    "id": "H3_D04-1",
+    "note": "소음 있음·혼자임을 읽었지만 원문의 회피와 반대로 이동 유지.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "db19ff1698702d4c02b9f69b2292b0c5a8c3e24347607022da71f4808abbf458"
+  },
+  {
+    "candidate": "fresh_epoch_2_development",
+    "id": "H3_D04-2",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "8913179b5ccfe996ba45633a2492aea469b7a823ce969dcaa2d32e2fd9bbb610"
+  },
+  {
+    "candidate": "fresh_epoch_2_development",
+    "id": "H3_D04-3",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "fb20b555da28d5cc8ece9825a817253fd512957df6e99021f5f976c119f604e8"
+  },
+  {
+    "candidate": "fresh_epoch_2_development",
+    "id": "H3_D04-4",
+    "note": "가족 동행 여부 null을 가족이 없음으로 바꿈. 원문 조건도 반대로 적용.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "cb890a0d49fdd0a77d3f06b4539b71b0e84fc5aee0561e8fa929b50cdb9fc76c"
+  },
+  {
+    "candidate": "fresh_epoch_4_development",
+    "id": "H3_D01-1",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "ef12b9a85a363e309a327f3143720ac15443772c97bb31a0166d35ef20fe6ac8"
+  },
+  {
+    "candidate": "fresh_epoch_4_development",
+    "id": "H3_D01-2",
+    "note": "소음이 있어도 낮은 피로면 이동한다는 개인 기록을 새로 만듦.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "8dd09f8feb779cdd43e6b4ca1a7d99df8e34304dc5b2d377f28530c96b6ab6bd"
+  },
+  {
+    "candidate": "fresh_epoch_4_development",
+    "id": "H3_D01-3",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "200a2783eb2191809731bc486acd5ad3f6b93473e683bf3e205dc93890849652"
+  },
+  {
+    "candidate": "fresh_epoch_4_development",
+    "id": "H3_D01-4",
+    "note": "소음 미확인을 해결하지 않은 채 낮은 피로로 이동을 확정.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "3c6d1fbd344fa4d627eec55405e573b4ff7e4ef34e0458b57d1bea8c06ab4df3"
+  },
+  {
+    "candidate": "fresh_epoch_4_development",
+    "id": "H3_D04-1",
+    "note": "가족이 없다는 조건에서 원문의 회피와 반대로 이동 유지.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "fc1af925d284dcf3852a875627f92996b6818f6a0728c7b63d0e6fefc283227e"
+  },
+  {
+    "candidate": "fresh_epoch_4_development",
+    "id": "H3_D04-2",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "ff9905edeefc76952f19d5047860c4d483bab544f828a44b51d0c1d40157fd70"
+  },
+  {
+    "candidate": "fresh_epoch_4_development",
+    "id": "H3_D04-3",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "4516f847e16c36176249f3bd527cc7e5dc5ed3039707b9ac412c8c47c2c43f6c"
+  },
+  {
+    "candidate": "fresh_epoch_4_development",
+    "id": "H3_D04-4",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "b0b636de0397cd318352383a6798a4223f0e6e7f3a80a4c68a685b87aca047f6"
+  },
+  {
+    "candidate": "warm_epoch_2_development",
+    "id": "H3_D01-1",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "20c4120ed265810e455aeca9cfb117477f656f4c2ecade599e0cac94db9e58ff"
+  },
+  {
+    "candidate": "warm_epoch_2_development",
+    "id": "H3_D01-2",
+    "note": "현재 소음이 있음에도 조용한 공원 이동 이력을 적용.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "4ca71fb63273d591f5f85287d4969fa8531fe31f22815648921442a57bb9cb7a"
+  },
+  {
+    "candidate": "warm_epoch_2_development",
+    "id": "H3_D01-3",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "85556aa725302c2048ba579406b1faaa64a8d0880e788fd43597ef466d3165ee"
+  },
+  {
+    "candidate": "warm_epoch_2_development",
+    "id": "H3_D01-4",
+    "note": "소음 미확인에서 일반적인 이동 조건을 적용해 개인 조건을 생략.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "57a27024ad43959e2d182440a8c59ca0171dadcd863e7b24a2d6f0a06e9de485"
+  },
+  {
+    "candidate": "warm_epoch_2_development",
+    "id": "H3_D04-1",
+    "note": "소음 상황에서의 이동 유지를 개인의 무조건 특성으로 바꿈.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "999ec7103e8948e8a6c02b555757a703b73b8fac5e1727984c286496f6ff7b6f"
+  },
+  {
+    "candidate": "warm_epoch_2_development",
+    "id": "H3_D04-2",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "525dcbf7797ef037ad745732eddc2bf2ee39cb95af769ccedd2e03764a831101"
+  },
+  {
+    "candidate": "warm_epoch_2_development",
+    "id": "H3_D04-3",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "de777da148d2f7cc95d4787d63e18b25764d9242d8aea6535713fd765c5167f6"
+  },
+  {
+    "candidate": "warm_epoch_2_development",
+    "id": "H3_D04-4",
+    "note": "동행자 미확인을 무시하고 회피 조건이 성립하지 않는다고 확정.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "be91d9345b203bf30356d26ebf5e234d2a4f973162335cedf19b1ba1f4b8334e"
+  },
+  {
+    "candidate": "warm_epoch_4_development",
+    "id": "H3_D01-1",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "b9eb5332091997ffdafa8bd7645041d7f8ee854935ccb96db815e7d156567a3c"
+  },
+  {
+    "candidate": "warm_epoch_4_development",
+    "id": "H3_D01-2",
+    "note": "낮은 피로에서 여전히 성립하는 소음 회피 조건 누락.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "c3c70e027712b1f5d5f22446a9581ce7447b7625e77dd267c224369680bfae3d"
+  },
+  {
+    "candidate": "warm_epoch_4_development",
+    "id": "H3_D01-3",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "b3a6cd367a5e34d0a6879c4635a11f4be9410fe44cf633058d4a3fae87a59b01"
+  },
+  {
+    "candidate": "warm_epoch_4_development",
+    "id": "H3_D01-4",
+    "note": "미확인 소음을 공원이 조용함으로 바꿈.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "d25260927ff2ea33aee4e39babd81c56873b590630d923ad3a8b1a2be4a2b6e8"
+  },
+  {
+    "candidate": "warm_epoch_4_development",
+    "id": "H3_D04-1",
+    "note": "설명은 단독 회피 조건 적용, action은 continue. 설명/실행 충돌.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "e2c279e5baf02458e832acf248a27d49a2af82b4c5a9b28efdbd169adb30fe76"
+  },
+  {
+    "candidate": "warm_epoch_4_development",
+    "id": "H3_D04-2",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "cb866bdba55db1b19f1a4550b123fdb5385b5c278449c7bd57a5ccd3751a898d"
+  },
+  {
+    "candidate": "warm_epoch_4_development",
+    "id": "H3_D04-3",
+    "note": "원문과 현재 조건에 맞는 행동·설명. 이 한 사례의 명시 조건 판독 통과이며 실제 환자 미래 행동 증명은 아님.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "85c414a649db24504e2aa0f1b857dd51ed10958fb548c85251201e89c4658f28"
+  },
+  {
+    "candidate": "warm_epoch_4_development",
+    "id": "H3_D04-4",
+    "note": "동행 여부 미확인인데 가족 동행 시의 두 번째 조건이 성립한다고 확정.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "651275ccb7a33aaff8e4d5bc5f1d1af551efc920ca1aa7f4c9c5f6a25c55296b"
+  },
+  {
+    "candidate": "k_v3_development",
+    "id": "H3_D01-1",
+    "note": "휴식 명령은 맞지만 피로 수치와 소음 회피 수준을 비교하는 입력에 없는 근거. confusion low도 추가 근거 없음.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "3efec0dd46065b2fd0114347f5e6646a1730c374401332e6d0fc4262252533e4"
+  },
+  {
+    "candidate": "k_v3_development",
+    "id": "H3_D01-2",
+    "note": "피로 우선순위를 반대로 해석. 소음과 경로가 무관하다는 사실을 생성. 설명 continue와 명령 seek 불일치.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "3629941f8963952ec95c92da87151714b58d28b0711243b6d75835181dab1477"
+  },
+  {
+    "candidate": "k_v3_development",
+    "id": "H3_D01-3",
+    "note": "낮은 피로/조용함에 따른 이동 의미는 맞음. 기존 목적지 이동 유지 대신 seek로 재설정하는 실행 계약 차이, 한국어 요구 미준수. 이를 큰 개인 의미 오류와 구분.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "f6bbc1e11318e7d9ceb808d01e8ebb95e382bc562303e8b7f58f528a593c7f28"
+  },
+  {
+    "candidate": "k_v3_development",
+    "id": "H3_D01-4",
+    "note": "소음 없음일 때의 조건만 인용하고 미확인 소음에서 이동을 확정.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "c90f9918e5eb43359be2b62922631928ccf20ee58281e25204ee86fb35a82f48"
+  },
+  {
+    "candidate": "k_v3_development",
+    "id": "H3_D04-1",
+    "note": "출력 6000토큰 한도 소진, 최종 content 없음. 개인 의미 판정 불가.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "candidate": "k_v4_development",
+    "id": "H3_D01-1",
+    "note": "높은 피로 휴식 조건 누락. keep인데 goal_label을 함께 생성하는 실행 계약 오류도 존재.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "d9d4327bfabf57a4f9e23a59da7128aa7523791b914a03e526bc004bedc22508"
+  },
+  {
+    "candidate": "k_v5_development",
+    "id": "H3_D01-1",
+    "note": "현재 높은 피로를 인정하면서 제공되지 않은 휴식 후 재개 시점으로 이동.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "a6df055d2e5dcc86d4243c1d64b9cea3a08e19cce893e5f9f4133dd41f14443c"
+  },
+  {
+    "candidate": "k_v5_development",
+    "id": "H3_D01-2",
+    "note": "소음 회피 조건 누락, 제공되지 않은 휴식 후 재개를 이유로 사용.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "7bf1388f71ba9710de42da1cb0360d65611cd0c4e7584fce85e70170326a4a31"
+  },
+  {
+    "candidate": "k_v6_development",
+    "id": "H3_D01-1",
+    "note": "휴식 선택과 조건 설명은 타당하지만 goal_operation null로 실행 불가. 선택 오류와 형식 오류를 구분.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "991b7e31c8e7a255d10c7a59a63be29db2d25127e55d41e0f0f0a2a7629f1369"
+  },
+  {
+    "candidate": "k_v6_development",
+    "id": "H3_D01-2",
+    "note": "출력 6000토큰 한도 소진, 최종 content 없음. 개인 의미 판정 불가.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "candidate": "k_v7_development",
+    "id": "H3_D01-1",
+    "note": "noisy true를 소음 없음으로 바꾸고 crowded null을 혼잡으로 지어냄. 휴식 설명과 stay 대기 선택도 불일치.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "8a001dff69eaee5c91019710e09c29814732c3dfe4babe58e2d66d3bf4643390"
+  },
+  {
+    "candidate": "k_v7_development",
+    "id": "H3_D01-2",
+    "note": "낮은 피로에서의 소음 회피 조건 누락, 기존 목표를 재설정.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "a3bc4bdc7c055be853a2f44f59956d6246840363aa2d93cab27034cb0bd69ebb"
+  },
+  {
+    "candidate": "k_v7_development",
+    "id": "H3_D01-3",
+    "note": "소음 false·공원 근접20m를 모두 미확인이라고 잘못 읽어 불필요한 유보.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "aa3e34c21b8b615df2112d4715a4d019f730f10109305a278b6da9de5ab127a5"
+  },
+  {
+    "candidate": "k_v7_development",
+    "id": "H3_D01-4",
+    "note": "소음 미확인을 인정하면서 기존 목적지가 있다는 이유로 이동 확정.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "e8d76adc76defeaf47a1aeaeaf4ce2168f356927f448e085481772fef75661c5"
+  },
+  {
+    "candidate": "k_v7_development",
+    "id": "H3_D04-1",
+    "note": "동행자 false를 미확인으로 바꾸고 가족 동행 시의 예외를 적용. 등록되지 않은 근거 ID도 사용.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "cfcf14dcd8c0bf552aa9e8d228627fd68c010dcebc09ba2e8866b55bd3e488f6"
+  },
+  {
+    "candidate": "k_v7_development",
+    "id": "H3_D04-4",
+    "note": "동행자 미확인을 해결하지 않고 회피를 확정, 혼잡 가능성을 추가. 등록되지 않은 근거 ID도 사용.",
+    "reviewer": "Codex",
+    "blinded": false,
+    "independent_human_review": false,
+    "source_response_sha256": "5d5925f3cf06569b228c032fa9176496cee4628068004bfc206ced9a5b4e1aba"
+  }
+]

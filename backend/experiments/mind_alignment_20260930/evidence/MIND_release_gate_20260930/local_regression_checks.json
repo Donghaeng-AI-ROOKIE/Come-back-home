@@ -1,0 +1,16 @@
+{
+  "command": "python -m pytest -q tests/test_mind_person_handoff.py tests/test_mind_action_decision.py tests/test_mind_upgrade.py",
+  "workdir": "/private/tmp/cbh-mind-upgrade-20260928/backend",
+  "tests_passed": 48,
+  "exit_code": 0,
+  "pytest_reported_seconds": 2.93,
+  "model_calls": 0,
+  "scope": "existing contract/executor regression tests; scripted responses, not model accuracy",
+  "files": {
+    "experiments/mind_upgrade/runtime.py": "9b235d284eaf28095107f862e64bbd414f7eb3032081ab0fc1743f00e7bba077",
+    "experiments/mind_person_handoff/session.py": "6d784f13e5afe245cccd5fc7fe0a717ce393696307a709d49fd88e165934092b",
+    "app/llm/mind_handoff.py": "f0c6e146cb2bd27e539b51e280ac75ec6301c2f5151127d13dc38e40e380e9f4",
+    "app/llm/mind_action_decision.py": "c1067d80ad17f215bb504e6b710e6b76b4bad0b669d44565c994c0bf493003cd",
+    "app/geo/roadnet.py": "a3ae6062f83971cb62725cfcb38d60eb2a4207e921892b52a870f8b82b64731e"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "tests": 96,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "scope": "Offline authoring/payload contract regression, not model semantic inference",
+  "model_calls": 0,
+  "checked_code_sha256": {
+    "build.py": "0b13de89aff2a092ac89b622b37240938aec47ea62c9b98fbe28e9ae26ababe1",
+    "regression.py": "c880b4adacf54f7645ee6bfbc0395cf3d3c075c510b2bb29515cb06cb00dcdc5",
+    "test_wording_v6.py": "3c41927cfd7c2619d669edfcc76eabc72897bcaacb6c155f5401c21f06df641b",
+    "replacements.json": "297e193ea54dac74ffb57c1584926bb4e5f17112a82fc4105d4d259df74ec351",
+    "regression_cases.json": "64e032c3abb7e67c7fa8003ad3e06df02939c053f9c3fc32159439073f6fa215",
+    "source_pins.json": "4a8b277ca9840978eb8e70a52e12c51759480c48f36575e02f4954c7814ac6aa"
+  }
+}

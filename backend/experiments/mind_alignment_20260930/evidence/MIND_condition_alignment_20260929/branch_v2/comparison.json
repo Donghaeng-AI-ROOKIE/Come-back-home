@@ -1,0 +1,267 @@
+{
+  "completed_calls": 16,
+  "planned_total": 16,
+  "complete_json_objects": 14,
+  "length_finishes": 2,
+  "final_content_present": 16,
+  "contract_pass": 14,
+  "aggregate_action_match": 12,
+  "all_branch_actions_match": 12,
+  "branch_action_matches": 51,
+  "branch_opportunities_in_executed_requests": 60,
+  "repeat_pairs_completed": 8,
+  "stable_branch_command_pairs": 5,
+  "meaning_not_yet_certified_by_this_script": true,
+  "case_scores": [
+    {
+      "id": "H3_D01-1",
+      "repeat": 1,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 4,
+      "branches_total": 4,
+      "completion_tokens": 8996
+    },
+    {
+      "id": "H3_D01-2",
+      "repeat": 1,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 4,
+      "branches_total": 4,
+      "completion_tokens": 6296
+    },
+    {
+      "id": "H3_D01-3",
+      "repeat": 1,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 4,
+      "branches_total": 4,
+      "completion_tokens": 3994
+    },
+    {
+      "id": "H3_D01-4",
+      "repeat": 1,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 8,
+      "branches_total": 8,
+      "completion_tokens": 7129
+    },
+    {
+      "id": "H3_D04-1",
+      "repeat": 1,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "length",
+      "contract_pass": false,
+      "aggregate_action_match": false,
+      "all_branch_actions_match": false,
+      "branches_correct": 0,
+      "branches_total": 2,
+      "completion_tokens": 12000
+    },
+    {
+      "id": "H3_D04-2",
+      "repeat": 1,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": false,
+      "all_branch_actions_match": false,
+      "branches_correct": 0,
+      "branches_total": 2,
+      "completion_tokens": 1413
+    },
+    {
+      "id": "H3_D04-3",
+      "repeat": 1,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 2,
+      "branches_total": 2,
+      "completion_tokens": 3204
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 1,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "length",
+      "contract_pass": false,
+      "aggregate_action_match": false,
+      "all_branch_actions_match": false,
+      "branches_correct": 0,
+      "branches_total": 4,
+      "completion_tokens": 12000
+    },
+    {
+      "id": "H3_D01-1",
+      "repeat": 2,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 4,
+      "branches_total": 4,
+      "completion_tokens": 5112
+    },
+    {
+      "id": "H3_D01-2",
+      "repeat": 2,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 4,
+      "branches_total": 4,
+      "completion_tokens": 8515
+    },
+    {
+      "id": "H3_D01-3",
+      "repeat": 2,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 4,
+      "branches_total": 4,
+      "completion_tokens": 5347
+    },
+    {
+      "id": "H3_D01-4",
+      "repeat": 2,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 8,
+      "branches_total": 8,
+      "completion_tokens": 6951
+    },
+    {
+      "id": "H3_D04-1",
+      "repeat": 2,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 2,
+      "branches_total": 2,
+      "completion_tokens": 6817
+    },
+    {
+      "id": "H3_D04-2",
+      "repeat": 2,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": false,
+      "all_branch_actions_match": false,
+      "branches_correct": 1,
+      "branches_total": 2,
+      "completion_tokens": 1078
+    },
+    {
+      "id": "H3_D04-3",
+      "repeat": 2,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 2,
+      "branches_total": 2,
+      "completion_tokens": 4444
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 2,
+      "stage": "branch_v2",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 4,
+      "branches_total": 4,
+      "completion_tokens": 7785
+    }
+  ],
+  "stability": [
+    {
+      "id": "H3_D01-1",
+      "complete_both": true,
+      "same_branch_commands": true
+    },
+    {
+      "id": "H3_D01-2",
+      "complete_both": true,
+      "same_branch_commands": true
+    },
+    {
+      "id": "H3_D01-3",
+      "complete_both": true,
+      "same_branch_commands": true
+    },
+    {
+      "id": "H3_D01-4",
+      "complete_both": true,
+      "same_branch_commands": true
+    },
+    {
+      "id": "H3_D04-1",
+      "complete_both": false,
+      "same_branch_commands": false
+    },
+    {
+      "id": "H3_D04-2",
+      "complete_both": true,
+      "same_branch_commands": false
+    },
+    {
+      "id": "H3_D04-3",
+      "complete_both": true,
+      "same_branch_commands": true
+    },
+    {
+      "id": "H3_D04-4",
+      "complete_both": false,
+      "same_branch_commands": false
+    }
+  ]
+}

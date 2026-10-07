@@ -1,0 +1,142 @@
+{
+  "batches": {
+    "frontend": {
+      "planned": 16,
+      "completed": 16,
+      "not_run": 0,
+      "contract_pass": 16,
+      "command_match": 15,
+      "independent_human_review": false,
+      "semantic_review": {
+        "fail": 6,
+        "pass": 9,
+        "wording_review": 1
+      }
+    },
+    "canary": {
+      "planned": 80,
+      "completed": 80,
+      "not_run": 0,
+      "contract_pass": 79,
+      "command_match": 72,
+      "independent_human_review": false,
+      "slices": {
+        "known": {
+          "n": 40,
+          "correct": 38
+        },
+        "has_unknown": {
+          "n": 40,
+          "correct": 34
+        }
+      },
+      "different_person_pairs": {
+        "n": 31,
+        "both_correct": 27
+      },
+      "by_condition": {
+        "and": {
+          "n": 12,
+          "correct": 10
+        },
+        "or": {
+          "n": 12,
+          "correct": 11
+        },
+        "unless": {
+          "n": 12,
+          "correct": 11
+        },
+        "priority": {
+          "n": 12,
+          "correct": 10
+        },
+        "correction": {
+          "n": 12,
+          "correct": 12
+        },
+        "latest_observation": {
+          "n": 12,
+          "correct": 10
+        },
+        "single": {
+          "n": 8,
+          "correct": 8
+        }
+      }
+    },
+    "natural": {
+      "planned": 80,
+      "completed": 80,
+      "not_run": 0,
+      "contract_pass": 80,
+      "command_match": 71,
+      "independent_human_review": false,
+      "scene_slices": {
+        "0": {
+          "n": 20,
+          "correct": 18
+        },
+        "1": {
+          "n": 20,
+          "correct": 18
+        },
+        "2": {
+          "n": 20,
+          "correct": 18
+        },
+        "3": {
+          "n": 20,
+          "correct": 17
+        }
+      },
+      "irrelevant_observation_pairs": {
+        "n": 20,
+        "same_command": 15,
+        "both_correct": 15
+      }
+    },
+    "remainder": {
+      "planned": 280,
+      "completed": 0,
+      "not_run": 280,
+      "contract_pass": 0,
+      "command_match": 0,
+      "independent_human_review": false,
+      "slices": {
+        "known": {
+          "n": 0,
+          "correct": 0
+        },
+        "has_unknown": {
+          "n": 0,
+          "correct": 0
+        }
+      },
+      "different_person_pairs": {
+        "n": 0,
+        "both_correct": 0
+      },
+      "by_condition": {}
+    }
+  },
+  "usage": {
+    "calls_started": 176,
+    "calls_ended": 176,
+    "complete_ledger_pairs": true,
+    "input_tokens": 351064,
+    "output_tokens": 450065,
+    "missing_usage": 0,
+    "latency_median_seconds": 21.14178785448894,
+    "latency_p95_seconds": 58.67675387579948,
+    "actual_cost": null,
+    "unit_price": null,
+    "support_round": null,
+    "new_gpu_training": 0,
+    "new_map_calls": 0
+  },
+  "clinical_patients": 0,
+  "full_synthetic_evaluation_completed": false,
+  "accuracy_of_untested_remainder": null,
+  "comparison_to_old_development_score_valid": false
+}

@@ -1,0 +1,76 @@
+{
+  "status": "training_candidate_for_conditional_personalization_not_full_mind_model",
+  "files": {
+    "train.jsonl": {
+      "rows": 2160,
+      "sha256": "461c4b3abd2fe57e2b1d574c1fc975617dcedf4237e8821a9f9d5fad69778913",
+      "base_states": 720,
+      "paired_source_groups": 40,
+      "synthetic_person_profiles": 80,
+      "action_counts": {
+        "continue": 1110,
+        "avoid_park": 30,
+        "defer": 561,
+        "stay": 144,
+        "avoid_market": 48,
+        "seek_1": 105,
+        "avoid_forest": 36,
+        "avoid_water": 36,
+        "rest": 48,
+        "roam": 42
+      }
+    },
+    "development.jsonl": {
+      "rows": 180,
+      "sha256": "78e78411bbea72bc8d7e5a3d53b34530e741fe8fd26887c2678e6e29262f59e2",
+      "base_states": 180,
+      "paired_source_groups": 10,
+      "synthetic_person_profiles": 20,
+      "action_counts": {
+        "continue": 92,
+        "avoid_park": 5,
+        "defer": 47,
+        "avoid_market": 3,
+        "stay": 14,
+        "avoid_forest": 3,
+        "avoid_water": 1,
+        "rest": 6,
+        "roam": 6,
+        "seek_1": 3
+      }
+    },
+    "evaluation.jsonl": {
+      "rows": 360,
+      "sha256": "7c151acf5eb1a3a97eccf0db9981a91e4451fcb311d0d402da9f33250e8ca158",
+      "base_states": 360,
+      "paired_source_groups": 20,
+      "synthetic_person_profiles": 40,
+      "action_counts": {
+        "continue": 184,
+        "avoid_park": 6,
+        "defer": 92,
+        "stay": 27,
+        "avoid_market": 6,
+        "rest": 11,
+        "avoid_forest": 6,
+        "avoid_water": 4,
+        "roam": 11,
+        "seek_1": 13
+      }
+    }
+  },
+  "clinical_patient_count": 0,
+  "independent_caregiver_sources": 0,
+  "training_run_count": 0,
+  "model_call_count": 0,
+  "source_group_unit": "paired authored profiles sharing an observation pair",
+  "templates": "Train variants 1/2 use authored clause paraphrases; development/evaluation byte-identical to v3. Shared conditional grammar remains.",
+  "limits": [
+    "Rule clauses are templated, not natural conversational diversity.",
+    "Specific actions are hypothetical personal preferences, not population rules or safety recommendations.",
+    "No actual K onboarding interpretation in this dataset.",
+    "No direct evidence of real dementia behavior validity."
+  ],
+  "parent_version": "personal_contrasts_v4",
+  "fatigue_change": "Break report=true -> proxy=.9 correlation in train only. Ground-truth personal conditions, observations and commands unchanged. No new sample rows."
+}

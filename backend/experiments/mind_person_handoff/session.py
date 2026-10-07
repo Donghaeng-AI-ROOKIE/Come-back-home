@@ -15,3 +15,14 @@ def create_session(net, persona, prior, start, started_at, *, request, model,
         DecisionProvider(request, model=model, provider=provider),
         policy=policy, context_builder=context_for,
         decision_validator=validate_decision, **kwargs)
+
+
+def create_v5_session(net, persona, prior, start, started_at, *, request, model,
+                      provider, policy, **kwargs):
+    """A deferred judgment stops this diagnostic probe; it is not a guessed action."""
+    from app.llm.mind_action_decision import DecisionProvider as V5Provider
+    return WalkingSession(
+        net, persona, prior, start, started_at,
+        V5Provider(request, model=model, provider=provider), policy=policy,
+        context_builder=context_for, decision_validator=validate_decision,
+        allow_abstention=True, **kwargs)

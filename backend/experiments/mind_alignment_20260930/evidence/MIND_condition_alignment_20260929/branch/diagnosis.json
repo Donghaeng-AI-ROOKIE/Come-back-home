@@ -1,0 +1,14 @@
+{
+  "attempts": 3,
+  "empty_final_content": 2,
+  "output_limit_finishes": 2,
+  "behavior_match": 0,
+  "stopped_by": "two_missing_final_contents",
+  "remaining_five_calls_not_run": true,
+  "deployment_performed": false,
+  "observations": [
+    "Two reasoning-only responses exhausted max_tokens=6000 before final content.",
+    "Completed response added unsupported crowd/companion effects and chose seek for ongoing travel.",
+    "Cannot equate incomplete output with semantic inability. Completed semantic failure recorded separately."
+  ]
+}
