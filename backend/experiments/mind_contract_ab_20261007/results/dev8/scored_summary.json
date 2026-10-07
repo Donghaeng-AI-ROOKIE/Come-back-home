@@ -1,0 +1,132 @@
+{
+ "summary": {
+  "A": {
+   "responses": 16,
+   "valid_responses": 9,
+   "decisions": 64,
+   "passed": 34,
+   "completion": {
+    "incomplete_length": 4,
+    "complete_json": 10,
+    "boundary_single_object": 2
+   },
+   "compile_errors": {
+    "only Boolean and numeric literals are allowed": 1
+   },
+   "critical": {
+    "goal_scope_swap": 0,
+    "explicit_rest_deleted": 0,
+    "action_without_reference": 1,
+    "withheld_action_injected": 0
+   },
+   "by_person": {
+    "P05": {
+     "passed": 0,
+     "total": 8
+    },
+    "P06": {
+     "passed": 2,
+     "total": 8
+    },
+    "P13": {
+     "passed": 8,
+     "total": 8
+    },
+    "P14": {
+     "passed": 4,
+     "total": 8
+    },
+    "P21": {
+     "passed": 8,
+     "total": 8
+    },
+    "P24": {
+     "passed": 4,
+     "total": 8
+    },
+    "P25": {
+     "passed": 4,
+     "total": 8
+    },
+    "P29": {
+     "passed": 4,
+     "total": 8
+    }
+   }
+  },
+  "B": {
+   "responses": 16,
+   "valid_responses": 9,
+   "decisions": 64,
+   "passed": 30,
+   "completion": {
+    "complete_json": 13,
+    "incomplete_length": 1,
+    "multiple_objects": 1,
+    "invalid_json": 1
+   },
+   "compile_errors": {
+    "unsupported condition syntax": 1,
+    "object fields do not match contract": 2,
+    "negated numeric equality is outside this contract": 1
+   },
+   "critical": {
+    "goal_scope_swap": 0,
+    "explicit_rest_deleted": 0,
+    "action_without_reference": 0,
+    "withheld_action_injected": 0
+   },
+   "by_person": {
+    "P05": {
+     "passed": 4,
+     "total": 8
+    },
+    "P06": {
+     "passed": 4,
+     "total": 8
+    },
+    "P13": {
+     "passed": 4,
+     "total": 8
+    },
+    "P14": {
+     "passed": 4,
+     "total": 8
+    },
+    "P21": {
+     "passed": 2,
+     "total": 8
+    },
+    "P24": {
+     "passed": 4,
+     "total": 8
+    },
+    "P25": {
+     "passed": 4,
+     "total": 8
+    },
+    "P29": {
+     "passed": 4,
+     "total": 8
+    }
+   }
+  }
+ },
+ "gate": {
+  "selected": "A",
+  "selection_key": [
+   34,
+   -1,
+   10,
+   true
+  ],
+  "required_decisions": 58,
+  "checks": {
+   "decisions": false,
+   "complete_json": false,
+   "no_critical": false
+  },
+  "advance_to_expanded_development": false,
+  "meaning": "development direction only; dev8 profiles were already seen; not performance evidence"
+ }
+}

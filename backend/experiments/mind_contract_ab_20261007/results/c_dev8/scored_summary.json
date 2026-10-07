@@ -1,0 +1,114 @@
+{
+ "summary": {
+  "responses": 16,
+  "decisions": 64,
+  "first_pass_passed": 11,
+  "passed": 19,
+  "first_valid": 3,
+  "final_valid": 5,
+  "corrections": 13,
+  "problems": {
+   "first_problem": {
+    "unsupported condition syntax": 1,
+    "quote_not_in_original_answer": 7,
+    "source_omitted_without_classification": 3,
+    "incomplete_length": 1,
+    "invalid syntax. Maybe you meant '==' or ':=' instead of '='? (<unknown>, line 1)": 1
+   },
+   "final_problem": {
+    "unsupported condition syntax": 1,
+    "quote_not_in_original_answer": 8,
+    "non_behavior_unit_with_action": 1,
+    "source_omitted_without_classification": 1
+   }
+  },
+  "critical": {},
+  "by_family": {
+   "destination": {
+    "passed": 0,
+    "total": 16
+   },
+   "multiple_behaviors": {
+    "passed": 0,
+    "total": 8
+   },
+   "physical_rest": {
+    "passed": 11,
+    "total": 16
+   },
+   "source_fidelity": {
+    "passed": 4,
+    "total": 16
+   },
+   "time_context": {
+    "passed": 4,
+    "total": 8
+   }
+  },
+  "by_form": {
+   "original": {
+    "passed": 19,
+    "total": 64
+   }
+  },
+  "by_expected_status": {
+   "no_personal_reaction": {
+    "passed": 13,
+    "total": 42
+   },
+   "supported": {
+    "passed": 5,
+    "total": 18
+   },
+   "unknown": {
+    "passed": 1,
+    "total": 4
+   }
+  },
+  "by_input": {
+   "P05": {
+    "passed": 3,
+    "total": 8
+   },
+   "P06": {
+    "passed": 8,
+    "total": 8
+   },
+   "P13": {
+    "passed": 0,
+    "total": 8
+   },
+   "P14": {
+    "passed": 0,
+    "total": 8
+   },
+   "P21": {
+    "passed": 4,
+    "total": 8
+   },
+   "P24": {
+    "passed": 0,
+    "total": 8
+   },
+   "P25": {
+    "passed": 4,
+    "total": 8
+   },
+   "P29": {
+    "passed": 0,
+    "total": 8
+   }
+  },
+  "repeat_identical_policy": 1,
+  "inputs": 8
+ },
+ "gate": {
+  "checks": {
+   "decisions": false,
+   "final_valid": false,
+   "no_critical": true
+  },
+  "advance": false,
+  "meaning": "synthetic development data; not location accuracy or clinical validity"
+ }
+}

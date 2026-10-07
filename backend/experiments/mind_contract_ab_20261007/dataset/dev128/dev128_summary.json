@@ -1,0 +1,14 @@
+{
+ "inputs": 128,
+ "roots": 32,
+ "scenes": 512,
+ "derived_drafts_unreviewed": 96,
+ "sha256": {
+  "dev128_inputs.jsonl": "061faab96863ed8a1d81c49b6686f12676dee0afe8b1b23d5cf9b4f1474f3717",
+  "dev128_scenes.NOT_MODEL_INPUT.json": "4bddad55ef9cb4b3170fbd43c73f38b4ed3421c81deb9377fb41e96c68f24649",
+  "dev128_reference.NOT_MODEL_INPUT.json": "e913e601b291a4cf270abe6d2ac283c206b808ab05a86c1994e15dfe3fc8683e",
+  "dev128_review.NOT_MODEL_INPUT.jsonl": "fae0a783a72469e6f706b8de7332c56894763055f3a49a3f49557365433643a0"
+ },
+ "independent_people": "no: 32 root lineages; derived forms are not new people",
+ "model_calls": 0
+}

@@ -1,0 +1,12 @@
+{
+ "final_content": "\n\n{\n  \"units\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"느티공원, 해든상가, 솔빛쉼터는 질문에 나온 후보 이름이에요. 그곳을 좋아하거나 실제로 간다는 뜻은 아니에요.\",\n      \"subject\": \"unclear\",\n      \"kind\": \"other_information\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_condition\": \"\",\n      \"end_condition\": \"\",\n      \"hold_minutes\": 0\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"가족이 곁에 없을 때 오전 여덟 시부터 아홉 시 전까지는 현관에서 기다렸어요. 아홉 시가 되면 그 기다림은 끝났어요. 그 다음 행동은 기록하지 못했어요.\",\n      \"subject\": \"patient\",\n      \"kind\": \"observed_response\",\n      \"action\": \"wait\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_condition\": \"family_present == False\",\n      \"end_condition\": \"clock_hour == 8\",\n      \"hold_minutes\": 0\n    }\n  ]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 4595,
+  "prompt_tokens": 1959,
+  "prompt_tokens_details": {
+   "cached_tokens": 1952
+  },
+  "total_tokens": 6554
+ }
+}

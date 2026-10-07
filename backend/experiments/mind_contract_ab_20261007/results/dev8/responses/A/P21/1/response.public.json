@@ -1,0 +1,12 @@
+{
+ "final_content": "\n\n{\n  \"source_assessment\": \"원문에서 N1에 따르면, 어머니가 길을 잃었다고 알아차리면 멈추지 않고 계속 걸었다. 이는 lost_awareness가 True일 때 walk 행동을 실행하는 조건부 반응이다. N0는 등록 장소의 의미를 설명할 뿐 실제 반응이나 필요를 명시하지 않았다.\",\n  \"rules\": [\n    {\n      \"action\": \"walk\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"condition\": \"lost_awareness == True\",\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 1196,
+  "prompt_tokens": 1706,
+  "prompt_tokens_details": {
+   "cached_tokens": 1056
+  },
+  "total_tokens": 2902
+ }
+}

@@ -1,0 +1,12 @@
+{
+ "final_content": "\n\n{\n  \"source_assessment\": \"N1에서 보호자가 관찰한 사실: 느티공원 입구를 알아봤을 때. 입구를 알아봤을 때 그쪽으로 걸어 출발했습니다. 입구를 알아보지 못했을 때의 행동은 관찰되지 않았습니다.\",\n  \"rules\": [\n    {\n  \"action\": \"seek\",\n  \"goal_place\": \"느티공원\",\n  \"applies_only_at\": [],\n  \"condition\": \"target_recognized == '느티공원'\",\n  \"hold_minutes\": 0,\n  \"note_ids\": [\"N1\"]\n}\n],\n\"non_action_note_ids\": [\"N0\"]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 2924,
+  "prompt_tokens": 1708,
+  "prompt_tokens_details": {
+   "cached_tokens": 1056
+  },
+  "total_tokens": 4632
+ }
+}

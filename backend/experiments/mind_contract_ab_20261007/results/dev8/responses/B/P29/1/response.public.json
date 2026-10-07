@@ -1,0 +1,12 @@
+{
+ "final_content": "\n\n{\n  \"units\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"느티공원, 해든상가, 솔빛쉼터는 질문에 나온 후보 이름이에요. 그곳을 좋아하거나 실제로 간다는 뜻은 아니에요.\",\n      \"subject\": \"unclear\",\n      \"kind\": \"other_information\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_condition\": \"\",\n      \"end_condition\": \"\",\n      \"hold_minutes\": 0\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"무릎 때문에 육 분 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 쉬어야 해요.\",\n      \"subject\": \"patient\",\n      \"kind\": \"functional_need\",\n      \"action\": \"rest\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_condition\": \"is_walking and (continuous_walk_minutes >= 6 or distance_since_rest_m >= 280)\",\n      \"end_condition\": \"\",\n      \"hold_minutes\": 0\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"두 번 모두 길을 잃었다는 걸 알고 가족이 없으면 그 자리에서 기다렸어요. 가족이 오면 기다림은 끝났어요.\",\n      \"subject\": \"patient\",\n      \"kind\": \"observed_response\",\n      \"action\": \"wait\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_condition\": \"lost_awareness and not family_present\",\n      \"end_condition\": \"family_present\",\n      \"hold_minutes\": 0\n    }\n  ]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 2549,
+  "prompt_tokens": 2044,
+  "prompt_tokens_details": {
+   "cached_tokens": 1280
+  },
+  "total_tokens": 4593
+ }
+}

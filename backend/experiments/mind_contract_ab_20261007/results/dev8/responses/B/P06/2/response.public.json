@@ -1,0 +1,12 @@
+{
+ "final_content": "{\n  \"units\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"느티공원, 해든상가, 솔빛쉼터는 질문에 나온 후보 이름이에요. 그곳을 좋아하거나 실제로 간다는 뜻은 아니에요.\",\n      \"subject\": \"patient\",\n      \"kind\": \"other_information\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_condition\": \"\",\n      \"end_condition\": \"\",\n      \"hold_minutes\": 0\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"쉬지 않고 이십오 분은 걸을 수 있어요. 이십오 분에 꼭 쉬었다는 관찰은 아니에요. 쉬는 시점은 제가 확인하지 못했어요.\",\n      \"subject\": \"patient\",\n      \"kind\": \"capacity_only\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_condition\": \"\",\n      \"end_condition\": \"\",\n      \"hold_minutes\": 0\n    }\n  ]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 3029,
+  "prompt_tokens": 1952,
+  "prompt_tokens_details": {
+   "cached_tokens": 1248
+  },
+  "total_tokens": 4981
+ }
+}

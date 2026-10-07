@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"units\": [{\"note_id\": \"N0\", \"quote\": \"느티공원, 해든상가, 솔빛쉼터는 질문에 나온 후보 이름이에요. 그곳을 좋아하거나 실제로 간다는 뜻은 아니에요.\", \"subject\": \"unclear\", \"kind\": \"other_information\", \"action\": \"none\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_condition\": \"\", \"end_condition\": \"\", \"hold_minutes\": 0}, {\"note_id\": \"N1\", \"quote\": \"연속 팔 분 정도 걷거나 사백오십 미터쯤 가면 무릎 때문에 앉아 쉬어야 해요. 둘 다 채워야 하는 건 아니고 먼저 힘든 쪽에서 쉬어요.\", \"subject\": \"patient\", \"kind\": \"functional_need\", \"action\": \"rest\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_condition\": \"is_walking (continuous_walk_minutes >= 8 or 거리_since_rest_m >= 450)\", \"end_condition\": \"\", \"hold_minutes\": 0}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 3710,
+  "prompt_tokens": 2581,
+  "prompt_tokens_details": {
+   "cached_tokens": 2304
+  },
+  "total_tokens": 6291
+ }
+}

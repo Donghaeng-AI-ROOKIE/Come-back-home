@@ -1,0 +1,12 @@
+{
+ "final_content": "{ \"units\": [{\"note_id\": \"N1\", \"quote\": \"그 다음 행동은 기록하지 못했어요.\", \"subject\": \"patient\", \"kind\": \"other_information\", \"action\": \"none\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_condition\": \"\", \"end_condition\": \"\", \"hold_minutes\": 0}]\n\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 6069,
+  "prompt_tokens": 2648,
+  "prompt_tokens_details": {
+   "cached_tokens": 2304
+  },
+  "total_tokens": 8717
+ }
+}

@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"units\": []}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 7565,
+  "prompt_tokens": 3326,
+  "prompt_tokens_details": {
+   "cached_tokens": 1728
+  },
+  "total_tokens": 10891
+ }
+}

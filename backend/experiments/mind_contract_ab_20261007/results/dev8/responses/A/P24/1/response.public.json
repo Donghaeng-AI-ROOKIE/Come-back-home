@@ -1,0 +1,12 @@
+{
+ "final_content": "\n\n{\"source_assessment\": \"등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 질문의 후보 이름일 뿐 실제 목적지가 아님. 길을 잃은 경우 기다리지 않음(관찰되지 않음).\", \"rules\": [], \"non_action_note_ids\": [\"N0\", \"N1\"]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 3215,
+  "prompt_tokens": 1698,
+  "prompt_tokens_details": {
+   "cached_tokens": 1056
+  },
+  "total_tokens": 4913
+ }
+}

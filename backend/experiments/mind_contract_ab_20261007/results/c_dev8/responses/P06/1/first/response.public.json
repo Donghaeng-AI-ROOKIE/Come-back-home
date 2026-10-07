@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"units\":[{\"note_id\":\"N0\",\"quote\":\"느티공원, 해든상가, 솔빛쉼터는 질문에 나온 후보 이름이에요. 그곳을 좋아하거나 실제로 간다는 뜻은 아니에요.\",\"subject\":\"unclear\",\"kind\":\"other_information\",\"action\":\"none\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_condition\":\"\",\"end_condition\":\"\",\"hold_minutes\":0},{\"note_id\":\"N1\",\"quote\":\"쉬지 않고 이십오 분은 걸을 수 있어요.\",\"subject\":\"patient\",\"kind\":\"capacity_only\",\"action\":\"none\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_condition\":\"\",\"end_condition\":\"\",\"hold_minutes\":0},{\"note_id\":\"N1\",\"quote\":\"이십오 분에 꼭 쉬었다는 관찰은 아니에요.\",\"subject\":\"patient\",\"kind\":\"corrected_away\",\"action\":\"none\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_condition\":\"\",\"end_condition\":\"\",\"hold_minutes\":0},{\"note_id\":\"N1\",\"quote\":\"쉬는 시점은 제가 확인하지 못했어요.\",\"subject\":\"patient\",\"kind\":\"unobserved\",\"action\":\"none\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_condition\":\"\",\"end_condition\":\"\",\"hold_minutes\":0}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 7462,
+  "prompt_tokens": 2321,
+  "prompt_tokens_details": {
+   "cached_tokens": 1632
+  },
+  "total_tokens": 9783
+ }
+}

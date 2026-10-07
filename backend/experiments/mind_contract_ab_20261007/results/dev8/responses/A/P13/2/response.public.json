@@ -1,0 +1,12 @@
+{
+ "final_content": "\n\n{\"source_assessment\": \"등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 질문의 후보 이름일 뿐 실제 방문이나 선호를 의미하지 않는다. 느티공원에 가야 한다는 말은 매일 하지만, 실제로 출발하거나 입구를 인지한 적은 관찰되지 않았다.\", \"rules\": [], \"non_action_note_ids\": [\"N0\", \"N1\"]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 2273,
+  "prompt_tokens": 1700,
+  "prompt_tokens_details": {
+   "cached_tokens": 1696
+  },
+  "total_tokens": 3973
+ }
+}
