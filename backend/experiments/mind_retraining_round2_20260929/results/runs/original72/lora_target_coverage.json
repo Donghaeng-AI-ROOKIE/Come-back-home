@@ -1,0 +1,9 @@
+{
+  "q_proj": 32,
+  "k_proj": 32,
+  "v_proj": 32,
+  "out_proj": 32,
+  "c_fc_0": 32,
+  "c_fc_1": 32,
+  "c_proj": 32
+}
