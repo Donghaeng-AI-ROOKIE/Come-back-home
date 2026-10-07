@@ -1,0 +1,17 @@
+{
+  "job": "v4_P13_on_2",
+  "arm": "on",
+  "person_id": "P13",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "Guardian clarifies candidate places are not actual plans (N0) and mentions daily 느티공원 visit need without observed action (N1).",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

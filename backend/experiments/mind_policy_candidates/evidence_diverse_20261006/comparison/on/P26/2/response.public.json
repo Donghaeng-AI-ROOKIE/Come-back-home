@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"Registered places are hypothetical candidates mentioned in the question, not actual destinations. From 11 PM to 1 AM, if family is not present, waiting occurs until 1 AM.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"(clock_hour >= 23 or clock_hour < 1) and not family_present\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2993,
+    "prompt_tokens": 1694,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 4687
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐 실제 방문을 의미하지 않음. 해든상가에서 사람 많고 소리 클 때 입구에서 돌아옴.\",\n  \"rules\": [\n    {\n      \"command\": \"avoid_market\",\n      \"condition\": \"market.crowded and market.noisy\",\n      \"place_labels\": [\"해든상가\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 9598,
+    "prompt_tokens": 1693,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 11291
+  }
+}

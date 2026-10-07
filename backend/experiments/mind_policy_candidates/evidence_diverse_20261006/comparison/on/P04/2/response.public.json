@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐 실제 방문이나 선호를 의미하지 않음. 이웃 어르신이 시끄러운 하천변에서 되돌아간 행동은 관찰되었으나, 이는 아버지의 행동이 아님.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2271,
+    "prompt_tokens": 1686,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 3957
+  }
+}

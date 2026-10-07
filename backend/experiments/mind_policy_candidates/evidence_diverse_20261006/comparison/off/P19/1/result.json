@@ -1,0 +1,26 @@
+{
+  "job": "v4_P19_off_1",
+  "arm": "off",
+  "person_id": "P19",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자 원문에 따르면, 실제 신체적 필요나 조건부 반응은 다음과 같이 명시됨: '실제로 걸어 다닐 때 피곤하다고 하시거나 무릎이 아프다고 하면 어느 하나만 있어도 잠깐 앉아 쉬셨어요. 둘 다 괜찮을 때는 그 이유로 쉬지 않으셨어요.' 이는 피로 또는 통증이 보행 중에 발생할 경우에만 휴식이 필요함을 의미하며, 두 조건이 동시에 충족되지 않아도 하나만 있으면 휴식이 실행됨. 반면, 등록 장소에 대한 언급은 실제 방문이나 선호를 의미하지 않으며, 단순한 후보 이름 제시에 그침.",
+    "rules": [
+      {
+        "command": "rest",
+        "condition": "is_walking and (fatigue_high or pain_observed)",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

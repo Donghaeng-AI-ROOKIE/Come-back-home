@@ -1,0 +1,12 @@
+{
+  "final_content": "```json\n{\n  \"source_assessment\": \"보호자는 등록 장소 후보(느티공원, 해든상가, 솔빛쉼터)에 대한 언급이 실제 방문이나 선호를 의미하지 않는다고 명시했으며, 숲길에서 소리가 클 때 길 가장자리에서 멀어지는 행동을 관찰했다고 진술했다. 두 반응 모두 조건부 행동이나 신체적 필요, 목적지 향한 출발, 지속적 걷기 한계 등은 포함하지 않는다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}\n```",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 103,
+    "prompt_tokens": 1688,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1791
+  }
+}

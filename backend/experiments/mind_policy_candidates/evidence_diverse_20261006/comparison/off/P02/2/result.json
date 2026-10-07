@@ -1,0 +1,26 @@
+{
+  "job": "v4_P02_off_2",
+  "arm": "off",
+  "person_id": "P02",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 특정 장소(느티공원, 해든상가, 솔빛쉼터)를 실제로 방문하거나 선호한다는 의미는 아니며, 단지 후보 장소로 언급된 것이라고 명시함. 또한, 시장 환경에서 사람 많음(crowded) 또는 소음(noisy) 자극이 있을 때 회피 반응을 보이며, 두 자극이 모두 없을 때는 회피하지 않는다는 관찰된 행동을 기술함.",
+    "rules": [
+      {
+        "command": "avoid_market",
+        "condition": "(market.noisy == True) or (market.crowded == True)",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

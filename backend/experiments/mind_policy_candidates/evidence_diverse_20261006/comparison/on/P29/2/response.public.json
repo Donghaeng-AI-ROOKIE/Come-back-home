@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"Registration places (느티공원, 해든상가, 솔빛쉼터) are candidate names without indicating preference or actual visits. Knee-related walking limits require rest at 6 minutes or 280 meters. Lost awareness without family presence triggers waiting.\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and (continuous_walk_minutes >= 6 OR distance_since_rest_m >= 280)\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"command\": \"wait\",\n      \"condition\": \"lost_awareness and not family_present\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4870,
+    "prompt_tokens": 1786,
+    "prompt_tokens_details": {
+      "cached_tokens": 1760
+    },
+    "total_tokens": 6656
+  }
+}

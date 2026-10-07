@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록된 장소가 실제 방문을 의미하지 않는 후보 이름임을 명시했으며, 길을 잃고 불안할 때만 잠시 대기하는 행동을 관찰함.\",\n  \"rules\": [\n    {\nิม\n      \"command\": \"wait\",\n      \"condition\": \"lost_awareness and anxiety_high\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3200,
+    "prompt_tokens": 1686,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 4886
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "job": "v4_P08_off_1",
+  "arm": "off",
+  "person_id": "P08",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 등록 장소가 특정 장소(느티공원, 해든상가, 솔빛쉼터)를 의미할 뿐, 그곳을 좋아하거나 실제로 간다는 의미는 아니라고 명시함. 또한, 실제 보행 중 숨이 차 보여도 멈추지 않았으며, 무릎 통증을 말할 때만 앉아 쉬었다고 관찰함.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

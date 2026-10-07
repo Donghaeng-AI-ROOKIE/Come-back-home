@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "family_present",
+            "op": "eq",
+            "value": false
+          },
+          {
+            "fact": "anxiety_high",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "가족이 안 보이고 불안하다고 할 때는 걷지 않고 기다렸어요. 가족을 만나면 기다림은 끝났어요. 그때 길을 잃었다고 생각했는지는 몰라요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "Registration places (느티공원, 해든상가, 솔빛쉼터) do not imply liking or presence. Family absence and anxiety trigger waiting."
+    }
+  ]
+}

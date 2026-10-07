@@ -1,0 +1,80 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "continuous_walk_minutes",
+            "op": "gte",
+            "value": 6
+          }
+        ],
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "distance_since_rest_m",
+            "op": "gte",
+            "value": 280
+          }
+        ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "무릎 때문에 육 분 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 쉬어야 해요."
+        }
+      ]
+    },
+    {
+      "id": "k_1",
+      "when": [
+        [
+          {
+            "fact": "lost_awareness",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "family_present",
+            "op": "eq",
+            "value": false
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N2",
+          "quote": "두 번 모두 길을 잃었다는 걸 알고 가족이 없으면 그 자리에서 기다렸어요. 가족이 오면 기다림은 끝났어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자는 등록 장소 후보(느티공원, 해든상가, 솔빛쉼터)에 대한 선호나 실제 방문 의도를 부인하며, 보행 후 휴식은 무릎 통증으로 인해 6분 또는 280m 연속 보행 시 도달한 지점에서 쉬어야 한다고 명시함. 길을 잃은 상황에서 가족이 없을 경우 그 자리에서 대기하며, 가족이 도착하면 대기 종료."
+    }
+  ]
+}

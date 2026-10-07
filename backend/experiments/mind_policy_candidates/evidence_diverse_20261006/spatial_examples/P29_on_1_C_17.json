@@ -1,0 +1,6018 @@
+{
+  "person_id": "P29",
+  "family": "multiple_behaviors",
+  "arm": "on",
+  "rep": 1,
+  "site_id": "C",
+  "seed": 17,
+  "status": "executed",
+  "seconds": 3.4024512080068234,
+  "snapshots": [
+    {
+      "minute": 60,
+      "quality": {
+        "engine": "continuous-person-v4",
+        "walkers": 100,
+        "minute": 60,
+        "unresolved_mass": 0.0,
+        "resolved_mass": 1.0000000000000007,
+        "unresolved_reasons": {},
+        "uncertain_time_fraction": 0.0,
+        "population_prior_time_fraction": 0.0,
+        "population_rest_minutes": 0.0,
+        "population_rest_is_provisional": true,
+        "population_rest_policy": {
+          "enabled": true,
+          "minutes": 5.0,
+          "recovery_fraction": 0.4
+        },
+        "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+        "direction_state_source": "unobserved_default_0.5",
+        "direction_state": 0.5,
+        "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+        "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+        "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+        "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+        "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+        "rest_minutes_if_unreported": 5.0,
+        "wait_review_minutes_if_unreported": 30.0,
+        "rule_scope_distance_m": 60.0,
+        "clinical_accuracy_measured": false,
+        "latent_high_band": 0.7,
+        "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+        "new_model_calls_during_walk": 0,
+        "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+        "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+        "map_extent_checked": true,
+        "map_boundary_margin_m": 50.0
+      },
+      "cells": {
+        "8930e0b5b0bffff": 1.0000000000000007
+      },
+      "mean_wait_minutes": 60.0,
+      "mean_rest_minutes": 0.0,
+      "mean_personal_rest_minutes": 0.0,
+      "mean_walk_minutes": 0.0,
+      "mean_path_km": 0.0,
+      "mean_displacement_km": 0.0,
+      "mean_market_distance_m": 145.2025318486343,
+      "mean_park_distance_m": 232.7609800232187,
+      "moved_particles": 0,
+      "arrived_particles": 0,
+      "mode_counts": {
+        "wait": 100
+      },
+      "tv_change": null,
+      "endpoints": [
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        },
+        {
+          "lat": 37.6652003,
+          "lng": 126.7483383
+        }
+      ]
+    },
+    {
+      "minute": 120,
+      "quality": {
+        "engine": "continuous-person-v4",
+        "walkers": 100,
+        "minute": 120,
+        "unresolved_mass": 0.0,
+        "resolved_mass": 1.0,
+        "unresolved_reasons": {},
+        "uncertain_time_fraction": 0.0,
+        "population_prior_time_fraction": 0.14583333333333334,
+        "population_rest_minutes": 0.0,
+        "population_rest_is_provisional": true,
+        "population_rest_policy": {
+          "enabled": true,
+          "minutes": 5.0,
+          "recovery_fraction": 0.4
+        },
+        "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+        "direction_state_source": "unobserved_default_0.5",
+        "direction_state": 0.5,
+        "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+        "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+        "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+        "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+        "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+        "rest_minutes_if_unreported": 5.0,
+        "wait_review_minutes_if_unreported": 30.0,
+        "rule_scope_distance_m": 60.0,
+        "clinical_accuracy_measured": false,
+        "latent_high_band": 0.7,
+        "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+        "new_model_calls_during_walk": 0,
+        "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+        "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+        "map_extent_checked": true,
+        "map_boundary_margin_m": 50.0
+      },
+      "cells": {
+        "8930e0b5b0fffff": 0.10999999999999999,
+        "8930e0b5b1bffff": 0.09,
+        "8930e0b5b17ffff": 0.02,
+        "8930e0b5b0bffff": 0.20000000000000004,
+        "8930e0b5b73ffff": 0.04,
+        "8930e0b5b03ffff": 0.15,
+        "8930e0b5b53ffff": 0.04,
+        "8930e0b5b57ffff": 0.09999999999999999,
+        "8930e0b5b47ffff": 0.05,
+        "8930e0b5b07ffff": 0.07,
+        "8930e0b5b13ffff": 0.01,
+        "8930e0b5b3bffff": 0.03,
+        "8930e0b5bc7ffff": 0.03,
+        "8930e0b5b5bffff": 0.02,
+        "8930e0b5b7bffff": 0.02,
+        "8930e0b5b67ffff": 0.01,
+        "8930e0b5b43ffff": 0.01
+      },
+      "mean_wait_minutes": 90.0,
+      "mean_rest_minutes": 12.499999999999998,
+      "mean_personal_rest_minutes": 12.499999999999998,
+      "mean_walk_minutes": 17.5,
+      "mean_path_km": 0.84,
+      "mean_displacement_km": 0.29066856628425847,
+      "mean_market_distance_m": 319.0372905433423,
+      "mean_park_distance_m": 377.5581865329332,
+      "moved_particles": 100,
+      "arrived_particles": 0,
+      "mode_counts": {
+        "rest": 100
+      },
+      "tv_change": 0.8000000000000003,
+      "endpoints": [
+        {
+          "lat": 37.66637474978415,
+          "lng": 126.75182163409627
+        },
+        {
+          "lat": 37.665887387321476,
+          "lng": 126.74698339233159
+        },
+        {
+          "lat": 37.67067396635792,
+          "lng": 126.74972962427724
+        },
+        {
+          "lat": 37.665673216426335,
+          "lng": 126.7474627408376
+        },
+        {
+          "lat": 37.66521165611843,
+          "lng": 126.74834593299224
+        },
+        {
+          "lat": 37.666922215369006,
+          "lng": 126.75104255909366
+        },
+        {
+          "lat": 37.66374510334744,
+          "lng": 126.75023783003621
+        },
+        {
+          "lat": 37.666823305553635,
+          "lng": 126.74910346564005
+        },
+        {
+          "lat": 37.663229956999146,
+          "lng": 126.7439280401282
+        },
+        {
+          "lat": 37.66210063509967,
+          "lng": 126.74637814980474
+        },
+        {
+          "lat": 37.66623318574763,
+          "lng": 126.74642193267364
+        },
+        {
+          "lat": 37.664952728544556,
+          "lng": 126.74862350858595
+        },
+        {
+          "lat": 37.66682674932769,
+          "lng": 126.74764267655011
+        },
+        {
+          "lat": 37.667365595325414,
+          "lng": 126.74764401258395
+        },
+        {
+          "lat": 37.66067638416655,
+          "lng": 126.74923773489361
+        },
+        {
+          "lat": 37.662482183062956,
+          "lng": 126.74370214757238
+        },
+        {
+          "lat": 37.66907634925988,
+          "lng": 126.75090293319391
+        },
+        {
+          "lat": 37.66753867026897,
+          "lng": 126.74698678671916
+        },
+        {
+          "lat": 37.6652243635345,
+          "lng": 126.74796680845876
+        },
+        {
+          "lat": 37.665002273017095,
+          "lng": 126.75088627681461
+        },
+        {
+          "lat": 37.666723426231925,
+          "lng": 126.74868118286972
+        },
+        {
+          "lat": 37.66625245773726,
+          "lng": 126.75037485219437
+        },
+        {
+          "lat": 37.66790787935872,
+          "lng": 126.7501804782325
+        },
+        {
+          "lat": 37.66623581872328,
+          "lng": 126.75461425535713
+        },
+        {
+          "lat": 37.66406220406445,
+          "lng": 126.74472495108624
+        },
+        {
+          "lat": 37.665902293148825,
+          "lng": 126.74591191688786
+        },
+        {
+          "lat": 37.66672932022779,
+          "lng": 126.74958026375909
+        },
+        {
+          "lat": 37.66634869214717,
+          "lng": 126.74902831835816
+        },
+        {
+          "lat": 37.66762884824622,
+          "lng": 126.74360891552075
+        },
+        {
+          "lat": 37.66682608996885,
+          "lng": 126.7480136229632
+        },
+        {
+          "lat": 37.66394832339294,
+          "lng": 126.74887749533329
+        },
+        {
+          "lat": 37.66681139318342,
+          "lng": 126.75482036153753
+        },
+        {
+          "lat": 37.66174492503786,
+          "lng": 126.74719612534393
+        },
+        {
+          "lat": 37.66629926440767,
+          "lng": 126.75177018981343
+        },
+        {
+          "lat": 37.66614440552553,
+          "lng": 126.74659903598749
+        },
+        {
+          "lat": 37.66248191304137,
+          "lng": 126.74978145780682
+        },
+        {
+          "lat": 37.66726291500699,
+          "lng": 126.74888351853069
+        },
+        {
+          "lat": 37.664668232037954,
+          "lng": 126.74826249217038
+        },
+        {
+          "lat": 37.666978022842095,
+          "lng": 126.7496148132369
+        },
+        {
+          "lat": 37.66296267531494,
+          "lng": 126.75072276552616
+        },
+        {
+          "lat": 37.66476860965408,
+          "lng": 126.74804536975813
+        },
+        {
+          "lat": 37.6653102045887,
+          "lng": 126.74756963654067
+        },
+        {
+          "lat": 37.66526016251451,
+          "lng": 126.74837853646915
+        },
+        {
+          "lat": 37.66557101970678,
+          "lng": 126.74848273784286
+        },
+        {
+          "lat": 37.66486949051968,
+          "lng": 126.74811382156952
+        },
+        {
+          "lat": 37.664315725489075,
+          "lng": 126.75034252679691
+        },
+        {
+          "lat": 37.66685671925936,
+          "lng": 126.75177577504029
+        },
+        {
+          "lat": 37.66222324758264,
+          "lng": 126.74567763471786
+        },
+        {
+          "lat": 37.65920918796292,
+          "lng": 126.74426248606609
+        },
+        {
+          "lat": 37.66194637675911,
+          "lng": 126.7463879943672
+        },
+        {
+          "lat": 37.667346012455916,
+          "lng": 126.74760537747754
+        },
+        {
+          "lat": 37.663365355632315,
+          "lng": 126.7439672312461
+        },
+        {
+          "lat": 37.66361892057705,
+          "lng": 126.74753813044451
+        },
+        {
+          "lat": 37.66103915498444,
+          "lng": 126.74831103773742
+        },
+        {
+          "lat": 37.662566714466344,
+          "lng": 126.74801849032998
+        },
+        {
+          "lat": 37.66506761866077,
+          "lng": 126.74813037744724
+        },
+        {
+          "lat": 37.66557304528196,
+          "lng": 126.74791703896763
+        },
+        {
+          "lat": 37.66716822788943,
+          "lng": 126.74928716072127
+        },
+        {
+          "lat": 37.66687937269701,
+          "lng": 126.75284122992073
+        },
+        {
+          "lat": 37.66877764643819,
+          "lng": 126.75115659551409
+        },
+        {
+          "lat": 37.66453362936148,
+          "lng": 126.74960919379461
+        },
+        {
+          "lat": 37.66500906819695,
+          "lng": 126.74877909805656
+        },
+        {
+          "lat": 37.665225206582114,
+          "lng": 126.74779400722713
+        },
+        {
+          "lat": 37.663614423298654,
+          "lng": 126.74726220690329
+        },
+        {
+          "lat": 37.66472172942588,
+          "lng": 126.74917361779849
+        },
+        {
+          "lat": 37.66669617544038,
+          "lng": 126.7484673034578
+        },
+        {
+          "lat": 37.6650359954428,
+          "lng": 126.75090925879901
+        },
+        {
+          "lat": 37.66927622662187,
+          "lng": 126.75013918454414
+        },
+        {
+          "lat": 37.66831726001879,
+          "lng": 126.74863006086443
+        },
+        {
+          "lat": 37.66704685385079,
+          "lng": 126.74752487163391
+        },
+        {
+          "lat": 37.6603255400313,
+          "lng": 126.75006633162698
+        },
+        {
+          "lat": 37.66859005349153,
+          "lng": 126.75168453605377
+        },
+        {
+          "lat": 37.66230482649717,
+          "lng": 126.75502151115921
+        },
+        {
+          "lat": 37.664853576442475,
+          "lng": 126.74748551109307
+        },
+        {
+          "lat": 37.66547333399003,
+          "lng": 126.74817037648741
+        },
+        {
+          "lat": 37.66134626768249,
+          "lng": 126.74767401299678
+        },
+        {
+          "lat": 37.662096837896456,
+          "lng": 126.7464874048225
+        },
+        {
+          "lat": 37.665734708685825,
+          "lng": 126.7475441168918
+        },
+        {
+          "lat": 37.666793805778774,
+          "lng": 126.74377258400676
+        },
+        {
+          "lat": 37.665028057739676,
+          "lng": 126.75090384921873
+        },
+        {
+          "lat": 37.66213846854854,
+          "lng": 126.74609004486247
+        },
+        {
+          "lat": 37.66452809771792,
+          "lng": 126.7505429644997
+        },
+        {
+          "lat": 37.66847140776969,
+          "lng": 126.75046882773555
+        },
+        {
+          "lat": 37.66572188083439,
+          "lng": 126.7513766952686
+        },
+        {
+          "lat": 37.66692527695036,
+          "lng": 126.75219407892604
+        },
+        {
+          "lat": 37.66333680135951,
+          "lng": 126.74665414935238
+        },
+        {
+          "lat": 37.66866857372352,
+          "lng": 126.75151488947678
+        },
+        {
+          "lat": 37.66577624607547,
+          "lng": 126.74849492200231
+        },
+        {
+          "lat": 37.66326690705217,
+          "lng": 126.75237356438876
+        },
+        {
+          "lat": 37.66044131504347,
+          "lng": 126.74510911444062
+        },
+        {
+          "lat": 37.66436214867399,
+          "lng": 126.7505458360003
+        },
+        {
+          "lat": 37.66775349298495,
+          "lng": 126.74283918044789
+        },
+        {
+          "lat": 37.662876039328545,
+          "lng": 126.74702530392604
+        },
+        {
+          "lat": 37.66575447843984,
+          "lng": 126.74612112208517
+        },
+        {
+          "lat": 37.66307450529958,
+          "lng": 126.74373820170949
+        },
+        {
+          "lat": 37.66572915111293,
+          "lng": 126.74660550790286
+        },
+        {
+          "lat": 37.66043838507175,
+          "lng": 126.75079162719662
+        },
+        {
+          "lat": 37.659701113360214,
+          "lng": 126.74439523122071
+        },
+        {
+          "lat": 37.667465058518985,
+          "lng": 126.75267399182874
+        },
+        {
+          "lat": 37.665956023474145,
+          "lng": 126.74608832239265
+        }
+      ]
+    },
+    {
+      "minute": 240,
+      "quality": {
+        "engine": "continuous-person-v4",
+        "walkers": 100,
+        "minute": 240,
+        "unresolved_mass": 0.0,
+        "resolved_mass": 1.0,
+        "unresolved_reasons": {},
+        "uncertain_time_fraction": 0.0,
+        "population_prior_time_fraction": 0.34069444444444424,
+        "population_rest_minutes": 15.0,
+        "population_rest_is_provisional": true,
+        "population_rest_policy": {
+          "enabled": true,
+          "minutes": 5.0,
+          "recovery_fraction": 0.4
+        },
+        "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+        "direction_state_source": "unobserved_default_0.5",
+        "direction_state": 0.5,
+        "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+        "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+        "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+        "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+        "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+        "rest_minutes_if_unreported": 5.0,
+        "wait_review_minutes_if_unreported": 30.0,
+        "rule_scope_distance_m": 60.0,
+        "clinical_accuracy_measured": false,
+        "latent_high_band": 0.7,
+        "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+        "new_model_calls_during_walk": 0,
+        "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+        "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+        "map_extent_checked": true,
+        "map_boundary_margin_m": 50.0
+      },
+      "cells": {
+        "8930e0b5b73ffff": 0.07,
+        "8930e0b5a27ffff": 0.05,
+        "8930e0b5b8fffff": 0.02,
+        "8930e0b5b63ffff": 0.02,
+        "8930e0b5b0fffff": 0.08,
+        "8930e0b5b03ffff": 0.11999999999999998,
+        "8930e0b5bcfffff": 0.03,
+        "8930e0b5b0bffff": 0.060000000000000005,
+        "8930e0a75c7ffff": 0.02,
+        "8930e0b5b53ffff": 0.02,
+        "8930e0b5b1bffff": 0.03,
+        "8930e0b5b57ffff": 0.05,
+        "8930e0b5b33ffff": 0.02,
+        "8930e0b5b2bffff": 0.02,
+        "8930e0b5b07ffff": 0.060000000000000005,
+        "8930e0b5b17ffff": 0.03,
+        "8930e0a7593ffff": 0.01,
+        "8930e0b5b77ffff": 0.04,
+        "8930e0b5b8bffff": 0.02,
+        "8930e0b5b3bffff": 0.02,
+        "8930e0b5b5bffff": 0.01,
+        "8930e0b5bc3ffff": 0.02,
+        "8930e0a7417ffff": 0.01,
+        "8930e0b5b13ffff": 0.01,
+        "8930e0a7497ffff": 0.01,
+        "8930e0a75d7ffff": 0.02,
+        "8930e0a74d3ffff": 0.01,
+        "8930e0a7433ffff": 0.01,
+        "8930e0b5a6bffff": 0.01,
+        "8930e0b5a37ffff": 0.02,
+        "8930e0b5bc7ffff": 0.01,
+        "8930e0b5b43ffff": 0.02,
+        "8930e0b5a7bffff": 0.02,
+        "8930e0b5b47ffff": 0.01,
+        "8930e0b5b6bffff": 0.01,
+        "8930e0b5b83ffff": 0.01
+      },
+      "mean_wait_minutes": 90.0,
+      "mean_rest_minutes": 68.38333333333335,
+      "mean_personal_rest_minutes": 68.23333333333336,
+      "mean_walk_minutes": 81.61666666666663,
+      "mean_path_km": 3.917599999999998,
+      "mean_displacement_km": 0.5942559901113676,
+      "mean_market_distance_m": 600.4816383512206,
+      "mean_park_distance_m": 643.493485463828,
+      "moved_particles": 100,
+      "arrived_particles": 0,
+      "mode_counts": {
+        "rest": 97,
+        "walk": 3
+      },
+      "tv_change": 0.45,
+      "endpoints": [
+        {
+          "lat": 37.662911376205294,
+          "lng": 126.75078098765769
+        },
+        {
+          "lat": 37.66202635450556,
+          "lng": 126.7407312735958
+        },
+        {
+          "lat": 37.67068910685867,
+          "lng": 126.74711956833218
+        },
+        {
+          "lat": 37.661047321024704,
+          "lng": 126.75524501993631
+        },
+        {
+          "lat": 37.66515079119947,
+          "lng": 126.7510840713985
+        },
+        {
+          "lat": 37.666932991095685,
+          "lng": 126.74845120563569
+        },
+        {
+          "lat": 37.66518336357036,
+          "lng": 126.75124328478584
+        },
+        {
+          "lat": 37.66874035759883,
+          "lng": 126.74834561283923
+        },
+        {
+          "lat": 37.66446124386688,
+          "lng": 126.7447512848852
+        },
+        {
+          "lat": 37.66453405075038,
+          "lng": 126.74866076815427
+        },
+        {
+          "lat": 37.661405028962136,
+          "lng": 126.75108513937928
+        },
+        {
+          "lat": 37.66445797502371,
+          "lng": 126.74811734734028
+        },
+        {
+          "lat": 37.66129304409864,
+          "lng": 126.74187314526407
+        },
+        {
+          "lat": 37.66681609552992,
+          "lng": 126.74770213169354
+        },
+        {
+          "lat": 37.65577957920751,
+          "lng": 126.76073559463623
+        },
+        {
+          "lat": 37.66272173217067,
+          "lng": 126.74450889222466
+        },
+        {
+          "lat": 37.66769971724726,
+          "lng": 126.74775760857267
+        },
+        {
+          "lat": 37.66707540067248,
+          "lng": 126.74699618556662
+        },
+        {
+          "lat": 37.66195437110278,
+          "lng": 126.74170967966191
+        },
+        {
+          "lat": 37.66254747566503,
+          "lng": 126.7455804205946
+        },
+        {
+          "lat": 37.66951051630793,
+          "lng": 126.753294361567
+        },
+        {
+          "lat": 37.66526604773458,
+          "lng": 126.75797080402356
+        },
+        {
+          "lat": 37.66694868434129,
+          "lng": 126.74856407804656
+        },
+        {
+          "lat": 37.66561236972515,
+          "lng": 126.74994072992374
+        },
+        {
+          "lat": 37.66225458772907,
+          "lng": 126.74009326521923
+        },
+        {
+          "lat": 37.66142487455875,
+          "lng": 126.7423885422067
+        },
+        {
+          "lat": 37.668661045967994,
+          "lng": 126.75257731537154
+        },
+        {
+          "lat": 37.67060011491977,
+          "lng": 126.74793951047998
+        },
+        {
+          "lat": 37.6623299413071,
+          "lng": 126.73999001046253
+        },
+        {
+          "lat": 37.667168785456504,
+          "lng": 126.74819822820899
+        },
+        {
+          "lat": 37.66814157774814,
+          "lng": 126.75255396262422
+        },
+        {
+          "lat": 37.66381928654086,
+          "lng": 126.75831849800231
+        },
+        {
+          "lat": 37.65692493725901,
+          "lng": 126.76084218143654
+        },
+        {
+          "lat": 37.664315426811854,
+          "lng": 126.75526228098235
+        },
+        {
+          "lat": 37.667144334334274,
+          "lng": 126.74679786477355
+        },
+        {
+          "lat": 37.66424962949602,
+          "lng": 126.75542043393438
+        },
+        {
+          "lat": 37.66722161711658,
+          "lng": 126.75127761311337
+        },
+        {
+          "lat": 37.66815038281615,
+          "lng": 126.74951387371942
+        },
+        {
+          "lat": 37.671915983814486,
+          "lng": 126.74471436705973
+        },
+        {
+          "lat": 37.665522477366075,
+          "lng": 126.75403442895916
+        },
+        {
+          "lat": 37.66473038291639,
+          "lng": 126.74830539622627
+        },
+        {
+          "lat": 37.65837320818387,
+          "lng": 126.74368570323404
+        },
+        {
+          "lat": 37.6662288948823,
+          "lng": 126.75180585412339
+        },
+        {
+          "lat": 37.66251746614749,
+          "lng": 126.74498781251012
+        },
+        {
+          "lat": 37.668349137747946,
+          "lng": 126.74947367430893
+        },
+        {
+          "lat": 37.66290110851789,
+          "lng": 126.75252434197846
+        },
+        {
+          "lat": 37.66971546319141,
+          "lng": 126.75221098346742
+        },
+        {
+          "lat": 37.66599963511414,
+          "lng": 126.74017889042436
+        },
+        {
+          "lat": 37.6513427774326,
+          "lng": 126.74653455403063
+        },
+        {
+          "lat": 37.66945842576451,
+          "lng": 126.74782669251587
+        },
+        {
+          "lat": 37.666450656137954,
+          "lng": 126.75187336528076
+        },
+        {
+          "lat": 37.65627742307776,
+          "lng": 126.7422397217559
+        },
+        {
+          "lat": 37.662979224317134,
+          "lng": 126.75070393144058
+        },
+        {
+          "lat": 37.65804112952921,
+          "lng": 126.75857750359206
+        },
+        {
+          "lat": 37.663347125487036,
+          "lng": 126.74663091251858
+        },
+        {
+          "lat": 37.66772410492985,
+          "lng": 126.74147677724729
+        },
+        {
+          "lat": 37.66207438296917,
+          "lng": 126.75171252944082
+        },
+        {
+          "lat": 37.66820518412668,
+          "lng": 126.75281494692909
+        },
+        {
+          "lat": 37.66886635025103,
+          "lng": 126.75096553659496
+        },
+        {
+          "lat": 37.66530000613167,
+          "lng": 126.74760114903918
+        },
+        {
+          "lat": 37.66425742703342,
+          "lng": 126.74407762964589
+        },
+        {
+          "lat": 37.665457515981636,
+          "lng": 126.74751580801475
+        },
+        {
+          "lat": 37.66738614107415,
+          "lng": 126.74997985303497
+        },
+        {
+          "lat": 37.64933174706449,
+          "lng": 126.73741650803159
+        },
+        {
+          "lat": 37.64939618941609,
+          "lng": 126.75392072203623
+        },
+        {
+          "lat": 37.66650387871945,
+          "lng": 126.75349237778309
+        },
+        {
+          "lat": 37.668212515511826,
+          "lng": 126.74937608922465
+        },
+        {
+          "lat": 37.66295900858442,
+          "lng": 126.75390644400532
+        },
+        {
+          "lat": 37.66434733272008,
+          "lng": 126.74482667054288
+        },
+        {
+          "lat": 37.66708395187957,
+          "lng": 126.74886636152267
+        },
+        {
+          "lat": 37.67028920141675,
+          "lng": 126.74758250436403
+        },
+        {
+          "lat": 37.67158698938232,
+          "lng": 126.74485298507754
+        },
+        {
+          "lat": 37.662657636324525,
+          "lng": 126.75459445521481
+        },
+        {
+          "lat": 37.66506706944261,
+          "lng": 126.74780830046383
+        },
+        {
+          "lat": 37.66898745217445,
+          "lng": 126.754297771978
+        },
+        {
+          "lat": 37.6510167761741,
+          "lng": 126.73462133508869
+        },
+        {
+          "lat": 37.66135945471905,
+          "lng": 126.75367207446808
+        },
+        {
+          "lat": 37.66595301923767,
+          "lng": 126.75020637734616
+        },
+        {
+          "lat": 37.66258416136956,
+          "lng": 126.7382764577391
+        },
+        {
+          "lat": 37.6623812703195,
+          "lng": 126.7513655367747
+        },
+        {
+          "lat": 37.66253172585554,
+          "lng": 126.74534429847304
+        },
+        {
+          "lat": 37.66473742399058,
+          "lng": 126.75350064563962
+        },
+        {
+          "lat": 37.6677360053727,
+          "lng": 126.74282531006496
+        },
+        {
+          "lat": 37.662316977798554,
+          "lng": 126.75174753356863
+        },
+        {
+          "lat": 37.66965692148413,
+          "lng": 126.74948201950552
+        },
+        {
+          "lat": 37.66517806079064,
+          "lng": 126.75110233036992
+        },
+        {
+          "lat": 37.667045321313644,
+          "lng": 126.74753229782856
+        },
+        {
+          "lat": 37.67110965739565,
+          "lng": 126.74704733628364
+        },
+        {
+          "lat": 37.66070179095066,
+          "lng": 126.74508941285552
+        },
+        {
+          "lat": 37.652640889144486,
+          "lng": 126.73149928995436
+        },
+        {
+          "lat": 37.66215864152646,
+          "lng": 126.74627439916895
+        },
+        {
+          "lat": 37.66275590444035,
+          "lng": 126.73700019289699
+        },
+        {
+          "lat": 37.66432216735494,
+          "lng": 126.75010544577621
+        },
+        {
+          "lat": 37.661444960634114,
+          "lng": 126.747147960699
+        },
+        {
+          "lat": 37.660496704275054,
+          "lng": 126.74434670325294
+        },
+        {
+          "lat": 37.66660838351051,
+          "lng": 126.75193752130805
+        },
+        {
+          "lat": 37.6576135418101,
+          "lng": 126.75825353067553
+        },
+        {
+          "lat": 37.65192931440572,
+          "lng": 126.7323987794814
+        },
+        {
+          "lat": 37.659196311064804,
+          "lng": 126.7541395750374
+        },
+        {
+          "lat": 37.672211730752515,
+          "lng": 126.74396259695618
+        }
+      ]
+    },
+    {
+      "minute": 360,
+      "quality": {
+        "engine": "continuous-person-v4",
+        "walkers": 100,
+        "minute": 360,
+        "unresolved_mass": 0.0,
+        "resolved_mass": 1.0,
+        "unresolved_reasons": {},
+        "uncertain_time_fraction": 0.0,
+        "population_prior_time_fraction": 0.40638425925925903,
+        "population_rest_minutes": 55.0,
+        "population_rest_is_provisional": true,
+        "population_rest_policy": {
+          "enabled": true,
+          "minutes": 5.0,
+          "recovery_fraction": 0.4
+        },
+        "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+        "direction_state_source": "unobserved_default_0.5",
+        "direction_state": 0.5,
+        "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+        "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+        "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+        "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+        "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+        "rest_minutes_if_unreported": 5.0,
+        "wait_review_minutes_if_unreported": 30.0,
+        "rule_scope_distance_m": 60.0,
+        "clinical_accuracy_measured": false,
+        "latent_high_band": 0.7,
+        "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+        "new_model_calls_during_walk": 0,
+        "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+        "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+        "map_extent_checked": true,
+        "map_boundary_margin_m": 50.0
+      },
+      "cells": {
+        "8930e0b5b47ffff": 0.03,
+        "8930e0b5a27ffff": 0.03,
+        "8930e0b5bc7ffff": 0.02,
+        "8930e0b5b0bffff": 0.03,
+        "8930e0b5b0fffff": 0.02,
+        "8930e0b5b03ffff": 0.10999999999999999,
+        "8930e0a75d3ffff": 0.02,
+        "8930e0b5b8fffff": 0.01,
+        "8930e0b5b53ffff": 0.01,
+        "8930e0b5b43ffff": 0.02,
+        "8930e0a74a7ffff": 0.01,
+        "8930e0b5b57ffff": 0.04,
+        "8930e0b5b13ffff": 0.02,
+        "8930e0b5b17ffff": 0.04,
+        "8930e0b5b77ffff": 0.01,
+        "8930e0b5b23ffff": 0.02,
+        "8930e0b5b2bffff": 0.03,
+        "8930e0b5b07ffff": 0.05,
+        "8930e0b5bcbffff": 0.01,
+        "8930e0b5aafffff": 0.01,
+        "8930e0b5bafffff": 0.03,
+        "8930e0b5b83ffff": 0.01,
+        "8930e0b5b63ffff": 0.01,
+        "8930e0b5b3bffff": 0.03,
+        "8930e0a75c7ffff": 0.02,
+        "8930e0b5b67ffff": 0.02,
+        "8930e0b5b6bffff": 0.02,
+        "8930e0b5b7bffff": 0.01,
+        "8930e0b5b93ffff": 0.01,
+        "8930e0a7497ffff": 0.02,
+        "8930e0b5bd3ffff": 0.01,
+        "8930e0b5b33ffff": 0.01,
+        "8930e0b5bc3ffff": 0.04,
+        "8930e0a7407ffff": 0.01,
+        "8930e0b5ba3ffff": 0.01,
+        "8930e0a74d7ffff": 0.01,
+        "8930e0a7553ffff": 0.01,
+        "8930e0b5b73ffff": 0.02,
+        "8930e0b5bd7ffff": 0.02,
+        "8930e0a75d7ffff": 0.01,
+        "8930e0a2d77ffff": 0.01,
+        "8930e0a754bffff": 0.01,
+        "8930e0a665bffff": 0.01,
+        "8930e0b5b4fffff": 0.01,
+        "8930e0b5bcfffff": 0.01,
+        "8930e0b5b37ffff": 0.01,
+        "8930e0b5aa3ffff": 0.01,
+        "8930e0a759bffff": 0.01,
+        "8930e0a2d37ffff": 0.01,
+        "8930e0b5a37ffff": 0.01,
+        "8930e0b5aa7ffff": 0.01,
+        "8930e0a2d23ffff": 0.01,
+        "8930e0a74b3ffff": 0.01
+      },
+      "mean_wait_minutes": 90.0,
+      "mean_rest_minutes": 124.25166666666676,
+      "mean_personal_rest_minutes": 123.70166666666675,
+      "mean_walk_minutes": 145.74833333333325,
+      "mean_path_km": 6.9959199999999955,
+      "mean_displacement_km": 0.7791051236980993,
+      "mean_market_distance_m": 781.9734670812769,
+      "mean_park_distance_m": 821.8972157703445,
+      "moved_particles": 100,
+      "arrived_particles": 0,
+      "mode_counts": {
+        "rest": 90,
+        "walk": 10
+      },
+      "tv_change": 0.43,
+      "endpoints": [
+        {
+          "lat": 37.660432895741,
+          "lng": 126.74948798050016
+        },
+        {
+          "lat": 37.661898063318866,
+          "lng": 126.74092623695684
+        },
+        {
+          "lat": 37.66793820506968,
+          "lng": 126.74378255824521
+        },
+        {
+          "lat": 37.66523290200182,
+          "lng": 126.74873251442742
+        },
+        {
+          "lat": 37.666588582964195,
+          "lng": 126.75193269610965
+        },
+        {
+          "lat": 37.667743028090065,
+          "lng": 126.74811061730419
+        },
+        {
+          "lat": 37.65736434889743,
+          "lng": 126.75557080684138
+        },
+        {
+          "lat": 37.67091403384033,
+          "lng": 126.74723019823219
+        },
+        {
+          "lat": 37.66147784826198,
+          "lng": 126.74225852552003
+        },
+        {
+          "lat": 37.66837597917457,
+          "lng": 126.7490135947612
+        },
+        {
+          "lat": 37.66234820881387,
+          "lng": 126.74893965658737
+        },
+        {
+          "lat": 37.66155208918845,
+          "lng": 126.74172236059381
+        },
+        {
+          "lat": 37.66109758778734,
+          "lng": 126.74476404374242
+        },
+        {
+          "lat": 37.66837488005304,
+          "lng": 126.74867120741803
+        },
+        {
+          "lat": 37.65620482632609,
+          "lng": 126.75402282889257
+        },
+        {
+          "lat": 37.66199499291482,
+          "lng": 126.74589423889067
+        },
+        {
+          "lat": 37.668914506843585,
+          "lng": 126.74788355606968
+        },
+        {
+          "lat": 37.669619161665196,
+          "lng": 126.75015559955655
+        },
+        {
+          "lat": 37.666233167448446,
+          "lng": 126.7503615901208
+        },
+        {
+          "lat": 37.66253480128114,
+          "lng": 126.75448502011375
+        },
+        {
+          "lat": 37.668557572432505,
+          "lng": 126.75599152282618
+        },
+        {
+          "lat": 37.66591031757089,
+          "lng": 126.75646430339411
+        },
+        {
+          "lat": 37.667563365255525,
+          "lng": 126.75000724477657
+        },
+        {
+          "lat": 37.66783135418874,
+          "lng": 126.75283432680962
+        },
+        {
+          "lat": 37.66347025953191,
+          "lng": 126.74083609945072
+        },
+        {
+          "lat": 37.66407015336686,
+          "lng": 126.73703618472715
+        },
+        {
+          "lat": 37.67197138405688,
+          "lng": 126.75436611231109
+        },
+        {
+          "lat": 37.672937043321184,
+          "lng": 126.7452700037904
+        },
+        {
+          "lat": 37.662149724871334,
+          "lng": 126.74043000756866
+        },
+        {
+          "lat": 37.66116635593271,
+          "lng": 126.75422187360255
+        },
+        {
+          "lat": 37.66636942413603,
+          "lng": 126.75396703890598
+        },
+        {
+          "lat": 37.6571016655266,
+          "lng": 126.76148682764224
+        },
+        {
+          "lat": 37.66081666006623,
+          "lng": 126.75615585377649
+        },
+        {
+          "lat": 37.65887200258569,
+          "lng": 126.75425979595713
+        },
+        {
+          "lat": 37.6687305167635,
+          "lng": 126.74836724334962
+        },
+        {
+          "lat": 37.659919718334024,
+          "lng": 126.75069551526539
+        },
+        {
+          "lat": 37.662304174331666,
+          "lng": 126.75502303254754
+        },
+        {
+          "lat": 37.66738347037749,
+          "lng": 126.74755683594813
+        },
+        {
+          "lat": 37.674170340021384,
+          "lng": 126.74090935059327
+        },
+        {
+          "lat": 37.65913222009628,
+          "lng": 126.7545840788369
+        },
+        {
+          "lat": 37.65647007838528,
+          "lng": 126.74215868014517
+        },
+        {
+          "lat": 37.661700978738295,
+          "lng": 126.74596384527952
+        },
+        {
+          "lat": 37.668666524479235,
+          "lng": 126.75070475544184
+        },
+        {
+          "lat": 37.663362312434096,
+          "lng": 126.74659673078612
+        },
+        {
+          "lat": 37.66758028155083,
+          "lng": 126.73766652525912
+        },
+        {
+          "lat": 37.655866191605476,
+          "lng": 126.76231209162087
+        },
+        {
+          "lat": 37.670188080535894,
+          "lng": 126.75309115605799
+        },
+        {
+          "lat": 37.66746931150686,
+          "lng": 126.7407322944657
+        },
+        {
+          "lat": 37.64989118410914,
+          "lng": 126.7507234607402
+        },
+        {
+          "lat": 37.670391788231036,
+          "lng": 126.74780723906939
+        },
+        {
+          "lat": 37.67262149073264,
+          "lng": 126.75211619154084
+        },
+        {
+          "lat": 37.650288741588234,
+          "lng": 126.73931150704253
+        },
+        {
+          "lat": 37.65015588729805,
+          "lng": 126.76213177434708
+        },
+        {
+          "lat": 37.66227447789579,
+          "lng": 126.75163293613934
+        },
+        {
+          "lat": 37.66221489827981,
+          "lng": 126.74609866301627
+        },
+        {
+          "lat": 37.670670196685656,
+          "lng": 126.74164057326807
+        },
+        {
+          "lat": 37.657626910677294,
+          "lng": 126.75764966902057
+        },
+        {
+          "lat": 37.667700655405504,
+          "lng": 126.75539607087148
+        },
+        {
+          "lat": 37.67181952260431,
+          "lng": 126.75471196180241
+        },
+        {
+          "lat": 37.66837273841685,
+          "lng": 126.74180376126957
+        },
+        {
+          "lat": 37.667784735194374,
+          "lng": 126.74706664551701
+        },
+        {
+          "lat": 37.66817407698461,
+          "lng": 126.74165572754602
+        },
+        {
+          "lat": 37.66816071442124,
+          "lng": 126.75251191257313
+        },
+        {
+          "lat": 37.64897631426927,
+          "lng": 126.71531447504466
+        },
+        {
+          "lat": 37.64531611829728,
+          "lng": 126.76213325563177
+        },
+        {
+          "lat": 37.66678770688846,
+          "lng": 126.76075096918504
+        },
+        {
+          "lat": 37.66757695351478,
+          "lng": 126.75090863438247
+        },
+        {
+          "lat": 37.666167127280346,
+          "lng": 126.74914499686038
+        },
+        {
+          "lat": 37.667297107957154,
+          "lng": 126.74235930223135
+        },
+        {
+          "lat": 37.66745378142732,
+          "lng": 126.74801147610548
+        },
+        {
+          "lat": 37.66546128876837,
+          "lng": 126.748133349146
+        },
+        {
+          "lat": 37.66843014869011,
+          "lng": 126.74924544564652
+        },
+        {
+          "lat": 37.65899838004849,
+          "lng": 126.74943783791944
+        },
+        {
+          "lat": 37.6652172374212,
+          "lng": 126.74504489848276
+        },
+        {
+          "lat": 37.66959473028721,
+          "lng": 126.75686134133647
+        },
+        {
+          "lat": 37.6615120785416,
+          "lng": 126.74772403285775
+        },
+        {
+          "lat": 37.661671625699306,
+          "lng": 126.75126728395115
+        },
+        {
+          "lat": 37.669909818344124,
+          "lng": 126.74809563480548
+        },
+        {
+          "lat": 37.666042537406035,
+          "lng": 126.73208539062135
+        },
+        {
+          "lat": 37.66439721569842,
+          "lng": 126.75551524821574
+        },
+        {
+          "lat": 37.65645178222497,
+          "lng": 126.74236001728936
+        },
+        {
+          "lat": 37.65957340752091,
+          "lng": 126.7592866764187
+        },
+        {
+          "lat": 37.6680273779096,
+          "lng": 126.74244643855758
+        },
+        {
+          "lat": 37.66388772316621,
+          "lng": 126.75727765641156
+        },
+        {
+          "lat": 37.66691272964359,
+          "lng": 126.7500998128264
+        },
+        {
+          "lat": 37.66690776080568,
+          "lng": 126.75564623321843
+        },
+        {
+          "lat": 37.6667047684913,
+          "lng": 126.75474908393673
+        },
+        {
+          "lat": 37.67339300230948,
+          "lng": 126.75374048547725
+        },
+        {
+          "lat": 37.662004445754945,
+          "lng": 126.74616266287364
+        },
+        {
+          "lat": 37.655742499596585,
+          "lng": 126.72028110240755
+        },
+        {
+          "lat": 37.6622086166543,
+          "lng": 126.73884022366079
+        },
+        {
+          "lat": 37.66741081087308,
+          "lng": 126.74123166758086
+        },
+        {
+          "lat": 37.66705314805621,
+          "lng": 126.74824762273082
+        },
+        {
+          "lat": 37.66412036569239,
+          "lng": 126.74970381167317
+        },
+        {
+          "lat": 37.66696445898049,
+          "lng": 126.7357769525576
+        },
+        {
+          "lat": 37.66848206691126,
+          "lng": 126.75297959544778
+        },
+        {
+          "lat": 37.655996533287386,
+          "lng": 126.7556004731422
+        },
+        {
+          "lat": 37.65347488610822,
+          "lng": 126.71861392924232
+        },
+        {
+          "lat": 37.657089386943845,
+          "lng": 126.74732488828226
+        },
+        {
+          "lat": 37.66950665897675,
+          "lng": 126.75040974155479
+        }
+      ]
+    }
+  ],
+  "engineering": {
+    "mass_conserved": true,
+    "clock_accounting": true,
+    "distance_matches_walk_time": true,
+    "full_horizon_resolved": true,
+    "checkpoint_equal": true,
+    "checkpoint_error": null
+  },
+  "authored_behavior_checks": {
+    "wait_first_hour": true,
+    "waiting_released": true,
+    "walking_after_release": true,
+    "personal_rest_executed": true,
+    "walking_time_limit_preserved": true,
+    "walking_distance_limit_preserved": true
+  },
+  "max_continuous_walk_minutes": 5.833333333333362,
+  "max_distance_since_rest_m": 280.00000000000136,
+  "total_action_minutes": {
+    "wait": 9000.0,
+    "walk": 14574.833333333381,
+    "rest": 12425.166666666599
+  },
+  "personal_rest_onsets_first20": [
+    {
+      "minute": 95.83333333333334,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 106.66666666666669,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 117.5,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 95.83333333333336,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 106.6666666666667,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 117.50000000000003,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 95.83333333333333,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 106.66666666666666,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 117.50000000000001,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 95.83333333333334,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 106.66666666666666,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 117.49999999999999,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 95.83333333333334,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 106.66666666666667,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 117.5,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 95.83333333333334,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 106.66666666666667,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 117.50000000000001,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 95.83333333333333,
+      "rule_id": "k_0"
+    },
+    {
+      "minute": 106.66666666666666,
+      "rule_id": "k_0"
+    }
+  ],
+  "one_particle_trace": [
+    {
+      "minute": 1.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 2.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 3.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 4.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 5.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 6.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 7.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 8.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 9.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 10.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 11.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 12.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 13.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 14.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 15.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 16.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 17.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 18.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 19.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 20.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 21.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 22.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 23.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 24.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 25.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 26.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 27.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 28.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 29.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 30.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 31.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 32.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 33.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 34.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 35.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 36.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 37.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 38.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 39.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 40.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 41.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 42.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 43.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 44.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 45.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 46.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 47.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 48.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 49.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 50.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 51.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 52.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 53.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 54.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 55.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 56.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 57.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 58.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 59.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 60.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 61.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 62.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 63.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 64.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 65.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 66.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 67.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 68.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 69.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 70.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 71.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 72.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 73.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 74.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 75.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 76.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 77.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 78.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 79.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 80.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 81.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 82.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 83.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 84.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 85.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 86.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 87.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 88.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 89.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 90.0,
+      "lat": 37.6652003,
+      "lng": 126.7483383,
+      "mode": "wait",
+      "rule_id": "k_1",
+      "target": null,
+      "arrived": false,
+      "distance_m": 0.0,
+      "uncertain": false
+    },
+    {
+      "minute": 90.18544217112492,
+      "lat": 37.6652396,
+      "lng": 126.7482502,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 8.901224213995889,
+      "uncertain": false
+    },
+    {
+      "minute": 91.46623865374,
+      "lat": 37.6652524,
+      "lng": 126.7487453,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 70.37945537951978,
+      "uncertain": false
+    },
+    {
+      "minute": 93.0,
+      "lat": 37.66494366695043,
+      "lng": 126.74948277393165,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 143.99999999999946,
+      "uncertain": false
+    },
+    {
+      "minute": 94.0,
+      "lat": 37.664730822466645,
+      "lng": 126.74995861001663,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 191.99999999999946,
+      "uncertain": false
+    },
+    {
+      "minute": 95.0,
+      "lat": 37.66451851452784,
+      "lng": 126.75043467754239,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 239.99999999999946,
+      "uncertain": false
+    },
+    {
+      "minute": 96.0,
+      "lat": 37.66463576393343,
+      "lng": 126.75073922324609,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 280.0000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 97.0,
+      "lat": 37.66463576393343,
+      "lng": 126.75073922324609,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 280.0000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 98.0,
+      "lat": 37.66463576393343,
+      "lng": 126.75073922324609,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 280.0000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 99.0,
+      "lat": 37.66463576393343,
+      "lng": 126.75073922324609,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 280.0000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 100.0,
+      "lat": 37.66463576393343,
+      "lng": 126.75073922324609,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 280.0000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 101.0,
+      "lat": 37.66469933229415,
+      "lng": 126.7507817868795,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 287.99999999999966,
+      "uncertain": false
+    },
+    {
+      "minute": 102.0,
+      "lat": 37.665080742458485,
+      "lng": 126.75103716867994,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 335.99999999999966,
+      "uncertain": false
+    },
+    {
+      "minute": 103.0,
+      "lat": 37.665363804134586,
+      "lng": 126.7513279999458,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 383.99999999999943,
+      "uncertain": false
+    },
+    {
+      "minute": 104.0,
+      "lat": 37.665701569965506,
+      "lng": 126.75160875361793,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 431.9999999999991,
+      "uncertain": false
+    },
+    {
+      "minute": 105.0,
+      "lat": 37.66607991501945,
+      "lng": 126.75187558538381,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 479.9999999999991,
+      "uncertain": false
+    },
+    {
+      "minute": 106.0,
+      "lat": 37.6664582600734,
+      "lng": 126.75214241714968,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 527.9999999999991,
+      "uncertain": false
+    },
+    {
+      "minute": 107.0,
+      "lat": 37.66659731727662,
+      "lng": 126.75207669398193,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 560.0000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 108.0,
+      "lat": 37.66659731727662,
+      "lng": 126.75207669398193,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 560.0000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 109.0,
+      "lat": 37.66659731727662,
+      "lng": 126.75207669398193,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 560.0000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 110.0,
+      "lat": 37.66659731727662,
+      "lng": 126.75207669398193,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 560.0000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 111.0,
+      "lat": 37.66659731727662,
+      "lng": 126.75207669398193,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 560.0000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 111.70748400351849,
+      "lat": 37.6666009,
+      "lng": 126.7520549,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 561.959232168887,
+      "uncertain": false
+    },
+    {
+      "minute": 113.0,
+      "lat": 37.66619962006453,
+      "lng": 126.75170228087514,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 623.9999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 114.0,
+      "lat": 37.665821404542605,
+      "lng": 126.7514445219926,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 671.9999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 115.0,
+      "lat": 37.66544318902068,
+      "lng": 126.75118676311007,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 719.9999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 116.0,
+      "lat": 37.66580742650125,
+      "lng": 126.75143499577247,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 768.0,
+      "uncertain": false
+    },
+    {
+      "minute": 117.0,
+      "lat": 37.66618564202318,
+      "lng": 126.75169275465501,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 816.0,
+      "uncertain": false
+    },
+    {
+      "minute": 118.0,
+      "lat": 37.66637474978415,
+      "lng": 126.75182163409627,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 840.0,
+      "uncertain": false
+    },
+    {
+      "minute": 119.0,
+      "lat": 37.66637474978415,
+      "lng": 126.75182163409627,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 840.0,
+      "uncertain": false
+    },
+    {
+      "minute": 120.0,
+      "lat": 37.66637474978415,
+      "lng": 126.75182163409627,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 840.0,
+      "uncertain": false
+    },
+    {
+      "minute": 121.0,
+      "lat": 37.66637474978415,
+      "lng": 126.75182163409627,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 840.0,
+      "uncertain": false
+    },
+    {
+      "minute": 122.0,
+      "lat": 37.66637474978415,
+      "lng": 126.75182163409627,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 840.0,
+      "uncertain": false
+    },
+    {
+      "minute": 123.0,
+      "lat": 37.66657342800505,
+      "lng": 126.75192900299514,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 864.0,
+      "uncertain": false
+    },
+    {
+      "minute": 124.0,
+      "lat": 37.66634514502595,
+      "lng": 126.75188367998533,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 912.0000000000005,
+      "uncertain": false
+    },
+    {
+      "minute": 125.0,
+      "lat": 37.66596372070476,
+      "lng": 126.75162832824442,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 960.0000000000005,
+      "uncertain": false
+    },
+    {
+      "minute": 126.0,
+      "lat": 37.66558229638357,
+      "lng": 126.7513729765035,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1008.0000000000005,
+      "uncertain": false
+    },
+    {
+      "minute": 127.0,
+      "lat": 37.665575731772876,
+      "lng": 126.75127709274942,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1056.0000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 128.0,
+      "lat": 37.6659539472948,
+      "lng": 126.75153485163196,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1104.0000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 129.0,
+      "lat": 37.66608001913544,
+      "lng": 126.75162077125947,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1119.9999999999993,
+      "uncertain": false
+    },
+    {
+      "minute": 130.0,
+      "lat": 37.66608001913544,
+      "lng": 126.75162077125947,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1119.9999999999993,
+      "uncertain": false
+    },
+    {
+      "minute": 131.0,
+      "lat": 37.66608001913544,
+      "lng": 126.75162077125947,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1119.9999999999993,
+      "uncertain": false
+    },
+    {
+      "minute": 132.0,
+      "lat": 37.66608001913544,
+      "lng": 126.75162077125947,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1119.9999999999993,
+      "uncertain": false
+    },
+    {
+      "minute": 133.0,
+      "lat": 37.66608001913544,
+      "lng": 126.75162077125947,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1119.9999999999993,
+      "uncertain": false
+    },
+    {
+      "minute": 134.0,
+      "lat": 37.66633216281673,
+      "lng": 126.7517926105145,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1152.0000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 135.0,
+      "lat": 37.66660720239332,
+      "lng": 126.75202433069904,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1200.0,
+      "uncertain": false
+    },
+    {
+      "minute": 136.0,
+      "lat": 37.66654291242405,
+      "lng": 126.75238748642747,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1248.0,
+      "uncertain": false
+    },
+    {
+      "minute": 137.0,
+      "lat": 37.66643839103718,
+      "lng": 126.75291014384925,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1296.0,
+      "uncertain": false
+    },
+    {
+      "minute": 138.0,
+      "lat": 37.66631164738602,
+      "lng": 126.75342749310055,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1344.0,
+      "uncertain": false
+    },
+    {
+      "minute": 139.0,
+      "lat": 37.66614148945434,
+      "lng": 126.75393268043558,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1392.0,
+      "uncertain": false
+    },
+    {
+      "minute": 140.0,
+      "lat": 37.66610731370276,
+      "lng": 126.7540146419061,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1399.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 141.0,
+      "lat": 37.66610731370276,
+      "lng": 126.7540146419061,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1399.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 142.0,
+      "lat": 37.66610731370276,
+      "lng": 126.7540146419061,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1399.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 143.0,
+      "lat": 37.66610731370276,
+      "lng": 126.7540146419061,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1399.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 144.0,
+      "lat": 37.66610731370276,
+      "lng": 126.7540146419061,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1399.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 144.6150085470248,
+      "lat": 37.6660122,
+      "lng": 126.7542339,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1421.52041025719,
+      "uncertain": false
+    },
+    {
+      "minute": 146.0,
+      "lat": 37.66548353466602,
+      "lng": 126.75388118706665,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1488.0000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 147.0,
+      "lat": 37.665100265303344,
+      "lng": 126.75362547615504,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1536.0000000000007,
+      "uncertain": false
+    },
+    {
+      "minute": 148.0,
+      "lat": 37.66471639472356,
+      "lng": 126.75336730038185,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1584.0000000000007,
+      "uncertain": false
+    },
+    {
+      "minute": 149.0,
+      "lat": 37.664334370761345,
+      "lng": 126.75310638908881,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1632.0000000000007,
+      "uncertain": false
+    },
+    {
+      "minute": 149.99999999999997,
+      "lat": 37.66396225129606,
+      "lng": 126.75283256662638,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1679.9999999999993,
+      "uncertain": false
+    },
+    {
+      "minute": 151.0,
+      "lat": 37.66396225129606,
+      "lng": 126.75283256662638,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1679.9999999999993,
+      "uncertain": false
+    },
+    {
+      "minute": 152.0,
+      "lat": 37.66396225129606,
+      "lng": 126.75283256662638,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1679.9999999999993,
+      "uncertain": false
+    },
+    {
+      "minute": 153.0,
+      "lat": 37.66396225129606,
+      "lng": 126.75283256662638,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1679.9999999999993,
+      "uncertain": false
+    },
+    {
+      "minute": 154.0,
+      "lat": 37.66396225129606,
+      "lng": 126.75283256662638,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1679.9999999999993,
+      "uncertain": false
+    },
+    {
+      "minute": 154.99999999999997,
+      "lat": 37.66396225129606,
+      "lng": 126.75283256662638,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1679.9999999999993,
+      "uncertain": false
+    },
+    {
+      "minute": 155.96574966483843,
+      "lat": 37.6636233,
+      "lng": 126.7525415,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1726.3559839122452,
+      "uncertain": false
+    },
+    {
+      "minute": 157.0,
+      "lat": 37.66354017133194,
+      "lng": 126.7521461318162,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1776.0000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 158.0,
+      "lat": 37.66374437252613,
+      "lng": 126.75166569163493,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1824.0000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 159.0,
+      "lat": 37.66394857372032,
+      "lng": 126.75118525145365,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1872.0000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 160.0,
+      "lat": 37.66415277491451,
+      "lng": 126.75070481127239,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1920.0000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 161.0,
+      "lat": 37.664442675023714,
+      "lng": 126.75075319715927,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1959.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 162.0,
+      "lat": 37.664442675023714,
+      "lng": 126.75075319715927,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1959.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 163.0,
+      "lat": 37.664442675023714,
+      "lng": 126.75075319715927,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1959.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 164.0,
+      "lat": 37.664442675023714,
+      "lng": 126.75075319715927,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1959.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 165.0,
+      "lat": 37.664442675023714,
+      "lng": 126.75075319715927,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 1959.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 166.0,
+      "lat": 37.66451526874527,
+      "lng": 126.75077211041776,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 1968.0,
+      "uncertain": false
+    },
+    {
+      "minute": 167.0,
+      "lat": 37.66488982407364,
+      "lng": 126.75103626583932,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2016.0,
+      "uncertain": false
+    },
+    {
+      "minute": 168.0,
+      "lat": 37.66526437940202,
+      "lng": 126.75130042126086,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2064.0,
+      "uncertain": false
+    },
+    {
+      "minute": 169.0,
+      "lat": 37.66505906526961,
+      "lng": 126.75115562331757,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2112.0,
+      "uncertain": false
+    },
+    {
+      "minute": 170.0,
+      "lat": 37.66468450994124,
+      "lng": 126.75089146789603,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2160.0,
+      "uncertain": false
+    },
+    {
+      "minute": 171.0,
+      "lat": 37.66431735237172,
+      "lng": 126.7508600741527,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2208.0,
+      "uncertain": false
+    },
+    {
+      "minute": 172.0,
+      "lat": 37.66418528060351,
+      "lng": 126.7511818273983,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2239.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 173.0,
+      "lat": 37.66418528060351,
+      "lng": 126.7511818273983,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2239.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 174.0,
+      "lat": 37.66418528060351,
+      "lng": 126.7511818273983,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2239.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 175.0,
+      "lat": 37.66418528060351,
+      "lng": 126.7511818273983,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2239.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 176.0,
+      "lat": 37.66418528060351,
+      "lng": 126.7511818273983,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2239.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 177.0,
+      "lat": 37.6641192447194,
+      "lng": 126.75134270402111,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2256.0,
+      "uncertain": false
+    },
+    {
+      "minute": 178.0,
+      "lat": 37.66392113706709,
+      "lng": 126.75182533388953,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2304.0,
+      "uncertain": false
+    },
+    {
+      "minute": 179.0,
+      "lat": 37.663723029414776,
+      "lng": 126.75230796375794,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2352.0,
+      "uncertain": false
+    },
+    {
+      "minute": 180.0,
+      "lat": 37.66343386118233,
+      "lng": 126.75239644684726,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2400.0000000000005,
+      "uncertain": false
+    },
+    {
+      "minute": 181.0,
+      "lat": 37.663637967350574,
+      "lng": 126.75191603944525,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2448.0,
+      "uncertain": false
+    },
+    {
+      "minute": 182.0,
+      "lat": 37.66384216854476,
+      "lng": 126.75143559926398,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2496.0,
+      "uncertain": false
+    },
+    {
+      "minute": 183.0,
+      "lat": 37.66394426914186,
+      "lng": 126.75119537917334,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2519.9999999999986,
+      "uncertain": false
+    },
+    {
+      "minute": 184.0,
+      "lat": 37.66394426914186,
+      "lng": 126.75119537917334,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2519.9999999999986,
+      "uncertain": false
+    },
+    {
+      "minute": 185.0,
+      "lat": 37.66394426914186,
+      "lng": 126.75119537917334,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2519.9999999999986,
+      "uncertain": false
+    },
+    {
+      "minute": 186.0,
+      "lat": 37.66394426914186,
+      "lng": 126.75119537917334,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2519.9999999999986,
+      "uncertain": false
+    },
+    {
+      "minute": 187.0,
+      "lat": 37.66394426914186,
+      "lng": 126.75119537917334,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2519.9999999999986,
+      "uncertain": false
+    },
+    {
+      "minute": 188.0,
+      "lat": 37.664046369738955,
+      "lng": 126.75095515908271,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2544.0,
+      "uncertain": false
+    },
+    {
+      "minute": 189.0,
+      "lat": 37.66429963787052,
+      "lng": 126.75068314104345,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2592.0,
+      "uncertain": false
+    },
+    {
+      "minute": 190.0,
+      "lat": 37.66421806757211,
+      "lng": 126.75110195178445,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2639.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 191.0,
+      "lat": 37.66401995991979,
+      "lng": 126.75158458165286,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2687.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 192.0,
+      "lat": 37.663821852267475,
+      "lng": 126.75206721152128,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2735.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 193.0,
+      "lat": 37.66362011176437,
+      "lng": 126.75254820034216,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2784.0,
+      "uncertain": false
+    },
+    {
+      "minute": 194.0,
+      "lat": 37.66354510540611,
+      "lng": 126.75269862819081,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2799.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 195.0,
+      "lat": 37.66354510540611,
+      "lng": 126.75269862819081,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2799.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 196.0,
+      "lat": 37.66354510540611,
+      "lng": 126.75269862819081,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2799.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 197.0,
+      "lat": 37.66354510540611,
+      "lng": 126.75269862819081,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2799.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 198.0,
+      "lat": 37.66354510540611,
+      "lng": 126.75269862819081,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 2799.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 198.82613907613796,
+      "lat": 37.6633723,
+      "lng": 126.7525419,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2823.654675654623,
+      "uncertain": false
+    },
+    {
+      "minute": 200.0,
+      "lat": 37.663611738076774,
+      "lng": 126.75197775111695,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2880.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 201.0,
+      "lat": 37.66381593927097,
+      "lng": 126.75149731093569,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2928.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 202.0,
+      "lat": 37.664020140465155,
+      "lng": 126.75101687075441,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 2976.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 203.0,
+      "lat": 37.664250975806034,
+      "lng": 126.75064956471601,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3024.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 204.0,
+      "lat": 37.664327711155934,
+      "lng": 126.75051915342964,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3072.0,
+      "uncertain": false
+    },
+    {
+      "minute": 205.0,
+      "lat": 37.66426638225439,
+      "lng": 126.750471635117,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3079.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 206.0,
+      "lat": 37.66426638225439,
+      "lng": 126.750471635117,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3079.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 207.0,
+      "lat": 37.66426638225439,
+      "lng": 126.750471635117,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3079.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 208.0,
+      "lat": 37.66426638225439,
+      "lng": 126.750471635117,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3079.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 209.0,
+      "lat": 37.66426638225439,
+      "lng": 126.750471635117,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3079.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 209.1829239674176,
+      "lat": 37.6642604,
+      "lng": 126.750467,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3080.780350436044,
+      "uncertain": false
+    },
+    {
+      "minute": 211.0,
+      "lat": 37.66366523147933,
+      "lng": 126.75024817585536,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3168.0,
+      "uncertain": false
+    },
+    {
+      "minute": 212.0,
+      "lat": 37.66352910581968,
+      "lng": 126.74994253139344,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3216.0000000000005,
+      "uncertain": false
+    },
+    {
+      "minute": 213.0,
+      "lat": 37.663498631656985,
+      "lng": 126.7500503951969,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3263.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 214.0,
+      "lat": 37.663357203481674,
+      "lng": 126.75041993509326,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3311.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 214.99999999999997,
+      "lat": 37.66297777890717,
+      "lng": 126.75070557643251,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3359.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 216.0,
+      "lat": 37.66297777890717,
+      "lng": 126.75070557643251,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3359.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 217.0,
+      "lat": 37.66297777890717,
+      "lng": 126.75070557643251,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3359.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 218.0,
+      "lat": 37.66297777890717,
+      "lng": 126.75070557643251,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3359.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 219.0,
+      "lat": 37.66297777890717,
+      "lng": 126.75070557643251,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3359.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 219.99999999999997,
+      "lat": 37.66297777890717,
+      "lng": 126.75070557643251,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3359.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 221.0,
+      "lat": 37.66265088011598,
+      "lng": 126.7510517289188,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3407.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 222.0,
+      "lat": 37.66234118321463,
+      "lng": 126.75141327959828,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3455.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 223.0,
+      "lat": 37.66220748955548,
+      "lng": 126.75161829903944,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3503.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 224.0,
+      "lat": 37.661824306259064,
+      "lng": 126.75137159856311,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3551.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 225.0,
+      "lat": 37.66144461069845,
+      "lng": 126.751112182465,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3599.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 226.0,
+      "lat": 37.66155167332242,
+      "lng": 126.75079762440474,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3639.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 227.0,
+      "lat": 37.66155167332242,
+      "lng": 126.75079762440474,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3639.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 228.0,
+      "lat": 37.66155167332242,
+      "lng": 126.75079762440474,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3639.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 229.0,
+      "lat": 37.66155167332242,
+      "lng": 126.75079762440474,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3639.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 230.0,
+      "lat": 37.66155167332242,
+      "lng": 126.75079762440474,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3639.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 231.0,
+      "lat": 37.661599763523284,
+      "lng": 126.75072968803606,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3647.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 232.0,
+      "lat": 37.66143193128761,
+      "lng": 126.7509710418462,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3695.9999999999986,
+      "uncertain": false
+    },
+    {
+      "minute": 233.0,
+      "lat": 37.66166811983545,
+      "lng": 126.75126488867025,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3743.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 234.0,
+      "lat": 37.66204781539606,
+      "lng": 126.75152430476835,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3791.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 235.0,
+      "lat": 37.662378639332275,
+      "lng": 126.75136867022022,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3839.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 236.0,
+      "lat": 37.66269126660096,
+      "lng": 126.75100975405498,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3887.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 237.0,
+      "lat": 37.662911376205294,
+      "lng": 126.75078098765769,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3919.9999999999977,
+      "uncertain": false
+    },
+    {
+      "minute": 238.0,
+      "lat": 37.662911376205294,
+      "lng": 126.75078098765769,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3919.9999999999977,
+      "uncertain": false
+    },
+    {
+      "minute": 239.0,
+      "lat": 37.662911376205294,
+      "lng": 126.75078098765769,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3919.9999999999977,
+      "uncertain": false
+    },
+    {
+      "minute": 240.0,
+      "lat": 37.662911376205294,
+      "lng": 126.75078098765769,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3919.9999999999977,
+      "uncertain": false
+    },
+    {
+      "minute": 241.0,
+      "lat": 37.662911376205294,
+      "lng": 126.75078098765769,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 3919.9999999999977,
+      "uncertain": false
+    },
+    {
+      "minute": 242.0,
+      "lat": 37.66301821045676,
+      "lng": 126.75066390821326,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3935.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 243.0,
+      "lat": 37.663405486935396,
+      "lng": 126.75038735188505,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 3983.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 244.0,
+      "lat": 37.663476733720856,
+      "lng": 126.75033927229121,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4031.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 245.0,
+      "lat": 37.66308563310118,
+      "lng": 126.75061059837549,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4079.9999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 246.0,
+      "lat": 37.662750860664936,
+      "lng": 126.75094781618836,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4128.0,
+      "uncertain": false
+    },
+    {
+      "minute": 247.0,
+      "lat": 37.66243390936314,
+      "lng": 126.75130284487958,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4176.0,
+      "uncertain": false
+    },
+    {
+      "minute": 248.0,
+      "lat": 37.66228080521382,
+      "lng": 126.75148518841412,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4199.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 249.0,
+      "lat": 37.66228080521382,
+      "lng": 126.75148518841412,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4199.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 250.0,
+      "lat": 37.66228080521382,
+      "lng": 126.75148518841412,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4199.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 251.0,
+      "lat": 37.66228080521382,
+      "lng": 126.75148518841412,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4199.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 252.0,
+      "lat": 37.66228080521382,
+      "lng": 126.75148518841412,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4199.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 252.84553346298014,
+      "lat": 37.662175,
+      "lng": 126.7516112,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4216.585606223047,
+      "uncertain": false
+    },
+    {
+      "minute": 254.0,
+      "lat": 37.66176327447973,
+      "lng": 126.7515012868469,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4272.0,
+      "uncertain": false
+    },
+    {
+      "minute": 255.0,
+      "lat": 37.66138304912111,
+      "lng": 126.75124311391444,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4320.0,
+      "uncertain": false
+    },
+    {
+      "minute": 256.0,
+      "lat": 37.6610028237625,
+      "lng": 126.75098494098198,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4368.0,
+      "uncertain": false
+    },
+    {
+      "minute": 257.0,
+      "lat": 37.66062259840389,
+      "lng": 126.75072676804953,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4416.0,
+      "uncertain": false
+    },
+    {
+      "minute": 258.0,
+      "lat": 37.66027277957009,
+      "lng": 126.75062748961788,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4464.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 259.0,
+      "lat": 37.66026965025725,
+      "lng": 126.75063322776238,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4479.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 260.0,
+      "lat": 37.66026965025725,
+      "lng": 126.75063322776238,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4479.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 261.0,
+      "lat": 37.66026965025725,
+      "lng": 126.75063322776238,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4479.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 262.0,
+      "lat": 37.66026965025725,
+      "lng": 126.75063322776238,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4479.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 263.0,
+      "lat": 37.66026965025725,
+      "lng": 126.75063322776238,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4479.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 263.5707863357131,
+      "lat": 37.6603278,
+      "lng": 126.7505266,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4491.397744114231,
+      "uncertain": false
+    },
+    {
+      "minute": 265.0,
+      "lat": 37.66024195850887,
+      "lng": 126.74992908223321,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4560.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 266.0,
+      "lat": 37.66044913733969,
+      "lng": 126.74945045928312,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4608.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 267.0,
+      "lat": 37.66065576492992,
+      "lng": 126.74897159917425,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4656.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 268.0,
+      "lat": 37.66086081370594,
+      "lng": 126.74849205981639,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4704.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 269.0,
+      "lat": 37.66101113185492,
+      "lng": 126.74844715351225,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4752.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 270.0,
+      "lat": 37.660977199624675,
+      "lng": 126.7485272920476,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4759.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 271.0,
+      "lat": 37.660977199624675,
+      "lng": 126.7485272920476,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4759.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 272.0,
+      "lat": 37.660977199624675,
+      "lng": 126.7485272920476,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4759.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 273.0,
+      "lat": 37.660977199624675,
+      "lng": 126.7485272920476,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4759.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 274.0,
+      "lat": 37.660977199624675,
+      "lng": 126.7485272920476,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 4759.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 275.0,
+      "lat": 37.66080753847345,
+      "lng": 126.74892798472439,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4800.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 276.0,
+      "lat": 37.66060394509197,
+      "lng": 126.74940881593653,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4848.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 277.0,
+      "lat": 37.6604003517105,
+      "lng": 126.74988964714868,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4896.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 278.0,
+      "lat": 37.66015415648648,
+      "lng": 126.75014393909909,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4944.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 279.0,
+      "lat": 37.659952462417884,
+      "lng": 126.75061887312643,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 4992.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 279.99999999999994,
+      "lat": 37.65974690000913,
+      "lng": 126.75110002088925,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5039.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 281.0,
+      "lat": 37.65974690000913,
+      "lng": 126.75110002088925,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5039.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 282.0,
+      "lat": 37.65974690000913,
+      "lng": 126.75110002088925,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5039.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 283.0,
+      "lat": 37.65974690000913,
+      "lng": 126.75110002088925,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5039.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 284.0,
+      "lat": 37.65974690000913,
+      "lng": 126.75110002088925,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5039.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 284.99999999999994,
+      "lat": 37.65974690000913,
+      "lng": 126.75110002088925,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5039.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 286.0,
+      "lat": 37.659550598905945,
+      "lng": 126.75158497721438,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5088.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 287.0,
+      "lat": 37.65936742221962,
+      "lng": 126.75207380242115,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5136.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 288.0,
+      "lat": 37.65922180214292,
+      "lng": 126.75257185501269,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5184.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 289.0,
+      "lat": 37.65907618444669,
+      "lng": 126.7530699083008,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5232.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 290.0,
+      "lat": 37.65889476134651,
+      "lng": 126.7535537487656,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5280.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 291.0,
+      "lat": 37.658691148825675,
+      "lng": 126.75393521770185,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5320.0,
+      "uncertain": false
+    },
+    {
+      "minute": 292.0,
+      "lat": 37.658691148825675,
+      "lng": 126.75393521770185,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5320.0,
+      "uncertain": false
+    },
+    {
+      "minute": 293.0,
+      "lat": 37.658691148825675,
+      "lng": 126.75393521770185,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5320.0,
+      "uncertain": false
+    },
+    {
+      "minute": 294.0,
+      "lat": 37.658691148825675,
+      "lng": 126.75393521770185,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5320.0,
+      "uncertain": false
+    },
+    {
+      "minute": 295.0,
+      "lat": 37.658691148825675,
+      "lng": 126.75393521770185,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5320.0,
+      "uncertain": false
+    },
+    {
+      "minute": 296.0,
+      "lat": 37.65865205414979,
+      "lng": 126.75401236104223,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5328.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 297.0,
+      "lat": 37.65840578797179,
+      "lng": 126.7544590073814,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5376.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 298.0,
+      "lat": 37.65836605031361,
+      "lng": 126.7547049846517,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5424.0,
+      "uncertain": false
+    },
+    {
+      "minute": 299.0,
+      "lat": 37.658690405887114,
+      "lng": 126.75430352043608,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5472.0,
+      "uncertain": false
+    },
+    {
+      "minute": 300.0,
+      "lat": 37.65891857500504,
+      "lng": 126.75383875350101,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5520.0,
+      "uncertain": false
+    },
+    {
+      "minute": 301.0,
+      "lat": 37.6590898222536,
+      "lng": 126.75334923985793,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5568.0,
+      "uncertain": false
+    },
+    {
+      "minute": 302.0,
+      "lat": 37.65919763313351,
+      "lng": 126.75302067053326,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5600.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 303.0,
+      "lat": 37.65919763313351,
+      "lng": 126.75302067053326,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5600.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 304.0,
+      "lat": 37.65919763313351,
+      "lng": 126.75302067053326,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5600.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 305.0,
+      "lat": 37.65919763313351,
+      "lng": 126.75302067053326,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5600.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 306.0,
+      "lat": 37.65919763313351,
+      "lng": 126.75302067053326,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5600.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 307.0,
+      "lat": 37.659248920482256,
+      "lng": 126.75285553418983,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5616.0,
+      "uncertain": false
+    },
+    {
+      "minute": 308.0,
+      "lat": 37.6594027825285,
+      "lng": 126.75236012515954,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5664.0,
+      "uncertain": false
+    },
+    {
+      "minute": 309.0,
+      "lat": 37.659575921137375,
+      "lng": 126.75186982153224,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5712.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 310.0,
+      "lat": 37.659775543780384,
+      "lng": 126.75138634659012,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5760.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 311.0,
+      "lat": 37.65997516642339,
+      "lng": 126.75090287164802,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5808.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 312.0,
+      "lat": 37.659972069867855,
+      "lng": 126.75057297912886,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5856.0,
+      "uncertain": false
+    },
+    {
+      "minute": 313.0,
+      "lat": 37.65986928866347,
+      "lng": 126.75081355301027,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5880.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 314.0,
+      "lat": 37.65986928866347,
+      "lng": 126.75081355301027,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5880.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 315.0,
+      "lat": 37.65986928866347,
+      "lng": 126.75081355301027,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5880.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 316.0,
+      "lat": 37.65986928866347,
+      "lng": 126.75081355301027,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5880.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 317.0,
+      "lat": 37.65986928866347,
+      "lng": 126.75081355301027,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 5880.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 318.0,
+      "lat": 37.659766507459096,
+      "lng": 126.75105412689169,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5904.0,
+      "uncertain": false
+    },
+    {
+      "minute": 319.0,
+      "lat": 37.6595689502161,
+      "lng": 126.75153856664961,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5952.0,
+      "uncertain": false
+    },
+    {
+      "minute": 320.0,
+      "lat": 37.659416042957176,
+      "lng": 126.75192526995222,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 5999.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 321.0,
+      "lat": 37.659608436130455,
+      "lng": 126.75143870655405,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6047.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 322.0,
+      "lat": 37.65980869616844,
+      "lng": 126.7509553782769,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6095.999999999999,
+      "uncertain": false
+    },
+    {
+      "minute": 323.0,
+      "lat": 37.660047480097106,
+      "lng": 126.75056838721369,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6143.999999999998,
+      "uncertain": false
+    },
+    {
+      "minute": 324.0,
+      "lat": 37.66014700449957,
+      "lng": 126.75049377976362,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6160.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 325.0,
+      "lat": 37.66014700449957,
+      "lng": 126.75049377976362,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6160.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 326.0,
+      "lat": 37.66014700449957,
+      "lng": 126.75049377976362,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6160.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 327.0,
+      "lat": 37.66014700449957,
+      "lng": 126.75049377976362,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6160.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 328.0,
+      "lat": 37.66014700449957,
+      "lng": 126.75049377976362,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6160.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 328.5040844763699,
+      "lat": 37.6601831,
+      "lng": 126.7504126,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6168.196054865752,
+      "uncertain": false
+    },
+    {
+      "minute": 330.0,
+      "lat": 37.66052865283585,
+      "lng": 126.75001150067206,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6239.999999999996,
+      "uncertain": false
+    },
+    {
+      "minute": 331.0,
+      "lat": 37.660729553687474,
+      "lng": 126.74952948281539,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6287.999999999996,
+      "uncertain": false
+    },
+    {
+      "minute": 332.0,
+      "lat": 37.660923490078666,
+      "lng": 126.74904465027831,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6335.999999999996,
+      "uncertain": false
+    },
+    {
+      "minute": 333.0,
+      "lat": 37.66113172774172,
+      "lng": 126.74856616331947,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6383.999999999996,
+      "uncertain": false
+    },
+    {
+      "minute": 334.0,
+      "lat": 37.66123897490755,
+      "lng": 126.74813256401053,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6431.999999999995,
+      "uncertain": false
+    },
+    {
+      "minute": 335.0,
+      "lat": 37.66117687561761,
+      "lng": 126.74808667207192,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6440.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 336.0,
+      "lat": 37.66117687561761,
+      "lng": 126.74808667207192,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6440.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 337.0,
+      "lat": 37.66117687561761,
+      "lng": 126.74808667207192,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6440.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 338.0,
+      "lat": 37.66117687561761,
+      "lng": 126.74808667207192,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6440.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 339.0,
+      "lat": 37.66117687561761,
+      "lng": 126.74808667207192,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6440.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 339.1934399669472,
+      "lat": 37.6611669,
+      "lng": 126.7480793,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6441.2851184134615,
+      "uncertain": false
+    },
+    {
+      "minute": 340.2335335005946,
+      "lat": 37.6613102,
+      "lng": 126.7481852,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6491.209608028536,
+      "uncertain": false
+    },
+    {
+      "minute": 341.3967879120601,
+      "lat": 37.6609594,
+      "lng": 126.7482615,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6547.045819778882,
+      "uncertain": false
+    },
+    {
+      "minute": 342.49500925268404,
+      "lat": 37.6612343,
+      "lng": 126.7479271,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6599.760444128832,
+      "uncertain": false
+    },
+    {
+      "minute": 343.5386604369672,
+      "lat": 37.6613803,
+      "lng": 126.7480228,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6649.855700974423,
+      "uncertain": false
+    },
+    {
+      "minute": 344.7134271105022,
+      "lat": 37.6611321,
+      "lng": 126.7478627,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6706.244501304107,
+      "uncertain": false
+    },
+    {
+      "minute": 346.0,
+      "lat": 37.661071678721214,
+      "lng": 126.74799933240836,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6720.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 347.0,
+      "lat": 37.661071678721214,
+      "lng": 126.74799933240836,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6720.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 348.0,
+      "lat": 37.661071678721214,
+      "lng": 126.74799933240836,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6720.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 349.0,
+      "lat": 37.661071678721214,
+      "lng": 126.74799933240836,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6720.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 350.0,
+      "lat": 37.661071678721214,
+      "lng": 126.74799933240836,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 6720.000000000001,
+      "uncertain": false
+    },
+    {
+      "minute": 350.547073388841,
+      "lat": 37.6609594,
+      "lng": 126.7482615,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6746.25952266437,
+      "uncertain": false
+    },
+    {
+      "minute": 352.0,
+      "lat": 37.66066147917674,
+      "lng": 126.74895823549416,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6816.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 353.0,
+      "lat": 37.66045491094633,
+      "lng": 126.74943712114123,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6864.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 354.0,
+      "lat": 37.66024773211551,
+      "lng": 126.74991574409133,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6912.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 355.0,
+      "lat": 37.66026024671532,
+      "lng": 126.74988683295858,
+      "mode": "walk",
+      "rule_id": null,
+      "target": null,
+      "arrived": false,
+      "distance_m": 6960.000000000003,
+      "uncertain": false
+    },
+    {
+      "minute": 356.0,
+      "lat": 37.660432895741,
+      "lng": 126.74948798050016,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 7000.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 357.0,
+      "lat": 37.660432895741,
+      "lng": 126.74948798050016,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 7000.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 358.0,
+      "lat": 37.660432895741,
+      "lng": 126.74948798050016,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 7000.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 359.0,
+      "lat": 37.660432895741,
+      "lng": 126.74948798050016,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 7000.000000000002,
+      "uncertain": false
+    },
+    {
+      "minute": 360.0,
+      "lat": 37.660432895741,
+      "lng": 126.74948798050016,
+      "mode": "rest",
+      "rule_id": "k_0",
+      "target": null,
+      "arrived": false,
+      "distance_m": 7000.000000000002,
+      "uncertain": false
+    }
+  ],
+  "clinical_accuracy_measured": false,
+  "source_policy_sha256": "edb6da83f07c8b64b63aa018e74732c28a8bba43f22898488394d0dac7d4b3a0"
+}

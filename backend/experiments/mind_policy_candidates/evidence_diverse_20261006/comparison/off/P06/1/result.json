@@ -1,0 +1,17 @@
+{
+  "job": "v4_P06_off_1",
+  "arm": "off",
+  "person_id": "P06",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 본인이 쉬지 않고 25분까지 보행이 가능하다고 진술했으나, 25분 경과 시 반드시 쉬어야 한다는 관찰은 없으며, 휴식 시점은 확인하지 못했다고 명시함. 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호를 의미하지 않는다고 명시함.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "          \n\n{\n  \"source_assessment\": \"보호자는 공원이 어둡고 사람이 붐비는 경우에만 공원을 피한다고 관찰함. 등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호도를 의미하지 않음.\",\n  \"rules\": [\n    {\n      \"command\": \"avoid_park\",\n      \"condition\": \"dark_observed and park.crowned\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 1916,
+    "prompt_tokens": 1693,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "total_tokens": 3609
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "pain_observed",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": 3.0,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "걷는 동안 무릎이 아프다고 말씀하신 뒤에는 앉아서 삼 분 정도 쉬셨어요. 통증 없는 때에 어떻게 쉬는지는 모르겠어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)가 실제 방문이나 선호를 의미하지 않는다고 명시했으며, 통증 발생 시 걷는 중 무릎 통증을 느끼면 앉아 삼 분 정도 쉬었다고 관찰했다. 통증이 없을 때의 휴식 방식은 알 수 없다고 했으며, 이는 조건부 반응으로 해석된다."
+    }
+  ]
+}

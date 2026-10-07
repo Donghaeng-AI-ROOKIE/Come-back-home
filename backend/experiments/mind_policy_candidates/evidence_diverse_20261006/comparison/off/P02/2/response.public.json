@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 특정 장소(느티공원, 해든상가, 솔빛쉼터)를 실제로 방문하거나 선호한다는 의미는 아니며, 단지 후보 장소로 언급된 것이라고 명시함. 또한, 시장 환경에서 사람 많음(crowded) 또는 소음(noisy) 자극이 있을 때 회피 반응을 보이며, 두 자극이 모두 없을 때는 회피하지 않는다는 관찰된 행동을 기술함.\",\n  \"rules\": [\n    {\n      \"command\": \"avoid_market\",\n      \"condition\": \"(market.noisy == True) or (market.crowded == True)\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 156,
+    "prompt_tokens": 1805,
+    "prompt_tokens_details": {
+      "cached_tokens": 1792
+    },
+    "total_tokens": 1961
+  }
+}

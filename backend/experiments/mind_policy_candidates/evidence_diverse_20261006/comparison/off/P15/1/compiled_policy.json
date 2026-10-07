@@ -1,0 +1,41 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "family_present",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "seek",
+      "goal_label": "해든상가",
+      "feature": null,
+      "place_labels": [
+        "해든상가"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "직접 본 세 번에는 오전 열 시부터 열한 시 전까지 가족이 곁에 있으면 해든상가 쪽으로 출발했어요. 다른 시간이나 혼자 있을 때는 출발하지 않았어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)에 대해 실제로 방문하거나 방문할 의도가 있음을 나타내지 않았으며, 단지 후보 장소로 언급되었을 뿐이다. 해든상가로의 출발은 오전 �로 가족이 동행할 경우에만 발생했고, 다른 시간이나 혼자일 때는 출발하지 않았다."
+    }
+  ]
+}

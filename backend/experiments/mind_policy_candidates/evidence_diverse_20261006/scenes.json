@@ -1,0 +1,4750 @@
+[
+  {
+    "id": "P01_S1",
+    "person_id": "P01",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 20,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": true,
+      "crowded": true,
+      "current_place_label": "해든상가"
+    },
+    "expected_commands": [
+      "avoid_market"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "같은 장소 AND 성립"
+  },
+  {
+    "id": "P01_S2",
+    "person_id": "P01",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 20,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "해든상가"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "소음만"
+  },
+  {
+    "id": "P01_S3",
+    "person_id": "P01",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 20,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "해든상가"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "혼잡만"
+  },
+  {
+    "id": "P01_S4",
+    "person_id": "P01",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 20,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": true,
+      "crowded": true,
+      "current_place_label": "다른 상가"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "이름 범위 밖"
+  },
+  {
+    "id": "P02_S1",
+    "person_id": "P02",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 20,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "avoid_market"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "소음만 OR"
+  },
+  {
+    "id": "P02_S2",
+    "person_id": "P02",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 20,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "avoid_market"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "혼잡만 OR"
+  },
+  {
+    "id": "P02_S3",
+    "person_id": "P02",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 20,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "두 자극 없음"
+  },
+  {
+    "id": "P02_S4",
+    "person_id": "P02",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 20,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": null,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "baseline",
+      "avoid_market"
+    ],
+    "rationale": "소음 미관측"
+  },
+  {
+    "id": "P03_S1",
+    "person_id": "P03",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": true,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 20,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "avoid_park"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "어둠과 혼잡"
+  },
+  {
+    "id": "P03_S2",
+    "person_id": "P03",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 20,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "혼잡만"
+  },
+  {
+    "id": "P03_S3",
+    "person_id": "P03",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": true,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 20,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "어둠만"
+  },
+  {
+    "id": "P03_S4",
+    "person_id": "P03",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": true,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "공원에서 멂"
+  },
+  {
+    "id": "P04_S1",
+    "person_id": "P04",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 20
+      },
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "타인의 반응"
+  },
+  {
+    "id": "P04_S2",
+    "person_id": "P04",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 20
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "본인 관찰 없음"
+  },
+  {
+    "id": "P04_S3",
+    "person_id": "P04",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": true,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 20
+      },
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "조건 추가도 근거 아님"
+  },
+  {
+    "id": "P04_S4",
+    "person_id": "P04",
+    "family": "environment",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "중립"
+  },
+  {
+    "id": "P05_S1",
+    "person_id": "P05",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 8,
+      "distance_since_rest_m": 200,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "rest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "시간 한계"
+  },
+  {
+    "id": "P05_S2",
+    "person_id": "P05",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 4,
+      "distance_since_rest_m": 450,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "rest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "거리 한계"
+  },
+  {
+    "id": "P05_S3",
+    "person_id": "P05",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 7,
+      "distance_since_rest_m": 440,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "두 한계 전"
+  },
+  {
+    "id": "P05_S4",
+    "person_id": "P05",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "rest",
+      "continuous_walk_minutes": 8,
+      "distance_since_rest_m": 450,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "이미 휴식 중"
+  },
+  {
+    "id": "P06_S1",
+    "person_id": "P06",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 24,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "능력 전"
+  },
+  {
+    "id": "P06_S2",
+    "person_id": "P06",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 25,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "능력 경계"
+  },
+  {
+    "id": "P06_S3",
+    "person_id": "P06",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 30,
+      "distance_since_rest_m": 1500,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "능력을 휴식 명령으로 바꾸지 않음"
+  },
+  {
+    "id": "P06_S4",
+    "person_id": "P06",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "rest",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "휴식 관찰 없음"
+  },
+  {
+    "id": "P07_S1",
+    "person_id": "P07",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": true,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "rest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "보행 중 통증"
+  },
+  {
+    "id": "P07_S2",
+    "person_id": "P07",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "통증 없음"
+  },
+  {
+    "id": "P07_S3",
+    "person_id": "P07",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": true,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "rest",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "새 보행 반응 아님"
+  },
+  {
+    "id": "P07_S4",
+    "person_id": "P07",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": null,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "baseline",
+      "rest"
+    ],
+    "rationale": "통증 미확인"
+  },
+  {
+    "id": "P08_S1",
+    "person_id": "P08",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": true,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 12,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "피로 추정만"
+  },
+  {
+    "id": "P08_S2",
+    "person_id": "P08",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": true,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 20,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "rest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "본인 통증"
+  },
+  {
+    "id": "P08_S3",
+    "person_id": "P08",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 20,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "시간만으로 휴식 아님"
+  },
+  {
+    "id": "P08_S4",
+    "person_id": "P08",
+    "family": "physical_rest",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": true,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "rest",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "휴식 중 보행 조건 거짓"
+  },
+  {
+    "id": "P09_S1",
+    "person_id": "P09",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "발동"
+  },
+  {
+    "id": "P09_S2",
+    "person_id": "P09",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "가족 도착"
+  },
+  {
+    "id": "P09_S3",
+    "person_id": "P09",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "부재만으로 발동 안 함"
+  },
+  {
+    "id": "P09_S4",
+    "person_id": "P09",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": null,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "baseline",
+      "wait"
+    ],
+    "rationale": "가족 여부 미확인"
+  },
+  {
+    "id": "P10_S1",
+    "person_id": "P10",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": true,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "인지와 불안"
+  },
+  {
+    "id": "P10_S2",
+    "person_id": "P10",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "불안 없음"
+  },
+  {
+    "id": "P10_S3",
+    "person_id": "P10",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": true,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "길 잃음 인지 없음"
+  },
+  {
+    "id": "P10_S4",
+    "person_id": "P10",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": true,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "가족을 근거 없이 종료조건으로 추가 금지"
+  },
+  {
+    "id": "P11_S1",
+    "person_id": "P11",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "보호자 권고"
+  },
+  {
+    "id": "P11_S2",
+    "person_id": "P11",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "실제 관찰 없음"
+  },
+  {
+    "id": "P11_S3",
+    "person_id": "P11",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": true,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "불안도 관찰을 만들지 못함"
+  },
+  {
+    "id": "P11_S4",
+    "person_id": "P11",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "혼자만으로 반응 확정 금지"
+  },
+  {
+    "id": "P12_S1",
+    "person_id": "P12",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": true,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "불안과 부재"
+  },
+  {
+    "id": "P12_S2",
+    "person_id": "P12",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": true,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "가족 만남"
+  },
+  {
+    "id": "P12_S3",
+    "person_id": "P12",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "불안 없음"
+  },
+  {
+    "id": "P12_S4",
+    "person_id": "P12",
+    "family": "waiting",
+    "scene": {
+      "lost_awareness": null,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": true,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "원문에 없는 길 잃음 인지 조건 추가 금지"
+  },
+  {
+    "id": "P13_S1",
+    "person_id": "P13",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 9,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "발언만"
+  },
+  {
+    "id": "P13_S2",
+    "person_id": "P13",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": true,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "인지가 새 출발 근거 아님"
+  },
+  {
+    "id": "P13_S3",
+    "person_id": "P13",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": true,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "좌표 도착만"
+  },
+  {
+    "id": "P13_S4",
+    "person_id": "P13",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": true,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "다른 마음 상태가 원문 관찰 아님"
+  },
+  {
+    "id": "P14_S1",
+    "person_id": "P14",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": true,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "seek_0"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "실제 출발"
+  },
+  {
+    "id": "P14_S2",
+    "person_id": "P14",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "인지 안 됨"
+  },
+  {
+    "id": "P14_S3",
+    "person_id": "P14",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": true,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "물리적 도착과 인지 구분"
+  },
+  {
+    "id": "P14_S4",
+    "person_id": "P14",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": null,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "baseline",
+      "seek_0"
+    ],
+    "rationale": "인지 미확인"
+  },
+  {
+    "id": "P15_S1",
+    "person_id": "P15",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 10,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "seek_1"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "시작 경계"
+  },
+  {
+    "id": "P15_S2",
+    "person_id": "P15",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 10.5,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "혼자"
+  },
+  {
+    "id": "P15_S3",
+    "person_id": "P15",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "종료 경계"
+  },
+  {
+    "id": "P15_S4",
+    "person_id": "P15",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 9.9,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "시간 전"
+  },
+  {
+    "id": "P16_S1",
+    "person_id": "P16",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": true,
+      "physical_arrival": true,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "솔빛쉼터"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "도착과 인지"
+  },
+  {
+    "id": "P16_S2",
+    "person_id": "P16",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": true,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "솔빛쉼터"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "도착만"
+  },
+  {
+    "id": "P16_S3",
+    "person_id": "P16",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": true,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "솔빛쉼터"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "인지뿐"
+  },
+  {
+    "id": "P16_S4",
+    "person_id": "P16",
+    "family": "destination",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": true,
+      "physical_arrival": true,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "느티공원"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "다른 장소"
+  },
+  {
+    "id": "P17_S1",
+    "person_id": "P17",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": true,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "비 관측"
+  },
+  {
+    "id": "P17_S2",
+    "person_id": "P17",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "비 그침"
+  },
+  {
+    "id": "P17_S3",
+    "person_id": "P17",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": null,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "baseline",
+      "wait"
+    ],
+    "rationale": "날씨 미관측"
+  },
+  {
+    "id": "P17_S4",
+    "person_id": "P17",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 23,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "밤이 비를 뜻하지 않음"
+  },
+  {
+    "id": "P18_S1",
+    "person_id": "P18",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": true,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "어둠과 부재"
+  },
+  {
+    "id": "P18_S2",
+    "person_id": "P18",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": true,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "동행 있음"
+  },
+  {
+    "id": "P18_S3",
+    "person_id": "P18",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 23,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "밤이어도 관측 밝음"
+  },
+  {
+    "id": "P18_S4",
+    "person_id": "P18",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": null,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "baseline",
+      "wait"
+    ],
+    "rationale": "밝기 미관측"
+  },
+  {
+    "id": "P19_S1",
+    "person_id": "P19",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": true,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "rest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "피로만"
+  },
+  {
+    "id": "P19_S2",
+    "person_id": "P19",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": true,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "rest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "통증만"
+  },
+  {
+    "id": "P19_S3",
+    "person_id": "P19",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "둘 다 없음"
+  },
+  {
+    "id": "P19_S4",
+    "person_id": "P19",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": true,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": true,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "rest",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "이미 쉬는 중"
+  },
+  {
+    "id": "P20_S1",
+    "person_id": "P20",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 20,
+        "water": 1000
+      },
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "avoid_forest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "소음"
+  },
+  {
+    "id": "P20_S2",
+    "person_id": "P20",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 20,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "혼잡만"
+  },
+  {
+    "id": "P20_S3",
+    "person_id": "P20",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": true,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 20,
+        "water": 1000
+      },
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "avoid_forest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "비는 제한 조건 아님"
+  },
+  {
+    "id": "P20_S4",
+    "person_id": "P20",
+    "family": "external_state",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "숲 근처 아님"
+  },
+  {
+    "id": "P21_S1",
+    "person_id": "P21",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "walk"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "수정 후 본인 반응"
+  },
+  {
+    "id": "P21_S2",
+    "person_id": "P21",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "인지 없음"
+  },
+  {
+    "id": "P21_S3",
+    "person_id": "P21",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "walk"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "아버지 대기를 가져오지 않음"
+  },
+  {
+    "id": "P21_S4",
+    "person_id": "P21",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": null,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "baseline",
+      "walk"
+    ],
+    "rationale": "인지 미확인"
+  },
+  {
+    "id": "P22_S1",
+    "person_id": "P22",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 20
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "avoid_water"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "수정된 유형"
+  },
+  {
+    "id": "P22_S2",
+    "person_id": "P22",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 20,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "철회된 공원"
+  },
+  {
+    "id": "P22_S3",
+    "person_id": "P22",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 20
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "한산함"
+  },
+  {
+    "id": "P22_S4",
+    "person_id": "P22",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 20
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "avoid_water"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "소음 추가 조건 금지"
+  },
+  {
+    "id": "P23_S1",
+    "person_id": "P23",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "짧은 답은 질문 문맥과 해석"
+  },
+  {
+    "id": "P23_S2",
+    "person_id": "P23",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "가족 도착"
+  },
+  {
+    "id": "P23_S3",
+    "person_id": "P23",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "질문을 무조건 행동으로 바꾸지 않음"
+  },
+  {
+    "id": "P23_S4",
+    "person_id": "P23",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": null,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "baseline",
+      "wait"
+    ],
+    "rationale": "가족 미확인"
+  },
+  {
+    "id": "P24_S1",
+    "person_id": "P24",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "부정 답변"
+  },
+  {
+    "id": "P24_S2",
+    "person_id": "P24",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "질문 자체를 근거로 쓰지 않음"
+  },
+  {
+    "id": "P24_S3",
+    "person_id": "P24",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": true,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "타인 사례 제외"
+  },
+  {
+    "id": "P24_S4",
+    "person_id": "P24",
+    "family": "source_fidelity",
+    "scene": {
+      "lost_awareness": null,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "개인 반응 근거 없음"
+  },
+  {
+    "id": "P25_S1",
+    "person_id": "P25",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "시작 경계"
+  },
+  {
+    "id": "P25_S2",
+    "person_id": "P25",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8.5,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "가족 있음"
+  },
+  {
+    "id": "P25_S3",
+    "person_id": "P25",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 9,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "종료 경계"
+  },
+  {
+    "id": "P25_S4",
+    "person_id": "P25",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 7.9,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "시작 전"
+  },
+  {
+    "id": "P26_S1",
+    "person_id": "P26",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 23.5,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "자정 전"
+  },
+  {
+    "id": "P26_S2",
+    "person_id": "P26",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 0.5,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "자정 후"
+  },
+  {
+    "id": "P26_S3",
+    "person_id": "P26",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 1,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "종료 경계"
+  },
+  {
+    "id": "P26_S4",
+    "person_id": "P26",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 22.5,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "시간 전"
+  },
+  {
+    "id": "P27_S1",
+    "person_id": "P27",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": true,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 12,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "낮의 어둠"
+  },
+  {
+    "id": "P27_S2",
+    "person_id": "P27",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 23,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "밝은 밤"
+  },
+  {
+    "id": "P27_S3",
+    "person_id": "P27",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": null,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 23,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "baseline",
+      "wait"
+    ],
+    "rationale": "시각으로 밝기 추정 금지"
+  },
+  {
+    "id": "P27_S4",
+    "person_id": "P27",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 6,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "명시적으로 밝음"
+  },
+  {
+    "id": "P28_S1",
+    "person_id": "P28",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 10,
+      "distance_since_rest_m": 0,
+      "clock_hour": 8,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "rest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "오전 연속 보행"
+  },
+  {
+    "id": "P28_S2",
+    "person_id": "P28",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 10,
+      "distance_since_rest_m": 0,
+      "clock_hour": 20,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "rest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "저녁 같은 보행"
+  },
+  {
+    "id": "P28_S3",
+    "person_id": "P28",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 10,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "시각과 지속시간 구분"
+  },
+  {
+    "id": "P28_S4",
+    "person_id": "P28",
+    "family": "time_context",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "rest",
+      "continuous_walk_minutes": 10,
+      "distance_since_rest_m": 0,
+      "clock_hour": 10,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "휴식 중"
+  },
+  {
+    "id": "P29_S1",
+    "person_id": "P29",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 6,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "rest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "휴식 시간"
+  },
+  {
+    "id": "P29_S2",
+    "person_id": "P29",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 280,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "rest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "휴식 거리"
+  },
+  {
+    "id": "P29_S3",
+    "person_id": "P29",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "별개 기다림"
+  },
+  {
+    "id": "P29_S4",
+    "person_id": "P29",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": true,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "가족 도착"
+  },
+  {
+    "id": "P30_S1",
+    "person_id": "P30",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 20,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "해든상가"
+    },
+    "expected_commands": [
+      "avoid_market"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "소음 반응"
+  },
+  {
+    "id": "P30_S2",
+    "person_id": "P30",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": true,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "rest"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "통증 반응"
+  },
+  {
+    "id": "P30_S3",
+    "person_id": "P30",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": true,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 20,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": true,
+      "crowded": false,
+      "current_place_label": "해든상가"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "avoid_market",
+      "rest"
+    ],
+    "rationale": "두 유효 반응 우선순위 미제공"
+  },
+  {
+    "id": "P30_S4",
+    "person_id": "P30",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "둘 다 없음"
+  },
+  {
+    "id": "P31_S1",
+    "person_id": "P31",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 20,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "avoid_park"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "회피만"
+  },
+  {
+    "id": "P31_S2",
+    "person_id": "P31",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": true,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "기다림만"
+  },
+  {
+    "id": "P31_S3",
+    "person_id": "P31",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": true,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 20,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": true,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "avoid_park",
+      "wait"
+    ],
+    "rationale": "우선순위 미제공"
+  },
+  {
+    "id": "P31_S4",
+    "person_id": "P31",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": true,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": true,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 20,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "두 조건 해제"
+  },
+  {
+    "id": "P32_S1",
+    "person_id": "P32",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": true,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "seek_1"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "출발만"
+  },
+  {
+    "id": "P32_S2",
+    "person_id": "P32",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": true,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "wait"
+    ],
+    "expected_status": "supported",
+    "expected_possible_commands": null,
+    "rationale": "대기만"
+  },
+  {
+    "id": "P32_S3",
+    "person_id": "P32",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": true,
+      "physical_arrival": false,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": true,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [],
+    "expected_status": "unknown",
+    "expected_possible_commands": [
+      "seek_1",
+      "wait"
+    ],
+    "rationale": "겹침 미관찰"
+  },
+  {
+    "id": "P32_S4",
+    "person_id": "P32",
+    "family": "multiple_behaviors",
+    "scene": {
+      "lost_awareness": false,
+      "family_present": false,
+      "pain_observed": false,
+      "target_recognized": false,
+      "physical_arrival": true,
+      "is_walking": false,
+      "dark_observed": false,
+      "rain_observed": false,
+      "fatigue_high": false,
+      "anxiety_high": false,
+      "home_pull_high": false,
+      "current_action": "walk",
+      "continuous_walk_minutes": 0,
+      "distance_since_rest_m": 0,
+      "clock_hour": 11,
+      "map_distance_m": {
+        "market": 1000,
+        "park": 1000,
+        "forest": 1000,
+        "water": 1000
+      },
+      "noisy": false,
+      "crowded": false,
+      "current_place_label": "등록 장소 밖"
+    },
+    "expected_commands": [
+      "baseline"
+    ],
+    "expected_status": "no_personal_reaction",
+    "expected_possible_commands": null,
+    "rationale": "좌표 도착이 인지 아님"
+  }
+]

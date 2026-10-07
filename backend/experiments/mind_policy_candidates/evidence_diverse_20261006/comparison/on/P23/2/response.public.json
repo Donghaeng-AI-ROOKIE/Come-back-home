@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"lost_awareness observed with waiting until family arrives; candidate places listed but not visited.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"lost_awareness and not family_present\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 9246,
+    "prompt_tokens": 1671,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 10917
+  }
+}

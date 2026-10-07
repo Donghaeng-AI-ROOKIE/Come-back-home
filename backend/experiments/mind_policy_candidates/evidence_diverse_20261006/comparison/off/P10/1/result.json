@@ -1,0 +1,26 @@
+{
+  "job": "v4_P10_off_1",
+  "arm": "off",
+  "person_id": "P10",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 길을 잃었을 때 불안하면 동행자가 돌아올 때까지 잠시 멈춰 기다리는 행동을 보이며, 불안하지 않으면 기다리지 않는 조건부 반응을 보인다.",
+    "rules": [
+      {
+        "command": "wait",
+        "condition": "lost_awareness and anxiety_high",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

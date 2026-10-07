@@ -1,0 +1,28 @@
+{
+  "job": "v4_P01_on_1",
+  "arm": "on",
+  "person_id": "P01",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐 실제 방문을 의미하지 않음. 해든상가에서 사람 많고 소리 클 때 입구에서 돌아옴.",
+    "rules": [
+      {
+        "command": "avoid_market",
+        "condition": "market.crowded and market.noisy",
+        "place_labels": [
+          "해든상가"
+        ],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

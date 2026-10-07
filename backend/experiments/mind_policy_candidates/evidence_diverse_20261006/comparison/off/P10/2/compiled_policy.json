@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "lost_awareness",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "anxiety_high",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "길을 잃은 걸 알고 불안하다고 표현할 때는 곁에 누가 있든 잠깐 멈춰 기다렸어요. 불안하지 않으면 그렇게 기다리지는 않았어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자 원문에 따르면, 길을 잃었음을 인지하고 불안해할 경우 동행이 돌아올 때까지 잠시 멈춰 기다리는 행동을 한다. 불안하지 않으면 기다리지 않는다. 등록 장소 후보(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호를 의미하지 않는다."
+    }
+  ]
+}

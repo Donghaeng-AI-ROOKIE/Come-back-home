@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"보호자는 해든상가에서 시끄러울 때 피했으며, 걷는 중 통증 발생 시 휴식하는 행동을 관찰했으나 등록 장소에 대한 실제 방문 의도는 없음을 명시함.\",\n  \"rules\": [\n    {\n      \"command\": \"avoid_market\",\n      \"condition\": \"market.noisy\",\n      \"place_labels\": [\"해든상가\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and pain_observed\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 928,
+    "prompt_tokens": 1770,
+    "prompt_tokens_details": {
+      "cached_tokens": 1760
+    },
+    "total_tokens": 2698
+  }
+}

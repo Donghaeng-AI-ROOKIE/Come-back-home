@@ -1,0 +1,18 @@
+{
+  "status": "approved",
+  "human_request": "1,2 진행해줘.",
+  "new_development_scope_requires_confirmation": false,
+  "development_max": 32,
+  "evaluation_max": 64,
+  "evaluation_carried_from": "MIND_practical_gate_20261006",
+  "evaluation_only_after_development_pass": true,
+  "max_output_per_call": 12000,
+  "max_input_utf8_bytes": 40000,
+  "concurrency": 2,
+  "unit_price": null,
+  "actual_cost": null,
+  "support_round": null,
+  "human_approval": "진행해",
+  "approved_at": "2026-10-06T08:45:02.980340+00:00",
+  "basis": "Human approved the immediately preceding concrete scope: up to 32 new development calls and up to 64 carried evaluation calls after passing development."
+}

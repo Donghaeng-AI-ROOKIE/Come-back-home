@@ -1,0 +1,108 @@
+{
+  "rules": [
+    {
+      "id": "initial_env_market",
+      "when": [
+        [
+          {
+            "fact": "market.noisy",
+            "op": "eq",
+            "value": true
+          }
+        ],
+        [
+          {
+            "fact": "market.crowded",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "세 군데를 같이 다녀봤어요. 사람만 몰려도 돌아서고, 조용히 한산해도 소리가 크면 돌아섰어요. 두 자극이 다 없을 때는 안 피했어요."
+        }
+      ]
+    },
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "market.crowded",
+            "op": "eq",
+            "value": true
+          }
+        ],
+        [
+          {
+            "fact": "market.noisy",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [
+        "해든상가"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "세 군데를 같이 다녀봤어요. 사람만 몰려도 돌아서고, 조용히 한산해도 소리가 크면 돌아섰어요. 두 자극이 다 없을 때는 안 피했어요."
+        }
+      ]
+    },
+    {
+      "id": "k_1",
+      "when": [
+        [
+          {
+            "fact": "park.crowded",
+            "op": "eq",
+            "value": true
+          }
+        ],
+        [
+          {
+            "fact": "park.noisy",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "park",
+      "place_labels": [
+        "느티공원",
+        "솔빛쉼터"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "세 군데를 같이 다녀봤어요. 사람만 몰려도 돌아서고, 조용히 한산해도 소리가 크면 돌아섰어요. 두 자극이 다 없을 때는 안 피했어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "Avoidance occurs when crowded or noisy; no avoidance when both absent."
+    }
+  ]
+}

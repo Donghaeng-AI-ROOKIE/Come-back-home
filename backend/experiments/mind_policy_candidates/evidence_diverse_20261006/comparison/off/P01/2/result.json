@@ -1,0 +1,17 @@
+{
+  "job": "v4_P01_off_2",
+  "arm": "off",
+  "person_id": "P01",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "N0과 N1은 보호자 원문에서 관찰된 조건부 반응을 해석한 결과이다. N0은 등록 장소가 실제 방문이나 선호를 의미하지 않음을 명시하며, N1은 해든상가에서 특정 조건(사람 많고 소리 클 때)에만 입구에서 돌아서는 행동을 관찰한 사실을 담고 있다.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

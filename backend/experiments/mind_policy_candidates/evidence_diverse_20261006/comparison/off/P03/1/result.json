@@ -1,0 +1,17 @@
+{
+  "job": "v4_P03_off_1",
+  "arm": "off",
+  "person_id": "P03",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)에 대해 '좋아하거나 실제로 간다'는 의미가 아니라고 명시했으며, 공원 회피 행동은 '어두우면서 사람이 많을 때'에만 발생한다고 관찰했다.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

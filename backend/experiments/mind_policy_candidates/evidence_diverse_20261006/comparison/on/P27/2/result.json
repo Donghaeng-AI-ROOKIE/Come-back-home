@@ -1,0 +1,26 @@
+{
+  "job": "v4_P27_on_2",
+  "arm": "on",
+  "person_id": "P27",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "Registered places are candidate names without actual, waiting occurs in dark places (dark_observed), not based on time.",
+    "rules": [
+      {
+        "command": "wait",
+        "condition": "dark_observed",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

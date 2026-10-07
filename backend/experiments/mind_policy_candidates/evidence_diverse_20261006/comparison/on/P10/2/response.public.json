@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"Registration places are candidate names without preference or actual visits. When lost and anxious, brief waiting occurs regardless of companionship; otherwise, no waiting.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"lost_awareness and anxiety_high\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6652,
+    "prompt_tokens": 1686,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 8338
+  }
+}

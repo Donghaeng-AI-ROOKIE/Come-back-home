@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"Registered places are candidate names only with no implication of liking or visiting. When lost, no waiting observed; 'yes' refers to another family member.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2895,
+    "prompt_tokens": 1680,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 4575
+  }
+}

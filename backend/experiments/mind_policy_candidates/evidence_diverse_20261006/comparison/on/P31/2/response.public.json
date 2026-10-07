@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"Guardian notes specify avoiding crowded parks (park.crowded) and waiting when anxious without family (anxiety_high and not family_present).\",\n  \"rules\": [\n    {\n      \"command\": \"avoid_park\",\n      \"condition\": \"park.crowded\",\n      \"place_labels\": [\"느티공원\", \"솔빛쉼터\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"command\": \"wait\",\n      \"condition\": \"anxiety_high and not family_present\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 5810,
+    "prompt_tokens": 1773,
+    "prompt_tokens_details": {
+      "cached_tokens": 1760
+    },
+    "total_tokens": 7583
+  }
+}

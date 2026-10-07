@@ -1,0 +1,26 @@
+{
+  "job": "v4_P02_off_1",
+  "arm": "off",
+  "person_id": "P02",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자 원문에 따르면, 특정 상가(느티공원, 해든상가, 솔빛쉼터)는 등록 장소 후보일 뿐이며, 실제로 방문하거나 선호한다는 의미는 없다. 또한, 세 장소 모두에서 사람 밀집(noisy/crowded) 시 회피 반응을 보였고, 두 자극이 모두 없을 때만 회피하지 않았다. 이는 조건부 회피 행동이며, 실제 방문이나 선호를 의미하지 않는다.",
+    "rules": [
+      {
+        "command": "avoid_market",
+        "condition": "is_walking and (market.noisy == True or market.crowded == True)",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

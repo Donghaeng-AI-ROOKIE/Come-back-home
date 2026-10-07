@@ -1,0 +1,17 @@
+{
+  "job": "v4_P24_on_2",
+  "arm": "on",
+  "person_id": "P24",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "Registered places are candidate names only with no implication of liking or visiting. When lost, no waiting observed; 'yes' refers to another family member.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

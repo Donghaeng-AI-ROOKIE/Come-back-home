@@ -1,0 +1,51 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "fatigue_high",
+            "op": "eq",
+            "value": true
+          }
+        ],
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "pain_observed",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "실제로 걸어 다닐 때 피곤하다고 하시거나 무릎이 아프다고 하면 어느 하나만 있어도 잠깐 앉아 쉬셨어요. 둘 다 괜찮을 때는 그 이유로 쉬지 않으셨어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자 원문에 따르면, 실제 보행 중 피곤함 또는 무릎 통증이 관찰되면 잠시 앉아 쉬었으며, 두 증상이 모두 없을 때만 쉬지 않았다. 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호를 의미하지 않으며, 단지 후보 이름일 뿐이다."
+    }
+  ]
+}

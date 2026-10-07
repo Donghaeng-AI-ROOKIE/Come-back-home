@@ -1,0 +1,17 @@
+{
+  "job": "v4_P13_off_2",
+  "arm": "off",
+  "person_id": "P13",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 느티공원, 해든상가, 솔빛쉼터를 등록 장소로 언급하지만, 실제로 그곳에 간다는 의미는 아니라고 명시했다. 또한 느티공원에 가야 한다고 매일 말하지만 실제로 일어나 출발한 적은 확인되지 않았으며, 입구를 알아보는지도 모른다고 관찰했다.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

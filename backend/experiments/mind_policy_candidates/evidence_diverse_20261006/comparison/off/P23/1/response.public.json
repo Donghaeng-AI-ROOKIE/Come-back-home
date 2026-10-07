@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"N0과 N1은 보호자의 직접 기록으로, 등록 장소가 실제 방문이나 선호를 의미하지 않음을 명시하고, 길을 잃었을 때 가족이 올 때까지 기다리는 행동을 직접 관찰했다고 기술한다. 두 기록 모두 실제 행동이나 조건부 반응을 직접 서술하지 않으며, 해석이 필요한 문답 형태로 제시된다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 89,
+    "prompt_tokens": 1673,
+    "prompt_tokens_details": {
+      "cached_tokens": 1024
+    },
+    "total_tokens": 1762
+  }
+}

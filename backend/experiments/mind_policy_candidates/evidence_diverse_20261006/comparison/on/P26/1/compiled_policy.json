@@ -1,0 +1,51 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "clock_hour",
+            "op": "gte",
+            "value": 23
+          },
+          {
+            "fact": "family_present",
+            "op": "eq",
+            "value": false
+          }
+        ],
+        [
+          {
+            "fact": "clock_hour",
+            "op": "lt",
+            "value": 1
+          },
+          {
+            "fact": "family_present",
+            "op": "eq",
+            "value": false
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "밤 열한 시부터 자정을 지나 새벽 한 시 전까지는 가족이 안 보이면 기다렸어요. 새벽 한 시에는 그 기다림이 끝났어요. 실제 관찰한 시간 기록이에요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자는 느티공원, 해든상가, 솔빛쉼터를 등록 장소 후보로 언급했으나 실제 방문이나 선호를 의미하지 않는다고 명시했으며, 밤 23시부터 새벽 1시 전까지 가족이 없으면 기다리며, 새벽 1시에 기다림이 종료된다고 관찰 기록함."
+    }
+  ]
+}

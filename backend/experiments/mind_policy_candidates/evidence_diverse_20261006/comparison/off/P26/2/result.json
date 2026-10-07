@@ -1,0 +1,17 @@
+{
+  "job": "v4_P26_off_2",
+  "arm": "off",
+  "person_id": "P26",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)가 실제 방문이나 선호를 의미하지 않으며, 단지 후보 이름임을 명확히 했다. 또한 밤 11시부터 새벽 1시 전까지 가족이 없으면 기다렸으나, 새벽 1시가 되면 기다림을 종료한다는 관찰 사실을 기록했다.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

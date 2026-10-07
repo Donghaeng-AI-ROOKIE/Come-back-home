@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"원문에 따르면, 보행 후 휴식은 연속 8분 보행 또는 450미터 이동 후 무릎 통증으로 인해 발생하며, 두 조건 중 하나라도 충족되면 휴식이 필요하다. 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호를 의미하지 않으며, 단지 후보 장소일 뿐이다.\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and (continuous_walk_minutes >= 8 or distance_since_rest_m >= 450)\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 153,
+    "prompt_tokens": 1690,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1843
+  }
+}

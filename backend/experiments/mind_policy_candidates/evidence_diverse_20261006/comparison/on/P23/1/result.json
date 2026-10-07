@@ -1,0 +1,26 @@
+{
+  "job": "v4_P23_on_1",
+  "arm": "on",
+  "person_id": "P23",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "The registered places (느티공원, 해든상가, 솔빛쉼터) are candidate names without indicating actual destinations or preference. The person got lost twice and waited until family arrival.",
+    "rules": [
+      {
+        "command": "wait",
+        "condition": "lost_awareness and not family_present",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

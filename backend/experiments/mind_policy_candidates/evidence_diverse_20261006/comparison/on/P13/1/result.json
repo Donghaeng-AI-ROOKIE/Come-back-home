@@ -1,0 +1,17 @@
+{
+  "job": "v4_P13_on_1",
+  "arm": "on",
+  "person_id": "P13",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "The guardian clarifies that mentioned locations (느티공원, 해든상가, 솔빛쉼터) are candidate names without actual visit intent (N0). Additionally, daily need to go to 느티공원 is stated but no observed departure or entrance recognition (N1).",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

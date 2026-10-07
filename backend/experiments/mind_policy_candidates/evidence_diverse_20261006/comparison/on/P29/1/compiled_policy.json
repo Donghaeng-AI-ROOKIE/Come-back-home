@@ -1,0 +1,80 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "continuous_walk_minutes",
+            "op": "gte",
+            "value": 6
+          }
+        ],
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "distance_since_rest_m",
+            "op": "gte",
+            "value": 280
+          }
+        ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "무릎 때문에 육 분 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 쉬어야 해요."
+        }
+      ]
+    },
+    {
+      "id": "k_1",
+      "when": [
+        [
+          {
+            "fact": "lost_awareness",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "family_present",
+            "op": "eq",
+            "value": false
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N2",
+          "quote": "두 번 모두 길을 잃었다는 걸 알고 가족이 없으면 그 자리에서 기다렸어요. 가족이 오면 기다림은 끝났어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "Registration places 느티공원, 해든상가, 솔빛쉼터 listed without intention to visit. Rest required after 6 minutes or 280 meters of walking. Wait when lost awareness and no family present."
+    }
+  ]
+}

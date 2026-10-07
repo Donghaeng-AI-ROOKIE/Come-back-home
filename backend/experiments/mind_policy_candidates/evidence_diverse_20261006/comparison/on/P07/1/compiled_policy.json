@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "pain_observed",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": 3.0,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "걷는 동안 무릎이 아프다고 말씀하신 뒤에는 앉아서 삼 분 정도 쉬셨어요. 통증 없는 때에 어떻게 쉬는지는 모르겠어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "When pain is observed during walking, the person rests for 3 minutes."
+    }
+  ]
+}

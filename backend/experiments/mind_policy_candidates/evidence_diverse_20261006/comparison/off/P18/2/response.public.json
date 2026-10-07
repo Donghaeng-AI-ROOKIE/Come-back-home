@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자 원문에 따르면, 특정 조건에서만 반응하는 행동이 관찰되었다. N0에서는 등록 장소가 후보일 뿐 실제 방문이나 선호를 의미하지 않는다는 점이 명시되었고, N1에서는 어둡고 가족이 동반되지 않은 상황에서만 멈추어 기다리는 행동이 관찰되었다.\",\n  \"rules\": [\n    {\nاید: \"wait\",\n    \"condition\": \"lost_awareness and family_present == false\",\n    \"place_labels\": [],\n    \"hold_minutes\": 0,\n    \"note_ids\": [\"N1\"]\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 123,
+    "prompt_tokens": 1692,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1815
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"When target_recognized is true, the person walks towards 느티공원.\",\n  \"rules\": [\n    {\n      \"command\": \"walk\",\n      \"condition\": \"target_recognized\",\n      \"place_labels\": [\"느티공원\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2169,
+    "prompt_tokens": 1690,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 3859
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "job": "v4_P08_on_2",
+  "arm": "on",
+  "person_id": "P08",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 N1에서 무릎 통증 언급 시에만 휴식하며, 보행 중 연속 12분 경과나 숨가쁨만으로는 멈추지 않았음을 관찰함",
+    "rules": [
+      {
+        "command": "rest",
+        "condition": "pain_observed",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

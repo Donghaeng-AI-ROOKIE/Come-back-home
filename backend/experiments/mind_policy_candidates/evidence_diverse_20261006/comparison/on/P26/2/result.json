@@ -1,0 +1,26 @@
+{
+  "job": "v4_P26_on_2",
+  "arm": "on",
+  "person_id": "P26",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "Registered places are hypothetical candidates mentioned in the question, not actual destinations. From 11 PM to 1 AM, if family is not present, waiting occurs until 1 AM.",
+    "rules": [
+      {
+        "command": "wait",
+        "condition": "(clock_hour >= 23 or clock_hour < 1) and not family_present",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

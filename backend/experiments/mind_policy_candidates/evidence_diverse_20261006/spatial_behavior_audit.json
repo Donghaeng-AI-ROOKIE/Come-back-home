@@ -1,0 +1,800 @@
+{
+  "scope": "first particle of each recorded population; chosen by walking seed before running",
+  "model_calls": 0,
+  "new_simulations": 0,
+  "clinical_accuracy_measured": false,
+  "results": [
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "C",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "C",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "E",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "E",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "NE",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "NE",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "NW",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "NW",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "S",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "S",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "W",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "W",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "C",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "C",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "E",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "E",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "NE",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "NE",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "NW",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "NW",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "S",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "S",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "W",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "off",
+      "rep": 2,
+      "site_id": "W",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": false,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "C",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "C",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "E",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "E",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "NE",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "NE",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "NW",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "NW",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "S",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "S",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "W",
+      "seed": 17,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P01",
+      "arm": "on",
+      "rep": 1,
+      "site_id": "W",
+      "seed": 73,
+      "checks": {
+        "avoid_action_seen": true,
+        "left_60m_market_scope_before_noise_ended": true,
+        "no_avoid_after_explicit_quiet": true
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "C",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 232.76098002291906,
+        "minimum_traced_goal_distance_m": 96.9540006674287
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "C",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 232.76098002291906,
+        "minimum_traced_goal_distance_m": 212.8701007723233
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "E",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": false,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 190.7146383131688,
+        "minimum_traced_goal_distance_m": 194.4584841438746
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "E",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 190.7146383131688,
+        "minimum_traced_goal_distance_m": 160.8218501596952
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "NE",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 201.22773463462283,
+        "minimum_traced_goal_distance_m": 176.4569713590168
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "NE",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 201.22773463462283,
+        "minimum_traced_goal_distance_m": 94.48043706035936
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "NW",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 197.50053224951904,
+        "minimum_traced_goal_distance_m": 54.65104878846361
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "NW",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 197.50053224951904,
+        "minimum_traced_goal_distance_m": 3.280108485201677
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "S",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 0.0,
+        "minimum_traced_goal_distance_m": 15.236508811865793
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "S",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 0.0,
+        "minimum_traced_goal_distance_m": 7.528749514572538
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "W",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 209.51873933569613,
+        "minimum_traced_goal_distance_m": 124.97748336233781
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "off",
+      "rep": 1,
+      "site_id": "W",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 209.51873933569613,
+        "minimum_traced_goal_distance_m": 193.70181657548184
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "C",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 232.76098002291906,
+        "minimum_traced_goal_distance_m": 96.9540006674287
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "C",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 232.76098002291906,
+        "minimum_traced_goal_distance_m": 212.8701007723233
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "E",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": false,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 190.7146383131688,
+        "minimum_traced_goal_distance_m": 194.4584841438746
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "E",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 190.7146383131688,
+        "minimum_traced_goal_distance_m": 160.8218501596952
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "NE",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 201.22773463462283,
+        "minimum_traced_goal_distance_m": 176.4569713590168
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "NE",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 201.22773463462283,
+        "minimum_traced_goal_distance_m": 94.48043706035936
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "NW",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 197.50053224951904,
+        "minimum_traced_goal_distance_m": 54.65104878846361
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "NW",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 197.50053224951904,
+        "minimum_traced_goal_distance_m": 0.0
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "S",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 0.0,
+        "minimum_traced_goal_distance_m": 0.2747783087521267
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "S",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 0.0,
+        "minimum_traced_goal_distance_m": 48.018805287210164
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "W",
+      "seed": 17,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 209.51873933569613,
+        "minimum_traced_goal_distance_m": 124.97748336233781
+      }
+    },
+    {
+      "person_id": "P14",
+      "arm": "on",
+      "rep": 2,
+      "site_id": "W",
+      "seed": 73,
+      "checks": {
+        "named_goal_assigned": false,
+        "seek_action_seen": false,
+        "approached_named_goal_or_started_there": true,
+        "physical_arrival_recorded": false,
+        "initial_goal_distance_m": 209.51873933569613,
+        "minimum_traced_goal_distance_m": 193.70181657548184
+      }
+    }
+  ]
+}

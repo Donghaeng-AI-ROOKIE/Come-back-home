@@ -1,0 +1,17 @@
+{
+  "job": "v4_P06_on_2",
+  "arm": "on",
+  "person_id": "P06",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "Registration places are candidate names, not indicating preference or actual visits. The person can walk 25 minutes without rest, but it's not observed that they rested at 25 minutes.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

@@ -1,0 +1,26 @@
+{
+  "job": "v4_P12_on_1",
+  "arm": "on",
+  "person_id": "P12",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "Registration places (느티공원, 해든상가, 솔빛쉼터) do not imply liking or presence. Family absence and anxiety trigger waiting.",
+    "rules": [
+      {
+        "command": "wait",
+        "condition": "not family_present and anxiety_high",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

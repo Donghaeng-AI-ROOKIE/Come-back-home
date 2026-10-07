@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"등록 장소는 후보 이름일 뿐 실제 방문 의미 없음. 어머니가 길을 잃은 상황에서 멈추지 않고 계속 걸음. 기다리지 않음.\",\n  \"rules\": [\n    {\n      \"command\": \"walk\",\n      \"condition\": \"lost_awareness\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 2988,
+    "prompt_tokens": 1688,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 4676
+  }
+}

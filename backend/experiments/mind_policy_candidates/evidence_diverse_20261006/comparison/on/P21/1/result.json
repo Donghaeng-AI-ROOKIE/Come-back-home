@@ -1,0 +1,26 @@
+{
+  "job": "v4_P21_on_1",
+  "arm": "on",
+  "person_id": "P21",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "등록 장소는 후보 이름일 뿐 실제 방문 의미 없음. 어머니가 길을 잃은 상황에서 멈추지 않고 계속 걸음. 기다리지 않음.",
+    "rules": [
+      {
+        "command": "walk",
+        "condition": "lost_awareness",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

@@ -1,0 +1,12 @@
+{
+  "final_content": "\n\n{\n  \"source_assessment\": \"Registration places (느티공원, 해든상가, 솔빛쉼터) do not imply liking or presence. Family absence and anxiety trigger waiting.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"not family_present and anxiety_high\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4269,
+    "prompt_tokens": 1687,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 5956
+  }
+}

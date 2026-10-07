@@ -1,0 +1,48 @@
+{
+  "run_id": "MIND_diverse_comparison_20261006",
+  "status": "approved",
+  "candidate": "condition-program-v4-research",
+  "profiles": 32,
+  "scenes": 128,
+  "families": 8,
+  "arms": [
+    "thinking_on",
+    "thinking_off"
+  ],
+  "repetitions": 2,
+  "comparison_max": 128,
+  "evaluation_carried_max": 64,
+  "total_max": 192,
+  "data_sha256": {
+    "profiles.json": "085ad72c740e3b00aabb54902c27c499a1f1f275d6fa5b548410fa967190260c",
+    "scenes.json": "adee53b09225501c9758ca9973dcfc3faf76bfc63a31745edbbb2edbfb1512d7",
+    "reference_policies.NOT_MODEL_INPUT.json": "dff0b1142a5abdf2ff7d921e8e148172b58dc6def886b34ffb50b44d17130e06",
+    "sites.json": "3a05c90627864fc0233a416dc617b2419cc31bcdfbe245f18bebb5282d020167"
+  },
+  "source_sha256": {
+    "<WORKSPACE>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/condition_program.py": "78c44368954f31bbd66ed7290849e58e64674767ab7772fde0c4c0ad1dfd4470",
+    "<WORKSPACE>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy_eval.py": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+    "<WORKSPACE>/결선/개발/cbh-simulation-integration-20261004/backend/app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+    "<WORKSPACE>/결선/개발/cbh-simulation-integration-20261004/backend/app/llm/initial_behavior.py": "cca68aa53fa0ae890b701384f7151660f74f036f9316de87aebbb915c1c1af7c"
+  },
+  "new_maps": 0,
+  "max_input_utf8_bytes": 40000,
+  "max_output_tokens": 12000,
+  "unit_price": null,
+  "actual_cost": null,
+  "support_round": null,
+  "runtime_sha256": {
+    "run_comparison.py": "fb73e488b5016d60cc2adcad2863f38bf59a29b8100367a51a2f7222805c52d6",
+    "transport.py": "eb6a65b1107688dd118b7715ded93412a60835ab96fc1df01418555733d47073"
+  },
+  "criteria": {
+    "overall_required": 231,
+    "overall_total": 256,
+    "family_required": 26,
+    "family_total": 32,
+    "positive_required": 76,
+    "positive_total": 84,
+    "valid_outputs_required": 61,
+    "output_total": 64
+  }
+}

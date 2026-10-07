@@ -1,0 +1,11 @@
+{
+  "saved_decisions_reproduced": 512,
+  "exact_match": true,
+  "model_calls": 0,
+  "source_sha256": {
+    "<WORKSPACE>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/condition_program.py": "78c44368954f31bbd66ed7290849e58e64674767ab7772fde0c4c0ad1dfd4470",
+    "<WORKSPACE>/결선/개발/cbh-simulation-integration-20261004/backend/experiments/mind_policy_candidates/note_policy_eval.py": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+    "<WORKSPACE>/결선/개발/cbh-simulation-integration-20261004/backend/app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+    "<WORKSPACE>/결선/개발/cbh-simulation-integration-20261004/backend/app/llm/initial_behavior.py": "cca68aa53fa0ae890b701384f7151660f74f036f9316de87aebbb915c1c1af7c"
+  }
+}

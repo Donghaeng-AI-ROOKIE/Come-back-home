@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자 원문에 따르면, 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호를 의미하지 않으며, 해든상가에서 시끄러우면 피했고, 걷다가 아프다고 말하면 쉬었다는 반응이 관찰되었다. 통증 반응은 소음 반응과 별개이며, 실제 출발 여부는 언급되지 않았다.\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and pain_observed\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    },\n    {\n      \"command\": \"avoid_market\",\n      \"condition\": \"market.noisy\",\n      \"place_labels\": [\"해든상가\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 188,
+    "prompt_tokens": 1772,
+    "prompt_tokens_details": {
+      "cached_tokens": 1760
+    },
+    "total_tokens": 1960
+  }
+}

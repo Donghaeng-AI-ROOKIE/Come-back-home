@@ -1,0 +1,65 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "pain_observed",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N2",
+          "quote": "걷다가 아프다고 말하면 앉아서 쉬었어요. 소음 반응과는 별개예요."
+        }
+      ]
+    },
+    {
+      "id": "k_1",
+      "when": [
+        [
+          {
+            "fact": "market.noisy",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [
+        "해든상가"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "해든상가에서 시끄러우면 피했어요. 다른 상가는 모르겠어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자 원문에 따르면, 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호를 의미하지 않으며, 해든상가에서 시끄러우면 피했고, 걷다가 아프다고 말하면 쉬었다는 반응이 관찰되었다. 통증 반응은 소음 반응과 별개이며, 실제 출발 여부는 언급되지 않았다."
+    }
+  ]
+}

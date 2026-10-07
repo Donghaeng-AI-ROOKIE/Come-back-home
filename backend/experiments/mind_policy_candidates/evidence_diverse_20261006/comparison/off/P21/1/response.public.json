@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자 원문에 따르면, 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 단지 후보 이름일 뿐, 실제로 가거나 선호한다는 의미는 없다. 또한, 길을 잃었을 때 멈추지 않고 계속 걷는 행동이 관찰되었으며, 기다리거나 멈추는 행동은 관찰되지 않았다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 85,
+    "prompt_tokens": 1690,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1775
+  }
+}

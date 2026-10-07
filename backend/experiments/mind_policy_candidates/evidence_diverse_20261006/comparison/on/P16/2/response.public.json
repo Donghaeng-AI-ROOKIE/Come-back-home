@@ -1,0 +1,12 @@
+{
+  "final_content": ".\n{\n  \"source_assessment\": \"Guardian reported waiting at 솔빛쉼터 only when physically arriving and recognizing it as a rest area, not when merely passing nearby.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"physical_arrival and target_recognized\",\n      \"place_labels\": [\"솔빛쉼터\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 3710,
+    "prompt_tokens": 1691,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 5401
+  }
+}

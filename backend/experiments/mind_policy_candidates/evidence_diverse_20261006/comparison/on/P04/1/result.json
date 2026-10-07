@@ -1,0 +1,10 @@
+{
+  "job": "v4_P04_on_1",
+  "arm": "on",
+  "person_id": "P04",
+  "rep": 1,
+  "valid": false,
+  "output": null,
+  "error_type": "ValueError",
+  "submitted": true
+}

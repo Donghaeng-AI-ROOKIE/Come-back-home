@@ -1,0 +1,26 @@
+{
+  "job": "v4_P19_on_2",
+  "arm": "on",
+  "person_id": "P19",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "When walking and experiencing fatigue or knee pain, the person takes a short rest.",
+    "rules": [
+      {
+        "command": "rest",
+        "condition": "is_walking and (fatigue_high or pain_observed)",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

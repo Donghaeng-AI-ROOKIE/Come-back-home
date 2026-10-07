@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)에 대한 언급이 실제 방문이나 선호를 의미하지 않는다고 명시했으며, 솔빛쉼터에 실제로 도착했을 때만 대기(wait) 행동을 보였고, 단순 근처 통과 시에는 대기하지 않았다고 관찰했다.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"physical_arrival and target_recognized\",\n      \"place_labels\": [\"솔빛쉼터\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 138,
+    "prompt_tokens": 1693,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1831
+  }
+}

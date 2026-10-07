@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자 원문에 따르면, 길을 잃었을 때 걷지 않고 기다렸으며, 가족이 보이지 않고 불안할 경우 대기 행동을 취했고, 가족을 만나면 기다림을 종료했다. 길을 잃었는지 여부는 명확히 인지하지 못했으며, 등록 장소(느티공원, 해든상가, 솔빛쉼터)에 대한 언급은 실제 방문이나 선호를 의미하지 않는다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 96,
+    "prompt_tokens": 1689,
+    "prompt_tokens_details": {
+      "cached_tokens": 992
+    },
+    "total_tokens": 1785
+  }
+}

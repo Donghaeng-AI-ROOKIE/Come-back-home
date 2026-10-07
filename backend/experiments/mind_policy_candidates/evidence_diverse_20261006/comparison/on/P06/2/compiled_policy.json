@@ -1,0 +1,13 @@
+{
+  "rules": [],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "Registration places are candidate names, not indicating preference or actual visits. The person can walk 25 minutes without rest, but it's not observed that they rested at 25 minutes."
+    },
+    {
+      "note_id": "N1",
+      "reason": "Registration places are candidate names, not indicating preference or actual visits. The person can walk 25 minutes without rest, but it's not observed that they rested at 25 minutes."
+    }
+  ]
+}

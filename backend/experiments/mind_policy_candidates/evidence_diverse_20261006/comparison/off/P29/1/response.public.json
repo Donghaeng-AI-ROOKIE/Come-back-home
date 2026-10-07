@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록 장소가 실제 방문을 의미하지 않으며, 보행 후 휴식은 무릎 통증으로 인해 6분 또는 280미터 걷고 도달한 지점에서 쉬어야 하며, 길을 잃었을 때는 가족이 없으면 그 자리에서 기다린다고 진술함.\",\n  \"rules\": [\n    {\n      \"command\": \"rest\",\n      \"condition\": \"is_walking and (continuous_walk_minutes >= 6 or distance_since_rest_m >= 280)\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"command\": \"wait\",\n      \"condition\": \"lost_awareness and not family_present\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 186,
+    "prompt_tokens": 1788,
+    "prompt_tokens_details": {
+      "cached_tokens": 1760
+    },
+    "total_tokens": 1974
+  }
+}

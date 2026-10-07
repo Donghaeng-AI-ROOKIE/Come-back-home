@@ -1,0 +1,26 @@
+{
+  "job": "v4_P10_on_2",
+  "arm": "on",
+  "person_id": "P10",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "Registration places are candidate names without preference or actual visits. When lost and anxious, brief waiting occurs regardless of companionship; otherwise, no waiting.",
+    "rules": [
+      {
+        "command": "wait",
+        "condition": "lost_awareness and anxiety_high",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

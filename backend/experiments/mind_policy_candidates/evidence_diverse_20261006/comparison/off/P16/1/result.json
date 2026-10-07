@@ -1,0 +1,28 @@
+{
+  "job": "v4_P16_off_1",
+  "arm": "off",
+  "person_id": "P16",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)가 실제 방문이나 선호를 의미하지 않으며, 솔빛쉼터에 도착했을 때만 대기하고, 단순 근처 통과 시에는 대기하지 않는다는 조건부 반응을 보였다.",
+    "rules": [
+      {
+        "command": "wait",
+        "condition": "physical_arrival and target_recognized",
+        "place_labels": [
+          "솔빛쉼터"
+        ],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

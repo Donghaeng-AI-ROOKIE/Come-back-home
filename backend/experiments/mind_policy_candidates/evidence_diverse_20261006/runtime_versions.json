@@ -1,0 +1,14 @@
+{
+  "python": "3.13.13 | packaged by conda-forge | (main, Apr  8 2026, 02:29:07) [Clang 19.1.7 ]",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "packages": {
+    "osmnx": "2.1.0",
+    "networkx": "3.6.1",
+    "h3": "4.5.0",
+    "shapely": "2.1.2",
+    "numpy": "2.5.1",
+    "pydantic": "2.13.4"
+  },
+  "repository_HEAD": "c0c6dc9e637ce62eac24556a1033ddaeac260aae",
+  "scope": "Local comparison scorer and offline walking runtime; remote K weights revision not independently verified"
+}

@@ -1,0 +1,36 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "target_recognized",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "walk",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [
+        "느티공원"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "느티공원 입구를 알아봤다고 직접 말한 두 번 모두 그쪽으로 걸어 출발했어요. 입구를 알아보지 못했을 때의 행동은 아직 본 적 없어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "When target_recognized is true, the person walks towards 느티공원."
+    }
+  ]
+}

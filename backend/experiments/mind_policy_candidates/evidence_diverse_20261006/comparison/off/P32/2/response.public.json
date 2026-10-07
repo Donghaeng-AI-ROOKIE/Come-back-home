@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록 장소 후보(느티공원, 해든상가, 솔빛쉼터)에 대한 언급이 실제 방문이나 선호를 의미하지 않는다고 명시했으며, 해든상가를 알아본 후 실제로 출발한 사례와 비가 올 때 대기한 행동을 관찰했다. 이는 조건부 반응의 존재를 시사하지만, 구체적인 실행 규칙은 원문에서 직접 도출해야 한다.\",\n  \"rules\": [\n    {\n      \"command\": \"seek_1\",\n      \"condition\": \"target_recognized and market_recognized\",\n      \"place_labels\": [\"해든상가\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    },\n    {\n      \"command\": \"wait\",\n      \"condition\": \"rain_observed and not physical_arrival\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N2\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 197,
+    "prompt_tokens": 1787,
+    "prompt_tokens_details": {
+      "cached_tokens": 1760
+    },
+    "total_tokens": 1984
+  }
+}

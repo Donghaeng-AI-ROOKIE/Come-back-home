@@ -1,0 +1,12 @@
+{
+  "final_content": "0\n{\n  \"source_assessment\": \"Guardian clarified candidate registration places (느티공원, 해든상가, 솔빛쉼터) are not actual destinations. When family is not visible and anxious, guardian waits without walking; waiting ends upon family's arrival.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"not family_present and anxiety_high\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 6282,
+    "prompt_tokens": 1687,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 7969
+  }
+}

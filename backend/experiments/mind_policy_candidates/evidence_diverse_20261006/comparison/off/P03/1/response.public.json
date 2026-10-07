@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)에 대해 '좋아하거나 실제로 간다'는 의미가 아니라고 명시했으며, 공원 회피 행동은 '어두우면서 사람이 많을 때'에만 발생한다고 관찰했다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 77,
+    "prompt_tokens": 1695,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1772
+  }
+}

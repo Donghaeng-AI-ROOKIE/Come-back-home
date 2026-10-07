@@ -1,0 +1,141 @@
+{
+  "comparison_completed": true,
+  "api_calls": 128,
+  "decisions": 512,
+  "spatial_slots": 384,
+  "selected_arm": null,
+  "separate_evaluation_calls": 0,
+  "deployed": false,
+  "finished_at": "2026-10-06T12:01:18.208446+00:00",
+  "synthetic_only": true,
+  "gates": {
+    "on": {
+      "positive_passed": 46,
+      "positive_total": 84,
+      "positive_required": 76,
+      "passed": 150,
+      "total": 256,
+      "required": 231,
+      "valid_outputs": 40,
+      "output_total": 64,
+      "required_valid_outputs": 61,
+      "families": {
+        "destination": {
+          "passed": 14,
+          "total": 32,
+          "required": 26
+        },
+        "environment": {
+          "passed": 16,
+          "total": 32,
+          "required": 26
+        },
+        "external_state": {
+          "passed": 20,
+          "total": 32,
+          "required": 26
+        },
+        "multiple_behaviors": {
+          "passed": 16,
+          "total": 32,
+          "required": 26
+        },
+        "physical_rest": {
+          "passed": 23,
+          "total": 32,
+          "required": 26
+        },
+        "source_fidelity": {
+          "passed": 25,
+          "total": 32,
+          "required": 26
+        },
+        "time_context": {
+          "passed": 20,
+          "total": 32,
+          "required": 26
+        },
+        "waiting": {
+          "passed": 16,
+          "total": 32,
+          "required": 26
+        }
+      },
+      "by_repetition": {
+        "1": {
+          "passed": 82,
+          "total": 128
+        },
+        "2": {
+          "passed": 68,
+          "total": 128
+        }
+      },
+      "pass_gate": false
+    },
+    "off": {
+      "positive_passed": 32,
+      "positive_total": 84,
+      "positive_required": 76,
+      "passed": 178,
+      "total": 256,
+      "required": 231,
+      "valid_outputs": 60,
+      "output_total": 64,
+      "required_valid_outputs": 61,
+      "families": {
+        "destination": {
+          "passed": 21,
+          "total": 32,
+          "required": 26
+        },
+        "environment": {
+          "passed": 28,
+          "total": 32,
+          "required": 26
+        },
+        "external_state": {
+          "passed": 22,
+          "total": 32,
+          "required": 26
+        },
+        "multiple_behaviors": {
+          "passed": 17,
+          "total": 32,
+          "required": 26
+        },
+        "physical_rest": {
+          "passed": 26,
+          "total": 32,
+          "required": 26
+        },
+        "source_fidelity": {
+          "passed": 18,
+          "total": 32,
+          "required": 26
+        },
+        "time_context": {
+          "passed": 22,
+          "total": 32,
+          "required": 26
+        },
+        "waiting": {
+          "passed": 24,
+          "total": 32,
+          "required": 26
+        }
+      },
+      "by_repetition": {
+        "1": {
+          "passed": 94,
+          "total": 128
+        },
+        "2": {
+          "passed": 84,
+          "total": 128
+        }
+      },
+      "pass_gate": false
+    }
+  }
+}

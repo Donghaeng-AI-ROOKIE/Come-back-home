@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자 원문에 따르면, 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 단지 후보 이름일 뿐, 실제로 가거나 선호한다는 의미는 없다. 공원에서 피한 상황은 어두우면서 사람이 많은 경우에만 해당되며, 대낮이나 한산한 환경에서는 피하지 않았다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 89,
+    "prompt_tokens": 1695,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1784
+  }
+}

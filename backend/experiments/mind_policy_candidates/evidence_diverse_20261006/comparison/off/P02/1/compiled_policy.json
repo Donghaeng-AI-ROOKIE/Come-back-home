@@ -1,0 +1,82 @@
+{
+  "rules": [
+    {
+      "id": "initial_env_market",
+      "when": [
+        [
+          {
+            "fact": "market.noisy",
+            "op": "eq",
+            "value": true
+          }
+        ],
+        [
+          {
+            "fact": "market.crowded",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "세 군데를 같이 다녀봤어요. 사람만 몰려도 돌아서고, 조용히 한산해도 소리가 크면 돌아섰어요. 두 자극이 다 없을 때는 안 피했어요."
+        }
+      ]
+    },
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "market.noisy",
+            "op": "eq",
+            "value": true
+          }
+        ],
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "market.crowded",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "세 군데를 같이 다녀봤어요. 사람만 몰려도 돌아서고, 조용히 한산해도 소리가 크면 돌아섰어요. 두 자극이 다 없을 때는 안 피했어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자 원문에 따르면, 특정 상가(느티공원, 해든상가, 솔빛쉼터)는 등록 장소 후보일 뿐이며, 실제로 방문하거나 선호한다는 의미는 없다. 또한, 세 장소 모두에서 사람 밀집(noisy/crowded) 시 회피 반응을 보였고, 두 자극이 모두 없을 때만 회피하지 않았다. 이는 조건부 회피 행동이며, 실제 방문이나 선호를 의미하지 않는다."
+    }
+  ]
+}

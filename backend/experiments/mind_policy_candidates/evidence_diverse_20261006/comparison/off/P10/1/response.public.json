@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 길을 잃었을 때 불안하면 동행자가 돌아올 때까지 잠시 멈춰 기다리는 행동을 보이며, 불안하지 않으면 기다리지 않는 조건부 반응을 보인다.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"lost_awareness and anxiety_high\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 100,
+    "prompt_tokens": 1688,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1788
+  }
+}

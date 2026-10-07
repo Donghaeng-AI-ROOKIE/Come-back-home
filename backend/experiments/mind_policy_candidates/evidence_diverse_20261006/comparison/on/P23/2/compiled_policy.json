@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "lost_awareness",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "family_present",
+            "op": "eq",
+            "value": false
+          }
+        ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "네, 두 번 다 제가 봤어요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "lost_awareness observed with waiting until family arrives; candidate places listed but not visited."
+    }
+  ]
+}

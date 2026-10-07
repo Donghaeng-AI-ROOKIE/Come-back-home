@@ -1,0 +1,17 @@
+{
+  "job": "v4_P12_off_2",
+  "arm": "off",
+  "person_id": "P12",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "원문에 따르면, 보호자는 가족을 찾을 때 불안하거나 가족이 안 보일 경우 걷지 않고 기다리는 행동을 했다고 진술한다. 등록 장소 후보지(느티공원, 해든상가, 솔빛쉼터)에 대한 언급은 실제 방문이나 선호를 의미하지 않는다고 명시하고 있다.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

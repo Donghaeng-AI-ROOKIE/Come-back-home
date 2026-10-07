@@ -1,0 +1,26 @@
+{
+  "job": "v4_P18_on_2",
+  "arm": "on",
+  "person_id": "P18",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "N1에서 보호자는 어둡다고 느끼고 가족이 없을 때만 멈춰 기다렸으며, 가족이 동반되거나 밝을 때는 기다리지 않았다고 명시함. N0은 등록 장소 목록 제시만 있을 뿐 실제 행동이나 선호도를 나타내지 않음.",
+    "rules": [
+      {
+        "command": "wait",
+        "condition": "dark_observed and not family_present",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

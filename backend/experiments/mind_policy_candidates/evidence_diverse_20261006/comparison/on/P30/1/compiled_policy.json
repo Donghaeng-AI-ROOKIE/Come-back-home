@@ -1,0 +1,65 @@
+{
+  "rules": [
+    {
+      "id": "k_0",
+      "when": [
+        [
+          {
+            "fact": "market.noisy",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [
+        "해든상가"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N1",
+          "quote": "해든상가에서 시끄러우면 피했어요. 다른 상가는 모르겠어요."
+        }
+      ]
+    },
+    {
+      "id": "k_1",
+      "when": [
+        [
+          {
+            "fact": "is_walking",
+            "op": "eq",
+            "value": true
+          },
+          {
+            "fact": "pain_observed",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+        {
+          "note_id": "N2",
+          "quote": "걷다가 아프다고 말하면 앉아서 쉬었어요. 소음 반응과는 별개예요."
+        }
+      ]
+    }
+  ],
+  "unrepresented": [
+    {
+      "note_id": "N0",
+      "reason": "보호자는 해든상가에서 소음 발생 시 회피 행동을 관찰했으며, 보행 중 통증 호소 시 휴식 행동을 관찰했다. 등록 장소 목록은 실제 방문 의도를 반영하지 않는다."
+    }
+  ]
+}

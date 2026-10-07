@@ -1,0 +1,12 @@
+{
+  "final_content": ".\n{\n  \"source_assessment\": \"등록된 장소 후보는 실제 방문이나 선호를 의미하지 않으며, 가족 부재 시 오전 08:00~09:00 현관에서 기다림.\",\n  \"rules\": [\n    {\n      \"command\": \"wait\",\n      \"condition\": \"not family_present and clock_hour>=8 and clock_hour<9\",\n      \"place_labels\": [],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 4964,
+    "prompt_tokens": 1693,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 6657
+  }
+}

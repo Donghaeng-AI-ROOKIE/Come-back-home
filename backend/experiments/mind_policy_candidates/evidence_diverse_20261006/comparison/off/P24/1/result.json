@@ -1,0 +1,17 @@
+{
+  "job": "v4_P24_off_1",
+  "arm": "off",
+  "person_id": "P24",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 등록 장소가 실제 방문이나 선호를 의미하지 않으며, 길을 잃었을 때 기다리지 않는다고 명시했다.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

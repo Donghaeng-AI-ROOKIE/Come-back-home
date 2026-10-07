@@ -1,0 +1,27 @@
+{
+  "job": "v4_P31_off_2",
+  "arm": "off",
+  "person_id": "P31",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자 원문에 따르면, 등록 장소(느티공원, 해든상가, 솔빛쉼터)는 실제 방문이나 선호를 의미하지 않으며, 공원에서 사람이 붐비면 멀어지는 반응, 가족 부재 시 불안으로 인한 대기, 말과 실제 행동의 불일치가 관찰됨. 이는 조건부 반응의 존재를 시사하지만, 구체적인 실행 규칙은 원문에 명시된 조건과 명령에 한정됨.",
+    "rules": [
+      {
+        "command": "wait",
+        "condition": "lost_awareness and not family_present",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

@@ -1,0 +1,17 @@
+{
+  "job": "v4_P11_off_1",
+  "arm": "off",
+  "person_id": "P11",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "능력이나 필요, 목적지 발언, 실제 출발 여부, 관찰 여부, 본인과 타인의 행동 구분을 기반으로 원문에서 명시된 조건부 반응만을 규칙으로 추출한다. 원문에 반응이 없다면 rules는 빈 배열이며, 해당 문답은 non_action_note_ids에 포함된다. 보호자 원문(guardian_original)을 우선하며, AI 추출 요약(model_extracted_unverified)은 검증되지 않은 정보로 간주한다. 관찰된 행동이 아닌 보호자의 진술이나 추측은 규칙으로 포함하지 않는다.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

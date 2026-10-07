@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)가 실제 방문이나 선호를 의미하지 않으며, 단지 후보 이름일 뿐이라고 명시했다. 또한 어두움에 대한 반응은 장소의 밝기(지하 통로 등)에 따라 달라지며, 밤이라는 시간 자체로 기다리는 것은 아니라고 설명했다.\",\n  \"rules\": [],\n  \"non_action_note_ids\": [\"N0\", \"N1\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 90,
+    "prompt_tokens": 1694,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1784
+  }
+}

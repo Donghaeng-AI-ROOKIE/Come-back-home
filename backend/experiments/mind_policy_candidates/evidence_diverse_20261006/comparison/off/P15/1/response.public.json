@@ -1,0 +1,12 @@
+{
+  "final_content": "{\n  \"source_assessment\": \"보호자는 등록 장소(느티공원, 해든상가, 솔빛쉼터)에 대해 실제로 방문하거나 방문할 의도가 있음을 나타내지 않았으며, 단지 후보 장소로 언급되었을 뿐이다. 해든상가로의 출발은 오전 �로 가족이 동행할 경우에만 발생했고, 다른 시간이나 혼자일 때는 출발하지 않았다.\",\n  \"rules\": [\n    {\n      \"command\": \"seek_1\",\n      \"condition\": \"is_walking and family_present\",\n      \"place_labels\": [\"해든상가\"],\n      \"hold_minutes\": 0,\n      \"note_ids\": [\"N1\"]\n    }\n  ],\n  \"non_action_note_ids\": [\"N0\"]\n}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 142,
+    "prompt_tokens": 1692,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "total_tokens": 1834
+  }
+}

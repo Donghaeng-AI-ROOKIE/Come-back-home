@@ -7,3 +7,9 @@ backend/experiments/mind_policy_candidates/evidence_20261006/*.json linguist-gen
 backend/experiments/mind_policy_candidates/evidence_20261006/**/*.xml linguist-generated=true
 backend/experiments/mind_policy_candidates/evidence_20261006/**/source_snapshot/** linguist-generated=true
 backend/experiments/mind_policy_candidates/evidence_20261006/**/final_source_snapshot/** linguist-generated=true
+
+# Expanded comparison evidence: raw data folded, reports readable.
+backend/experiments/mind_policy_candidates/evidence_diverse_20261006/**/*.json linguist-generated=true
+backend/experiments/mind_policy_candidates/evidence_diverse_20261006/*.json linguist-generated=true
+backend/experiments/mind_policy_candidates/evidence_diverse_20261006/**/*.jsonl linguist-generated=true
+backend/experiments/mind_policy_candidates/evidence_diverse_20261006/**/source_snapshot/** linguist-generated=true

@@ -1,0 +1,37 @@
+{
+  "job": "v4_P30_on_1",
+  "arm": "on",
+  "person_id": "P30",
+  "rep": 1,
+  "valid": true,
+  "output": {
+    "source_assessment": "보호자는 해든상가에서 소음 발생 시 회피 행동을 관찰했으며, 보행 중 통증 호소 시 휴식 행동을 관찰했다. 등록 장소 목록은 실제 방문 의도를 반영하지 않는다.",
+    "rules": [
+      {
+        "command": "avoid_market",
+        "condition": "market.noisy",
+        "place_labels": [
+          "해든상가"
+        ],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N1"
+        ]
+      },
+      {
+        "command": "rest",
+        "condition": "is_walking and pain_observed",
+        "place_labels": [],
+        "hold_minutes": 0,
+        "note_ids": [
+          "N2"
+        ]
+      }
+    ],
+    "non_action_note_ids": [
+      "N0"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}

@@ -1,0 +1,17 @@
+{
+  "job": "v4_P04_on_2",
+  "arm": "on",
+  "person_id": "P04",
+  "rep": 2,
+  "valid": true,
+  "output": {
+    "source_assessment": "등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐 실제 방문이나 선호를 의미하지 않음. 이웃 어르신이 시끄러운 하천변에서 되돌아간 행동은 관찰되었으나, 이는 아버지의 행동이 아님.",
+    "rules": [],
+    "non_action_note_ids": [
+      "N0",
+      "N1"
+    ]
+  },
+  "error_type": null,
+  "submitted": true
+}
