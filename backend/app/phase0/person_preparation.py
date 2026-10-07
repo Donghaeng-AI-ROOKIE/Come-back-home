@@ -222,7 +222,8 @@ def _apply_prepared(persona, report, sar, default, situation_links=None):
         return sar.model_copy(update={'initial_interpretation':{'status':'preparation_invalid','version':VERSION,'K_called_during_prediction':False}})
     prepared_at = datetime.fromisoformat(saved['prepared_at']) if saved.get('prepared_at') else None
     result.initial_interpretation.update(
-        prepared_before_incident=(prepared_at < report.lkp_time if prepared_at is not None else None),
+        prepared_before_incident=(_local_naive(prepared_at) < _local_naive(report.lkp_time)
+                                  if prepared_at is not None else None),
         prepared_outside_prediction=True,K_called_during_prediction=False,
         preparation_fingerprint=saved['fingerprint'],profile_snapshot_at=saved.get('profile_snapshot_at'),
         goal_temporality='recurring goals kept in their clock period; single reports before the incident treated as historical',

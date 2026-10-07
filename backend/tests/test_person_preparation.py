@@ -124,6 +124,20 @@ def test_no_profile_pending_and_stale_have_explicit_status(sample):
     p=make_ready(sample);p.age+=1
     assert prep.apply_prepared(p,r,sar,default).initial_interpretation['status']=='preparation_stale'
 
+
+@pytest.mark.parametrize('offset', [timezone.utc, timezone(timedelta(hours=9))])
+@pytest.mark.parametrize('delta,expected', [(-1, True), (0, False), (1, False)])
+def test_aware_preparation_timestamp_preserves_ready_traits(sample, offset, delta, expected):
+    p = make_ready(sample)
+    incident = datetime(2026, 9, 25, 12, tzinfo=timezone.utc)
+    prepared = (incident + timedelta(minutes=delta)).astimezone(offset)
+    p.prepared_initial['prepared_at'] = prepared.isoformat()
+    report = type(sample[1]).model_validate({**sample[1].model_dump(), 'lkp_time': incident})
+    out = prep.apply_prepared(p, report, sample[2], sample[3])
+    assert out.initial_interpretation['status'] == 'applied'
+    assert out.initial_interpretation['prepared_before_incident'] is expected
+    assert out.initial_interpretation['K_called_during_prediction'] is False
+
 def test_emergency_profile_link_is_idempotent_and_preserves_case(sample,monkeypatch):
     p,r,*_=sample;storage.personas.save(p.id,p)
     r=r.model_copy(update={'persona_id':None})
