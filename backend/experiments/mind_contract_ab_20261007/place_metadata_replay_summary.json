@@ -1,0 +1,22 @@
+{
+  "scope": "identical two saved synthetic Mi:dm responses through real parser/merge/geocoder; network prohibited",
+  "source_sha256": [
+    "3721c0bacdd1aa91a8325981c6fbf15c5975d6ba74cb490bc305c67fbaa63c92",
+    "9fdba005ddb5c5b178eee04127491b1f25c7610c0585cae97ee0b3dbdf542a5f"
+  ],
+  "before": {
+    "느티공원": "",
+    "해든상가": "",
+    "솔빛쉼터": ""
+  },
+  "after": {
+    "느티공원": "공원",
+    "해든상가": "상가",
+    "솔빛쉼터": "쉼터"
+  },
+  "interview_before_sha256": "65daa7deb6d24e6bd3e623142d2a4182b8a7879b8ddf410eb0ef7d0ffcd54527",
+  "interview_after_sha256": "40d668d56920cf04ed5a59e17bed0c9411684c5737b50ad7a574fb3b01a2b47c",
+  "new_api_calls": 0,
+  "related_tests_passed": 65,
+  "deployment": false
+}

@@ -1327,6 +1327,18 @@ def _apply_extraction(
             kept["origin_slot"] = ap["origin_slot"]   # 어느 슬롯에서 처음 나왔는지도 first-wins
         if not kept.get("name_kind") and ap.get("name_kind"):
             kept["name_kind"] = ap["name_kind"]       # 고유 이름/일반 명칭 판정도 처음 것을 유지
+        # 같은 장소의 첫 추출에는 유형이 없고 후속 답변에서 유형을 얻는 경우.
+        # 모델이 실제로 낸 값만 보존한다. 라벨 단어로 추정하거나 기존 유형을
+        # 조용히 덮어쓰지 않는다. 2026-10-08 실제 온보딩 캡처에서 소실 재현.
+        incoming_type = ap.get("place_type")
+        if (not kept.get("place_type") and isinstance(incoming_type, str)
+                and incoming_type.strip()):
+            kept["place_type"] = incoming_type.strip()
+            session.extraction_audit.append({
+                "event": "place_type_backfilled", "label": kept.get("label"),
+                "place_type": kept["place_type"], "origin_slot": prev_slot.key,
+                "quote": str(ap.get("quote") or ""),
+            })
     got_note = False
     # 모른다·질문을 되물음·이미 답함(모델 판정)은 사실이 아니다 — 노트를 받지 않는다.
     # 실측(2026-07-17): Mi:dm 이 "잘 모르겠어요"를 노트로 복사했다.
