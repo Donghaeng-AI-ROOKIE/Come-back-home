@@ -1,0 +1,6263 @@
+{
+ "scope": "detector validation on authored references with typed mutants; synthetic facilities, not real KINTEX environment; not K accuracy",
+ "model_calls": 0,
+ "map_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+ "walkers": 40,
+ "seeds": [
+  17,
+  18,
+  19
+ ],
+ "snapshots_min": [
+  60,
+  120,
+  240,
+  360
+ ],
+ "scenarios": [
+  "S1_morning_lost",
+  "S2_evening_midnight_dark",
+  "S3_sparse_afternoon"
+ ],
+ "summary": {
+  "delete": {
+   "inputs": 108,
+   "detected": 102
+  },
+  "flip": {
+   "inputs": 108,
+   "detected": 93
+  },
+  "swap": {
+   "inputs": 108,
+   "detected": 108
+  },
+  "false_alarm": {
+   "inputs": 108,
+   "detected": 6
+  }
+ },
+ "rows": [
+  {
+   "input_id": "DEV_P01_original",
+   "mutants": {
+    "delete": {
+     "detected": false,
+     "evidence": []
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:mean_path_km:0.01"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P03_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:avoid_walkers:-4",
+      "S1_morning_lost:6h:avoid_walkers:-4",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-17"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:17",
+      "S1_morning_lost:2h:avoid_walkers:17",
+      "S1_morning_lost:4h:avoid_walkers:17",
+      "S1_morning_lost:6h:avoid_walkers:20",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-17"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:avoid_walkers:-4",
+      "S1_morning_lost:6h:avoid_walkers:-4",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-17"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P05_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.925",
+      "S1_morning_lost:1h:mean_path_km:0.902",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-44.675",
+      "S1_morning_lost:2h:mean_path_km:1.78",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-0.55",
+      "S1_morning_lost:1h:mean_path_km:0.008",
+      "S1_morning_lost:2h:mean_personal_rest:-5.509",
+      "S1_morning_lost:2h:mean_path_km:0.24",
+      "S1_morning_lost:4h:mean_personal_rest:-9.681",
+      "S1_morning_lost:4h:mean_path_km:0.423"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.925",
+      "S1_morning_lost:1h:mean_path_km:0.956",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-44.675",
+      "S1_morning_lost:2h:mean_path_km:2.15",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P07_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-17.7",
+      "S1_morning_lost:1h:mean_path_km:0.808",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-17.7",
+      "S1_morning_lost:2h:mean_path_km:0.589",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-17.025",
+      "S1_morning_lost:1h:mean_path_km:0.775",
+      "S1_morning_lost:1h:released_then_walked:-37",
+      "S1_morning_lost:2h:mean_personal_rest:-17.025",
+      "S1_morning_lost:2h:mean_path_km:0.569",
+      "S1_morning_lost:2h:released_then_walked:-37"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-17.7",
+      "S1_morning_lost:1h:mean_path_km:0.833",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:3",
+      "S1_morning_lost:2h:mean_personal_rest:-17.7",
+      "S1_morning_lost:2h:mean_path_km:0.596"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 19,
+     "2": 29,
+     "4": 39,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P08_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.912",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.0",
+      "S1_morning_lost:2h:mean_path_km:0.697",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.25",
+      "S1_morning_lost:1h:mean_path_km:0.876",
+      "S1_morning_lost:1h:released_then_walked:-37",
+      "S1_morning_lost:2h:mean_personal_rest:-19.25",
+      "S1_morning_lost:2h:mean_path_km:0.673",
+      "S1_morning_lost:2h:released_then_walked:-37"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.937",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.0",
+      "S1_morning_lost:2h:mean_path_km:0.704",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 19,
+     "2": 29,
+     "4": 39,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P09_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.486",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:20.025",
+      "S1_morning_lost:1h:mean_path_km:-0.931",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:-4",
+      "S1_morning_lost:2h:mean_wait:-39.975",
+      "S1_morning_lost:2h:mean_path_km:1.777"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.518",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 17,
+     "6": 21
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P10_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-27.124",
+      "S1_morning_lost:4h:mean_path_km:1.144",
+      "S1_morning_lost:4h:released_then_walked:-21",
+      "S1_morning_lost:6h:mean_wait:-124.632",
+      "S1_morning_lost:6h:mean_path_km:5.348"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:released_then_walked:-21",
+      "S1_morning_lost:6h:mean_wait:-79.283",
+      "S1_morning_lost:6h:mean_path_km:3.408",
+      "S1_morning_lost:6h:released_then_walked:17",
+      "S2_evening_midnight_dark:2h:mean_wait:-27.205"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-27.124",
+      "S1_morning_lost:4h:mean_path_km:1.158",
+      "S1_morning_lost:4h:released_then_walked:-21",
+      "S1_morning_lost:6h:mean_wait:-124.632",
+      "S1_morning_lost:6h:mean_path_km:5.327"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 21,
+     "6": 21
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P12_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-29.231",
+      "S1_morning_lost:4h:mean_path_km:1.248",
+      "S1_morning_lost:4h:released_then_walked:-12",
+      "S1_morning_lost:6h:mean_wait:-144.95",
+      "S1_morning_lost:6h:mean_path_km:6.215"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:119.297",
+      "S1_morning_lost:2h:mean_path_km:-5.345",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-29.231",
+      "S1_morning_lost:4h:mean_path_km:1.248",
+      "S1_morning_lost:4h:released_then_walked:-12",
+      "S1_morning_lost:6h:mean_wait:-144.95",
+      "S1_morning_lost:6h:mean_path_km:6.19"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 12,
+     "6": 12
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 13
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P14_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:arrived:-5",
+      "S1_morning_lost:4h:arrived:-17",
+      "S1_morning_lost:6h:arrived:-20",
+      "S2_evening_midnight_dark:1h:arrived:-10",
+      "S2_evening_midnight_dark:2h:mean_path_km:-0.07",
+      "S2_evening_midnight_dark:2h:arrived:-20"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:arrived:-10",
+      "S2_evening_midnight_dark:2h:mean_path_km:-0.074",
+      "S2_evening_midnight_dark:2h:arrived:-12",
+      "S2_evening_midnight_dark:4h:mean_path_km:-0.088"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:26.75",
+      "S1_morning_lost:1h:mean_path_km:-1.218",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:2h:mean_wait:56.5",
+      "S1_morning_lost:2h:mean_path_km:-2.455",
+      "S1_morning_lost:2h:released_then_walked:40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P15_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:arrived:-9",
+      "S1_morning_lost:6h:arrived:-19"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:arrived:-9",
+      "S1_morning_lost:6h:arrived:-19"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:29.925",
+      "S1_morning_lost:4h:mean_path_km:-1.253",
+      "S1_morning_lost:4h:released_then_walked:40",
+      "S1_morning_lost:4h:arrived:-10",
+      "S1_morning_lost:6h:mean_wait:29.925",
+      "S1_morning_lost:6h:mean_path_km:-1.28"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P16_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-3.496",
+      "S1_morning_lost:1h:mean_path_km:0.156",
+      "S1_morning_lost:1h:released_then_walked:-7",
+      "S1_morning_lost:2h:mean_wait:-6.408",
+      "S1_morning_lost:2h:mean_path_km:0.266",
+      "S1_morning_lost:2h:released_then_walked:-7"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:2.56",
+      "S1_morning_lost:1h:mean_path_km:-0.111",
+      "S1_morning_lost:1h:released_then_walked:5",
+      "S1_morning_lost:2h:released_then_walked:5",
+      "S1_morning_lost:4h:mean_path_km:0.206",
+      "S1_morning_lost:4h:released_then_walked:5"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-3.496",
+      "S1_morning_lost:1h:mean_path_km:0.156",
+      "S1_morning_lost:1h:released_then_walked:-7",
+      "S1_morning_lost:2h:mean_wait:-6.408",
+      "S1_morning_lost:2h:mean_path_km:0.267",
+      "S1_morning_lost:2h:released_then_walked:-7"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 7,
+     "2": 7,
+     "4": 11,
+     "6": 11
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P17_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-40.0",
+      "S1_morning_lost:1h:mean_path_km:1.866",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_wait:-50.0",
+      "S1_morning_lost:2h:mean_path_km:2.136",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.948",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_wait:19.85",
+      "S1_morning_lost:2h:mean_path_km:-0.888"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-40.0",
+      "S1_morning_lost:1h:mean_path_km:1.846",
+      "S1_morning_lost:1h:arrived:5",
+      "S1_morning_lost:2h:mean_wait:-50.0",
+      "S1_morning_lost:2h:mean_path_km:2.136",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 23,
+     "4": 23,
+     "6": 23
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P18_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.869",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.319",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:2h:mean_wait:-60.0"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.863",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.276",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:2h:mean_wait:-60.0"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 17,
+     "6": 21
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P19_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.912",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.609",
+      "S1_morning_lost:2h:mean_path_km:0.713",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_personal_rest:-0.609",
+      "S1_morning_lost:4h:mean_personal_rest:-3.625",
+      "S1_morning_lost:6h:mean_personal_rest:-8.35",
+      "S1_morning_lost:6h:mean_path_km:0.09",
+      "S2_evening_midnight_dark:1h:mean_personal_rest:-0.325",
+      "S2_evening_midnight_dark:1h:released_then_walked:-2"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.943",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.609",
+      "S1_morning_lost:2h:mean_path_km:0.935",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 2,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 20,
+     "2": 36,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P20_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:2h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-2",
+      "S3_sparse_afternoon:4h:avoid_walkers:-6",
+      "S3_sparse_afternoon:6h:avoid_walkers:-6"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:avoid_walkers:4",
+      "S1_morning_lost:6h:avoid_walkers:4",
+      "S2_evening_midnight_dark:4h:avoid_walkers:3",
+      "S2_evening_midnight_dark:6h:avoid_walkers:3"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:arrived:-2",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-2",
+      "S3_sparse_afternoon:4h:avoid_walkers:-6",
+      "S3_sparse_afternoon:6h:avoid_walkers:-6"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P21_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_path_km:-0.066",
+      "S1_morning_lost:6h:mean_path_km:-0.066"
+     ]
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:19.975",
+      "S1_morning_lost:1h:mean_path_km:-0.923",
+      "S1_morning_lost:2h:mean_wait:79.975",
+      "S1_morning_lost:2h:mean_path_km:-3.518",
+      "S1_morning_lost:2h:arrived:-5",
+      "S1_morning_lost:4h:mean_wait:159.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P22_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-12",
+      "S1_morning_lost:2h:avoid_walkers:-13",
+      "S1_morning_lost:4h:avoid_walkers:-13",
+      "S1_morning_lost:6h:avoid_walkers:-13",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-16"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:-0.012",
+      "S1_morning_lost:4h:avoid_walkers:6",
+      "S1_morning_lost:6h:avoid_walkers:7",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-11",
+      "S3_sparse_afternoon:1h:mean_path_km:-0.012"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:-0.008",
+      "S1_morning_lost:1h:avoid_walkers:-12",
+      "S1_morning_lost:2h:avoid_walkers:-13",
+      "S1_morning_lost:4h:avoid_walkers:-13",
+      "S1_morning_lost:6h:avoid_walkers:-13",
+      "S2_evening_midnight_dark:1h:mean_path_km:0.036"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P23_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.486",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:20.025",
+      "S1_morning_lost:1h:mean_path_km:-0.931",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:-4",
+      "S1_morning_lost:2h:mean_wait:-39.975",
+      "S1_morning_lost:2h:mean_path_km:1.777"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.518",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 17,
+     "6": 21
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P25_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-60.0",
+      "S1_morning_lost:1h:mean_path_km:2.814",
+      "S1_morning_lost:1h:arrived:11",
+      "S1_morning_lost:2h:mean_wait:-60.0",
+      "S1_morning_lost:2h:mean_path_km:2.575",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-60.0",
+      "S1_morning_lost:1h:mean_path_km:2.814",
+      "S1_morning_lost:1h:arrived:11",
+      "S1_morning_lost:2h:mean_wait:-60.0",
+      "S1_morning_lost:2h:mean_path_km:2.575",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-60.0",
+      "S1_morning_lost:1h:mean_path_km:2.814",
+      "S1_morning_lost:1h:arrived:11",
+      "S1_morning_lost:2h:mean_wait:-60.0",
+      "S1_morning_lost:2h:mean_path_km:2.574",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P26_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:6h:mean_wait:-89.85",
+      "S2_evening_midnight_dark:6h:mean_path_km:3.874"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:6h:mean_wait:-89.85",
+      "S2_evening_midnight_dark:6h:mean_path_km:3.848"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P27_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.869",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.319",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:1h:mean_wait:-40.0"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.863",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.276",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:1h:mean_wait:-40.0"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P28_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.894",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:2",
+      "S1_morning_lost:2h:mean_personal_rest:-39.25",
+      "S1_morning_lost:2h:mean_path_km:1.537"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.894",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:2",
+      "S1_morning_lost:2h:mean_personal_rest:-39.25",
+      "S1_morning_lost:2h:mean_path_km:1.537"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.948",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_personal_rest:-39.25",
+      "S1_morning_lost:2h:mean_path_km:1.908"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P29_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-16.9",
+      "S1_morning_lost:1h:mean_personal_rest:-19.5",
+      "S1_morning_lost:1h:mean_path_km:1.705",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:3",
+      "S1_morning_lost:2h:mean_wait:-76.9"
+     ]
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-5.9",
+      "S1_morning_lost:1h:mean_personal_rest:-19.5",
+      "S1_morning_lost:1h:mean_path_km:1.231",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:3",
+      "S1_morning_lost:2h:mean_wait:-32.9"
+     ]
+    }
+   },
+   "false_alarm": true,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": [
+    "2h:mean_wait:-0.3",
+    "2h:mean_personal_rest:0.375",
+    "4h:mean_wait:-0.3",
+    "6h:mean_wait:-0.875",
+    "6h:mean_personal_rest:0.75"
+   ]
+  },
+  {
+   "input_id": "DEV_P30_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.912",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.0",
+      "S1_morning_lost:2h:mean_path_km:0.691",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-11.25",
+      "S1_morning_lost:1h:mean_path_km:0.522",
+      "S1_morning_lost:1h:released_then_walked:-9",
+      "S1_morning_lost:2h:mean_personal_rest:-11.25",
+      "S1_morning_lost:2h:mean_path_km:0.446",
+      "S1_morning_lost:2h:released_then_walked:-9"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 19,
+     "2": 29,
+     "4": 39,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P31_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:mean_wait:-21.793",
+      "S1_morning_lost:4h:mean_path_km:0.911",
+      "S1_morning_lost:4h:avoid_walkers:-21",
+      "S1_morning_lost:4h:released_then_walked:-10"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-7",
+      "S1_morning_lost:2h:mean_path_km:-0.036",
+      "S1_morning_lost:4h:arrived:-4",
+      "S3_sparse_afternoon:2h:avoid_walkers:-6",
+      "S3_sparse_afternoon:6h:mean_path_km:-0.665"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:0.012",
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:mean_wait:1.072",
+      "S1_morning_lost:2h:mean_path_km:-0.036",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:avoid_walkers:-21"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 10,
+     "6": 10
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 17
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P32_original",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-36.5",
+      "S1_morning_lost:1h:mean_path_km:1.698",
+      "S1_morning_lost:2h:mean_wait:-46.5",
+      "S1_morning_lost:2h:mean_path_km:1.975",
+      "S1_morning_lost:2h:released_then_walked:-40",
+      "S1_morning_lost:4h:mean_wait:-46.5"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-6.716",
+      "S1_morning_lost:1h:mean_path_km:0.304",
+      "S1_morning_lost:1h:released_then_walked:18",
+      "S1_morning_lost:2h:mean_wait:-9.141",
+      "S1_morning_lost:2h:mean_path_km:0.415",
+      "S1_morning_lost:2h:arrived:11"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:20.25",
+      "S1_morning_lost:1h:mean_path_km:-0.96",
+      "S1_morning_lost:1h:arrived:-10",
+      "S1_morning_lost:2h:mean_wait:50.2",
+      "S1_morning_lost:2h:mean_path_km:-2.29",
+      "S1_morning_lost:2h:arrived:-17"
+     ]
+    }
+   },
+   "false_alarm": true,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 26,
+     "4": 26,
+     "6": 26
+    }
+   },
+   "false_alarm_evidence": [
+    "6h:mean_path_km:0.094"
+   ]
+  },
+  {
+   "input_id": "DEV_P01_preserve",
+   "mutants": {
+    "delete": {
+     "detected": false,
+     "evidence": []
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:mean_path_km:0.01"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P01_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": false,
+     "evidence": []
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:mean_path_km:0.01"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P01_hard",
+   "mutants": {
+    "delete": {
+     "detected": false,
+     "evidence": []
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:mean_path_km:0.01"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P02_preserve",
+   "mutants": {
+    "delete": {
+     "detected": false,
+     "evidence": []
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:-0.014",
+      "S2_evening_midnight_dark:1h:mean_path_km:0.01"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P02_hard",
+   "mutants": {
+    "delete": {
+     "detected": false,
+     "evidence": []
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:-0.014",
+      "S2_evening_midnight_dark:1h:mean_path_km:0.01"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P03_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:avoid_walkers:-4",
+      "S1_morning_lost:6h:avoid_walkers:-4",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-17"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:17",
+      "S1_morning_lost:2h:avoid_walkers:17",
+      "S1_morning_lost:4h:avoid_walkers:17",
+      "S1_morning_lost:6h:avoid_walkers:20",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-17"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:avoid_walkers:-4",
+      "S1_morning_lost:6h:avoid_walkers:-4",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-17"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P03_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:avoid_walkers:-21",
+      "S1_morning_lost:6h:avoid_walkers:-24",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-19"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:arrived:-9",
+      "S1_morning_lost:2h:arrived:-11",
+      "S1_morning_lost:4h:arrived:-13",
+      "S1_morning_lost:6h:avoid_walkers:3",
+      "S1_morning_lost:6h:arrived:-12",
+      "S3_sparse_afternoon:2h:avoid_walkers:-6"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:0.012",
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:avoid_walkers:-21",
+      "S1_morning_lost:6h:avoid_walkers:-24",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P03_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:avoid_walkers:-4",
+      "S1_morning_lost:6h:avoid_walkers:-4",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-17"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:17",
+      "S1_morning_lost:2h:avoid_walkers:17",
+      "S1_morning_lost:4h:avoid_walkers:17",
+      "S1_morning_lost:6h:avoid_walkers:20",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-17"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:avoid_walkers:-4",
+      "S1_morning_lost:6h:avoid_walkers:-4",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-17",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-17"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P04_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-12",
+      "S1_morning_lost:2h:avoid_walkers:-12",
+      "S1_morning_lost:4h:avoid_walkers:-12",
+      "S1_morning_lost:6h:avoid_walkers:-12",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-5",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-11"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:avoid_walkers:5",
+      "S1_morning_lost:4h:avoid_walkers:7",
+      "S1_morning_lost:6h:avoid_walkers:8",
+      "S2_evening_midnight_dark:1h:mean_path_km:-0.012",
+      "S2_evening_midnight_dark:1h:avoid_walkers:11",
+      "S2_evening_midnight_dark:2h:avoid_walkers:5"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-12",
+      "S1_morning_lost:2h:avoid_walkers:-12",
+      "S1_morning_lost:4h:avoid_walkers:-12",
+      "S1_morning_lost:6h:avoid_walkers:-12",
+      "S2_evening_midnight_dark:1h:mean_path_km:0.024",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-5"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P05_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.925",
+      "S1_morning_lost:1h:mean_path_km:0.902",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-44.675",
+      "S1_morning_lost:2h:mean_path_km:1.78",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-0.55",
+      "S1_morning_lost:1h:mean_path_km:0.008",
+      "S1_morning_lost:2h:mean_personal_rest:-5.509",
+      "S1_morning_lost:2h:mean_path_km:0.24",
+      "S1_morning_lost:4h:mean_personal_rest:-9.681",
+      "S1_morning_lost:4h:mean_path_km:0.423"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.925",
+      "S1_morning_lost:1h:mean_path_km:0.956",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-44.675",
+      "S1_morning_lost:2h:mean_path_km:2.15",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P05_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.894",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-39.166",
+      "S1_morning_lost:2h:mean_path_km:1.539",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.894",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-39.166",
+      "S1_morning_lost:2h:mean_path_km:1.539",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.948",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_personal_rest:-39.166",
+      "S1_morning_lost:2h:mean_path_km:1.91"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P05_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.925",
+      "S1_morning_lost:1h:mean_path_km:0.902",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-44.675",
+      "S1_morning_lost:2h:mean_path_km:1.78",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-0.55",
+      "S1_morning_lost:1h:mean_path_km:0.008",
+      "S1_morning_lost:2h:mean_personal_rest:-5.509",
+      "S1_morning_lost:2h:mean_path_km:0.24",
+      "S1_morning_lost:4h:mean_personal_rest:-9.681",
+      "S1_morning_lost:4h:mean_path_km:0.423"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.925",
+      "S1_morning_lost:1h:mean_path_km:0.956",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-44.675",
+      "S1_morning_lost:2h:mean_path_km:2.15",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P06_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-9.125",
+      "S1_morning_lost:1h:mean_path_km:0.414",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-18.375",
+      "S1_morning_lost:2h:mean_path_km:0.577",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-9.125",
+      "S1_morning_lost:1h:mean_path_km:0.414",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-18.375",
+      "S1_morning_lost:2h:mean_path_km:0.577",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-9.125",
+      "S1_morning_lost:1h:mean_path_km:0.462",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-18.375",
+      "S1_morning_lost:2h:mean_path_km:0.942",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P07_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-17.7",
+      "S1_morning_lost:1h:mean_path_km:0.808",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-17.7",
+      "S1_morning_lost:2h:mean_path_km:0.589",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-17.025",
+      "S1_morning_lost:1h:mean_path_km:0.775",
+      "S1_morning_lost:1h:released_then_walked:-37",
+      "S1_morning_lost:2h:mean_personal_rest:-17.025",
+      "S1_morning_lost:2h:mean_path_km:0.569",
+      "S1_morning_lost:2h:released_then_walked:-37"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-17.7",
+      "S1_morning_lost:1h:mean_path_km:0.833",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:3",
+      "S1_morning_lost:2h:mean_personal_rest:-17.7",
+      "S1_morning_lost:2h:mean_path_km:0.596"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 19,
+     "2": 29,
+     "4": 39,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P07_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-17.7",
+      "S1_morning_lost:1h:mean_path_km:0.808",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-17.7",
+      "S1_morning_lost:2h:mean_path_km:0.589",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-17.025",
+      "S1_morning_lost:1h:mean_path_km:0.775",
+      "S1_morning_lost:1h:released_then_walked:-37",
+      "S1_morning_lost:2h:mean_personal_rest:-17.025",
+      "S1_morning_lost:2h:mean_path_km:0.569",
+      "S1_morning_lost:2h:released_then_walked:-37"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-17.7",
+      "S1_morning_lost:1h:mean_path_km:0.833",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:3",
+      "S1_morning_lost:2h:mean_personal_rest:-17.7",
+      "S1_morning_lost:2h:mean_path_km:0.596"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 19,
+     "2": 29,
+     "4": 39,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P08_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.912",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.0",
+      "S1_morning_lost:2h:mean_path_km:0.697",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.25",
+      "S1_morning_lost:1h:mean_path_km:0.876",
+      "S1_morning_lost:1h:released_then_walked:-37",
+      "S1_morning_lost:2h:mean_personal_rest:-19.25",
+      "S1_morning_lost:2h:mean_path_km:0.673",
+      "S1_morning_lost:2h:released_then_walked:-37"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.937",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.0",
+      "S1_morning_lost:2h:mean_path_km:0.704",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 19,
+     "2": 29,
+     "4": 39,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P08_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-25.125",
+      "S1_morning_lost:1h:mean_path_km:1.164",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-44.834",
+      "S1_morning_lost:2h:mean_path_km:1.799",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:4.125",
+      "S1_morning_lost:1h:mean_path_km:-0.192",
+      "S1_morning_lost:2h:mean_personal_rest:2.291",
+      "S1_morning_lost:2h:mean_path_km:-0.11",
+      "S1_morning_lost:4h:mean_personal_rest:0.61",
+      "S1_morning_lost:6h:mean_personal_rest:-0.412"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-25.125",
+      "S1_morning_lost:1h:mean_path_km:1.218",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-44.834",
+      "S1_morning_lost:2h:mean_path_km:2.17",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P08_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.912",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.0",
+      "S1_morning_lost:2h:mean_path_km:0.697",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.25",
+      "S1_morning_lost:1h:mean_path_km:0.876",
+      "S1_morning_lost:1h:released_then_walked:-37",
+      "S1_morning_lost:2h:mean_personal_rest:-19.25",
+      "S1_morning_lost:2h:mean_path_km:0.673",
+      "S1_morning_lost:2h:released_then_walked:-37"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.937",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.0",
+      "S1_morning_lost:2h:mean_path_km:0.704",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 19,
+     "2": 29,
+     "4": 39,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P09_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.486",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:20.025",
+      "S1_morning_lost:1h:mean_path_km:-0.931",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:-4",
+      "S1_morning_lost:2h:mean_wait:-39.975",
+      "S1_morning_lost:2h:mean_path_km:1.777"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.518",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 17,
+     "6": 21
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P09_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-49.925",
+      "S1_morning_lost:4h:mean_path_km:2.132",
+      "S1_morning_lost:4h:released_then_walked:-40",
+      "S1_morning_lost:6h:mean_wait:-49.925",
+      "S1_morning_lost:6h:mean_path_km:2.158",
+      "S1_morning_lost:6h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-40.25",
+      "S1_morning_lost:4h:mean_path_km:1.692",
+      "S1_morning_lost:6h:mean_wait:-40.25",
+      "S1_morning_lost:6h:mean_path_km:1.732",
+      "S2_evening_midnight_dark:1h:mean_wait:30.1",
+      "S2_evening_midnight_dark:1h:mean_path_km:-1.409"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-49.925",
+      "S1_morning_lost:4h:mean_path_km:2.136",
+      "S1_morning_lost:4h:released_then_walked:-40",
+      "S1_morning_lost:6h:mean_wait:-49.925",
+      "S1_morning_lost:6h:mean_path_km:2.179",
+      "S1_morning_lost:6h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 13,
+     "4": 35,
+     "6": 35
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P09_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.486",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:20.025",
+      "S1_morning_lost:1h:mean_path_km:-0.931",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:-4",
+      "S1_morning_lost:2h:mean_wait:-39.975",
+      "S1_morning_lost:2h:mean_path_km:1.777"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.518",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 17,
+     "6": 21
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P10_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-27.124",
+      "S1_morning_lost:4h:mean_path_km:1.144",
+      "S1_morning_lost:4h:released_then_walked:-21",
+      "S1_morning_lost:6h:mean_wait:-124.632",
+      "S1_morning_lost:6h:mean_path_km:5.348"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:released_then_walked:-21",
+      "S1_morning_lost:6h:mean_wait:-79.283",
+      "S1_morning_lost:6h:mean_path_km:3.408",
+      "S1_morning_lost:6h:released_then_walked:17",
+      "S2_evening_midnight_dark:2h:mean_wait:-27.205"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-27.124",
+      "S1_morning_lost:4h:mean_path_km:1.158",
+      "S1_morning_lost:4h:released_then_walked:-21",
+      "S1_morning_lost:6h:mean_wait:-124.632",
+      "S1_morning_lost:6h:mean_path_km:5.327"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 21,
+     "6": 21
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P10_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-7.299",
+      "S1_morning_lost:4h:mean_path_km:0.31",
+      "S1_morning_lost:4h:released_then_walked:-12",
+      "S1_morning_lost:6h:mean_wait:-105.007",
+      "S1_morning_lost:6h:mean_path_km:4.508"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:14.633",
+      "S1_morning_lost:4h:mean_path_km:-0.648",
+      "S1_morning_lost:4h:released_then_walked:-12",
+      "S1_morning_lost:6h:mean_wait:-65.239",
+      "S1_morning_lost:6h:mean_path_km:2.781"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-7.299",
+      "S1_morning_lost:4h:mean_path_km:0.312",
+      "S1_morning_lost:4h:released_then_walked:-12",
+      "S1_morning_lost:6h:mean_wait:-105.007",
+      "S1_morning_lost:6h:mean_path_km:4.498"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 12,
+     "6": 12
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 2,
+     "6": 11
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P10_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-27.124",
+      "S1_morning_lost:4h:mean_path_km:1.144",
+      "S1_morning_lost:4h:released_then_walked:-21",
+      "S1_morning_lost:6h:mean_wait:-124.632",
+      "S1_morning_lost:6h:mean_path_km:5.348"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:released_then_walked:-21",
+      "S1_morning_lost:6h:mean_wait:-79.283",
+      "S1_morning_lost:6h:mean_path_km:3.408",
+      "S1_morning_lost:6h:released_then_walked:17",
+      "S2_evening_midnight_dark:2h:mean_wait:-27.205"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-27.124",
+      "S1_morning_lost:4h:mean_path_km:1.158",
+      "S1_morning_lost:4h:released_then_walked:-21",
+      "S1_morning_lost:6h:mean_wait:-124.632",
+      "S1_morning_lost:6h:mean_path_km:5.327"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 21,
+     "6": 21
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P11_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.486",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:20.025",
+      "S1_morning_lost:1h:mean_path_km:-0.931",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:-4",
+      "S1_morning_lost:2h:mean_wait:-39.975",
+      "S1_morning_lost:2h:mean_path_km:1.777"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.518",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 17,
+     "6": 21
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P12_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-29.231",
+      "S1_morning_lost:4h:mean_path_km:1.248",
+      "S1_morning_lost:4h:released_then_walked:-12",
+      "S1_morning_lost:6h:mean_wait:-144.95",
+      "S1_morning_lost:6h:mean_path_km:6.215"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:119.297",
+      "S1_morning_lost:2h:mean_path_km:-5.345",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-29.231",
+      "S1_morning_lost:4h:mean_path_km:1.248",
+      "S1_morning_lost:4h:released_then_walked:-12",
+      "S1_morning_lost:6h:mean_wait:-144.95",
+      "S1_morning_lost:6h:mean_path_km:6.19"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 12,
+     "6": 12
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 13
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P12_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-29.231",
+      "S1_morning_lost:4h:mean_path_km:1.248",
+      "S1_morning_lost:4h:released_then_walked:-12",
+      "S1_morning_lost:6h:mean_wait:-144.95",
+      "S1_morning_lost:6h:mean_path_km:6.215"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:119.297",
+      "S1_morning_lost:2h:mean_path_km:-5.345",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:-0.703",
+      "S1_morning_lost:4h:mean_wait:-29.231",
+      "S1_morning_lost:4h:mean_path_km:1.248",
+      "S1_morning_lost:4h:released_then_walked:-12",
+      "S1_morning_lost:6h:mean_wait:-144.95",
+      "S1_morning_lost:6h:mean_path_km:6.19"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 12,
+     "6": 12
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 13
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P13_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_path_km:-0.096",
+      "S1_morning_lost:4h:arrived:-12",
+      "S1_morning_lost:6h:mean_path_km:-0.182",
+      "S1_morning_lost:6h:arrived:-15"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:arrived:-4",
+      "S1_morning_lost:2h:mean_path_km:0.041",
+      "S1_morning_lost:2h:arrived:12",
+      "S1_morning_lost:4h:arrived:9",
+      "S1_morning_lost:6h:arrived:7",
+      "S2_evening_midnight_dark:6h:arrived:2"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_wait:60.0",
+      "S1_morning_lost:2h:mean_path_km:-2.584",
+      "S1_morning_lost:4h:mean_wait:60.0",
+      "S1_morning_lost:4h:mean_path_km:-2.65",
+      "S1_morning_lost:4h:released_then_walked:40",
+      "S1_morning_lost:4h:arrived:-13"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P14_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:arrived:-5",
+      "S1_morning_lost:4h:arrived:-17",
+      "S1_morning_lost:6h:arrived:-20",
+      "S2_evening_midnight_dark:1h:arrived:-10",
+      "S2_evening_midnight_dark:2h:mean_path_km:-0.07",
+      "S2_evening_midnight_dark:2h:arrived:-20"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:arrived:-10",
+      "S2_evening_midnight_dark:2h:mean_path_km:-0.074",
+      "S2_evening_midnight_dark:2h:arrived:-12",
+      "S2_evening_midnight_dark:4h:mean_path_km:-0.088"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:26.75",
+      "S1_morning_lost:1h:mean_path_km:-1.218",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:2h:mean_wait:56.5",
+      "S1_morning_lost:2h:mean_path_km:-2.455",
+      "S1_morning_lost:2h:released_then_walked:40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P14_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:arrived:-5",
+      "S1_morning_lost:4h:arrived:-17",
+      "S1_morning_lost:6h:arrived:-20",
+      "S2_evening_midnight_dark:1h:arrived:-10",
+      "S2_evening_midnight_dark:2h:mean_path_km:-0.07",
+      "S2_evening_midnight_dark:2h:arrived:-20"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:arrived:-10",
+      "S2_evening_midnight_dark:2h:mean_path_km:-0.074",
+      "S2_evening_midnight_dark:2h:arrived:-12",
+      "S2_evening_midnight_dark:4h:mean_path_km:-0.088"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:26.75",
+      "S1_morning_lost:1h:mean_path_km:-1.218",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:2h:mean_wait:56.5",
+      "S1_morning_lost:2h:mean_path_km:-2.455",
+      "S1_morning_lost:2h:released_then_walked:40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P15_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:arrived:-9",
+      "S1_morning_lost:6h:arrived:-19"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:arrived:-9",
+      "S1_morning_lost:6h:arrived:-19"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:29.925",
+      "S1_morning_lost:4h:mean_path_km:-1.253",
+      "S1_morning_lost:4h:released_then_walked:40",
+      "S1_morning_lost:4h:arrived:-10",
+      "S1_morning_lost:6h:mean_wait:29.925",
+      "S1_morning_lost:6h:mean_path_km:-1.28"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P15_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S3_sparse_afternoon:1h:arrived:-8",
+      "S3_sparse_afternoon:2h:arrived:-30",
+      "S3_sparse_afternoon:4h:arrived:-38",
+      "S3_sparse_afternoon:6h:arrived:-39"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:arrived:10",
+      "S1_morning_lost:6h:arrived:17",
+      "S3_sparse_afternoon:1h:arrived:20",
+      "S3_sparse_afternoon:2h:arrived:7"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S3_sparse_afternoon:1h:mean_wait:30.0",
+      "S3_sparse_afternoon:1h:mean_path_km:-1.372",
+      "S3_sparse_afternoon:1h:arrived:-8",
+      "S3_sparse_afternoon:2h:mean_wait:43.5",
+      "S3_sparse_afternoon:2h:mean_path_km:-1.874",
+      "S3_sparse_afternoon:2h:released_then_walked:40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P15_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:arrived:-9",
+      "S1_morning_lost:6h:arrived:-19"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:arrived:-9",
+      "S1_morning_lost:6h:arrived:-19"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:29.925",
+      "S1_morning_lost:4h:mean_path_km:-1.253",
+      "S1_morning_lost:4h:released_then_walked:40",
+      "S1_morning_lost:4h:arrived:-10",
+      "S1_morning_lost:6h:mean_wait:29.925",
+      "S1_morning_lost:6h:mean_path_km:-1.28"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P16_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-3.496",
+      "S1_morning_lost:1h:mean_path_km:0.156",
+      "S1_morning_lost:1h:released_then_walked:-7",
+      "S1_morning_lost:2h:mean_wait:-6.408",
+      "S1_morning_lost:2h:mean_path_km:0.266",
+      "S1_morning_lost:2h:released_then_walked:-7"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:2.56",
+      "S1_morning_lost:1h:mean_path_km:-0.111",
+      "S1_morning_lost:1h:released_then_walked:5",
+      "S1_morning_lost:2h:released_then_walked:5",
+      "S1_morning_lost:4h:mean_path_km:0.206",
+      "S1_morning_lost:4h:released_then_walked:5"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-3.496",
+      "S1_morning_lost:1h:mean_path_km:0.156",
+      "S1_morning_lost:1h:released_then_walked:-7",
+      "S1_morning_lost:2h:mean_wait:-6.408",
+      "S1_morning_lost:2h:mean_path_km:0.267",
+      "S1_morning_lost:2h:released_then_walked:-7"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 7,
+     "2": 7,
+     "4": 11,
+     "6": 11
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P16_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-9.492",
+      "S1_morning_lost:1h:mean_path_km:0.438",
+      "S1_morning_lost:2h:mean_wait:-23.98",
+      "S1_morning_lost:2h:mean_path_km:1.042",
+      "S1_morning_lost:4h:mean_wait:-60.668",
+      "S1_morning_lost:4h:mean_path_km:2.613"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:10.781",
+      "S1_morning_lost:1h:mean_path_km:-0.505",
+      "S1_morning_lost:1h:arrived:-9",
+      "S1_morning_lost:2h:mean_wait:25.957",
+      "S1_morning_lost:2h:mean_path_km:-1.151",
+      "S1_morning_lost:2h:arrived:-11"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-9.492",
+      "S1_morning_lost:1h:mean_path_km:0.438",
+      "S1_morning_lost:2h:mean_wait:-23.98",
+      "S1_morning_lost:2h:mean_path_km:1.042",
+      "S1_morning_lost:4h:mean_wait:-60.668",
+      "S1_morning_lost:4h:mean_path_km:2.613"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P16_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-11.542",
+      "S1_morning_lost:1h:mean_path_km:0.536",
+      "S1_morning_lost:1h:released_then_walked:-31",
+      "S1_morning_lost:1h:arrived:-28",
+      "S1_morning_lost:2h:mean_wait:-17.421",
+      "S1_morning_lost:2h:mean_path_km:0.722"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:arrived:-3",
+      "S1_morning_lost:2h:mean_wait:2.205",
+      "S1_morning_lost:2h:mean_path_km:-0.123",
+      "S1_morning_lost:2h:arrived:-1",
+      "S2_evening_midnight_dark:1h:mean_wait:-49.611",
+      "S2_evening_midnight_dark:1h:mean_path_km:2.321"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:15.208",
+      "S1_morning_lost:1h:mean_path_km:-0.694",
+      "S1_morning_lost:1h:released_then_walked:9",
+      "S1_morning_lost:1h:arrived:-28",
+      "S1_morning_lost:2h:mean_wait:30.004",
+      "S1_morning_lost:2h:mean_path_km:-1.302"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 31,
+     "2": 31,
+     "4": 35,
+     "6": 35
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P17_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-40.0",
+      "S1_morning_lost:1h:mean_path_km:1.866",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_wait:-50.0",
+      "S1_morning_lost:2h:mean_path_km:2.136",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.948",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_wait:19.85",
+      "S1_morning_lost:2h:mean_path_km:-0.888"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-40.0",
+      "S1_morning_lost:1h:mean_path_km:1.846",
+      "S1_morning_lost:1h:arrived:5",
+      "S1_morning_lost:2h:mean_wait:-50.0",
+      "S1_morning_lost:2h:mean_path_km:2.136",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 23,
+     "4": 23,
+     "6": 23
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P17_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.869",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.319",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:1h:mean_wait:-40.0"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.863",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.276",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:1h:mean_wait:-40.0"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P17_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-40.0",
+      "S1_morning_lost:1h:mean_path_km:1.866",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_wait:-50.0",
+      "S1_morning_lost:2h:mean_path_km:2.136",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.948",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_wait:19.85",
+      "S1_morning_lost:2h:mean_path_km:-0.888"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-40.0",
+      "S1_morning_lost:1h:mean_path_km:1.846",
+      "S1_morning_lost:1h:arrived:5",
+      "S1_morning_lost:2h:mean_wait:-50.0",
+      "S1_morning_lost:2h:mean_path_km:2.136",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 23,
+     "4": 23,
+     "6": 23
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P18_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.869",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.319",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:2h:mean_wait:-60.0"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.863",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.276",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:2h:mean_wait:-60.0"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 17,
+     "6": 21
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P18_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-60.0",
+      "S1_morning_lost:1h:mean_path_km:2.814",
+      "S1_morning_lost:1h:arrived:11",
+      "S1_morning_lost:2h:mean_wait:-120.0",
+      "S1_morning_lost:2h:mean_path_km:5.377",
+      "S1_morning_lost:2h:arrived:15"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:60.075",
+      "S1_morning_lost:4h:mean_path_km:-2.764",
+      "S1_morning_lost:4h:released_then_walked:-40",
+      "S1_morning_lost:4h:arrived:-13",
+      "S1_morning_lost:6h:mean_wait:60.075",
+      "S1_morning_lost:6h:mean_path_km:-2.764"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-60.0",
+      "S1_morning_lost:1h:mean_path_km:2.814",
+      "S1_morning_lost:1h:arrived:11",
+      "S1_morning_lost:2h:mean_wait:-120.0",
+      "S1_morning_lost:2h:mean_path_km:5.377",
+      "S1_morning_lost:2h:arrived:15"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 6,
+     "4": 6,
+     "6": 26
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P18_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.869",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.319",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:2h:mean_wait:-60.0"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.863",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.276",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:2h:mean_wait:-60.0"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 17,
+     "6": 21
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P19_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.912",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.609",
+      "S1_morning_lost:2h:mean_path_km:0.713",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:2h:mean_personal_rest:-0.609",
+      "S1_morning_lost:4h:mean_personal_rest:-3.625",
+      "S1_morning_lost:6h:mean_personal_rest:-8.35",
+      "S1_morning_lost:6h:mean_path_km:0.09",
+      "S2_evening_midnight_dark:1h:mean_personal_rest:-0.325",
+      "S2_evening_midnight_dark:1h:released_then_walked:-2"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.943",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.609",
+      "S1_morning_lost:2h:mean_path_km:0.935",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 2,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 20,
+     "2": 36,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P19_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_personal_rest:-2.125",
+      "S1_morning_lost:4h:released_then_walked:-17",
+      "S1_morning_lost:6h:mean_personal_rest:-2.125",
+      "S1_morning_lost:6h:released_then_walked:-17",
+      "S2_evening_midnight_dark:2h:mean_personal_rest:-0.725",
+      "S3_sparse_afternoon:1h:mean_personal_rest:-0.25"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_personal_rest:-2.125",
+      "S1_morning_lost:4h:released_then_walked:-17",
+      "S1_morning_lost:6h:mean_personal_rest:-2.125",
+      "S1_morning_lost:6h:released_then_walked:-17",
+      "S2_evening_midnight_dark:2h:mean_personal_rest:-0.725",
+      "S3_sparse_afternoon:1h:mean_personal_rest:-0.25"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_personal_rest:-2.125",
+      "S1_morning_lost:4h:released_then_walked:-17",
+      "S1_morning_lost:6h:mean_personal_rest:-2.125",
+      "S1_morning_lost:6h:released_then_walked:-17",
+      "S2_evening_midnight_dark:2h:mean_personal_rest:-0.725",
+      "S3_sparse_afternoon:1h:mean_personal_rest:-0.25"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 1,
+     "2": 1,
+     "4": 17,
+     "6": 17
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 5,
+     "4": 7,
+     "6": 7
+    },
+    "S3_sparse_afternoon": {
+     "1": 2,
+     "2": 13,
+     "4": 27,
+     "6": 33
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P19_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-0.275",
+      "S1_morning_lost:2h:mean_personal_rest:-3.4",
+      "S1_morning_lost:2h:released_then_walked:-25",
+      "S1_morning_lost:4h:mean_personal_rest:-9.5",
+      "S1_morning_lost:4h:released_then_walked:-33",
+      "S1_morning_lost:6h:mean_personal_rest:-16.675"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-0.275",
+      "S1_morning_lost:2h:mean_personal_rest:-3.4",
+      "S1_morning_lost:2h:released_then_walked:-25",
+      "S1_morning_lost:4h:mean_personal_rest:-9.5",
+      "S1_morning_lost:4h:released_then_walked:-33",
+      "S1_morning_lost:6h:mean_personal_rest:-16.675"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-0.275",
+      "S1_morning_lost:2h:mean_personal_rest:-3.4",
+      "S1_morning_lost:2h:mean_path_km:0.232",
+      "S1_morning_lost:2h:released_then_walked:-25",
+      "S1_morning_lost:4h:mean_personal_rest:-9.5",
+      "S1_morning_lost:4h:mean_path_km:0.76"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 1,
+     "2": 25,
+     "4": 33,
+     "6": 38
+    },
+    "S2_evening_midnight_dark": {
+     "1": 2,
+     "2": 24,
+     "4": 35,
+     "6": 37
+    },
+    "S3_sparse_afternoon": {
+     "1": 2,
+     "2": 24,
+     "4": 35,
+     "6": 37
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P20_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:2h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-2",
+      "S3_sparse_afternoon:4h:avoid_walkers:-6",
+      "S3_sparse_afternoon:6h:avoid_walkers:-6"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:avoid_walkers:4",
+      "S1_morning_lost:6h:avoid_walkers:4",
+      "S2_evening_midnight_dark:4h:avoid_walkers:3",
+      "S2_evening_midnight_dark:6h:avoid_walkers:3"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:arrived:-2",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-2",
+      "S3_sparse_afternoon:4h:avoid_walkers:-6",
+      "S3_sparse_afternoon:6h:avoid_walkers:-6"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P20_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S3_sparse_afternoon:2h:avoid_walkers:-3",
+      "S3_sparse_afternoon:4h:avoid_walkers:-6",
+      "S3_sparse_afternoon:6h:avoid_walkers:-6"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:4h:avoid_walkers:4",
+      "S2_evening_midnight_dark:6h:avoid_walkers:4"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:-0.013",
+      "S3_sparse_afternoon:2h:avoid_walkers:-3",
+      "S3_sparse_afternoon:4h:avoid_walkers:-6",
+      "S3_sparse_afternoon:6h:avoid_walkers:-6"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P20_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:2h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-2",
+      "S3_sparse_afternoon:4h:avoid_walkers:-6",
+      "S3_sparse_afternoon:6h:avoid_walkers:-6"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:avoid_walkers:4",
+      "S1_morning_lost:6h:avoid_walkers:4",
+      "S2_evening_midnight_dark:4h:avoid_walkers:3",
+      "S2_evening_midnight_dark:6h:avoid_walkers:3"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:arrived:-2",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:4h:avoid_walkers:-2",
+      "S2_evening_midnight_dark:6h:avoid_walkers:-2",
+      "S3_sparse_afternoon:4h:avoid_walkers:-6",
+      "S3_sparse_afternoon:6h:avoid_walkers:-6"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P21_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_path_km:-0.066",
+      "S1_morning_lost:6h:mean_path_km:-0.066"
+     ]
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:19.975",
+      "S1_morning_lost:1h:mean_path_km:-0.923",
+      "S1_morning_lost:2h:mean_wait:79.975",
+      "S1_morning_lost:2h:mean_path_km:-3.518",
+      "S1_morning_lost:2h:arrived:-5",
+      "S1_morning_lost:4h:mean_wait:159.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P21_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.486",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-159.975"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:20.025",
+      "S1_morning_lost:1h:mean_path_km:-0.931",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:-4",
+      "S1_morning_lost:2h:mean_wait:-39.975",
+      "S1_morning_lost:2h:mean_path_km:1.777"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.518",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-159.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P21_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_path_km:-0.066",
+      "S1_morning_lost:6h:mean_path_km:-0.066"
+     ]
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:19.975",
+      "S1_morning_lost:1h:mean_path_km:-0.923",
+      "S1_morning_lost:2h:mean_wait:79.975",
+      "S1_morning_lost:2h:mean_path_km:-3.518",
+      "S1_morning_lost:2h:arrived:-5",
+      "S1_morning_lost:4h:mean_wait:159.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P22_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-12",
+      "S1_morning_lost:2h:avoid_walkers:-13",
+      "S1_morning_lost:4h:avoid_walkers:-13",
+      "S1_morning_lost:6h:avoid_walkers:-13",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-16"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:-0.012",
+      "S1_morning_lost:4h:avoid_walkers:6",
+      "S1_morning_lost:6h:avoid_walkers:7",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-11",
+      "S3_sparse_afternoon:1h:mean_path_km:-0.012"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:-0.008",
+      "S1_morning_lost:1h:avoid_walkers:-12",
+      "S1_morning_lost:2h:avoid_walkers:-13",
+      "S1_morning_lost:4h:avoid_walkers:-13",
+      "S1_morning_lost:6h:avoid_walkers:-13",
+      "S2_evening_midnight_dark:1h:mean_path_km:0.036"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P22_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:avoid_walkers:-21",
+      "S1_morning_lost:6h:avoid_walkers:-24",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-17"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-7",
+      "S1_morning_lost:4h:arrived:-4",
+      "S1_morning_lost:6h:avoid_walkers:-4",
+      "S3_sparse_afternoon:2h:avoid_walkers:-6"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:0.012",
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:avoid_walkers:-21",
+      "S1_morning_lost:6h:avoid_walkers:-24",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P22_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-12",
+      "S1_morning_lost:2h:avoid_walkers:-13",
+      "S1_morning_lost:4h:avoid_walkers:-13",
+      "S1_morning_lost:6h:avoid_walkers:-13",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-16"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:-0.012",
+      "S1_morning_lost:4h:avoid_walkers:6",
+      "S1_morning_lost:6h:avoid_walkers:7",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-11",
+      "S3_sparse_afternoon:1h:mean_path_km:-0.012"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:-0.008",
+      "S1_morning_lost:1h:avoid_walkers:-12",
+      "S1_morning_lost:2h:avoid_walkers:-13",
+      "S1_morning_lost:4h:avoid_walkers:-13",
+      "S1_morning_lost:6h:avoid_walkers:-13",
+      "S2_evening_midnight_dark:1h:mean_path_km:0.036"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P23_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.486",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:20.025",
+      "S1_morning_lost:1h:mean_path_km:-0.931",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:-4",
+      "S1_morning_lost:2h:mean_wait:-39.975",
+      "S1_morning_lost:2h:mean_path_km:1.777"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.518",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 17,
+     "6": 21
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P23_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.486",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:20.025",
+      "S1_morning_lost:1h:mean_path_km:-0.931",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:-4",
+      "S1_morning_lost:2h:mean_wait:-39.975",
+      "S1_morning_lost:2h:mean_path_km:1.777"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.518",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-109.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 17,
+     "6": 21
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P24_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.486",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-159.975"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:20.025",
+      "S1_morning_lost:1h:mean_path_km:-0.931",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:-4",
+      "S1_morning_lost:2h:mean_wait:-39.975",
+      "S1_morning_lost:2h:mean_path_km:1.777"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-19.975",
+      "S1_morning_lost:1h:mean_path_km:0.923",
+      "S1_morning_lost:2h:mean_wait:-79.975",
+      "S1_morning_lost:2h:mean_path_km:3.518",
+      "S1_morning_lost:2h:arrived:5",
+      "S1_morning_lost:4h:mean_wait:-159.975"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P24_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-40.0",
+      "S1_morning_lost:1h:mean_path_km:1.866",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_wait:-50.0",
+      "S1_morning_lost:2h:mean_path_km:2.136",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.948",
+      "S1_morning_lost:1h:released_then_walked:40",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_wait:19.85",
+      "S1_morning_lost:2h:mean_path_km:-0.888"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-40.0",
+      "S1_morning_lost:1h:mean_path_km:1.846",
+      "S1_morning_lost:1h:arrived:5",
+      "S1_morning_lost:2h:mean_wait:-50.0",
+      "S1_morning_lost:2h:mean_path_km:2.136",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 23,
+     "4": 23,
+     "6": 23
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P25_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-60.0",
+      "S1_morning_lost:1h:mean_path_km:2.814",
+      "S1_morning_lost:1h:arrived:11",
+      "S1_morning_lost:2h:mean_wait:-60.0",
+      "S1_morning_lost:2h:mean_path_km:2.575",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-60.0",
+      "S1_morning_lost:1h:mean_path_km:2.814",
+      "S1_morning_lost:1h:arrived:11",
+      "S1_morning_lost:2h:mean_wait:-60.0",
+      "S1_morning_lost:2h:mean_path_km:2.575",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-60.0",
+      "S1_morning_lost:1h:mean_path_km:2.814",
+      "S1_morning_lost:1h:arrived:11",
+      "S1_morning_lost:2h:mean_wait:-60.0",
+      "S1_morning_lost:2h:mean_path_km:2.574",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P25_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:2h:mean_wait:-29.7",
+      "S2_evening_midnight_dark:2h:mean_path_km:1.278",
+      "S2_evening_midnight_dark:4h:mean_wait:-59.7",
+      "S2_evening_midnight_dark:4h:mean_path_km:2.569",
+      "S2_evening_midnight_dark:4h:released_then_walked:-40",
+      "S2_evening_midnight_dark:6h:mean_wait:-59.7"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:2h:mean_wait:-29.7",
+      "S2_evening_midnight_dark:2h:mean_path_km:1.256",
+      "S2_evening_midnight_dark:4h:mean_wait:-59.7",
+      "S2_evening_midnight_dark:4h:mean_path_km:2.555",
+      "S2_evening_midnight_dark:4h:released_then_walked:-40",
+      "S2_evening_midnight_dark:6h:mean_wait:-59.7"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P25_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-60.0",
+      "S1_morning_lost:1h:mean_path_km:2.814",
+      "S1_morning_lost:1h:arrived:11",
+      "S1_morning_lost:2h:mean_wait:-60.0",
+      "S1_morning_lost:2h:mean_path_km:2.575",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-60.0",
+      "S1_morning_lost:1h:mean_path_km:2.814",
+      "S1_morning_lost:1h:arrived:11",
+      "S1_morning_lost:2h:mean_wait:-60.0",
+      "S1_morning_lost:2h:mean_path_km:2.575",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-60.0",
+      "S1_morning_lost:1h:mean_path_km:2.814",
+      "S1_morning_lost:1h:arrived:11",
+      "S1_morning_lost:2h:mean_wait:-60.0",
+      "S1_morning_lost:2h:mean_path_km:2.574",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P26_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:6h:mean_wait:-89.85",
+      "S2_evening_midnight_dark:6h:mean_path_km:3.874"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:6h:mean_wait:-89.85",
+      "S2_evening_midnight_dark:6h:mean_path_km:3.848"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P26_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:6h:mean_wait:-59.85",
+      "S2_evening_midnight_dark:6h:mean_path_km:2.588",
+      "S2_evening_midnight_dark:6h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:6h:mean_wait:-59.85",
+      "S2_evening_midnight_dark:6h:mean_path_km:2.56",
+      "S2_evening_midnight_dark:6h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P26_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:6h:mean_wait:-89.85",
+      "S2_evening_midnight_dark:6h:mean_path_km:3.874"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:6h:mean_wait:-89.85",
+      "S2_evening_midnight_dark:6h:mean_path_km:3.848"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P27_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.869",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.319",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:1h:mean_wait:-40.0"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.863",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.276",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:1h:mean_wait:-40.0"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P27_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:mean_wait:-40.0",
+      "S2_evening_midnight_dark:1h:mean_path_km:1.86",
+      "S2_evening_midnight_dark:2h:mean_wait:-100.0",
+      "S2_evening_midnight_dark:2h:mean_path_km:4.424",
+      "S2_evening_midnight_dark:4h:mean_wait:-220.0",
+      "S2_evening_midnight_dark:4h:mean_path_km:9.588"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:mean_wait:-20.0",
+      "S2_evening_midnight_dark:1h:mean_path_km:0.948",
+      "S2_evening_midnight_dark:1h:released_then_walked:40",
+      "S2_evening_midnight_dark:2h:mean_wait:-80.0",
+      "S2_evening_midnight_dark:2h:mean_path_km:3.564",
+      "S2_evening_midnight_dark:2h:released_then_walked:40"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:mean_wait:-40.0",
+      "S2_evening_midnight_dark:1h:mean_path_km:1.846",
+      "S2_evening_midnight_dark:2h:mean_wait:-100.0",
+      "S2_evening_midnight_dark:2h:mean_path_km:4.415",
+      "S2_evening_midnight_dark:4h:mean_wait:-220.0",
+      "S2_evening_midnight_dark:4h:mean_path_km:9.535"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P27_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.869",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.319",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:1h:mean_wait:-40.0"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:60.0",
+      "S1_morning_lost:1h:mean_path_km:-2.814",
+      "S1_morning_lost:1h:arrived:-11",
+      "S1_morning_lost:2h:mean_wait:120.0",
+      "S1_morning_lost:2h:mean_path_km:-5.377",
+      "S1_morning_lost:2h:arrived:-15"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_wait:-19.925",
+      "S1_morning_lost:4h:mean_path_km:0.863",
+      "S1_morning_lost:6h:mean_wait:-29.925",
+      "S1_morning_lost:6h:mean_path_km:1.276",
+      "S1_morning_lost:6h:released_then_walked:-40",
+      "S2_evening_midnight_dark:1h:mean_wait:-40.0"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P28_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.894",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:2",
+      "S1_morning_lost:2h:mean_personal_rest:-39.25",
+      "S1_morning_lost:2h:mean_path_km:1.537"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.894",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:2",
+      "S1_morning_lost:2h:mean_personal_rest:-39.25",
+      "S1_morning_lost:2h:mean_path_km:1.537"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.948",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_personal_rest:-39.25",
+      "S1_morning_lost:2h:mean_path_km:1.908"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P28_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_personal_rest:-55.75",
+      "S1_morning_lost:4h:mean_path_km:2.172",
+      "S1_morning_lost:4h:released_then_walked:-40",
+      "S1_morning_lost:6h:mean_personal_rest:-55.75",
+      "S1_morning_lost:6h:mean_path_km:2.156",
+      "S1_morning_lost:6h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_personal_rest:-20.875",
+      "S1_morning_lost:4h:mean_path_km:0.782",
+      "S1_morning_lost:4h:released_then_walked:-4",
+      "S1_morning_lost:6h:mean_personal_rest:-20.875",
+      "S1_morning_lost:6h:mean_path_km:0.77",
+      "S1_morning_lost:6h:released_then_walked:-4"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:4h:mean_personal_rest:-55.75",
+      "S1_morning_lost:4h:mean_path_km:2.176",
+      "S1_morning_lost:4h:released_then_walked:-40",
+      "S1_morning_lost:6h:mean_personal_rest:-55.75",
+      "S1_morning_lost:6h:mean_path_km:2.19",
+      "S1_morning_lost:6h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P28_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.894",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:2",
+      "S1_morning_lost:2h:mean_personal_rest:-39.25",
+      "S1_morning_lost:2h:mean_path_km:1.537"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.894",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:2",
+      "S1_morning_lost:2h:mean_personal_rest:-39.25",
+      "S1_morning_lost:2h:mean_path_km:1.537"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.948",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_personal_rest:-39.25",
+      "S1_morning_lost:2h:mean_path_km:1.908"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P29_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-16.9",
+      "S1_morning_lost:1h:mean_personal_rest:-19.5",
+      "S1_morning_lost:1h:mean_path_km:1.705",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:3",
+      "S1_morning_lost:2h:mean_wait:-76.9"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:23.1",
+      "S1_morning_lost:1h:mean_personal_rest:-11.167",
+      "S1_morning_lost:1h:mean_path_km:-0.549",
+      "S1_morning_lost:1h:arrived:-3",
+      "S1_morning_lost:2h:mean_wait:-36.9",
+      "S1_morning_lost:2h:mean_personal_rest:15.446"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-16.9",
+      "S1_morning_lost:1h:mean_personal_rest:2.296",
+      "S1_morning_lost:1h:mean_path_km:0.701",
+      "S1_morning_lost:1h:arrived:4",
+      "S1_morning_lost:2h:mean_wait:-76.9",
+      "S1_morning_lost:2h:mean_personal_rest:5.438"
+     ]
+    }
+   },
+   "false_alarm": true,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": [
+    "6h:mean_wait:0.75",
+    "6h:mean_personal_rest:-0.875"
+   ]
+  },
+  {
+   "input_id": "DEV_P29_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-16.9",
+      "S1_morning_lost:1h:mean_personal_rest:-19.5",
+      "S1_morning_lost:1h:mean_path_km:1.705",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:3",
+      "S1_morning_lost:2h:mean_wait:-76.9"
+     ]
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-16.9",
+      "S1_morning_lost:1h:mean_personal_rest:-19.5",
+      "S1_morning_lost:1h:mean_path_km:1.759",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:5",
+      "S1_morning_lost:2h:mean_wait:-76.9"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P29_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-16.9",
+      "S1_morning_lost:1h:mean_personal_rest:-19.5",
+      "S1_morning_lost:1h:mean_path_km:1.705",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:3",
+      "S1_morning_lost:2h:mean_wait:-76.9"
+     ]
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-5.9",
+      "S1_morning_lost:1h:mean_personal_rest:-19.5",
+      "S1_morning_lost:1h:mean_path_km:1.231",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:1h:arrived:3",
+      "S1_morning_lost:2h:mean_wait:-32.9"
+     ]
+    }
+   },
+   "false_alarm": true,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": [
+    "2h:mean_wait:-0.3",
+    "2h:mean_personal_rest:0.375",
+    "4h:mean_wait:-0.3",
+    "6h:mean_wait:-0.875",
+    "6h:mean_personal_rest:0.75"
+   ]
+  },
+  {
+   "input_id": "DEV_P30_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.912",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.0",
+      "S1_morning_lost:2h:mean_path_km:0.691",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-19.375",
+      "S1_morning_lost:1h:mean_path_km:0.888",
+      "S1_morning_lost:1h:released_then_walked:-38",
+      "S1_morning_lost:2h:mean_personal_rest:-19.375",
+      "S1_morning_lost:2h:mean_path_km:0.685",
+      "S1_morning_lost:2h:released_then_walked:-38"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.937",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.0",
+      "S1_morning_lost:2h:mean_path_km:0.698",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 19,
+     "2": 29,
+     "4": 39,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P30_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.912",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.0",
+      "S1_morning_lost:2h:mean_path_km:0.691",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:mean_path_km:0.01",
+      "S3_sparse_afternoon:1h:mean_personal_rest:-2.609",
+      "S3_sparse_afternoon:1h:mean_path_km:0.105",
+      "S3_sparse_afternoon:2h:mean_personal_rest:-3.693",
+      "S3_sparse_afternoon:2h:avoid_walkers:-2",
+      "S3_sparse_afternoon:2h:released_then_walked:-7"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 19,
+     "2": 29,
+     "4": 39,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P30_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-20.0",
+      "S1_morning_lost:1h:mean_path_km:0.912",
+      "S1_morning_lost:1h:released_then_walked:-40",
+      "S1_morning_lost:2h:mean_personal_rest:-20.0",
+      "S1_morning_lost:2h:mean_path_km:0.691",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    },
+    "flip": {
+     "detected": false,
+     "evidence": []
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_personal_rest:-11.25",
+      "S1_morning_lost:1h:mean_path_km:0.522",
+      "S1_morning_lost:1h:released_then_walked:-9",
+      "S1_morning_lost:2h:mean_personal_rest:-11.25",
+      "S1_morning_lost:2h:mean_path_km:0.446",
+      "S1_morning_lost:2h:released_then_walked:-9"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 40,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 19,
+     "2": 29,
+     "4": 39,
+     "6": 40
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P31_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:mean_wait:-21.793",
+      "S1_morning_lost:4h:mean_path_km:0.911",
+      "S1_morning_lost:4h:avoid_walkers:-21",
+      "S1_morning_lost:4h:released_then_walked:-10"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-7",
+      "S1_morning_lost:2h:mean_path_km:-0.036",
+      "S1_morning_lost:4h:arrived:-4",
+      "S3_sparse_afternoon:2h:avoid_walkers:-6",
+      "S3_sparse_afternoon:6h:mean_path_km:-0.665"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:0.012",
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:mean_wait:1.072",
+      "S1_morning_lost:2h:mean_path_km:-0.036",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:avoid_walkers:-21"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 10,
+     "6": 10
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 17
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P31_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:avoid_walkers:-21",
+      "S1_morning_lost:6h:avoid_walkers:-24",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16",
+      "S2_evening_midnight_dark:2h:avoid_walkers:-17"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-7",
+      "S1_morning_lost:4h:arrived:-4",
+      "S1_morning_lost:6h:avoid_walkers:-4",
+      "S3_sparse_afternoon:2h:avoid_walkers:-6"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:0.012",
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:avoid_walkers:-21",
+      "S1_morning_lost:6h:avoid_walkers:-24",
+      "S2_evening_midnight_dark:1h:avoid_walkers:-16"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 0
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P31_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:mean_wait:-21.793",
+      "S1_morning_lost:4h:mean_path_km:0.911",
+      "S1_morning_lost:4h:avoid_walkers:-21",
+      "S1_morning_lost:4h:released_then_walked:-10"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:avoid_walkers:-7",
+      "S1_morning_lost:2h:mean_path_km:-0.036",
+      "S1_morning_lost:4h:arrived:-4",
+      "S3_sparse_afternoon:2h:avoid_walkers:-6",
+      "S3_sparse_afternoon:6h:mean_path_km:-0.665"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_path_km:0.012",
+      "S1_morning_lost:1h:avoid_walkers:-17",
+      "S1_morning_lost:2h:mean_wait:1.072",
+      "S1_morning_lost:2h:mean_path_km:-0.036",
+      "S1_morning_lost:2h:avoid_walkers:-17",
+      "S1_morning_lost:4h:avoid_walkers:-21"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 0,
+     "4": 10,
+     "6": 10
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 0,
+     "4": 0,
+     "6": 17
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P32_preserve",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-36.181",
+      "S1_morning_lost:1h:mean_path_km:1.689",
+      "S1_morning_lost:2h:mean_wait:-46.181",
+      "S1_morning_lost:2h:mean_path_km:1.941",
+      "S1_morning_lost:2h:released_then_walked:-40",
+      "S1_morning_lost:2h:arrived:-9"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-21.651",
+      "S1_morning_lost:1h:mean_path_km:1.015",
+      "S1_morning_lost:1h:released_then_walked:38",
+      "S1_morning_lost:2h:mean_wait:11.508",
+      "S1_morning_lost:2h:mean_path_km:-0.539",
+      "S1_morning_lost:2h:released_then_walked:-1"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-36.181",
+      "S1_morning_lost:1h:mean_path_km:1.695",
+      "S1_morning_lost:1h:arrived:12",
+      "S1_morning_lost:2h:mean_wait:-46.181",
+      "S1_morning_lost:2h:mean_path_km:1.973",
+      "S1_morning_lost:2h:released_then_walked:-40"
+     ]
+    }
+   },
+   "false_alarm": true,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 26,
+     "4": 26,
+     "6": 26
+    }
+   },
+   "false_alarm_evidence": [
+    "1h:mean_path_km:0.055",
+    "1h:arrived:-10"
+   ]
+  },
+  {
+   "input_id": "DEV_P32_counterfactual",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-40.0",
+      "S1_morning_lost:1h:mean_path_km:1.866",
+      "S1_morning_lost:2h:mean_wait:-50.0",
+      "S1_morning_lost:2h:mean_path_km:2.12",
+      "S1_morning_lost:2h:released_then_walked:-40",
+      "S1_morning_lost:2h:arrived:-9"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S2_evening_midnight_dark:1h:mean_path_km:-0.012",
+      "S2_evening_midnight_dark:1h:arrived:-26",
+      "S2_evening_midnight_dark:2h:arrived:-26",
+      "S2_evening_midnight_dark:4h:mean_path_km:-0.04",
+      "S2_evening_midnight_dark:4h:arrived:-15",
+      "S2_evening_midnight_dark:6h:arrived:-4"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:16.75",
+      "S1_morning_lost:1h:mean_path_km:-0.792",
+      "S1_morning_lost:1h:arrived:-10",
+      "S1_morning_lost:2h:mean_wait:46.7",
+      "S1_morning_lost:2h:mean_path_km:-2.144",
+      "S1_morning_lost:2h:arrived:-18"
+     ]
+    }
+   },
+   "false_alarm": false,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 24,
+     "4": 24,
+     "6": 24
+    }
+   },
+   "false_alarm_evidence": []
+  },
+  {
+   "input_id": "DEV_P32_hard",
+   "mutants": {
+    "delete": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-36.5",
+      "S1_morning_lost:1h:mean_path_km:1.698",
+      "S1_morning_lost:2h:mean_wait:-46.5",
+      "S1_morning_lost:2h:mean_path_km:1.975",
+      "S1_morning_lost:2h:released_then_walked:-40",
+      "S1_morning_lost:4h:mean_wait:-46.5"
+     ]
+    },
+    "flip": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:-6.716",
+      "S1_morning_lost:1h:mean_path_km:0.304",
+      "S1_morning_lost:1h:released_then_walked:18",
+      "S1_morning_lost:2h:mean_wait:-9.141",
+      "S1_morning_lost:2h:mean_path_km:0.415",
+      "S1_morning_lost:2h:arrived:11"
+     ]
+    },
+    "swap": {
+     "detected": true,
+     "evidence": [
+      "S1_morning_lost:1h:mean_wait:20.25",
+      "S1_morning_lost:1h:mean_path_km:-0.96",
+      "S1_morning_lost:1h:arrived:-10",
+      "S1_morning_lost:2h:mean_wait:50.2",
+      "S1_morning_lost:2h:mean_path_km:-2.29",
+      "S1_morning_lost:2h:arrived:-17"
+     ]
+    }
+   },
+   "false_alarm": true,
+   "release_rewalk_reference": {
+    "S1_morning_lost": {
+     "1": 0,
+     "2": 40,
+     "4": 40,
+     "6": 40
+    },
+    "S2_evening_midnight_dark": {
+     "1": 0,
+     "2": 0,
+     "4": 40,
+     "6": 40
+    },
+    "S3_sparse_afternoon": {
+     "1": 0,
+     "2": 26,
+     "4": 26,
+     "6": 26
+    }
+   },
+   "false_alarm_evidence": [
+    "6h:mean_path_km:0.094"
+   ]
+  }
+ ]
+}
