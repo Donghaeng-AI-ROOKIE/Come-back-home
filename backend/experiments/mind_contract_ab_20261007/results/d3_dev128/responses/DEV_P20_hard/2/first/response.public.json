@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [], \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\"], \"subject\": \"patient\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N0.s2\"], \"subject\": \"patient\", \"kind\": \"corrected_away\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 784,
+  "prompt_tokens": 3859,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 4643
+ }
+}

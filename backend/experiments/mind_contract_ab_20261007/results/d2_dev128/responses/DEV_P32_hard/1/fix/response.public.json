@@ -1,0 +1,12 @@
+{
+ "final_content": "{ \"units\": [\n  {\n    \"sentence_ids\": [\"N0.s1\", \"N0.s2\"],\n    \"subject\": \"patient\",\n    \"kind\": \"other_information\",\n    \"action\": \"none\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N1.s1\"],\n    \"subject\": \"patient\",\n    \"kind\": \"observed_response\",\n    \"action\": \"seek\",\n    \"goal_place\": \"느티공원\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [{\"true\": [\"target_recognized\"], \"false\": [], \"numbers\": []}],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N2.s1\"],\n    \"subject\": \"patient\",\n    \"kind\": \"corrected_away\",\n    \"action\": \"none\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N2.s2\"],\n    \"subject\": \"patient\",\n    \"kind\": \"observed_response\",\n \n    \"action\": \"seek\",\n    \"goal_place\": \"해든상가\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [{\"true\": [\"target_recognized\"], \"false\": [], \"numbers\": []}],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N2.s3\"],\n    \"subject\": \"patient\",\n    \"kind\": \"not_representable\",\n    \"action\": \"none\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N3.s1\", \"N3.s2\"],\n    \"subject\": \"patient\",\n    \"kind\": \"observed_response\",\n    \"action\": \"rest\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [{\"true\": [\"rain_observed\"], \"false\": [], \"numbers\": []}],\n    \"end_when_any\": [{\"true\": [], \"false\": [], \"numbers\": [{\"fact\": \"continuous_walk_minutes\", \"op\": \">=\", \"value\": 0}]}],\n    \"hold_minutes\": 0\n  }\n]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 4769,
+  "prompt_tokens": 3939,
+  "prompt_tokens_details": {
+   "cached_tokens": 3744
+  },
+  "total_tokens": 8708
+ }
+}

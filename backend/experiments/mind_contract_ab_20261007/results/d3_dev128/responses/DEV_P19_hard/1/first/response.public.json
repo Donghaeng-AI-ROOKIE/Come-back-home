@@ -1,0 +1,12 @@
+{
+ "final_content": "{ \n  \"behaviors\": [\n    {\n      \"sentence_ids\": [\"N1.s1\"],\n      \"kind\": \"functional_need\",\n      \"action\": \"rest\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_when_any\": [\n        {\n          \"true\": [\"is_walking\", \"fatigue_high\"],\n          \"false\": [],\n          \"numbers\": []\n        }\n      ],\n      \"end_when_any\": [\n        {\n          \"true\": [\"pain_observed\", \"is_walking\"],\n          \"false\": [],\n          \"numbers\": []\n        }\n      ],\n      \"hold_minutes\": 0\n    }\n  ],\n  \"other_sentences\": [\n    {\n      \"sentence_ids\": [\"N0.s1\", \"N0.s2\"],\n      \"subject\": \"patient\",\n      \"kind\": \"other_information\"\n    },\n    {\n      \"sentence_ids\": [\"N2.s1\"],\n      \"subject\": \"patient\",\n      \"kind\": \"unobserved\"\n    },\n    {\n      \"sentence_ids\": [\"N2.s2\"],\n      \"subject\": \"other_person\",\n      \"kind\": \"hearsay_or_general\"\n    },\n    {\n      \"sentence_ids\": [\"N3.s1\"],\n      \"subject\": \"patient\",\n      \"kind\": \"other_information\"\n    }\n  ]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 3318,
+  "prompt_tokens": 3778,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 7096
+ }
+}

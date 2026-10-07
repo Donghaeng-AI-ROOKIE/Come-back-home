@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [], \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N0.s2\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N1.s1\"], \"subject\": \"other_person\", \"kind\": \"corrected_away\"}, {\"sentence_ids\": [\"N1.s2\"], \"subject\": \"patient\", \"kind\": \"unobserved\"}, {\"sentence_ids\": [\"N1.s3\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 4222,
+  "prompt_tokens": 3583,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 7805
+ }
+}

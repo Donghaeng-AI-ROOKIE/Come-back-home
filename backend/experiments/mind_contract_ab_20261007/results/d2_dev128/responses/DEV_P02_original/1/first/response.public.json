@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"units\":[{\"sentence_ids\":[\"N0.s1\",\"N0.s2\"],\"subject\":\"unclear\",\"kind\":\"other_information\",\"action\":\"none\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_when_any\":[],\"end_when_any\":[],\"hold_minutes\":0},{\"sentence_ids\":[\"N1.s1\"],\"subject\":\"other_person\",\"kind\":\"other_information\",\"action\":\"none\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_when_any\":[],\"end_when_any\":[],\"hold_minutes\":0},{\"sentence_ids\":[\"N1.s2\",\"N1.s3\"],\"subject\":\"patient\",\"kind\":\"observed_response\",\"action\":\"avoid_market\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_when_any\":[{\"true\":[\"market.crowded\"],\"false\":[],\"numbers\":[]},{\"true\":[\"market.noisy\"],\"false\":[],\"numbers\":[]}],\"end_when_any\":[],\"hold_minutes\":0},{\"sentence_ids\":[\"N1.s2\",\"N1.s3\"],\"subject\":\"patient\",\"kind\":\"observed_response\",\"action\":\"avoid_park\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_when_any\":[{\"true\":[\"park.crowded\"],\"false\":[],\"numbers\":[]},{\"true\":[\"park.noisy\"],\"false\":[],\"numbers\":[]}],\"end_when_any\":[],\"hold_minutes\":0}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 13302,
+  "prompt_tokens": 3565,
+  "prompt_tokens_details": {
+   "cached_tokens": 1824
+  },
+  "total_tokens": 16867
+ }
+}

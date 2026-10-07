@@ -1,0 +1,12 @@
+{
+ "final_content": "{ \"units\": [\n  {\n    \"sentence_ids\": [\"N0.s1\", \"N0.s2\"],\n    \"subject\": \"patient\",\n    \"kind\": \"other_information\",\n    \"action\": \"none\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N1.s1\", \"N1.s2\"],\n    \"subject\": \"patient\",\n    \"kind\": \"observed_response\",\n    \"action\": \"seek\",\n    \"goal_place\": \"솔빛쉼터\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [\n      {\n        \"true\": [\"target_recognized\"],\n        \"false\": [],\n        \"numbers\": []\n      }\n    ],\n    \"end_when_any\": [\n      {\n        \"true\": [\"physical_arrival\"],\n        \"false\": [],\n        \"numbers\": []\n      }\n    ],\n    \"hold_minutes\": 0\n  },\n  {\n\n    \"sentence_ids\": [\"N2.s1\"],          \"subject\": \"patient\",\n \"kind\": \"observed_response\", \"action\": \"wait\", \"goal_place\": \"솔빛쉼터\", \"applies_only_at\": [\"솔빛쉼터\"], \"start_when_any\": [ {\"true\": [\"physical_arrival\", \"target_recognized\"], \"false\": [], \"numbers\": [] } ], \"end_when_any\": [], \"hold_minutes\": 0 }, { \"sentence_ids\": [\"N3.s1\", \"N3.s2\"], \"subject\": \"patient\", \"kind\": \"unobserved\", \"action\": \"none\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_when_any\": [], \"end_when_any\": [], \"hold_minutes\": 0 } ] }",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 6667,
+  "prompt_tokens": 3682,
+  "prompt_tokens_details": {
+   "cached_tokens": 3680
+  },
+  "total_tokens": 10349
+ }
+}

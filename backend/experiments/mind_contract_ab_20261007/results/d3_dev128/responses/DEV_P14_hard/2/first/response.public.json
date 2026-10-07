@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [{\"sentence_ids\": [\"N2.s3\"], \"kind\": \"observed_response\", \"action\": \"seek\", \"goal_place\": \"느티공원\", \"applies_only_at\": [], \"start_when_any\": [{\"true\": [\"target_recognized\"], \"false\": [], \"numbers\": []}], \"end_when_any\": [], \"hold_minutes\": 0}], \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N0.s2\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N1.s1\"], \"subject\": \"unclear\", \"kind\": \"corrected_away\"}, {\"sentence_ids\": [\"N2.s1\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N2.s2\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}, {\"sentence_ids\": [\"N3.s1\"], \"subject\": \"unclear\", \"kind\": \"other_information\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 7531,
+  "prompt_tokens": 3830,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 11361
+ }
+}

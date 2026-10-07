@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\":[{\"sentence_ids\":[\"N1.s1\",\"N1.s2\",\"N1.s4\"],\"kind\":\"observed_response\",\"action\":\"seek\",\"goal_place\":\"해든상가\",\"applies_only_at\":[],\"start_when_any\":[{\"true\":[\"family_present\"],\"false\":[],\"numbers\":[{\"fact\":\"clock_hour\",\"op\":\">=\",\"value\":10},{\"fact\":\"clock_hour\",\"op\":\"<\",\"value\":11}]}],\"end_when_any\":[{\"true\":[],\"false\":[\"family_present\"],\"numbers\":[]},{\"true\":[],\"false\":[],\"numbers\":[{\"fact\":\"clock_hour\",\"op\":\">=\",\"value\":11}]}],\"hold_minutes\":0}],\"other_sentences\":[{\"sentence_ids\":[\"N0.s1\"],\"subject\":\"patient\",\"kind\":\"other_information\"},{\"sentence_ids\":[\"N0.s2\"],\"subject\":\"patient\",\"kind\":\"other_information\"},{\"sentence_ids\":[\"N1.s3\"],\"subject\":\"other_person\",\"kind\":\"other_information\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 9237,
+  "prompt_tokens": 3629,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 12866
+ }
+}

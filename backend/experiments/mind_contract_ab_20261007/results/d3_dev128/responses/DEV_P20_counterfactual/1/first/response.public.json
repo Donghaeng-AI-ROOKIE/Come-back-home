@@ -1,0 +1,12 @@
+{
+ "final_content": "{\n\n\"behaviors\": [\n  {\n    \"sentence_ids\": [\"N1.s1\"],\n    \"kind\": \"observed_response\",\n    \"action\": \"avoid_forest\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [\n      {\n        \"true\": [\"rain_observed\", \"forest.noisy\"],\n        \"false\": [],\n        \"numbers\": []\n      }\n    ],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  }\n],\n\"other_sentences\": [\n  {\n    \"sentence_ids\": [\"N0.s1\", \"N0.s2\"],\n    \"subject\": \"patient\",\n    \"kind\": \"other_information\"\n  },\n  {\n    \"sentence_ids\": [\"N1.s2\"],\n    \"subject\": \"patient\",\n    \"kind\": \"other_information\"\n  },\n  {\n    \"sentence_ids\": [\"N1.s3\"],\n    \"subject\": \"patient\",\n    \"kind\": \"other_information\"\n  }\n]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 3956,
+  "prompt_tokens": 3588,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 7544
+ }
+}

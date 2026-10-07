@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\": [\n  {\n    \"sentence_ids\": [\"N1.s1\"],\n    \"kind\": \"observed_response\",\n    \"action\": \"avoid_market\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [\"해든상가\"],\n    \"start_when_any\": [{\"true\": [\"market.noisy\"], \"false\": [], \"numbers\": []}],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N2.s1\"],\n    \"kind\": \"functional_need\",\n    \"action\": \"rest\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [],\n    \"start_when_any\": [{\"true\": [\"pain_observed\"], \"false\": [], \"numbers\": []}],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  },\n  {\n    \"sentence_ids\": [\"N2.s2\"],\n    \"kind\": \"functional_need\",\n    \"action\": \"rest\",\n    \"goal_place\": \"\",\n    \"applies_only_at\": [\"해든상가\"],\n    \"start_when_any\": [{\"true\": [\"market.noisy\"], \"false\": [], \"numbers\": []}],\n    \"end_when_any\": [],\n    \"hold_minutes\": 0\n  }\n],\n\"other_sentences\": [\n  {\n    \"sentence_ids\": [\"N0.s1\"],\n    \"subject\": \"patient\",\n    \"kind\": \"other_information\"\n  },\n  {\n    \"sentence_ids\": [\"N0.s2\"],\n    \"subject\": \"patient\",\n    \"kind\": \"corrected_away\"\n  },\n  {\n    \"sentence_ids\": [\"N1.s2\"],\n    \"subject\": \"patient\",\n    \"kind\": \"unobserved\"\n  }\n]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 8645,
+  "prompt_tokens": 3699,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 12344
+ }
+}

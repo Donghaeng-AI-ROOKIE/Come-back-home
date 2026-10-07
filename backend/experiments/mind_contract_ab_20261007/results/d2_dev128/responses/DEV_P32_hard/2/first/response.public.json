@@ -1,0 +1,12 @@
+{
+ "final_content": "{\n  \"units\": [\n    {\n      \"sentence_ids\": [\"N0.s1\", \"N0.s2\"],\n      \"subject\": \"unclear\",\n      \"kind\": \"other_information\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_when_any\": [],\n      \"end_when_any\": [],\n      \"hold_minutes\": 0\n    },\n    {\n      \"sentence_ids\": [\"N1.s1\"],\n      \"subject\": \"patient\",\n      \"kind\": \"corrected_away\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_when_any\": [],\n      \"end_when_any\": [],\n      \"hold_minutes\": 0\n    },\n    {\n      \"sentence_ids\": [\"N2.s1\", \"N2.s2\"],\n      \"subject\": \"patient\",\n      \"kind\": \"observed_response\",\n      \"action\": \"seek\",\n      \"goal_place\": \"해든상가\",\n      \"applies_only_at\": [],\n      \"start_when_any\": [{\"true\": [\"target_recognized\"], \"false\": [], \"numbers\": []}],\n      \"end_when_any\": [],\n      \"hold_minutes\": 0\n    },\n    {\n      \"sentence_ids\": [\"N2.s3\"],\n      \"subject\": \"patient\",\n      \"kind\": \"observed_response\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_when_any\": [{\"true\": [\"target_recognized\"], \"false\": [], \"numbers\": []}],\n      \"end_when_any\": [],\n      \"hold_minutes\": 0\n    },\n    {\n      \"sentence_ids\": [\"N2.s4\"],\n      \"subject\": \"unclear\",\n      \"kind\": \"other_information\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_when_any\": [],\n      \"end_when_any\": [],\n      \"hold_minutes\": 0\n    },\n    {\n      \"sentence_ids\": [\"N3.s1\"],\n      \"subject\": \"patient\",\n      \"kind\": \"observed_response\",\n      \"action\": \"wait\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_when_any\": [{\"true\": [\"rain_observed\"], \"false\": [], \"numbers\": []}],\n      \"end_when_any\": [],\n      \"hold_minutes\": 0\n    },\n    {\n      \"sentence_ids\": [\"N3.s2\"],\n      \"subject\": \"patient\",\n      \"kind\": \"unobserved\",\n      \"action\": \"none\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_when_any\": [],\n      \"end_when_any\": [],\n      \"hold_minutes\": 0\n    }\n  ]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 2422,
+  "prompt_tokens": 3752,
+  "prompt_tokens_details": {
+   "cached_tokens": 1824
+  },
+  "total_tokens": 6174
+ }
+}

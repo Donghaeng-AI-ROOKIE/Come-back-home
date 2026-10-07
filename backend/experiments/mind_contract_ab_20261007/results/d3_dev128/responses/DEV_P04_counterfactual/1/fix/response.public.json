@@ -1,0 +1,12 @@
+{
+ "final_content": "{ \"behaviors\": [{\"sentence_ids\": [\"N1.s1\", \"N1.s2\"], \"kind\": \"observed_response\", \"action\": \"avoid_water\", \"goal_place\": \"\", \"applies_only_at\": [], \"start_when_any\": [{\"true\": [\"is_walking\", \"water.noisy\"], \"false\": [], \"numbers\": []}], \"end_when_any\": [], \"hold_minutes\": 0}], \"other_sentences\": [{\"sentence_ids\": [\"N0.s1\", \"N0.s2\", \"N1.s3\"], \"subject\": \"patient\", \"kind\": \"other_information\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 976,
+  "prompt_tokens": 3655,
+  "prompt_tokens_details": {
+   "cached_tokens": 3552
+  },
+  "total_tokens": 4631
+ }
+}

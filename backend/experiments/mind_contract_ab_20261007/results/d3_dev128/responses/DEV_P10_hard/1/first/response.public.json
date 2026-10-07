@@ -1,0 +1,12 @@
+{
+ "final_content": "{ \"behaviors\": [], \"other_sentences\": [] }",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 2811,
+  "prompt_tokens": 3799,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 6610
+ }
+}

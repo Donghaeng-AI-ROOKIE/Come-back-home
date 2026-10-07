@@ -1,0 +1,12 @@
+{
+ "final_content": "{\n  \"behaviors\": [\n    {\n      \"sentence_ids\": [\"N1.s1\"],\n      \"kind\": \"observed_response\",\n      \"action\": \"wait\",\n      \"goal_place\": \"\",\n      \"applies_only_at\": [],\n      \"start_when_any\": [{\"true\": [\"lost_awareness\"], \"false\": [], \"numbers\": []}],\n      \"end_when_any\": [{\"true\": [\"family_present\"], \"false\": [], \"numbers\": []}],\n      \"hold_minutes\": 0\n    }\n  ],\n  \"other_sentences\": [\n    {\n      \"sentence_ids\": [\"N0.s1\"],\n      \"subject\": \"unclear\",\n      \"kind\": \"other_information\"\n    },\n    {\n      \"sentence_ids\": [\"N0.s2\"],\n      \"subject\": \"patient\",\n      \"kind\": \"other_information\"\n    },\n    {\n      \"sentence_ids\": [\"N1.s1\"],\n      \"subject\": \"patient\",\n      \"kind\": \"unobserved\"\n    }\n  ]\n}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 5311,
+  "prompt_tokens": 3487,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 8798
+ }
+}

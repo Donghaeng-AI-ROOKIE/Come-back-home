@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"behaviors\":[{\"sentence_ids\":[\"N3.s2\",\"N3.s3\"],\"kind\":\"observed_response\",\"action\":\"wait\",\"goal_place\":\"\",\"applies_only_at\":[],\"start_when_any\":[{\"true\":[\"rain_observed\"],\"false\":[],\"numbers\":[]}],\"end_when_any\":[{\"true\":[],\"false\":[\"rain_observed\"],\"numbers\":[]}],\"hold_minutes\":0}],\"other_sentences\":[{\"sentence_ids\":[\"N0.s1\",\"N0.s2\",\"N1.s1\"],\"subject\":\"other_person\",\"kind\":\"other_information\"},{\"sentence_ids\":[\"N2.s1\",\"N2.s2\"],\"subject\":\"other_person\",\"kind\":\"unobserved\"},{\"sentence_ids\":[\"N2.s3\"],\"subject\":\"other_person\",\"kind\":\"hearsay_or_general\"},{\"sentence_ids\":[\"N2.s4\",\"N3.s1\"],\"subject\":\"patient\",\"kind\":\"unobserved\"}]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 9384,
+  "prompt_tokens": 3934,
+  "prompt_tokens_details": {
+   "cached_tokens": 1856
+  },
+  "total_tokens": 13318
+ }
+}

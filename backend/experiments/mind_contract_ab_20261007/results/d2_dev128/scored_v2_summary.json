@@ -1,0 +1,727 @@
+{
+ "rescored_with": "scoring_v2",
+ "runner": "run_v2",
+ "stage": "d2_dev128",
+ "manifest_checked": false,
+ "note": "offline re-scoring of saved responses; no model call; scored.json and responses unchanged",
+ "summary": {
+  "responses": 256,
+  "decisions": 1024,
+  "complete": true,
+  "incomplete_responses": [],
+  "first_pass_passed": 669,
+  "passed": 827,
+  "first_valid": 183,
+  "final_valid": 228,
+  "corrections": 73,
+  "no_response": 0,
+  "not_submitted": 0,
+  "policy_too_complex": 0,
+  "ignored_fix_after_no_response": 0,
+  "problems": {
+   "first_problem": {
+    "1 validation error for OutputD2: units: List should have at least 1 item after validation, not 0": 4,
+    "non_behavior_unit_with_action": 26,
+    "degenerate_condition_only_is_walking": 2,
+    "sentence_not_classified:N1.s3": 2,
+    "sentence_not_classified:N1.s1,N1.s3": 1,
+    "walking_limited_rest_unguarded": 4,
+    "sentence_not_classified:N0.s1,N0.s2,N1.s2,N1.s3": 2,
+    "too many condition branches": 1,
+    "sentence_not_classified:N2.s1": 1,
+    "incomplete_length": 6,
+    "sentence_not_classified:N0.s1,N0.s2,N1.s1,N2.s2,N2.s3,N3.s1": 1,
+    "empty_condition_clause": 5,
+    "duplicate_sentence_id_in_unit": 1,
+    "behavior_unit_without_action": 4,
+    "behavior_unit_not_about_patient": 2,
+    "sentence_not_classified:N1.s3,N1.s4": 1,
+    "sentence_not_classified:N0.s1,N0.s2": 1,
+    "goal_on_non_seek": 2,
+    "sentence_not_classified:N0.s1,N0.s2,N1.s3,N1.s4": 1,
+    "too_many_sentences_for_one_rule(max 5)": 1,
+    "sentence_not_classified:N4.s3": 1,
+    "sentence_not_classified:N0.s1,N0.s2,N1.s1,N2.s1,N2.s2,N2.s3,N2.s4,N3.s1": 1,
+    "sentence_not_classified:N1.s1,N1.s2,N2.s1": 1,
+    "sentence_not_classified:N1.s1,N2.s1,N3.s1,N3.s2": 1,
+    "sentence_not_classified:N0.s1,N0.s2,N1.s1,N2.s1,N2.s2,N2.s4,N3.s1,N3.s2": 1
+   },
+   "final_problem": {
+    "non_behavior_unit_with_action": 17,
+    "degenerate_condition_only_is_walking": 1,
+    "walking_limited_rest_unguarded": 2,
+    "sentence_not_classified:N0.s1,N0.s2,N1.s1,N3.s1": 1,
+    "incomplete_length": 1,
+    "sentence_not_classified:N0.s1,N0.s2": 1,
+    "empty_condition_clause": 2,
+    "sentence_not_classified:N2.s3": 1,
+    "behavior_unit_without_action": 1,
+    "behavior_unit_without_condition": 1
+   }
+  },
+  "problem_kinds": {
+   "first_problem": {
+    "validation:OutputD2:units:too_short": 4,
+    "non_behavior_unit_with_action": 26,
+    "degenerate_condition_only_is_walking": 2,
+    "sentence_not_classified": 15,
+    "walking_limited_rest_unguarded": 4,
+    "too many condition branches": 1,
+    "incomplete_length": 6,
+    "empty_condition_clause": 5,
+    "duplicate_sentence_id_in_unit": 1,
+    "behavior_unit_without_action": 4,
+    "behavior_unit_not_about_patient": 2,
+    "goal_on_non_seek": 2,
+    "too_many_sentences_for_one_rule": 1
+   },
+   "final_problem": {
+    "non_behavior_unit_with_action": 17,
+    "degenerate_condition_only_is_walking": 1,
+    "walking_limited_rest_unguarded": 2,
+    "sentence_not_classified": 3,
+    "incomplete_length": 1,
+    "empty_condition_clause": 2,
+    "behavior_unit_without_action": 1,
+    "behavior_unit_without_condition": 1
+   }
+  },
+  "critical": {
+   "action_without_reference": 4
+  },
+  "critical_coverage": {
+   "goal_scope_swap": 26,
+   "explicit_rest_deleted": 26,
+   "action_without_reference": 40,
+   "withheld_action_injected": 8
+  },
+  "responses_with_commands_not_in_reference": 22,
+  "by_family": {
+   "destination": {
+    "passed": 91,
+    "total": 128
+   },
+   "environment": {
+    "passed": 113,
+    "total": 128
+   },
+   "external_state": {
+    "passed": 109,
+    "total": 128
+   },
+   "multiple_behaviors": {
+    "passed": 85,
+    "total": 128
+   },
+   "physical_rest": {
+    "passed": 101,
+    "total": 128
+   },
+   "source_fidelity": {
+    "passed": 109,
+    "total": 128
+   },
+   "time_context": {
+    "passed": 106,
+    "total": 128
+   },
+   "waiting": {
+    "passed": 113,
+    "total": 128
+   }
+  },
+  "by_form": {
+   "counterfactual": {
+    "passed": 229,
+    "total": 256
+   },
+   "hard": {
+    "passed": 168,
+    "total": 256
+   },
+   "original": {
+    "passed": 224,
+    "total": 256
+   },
+   "preserve": {
+    "passed": 206,
+    "total": 256
+   }
+  },
+  "by_expected_status": {
+   "no_personal_reaction": {
+    "passed": 438,
+    "total": 546
+   },
+   "supported": {
+    "passed": 240,
+    "total": 292
+   },
+   "unknown": {
+    "passed": 149,
+    "total": 186
+   }
+  },
+  "by_input": {
+   "DEV_P01_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P01_hard": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P01_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P01_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P02_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P02_hard": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P02_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P02_preserve": {
+    "passed": 5,
+    "total": 8
+   },
+   "DEV_P03_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P03_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P03_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P03_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P04_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P04_hard": {
+    "passed": 2,
+    "total": 8
+   },
+   "DEV_P04_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P04_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P05_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P05_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P05_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P05_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P06_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P06_hard": {
+    "passed": 0,
+    "total": 8
+   },
+   "DEV_P06_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P06_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P07_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P07_hard": {
+    "passed": 7,
+    "total": 8
+   },
+   "DEV_P07_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P07_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P08_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P08_hard": {
+    "passed": 5,
+    "total": 8
+   },
+   "DEV_P08_original": {
+    "passed": 0,
+    "total": 8
+   },
+   "DEV_P08_preserve": {
+    "passed": 5,
+    "total": 8
+   },
+   "DEV_P09_counterfactual": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P09_hard": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P09_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P09_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P10_counterfactual": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P10_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P10_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P10_preserve": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P11_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P11_hard": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P11_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P11_preserve": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P12_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P12_hard": {
+    "passed": 7,
+    "total": 8
+   },
+   "DEV_P12_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P12_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P13_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P13_hard": {
+    "passed": 7,
+    "total": 8
+   },
+   "DEV_P13_original": {
+    "passed": 0,
+    "total": 8
+   },
+   "DEV_P13_preserve": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P14_counterfactual": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P14_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P14_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P14_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P15_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P15_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P15_original": {
+    "passed": 5,
+    "total": 8
+   },
+   "DEV_P15_preserve": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P16_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P16_hard": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P16_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P16_preserve": {
+    "passed": 3,
+    "total": 8
+   },
+   "DEV_P17_counterfactual": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P17_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P17_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P17_preserve": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P18_counterfactual": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P18_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P18_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P18_preserve": {
+    "passed": 5,
+    "total": 8
+   },
+   "DEV_P19_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P19_hard": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P19_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P19_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P20_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P20_hard": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P20_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P20_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P21_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P21_hard": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P21_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P21_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P22_counterfactual": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P22_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P22_original": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P22_preserve": {
+    "passed": 5,
+    "total": 8
+   },
+   "DEV_P23_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P23_hard": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P23_original": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P23_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P24_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P24_hard": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P24_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P24_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P25_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P25_hard": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P25_original": {
+    "passed": 7,
+    "total": 8
+   },
+   "DEV_P25_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P26_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P26_hard": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P26_original": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P26_preserve": {
+    "passed": 5,
+    "total": 8
+   },
+   "DEV_P27_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P27_hard": {
+    "passed": 2,
+    "total": 8
+   },
+   "DEV_P27_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P27_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P28_counterfactual": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P28_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P28_original": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P28_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P29_counterfactual": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P29_hard": {
+    "passed": 2,
+    "total": 8
+   },
+   "DEV_P29_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P29_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P30_counterfactual": {
+    "passed": 5,
+    "total": 8
+   },
+   "DEV_P30_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P30_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P30_preserve": {
+    "passed": 3,
+    "total": 8
+   },
+   "DEV_P31_counterfactual": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P31_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P31_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P31_preserve": {
+    "passed": 3,
+    "total": 8
+   },
+   "DEV_P32_counterfactual": {
+    "passed": 6,
+    "total": 8
+   },
+   "DEV_P32_hard": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P32_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P32_preserve": {
+    "passed": 4,
+    "total": 8
+   }
+  },
+  "trait_accounting": {
+   "responses_counted": 255,
+   "responses_counted_compiled": 228,
+   "responses_counted_rejected": 27,
+   "responses_unreadable": 0,
+   "by_kind": {
+    "observed_response": 237,
+    "functional_need": 53,
+    "capacity_only": 7,
+    "stated_goal": 14,
+    "unobserved": 96,
+    "corrected_away": 125,
+    "hearsay_or_general": 23,
+    "other_information": 365,
+    "not_representable": 6
+   },
+   "responses_with_trait_loss": 5,
+   "trait_loss_sentences": 6,
+   "rejected": {
+    "responses_with_trait_loss": 2,
+    "trait_loss_sentences": 2
+   },
+   "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+  },
+  "repeat_identical_policy": 36,
+  "inputs": 128
+ },
+ "gate": {
+  "checks": {
+   "complete": true,
+   "decisions": false,
+   "families": false,
+   "supported": false,
+   "unknown": false,
+   "final_valid": false,
+   "no_critical": false
+  },
+  "machine_checks_passed": false,
+  "advance": false,
+  "meaning": "synthetic development data; not location accuracy or clinical validity",
+  "critical_coverage": {
+   "goal_scope_swap": 26,
+   "explicit_rest_deleted": 26,
+   "action_without_reference": 40,
+   "withheld_action_injected": 8
+  },
+  "critical_unmeasured": []
+ }
+}
