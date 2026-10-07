@@ -1,0 +1,699 @@
+{
+  "scope": "authored D5 outputs -> compiled rules -> cached KINTEX walking engine",
+  "new_model_calls": 0,
+  "network_calls": 0,
+  "model_quality_measured": false,
+  "clinical_validity_measured": false,
+  "map_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+  "environment": "합성 시설(실험 전용 가정 좌표, 실제 지도 환경 레이어 아님)",
+  "observations": "synthetic controlled inputs",
+  "walkers_per_run": 50,
+  "walk_runs": 8,
+  "checks": {
+    "family_absence_waits_30_minutes": true,
+    "family_return_allows_movement": true,
+    "blank_policy_has_no_personal_wait": true,
+    "all_probability_mass_preserved": true,
+    "no_unresolved_walks": true
+  },
+  "rows": [
+    {
+      "fixture": "family_absence_then_return",
+      "seed": 17,
+      "authored_d5_output": {
+        "sentence_roles": {
+          "N0.s1": {
+            "subject": "patient",
+            "role": "behavior_source"
+          },
+          "N0.s2": {
+            "subject": "patient",
+            "role": "behavior_source"
+          }
+        },
+        "corrections": [],
+        "behaviors": [
+          {
+            "sentence_ids": [
+              "N0.s1",
+              "N0.s2"
+            ],
+            "kind": "observed_response",
+            "action": "wait",
+            "goal_place": "",
+            "applies_only_at": [],
+            "start_when_any": [
+              {
+                "true": [],
+                "false": [
+                  "family_present"
+                ],
+                "numbers": []
+              }
+            ],
+            "end_when_any": [
+              {
+                "true": [
+                  "family_present"
+                ],
+                "false": [],
+                "numbers": []
+              }
+            ],
+            "hold_minutes": 0,
+            "overrides": []
+          }
+        ]
+      },
+      "compiled_policy": {
+        "rules": [
+          {
+            "id": "d5_0",
+            "when": [
+              [
+                {
+                  "fact": "family_present",
+                  "op": "eq",
+                  "value": false
+                },
+                {
+                  "fact": "family_present",
+                  "op": "eq",
+                  "value": false
+                }
+              ]
+            ],
+            "action": "wait",
+            "goal_label": null,
+            "feature": null,
+            "place_labels": [],
+            "hold_minutes": null,
+            "supersedes": [],
+            "evidence": [
+              {
+                "note_id": "N0",
+                "quote": "가족이 곁에 없으면 그 자리에서 기다리세요."
+              },
+              {
+                "note_id": "N0",
+                "quote": "가족이 돌아오면 다시 걸으세요."
+              }
+            ]
+          }
+        ],
+        "unrepresented": []
+      },
+      "with_personal_rules": {
+        "mass": 1.0,
+        "mean_wait": 30.0,
+        "mean_personal_rest": 0.0,
+        "mean_path_km": 2.8118,
+        "mean_max_continuous_walk_min": 56.34,
+        "avoid_walkers": 0,
+        "avoid_by_target": {},
+        "arrived": {
+          "솔빛쉼터": 0,
+          "해든상가": 0
+        },
+        "unresolved": {},
+        "rule_minutes": {
+          "d5_0": 1500.0
+        }
+      },
+      "without_personal_rules": {
+        "mass": 1.0,
+        "mean_wait": 0.0,
+        "mean_personal_rest": 0.0,
+        "mean_path_km": 4.0848,
+        "mean_max_continuous_walk_min": 70.4,
+        "avoid_walkers": 0,
+        "avoid_by_target": {},
+        "arrived": {
+          "솔빛쉼터": 0,
+          "해든상가": 0
+        },
+        "unresolved": {},
+        "rule_minutes": {}
+      },
+      "same_walk_metrics": false
+    },
+    {
+      "fixture": "family_absence_then_return",
+      "seed": 18,
+      "authored_d5_output": {
+        "sentence_roles": {
+          "N0.s1": {
+            "subject": "patient",
+            "role": "behavior_source"
+          },
+          "N0.s2": {
+            "subject": "patient",
+            "role": "behavior_source"
+          }
+        },
+        "corrections": [],
+        "behaviors": [
+          {
+            "sentence_ids": [
+              "N0.s1",
+              "N0.s2"
+            ],
+            "kind": "observed_response",
+            "action": "wait",
+            "goal_place": "",
+            "applies_only_at": [],
+            "start_when_any": [
+              {
+                "true": [],
+                "false": [
+                  "family_present"
+                ],
+                "numbers": []
+              }
+            ],
+            "end_when_any": [
+              {
+                "true": [
+                  "family_present"
+                ],
+                "false": [],
+                "numbers": []
+              }
+            ],
+            "hold_minutes": 0,
+            "overrides": []
+          }
+        ]
+      },
+      "compiled_policy": {
+        "rules": [
+          {
+            "id": "d5_0",
+            "when": [
+              [
+                {
+                  "fact": "family_present",
+                  "op": "eq",
+                  "value": false
+                },
+                {
+                  "fact": "family_present",
+                  "op": "eq",
+                  "value": false
+                }
+              ]
+            ],
+            "action": "wait",
+            "goal_label": null,
+            "feature": null,
+            "place_labels": [],
+            "hold_minutes": null,
+            "supersedes": [],
+            "evidence": [
+              {
+                "note_id": "N0",
+                "quote": "가족이 곁에 없으면 그 자리에서 기다리세요."
+              },
+              {
+                "note_id": "N0",
+                "quote": "가족이 돌아오면 다시 걸으세요."
+              }
+            ]
+          }
+        ],
+        "unrepresented": []
+      },
+      "with_personal_rules": {
+        "mass": 1.0,
+        "mean_wait": 30.0,
+        "mean_personal_rest": 0.0,
+        "mean_path_km": 2.8022,
+        "mean_max_continuous_walk_min": 54.72,
+        "avoid_walkers": 0,
+        "avoid_by_target": {},
+        "arrived": {
+          "솔빛쉼터": 0,
+          "해든상가": 0
+        },
+        "unresolved": {},
+        "rule_minutes": {
+          "d5_0": 1500.0
+        }
+      },
+      "without_personal_rules": {
+        "mass": 1.0,
+        "mean_wait": 0.0,
+        "mean_personal_rest": 0.0,
+        "mean_path_km": 4.1309,
+        "mean_max_continuous_walk_min": 71.66,
+        "avoid_walkers": 0,
+        "avoid_by_target": {},
+        "arrived": {
+          "솔빛쉼터": 0,
+          "해든상가": 0
+        },
+        "unresolved": {},
+        "rule_minutes": {}
+      },
+      "same_walk_metrics": false
+    },
+    {
+      "fixture": "continued_walk_under_fatigue_rest_in_pain",
+      "seed": 17,
+      "authored_d5_output": {
+        "sentence_roles": {
+          "N0.s1": {
+            "subject": "patient",
+            "role": "other_information"
+          },
+          "N0.s2": {
+            "subject": "patient",
+            "role": "other_information"
+          },
+          "N1.s1": {
+            "subject": "patient",
+            "role": "behavior_source"
+          },
+          "N1.s2": {
+            "subject": "patient",
+            "role": "behavior_source"
+          }
+        },
+        "corrections": [],
+        "behaviors": [
+          {
+            "sentence_ids": [
+              "N1.s1",
+              "N1.s2"
+            ],
+            "kind": "observed_response",
+            "action": "walk",
+            "goal_place": "",
+            "applies_only_at": [],
+            "start_when_any": [
+              {
+                "true": [
+                  "is_walking"
+                ],
+                "false": [
+                  "pain_observed"
+                ],
+                "numbers": [
+                  {
+                    "fact": "continuous_walk_minutes",
+                    "op": ">=",
+                    "value": 12
+                  }
+                ]
+              },
+              {
+                "true": [
+                  "is_walking",
+                  "fatigue_high"
+                ],
+                "false": [
+                  "pain_observed"
+                ],
+                "numbers": []
+              }
+            ],
+            "end_when_any": [],
+            "hold_minutes": 0,
+            "overrides": []
+          },
+          {
+            "sentence_ids": [
+              "N1.s2"
+            ],
+            "kind": "functional_need",
+            "action": "rest",
+            "goal_place": "",
+            "applies_only_at": [],
+            "start_when_any": [
+              {
+                "true": [
+                  "is_walking",
+                  "pain_observed"
+                ],
+                "false": [],
+                "numbers": []
+              }
+            ],
+            "end_when_any": [],
+            "hold_minutes": 0,
+            "overrides": []
+          }
+        ]
+      },
+      "compiled_policy": {
+        "rules": [
+          {
+            "id": "d5_0",
+            "when": [
+              [
+                {
+                  "fact": "is_walking",
+                  "op": "eq",
+                  "value": true
+                },
+                {
+                  "fact": "pain_observed",
+                  "op": "eq",
+                  "value": false
+                },
+                {
+                  "fact": "continuous_walk_minutes",
+                  "op": "gte",
+                  "value": 12
+                }
+              ],
+              [
+                {
+                  "fact": "is_walking",
+                  "op": "eq",
+                  "value": true
+                },
+                {
+                  "fact": "fatigue_high",
+                  "op": "eq",
+                  "value": true
+                },
+                {
+                  "fact": "pain_observed",
+                  "op": "eq",
+                  "value": false
+                }
+              ]
+            ],
+            "action": "walk",
+            "goal_label": null,
+            "feature": null,
+            "place_labels": [],
+            "hold_minutes": null,
+            "supersedes": [],
+            "evidence": [
+              {
+                "note_id": "N1",
+                "quote": "실제로 같이 걸어 보니 연속 십이 분 걷고 난 뒤에도 계속 가셨어요."
+              },
+              {
+                "note_id": "N1",
+                "quote": "숨이 차 보인다는 것만으로 멈춘 적은 없고, 본인이 무릎 통증을 말할 때만 앉아 쉬셨어요."
+              }
+            ]
+          },
+          {
+            "id": "d5_1",
+            "when": [
+              [
+                {
+                  "fact": "is_walking",
+                  "op": "eq",
+                  "value": true
+                },
+                {
+                  "fact": "pain_observed",
+                  "op": "eq",
+                  "value": true
+                }
+              ]
+            ],
+            "action": "rest",
+            "goal_label": null,
+            "feature": null,
+            "place_labels": [],
+            "hold_minutes": null,
+            "supersedes": [],
+            "evidence": [
+              {
+                "note_id": "N1",
+                "quote": "숨이 차 보인다는 것만으로 멈춘 적은 없고, 본인이 무릎 통증을 말할 때만 앉아 쉬셨어요."
+              }
+            ]
+          }
+        ],
+        "unrepresented": [
+          {
+            "note_id": "N0",
+            "reason": "other_information/patient:N0.s1,N0.s2"
+          }
+        ]
+      },
+      "with_personal_rules": {
+        "mass": 1.0,
+        "mean_wait": 0.0,
+        "mean_personal_rest": 44.9,
+        "mean_path_km": 15.096,
+        "mean_max_continuous_walk_min": 152.0252,
+        "avoid_walkers": 0,
+        "avoid_by_target": {},
+        "arrived": {
+          "느티공원": 9,
+          "해든상가": 5,
+          "솔빛쉼터": 12
+        },
+        "unresolved": {},
+        "rule_minutes": {
+          "d5_0": 13648.478,
+          "d5_1": 2245.0
+        }
+      },
+      "without_personal_rules": {
+        "mass": 1.0,
+        "mean_wait": 0.0,
+        "mean_personal_rest": 0.0,
+        "mean_path_km": 15.697,
+        "mean_max_continuous_walk_min": 80.58,
+        "avoid_walkers": 0,
+        "avoid_by_target": {},
+        "arrived": {
+          "느티공원": 9,
+          "해든상가": 5,
+          "솔빛쉼터": 12
+        },
+        "unresolved": {},
+        "rule_minutes": {}
+      },
+      "same_walk_metrics": false
+    },
+    {
+      "fixture": "continued_walk_under_fatigue_rest_in_pain",
+      "seed": 18,
+      "authored_d5_output": {
+        "sentence_roles": {
+          "N0.s1": {
+            "subject": "patient",
+            "role": "other_information"
+          },
+          "N0.s2": {
+            "subject": "patient",
+            "role": "other_information"
+          },
+          "N1.s1": {
+            "subject": "patient",
+            "role": "behavior_source"
+          },
+          "N1.s2": {
+            "subject": "patient",
+            "role": "behavior_source"
+          }
+        },
+        "corrections": [],
+        "behaviors": [
+          {
+            "sentence_ids": [
+              "N1.s1",
+              "N1.s2"
+            ],
+            "kind": "observed_response",
+            "action": "walk",
+            "goal_place": "",
+            "applies_only_at": [],
+            "start_when_any": [
+              {
+                "true": [
+                  "is_walking"
+                ],
+                "false": [
+                  "pain_observed"
+                ],
+                "numbers": [
+                  {
+                    "fact": "continuous_walk_minutes",
+                    "op": ">=",
+                    "value": 12
+                  }
+                ]
+              },
+              {
+                "true": [
+                  "is_walking",
+                  "fatigue_high"
+                ],
+                "false": [
+                  "pain_observed"
+                ],
+                "numbers": []
+              }
+            ],
+            "end_when_any": [],
+            "hold_minutes": 0,
+            "overrides": []
+          },
+          {
+            "sentence_ids": [
+              "N1.s2"
+            ],
+            "kind": "functional_need",
+            "action": "rest",
+            "goal_place": "",
+            "applies_only_at": [],
+            "start_when_any": [
+              {
+                "true": [
+                  "is_walking",
+                  "pain_observed"
+                ],
+                "false": [],
+                "numbers": []
+              }
+            ],
+            "end_when_any": [],
+            "hold_minutes": 0,
+            "overrides": []
+          }
+        ]
+      },
+      "compiled_policy": {
+        "rules": [
+          {
+            "id": "d5_0",
+            "when": [
+              [
+                {
+                  "fact": "is_walking",
+                  "op": "eq",
+                  "value": true
+                },
+                {
+                  "fact": "pain_observed",
+                  "op": "eq",
+                  "value": false
+                },
+                {
+                  "fact": "continuous_walk_minutes",
+                  "op": "gte",
+                  "value": 12
+                }
+              ],
+              [
+                {
+                  "fact": "is_walking",
+                  "op": "eq",
+                  "value": true
+                },
+                {
+                  "fact": "fatigue_high",
+                  "op": "eq",
+                  "value": true
+                },
+                {
+                  "fact": "pain_observed",
+                  "op": "eq",
+                  "value": false
+                }
+              ]
+            ],
+            "action": "walk",
+            "goal_label": null,
+            "feature": null,
+            "place_labels": [],
+            "hold_minutes": null,
+            "supersedes": [],
+            "evidence": [
+              {
+                "note_id": "N1",
+                "quote": "실제로 같이 걸어 보니 연속 십이 분 걷고 난 뒤에도 계속 가셨어요."
+              },
+              {
+                "note_id": "N1",
+                "quote": "숨이 차 보인다는 것만으로 멈춘 적은 없고, 본인이 무릎 통증을 말할 때만 앉아 쉬셨어요."
+              }
+            ]
+          },
+          {
+            "id": "d5_1",
+            "when": [
+              [
+                {
+                  "fact": "is_walking",
+                  "op": "eq",
+                  "value": true
+                },
+                {
+                  "fact": "pain_observed",
+                  "op": "eq",
+                  "value": true
+                }
+              ]
+            ],
+            "action": "rest",
+            "goal_label": null,
+            "feature": null,
+            "place_labels": [],
+            "hold_minutes": null,
+            "supersedes": [],
+            "evidence": [
+              {
+                "note_id": "N1",
+                "quote": "숨이 차 보인다는 것만으로 멈춘 적은 없고, 본인이 무릎 통증을 말할 때만 앉아 쉬셨어요."
+              }
+            ]
+          }
+        ],
+        "unrepresented": [
+          {
+            "note_id": "N0",
+            "reason": "other_information/patient:N0.s1,N0.s2"
+          }
+        ]
+      },
+      "with_personal_rules": {
+        "mass": 1.0,
+        "mean_wait": 0.0,
+        "mean_personal_rest": 44.7,
+        "mean_path_km": 15.1056,
+        "mean_max_continuous_walk_min": 151.9365,
+        "avoid_walkers": 0,
+        "avoid_by_target": {},
+        "arrived": {
+          "느티공원": 5,
+          "해든상가": 6,
+          "솔빛쉼터": 9
+        },
+        "unresolved": {},
+        "rule_minutes": {
+          "d5_0": 13686.863,
+          "d5_1": 2235.0
+        }
+      },
+      "without_personal_rules": {
+        "mass": 1.0,
+        "mean_wait": 0.0,
+        "mean_personal_rest": 0.0,
+        "mean_path_km": 15.7786,
+        "mean_max_continuous_walk_min": 81.74,
+        "avoid_walkers": 0,
+        "avoid_by_target": {},
+        "arrived": {
+          "느티공원": 5,
+          "해든상가": 6,
+          "솔빛쉼터": 9
+        },
+        "unresolved": {},
+        "rule_minutes": {}
+      },
+      "same_walk_metrics": false
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "source": "experiment/mind-contract-ab-20261007 at 9752eefaad8dfab672217656ea0e6d648213de47; untracked D5 draft files",
+  "files": [
+    {
+      "path": "backend/experiments/mind_contract_ab_20261007/PLAN_d5.md",
+      "sha256": "7cca252fb1f0fad0bf48bbf9567a66f3f28a28375a4e6bfa1f0300f2e0d643f4",
+      "bytes": 9907
+    },
+    {
+      "path": "backend/experiments/mind_contract_ab_20261007/contract_d5.py",
+      "sha256": "30ade3c30697f0c7ddd5cdf898f2c1c55fe7e181f2060ca42ccd6d0d1a19b427",
+      "bytes": 57627
+    },
+    {
+      "path": "backend/experiments/mind_contract_ab_20261007/dataset/disputed_absence_trigger.py",
+      "sha256": "b91d36314e83b0d0ab01735bca66574da923dc16d4ce2d27037cdee7ac882acf",
+      "bytes": 36538
+    },
+    {
+      "path": "backend/experiments/mind_contract_ab_20261007/dataset/disputed_fatigue_continuation.py",
+      "sha256": "82e7b120bebdfa8c398de17b20a45c26742d5dcc63de5a712c93ef8d30c95430",
+      "bytes": 40608
+    },
+    {
+      "path": "backend/experiments/mind_contract_ab_20261007/dataset/disputed_question_premise.py",
+      "sha256": "73dcbbfc1ae158da8f5629f1eaa080b9ea43e8e9cc81129ff732b053049209bb",
+      "bytes": 33347
+    },
+    {
+      "path": "backend/experiments/mind_contract_ab_20261007/dataset/disputed_stationary_rest.py",
+      "sha256": "7c50fc816add8d21aa0f95699a751289d3e6a63fbe7c94bb383f00774ab22bf4",
+      "bytes": 40401
+    },
+    {
+      "path": "backend/tests/test_mind_contract_d5.py",
+      "sha256": "2f6944fdac35c1cf596301715d5099b088848b9a6efdd755f92b0abc3b3669e7",
+      "bytes": 35562
+    }
+  ],
+  "destination_base": "3a661abb05d4c3383350789eec22599806c1ed65",
+  "note": "Hashes describe imported drafts before the continuation fixes."
+}

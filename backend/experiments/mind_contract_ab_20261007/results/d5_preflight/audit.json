@@ -1,0 +1,625 @@
+{
+  "status": "offline_preflight",
+  "new_model_calls": 0,
+  "model_quality_measured": false,
+  "human_review_completed": false,
+  "source_sha256": {
+    "experiments/mind_contract_ab_20261007/PLAN_d5.md": "ee4ccb32d20860306ee0983bce9e870b1fa3aa9b610751e6188348bf88d413fe",
+    "experiments/mind_contract_ab_20261007/contract_d5.py": "56177a99626a7421d02fff88f52f673614dcf7eefc2e073a5c8d92ff5f573ef6",
+    "experiments/mind_contract_ab_20261007/contract_c.py": "07e4f4291bfa7a57fe7e4952c38eb38f7985a4b66a26a3e67bc6148703f8f3b7",
+    "experiments/mind_contract_ab_20261007/contract_d.py": "6a18cf478f571095514f8981bbd6968ea745fb8d8240ae432e3b0cefc0e2f2c0",
+    "experiments/mind_contract_ab_20261007/contract_d2.py": "c112a4a8ff47459db7060d893a8778cd1560ed1efd755f56584dd107a22833a8",
+    "experiments/mind_contract_ab_20261007/contract_d3.py": "8220016a5cb6430b3ebe818d06f7b731dd62523ce629b8ca4e6e8c49e7b431e0",
+    "experiments/mind_contract_ab_20261007/contract_d4.py": "50dffaefc409e48388dd295f73368b1aba622a2d3e2ed0fed0897780c9ff5073",
+    "experiments/mind_contract_ab_20261007/contracts.py": "f6b7356518ffe91676469890b072f0012a75b04428f7d5b96e6ad83bbae13b00",
+    "experiments/mind_contract_ab_20261007/completion.py": "a0a2a33fc876bf0569f71a54a349f23071ac336990404a861346f84cfb093be5",
+    "experiments/mind_contract_ab_20261007/scoring.py": "7a2aaf45b062f69913c0af1d090ac8fa1a4c7ce479170f47428409f78e7bbc50",
+    "experiments/mind_contract_ab_20261007/scoring_v2.py": "d18fc4070f70c8779d6064bc30246e3ed3dc1d60336accb4b2a46d4b4c8a130e",
+    "experiments/mind_contract_ab_20261007/transport.py": "113c204dfc49c4c484b3c3f46ada1368c86a057c26d0faf2552d6df51587b1c7",
+    "experiments/mind_contract_ab_20261007/run_stage.py": "466f083b12d1fd57743ed856d4a81c0349ea67cf351c2a9270a70671f56c9376",
+    "experiments/mind_contract_ab_20261007/run_v2.py": "3f07b835d90970ccbad96b940979aab45de0620894a27a2014ba9a6fdce929e3",
+    "experiments/mind_policy_candidates/condition_program.py": "78c44368954f31bbd66ed7290849e58e64674767ab7772fde0c4c0ad1dfd4470",
+    "experiments/mind_policy_candidates/note_policy_eval.py": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+    "app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+    "app/llm/initial_behavior.py": "cca68aa53fa0ae890b701384f7151660f74f036f9316de87aebbb915c1c1af7c",
+    "app/llm/usage_ledger.py": "844b94356ce094b273eee7993ea0173245f0a73204fefe837b12e2baef27ea81",
+    "experiments/mind_contract_ab_20261007/run_d5.py": "5e5a7ac1a6690fc487cfe3042072cf6df8d20d1ee50067fd8f61fc31b07bfccd"
+  },
+  "dev128_sha256": {
+    "dev128_inputs.jsonl": "061faab96863ed8a1d81c49b6686f12676dee0afe8b1b23d5cf9b4f1474f3717",
+    "dev128_scenes.NOT_MODEL_INPUT.json": "4bddad55ef9cb4b3170fbd43c73f38b4ed3421c81deb9377fb41e96c68f24649",
+    "dev128_reference.NOT_MODEL_INPUT.json": "e913e601b291a4cf270abe6d2ac283c206b808ab05a86c1994e15dfe3fc8683e"
+  },
+  "requests": {
+    "d5_dev8": {
+      "inputs": 8,
+      "first_calls": 16,
+      "maximum_calls_including_one_correction": 32,
+      "largest_first_request_bytes": 33730,
+      "largest_first_request_input_id": "P29",
+      "output_limit_tokens_per_call": 16384,
+      "input_tokens": null,
+      "note": "First-request bytes only; correction adds the previous final output. Not a token estimate."
+    },
+    "d5_dev128": {
+      "inputs": 128,
+      "first_calls": 256,
+      "maximum_calls_including_one_correction": 512,
+      "largest_first_request_bytes": 39591,
+      "largest_first_request_input_id": "DEV_P24_hard",
+      "output_limit_tokens_per_call": 16384,
+      "input_tokens": null,
+      "note": "First-request bytes only; correction adds the previous final output. Not a token estimate."
+    }
+  },
+  "d3_replay": {
+    "counts": {
+      "d3_valid_replayed": 247,
+      "accepted_by_both": 238,
+      "same_ordered_engine_input": 238,
+      "d5_only_rejected": 0,
+      "rejected_by_both": 9
+    },
+    "rejections": [
+      {
+        "id": "DEV_P02_original",
+        "rep": 2,
+        "d4_rejected": true,
+        "d5_errors": [
+          {
+            "code": "unsatisfiable_branch",
+            "where": "behaviors[0] market.crowded 참·거짓 동시",
+            "text": "합친 분기의 조건이 동시에 참일 수 없다. 코드는 (시작) 그리고 (종료 아님)으로 합친다. 시작·종료 조건을 다시 확인한다.",
+            "quote": null
+          },
+          {
+            "code": "unsatisfiable_branch",
+            "where": "behaviors[0] market.noisy 참·거짓 동시",
+            "text": "합친 분기의 조건이 동시에 참일 수 없다. 코드는 (시작) 그리고 (종료 아님)으로 합친다. 시작·종료 조건을 다시 확인한다.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "id": "DEV_P26_original",
+        "rep": 1,
+        "d4_rejected": true,
+        "d5_errors": [
+          {
+            "code": "unsatisfiable_branch",
+            "where": "behaviors[0] clock_hour>=23 & <1",
+            "text": "시각은 0 이상 24 미만. 자정을 넘는 A~B시는 start_when_any 두 분기 [clock_hour>=A], [clock_hour<B]로 쓰고 B를 end_when_any에 쓰지 않는다. 자정에 끝나면 [clock_hour>=A]만.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "id": "DEV_P26_original",
+        "rep": 2,
+        "d4_rejected": true,
+        "d5_errors": [
+          {
+            "code": "unsatisfiable_branch",
+            "where": "behaviors[0] clock_hour>=23 & <1",
+            "text": "시각은 0 이상 24 미만. 자정을 넘는 A~B시는 start_when_any 두 분기 [clock_hour>=A], [clock_hour<B]로 쓰고 B를 end_when_any에 쓰지 않는다. 자정에 끝나면 [clock_hour>=A]만.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "id": "DEV_P17_counterfactual",
+        "rep": 1,
+        "d4_rejected": true,
+        "d5_errors": [
+          {
+            "code": "degenerate_branch_only_is_walking",
+            "where": "behaviors[1].start_when_any[0]",
+            "text": "분기마다 is_walking 말고도 반응을 일으키는 사실이 있어야 한다(늘 참인 >=0, clock_hour<24는 사실로 치지 않는다. 특정 등록 장소에서만 보인 반응은 applies_only_at으로 한정한다).",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "id": "DEV_P19_hard",
+        "rep": 1,
+        "d4_rejected": true,
+        "d5_errors": [
+          {
+            "code": "unsatisfiable_branch",
+            "where": "behaviors[0] is_walking 참·거짓 동시",
+            "text": "합친 분기의 조건이 동시에 참일 수 없다. 코드는 (시작) 그리고 (종료 아님)으로 합친다. 시작·종료 조건을 다시 확인한다.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "id": "DEV_P26_preserve",
+        "rep": 1,
+        "d4_rejected": true,
+        "d5_errors": [
+          {
+            "code": "unsatisfiable_branch",
+            "where": "behaviors[0] clock_hour>=23 & <1",
+            "text": "시각은 0 이상 24 미만. 자정을 넘는 A~B시는 start_when_any 두 분기 [clock_hour>=A], [clock_hour<B]로 쓰고 B를 end_when_any에 쓰지 않는다. 자정에 끝나면 [clock_hour>=A]만.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "id": "DEV_P26_preserve",
+        "rep": 2,
+        "d4_rejected": true,
+        "d5_errors": [
+          {
+            "code": "unsatisfiable_branch",
+            "where": "behaviors[0] clock_hour>=23 & <1",
+            "text": "시각은 0 이상 24 미만. 자정을 넘는 A~B시는 start_when_any 두 분기 [clock_hour>=A], [clock_hour<B]로 쓰고 B를 end_when_any에 쓰지 않는다. 자정에 끝나면 [clock_hour>=A]만.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "id": "DEV_P26_hard",
+        "rep": 2,
+        "d4_rejected": true,
+        "d5_errors": [
+          {
+            "code": "unsatisfiable_branch",
+            "where": "behaviors[0] clock_hour>=23 & <1",
+            "text": "시각은 0 이상 24 미만. 자정을 넘는 A~B시는 start_when_any 두 분기 [clock_hour>=A], [clock_hour<B]로 쓰고 B를 end_when_any에 쓰지 않는다. 자정에 끝나면 [clock_hour>=A]만.",
+            "quote": null
+          }
+        ]
+      },
+      {
+        "id": "DEV_P27_counterfactual",
+        "rep": 1,
+        "d4_rejected": true,
+        "d5_errors": [
+          {
+            "code": "unsatisfiable_branch",
+            "where": "behaviors[0] clock_hour>=18 & <6",
+            "text": "시각은 0 이상 24 미만. 자정을 넘는 A~B시는 start_when_any 두 분기 [clock_hour>=A], [clock_hour<B]로 쓰고 B를 end_when_any에 쓰지 않는다. 자정에 끝나면 [clock_hour>=A]만.",
+            "quote": null
+          }
+        ]
+      }
+    ],
+    "scored_v2_sha256": "10c6ac4c0172b1bca70cd2f2a81662c0e6a9fceaf51340251299cb37e55ceeac",
+    "limitation": "D3 has no D5 roles/relations; fixed conversion cannot test their model generation."
+  },
+  "disputed": {
+    "personas": 32,
+    "scenes": 128,
+    "empty_policy_baseline": {
+      "scenes": 128,
+      "reference_pass": 128,
+      "empty_policy_pass": 57,
+      "empty_policy_fails": 71
+    },
+    "by_family": {
+      "absence_trigger": {
+        "scenes": 32,
+        "reference_pass": 32,
+        "empty_policy_pass": 16,
+        "empty_policy_fails": 16
+      },
+      "fatigue_continuation": {
+        "scenes": 32,
+        "reference_pass": 32,
+        "empty_policy_pass": 13,
+        "empty_policy_fails": 19
+      },
+      "question_premise": {
+        "scenes": 32,
+        "reference_pass": 32,
+        "empty_policy_pass": 16,
+        "empty_policy_fails": 16
+      },
+      "stationary_rest": {
+        "scenes": 32,
+        "reference_pass": 32,
+        "empty_policy_pass": 12,
+        "empty_policy_fails": 20
+      }
+    },
+    "fine_overlap_or_text_flagged": 7,
+    "coarse_review_only": 2,
+    "overlap": [
+      {
+        "id": "Q_absence_trigger_01",
+        "family": "absence_trigger",
+        "max_text_jaccard": 0.082,
+        "nearest_dev": "DEV_P31_preserve",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_absence_trigger_02",
+        "family": "absence_trigger",
+        "max_text_jaccard": 0.059,
+        "nearest_dev": "DEV_P10_counterfactual",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_absence_trigger_03",
+        "family": "absence_trigger",
+        "max_text_jaccard": 0.053,
+        "nearest_dev": "DEV_P23_hard",
+        "same_coarse_structure_dev": [
+          "DEV_P17_original",
+          "DEV_P17_preserve",
+          "DEV_P17_hard",
+          "DEV_P24_hard"
+        ],
+        "same_fine_structure_dev": [
+          "DEV_P17_original",
+          "DEV_P17_preserve",
+          "DEV_P17_hard",
+          "DEV_P24_hard"
+        ],
+        "flag": true,
+        "review": false
+      },
+      {
+        "id": "Q_absence_trigger_04",
+        "family": "absence_trigger",
+        "max_text_jaccard": 0.042,
+        "nearest_dev": "DEV_P06_preserve",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_absence_trigger_05",
+        "family": "absence_trigger",
+        "max_text_jaccard": 0.122,
+        "nearest_dev": "DEV_P09_counterfactual",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_absence_trigger_06",
+        "family": "absence_trigger",
+        "max_text_jaccard": 0.079,
+        "nearest_dev": "DEV_P31_preserve",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_absence_trigger_07",
+        "family": "absence_trigger",
+        "max_text_jaccard": 0.037,
+        "nearest_dev": "DEV_P06_preserve",
+        "same_coarse_structure_dev": [
+          "DEV_P09_original",
+          "DEV_P23_original",
+          "DEV_P09_preserve",
+          "DEV_P09_counterfactual",
+          "DEV_P09_hard"
+        ],
+        "same_fine_structure_dev": [
+          "DEV_P09_original",
+          "DEV_P23_original",
+          "DEV_P09_preserve",
+          "DEV_P09_hard",
+          "DEV_P11_counterfactual"
+        ],
+        "flag": true,
+        "review": false
+      },
+      {
+        "id": "Q_absence_trigger_08",
+        "family": "absence_trigger",
+        "max_text_jaccard": 0.07,
+        "nearest_dev": "DEV_P02_hard",
+        "same_coarse_structure_dev": [
+          "DEV_P22_counterfactual",
+          "DEV_P31_counterfactual"
+        ],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": true
+      },
+      {
+        "id": "Q_fatigue_continuation_01",
+        "family": "fatigue_continuation",
+        "max_text_jaccard": 0.092,
+        "nearest_dev": "DEV_P21_hard",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_fatigue_continuation_02",
+        "family": "fatigue_continuation",
+        "max_text_jaccard": 0.082,
+        "nearest_dev": "DEV_P19_original",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_fatigue_continuation_03",
+        "family": "fatigue_continuation",
+        "max_text_jaccard": 0.067,
+        "nearest_dev": "DEV_P06_counterfactual",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_fatigue_continuation_04",
+        "family": "fatigue_continuation",
+        "max_text_jaccard": 0.048,
+        "nearest_dev": "DEV_P28_counterfactual",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_fatigue_continuation_05",
+        "family": "fatigue_continuation",
+        "max_text_jaccard": 0.07,
+        "nearest_dev": "DEV_P26_hard",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_fatigue_continuation_06",
+        "family": "fatigue_continuation",
+        "max_text_jaccard": 0.062,
+        "nearest_dev": "DEV_P31_counterfactual",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_fatigue_continuation_07",
+        "family": "fatigue_continuation",
+        "max_text_jaccard": 0.034,
+        "nearest_dev": "DEV_P05_hard",
+        "same_coarse_structure_dev": [
+          "DEV_P19_hard"
+        ],
+        "same_fine_structure_dev": [
+          "DEV_P19_hard"
+        ],
+        "flag": true,
+        "review": false
+      },
+      {
+        "id": "Q_fatigue_continuation_08",
+        "family": "fatigue_continuation",
+        "max_text_jaccard": 0.067,
+        "nearest_dev": "DEV_P07_counterfactual",
+        "same_coarse_structure_dev": [
+          "DEV_P19_hard"
+        ],
+        "same_fine_structure_dev": [
+          "DEV_P19_hard"
+        ],
+        "flag": true,
+        "review": false
+      },
+      {
+        "id": "Q_question_premise_01",
+        "family": "question_premise",
+        "max_text_jaccard": 0.016,
+        "nearest_dev": "DEV_P06_preserve",
+        "same_coarse_structure_dev": [
+          "DEV_P09_original",
+          "DEV_P23_original",
+          "DEV_P09_preserve",
+          "DEV_P09_counterfactual",
+          "DEV_P09_hard"
+        ],
+        "same_fine_structure_dev": [
+          "DEV_P09_original",
+          "DEV_P23_original",
+          "DEV_P09_preserve",
+          "DEV_P09_hard",
+          "DEV_P11_counterfactual"
+        ],
+        "flag": true,
+        "review": false
+      },
+      {
+        "id": "Q_question_premise_02",
+        "family": "question_premise",
+        "max_text_jaccard": 0.075,
+        "nearest_dev": "DEV_P09_hard",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_question_premise_03",
+        "family": "question_premise",
+        "max_text_jaccard": 0.079,
+        "nearest_dev": "DEV_P31_counterfactual",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_question_premise_04",
+        "family": "question_premise",
+        "max_text_jaccard": 0.071,
+        "nearest_dev": "DEV_P13_preserve",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_question_premise_05",
+        "family": "question_premise",
+        "max_text_jaccard": 0.13,
+        "nearest_dev": "DEV_P09_counterfactual",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_question_premise_06",
+        "family": "question_premise",
+        "max_text_jaccard": 0.061,
+        "nearest_dev": "DEV_P21_hard",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_question_premise_07",
+        "family": "question_premise",
+        "max_text_jaccard": 0.069,
+        "nearest_dev": "DEV_P20_preserve",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_question_premise_08",
+        "family": "question_premise",
+        "max_text_jaccard": 0.146,
+        "nearest_dev": "DEV_P23_counterfactual",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_stationary_rest_01",
+        "family": "stationary_rest",
+        "max_text_jaccard": 0.102,
+        "nearest_dev": "DEV_P07_preserve",
+        "same_coarse_structure_dev": [
+          "DEV_P07_original",
+          "DEV_P08_original",
+          "DEV_P07_preserve",
+          "DEV_P07_hard",
+          "DEV_P08_preserve"
+        ],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": true
+      },
+      {
+        "id": "Q_stationary_rest_02",
+        "family": "stationary_rest",
+        "max_text_jaccard": 0.098,
+        "nearest_dev": "DEV_P07_preserve",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_stationary_rest_03",
+        "family": "stationary_rest",
+        "max_text_jaccard": 0.068,
+        "nearest_dev": "DEV_P07_preserve",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_stationary_rest_04",
+        "family": "stationary_rest",
+        "max_text_jaccard": 0.073,
+        "nearest_dev": "DEV_P21_hard",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_stationary_rest_05",
+        "family": "stationary_rest",
+        "max_text_jaccard": 0.099,
+        "nearest_dev": "DEV_P06_preserve",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      },
+      {
+        "id": "Q_stationary_rest_06",
+        "family": "stationary_rest",
+        "max_text_jaccard": 0.117,
+        "nearest_dev": "DEV_P07_preserve",
+        "same_coarse_structure_dev": [
+          "DEV_P07_original",
+          "DEV_P08_original",
+          "DEV_P07_preserve",
+          "DEV_P07_hard",
+          "DEV_P08_preserve"
+        ],
+        "same_fine_structure_dev": [
+          "DEV_P07_original",
+          "DEV_P08_original",
+          "DEV_P07_preserve",
+          "DEV_P07_hard",
+          "DEV_P08_preserve"
+        ],
+        "flag": true,
+        "review": false
+      },
+      {
+        "id": "Q_stationary_rest_07",
+        "family": "stationary_rest",
+        "max_text_jaccard": 0.075,
+        "nearest_dev": "DEV_P21_hard",
+        "same_coarse_structure_dev": [
+          "DEV_P18_original",
+          "DEV_P18_preserve",
+          "DEV_P18_counterfactual",
+          "DEV_P18_hard"
+        ],
+        "same_fine_structure_dev": [
+          "DEV_P18_original",
+          "DEV_P18_preserve",
+          "DEV_P18_hard"
+        ],
+        "flag": true,
+        "review": false
+      },
+      {
+        "id": "Q_stationary_rest_08",
+        "family": "stationary_rest",
+        "max_text_jaccard": 0.101,
+        "nearest_dev": "DEV_P21_hard",
+        "same_coarse_structure_dev": [],
+        "same_fine_structure_dev": [],
+        "flag": false,
+        "review": false
+      }
+    ],
+    "review_status": "AI draft; human review pending",
+    "split": "research_development; not independent final evaluation"
+  }
+}

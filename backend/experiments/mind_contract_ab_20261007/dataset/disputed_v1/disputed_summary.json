@@ -1,0 +1,18 @@
+{
+ "personas": 32,
+ "scenes": 128,
+ "families": {
+  "absence_trigger": 8,
+  "fatigue_continuation": 8,
+  "question_premise": 8,
+  "stationary_rest": 8
+ },
+ "sha256": {
+  "disputed_inputs.jsonl": "e138b981f8dec3d433835f25fa86e72c118cf9d2a69258ea3d53608a7c175eea",
+  "disputed_scenes.NOT_MODEL_INPUT.json": "971c6c07b024eca3064f719718521b113858c5eef914d3c178aa28e644672cbb",
+  "disputed_reference.NOT_MODEL_INPUT.json": "04e8e0f4677f19d989686e59662c6bbac7a043ffc680bc68575f51c27bf88c81",
+  "disputed_review.NOT_MODEL_INPUT.jsonl": "dee891167fe0ad61b5c3ecf9d545b7ee8cb5be6f706fb20bb012babd6b9a3b6b"
+ },
+ "review_status": "draft_unreviewed (AI authored)",
+ "model_calls": 0
+}
