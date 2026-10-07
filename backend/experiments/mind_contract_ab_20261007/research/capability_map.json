@@ -1,0 +1,260 @@
+{
+ "facts": [
+  {
+   "name": "lost_awareness",
+   "meaning": "본인이 길을 잃었다고 알아차린 상태",
+   "source_in_engine": "관측 주입 전용. Population.facts()(app/phase2/person_walk.py 173-196행)에서 기본값은 None이고, report.behavior_observations(BehaviorObservation, app/schemas/environment.py)의 유효 구간 안일 때만 값이 정해진다. 위치 필드가 없어 전 워커·전 위치에 같은 값이 적용되고, 같은 시각에 값이 상충하면 None이다. 내부 게이지(혼란 C 등)와 연결되지 않는다. 미관측이면 mind_policy.possibilities가 True/False 둘 다 열거해 서로 다른 행동 결과를 균등 분기로 만든다."
+  },
+  {
+   "name": "family_present",
+   "meaning": "가족·보호자가 곁에 있음",
+   "source_in_engine": "관측 주입 전용(BehaviorObservation). 엔진 내부에서 계산하지 않는다. 미관측 시 분기."
+  },
+  {
+   "name": "pain_observed",
+   "meaning": "통증 발화 또는 관측",
+   "source_in_engine": "관측 주입 전용(BehaviorObservation). 추가로 _explicit_physical_walk(person_walk.py 237-249행)는 pain_observed=True 원자를 포함하는 walk 규칙을 '명시적 신체 보행'으로 보고 모집단 휴식을 막는다."
+  },
+  {
+   "name": "target_recognized",
+   "meaning": "현재 목표 장소를 본인이 알아봄(어느 장소인지는 담지 않음)",
+   "source_in_engine": "형식상 내부 필드 p.recognized를 읽지만, 엔진은 이 값을 True/False로 바꾸는 코드가 없다(목표 변경 시 284행, 도착 시 371행 모두 None 유지). 따라서 사실상 관측 주입 전용이며, 관측이 없으면 이 사실에 걸린 규칙은 항상 미확인 분기가 된다."
+  },
+  {
+   "name": "physical_arrival",
+   "meaning": "현재 목표 등록 장소의 좌표(최근접 노드)에 실제 도착",
+   "source_in_engine": "내부 상태 p.arrived. _advance(369-371행)에서 간선 끝 노드가 목표 노드와 같으면 True, completed_goals에 추가. seek로 새 목표가 정해지면 False로 초기화."
+  },
+  {
+   "name": "is_walking",
+   "meaning": "지금 걷는 중",
+   "source_in_engine": "내부 상태: p.mode가 walk/avoid/seek이면 True, rest/wait이면 False."
+  },
+  {
+   "name": "dark_observed",
+   "meaning": "어둠이 관측됨",
+   "source_in_engine": "관측 주입 전용(시각·일몰로 추정하지 않음). True이면 게이지 혼란 C에 k_c3(0.01/분)이 더해진다(person_walk.py 411행 → gauges.Gauges.step)."
+  },
+  {
+   "name": "rain_observed",
+   "meaning": "비가 관측됨",
+   "source_in_engine": "관측 주입 전용. 조건 평가 외의 엔진 소비처 없음."
+  },
+  {
+   "name": "fatigue_high",
+   "meaning": "높은 피로(잠정 구간)",
+   "source_in_engine": "내부 상태: 피로 게이지 F ≥ 0.7. F는 이동 중에만 k_f(0.03)×지형난이도(highway 태그 표)×fatigue_mult(치매 유형 상수 1.3)×dt로 누적되고, rest 완료 시 ×0.4, wait 중에는 변하지 않는다. 계산상 residential 도로에서 약 72분 보행 시 도달. k_f는 개인화 금지 목록(gauges.DENIED_OVERRIDES)이라 개인차 없음."
+  },
+  {
+   "name": "anxiety_high",
+   "meaning": "높은 불안(잠정 잠재 상태, 감정 관측 아님)",
+   "source_in_engine": "내부 파생: k_a1×C + k_a2×E ≥ 0.7. C는 이동 중 (k_c1×낯섦 + k_c2 + k_c3×dark)×dt, E는 숲 30m 이내(유형 상수 심각도 0.5)에서 k_e로 누적. k_c1·k_a1만 axis_scores(wayfinding_error_recovery_deficit, distress_induced_movement_reactivity)로 0.6~1.4배 개인화(gauges.apply_personal_overrides). 낯섦은 목표 경로 익숙함 점수가 있으면 1-score, 없으면 집·끌림점 최근접 거리/1km."
+  },
+  {
+   "name": "home_pull_high",
+   "meaning": "강한 귀소 충동(잠정)",
+   "source_in_engine": "내부 파생: k_h1(0.006)×p.minute + k_h2(0.5)×C ≥ 0.7. p.minute은 LKP 이후 경과 시간(대기·휴식 포함)이라 C=0이어도 약 117분이면 모든 워커가 True가 된다(계산). 개인 특성보다 시계에 가깝고, 이 사실에 대응하는 '집으로 가기' 행동은 없다."
+  },
+  {
+   "name": "{market,park,forest,water}.{noisy,crowded} (8개)",
+   "meaning": "그 유형 장소 근처의 소음·혼잡이 관측됨",
+   "source_in_engine": "관측 주입 전용: report.environment_observations(EnvironmentObservation: 유형·좌표·반경≤500m·유효구간·source). SceneConditions.at/at_location(app/phase2/environment_conditions.py)이 워커 위치가 반경 안이고 유효 시각일 때만 값을 넣고, 상충하면 None. OSM 시설 존재는 혼잡·소음을 뜻하지 않는다."
+  },
+  {
+   "name": "continuous_walk_minutes",
+   "meaning": "마지막 휴식·대기 이후 연속 보행 분",
+   "source_in_engine": "내부 상태 p.continuous_walk. 이동 dt만큼 증가, rest/wait 진입 시 0. _advance(379-386행)가 규칙 임계값에서 시간 경계를 끊어 분수 임계도 정확히 평가."
+  },
+  {
+   "name": "distance_since_rest_m",
+   "meaning": "마지막 휴식·대기 이후 이동 거리(m)",
+   "source_in_engine": "내부 상태 p.distance_since_rest = 속도(48m/분)×이동시간 누적, rest/wait 진입 시 0. 임계 도달 시각을 속도로 환산해 경계를 끊음."
+  },
+  {
+   "name": "clock_hour",
+   "meaning": "한국 시각(0~24, 소수)",
+   "source_in_engine": "내부 계산: started_at(LKP 시각; naive면 Asia/Seoul로 간주) + p.minute. 컨테이너 시간대와 무관."
+  },
+  {
+   "name": "spatial_scope:places / spatial_scope:feature (규칙 범위 의사 사실)",
+   "meaning": "규칙의 place_labels 또는 avoid feature 범위 안에 있는지",
+   "source_in_engine": "Population.near(): 등록 끌림점 좌표 60m 이내면 장소 범위 참, 시설은 envlayer의 OSM 거리(market/park/forest 60m, water 100m, 간선 위에서는 양 끝 거리 선형 보간). 지도에 거리값이 없으면 None → 미확인 분기."
+  },
+  {
+   "name": "(공통) 미확인·상충 값 처리",
+   "meaning": "사실 값이 없거나 충돌할 때의 해석",
+   "source_in_engine": "mind_policy.truth/applicable은 None을 '모름'으로 유지하고, possibilities가 미확인 불리언(및 숫자 임계 주변값)을 최대 256조합까지 열거해 서로 다른 결과(행동·목표·feature·장소·hold)를 만든다. 워커는 그중 하나를 균등 추첨하고 signature가 바뀔 때만 다시 뽑는다(_decide 257-266행). 보정된 확률이 아니라고 품질 메타데이터에 명시(unknown_branch_weighting)."
+  }
+ ],
+ "actions": [
+  {
+   "name": "wait",
+   "engine_effect": "mode=wait, 위치 고정(p.waiting 누적), continuous_walk·distance_since_rest를 0으로 리셋. 매 분(또는 관측 경계)마다 _decide가 재평가하며, 재평가 때마다 hold_until=현재+hold(hold_minutes 또는 기본 30분)로 다시 설정되므로 hold_minutes는 사실상 상한으로 작동하지 않는다. 조건이 참인 동안 무기한 대기, 거짓이 되면 즉시 종료. 대기 중 F·C·E 게이지는 멈춰 피로 회복이 없고, home_pull은 p.minute으로 계속 증가. 모집단 휴식 대상이 아님. 조건에 is_walking==True를 넣으면 대기 진입 즉시 거짓이 되어 분 단위로 대기·보행이 번갈아 나올 수 있음(코드 추론, 실행 확인 안 함)."
+  },
+  {
+   "name": "rest",
+   "engine_effect": "mode=rest, hold_minutes 또는 기본 5분 동안 재평가 없이 정지(_decide 253행 조기 반환). 완료 시 fatigue×0.4(recovery_fraction)와 rest_complete 이벤트. 카운터 리셋. 이동·게이지 누적 없음."
+  },
+  {
+   "name": "walk",
+   "engine_effect": "이동 의도 유지. 목표를 새로 정하지도 지우지도 않는다(p.target 유지). 방향은 워커 생성 때 뽑힌 strategy가 정한다: 목표 있고 미도착→목표 방위, backtracking→LKP 방위(집이 아님), random_walk 또는 도착 후→간선마다 무작위 방위, 그 외(direction_keeping 등)→직전 간선 방위. 갈림길 가중 = exp(κ·cos(방위차)) × 경로 익숙함 유도 × road_preference × env_response_weight × (직전 노드 0.2, 이웃 2개 이상일 때). κ=max(0.2, 2.5×(1-confusion))이고 기본 1.25. 피로·연속보행·거리·통증 원자가 활성인 walk 규칙은 모집단 휴식을 막는다(지쳐도 계속 걷는 사람 표현 가능)."
+  },
+  {
+   "name": "seek",
+   "engine_effect": "goal_label(등록 attraction_points 이름만)로 p.target 설정, arrived·recognized 초기화. 목표 노드 방위의 κ 커널 + 경로 익숙함 점수>0이면 역방향 다익스트라 거리 개선량으로 exp(clamp(개선×2×score, ±2)) 가중. 도착하면 completed_goals에 들어가 같은 목표 seek 규칙은 후보에서 빠진다. 도착 후 자동 정지 없음(기본은 무작위 방위 보행). persona.home은 목표가 될 수 없다. 모집단 휴식으로 중단될 수 있음."
+  },
+  {
+   "name": "avoid",
+   "engine_effect": "feature(market/park/forest/water) 또는 place_labels 범위. 규칙 범위 판정이 60m(물 100m) 이내일 때만 활성이라 단거리 반발로 작동하고, 범위를 벗어나면 기본 이동으로 돌아간다. 진입 시 간선 중간이면 대상에서 멀어지는 쪽으로 즉시 반전. 갈림길 가중 = 1(방향 커널·경로 익숙함·환경 반응 무시) × road_preference × exp(clamp(거리증가/60, ±3)) × 직전 노드 0.2. 지도에 해당 시설 거리값이 없고 장소 범위도 없으면 워커가 blocked('unmapped_avoidance')가 되어 미해결 질량 → 예측 전체가 IncompletePredictionError."
+  },
+  {
+   "name": "기준 이동(활성 규칙 없음)",
+   "engine_effect": "_baseline: strategy=staying_put이면 wait 30분(매 분 재검토, 다른 규칙이 없으면 LKP에 영구 체류), 그 외는 walk. population_prior_time_fraction으로 집계. 도착·인지만으로 정지하지 않는다."
+  },
+  {
+   "name": "모집단 휴식(엔진 가정)",
+   "engine_effect": "BaselineRestPolicy: walk/seek/avoid 중 시뮬레이션 1분마다 1회 p_trigger(F, θ=1.2, β=6) 확률로 5분 rest, 회복 0.4. 개인화 없음. 활성 규칙이 명시적 신체 보행이면 생략. 계산상 F=0.7에서 분당 약 4.7%."
+  },
+  {
+   "name": "차단 상태(blocked)",
+   "engine_effect": "지도 경계 50m 이내(map_boundary), 통계 p95 cap 밖 이웃만 남음(support_boundary), 이웃 없음(road_blocked), 회피 대상 미매핑(unmapped_avoidance). 정지가 아니라 검열이며, 미해결 질량이 0보다 크면 예측 결과를 게시하지 않는다."
+  },
+  {
+   "name": "레거시 엔진 행동(현재 운영 경로)",
+   "engine_effect": "app/phase2/simulation.py _walk_graph. mind_policy를 쓰지 않는다. 전략별 Koester 절단 lognormal 변위 상한(staying_put ×0.1, backtracking ×0.3) 도달 시 종료, 끌림점 도달·인지 시 종료(인지 실패=confusion×strength, 실제 판정된 혼란도일 때만), 피로 발동 시 남은 변위 ×0.6. agent 채널에서 H·A 게이지 발동 시 EXAONE 마음 재해석(예산·층화 풀) → 귀소 시도(등록 장소 중 place_type past_home/past_residence/workplace/relative_home 첫 장소 방위, 도달 판정 없음), 계속 배회(매 스텝 무작위·목표 해제), 은신·멈춤(즉시 종료), 끌림점 접근(목표 전환)."
+  }
+ ],
+ "other_layers": [
+  {
+   "layer": "실행 게이트(연속 엔진 사용 여부)",
+   "file": "app/llm/mind_policy.py(RELEASE_QUALIFIED=False), app/phase0/mind_preparation.py ready(), app/phase2/continuous_prediction.py run(), app/phase2/pipeline.py 150-165행",
+   "what_it_controls": "마음 정책과 연속 보행 엔진(Population)이 운영 예측에 쓰이는지",
+   "how_personalized": "현재 RELEASE_QUALIFIED=False라 ready()가 'candidate_not_qualified'를 돌려주고 run()이 None → 운영은 레거시 simulation.run_monte_carlo로 폴백한다. 마음 정책 기반 개인화는 실험 하네스(experiments/.../engine_replay.py 등)에서만 작동한다."
+  },
+  {
+   "layer": "원문 보존·증거 노트",
+   "file": "app/llm/initial_behavior.py build_payload/evidence_notes",
+   "what_it_controls": "K가 읽는 개인 근거의 범위",
+   "how_personalized": "onboarding_turns(질문+답변)를 우선 쓰고 guardian 원문만 증거로 남긴다. AI 추출 노트는 원문이 없을 때만 model_extracted_unverified로 사용. 보호자 수정 기록 포함. SAR 수치는 개인 근거가 아닌 참고로만 표시."
+  },
+  {
+   "layer": "앞단 개인 해석(K)",
+   "file": "app/phase2/initial_person.py interpret, app/llm/person_evidence.py, person_scope.py, person_environment.py, person_audit.py",
+   "what_it_controls": "장소별 goals/routes/found_history, persistence, direction, mobility(A~E), emotion, 환경 반응(반응·범위·조건절), other_traits 12종, 낮/밤 behavior_rules",
+   "how_personalized": "신고 전 최대 4회 K 호출(초안·재검토). context 주장은 초안·재검토가 합의하고 근거 상황 유형(ADMISSIBLE: 길 잃음/환경 마주침)이 맞을 때만 반영. 결과는 persona.prepared_initial에 저장."
+  },
+  {
+   "layer": "사건 시점 적용",
+   "file": "app/phase0/person_preparation.py _apply_prepared, app/phase2/situation_link.py",
+   "what_it_controls": "이번 사건에 적용할 목적지 의도와 낮/밤별 persistence·direction",
+   "how_personalized": "신고 시각의 06~18시 구분으로 시간대 규칙 선택(반복 목적은 ±2시간 여유), 사전등록 단발 진술은 historical_only로 강등, 신고 상황 문장을 Mi:dm이 등록 장소에 연결하면 current_statement/recent_action. 사건 시작 시 1회만 판정하고 시뮬레이션 중 시간대가 바뀌어도 재판정하지 않는다."
+  },
+  {
+   "layer": "전략 확률(초기 투영)",
+   "file": "app/phase2/person_projection.py compile_person, app/phase2/guardrail.py",
+   "what_it_controls": "6전략(route_following, direction_keeping, random_walk, backtracking, staying_put, landmark_seeking) 배정 확률",
+   "how_personalized": "SAR의 틸트 전 분포에서 시작. wait_for_help→staying_put×3, keep_moving→staying_put×1/3, change_heading→random_walk×2·direction_keeping×1/3, same_heading→direction_keeping×3, retrace→backtracking×3, 현재 목적지 있음→landmark_seeking×2, 그 목적지가 모두 new_route→route_following×1/3, ε-floor 0.02. 전략은 워커 생성 시 1회 추첨되어 끝까지 고정(Population.__init__ 142-150행)."
+  },
+  {
+   "layer": "끌림점(목표 장소)",
+   "file": "app/phase2/person_projection.py, app/phase2/guardrail.sanitize_attraction_levels, app/schemas/persona.py AttractionPoint",
+   "what_it_controls": "landmark_seeking/route_following 워커의 목표 장소 선택 확률, seek 대상, 장소 범위(60m)",
+   "how_personalized": "K goals → 상/중/하(3/2/1) × 근거 계수(과거 발견지 0.9, 사건 진술 0.9, 반복 습관 0.5, 그 외 0.3) × SAR 등급 제곱근 틸트(사건 목적지는 1 미만 금지) → 정규화, 한 장소 상한 0.6."
+  },
+  {
+   "layer": "경로 익숙함",
+   "file": "app/phase2/person_projection.py(routes→점수), app/phase2/gauges.py ROUTINE_DEFAULT_FAMILIARITY·unfamiliarity, app/phase2/person_walk.py _edge/_advance",
+   "what_it_controls": "목표 추적 시 최단경로 유도 강도, 낯섦→혼란 C 누적 속도",
+   "how_personalized": "new_route 0.1 ~ routine_independent 0.9(unknown·conflict 제외), 점수가 없고 routine_destinations 유래 장소면 0.8. 장소 라벨 단위 스칼라이며 실제 경로 기하가 아니다. 목표 없는 이동의 낯섦은 집·끌림점 최근접 거리/1km."
+  },
+  {
+   "layer": "환경 반응",
+   "file": "app/phase2/gauges.py env_response_weight, app/phase2/person_projection.py env, app/llm/mind_policy.py fixed_rules/add_fixed",
+   "what_it_controls": "갈림길 확률 틸트(비회피 모드)와 고정 avoid 규칙",
+   "how_personalized": "K가 합의한 유형 반응(조건 없음)과 조건부 유형 반응을 strength 0.5로 접근 ×1.5 / 회피 ÷1.5(물 100m, 그 외 60m), 조건절은 장면 관측이 있어야만 참. 조건부 유형 회피는 fixed_rules가 avoid 규칙으로 컴파일. 특정 장소 반응은 실행되지 않음. settings.env_response_strength=1.0."
+  },
+  {
+   "layer": "도로 위계 선호",
+   "file": "app/phase2/gauges.py road_preference",
+   "what_it_controls": "간선 기피(trunk 0.5, primary 0.6)·이면도로 선호(residential/footway 1.3)",
+   "how_personalized": "치매 유형 공통 상수, 개인화 없음. settings.road_preference_strength 지수 노브."
+  },
+  {
+   "layer": "게이지 계수",
+   "file": "app/phase2/gauges.py config_for/apply_personal_overrides/fatigue_mult/hostile_exposure",
+   "what_it_controls": "F·C·E 누적 속도 → fatigue_high/anxiety_high/home_pull_high 사실과 모집단 휴식 확률",
+   "how_personalized": "axis_scores 2개만 허용: k_c1(wayfinding_error_recovery_deficit), k_a1(distress_induced_movement_reactivity), 배수 0.6~1.4. 나머지 계수는 금지 목록. fatigue_mult 1.3·숲 혐오 노출은 유형 상수."
+  },
+  {
+   "layer": "보행 속도",
+   "file": "app/phase2/gauges.py walk_speed(48m/분), app/phase2/radius.py vmax_kmh(설정 4.32km/h)",
+   "what_it_controls": "시간당 이동 거리(연속 엔진: 거리=속도×이동시간)",
+   "how_personalized": "유형 상수. 나이·mobility 등급·피로·지형이 속도를 바꾸지 않는다."
+  },
+  {
+   "layer": "이동 반경",
+   "file": "app/phase2/person_projection.py(mobility A~E→μ±0.4), app/phase2/guardrail.apply_axis_scores, app/phase2/radius.py, person_walk.py self.cap",
+   "what_it_controls": "연속 엔진: LKP에서 cap(통계 p95) 밖 이웃 가중 0(지원 경계). 레거시: 종료 변위 표집 분포",
+   "how_personalized": "A/B→하(μ-0.4), C→중, D/E→상(μ+0.4). 계산상 cap은 약 8.4/12.6/18.7km라 6시간 도보(경로 17.3km)에서도 직선 변위가 거의 닿지 않아, 연속 엔진에서 mobility의 영향은 매우 작다."
+  },
+  {
+   "layer": "방향 집중도 κ",
+   "file": "app/phase2/person_walk.py mind_confusion, app/phase2/simulation.py _kappa",
+   "what_it_controls": "갈림길 방향 선택의 무작위성",
+   "how_personalized": "case.mind.changed일 때만 그 confusion을 쓰는데, 앱 코드에서 case.mind를 changed=True로 쓰는 곳을 찾지 못했다(grep 기준) → 모든 사람 0.5, κ=1.25. 누적 혼란 C는 방향에 쓰지 않는다(cumulative_confusion_role)."
+  },
+  {
+   "layer": "SAR 수치 기준선",
+   "file": "app/llm/exaone.py generate_prior/_default_prior, app/phase2/guardrail.py sanitize_prior/apply_axis_scores/_tilt_by_tendency",
+   "what_it_controls": "전략 확률 숫자, 끌림점 등급, 반경 등급의 출발점",
+   "how_personalized": "기본값은 placeholder(route_following 0.30, direction_keeping 0.25, random_walk 0.15, backtracking 0.05, staying_put 0.10, landmark_seeking 0.15), Koester Urban μ=0.095 σ=1.48. LLM 출력은 가드레일 통과, 축 점수(mobility→반경, autobiographical_destination_pull→끌림점 날카롭게), behavior_tendency 틸트(stay/move/backtrack/hide). K 경로는 tendency 틸트 전 분포에서 다시 시작."
+  },
+  {
+   "layer": "관측 주입",
+   "file": "app/schemas/environment.py, app/api/phase1.py, app/phase2/environment_conditions.py",
+   "what_it_controls": "관측 전용 사실(길 잃음 인지, 가족, 통증, 장소 인지, 어둠, 비, 소음·혼잡)의 값",
+   "how_personalized": "신고 API의 구조화 필드로만 입력. 행동 관측은 위치 없이 전 워커 공통, 환경 관측은 좌표·반경. 앱 화면이 이 필드를 채우는지는 확인하지 않았다(검증 필요)."
+  },
+  {
+   "layer": "마음 정책 후보 계약",
+   "file": "experiments/mind_contract_ab_20261007/contracts.py(A/B), contract_c.py, experiments/mind_policy_candidates/condition_program.py expression",
+   "what_it_controls": "보호자 문답을 mind_policy.Rule로 옮기는 방식",
+   "how_personalized": "A: action/goal_place/applies_only_at 분리, 행동 정의와 과거 관찰 보존 규칙 명시. B/C: 문답을 의미 단위(subject/kind/quote)로 판정, (start) and not (end)로 조합, 행동 단위에 action이 없으면 거부, 휴식 규칙 is_walking 가드. not_representable 단위는 unrepresented에 사유(kind/subject)만 남는다. 사실·행동 어휘와 엔진 필드는 늘리지 않는다(주석 명시). 셋 다 RELEASE_QUALIFIED=False."
+  },
+  {
+   "layer": "레거시 마음 재해석",
+   "file": "app/phase2/simulation.py _MindPool/_walk_graph, app/llm/exaone.py reinterpret_mind, app/phase2/guardrail.py sanitize_mind",
+   "what_it_controls": "운영 경로에서 시뮬레이션 중 혼란도·목표·행동 4종",
+   "how_personalized": "agent 채널만, 호출 예산·층화 풀. 페르소나 정보와 장면 텍스트가 프롬프트에 들어가며 출력은 닫힌 어휘로 검증."
+  },
+  {
+   "layer": "채널 결합",
+   "file": "app/phase2/pipeline.py(α-pool 0.7/0.3), app/phase2/continuous_prediction.py run_pair",
+   "what_it_controls": "bottom-up과 statistical 채널의 혼합",
+   "how_personalized": "두 채널 모두 같은 개인 prior를 쓴다. 연속 엔진에서는 statistical 채널도 같은 정책을 공유하고 mind만 없는데, case.mind가 기본값이면 mind_confusion이 둘 다 0.5이고 seed도 같아 두 채널 결과가 같아질 것으로 보인다(코드 추론, 실행 확인 안 함)."
+  }
+ ],
+ "known_gaps": [
+  "직진 경향(처음 방위 유지): walk에 방향 의미가 없다. direction_keeping은 desired=p.heading(직전 간선 방위)이라 간선마다 방위가 갱신되어 표류하고, κ는 1.25로 고정이다. same_heading 근거는 전략 확률 ×3 틸트로만 들어간다(person_walk.py 328행, person_projection.py 108행).",
+  "막힐 때까지 이동한 뒤 정지: 연속 엔진에는 종착 정지 개념이 없다. 막다른 길에서는 되돌아가고(직전 노드 감쇠는 이웃 2개 이상일 때만), 이웃 없음·지도 경계·cap 밖은 정지가 아니라 blocked=검열이라 예측이 실패한다(_edge 313-359행). '막힘'을 나타내는 사실도 없다.",
+  "대중교통·차량 이용: 도로망은 network_type='walk'뿐(app/geo/roadnet.py)이고 반경 물리 상한도 도보다. other_traits.transport_use는 소비자가 없어 unrepresented(no_engine_consumer_yet)로만 남는다.",
+  "도로 밖 자연공간 진입·은신(덤불, 배수로): 이동이 그래프 노드·간선 위로만 가능하다. hiding_or_staying 특성은 소비자가 없고, 연속 엔진에는 레거시 '은신·멈춤'(즉시 종료)에 해당하는 행동이 없다. 숲 유형으로 들어가 멈추는 행동은 seek가 등록 장소만 받아 표현할 수 없다.",
+  "현재 집으로 가려는 귀가 시도: seek 대상은 attraction_points 라벨뿐이고 persona.home은 낯섦 계산에만 쓰인다. home_pull_high 사실은 있지만 대응 행동이 없고, backtracking은 집이 아니라 LKP를 향한다. 레거시 귀소 시도도 과거 장소 유형만 대상이다.",
+  "일정 시간 기다린 뒤 다시 출발: wait는 재평가마다 hold_until이 갱신되어 hold_minutes가 상한으로 작동하지 않는다. 대기 경과 시간·실종 경과 시간 사실이 없다(NUMERIC_FACTS는 연속 보행 분, 휴식 후 거리, 시각 3개뿐).",
+  "해질녘·야간 변화: dark_observed는 관측 주입 전용이고 시각으로 추정하지 않는다. 앞단 낮/밤 규칙은 사건 시작 시 1회만 판정해 시뮬레이션 중 18시를 넘겨도 전략이 바뀌지 않는다. clock_hour 조건은 마음 정책에만 있는데 그 정책이 게이트로 꺼져 있다.",
+  "길 묻기·도움 요청·다른 사람 따라가기·특정 인물 찾기: 해당 사실과 행동이 없다. help_seeking, person_seeking, communication 특성은 unrepresented로만 남는다.",
+  "목적지를 못 알아보고 지나치기(연속 엔진): 엔진이 target_recognized를 정하지 않아 항상 미확인 분기가 되고, 도착 후 기본 동작은 무작위 방위 보행이다. 혼란도 기반 인지 실패는 레거시(_recognizes_destination)에만 있다.",
+  "길찾기 능력 저하에 따른 방향 무작위성 개인차: 연속 엔진의 κ는 case.mind 기본값 0.5로 모든 사람이 같다. 누적 혼란 C는 방향에 쓰이지 않고, 길찾기 축은 k_c1(사실이 켜지는 속도)에만 반영된다.",
+  "보행 속도·지구력 개인차: walk_speed는 유형 상수 48m/분이고 나이·mobility 등급·피로가 속도를 바꾸지 않는다. k_f 개인화는 금지 목록이다. mobility 등급은 반경 cap만 바꾸는데, 계산상 연속 엔진에서는 거의 닿지 않는다.",
+  "대기 중 회복: wait 중에는 게이지가 멈춰 피로가 회복되지 않는다. 회복은 rest 완료 시 ×0.4뿐이다.",
+  "날씨·추위·위험 무인식: rain_observed만 있고 기온은 없다. hazard_unawareness는 소비자가 없고, 물가·계단·차도 같은 위험지형에 접근한 뒤 사고로 멈추는 것도 표현할 수 없다.",
+  "습관적 순환 경로·반복 왕복(pacing, lapping, routine_route): 경로 익숙함은 장소 라벨당 스칼라라 경로 기하나 순환 패턴이 없다. 배회 유형 가운데 무작위 배회만 레거시 '계속 배회'에 대응한다(simulation.py 주석의 Algase 정의).",
+  "특정 장소에만 나타나는 환경 반응과 환경 유형 쪽으로 다가가는 행동: place_specific 환경 반응은 unrepresented(engine_has_no_place_or_condition_specific_environment_input)로만 남는다. approach 행동 어휘가 없어 접근은 갈림길 확률 1.5배 틸트로만 들어간다.",
+  "'가끔·대개' 같은 행동 빈도: Rule에 확률 필드가 없어 조건이 알려지면 결정적으로 동작하고, 미확인 분기는 균등으로 나뉜다.",
+  "순서·기억 조건('쉬고 나면 왔던 길로', 'A에 들렀다가 B로'): 이전 행동을 나타내는 사실이 없다. completed_goals는 같은 목표 seek를 막는 데만 쓰이고, 규칙이 전략(방향 방식)을 바꿀 수 없다.",
+  "건물·실내 진입(상가, 역, 병원): 보행 도로망만 있고 시장 유형도 OSM amenity=marketplace에 한정된다.",
+  "조건 없는 유형 회피가 고정 규칙으로 들어가지 않을 수 있음(코드 불일치 의심, 검증 필요): mind_policy.fixed_rules는 scope가 'category' 또는 'conditional_category'일 때만 받는데, 저장 형식(person_scope.validate)에는 'explicit_category'가 들어간다. 이 경우 조건 없는 회피는 avoid 규칙이 아니라 틸트로만 반영된다. 테스트는 conditional_category만 다룬다. 실데이터 prepared_initial로는 확인하지 않았다.",
+  "정서 보고와 이동·대기 교대: emotion=reported(no_calibrated_emotion_to_strategy_mapping), persistence=alternating(no_observed_wait_walk_timing_model), 조건부 persistence는 모두 unrepresented로만 남는다(person_projection.py 171-184행).",
+  "새 계약 후보 A/B/C도 표현 어휘를 늘리지 않는다: contracts.py 주석에 따르면 엔진 필드를 추가하지 않는다. B/C에서 not_representable로 판정된 단위는 note_id와 kind/subject 사유만 남고 실행되지 않는다."
+ ]
+}

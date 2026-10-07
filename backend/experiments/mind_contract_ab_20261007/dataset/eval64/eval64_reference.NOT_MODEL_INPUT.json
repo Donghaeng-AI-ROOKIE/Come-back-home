@@ -1,0 +1,3800 @@
+{
+ "R_rest_endurance_01": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "gte",
+       "value": 35
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 7.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N0",
+      "quote": "작년까지만 해도 두 시간을 걸으셔도 앉는 법이 없으셨어요. 올봄에 독감을 크게 앓고 나서 많이 약해지셨어요. 요즘은 35분쯤 걸으시면 앉을 데부터 찾으세요."
+     },
+     {
+      "note_id": "N1",
+      "quote": "목에 걸어 드린 위치 단말기에 움직인 기록이 남아요. 보면 35분쯤 움직이다가 7분 남짓 한자리에 멈춰 있고, 다시 움직이세요. 일주일 치 기록이 다 그랬어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_rest_endurance_02": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "gte",
+       "value": 900
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 15.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N0",
+      "quote": "베란다에서 내려다보면 단지 바깥 길을 한 바퀴 도세요. 휴대폰 지도로 재 보니 그 한 바퀴가 900미터쯤 되더라고요. 그만큼 걸으시면 아무 데나 걸터앉으세요. 한번 앉으시면 15분은 그대로 계세요."
+     },
+     {
+      "note_id": "N1",
+      "quote": "보건소 가시는 길에도 중간 다리께에서 꼭 한 번 앉으시는데, 재 보니 거기도 집에서 900미터 남짓이었어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N4",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_rest_endurance_03": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "fatigue_high",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "walk",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "지쳐도 안 앉아요. 지난봄에 없어졌을 때 경찰서에서 길가 방범 카메라 영상을 같이 봤는데, 숨을 몰아쉬고 셔츠가 땀에 다 젖었는데도 한 시간 반 넘게 한 번을 안 쉬고 걸어가더라고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_rest_endurance_04": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "fatigue_high",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "pain_observed",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 5.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "기운이 빠져 보이시면 벤치든 계단이든 아무 데나 찾아서 앉으세요. 5분쯤 쉬시고 다시 일어나세요. 공원에서도 그렇고 시장 골목에서도 그러시는 걸 제 눈으로 봤어요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "그게 이상해요. 무릎이 아프다고 하시기 시작하면 오히려 안 앉으세요. 아프다고 다리를 주무르시면서도 앉지 않고 계속 걸으셨어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "pain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "walk",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "그게 이상해요. 무릎이 아프다고 하시기 시작하면 오히려 안 앉으세요. 아프다고 다리를 주무르시면서도 앉지 않고 계속 걸으셨어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_rest_endurance_05": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "fatigue_high",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [
+     "물레방아 정자"
+    ],
+    "hold_minutes": 60.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "제 가게가 공원 바로 맞은편이라 창으로 정자가 보여요. 기운 없이 터덜터덜 오시는 날은 정자에 들어가서 앉으시고, 기운 있게 오시는 날은 그냥 지나가세요. 한번 앉으시면 한 시간은 꼼짝 안 하세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_rest_endurance_06": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 17
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "gte",
+       "value": 22
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "네, 저녁 다섯 시가 넘으면 기운이 확 떨어지세요. 휴대폰 걸음 기록을 같이 보니까 그 시간 이후에는 22분쯤만 걸으셔도 길가 아무 데나 주저앉으시더라고요. 앉으시면 한참을 그대로 계세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_rest_endurance_07": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "gte",
+       "value": 40
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "gte",
+       "value": 1600
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 4.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "할아버지 손목에 채워 드린 만보기 시계에 걸은 시간이랑 거리가 다 찍혀요. 앉으신 때를 보면 늘 40분은 넘게 걸으셨고 거리도 1.6킬로는 넘었더라고요. 동네 골목을 천천히 빙빙 도신 날은 한 시간 가까이 걸으셔도 안 앉으셨어요. 기분 좋게 성큼성큼 1.8킬로를 금방 가신 날도 안 앉으셨고요. 앉으시면 4분 정도 숨 고르시고 바로 일어나세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_rest_endurance_08": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "gte",
+       "value": 600
+      },
+      {
+       "fact": "pain_observed",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 40.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "600미터쯤 걸으시면 앉으세요. 산책로에 거리 표시가 있어서 보면 늘 그 언저리에서 앉으시더라고요. 같이 장 보러 갈 때도 집에서 그쯤 가면 한 번 앉으세요. 앉으시면 40분은 계세요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "무릎이 쑤신다고 하시면 쉬지도 않고 곧장 달개비 정형외과 쪽으로 걸어가세요. 혼자서 병원 앞까지 가 계신 걸 몇 번 봤어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "pain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "달개비 정형외과",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "무릎이 쑤신다고 하시면 쉬지도 않고 곧장 달개비 정형외과 쪽으로 걸어가세요. 혼자서 병원 앞까지 가 계신 걸 몇 번 봤어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_time_weather_01": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "날이 어둑어둑해지면 더 걷지를 않으시고, 가게 앞 계단이나 정류장 의자처럼 눈에 띄는 데 자리를 잡고 꼼짝을 안 하세요. 지난겨울에 두 번을 그렇게 앉아 계신 걸 찾았어요. 제가 가서 손을 잡아 드리면 그제야 일어나서 같이 걸어오시고요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "몇 시라고 딱 잘라 말하기는 어려워요. 여름엔 저녁 일곱 시 반이 넘어도 훤하잖아요. 훤할 때는 계속 걸어 다니시고, 어두워져야 앉으시더라고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N4",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_time_weather_02": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 22.5
+      }
+     ],
+     [
+      {
+       "fact": "clock_hour",
+       "op": "lt",
+       "value": 4.5
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "세 번 다 다음 날 경비실에서 단지 카메라 녹화를 돌려 봤어요. 일찍 나가신 날은 밤 10시 반까지 단지 안을 빙빙 도시다가 그때부터 정자나 계단참에 가만히 앉으셨고, 자정 다 돼서 나가신 날은 나가자마자 바로 앉으셨어요. 그러다 새벽 4시 반쯤 되면 일어나서 다시 걸어 나가셨고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_time_weather_03": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "park",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "비가 오면 공원엔 아예 안 들어가요. 둔덕골 말고 딴 공원도 마찬가지고요. 흙길 질척한 걸 질색해서 입구까지 갔다가도 돌아서 나와요. 비 안 오는 날엔 공원을 몇 바퀴씩 돌고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_time_weather_04": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "gte",
+       "value": 1200
+      }
+     ],
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 18.5
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "gte",
+       "value": 15
+      }
+     ],
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "clock_hour",
+       "op": "lt",
+       "value": 5
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "gte",
+       "value": 15
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 7.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "낮에는 동네 한 바퀴가 1.2킬로쯤 되는데, 그걸 한 바퀴 돌고 나면 꼭 앉아서 쉬셔야 해요. 그런데 저녁 6시 반이 넘으면 다리에 힘이 빠지시는지 15분만 걸어도 주저앉으세요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "네, 새벽에 잠이 깨셔서 나가자고 하시면 제가 골목을 같이 걸어 드리는데 그때도 15분쯤 걸으시면 주저앉으세요. 아침 다섯 시를 넘기면 다시 낮처럼 오래 걸으시고요."
+     },
+     {
+      "note_id": "N3",
+      "quote": "한 칠 분쯤 숨 고르시고 다시 일어나세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N4",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_time_weather_05": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "두 번 있어요. 한 번은 낮에 비 올 때였는데, 동네 경비 아저씨 말로는 우산도 없이 그냥 맞으면서 계속 걸으셨대요. 다른 한 번은 작년 가을에 해 지고 캄캄한 데다 비까지 왔는데, 제가 찾아갔을 때 길 한가운데 딱 멈춰 서서 한 발짝도 안 움직이셨어요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "어둡기만 할 때는 평소처럼 걸어 다니셨어요. 낮에 비 맞으실 때도 걸으셨으니까, 그날은 캄캄한 데 비까지 겹쳐서 그러셨던 것 같아요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_time_weather_06": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 21.5
+      },
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      }
+     ],
+     [
+      {
+       "fact": "clock_hour",
+       "op": "lt",
+       "value": 6
+      },
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "옛 제지공장 정문",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "두 번 다 옛 제지공장 정문 가는 길에서 찾았어요. 밤 9시 반 넘어서 밖에 계시면 출근해야 한다면서 꼭 그쪽으로 걸어가세요. 새벽 6시, 교대 끝나는 시간이 지나면 공장 얘기도 안 하시고 그쪽으로 가지도 않으세요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "제가 같이 나가 있으면 공장 가야 한다고 하시면서도 제 팔 잡고 집 쪽으로 따라오세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_time_weather_07": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 13
+      },
+      {
+       "fact": "clock_hour",
+       "op": "lt",
+       "value": 16.5
+      },
+      {
+       "fact": "fatigue_high",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "walk",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "흔히 저녁에 심해진다고들 하던데 저희 엄마는 반대예요. 점심 드시고 1시쯤부터 4시 반까지가 제일 안절부절하세요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "그 시간에 밖에 계시면 지쳐서 다리를 끄시면서도 절대 안 앉으세요. 벤치에 앉으시라고 해도 손을 뿌리치고 계속 걸으세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_time_weather_08": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      }
+     ],
+     [
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "water",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "바깥이 깜깜할 때는 냇가 쪽으로 절대 안 내려가세요. 비 오는 날도 마찬가지고요. 다리 위에서 물을 한 번 내려다보시고는 바로 돌아서세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_lost_reaction_01": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      },
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 17
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "아침 일곱 시쯤 나가셔서 오후 다섯 시 전까지는 길이 헷갈리셔도 이 골목 저 골목 계속 다니세요. 그런데 오후 다섯 시가 넘어서 길 잃은 걸 아시면 발이 땅에 붙은 것처럼 안 움직이세요. 지난달에도 저녁 여섯 시쯤 버스정류장 옆에 한 시간 넘게 서 계신 걸 동네 분이 보셨대요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "제가 가서 팔을 잡아 드릴 때까지는 그대로 계세요. 혼자 힘으로 다시 걸어 나오신 적은 아직 없어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 7
+      },
+      {
+       "fact": "clock_hour",
+       "op": "lt",
+       "value": 17
+      }
+     ]
+    ],
+    "action": "walk",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "아침 일곱 시쯤 나가셔서 오후 다섯 시 전까지는 길이 헷갈리셔도 이 골목 저 골목 계속 다니세요. 그런데 오후 다섯 시가 넘어서 길 잃은 걸 아시면 발이 땅에 붙은 것처럼 안 움직이세요. 지난달에도 저녁 여섯 시쯤 버스정류장 옆에 한 시간 넘게 서 계신 걸 동네 분이 보셨대요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_lost_reaction_02": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "walk",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "어머니는 길 잃은 걸 아셔도 걸음을 멈추시는 법이 없어요. 동네 분들 말로는 그럴 땐 걸음도 평소보다 훨씬 빨라지신대요. 지난봄 시장 뒷골목에서 놓쳤을 때도 한 시간 반 뒤에 집에서 2킬로 가까이 떨어진 둑길에서 찾았어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "물푸레시장",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "비 오는 날은 달라요. 그럴 때 비까지 오면 아무 데로나 걷지 않고 지붕 있는 물푸레시장 쪽으로 곧장 가세요. 작년 장마 때도 시장 통로 안에서 찾았어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_lost_reaction_03": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "physical_arrival",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "가람역",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "길을 모르겠다 싶으면 곧장 가람역 쪽으로 걸어가요. 지난번 두 번 모두 역 방향으로 가는 걸 이웃이 봤고, 결국 역에서 찾았어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [
+     "가람역"
+    ],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "역에 닿으면 개찰구 옆 의자에 앉아서 누가 데리러 올 때까지 기다려요. 역무원한테 집에 전화 좀 해 달라고 부탁한 적도 있어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_lost_reaction_04": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "저랑 같이 걷다가 길이 헷갈리시면 걸음을 뚝 멈추고 제 얼굴만 쳐다보세요. 제가 앞장서야 다시 따라오세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_lost_reaction_05": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "anxiety_high",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "그렇게 다니다가 점점 초조해지면 손을 비비면서 꼼짝을 안 해요. 그때는 불러도 대답을 잘 안 해요. 길을 잃은 게 아니면 초조해해도 이렇게 굳지는 않아요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_lost_reaction_06": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "market.crowded",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "market",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "네, 몇 번 있어요. 장날처럼 사람이 북적일 때 길 잃은 걸 아시면 숨이 막힌다면서 사람 없는 쪽으로 막 빠져나오세요. 시장을 벗어나시면 그다음부터는 그냥 평소처럼 걸으세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "market.crowded",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [
+     "한빛재래시장"
+    ],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "한산한 날은 달라요. 그럴 땐 길 잃은 걸 아셔도 빠져나오지 않고 늘 시장 안 단골 떡집 앞에 우두커니 서 계세요. 지난달 평일 오후에 놓쳤을 때도 거기서 한참을 그러고 계셨어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_lost_reaction_07": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "lt",
+       "value": 1300
+      }
+     ]
+    ],
+    "action": "walk",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "아버지는 길을 잃은 걸 아셔도 걸음을 늦추질 않으세요. 한 1.3킬로쯤 갈 때까지는 쉬지 않고 내리 걸으세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "gte",
+       "value": 1300
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 15.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "아버지는 길을 잃은 걸 아셔도 걸음을 늦추질 않으세요. 한 1.3킬로쯤 갈 때까지는 쉬지 않고 내리 걸으세요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "그쯤 가시면 길가 아무 데나 앉아서 한 십오 분 쉬세요. 그러고는 다시 일어나서 또 걸으세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_lost_reaction_08": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "한번은 지나가던 학생이 할아버지 길 잃으셨냐고 묻자 그제야 당황하셔서 길모퉁이에 그대로 굳어 버리셨대요. 그 뒤로도 길 잃은 걸 알아채신 날은 매번 그러세요. 식구 얼굴을 보기 전까지는 한 발짝도 안 떼세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_past_destination_01": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 5.5
+      },
+      {
+       "fact": "clock_hour",
+       "op": "lte",
+       "value": 7
+      },
+      {
+       "fact": "physical_arrival",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "물레방직 옛 공장",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "올해 들어 그런 일이 두 번 있었는데 둘 다 새벽 5시 반부터 7시 사이였어요. 작업복 점퍼를 챙겨 입고 늦으면 반장한테 혼난다면서 공장 쪽으로 걸어가셨어요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "제가 공장 정문 자리로 바로 가 봤더니 거기 계셨어요. 간판도 다르고 건물도 바뀌었는데 경비실 옆에 가만히 서서 사람들 출근하기를 기다리고 계시더라고요. 그게 옛 공장인 줄 알아보셨는지는 저도 모르겠어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "physical_arrival",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "제가 공장 정문 자리로 바로 가 봤더니 거기 계셨어요. 간판도 다르고 건물도 바뀌었는데 경비실 옆에 가만히 서서 사람들 출근하기를 기다리고 계시더라고요. 그게 옛 공장인 줄 알아보셨는지는 저도 모르겠어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_past_destination_02": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "physical_arrival",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "오동나무골 옛집",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "창밖이 어둑어둑해지면 이제 집에 가야 한다면서 신을 신으세요. 그때 말하는 집은 오동나무골 옛집이에요. 해가 짧은 겨울에는 저녁 먹기 한참 전부터 그러시고요. 지난가을에 그렇게 나가셨다가 옛집 골목에서 찾았어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "physical_arrival",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "target_recognized",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "지난가을에는 대문 있던 자리 앞 계단에 앉아서, 우리 집 문이 왜 잠겼냐고 하시면서 꼼짝 않고 계셨어요. 올봄에 또 나가셨을 때는 빌라 앞에서 여기가 어디냐고 두리번거리시더니 그냥 지나쳐서 골목 끝까지 걸어가셨고요. 그날은 거기가 옛집인 줄 모르셨던 것 같아요."
+     }
+    ]
+   },
+   {
+    "id": "k_2",
+    "when": [
+     [
+      {
+       "fact": "physical_arrival",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "target_recognized",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "walk",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "지난가을에는 대문 있던 자리 앞 계단에 앉아서, 우리 집 문이 왜 잠겼냐고 하시면서 꼼짝 않고 계셨어요. 올봄에 또 나가셨을 때는 빌라 앞에서 여기가 어디냐고 두리번거리시더니 그냥 지나쳐서 골목 끝까지 걸어가셨고요. 그날은 거기가 옛집인 줄 모르셨던 것 같아요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_past_destination_03": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      },
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "버드실 큰이모 댁",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "제가 장 보러 나가서 어머니 혼자 집에 계실 때만 그랬어요. 세 번 다 큰이모 댁에 간다며 버드실 쪽으로 걸어가셨어요. 이모가 돌아가신 지 열다섯 해가 넘었는데도요. 제가 옆에 있으면 그쪽으로 가자는 말도 안 하세요."
+     },
+     {
+      "note_id": "N3",
+      "quote": "작년 가을에 동네 약국 앞에 우두커니 서 계신 걸 약사님이 알려 주셨어요. 길을 잃으셨다는 걸 아시면 그렇게 이모 댁 가던 것도 잊으시고, 그 자리에 멈춰서 누가 데리러 오기만 기다리세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "작년 가을에 동네 약국 앞에 우두커니 서 계신 걸 약사님이 알려 주셨어요. 길을 잃으셨다는 걸 아시면 그렇게 이모 댁 가던 것도 잊으시고, 그 자리에 멈춰서 누가 데리러 오기만 기다리세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_past_destination_04": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": false
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "lt",
+       "value": 15
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "갈참나무골 선산",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "지난봄하고 초여름에 한 번씩 있었어요. 그날들은 아침부터 안절부절못하시면서 방을 들락날락하셨어요. 그러다 할아버지 산소에 가 봐야 한다며 모자를 쓰고 나가셨고, 매번 선산 들머리에서 찾았어요. 비가 오면 산길 미끄럽다고 산소 쪽으로는 아예 안 가세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "gte",
+       "value": 15
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 7.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "선산 가는 길은 처음부터 끝까지 오르막이에요. 시장에 다녀오실 때나 산소 가실 때나 15분쯤 걸으시면 꼭 길가 돌이든 남의 집 계단이든 걸터앉아서 7분 정도 숨을 고르세요. 그러고 나서 다시 일어나 가던 길을 가세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_past_destination_05": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "physical_arrival",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "반달시장 옛 철물점 자리",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "올여름 장마 때요. 비가 오기 시작하면 가게 차양을 내리고 물건을 들여놔야 한다면서 우산도 없이 시장 쪽으로 나가세요. 장마 동안에만 세 번이나 그러셨어요. 날이 맑으면 종일 철물점 시절 손님 얘기를 하시는데, 그건 그냥 옛날이야기예요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "한 번은 제가 시장까지 쫓아가 봤는데 떡집 처마 밑에 서서 비가 그칠 때까지 가만히 계셨어요. 비가 그치자 거기서 나오셨는데, 제가 잠깐 한눈판 사이라 그다음엔 어디로 가셨는지 못 봤어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "physical_arrival",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "한 번은 제가 시장까지 쫓아가 봤는데 떡집 처마 밑에 서서 비가 그칠 때까지 가만히 계셨어요. 비가 그치자 거기서 나오셨는데, 제가 잠깐 한눈판 사이라 그다음엔 어디로 가셨는지 못 봤어요."
+     }
+    ]
+   },
+   {
+    "id": "k_2",
+    "when": [
+     [
+      {
+       "fact": "market.crowded",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "market",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "장날처럼 시장 바닥이 사람으로 꽉 차 있으면 질색을 하시고 시장 밖으로 빠져나오세요. 한산할 때는 시장 안도 잘 다니세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_past_destination_06": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "미루나무골 옛 동네",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "작년에만 세 번을 미루나무골 어귀에서 예전 이웃 눈에 띄어서 연락을 받았어요. 길을 잃었다 싶으면 옛날 살던 그 동네 쪽으로 가요. 갈 때는 꼭 큰길만 따라가요."
+     },
+     {
+      "note_id": "N3",
+      "quote": "길을 잃은 채로 날이 어두워지면 더는 안 가고 멈춰 서서 꼼짝 않고 있어요. 밤에 찾았을 때는 늘 가로등 밑에 서 있었어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "길을 잃은 채로 날이 어두워지면 더는 안 가고 멈춰 서서 꼼짝 않고 있어요. 밤에 찾았을 때는 늘 가로등 밑에 서 있었어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_past_destination_07": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 16.5
+      },
+      {
+       "fact": "clock_hour",
+       "op": "lte",
+       "value": 18.5
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "lt",
+       "value": 900
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "은행나무골 옛집",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "오후 4시 반부터 6시 반 사이가 되면 애들 저녁 해 먹여야 한다면서 집에 가야 한다고 하세요. 그때 말하는 집은 이 아파트가 아니라 은행나무골 옛집이에요. 지난달에는 그 시간에 실제로 옛집 쪽으로 걸어 나가셔서, 큰길 건너기 전에 제가 따라가 모셔 왔어요. 지난겨울에는 옛집 가는 버스를 타겠다며 정류장에 서 계신 걸 이웃분이 보고 데려다주셨어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "gte",
+       "value": 900
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "무릎이 안 좋으셔서 한 900미터쯤 걸으시면 꼭 주저앉아서 쉬세요. 쉬고 나면 다시 가던 쪽으로 걸으세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_past_destination_08": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 15.5
+      },
+      {
+       "fact": "clock_hour",
+       "op": "lte",
+       "value": 17
+      },
+      {
+       "fact": "pain_observed",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "다솜초등학교",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "오후 3시 반부터 5시 사이에 아이들 하교시켜야 한다면서 가방을 들고 나서세요. 올해만 여러 번 그러셨고, 실제로 다솜초등학교 정문까지 걸어가신 적도 한 번 있어요."
+     },
+     {
+      "note_id": "N3",
+      "quote": "허리가 아프다고 하시면 아무리 급하게 가시던 길이라도 그 자리에서 앉을 데를 찾아 쉬세요. 5분쯤 앉아 계세요. 그러고는 허리가 다 낫지 않았어도 다시 일어나서 가던 길을 가세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "pain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 5.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "허리가 아프다고 하시면 아무리 급하게 가시던 길이라도 그 자리에서 앉을 데를 찾아 쉬세요. 5분쯤 앉아 계세요. 그러고는 허리가 다 낫지 않았어도 다시 일어나서 가던 길을 가세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_avoidance_01": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "market.crowded",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "fatigue_high",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "market",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "시장 안이 사람으로 바글바글하면 몇 걸음 들어가시다가 얼굴이 굳으면서 바로 돌아 나오세요. 한산할 땐 시장 골목을 끝까지 쭉 걸어서 지나가시고요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "한참 걸어서 기운이 쭉 빠지신 날엔 붐벼도 그냥 사람들 사이로 지나가세요. 돌아 나올 힘도 없으신 것 같아요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_avoidance_02": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     []
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "market",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "재작년부터 시장 골목에만 들어서면 손을 떨면서 안절부절못하셨어요. 그 뒤로는 사람이 많든 적든 시장 쪽으로는 아예 발을 안 들이시고 길을 돌아가세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_avoidance_03": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     []
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "market",
+    "place_labels": [
+     "가람시장"
+    ],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "가람시장 쪽으로는 안 가려고 하세요. 같이 장사하던 분들 얼굴을 못 알아보시게 된 뒤로, 그 시장 입구가 한 50미터 앞에 보이면 다른 골목으로 돌아가세요. 동네 다른 시장은 예전처럼 잘 다니시고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_avoidance_04": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "park.crowded",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "park.noisy",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "park",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "사람만 많은 건 괜찮으세요. 사람은 별로 없는데 음악만 크게 틀어 놓은 것도 그냥 지나가시고요. 그런데 공원에서 공연이나 축제를 해서 사람도 꽉 차고 스피커 소리까지 쾅쾅 울리면, 귀를 막으시면서 공원 밖으로 빠져나가세요. 그럴 때도 제가 팔짱 끼고 옆에 있으면 공원 안을 그냥 같이 걸어 다니세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_avoidance_05": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "forest",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "날이 저물어 컴컴해지면 혼자서는 뒷산 숲 쪽에 얼씬도 안 하세요. 산 밑 길을 걷다가도 나무가 빽빽한 데가 나오면 빙 둘러서 가세요. 제가 손전등 들고 같이 있으면 깜깜해도 숲길로 같이 걸어 내려오시고요. 환한 낮에는 혼자서도 숲길을 잘 다니세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_avoidance_06": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "water.crowded",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "water",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "호숫가 둘레길이 좁아서 그런지, 사람이 바글거리면 부딪힐까 봐 겁을 내면서 물가 길을 버리고 안쪽 길로 빠져나와요. 한산할 땐 물가 길로 끝까지 걸어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "gte",
+       "value": 1500
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "만보기로 재 보니까 쉬지 않고 1.5킬로쯤 걸으면 꼭 아무 데나 걸터앉아 한숨 돌리고 다시 가요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_avoidance_07": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "park.crowded",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "clock_hour",
+       "op": "lt",
+       "value": 12
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "park",
+    "place_labels": [
+     "개나리공원"
+    ],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "오전에 체조하는 사람들로 공원이 북적이면 입구에서 멈칫하다가 그냥 돌아서요. 오후에 동네 아이들로 시끌벅적할 때는 아무렇지 않게 공원을 가로질러 가고요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "다른 공원은 아침에 사람이 몰려 있어도 상관 안 해요. 그러는 건 개나리공원뿐이에요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_avoidance_08": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "market.crowded",
+       "op": "eq",
+       "value": true
+      }
+     ],
+     [
+      {
+       "fact": "market.noisy",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "market",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "시장 골목에 사람이 북적이거나, 사람이 없어도 확성기 소리나 음악이 크게 울리면 바로 시장 밖으로 빠져나오세요. 조용하고 한산할 땐 시장 안을 아무렇지 않게 오가세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "park.crowded",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "park",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "공원도 사람이 꽉 차 있으면 들어가시다 말고 나오세요. 시끄러운 건 공원에선 별로 상관없어 하시고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_unsupported_traits_01": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "water.crowded",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "water",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "개천 산책로에 사람이 바글바글하면 물가 쪽으로는 안 내려가세요. 한산할 때는 물가 길로도 잘 다니시고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_unsupported_traits_02": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "forest",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "비 오는 날엔 뒷산 숲길 쪽으로는 발을 안 들이세요. 몇 해 전에 젖은 나무 계단에서 미끄러지신 뒤로 그러세요. 날이 맑으면 숲길도 상관없이 다니세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_unsupported_traits_03": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 16.5
+      },
+      {
+       "fact": "clock_hour",
+       "op": "lt",
+       "value": 18
+      },
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "한내 시장",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "오후 4시 반쯤 되면 밖에 계시다가도 시장 가야 한다면서 한내 시장 쪽으로 방향을 트세요. 저녁 6시가 넘으면 그 말씀이 쏙 들어가고, 비가 오는 날은 시장 갈 생각을 아예 안 하세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_unsupported_traits_04": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "gte",
+       "value": 640
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 9.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "휴대폰 걸음 앱으로 같이 재 봤더니 640미터쯤 걸으면 꼭 멈춰 서서 숨을 고르세요. 9분쯤 그러고 계시다가 다시 걸으세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_unsupported_traits_05": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "market.crowded",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "anxiety_high",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "market",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "시장통에 사람이 꽉 차 있으면 처음엔 그냥 다니시다가, 안절부절못하고 초조해지시면 그때는 시장 밖으로 빠져나오세요. 사람이 많아도 마음이 편하실 땐 끝까지 구경하세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_unsupported_traits_06": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "어둑어둑해지면 걷던 걸 멈추고 그 자리에 서서 안 움직이세요. 동이 트고 훤해져야 다시 걸음을 떼세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_unsupported_traits_07": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [
+     "언덕배기 교회"
+    ],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "교회 앞을 지나다가 비를 만나면 현관 처마 밑에 들어가서 비가 그칠 때까지 서 있어요. 다른 데서는 비가 와도 그냥 맞고 다녀요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_unsupported_traits_08": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [
+     "석류나무 체육공원"
+    ],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "요즘은 혼자 체육공원에 가시면 늘 앉던 정자에 자리 잡고 제가 데리러 갈 때까지 꼼짝 않고 기다려요. 제가 가면 그제야 일어나요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "market.noisy",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "market",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "해 지고 나서 시장 골목이 왁자지껄하면 그쪽을 피해서 조용한 뒷길로 돌아가요. 낮에는 아무리 시끄러워도 그냥 지나다녀요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N4",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_source_certainty_01": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 19
+      },
+      {
+       "fact": "clock_hour",
+       "op": "lt",
+       "value": 21
+      },
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "모래울시장",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "저녁 드시고 일곱 시가 넘으면 시장 문 닫기 전에 가 봐야 한다면서 모래울시장 쪽으로 나서세요. 걱정돼서 세 번 뒤따라가 봤는데 세 번 다 다른 데 안 들르고 곧장 시장으로 가셨어요. 그게 다 여름에 해가 길 때 얘기예요. 겨울처럼 그 시간에 벌써 바깥이 캄캄하면 창밖만 내다보시고 시장 얘기는 안 꺼내세요. 아홉 시만 되면 어느 철이든 주무실 채비를 하시고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N4",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_source_certainty_02": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "gte",
+       "value": 35
+      }
+     ],
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "gte",
+       "value": 1500
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 7.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "천천히 걷는 날은 35분쯤 지나면, 걸음이 빠른 날은 그보다 일찍 1.5킬로쯤 가면 꼭 길가에 앉으셔야 해요. 한번 앉으시면 7분쯤은 꼼짝 않고 계시고요. 지난달에 제가 같이 나간 날만 네 번을 그러셨어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "pain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "걷다가 무릎이 시큰거린다고 하시면 얼마 안 걸었어도 그 자리에서 바로 앉으세요. 그럴 땐 제가 일으켜 드려도 한참 있다가 일어나시고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N4",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N5",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_source_certainty_03": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "water.noisy",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "water",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "물가에서 공사 소리나 물 퍼내는 기계 소리가 요란하면 귀를 막고 물에서 멀어지는 쪽으로 바로 돌아서세요. 올봄 집 뒤 개천 공사 때 옆에서 여러 번 봤고, 여름에 큰 강가 공원에 모시고 갔을 때도 준설선 소리가 나니까 똑같이 돌아서셨어요. 물가가 조용할 때는 개천이든 강이든 물길 따라 잘 걸으시고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_source_certainty_04": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "같이 걷다가 빗방울이 떨어지기 시작하면 아무 가게 처마 밑으로 들어가서 비가 그칠 때까지 꼼짝을 안 하세요. 우산을 씌워 드려도 안 움직이세요. 비가 그치면 그제야 다시 걸으시고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N4",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_source_certainty_05": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "park",
+    "place_labels": [
+     "참나리공원"
+    ],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "해 지고 깜깜해지면 참나리공원 안으로는 절대 안 들어가세요. 공원 입구까지 갔다가도 돌아서세요. 그러고는 불 켜진 큰길로 빙 돌아서 가세요. 낮에는 그 공원 벤치에도 잘 앉아 계시고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N4",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_source_certainty_06": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "한길철공소",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "길을 잃으셨다 싶으면 꼭 저한테 전화해서 여기가 어딘지 모르겠다고 하세요. 그러고는 전화를 붙든 채 한길철공소 쪽으로 걸어가세요. 작년 가을이랑 올봄에 두 번 그러셨는데, 두 번 다 대낮이었고 통화하면서 쫓아가 보니 공장 쪽으로 가고 계셨어요. 길 잃은 줄 모르실 때는 그냥 가던 대로 가시고요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "저녁 산책하다 제가 한눈판 사이에 서로 놓친 적이 두 번 있어요. 두 번 다 날이 어두울 때였는데, 찾아가 보니 놓친 자리 근처 환한 가로등 밑에 꼼짝 않고 서 계셨어요. 제가 가서 팔을 잡아 드리면 그제야 따라 걸으시고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N4",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_source_certainty_07": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "physical_arrival",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "달맞이시장 골목",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "비가 오기 시작하면 물건 젖는다고 우산도 안 챙기고 달맞이시장 골목 옛 좌판 자리로 나서세요. 제가 다섯 번 넘게 따라가 봤는데 매번 곧장 그 자리까지 가셨어요. 거기 닿아서 빈자리를 확인하고 나면 그 뒤로는 더 찾는 데 없이 평소처럼 걸으시고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_source_certainty_08": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "fatigue_high",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "walk",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "덜 지치셨을 땐 여느 어르신들처럼 걷다가 쉬다가 하세요. 그런데 숨이 차고 다리가 후들거릴 만큼 지치시면 그때부터는 절대 안 앉으세요. 제가 좀 쉬었다 가자고 붙잡아도 손을 뿌리치고 계속 걸으세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N4",
+      "quote": "같이 걷다가 길이 낯설다 싶으시면 여기가 어디냐면서 길가에 털썩 주저앉으세요. 그럴 땐 제가 달래도 한참 있다가 일어나세요. 지금까지 두 번 그러셨는데, 두 번 다 나선 지 얼마 안 돼 기운이 남아 있을 때였어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N1",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N5",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N6",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_multiple_behaviors_01": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "gt",
+       "value": 40
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 15.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "쉬지 않고 사십 분을 넘게 걸으시면 허리를 짚으면서 아무 데나 걸터앉으세요. 한번 앉으시면 십오 분은 일어나질 않으세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "어디가 어딘지 모르겠다 싶으시면 전봇대든 가로수든 붙잡고 그 자리에 붙박인 듯 서 계세요. 작년 겨울에 시장 뒷길에서 그러고 계신 걸 이웃 분이 보고 연락을 주셨어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_multiple_behaviors_02": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "anxiety_high",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "제일제면소 터",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "마음이 불안해지시면 꼭 제면소에 가 봐야 한다고 그쪽으로 발길을 돌리세요. 지난봄에도 두 번이나 그렇게 가시다가 이웃 분이 모시고 오셨어요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "park.crowded",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "park",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "공원이 어디든 사람이 바글바글하면 질색을 하시고 그 옆으로는 아예 안 지나가려고 하세요. 동네 공원이든 큰 공원이든 똑같아요. 한산할 때는 공원 안으로도 잘 들어가세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_multiple_behaviors_03": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "fatigue_high",
+       "op": "eq",
+       "value": true
+      }
+     ],
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "pain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "walk",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "단지 산책로를 혼자 도시는 걸 베란다에서 내려다보면, 숨이 턱에 차셔도 앉을 생각을 안 하세요. 무릎이 아프다고 혼잣말을 하시면서도 그냥 걸음을 옮기세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_multiple_behaviors_04": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "gt",
+       "value": 35
+      },
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 7.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "35분을 넘게 걸으시면 다리가 무겁다고 길가 의자나 계단에 앉으세요. 그렇게 7분쯤 앉아 계시다가 다시 일어나 걸으세요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "해가 지고 깜깜해지면 그때부턴 다리가 아프다고 하셔도 앉질 않으시고 계속 걸으세요. 집에 가야 한다면서 걸음을 더 서두르세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "walk",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "해가 지고 깜깜해지면 그때부턴 다리가 아프다고 하셔도 앉질 않으시고 계속 걸으세요. 집에 가야 한다면서 걸음을 더 서두르세요."
+     }
+    ]
+   },
+   {
+    "id": "k_2",
+    "when": [
+     [
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N3",
+      "quote": "비가 떨어지면 가게 차양 밑 같은 데 들어가서 그칠 때까지 서 계세요. 비 오는 밤에는 어떻게 하시는지 본 적이 없어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_multiple_behaviors_05": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "gte",
+       "value": 26
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "운동 나갈 때 몇 번 몰래 뒤를 밟으면서 시계를 봤어요. 세 번 다 걷기 시작하고 스물여섯 분이 지나니까 아무 데나 걸터앉더라고요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N2",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N4",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N5",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_multiple_behaviors_06": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "감나무 옛집",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "어둑해지면 꼭 감나무 집에 가야 한다고 그쪽으로 방향을 트세요. 지난가을에 두 번 나가셨을 때 두 번 다 그 집 대문 앞에서 찾았어요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "비가 오면 옛집 가시던 것도 잊어버리시고 아파트 현관이든 지하도 입구든 비 안 맞는 데로 들어가 서 계세요. 비가 그치면 다시 걸으세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "rain_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "비가 오면 옛집 가시던 것도 잊어버리시고 아파트 현관이든 지하도 입구든 비 안 맞는 데로 들어가 서 계세요. 비가 그치면 다시 걸으세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   },
+   {
+    "note_id": "N3",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_multiple_behaviors_07": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "gt",
+       "value": 1500
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 4.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "휴대폰 만보기로 보면 쉬고 나서 1.5킬로를 넘기시면 꼭 한 번 앉으세요. 떡집 쪽으로 가시는 길에도 그만큼 걸으셨으면 일단 앉았다 가세요. 앉으시면 4분 정도 숨 고르고 일어나세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "clock_hour",
+       "op": "gt",
+       "value": 16.5
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "lte",
+       "value": 1500
+      }
+     ]
+    ],
+    "action": "seek",
+    "goal_label": "풍년 떡집",
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "오후 네 시 반이 넘으면 떡집 쪽으로 걸음을 돌리세요. 반죽 올려놔야 한다고 혼잣말을 하시고요. 지난달 두 번 혼자 나가셨을 때도 두 번 다 그 시간 지나서 떡집 가는 길목에서 찾았어요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "휴대폰 만보기로 보면 쉬고 나서 1.5킬로를 넘기시면 꼭 한 번 앉으세요. 떡집 쪽으로 가시는 길에도 그만큼 걸으셨으면 일단 앉았다 가세요. 앉으시면 4분 정도 숨 고르고 일어나세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ },
+ "R_multiple_behaviors_08": {
+  "rules": [
+   {
+    "id": "k_0",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "네, 길을 모르겠다 싶으시면 얼굴이 하얘지시면서 가까운 담벼락에 등을 딱 붙이고 꼼짝을 안 하세요. 그러다 누가 말을 걸면 여기가 무슨 동네냐고 물어보세요. 모셔다 드린다는 사람이 있으면 군말 없이 따라가세요."
+     }
+    ]
+   },
+   {
+    "id": "k_1",
+    "when": [
+     [
+      {
+       "fact": "dark_observed",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "forest",
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N2",
+      "quote": "해가 떨어지고 나면 산이든 숲이든 나무 우거진 데는 무섭다고 근처에도 안 가세요. 낮에는 뒷산에도 곧잘 오르세요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "수기 참조 규칙. 모델 평가나 임상 근거가 아님."
+   }
+  ]
+ }
+}

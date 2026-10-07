@@ -1,0 +1,22 @@
+{
+ "personas": 64,
+ "scenes": 256,
+ "families": {
+  "rest_endurance": 8,
+  "time_weather": 8,
+  "lost_reaction": 8,
+  "past_destination": 8,
+  "avoidance": 8,
+  "unsupported_traits": 8,
+  "source_certainty": 8,
+  "multiple_behaviors": 8
+ },
+ "sha256": {
+  "eval64_inputs.jsonl": "070f94d308fc76ee77b9febfc8d0c56e3e6e38ced7ccab2f7528fe977fa0bf96",
+  "eval64_scenes.NOT_MODEL_INPUT.json": "5c58b231bbe052136cf1a445ae371df10e16a5efd7bf4f213313bdc53afbd495",
+  "eval64_reference.NOT_MODEL_INPUT.json": "e65b1c07deafc7433b91948f9fd6b896984fc46c8369c197617768a6a91be9d1",
+  "eval64_review.NOT_MODEL_INPUT.jsonl": "86e0b76c74be777b74c100125b994c00d4e5d38e5a1b14de2f6f06c5a7b524c0"
+ },
+ "review_status": "draft_unreviewed (AI authored)",
+ "model_calls": 0
+}
