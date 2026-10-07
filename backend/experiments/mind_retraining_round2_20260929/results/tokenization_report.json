@@ -1,0 +1,15 @@
+{
+  "original72": {
+    "records": 104,
+    "max_tokens": 1434,
+    "min_answer_tokens": 87,
+    "audit_pass": true
+  },
+  "augmented120": {
+    "records": 152,
+    "max_tokens": 1434,
+    "min_answer_tokens": 87,
+    "audit_pass": true
+  },
+  "gpu_forward_calls": 0
+}
