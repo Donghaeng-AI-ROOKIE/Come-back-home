@@ -1,0 +1,32 @@
+{
+  "scope": "Population JSON save/restore, not production API or database recovery",
+  "rows": [
+    {
+      "scene": "place_noise",
+      "same_1_2_4_6h_distributions_and_metrics": true,
+      "same_first5_full_traces": true,
+      "same_all500_source_audit": true,
+      "source_checks_passed": true,
+      "checkpoint_files": 3
+    },
+    {
+      "scene": "rest_cycle",
+      "same_1_2_4_6h_distributions_and_metrics": true,
+      "same_first5_full_traces": true,
+      "same_all500_source_audit": true,
+      "source_checks_passed": true,
+      "checkpoint_files": 3
+    },
+    {
+      "scene": "wait_release",
+      "same_1_2_4_6h_distributions_and_metrics": true,
+      "same_first5_full_traces": true,
+      "same_all500_source_audit": true,
+      "source_checks_passed": true,
+      "checkpoint_files": 3
+    }
+  ],
+  "checks_passed": true,
+  "new_external_calls": 0,
+  "release_qualified": false
+}

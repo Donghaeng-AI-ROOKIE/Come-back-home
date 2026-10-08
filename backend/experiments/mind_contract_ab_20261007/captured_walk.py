@@ -77,6 +77,7 @@ def main():
     a.add_argument('--candidate',action='append',help='explicit subset of saved candidates; recorded in manifest')
     a.add_argument('--audit-all-particles',action='store_true',help='streaming source checks on every particle')
     a.add_argument('--separate-conditional-wait',action='store_true',help='research ablation of duplicate waiting contribution')
+    a.add_argument('--checkpoint-each-horizon',action='store_true',help='JSON round-trip population state after 1/2/4h')
     args=a.parse_args()
     if args.output.exists(): raise SystemExit('refuse overwrite; use a new evidence directory')
     sys.path.insert(0,str(args.product_backend.resolve()))
@@ -121,6 +122,7 @@ def main():
         'facilities':facilities,'numeric_baseline':'offline profile default + saved initial K interpretation; not SAR inference',
         'all_particle_source_audit':args.audit_all_particles,
         'separate_conditional_wait':args.separate_conditional_wait,
+        'checkpoint_each_horizon':args.checkpoint_each_horizon,
         'limits':['one synthetic guardian','author reference not expert approved','axes scoring not captured',
                   'three synthetic scenes on real roads','full production API not exercised',
                   'no clinical/path accuracy measured'],'new_external_calls':0,'release_qualified':False}
@@ -189,6 +191,12 @@ def main():
             for minute in (60,120,240,360):
                 out=pop.advance_to(minute)
                 timeline.append({'minute':minute,'metrics':metrics(pop,out,track),'distribution':out})
+                if args.checkpoint_each_horizon and minute<360:
+                    checkpoint=json.loads(json.dumps(pop.checkpoint()))
+                    save(args.output/'checkpoints'/scene_name/f'{name}_{minute}.json',checkpoint)
+                    pop=Population(env,persona,walk_base,policy,start,scene['start'],count=args.walkers,seed=17,
+                        environment_observations=e.environment_observations(scene,facilities),
+                        behavior_observations=e.behavior_observations(scene),trace_hook=hook,checkpoint=checkpoint)
             result={'status':'walked','timeline':timeline,'traces':traces,
                 'persona_axes_used':dict(pop.persona.axis_scores),
                 'route_familiarity_used':[r.model_dump(mode='json') for r in pop.persona.route_familiarity],

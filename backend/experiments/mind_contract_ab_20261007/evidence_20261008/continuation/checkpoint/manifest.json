@@ -1,0 +1,361 @@
+{
+  "source_persona_sha256": "53855603a7661de9d62d4dcb62e283ae26746cef4011a48973a6dcb6150a7ff9",
+  "source_policy_sha256": "d491cccbe2166f2bee96edbfb685c23559a4caebdf25a6b045d439a63ad5df7d",
+  "map_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+  "harness_sha256": "a350060c59ebc24dc85ab18ee8253caa58be52c645e82544ba1ffa3e540fd589",
+  "app_sha256": {
+    "app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "app/api/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "app/api/auth.py": "076649a346736f7eccb8bf155aa142411406651a14bbb622419588d7d2cf93c9",
+    "app/api/debug.py": "21e7a780dd3c43c8983f62d571d6d35ee369178eb5186e438d789aa8a80000dd",
+    "app/api/geo.py": "24539e40320b938c3f6b9dfcd16c4001eea2fbd2a44c17ace2fe34f4c84e8b8d",
+    "app/api/phase0.py": "119f0534f5c4bc5c6cc3364e85033f6ba570cf64a933bd89372f6396594260ba",
+    "app/api/phase1.py": "040543d454986990a48fd454441cfea8096030ee133f0f22b1259efe16ee1bee",
+    "app/api/phase2.py": "ff1b57eb435b4893fe6045b3c6a24387aca60becc4e2ad33fc829e8963975cb7",
+    "app/api/phase3.py": "7f7de4d643786118e3bba0882d637693e48a121c2266b4525a962e7213c8a254",
+    "app/api/privacy.py": "474173397d4854f9ae1e953472e848c658fa83778e7f6681ab29116044a60631",
+    "app/api/walk.py": "2c36b4e72f9a4fe36120f2eaf8f8fb8d82b38dc1644f50edc0eabec256c5ed3f",
+    "app/config.py": "bcae139bd4663bfa1beb6ea758c80edeb6cac6a2305a89250e7f92c1df00873d",
+    "app/geo/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "app/geo/envlayer.py": "07ece6aee7d291f18bd5422271e69722e8b8bd5a3b1a7505c2b74b39edf4db82",
+    "app/geo/geocode.py": "5d2829bf85b0050dc9ce4dfb09c7bb45bd62f091f3d4550ba6faff518319808a",
+    "app/geo/h3grid.py": "304b2802a7ddf0a8ae674fe3d3952a1b2380bb9d81b0c983ff0e3c1c9e0e60f1",
+    "app/geo/nearby.py": "87bb66b4c1db85243be5475972b66b6f78078c85ff4a3302ed2ba37462c42863",
+    "app/geo/reachability.py": "8eea2d138270579cc898c7e54cbcd548cf2ff0d706eb1a6f48a576b48141b567",
+    "app/geo/reverse.py": "daec968d448234750358fd572e7cbbd882df4d35b59b2aa75f7e4e2097d23f8a",
+    "app/geo/roadnet.py": "2bcc87b18c5024c4b876084c35fc907f2f67e4487c75af84aa86b3560b5659c1",
+    "app/llm/__init__.py": "621da515857f4aa2dc84b81e5230a2b1c33fc81fc41adb02ad52f2a8f16c19de",
+    "app/llm/base.py": "ce4d95da8f181d070147518add8e60d15953055a8f158f1572594cacb842229e",
+    "app/llm/copy_llm.py": "017abd5d100c34c228b865b47e8c57e06426cd60006e2c40972d438cb777cabf",
+    "app/llm/exaone.py": "f4d16c5f34344f82375638a3c4685eca5c3ced3ad671d87894f2a3890b1a36e7",
+    "app/llm/initial_behavior.py": "cca68aa53fa0ae890b701384f7151660f74f036f9316de87aebbb915c1c1af7c",
+    "app/llm/midm.py": "f75e1cf56c0ab03f4fd9b02c4eb7b7f28add8455bdcfc19ede751758347a5fea",
+    "app/llm/mind_action_decision.py": "c1067d80ad17f215bb504e6b710e6b76b4bad0b669d44565c994c0bf493003cd",
+    "app/llm/mind_handoff.py": "f0c6e146cb2bd27e539b51e280ac75ec6301c2f5151127d13dc38e40e380e9f4",
+    "app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+    "app/llm/mind_policy_candidate.py": "d56889cc1d9d9030f9afad670dbdf9cf3a0443b7481d5c12bb7597340d39d473",
+    "app/llm/mind_v2.py": "7e678036db3bc545251758b8061418ac4cf24f03a6d5207c191c4d6400228945",
+    "app/llm/person_audit.py": "c7ea647745f8e82b528c79e4fa5965d0a0e84b44f1ce3bcf2c6b6d1f2f1cb82c",
+    "app/llm/person_environment.py": "0fea1b9154d67808e457844119e8242dd3cee3499d2c3a04e26eed2bcbd00474",
+    "app/llm/person_evidence.py": "9a72b1cba550a018548d0ae2d29c5591f781d67bdbeda841018ee690cd271d5d",
+    "app/llm/person_scope.py": "0e681bd941f1fa665707cec3356c2750a7b78aceb5cd0f06d4f081c54750f5aa",
+    "app/llm/tip_llm.py": "48d22c43fff1b11f7caf6a45f18bb8b8889dd2ddc5526d0b4dce9d996bc0a4f5",
+    "app/llm/usage_ledger.py": "844b94356ce094b273eee7993ea0173245f0a73204fefe837b12e2baef27ea81",
+    "app/main.py": "aaee11d3d3ba1ebb5b999431c69915f7a8f80314d49d1222a443fbe4f2cd7d51",
+    "app/phase0/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "app/phase0/axis_scoring.py": "54830240a60141e8c39f4e65c05142057f680798544c8ffad31f1e9983abb512",
+    "app/phase0/behavior_compiler.py": "aec073c486aa87a97b1b38683b0d03635421a66c27b13b6a190b4809af811333",
+    "app/phase0/env_response_compiler.py": "e9c827caebed4517c7a87ec8972889c2136255ff2e953647cd288b71f4378097",
+    "app/phase0/interview.py": "40d668d56920cf04ed5a59e17bed0c9411684c5737b50ad7a574fb3b01a2b47c",
+    "app/phase0/mind_preparation.py": "cff21863832a48f839f1f915b3b6758c385a9fa9ff102af9ddbd1e0e055fbc99",
+    "app/phase0/person_preparation.py": "1ee1422435ccb56724172d411011fc2d0f065378d1fa18d86f0e3106758c2d03",
+    "app/phase0/persona_events.py": "ada2b052f65fb259074a8a3ffe08ed2987f3400a75fa71260e94996325bba87c",
+    "app/phase0/prompts.py": "34e782e98a40a2c4d067af627ff217e6ce5d9b714c6b6949c266c65f0b177a4c",
+    "app/phase0/retrieval.py": "7830538bc86353d5dbd4c936da97342597d1660fc56a062ad53e227bba8ffb44",
+    "app/phase0/route_familiarity_compiler.py": "7cc28a8a14e4b3f41e96365bf1a53aed128433e67bf3de443f62bd1b1de3bfdb",
+    "app/phase0/safety.py": "740b5806748eb0e8df4cfcc0f21e494eb222ad95f3c17c684ce92b81764c82b8",
+    "app/phase0/slots.py": "dc7a97f4559702c14144770329884d3c98ab6ce36652a4e894af21c85c3484e1",
+    "app/phase1/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "app/phase1/color_extract.py": "4a36f8a9feaff6e49aa1c75986ed604f129aa214f7f5d85ddec843b76c7d06a5",
+    "app/phase1/intake.py": "a84a5a3493faa602b19f3406b330a2ccc97cd427957491e394b816a0bf9e5e9e",
+    "app/phase2/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "app/phase2/claim_check.py": "eaf3181a9814311f842b89e654a5fba0aae99f76a1f4e6eb8d1924da125693ee",
+    "app/phase2/combine.py": "883cbe6d7543c46dda605e50cb007f210652ad587a86f0711ea8fb43a818ac2c",
+    "app/phase2/continuous_prediction.py": "ef577e5a8ca5fafc213a8c409abd0102e14b107776ba926892600741ab6358ca",
+    "app/phase2/environment_conditions.py": "812582d9d83ec59aeda4b42dcf19249fc8032b22a3bc7e4a58559b2b48160cb6",
+    "app/phase2/gauges.py": "59991ec7e2b789eb506ad6bb2aac49f0f85aee9d06fffcb8506496f357cc26ff",
+    "app/phase2/guardrail.py": "7a2bcf71b23baef1464e03576c92fd24296cd7d28092f7ce1676cb96cb72e264",
+    "app/phase2/initial_person.py": "671df0e60f8db91479225f81bfd003d794b11e2e40defcfbdf794f9bd75deb25",
+    "app/phase2/person_projection.py": "7d1233f21b2c6b725f1b302f8d0b457484689bf57622fc6a3002299a42f0b4b2",
+    "app/phase2/person_walk.py": "9c35ae75aadcd6e5528e6defb0271b9724662e785064470e1d5e22c95dcfdbeb",
+    "app/phase2/pipeline.py": "b0da81de3a4c8d72c97a7e306d1d3b1a38ac23b1223623b0cddd35c6ebf09178",
+    "app/phase2/radius.py": "80220a2a39e759939d67140d1148a7cbb943d0832df866d27ba90b686050be66",
+    "app/phase2/refresher.py": "07fa365830d7711ab52c9dadc5bcd8955cf60db1f67259c46791754605cad557",
+    "app/phase2/simulation.py": "21418469b162edcd8befc6b7faf1b8c9d3d3b5045cae6807a898948f768671fe",
+    "app/phase2/situation_link.py": "4376ba9445703e4fbc0e05b451dfe44dc5f1325f5e52fc68b2d6abda49db940f",
+    "app/phase2/topdown.py": "f39f03e7b0f19725dca7307e4c4e35bcd6f1a87233115c9f73b8c52ba868e310",
+    "app/phase3/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "app/phase3/alerts.py": "35749c1f36dadf6e02ac23f147c551edeaf19e31353f198fd7c982385d73c80b",
+    "app/phase3/devices.py": "dac5e52d57fc61a8f861c8c8489f4fb02accbae4da086243fa16e2b364a7dc49",
+    "app/phase3/poa_update.py": "01cf82257d60398a84977d314879c62bb63335f9165fba7a8b4f6c098a4a4e13",
+    "app/phase3/presence.py": "5d70aacd9e72c19ba914aeb4b3ea9c37c06f3d5d1e782a01dcdfc287d0c6a641",
+    "app/phase3/push.py": "4e494b4be7fe4c3b28bf8df63ed311a5ca1cd14cf817d93ab2f6d3a5b430d67a",
+    "app/phase3/storytelling.py": "5eba4c7537fc0be59e0d31865de1f5ed1b1e7091e608cb0163a376ea0b403410",
+    "app/phase3/time_resolve.py": "d6970e486c316a3b1c05a812871112e83c44e4045f236d5cf55a1b42dd3923aa",
+    "app/phase3/tip_flow.py": "39ad7257eccbd7f438e0c33a044cf8226184736e535dc48c276172565d594757",
+    "app/phase3/triggers.py": "4d43ad50eca54ca2cdb98b2554b1555bab5fd87dd3b407992c549def70700512",
+    "app/phase3/trust.py": "952217f19f70b99c5b95a78fcbcee220bdb4d62425a4461681d75beb9faaddd3",
+    "app/phase3/webpush.py": "708fc96468ce341be62b10c758feff82ac9899f5fab923b459af90a1db0e3a8a",
+    "app/privacy/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "app/privacy/lifecycle.py": "52e80d9be9d6deecb07d06e60e6a70e79c3a0d22ccbf7de6251af3b3bf8f3827",
+    "app/privacy/scheduler.py": "bb275747fc0b32597508c4337b7129f8221f821293f91d5b1c5b5994bbb70a70",
+    "app/privacy/worker.py": "e4e4316d1fed3041189eb7e27b38c12318fee30b0dbd4bd5de6d59c01a3e19c8",
+    "app/rag/__init__.py": "c2451fedb69a736e1ffffdf5886e8f17662fb15ba4a5acac3637fb47b4fa8684",
+    "app/rag/grounding.py": "172f52177304f4b2b0fa874da16a3f099f343c17023d58de86b480125587c9f9",
+    "app/rag/retriever.py": "7d4357cfde02e589c11920fab3471975a204dddce6c0010dbc4c603d39f1da35",
+    "app/schemas/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "app/schemas/account.py": "7aa7c3568b2d21dfdf0317a3c6f9ebb94a08027750d43afe89e9b1944ed39cbf",
+    "app/schemas/case.py": "272f37a0f95aa66de0db837f0a1fb2ff0af657b95bea3ae013717c5e11e7e699",
+    "app/schemas/common.py": "1059d69ee2dd298804e5243d6a6e7877810dcefcb0f8d3986d8b5ef161d2e7a8",
+    "app/schemas/debug.py": "41e3e346c5407c3b7f5ef064e8fc90855011b8b016c75e4784a750c8b8cd8faa",
+    "app/schemas/device.py": "8d0c85ed6a4d74416a22c1cbce1903f550647966e142a50ca2318a04b64235c0",
+    "app/schemas/environment.py": "6cbddf5c807004e184ab9506375fdfe22ff7ec1cfafa17b40c15c47350a37bea",
+    "app/schemas/persona.py": "eb140ebef4abf5ec29f7a381dbcfda94c0b1a45654ef4a04c96fe19f516fb32c",
+    "app/schemas/prediction.py": "f722dd3561fdd3039b22bdd6255103e82eed0413a78cfc5a12ba5e975e511fee",
+    "app/schemas/privacy.py": "363c0fa4a9aaab0a5fb3abe7e3f39d6d2c287746606d6d9816099dd28d3e7c34",
+    "app/schemas/report.py": "c5e9c82bd5b0dab82bc52d542bba5f4b27b8908ba6f60b1d99ebdca66832b34f",
+    "app/schemas/tip.py": "723ecc2d4e58868858c238de31d2778690a6ffdfc397dbc66d464fe3aa5d3f24",
+    "app/schemas/walk.py": "26150252eafd50456fe306746ae3fc6a9f86fd1c9319b08dae61721abf136e81",
+    "app/seed.py": "1f9ede6aaf5102e1f5adffb86b5c015d5b25fb638ba89202a7bc66b19866cf17",
+    "app/storage.py": "0216315195ad8320fccc60bd23c439444cf9f56f74198a81afc95dbd38eb026a",
+    "app/walk/__init__.py": "07ad816d665a066c7a93b87190db28d463e88a3301bcc54726f05e588bf09296",
+    "app/walk/stats.py": "b454b8e706390a0a4e8f4d03b041d74194cbd891d8f5fbcfd939ddfa48bd2d4b"
+  },
+  "full_actual_captured_persona": true,
+  "walkers": 500,
+  "seed": 17,
+  "candidate_names": [
+    "d12_rep1"
+  ],
+  "scenarios": {
+    "rest_cycle": {
+      "description": "기다림 조건 없음. 6분 또는 280m 뒤 5분 휴식과 재출발 확인",
+      "start": "2026-10-09T08:00:00",
+      "start_place": null,
+      "horizon": 360,
+      "behavior": [
+        [
+          "rain_observed",
+          false,
+          0,
+          360
+        ],
+        [
+          "pain_observed",
+          false,
+          0,
+          360
+        ],
+        [
+          "dark_observed",
+          false,
+          0,
+          360
+        ],
+        [
+          "lost_awareness",
+          false,
+          0,
+          360
+        ],
+        [
+          "family_present",
+          true,
+          0,
+          360
+        ]
+      ],
+      "environment": [
+        [
+          "market",
+          0,
+          360,
+          false,
+          false
+        ]
+      ]
+    },
+    "wait_release": {
+      "description": "40분에 길 잃음 인지·가족 부재, 90분에 가족 귀환; 210~230분 다시 기다림 조건",
+      "start": "2026-10-09T08:00:00",
+      "start_place": null,
+      "horizon": 360,
+      "behavior": [
+        [
+          "rain_observed",
+          false,
+          0,
+          360
+        ],
+        [
+          "pain_observed",
+          false,
+          0,
+          360
+        ],
+        [
+          "dark_observed",
+          false,
+          0,
+          360
+        ],
+        [
+          "lost_awareness",
+          false,
+          0,
+          40
+        ],
+        [
+          "lost_awareness",
+          true,
+          40,
+          150
+        ],
+        [
+          "lost_awareness",
+          false,
+          150,
+          210
+        ],
+        [
+          "lost_awareness",
+          true,
+          210,
+          260
+        ],
+        [
+          "lost_awareness",
+          false,
+          260,
+          360
+        ],
+        [
+          "family_present",
+          false,
+          0,
+          90
+        ],
+        [
+          "family_present",
+          true,
+          90,
+          210
+        ],
+        [
+          "family_present",
+          false,
+          210,
+          230
+        ],
+        [
+          "family_present",
+          true,
+          230,
+          360
+        ]
+      ],
+      "environment": [
+        [
+          "market",
+          0,
+          360,
+          false,
+          false
+        ]
+      ]
+    },
+    "place_noise": {
+      "description": "해든상가에서 출발. 소음 0~20분·80~130분만 관측, 다른 시간은 조용함",
+      "start": "2026-10-09T08:00:00",
+      "start_place": "해든상가",
+      "horizon": 360,
+      "behavior": [
+        [
+          "rain_observed",
+          false,
+          0,
+          360
+        ],
+        [
+          "pain_observed",
+          false,
+          0,
+          360
+        ],
+        [
+          "dark_observed",
+          false,
+          0,
+          360
+        ],
+        [
+          "lost_awareness",
+          false,
+          0,
+          360
+        ],
+        [
+          "family_present",
+          true,
+          0,
+          360
+        ]
+      ],
+      "environment": [
+        [
+          "market",
+          0,
+          20,
+          true,
+          false
+        ],
+        [
+          "market",
+          20,
+          80,
+          false,
+          false
+        ],
+        [
+          "market",
+          80,
+          130,
+          true,
+          false
+        ],
+        [
+          "market",
+          130,
+          360,
+          false,
+          false
+        ]
+      ]
+    }
+  },
+  "facilities": {
+    "market": [
+      {
+        "label": "해든상가",
+        "lat": 37.6656043,
+        "lng": 126.749907,
+        "source": "synthetic fixture facility; captured registered coordinate"
+      }
+    ],
+    "park": [
+      {
+        "label": "느티공원",
+        "lat": 37.6640833,
+        "lng": 126.7461019,
+        "source": "synthetic fixture facility; captured registered coordinate"
+      }
+    ],
+    "forest": [],
+    "water": []
+  },
+  "numeric_baseline": "offline profile default + saved initial K interpretation; not SAR inference",
+  "all_particle_source_audit": true,
+  "separate_conditional_wait": false,
+  "checkpoint_each_horizon": true,
+  "limits": [
+    "one synthetic guardian",
+    "author reference not expert approved",
+    "axes scoring not captured",
+    "three synthetic scenes on real roads",
+    "full production API not exercised",
+    "no clinical/path accuracy measured"
+  ],
+  "new_external_calls": 0,
+  "release_qualified": false,
+  "source_audit_sha256": "8561a61bf2289a6c99be133b037da490529fa8855f62ffc4f559ca0b0c427501"
+}
