@@ -1,0 +1,14 @@
+{
+  "verified": true,
+  "source_sha256": "0d801455aa32b95d43867c145cb45ed35c7afa7a1dd7cc0169c2a79f55cbd6fb",
+  "fixture_file": "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/개발/cbh-mind-d5-resume-20261007/backend/experiments/mind_contract_ab_20261007/onboarding_fixture.py",
+  "fixture_sha256": "24f9b2b72e690a45a218a4869e6f81c8276036b5d79fae2f75f8cb1065872be2",
+  "12_notes_exact_synthetic_dialogue": true,
+  "confirmation_note_synthetic": true,
+  "all_guardian_answers_authored_fixture": true,
+  "guardian_name": "합성 보호자",
+  "real_patient_data": false,
+  "real_caregiver_data": false,
+  "purpose": "real app code integration with one fictional subject; actual refers to the app, not a real patient",
+  "rejection_diagnosis": "auto-review assumed real caregiver source; exact provenance verified before retry"
+}

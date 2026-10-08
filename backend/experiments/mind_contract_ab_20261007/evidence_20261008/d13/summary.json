@@ -1,0 +1,153 @@
+{
+  "summary": {
+    "responses": 16,
+    "decisions": 64,
+    "complete": true,
+    "incomplete_responses": [],
+    "first_pass_passed": 54,
+    "passed": 54,
+    "first_valid": 14,
+    "final_valid": 14,
+    "corrections": 2,
+    "no_response": 0,
+    "not_submitted": 0,
+    "policy_too_complex": 0,
+    "ignored_fix_after_no_response": 0,
+    "problems": {
+      "first_problem": {
+        "SyntaxError: invalid syntax (<unknown>, line 1)": 1,
+        "SyntaxError: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)": 1
+      },
+      "final_problem": {
+        "SyntaxError: invalid syntax (<unknown>, line 1)": 1,
+        "SyntaxError: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)": 1
+      }
+    },
+    "problem_kinds": {
+      "first_problem": {
+        "SyntaxError": 2
+      },
+      "final_problem": {
+        "SyntaxError": 2
+      }
+    },
+    "critical": {},
+    "critical_coverage": {
+      "goal_scope_swap": 0,
+      "explicit_rest_deleted": 4,
+      "action_without_reference": 2,
+      "withheld_action_injected": 0
+    },
+    "responses_with_commands_not_in_reference": 0,
+    "by_family": {
+      "destination": {
+        "passed": 15,
+        "total": 16
+      },
+      "multiple_behaviors": {
+        "passed": 20,
+        "total": 24
+      },
+      "physical_rest": {
+        "passed": 12,
+        "total": 16
+      },
+      "time_context": {
+        "passed": 7,
+        "total": 8
+      }
+    },
+    "by_form": {
+      "hard": {
+        "passed": 7,
+        "total": 8
+      },
+      "original": {
+        "passed": 32,
+        "total": 40
+      },
+      "preserve": {
+        "passed": 15,
+        "total": 16
+      }
+    },
+    "by_expected_status": {
+      "no_personal_reaction": {
+        "passed": 26,
+        "total": 30
+      },
+      "supported": {
+        "passed": 18,
+        "total": 24
+      },
+      "unknown": {
+        "passed": 10,
+        "total": 10
+      }
+    },
+    "by_input": {
+      "DEV_P05_original": {
+        "passed": 4,
+        "total": 8
+      },
+      "DEV_P08_preserve": {
+        "passed": 8,
+        "total": 8
+      },
+      "DEV_P13_original": {
+        "passed": 8,
+        "total": 8
+      },
+      "DEV_P16_preserve": {
+        "passed": 7,
+        "total": 8
+      },
+      "DEV_P26_hard": {
+        "passed": 7,
+        "total": 8
+      },
+      "DEV_P29_original": {
+        "passed": 4,
+        "total": 8
+      },
+      "DEV_P30_original": {
+        "passed": 8,
+        "total": 8
+      },
+      "DEV_P31_original": {
+        "passed": 8,
+        "total": 8
+      }
+    },
+    "trait_accounting": {
+      "available": false,
+      "unmeasured_responses": 16,
+      "note": "Compact note-level contract cannot measure per-sentence trait loss; do not interpret as zero loss."
+    },
+    "repeat_identical_policy": 2,
+    "inputs": 8,
+    "corrections_unavailable": 0
+  },
+  "gate": {
+    "checks": {
+      "complete": true,
+      "decisions": false,
+      "final_valid": false,
+      "no_critical": true
+    },
+    "machine_checks_passed": false,
+    "advance": false,
+    "meaning": "synthetic development data; not location accuracy or clinical validity",
+    "critical_coverage": {
+      "goal_scope_swap": 0,
+      "explicit_rest_deleted": 4,
+      "action_without_reference": 2,
+      "withheld_action_injected": 0
+    },
+    "critical_unmeasured": [
+      "goal_scope_swap",
+      "withheld_action_injected"
+    ],
+    "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+  }
+}

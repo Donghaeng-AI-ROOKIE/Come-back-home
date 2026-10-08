@@ -1,0 +1,13 @@
+{
+ "state": "prepared_for_source_review_not_quality_verdict",
+ "calls": {
+  "k": 4,
+  "midm": 10,
+  "embedding": 1
+ },
+ "transport_failures": [],
+ "refused_before_submission": [],
+ "not_deployed": true,
+ "synthetic_guardian": true,
+ "note": "uses real initial interpretation and claim check; axes scoring not included in original capture"
+}

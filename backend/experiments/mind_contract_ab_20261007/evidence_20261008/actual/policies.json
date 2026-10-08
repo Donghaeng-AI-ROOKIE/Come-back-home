@@ -1,0 +1,637 @@
+{
+ "results": [
+  {
+   "candidate": "d4",
+   "rep": 1,
+   "problem": null,
+   "error_kind": null,
+   "policy": {
+    "rules": [
+     {
+      "id": "d4_0",
+      "when": [
+       [
+        {
+         "fact": "lost_awareness",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "family_present",
+         "op": "eq",
+         "value": false
+        },
+        {
+         "fact": "family_present",
+         "op": "eq",
+         "value": false
+        }
+       ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N4",
+        "quote": "길을 잃었다고 본인이 알아차리고 제가 곁에 없을 때는 그 자리에 서서 기다리는 모습을 두 번 봤어요."
+       },
+       {
+        "note_id": "N4",
+        "quote": "제가 오면 기다림은 끝났어요."
+       }
+      ]
+     },
+     {
+      "id": "d4_1",
+      "when": [
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "continuous_walk_minutes",
+         "op": "gte",
+         "value": 6
+        }
+       ],
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "distance_since_rest_m",
+         "op": "gte",
+         "value": 280
+        }
+       ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": 5.0,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N9",
+        "quote": "저와 걸을 때 무릎 때문에 여섯 분을 계속 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 앉아 쉬어야 해요."
+       },
+       {
+        "note_id": "N9",
+        "quote": "쉬실 때는 오 분 앉아 있다가 다시 걸으세요."
+       }
+      ]
+     },
+     {
+      "id": "d4_2",
+      "when": [
+       [
+        {
+         "fact": "market.noisy",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [
+       "해든상가"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N5",
+        "quote": "다만 해든상가 안에서 시끄러우면 밖으로 나오시는 것은 직접 봤어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "stated_goal/patient:N0.s1,N1.s1"
+     },
+     {
+      "note_id": "N1",
+      "reason": "stated_goal/patient:N0.s1,N1.s1"
+     },
+     {
+      "note_id": "N0",
+      "reason": "stated_goal/patient:N0.s2,N1.s2"
+     },
+     {
+      "note_id": "N1",
+      "reason": "stated_goal/patient:N0.s2,N1.s2"
+     },
+     {
+      "note_id": "N0",
+      "reason": "stated_goal/patient:N0.s3,N1.s3,N9.s3"
+     },
+     {
+      "note_id": "N1",
+      "reason": "stated_goal/patient:N0.s3,N1.s3,N9.s3"
+     },
+     {
+      "note_id": "N9",
+      "reason": "stated_goal/patient:N0.s3,N1.s3,N9.s3"
+     },
+     {
+      "note_id": "N2",
+      "reason": "other_information/patient:N2.s1,N2.s2"
+     },
+     {
+      "note_id": "N3",
+      "reason": "other_information/patient:N3.s1,N3.s2"
+     },
+     {
+      "note_id": "N5",
+      "reason": "unobserved/patient:N5.s1"
+     },
+     {
+      "note_id": "N5",
+      "reason": "other_information/patient:N5.s3"
+     },
+     {
+      "note_id": "N6",
+      "reason": "other_information/patient:N6.s1"
+     },
+     {
+      "note_id": "N6",
+      "reason": "unobserved/patient:N6.s2"
+     },
+     {
+      "note_id": "N7",
+      "reason": "not_representable/patient:N7.s1,N7.s2,N8.s1,N8.s2"
+     },
+     {
+      "note_id": "N8",
+      "reason": "not_representable/patient:N7.s1,N7.s2,N8.s1,N8.s2"
+     },
+     {
+      "note_id": "N9",
+      "reason": "capacity_only/patient:N9.s3"
+     },
+     {
+      "note_id": "N9",
+      "reason": "other_information/patient:N9.s3"
+     },
+     {
+      "note_id": "N10",
+      "reason": "unobserved/patient:N10.s1"
+     },
+     {
+      "note_id": "N11",
+      "reason": "unobserved/patient:N11.s1,N11.s2"
+     },
+     {
+      "note_id": "N12",
+      "reason": "other_information/unclear:N12.s1"
+     }
+    ]
+   },
+   "condition_probe": {
+    "status": "no_difference_in_probes",
+    "checked": 1377,
+    "potential": 2592,
+    "counterexample": null
+   }
+  },
+  {
+   "candidate": "d4",
+   "rep": 2,
+   "problem": "too_many_sentences_for_one_rule(max 5)",
+   "error_kind": "too_many_sentences_for_one_rule",
+   "policy": null,
+   "condition_probe": {
+    "status": "unusable_output"
+   }
+  },
+  {
+   "candidate": "d12",
+   "rep": 1,
+   "problem": null,
+   "error_kind": null,
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "lost_awareness",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "family_present",
+         "op": "eq",
+         "value": false
+        }
+       ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N4",
+        "quote": "길을 잃었다고 본인이 알아차리고 제가 곁에 없을 때는 그 자리에 서서 기다리는 모습을 두 번 봤어요. 제가 오면 기다림은 끝났어요."
+       }
+      ]
+     },
+     {
+      "id": "a_1",
+      "when": [
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "continuous_walk_minutes",
+         "op": "gte",
+         "value": 6
+        }
+       ],
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "distance_since_rest_m",
+         "op": "gte",
+         "value": 280
+        }
+       ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": 5.0,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N9",
+        "quote": "저와 걸을 때 무릎 때문에 여섯 분을 계속 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 앉아 쉬어야 해요. 쉬실 때는 오 분 앉아 있다가 다시 걸으세요. 천천히 걷고 혼자 외출하지는 않으세요."
+       }
+      ]
+     },
+     {
+      "id": "a_2",
+      "when": [
+       [
+        {
+         "fact": "market.noisy",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [
+       "해든상가"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N5",
+        "quote": "차도 신호와 물가, 계단을 스스로 피할 수 있는지는 못 봐서 모르겠어요. 다만 해든상가 안에서 시끄러우면 밖으로 나오시는 것은 직접 봤어요. 다른 상가도 그러시는지는 모르겠어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "Observed reactions: waiting when lost alone, avoiding noisy market (specifically at 해든상가), and resting after prolonged walking. Physical need for rest after 6 minutes or 280 meters walking. No other conditional reactions or physical needs explicitly observed in notes."
+     },
+     {
+      "note_id": "N1",
+      "reason": "Observed reactions: waiting when lost alone, avoiding noisy market (specifically at 해든상가), and resting after prolonged walking. Physical need for rest after 6 minutes or 280 meters walking. No other conditional reactions or physical needs explicitly observed in notes."
+     },
+     {
+      "note_id": "N2",
+      "reason": "Observed reactions: waiting when lost alone, avoiding noisy market (specifically at 해든상가), and resting after prolonged walking. Physical need for rest after 6 minutes or 280 meters walking. No other conditional reactions or physical needs explicitly observed in notes."
+     },
+     {
+      "note_id": "N3",
+      "reason": "Observed reactions: waiting when lost alone, avoiding noisy market (specifically at 해든상가), and resting after prolonged walking. Physical need for rest after 6 minutes or 280 meters walking. No other conditional reactions or physical needs explicitly observed in notes."
+     },
+     {
+      "note_id": "N6",
+      "reason": "Observed reactions: waiting when lost alone, avoiding noisy market (specifically at 해든상가), and resting after prolonged walking. Physical need for rest after 6 minutes or 280 meters walking. No other conditional reactions or physical needs explicitly observed in notes."
+     },
+     {
+      "note_id": "N7",
+      "reason": "Observed reactions: waiting when lost alone, avoiding noisy market (specifically at 해든상가), and resting after prolonged walking. Physical need for rest after 6 minutes or 280 meters walking. No other conditional reactions or physical needs explicitly observed in notes."
+     },
+     {
+      "note_id": "N8",
+      "reason": "Observed reactions: waiting when lost alone, avoiding noisy market (specifically at 해든상가), and resting after prolonged walking. Physical need for rest after 6 minutes or 280 meters walking. No other conditional reactions or physical needs explicitly observed in notes."
+     },
+     {
+      "note_id": "N10",
+      "reason": "Observed reactions: waiting when lost alone, avoiding noisy market (specifically at 해든상가), and resting after prolonged walking. Physical need for rest after 6 minutes or 280 meters walking. No other conditional reactions or physical needs explicitly observed in notes."
+     },
+     {
+      "note_id": "N11",
+      "reason": "Observed reactions: waiting when lost alone, avoiding noisy market (specifically at 해든상가), and resting after prolonged walking. Physical need for rest after 6 minutes or 280 meters walking. No other conditional reactions or physical needs explicitly observed in notes."
+     },
+     {
+      "note_id": "N12",
+      "reason": "Observed reactions: waiting when lost alone, avoiding noisy market (specifically at 해든상가), and resting after prolonged walking. Physical need for rest after 6 minutes or 280 meters walking. No other conditional reactions or physical needs explicitly observed in notes."
+     }
+    ]
+   },
+   "condition_probe": {
+    "status": "no_difference_in_probes",
+    "checked": 1377,
+    "potential": 2592,
+    "counterexample": null
+   }
+  },
+  {
+   "candidate": "d12",
+   "rep": 2,
+   "problem": null,
+   "error_kind": null,
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "continuous_walk_minutes",
+         "op": "gte",
+         "value": 6
+        }
+       ],
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "distance_since_rest_m",
+         "op": "gte",
+         "value": 280
+        }
+       ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": 5.0,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N9",
+        "quote": "저와 걸을 때 무릎 때문에 여섯 분을 계속 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 앉아 쉬어야 해요. 쉬실 때는 오 분 앉아 있다가 다시 걸으세요. 천천히 걷고 혼자 외출하지는 않으세요."
+       }
+      ]
+     },
+     {
+      "id": "a_1",
+      "when": [
+       [
+        {
+         "fact": "lost_awareness",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "family_present",
+         "op": "eq",
+         "value": false
+        }
+       ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N4",
+        "quote": "길을 잃었다고 본인이 알아차리고 제가 곁에 없을 때는 그 자리에 서서 기다리는 모습을 두 번 봤어요. 제가 오면 기다림은 끝났어요."
+       }
+      ]
+     },
+     {
+      "id": "a_2",
+      "when": [
+       [
+        {
+         "fact": "market.noisy",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [
+       "해든상가"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N5",
+        "quote": "차도 신호와 물가, 계단을 스스로 피할 수 있는지는 못 봐서 모르겠어요. 다만 해든상가 안에서 시끄러우면 밖으로 나오시는 것은 직접 봤어요. 다른 상가도 그러시는지는 모르겠어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "Observed rest behavior after continuous walking for 6 minutes or 280 meters; wait behavior when lost without guardian present; avoid market behavior at 해든상가 when noisy."
+     },
+     {
+      "note_id": "N1",
+      "reason": "Observed rest behavior after continuous walking for 6 minutes or 280 meters; wait behavior when lost without guardian present; avoid market behavior at 해든상가 when noisy."
+     },
+     {
+      "note_id": "N2",
+      "reason": "Observed rest behavior after continuous walking for 6 minutes or 280 meters; wait behavior when lost without guardian present; avoid market behavior at 해든상가 when noisy."
+     },
+     {
+      "note_id": "N3",
+      "reason": "Observed rest behavior after continuous walking for 6 minutes or 280 meters; wait behavior when lost without guardian present; avoid market behavior at 해든상가 when noisy."
+     },
+     {
+      "note_id": "N6",
+      "reason": "Observed rest behavior after continuous walking for 6 minutes or 280 meters; wait behavior when lost without guardian present; avoid market behavior at 해든상가 when noisy."
+     },
+     {
+      "note_id": "N7",
+      "reason": "Observed rest behavior after continuous walking for 6 minutes or 280 meters; wait behavior when lost without guardian present; avoid market behavior at 해든상가 when noisy."
+     },
+     {
+      "note_id": "N8",
+      "reason": "Observed rest behavior after continuous walking for 6 minutes or 280 meters; wait behavior when lost without guardian present; avoid market behavior at 해든상가 when noisy."
+     },
+     {
+      "note_id": "N10",
+      "reason": "Observed rest behavior after continuous walking for 6 minutes or 280 meters; wait behavior when lost without guardian present; avoid market behavior at 해든상가 when noisy."
+     },
+     {
+      "note_id": "N11",
+      "reason": "Observed rest behavior after continuous walking for 6 minutes or 280 meters; wait behavior when lost without guardian present; avoid market behavior at 해든상가 when noisy."
+     },
+     {
+      "note_id": "N12",
+      "reason": "Observed rest behavior after continuous walking for 6 minutes or 280 meters; wait behavior when lost without guardian present; avoid market behavior at 해든상가 when noisy."
+     }
+    ]
+   },
+   "condition_probe": {
+    "status": "no_difference_in_probes",
+    "checked": 1377,
+    "potential": 2592,
+    "counterexample": null
+   }
+  }
+ ],
+ "author_reference": {
+  "rules": [
+   {
+    "id": "author_wait",
+    "when": [
+     [
+      {
+       "fact": "lost_awareness",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N4",
+      "quote": "길을 잃었다고 본인이 알아차리고 제가 곁에 없을 때는 그 자리에 서서 기다리는 모습을 두 번 봤어요. 제가 오면 기다림은 끝났어요."
+     }
+    ]
+   },
+   {
+    "id": "author_rest",
+    "when": [
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "continuous_walk_minutes",
+       "op": "gte",
+       "value": 6
+      }
+     ],
+     [
+      {
+       "fact": "is_walking",
+       "op": "eq",
+       "value": true
+      },
+      {
+       "fact": "distance_since_rest_m",
+       "op": "gte",
+       "value": 280
+      }
+     ]
+    ],
+    "action": "rest",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": 5.0,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N9",
+      "quote": "저와 걸을 때 무릎 때문에 여섯 분을 계속 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 앉아 쉬어야 해요. 쉬실 때는 오 분 앉아 있다가 다시 걸으세요. 천천히 걷고 혼자 외출하지는 않으세요."
+     }
+    ]
+   },
+   {
+    "id": "author_avoid",
+    "when": [
+     [
+      {
+       "fact": "market.noisy",
+       "op": "eq",
+       "value": true
+      }
+     ]
+    ],
+    "action": "avoid",
+    "goal_label": null,
+    "feature": "market",
+    "place_labels": [
+     "해든상가"
+    ],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N5",
+      "quote": "차도 신호와 물가, 계단을 스스로 피할 수 있는지는 못 봐서 모르겠어요. 다만 해든상가 안에서 시끄러우면 밖으로 나오시는 것은 직접 봤어요. 다른 상가도 그러시는지는 모르겠어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N7",
+    "reason": "이름을 부르면 쳐다보는 반응은 현재 보행 명령에 없음."
+   }
+  ]
+ },
+ "clinical_accuracy": false,
+ "release_qualified": false
+}

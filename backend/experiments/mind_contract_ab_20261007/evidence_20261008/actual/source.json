@@ -1,0 +1,350 @@
+{
+ "notes": [
+  {
+   "id": "N0",
+   "text": "질문: 혼자 나가실 때 주로 어디에 가시나요?\n답변: 혼자 가는 곳은 없고 저와 함께 다녀요. 경기도 고양시 일산서구 대화동의 느티공원과 해든상가, 솔빛쉼터를 함께 가요. 정해진 길이나 도는 방향은 없어요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:09.320585+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N1",
+   "text": "질문: 말씀해주신 곳(느티공원, 해든상가, 솔빛쉼터) 외에 어르신이 평소 자주 가시거나 좋아하시는 곳이 또 있을까요?\n답변: 혼자 가는 곳은 없고 저와 함께 다녀요. 경기도 고양시 일산서구 대화동의 느티공원과 해든상가, 솔빛쉼터를 함께 가요. 정해진 길이나 도는 방향은 없어요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:44.202130+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N2",
+   "text": "질문: 어르신께서 반복해서 찾으시거나 가려고 하는 과거의 장소가 있으신가요?\n답변: 옛집이나 직장 같은 과거 장소에 가겠다는 말은 안 하세요. 반복해서 찾는 과거 장소는 없어요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:15.661718+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N3",
+   "text": "질문: 어르신께서 길을 잃거나 실종된 적은 없으신가요?\n답변: 실종된 적은 없어요. 실종 때 어디로 갔는지는 경험이 없어 모르겠어요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:18.061133+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N4",
+   "text": "질문: 길을 잃으시면 보통 어떻게 하시나요? (예: 길을 잃으면 그 자리에 서서 기다리지 않고 계속 앞으로 걸어갑니다)\n답변: 길을 잃었다고 본인이 알아차리고 제가 곁에 없을 때는 그 자리에 서서 기다리는 모습을 두 번 봤어요. 제가 오면 기다림은 끝났어요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:20.543877+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N5",
+   "text": "질문: 어르신은 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요? (예: 차가 오는 것은 알아보지만 신호를 잘 지키지 못합니다)\n답변: 차도 신호와 물가, 계단을 스스로 피할 수 있는지는 못 봐서 모르겠어요. 다만 해든상가 안에서 시끄러우면 밖으로 나오시는 것은 직접 봤어요. 다른 상가도 그러시는지는 모르겠어요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:23.664858+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N6",
+   "text": "질문: 해든상가처럼 시끄러운 곳을 피해서 밖으로 나오시는 것은 직접 보셨지만, 다른 상가에서도 같은 행동을 하는지 아직 확인이 안 된 상황이군요. 그렇다면, 어르신께서 익숙한 동네에서 길을 잘못 들거나 목적지를 잊는 경우가 있는지, 그리고 그럴 때 스스로 알아차리고 돌아올 수 있는지 구체적인 사례를 들어 설명해 주실 수 있을까요?\n답변: 함께 다닐 때 방향을 잘못 들어 제가 알려준 적이 있어요. 혼자 스스로 되돌아올 수 있는지는 모르겠어요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:27.337751+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N7",
+   "text": "질문: 어르신은 이름을 부르거나 간단한 질문을 했을 때 어떻게 반응하나요? (예: 이름을 부르면 쳐다보지만 대답은 잘하지 않습니다)\n답변: 이름을 부르면 저를 쳐다보세요. 낯선 사람이나 경찰이 다가올 때는 어떻게 반응하는지 보지 못했어요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:30.757830+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N8",
+   "text": "질문: 낯선 사람이나 경찰이 어르신께 말을 걸 때, 어르신은 어떤 표정이나 몸짓을 보이시나요?\n답변: 이름을 부르면 저를 쳐다보세요. 낯선 사람이나 경찰이 다가올 때는 어떻게 반응하는지 보지 못했어요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:33.727192+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N9",
+   "text": "질문: 어르신은 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요? (예: 쉬지 않고 약 30분 정도 걸을 수 있고, 집에서 1km 정도까지 혼자 이동할 수 있습니다)\n답변: 저와 걸을 때 무릎 때문에 여섯 분을 계속 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 앉아 쉬어야 해요. 쉬실 때는 오 분 앉아 있다가 다시 걸으세요. 천천히 걷고 혼자 외출하지는 않으세요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:36.871691+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N10",
+   "text": "질문: 어르신이 불안하거나 초조해지실 때, 그때 이동 행동이 어떻게 달라지나요?\n답변: 불안하거나 초조할 때 이동이 달라지는지는 직접 본 적이 없어 모르겠어요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:41.102877+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N11",
+   "text": "질문: 복용 중인 약이 있나요? (예: 혈압약과 치매약을 아침저녁으로 드시고, 거르면 어지러워하십니다)\n답변: 약을 거른 뒤 증상은 관찰한 적이 없어 모르겠어요. 밤이나 추위, 더위에 혼자 이동하는 것도 못 봤어요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:43.470865+00:00"
+   ],
+   "provenance": "guardian_original"
+  },
+  {
+   "id": "N12",
+   "text": "질문: 등록 요약을 보고 확인·정정하는 단계\n답변: 네, 맞아요.",
+   "source_kinds": [
+    "guardian_turn"
+   ],
+   "recorded_at": [
+    "2026-10-07T17:56:52.295333+00:00"
+   ],
+   "provenance": "guardian_original"
+  }
+ ],
+ "places": [
+  {
+   "label": "느티공원",
+   "evidence": "caregiver_report",
+   "origin_slot": "routine_destinations"
+  },
+  {
+   "label": "해든상가",
+   "evidence": "caregiver_report",
+   "origin_slot": "routine_destinations"
+  },
+  {
+   "label": "솔빛쉼터",
+   "evidence": "caregiver_report",
+   "origin_slot": "routine_destinations"
+  }
+ ],
+ "prepared_initial": {
+  "core": {
+   "goals": {
+    "느티공원": {
+     "value": "habitual_visit",
+     "period": "unspecified",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "해든상가": {
+     "value": "habitual_visit",
+     "period": "unspecified",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "솔빛쉼터": {
+     "value": "habitual_visit",
+     "period": "unspecified",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    }
+   },
+   "routes": {
+    "느티공원": {
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "해든상가": {
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "솔빛쉼터": {
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    }
+   },
+   "found_history": {
+    "느티공원": {
+     "value": "not_reported",
+     "note_ids": [],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "해든상가": {
+     "value": "not_reported",
+     "note_ids": [],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "솔빛쉼터": {
+     "value": "not_reported",
+     "note_ids": [],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    }
+   },
+   "mobility": {
+    "value": "B",
+    "note_ids": [
+     "N9"
+    ],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "emotion": {
+    "value": "unknown",
+    "note_ids": [],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "other_traits": [
+    {
+     "type": "wayfinding_failure",
+     "period": "unspecified",
+     "note_ids": [
+      "N4"
+     ]
+    },
+    {
+     "type": "rest_pattern",
+     "period": "unspecified",
+     "note_ids": [
+      "N9"
+     ]
+    }
+   ],
+   "persistence": {
+    "value": "unknown",
+    "note_ids": [],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "direction": {
+    "value": "unknown",
+    "note_ids": [],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "environment": {
+    "water": {
+     "value": "unknown",
+     "note_ids": [],
+     "explanation": "환경 전용 해석 단계에서 별도 평가."
+    },
+    "forest": {
+     "value": "unknown",
+     "note_ids": [],
+     "explanation": "환경 전용 해석 단계에서 별도 평가."
+    },
+    "park": {
+     "value": "unknown",
+     "note_ids": [],
+     "explanation": "환경 전용 해석 단계에서 별도 평가."
+    },
+    "market": {
+     "value": "unknown",
+     "note_ids": [],
+     "explanation": "환경 전용 해석 단계에서 별도 평가."
+    }
+   }
+  },
+  "scope": {
+   "persistence": {
+    "evidence": "supported",
+    "pattern": "consistent",
+    "value": "wait_for_help",
+    "note_ids": [
+     "N4"
+    ],
+    "explanation": "도움을 기다린 근거. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+   },
+   "environment": {
+    "water": {
+     "response": "unknown",
+     "condition": "조건 미확인",
+     "note_ids": [],
+     "scope": "unknown",
+     "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+    },
+    "forest": {
+     "response": "unknown",
+     "condition": "조건 미확인",
+     "note_ids": [],
+     "scope": "unknown",
+     "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+    },
+    "park": {
+     "response": "unknown",
+     "condition": "조건 미확인",
+     "note_ids": [],
+     "scope": "unknown",
+     "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+    },
+    "market": {
+     "response": "unknown",
+     "condition": "조건 미확인",
+     "note_ids": [
+      "N0",
+      "N1",
+      "N5"
+     ],
+     "scope": "unknown",
+     "explanation": "두 해석이 일치하지 않아 적용 보류."
+    }
+   },
+   "baseline_direction": {
+    "value": "unknown",
+    "note_ids": []
+   }
+  },
+  "version": "onboarding-person-v6-grounded-conditions"
+ }
+}

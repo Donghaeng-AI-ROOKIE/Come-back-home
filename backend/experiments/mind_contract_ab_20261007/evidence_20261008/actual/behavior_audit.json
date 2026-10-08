@@ -1,0 +1,481 @@
+{
+  "scope": "saved executable effects against author reference, one synthetic person",
+  "rows": [
+    {
+      "scene": "rest_cycle",
+      "candidate": "empty_policy",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.2280000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.26000000000000006
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.306
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": false,
+        "mean_wait_minutes": true,
+        "mean_personal_rest_minutes": false,
+        "avoid_walkers": true,
+        "avoid_targets": true,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.30800000000000005,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {},
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    },
+    {
+      "scene": "rest_cycle",
+      "candidate": "d4_rep1",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.2040000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.22200000000000006
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.24800000000000003
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": true,
+        "mean_wait_minutes": true,
+        "mean_personal_rest_minutes": true,
+        "avoid_walkers": true,
+        "avoid_targets": true,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.0,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {
+          "personal_rest_starts": 164,
+          "complete_personal_rests": 163,
+          "right_censored_rest_blocks": 1
+        },
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    },
+    {
+      "scene": "rest_cycle",
+      "candidate": "d12_rep1",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.2040000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.22200000000000006
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.24800000000000003
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": true,
+        "mean_wait_minutes": true,
+        "mean_personal_rest_minutes": true,
+        "avoid_walkers": true,
+        "avoid_targets": true,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.0,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {
+          "personal_rest_starts": 164,
+          "complete_personal_rests": 163,
+          "right_censored_rest_blocks": 1
+        },
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    },
+    {
+      "scene": "rest_cycle",
+      "candidate": "d12_rep2",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.2040000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.22200000000000006
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.24800000000000003
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": true,
+        "mean_wait_minutes": true,
+        "mean_personal_rest_minutes": true,
+        "avoid_walkers": true,
+        "avoid_targets": true,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.0,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {
+          "personal_rest_starts": 164,
+          "complete_personal_rests": 163,
+          "right_censored_rest_blocks": 1
+        },
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    },
+    {
+      "scene": "wait_release",
+      "candidate": "empty_policy",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.2280000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.26000000000000006
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.306
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": false,
+        "mean_wait_minutes": false,
+        "mean_personal_rest_minutes": false,
+        "avoid_walkers": true,
+        "avoid_targets": true,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.32800000000000007,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {},
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    },
+    {
+      "scene": "wait_release",
+      "candidate": "d4_rep1",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.1780000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.2320000000000001
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.20800000000000005
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": true,
+        "mean_wait_minutes": true,
+        "mean_personal_rest_minutes": true,
+        "avoid_walkers": true,
+        "avoid_targets": true,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.0,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {
+          "personal_rest_starts": 133,
+          "complete_personal_rests": 128,
+          "personal_wait_segments": 339,
+          "right_censored_rest_blocks": 5
+        },
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    },
+    {
+      "scene": "wait_release",
+      "candidate": "d12_rep1",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.1780000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.2320000000000001
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.20800000000000005
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": true,
+        "mean_wait_minutes": true,
+        "mean_personal_rest_minutes": true,
+        "avoid_walkers": true,
+        "avoid_targets": true,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.0,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {
+          "personal_rest_starts": 133,
+          "complete_personal_rests": 128,
+          "personal_wait_segments": 339,
+          "right_censored_rest_blocks": 5
+        },
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    },
+    {
+      "scene": "wait_release",
+      "candidate": "d12_rep2",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.1780000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.2320000000000001
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.20800000000000005
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": true,
+        "mean_wait_minutes": true,
+        "mean_personal_rest_minutes": true,
+        "avoid_walkers": true,
+        "avoid_targets": true,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.0,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {
+          "personal_rest_starts": 133,
+          "complete_personal_rests": 128,
+          "personal_wait_segments": 339,
+          "right_censored_rest_blocks": 5
+        },
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    },
+    {
+      "scene": "place_noise",
+      "candidate": "empty_policy",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.2260000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.26600000000000007
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.32
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": false,
+        "mean_wait_minutes": false,
+        "mean_personal_rest_minutes": false,
+        "avoid_walkers": false,
+        "avoid_targets": false,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.31800000000000006,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {},
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    },
+    {
+      "scene": "place_noise",
+      "candidate": "d4_rep1",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.2040000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.21400000000000008
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.25800000000000006
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": true,
+        "mean_wait_minutes": true,
+        "mean_personal_rest_minutes": true,
+        "avoid_walkers": true,
+        "avoid_targets": true,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.0,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {
+          "personal_avoid_segments": 31,
+          "personal_rest_starts": 164,
+          "complete_personal_rests": 163,
+          "right_censored_rest_blocks": 1
+        },
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    },
+    {
+      "scene": "place_noise",
+      "candidate": "d12_rep1",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.2040000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.21400000000000008
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.25800000000000006
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": true,
+        "mean_wait_minutes": true,
+        "mean_personal_rest_minutes": true,
+        "avoid_walkers": true,
+        "avoid_targets": true,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.0,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {
+          "personal_avoid_segments": 31,
+          "personal_rest_starts": 164,
+          "complete_personal_rests": 163,
+          "right_censored_rest_blocks": 1
+        },
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    },
+    {
+      "scene": "place_noise",
+      "candidate": "d12_rep2",
+      "time_changes": [
+        {
+          "from_minute": 60,
+          "to_minute": 120,
+          "total_variation": 0.2040000000000001
+        },
+        {
+          "from_minute": 120,
+          "to_minute": 240,
+          "total_variation": 0.21400000000000008
+        },
+        {
+          "from_minute": 240,
+          "to_minute": 360,
+          "total_variation": 0.25800000000000006
+        }
+      ],
+      "matches_reference_final_components": {
+        "mean_path_km": true,
+        "mean_wait_minutes": true,
+        "mean_personal_rest_minutes": true,
+        "avoid_walkers": true,
+        "avoid_targets": true,
+        "unresolved_mass": true
+      },
+      "distribution_tv_vs_reference": 0.0,
+      "trace_check": {
+        "trace_particles": 5,
+        "checked": {
+          "personal_avoid_segments": 31,
+          "personal_rest_starts": 164,
+          "complete_personal_rests": 163,
+          "right_censored_rest_blocks": 1
+        },
+        "violations": [],
+        "limit": "first five fixed particles only; not all500, no clinical accuracy"
+      }
+    }
+  ],
+  "clinical_accuracy": false,
+  "release_qualified": false
+}
