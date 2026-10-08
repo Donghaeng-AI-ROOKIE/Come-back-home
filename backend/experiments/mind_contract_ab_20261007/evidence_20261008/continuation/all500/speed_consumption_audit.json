@@ -1,0 +1,14 @@
+{
+  "original_and_effective_persona_source": "captured synthetic actual app fixture",
+  "effective_mobility": 0.3,
+  "speeds_m_per_min_by_mobility": {
+    "0.1": 48.0,
+    "0.3": 48.0,
+    "0.5": 48.0,
+    "0.7": 48.0,
+    "0.9": 48.0
+  },
+  "behavior": "walk_speed currently depends on persona.type only; mobility score is consumed by radius but not this speed function",
+  "clinical_accuracy": false,
+  "new_external_calls": 0
+}

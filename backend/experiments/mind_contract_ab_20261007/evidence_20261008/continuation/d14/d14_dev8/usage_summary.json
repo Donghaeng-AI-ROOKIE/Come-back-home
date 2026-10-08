@@ -1,0 +1,20 @@
+{
+ "run_id": "MIND_contract_ab_20261007_d14_dev8",
+ "started": 18,
+ "finished": 18,
+ "balanced_attempt_ids": true,
+ "missing_finish": [],
+ "response_received": 18,
+ "failed_attempts": 0,
+ "api_duration_seconds_sum": 1325.6475289110094,
+ "usage": {
+  "prompt_tokens": 44236,
+  "completion_tokens": 88580,
+  "total_tokens": 132816
+ },
+ "unit_price": null,
+ "actual_cost": null,
+ "support_round": null,
+ "ledger": "../../../연구지원_사용기록/usage_events.jsonl",
+ "note": "API elapsed time is not GPU billed time. Unknown prices are not zero."
+}

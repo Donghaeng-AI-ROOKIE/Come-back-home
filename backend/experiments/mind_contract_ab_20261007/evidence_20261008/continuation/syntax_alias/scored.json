@@ -1,0 +1,2508 @@
+{
+ "rows": [
+  {
+   "input_id": "DEV_P05_original",
+   "root_id": "P05",
+   "form": "original",
+   "family": "physical_rest",
+   "rep": 1,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P05_original_S1",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "rest"
+      ],
+      "possible_commands": [
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P05_original_S2",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "rest"
+      ],
+      "possible_commands": [
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P05_original_S3",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P05_original_S4",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [
+    "explicit_rest_deleted"
+   ],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "continuous_walk_minutes",
+         "op": "gte",
+         "value": 8
+        }
+       ],
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "distance_since_rest_m",
+         "op": "gte",
+         "value": 450
+        }
+       ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "연속 팔 분 정도 걷거나 사백오십 미터쯤 가면 무릎 때문에 앉아 쉬어야 해요. 둘 다 채워야 하는 건 아니고 먼저 힘든 쪽에서 쉬어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "Rest required after 8 minutes of continuous walking or 450 meters."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P05_original",
+   "root_id": "P05",
+   "form": "original",
+   "family": "physical_rest",
+   "rep": 2,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "done",
+   "first_problem": "unknown condition fact",
+   "first_problem_kind": "unknown condition fact",
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": true,
+   "corrected": true,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P05_original_S1",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": false,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "rest"
+      ],
+      "possible_commands": [
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P05_original_S2",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": false,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "rest"
+      ],
+      "possible_commands": [
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P05_original_S3",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": false,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P05_original_S4",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": false,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [
+    "explicit_rest_deleted"
+   ],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "continuous_walk_minutes",
+         "op": "gte",
+         "value": 8
+        }
+       ],
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "distance_since_rest_m",
+         "op": "gte",
+         "value": 450
+        }
+       ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "연속 팔 분 정도 걷거나 사백오십 미터쯤 가면 무릎 때문에 앉아 쉬어야 해요. 둘 다 채워야 하는 건 아니고 먼저 힘든 쪽에서 쉬어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "등록 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐 실제 목적지가 아니다. 연속 8분 보행 또는 450미터 이동 후 무릎 통증으로 쉬어야 한다."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P08_preserve",
+   "root_id": "P08",
+   "form": "preserve",
+   "family": "physical_rest",
+   "rep": 1,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P08_preserve_S1",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "rest"
+      ],
+      "possible_commands": [
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P08_preserve_S2",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P08_preserve_S3",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P08_preserve_S4",
+     "expected": [],
+     "expected_status": "unknown",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "unknown",
+      "commands": [],
+      "possible_commands": [
+       "baseline",
+       "rest"
+      ],
+      "unknown_facts": [
+       "pain_observed"
+      ]
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "pain_observed",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "앉아 쉬신 건 무릎 아프다고 직접 말씀하셨을 때뿐이에요. 같이 걸어 보니 십이 분 넘게 걸으셔도 그냥 가셨고, 숨차 보여도 안 멈추셨어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "..."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P08_preserve",
+   "root_id": "P08",
+   "form": "preserve",
+   "family": "physical_rest",
+   "rep": 2,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P08_preserve_S1",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "rest"
+      ],
+      "possible_commands": [
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P08_preserve_S2",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P08_preserve_S3",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P08_preserve_S4",
+     "expected": [],
+     "expected_status": "unknown",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "unknown",
+      "commands": [],
+      "possible_commands": [
+       "baseline",
+       "rest"
+      ],
+      "unknown_facts": [
+       "pain_observed"
+      ]
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "pain_observed",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "앉아 쉬신 건 무릎 아프다고 직접 말씀하셨을 때뿐이에요. 같이 걸어 보니 십이 분 넘게 걸으셔도 그냥 가셨고, 숨차 보여도 안 멈추셨어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "Rest occurs only when knee pain is reported while walking;uletzt walking over twelve minutes without stopping is observed."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P13_original",
+   "root_id": "P13",
+   "form": "original",
+   "family": "destination",
+   "rep": 1,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P13_original_S1",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P13_original_S2",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P13_original_S3",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P13_original_S4",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [
+    "action_without_reference"
+   ],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐이며, 보호자는 대상자가 느티공원에 매일 간다고 말하지만 실제 출발 관찰되지 않았고 입구 인지 여부도 알 수 없다."
+     },
+     {
+      "note_id": "N1",
+      "reason": "등록된 장소(느티공원, 해든상가, 솔빛쉼터)는 후보 이름일 뿐이며, 보호자는 대상자가 느티공원에 매일 간다고 말하지만 실제 출발 관찰되지 않았고 입구 인지 여부도 알 수 없다."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P13_original",
+   "root_id": "P13",
+   "form": "original",
+   "family": "destination",
+   "rep": 2,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P13_original_S1",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P13_original_S2",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P13_original_S3",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P13_original_S4",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [
+    "action_without_reference"
+   ],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "등록된 장소 후보 이름은 실제 목적지가 아닌 예시입니다. 공원에 매일 간다고 하나 출발이나 입구 인지 확인되지 않았습니다."
+     },
+     {
+      "note_id": "N1",
+      "reason": "등록된 장소 후보 이름은 실제 목적지가 아닌 예시입니다. 공원에 매일 간다고 하나 출발이나 입구 인지 확인되지 않았습니다."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P16_preserve",
+   "root_id": "P16",
+   "form": "preserve",
+   "family": "destination",
+   "rep": 1,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P16_preserve_S1",
+     "expected": [
+      "wait"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "wait"
+      ],
+      "possible_commands": [
+       "wait"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P16_preserve_S2",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P16_preserve_S3",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P16_preserve_S4",
+     "expected": [],
+     "expected_status": "unknown",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "unknown",
+      "commands": [],
+      "possible_commands": [
+       "baseline",
+       "wait"
+      ],
+      "unknown_facts": [
+       "target_recognized"
+      ]
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "physical_arrival",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "target_recognized",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [
+       "솔빛쉼터"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "쉼터 앞까지 실제로 가셔서 \"여기 솔빛쉼터네\" 하고 알아보신 때에는 거기 서서 기다리셨어요. 옆으로 그냥 지나가기만 할 때는 안 멈추셨고요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "N1 states that stopping/waiting occurs when at 솔빛쉼터 after recognizing it as 솔빛쉼터."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P16_preserve",
+   "root_id": "P16",
+   "form": "preserve",
+   "family": "destination",
+   "rep": 2,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P16_preserve_S1",
+     "expected": [
+      "wait"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "wait"
+      ],
+      "possible_commands": [
+       "wait"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P16_preserve_S2",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P16_preserve_S3",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": false,
+     "pass": false,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "wait"
+      ],
+      "possible_commands": [
+       "wait"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P16_preserve_S4",
+     "expected": [],
+     "expected_status": "unknown",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "unknown",
+      "commands": [],
+      "possible_commands": [
+       "baseline",
+       "wait"
+      ],
+      "unknown_facts": [
+       "target_recognized"
+      ]
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "target_recognized",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "physical_arrival",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "쉼터 앞까지 실제로 가셔서 \"여기 솔빛쉼터네\" 하고 알아보신 때에는 거기 서서 기다리셨어요. 옆으로 그냥 지나가기만 할 때는 안 멈추셨고요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "N0은 등록 장소에 대한. 해든상가 등록 장소이며, 느티공원과 솔빛쉼터는 후보자 이름일 뿐 목적지가 아니다. 솔빛쉼터는 등록 장소이며, 실제 도착 및 인식 시 정지 및 대기한다."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P26_hard",
+   "root_id": "P26",
+   "form": "hard",
+   "family": "time_context",
+   "rep": 1,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P26_hard_S1",
+     "expected": [
+      "wait"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "wait"
+      ],
+      "possible_commands": [
+       "wait"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P26_hard_S2",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P26_hard_S3",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P26_hard_S4",
+     "expected": [],
+     "expected_status": "unknown",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "unknown",
+      "commands": [],
+      "possible_commands": [
+       "baseline",
+       "wait"
+      ],
+      "unknown_facts": [
+       "clock_hour"
+      ]
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "family_present",
+         "op": "eq",
+         "value": false
+        },
+        {
+         "fact": "clock_hour",
+         "op": "lt",
+         "value": 1
+        }
+       ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "밤 열한 시가 되면 가족이 안 보일 때 그 자리에서 기다리셨어요."
+       },
+       {
+        "note_id": "N2",
+        "quote": "자정을 넘겨서도 계속 기다리셨고, 새벽 한 시가 되니까 그만 기다리셨어요. 그 다음에 주무셨는지 나가셨는지는 저도 잠들어서 못 봤어요."
+       },
+       {
+        "note_id": "N3",
+        "quote": "제가 옆에 있던 밤에는 기다리지 않으셨어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "가족이 없을 때 시계 시각이 0 이상 1 미만인 경우 그 자리에서 기다림."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P26_hard",
+   "root_id": "P26",
+   "form": "hard",
+   "family": "time_context",
+   "rep": 2,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P26_hard_S1",
+     "expected": [
+      "wait"
+     ],
+     "expected_status": "supported",
+     "first_pass": false,
+     "pass": false,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P26_hard_S2",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P26_hard_S3",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P26_hard_S4",
+     "expected": [],
+     "expected_status": "unknown",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "unknown",
+      "commands": [],
+      "possible_commands": [
+       "baseline",
+       "wait"
+      ],
+      "unknown_facts": [
+       "clock_hour"
+      ]
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "family_present",
+         "op": "eq",
+         "value": false
+        },
+        {
+         "fact": "clock_hour",
+         "op": "gte",
+         "value": 23
+        }
+       ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "밤 열한 시가 되면 가족이 안 보일 때 그 자리에서 기다리셨어요."
+       },
+       {
+        "note_id": "N2",
+        "quote": "자정을 넘겨서도 계속 기다리셨고, 새벽 한 시가 되니까 그만 기다리셨어요. 그 다음에 주무셨는지 나가셨는지는 저도 잠들어서 못 봤어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "..."
+     },
+     {
+      "note_id": "N3",
+      "reason": "..."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P29_original",
+   "root_id": "P29",
+   "form": "original",
+   "family": "multiple_behaviors",
+   "rep": 1,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "done",
+   "first_problem": "SyntaxError: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",
+   "first_problem_kind": "SyntaxError",
+   "final_problem": "SyntaxError: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)",
+   "final_problem_kind": "SyntaxError",
+   "correction_needed": true,
+   "corrected": true,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P29_original_S1",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": false,
+     "pass": false,
+     "decision": null
+    },
+    {
+     "id": "DEV_P29_original_S2",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": false,
+     "pass": false,
+     "decision": null
+    },
+    {
+     "id": "DEV_P29_original_S3",
+     "expected": [
+      "wait"
+     ],
+     "expected_status": "supported",
+     "first_pass": false,
+     "pass": false,
+     "decision": null
+    },
+    {
+     "id": "DEV_P29_original_S4",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": false,
+     "pass": false,
+     "decision": null
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [
+    "explicit_rest_deleted"
+   ],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": false
+   },
+   "policy": null
+  },
+  {
+   "input_id": "DEV_P29_original",
+   "root_id": "P29",
+   "form": "original",
+   "family": "multiple_behaviors",
+   "rep": 2,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P29_original_S1",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "rest"
+      ],
+      "possible_commands": [
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P29_original_S2",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "rest"
+      ],
+      "possible_commands": [
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P29_original_S3",
+     "expected": [
+      "wait"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "wait"
+      ],
+      "possible_commands": [
+       "wait"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P29_original_S4",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [
+    "explicit_rest_deleted"
+   ],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "continuous_walk_minutes",
+         "op": "gte",
+         "value": 6
+        }
+       ],
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "distance_since_rest_m",
+         "op": "gte",
+         "value": 280
+        }
+       ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "무릎 때문에 육 분 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 쉬어야 해요."
+       }
+      ]
+     },
+     {
+      "id": "a_1",
+      "when": [
+       [
+        {
+         "fact": "lost_awareness",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "family_present",
+         "op": "eq",
+         "value": false
+        }
+       ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N2",
+        "quote": "두 번 모두 길을 잃었다는 걸 알고 가족이 없으면 그 자리에서 기다렸어요. 가족이 오면 기다림은 끝났어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "protectors observed two conditional physical reactions: resting after walking six minutes or 280 meters due to knee pain, and waiting when lost awareness without family present. N0 is informational without action rules."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P30_original",
+   "root_id": "P30",
+   "form": "original",
+   "family": "multiple_behaviors",
+   "rep": 1,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P30_original_S1",
+     "expected": [
+      "avoid_market"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "avoid_market"
+      ],
+      "possible_commands": [
+       "avoid_market"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P30_original_S2",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "rest"
+      ],
+      "possible_commands": [
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P30_original_S3",
+     "expected": [],
+     "expected_status": "unknown",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "unknown",
+      "commands": [],
+      "possible_commands": [
+       "avoid_market",
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P30_original_S4",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "market.noisy",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [
+       "해든상가"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "해든상가에서 시끄러우면 피했어요. 다른 상가는 모르겠어요."
+       }
+      ]
+     },
+     {
+      "id": "a_1",
+      "when": [
+       [
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "pain_observed",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N2",
+        "quote": "걷다가 아프다고 말하면 앉아서 쉬었어요. 소음 반응과는 별개예요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "해든상가에서 시장 시끄러움 시 피하고, 걷는 도중 통증 관찰 시 휴식함."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P30_original",
+   "root_id": "P30",
+   "form": "original",
+   "family": "multiple_behaviors",
+   "rep": 2,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P30_original_S1",
+     "expected": [
+      "avoid_market"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "avoid_market"
+      ],
+      "possible_commands": [
+       "avoid_market"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P30_original_S2",
+     "expected": [
+      "rest"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "rest"
+      ],
+      "possible_commands": [
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P30_original_S3",
+     "expected": [],
+     "expected_status": "unknown",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "unknown",
+      "commands": [],
+      "possible_commands": [
+       "avoid_market",
+       "rest"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P30_original_S4",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "market.noisy",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "market",
+      "place_labels": [
+       "해든상가"
+      ],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "해든상가에서 시끄러우면 피했어요. 다른 상가는 모르겠어요."
+       }
+      ]
+     },
+     {
+      "id": "a_1",
+      "when": [
+       [
+        {
+         "fact": "pain_observed",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "is_walking",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "rest",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N2",
+        "quote": "걷다가 아프다고 말하면 앉아서 쉬었어요. 소음 반응과는 별개예요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "해든상가 시끄러움 시 피하기, 보행 중 통증 시 휴식"
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P31_original",
+   "root_id": "P31",
+   "form": "original",
+   "family": "multiple_behaviors",
+   "rep": 1,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P31_original_S1",
+     "expected": [
+      "avoid_park"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "avoid_park"
+      ],
+      "possible_commands": [
+       "avoid_park"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P31_original_S2",
+     "expected": [
+      "wait"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "wait"
+      ],
+      "possible_commands": [
+       "wait"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P31_original_S3",
+     "expected": [],
+     "expected_status": "unknown",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "unknown",
+      "commands": [],
+      "possible_commands": [
+       "avoid_park",
+       "wait"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P31_original_S4",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "park.crowded",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "park",
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "공원 여러 곳에서 사람이 붐비면 공원 쪽에서 멀어졌어요."
+       }
+      ]
+     },
+     {
+      "id": "a_1",
+      "when": [
+       [
+        {
+         "fact": "anxiety_high",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "family_present",
+         "op": "eq",
+         "value": false
+        }
+       ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N2",
+        "quote": "불안하다고 하면서 가족이 안 보이면 기다렸어요. 가족이 보이면 대기는 끝났어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "등록 장소는 후보 이름일 뿐 실제 이동을 의미하지 않는다. 공원에서 붐비면 멀어지는 반응이 관찰되었다. 불안하고 가족이 없으면 기다리며 가족이 있으면 종료된다."
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P31_original",
+   "root_id": "P31",
+   "form": "original",
+   "family": "multiple_behaviors",
+   "rep": 2,
+   "complete": true,
+   "first_state": "done",
+   "fix_state": "pending",
+   "first_problem": null,
+   "first_problem_kind": null,
+   "final_problem": null,
+   "final_problem_kind": null,
+   "correction_needed": false,
+   "corrected": false,
+   "transport_error": null,
+   "ignored_fix_after_no_response": false,
+   "decision_error": null,
+   "scenes": [
+    {
+     "id": "DEV_P31_original_S1",
+     "expected": [
+      "avoid_park"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "avoid_park"
+      ],
+      "possible_commands": [
+       "avoid_park"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P31_original_S2",
+     "expected": [
+      "wait"
+     ],
+     "expected_status": "supported",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "supported",
+      "commands": [
+       "wait"
+      ],
+      "possible_commands": [
+       "wait"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P31_original_S3",
+     "expected": [],
+     "expected_status": "unknown",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "unknown",
+      "commands": [],
+      "possible_commands": [
+       "avoid_park",
+       "wait"
+      ],
+      "unknown_facts": []
+     }
+    },
+    {
+     "id": "DEV_P31_original_S4",
+     "expected": [
+      "baseline"
+     ],
+     "expected_status": "no_personal_reaction",
+     "first_pass": true,
+     "pass": true,
+     "decision": {
+      "status": "no_personal_reaction",
+      "commands": [
+       "baseline"
+      ],
+      "possible_commands": [
+       "baseline"
+      ],
+      "unknown_facts": []
+     }
+    }
+   ],
+   "critical": [],
+   "critical_measurable": [],
+   "commands_not_in_reference": [],
+   "traits": {
+    "available": false,
+    "reason": "note-level compact contract; sentence-level loss requires separate review",
+    "compiled": true
+   },
+   "policy": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "park.crowded",
+         "op": "eq",
+         "value": true
+        }
+       ]
+      ],
+      "action": "avoid",
+      "goal_label": null,
+      "feature": "park",
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "공원 여러 곳에서 사람이 붐비면 공원 쪽에서 멀어졌어요."
+       }
+      ]
+     },
+     {
+      "id": "a_1",
+      "when": [
+       [
+        {
+         "fact": "anxiety_high",
+         "op": "eq",
+         "value": true
+        },
+        {
+         "fact": "family_present",
+         "op": "eq",
+         "value": false
+        }
+       ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N2",
+        "quote": "불안하다고 하면서 가족이 안 보이면 기다렸어요. 가족이 보이면 대기는 끝났어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "등록 장소 후보(느티공원, 해든상가, 솔빛쉼터)는 목적지가 아님. 공원 붐빔 시 공원을 피하고, 불안 시 가족이 없으면 기다립니다."
+     }
+    ]
+   }
+  }
+ ],
+ "summary": {
+  "responses": 16,
+  "decisions": 64,
+  "complete": true,
+  "incomplete_responses": [],
+  "first_pass_passed": 54,
+  "passed": 58,
+  "first_valid": 14,
+  "final_valid": 15,
+  "corrections": 2,
+  "no_response": 0,
+  "not_submitted": 0,
+  "policy_too_complex": 0,
+  "ignored_fix_after_no_response": 0,
+  "problems": {
+   "first_problem": {
+    "unknown condition fact": 1,
+    "SyntaxError: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)": 1
+   },
+   "final_problem": {
+    "SyntaxError: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 1)": 1
+   }
+  },
+  "problem_kinds": {
+   "first_problem": {
+    "unknown condition fact": 1,
+    "SyntaxError": 1
+   },
+   "final_problem": {
+    "SyntaxError": 1
+   }
+  },
+  "critical": {},
+  "critical_coverage": {
+   "goal_scope_swap": 0,
+   "explicit_rest_deleted": 4,
+   "action_without_reference": 2,
+   "withheld_action_injected": 0
+  },
+  "responses_with_commands_not_in_reference": 0,
+  "by_family": {
+   "destination": {
+    "passed": 15,
+    "total": 16
+   },
+   "multiple_behaviors": {
+    "passed": 20,
+    "total": 24
+   },
+   "physical_rest": {
+    "passed": 16,
+    "total": 16
+   },
+   "time_context": {
+    "passed": 7,
+    "total": 8
+   }
+  },
+  "by_form": {
+   "hard": {
+    "passed": 7,
+    "total": 8
+   },
+   "original": {
+    "passed": 36,
+    "total": 40
+   },
+   "preserve": {
+    "passed": 15,
+    "total": 16
+   }
+  },
+  "by_expected_status": {
+   "no_personal_reaction": {
+    "passed": 28,
+    "total": 30
+   },
+   "supported": {
+    "passed": 20,
+    "total": 24
+   },
+   "unknown": {
+    "passed": 10,
+    "total": 10
+   }
+  },
+  "by_input": {
+   "DEV_P05_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P08_preserve": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P13_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P16_preserve": {
+    "passed": 7,
+    "total": 8
+   },
+   "DEV_P26_hard": {
+    "passed": 7,
+    "total": 8
+   },
+   "DEV_P29_original": {
+    "passed": 4,
+    "total": 8
+   },
+   "DEV_P30_original": {
+    "passed": 8,
+    "total": 8
+   },
+   "DEV_P31_original": {
+    "passed": 8,
+    "total": 8
+   }
+  },
+  "trait_accounting": {
+   "available": false,
+   "unmeasured_responses": 16
+  },
+  "repeat_identical_policy": 3,
+  "inputs": 8
+ },
+ "gate": {
+  "checks": {
+   "complete": true,
+   "decisions": true,
+   "final_valid": true,
+   "no_critical": true
+  },
+  "machine_checks_passed": true,
+  "advance": false,
+  "meaning": "synthetic development data; not location accuracy or clinical validity",
+  "critical_coverage": {
+   "goal_scope_swap": 0,
+   "explicit_rest_deleted": 4,
+   "action_without_reference": 2,
+   "withheld_action_injected": 0
+  },
+  "critical_unmeasured": [
+   "goal_scope_swap",
+   "withheld_action_injected"
+  ],
+  "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+ }
+}

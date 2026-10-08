@@ -1,0 +1,110 @@
+{
+  "scope": "one actual-app synthetic source; D12 rep1; 500 particles x 3 scenes, both omitted and incorrect actions checked",
+  "rows": [
+    {
+      "scene": "place_noise",
+      "audit": {
+        "scene": "place_noise",
+        "expected_particles": 500,
+        "observed_particles": 500,
+        "checked": {
+          "segments": 265373,
+          "personal_avoid_segments": 3978,
+          "moving_segments_for_missed_rest": 147357,
+          "personal_rest_starts": 12933,
+          "completed_personal_rest_blocks": 12890
+        },
+        "coverage": {
+          "all_particles_observed": true,
+          "all_particles_reached_horizon": true,
+          "personal_rest_observed": true,
+          "personal_wait_observed": true,
+          "personal_avoid_observed": true
+        },
+        "violation_counts": {},
+        "violation_examples": [],
+        "violation_count": 0,
+        "incomplete_particles": [],
+        "right_censored_rest_blocks": 43,
+        "total_personal_wait_minutes": 0.0,
+        "total_baseline_wait_minutes": 38128.500001,
+        "checks_passed": true,
+        "limits": "one authored synthetic source; conditional rest/wait/avoid only; not clinical or location accuracy"
+      },
+      "same_previous_timeline": true,
+      "same_previous_first5_traces": true
+    },
+    {
+      "scene": "rest_cycle",
+      "audit": {
+        "scene": "rest_cycle",
+        "expected_particles": 500,
+        "observed_particles": 500,
+        "checked": {
+          "segments": 263810,
+          "moving_segments_for_missed_rest": 149400,
+          "personal_rest_starts": 12923,
+          "completed_personal_rest_blocks": 12892
+        },
+        "coverage": {
+          "all_particles_observed": true,
+          "all_particles_reached_horizon": true,
+          "personal_rest_observed": true,
+          "personal_wait_observed": true,
+          "personal_avoid_observed": true
+        },
+        "violation_counts": {},
+        "violation_examples": [],
+        "violation_count": 0,
+        "incomplete_particles": [],
+        "right_censored_rest_blocks": 31,
+        "total_personal_wait_minutes": 0.0,
+        "total_baseline_wait_minutes": 38520.0,
+        "checks_passed": true,
+        "limits": "one authored synthetic source; conditional rest/wait/avoid only; not clinical or location accuracy"
+      },
+      "same_previous_timeline": true,
+      "same_previous_first5_traces": true
+    },
+    {
+      "scene": "wait_release",
+      "audit": {
+        "scene": "wait_release",
+        "expected_particles": 500,
+        "observed_particles": 500,
+        "checked": {
+          "segments": 250120,
+          "moving_segments_for_missed_rest": 122785,
+          "personal_rest_starts": 10559,
+          "completed_personal_rest_blocks": 10190,
+          "wait_window_segments_for_omission": 35393,
+          "personal_wait_segments": 33818
+        },
+        "coverage": {
+          "all_particles_observed": true,
+          "all_particles_reached_horizon": true,
+          "personal_rest_observed": true,
+          "personal_wait_observed": true,
+          "personal_avoid_observed": true
+        },
+        "violation_counts": {},
+        "violation_examples": [],
+        "violation_count": 0,
+        "incomplete_particles": [],
+        "right_censored_rest_blocks": 369,
+        "total_personal_wait_minutes": 33686.666795,
+        "total_baseline_wait_minutes": 31030.0,
+        "checks_passed": true,
+        "limits": "one authored synthetic source; conditional rest/wait/avoid only; not clinical or location accuracy"
+      },
+      "same_previous_timeline": true,
+      "same_previous_first5_traces": true
+    }
+  ],
+  "total_segments": 779303,
+  "violations": 0,
+  "all_checks_passed": true,
+  "new_external_calls": 0,
+  "clinical_accuracy": false,
+  "release_qualified": false
+}

@@ -1,0 +1,370 @@
+{
+  "scope": "same source waiting boost ablation; one synthetic person; not location accuracy",
+  "rows": [
+    {
+      "scene": "place_noise",
+      "source_audit": {
+        "scene": "place_noise",
+        "expected_particles": 500,
+        "observed_particles": 500,
+        "checked": {
+          "segments": 280104,
+          "personal_avoid_segments": 3976,
+          "moving_segments_for_missed_rest": 173211,
+          "personal_rest_starts": 15158,
+          "completed_personal_rest_blocks": 15109
+        },
+        "coverage": {
+          "all_particles_observed": true,
+          "all_particles_reached_horizon": true,
+          "personal_rest_observed": true,
+          "personal_wait_observed": true,
+          "personal_avoid_observed": true
+        },
+        "violation_counts": {},
+        "violation_examples": [],
+        "violation_count": 0,
+        "incomplete_particles": [],
+        "right_censored_rest_blocks": 49,
+        "total_personal_wait_minutes": 0.0,
+        "total_baseline_wait_minutes": 13895.333334,
+        "checks_passed": true,
+        "limits": "one authored synthetic source; conditional rest/wait/avoid only; not clinical or location accuracy"
+      },
+      "projection_audit": {
+        "applied": true,
+        "reason": "same_source_wait_delegated_to_conditional_policy",
+        "before": {
+          "route_following": 0.2222222222222222,
+          "direction_keeping": 0.1851851851851852,
+          "random_walk": 0.1111111111111111,
+          "backtracking": 0.03703703703703704,
+          "staying_put": 0.22222222222222227,
+          "landmark_seeking": 0.2222222222222222
+        },
+        "new_model_calls": 0,
+        "after": {
+          "route_following": 0.2608695652173913,
+          "direction_keeping": 0.2173913043478261,
+          "random_walk": 0.13043478260869565,
+          "backtracking": 0.04347826086956522,
+          "staying_put": 0.08695652173913045,
+          "landmark_seeking": 0.2608695652173913
+        },
+        "source_note_ids": [
+          "N4"
+        ],
+        "rule_ids": [
+          "a_0"
+        ],
+        "removed_boost": {
+          "consumer": "strategy_probs",
+          "semantic_evidence": "persistence.wait_for_help",
+          "factors": {
+            "staying_put": 3.0
+          }
+        },
+        "remaining_boosts": [
+          {
+            "consumer": "strategy_probs",
+            "semantic_evidence": "current_destination",
+            "factors": {
+              "landmark_seeking": 2.0
+            }
+          }
+        ],
+        "limitations": "note-level match is not sentence-level proof; ablation only, not a clinical calibration"
+      },
+      "only_strategy_and_audit_changed": true,
+      "before": {
+        "mass": 1.0000000000000002,
+        "mean_path_km": 7.38472,
+        "mean_wait_minutes": 76.257,
+        "mean_personal_wait_minutes": 0,
+        "mean_personal_rest_minutes": 129.09066666666666,
+        "mean_population_rest_minutes": 0.804,
+        "avoid_walkers": 500,
+        "avoid_targets": {
+          "해든상가": 500
+        },
+        "mean_max_continuous_walk": 5.37033333333335,
+        "mode": {
+          "rest": 44,
+          "walk": 349,
+          "wait": 107
+        },
+        "unresolved_mass": 0.0,
+        "unresolved_reasons": {},
+        "rule_minutes": {
+          "a_1": 64545.333333333336,
+          "a_2": 1658.9545199185216
+        }
+      },
+      "after": {
+        "mass": 1.0000000000000002,
+        "mean_path_km": 8.633983999999998,
+        "mean_wait_minutes": 27.790666666666667,
+        "mean_personal_wait_minutes": 0,
+        "mean_personal_rest_minutes": 151.30666666666667,
+        "mean_population_rest_minutes": 1.028,
+        "avoid_walkers": 500,
+        "avoid_targets": {
+          "해든상가": 500
+        },
+        "mean_max_continuous_walk": 5.7340000000000195,
+        "mode": {
+          "rest": 51,
+          "walk": 410,
+          "wait": 39
+        },
+        "unresolved_mass": 0.0,
+        "unresolved_reasons": {},
+        "rule_minutes": {
+          "a_1": 75653.33333333334,
+          "a_2": 1663.0486881084762
+        }
+      }
+    },
+    {
+      "scene": "rest_cycle",
+      "source_audit": {
+        "scene": "rest_cycle",
+        "expected_particles": 500,
+        "observed_particles": 500,
+        "checked": {
+          "segments": 278488,
+          "moving_segments_for_missed_rest": 175416,
+          "personal_rest_starts": 15155,
+          "completed_personal_rest_blocks": 15115
+        },
+        "coverage": {
+          "all_particles_observed": true,
+          "all_particles_reached_horizon": true,
+          "personal_rest_observed": true,
+          "personal_wait_observed": true,
+          "personal_avoid_observed": true
+        },
+        "violation_counts": {},
+        "violation_examples": [],
+        "violation_count": 0,
+        "incomplete_particles": [],
+        "right_censored_rest_blocks": 40,
+        "total_personal_wait_minutes": 0.0,
+        "total_baseline_wait_minutes": 14040.0,
+        "checks_passed": true,
+        "limits": "one authored synthetic source; conditional rest/wait/avoid only; not clinical or location accuracy"
+      },
+      "projection_audit": {
+        "applied": true,
+        "reason": "same_source_wait_delegated_to_conditional_policy",
+        "before": {
+          "route_following": 0.2222222222222222,
+          "direction_keeping": 0.1851851851851852,
+          "random_walk": 0.1111111111111111,
+          "backtracking": 0.03703703703703704,
+          "staying_put": 0.22222222222222227,
+          "landmark_seeking": 0.2222222222222222
+        },
+        "new_model_calls": 0,
+        "after": {
+          "route_following": 0.2608695652173913,
+          "direction_keeping": 0.2173913043478261,
+          "random_walk": 0.13043478260869565,
+          "backtracking": 0.04347826086956522,
+          "staying_put": 0.08695652173913045,
+          "landmark_seeking": 0.2608695652173913
+        },
+        "source_note_ids": [
+          "N4"
+        ],
+        "rule_ids": [
+          "a_0"
+        ],
+        "removed_boost": {
+          "consumer": "strategy_probs",
+          "semantic_evidence": "persistence.wait_for_help",
+          "factors": {
+            "staying_put": 3.0
+          }
+        },
+        "remaining_boosts": [
+          {
+            "consumer": "strategy_probs",
+            "semantic_evidence": "current_destination",
+            "factors": {
+              "landmark_seeking": 2.0
+            }
+          }
+        ],
+        "limitations": "note-level match is not sentence-level proof; ablation only, not a clinical calibration"
+      },
+      "only_strategy_and_audit_changed": true,
+      "before": {
+        "mass": 1.0000000000000002,
+        "mean_path_km": 7.350272,
+        "mean_wait_minutes": 77.04,
+        "mean_personal_wait_minutes": 0,
+        "mean_personal_rest_minutes": 129.03933333333333,
+        "mean_population_rest_minutes": 0.79,
+        "avoid_walkers": 0,
+        "avoid_targets": {},
+        "mean_max_continuous_walk": 4.585000000000018,
+        "mode": {
+          "rest": 31,
+          "walk": 362,
+          "wait": 107
+        },
+        "unresolved_mass": 0.0,
+        "unresolved_reasons": {},
+        "rule_minutes": {
+          "a_1": 64519.66666666667
+        }
+      },
+      "after": {
+        "mass": 1.0000000000000002,
+        "mean_path_km": 8.621024,
+        "mean_wait_minutes": 28.08,
+        "mean_personal_wait_minutes": 0,
+        "mean_personal_rest_minutes": 151.30533333333335,
+        "mean_population_rest_minutes": 1.01,
+        "avoid_walkers": 0,
+        "avoid_targets": {},
+        "mean_max_continuous_walk": 5.378333333333354,
+        "mode": {
+          "rest": 40,
+          "walk": 421,
+          "wait": 39
+        },
+        "unresolved_mass": 0.0,
+        "unresolved_reasons": {},
+        "rule_minutes": {
+          "a_1": 75652.66666666667
+        }
+      }
+    },
+    {
+      "scene": "wait_release",
+      "source_audit": {
+        "scene": "wait_release",
+        "expected_particles": 500,
+        "observed_particles": 500,
+        "checked": {
+          "segments": 262451,
+          "moving_segments_for_missed_rest": 144227,
+          "personal_rest_starts": 12372,
+          "completed_personal_rest_blocks": 11951,
+          "wait_window_segments_for_omission": 35461,
+          "personal_wait_segments": 33614
+        },
+        "coverage": {
+          "all_particles_observed": true,
+          "all_particles_reached_horizon": true,
+          "personal_rest_observed": true,
+          "personal_wait_observed": true,
+          "personal_avoid_observed": true
+        },
+        "violation_counts": {},
+        "violation_examples": [],
+        "violation_count": 0,
+        "incomplete_particles": [],
+        "right_censored_rest_blocks": 421,
+        "total_personal_wait_minutes": 33460.00015099999,
+        "total_baseline_wait_minutes": 11310.0,
+        "checks_passed": true,
+        "limits": "one authored synthetic source; conditional rest/wait/avoid only; not clinical or location accuracy"
+      },
+      "projection_audit": {
+        "applied": true,
+        "reason": "same_source_wait_delegated_to_conditional_policy",
+        "before": {
+          "route_following": 0.2222222222222222,
+          "direction_keeping": 0.1851851851851852,
+          "random_walk": 0.1111111111111111,
+          "backtracking": 0.03703703703703704,
+          "staying_put": 0.22222222222222227,
+          "landmark_seeking": 0.2222222222222222
+        },
+        "new_model_calls": 0,
+        "after": {
+          "route_following": 0.2608695652173913,
+          "direction_keeping": 0.2173913043478261,
+          "random_walk": 0.13043478260869565,
+          "backtracking": 0.04347826086956522,
+          "staying_put": 0.08695652173913045,
+          "landmark_seeking": 0.2608695652173913
+        },
+        "source_note_ids": [
+          "N4"
+        ],
+        "rule_ids": [
+          "a_0"
+        ],
+        "removed_boost": {
+          "consumer": "strategy_probs",
+          "semantic_evidence": "persistence.wait_for_help",
+          "factors": {
+            "staying_put": 3.0
+          }
+        },
+        "remaining_boosts": [
+          {
+            "consumer": "strategy_probs",
+            "semantic_evidence": "current_destination",
+            "factors": {
+              "landmark_seeking": 2.0
+            }
+          }
+        ],
+        "limitations": "note-level match is not sentence-level proof; ablation only, not a clinical calibration"
+      },
+      "only_strategy_and_audit_changed": true,
+      "before": {
+        "mass": 1.0000000000000002,
+        "mean_path_km": 5.971871999999998,
+        "mean_wait_minutes": 129.43333333333334,
+        "mean_personal_wait_minutes": 67.37333333333333,
+        "mean_personal_rest_minutes": 105.58266666666667,
+        "mean_population_rest_minutes": 0.57,
+        "avoid_walkers": 0,
+        "avoid_targets": {},
+        "mean_max_continuous_walk": 4.585000000000018,
+        "mode": {
+          "rest": 369,
+          "wait": 107,
+          "walk": 24
+        },
+        "unresolved_mass": 0.0,
+        "unresolved_reasons": {},
+        "rule_minutes": {
+          "a_0": 33686.666666666664,
+          "a_1": 52791.333333333336
+        }
+      },
+      "after": {
+        "mass": 1.0000000000000002,
+        "mean_path_km": 7.005039999999997,
+        "mean_wait_minutes": 89.53999999999999,
+        "mean_personal_wait_minutes": 66.92,
+        "mean_personal_rest_minutes": 123.71166666666667,
+        "mean_population_rest_minutes": 0.81,
+        "avoid_walkers": 0,
+        "avoid_targets": {},
+        "mean_max_continuous_walk": 5.378333333333354,
+        "mode": {
+          "rest": 421,
+          "wait": 39,
+          "walk": 40
+        },
+        "unresolved_mass": 0.0,
+        "unresolved_reasons": {},
+        "rule_minutes": {
+          "a_0": 33460.0,
+          "a_1": 61855.833333333336
+        }
+      }
+    }
+  ],
+  "checks_passed": true,
+  "new_external_calls": 0,
+  "release_qualified": false
+}

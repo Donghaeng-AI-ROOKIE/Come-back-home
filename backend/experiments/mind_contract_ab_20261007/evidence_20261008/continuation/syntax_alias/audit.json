@@ -1,0 +1,235 @@
+{
+ "source_score_sha256": "25109bdc90102677e7b5ac80e0ec699bff28650baeb66d638ed50cb9fc14cedf",
+ "compiler_sha256": "41cce8ad68c8636f787eccec4662069a31ff3b648c05574c08eb0795bfe48aeb",
+ "new_external_calls": 0,
+ "raw_responses_unchanged": true,
+ "previously_valid_policies_unchanged": true,
+ "lexical_changes": [
+  {
+   "input_id": "DEV_P05_original",
+   "rep": 2,
+   "attempt": "first",
+   "lexical_changes": [
+    {
+     "rule_index": 0,
+     "before": "is_walking AND (continuous_walk_minutes >=8 OR distance_since_rest_m >=4 and started)",
+     "after": "is_walking and (continuous_walk_minutes >=8 or distance_since_rest_m >=4 and started)",
+     "tokens": [
+      {
+       "from": "AND",
+       "to": "and",
+       "line": 1,
+       "column": 11
+      },
+      {
+       "from": "OR",
+       "to": "or",
+       "line": 1,
+       "column": 44
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "input_id": "DEV_P05_original",
+   "rep": 2,
+   "attempt": "fix",
+   "lexical_changes": [
+    {
+     "rule_index": 0,
+     "before": "is_walking AND (continuous_walk_minutes >= 8 OR distance_since_rest_m >=450)",
+     "after": "is_walking and (continuous_walk_minutes >= 8 or distance_since_rest_m >=450)",
+     "tokens": [
+      {
+       "from": "AND",
+       "to": "and",
+       "line": 1,
+       "column": 11
+      },
+      {
+       "from": "OR",
+       "to": "or",
+       "line": 1,
+       "column": 45
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "paired": {
+  "rows": [
+   {
+    "input_id": "DEV_P05_original",
+    "rep": 1,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P05_original",
+    "rep": 2,
+    "before_passed": 0,
+    "after_passed": 4,
+    "fixed_scenes": [
+     "DEV_P05_original_S1",
+     "DEV_P05_original_S2",
+     "DEV_P05_original_S3",
+     "DEV_P05_original_S4"
+    ],
+    "regressed_scenes": [],
+    "before_usable": false,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P08_preserve",
+    "rep": 1,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P08_preserve",
+    "rep": 2,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P13_original",
+    "rep": 1,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P13_original",
+    "rep": 2,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P16_preserve",
+    "rep": 1,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P16_preserve",
+    "rep": 2,
+    "before_passed": 3,
+    "after_passed": 3,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P26_hard",
+    "rep": 1,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P26_hard",
+    "rep": 2,
+    "before_passed": 3,
+    "after_passed": 3,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P29_original",
+    "rep": 1,
+    "before_passed": 0,
+    "after_passed": 0,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": false,
+    "after_usable": false
+   },
+   {
+    "input_id": "DEV_P29_original",
+    "rep": 2,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P30_original",
+    "rep": 1,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P30_original",
+    "rep": 2,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P31_original",
+    "rep": 1,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   },
+   {
+    "input_id": "DEV_P31_original",
+    "rep": 2,
+    "before_passed": 4,
+    "after_passed": 4,
+    "fixed_scenes": [],
+    "regressed_scenes": [],
+    "before_usable": true,
+    "after_usable": true
+   }
+  ],
+  "fixed_scenes": 4,
+  "regressed_scenes": 0,
+  "responses_with_regression": 0
+ },
+ "release_qualified": false,
+ "meaning": "output syntax compatibility only; not a change in K interpretation quality"
+}

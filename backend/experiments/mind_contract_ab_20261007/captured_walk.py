@@ -67,11 +67,16 @@ def metrics(pop, out, track):
 
 
 def main():
+    if not __package__:
+        raise SystemExit('Run with python -m experiments.mind_contract_ab_20261007.captured_walk so experiment imports stay in this checkout.')
     a=argparse.ArgumentParser(description=__doc__)
     a.add_argument('--capture',type=Path,required=True); a.add_argument('--policies',type=Path,required=True)
     a.add_argument('--map',type=Path,required=True); a.add_argument('--output',type=Path,required=True)
     a.add_argument('--product-backend',type=Path,required=True)
     a.add_argument('--walkers',type=int,default=500)
+    a.add_argument('--candidate',action='append',help='explicit subset of saved candidates; recorded in manifest')
+    a.add_argument('--audit-all-particles',action='store_true',help='streaming source checks on every particle')
+    a.add_argument('--separate-conditional-wait',action='store_true',help='research ablation of duplicate waiting contribution')
     args=a.parse_args()
     if args.output.exists(): raise SystemExit('refuse overwrite; use a new evidence directory')
     sys.path.insert(0,str(args.product_backend.resolve()))
@@ -97,6 +102,9 @@ def main():
                 'empty_policy':Policy(rules=[],unrepresented=[])}
     for row in scored['results']:
         candidates[f"{row['candidate']}_rep{row['rep']}"]=Policy.model_validate(row['policy']) if row['policy'] is not None else None
+    if args.candidate:
+        if any(name not in candidates for name in args.candidate): raise ValueError('unknown candidate')
+        candidates={name:candidates[name] for name in args.candidate}
     facilities={f:[] for f in e.FEATURES}
     # These two known fixture labels were authored with the fixture, not inferred
     # from a guardian keyword. They are NOT real OSM facility observations.
@@ -111,10 +119,21 @@ def main():
         'full_actual_captured_persona':True,'walkers':args.walkers,'seed':17,
         'candidate_names':list(candidates),'scenarios':{k:{**v,'start':v['start'].isoformat()} for k,v in scenarios().items()},
         'facilities':facilities,'numeric_baseline':'offline profile default + saved initial K interpretation; not SAR inference',
+        'all_particle_source_audit':args.audit_all_particles,
+        'separate_conditional_wait':args.separate_conditional_wait,
         'limits':['one synthetic guardian','author reference not expert approved','axes scoring not captured',
                   'three synthetic scenes on real roads','full production API not exercised',
                   'no clinical/path accuracy measured'],'new_external_calls':0,'release_qualified':False}
     save(args.output/'manifest.json',manifest)
+    if args.audit_all_particles:
+        from experiments.mind_contract_ab_20261007.captured_trace_audit import SourceTraceAudit
+        from experiments.mind_contract_ab_20261007 import captured_trace_audit
+        manifest['source_audit_sha256']=digest(captured_trace_audit.__file__)
+        save(args.output/'manifest.json',manifest)
+    if args.separate_conditional_wait:
+        from experiments.mind_contract_ab_20261007 import conditional_prior
+        manifest['conditional_prior_sha256']=digest(conditional_prior.__file__)
+        save(args.output/'manifest.json',manifest)
     save(args.output/'status.json',{'state':'loading_verified_map'})
     if digest(args.map)!=e.MAP_SHA256: raise ValueError('unexpected KINTEX map hash')
     net=verified_network(args.map)
@@ -137,22 +156,31 @@ def main():
             save(args.output/'status.json',{'state':'walking','scene':scene_name,'candidate':name,'completed':len(runs)})
             if policy is None:
                 runs[key]={'status':'unusable_model_output'};continue
+            walk_base=base
+            prior_audit=None
+            if args.separate_conditional_wait:
+                walk_base,prior_audit=conditional_prior.separate_waiting(base,policy)
+                save(args.output/'priors'/f'{scene_name}_{name}_ablation.json',walk_base.model_dump(mode='json'))
             identity=json.dumps([scene_name,policy.model_dump(mode='json')],sort_keys=True,ensure_ascii=False)
             if identity in cache:
                 runs[key]={'status':'reused_identical_policy','reference_run':cache[identity]};continue
             track={}; traces={}; timeline=[]
+            audit=(SourceTraceAudit(scene_name,policy.rules,start.model_dump(),facilities['market'][0],args.walkers)
+                   if args.audit_all_particles else None)
             def hook(part,loc):
                 t=track.setdefault(part.seed,{'avoid_labels':set(),'max_continuous_walk':0.0})
                 if part.mode=='avoid': t['avoid_labels'].update(part.avoid_labels or [part.avoid_feature])
                 t['max_continuous_walk']=max(t['max_continuous_walk'],part.continuous_walk)
                 index=(part.seed-17)//100003
-                if index<5:
-                    traces.setdefault(str(index),[]).append({'minute':round(part.minute,6),**loc.model_dump(),
+                if index<5 or audit is not None:
+                    point={'minute':round(part.minute,6),**loc.model_dump(),
                         'mode':part.mode,'rule_id':part.hold_rule_id,'target':part.target,
                         'distance_m':round(part.distance,5),'continuous_walk':round(part.continuous_walk,5),
                         'rest':round(part.rest,5),'wait':round(part.waiting,5),
-                        'uncertain':part.last_uncertain,'baseline':part.last_baseline})
-            pop=Population(env,persona,base,policy,start,scene['start'],count=args.walkers,seed=17,
+                        'uncertain':part.last_uncertain,'baseline':part.last_baseline}
+                    if index<5: traces.setdefault(str(index),[]).append(point)
+                    if audit is not None: audit.observe(index,point)
+            pop=Population(env,persona,walk_base,policy,start,scene['start'],count=args.walkers,seed=17,
                 environment_observations=e.environment_observations(scene,facilities),
                 behavior_observations=e.behavior_observations(scene),trace_hook=hook)
             for part in pop.particles:
@@ -165,6 +193,8 @@ def main():
                 'persona_axes_used':dict(pop.persona.axis_scores),
                 'route_familiarity_used':[r.model_dump(mode='json') for r in pop.persona.route_familiarity],
                 'policy':policy.model_dump(mode='json')}
+            if audit is not None: result['all_particle_audit']=audit.result(scene['horizon'])
+            if prior_audit is not None: result['conditional_prior_audit']=prior_audit
             target=args.output/scene_name/(name+'.json');save(target,result)
             runs[key]={'status':'walked','path':str(target),'final':timeline[-1]['metrics']};cache[identity]=key
             save(args.output/'summary.json',{'runs':runs,'release_qualified':False})
