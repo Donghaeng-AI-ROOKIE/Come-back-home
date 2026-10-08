@@ -9,6 +9,8 @@
 3. [D15 개선과 회귀](continuation/d15/README.md), [D16 비교와 출력 길이 복구](continuation/d16/README.md)
 4. [장소별 도착·인지 실행기 검증](continuation/place_bound/README.md), [JSON 상태 저장·복원](continuation/checkpoint/README.md)
 
+[저장 점수·사용량 색인](publication_index.json)은 D4 완료와 D5 이후 미채택 후보도 포함한다. 비교 입력이 다른 묶음의 분자를 합쳐 하나의 정확도로 쓰지 않는다. [공개 전 검사 목록](publication_checks.json)은 이번 변경에 추가된 테스트24개 파일의209개 통과를 기록한다.
+
 이 PR은 연구 코드와 증빙이다. 온보딩 장소 유형·시각 비교 수정 및 새 장소별 실행기 코드는 같은 기반 브랜치에서 별도 수정 PR로 분리했다. 연구 결과를 운영 API에 연결하거나 배포한 상태는 아니다.
 
 이 폴더는 작은 검토용 근거 묶음이다. 모델 최종 공개 응답·전체 원장·전 보행 데이터는 팀 결선/실험의 MIND_compact12_20261008, MIND_compact13_20261008, MIND_captured_initial_20261008, MIND_captured_policy_20261008, MIND_captured_walk_20261008에 있다. 링크가 외부 결선 폴더를 가리키는 부분은 로컬 재현 위치 안내다.

@@ -1,0 +1,1359 @@
+{
+  "purpose": "Inventory of stored synthetic development scores. Different stages and inputs are not directly comparable. This is not clinical/location accuracy. Missing usage is unknown; do not sum overlapping prior stages as new PR calls.",
+  "rows": [
+    {
+      "source_local_archive": "결선/실험/MIND_contract_ab_20261007/c_dev8/scored.json",
+      "source_sha256": "374d9920c3d257ee9e0e6cd1dfc8de0e0a76beb1c5188d5fa4fbd5eff15b386b",
+      "scored_with": null,
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 11,
+        "passed": 19,
+        "first_valid": 3,
+        "final_valid": 5,
+        "corrections": 13,
+        "no_response": null,
+        "not_submitted": null,
+        "repeat_identical_policy": 1,
+        "trait_accounting": null
+      },
+      "gate": {
+        "checks": {
+          "decisions": false,
+          "final_valid": false,
+          "no_critical": true
+        },
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity"
+      },
+      "usage": null
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_contract_ab_20261007/d2_dev128/scored.json",
+      "source_sha256": "a614561989aeefa21c0ae0f088b3944adc2d6a4ad19626a38a32e52461e64f6f",
+      "scored_with": null,
+      "summary": {
+        "inputs": 128,
+        "responses": 256,
+        "decisions": 1024,
+        "first_pass_passed": 669,
+        "passed": 827,
+        "first_valid": 183,
+        "final_valid": 228,
+        "corrections": 73,
+        "no_response": null,
+        "not_submitted": null,
+        "repeat_identical_policy": 36,
+        "trait_accounting": {
+          "responses_counted": 228,
+          "by_kind": {
+            "observed_response": 207,
+            "functional_need": 46,
+            "capacity_only": 6,
+            "stated_goal": 8,
+            "unobserved": 84,
+            "corrected_away": 110,
+            "hearsay_or_general": 20,
+            "other_information": 328,
+            "not_representable": 4
+          },
+          "responses_with_trait_loss": 3,
+          "trait_loss_sentences": 4,
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss)"
+        }
+      },
+      "gate": {
+        "checks": {
+          "decisions": false,
+          "families": false,
+          "supported": false,
+          "unknown": false,
+          "final_valid": false,
+          "no_critical": false
+        },
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity"
+      },
+      "usage": null
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_contract_ab_20261007/d2_dev8/scored.json",
+      "source_sha256": "64980b46ab36e5db5a70ca2d917df4cb156391300f2a1026ac8044d23a7ba264",
+      "scored_with": null,
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 56,
+        "passed": 60,
+        "first_valid": 14,
+        "final_valid": 15,
+        "corrections": 2,
+        "no_response": null,
+        "not_submitted": null,
+        "repeat_identical_policy": 7,
+        "trait_accounting": {
+          "responses_counted": 15,
+          "by_kind": {
+            "observed_response": 8,
+            "functional_need": 4,
+            "capacity_only": 2,
+            "stated_goal": 1,
+            "unobserved": 11,
+            "corrected_away": 8,
+            "hearsay_or_general": 0,
+            "other_information": 14,
+            "not_representable": 0
+          },
+          "responses_with_trait_loss": 0,
+          "trait_loss_sentences": 0,
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss)"
+        }
+      },
+      "gate": {
+        "checks": {
+          "decisions": true,
+          "final_valid": true,
+          "no_critical": true
+        },
+        "advance": true,
+        "meaning": "synthetic development data; not location accuracy or clinical validity"
+      },
+      "usage": null
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_contract_ab_20261007/d3_dev128/scored.json",
+      "source_sha256": "f9cd996e5d6d7e0e1677d2b33386abd376dfeea72854bd7e8bf24d8f85506acd",
+      "scored_with": null,
+      "summary": {
+        "inputs": 128,
+        "responses": 256,
+        "decisions": 1024,
+        "first_pass_passed": 773,
+        "passed": 882,
+        "first_valid": 216,
+        "final_valid": 247,
+        "corrections": 40,
+        "no_response": null,
+        "not_submitted": null,
+        "repeat_identical_policy": 41,
+        "trait_accounting": {
+          "responses_counted": 247,
+          "by_kind": {
+            "observed_response": 194,
+            "functional_need": 61,
+            "capacity_only": 14,
+            "stated_goal": 20,
+            "unobserved": 94,
+            "corrected_away": 81,
+            "hearsay_or_general": 28,
+            "other_information": 531,
+            "not_representable": 3
+          },
+          "responses_with_trait_loss": 3,
+          "trait_loss_sentences": 5,
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss)"
+        }
+      },
+      "gate": {
+        "checks": {
+          "decisions": false,
+          "families": false,
+          "supported": false,
+          "unknown": false,
+          "final_valid": true,
+          "no_critical": false
+        },
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity"
+      },
+      "usage": null
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_contract_ab_20261007/d3_dev8/scored.json",
+      "source_sha256": "1a80eadc4382f7f22cbf2a064119350b7ba2facf1dfeb4f298c84d696d388767",
+      "scored_with": null,
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 56,
+        "passed": 60,
+        "first_valid": 14,
+        "final_valid": 15,
+        "corrections": 2,
+        "no_response": null,
+        "not_submitted": null,
+        "repeat_identical_policy": 7,
+        "trait_accounting": {
+          "responses_counted": 15,
+          "by_kind": {
+            "observed_response": 7,
+            "functional_need": 3,
+            "capacity_only": 1,
+            "stated_goal": 3,
+            "unobserved": 9,
+            "corrected_away": 7,
+            "hearsay_or_general": 1,
+            "other_information": 23,
+            "not_representable": 0
+          },
+          "responses_with_trait_loss": 0,
+          "trait_loss_sentences": 0,
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss)"
+        }
+      },
+      "gate": {
+        "checks": {
+          "decisions": true,
+          "final_valid": true,
+          "no_critical": true
+        },
+        "advance": true,
+        "meaning": "synthetic development data; not location accuracy or clinical validity"
+      },
+      "usage": null
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_contract_ab_20261007/d4_dev128/scored.json",
+      "source_sha256": "46bb0900b3de56ce04b7ee7e1bc3d3e70efc8160a3ca386e14d9cb8e94267f97",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 128,
+        "responses": 256,
+        "decisions": 1024,
+        "first_pass_passed": 680,
+        "passed": 832,
+        "first_valid": 191,
+        "final_valid": 234,
+        "corrections": 65,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 48,
+        "trait_accounting": {
+          "responses_counted": 253,
+          "responses_counted_compiled": 234,
+          "responses_counted_rejected": 19,
+          "responses_unreadable": 0,
+          "by_kind": {
+            "observed_response": 189,
+            "functional_need": 53,
+            "capacity_only": 19,
+            "stated_goal": 35,
+            "unobserved": 106,
+            "corrected_away": 62,
+            "hearsay_or_general": 25,
+            "other_information": 512,
+            "not_representable": 7
+          },
+          "responses_with_trait_loss": 5,
+          "trait_loss_sentences": 8,
+          "rejected": {
+            "responses_with_trait_loss": 1,
+            "trait_loss_sentences": 1
+          },
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": false,
+          "families": false,
+          "supported": false,
+          "unknown": false,
+          "final_valid": false,
+          "no_critical": false
+        },
+        "machine_checks_passed": false,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 26,
+          "explicit_rest_deleted": 26,
+          "action_without_reference": 40,
+          "withheld_action_injected": 8
+        },
+        "critical_unmeasured": []
+      },
+      "usage": null
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_contract_ab_20261007/d4_dev8/scored.json",
+      "source_sha256": "627d2f2a13613f93164388e9202d6d916ecca95a63f95f03afb28e8ec7c57425",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 50,
+        "passed": 58,
+        "first_valid": 13,
+        "final_valid": 15,
+        "corrections": 3,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 6,
+        "trait_accounting": {
+          "responses_counted": 16,
+          "responses_counted_compiled": 15,
+          "responses_counted_rejected": 1,
+          "responses_unreadable": 0,
+          "by_kind": {
+            "observed_response": 8,
+            "functional_need": 3,
+            "capacity_only": 2,
+            "stated_goal": 2,
+            "unobserved": 13,
+            "corrected_away": 5,
+            "hearsay_or_general": 0,
+            "other_information": 20,
+            "not_representable": 0
+          },
+          "responses_with_trait_loss": 0,
+          "trait_loss_sentences": 0,
+          "rejected": {
+            "responses_with_trait_loss": 0,
+            "trait_loss_sentences": 0
+          },
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": true,
+          "final_valid": true,
+          "no_critical": true
+        },
+        "machine_checks_passed": true,
+        "advance": true,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 2,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 6,
+          "withheld_action_injected": 4
+        },
+        "critical_unmeasured": []
+      },
+      "usage": null
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_contract_ab_20261007/d_dev8/scored.json",
+      "source_sha256": "b8ff0050cdddb181e17a555588c09816802ab45f3ddd64558f812957cac98096",
+      "scored_with": null,
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 40,
+        "passed": 56,
+        "first_valid": 10,
+        "final_valid": 14,
+        "corrections": 6,
+        "no_response": null,
+        "not_submitted": null,
+        "repeat_identical_policy": 5,
+        "trait_accounting": null
+      },
+      "gate": {
+        "checks": {
+          "decisions": false,
+          "final_valid": false,
+          "no_critical": true
+        },
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity"
+      },
+      "usage": null
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_contract_ab_20261007/dev8/scored.json",
+      "source_sha256": "c89f7fc30d745b2842a2b8d04727877b53764096ff987b82fec2342feed5e24a",
+      "scored_with": null,
+      "summary": {
+        "inputs": null,
+        "responses": null,
+        "decisions": null,
+        "first_pass_passed": null,
+        "passed": null,
+        "first_valid": null,
+        "final_valid": null,
+        "corrections": null,
+        "no_response": null,
+        "not_submitted": null,
+        "repeat_identical_policy": null,
+        "trait_accounting": null
+      },
+      "gate": {
+        "selected": "A",
+        "selection_key": [
+          34,
+          -1,
+          10,
+          true
+        ],
+        "required_decisions": 58,
+        "checks": {
+          "decisions": false,
+          "complete_json": false,
+          "no_critical": false
+        },
+        "advance_to_expanded_development": false,
+        "meaning": "development direction only; dev8 profiles were already seen; not performance evidence"
+      },
+      "usage": null
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_contract_d5_20261007/d5_dev8/scored.json",
+      "source_sha256": "a26e31d34bb45513771a3b9923b65468558d703b3b672ac93e99984c400e8ab8",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 35,
+        "passed": 51,
+        "first_valid": 9,
+        "final_valid": 13,
+        "corrections": 7,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 3,
+        "trait_accounting": {
+          "responses_counted": 16,
+          "responses_counted_compiled": 13,
+          "responses_counted_rejected": 3,
+          "responses_unreadable": 0,
+          "by_kind": {
+            "observed_response": 8,
+            "functional_need": 4,
+            "capacity_only": 2,
+            "stated_goal": 2,
+            "unobserved": 9,
+            "corrected_away": 0,
+            "hearsay_or_general": 0,
+            "other_information": 34,
+            "not_representable": 0
+          },
+          "responses_with_trait_loss": 0,
+          "trait_loss_sentences": 0,
+          "rejected": {
+            "responses_with_trait_loss": 0,
+            "trait_loss_sentences": 0
+          },
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": false,
+          "final_valid": false,
+          "no_critical": true
+        },
+        "machine_checks_passed": false,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 2,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 6,
+          "withheld_action_injected": 4
+        },
+        "critical_unmeasured": []
+      },
+      "usage": {
+        "run_id": null,
+        "started": 23,
+        "finished": 23,
+        "balanced_attempt_ids": null,
+        "usage": null,
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_condition_repair_20261007/d6_prepared/d6_dev8/scored.json",
+      "source_sha256": "5457f837ad1833b53cb21d15780dd4c91c77e5c16c03cd4243b970754a4636bb",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 40,
+        "passed": 48,
+        "first_valid": 12,
+        "final_valid": 14,
+        "corrections": 4,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 4,
+        "trait_accounting": {
+          "responses_counted": 16,
+          "responses_counted_compiled": 14,
+          "responses_counted_rejected": 2,
+          "responses_unreadable": 0,
+          "by_kind": {},
+          "responses_with_trait_loss": 1,
+          "trait_loss_sentences": 1,
+          "rejected": {
+            "responses_with_trait_loss": 0,
+            "trait_loss_sentences": 0
+          },
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": false,
+          "final_valid": false,
+          "no_critical": true
+        },
+        "machine_checks_passed": false,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 2,
+          "withheld_action_injected": 0
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap",
+          "withheld_action_injected"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d6_dev8",
+        "started": 20,
+        "finished": 20,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 91129,
+          "completion_tokens": 136150,
+          "total_tokens": 227279
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_condition_repair_20261007/d7_source_review/d7_dev8/scored.json",
+      "source_sha256": "35cabd1052ee3a6258ac06427038d41a69b87521fb5f32514f55c5b838c10cb3",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 34,
+        "passed": 42,
+        "first_valid": 11,
+        "final_valid": 13,
+        "corrections": 5,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 3,
+        "trait_accounting": {
+          "responses_counted": 15,
+          "responses_counted_compiled": 13,
+          "responses_counted_rejected": 2,
+          "responses_unreadable": 0,
+          "by_kind": {},
+          "responses_with_trait_loss": 1,
+          "trait_loss_sentences": 2,
+          "rejected": {
+            "responses_with_trait_loss": 0,
+            "trait_loss_sentences": 0
+          },
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": false,
+          "final_valid": false,
+          "no_critical": true
+        },
+        "machine_checks_passed": false,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 2,
+          "withheld_action_injected": 0
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap",
+          "withheld_action_injected"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d7_dev8",
+        "started": 21,
+        "finished": 21,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 108348,
+          "completion_tokens": 95720,
+          "total_tokens": 204068
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_condition_repair_20261007/d8_concise/d8_dev8/scored.json",
+      "source_sha256": "bb82d7ac2bab6f40671d3142fa468a349363b5590ebba2f34221352c487ca599",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 29,
+        "passed": 35,
+        "first_valid": 8,
+        "final_valid": 10,
+        "corrections": 7,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 0,
+        "trait_accounting": {
+          "responses_counted": 15,
+          "responses_counted_compiled": 10,
+          "responses_counted_rejected": 5,
+          "responses_unreadable": 0,
+          "by_kind": {},
+          "responses_with_trait_loss": 1,
+          "trait_loss_sentences": 2,
+          "rejected": {
+            "responses_with_trait_loss": 0,
+            "trait_loss_sentences": 0
+          },
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": false,
+          "final_valid": false,
+          "no_critical": false
+        },
+        "machine_checks_passed": false,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 2,
+          "withheld_action_injected": 0
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap",
+          "withheld_action_injected"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d8_dev8",
+        "started": 25,
+        "finished": 23,
+        "balanced_attempt_ids": false,
+        "usage": {
+          "prompt_tokens": 79057,
+          "completion_tokens": 116071,
+          "total_tokens": 195128
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_condition_repair_20261007/d8_concise/d8plain_dev8/scored.json",
+      "source_sha256": "74c58a5b54b47455ccd22c0f9869f5ed591fca064aac593c9fa77733f9d7ca62",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 8,
+        "passed": 16,
+        "first_valid": 2,
+        "final_valid": 5,
+        "corrections": 14,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 1,
+        "trait_accounting": {
+          "responses_counted": 12,
+          "responses_counted_compiled": 5,
+          "responses_counted_rejected": 7,
+          "responses_unreadable": 0,
+          "by_kind": {},
+          "responses_with_trait_loss": 0,
+          "trait_loss_sentences": 0,
+          "rejected": {
+            "responses_with_trait_loss": 0,
+            "trait_loss_sentences": 0
+          },
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": false,
+          "final_valid": false,
+          "no_critical": true
+        },
+        "machine_checks_passed": false,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 2,
+          "withheld_action_injected": 0
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap",
+          "withheld_action_injected"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d8plain_dev8",
+        "started": 30,
+        "finished": 30,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 103500,
+          "completion_tokens": 169219,
+          "total_tokens": 272719
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_condition_repair_20261007/d9_staged/d9_dev8/scored.json",
+      "source_sha256": "8cf74068f00c96d6f3a7663d8075595b444a86ae5ef879bd7d5765ad40cc1229",
+      "scored_with": null,
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 8,
+        "passed": 9,
+        "first_valid": 2,
+        "final_valid": 3,
+        "corrections": 1,
+        "no_response": 0,
+        "not_submitted": 12,
+        "repeat_identical_policy": 0,
+        "trait_accounting": {
+          "responses_counted": 3,
+          "responses_counted_compiled": 3,
+          "responses_counted_rejected": 0,
+          "responses_unreadable": 0,
+          "by_kind": {},
+          "responses_with_trait_loss": 0,
+          "trait_loss_sentences": 0,
+          "rejected": {
+            "responses_with_trait_loss": 0,
+            "trait_loss_sentences": 0
+          },
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": false,
+          "final_valid": false,
+          "no_critical": true
+        },
+        "machine_checks_passed": false,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 2,
+          "withheld_action_injected": 0
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap",
+          "withheld_action_injected"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d9_dev8",
+        "started": 21,
+        "finished": 21,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 35394,
+          "completion_tokens": 131900,
+          "total_tokens": 167294
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_nonreasoning_contract_20261008/d10_dev8/scored.json",
+      "source_sha256": "b546c1e53eb766a06bac59b8bb889b4284439324a499f3bc157ee7740eae72c6",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 17,
+        "passed": 23,
+        "first_valid": 7,
+        "final_valid": 11,
+        "corrections": 9,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 0,
+        "trait_accounting": {
+          "responses_counted": 16,
+          "responses_counted_compiled": 11,
+          "responses_counted_rejected": 5,
+          "responses_unreadable": 0,
+          "by_kind": {},
+          "responses_with_trait_loss": 2,
+          "trait_loss_sentences": 3,
+          "rejected": {
+            "responses_with_trait_loss": 1,
+            "trait_loss_sentences": 1
+          },
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": false,
+          "final_valid": false,
+          "no_critical": false
+        },
+        "machine_checks_passed": false,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 2,
+          "withheld_action_injected": 0
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap",
+          "withheld_action_injected"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d10_dev8",
+        "started": 25,
+        "finished": 25,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 99174,
+          "completion_tokens": 9185,
+          "total_tokens": 108359
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_nonreasoning_contract_20261008/d11_dev8/scored.json",
+      "source_sha256": "50e071356c1b0083456665af093494f71e4ef156479e5b3d2d6f926059179a0e",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 2,
+        "passed": 5,
+        "first_valid": 2,
+        "final_valid": 4,
+        "corrections": 10,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 0,
+        "trait_accounting": {
+          "responses_counted": 14,
+          "responses_counted_compiled": 4,
+          "responses_counted_rejected": 10,
+          "responses_unreadable": 0,
+          "by_kind": {},
+          "responses_with_trait_loss": 2,
+          "trait_loss_sentences": 2,
+          "rejected": {
+            "responses_with_trait_loss": 1,
+            "trait_loss_sentences": 1
+          },
+          "note": "not_representable = guardian-observed trait the engine cannot express (trait loss); counted for every parseable final response, compiled or rejected"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": false,
+          "final_valid": false,
+          "no_critical": false
+        },
+        "machine_checks_passed": false,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 2,
+          "withheld_action_injected": 0
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap",
+          "withheld_action_injected"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d11_dev8",
+        "started": 26,
+        "finished": 26,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 90769,
+          "completion_tokens": 64413,
+          "total_tokens": 155182
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_compact12_20261008/d12_dev8/scored.json",
+      "source_sha256": "61f02ec7037f9d4317b6926b7dc0dadbe23a5ea99c245b017f7fe8a59e5b84d7",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 58,
+        "passed": 62,
+        "first_valid": 15,
+        "final_valid": 16,
+        "corrections": 1,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 5,
+        "trait_accounting": {
+          "available": false,
+          "unmeasured_responses": 16,
+          "note": "Compact note-level contract cannot measure per-sentence trait loss; do not interpret as zero loss."
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": true,
+          "final_valid": true,
+          "no_critical": true
+        },
+        "machine_checks_passed": true,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 2,
+          "withheld_action_injected": 0
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap",
+          "withheld_action_injected"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d12_dev8",
+        "started": 17,
+        "finished": 17,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 36705,
+          "completion_tokens": 78188,
+          "total_tokens": 114893
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_compact13_20261008/d13_dev8/scored.json",
+      "source_sha256": "25109bdc90102677e7b5ac80e0ec699bff28650baeb66d638ed50cb9fc14cedf",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 54,
+        "passed": 54,
+        "first_valid": 14,
+        "final_valid": 14,
+        "corrections": 2,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 2,
+        "trait_accounting": {
+          "available": false,
+          "unmeasured_responses": 16,
+          "note": "Compact note-level contract cannot measure per-sentence trait loss; do not interpret as zero loss."
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": false,
+          "final_valid": false,
+          "no_critical": true
+        },
+        "machine_checks_passed": false,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 2,
+          "withheld_action_injected": 0
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap",
+          "withheld_action_injected"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d13_dev8",
+        "started": 18,
+        "finished": 18,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 43358,
+          "completion_tokens": 83012,
+          "total_tokens": 126370
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_compact13_20261008/syntax_alias_audit/scored.json",
+      "source_sha256": "0780401ff64525fb3799ac6ce3048bc9d6f9e79eb57198e0d96b28e9e1dc9352",
+      "scored_with": null,
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 54,
+        "passed": 58,
+        "first_valid": 14,
+        "final_valid": 15,
+        "corrections": 2,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 3,
+        "trait_accounting": {
+          "available": false,
+          "unmeasured_responses": 16
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": true,
+          "final_valid": true,
+          "no_critical": true
+        },
+        "machine_checks_passed": true,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 2,
+          "withheld_action_injected": 0
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap",
+          "withheld_action_injected"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": null
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_compact14_20261008/d14_dev8/scored.json",
+      "source_sha256": "93febc8d605bdb947eed6b8e7094e7d61fbe587d33b06efc8d71b61ef3275074",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 55,
+        "passed": 63,
+        "first_valid": 14,
+        "final_valid": 16,
+        "corrections": 2,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 5,
+        "trait_accounting": {
+          "available": false,
+          "unmeasured_responses": 16,
+          "note": "Compact note-level contract cannot measure per-sentence trait loss; do not interpret as zero loss."
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": true,
+          "final_valid": true,
+          "no_critical": true
+        },
+        "machine_checks_passed": true,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 4,
+          "action_without_reference": 2,
+          "withheld_action_injected": 0
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap",
+          "withheld_action_injected"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule); withheld_action_injected (no typed WITHHELD list for these ids). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d14_dev8",
+        "started": 18,
+        "finished": 18,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 44236,
+          "completion_tokens": 88580,
+          "total_tokens": 132816
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_compact15_20261008/d15_dev8/scored.json",
+      "source_sha256": "e127e3e97abd50328312d317b1ba14cff817e6e4bef1199c4308855ff43aaa0d",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 46,
+        "passed": 58,
+        "first_valid": 12,
+        "final_valid": 15,
+        "corrections": 4,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 4,
+        "trait_accounting": {
+          "available": false,
+          "unmeasured_responses": 16,
+          "note": "source-to-action distinctions are not sentence-level coverage measurement"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": true,
+          "final_valid": true,
+          "no_critical": true
+        },
+        "machine_checks_passed": true,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 2,
+          "action_without_reference": 2,
+          "withheld_action_injected": 2
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d15_dev8",
+        "started": 20,
+        "finished": 20,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 47284,
+          "completion_tokens": 78603,
+          "total_tokens": 125887
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_compact16_20261008/d16_dev8/scored.json",
+      "source_sha256": "6ea24518c7031972ff697ef0981b2512ceb6e03a20828b49aa39ee74df439e9d",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 8,
+        "responses": 16,
+        "decisions": 64,
+        "first_pass_passed": 51,
+        "passed": 55,
+        "first_valid": 14,
+        "final_valid": 15,
+        "corrections": 1,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 4,
+        "trait_accounting": {
+          "available": false,
+          "unmeasured_responses": 16,
+          "note": "source-to-action distinctions are not sentence-level coverage measurement"
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": false,
+          "final_valid": true,
+          "no_critical": true
+        },
+        "machine_checks_passed": false,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 0,
+          "explicit_rest_deleted": 2,
+          "action_without_reference": 2,
+          "withheld_action_injected": 2
+        },
+        "critical_unmeasured": [
+          "goal_scope_swap"
+        ],
+        "human_judgment_required": "no_critical covers only the measured types. Not revealable by the typed checks on this data: goal_scope_swap (no reference seek rule). advance stays False until a human judges them; rows list commands_not_in_reference as typed candidates."
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d16_dev8",
+        "started": 17,
+        "finished": 17,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 41476,
+          "completion_tokens": 85002,
+          "total_tokens": 126478
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    },
+    {
+      "source_local_archive": "결선/실험/MIND_compact24_20261008/d12_dev24/scored.json",
+      "source_sha256": "45140ef798d3d3da92b0c79bdaa22ffacebc52d699bdb520e77fcd7f9ebcaaba",
+      "scored_with": "scoring_v2",
+      "summary": {
+        "inputs": 24,
+        "responses": 48,
+        "decisions": 192,
+        "first_pass_passed": 167,
+        "passed": 187,
+        "first_valid": 43,
+        "final_valid": 48,
+        "corrections": 5,
+        "no_response": 0,
+        "not_submitted": 0,
+        "repeat_identical_policy": 20,
+        "trait_accounting": {
+          "available": false,
+          "unmeasured_responses": 48,
+          "note": "Note-level contract does not measure sentence-level trait loss."
+        }
+      },
+      "gate": {
+        "checks": {
+          "complete": true,
+          "decisions": true,
+          "families": true,
+          "supported": true,
+          "unknown": true,
+          "final_valid": true,
+          "no_critical": true
+        },
+        "machine_checks_passed": true,
+        "advance": false,
+        "meaning": "synthetic development data; not location accuracy or clinical validity",
+        "critical_coverage": {
+          "goal_scope_swap": 6,
+          "explicit_rest_deleted": 2,
+          "action_without_reference": 10,
+          "withheld_action_injected": 8
+        },
+        "critical_unmeasured": [],
+        "purpose": "expanded development diagnostic; not independent clinical or release evaluation",
+        "additional_required": [
+          "condition counterexamples",
+          "KINTEX walking",
+          "source meaning review"
+        ]
+      },
+      "usage": {
+        "run_id": "MIND_contract_ab_20261007_d12_dev24",
+        "started": 53,
+        "finished": 53,
+        "balanced_attempt_ids": true,
+        "usage": {
+          "prompt_tokens": 111737,
+          "completion_tokens": 258247,
+          "total_tokens": 369984
+        },
+        "unit_price": null,
+        "actual_cost": null,
+        "support_round": null
+      }
+    }
+  ]
+}
