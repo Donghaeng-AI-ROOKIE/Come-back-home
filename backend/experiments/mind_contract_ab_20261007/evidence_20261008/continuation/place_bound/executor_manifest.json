@@ -1,0 +1,14 @@
+{
+  "executor": "PlaceBoundPopulation",
+  "source_sha256": {
+    "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/개발/cbh-mind-d5-resume-20261007/backend/experiments/mind_contract_ab_20261007/captured_placebound_walk.py": "8ac44f8ee8db14f879180deb6670cb929e9cffcf8f8c6cebfaaf7c7cd04dd107",
+    "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/개발/cbh-mind-d5-resume-20261007/backend/experiments/mind_contract_ab_20261007/captured_walk.py": "a350060c59ebc24dc85ab18ee8253caa58be52c645e82544ba1ffa3e540fd589",
+    "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/개발/cbh-onboarding-place-metadata-20261008/backend/app/phase2/person_walk.py": "25650669017fffa9378b8c03a9d76ec8e99cad903f3a066de6c888d6be34fe55",
+    "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/개발/cbh-onboarding-place-metadata-20261008/backend/app/phase2/place_bound_walk.py": "a6fe8b62b4d4045dd1288d6264e7c8302cc869314297b0e65a9f46e3b96c17e8"
+  },
+  "source_policy_or_persona_modified": false,
+  "new_place_recognition_observations": [],
+  "purpose": "regression of other captured traits; named arrival covered separately",
+  "new_external_calls": 0,
+  "release_qualified": false
+}

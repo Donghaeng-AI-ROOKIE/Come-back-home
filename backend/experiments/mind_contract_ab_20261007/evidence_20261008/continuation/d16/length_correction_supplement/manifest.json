@@ -1,0 +1,29 @@
+{
+ "input_id": "DEV_P26_hard",
+ "rep": 2,
+ "synthetic": true,
+ "max_calls": 1,
+ "max_output_tokens": 16384,
+ "automatic_retry": false,
+ "original_scores_unchanged": true,
+ "new_external_services": false,
+ "source_sha256": {
+  "../../../실험/MIND_compact16_20261008/d16_dev8/DEV_P26_hard/2/first/request.json": "f2b92e2e498af4f94d89826e7352fdc22212536d8d41cff6da21dcaa745da7d9",
+  "../../../실험/MIND_compact16_20261008/d16_dev8/DEV_P26_hard/2/first/response.public.json": "4c4da3467f3c94aad12abf3175a49ad9f5407f9321f4685c90af96c84e1e516e",
+  "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/개발/cbh-mind-d5-resume-20261007/backend/experiments/mind_contract_ab_20261007/run_bounded_correction.py": "220a4cdadda5b85a96e3fa9ff275b2b37f697d00e7b06f738865f0b3288a0998",
+  "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/개발/cbh-mind-d5-resume-20261007/backend/experiments/mind_contract_ab_20261007/bounded_correction.py": "78b07962aa35ba434975666b7c624b047b1183f16bf3ff773bc02cc58a22482c"
+ },
+ "request_sha256": "0b529f28384288556346d94987968299ee70c5de801f93b026112561c707194b",
+ "standing_approval": "same-goal repeated experiments, user 2026-10-08",
+ "unit_price": null,
+ "actual_cost": null,
+ "support_round": null,
+ "audit": {
+  "original_request_unchanged": true,
+  "original_response_unchanged": true,
+  "original_response_sha256": "801d82c76fabb90d5f41a74ac416822ee0c74723e52a7f4c56a7126fb940c2c3",
+  "original_correction_bytes": 43257,
+  "prior_incomplete_output_omitted": true,
+  "new_correction_bytes": 14459
+ }
+}

@@ -1,0 +1,77 @@
+[
+ {
+  "evidence": "README.md",
+  "source": "../../../실험/MIND_compact16_20261008/README.md",
+  "sha256": "2a00925c9c17baba233f25c09fa67ff0fb6964498746cbb1683ebd4350abd35b"
+ },
+ {
+  "evidence": "advancement_decision.json",
+  "source": "../../../실험/MIND_compact16_20261008/advancement_decision.json",
+  "sha256": "066362a8fe707b5fc35b327dd389869aedc3646c21d499d9d8ad9f064817e9bf"
+ },
+ {
+  "evidence": "d16_dev8/scored.json",
+  "source": "../../../실험/MIND_compact16_20261008/d16_dev8/scored.json",
+  "sha256": "6ea24518c7031972ff697ef0981b2512ceb6e03a20828b49aa39ee74df439e9d"
+ },
+ {
+  "evidence": "d16_dev8/manifest.json",
+  "source": "../../../실험/MIND_compact16_20261008/d16_dev8/manifest.json",
+  "sha256": "86b8e696ae045d6b62a36df0d5fb30217c4cf947ffc9e4716f00f9e5b1ed50b8"
+ },
+ {
+  "evidence": "d16_dev8/condition_probes.json",
+  "source": "../../../실험/MIND_compact16_20261008/d16_dev8/condition_probes.json",
+  "sha256": "197ea24b50750f509ec9cb0f4ab05c1d90f274e1e08d1562b969de60f9e90d2c"
+ },
+ {
+  "evidence": "d16_dev8/paired_with_d12.json",
+  "source": "../../../실험/MIND_compact16_20261008/d16_dev8/paired_with_d12.json",
+  "sha256": "dd9256502f6e133afcfb4a7a1830289faf9439d25c9fbf8a2fb025d90f98610f"
+ },
+ {
+  "evidence": "d16_dev8/paired_with_d15.json",
+  "source": "../../../실험/MIND_compact16_20261008/d16_dev8/paired_with_d15.json",
+  "sha256": "1accbbfdc51a329ff8e745f6a5134cdccf78c2bb19cbdfb42007b5a2c85f8e46"
+ },
+ {
+  "evidence": "d16_dev8/engine_outputs_reused_v2.json",
+  "source": "../../../실험/MIND_compact16_20261008/d16_dev8/engine_outputs_reused_v2.json",
+  "sha256": "5d59493be30853826d37c861c46bec85eba2f0d07d9b0efea48693186b15424b"
+ },
+ {
+  "evidence": "d16_dev8/explicit_walk_stress.json",
+  "source": "../../../실험/MIND_compact16_20261008/d16_dev8/explicit_walk_stress.json",
+  "sha256": "4a47a84e9558ab020ae667f36ef3edb0a09f1075990ad92194fe22f097ef225a"
+ },
+ {
+  "evidence": "d16_dev8/usage_summary.json",
+  "source": "../../../실험/MIND_compact16_20261008/d16_dev8/usage_summary.json",
+  "sha256": "a9549d4bcf3b3117f9cdc0fc08f15b65b004a5e75c8f54004e7db1c31bb5c557"
+ },
+ {
+  "evidence": "length_correction_supplement/manifest.json",
+  "source": "../../../실험/MIND_compact16_20261008/length_correction_supplement/manifest.json",
+  "sha256": "97ecce0f6a35772b4c55ebe221f872e4e79e6229a778f435a8e0e857c6fc1c57"
+ },
+ {
+  "evidence": "length_correction_supplement/request.json",
+  "source": "../../../실험/MIND_compact16_20261008/length_correction_supplement/request.json",
+  "sha256": "cd8327ab81bcf2c521d67193567215886bd0f53b5c9b1086914a84f4ba8659f4"
+ },
+ {
+  "evidence": "length_correction_supplement/response.public.json",
+  "source": "../../../실험/MIND_compact16_20261008/length_correction_supplement/response.public.json",
+  "sha256": "ff9da05224f029224d9544c23e448197b7058b45ec4de10822f05259ce4ac7d4"
+ },
+ {
+  "evidence": "length_correction_supplement/result.json",
+  "source": "../../../실험/MIND_compact16_20261008/length_correction_supplement/result.json",
+  "sha256": "15d7c250ff44b5e0eea87d03455eb3c32bfb8c70e84e87dc29c35c72594f45a7"
+ },
+ {
+  "evidence": "length_correction_supplement/usage_summary.json",
+  "source": "../../../실험/MIND_compact16_20261008/length_correction_supplement/usage_summary.json",
+  "sha256": "910b3d168b415dd3fd6b9ea5023504198bfc3b02a823878737dbcbe1a0387e47"
+ }
+]

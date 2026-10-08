@@ -1,0 +1,70 @@
+{
+ "problem": null,
+ "policy": {
+  "rules": [
+   {
+    "id": "a_0",
+    "when": [
+     [
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      },
+      {
+       "fact": "clock_hour",
+       "op": "gte",
+       "value": 23
+      }
+     ],
+     [
+      {
+       "fact": "family_present",
+       "op": "eq",
+       "value": false
+      },
+      {
+       "fact": "clock_hour",
+       "op": "lt",
+       "value": 1
+      }
+     ]
+    ],
+    "action": "wait",
+    "goal_label": null,
+    "feature": null,
+    "place_labels": [],
+    "hold_minutes": null,
+    "supersedes": [],
+    "evidence": [
+     {
+      "note_id": "N1",
+      "quote": "밤 열한 시가 되면 가족이 안 보일 때 그 자리에서 기다리셨어요."
+     },
+     {
+      "note_id": "N2",
+      "quote": "자정을 넘겨서도 계속 기다리셨고, 새벽 한 시가 되니까 그만 기다리셨어요. 그 다음에 주무셨는지 나가셨는지는 저도 잠들어서 못 봤어요."
+     },
+     {
+      "note_id": "N3",
+      "quote": "제가 옆에 있던 밤에는 기다리지 않으셨어요."
+     }
+    ]
+   }
+  ],
+  "unrepresented": [
+   {
+    "note_id": "N0",
+    "reason": "Wait when family absent (N1,N2,N3) 23:00-01:00; registered places informational (N0)."
+   }
+  ]
+ },
+ "probe": {
+  "status": "no_difference_in_probes",
+  "checked": 24,
+  "potential": 24,
+  "counterexample": null
+ },
+ "original_scores_unchanged": true,
+ "deployment_qualified": false
+}

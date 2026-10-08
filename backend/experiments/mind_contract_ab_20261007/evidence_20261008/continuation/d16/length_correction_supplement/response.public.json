@@ -1,0 +1,12 @@
+{
+ "final_content": "{\"source_assessment\": \"Wait when family absent (N1,N2,N3) 23:00-01:00; registered places informational (N0).\", \"rules\": [{\"action\": \"wait\", \"goal_place\": \"\", \"applies_only_at\": [], \"condition\": \"family_present == False and (clock_hour >= 23 or clock_hour < 1)\", \"hold_minutes\": 0, \"note_ids\": [\"N1\", \"N2\", \"N3\"]}], \"non_action_note_ids\": [\"N0\"]}",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 5889,
+  "prompt_tokens": 2670,
+  "prompt_tokens_details": {
+   "cached_tokens": 2528
+  },
+  "total_tokens": 8559
+ }
+}

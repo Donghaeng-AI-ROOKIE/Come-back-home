@@ -1,0 +1,15 @@
+{
+ "criteria_from": "backend/experiments/mind_contract_ab_20261007/PLAN_d16.md",
+ "checks": {
+  "valid_16_of_16": false,
+  "scenes_at_least_62": false,
+  "strict_conditions_at_least_14": false,
+  "walking_at_least_11_of_12": false,
+  "walking_12_denominator": true,
+  "p21_and_p23_both_repeats": false
+ },
+ "advance": false,
+ "adopt": false,
+ "release_qualified": false,
+ "reason": "same-input scene/condition/walk regression; separate length repair does not change original scores"
+}
