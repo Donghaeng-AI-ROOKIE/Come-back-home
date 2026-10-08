@@ -13,3 +13,10 @@ backend/experiments/mind_policy_candidates/evidence_diverse_20261006/**/*.json l
 backend/experiments/mind_policy_candidates/evidence_diverse_20261006/*.json linguist-generated=true
 backend/experiments/mind_policy_candidates/evidence_diverse_20261006/**/*.jsonl linguist-generated=true
 backend/experiments/mind_policy_candidates/evidence_diverse_20261006/**/source_snapshot/** linguist-generated=true
+
+# Keep mind continuation reports and code visible, fold generated evidence only.
+backend/experiments/mind_contract_ab_20261007/evidence_20261008/**/*.json linguist-generated=true
+backend/experiments/mind_contract_ab_20261007/evidence_20261008/**/source_snapshot/** linguist-generated=true
+backend/experiments/mind_contract_ab_20261007/results/d5_preflight/*.json linguist-generated=true
+backend/experiments/mind_contract_ab_20261007/dataset/disputed_v1/*.json linguist-generated=true
+backend/experiments/mind_contract_ab_20261007/dataset/disputed_v1/*.jsonl linguist-generated=true
