@@ -1,0 +1,609 @@
+{
+ "version": "condition-counterexamples-v1-20261007",
+ "scope": "development diagnostic, authored references; no clinical or path accuracy",
+ "limits": "numeric threshold probes; individual named scopes; current-state effects only, not action lifecycle",
+ "original_scores_unchanged": true,
+ "summary": {
+  "responses": 48,
+  "status": {
+   "no_difference_in_probes": 43,
+   "difference": 5
+  },
+  "original_all_scenes_pass": 46,
+  "extra_differences_after_all_scenes_pass": 3
+ },
+ "rows": [
+  {
+   "input_id": "DEV_P01_original",
+   "rep": 1,
+   "family": "environment",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 27,
+   "potential": 27,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P01_original",
+   "rep": 2,
+   "family": "environment",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 27,
+   "potential": 27,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P02_original",
+   "rep": 1,
+   "family": "environment",
+   "original_scenes_all_pass": true,
+   "status": "difference",
+   "checked": 13,
+   "potential": 81,
+   "counterexample": {
+    "facts": {
+     "market.crowded": false,
+     "market.noisy": true
+    },
+    "near_places": [
+     "해든상가"
+    ],
+    "near_features": {
+     "market": false
+    },
+    "reference": [
+     {
+      "action": "baseline"
+     }
+    ],
+    "candidate": [
+     {
+      "action": "avoid",
+      "feature": "market",
+      "goal": null,
+      "hold_minutes": null
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P02_original",
+   "rep": 2,
+   "family": "environment",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 27,
+   "potential": 27,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P03_original",
+   "rep": 1,
+   "family": "environment",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 27,
+   "potential": 27,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P03_original",
+   "rep": 2,
+   "family": "environment",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 27,
+   "potential": 27,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P04_original",
+   "rep": 1,
+   "family": "environment",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 1,
+   "potential": 1,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P04_original",
+   "rep": 2,
+   "family": "environment",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 1,
+   "potential": 1,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P06_original",
+   "rep": 1,
+   "family": "physical_rest",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 1,
+   "potential": 1,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P06_original",
+   "rep": 2,
+   "family": "physical_rest",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 1,
+   "potential": 1,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P07_original",
+   "rep": 1,
+   "family": "physical_rest",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 6,
+   "potential": 6,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P07_original",
+   "rep": 2,
+   "family": "physical_rest",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 6,
+   "potential": 6,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P09_original",
+   "rep": 1,
+   "family": "waiting",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P09_original",
+   "rep": 2,
+   "family": "waiting",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P10_original",
+   "rep": 1,
+   "family": "waiting",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P10_original",
+   "rep": 2,
+   "family": "waiting",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P11_original",
+   "rep": 1,
+   "family": "waiting",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 1,
+   "potential": 1,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P11_original",
+   "rep": 2,
+   "family": "waiting",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 1,
+   "potential": 1,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P12_original",
+   "rep": 1,
+   "family": "waiting",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P12_original",
+   "rep": 2,
+   "family": "waiting",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P14_original",
+   "rep": 1,
+   "family": "destination",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 3,
+   "potential": 3,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P14_original",
+   "rep": 2,
+   "family": "destination",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 3,
+   "potential": 3,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P15_original",
+   "rep": 1,
+   "family": "destination",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 24,
+   "potential": 24,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P15_original",
+   "rep": 2,
+   "family": "destination",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 24,
+   "potential": 24,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P17_original",
+   "rep": 1,
+   "family": "external_state",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 3,
+   "potential": 3,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P17_original",
+   "rep": 2,
+   "family": "external_state",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 3,
+   "potential": 3,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P18_original",
+   "rep": 1,
+   "family": "external_state",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P18_original",
+   "rep": 2,
+   "family": "external_state",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P19_original",
+   "rep": 1,
+   "family": "external_state",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 12,
+   "potential": 12,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P19_original",
+   "rep": 2,
+   "family": "external_state",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 12,
+   "potential": 12,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P20_original",
+   "rep": 1,
+   "family": "external_state",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P20_original",
+   "rep": 2,
+   "family": "external_state",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P21_original",
+   "rep": 1,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": false,
+   "status": "difference",
+   "checked": 2,
+   "potential": 3,
+   "counterexample": {
+    "facts": {
+     "lost_awareness": true
+    },
+    "near_places": [],
+    "near_features": {},
+    "reference": [
+     {
+      "action": "walk",
+      "feature": null,
+      "goal": null,
+      "hold_minutes": null
+     }
+    ],
+    "candidate": [
+     {
+      "action": "baseline"
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P21_original",
+   "rep": 2,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 3,
+   "potential": 3,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P22_original",
+   "rep": 1,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P22_original",
+   "rep": 2,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P23_original",
+   "rep": 1,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P23_original",
+   "rep": 2,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": false,
+   "status": "difference",
+   "checked": 2,
+   "potential": 9,
+   "counterexample": {
+    "facts": {
+     "family_present": false,
+     "lost_awareness": true
+    },
+    "near_places": [],
+    "near_features": {},
+    "reference": [
+     {
+      "action": "wait",
+      "feature": null,
+      "goal": null,
+      "hold_minutes": null
+     }
+    ],
+    "candidate": [
+     {
+      "action": "wait",
+      "feature": null,
+      "goal": null,
+      "hold_minutes": 60.0
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P24_original",
+   "rep": 1,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 1,
+   "potential": 1,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P24_original",
+   "rep": 2,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 1,
+   "potential": 1,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P25_original",
+   "rep": 1,
+   "family": "time_context",
+   "original_scenes_all_pass": true,
+   "status": "difference",
+   "checked": 7,
+   "potential": 24,
+   "counterexample": {
+    "facts": {
+     "clock_hour": 8.0,
+     "family_present": false
+    },
+    "near_places": [],
+    "near_features": {},
+    "reference": [
+     {
+      "action": "wait",
+      "feature": null,
+      "goal": null,
+      "hold_minutes": null
+     }
+    ],
+    "candidate": [
+     {
+      "action": "wait",
+      "feature": null,
+      "goal": null,
+      "hold_minutes": 60.0
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P25_original",
+   "rep": 2,
+   "family": "time_context",
+   "original_scenes_all_pass": true,
+   "status": "difference",
+   "checked": 7,
+   "potential": 24,
+   "counterexample": {
+    "facts": {
+     "clock_hour": 8.0,
+     "family_present": false
+    },
+    "near_places": [],
+    "near_features": {},
+    "reference": [
+     {
+      "action": "wait",
+      "feature": null,
+      "goal": null,
+      "hold_minutes": null
+     }
+    ],
+    "candidate": [
+     {
+      "action": "wait",
+      "feature": null,
+      "goal": null,
+      "hold_minutes": 60.0
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P27_original",
+   "rep": 1,
+   "family": "time_context",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 3,
+   "potential": 3,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P27_original",
+   "rep": 2,
+   "family": "time_context",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 3,
+   "potential": 3,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P28_original",
+   "rep": 1,
+   "family": "time_context",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 5,
+   "potential": 8,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P28_original",
+   "rep": 2,
+   "family": "time_context",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 5,
+   "potential": 8,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P32_original",
+   "rep": 1,
+   "family": "multiple_behaviors",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P32_original",
+   "rep": 2,
+   "family": "multiple_behaviors",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  }
+ ]
+}

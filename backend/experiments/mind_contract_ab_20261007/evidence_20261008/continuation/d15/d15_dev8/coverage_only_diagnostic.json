@@ -1,0 +1,163 @@
+{
+ "scope": "diagnostic only; coverage-incomplete outputs do not become successful outputs",
+ "original_score_sha256": "e127e3e97abd50328312d317b1ba14cff817e6e4bef1199c4308855ff43aaa0d",
+ "original_scores_unchanged": true,
+ "new_external_calls": 0,
+ "release_qualified": false,
+ "harness_sha256": "e90d8df959588096dc9b4ae76e952f7537da6db12a2c1437c2e653a048028d66",
+ "compiler_sha256": "575a7891ac1e4036d50981c1ec0f02789eb8489f7903c73861e6dd9c6ab52601",
+ "rows": [
+  {
+   "input_id": "DEV_P26_hard",
+   "rep": 1,
+   "source_sha256": "b5e1fd4cb55ac1b85926b183b8e9182a02d05b4eac605bd583c77bcf98456e66",
+   "original_failure_retained": true,
+   "coverage_audit": {
+    "source_accounting_complete": false,
+    "unclassified_note_ids": [
+     "N3"
+    ],
+    "diagnostic_only": true,
+    "eligible_for_release": false,
+    "rule_action_condition_numbers_unchanged": true,
+    "raw_response_unchanged": true
+   },
+   "policy_for_diagnosis_only": {
+    "rules": [
+     {
+      "id": "a_0",
+      "when": [
+       [
+        {
+         "fact": "clock_hour",
+         "op": "gte",
+         "value": 23
+        },
+        {
+         "fact": "family_present",
+         "op": "eq",
+         "value": false
+        }
+       ],
+       [
+        {
+         "fact": "clock_hour",
+         "op": "lt",
+         "value": 1
+        },
+        {
+         "fact": "family_present",
+         "op": "eq",
+         "value": false
+        }
+       ]
+      ],
+      "action": "wait",
+      "goal_label": null,
+      "feature": null,
+      "place_labels": [],
+      "hold_minutes": null,
+      "supersedes": [],
+      "evidence": [
+       {
+        "note_id": "N1",
+        "quote": "밤 열한 시가 되면 가족이 안 보일 때 그 자리에서 기다리셨어요."
+       },
+       {
+        "note_id": "N2",
+        "quote": "자정을 넘겨서도 계속 기다리셨고, 새벽 한 시가 되니까 그만 기다리셨어요. 그 다음에 주무셨는지 나가셨는지는 저도 잠들어서 못 봤어요."
+       }
+      ]
+     }
+    ],
+    "unrepresented": [
+     {
+      "note_id": "N0",
+      "reason": "Waits when family is not present between 23:00 and 01:00."
+     },
+     {
+      "note_id": "N3",
+      "reason": "모델의 근거 분류 누락. 코드가 진단을 위해 보존했으며 비행동 정보라는 판정이 아님."
+     }
+    ]
+   },
+   "condition_probe": {
+    "status": "no_difference_in_probes",
+    "checked": 24,
+    "potential": 24,
+    "counterexample": null
+   },
+   "kintex_diagnostic": {
+    "walkable": true,
+    "engine_error": false,
+    "preserved": true,
+    "scenarios": {
+     "S1_morning_lost": {
+      "within_tolerance": true,
+      "beyond": {}
+     },
+     "S2_evening_midnight_dark": {
+      "within_tolerance": true,
+      "beyond": {}
+     },
+     "S3_sparse_afternoon": {
+      "within_tolerance": true,
+      "beyond": {}
+     }
+    }
+   },
+   "k_walks": {
+    "S1_morning_lost": {
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_path_km": 15.7523,
+     "mean_max_continuous_walk_min": 84.76,
+     "avoid_walkers": 0,
+     "avoid_by_target": {},
+     "arrived": {
+      "느티공원": 28,
+      "해든상가": 21,
+      "솔빛쉼터": 24
+     },
+     "unresolved": {},
+     "rule_minutes": {}
+    },
+    "S2_evening_midnight_dark": {
+     "mass": 1.0,
+     "mean_wait": 89.8067,
+     "mean_personal_rest": 0.0,
+     "mean_path_km": 11.8477,
+     "mean_max_continuous_walk_min": 81.0133,
+     "avoid_walkers": 0,
+     "avoid_by_target": {},
+     "arrived": {
+      "느티공원": 0,
+      "해든상가": 0,
+      "솔빛쉼터": 0
+     },
+     "unresolved": {},
+     "rule_minutes": {
+      "a_0": 13471.0
+     }
+    },
+    "S3_sparse_afternoon": {
+     "mass": 1.0,
+     "mean_wait": 0.0,
+     "mean_personal_rest": 0.0,
+     "mean_path_km": 15.7149,
+     "mean_max_continuous_walk_min": 83.3867,
+     "avoid_walkers": 0,
+     "avoid_by_target": {},
+     "arrived": {
+      "느티공원": 0,
+      "해든상가": 0,
+      "솔빛쉼터": 0
+     },
+     "unresolved": {},
+     "rule_minutes": {}
+    }
+   }
+  }
+ ]
+}

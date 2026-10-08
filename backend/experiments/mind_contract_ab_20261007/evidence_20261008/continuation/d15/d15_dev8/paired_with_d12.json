@@ -1,0 +1,185 @@
+{
+ "rows": [
+  {
+   "input_id": "DEV_P16_preserve",
+   "rep": 1,
+   "before_passed": 4,
+   "after_passed": 4,
+   "fixed_scenes": [],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P16_preserve",
+   "rep": 2,
+   "before_passed": 4,
+   "after_passed": 4,
+   "fixed_scenes": [],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P26_hard",
+   "rep": 1,
+   "before_passed": 4,
+   "after_passed": 0,
+   "fixed_scenes": [],
+   "regressed_scenes": [
+    "DEV_P26_hard_S1",
+    "DEV_P26_hard_S2",
+    "DEV_P26_hard_S3",
+    "DEV_P26_hard_S4"
+   ],
+   "before_usable": true,
+   "after_usable": false
+  },
+  {
+   "input_id": "DEV_P26_hard",
+   "rep": 2,
+   "before_passed": 2,
+   "after_passed": 4,
+   "fixed_scenes": [
+    "DEV_P26_hard_S3",
+    "DEV_P26_hard_S4"
+   ],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P29_original",
+   "rep": 1,
+   "before_passed": 4,
+   "after_passed": 4,
+   "fixed_scenes": [],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P29_original",
+   "rep": 2,
+   "before_passed": 4,
+   "after_passed": 4,
+   "fixed_scenes": [],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P31_original",
+   "rep": 1,
+   "before_passed": 4,
+   "after_passed": 4,
+   "fixed_scenes": [],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P31_original",
+   "rep": 2,
+   "before_passed": 4,
+   "after_passed": 4,
+   "fixed_scenes": [],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P02_original",
+   "rep": 1,
+   "before_passed": 4,
+   "after_passed": 4,
+   "fixed_scenes": [],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P02_original",
+   "rep": 2,
+   "before_passed": 4,
+   "after_passed": 4,
+   "fixed_scenes": [],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P21_original",
+   "rep": 1,
+   "before_passed": 1,
+   "after_passed": 4,
+   "fixed_scenes": [
+    "DEV_P21_original_S1",
+    "DEV_P21_original_S3",
+    "DEV_P21_original_S4"
+   ],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P21_original",
+   "rep": 2,
+   "before_passed": 4,
+   "after_passed": 4,
+   "fixed_scenes": [],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P23_original",
+   "rep": 1,
+   "before_passed": 4,
+   "after_passed": 2,
+   "fixed_scenes": [],
+   "regressed_scenes": [
+    "DEV_P23_original_S2",
+    "DEV_P23_original_S4"
+   ],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P23_original",
+   "rep": 2,
+   "before_passed": 2,
+   "after_passed": 4,
+   "fixed_scenes": [
+    "DEV_P23_original_S2",
+    "DEV_P23_original_S4"
+   ],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P25_original",
+   "rep": 1,
+   "before_passed": 4,
+   "after_passed": 4,
+   "fixed_scenes": [],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  },
+  {
+   "input_id": "DEV_P25_original",
+   "rep": 2,
+   "before_passed": 4,
+   "after_passed": 4,
+   "fixed_scenes": [],
+   "regressed_scenes": [],
+   "before_usable": true,
+   "after_usable": true
+  }
+ ],
+ "fixed_scenes": 7,
+ "regressed_scenes": 6,
+ "responses_with_regression": 2
+}

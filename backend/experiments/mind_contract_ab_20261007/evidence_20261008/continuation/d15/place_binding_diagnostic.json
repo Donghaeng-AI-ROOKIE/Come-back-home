@@ -1,0 +1,52 @@
+{
+ "scope": "constructed engine states, not clinical observations or complete route replay",
+ "new_external_calls": 0,
+ "map_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+ "source_sha256": "2037edbe263d305ac027026568540a4deddd792b01dfe275d23c3c3d03484d24",
+ "engine_sha256": "9c35ae75aadcd6e5528e6defb0271b9724662e785064470e1d5e22c95dcfdbeb",
+ "observation_fields": [
+  "fact",
+  "value",
+  "valid_from",
+  "valid_until",
+  "source"
+ ],
+ "cases": [
+  {
+   "state": "exact snapped shelter node, not a selected target",
+   "target": null,
+   "near_places": [
+    "솔빛쉼터"
+   ],
+   "facts": {
+    "physical_arrival": false,
+    "target_recognized": true
+   },
+   "possible_actions": [
+    "baseline"
+   ],
+   "unknown": []
+  },
+  {
+   "state": "constructed past park arrival flag while now at shelter",
+   "target": "느티공원",
+   "near_places": [
+    "솔빛쉼터"
+   ],
+   "facts": {
+    "physical_arrival": true,
+    "target_recognized": true
+   },
+   "possible_actions": [
+    "wait"
+   ],
+   "unknown": []
+  }
+ ],
+ "findings": [
+  "physical_arrival is selected-target history, not arrival at every named place",
+  "target_recognized observations currently have no target/place binding"
+ ],
+ "original_scores_unchanged": true,
+ "release_qualified": false
+}

@@ -1,0 +1,247 @@
+{
+ "stage": "d12_dev24",
+ "runner": "run_v2",
+ "scoring": "scoring-v2-goal-scope-reference-aware-coverage-20261007",
+ "version": "d12-compact-expressions-structured-thinking-20261008-research",
+ "model": "depmkuykpfon9lg",
+ "sampling": {
+  "temperature": 1.0,
+  "top_p": 0.95,
+  "max_tokens": 16384,
+  "presence_penalty": 0.0,
+  "repetition_penalty": 1.0
+ },
+ "source_sha256": {
+  "experiments/mind_contract_ab_20261007/PLAN_d12.md": "9a3f94d7dd1e9859d6a833d2f1b6b2184dc371ec5aa72af1ce8bdd1acd3fa145",
+  "experiments/mind_contract_ab_20261007/contract_d12.py": "e82ed8cae6388f9d81a8415b8ab8254b765167bf56f0b7d35e6c89f789192778",
+  "experiments/mind_contract_ab_20261007/contract_c.py": "07e4f4291bfa7a57fe7e4952c38eb38f7985a4b66a26a3e67bc6148703f8f3b7",
+  "experiments/mind_contract_ab_20261007/contract_d.py": "6a18cf478f571095514f8981bbd6968ea745fb8d8240ae432e3b0cefc0e2f2c0",
+  "experiments/mind_contract_ab_20261007/contract_d2.py": "c112a4a8ff47459db7060d893a8778cd1560ed1efd755f56584dd107a22833a8",
+  "experiments/mind_contract_ab_20261007/contract_d3.py": "8220016a5cb6430b3ebe818d06f7b731dd62523ce629b8ca4e6e8c49e7b431e0",
+  "experiments/mind_contract_ab_20261007/contract_d4.py": "50dffaefc409e48388dd295f73368b1aba622a2d3e2ed0fed0897780c9ff5073",
+  "experiments/mind_contract_ab_20261007/contract_d5.py": "56177a99626a7421d02fff88f52f673614dcf7eefc2e073a5c8d92ff5f573ef6",
+  "experiments/mind_contract_ab_20261007/contract_d8.py": "b315891fefbf950f30b95e204279bd95cba37455b3d5901574104e0f80cb3904",
+  "experiments/mind_contract_ab_20261007/contracts.py": "f6b7356518ffe91676469890b072f0012a75b04428f7d5b96e6ad83bbae13b00",
+  "experiments/mind_contract_ab_20261007/completion.py": "a0a2a33fc876bf0569f71a54a349f23071ac336990404a861346f84cfb093be5",
+  "experiments/mind_contract_ab_20261007/scoring.py": "7a2aaf45b062f69913c0af1d090ac8fa1a4c7ce479170f47428409f78e7bbc50",
+  "experiments/mind_contract_ab_20261007/scoring_v2.py": "d18fc4070f70c8779d6064bc30246e3ed3dc1d60336accb4b2a46d4b4c8a130e",
+  "experiments/mind_contract_ab_20261007/transport.py": "113c204dfc49c4c484b3c3f46ada1368c86a057c26d0faf2552d6df51587b1c7",
+  "experiments/mind_contract_ab_20261007/run_stage.py": "466f083b12d1fd57743ed856d4a81c0349ea67cf351c2a9270a70671f56c9376",
+  "experiments/mind_contract_ab_20261007/run_v2.py": "3f07b835d90970ccbad96b940979aab45de0620894a27a2014ba9a6fdce929e3",
+  "experiments/mind_policy_candidates/condition_program.py": "78c44368954f31bbd66ed7290849e58e64674767ab7772fde0c4c0ad1dfd4470",
+  "experiments/mind_policy_candidates/note_policy_eval.py": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+  "app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+  "app/llm/initial_behavior.py": "cca68aa53fa0ae890b701384f7151660f74f036f9316de87aebbb915c1c1af7c",
+  "app/llm/usage_ledger.py": "844b94356ce094b273eee7993ea0173245f0a73204fefe837b12e2baef27ea81",
+  "experiments/mind_contract_ab_20261007/run_compact24.py": "c845d3883b6e9b84acac16564de2d9970af79cbc2a0a85b7c5941ffee646b5b5",
+  "experiments/mind_contract_ab_20261007/run_repair8.py": "075318d0625f32212b80efd4ae8f3bb40987866a3ed601f6766116181000e292",
+  "experiments/mind_contract_ab_20261007/resume_concise8.py": "79d3ce0e6073ca480f85be307759feb6d20524e5732f19590333a80a69b971ba",
+  "experiments/mind_contract_ab_20261007/PLAN_d12_expansion.md": "6bf1d20126f74768a0cfdbeb5166efdeae27bc503a0d4dd202ea92b6f344a807"
+ },
+ "correction_rounds_max": 1,
+ "correction_policy": "only when a received response fails validation; none after an API error",
+ "judge_error_chars": 800,
+ "data_sha256": {
+  "dev128_inputs.jsonl": "061faab96863ed8a1d81c49b6686f12676dee0afe8b1b23d5cf9b4f1474f3717",
+  "dev128_scenes.NOT_MODEL_INPUT.json": "4bddad55ef9cb4b3170fbd43c73f38b4ed3421c81deb9377fb41e96c68f24649",
+  "dev128_reference.NOT_MODEL_INPUT.json": "e913e601b291a4cf270abe6d2ac283c206b808ab05a86c1994e15dfe3fc8683e"
+ },
+ "jobs": [
+  {
+   "job": "d12_dev24_DEV_P01_original_1",
+   "request_sha256": "63105cebea6ecdb11fb8c5f9dc0b897c5b95e8fca6d5851604aa700c22825001"
+  },
+  {
+   "job": "d12_dev24_DEV_P01_original_2",
+   "request_sha256": "63105cebea6ecdb11fb8c5f9dc0b897c5b95e8fca6d5851604aa700c22825001"
+  },
+  {
+   "job": "d12_dev24_DEV_P02_original_1",
+   "request_sha256": "5e1733576485e1c6c0c33abe9f48bcbf96d2af6a7c3db0ead68b0090b972d4f9"
+  },
+  {
+   "job": "d12_dev24_DEV_P02_original_2",
+   "request_sha256": "5e1733576485e1c6c0c33abe9f48bcbf96d2af6a7c3db0ead68b0090b972d4f9"
+  },
+  {
+   "job": "d12_dev24_DEV_P03_original_1",
+   "request_sha256": "d138b0167bdd4bddc1a3b92004f62bdc792de1027457024b1317f235c3e440a8"
+  },
+  {
+   "job": "d12_dev24_DEV_P03_original_2",
+   "request_sha256": "d138b0167bdd4bddc1a3b92004f62bdc792de1027457024b1317f235c3e440a8"
+  },
+  {
+   "job": "d12_dev24_DEV_P04_original_1",
+   "request_sha256": "43593a4da6052454601b0c31e3b2ecdd2ff1a69ecab593ec12d2f3ccc7a3ecef"
+  },
+  {
+   "job": "d12_dev24_DEV_P04_original_2",
+   "request_sha256": "43593a4da6052454601b0c31e3b2ecdd2ff1a69ecab593ec12d2f3ccc7a3ecef"
+  },
+  {
+   "job": "d12_dev24_DEV_P06_original_1",
+   "request_sha256": "f3c9e845ff9c2922220e66abd8142b498b9cf18fad01566306a4920dca1b1ed6"
+  },
+  {
+   "job": "d12_dev24_DEV_P06_original_2",
+   "request_sha256": "f3c9e845ff9c2922220e66abd8142b498b9cf18fad01566306a4920dca1b1ed6"
+  },
+  {
+   "job": "d12_dev24_DEV_P07_original_1",
+   "request_sha256": "a5ba512d5751640cf0bd2dbbae7d4dc3f9a0c00ce4f4800f3fb798e32c9dbc37"
+  },
+  {
+   "job": "d12_dev24_DEV_P07_original_2",
+   "request_sha256": "a5ba512d5751640cf0bd2dbbae7d4dc3f9a0c00ce4f4800f3fb798e32c9dbc37"
+  },
+  {
+   "job": "d12_dev24_DEV_P09_original_1",
+   "request_sha256": "26909f4b8325bbeae64f22e19db26eb9d1c22f77aed4d957e95cad0570784223"
+  },
+  {
+   "job": "d12_dev24_DEV_P09_original_2",
+   "request_sha256": "26909f4b8325bbeae64f22e19db26eb9d1c22f77aed4d957e95cad0570784223"
+  },
+  {
+   "job": "d12_dev24_DEV_P10_original_1",
+   "request_sha256": "0504c99b0527e683d6828544226f0eaa8f662dd17ccbd04148ac377c8443f3da"
+  },
+  {
+   "job": "d12_dev24_DEV_P10_original_2",
+   "request_sha256": "0504c99b0527e683d6828544226f0eaa8f662dd17ccbd04148ac377c8443f3da"
+  },
+  {
+   "job": "d12_dev24_DEV_P11_original_1",
+   "request_sha256": "88a58e14bc8ade904717f5232db80f073407ee9d03b6382db9d6285e845a5f2b"
+  },
+  {
+   "job": "d12_dev24_DEV_P11_original_2",
+   "request_sha256": "88a58e14bc8ade904717f5232db80f073407ee9d03b6382db9d6285e845a5f2b"
+  },
+  {
+   "job": "d12_dev24_DEV_P12_original_1",
+   "request_sha256": "420129a83653d5228d53fe3075e9270a081d292d922a2d03118cab39fbc3b211"
+  },
+  {
+   "job": "d12_dev24_DEV_P12_original_2",
+   "request_sha256": "420129a83653d5228d53fe3075e9270a081d292d922a2d03118cab39fbc3b211"
+  },
+  {
+   "job": "d12_dev24_DEV_P14_original_1",
+   "request_sha256": "e2462d66eba7bccbb553508944e9a5cc54e98e01effd6f43771563f1c21e28ee"
+  },
+  {
+   "job": "d12_dev24_DEV_P14_original_2",
+   "request_sha256": "e2462d66eba7bccbb553508944e9a5cc54e98e01effd6f43771563f1c21e28ee"
+  },
+  {
+   "job": "d12_dev24_DEV_P15_original_1",
+   "request_sha256": "efc09d3c4b36c0bb1365ac87b96dc21170a458f15bd3764d18102ab67e040b5b"
+  },
+  {
+   "job": "d12_dev24_DEV_P15_original_2",
+   "request_sha256": "efc09d3c4b36c0bb1365ac87b96dc21170a458f15bd3764d18102ab67e040b5b"
+  },
+  {
+   "job": "d12_dev24_DEV_P17_original_1",
+   "request_sha256": "64f6dc49907d6c7a138701f56fb7c59230622ab363e87a17dd364c2b55b4c0cd"
+  },
+  {
+   "job": "d12_dev24_DEV_P17_original_2",
+   "request_sha256": "64f6dc49907d6c7a138701f56fb7c59230622ab363e87a17dd364c2b55b4c0cd"
+  },
+  {
+   "job": "d12_dev24_DEV_P18_original_1",
+   "request_sha256": "1dae793135ad94f2b0c96a61d342a06f6a704eea601eb0a49670e82afc26468c"
+  },
+  {
+   "job": "d12_dev24_DEV_P18_original_2",
+   "request_sha256": "1dae793135ad94f2b0c96a61d342a06f6a704eea601eb0a49670e82afc26468c"
+  },
+  {
+   "job": "d12_dev24_DEV_P19_original_1",
+   "request_sha256": "cf776d6ef2003d7ccd8857c52cdc566fd23a5660039ed176896d8f83599b0cf1"
+  },
+  {
+   "job": "d12_dev24_DEV_P19_original_2",
+   "request_sha256": "cf776d6ef2003d7ccd8857c52cdc566fd23a5660039ed176896d8f83599b0cf1"
+  },
+  {
+   "job": "d12_dev24_DEV_P20_original_1",
+   "request_sha256": "aee2cfbdb009c18e473bb1cf05ca864728b9d984415c63508bdbf222cbf5543f"
+  },
+  {
+   "job": "d12_dev24_DEV_P20_original_2",
+   "request_sha256": "aee2cfbdb009c18e473bb1cf05ca864728b9d984415c63508bdbf222cbf5543f"
+  },
+  {
+   "job": "d12_dev24_DEV_P21_original_1",
+   "request_sha256": "ff719ec1d0e4a5a6695877851e2b0bc7c6c33902f92c6f8b864a6388aa784361"
+  },
+  {
+   "job": "d12_dev24_DEV_P21_original_2",
+   "request_sha256": "ff719ec1d0e4a5a6695877851e2b0bc7c6c33902f92c6f8b864a6388aa784361"
+  },
+  {
+   "job": "d12_dev24_DEV_P22_original_1",
+   "request_sha256": "62e477992512bd821145facb0ca2b453b8b0cea6e0793088a4d939f418587db8"
+  },
+  {
+   "job": "d12_dev24_DEV_P22_original_2",
+   "request_sha256": "62e477992512bd821145facb0ca2b453b8b0cea6e0793088a4d939f418587db8"
+  },
+  {
+   "job": "d12_dev24_DEV_P23_original_1",
+   "request_sha256": "4f4b787cfecca147f297ccf57f74ec258e4bfaf138f399bee5908cd789e619f0"
+  },
+  {
+   "job": "d12_dev24_DEV_P23_original_2",
+   "request_sha256": "4f4b787cfecca147f297ccf57f74ec258e4bfaf138f399bee5908cd789e619f0"
+  },
+  {
+   "job": "d12_dev24_DEV_P24_original_1",
+   "request_sha256": "6444407bd9dc2c7d92d5b3e6c5cc63968fd4dea02d85bbe51ad08e8034e0ddeb"
+  },
+  {
+   "job": "d12_dev24_DEV_P24_original_2",
+   "request_sha256": "6444407bd9dc2c7d92d5b3e6c5cc63968fd4dea02d85bbe51ad08e8034e0ddeb"
+  },
+  {
+   "job": "d12_dev24_DEV_P25_original_1",
+   "request_sha256": "2986d8f2e0b022592ef514c7efe7c3ed4c0cde59fb9489e3330a406d643ab6d7"
+  },
+  {
+   "job": "d12_dev24_DEV_P25_original_2",
+   "request_sha256": "2986d8f2e0b022592ef514c7efe7c3ed4c0cde59fb9489e3330a406d643ab6d7"
+  },
+  {
+   "job": "d12_dev24_DEV_P27_original_1",
+   "request_sha256": "6f14e19390e63b061fa8f90840121b1ae0a2aadb7ca6eab8c3e12ea34a790bd7"
+  },
+  {
+   "job": "d12_dev24_DEV_P27_original_2",
+   "request_sha256": "6f14e19390e63b061fa8f90840121b1ae0a2aadb7ca6eab8c3e12ea34a790bd7"
+  },
+  {
+   "job": "d12_dev24_DEV_P28_original_1",
+   "request_sha256": "4bcce84f1d58b5f03564b7549256e13135daf984415db6270969c1da71e4e964"
+  },
+  {
+   "job": "d12_dev24_DEV_P28_original_2",
+   "request_sha256": "4bcce84f1d58b5f03564b7549256e13135daf984415db6270969c1da71e4e964"
+  },
+  {
+   "job": "d12_dev24_DEV_P32_original_1",
+   "request_sha256": "fa5d4708377bd047a7786d5267b5db43de0d57d25276fee7508bf1842a6e6584"
+  },
+  {
+   "job": "d12_dev24_DEV_P32_original_2",
+   "request_sha256": "fa5d4708377bd047a7786d5267b5db43de0d57d25276fee7508bf1842a6e6584"
+  }
+ ],
+ "first_calls": 48,
+ "max_calls": 96,
+ "automatic_retries": false,
+ "concurrency": 2
+}

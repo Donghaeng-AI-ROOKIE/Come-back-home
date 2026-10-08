@@ -1,0 +1,250 @@
+{
+ "version": "supplemental-continuous-execution-effects-20261008",
+ "scope": "development diagnostic, authored references; no clinical or path accuracy",
+ "limits": "numeric threshold probes; individual named scopes; current-state effects only, not action lifecycle",
+ "original_scores_unchanged": true,
+ "summary": {
+  "responses": 16,
+  "status": {
+   "no_difference_in_probes": 12,
+   "difference": 3,
+   "unusable_output": 1
+  },
+  "original_all_scenes_pass": 14,
+  "extra_differences_after_all_scenes_pass": 2
+ },
+ "rows": [
+  {
+   "input_id": "DEV_P02_original",
+   "rep": 1,
+   "family": "environment",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 27,
+   "potential": 27,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P02_original",
+   "rep": 2,
+   "family": "environment",
+   "original_scenes_all_pass": true,
+   "status": "difference",
+   "checked": 13,
+   "potential": 81,
+   "counterexample": {
+    "facts": {
+     "market.crowded": false,
+     "market.noisy": true
+    },
+    "near_places": [
+     "해든상가"
+    ],
+    "near_features": {
+     "market": false
+    },
+    "reference": [
+     {
+      "action": "baseline"
+     }
+    ],
+    "candidate": [
+     {
+      "action": "avoid",
+      "feature": "market",
+      "goal": null,
+      "hold_minutes": null
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P16_preserve",
+   "rep": 1,
+   "family": "destination",
+   "original_scenes_all_pass": true,
+   "status": "difference",
+   "checked": 5,
+   "potential": 18,
+   "counterexample": {
+    "facts": {
+     "physical_arrival": false,
+     "target_recognized": true
+    },
+    "near_places": [
+     "솔빛쉼터"
+    ],
+    "near_features": {},
+    "reference": [
+     {
+      "action": "baseline"
+     }
+    ],
+    "candidate": [
+     {
+      "action": "wait",
+      "feature": null,
+      "goal": null,
+      "hold_minutes": null
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P16_preserve",
+   "rep": 2,
+   "family": "destination",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 18,
+   "potential": 18,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P21_original",
+   "rep": 1,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 3,
+   "potential": 3,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P21_original",
+   "rep": 2,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 3,
+   "potential": 3,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P23_original",
+   "rep": 1,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": false,
+   "status": "difference",
+   "checked": 5,
+   "potential": 9,
+   "counterexample": {
+    "facts": {
+     "family_present": true,
+     "lost_awareness": true
+    },
+    "near_places": [],
+    "near_features": {},
+    "reference": [
+     {
+      "action": "baseline"
+     }
+    ],
+    "candidate": [
+     {
+      "action": "wait",
+      "feature": null,
+      "goal": null,
+      "hold_minutes": null
+     }
+    ]
+   }
+  },
+  {
+   "input_id": "DEV_P23_original",
+   "rep": 2,
+   "family": "source_fidelity",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 9,
+   "potential": 9,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P25_original",
+   "rep": 1,
+   "family": "time_context",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 24,
+   "potential": 24,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P25_original",
+   "rep": 2,
+   "family": "time_context",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 24,
+   "potential": 24,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P26_hard",
+   "rep": 1,
+   "family": "time_context",
+   "original_scenes_all_pass": false,
+   "status": "unusable_output",
+   "checked": 0,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P26_hard",
+   "rep": 2,
+   "family": "time_context",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 24,
+   "potential": 24,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P29_original",
+   "rep": 1,
+   "family": "multiple_behaviors",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 153,
+   "potential": 288,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P29_original",
+   "rep": 2,
+   "family": "multiple_behaviors",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 153,
+   "potential": 288,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P31_original",
+   "rep": 1,
+   "family": "multiple_behaviors",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 81,
+   "potential": 81,
+   "counterexample": null
+  },
+  {
+   "input_id": "DEV_P31_original",
+   "rep": 2,
+   "family": "multiple_behaviors",
+   "original_scenes_all_pass": true,
+   "status": "no_difference_in_probes",
+   "checked": 81,
+   "potential": 81,
+   "counterexample": null
+  }
+ ],
+ "source_fidelity_measured": false,
+ "release_gate_replaced": false,
+ "engine_limits": [
+  "wait duration >=1 minute is reevaluated each <=1-minute clock step, not implemented as a committed hold; sub-minute values retained",
+  "rest duration defaults to 5 minutes when unspecified; provisional engine assumption",
+  "current-state effects only; not a complete trajectory-equivalence proof"
+ ]
+}

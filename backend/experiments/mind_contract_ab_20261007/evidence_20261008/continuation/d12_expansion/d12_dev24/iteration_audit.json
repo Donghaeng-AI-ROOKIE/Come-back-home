@@ -1,0 +1,56 @@
+{
+ "scope": "expanded development; same source and authored reference; not clinical accuracy",
+ "scored_sha256": "45140ef798d3d3da92b0c79bdaa22ffacebc52d699bdb520e77fcd7f9ebcaaba",
+ "d4_scored_sha256": "46bb0900b3de56ce04b7ee7e1bc3d3e70efc8160a3ca386e14d9cb8e94267f97",
+ "d4_scene_passed": 170,
+ "d12_scene_passed": 187,
+ "scene_total": 192,
+ "d4_valid": 44,
+ "d12_valid": 48,
+ "responses": 48,
+ "d4_probes": {
+  "responses": 48,
+  "status": {
+   "no_difference_in_probes": 38,
+   "unusable_output": 4,
+   "difference": 6
+  },
+  "original_all_scenes_pass": 39,
+  "extra_differences_after_all_scenes_pass": 1
+ },
+ "d12_probes": {
+  "responses": 48,
+  "status": {
+   "no_difference_in_probes": 43,
+   "difference": 5
+  },
+  "original_all_scenes_pass": 46,
+  "extra_differences_after_all_scenes_pass": 3
+ },
+ "paired": {
+  "fixed_scenes": 21,
+  "regressed_scenes": 4,
+  "responses_with_regression": 2
+ },
+ "costs": {
+  "run_id": "MIND_contract_ab_20261007_d12_dev24",
+  "started": 53,
+  "finished": 53,
+  "balanced_attempt_ids": true,
+  "missing_finish": [],
+  "response_received": 53,
+  "failed_attempts": 0,
+  "api_duration_seconds_sum": 2960.9622800438665,
+  "usage": {
+   "prompt_tokens": 111737,
+   "completion_tokens": 258247,
+   "total_tokens": 369984
+  },
+  "unit_price": null,
+  "actual_cost": null,
+  "support_round": null,
+  "ledger": "../../../연구지원_사용기록/usage_events.jsonl",
+  "note": "API elapsed time is not GPU billed time. Unknown prices are not zero."
+ },
+ "release_qualified": false
+}

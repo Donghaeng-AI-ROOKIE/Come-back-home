@@ -1,0 +1,143 @@
+{
+ "denominator": 12,
+ "not_discriminable": 4,
+ "d12_preserved": 8,
+ "d15_preserved": 9,
+ "fixed": 3,
+ "regressed": 2,
+ "sources": {
+  "../../../실험/MIND_compact12_20261008/d12_dev8/engine_outputs_reused_v2.json": "4333cfb8887af304dbbfc0dadad9933bcf44382d94c0a341ad360772d5b4ce25",
+  "../../../실험/MIND_compact24_20261008/d12_dev24/engine_outputs_reused_v2.json": "d360f8ca5847b95e235b7c9fbd6f16aa14939e8e1accec7abcaaac3b16aa9f2b",
+  "../../../실험/MIND_compact15_20261008/d15_dev8/engine_outputs_reused_v2.json": "68251feae2362523bf756452679ccb2f046afa1e1fa953d046af10a578e2aab2"
+ },
+ "rows": [
+  {
+   "input_id": "DEV_P02_original",
+   "rep": 1,
+   "discriminable": false,
+   "d12_preserved": false,
+   "d15_preserved": true,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P02_original",
+   "rep": 2,
+   "discriminable": false,
+   "d12_preserved": true,
+   "d15_preserved": false,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P16_preserve",
+   "rep": 1,
+   "discriminable": true,
+   "d12_preserved": false,
+   "d15_preserved": false,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P16_preserve",
+   "rep": 2,
+   "discriminable": true,
+   "d12_preserved": false,
+   "d15_preserved": true,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P21_original",
+   "rep": 1,
+   "discriminable": false,
+   "d12_preserved": true,
+   "d15_preserved": true,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P21_original",
+   "rep": 2,
+   "discriminable": false,
+   "d12_preserved": true,
+   "d15_preserved": true,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P23_original",
+   "rep": 1,
+   "discriminable": true,
+   "d12_preserved": true,
+   "d15_preserved": false,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P23_original",
+   "rep": 2,
+   "discriminable": true,
+   "d12_preserved": false,
+   "d15_preserved": true,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P25_original",
+   "rep": 1,
+   "discriminable": true,
+   "d12_preserved": true,
+   "d15_preserved": true,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P25_original",
+   "rep": 2,
+   "discriminable": true,
+   "d12_preserved": true,
+   "d15_preserved": true,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P26_hard",
+   "rep": 1,
+   "discriminable": true,
+   "d12_preserved": true,
+   "d15_preserved": false,
+   "d15_walkable": false
+  },
+  {
+   "input_id": "DEV_P26_hard",
+   "rep": 2,
+   "discriminable": true,
+   "d12_preserved": false,
+   "d15_preserved": true,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P29_original",
+   "rep": 1,
+   "discriminable": true,
+   "d12_preserved": true,
+   "d15_preserved": true,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P29_original",
+   "rep": 2,
+   "discriminable": true,
+   "d12_preserved": true,
+   "d15_preserved": true,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P31_original",
+   "rep": 1,
+   "discriminable": true,
+   "d12_preserved": true,
+   "d15_preserved": true,
+   "d15_walkable": true
+  },
+  {
+   "input_id": "DEV_P31_original",
+   "rep": 2,
+   "discriminable": true,
+   "d12_preserved": true,
+   "d15_preserved": true,
+   "d15_walkable": true
+  }
+ ]
+}

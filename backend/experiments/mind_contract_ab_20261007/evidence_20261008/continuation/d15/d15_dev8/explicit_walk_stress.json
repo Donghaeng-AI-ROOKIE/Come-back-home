@@ -1,0 +1,90 @@
+{
+ "scope": "P21 engine-isolation stress check, not an actual onboarding or prevalence estimate",
+ "scored_sha256": "e127e3e97abd50328312d317b1ba14cff817e6e4bef1199c4308855ff43aaa0d",
+ "harness_sha256": "98a2fe8cd0bb78a3c75b789dd8db03d6e1989261d71d01be0d9055d32762a97f",
+ "map_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+ "strategy_assumption": {
+  "staying_put": 1.0
+ },
+ "walkers": 150,
+ "minutes": 30,
+ "lost_true_minutes": [
+  10,
+  20
+ ],
+ "results": {
+  "author_reference": {
+   "mass": 1.0,
+   "mean_wait": 19.9733,
+   "mean_personal_rest": 0.0,
+   "mean_path_km": 0.4797,
+   "mean_max_continuous_walk_min": 9.9933,
+   "avoid_walkers": 0,
+   "avoid_by_target": {},
+   "arrived": {
+    "느티공원": 0,
+    "해든상가": 0,
+    "솔빛쉼터": 0
+   },
+   "unresolved": {},
+   "rule_minutes": {
+    "k_0": 1499.0
+   }
+  },
+  "empty_policy": {
+   "mass": 1.0,
+   "mean_wait": 30.0,
+   "mean_personal_rest": 0.0,
+   "mean_path_km": 0.0,
+   "mean_max_continuous_walk_min": 0.0,
+   "avoid_walkers": 0,
+   "avoid_by_target": {},
+   "arrived": {
+    "느티공원": 0,
+    "해든상가": 0,
+    "솔빛쉼터": 0
+   },
+   "unresolved": {},
+   "rule_minutes": {}
+  },
+  "rep1": {
+   "mass": 1.0,
+   "mean_wait": 19.9733,
+   "mean_personal_rest": 0.0,
+   "mean_path_km": 0.4797,
+   "mean_max_continuous_walk_min": 9.9933,
+   "avoid_walkers": 0,
+   "avoid_by_target": {},
+   "arrived": {
+    "느티공원": 0,
+    "해든상가": 0,
+    "솔빛쉼터": 0
+   },
+   "unresolved": {},
+   "rule_minutes": {
+    "a_0": 1499.0
+   }
+  },
+  "rep2": {
+   "mass": 1.0,
+   "mean_wait": 19.9733,
+   "mean_personal_rest": 0.0,
+   "mean_path_km": 0.4797,
+   "mean_max_continuous_walk_min": 9.9933,
+   "avoid_walkers": 0,
+   "avoid_by_target": {},
+   "arrived": {
+    "느티공원": 0,
+    "해든상가": 0,
+    "솔빛쉼터": 0
+   },
+   "unresolved": {},
+   "rule_minutes": {
+    "a_0": 1499.0
+   }
+  }
+ },
+ "original_benchmark_unchanged": true,
+ "new_external_calls": 0,
+ "release_qualified": false
+}

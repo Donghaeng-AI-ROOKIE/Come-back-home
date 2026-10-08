@@ -1,0 +1,129 @@
+{
+ "inputs": [
+  {
+   "id": "DEV_P01_original",
+   "root_id": "P01",
+   "family": "environment"
+  },
+  {
+   "id": "DEV_P02_original",
+   "root_id": "P02",
+   "family": "environment"
+  },
+  {
+   "id": "DEV_P03_original",
+   "root_id": "P03",
+   "family": "environment"
+  },
+  {
+   "id": "DEV_P04_original",
+   "root_id": "P04",
+   "family": "environment"
+  },
+  {
+   "id": "DEV_P06_original",
+   "root_id": "P06",
+   "family": "physical_rest"
+  },
+  {
+   "id": "DEV_P07_original",
+   "root_id": "P07",
+   "family": "physical_rest"
+  },
+  {
+   "id": "DEV_P09_original",
+   "root_id": "P09",
+   "family": "waiting"
+  },
+  {
+   "id": "DEV_P10_original",
+   "root_id": "P10",
+   "family": "waiting"
+  },
+  {
+   "id": "DEV_P11_original",
+   "root_id": "P11",
+   "family": "waiting"
+  },
+  {
+   "id": "DEV_P12_original",
+   "root_id": "P12",
+   "family": "waiting"
+  },
+  {
+   "id": "DEV_P14_original",
+   "root_id": "P14",
+   "family": "destination"
+  },
+  {
+   "id": "DEV_P15_original",
+   "root_id": "P15",
+   "family": "destination"
+  },
+  {
+   "id": "DEV_P17_original",
+   "root_id": "P17",
+   "family": "external_state"
+  },
+  {
+   "id": "DEV_P18_original",
+   "root_id": "P18",
+   "family": "external_state"
+  },
+  {
+   "id": "DEV_P19_original",
+   "root_id": "P19",
+   "family": "external_state"
+  },
+  {
+   "id": "DEV_P20_original",
+   "root_id": "P20",
+   "family": "external_state"
+  },
+  {
+   "id": "DEV_P21_original",
+   "root_id": "P21",
+   "family": "source_fidelity"
+  },
+  {
+   "id": "DEV_P22_original",
+   "root_id": "P22",
+   "family": "source_fidelity"
+  },
+  {
+   "id": "DEV_P23_original",
+   "root_id": "P23",
+   "family": "source_fidelity"
+  },
+  {
+   "id": "DEV_P24_original",
+   "root_id": "P24",
+   "family": "source_fidelity"
+  },
+  {
+   "id": "DEV_P25_original",
+   "root_id": "P25",
+   "family": "time_context"
+  },
+  {
+   "id": "DEV_P27_original",
+   "root_id": "P27",
+   "family": "time_context"
+  },
+  {
+   "id": "DEV_P28_original",
+   "root_id": "P28",
+   "family": "time_context"
+  },
+  {
+   "id": "DEV_P32_original",
+   "root_id": "P32",
+   "family": "multiple_behaviors"
+  }
+ ],
+ "selection": "all original development roots excluding the eight repair roots; not independent holdout",
+ "references_sent_to_model": false,
+ "expected_responses": 48,
+ "scene_decisions": 192,
+ "clinical_accuracy": false
+}

@@ -1,0 +1,118 @@
+{
+ "stage": "d15_dev8",
+ "runner": "run_v2",
+ "scoring": "scoring-v2-goal-scope-reference-aware-coverage-20261007",
+ "version": "d15-compact-observed-action-20261008-research",
+ "model": "depmkuykpfon9lg",
+ "sampling": {
+  "temperature": 1.0,
+  "top_p": 0.95,
+  "max_tokens": 16384,
+  "presence_penalty": 0.0,
+  "repetition_penalty": 1.0
+ },
+ "source_sha256": {
+  "experiments/mind_contract_ab_20261007/PLAN_d15.md": "eaa19c0f415419c7945adbb5241ed58d3d9eacc8a38db481741f72f43a872680",
+  "experiments/mind_contract_ab_20261007/contract_d15.py": "7b11a9015171f664f585a0c5995aa9b356a8cf1583ea38ade9cdd78147d2bbe1",
+  "experiments/mind_contract_ab_20261007/contract_c.py": "07e4f4291bfa7a57fe7e4952c38eb38f7985a4b66a26a3e67bc6148703f8f3b7",
+  "experiments/mind_contract_ab_20261007/contract_d.py": "6a18cf478f571095514f8981bbd6968ea745fb8d8240ae432e3b0cefc0e2f2c0",
+  "experiments/mind_contract_ab_20261007/contract_d12.py": "e82ed8cae6388f9d81a8415b8ab8254b765167bf56f0b7d35e6c89f789192778",
+  "experiments/mind_contract_ab_20261007/contract_d2.py": "c112a4a8ff47459db7060d893a8778cd1560ed1efd755f56584dd107a22833a8",
+  "experiments/mind_contract_ab_20261007/contract_d3.py": "8220016a5cb6430b3ebe818d06f7b731dd62523ce629b8ca4e6e8c49e7b431e0",
+  "experiments/mind_contract_ab_20261007/contract_d4.py": "50dffaefc409e48388dd295f73368b1aba622a2d3e2ed0fed0897780c9ff5073",
+  "experiments/mind_contract_ab_20261007/contract_d5.py": "56177a99626a7421d02fff88f52f673614dcf7eefc2e073a5c8d92ff5f573ef6",
+  "experiments/mind_contract_ab_20261007/contract_d8.py": "b315891fefbf950f30b95e204279bd95cba37455b3d5901574104e0f80cb3904",
+  "experiments/mind_contract_ab_20261007/contracts.py": "f6b7356518ffe91676469890b072f0012a75b04428f7d5b96e6ad83bbae13b00",
+  "experiments/mind_contract_ab_20261007/completion.py": "a0a2a33fc876bf0569f71a54a349f23071ac336990404a861346f84cfb093be5",
+  "experiments/mind_contract_ab_20261007/scoring.py": "7a2aaf45b062f69913c0af1d090ac8fa1a4c7ce479170f47428409f78e7bbc50",
+  "experiments/mind_contract_ab_20261007/scoring_v2.py": "d18fc4070f70c8779d6064bc30246e3ed3dc1d60336accb4b2a46d4b4c8a130e",
+  "experiments/mind_contract_ab_20261007/transport.py": "113c204dfc49c4c484b3c3f46ada1368c86a057c26d0faf2552d6df51587b1c7",
+  "experiments/mind_contract_ab_20261007/run_stage.py": "466f083b12d1fd57743ed856d4a81c0349ea67cf351c2a9270a70671f56c9376",
+  "experiments/mind_contract_ab_20261007/run_v2.py": "3f07b835d90970ccbad96b940979aab45de0620894a27a2014ba9a6fdce929e3",
+  "experiments/mind_policy_candidates/condition_program.py": "78c44368954f31bbd66ed7290849e58e64674767ab7772fde0c4c0ad1dfd4470",
+  "experiments/mind_policy_candidates/note_policy_eval.py": "eb544c305b2b1d54b3ec710cb8d29e5953100da3cd1b332bb6faa0b72a289d13",
+  "app/llm/mind_policy.py": "a5071a4795915d9045b6d81d2cceb90cebe9dd3a98002d36c66fd6fb449defc2",
+  "app/llm/initial_behavior.py": "cca68aa53fa0ae890b701384f7151660f74f036f9316de87aebbb915c1c1af7c",
+  "app/llm/usage_ledger.py": "844b94356ce094b273eee7993ea0173245f0a73204fefe837b12e2baef27ea81",
+  "experiments/mind_contract_ab_20261007/run_compact15.py": "b913fb508269a265ad6494ea6457b557356878ab1bdfdc54f8d7d4286af858f4",
+  "experiments/mind_contract_ab_20261007/resume_concise8.py": "79d3ce0e6073ca480f85be307759feb6d20524e5732f19590333a80a69b971ba"
+ },
+ "correction_rounds_max": 1,
+ "correction_policy": "only when a received response fails validation; none after an API error",
+ "judge_error_chars": 800,
+ "data_sha256": {
+  "dev128_inputs.jsonl": "061faab96863ed8a1d81c49b6686f12676dee0afe8b1b23d5cf9b4f1474f3717",
+  "dev128_scenes.NOT_MODEL_INPUT.json": "4bddad55ef9cb4b3170fbd43c73f38b4ed3421c81deb9377fb41e96c68f24649",
+  "dev128_reference.NOT_MODEL_INPUT.json": "e913e601b291a4cf270abe6d2ac283c206b808ab05a86c1994e15dfe3fc8683e"
+ },
+ "jobs": [
+  {
+   "job": "d15_dev8_DEV_P02_original_1",
+   "request_sha256": "282d18c4cef5f866309d9affaa9b153eef2431ca650d2b3a818a2bf85a7d31f7"
+  },
+  {
+   "job": "d15_dev8_DEV_P02_original_2",
+   "request_sha256": "282d18c4cef5f866309d9affaa9b153eef2431ca650d2b3a818a2bf85a7d31f7"
+  },
+  {
+   "job": "d15_dev8_DEV_P16_preserve_1",
+   "request_sha256": "92c9cead7ebcbe6586d39958e57f33ba4774d2e081c7e2ada81cb262e9ff66af"
+  },
+  {
+   "job": "d15_dev8_DEV_P16_preserve_2",
+   "request_sha256": "92c9cead7ebcbe6586d39958e57f33ba4774d2e081c7e2ada81cb262e9ff66af"
+  },
+  {
+   "job": "d15_dev8_DEV_P21_original_1",
+   "request_sha256": "37b473815d6ed27067d5c38b3e7bdeec8e92a428babba730b965aa0b0117ea0a"
+  },
+  {
+   "job": "d15_dev8_DEV_P21_original_2",
+   "request_sha256": "37b473815d6ed27067d5c38b3e7bdeec8e92a428babba730b965aa0b0117ea0a"
+  },
+  {
+   "job": "d15_dev8_DEV_P23_original_1",
+   "request_sha256": "09e0aad3f60bfda1fec7ed2d18302a5aaeaca9fb3f3f49dc45e3f1f68f638dac"
+  },
+  {
+   "job": "d15_dev8_DEV_P23_original_2",
+   "request_sha256": "09e0aad3f60bfda1fec7ed2d18302a5aaeaca9fb3f3f49dc45e3f1f68f638dac"
+  },
+  {
+   "job": "d15_dev8_DEV_P25_original_1",
+   "request_sha256": "33775cbe797239a9d198e09cbe9c897c1aa7c44f1fec165b276a35ff7232948e"
+  },
+  {
+   "job": "d15_dev8_DEV_P25_original_2",
+   "request_sha256": "33775cbe797239a9d198e09cbe9c897c1aa7c44f1fec165b276a35ff7232948e"
+  },
+  {
+   "job": "d15_dev8_DEV_P26_hard_1",
+   "request_sha256": "329fa9ae3c15a25e0f7e140c62fd4862d7ca5212bf1d733ce8ae021d8b1cd310"
+  },
+  {
+   "job": "d15_dev8_DEV_P26_hard_2",
+   "request_sha256": "329fa9ae3c15a25e0f7e140c62fd4862d7ca5212bf1d733ce8ae021d8b1cd310"
+  },
+  {
+   "job": "d15_dev8_DEV_P29_original_1",
+   "request_sha256": "387f9eeccd472dd6e3e821da084e288d080207eeb2354043abcdf3444af10541"
+  },
+  {
+   "job": "d15_dev8_DEV_P29_original_2",
+   "request_sha256": "387f9eeccd472dd6e3e821da084e288d080207eeb2354043abcdf3444af10541"
+  },
+  {
+   "job": "d15_dev8_DEV_P31_original_1",
+   "request_sha256": "b3a7ed221c964d7fe4f07ccdd76a63edc09bb5fcbd444bee2386c658b013ce42"
+  },
+  {
+   "job": "d15_dev8_DEV_P31_original_2",
+   "request_sha256": "b3a7ed221c964d7fe4f07ccdd76a63edc09bb5fcbd444bee2386c658b013ce42"
+  }
+ ],
+ "first_calls": 16,
+ "max_calls": 32,
+ "automatic_retries": false,
+ "concurrency": 2
+}

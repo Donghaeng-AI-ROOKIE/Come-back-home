@@ -1,0 +1,152 @@
+[
+  {
+    "evidence": "d12_expansion/README.md",
+    "source": "../../../실험/MIND_compact24_20261008/README.md",
+    "sha256": "f2b9d1c0fece83c830db495a6d33aea45a1f01f3373e6e0d70a515785be65946"
+  },
+  {
+    "evidence": "d12_expansion/selection.json",
+    "source": "../../../실험/MIND_compact24_20261008/selection.json",
+    "sha256": "1829d5d5cf8c304aaf69b9fed075d3adad168522568924baef020df2495791c4"
+  },
+  {
+    "evidence": "d12_expansion/followup_status.json",
+    "source": "../../../실험/MIND_compact24_20261008/followup_status.json",
+    "sha256": "6b0da6cb7011b3e7e5210f7b19cc60010cfbe23ae6ada4cf33869ce5b333cb0d"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/manifest.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/manifest.json",
+    "sha256": "3ff7bf78c51a38d23420ab0076d094ab8789085286e510b2230e8067b1480809"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/scored.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/scored.json",
+    "sha256": "45140ef798d3d3da92b0c79bdaa22ffacebc52d699bdb520e77fcd7f9ebcaaba"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/condition_probes.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/condition_probes.json",
+    "sha256": "f15e283d53ae5f61d7840185489eae79827fcdbbb2a8cc47c7383023fb10f6d9"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/runtime_condition_probes.supplemental.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/runtime_condition_probes.supplemental.json",
+    "sha256": "e322294f5de9a55dd826522a862307e3198cdfe829f773be4ddda74b1495e7ea"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/d4_condition_probes.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/d4_condition_probes.json",
+    "sha256": "b1269df23983fff1acd83eef2ea69408fb4737fade4a501965b388b2b82ca7ba"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/d4_runtime_condition_probes.supplemental.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/d4_runtime_condition_probes.supplemental.json",
+    "sha256": "497fdfab95d60d61bfee2c74de63e2b9eb5a52ade4f833cb3469be872426608c"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/paired_with_d4.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/paired_with_d4.json",
+    "sha256": "eb11e72da8e34aafa248699b4c944562b4e4491faba7ea261106b2cb40c3f18c"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/walking_paired_with_d4.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/walking_paired_with_d4.json",
+    "sha256": "d20ed242d919fc04df2dc08292f470444c55c90cd1b1f1dd97856ac08dfc8c40"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/iteration_audit.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/iteration_audit.json",
+    "sha256": "e4a862c34534ea06d136ca6da985659db66760469345a6841f9e8aaae7b63cfe"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/usage_summary.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/usage_summary.json",
+    "sha256": "429baa4af6bbfd9fd9ceaefee1babdda3078c452b0a76c3b4cf08ecc61a900bf"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/engine_outputs_reused_v2.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/engine_outputs_reused_v2.json",
+    "sha256": "d360f8ca5847b95e235b7c9fbd6f16aa14939e8e1accec7abcaaac3b16aa9f2b"
+  },
+  {
+    "evidence": "d12_expansion/d12_dev24/explicit_walk_stress.json",
+    "source": "../../../실험/MIND_compact24_20261008/d12_dev24/explicit_walk_stress.json",
+    "sha256": "5c9f1a922c4ede8fefd492ed28e235d262349e9c9cdbac101ee09cb999df0511"
+  },
+  {
+    "evidence": "d15/README.md",
+    "source": "../../../실험/MIND_compact15_20261008/README.md",
+    "sha256": "d0d681ba5271e77048716ac01a3150dfe660f3b488f45839abc045e3f079ba26"
+  },
+  {
+    "evidence": "d15/도착과_장소인지_연결_점검.md",
+    "source": "../../../실험/MIND_compact15_20261008/도착과_장소인지_연결_점검.md",
+    "sha256": "c312e02fb746ae5b896926634929d2748352f67e3ce6fb76b1d8fd4e3402c138"
+  },
+  {
+    "evidence": "d15/place_binding_diagnostic.json",
+    "source": "../../../실험/MIND_compact15_20261008/place_binding_diagnostic.json",
+    "sha256": "75c829e0f3e2a9725bf9230876c3b9ccd7ea596e6d489e4c360c710b5be5a6b8"
+  },
+  {
+    "evidence": "d15/d12_comparator.json",
+    "source": "../../../실험/MIND_compact15_20261008/d12_comparator.json",
+    "sha256": "8d7b2a746159e0cb00325468870daacd9db89c26fb0e6bb6a9874fad82a7c936"
+  },
+  {
+    "evidence": "d15/d15_dev8/manifest.json",
+    "source": "../../../실험/MIND_compact15_20261008/d15_dev8/manifest.json",
+    "sha256": "05706746f268c750394bdb749b7f126460cfb78a949e9ea8ce8dd01bc83ddda2"
+  },
+  {
+    "evidence": "d15/d15_dev8/scored.json",
+    "source": "../../../실험/MIND_compact15_20261008/d15_dev8/scored.json",
+    "sha256": "e127e3e97abd50328312d317b1ba14cff817e6e4bef1199c4308855ff43aaa0d"
+  },
+  {
+    "evidence": "d15/d15_dev8/condition_probes.json",
+    "source": "../../../실험/MIND_compact15_20261008/d15_dev8/condition_probes.json",
+    "sha256": "98a55c84107200e537942630bcd6d1022a87022531ac947ef6d8a9d3e099000c"
+  },
+  {
+    "evidence": "d15/d15_dev8/runtime_condition_probes.supplemental.json",
+    "source": "../../../실험/MIND_compact15_20261008/d15_dev8/runtime_condition_probes.supplemental.json",
+    "sha256": "d2edae1ea45395b08be226678c708a8aac53f580981673148347ded9338d187b"
+  },
+  {
+    "evidence": "d15/d15_dev8/d12_condition_probes.json",
+    "source": "../../../실험/MIND_compact15_20261008/d15_dev8/d12_condition_probes.json",
+    "sha256": "0ebf118bc6c8f0b92a0469202c7e43def9e1430f4c9714e854c87a3a7fc62376"
+  },
+  {
+    "evidence": "d15/d15_dev8/paired_with_d12.json",
+    "source": "../../../실험/MIND_compact15_20261008/d15_dev8/paired_with_d12.json",
+    "sha256": "ff52d41ff50ae30550d09dc388319ed0a1681c2e4b35e538e50485014eb690fc"
+  },
+  {
+    "evidence": "d15/d15_dev8/walking_paired_with_d12.json",
+    "source": "../../../실험/MIND_compact15_20261008/d15_dev8/walking_paired_with_d12.json",
+    "sha256": "e0321c3d6101bdd85c2123cdcbe5df5b16abc4d82f480cd534fbee76bad50c20"
+  },
+  {
+    "evidence": "d15/d15_dev8/engine_outputs_reused_v2.json",
+    "source": "../../../실험/MIND_compact15_20261008/d15_dev8/engine_outputs_reused_v2.json",
+    "sha256": "68251feae2362523bf756452679ccb2f046afa1e1fa953d046af10a578e2aab2"
+  },
+  {
+    "evidence": "d15/d15_dev8/explicit_walk_stress.json",
+    "source": "../../../실험/MIND_compact15_20261008/d15_dev8/explicit_walk_stress.json",
+    "sha256": "13828fcbce91113e968832769d75ee428e7ac83ff3770562250effc1df098d2b"
+  },
+  {
+    "evidence": "d15/d15_dev8/coverage_only_diagnostic.json",
+    "source": "../../../실험/MIND_compact15_20261008/d15_dev8/coverage_only_diagnostic.json",
+    "sha256": "bbccacef4531fb13325103f62e78648958d00255d61b6f5c143e59e362aa6c4e"
+  },
+  {
+    "evidence": "d15/d15_dev8/usage_summary.json",
+    "source": "../../../실험/MIND_compact15_20261008/d15_dev8/usage_summary.json",
+    "sha256": "ef67b2f3b1b0a868a45e936c514b6b68947a4ffd1826ab293448342d2d0c4a61"
+  }
+]
