@@ -6,7 +6,6 @@ from app.phase0.slots import slot_by_key
 from app.schemas.persona import InterviewSession,PersonaType
 from app.geo.geocode import GeoResult,to_attraction_points
 from app.schemas.common import GeoPoint
-from experiments.mind_contract_ab_20261007.onboarding_fixture import ANSWERS
 
 
 def main():
@@ -14,13 +13,19 @@ def main():
     def offline(*args,**kw):raise RuntimeError('network forbidden during saved-response replay')
     socket.socket.connect=offline
     paths=[a.capture/'calls'/f'midm_{i:03}.response.json' for i in (4,26)]
+    transcript=json.loads((a.capture/'transcript.json').read_text())
+    answers={row['answer'] for row in transcript if row.get('slot')=='routine_destinations'
+             and row.get('answer_source')=='fixed_synthetic_guardian_answer_for_app_slot'}
+    if len(answers)!=1:
+        raise ValueError('This fixed replay requires one unchanged routine_destinations answer')
+    utterance=answers.pop()
     session=InterviewSession(id='saved-synthetic-place-replay',guardian_name='합성',persona_type=PersonaType.dementia)
     snapshots=[]
     for path in paths:
         raw=json.loads(path.read_text())['choices'][0]['message']['content']
         parsed=prompts.parse_extract(raw)
         assert len(parsed['attraction_points'])==3
-        interview._apply_extraction(session,slot_by_key('routine_destinations'),parsed,utterance=ANSWERS['routine_destinations'])
+        interview._apply_extraction(session,slot_by_key('routine_destinations'),parsed,utterance=utterance)
         snapshots.append(json.loads(json.dumps(session.draft_attractions)))
     saved=json.loads((a.capture/'persona.json').read_text())
     points={x['label']:GeoPoint(**x['location']) for x in saved['attraction_points']}

@@ -1,6 +1,7 @@
 """Real cached KINTEX geometry, synthetic locations/observations, no calls."""
 from datetime import timedelta
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -18,8 +19,11 @@ from tests.test_person_policy import policy, rule, obs
 @pytest.fixture(scope='module')
 def cached():
     root = Path(__file__).resolve().parents[4]
-    path = root / '실험/MIND_completion_20261004/map_full_support/kintex_walk.graphml'
-    assert path.exists(), 'KINTEX cache required; no other geography fallback'
+    configured = os.environ.get('CBH_KINTEX_GRAPHML')
+    path = Path(configured) if configured else root / '실험/MIND_completion_20261004/map_full_support/kintex_walk.graphml'
+    if not path.exists() and not configured:
+        pytest.skip('KINTEX spatial validation not performed: set CBH_KINTEX_GRAPHML to the verified cache')
+    assert path.exists(), 'Configured KINTEX cache is missing; no other geography fallback'
     net = verified_network(path)
     node = net.nearest_node(GeoPoint(lat=37.6631, lng=126.7458))
     start = net.node_location(node)

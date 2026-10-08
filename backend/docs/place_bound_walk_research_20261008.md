@@ -37,4 +37,6 @@ KINTEX 실도로 캐시에서 합성 등록 장소·관측으로 검사했다. �
 
 운영API의 관측 입력·저장 경로는 아직 연결하지 않았다. K가 종료 조건이나 도착 조건 자체를 빠뜨리는 문제도 이 실행기 변경이 대신 고치지는 않는다. 후보는 배포 완료나 임상 행동 재현 완료로 판정하지 않는다.
 
-코드: 별도 제품 워크트리의 `app/phase2/place_bound_walk.py`, `app/phase2/person_walk.py`, `tests/test_place_bound_walk.py`. 증빙: `regression_audit.json`, `executor_manifest.json`, `manifest.json`, 장면별 결과·체크포인트. 정확한 소스는 `source_snapshot/`에 보존한다.
+코드: `app/phase2/place_bound_walk.py`, `app/phase2/person_walk.py`, `tests/test_place_bound_walk.py`. 이 PR의 요약 증빙은 `docs/evidence_place_bound_20261008.json`이다. 전체 장면·체크포인트와 당시 소스는 로컬 연구 아카이브에 보존하고, 관련 실험 PR에는 회귀 집계·명세를 함께 공개한다.
+
+재실행할 때 `CBH_KINTEX_GRAPHML`에 검증된 KINTEX GraphML 경로를 지정한다. 원래 취득 명세 JSON도 함께 있어야 한다. 명시한 파일이 없으면 실패하며, 지도를 지정하지 않았고 로컬 캐시도 없으면 공간 검사를 미수행으로 표시한다. 다른 지역·격자 자동 대체나 지도 다운로드는 하지 않는다.
