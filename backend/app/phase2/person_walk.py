@@ -88,8 +88,12 @@ class Particle:
     rng_state:object=None
     next_population_rest_check:float=1.
     population_rest_minutes:float=0.
+    context_assumptions:dict=field(default_factory=dict)
+    completed_waits:list[str]=field(default_factory=list)
+    wait_start_facts:dict=field(default_factory=dict)
 
 class Population:
+    CHECKPOINT_FAMILY='continuous-person'
     def __init__(self,net,persona,prior,policy,start,started_at,*,count=500,seed=42,
                  environment_observations=(),behavior_observations=(),mind=None,checkpoint=None,trace_hook=None,
                  rest_policy=None):
@@ -131,6 +135,8 @@ class Population:
                 raise ValueError('start or personal goal outside map coverage')
         self.policy_digest=hashlib.sha256(policy.model_dump_json().encode()).hexdigest()
         if checkpoint:
+            if checkpoint.get('executor_family','continuous-person') != self.CHECKPOINT_FAMILY:
+                raise ValueError('continuous checkpoint executor changed')
             if checkpoint['version']!=VERSION or checkpoint['policy_digest']!=self.policy_digest:
                 raise ValueError('stale continuous checkpoint')
             if checkpoint.get('rest_policy')!=asdict(self.rest_policy):
@@ -151,6 +157,7 @@ class Population:
 
     def checkpoint(self):
         return {'version':VERSION,'policy_digest':self.policy_digest,'seed':self.seed,
+                'executor_family':self.CHECKPOINT_FAMILY,
                 'rest_policy':asdict(self.rest_policy),
                 'particles':[asdict(p) for p in self.particles]}
 
@@ -255,12 +262,7 @@ class Population:
             self._policy_cache[signature_key]=mind_policy.possibilities(self.policy,f,near_places=labels,near_features=features)
         return self._policy_cache[signature_key]
 
-    def _decide(self,p,rng):
-        f=self.facts(p);labels,features=self.near(p)
-        if p.mode=='rest' and p.minute<p.hold_until-1e-8:
-            return p.last_uncertain,p.last_baseline
-        # Waiting is reviewed every clock step, so a newly arrived family does not
-        # have to wait out a made-up 30 minute commitment.
+    def _select_rule(self,p,rng,f,labels,features):
         options,unknown=self._policy_options(p,f,labels,features)
         # A repeated desire is not proof of repeatedly forgetting a just-visited place.
         options=[r for r in options if r is None or r.action!='seek' or r.goal_label not in p.completed_goals]
@@ -268,7 +270,18 @@ class Population:
         signature=json.dumps([[(r.id if r else None) for r in options],unknown,p.arrived,p.target],ensure_ascii=False)
         if signature!=p.selection_signature:
             p.selection_signature=signature;p.selected=rng.randrange(len(options))
-        rule=options[p.selected];uncertain=len(options)>1
+        return options[p.selected],len(options)>1,unknown
+
+    def _hold_deadline(self,p,rule,mode,hold,old_mode):
+        return p.minute+hold
+
+    def _decide(self,p,rng):
+        f=self.facts(p);labels,features=self.near(p)
+        if p.mode=='rest' and p.minute<p.hold_until-1e-8:
+            return p.last_uncertain,p.last_baseline
+        # Current condition changes can release waiting. Confirmed discovery is
+        # a case lifecycle event, not a command to resume a missing-person walk.
+        rule,uncertain,unknown=self._select_rule(p,rng,f,labels,features)
         baseline=rule is None
         if baseline:
             mode,hold,goal,feature=self._baseline(p,rng,f);scope=[];rid=None
@@ -292,8 +305,8 @@ class Population:
         if mode=='avoid' and not scope and not math.isfinite(self._feature_distance(p,p.node)):
             p.blocked=True;self._event(p,'unmapped_avoidance',feature=feature)
             return uncertain,baseline
+        if hold is not None:p.hold_until=self._hold_deadline(p,rule,mode,hold,old_mode)
         p.last_uncertain=uncertain;p.last_baseline=baseline;p.hold_rule_id=rid
-        if hold is not None:p.hold_until=p.minute+hold
         if mode in ('rest','wait'):
             p.continuous_walk=0.;p.distance_since_rest=0.
         if old_mode!=mode or old_feature!=feature:
