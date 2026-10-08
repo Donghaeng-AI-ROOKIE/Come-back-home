@@ -1,0 +1,24 @@
+{
+  "new_external_calls": 0,
+  "suite": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "57",
+    "time": "19.888",
+    "timestamp": "2026-10-08T12:10:38.290170+09:00",
+    "hostname": "jodaeheum-ui-MacBookPro.local"
+  },
+  "command": "python -m pytest -q tests/test_prediction_terminal_boundary.py tests/test_privacy_lifecycle.py tests/test_continuous_prediction.py tests/test_poa_refresher.py tests/test_storage_concurrency.py",
+  "junit_sha256": "f70baaa63ad98755582f543b1eb227bc2a5235a42a83aa7a113cd3eb110a4967",
+  "files": {
+    "backend/app/privacy/lifecycle.py": "520efe6411cccef6e64e352f432f9890c34ba972197eb0b745c66085848a7d37",
+    "backend/app/phase2/pipeline.py": "846ad1876db29e5b6bf19bb18cf57b9abba237a1a58a8306874eaa11045eb063",
+    "backend/app/phase2/continuous_prediction.py": "05948afe5efc1019fb939eacb267fb37a20150616ecf19a79dbdb84f3e6561ea",
+    "backend/app/api/phase2.py": "b9e3addc8549c38413f3a6216aeab678f207061c274ee7260464cbe474b3e6ca",
+    "backend/app/api/debug.py": "59fecd1d0fdc90e835f7702f11090a51405958fff1d5f6f965e19b0a765f9f44",
+    "backend/app/api/phase3.py": "ece42015ae14feeb1b95d4b9eb2c014d6d4884763202f950f0015c04ee18dc7f",
+    "backend/tests/test_prediction_terminal_boundary.py": "a78722222ae93a9cb26a3d50cb572049f8588103ff15d250a28b9d1d6a2e4207"
+  }
+}

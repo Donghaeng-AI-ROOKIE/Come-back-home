@@ -223,6 +223,7 @@ def submit_tip(case_id: str, body: TipIn, background: BackgroundTasks):
 
 
 @router.get("/cases/{case_id}/poa")
+@storage.serialize_case
 def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
     """POA 상위 셀 조회 (지도 시각화용).
 
@@ -235,6 +236,11 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
     **케이스 상태는 바뀌지 않는다** — 알림·제보는 계속 실제 경과시간 지도만 쓴다.
     """
     case = _get_case(case_id)
+    if elapsed_hours is not None:
+        try:
+            lifecycle.ensure_not_closed(case)
+        except lifecycle.AlreadyClosed as e:
+            raise HTTPException(409, str(e))
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
 

@@ -2,6 +2,8 @@
 from copy import deepcopy
 import hashlib,json
 from app.config import settings
+from app import storage
+from app.privacy import lifecycle
 from app.phase0 import mind_preparation
 from app.phase2.person_walk import Population,VERSION
 from app.schemas.prediction import MindState
@@ -26,7 +28,9 @@ def graph_key(net):
     return marker
 
 
+@storage.serialize_case
 def run(case,persona,prior,net,hours,*,seed=None,persist=True):
+    lifecycle.ensure_not_closed(case)
     policy,status=mind_preparation.ready(persona)
     if policy is None:return None,{'engine':'legacy','personal_policy_status':status,'continuous_clock':False}
     if net is None or getattr(net,'coverage_bbox',None) is None:
@@ -72,6 +76,7 @@ def _run_policy(case,persona,prior,net,hours,policy,status,*,seed=None,persist=T
     return result['cells'],result['quality']
 
 
+@storage.serialize_case
 def run_pair(case,persona,prior,net,hours,*,seed=None,persist=True):
     """Same initial person, two continuous clocks, one atomic checkpoint.
 
@@ -81,6 +86,7 @@ def run_pair(case,persona,prior,net,hours,*,seed=None,persist=True):
     The statistical name is kept for compatibility; it is not independent of
     personal information. Fixed 0.7:0.3 weights are not retuned here.
     """
+    lifecycle.ensure_not_closed(case)
     staged=case.model_copy(deep=True)
     bu,quality=run(staged,persona,prior,net,hours,seed=seed,persist=True)
     quality.update(preview=not persist,checkpoint_committed=False)

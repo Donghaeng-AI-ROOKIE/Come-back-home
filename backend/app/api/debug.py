@@ -45,9 +45,9 @@ def predict_traced(case_id: str, seed: int | None = None):
     try:
         # 시연용이라도 종결 케이스 예측은 차단 — status 부활 방지 (phase2 와 동일)
         lifecycle.ensure_not_closed(case)
+        pipeline.run_prediction(case, seed=seed, trace=True)
     except lifecycle.AlreadyClosed as e:
         raise HTTPException(409, str(e))
-    pipeline.run_prediction(case, seed=seed, trace=True)
     return storage.debug_traces.get(case_id)
 
 

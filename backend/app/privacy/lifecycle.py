@@ -112,16 +112,20 @@ def ensure_not_closed(case: Case) -> None:
     특히 Phase 2 예측은 status 를 predicted 로 덮어써 종결을 '부활'시키므로
     (pipeline.run_prediction), 모든 수색 진입점이 이 게이트를 먼저 통과해야 한다.
     """
-    if case.status in (CaseStatus.found, CaseStatus.closed):
-        raise AlreadyClosed(
-            f"종결된 케이스 ({case.status.value}) — 예측·알림·제보 불가"
-        )
+    # A queued worker may still hold an active copy after the stored case ended.
+    current = storage.cases.get(case.id)
+    for candidate in (case, current):
+        if candidate is not None and candidate.status in (CaseStatus.found, CaseStatus.closed):
+            raise AlreadyClosed(
+                f"종결된 케이스 ({candidate.status.value}) — 예측·알림·제보 불가"
+            )
 
 
+@storage.serialize_case
 def close_case(case: Case, reason: CloseReason, now: datetime | None = None) -> Case:
     """종결 처리 — 이 순간부터 TTL 카운트다운이 시작된다."""
-    if case.status in (CaseStatus.found, CaseStatus.closed):
-        raise AlreadyClosed(f"이미 종결된 케이스: {case.id} ({case.status.value})")
+    ensure_not_closed(case)
+    case = storage.cases.get(case.id) or case
     case.status = CaseStatus.found if reason == CloseReason.found else CaseStatus.closed
     case.close_reason = reason
     case.closed_at = now or datetime.now()

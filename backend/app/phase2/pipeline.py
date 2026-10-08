@@ -14,6 +14,7 @@ from datetime import datetime
 from time import perf_counter
 
 from app import storage
+from app.privacy import lifecycle
 from app.config import settings
 from app.llm import exaone
 from app.phase2 import combine, radius, simulation, topdown, initial_person
@@ -102,6 +103,7 @@ def run_prediction(
     seed: int | None = None,
     trace: bool = False,   # E2E 대시보드 — 워커 궤적·EXAONE 이벤트 수집 (결과 불변)
 ) -> PredictionResult:
+    lifecycle.ensure_not_closed(case)
     now = now or datetime.now()
     elapsed_hours = max((now - case.lkp_time).total_seconds() / 3600.0, 0.05)
 
@@ -218,6 +220,7 @@ def run_prediction(
     return result
 
 
+@storage.serialize_case
 def poa_at_elapsed(case: Case, elapsed_hours: float, *, seed: int | None = 42) -> dict[str, float]:
     """"만약 t시간 경과라면" 의 POA — 시간축 슬라이더용.
 
@@ -232,6 +235,7 @@ def poa_at_elapsed(case: Case, elapsed_hours: float, *, seed: int | None = 42) -
 
     결과는 case.poa_by_hour 에 캐시한다(호출부 책임).
     """
+    lifecycle.ensure_not_closed(case)
     if case.prior is None:
         raise ValueError("prior 없음 — 먼저 예측을 실행해야 한다")
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None

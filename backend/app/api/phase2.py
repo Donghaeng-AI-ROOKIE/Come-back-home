@@ -20,10 +20,9 @@ def predict(case_id: str, seed: int | None = None):
         # 종결 케이스 예측 차단 — run_prediction 이 status 를 predicted 로
         # 덮어써 종결을 부활시키는 것 방지 (개인정보 파기 라이프사이클)
         lifecycle.ensure_not_closed(case)
+        return pipeline.run_prediction(case, seed=seed)
     except lifecycle.AlreadyClosed as e:
         raise HTTPException(409, str(e))
-    try:
-        return pipeline.run_prediction(case, seed=seed)
     except pipeline.continuous_prediction.IncompletePredictionError:
         raise HTTPException(503, {'reason':'prediction_incomplete',
                                   'quality':case.prediction_quality})
