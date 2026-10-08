@@ -248,16 +248,20 @@ class Population:
                    any(a.fact in physical or (a.fact=='pain_observed' and a.value is True)
                        for a in clause) for clause in rule.when)
 
+    def _policy_options(self,p,f,labels,features):
+        """Default policy evaluation; contextual executors can bind typed facts."""
+        signature_key=tuple(mind_policy.atom_value(a,f) for r in self.policy.rules for c in r.when for a in c),tuple(labels),tuple(features.items())
+        if signature_key not in self._policy_cache:
+            self._policy_cache[signature_key]=mind_policy.possibilities(self.policy,f,near_places=labels,near_features=features)
+        return self._policy_cache[signature_key]
+
     def _decide(self,p,rng):
         f=self.facts(p);labels,features=self.near(p)
         if p.mode=='rest' and p.minute<p.hold_until-1e-8:
             return p.last_uncertain,p.last_baseline
         # Waiting is reviewed every clock step, so a newly arrived family does not
         # have to wait out a made-up 30 minute commitment.
-        signature_key=tuple(mind_policy.atom_value(a,f) for r in self.policy.rules for c in r.when for a in c),tuple(labels),tuple(features.items())
-        if signature_key not in self._policy_cache:
-            self._policy_cache[signature_key]=mind_policy.possibilities(self.policy,f,near_places=labels,near_features=features)
-        options,unknown=self._policy_cache[signature_key]
+        options,unknown=self._policy_options(p,f,labels,features)
         # A repeated desire is not proof of repeatedly forgetting a just-visited place.
         options=[r for r in options if r is None or r.action!='seek' or r.goal_label not in p.completed_goals]
         if not options:options=[None]

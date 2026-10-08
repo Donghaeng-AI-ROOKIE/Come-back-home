@@ -1,0 +1,70 @@
+{
+  "scope": "one captured synthetic person, 500 walkers, 3 synthetic scenes, 6h KINTEX; no clinical accuracy",
+  "tests_passed": 46,
+  "new_named_place_mechanics_tests": 9,
+  "legacy_mechanics_tests": 37,
+  "same_state_restore_at_minutes": [
+    60,
+    120,
+    240
+  ],
+  "rows": [
+    {
+      "scene": "rest_cycle",
+      "unchanged": {
+        "timeline": true,
+        "traces": true,
+        "all_particle_audit": true,
+        "persona_axes_used": true,
+        "route_familiarity_used": true,
+        "policy": true
+      },
+      "checkpoint_particle_state_identical": [
+        60,
+        120,
+        240
+      ],
+      "reference_sha256": "7b96618d717fecce36558015b9ed81214cd286c2a475d424de3145a4bd119319",
+      "new_sha256": "7b96618d717fecce36558015b9ed81214cd286c2a475d424de3145a4bd119319"
+    },
+    {
+      "scene": "wait_release",
+      "unchanged": {
+        "timeline": true,
+        "traces": true,
+        "all_particle_audit": true,
+        "persona_axes_used": true,
+        "route_familiarity_used": true,
+        "policy": true
+      },
+      "checkpoint_particle_state_identical": [
+        60,
+        120,
+        240
+      ],
+      "reference_sha256": "f971a33fc10d1983254e9cca83600ab9abc347de4bcc093325c4ac658055341f",
+      "new_sha256": "f971a33fc10d1983254e9cca83600ab9abc347de4bcc093325c4ac658055341f"
+    },
+    {
+      "scene": "place_noise",
+      "unchanged": {
+        "timeline": true,
+        "traces": true,
+        "all_particle_audit": true,
+        "persona_axes_used": true,
+        "route_familiarity_used": true,
+        "policy": true
+      },
+      "checkpoint_particle_state_identical": [
+        60,
+        120,
+        240
+      ],
+      "reference_sha256": "3cf0b3e8a1ca3d904ec2f0ff7c878d99e747dd0c6193d3838c129f0ccf2509fd",
+      "new_sha256": "3cf0b3e8a1ca3d904ec2f0ff7c878d99e747dd0c6193d3838c129f0ccf2509fd"
+    }
+  ],
+  "new_external_calls": 0,
+  "production_api_connected": false,
+  "release_qualified": false
+}
