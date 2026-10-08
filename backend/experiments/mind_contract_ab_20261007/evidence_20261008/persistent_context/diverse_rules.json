@@ -1,0 +1,2732 @@
+{
+  "source_sha256": "45140ef798d3d3da92b0c79bdaa22ffacebc52d699bdb520e77fcd7f9ebcaaba",
+  "map_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+  "scope": "stored rule compatibility; fixed synthetic profile, not 48 full onboarding cases or clinical accuracy",
+  "walkers": 16,
+  "minutes": 240,
+  "seed": 17,
+  "new_external_calls": 0,
+  "rows": [
+    {
+      "input_id": "DEV_P01_original",
+      "root_id": "P01",
+      "family": "environment",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.536,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 1,
+          "avoid_by_target": {
+            "place:해든상가": 1
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 2.314
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.781
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.542,
+          "mean_max_continuous_walk_min": 82.4375,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 13,
+          "rest": 3
+        },
+        "seconds": 0.825
+      }
+    },
+    {
+      "input_id": "DEV_P01_original",
+      "root_id": "P01",
+      "family": "environment",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.536,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 1,
+          "avoid_by_target": {
+            "place:해든상가": 1
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 2.314
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.612
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.542,
+          "mean_max_continuous_walk_min": 82.4375,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 13,
+          "rest": 3
+        },
+        "seconds": 0.983
+      }
+    },
+    {
+      "input_id": "DEV_P02_original",
+      "root_id": "P02",
+      "family": "environment",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.536,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 1,
+          "avoid_by_target": {
+            "feature:market": 1
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "initial_env_market": 2.314
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.765
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.542,
+          "mean_max_continuous_walk_min": 82.4375,
+          "avoid_walkers": 1,
+          "avoid_by_target": {
+            "feature:market": 1
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "initial_env_market": 4.898
+          }
+        },
+        "final_modes": {
+          "walk": 13,
+          "rest": 3
+        },
+        "seconds": 1.01
+      }
+    },
+    {
+      "input_id": "DEV_P02_original",
+      "root_id": "P02",
+      "family": "environment",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.536,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 1,
+          "avoid_by_target": {
+            "feature:market": 1
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "initial_env_market": 2.314
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.771
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.542,
+          "mean_max_continuous_walk_min": 82.4375,
+          "avoid_walkers": 1,
+          "avoid_by_target": {
+            "feature:market": 1
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "initial_env_market": 4.898
+          }
+        },
+        "final_modes": {
+          "walk": 13,
+          "rest": 3
+        },
+        "seconds": 0.913
+      }
+    },
+    {
+      "input_id": "DEV_P03_original",
+      "root_id": "P03",
+      "family": "environment",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.578,
+          "mean_max_continuous_walk_min": 84.25,
+          "avoid_walkers": 10,
+          "avoid_by_target": {
+            "feature:park": 10
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 35.087
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 1,
+          "avoid": 1
+        },
+        "seconds": 0.93
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.491,
+          "mean_max_continuous_walk_min": 79.75,
+          "avoid_walkers": 7,
+          "avoid_by_target": {
+            "feature:park": 7
+          },
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 62.732
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.863
+      }
+    },
+    {
+      "input_id": "DEV_P03_original",
+      "root_id": "P03",
+      "family": "environment",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.578,
+          "mean_max_continuous_walk_min": 84.25,
+          "avoid_walkers": 10,
+          "avoid_by_target": {
+            "feature:park": 10
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 35.087
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 1,
+          "avoid": 1
+        },
+        "seconds": 0.564
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.491,
+          "mean_max_continuous_walk_min": 79.75,
+          "avoid_walkers": 7,
+          "avoid_by_target": {
+            "feature:park": 7
+          },
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 62.732
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.653
+      }
+    },
+    {
+      "input_id": "DEV_P04_original",
+      "root_id": "P04",
+      "family": "environment",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.581
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.667
+      }
+    },
+    {
+      "input_id": "DEV_P04_original",
+      "root_id": "P04",
+      "family": "environment",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.58
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.667
+      }
+    },
+    {
+      "input_id": "DEV_P06_original",
+      "root_id": "P06",
+      "family": "physical_rest",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.62
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.827
+      }
+    },
+    {
+      "input_id": "DEV_P06_original",
+      "root_id": "P06",
+      "family": "physical_rest",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.765
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.699
+      }
+    },
+    {
+      "input_id": "DEV_P07_original",
+      "root_id": "P07",
+      "family": "physical_rest",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 13.6875,
+          "mean_path_km": 10.029,
+          "mean_max_continuous_walk_min": 82.2158,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 219.0
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.617
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 50.7007,
+          "mean_path_km": 8.3184,
+          "mean_max_continuous_walk_min": 60.6875,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 811.211
+          }
+        },
+        "final_modes": {
+          "rest": 7,
+          "walk": 9
+        },
+        "seconds": 0.572
+      }
+    },
+    {
+      "input_id": "DEV_P07_original",
+      "root_id": "P07",
+      "family": "physical_rest",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 13.6875,
+          "mean_path_km": 10.029,
+          "mean_max_continuous_walk_min": 82.2158,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 219.0
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.618
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 50.7007,
+          "mean_path_km": 8.3184,
+          "mean_max_continuous_walk_min": 60.6875,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 811.211
+          }
+        },
+        "final_modes": {
+          "rest": 7,
+          "walk": 9
+        },
+        "seconds": 0.781
+      }
+    },
+    {
+      "input_id": "DEV_P09_original",
+      "root_id": "P09",
+      "family": "waiting",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 95.1483,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.3139,
+          "mean_max_continuous_walk_min": 48.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1522.373
+          }
+        },
+        "final_modes": {
+          "wait": 7,
+          "walk": 7,
+          "rest": 2
+        },
+        "seconds": 0.692
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 60.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 7.908,
+          "mean_max_continuous_walk_min": 60.125,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 1,
+            "솔빛쉼터": 4
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 960.0
+          }
+        },
+        "final_modes": {
+          "walk": 11,
+          "wait": 4,
+          "rest": 1
+        },
+        "seconds": 0.755
+      }
+    },
+    {
+      "input_id": "DEV_P09_original",
+      "root_id": "P09",
+      "family": "waiting",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 95.1483,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.3139,
+          "mean_max_continuous_walk_min": 48.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1522.373
+          }
+        },
+        "final_modes": {
+          "wait": 7,
+          "walk": 7,
+          "rest": 2
+        },
+        "seconds": 0.439
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 60.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 7.908,
+          "mean_max_continuous_walk_min": 60.125,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 1,
+            "솔빛쉼터": 4
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 960.0
+          }
+        },
+        "final_modes": {
+          "walk": 11,
+          "wait": 4,
+          "rest": 1
+        },
+        "seconds": 0.665
+      }
+    },
+    {
+      "input_id": "DEV_P10_original",
+      "root_id": "P10",
+      "family": "waiting",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 11.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.044,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 176.0
+          }
+        },
+        "final_modes": {
+          "wait": 4,
+          "walk": 9,
+          "rest": 3
+        },
+        "seconds": 0.725
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 14.6399,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 9.8783,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 234.239
+          }
+        },
+        "final_modes": {
+          "wait": 5,
+          "walk": 9,
+          "rest": 2
+        },
+        "seconds": 0.819
+      }
+    },
+    {
+      "input_id": "DEV_P10_original",
+      "root_id": "P10",
+      "family": "waiting",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 11.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.044,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 176.0
+          }
+        },
+        "final_modes": {
+          "wait": 4,
+          "walk": 9,
+          "rest": 3
+        },
+        "seconds": 0.686
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 14.6399,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 9.8783,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 234.239
+          }
+        },
+        "final_modes": {
+          "wait": 5,
+          "walk": 9,
+          "rest": 2
+        },
+        "seconds": 0.905
+      }
+    },
+    {
+      "input_id": "DEV_P11_original",
+      "root_id": "P11",
+      "family": "waiting",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.661
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.667
+      }
+    },
+    {
+      "input_id": "DEV_P11_original",
+      "root_id": "P11",
+      "family": "waiting",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.585
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.96
+      }
+    },
+    {
+      "input_id": "DEV_P12_original",
+      "root_id": "P12",
+      "family": "waiting",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 45.4911,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 8.6074,
+          "mean_max_continuous_walk_min": 77.625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 727.857
+          }
+        },
+        "final_modes": {
+          "walk": 5,
+          "wait": 9,
+          "rest": 2
+        },
+        "seconds": 0.926
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 25.8596,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 9.4297,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 413.754
+          }
+        },
+        "final_modes": {
+          "walk": 8,
+          "wait": 6,
+          "rest": 2
+        },
+        "seconds": 1.039
+      }
+    },
+    {
+      "input_id": "DEV_P12_original",
+      "root_id": "P12",
+      "family": "waiting",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 45.4911,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 8.6074,
+          "mean_max_continuous_walk_min": 77.625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 727.857
+          }
+        },
+        "final_modes": {
+          "walk": 5,
+          "wait": 9,
+          "rest": 2
+        },
+        "seconds": 0.847
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 25.8596,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 9.4297,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 413.754
+          }
+        },
+        "final_modes": {
+          "walk": 8,
+          "wait": 6,
+          "rest": 2
+        },
+        "seconds": 1.038
+      }
+    },
+    {
+      "input_id": "DEV_P14_original",
+      "root_id": "P14",
+      "family": "destination",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.548,
+          "mean_max_continuous_walk_min": 79.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 8,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 685.944
+          }
+        },
+        "final_modes": {
+          "rest": 4,
+          "walk": 12
+        },
+        "seconds": 0.61
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.53,
+          "mean_max_continuous_walk_min": 84.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 8,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 676.604
+          }
+        },
+        "final_modes": {
+          "walk": 13,
+          "rest": 3
+        },
+        "seconds": 0.754
+      }
+    },
+    {
+      "input_id": "DEV_P14_original",
+      "root_id": "P14",
+      "family": "destination",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.548,
+          "mean_max_continuous_walk_min": 79.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 8,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 685.944
+          }
+        },
+        "final_modes": {
+          "rest": 4,
+          "walk": 12
+        },
+        "seconds": 0.552
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.53,
+          "mean_max_continuous_walk_min": 84.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 8,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 676.604
+          }
+        },
+        "final_modes": {
+          "walk": 13,
+          "rest": 3
+        },
+        "seconds": 0.736
+      }
+    },
+    {
+      "input_id": "DEV_P15_original",
+      "root_id": "P15",
+      "family": "destination",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.578,
+          "mean_max_continuous_walk_min": 80.4375,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 5,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 210.023
+          }
+        },
+        "final_modes": {
+          "rest": 4,
+          "walk": 12
+        },
+        "seconds": 0.587
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.551,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 6,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 356.315
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.919
+      }
+    },
+    {
+      "input_id": "DEV_P15_original",
+      "root_id": "P15",
+      "family": "destination",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.578,
+          "mean_max_continuous_walk_min": 80.4375,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 5,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 210.023
+          }
+        },
+        "final_modes": {
+          "rest": 4,
+          "walk": 12
+        },
+        "seconds": 0.639
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.551,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 6,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 356.315
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.774
+      }
+    },
+    {
+      "input_id": "DEV_P17_original",
+      "root_id": "P17",
+      "family": "external_state",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 95.1483,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.3139,
+          "mean_max_continuous_walk_min": 48.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1522.373
+          }
+        },
+        "final_modes": {
+          "wait": 7,
+          "walk": 7,
+          "rest": 2
+        },
+        "seconds": 0.387
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 90.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.543,
+          "mean_max_continuous_walk_min": 50.625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 0,
+            "솔빛쉼터": 4
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1440.0
+          }
+        },
+        "final_modes": {
+          "walk": 9,
+          "wait": 6,
+          "rest": 1
+        },
+        "seconds": 0.469
+      }
+    },
+    {
+      "input_id": "DEV_P17_original",
+      "root_id": "P17",
+      "family": "external_state",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 95.1483,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.3139,
+          "mean_max_continuous_walk_min": 48.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1522.373
+          }
+        },
+        "final_modes": {
+          "wait": 7,
+          "walk": 7,
+          "rest": 2
+        },
+        "seconds": 0.376
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 90.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.543,
+          "mean_max_continuous_walk_min": 50.625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 0,
+            "솔빛쉼터": 4
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1440.0
+          }
+        },
+        "final_modes": {
+          "walk": 9,
+          "wait": 6,
+          "rest": 1
+        },
+        "seconds": 0.444
+      }
+    },
+    {
+      "input_id": "DEV_P18_original",
+      "root_id": "P18",
+      "family": "external_state",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 95.1483,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.3139,
+          "mean_max_continuous_walk_min": 48.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1522.373
+          }
+        },
+        "final_modes": {
+          "wait": 7,
+          "walk": 7,
+          "rest": 2
+        },
+        "seconds": 0.367
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 60.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 7.932,
+          "mean_max_continuous_walk_min": 60.1875,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 4
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 960.0
+          }
+        },
+        "final_modes": {
+          "walk": 10,
+          "wait": 4,
+          "rest": 2
+        },
+        "seconds": 0.512
+      }
+    },
+    {
+      "input_id": "DEV_P18_original",
+      "root_id": "P18",
+      "family": "external_state",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 95.1483,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.3139,
+          "mean_max_continuous_walk_min": 48.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1522.373
+          }
+        },
+        "final_modes": {
+          "wait": 7,
+          "walk": 7,
+          "rest": 2
+        },
+        "seconds": 0.374
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 60.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 7.932,
+          "mean_max_continuous_walk_min": 60.1875,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 4
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 960.0
+          }
+        },
+        "final_modes": {
+          "walk": 10,
+          "wait": 4,
+          "rest": 2
+        },
+        "seconds": 0.536
+      }
+    },
+    {
+      "input_id": "DEV_P19_original",
+      "root_id": "P19",
+      "family": "external_state",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 26.875,
+          "mean_path_km": 9.786,
+          "mean_max_continuous_walk_min": 73.3352,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 430.0
+          }
+        },
+        "final_modes": {
+          "walk": 12,
+          "rest": 4
+        },
+        "seconds": 0.601
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 60.3651,
+          "mean_path_km": 8.1065,
+          "mean_max_continuous_walk_min": 55.2831,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 965.841
+          }
+        },
+        "final_modes": {
+          "rest": 5,
+          "walk": 11
+        },
+        "seconds": 0.56
+      }
+    },
+    {
+      "input_id": "DEV_P19_original",
+      "root_id": "P19",
+      "family": "external_state",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 26.875,
+          "mean_path_km": 9.786,
+          "mean_max_continuous_walk_min": 73.3352,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 430.0
+          }
+        },
+        "final_modes": {
+          "walk": 12,
+          "rest": 4
+        },
+        "seconds": 0.89
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 60.3651,
+          "mean_path_km": 8.1065,
+          "mean_max_continuous_walk_min": 55.2831,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 965.841
+          }
+        },
+        "final_modes": {
+          "rest": 5,
+          "walk": 11
+        },
+        "seconds": 0.563
+      }
+    },
+    {
+      "input_id": "DEV_P20_original",
+      "root_id": "P20",
+      "family": "external_state",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.491,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 3,
+          "avoid_by_target": {
+            "feature:forest": 3
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 6.0
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.594
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.506,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 3,
+          "avoid_by_target": {
+            "feature:forest": 3
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 4.0
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.721
+      }
+    },
+    {
+      "input_id": "DEV_P20_original",
+      "root_id": "P20",
+      "family": "external_state",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.491,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 3,
+          "avoid_by_target": {
+            "feature:forest": 3
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 6.0
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.618
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.506,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 3,
+          "avoid_by_target": {
+            "feature:forest": 3
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 4.0
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.669
+      }
+    },
+    {
+      "input_id": "DEV_P21_original",
+      "root_id": "P21",
+      "family": "source_fidelity",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.575
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.621
+      }
+    },
+    {
+      "input_id": "DEV_P21_original",
+      "root_id": "P21",
+      "family": "source_fidelity",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1194.832
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.564
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.53,
+          "mean_max_continuous_walk_min": 79.9375,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1529.0
+          }
+        },
+        "final_modes": {
+          "walk": 13,
+          "rest": 3
+        },
+        "seconds": 0.767
+      }
+    },
+    {
+      "input_id": "DEV_P22_original",
+      "root_id": "P22",
+      "family": "source_fidelity",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.581,
+          "mean_max_continuous_walk_min": 82.125,
+          "avoid_walkers": 9,
+          "avoid_by_target": {
+            "feature:water": 9
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 24.915
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.577
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.533,
+          "mean_max_continuous_walk_min": 84.75,
+          "avoid_walkers": 9,
+          "avoid_by_target": {
+            "feature:water": 9
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 21.589
+          }
+        },
+        "final_modes": {
+          "rest": 4,
+          "walk": 12
+        },
+        "seconds": 0.646
+      }
+    },
+    {
+      "input_id": "DEV_P22_original",
+      "root_id": "P22",
+      "family": "source_fidelity",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.581,
+          "mean_max_continuous_walk_min": 82.125,
+          "avoid_walkers": 9,
+          "avoid_by_target": {
+            "feature:water": 9
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 24.915
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.538
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.533,
+          "mean_max_continuous_walk_min": 84.75,
+          "avoid_walkers": 9,
+          "avoid_by_target": {
+            "feature:water": 9
+          },
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 21.589
+          }
+        },
+        "final_modes": {
+          "rest": 4,
+          "walk": 12
+        },
+        "seconds": 0.628
+      }
+    },
+    {
+      "input_id": "DEV_P23_original",
+      "root_id": "P23",
+      "family": "source_fidelity",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 95.1483,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.3139,
+          "mean_max_continuous_walk_min": 48.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1522.373
+          }
+        },
+        "final_modes": {
+          "wait": 7,
+          "walk": 7,
+          "rest": 2
+        },
+        "seconds": 0.363
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 60.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 7.908,
+          "mean_max_continuous_walk_min": 60.125,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 1,
+            "솔빛쉼터": 4
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 960.0
+          }
+        },
+        "final_modes": {
+          "walk": 11,
+          "wait": 4,
+          "rest": 1
+        },
+        "seconds": 0.521
+      }
+    },
+    {
+      "input_id": "DEV_P23_original",
+      "root_id": "P23",
+      "family": "source_fidelity",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 95.1483,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.3139,
+          "mean_max_continuous_walk_min": 48.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1522.373
+          }
+        },
+        "final_modes": {
+          "wait": 7,
+          "walk": 7,
+          "rest": 2
+        },
+        "seconds": 0.364
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 26.25,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 9.411,
+          "mean_max_continuous_walk_min": 77.6875,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 420.0
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.586
+      }
+    },
+    {
+      "input_id": "DEV_P24_original",
+      "root_id": "P24",
+      "family": "source_fidelity",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.603
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.637
+      }
+    },
+    {
+      "input_id": "DEV_P24_original",
+      "root_id": "P24",
+      "family": "source_fidelity",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.574
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 10.521,
+          "mean_max_continuous_walk_min": 80.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {}
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.624
+      }
+    },
+    {
+      "input_id": "DEV_P25_original",
+      "root_id": "P25",
+      "family": "time_context",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 40.1588,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 8.7794,
+          "mean_max_continuous_walk_min": 80.3125,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 642.541
+          }
+        },
+        "final_modes": {
+          "rest": 3,
+          "walk": 13
+        },
+        "seconds": 0.512
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 30.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 9.216,
+          "mean_max_continuous_walk_min": 73.875,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 480.0
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.604
+      }
+    },
+    {
+      "input_id": "DEV_P25_original",
+      "root_id": "P25",
+      "family": "time_context",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 40.1588,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 8.7794,
+          "mean_max_continuous_walk_min": 80.3125,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 642.541
+          }
+        },
+        "final_modes": {
+          "rest": 3,
+          "walk": 13
+        },
+        "seconds": 0.507
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 30.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 9.216,
+          "mean_max_continuous_walk_min": 73.875,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 480.0
+          }
+        },
+        "final_modes": {
+          "walk": 14,
+          "rest": 2
+        },
+        "seconds": 0.633
+      }
+    },
+    {
+      "input_id": "DEV_P27_original",
+      "root_id": "P27",
+      "family": "time_context",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 95.1483,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.3139,
+          "mean_max_continuous_walk_min": 48.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1522.373
+          }
+        },
+        "final_modes": {
+          "wait": 7,
+          "walk": 7,
+          "rest": 2
+        },
+        "seconds": 0.394
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 150.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 3.939,
+          "mean_max_continuous_walk_min": 26.4375,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 0,
+            "솔빛쉼터": 2
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 2400.0
+          }
+        },
+        "final_modes": {
+          "wait": 10,
+          "walk": 5,
+          "rest": 1
+        },
+        "seconds": 0.331
+      }
+    },
+    {
+      "input_id": "DEV_P27_original",
+      "root_id": "P27",
+      "family": "time_context",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 95.1483,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.3139,
+          "mean_max_continuous_walk_min": 48.0625,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 2,
+            "해든상가": 0,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1522.373
+          }
+        },
+        "final_modes": {
+          "wait": 7,
+          "walk": 7,
+          "rest": 2
+        },
+        "seconds": 0.374
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 150.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 3.939,
+          "mean_max_continuous_walk_min": 26.4375,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 0,
+            "솔빛쉼터": 2
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 2400.0
+          }
+        },
+        "final_modes": {
+          "wait": 10,
+          "walk": 5,
+          "rest": 1
+        },
+        "seconds": 0.331
+      }
+    },
+    {
+      "input_id": "DEV_P28_original",
+      "root_id": "P28",
+      "family": "time_context",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 77.5,
+          "mean_path_km": 7.68,
+          "mean_max_continuous_walk_min": 10.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1240.0
+          }
+        },
+        "final_modes": {
+          "walk": 8,
+          "rest": 8
+        },
+        "seconds": 0.514
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 77.5,
+          "mean_path_km": 7.68,
+          "mean_max_continuous_walk_min": 10.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1240.0
+          }
+        },
+        "final_modes": {
+          "walk": 8,
+          "rest": 8
+        },
+        "seconds": 0.616
+      }
+    },
+    {
+      "input_id": "DEV_P28_original",
+      "root_id": "P28",
+      "family": "time_context",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 77.5,
+          "mean_path_km": 7.68,
+          "mean_max_continuous_walk_min": 10.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1240.0
+          }
+        },
+        "final_modes": {
+          "walk": 8,
+          "rest": 8
+        },
+        "seconds": 0.51
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 0.0,
+          "mean_personal_rest": 77.5,
+          "mean_path_km": 7.68,
+          "mean_max_continuous_walk_min": 10.0,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 1,
+            "솔빛쉼터": 5
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 1240.0
+          }
+        },
+        "final_modes": {
+          "walk": 8,
+          "rest": 8
+        },
+        "seconds": 0.608
+      }
+    },
+    {
+      "input_id": "DEV_P32_original",
+      "root_id": "P32",
+      "family": "multiple_behaviors",
+      "rep": 1,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 88.5932,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.5985,
+          "mean_max_continuous_walk_min": 49.5318,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 3,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 99.643,
+            "a_1": 1417.492
+          }
+        },
+        "final_modes": {
+          "wait": 6,
+          "walk": 8,
+          "rest": 2
+        },
+        "seconds": 0.405
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 90.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.558,
+          "mean_max_continuous_walk_min": 54.25,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 0,
+            "해든상가": 6,
+            "솔빛쉼터": 2
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 447.043,
+            "a_1": 1440.0
+          }
+        },
+        "final_modes": {
+          "walk": 9,
+          "wait": 6,
+          "rest": 1
+        },
+        "seconds": 0.57
+      }
+    },
+    {
+      "input_id": "DEV_P32_original",
+      "root_id": "P32",
+      "family": "multiple_behaviors",
+      "rep": 2,
+      "legacy": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 88.5932,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.5985,
+          "mean_max_continuous_walk_min": 49.5318,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 1,
+            "해든상가": 3,
+            "솔빛쉼터": 3
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 99.643,
+            "a_1": 1417.492
+          }
+        },
+        "final_modes": {
+          "wait": 6,
+          "walk": 8,
+          "rest": 2
+        },
+        "seconds": 0.403
+      },
+      "persistent": {
+        "metrics": {
+          "mass": 1.0,
+          "mean_wait": 90.0,
+          "mean_personal_rest": 0.0,
+          "mean_path_km": 6.558,
+          "mean_max_continuous_walk_min": 54.25,
+          "avoid_walkers": 0,
+          "avoid_by_target": {},
+          "arrived": {
+            "느티공원": 0,
+            "해든상가": 6,
+            "솔빛쉼터": 2
+          },
+          "unresolved": {},
+          "rule_minutes": {
+            "a_0": 447.043,
+            "a_1": 1440.0
+          }
+        },
+        "final_modes": {
+          "walk": 9,
+          "wait": 6,
+          "rest": 1
+        },
+        "seconds": 0.546
+      }
+    }
+  ]
+}

@@ -74,6 +74,10 @@ def main():
     a.add_argument('--map',type=Path,required=True); a.add_argument('--output',type=Path,required=True)
     a.add_argument('--product-backend',type=Path,required=True)
     a.add_argument('--walkers',type=int,default=500)
+    a.add_argument('--seed',type=int,default=17)
+    a.add_argument('--executor',choices=('legacy','persistent'),default='legacy')
+    a.add_argument('--unknown-true-weights',type=json.loads,default={})
+    a.add_argument('--scene',action='append',help='explicit scene subset')
     a.add_argument('--candidate',action='append',help='explicit subset of saved candidates; recorded in manifest')
     a.add_argument('--audit-all-particles',action='store_true',help='streaming source checks on every particle')
     a.add_argument('--separate-conditional-wait',action='store_true',help='research ablation of duplicate waiting contribution')
@@ -87,6 +91,12 @@ def main():
     from app.schemas.report import MissingReport
     from app.phase0 import person_preparation as pp
     from app.phase2.person_walk import Population
+    executor_options={}
+    if args.executor=='persistent':
+        from app.phase2.persistent_context_walk import PersistentContextPopulation as Population
+        executor_options={'unknown_true_weights':args.unknown_true_weights}
+    elif args.unknown_true_weights:
+        raise ValueError('uncertainty weights require the persistent executor')
     from app.llm.exaone import ExaoneClient
     from app.llm.mind_policy import Policy
     from experiments.mind_contract_ab_20261007 import engine_outputs_v2 as e
@@ -115,16 +125,21 @@ def main():
             'source':'synthetic fixture facility; captured registered coordinate'})
     apps={str(p.relative_to(args.product_backend)):digest(p)
           for p in sorted((args.product_backend/'app').rglob('*.py'))}
+    scenes=scenarios()
+    if args.scene:
+        if any(name not in scenes for name in args.scene):raise ValueError('unknown scene')
+        scenes={name:scenes[name] for name in args.scene}
     manifest={'source_persona_sha256':digest(persona_file),'source_policy_sha256':digest(args.policies),
         'map_sha256':digest(args.map),'harness_sha256':digest(__file__),'app_sha256':apps,
-        'full_actual_captured_persona':True,'walkers':args.walkers,'seed':17,
-        'candidate_names':list(candidates),'scenarios':{k:{**v,'start':v['start'].isoformat()} for k,v in scenarios().items()},
+        'full_actual_captured_persona':True,'walkers':args.walkers,'seed':args.seed,
+        'executor':args.executor,'executor_options':executor_options,
+        'candidate_names':list(candidates),'scenarios':{k:{**v,'start':v['start'].isoformat()} for k,v in scenes.items()},
         'facilities':facilities,'numeric_baseline':'offline profile default + saved initial K interpretation; not SAR inference',
         'all_particle_source_audit':args.audit_all_particles,
         'separate_conditional_wait':args.separate_conditional_wait,
         'checkpoint_each_horizon':args.checkpoint_each_horizon,
         'limits':['one synthetic guardian','author reference not expert approved','axes scoring not captured',
-                  'three synthetic scenes on real roads','full production API not exercised',
+                  'synthetic scenes on real roads','full production API not exercised',
                   'no clinical/path accuracy measured'],'new_external_calls':0,'release_qualified':False}
     save(args.output/'manifest.json',manifest)
     if args.audit_all_particles:
@@ -141,7 +156,7 @@ def main():
     net=verified_network(args.map)
     env=e.SyntheticEnvNetwork(net,facilities,support_km=None)
     runs={}; cache={}
-    for scene_name,scene in scenarios().items():
+    for scene_name,scene in scenes.items():
         start=next((p.location for p in persona.attraction_points if p.label==scene['start_place']),persona.home)
         report=MissingReport(id='offline_synthetic_'+scene_name,persona_id=persona.id,
             missing_type=persona.type,lkp=start,lkp_time=scene['start'].replace(tzinfo=ZoneInfo('Asia/Seoul')))
@@ -173,7 +188,7 @@ def main():
                 t=track.setdefault(part.seed,{'avoid_labels':set(),'max_continuous_walk':0.0})
                 if part.mode=='avoid': t['avoid_labels'].update(part.avoid_labels or [part.avoid_feature])
                 t['max_continuous_walk']=max(t['max_continuous_walk'],part.continuous_walk)
-                index=(part.seed-17)//100003
+                index=(part.seed-args.seed)//100003
                 if index<5 or audit is not None:
                     point={'minute':round(part.minute,6),**loc.model_dump(),
                         'mode':part.mode,'rule_id':part.hold_rule_id,'target':part.target,
@@ -182,9 +197,9 @@ def main():
                         'uncertain':part.last_uncertain,'baseline':part.last_baseline}
                     if index<5: traces.setdefault(str(index),[]).append(point)
                     if audit is not None: audit.observe(index,point)
-            pop=Population(env,persona,walk_base,policy,start,scene['start'],count=args.walkers,seed=17,
+            pop=Population(env,persona,walk_base,policy,start,scene['start'],count=args.walkers,seed=args.seed,
                 environment_observations=e.environment_observations(scene,facilities),
-                behavior_observations=e.behavior_observations(scene),trace_hook=hook)
+                behavior_observations=e.behavior_observations(scene),trace_hook=hook,**executor_options)
             for part in pop.particles:
                 track.setdefault(part.seed,{'avoid_labels':set(),'max_continuous_walk':0.0})
             # Keep a single population/RNG state through 1/2/4/6 h; never restart.
@@ -194,9 +209,9 @@ def main():
                 if args.checkpoint_each_horizon and minute<360:
                     checkpoint=json.loads(json.dumps(pop.checkpoint()))
                     save(args.output/'checkpoints'/scene_name/f'{name}_{minute}.json',checkpoint)
-                    pop=Population(env,persona,walk_base,policy,start,scene['start'],count=args.walkers,seed=17,
+                    pop=Population(env,persona,walk_base,policy,start,scene['start'],count=args.walkers,seed=args.seed,
                         environment_observations=e.environment_observations(scene,facilities),
-                        behavior_observations=e.behavior_observations(scene),trace_hook=hook,checkpoint=checkpoint)
+                        behavior_observations=e.behavior_observations(scene),trace_hook=hook,checkpoint=checkpoint,**executor_options)
             result={'status':'walked','timeline':timeline,'traces':traces,
                 'persona_axes_used':dict(pop.persona.axis_scores),
                 'route_familiarity_used':[r.model_dump(mode='json') for r in pop.persona.route_familiarity],

@@ -1,0 +1,51 @@
+{
+  "scope": "decision-only, no geography or patient model",
+  "unknown_lost_awareness_never_changes": true,
+  "first_wait_minute_counts": {
+    "0": 262
+  },
+  "timeline": [
+    {
+      "minute": 0,
+      "modes": {
+        "walk": 238,
+        "wait": 262
+      }
+    },
+    {
+      "minute": 5,
+      "modes": {
+        "walk": 238,
+        "wait": 262
+      }
+    },
+    {
+      "minute": 10,
+      "modes": {
+        "rest": 238,
+        "wait": 262
+      }
+    },
+    {
+      "minute": 20,
+      "modes": {
+        "rest": 238,
+        "wait": 262
+      }
+    },
+    {
+      "minute": 59,
+      "modes": {
+        "walk": 238,
+        "wait": 262
+      }
+    },
+    {
+      "minute": 119,
+      "modes": {
+        "rest": 238,
+        "wait": 262
+      }
+    }
+  ]
+}

@@ -1,0 +1,2402 @@
+{
+  "date": "2026-10-08",
+  "new_external_calls": 0,
+  "clinical_accuracy": null,
+  "source": "one synthetic actual-app onboarding; unchanged prepared initial and D12 output",
+  "seeds": {
+    "17": {
+      "legacy": [
+        {
+          "minute": 60,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.20747319744358017,
+            "mean_wait_minutes": 53.67764171992541,
+            "mean_personal_wait_minutes": 47.437641719925416,
+            "mean_personal_rest_minutes": 2.0,
+            "mean_population_rest_minutes": 0.0,
+            "avoid_walkers": 5,
+            "avoid_targets": {
+              "해든상가": 5
+            },
+            "mean_max_continuous_walk": 2.311430898506629,
+            "mode": {
+              "wait": 498,
+              "walk": 2
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 23718.820859962707,
+              "a_1": 1000.0,
+              "a_2": 10.492116859512702
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 60,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.17568956743925934,
+            "population_rest_minutes": 0.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "1c723ab5b6840153d61408e1a6c0764d0b4e441c21a63ee0ca937a090dd0cd53"
+        },
+        {
+          "minute": 120,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.20820919744358016,
+            "mean_wait_minutes": 113.64230838659208,
+            "mean_personal_wait_minutes": 101.16230838659207,
+            "mean_personal_rest_minutes": 2.02,
+            "mean_population_rest_minutes": 0.0,
+            "avoid_walkers": 5,
+            "avoid_targets": {
+              "해든상가": 5
+            },
+            "mean_max_continuous_walk": 2.311430898506629,
+            "mode": {
+              "wait": 500
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 50581.15419329604,
+              "a_1": 1010.0,
+              "a_2": 10.492116859512702
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 120,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.13997256149740744,
+            "population_rest_minutes": 0.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "27233e8aea931df4264b25fe22db0f417a752837b8864d6965e155e7ed0ec7b6"
+        },
+        {
+          "minute": 240,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.20820919744358016,
+            "mean_wait_minutes": 233.64230838659208,
+            "mean_personal_wait_minutes": 208.68230838659207,
+            "mean_personal_rest_minutes": 2.02,
+            "mean_population_rest_minutes": 0.0,
+            "avoid_walkers": 5,
+            "avoid_targets": {
+              "해든상가": 5
+            },
+            "mean_max_continuous_walk": 2.311430898506629,
+            "mode": {
+              "wait": 500
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 104341.15419329604,
+              "a_1": 1010.0,
+              "a_2": 10.492116859512702
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 240,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.12198628074870373,
+            "population_rest_minutes": 0.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "27233e8aea931df4264b25fe22db0f417a752837b8864d6965e155e7ed0ec7b6"
+        },
+        {
+          "minute": 360,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.20820919744358016,
+            "mean_wait_minutes": 353.6423083865921,
+            "mean_personal_wait_minutes": 316.2023083865921,
+            "mean_personal_rest_minutes": 2.02,
+            "mean_population_rest_minutes": 0.0,
+            "avoid_walkers": 5,
+            "avoid_targets": {
+              "해든상가": 5
+            },
+            "mean_max_continuous_walk": 2.311430898506629,
+            "mode": {
+              "wait": 500
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 158101.15419329604,
+              "a_1": 1010.0,
+              "a_2": 10.492116859512702
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 360,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.11599085383246915,
+            "population_rest_minutes": 0.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "27233e8aea931df4264b25fe22db0f417a752837b8864d6965e155e7ed0ec7b6"
+        }
+      ],
+      "persistent": [
+        {
+          "minute": 60,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.9629759999999998,
+            "mean_wait_minutes": 25.56,
+            "mean_personal_wait_minutes": 15.84,
+            "mean_personal_rest_minutes": 14.34,
+            "mean_population_rest_minutes": 0.038,
+            "avoid_walkers": 30,
+            "avoid_targets": {
+              "해든상가": 30
+            },
+            "mean_max_continuous_walk": 3.368000000000001,
+            "mode": {
+              "walk": 278,
+              "rest": 3,
+              "wait": 213,
+              "avoid": 6
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 7920.0,
+              "a_1": 7170.0,
+              "a_2": 121.77866293290681
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 60,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.49294071123556976,
+            "population_rest_minutes": 19.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1060,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "d8e9313617ce88b17934d324589790195a73cd2a2cdec19e512cce5e94407315"
+        },
+        {
+          "minute": 120,
+          "metrics": {
+            "mass": 1.0000000000000004,
+            "mean_path_km": 1.794016,
+            "mean_wait_minutes": 51.12,
+            "mean_personal_wait_minutes": 31.68,
+            "mean_personal_rest_minutes": 31.41466666666667,
+            "mean_population_rest_minutes": 0.09,
+            "avoid_walkers": 39,
+            "avoid_targets": {
+              "해든상가": 39
+            },
+            "mean_max_continuous_walk": 3.4233333333333364,
+            "mode": {
+              "rest": 6,
+              "walk": 278,
+              "wait": 213,
+              "avoid": 3
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 15840.0,
+              "a_1": 15707.333333333334,
+              "a_2": 251.36928553275817
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 120,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000004,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.4700216230188985,
+            "population_rest_minutes": 45.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1072,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "b7967cbf1241e8b70fda55085a69d0e57536c2a8d1912192a6f80814f20f6287"
+        },
+        {
+          "minute": 240,
+          "metrics": {
+            "mass": 1.0000000000000004,
+            "mean_path_km": 3.583456,
+            "mean_wait_minutes": 102.24,
+            "mean_personal_wait_minutes": 63.36,
+            "mean_personal_rest_minutes": 62.79666666666667,
+            "mean_population_rest_minutes": 0.308,
+            "avoid_walkers": 40,
+            "avoid_targets": {
+              "해든상가": 40
+            },
+            "mean_max_continuous_walk": 3.45633333333334,
+            "mode": {
+              "rest": 20,
+              "walk": 265,
+              "wait": 213,
+              "avoid": 2
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 31680.0,
+              "a_1": 31398.333333333332,
+              "a_2": 379.2595209627095
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 240,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000004,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.4711867262141996,
+            "population_rest_minutes": 154.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1075,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "aeb7f4c9b3d0d37a7febcfef3ad15010fedfcc9c002b6876f8073a2848e285a7"
+        },
+        {
+          "minute": 360,
+          "metrics": {
+            "mass": 1.0000000000000004,
+            "mean_path_km": 5.371487999999999,
+            "mean_wait_minutes": 153.36,
+            "mean_personal_wait_minutes": 95.04,
+            "mean_personal_rest_minutes": 94.194,
+            "mean_population_rest_minutes": 0.54,
+            "avoid_walkers": 43,
+            "avoid_targets": {
+              "해든상가": 43
+            },
+            "mean_max_continuous_walk": 3.4623333333333455,
+            "mode": {
+              "rest": 28,
+              "walk": 258,
+              "wait": 213,
+              "avoid": 1
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 47520.0,
+              "a_1": 47097.0,
+              "a_2": 464.2555848892566
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 360,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000004,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.47177080230617074,
+            "population_rest_minutes": 270.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1078,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "4ff7ed232d67af373015a826aff55e2a761c4a7a45e6e8d14bde4b3209866eff"
+        }
+      ]
+    },
+    "29": {
+      "legacy": [
+        {
+          "minute": 60,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.18044830798999592,
+            "mean_wait_minutes": 54.840660250208416,
+            "mean_personal_wait_minutes": 47.88066025020842,
+            "mean_personal_rest_minutes": 1.38,
+            "mean_population_rest_minutes": 0.02,
+            "avoid_walkers": 4,
+            "avoid_targets": {
+              "해든상가": 4
+            },
+            "mean_max_continuous_walk": 2.1319579273015883,
+            "mode": {
+              "wait": 499,
+              "walk": 1
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 23940.33012510421,
+              "a_1": 690.0,
+              "a_2": 8.701438224540329
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 60,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.1786989478890417,
+            "population_rest_minutes": 10.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "6ad60fa8e9b337919b8a5d78722d17bc4f1ccfa1bd7252375fcc0601b2bbab31"
+        },
+        {
+          "minute": 120,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.18228830798999593,
+            "mean_wait_minutes": 114.77232691687509,
+            "mean_personal_wait_minutes": 100.85232691687509,
+            "mean_personal_rest_minutes": 1.41,
+            "mean_population_rest_minutes": 0.02,
+            "avoid_walkers": 4,
+            "avoid_targets": {
+              "해든상가": 4
+            },
+            "mean_max_continuous_walk": 2.1319579273015883,
+            "mode": {
+              "wait": 500
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 50426.16345843754,
+              "a_1": 705.0,
+              "a_2": 8.701438224540329
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 120,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.1476689183889653,
+            "population_rest_minutes": 10.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "09d68f30c5d00c0701ccf2560a622f2779e2e453c45cfc03b9555123319a3781"
+        },
+        {
+          "minute": 240,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.18228830798999593,
+            "mean_wait_minutes": 234.77232691687507,
+            "mean_personal_wait_minutes": 206.9323269168751,
+            "mean_personal_rest_minutes": 1.41,
+            "mean_population_rest_minutes": 0.02,
+            "avoid_walkers": 4,
+            "avoid_targets": {
+              "해든상가": 4
+            },
+            "mean_max_continuous_walk": 2.1319579273015883,
+            "mode": {
+              "wait": 500
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 103466.16345843754,
+              "a_1": 705.0,
+              "a_2": 8.701438224540329
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 240,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.13183445919448264,
+            "population_rest_minutes": 10.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "09d68f30c5d00c0701ccf2560a622f2779e2e453c45cfc03b9555123319a3781"
+        },
+        {
+          "minute": 360,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.18228830798999593,
+            "mean_wait_minutes": 354.7723269168751,
+            "mean_personal_wait_minutes": 313.0123269168751,
+            "mean_personal_rest_minutes": 1.41,
+            "mean_population_rest_minutes": 0.02,
+            "avoid_walkers": 4,
+            "avoid_targets": {
+              "해든상가": 4
+            },
+            "mean_max_continuous_walk": 2.1319579273015883,
+            "mode": {
+              "wait": 500
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 156506.16345843754,
+              "a_1": 705.0,
+              "a_2": 8.701438224540329
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 360,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.1265563061296551,
+            "population_rest_minutes": 10.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "09d68f30c5d00c0701ccf2560a622f2779e2e453c45cfc03b9555123319a3781"
+        }
+      ],
+      "persistent": [
+        {
+          "minute": 60,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.9734879999999998,
+            "mean_wait_minutes": 25.08,
+            "mean_personal_wait_minutes": 15.96,
+            "mean_personal_rest_minutes": 14.527000000000001,
+            "mean_population_rest_minutes": 0.112,
+            "avoid_walkers": 27,
+            "avoid_targets": {
+              "해든상가": 27
+            },
+            "mean_max_continuous_walk": 3.414666666666668,
+            "mode": {
+              "walk": 279,
+              "wait": 209,
+              "rest": 7,
+              "avoid": 5
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 7980.0,
+              "a_1": 7263.5,
+              "a_2": 131.54812664775346
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 60,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.4874983957784082,
+            "population_rest_minutes": 56.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1052,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "e5a7caabf341f4914bc60a0bdf5096ec864440a0e5178a8b92771c0539d0c0a5"
+        },
+        {
+          "minute": 120,
+          "metrics": {
+            "mass": 1.0000000000000004,
+            "mean_path_km": 1.816752,
+            "mean_wait_minutes": 50.16,
+            "mean_personal_wait_minutes": 31.92,
+            "mean_personal_rest_minutes": 31.721,
+            "mean_population_rest_minutes": 0.27,
+            "avoid_walkers": 34,
+            "avoid_targets": {
+              "해든상가": 34
+            },
+            "mean_max_continuous_walk": 3.4346666666666694,
+            "mode": {
+              "walk": 274,
+              "wait": 209,
+              "rest": 15,
+              "avoid": 2
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 15960.0,
+              "a_1": 15860.5,
+              "a_2": 226.95681734540696
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 120,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000004,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.46587571971090985,
+            "population_rest_minutes": 135.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1064,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "7c33efa5f68e729d55dc4f010b6d0f39848b47e5a398efaf73da15cadc976691"
+        },
+        {
+          "minute": 240,
+          "metrics": {
+            "mass": 1.0000000000000004,
+            "mean_path_km": 3.6311039999999997,
+            "mean_wait_minutes": 100.32,
+            "mean_personal_wait_minutes": 63.84,
+            "mean_personal_rest_minutes": 63.582,
+            "mean_population_rest_minutes": 0.45,
+            "avoid_walkers": 37,
+            "avoid_targets": {
+              "해든상가": 37
+            },
+            "mean_max_continuous_walk": 3.4556666666666738,
+            "mode": {
+              "walk": 267,
+              "wait": 209,
+              "rest": 23,
+              "avoid": 1
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 31920.0,
+              "a_1": 31791.0,
+              "a_2": 366.09498109165327
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 240,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000004,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.46602420849090287,
+            "population_rest_minutes": 225.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1071,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "5a9c6caa7f5db1eeae8fe1516db1433493b3530fe9d030d52a5633b50342d310"
+        },
+        {
+          "minute": 360,
+          "metrics": {
+            "mass": 1.0000000000000004,
+            "mean_path_km": 5.443408,
+            "mean_wait_minutes": 150.48,
+            "mean_personal_wait_minutes": 95.76,
+            "mean_personal_rest_minutes": 95.47366666666667,
+            "mean_population_rest_minutes": 0.642,
+            "avoid_walkers": 40,
+            "avoid_targets": {
+              "해든상가": 40
+            },
+            "mean_max_continuous_walk": 3.4710000000000134,
+            "mode": {
+              "walk": 256,
+              "rest": 35,
+              "wait": 209
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 47880.0,
+              "a_1": 47736.833333333336,
+              "a_2": 444.8184831485376
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 360,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000004,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.46632415657510073,
+            "population_rest_minutes": 321.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1076,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "8ee54fe6036b33e90f06ba016239c12e3e062e705a9de4e25ae60109626e226d"
+        }
+      ]
+    },
+    "43": {
+      "legacy": [
+        {
+          "minute": 60,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.22114382284274,
+            "mean_wait_minutes": 53.42250369077625,
+            "mean_personal_wait_minutes": 47.78250369077625,
+            "mean_personal_rest_minutes": 1.9503333333333333,
+            "mean_population_rest_minutes": 0.02,
+            "avoid_walkers": 5,
+            "avoid_targets": {
+              "해든상가": 5
+            },
+            "mean_max_continuous_walk": 2.1563217117458677,
+            "mode": {
+              "wait": 494,
+              "walk": 3,
+              "rest": 3
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 23891.251845388124,
+              "a_1": 975.1666666666666,
+              "a_2": 7.706733603856956
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 60,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.17086249181137836,
+            "population_rest_minutes": 10.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "469a0e65a431ba0d1deb76920e1fad0c191546cd38ccd29ad752b66b400b8fbb"
+        },
+        {
+          "minute": 120,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.22301582284274,
+            "mean_wait_minutes": 113.34383702410959,
+            "mean_personal_wait_minutes": 102.06383702410959,
+            "mean_personal_rest_minutes": 1.99,
+            "mean_population_rest_minutes": 0.02,
+            "avoid_walkers": 5,
+            "avoid_targets": {
+              "해든상가": 5
+            },
+            "mean_max_continuous_walk": 2.1563217117458677,
+            "mode": {
+              "wait": 500
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 51031.91851205479,
+              "a_1": 995.0,
+              "a_2": 7.706733603856956
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 120,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.13275624590568919,
+            "population_rest_minutes": 10.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "0767033b9c6064acb57b4744c690fb120d2388a5f0d8272090b26f35857e2d3b"
+        },
+        {
+          "minute": 240,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.22301582284274,
+            "mean_wait_minutes": 233.34383702410958,
+            "mean_personal_wait_minutes": 210.78383702410957,
+            "mean_personal_rest_minutes": 1.99,
+            "mean_population_rest_minutes": 0.02,
+            "avoid_walkers": 5,
+            "avoid_targets": {
+              "해든상가": 5
+            },
+            "mean_max_continuous_walk": 2.1563217117458677,
+            "mode": {
+              "wait": 500
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 105391.91851205479,
+              "a_1": 995.0,
+              "a_2": 7.706733603856956
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 240,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.11337812295284459,
+            "population_rest_minutes": 10.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "0767033b9c6064acb57b4744c690fb120d2388a5f0d8272090b26f35857e2d3b"
+        },
+        {
+          "minute": 360,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.22301582284274,
+            "mean_wait_minutes": 353.3438370241096,
+            "mean_personal_wait_minutes": 319.5038370241096,
+            "mean_personal_rest_minutes": 1.99,
+            "mean_population_rest_minutes": 0.02,
+            "avoid_walkers": 5,
+            "avoid_targets": {
+              "해든상가": 5
+            },
+            "mean_max_continuous_walk": 2.1563217117458677,
+            "mode": {
+              "wait": 500
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 159751.9185120548,
+              "a_1": 995.0,
+              "a_2": 7.706733603856956
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 360,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.10691874863522974,
+            "population_rest_minutes": 10.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "equal_distinct_supported_actions_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0
+          },
+          "cells_sha256": "0767033b9c6064acb57b4744c690fb120d2388a5f0d8272090b26f35857e2d3b"
+        }
+      ],
+      "persistent": [
+        {
+          "minute": 60,
+          "metrics": {
+            "mass": 1.0000000000000007,
+            "mean_path_km": 0.9928479999999998,
+            "mean_wait_minutes": 24.48,
+            "mean_personal_wait_minutes": 13.44,
+            "mean_personal_rest_minutes": 14.737666666666666,
+            "mean_population_rest_minutes": 0.098,
+            "avoid_walkers": 39,
+            "avoid_targets": {
+              "해든상가": 39
+            },
+            "mean_max_continuous_walk": 3.5050000000000012,
+            "mode": {
+              "rest": 11,
+              "walk": 279,
+              "wait": 204,
+              "avoid": 6
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 6720.0,
+              "a_1": 7368.833333333333,
+              "a_2": 157.30520522665412
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 60,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000007,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.5251287153813338,
+            "population_rest_minutes": 49.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1064,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "a888e104dec119b861fe11ef60bc7d65686c433050f563e69ee627f49f63f86b"
+        },
+        {
+          "minute": 120,
+          "metrics": {
+            "mass": 1.0000000000000004,
+            "mean_path_km": 1.848928,
+            "mean_wait_minutes": 48.96,
+            "mean_personal_wait_minutes": 26.88,
+            "mean_personal_rest_minutes": 32.358666666666664,
+            "mean_population_rest_minutes": 0.162,
+            "avoid_walkers": 44,
+            "avoid_targets": {
+              "해든상가": 44
+            },
+            "mean_max_continuous_walk": 3.5150000000000032,
+            "mode": {
+              "walk": 289,
+              "wait": 204,
+              "rest": 7
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 13440.0,
+              "a_1": 16179.333333333334,
+              "a_2": 279.73367439129015
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 120,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000004,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.5016822165379229,
+            "population_rest_minutes": 81.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1073,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "2b4988b0e0c3fecbe0e0d115b72f66498850da737d5c627449368dc574d98491"
+        },
+        {
+          "minute": 240,
+          "metrics": {
+            "mass": 1.0000000000000004,
+            "mean_path_km": 3.6965599999999994,
+            "mean_wait_minutes": 97.92,
+            "mean_personal_wait_minutes": 53.76,
+            "mean_personal_rest_minutes": 64.72433333333333,
+            "mean_population_rest_minutes": 0.344,
+            "avoid_walkers": 45,
+            "avoid_targets": {
+              "해든상가": 45
+            },
+            "mean_max_continuous_walk": 3.552000000000007,
+            "mode": {
+              "walk": 279,
+              "wait": 204,
+              "rest": 15,
+              "avoid": 2
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 26880.0,
+              "a_1": 32362.166666666668,
+              "a_2": 438.91043767438805
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 240,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000004,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.5026576907971578,
+            "population_rest_minutes": 172.0,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1077,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "3e39bf1b945ba8acb338147078316930fa388926ac2eae5ebdb22a533dbc116d"
+        },
+        {
+          "minute": 360,
+          "metrics": {
+            "mass": 1.0000000000000004,
+            "mean_path_km": 5.540191999999999,
+            "mean_wait_minutes": 146.88,
+            "mean_personal_wait_minutes": 80.64,
+            "mean_personal_rest_minutes": 97.16033333333334,
+            "mean_population_rest_minutes": 0.5390000000000004,
+            "avoid_walkers": 46,
+            "avoid_targets": {
+              "해든상가": 46
+            },
+            "mean_max_continuous_walk": 3.558000000000013,
+            "mode": {
+              "walk": 266,
+              "wait": 204,
+              "rest": 30
+            },
+            "unresolved_mass": 0.0,
+            "unresolved_reasons": {},
+            "rule_minutes": {
+              "a_0": 40320.0,
+              "a_1": 48580.16666666667,
+              "a_2": 520.4080803488605
+            }
+          },
+          "quality": {
+            "engine": "continuous-person-v4",
+            "walkers": 500,
+            "minute": 360,
+            "unresolved_mass": 0.0,
+            "resolved_mass": 1.0000000000000004,
+            "unresolved_reasons": {},
+            "uncertain_time_fraction": 1.0,
+            "population_prior_time_fraction": 0.503219029183247,
+            "population_rest_minutes": 269.50000000000017,
+            "population_rest_is_provisional": true,
+            "population_rest_policy": {
+              "enabled": true,
+              "minutes": 5.0,
+              "recovery_fraction": 0.4
+            },
+            "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+            "direction_state_source": "unobserved_default_0.5",
+            "direction_state": 0.5,
+            "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+            "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+            "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+            "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+            "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+            "rest_minutes_if_unreported": 5.0,
+            "wait_review_minutes_if_unreported": 30.0,
+            "rule_scope_distance_m": 60.0,
+            "clinical_accuracy_measured": false,
+            "latent_high_band": 0.7,
+            "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+            "new_model_calls_during_walk": 0,
+            "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+            "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+            "map_extent_checked": true,
+            "map_boundary_margin_m": 50.0,
+            "context_executor": "persistent-context-v1",
+            "unknown_true_weights": {
+              "default": 0.5
+            },
+            "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+            "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+            "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+            "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+            "context_assumption_count": 1080,
+            "sourced_wait_completions": 0
+          },
+          "cells_sha256": "5680041e1dd983962f50412aa5db7d49531ce8fa211a4a1c789d16671ec4c321"
+        }
+      ]
+    }
+  },
+  "sensitivity": {
+    "0.1": [
+      {
+        "minute": 60,
+        "metrics": {
+          "mass": 1.0000000000000004,
+          "mean_path_km": 1.237488,
+          "mean_wait_minutes": 15.72,
+          "mean_personal_wait_minutes": 3.6,
+          "mean_personal_rest_minutes": 18.423000000000002,
+          "mean_population_rest_minutes": 0.076,
+          "avoid_walkers": 36,
+          "avoid_targets": {
+            "해든상가": 36
+          },
+          "mean_max_continuous_walk": 4.334000000000001,
+          "mode": {
+            "walk": 356,
+            "rest": 7,
+            "wait": 131,
+            "avoid": 6
+          },
+          "unresolved_mass": 0.0,
+          "unresolved_reasons": {},
+          "rule_minutes": {
+            "a_0": 1800.0,
+            "a_1": 9211.5,
+            "a_2": 143.29474074446682
+          }
+        },
+        "quality": {
+          "engine": "continuous-person-v4",
+          "walkers": 500,
+          "minute": 60,
+          "unresolved_mass": 0.0,
+          "resolved_mass": 1.0000000000000004,
+          "unresolved_reasons": {},
+          "uncertain_time_fraction": 1.0,
+          "population_prior_time_fraction": 0.6281735086418512,
+          "population_rest_minutes": 38.0,
+          "population_rest_is_provisional": true,
+          "population_rest_policy": {
+            "enabled": true,
+            "minutes": 5.0,
+            "recovery_fraction": 0.4
+          },
+          "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+          "direction_state_source": "unobserved_default_0.5",
+          "direction_state": 0.5,
+          "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+          "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+          "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+          "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+          "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+          "rest_minutes_if_unreported": 5.0,
+          "wait_review_minutes_if_unreported": 30.0,
+          "rule_scope_distance_m": 60.0,
+          "clinical_accuracy_measured": false,
+          "latent_high_band": 0.7,
+          "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+          "new_model_calls_during_walk": 0,
+          "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+          "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+          "map_extent_checked": true,
+          "map_boundary_margin_m": 50.0,
+          "context_executor": "persistent-context-v1",
+          "unknown_true_weights": {
+            "default": 0.5,
+            "lost_awareness": 0.1
+          },
+          "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+          "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+          "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+          "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+          "context_assumption_count": 1075,
+          "sourced_wait_completions": 0
+        },
+        "cells_sha256": "e86b82ed317cce85fc1df9c92438cf3de422d02c3218bd69a8fe4858ca741ccc"
+      },
+      {
+        "minute": 120,
+        "metrics": {
+          "mass": 1.0000000000000004,
+          "mean_path_km": 2.3058560000000003,
+          "mean_wait_minutes": 31.44,
+          "mean_personal_wait_minutes": 7.2,
+          "mean_personal_rest_minutes": 40.37133333333333,
+          "mean_population_rest_minutes": 0.15,
+          "avoid_walkers": 46,
+          "avoid_targets": {
+            "해든상가": 46
+          },
+          "mean_max_continuous_walk": 4.3893333333333375,
+          "mode": {
+            "rest": 9,
+            "walk": 357,
+            "wait": 131,
+            "avoid": 3
+          },
+          "unresolved_mass": 0.0,
+          "unresolved_reasons": {},
+          "rule_minutes": {
+            "a_0": 3600.0,
+            "a_1": 20185.666666666668,
+            "a_2": 283.3995453460774
+          }
+        },
+        "quality": {
+          "engine": "continuous-person-v4",
+          "walkers": 500,
+          "minute": 120,
+          "unresolved_mass": 0.0,
+          "resolved_mass": 1.0000000000000004,
+          "unresolved_reasons": {},
+          "uncertain_time_fraction": 1.0,
+          "population_prior_time_fraction": 0.5988488964664542,
+          "population_rest_minutes": 75.0,
+          "population_rest_is_provisional": true,
+          "population_rest_policy": {
+            "enabled": true,
+            "minutes": 5.0,
+            "recovery_fraction": 0.4
+          },
+          "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+          "direction_state_source": "unobserved_default_0.5",
+          "direction_state": 0.5,
+          "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+          "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+          "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+          "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+          "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+          "rest_minutes_if_unreported": 5.0,
+          "wait_review_minutes_if_unreported": 30.0,
+          "rule_scope_distance_m": 60.0,
+          "clinical_accuracy_measured": false,
+          "latent_high_band": 0.7,
+          "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+          "new_model_calls_during_walk": 0,
+          "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+          "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+          "map_extent_checked": true,
+          "map_boundary_margin_m": 50.0,
+          "context_executor": "persistent-context-v1",
+          "unknown_true_weights": {
+            "default": 0.5,
+            "lost_awareness": 0.1
+          },
+          "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+          "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+          "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+          "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+          "context_assumption_count": 1088,
+          "sourced_wait_completions": 0
+        },
+        "cells_sha256": "be35fc5600b462a6ecd184820cb480c7129d21249808f741b9d28bbfcbbfc077"
+      },
+      {
+        "minute": 240,
+        "metrics": {
+          "mass": 1.0000000000000004,
+          "mean_path_km": 4.607792000000001,
+          "mean_wait_minutes": 62.88,
+          "mean_personal_wait_minutes": 14.4,
+          "mean_personal_rest_minutes": 80.70633333333333,
+          "mean_population_rest_minutes": 0.418,
+          "avoid_walkers": 47,
+          "avoid_targets": {
+            "해든상가": 47
+          },
+          "mean_max_continuous_walk": 4.444666666666675,
+          "mode": {
+            "rest": 26,
+            "walk": 341,
+            "wait": 131,
+            "avoid": 2
+          },
+          "unresolved_mass": 0.0,
+          "unresolved_reasons": {},
+          "rule_minutes": {
+            "a_0": 7200.0,
+            "a_1": 40353.166666666664,
+            "a_2": 460.8442406477083
+          }
+        },
+        "quality": {
+          "engine": "continuous-person-v4",
+          "walkers": 500,
+          "minute": 240,
+          "unresolved_mass": 0.0,
+          "resolved_mass": 1.0000000000000004,
+          "unresolved_reasons": {},
+          "uncertain_time_fraction": 1.0,
+          "population_prior_time_fraction": 0.5998832424390468,
+          "population_rest_minutes": 209.0,
+          "population_rest_is_provisional": true,
+          "population_rest_policy": {
+            "enabled": true,
+            "minutes": 5.0,
+            "recovery_fraction": 0.4
+          },
+          "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+          "direction_state_source": "unobserved_default_0.5",
+          "direction_state": 0.5,
+          "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+          "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+          "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+          "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+          "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+          "rest_minutes_if_unreported": 5.0,
+          "wait_review_minutes_if_unreported": 30.0,
+          "rule_scope_distance_m": 60.0,
+          "clinical_accuracy_measured": false,
+          "latent_high_band": 0.7,
+          "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+          "new_model_calls_during_walk": 0,
+          "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+          "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+          "map_extent_checked": true,
+          "map_boundary_margin_m": 50.0,
+          "context_executor": "persistent-context-v1",
+          "unknown_true_weights": {
+            "default": 0.5,
+            "lost_awareness": 0.1
+          },
+          "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+          "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+          "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+          "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+          "context_assumption_count": 1092,
+          "sourced_wait_completions": 0
+        },
+        "cells_sha256": "285584fe81cc64428f811646a5f0e88035ae097c571aa26661f962b20032aa29"
+      },
+      {
+        "minute": 360,
+        "metrics": {
+          "mass": 1.0000000000000002,
+          "mean_path_km": 6.906175999999999,
+          "mean_wait_minutes": 94.32,
+          "mean_personal_wait_minutes": 21.6,
+          "mean_personal_rest_minutes": 121.06133333333334,
+          "mean_population_rest_minutes": 0.74,
+          "avoid_walkers": 50,
+          "avoid_targets": {
+            "해든상가": 50
+          },
+          "mean_max_continuous_walk": 4.4560000000000155,
+          "mode": {
+            "rest": 40,
+            "walk": 327,
+            "wait": 131,
+            "avoid": 2
+          },
+          "unresolved_mass": 0.0,
+          "unresolved_reasons": {},
+          "rule_minutes": {
+            "a_0": 10800.0,
+            "a_1": 60530.66666666667,
+            "a_2": 564.6604755618501
+          }
+        },
+        "quality": {
+          "engine": "continuous-person-v4",
+          "walkers": 500,
+          "minute": 360,
+          "unresolved_mass": 0.0,
+          "resolved_mass": 1.0000000000000002,
+          "unresolved_reasons": {},
+          "uncertain_time_fraction": 1.0,
+          "population_prior_time_fraction": 0.6005815158765082,
+          "population_rest_minutes": 370.0,
+          "population_rest_is_provisional": true,
+          "population_rest_policy": {
+            "enabled": true,
+            "minutes": 5.0,
+            "recovery_fraction": 0.4
+          },
+          "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+          "direction_state_source": "unobserved_default_0.5",
+          "direction_state": 0.5,
+          "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+          "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+          "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+          "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+          "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+          "rest_minutes_if_unreported": 5.0,
+          "wait_review_minutes_if_unreported": 30.0,
+          "rule_scope_distance_m": 60.0,
+          "clinical_accuracy_measured": false,
+          "latent_high_band": 0.7,
+          "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+          "new_model_calls_during_walk": 0,
+          "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+          "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+          "map_extent_checked": true,
+          "map_boundary_margin_m": 50.0,
+          "context_executor": "persistent-context-v1",
+          "unknown_true_weights": {
+            "default": 0.5,
+            "lost_awareness": 0.1
+          },
+          "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+          "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+          "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+          "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+          "context_assumption_count": 1098,
+          "sourced_wait_completions": 0
+        },
+        "cells_sha256": "855a5c4f408f562bfef86e163979493c5e65c3b35bb6e94f40d8e29c508bbba9"
+      }
+    ],
+    "0.9": [
+      {
+        "minute": 60,
+        "metrics": {
+          "mass": 1.0000000000000007,
+          "mean_path_km": 0.7109759999999998,
+          "mean_wait_minutes": 34.56,
+          "mean_personal_wait_minutes": 26.88,
+          "mean_personal_rest_minutes": 10.59,
+          "mean_population_rest_minutes": 0.038,
+          "avoid_walkers": 23,
+          "avoid_targets": {
+            "해든상가": 23
+          },
+          "mean_max_continuous_walk": 2.4930000000000008,
+          "mode": {
+            "walk": 206,
+            "rest": 3,
+            "wait": 288,
+            "avoid": 3
+          },
+          "unresolved_mass": 0.0,
+          "unresolved_reasons": {},
+          "rule_minutes": {
+            "a_0": 13440.0,
+            "a_1": 5295.0,
+            "a_2": 95.25602706578557
+          }
+        },
+        "quality": {
+          "engine": "continuous-person-v4",
+          "walkers": 500,
+          "minute": 60,
+          "unresolved_mass": 0.0,
+          "resolved_mass": 1.0000000000000007,
+          "unresolved_reasons": {},
+          "uncertain_time_fraction": 1.0,
+          "population_prior_time_fraction": 0.3723247990978071,
+          "population_rest_minutes": 19.0,
+          "population_rest_is_provisional": true,
+          "population_rest_policy": {
+            "enabled": true,
+            "minutes": 5.0,
+            "recovery_fraction": 0.4
+          },
+          "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+          "direction_state_source": "unobserved_default_0.5",
+          "direction_state": 0.5,
+          "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+          "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+          "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+          "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+          "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+          "rest_minutes_if_unreported": 5.0,
+          "wait_review_minutes_if_unreported": 30.0,
+          "rule_scope_distance_m": 60.0,
+          "clinical_accuracy_measured": false,
+          "latent_high_band": 0.7,
+          "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+          "new_model_calls_during_walk": 0,
+          "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+          "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+          "map_extent_checked": true,
+          "map_boundary_margin_m": 50.0,
+          "context_executor": "persistent-context-v1",
+          "unknown_true_weights": {
+            "default": 0.5,
+            "lost_awareness": 0.9
+          },
+          "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+          "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+          "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+          "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+          "context_assumption_count": 1045,
+          "sourced_wait_completions": 0
+        },
+        "cells_sha256": "562269494485bd49df3e7478468e8d5baa6f6b487dbc48a34ecfa474d21edb7c"
+      },
+      {
+        "minute": 120,
+        "metrics": {
+          "mass": 1.0000000000000004,
+          "mean_path_km": 1.3249600000000001,
+          "mean_wait_minutes": 69.12,
+          "mean_personal_wait_minutes": 53.76,
+          "mean_personal_rest_minutes": 23.19666666666667,
+          "mean_population_rest_minutes": 0.08,
+          "avoid_walkers": 29,
+          "avoid_targets": {
+            "해든상가": 29
+          },
+          "mean_max_continuous_walk": 2.5186666666666686,
+          "mode": {
+            "rest": 5,
+            "walk": 205,
+            "wait": 288,
+            "avoid": 2
+          },
+          "unresolved_mass": 0.0,
+          "unresolved_reasons": {},
+          "rule_minutes": {
+            "a_0": 26880.0,
+            "a_1": 11598.333333333334,
+            "a_2": 171.3196472310029
+          }
+        },
+        "quality": {
+          "engine": "continuous-person-v4",
+          "walkers": 500,
+          "minute": 120,
+          "unresolved_mass": 0.0,
+          "resolved_mass": 1.0000000000000004,
+          "unresolved_reasons": {},
+          "uncertain_time_fraction": 1.0,
+          "population_prior_time_fraction": 0.3558391169905944,
+          "population_rest_minutes": 40.0,
+          "population_rest_is_provisional": true,
+          "population_rest_policy": {
+            "enabled": true,
+            "minutes": 5.0,
+            "recovery_fraction": 0.4
+          },
+          "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+          "direction_state_source": "unobserved_default_0.5",
+          "direction_state": 0.5,
+          "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+          "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+          "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+          "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+          "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+          "rest_minutes_if_unreported": 5.0,
+          "wait_review_minutes_if_unreported": 30.0,
+          "rule_scope_distance_m": 60.0,
+          "clinical_accuracy_measured": false,
+          "latent_high_band": 0.7,
+          "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+          "new_model_calls_during_walk": 0,
+          "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+          "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+          "map_extent_checked": true,
+          "map_boundary_margin_m": 50.0,
+          "context_executor": "persistent-context-v1",
+          "unknown_true_weights": {
+            "default": 0.5,
+            "lost_awareness": 0.9
+          },
+          "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+          "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+          "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+          "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+          "context_assumption_count": 1053,
+          "sourced_wait_completions": 0
+        },
+        "cells_sha256": "ddcef23eabd9c833f71daf9b8601e9f3b70b2a8789e109a79dc630ca8c9e4ef2"
+      },
+      {
+        "minute": 240,
+        "metrics": {
+          "mass": 1.0000000000000004,
+          "mean_path_km": 2.646816,
+          "mean_wait_minutes": 138.24,
+          "mean_personal_wait_minutes": 107.52,
+          "mean_personal_rest_minutes": 46.368,
+          "mean_population_rest_minutes": 0.25,
+          "avoid_walkers": 29,
+          "avoid_targets": {
+            "해든상가": 29
+          },
+          "mean_max_continuous_walk": 2.538333333333338,
+          "mode": {
+            "rest": 16,
+            "walk": 195,
+            "wait": 288,
+            "avoid": 1
+          },
+          "unresolved_mass": 0.0,
+          "unresolved_reasons": {},
+          "rule_minutes": {
+            "a_0": 53760.0,
+            "a_1": 23184.0,
+            "a_2": 274.6355089076333
+          }
+        },
+        "quality": {
+          "engine": "continuous-person-v4",
+          "walkers": 500,
+          "minute": 240,
+          "unresolved_mass": 0.0,
+          "resolved_mass": 1.0000000000000004,
+          "unresolved_reasons": {},
+          "uncertain_time_fraction": 1.0,
+          "population_prior_time_fraction": 0.35651137075910305,
+          "population_rest_minutes": 125.0,
+          "population_rest_is_provisional": true,
+          "population_rest_policy": {
+            "enabled": true,
+            "minutes": 5.0,
+            "recovery_fraction": 0.4
+          },
+          "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+          "direction_state_source": "unobserved_default_0.5",
+          "direction_state": 0.5,
+          "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+          "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+          "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+          "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+          "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+          "rest_minutes_if_unreported": 5.0,
+          "wait_review_minutes_if_unreported": 30.0,
+          "rule_scope_distance_m": 60.0,
+          "clinical_accuracy_measured": false,
+          "latent_high_band": 0.7,
+          "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+          "new_model_calls_during_walk": 0,
+          "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+          "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+          "map_extent_checked": true,
+          "map_boundary_margin_m": 50.0,
+          "context_executor": "persistent-context-v1",
+          "unknown_true_weights": {
+            "default": 0.5,
+            "lost_awareness": 0.9
+          },
+          "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+          "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+          "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+          "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+          "context_assumption_count": 1055,
+          "sourced_wait_completions": 0
+        },
+        "cells_sha256": "d06212fdd35a171434b5a5bfb3f83fba7c031407e33fcc06168cf4175d8a9e18"
+      },
+      {
+        "minute": 360,
+        "metrics": {
+          "mass": 1.0000000000000004,
+          "mean_path_km": 3.967392,
+          "mean_wait_minutes": 207.36,
+          "mean_personal_wait_minutes": 161.28,
+          "mean_personal_rest_minutes": 69.566,
+          "mean_population_rest_minutes": 0.42,
+          "avoid_walkers": 31,
+          "avoid_targets": {
+            "해든상가": 31
+          },
+          "mean_max_continuous_walk": 2.5433333333333423,
+          "mode": {
+            "rest": 22,
+            "walk": 189,
+            "wait": 288,
+            "avoid": 1
+          },
+          "unresolved_mass": 0.0,
+          "unresolved_reasons": {},
+          "rule_minutes": {
+            "a_0": 80640.0,
+            "a_1": 34783.0,
+            "a_2": 350.3684141899781
+          }
+        },
+        "quality": {
+          "engine": "continuous-person-v4",
+          "walkers": 500,
+          "minute": 360,
+          "unresolved_mass": 0.0,
+          "resolved_mass": 1.0000000000000004,
+          "unresolved_reasons": {},
+          "uncertain_time_fraction": 1.0,
+          "population_prior_time_fraction": 0.35681461992116675,
+          "population_rest_minutes": 210.0,
+          "population_rest_is_provisional": true,
+          "population_rest_policy": {
+            "enabled": true,
+            "minutes": 5.0,
+            "recovery_fraction": 0.4
+          },
+          "population_rest_priority": "pause_movement_intent; preserve_explicit_physical_walk_rest_wait",
+          "direction_state_source": "unobserved_default_0.5",
+          "direction_state": 0.5,
+          "cumulative_confusion_role": "condition_trigger_only_not_direction_probability",
+          "population_rest_trigger": "existing_gauge_curve_once_per_simulation_minute_not_per_road_node",
+          "unknown_branch_weighting": "persistent_boolean_hypotheses_not_calibrated",
+          "unobserved_recognition": "unknown; branches only when a personal rule depends on it",
+          "arrival_default": "completed_goal_with_unchanged_movement_prior_not_automatic_wait",
+          "rest_minutes_if_unreported": 5.0,
+          "wait_review_minutes_if_unreported": 30.0,
+          "rule_scope_distance_m": 60.0,
+          "clinical_accuracy_measured": false,
+          "latent_high_band": 0.7,
+          "latent_high_band_source": "existing_gauges_report_provisional_not_clinical",
+          "new_model_calls_during_walk": 0,
+          "environment_distance_on_edge": "linear_interpolation_of_mapped_endpoint_distances",
+          "radius_role": "existing_statistical_p95_support_not_fitted_terminal_distance",
+          "map_extent_checked": true,
+          "map_boundary_margin_m": 50.0,
+          "context_executor": "persistent-context-v1",
+          "unknown_true_weights": {
+            "default": 0.5,
+            "lost_awareness": 0.9
+          },
+          "unknown_transition": "stable_while_unobserved; new_episode_after_observation_expiry",
+          "conflicting_action_tie": "stable_hash_rank_not_clinical_priority",
+          "explicit_wait_duration": "episode_from_entry; no_refresh; rearm_after_condition_false",
+          "unreported_wait_duration": "not_inferred; conditional_wait_may_persist",
+          "context_assumption_count": 1057,
+          "sourced_wait_completions": 0
+        },
+        "cells_sha256": "b250b4eb79f0aee72b3f9014bb6ab955ad6742eee0b18304d420350d1bc9989e"
+      }
+    ]
+  },
+  "known_components": {
+    "rest_cycle": {
+      "metrics_identical": true,
+      "distributions_identical": true,
+      "original_sha256": "78d78f612f97f9c0f0f391d13bc4f777045d882a0818e8b252947c6f3c8e69e1",
+      "final_sha256": "c899e1b49ca82c3cef7340b89e8a834a60deba200a0f090d8889ce46ba92a294"
+    },
+    "place_noise": {
+      "metrics_identical": true,
+      "distributions_identical": true,
+      "original_sha256": "60521c3d8c243e188ea4c4018740cb6a818d820012c076b4820d7c135b11938e",
+      "final_sha256": "1cd55dbad4b881488187e1d9845e36d30b726bf2c311a7709a04dc0cd56848a4"
+    }
+  },
+  "unit_regressions": {
+    "result": {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "92",
+      "time": "113.818",
+      "timestamp": "2026-10-08T14:33:49.969511+09:00",
+      "hostname": "jodaeheum-ui-MacBookPro.local"
+    },
+    "new_tests": 17,
+    "first_broad_run": {
+      "passed": 88,
+      "failed": 3,
+      "reason": "checkpoint class-name identity broke compatible wrappers; replaced by executor family"
+    },
+    "command": "CBH_KINTEX_GRAPHML=/verified/cache/kintex_walk.graphml python -m pytest -q tests/test_persistent_context_walk.py tests/test_place_bound_walk.py tests/test_person_policy.py tests/test_person_walk_release.py tests/test_person_walk_dynamics.py tests/test_continuous_prediction.py tests/test_prediction_terminal_boundary.py"
+  },
+  "failed_initial_candidate": {
+    "rest_cycle": {
+      "metrics_identical": true,
+      "source_sha256": "c899e1b49ca82c3cef7340b89e8a834a60deba200a0f090d8889ce46ba92a294"
+    },
+    "place_noise": {
+      "metrics_identical": false,
+      "source_sha256": "7e13bd43a51211ed244694b7b8bc9edbe8ac239f574293ea653a84ca1607280b"
+    }
+  },
+  "final_product_source_sha256": {
+    "app/phase2/person_walk.py": "3abeeb8224a135fdacaad19e178e4ca090a5aa74d16354b1f0e21d8260b367ff",
+    "app/phase2/persistent_context_walk.py": "8aadff3c75b77d8228bf5c5be4973dd77b3c358978aba5ec7aa4f059b8fbd144",
+    "tests/test_persistent_context_walk.py": "c9a0b380d38d72da3a00917fa3735853d1758401327f38b377632b4b48806ce1"
+  },
+  "post_replay_metadata_clarification": {
+    "description": "quality text now explicitly distinguishes preserved known-condition selection and stable unknown-context tie; no walking computation change",
+    "diff": [
+      "--- \n",
+      "+++ \n",
+      "@@ -140,3 +140,3 @@\n",
+      "             unknown_transition='stable_while_unobserved; new_episode_after_observation_expiry',",
+      "-            conflicting_action_tie='stable_hash_rank_not_clinical_priority',",
+      "+            conflicting_action_tie='legacy_when_known; stable_hash_when_unknown; not_clinical_priority',",
+      "             explicit_wait_duration='episode_from_entry; no_refresh; rearm_after_condition_false',"
+    ],
+    "current_source_sha256": "cb091fafac930630b2f1c73e53ae5ee1392b91b9f3992b09b37a5699fc54d977",
+    "focused_test": "test_unspecified_duration_is_not_an_invented_restart"
+  },
+  "supplemental_focused_checks": {
+    "metadata": {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "1",
+      "time": "11.333",
+      "timestamp": "2026-10-08T14:59:46.427708+09:00",
+      "hostname": "jodaeheum-ui-MacBookPro.local"
+    },
+    "followup": {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "1",
+      "time": "12.147",
+      "timestamp": "2026-10-08T15:03:38.061924+09:00",
+      "hostname": "jodaeheum-ui-MacBookPro.local"
+    }
+  },
+  "current_test_source_sha256": "f86c35dda2415f5d652aa47b888feca98139b6105feb11a7cbca9666d4b1fe8f"
+}
