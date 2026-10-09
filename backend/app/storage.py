@@ -29,10 +29,12 @@ Repository 인터페이스(save/get/list/delete)는 그대로다. 호출부는 �
 """
 
 import json
+from functools import wraps
 import sqlite3
 import threading
 import uuid
 from pathlib import Path
+import contextlib
 from typing import Generic, TypeVar
 
 from pydantic import BaseModel
@@ -44,7 +46,7 @@ T = TypeVar("T")
 # 커넥션 1개를 공유한다. FastAPI 는 스레드풀에서 핸들러를 돌리므로
 # check_same_thread=False + Lock 이 필요하다. SQLite 쓰기는 어차피 직렬이다.
 _conn: sqlite3.Connection | None = None
-_lock = threading.Lock()
+_lock = threading.RLock()
 
 
 def _db() -> sqlite3.Connection | None:
@@ -52,15 +54,39 @@ def _db() -> sqlite3.Connection | None:
     global _conn
     if not settings.persist_storage:
         return None
-    if _conn is None:
-        path = Path(settings.storage_db_path)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        _conn = sqlite3.connect(path, check_same_thread=False)
-        # WAL 은 쓰지 않는다. 별도 -wal 파일에 삭제된 원본이 남아, 파기 후에도
-        # 디스크에서 읽히는 경로가 생긴다. 단일 프로세스라 성능 이득도 작다.
-        _conn.execute("PRAGMA journal_mode=DELETE")
-        _conn.execute("PRAGMA secure_delete=ON")   # 삭제된 페이지를 0으로 덮는다
-    return _conn
+    with _lock:
+        if _conn is None:
+            path = Path(settings.storage_db_path)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            conn = sqlite3.connect(path, check_same_thread=False)
+            # WAL 은 쓰지 않는다. 별도 -wal 파일에 삭제된 원본이 남아, 파기 후에도
+            # 디스크에서 읽히는 경로가 생긴다. 단일 프로세스라 성능 이득도 작다.
+            conn.execute("PRAGMA journal_mode=DELETE")
+            conn.execute("PRAGMA secure_delete=ON")   # 삭제된 페이지를 0으로 덮는다
+            _conn = conn
+        return _conn
+
+
+
+_compaction = threading.local()
+
+
+@contextlib.contextmanager
+def batch_compaction():
+    """Defer this thread's full DB rewrite until the purge batch finishes.
+
+    Other threads keep their own compaction policy. Even a partial failed batch
+    flushes its already-deleted records before leaving this context.
+    """
+    depth = getattr(_compaction, "depth", 0)
+    _compaction.depth = depth + 1
+    try:
+        yield
+    finally:
+        _compaction.depth = depth
+        if depth == 0 and getattr(_compaction, "dirty", False):
+            _compaction.dirty = False
+            vacuum()
 
 
 def vacuum() -> None:
@@ -69,6 +95,9 @@ def vacuum() -> None:
     파기 경로가 호출한다(privacy.lifecycle). 전체 DB 를 다시 쓰므로 비싸다 —
     삭제할 때마다가 아니라 파기 트랜잭션 끝에 한 번 부른다.
     """
+    if getattr(_compaction, "depth", 0):
+        _compaction.dirty = True
+        return
     conn = _db()
     if conn is None:
         return
@@ -90,6 +119,7 @@ class Repository(Generic[T]):
         self._model = model
         self._table = table
         self._loaded = False
+        self._mutation_lock = threading.RLock()
 
     # ── 내부 ────────────────────────────────────────────────
     def _persistent(self) -> sqlite3.Connection | None:
@@ -108,30 +138,49 @@ class Repository(Generic[T]):
     def _decode(self, raw: str) -> T:
         data = json.loads(raw)
         if self._model is not None and issubclass(self._model, BaseModel):
-            return self._model.model_validate(data)
+            item = self._model.model_validate(data)
+            if hasattr(item, "_was_stored"):
+                item._was_stored = True
+            return item
         return data
 
     def _load(self) -> None:
-        """기동 후 첫 접근에 파일 → 메모리 1회 복원."""
-        if self._loaded:
-            return
-        self._loaded = True          # 실패해도 재시도하지 않는다(무한 로딩 방지)
-        conn = self._persistent()
-        if conn is None:
-            return
-        with _lock:
-            self._ensure_table(conn)
-            rows = conn.execute(f"SELECT id, data FROM {self._table}").fetchall()
-        for item_id, raw in rows:
-            try:
-                self._items[item_id] = self._decode(raw)
-            except Exception as e:  # noqa: BLE001 — 한 행이 깨져도 나머지는 살린다
-                print(f"[storage] {self._table}/{item_id} 복원 실패(건너뜀): {e}")
+        """Publish a complete cache only after one successful serialized load."""
+        with self._mutation_lock:
+            if self._loaded:
+                return
+            conn = self._persistent()
+            if conn is None:
+                self._loaded = True
+                return
+            with _lock:
+                self._ensure_table(conn)
+                rows = conn.execute(f"SELECT id, data FROM {self._table}").fetchall()
+            for item_id, raw in rows:
+                try:
+                    self._items[item_id] = self._decode(raw)
+                except Exception as exc:
+                    print(f"[storage] {self._table} restore skipped: {type(exc).__name__}")
+            self._loaded = True
 
     # ── 인터페이스 (호출부는 이 4개만 안다) ──────────────────
     def save(self, item_id: str, item: T) -> T:
+        with self._mutation_lock:
+            return self._save(item_id, item)
+
+    def update_existing(self, item_id: str, transform) -> T | None:
+        """Atomic guarded background update; None from transform means discard."""
+        with self._mutation_lock:
+            current = self.get(item_id)
+            if current is None:
+                return None
+            updated = transform(current)
+            return self._save(item_id, updated) if updated is not None else None
+
+    def _save(self, item_id: str, item: T) -> T:
+        if hasattr(item, "_was_stored"):
+            item._was_stored = True
         self._load()
-        self._items[item_id] = item
         conn = self._persistent()
         if conn is not None:
             with _lock:
@@ -141,30 +190,64 @@ class Repository(Generic[T]):
                     "ON CONFLICT(id) DO UPDATE SET data=excluded.data",
                     (item_id, self._encode(item)))
                 conn.commit()
+        self._items[item_id] = item
         return item
 
     def get(self, item_id: str) -> T | None:
-        self._load()
-        return self._items.get(item_id)
+        with self._mutation_lock:
+            self._load()
+            return self._items.get(item_id)
 
     def list(self) -> list[T]:
-        self._load()
-        return list(self._items.values())
+        with self._mutation_lock:
+            self._load()
+            return list(self._items.values())
 
     def delete(self, item_id: str) -> None:
+        with self._mutation_lock:
+            self._delete(item_id)
+
+    def _delete(self, item_id: str) -> None:
         """메모리와 디스크 양쪽에서 지운다.
 
         물리 회수(VACUUM)는 여기서 하지 않는다 — 파기 1건마다 전체 DB 를 다시
         쓰면 비용이 크다. 파기 경로가 끝에 `storage.vacuum()` 을 한 번 부른다.
         """
         self._load()
-        self._items.pop(item_id, None)
         conn = self._persistent()
         if conn is not None:
             with _lock:
                 self._ensure_table(conn)
                 conn.execute(f"DELETE FROM {self._table} WHERE id = ?", (item_id,))
                 conn.commit()
+        self._items.pop(item_id, None)
+
+
+# Bounded stripes serialize prediction with post-report profile linking. Reentrant
+# because background update and API entry points both call run_prediction.
+_case_locks = [threading.RLock() for _ in range(64)]
+
+
+def serialize_case(fn):
+    @wraps(fn)
+    def wrapped(*args, **kwargs):
+        case_or_id = args[0] if args else kwargs.get("case", kwargs.get("case_id"))
+        key = case_or_id if isinstance(case_or_id, str) else case_or_id.id
+        with _case_locks[hash(key) % len(_case_locks)]:
+            return fn(*args, **kwargs)
+    return wrapped
+
+
+# Linking a persona and deleting it must not race across cloud lanes.
+persona_link_lock = threading.RLock()
+
+
+def serialize_persona_links(fn):
+    @wraps(fn)
+    def wrapped(*args, **kwargs):
+        with persona_link_lock:
+            return fn(*args, **kwargs)
+    return wrapped
 
 
 def new_id() -> str:
@@ -175,6 +258,7 @@ def reset_for_tests() -> None:
     """테스트 격리용 — 메모리와 커넥션을 비운다. 운영 경로에서 쓰지 않는다."""
     global _conn
     for repo in (personas, interviews, cases, debug_traces, audit_logs,
+                 privacy_runs, privacy_jobs, privacy_scheduler, privacy_alerts,
                  walk_sessions, walk_tip_counts):
         repo._items.clear()
         repo._loaded = False
@@ -190,7 +274,9 @@ from app.schemas.case import Case
 from app.schemas.debug import PredictionDebug
 from app.schemas.device import Device
 from app.schemas.persona import InterviewSession, Persona
-from app.schemas.privacy import AuditRecord
+from app.schemas.privacy import (
+    AuditRecord, PrivacyAlert, PrivacyJob, PrivacyRun, PrivacySchedulerState,
+)
 from app.schemas.walk import WalkSession
 
 # 평시 장기보관 — 이게 남지 않으면 사전등록이라는 기능 자체가 성립하지 않는다.
@@ -206,6 +292,11 @@ debug_traces = Repository(PredictionDebug)
 # 파기 증적 — 개인정보가 없어 파일 보존이 파기 원칙과 모순되지 않는다.
 # 별도로 JSONL 에도 append 된다(privacy.lifecycle._append_audit_file).
 audit_logs = Repository(AuditRecord, "audit_logs")
+# 자동 파기 제어 상태. 본체 개인정보와 분리해 회차·재시작 상태만 보존한다.
+privacy_runs = Repository(PrivacyRun, "privacy_runs")
+privacy_jobs = Repository(PrivacyJob, "privacy_jobs")
+privacy_scheduler = Repository(PrivacySchedulerState, "privacy_scheduler")
+privacy_alerts = Repository(PrivacyAlert, "privacy_alerts")
 
 # 안심 산책 (시민 참여) — 수색 케이스와 생명주기가 분리돼 있다.
 walk_sessions = Repository(WalkSession, "walk_sessions")

@@ -18,16 +18,20 @@ from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
 from app.schemas.report import Appearance, MissingReport
+from app.schemas.environment import EnvironmentObservation, BehaviorObservation
 
 
 def create_report(
     *,
+    guardian_id: str = "",
     missing_type: PersonaType,
     lkp: GeoPoint,
     lkp_time: datetime,
     persona_id: str | None = None,
     situation: str = "",
     appearance: Appearance | None = None,
+    environment_observations: list[EnvironmentObservation] | None = None,
+    behavior_observations: list[BehaviorObservation] | None = None,
 ) -> Case:
     """신고 접수 → Case 생성.
 
@@ -43,6 +47,8 @@ def create_report(
         lkp=lkp,
         lkp_time=lkp_time,
         situation=situation,
+        environment_observations=environment_observations or [],
+        behavior_observations=behavior_observations or [],
         appearance=appearance.model_copy(deep=True) if appearance is not None else None,
     )
 
@@ -64,12 +70,19 @@ def create_report(
 
     case = Case(
         id=storage.new_id(),
+        guardian_id=guardian_id,
         report=report,
         status=CaseStatus.intake,
         lkp=report.lkp,
         lkp_time=report.lkp_time,
     )
-    storage.cases.save(case.id, case)
+    with storage.persona_link_lock:
+        if persona_id and guardian_id:
+            persona = storage.personas.get(persona_id)
+            if persona is None or persona.guardian_id != guardian_id:
+                from fastapi import HTTPException
+                raise HTTPException(404, "내 등록 정보를 찾을 수 없습니다.")
+        storage.cases.save(case.id, case)
 
     # 축 점수 백필 — 비동기 채점이 유실된 미채점 페르소나의 마지막 채점 기회
     # (Phase 2 가 점수를 소비하기 직전). 실패해도 접수는 계속.
@@ -79,23 +92,32 @@ def create_report(
     except Exception as e:  # noqa: BLE001 — 채점 실패가 접수를 막으면 안 됨
         print(f"[axis] 축 점수 백필 실패 (접수는 계속): {e}")
 
+    if persona_id:
+        try:
+            from app.phase0.person_preparation import enqueue
+            enqueue(persona_id)
+        except Exception as exc:
+            print(f"[preparation] 예약 실패 (접수는 계속): {type(exc).__name__}")
+
     # 1차 안전반경 (Reflex Tasking) — 신고 즉시 IPP 주변 k-ring 알림.
     # Phase 2 예측이 나오기 전 골든타임 대응. 실패해도 접수는 계속.
     if settings.reflex_alert_on_intake:
         try:
             cells = alerts.select_reflex_cells(case.lkp)
             summary = report.appearance.summary if report.appearance else "인상착의 정보 없음"
-            alerts.send_alerts(case.id, cells, summary, kind="reflex")
+            alerts.notify_prediction(case, reflex=True)
         except Exception as e:  # noqa: BLE001 — 알림 실패가 접수를 막으면 안 됨
             print(f"[reflex] 1차 알림 실패 (신고 접수는 계속): {e}")
 
     # 도로망 사전 로딩 — LKP 반경 보행 그래프를 미리 받아 캐시 (Phase 2 가 사용).
     # 실패해도 신고 접수는 막지 않는다 (시뮬레이션이 필요 시 재시도).
     if settings.roadnet_preload:
-        try:
-            roadnet.get_network(case.lkp)
-        except Exception as e:  # noqa: BLE001 — 외부 API 실패 격리
-            print(f"[roadnet] 사전 로딩 실패 (신고 접수는 계속): {e}")
+        def preload():
+            try:
+                roadnet.get_network(case.lkp)
+            except Exception as exc:
+                print(f"[roadnet] 사전 로딩 실패: {type(exc).__name__}")
+        threading.Thread(target=preload, daemon=True).start()
 
     # 지역명 캐시 예열 — 경보의 "area" 는 폴링 경로라 캐시만 읽는다(alerts.describe_alert).
     # 여기서 미리 채워 두면 시민이 처음 경보를 열 때 이미 이름이 있다.

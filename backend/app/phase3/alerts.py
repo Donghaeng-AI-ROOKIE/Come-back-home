@@ -5,7 +5,8 @@
 """
 
 import math
-from datetime import datetime
+from datetime import datetime, timedelta
+import threading
 
 from app.config import settings
 from app.geo import h3grid, reverse
@@ -260,8 +261,16 @@ def build_message(kind: str, appearance_summary: str) -> tuple[str, str]:
     return title, body
 
 
+def eligible_for_alert(device, kind: str, rel_by_parent: dict[str, float]) -> bool:
+    """Shared admission for event fanout and walking-entry web push."""
+    return (kind == "reflex" or not rel_by_parent
+            or rel_by_parent.get(device.cell_res7 or "", 0.0)
+               >= settings.push_prob_threshold[device.engagement.value])
+
+
 def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
-                kind: str = "poa", poa: dict[str, float] | None = None) -> dict:
+                kind: str = "poa", poa: dict[str, float] | None = None,
+                *, only_tokens: set[str] | None = None, delivery_details: bool = False) -> dict:
     """대상 res7 셀 안의 기기에 타겟 알림 발송.
 
     ## 두 단계로 거른다
@@ -292,16 +301,14 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
     }
 
     candidates = devices.devices_in_cells(target_cells)
+    if only_tokens is not None:
+        candidates = [d for d in candidates if d.token in only_tokens]
     rel_by_parent = relative_prob_by_parent(poa) if poa else {}
 
     recipients = []
     below_threshold = 0
     for device in candidates:
-        if kind == "reflex" or not rel_by_parent:
-            recipients.append(device)
-            continue
-        rel = rel_by_parent.get(device.cell_res7 or "", 0.0)
-        if rel >= settings.push_prob_threshold[device.engagement.value]:
+        if eligible_for_alert(device, kind, rel_by_parent):
             recipients.append(device)
         else:
             below_threshold += 1
@@ -309,9 +316,12 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
     tokens = [d.token for d in recipients]
     result = push.send(tokens, title=title, body=body, data=payload)
     if result["sent"]:
-        devices.record_sent(tokens)
+        devices.record_sent(result.get("sent_tokens", tokens))
 
+    details = {"failed_tokens": result.get("failed_tokens", []),
+               "sent_tokens": result.get("sent_tokens", [])} if delivery_details else {}
     return {
+        **details,
         **payload,
         "source_cells": len(cells),
         "title": title,
@@ -322,6 +332,7 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
         "devices": len(tokens),
         "sent": result["sent"],
         "failed": result["failed"],
+        "suppressed": result.get("suppressed",0),
         "stub": result["stub"],
     }
 
@@ -355,3 +366,92 @@ def describe_resolved(case: Case) -> dict:
         "target_cells": sorted(target_parent_cells(cells)) if cells else [],
         "target_res": settings.push_target_res,
     }
+
+
+_notification_lock = threading.RLock()
+
+
+def notify_prediction(case, *, force=False, now=None, reflex=False) -> dict:
+    """Connect successful initial/hourly prediction to the existing POA/D3 policy."""
+    from app import storage
+    from app.phase3 import triggers
+    from app.schemas.case import CaseStatus
+    now = now or datetime.now()
+    with _notification_lock:
+        current = storage.cases.get(case.id)
+        if current is None or current.status in (CaseStatus.found, CaseStatus.closed) or (not current.current_poa and not reflex):
+            return {"status": "inactive"}
+        pending = current.alert_delivery
+        if pending.get("status") == "failed" and pending.get("poa") == (current.current_poa or {}) and not force:
+            return {"status": "retry_exhausted"}
+        if pending.get("status") == "retry" and pending.get("poa") == (current.current_poa or {}):
+            if not force and datetime.fromisoformat(pending["retry_at"]) > now:
+                return {"status": "retry_pending"}
+            return _deliver_event(current, pending, now)
+        kind = "reflex" if reflex else "poa"
+        if reflex:
+            cells = select_reflex_cells(current.lkp)
+        elif current.last_alert_poa and not force:
+            if triggers.jensen_shannon_divergence(current.current_poa, current.last_alert_poa) < settings.js_divergence_threshold:
+                return {"status": "unchanged"}
+            cells = select_new_region_cells(current.current_poa, current.last_alert_poa)
+            kind = "new_region"
+        else:
+            cells = select_alert_cells(current.current_poa)
+        if not cells:
+            return {"status": "no_target"}
+        event = {"id": storage.new_id(), "kind": kind, "cells": cells,
+                 "poa": dict(current.current_poa or {}), "attempts": 0, "status": "retry",
+                 "retry_at": now.isoformat(), "tokens": None}
+        def reserve(latest):
+            if latest.status in (CaseStatus.found, CaseStatus.closed):
+                return None
+            latest.alert_delivery = event
+            return latest
+        if storage.cases.update_existing(current.id, reserve) is None:
+            return {"status": "inactive"}
+        return _deliver_event(current, event, now)
+
+
+def _deliver_event(case, event, now):
+    """Persist failures before sending; never recreate a deleted/closed case.
+
+    Vendor acceptance is not delivery to the phone. Successful recipients are
+    excluded from retries; the existing web-push receipt also deduplicates them.
+    """
+    from app import storage
+    from app.schemas.case import CaseStatus
+    look = case.report.appearance
+    try:
+        result = send_alerts(case.id, event["cells"], look.summary if look else "인상착의 정보 없음",
+                             kind=event["kind"], poa=event["poa"] if event["kind"] == "poa" else None,
+                             only_tokens=set(event["tokens"]) if event["tokens"] is not None else None,
+                             delivery_details=True)
+    except Exception:
+        result = {"sent": 0, "failed": 1, "stub": False}
+    def complete(latest):
+        if (latest.status in (CaseStatus.found, CaseStatus.closed)
+                or latest.alert_delivery.get("id") != event["id"]):
+            return None
+        attempt = event["attempts"] + 1
+        failed = result.get("failed", 0) > 0
+        latest.alert_delivery = {**event, "attempts": attempt,
+            "status": "retry" if failed and attempt < 5 else ("failed" if failed else "complete"),
+            "retry_at": (now + timedelta(minutes=min(30, 2 ** attempt))).isoformat(),
+            "tokens": result.get("failed_tokens", event["tokens"]),
+            "sent": result.get("sent", 0), "failed": result.get("failed", 0)}
+        if result.get("sent", 0) > 0 and not result.get("stub", False):
+            if event["kind"] != "reflex":
+                latest.last_alert_poa = dict(event["poa"])
+            latest.last_alert_at = now
+        return latest
+    storage.cases.update_existing(case.id, complete)
+    return {k: v for k, v in result.items() if k not in ("sent_tokens", "failed_tokens")}
+
+
+def retry_pending_notifications(now=None):
+    from app import storage
+    now = now or datetime.now()
+    for case in storage.cases.list():
+        if case.alert_delivery.get("status") == "retry":
+            notify_prediction(case, now=now, reflex=case.alert_delivery.get("kind") == "reflex")

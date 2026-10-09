@@ -85,7 +85,8 @@ class TipLLMClient(LLMClient):
         "명시한" 값만 뽑고(relative/absolute), 상대→절대시각 산술은
         app.phase3.time_resolve 가 결정론적으로 한다 — LLM 이 몇 분 전인지
         추측해서 숫자를 지어내면 안 되므로 여기서 값 형태만 검증한다.
-        스텁: 키워드 휴리스틱으로 필드 채움 비율 → 등급.
+        스텁(키 없는 개발 모드): 키워드 휴리스틱으로 필드 채움 비율 → 등급.
+        호출·파싱 실패(운영): 판정 없음(_unjudged_tip) — 단어로 추정하지 않는다.
         """
         if self.is_stub:
             return _stub_structure_tip(text)
@@ -99,11 +100,13 @@ class TipLLMClient(LLMClient):
                 max_tokens=400,
             )
             data = json.loads(raw[raw.index("{"): raw.rindex("}") + 1])
-        except Exception:  # noqa: BLE001 — 호출·파싱 실패 → 휴리스틱 폴백.
+        except Exception:  # noqa: BLE001 — 호출·파싱 실패 → 판정 없음.
             # LLM 실패가 제보 접수를 막으면 안 된다 (실측: 엔드포인트 만료 410 이
-            # 500 으로 전파돼 제보가 통째로 거부되던 문제).
+            # 500 으로 전파돼 제보가 통째로 거부되던 문제). 그렇다고 키워드로 등급·시각을
+            # 추정하지 않는다(2026-09-26 결정: 운영 경로에서 규칙 기반 단어 매핑 금지) —
+            # 구체성 항은 빠지고(trust 재정규화) 시각은 명시값·접수 시각으로 간다.
             self.call_failures += 1
-            return _stub_structure_tip(text)
+            return _unjudged_tip()
         level = data.get("specificity")
         time_kind = data.get("time_kind") if data.get("time_kind") in _TIME_KINDS else "none"
         minutes_ago = data.get("time_minutes_ago")
@@ -197,8 +200,20 @@ def _stub_time_kind(text: str) -> tuple[str, int | None]:
     return "none", None
 
 
+def _unjudged_tip() -> dict:
+    """구조화 판정이 없을 때 — 아무 필드도 추정하지 않는다(구체성 None = 신뢰도 항 제외)."""
+    return {
+        "location_text": None, "time_text": None,
+        "time_kind": "none", "time_minutes_ago": None, "time_clock": None,
+        "appearance_cues": [], "direction": None, "specificity": None,
+    }
+
+
 def _stub_structure_tip(text: str) -> dict:
-    """스텁·폴백 — 키워드 휴리스틱. LLM 없이 필드 채움 정도로 등급 근사."""
+    """키 없는 개발 모드 스텁 — 키워드 휴리스틱. LLM 없이 필드 채움 정도로 등급 근사.
+
+    운영(키 설정)에서는 실행되지 않는다. 호출 실패 폴백은 _unjudged_tip 이다.
+    """
     cues = [k for k in ("점퍼", "셔츠", "바지", "모자", "치마", "코트", "운동화") if k in text]
     behavior = [k for k in ("울", "뛰", "헤매", "앉아", "두리번") if k in text]
     time_kind, minutes_ago = _stub_time_kind(text)

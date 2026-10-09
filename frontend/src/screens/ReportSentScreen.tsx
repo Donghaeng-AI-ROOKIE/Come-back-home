@@ -10,15 +10,23 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { useRunPrediction } from '../hooks/queries';
+import { useQuery } from '@tanstack/react-query';
+import { getCase } from '../api/guardian';
 import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import FigmaLogo from '../components/FigmaLogo';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
 import FigmaStatusBar from '../components/FigmaStatusBar';
+import PreparationNotice from '../components/PreparationNotice';
 
 export default function ReportSentScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportSent'>>().params;
   const predict = useRunPrediction(caseId);
+  const { data: reportCase } = useQuery({ queryKey: ['guardianCase', caseId],
+    queryFn: () => getCase(caseId), refetchInterval: 5000 });
+  const interpretationStatus = reportCase?.prior?.initial_interpretation?.status;
+  const missingProfile = !!reportCase && !reportCase.report.persona_id;
+  const awaitingPreparation = interpretationStatus?.startsWith('preparation_');
   const [guideOpen, setGuideOpen] = React.useState(false);
   const addCase = useGuardianCaseStore((s) => s.addCase);
   // 신고의 유일한 착지점 — 여기서 기기에 사건 id 를 적어 둬야 알림 탭이 이 사건의
@@ -28,7 +36,7 @@ export default function ReportSentScreen() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
       <FigmaStatusBar />
-      <View style={styles.body}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.body}>
         <FigmaLogo mode="guardian" />
         {/* '⌁' 는 폰 폰트에 없어 □ 로 깨진다 — 시안의 방송 아이콘 SVG 로 대체. */}
         <SvgXml xml={icBroadcastGreenXml} width={20} height={19} />
@@ -36,15 +44,24 @@ export default function ReportSentScreen() {
         <View style={styles.steps}>
           <Step n="1" label="신고 접수" state="done" />
           <View style={styles.line} />
-          <Step n="2" label="AI 예상 경로 분석" state={predict.isPending ? 'active' : 'done'} loading={predict.isPending} />
+          <Step n="2" label="AI 예상 경로 분석" state={predict.isSuccess ? 'done' : predict.isPending ? 'active' : 'todo'} loading={predict.isPending} />
           <View style={styles.line} />
           <Step n="3" label="시민 제보" state={predict.isSuccess ? 'active' : 'todo'} />
         </View>
         <View style={styles.notice}>
           <Text style={styles.noticeTitle}>안내사항</Text>
-          <Text style={styles.noticeText}>{predict.isError ? '신고는 접수됐습니다. AI 분석만 다시 시도해 주세요.' : '현재 AI가 실종자의 습관과 지형을 분석하여 이동 경로를 파악하고 있습니다. 인근 시민들의 제보가 확인되는 대로 안내해 드리겠습니다.'}</Text>
+          <Text style={styles.noticeText}>{predict.isError ? '신고는 접수됐습니다. AI 분석만 다시 시도해 주세요.' : '입력한 정보로 예상 위치를 계산하고 있습니다. 인근 시민들의 제보가 확인되는 대로 안내해 드리겠습니다.'}</Text>
+          {missingProfile ? <Text style={styles.noticeText}>사전등록 정보가 없어 개인별 습관은 아직 반영되지 않았습니다.</Text>
+            : awaitingPreparation ? <Text style={styles.noticeText}>현재 확보된 정보로 예측했습니다. 개인 특성 해석은 아직 반영되지 않았습니다.</Text> : null}
         </View>
+        {reportCase?.report.persona_id ? <View style={{ width: 330 }}>
+          <PreparationNotice personaId={reportCase.report.persona_id} />
+        </View> : null}
         <View style={styles.actions}>
+          {missingProfile ? <Pressable style={styles.guide}
+            onPress={() => navigation.navigate('RegChat', { mode: 'quick', caseId })}>
+            <Text style={styles.guideText}>신고한 가족 정보 추가하기</Text>
+          </Pressable> : null}
           {predict.isError ? <Pressable style={styles.retry} onPress={() => predict.mutate()}><Text style={styles.retryText}>AI 분석 다시 시도</Text></Pressable> : null}
           {/* 이 버튼은 지침을 보여주는 자리인데 **홈으로 보내고 있었다** — 눌러도
               지침이 안 뜬다는 제보(08-12)의 원인. 신고 직후 보호자가 무엇을 해야
@@ -53,7 +70,7 @@ export default function ReportSentScreen() {
             <Text style={styles.guideText}>✓ 치매 가족 실종시 행동 지침</Text>
           </Pressable>
         </View>
-      </View>
+      </ScrollView>
       <GuideSheet open={guideOpen} onClose={() => setGuideOpen(false)} />
       <FigmaFlowTabBar mode="guardian" active="home" />
     </SafeAreaView>
@@ -125,7 +142,7 @@ function Step({ n, label, state, loading }: { n: string; label: string; state: '
   return <View style={styles.step}><View style={[styles.circle, { backgroundColor: bg }]}>{loading ? <ActivityIndicator size="small" color="#FFFFFF" /> : <Text style={styles.n}>{n}</Text>}</View><Text style={[styles.stepLabel, state !== 'todo' && styles.stepOn]}>{label}</Text></View>;
 }
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: color.guardianWash }, body: { flex: 1, alignItems: 'center', paddingTop: 84, backgroundColor: color.guardianWash },
+  safe: { flex: 1, backgroundColor: color.guardianWash }, body: { flexGrow: 1, paddingBottom: 100, alignItems: 'center', paddingTop: 84, backgroundColor: color.guardianWash },
   signal: { fontFamily: type.family, fontSize: 31, lineHeight: 34, color: color.brand, marginTop: 8 },
   title: { fontFamily: type.familyCssBold, fontSize: 20, color: '#000000', marginTop: 7 },
   steps: { width: 292, flexDirection: 'row', alignItems: 'center', marginTop: 55 },
@@ -135,7 +152,7 @@ const styles = StyleSheet.create({
   notice: { width: 330, minHeight: 69, backgroundColor: '#FFFFFF', borderRadius: 10, marginTop: 61, padding: 14 },
   noticeTitle: { fontFamily: type.familySemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.brand }, noticeText: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#525253', marginTop: 4 },
   // 두 버튼을 같은 레이아웃 묶음에 두어 짧은 화면에서도 서로 겹치지 않게 한다.
-  actions: { position: 'absolute', bottom: 157, width: 255, alignItems: 'center', gap: 10 },
+  actions: { marginTop: 20, width: 255, alignItems: 'center', gap: 10 },
   retry: { minHeight: 38, backgroundColor: color.figmaRed, borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10, alignItems: 'center', justifyContent: 'center', elevation: 2 }, retryText: { fontFamily: type.familySemiBold, fontSize: 12, color: '#FFFFFF' },
   guide: { width: 255, height: 38, borderRadius: 22, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.14, shadowRadius: 2, shadowOffset: { width: 0, height: 1 }, elevation: 2 },
   guideText: { fontFamily: type.family, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#525253' },

@@ -2,7 +2,8 @@
  * 돌아오길 — 앱 엔트리. Provider 스택 + NavigationContainer.
  * GestureHandler → SafeArea → Query → Navigation.
  */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useAuthStore } from './src/store/authStore';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
@@ -20,9 +21,13 @@ import { setupPwa } from './src/pwa';
 // 모듈 수준에서 한 번만 — 리렌더마다 head 에 태그가 쌓이면 안 된다.
 setupPwa();
 
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { retry: 1, staleTime: 30_000, refetchOnWindowFocus: false } },
-});
+function AccountQueries({ children }: React.PropsWithChildren) {
+  const [client] = useState(() => new QueryClient({
+    defaultOptions: { queries: { retry: 1, staleTime: 30_000, refetchOnWindowFocus: false } },
+  }));
+  useEffect(() => () => { void client.cancelQueries(); client.clear(); }, [client]);
+  return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
+}
 
 // 딥링크: dora://alert/:caseId → 경보 상세 직접 진입 (spec §2.2)
 const linking: LinkingOptions<RootStackParamList> = {
@@ -37,6 +42,7 @@ const linking: LinkingOptions<RootStackParamList> = {
 };
 
 export default function App() {
+  const owner = useAuthStore(s => s.userId);
   const [fontsLoaded, fontError] = useFonts({
     'Dot42-Regular': require('./assets/fonts/42dotSans-Regular.ttf'),
     'Dot42-Medium': require('./assets/fonts/42dotSans-Medium.ttf'),
@@ -51,7 +57,9 @@ export default function App() {
     'Roboto-SemiBold': require('./assets/fonts/Roboto-SemiBold.ttf'),
     'HSYeolumMulbit-Bold': require('./assets/fonts/HSYeolumMulbit.ttf'),
   });
-  if (!fontsLoaded && !fontError) {
+  // Web can render with a system fallback while the bundled fonts download.
+  // Waiting for every font blocks first paint on slower visitor connections.
+  if (Platform.OS !== 'web' && !fontsLoaded && !fontError) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF' }}>
         <ActivityIndicator color="#67AE6E" />
@@ -62,14 +70,14 @@ export default function App() {
   return (
     <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
-        <QueryClientProvider client={queryClient}>
+        <AccountQueries key={owner ?? "signed-out"}>
           <View style={Platform.OS === 'web' ? styles.webPhone : styles.nativeApp}>
             <NavigationContainer ref={navigationRef} linking={linking}>
               <StatusBar style="auto" />
               <RootNavigator />
             </NavigationContainer>
           </View>
-        </QueryClientProvider>
+        </AccountQueries>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

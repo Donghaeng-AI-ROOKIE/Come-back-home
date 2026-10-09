@@ -84,7 +84,7 @@ def test_reflex_endpoint_blocked_on_closed_case():
 def test_intake_fires_reflex_alert(monkeypatch):
     sent = {}
 
-    def fake_send(case_id, cells, summary, kind="poa"):
+    def fake_send(case_id, cells, summary, kind="poa", **delivery):
         sent.update(case_id=case_id, cells=cells, kind=kind)
         return {}
 

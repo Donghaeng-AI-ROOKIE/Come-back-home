@@ -1,4 +1,4 @@
-"""되묻기 답변에서 지명만 뽑아 지역 표기로 쓴다 — 라이브 실측 2026-08-07.
+"""되묻기 답변에서 지명만 골라 지역 표기로 쓴다 — 라이브 실측 2026-08-07.
 
   🙋 예전에 가게를 하셨던 곳에 가야 한다는 말을 자주 합니다   → label='예전 가게'
   🤖 '예전 가게'은 어느 동네인가요?
@@ -7,7 +7,12 @@
 
 라벨('예전 가게')도 지역 표기(문장)도 지오코딩이 안 돼 finalize 가 그 장소를
 버렸다 — 요약에는 보이는데 **등록정보에서는 사라진다.** 요약에도 문장이 찍혀 어색했다.
+
+예전에는 '○○시장·○○역' 같은 접미어 정규식으로 지명을 집었다. 이제는 모델이 지역
+표현을 고르고(prompts.AREA_SYSTEM), 코드는 그 표현이 답에 글자 그대로 있는지만 본다.
 """
+
+import pytest
 
 from app.geo.geocode import GazetteerGeocoder, to_attraction_points
 from app.phase0 import interview
@@ -30,49 +35,35 @@ def _area(s: InterviewSession) -> str:
     return s.draft_attractions[0]["area_text"]
 
 
-# ── 지명 추출 ────────────────────────────────────────────────────────
-
-def test_place_token_wins_over_whole_sentence():
+@pytest.mark.parametrize("utterance, chosen", [
+    ("망원시장에서 생선가게를 하셨어요", "망원시장"),
+    ("서강대학교 근처에서 일하셨어요", "서강대학교"),
+    ("합정역 바로 앞이었어요", "합정역"),
+    ("마포구 상암동이에요", "마포구 상암동"),
+])
+def test_model_chosen_place_in_answer_is_used(monkeypatch, utterance, chosen):
+    monkeypatch.setattr(interview.midm, "extract_area", lambda label, answer: chosen)
     s = _pending()
-    interview._resolve_pending_area(s, "망원시장에서 생선가게를 하셨어요")
-    assert _area(s) == "망원시장"
+    interview._resolve_pending_area(s, utterance)
+    assert _area(s) == chosen
 
 
-def test_various_place_suffixes():
-    for utterance, expected in [
-        ("서강대학교 근처에서 일하셨어요", "서강대학교"),
-        ("합정역 바로 앞이었어요", "합정역"),
-        ("망원시장 안쪽에서 장사하셨어요", "망원시장"),
-    ]:
+def test_answer_without_place_leaves_area_empty(monkeypatch):
+    """모델이 지역 표현을 못 찾으면(null) 비워 둔다 — 되묻기는 1회뿐."""
+    monkeypatch.setattr(interview.midm, "extract_area", lambda label, answer: None)
+    for utterance in ("거기서 오래 일하셨어요", "모르겠어요"):
         s = _pending()
         interview._resolve_pending_area(s, utterance)
-        assert _area(s) == expected, utterance
+        assert _area(s) == ""
+        assert s.pending_area_label is None
 
 
-def test_plain_dong_answer_still_works():
-    """지명 접미어가 없는 동 이름 답변은 종전 경로 그대로."""
+def test_whole_sentence_is_never_stored(monkeypatch):
+    """모델이 답에 없는 표현을 내면 받지 않는다(그대로 두면 지오코딩이 실패해 장소가 사라진다)."""
+    monkeypatch.setattr(interview.midm, "extract_area", lambda label, answer: "망원 시장 골목 3번지")
     s = _pending()
-    interview._resolve_pending_area(s, "마포구 상암동이에요")
-    assert _area(s) == "마포구 상암동"
-
-
-def test_sentence_without_place_is_rejected():
-    s = _pending()
-    interview._resolve_pending_area(s, "거기서 오래 일하셨어요")
+    interview._resolve_pending_area(s, "망원시장에서 생선가게를 하셨어요")
     assert _area(s) == ""
-
-
-def test_ignorance_is_rejected():
-    s = _pending()
-    interview._resolve_pending_area(s, "모르겠어요")
-    assert _area(s) == ""
-
-
-def test_valid_home_text_rejects_past_tense_sentence():
-    """과거형 서술어도 문장 — 지역 표기로 받지 않는다."""
-    assert not interview._valid_home_text("망원시장에서 생선가게를 하셨어요")
-    assert not interview._valid_home_text("거기서 오래 일했어요")
-    assert interview._valid_home_text("마포구 상암동")
 
 
 # ── 이 수정이 실제로 장소를 살리는가 ─────────────────────────────────

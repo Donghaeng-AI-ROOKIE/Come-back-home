@@ -45,14 +45,16 @@ self.addEventListener('push', (event) => {
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  // 이미 열려 있는 창이 있으면 그 창을 앞으로 — 새 창을 또 열면 로그인 상태가
-  // 갈리고 사용자는 "앱이 두 개"로 느낀다.
-  event.waitUntil(
-    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
-      for (const client of list) {
-        if ('focus' in client) return client.focus();
+  const id = event.notification.data?.case_id;
+  const valid = typeof id === 'string' && /^[\w-]{1,80}$/.test(id);
+  event.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(async (list) => {
+    for (const client of list) {
+      if ('focus' in client) {
+        await client.focus();
+        if (valid) client.postMessage({ type: 'CBH_OPEN_CASE', case_id: id });
+        return;
       }
-      return self.clients.openWindow('/');
-    }),
-  );
+    }
+    return self.clients.openWindow(valid ? '/?case_id=' + encodeURIComponent(id) : '/');
+  }));
 });

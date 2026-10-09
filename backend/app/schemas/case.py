@@ -3,7 +3,7 @@
 from datetime import datetime
 from enum import Enum
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, PrivateAttr
 
 from app.schemas.common import GeoPoint, LocalNaiveDT
 from app.schemas.prediction import MindState, PriorParams
@@ -25,7 +25,12 @@ class CloseReason(str, Enum):
 
 
 class Case(BaseModel):
+    # Process-local marker distinguishes isolated simulations from deleted records.
+    _was_stored: bool = PrivateAttr(default=False)
     id: str
+    # Set from Supabase's verified job owner by the private cloud bridge.
+    # Legacy cases without an owner stay inaccessible through the cloud bridge.
+    guardian_id: str = ""
     report: MissingReport
     status: CaseStatus = CaseStatus.intake
 
@@ -41,6 +46,12 @@ class Case(BaseModel):
 
     # Phase 2 산출물
     prior: PriorParams | None = None
+    # 신고 상황 문장 ↔ 등록 장소 링크(Mi:dm, phase2.situation_link). 같은 문장·같은 준비
+    # 결과면 재예측 때 다시 부르지 않는다 — {"key", "status", "links", "rejected"}.
+    continuous_state: dict = Field(default_factory=dict)
+    prediction_quality: dict = Field(default_factory=dict)
+    prior_context_key: str = ""
+    situation_links: dict | None = None
     mind: MindState | None = None
     baseline_poa: dict[str, float] | None = None   # 마지막 시뮬 직후 분포 (KL 이탈 비교 기준)
     current_poa: dict[str, float] | None = None    # 층1 갱신이 누적된 최신 분포
@@ -60,6 +71,8 @@ class Case(BaseModel):
     poa_by_hour: dict[str, dict[str, float]] = {}
     last_alert_poa: dict[str, float] | None = None  # 마지막 알림(POA 기반) 시점 스냅샷 — D3 새 지역 비교 기준
     last_alert_at: datetime | None = None
+    # Durable per-event retry state; private, removed with the incident.
+    alert_delivery: dict = Field(default_factory=dict)
 
     # Phase 3 누적
     tips: list[Tip] = []

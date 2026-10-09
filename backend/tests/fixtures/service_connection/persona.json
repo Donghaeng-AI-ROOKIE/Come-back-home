@@ -1,0 +1,688 @@
+{
+ "id": "31d3869bd01e",
+ "type": "dementia",
+ "name": "검증가상어르신님",
+ "age": 78,
+ "home": {
+  "lat": 37.6652003,
+  "lng": 126.7483383
+ },
+ "attraction_points": [
+  {
+   "label": "느티공원",
+   "location": {
+    "lat": 37.6640833,
+    "lng": 126.7461019
+   },
+   "weight": 0.5,
+   "precision": "poi",
+   "place_type": "",
+   "evidence": "caregiver_report",
+   "origin_slot": "routine_destinations"
+  },
+  {
+   "label": "해든상가",
+   "location": {
+    "lat": 37.6656043,
+    "lng": 126.749907
+   },
+   "weight": 0.5,
+   "precision": "poi",
+   "place_type": "",
+   "evidence": "caregiver_report",
+   "origin_slot": "routine_destinations"
+  },
+  {
+   "label": "솔빛쉼터",
+   "location": {
+    "lat": 37.6663333,
+    "lng": 126.7463061
+   },
+   "weight": 0.5,
+   "precision": "poi",
+   "place_type": "",
+   "evidence": "caregiver_report",
+   "origin_slot": "routine_destinations"
+  }
+ ],
+ "behavior_notes": [
+  "혼자 자주 가는 곳·경로: 보호자와 함께 외출함",
+  "혼자 자주 가는 곳·경로: 정해진 경로 없이 여러 장소를 방문함",
+  "길 잃었을 때 행동: 길을 잃었다고 스스로 인지하면 그 자리에 서서 보호자가 올 때까지 기다림",
+  "길 잃었을 때 행동: 길 잃음 상황을 보호자에게 알리지 않고 혼자 대처함",
+  "환경 위험 취약성: 시끄러운 환경(해든상가 내부)에서 벗어나 밖으로 나오는 행동을 보임",
+  "길찾기 오류·경로 회복 취약성: 보호자와 함께 다닐 때 방향을 잘못 들어 길을 잃는 경우가 있음",
+  "길찾기 오류·경로 회복 취약성: 길을 잃었을 때 스스로 방향을 수정하여 원래 경로로 돌아오는 능력은 보호자가 관찰하지 못함",
+  "의사소통·접근 취약성: 낯선 사람/경찰 접근 반응은 관찰되지 않음",
+  "이동·교통 능력: 보호자와 함께 걸을 때 무릎 통증으로 6분 연속 걷기 또는 280m 이동 후 반드시 앉아서 쉬어야 함",
+  "이동·교통 능력: 휴식 시 5분 앉아 있음",
+  "이동·교통 능력: 천천히 걸음",
+  "이동·교통 능력: 보호자 없이 혼자 외출하지 않음",
+  "혼자 자주 가는 곳·경로: 정해진 경로 없이 보호자와 임의로 이동함"
+ ],
+ "axis_evidence": {
+  "route_environment_familiarity": [
+   "보호자와 함께 외출함",
+   "정해진 경로 없이 여러 장소를 방문함",
+   "정해진 경로 없이 보호자와 임의로 이동함"
+  ],
+  "lost_behavior": [
+   "길을 잃었다고 스스로 인지하면 그 자리에 서서 보호자가 올 때까지 기다림",
+   "길 잃음 상황을 보호자에게 알리지 않고 혼자 대처함"
+  ],
+  "hazard_awareness_vulnerability": [
+   "시끄러운 환경(해든상가 내부)에서 벗어나 밖으로 나오는 행동을 보임"
+  ],
+  "wayfinding_error_recovery_deficit": [
+   "보호자와 함께 다닐 때 방향을 잘못 들어 길을 잃는 경우가 있음",
+   "길을 잃었을 때 스스로 방향을 수정하여 원래 경로로 돌아오는 능력은 보호자가 관찰하지 못함"
+  ],
+  "communication_approach_vulnerability": [
+   "낯선 사람/경찰 접근 반응은 관찰되지 않음"
+  ],
+  "mobility_transport_capacity": [
+   "보호자와 함께 걸을 때 무릎 통증으로 6분 연속 걷기 또는 280m 이동 후 반드시 앉아서 쉬어야 함",
+   "휴식 시 5분 앉아 있음",
+   "천천히 걸음",
+   "보호자 없이 혼자 외출하지 않음"
+  ]
+ },
+ "axis_quotes": {
+  "route_environment_familiarity": [
+   "혼자 가는 곳은 없고 저와 함께 다녀요. 경기도 고양시 일산서구 대화동의 느티공원과 해든상가, 솔빛쉼터를 함께 가요. 정해진 길이나 도는 방향은 없어요."
+  ],
+  "autobiographical_destination_pull": [
+   "옛집이나 직장 같은 과거 장소에 가겠다는 말은 안 하세요. 반복해서 찾는 과거 장소는 없어요."
+  ],
+  "lost_behavior": [
+   "길을 잃었다고 본인이 알아차리고 제가 곁에 없을 때는 그 자리에 서서 기다리는 모습을 두 번 봤어요. 제가 오면 기다림은 끝났어요."
+  ],
+  "hazard_awareness_vulnerability": [
+   "차도 신호와 물가, 계단을 스스로 피할 수 있는지는 못 봐서 모르겠어요. 다만 해든상가 안에서 시끄러우면 밖으로 나오시는 것은 직접 봤어요. 다른 상가도 그러시는지는 모르겠어요."
+  ],
+  "wayfinding_error_recovery_deficit": [
+   "함께 다닐 때 방향을 잘못 들어 제가 알려준 적이 있어요. 혼자 스스로 되돌아올 수 있는지는 모르겠어요."
+  ],
+  "communication_approach_vulnerability": [
+   "이름을 부르면 저를 쳐다보세요. 낯선 사람이나 경찰이 다가올 때는 어떻게 반응하는지 보지 못했어요."
+  ],
+  "mobility_transport_capacity": [
+   "저와 걸을 때 무릎 때문에 여섯 분을 계속 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 앉아 쉬어야 해요. 쉬실 때는 오 분 앉아 있다가 다시 걸으세요. 천천히 걷고 혼자 외출하지는 않으세요."
+  ]
+ },
+ "onboarding_quotes": {
+  "routine_destinations": [
+   "혼자 가는 곳은 없고 저와 함께 다녀요. 경기도 고양시 일산서구 대화동의 느티공원과 해든상가, 솔빛쉼터를 함께 가요. 정해진 길이나 도는 방향은 없어요."
+  ],
+  "autobiographical_destination_pull": [
+   "옛집이나 직장 같은 과거 장소에 가겠다는 말은 안 하세요. 반복해서 찾는 과거 장소는 없어요."
+  ],
+  "lost_behavior": [
+   "길을 잃었다고 본인이 알아차리고 제가 곁에 없을 때는 그 자리에 서서 기다리는 모습을 두 번 봤어요. 제가 오면 기다림은 끝났어요."
+  ],
+  "hazard_awareness_vulnerability": [
+   "차도 신호와 물가, 계단을 스스로 피할 수 있는지는 못 봐서 모르겠어요. 다만 해든상가 안에서 시끄러우면 밖으로 나오시는 것은 직접 봤어요. 다른 상가도 그러시는지는 모르겠어요."
+  ],
+  "wayfinding_error_recovery_deficit": [
+   "함께 다닐 때 방향을 잘못 들어 제가 알려준 적이 있어요. 혼자 스스로 되돌아올 수 있는지는 모르겠어요."
+  ],
+  "communication_approach_vulnerability": [
+   "이름을 부르면 저를 쳐다보세요. 낯선 사람이나 경찰이 다가올 때는 어떻게 반응하는지 보지 못했어요."
+  ],
+  "mobility_transport_capacity": [
+   "저와 걸을 때 무릎 때문에 여섯 분을 계속 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 앉아 쉬어야 해요. 쉬실 때는 오 분 앉아 있다가 다시 걸으세요. 천천히 걷고 혼자 외출하지는 않으세요."
+  ]
+ },
+ "onboarding_turns": [
+  {
+   "slot": "routine_destinations",
+   "question": "혼자 나가실 때 주로 어디에 가시나요?",
+   "answer": "혼자 가는 곳은 없고 저와 함께 다녀요. 경기도 고양시 일산서구 대화동의 느티공원과 해든상가, 솔빛쉼터를 함께 가요. 정해진 길이나 도는 방향은 없어요.",
+   "recorded_at": "2026-10-07T17:56:09.320585+00:00"
+  },
+  {
+   "slot": "autobiographical_destination_pull",
+   "question": "어르신께서 반복해서 찾으시거나 가려고 하는 과거의 장소가 있으신가요?",
+   "answer": "옛집이나 직장 같은 과거 장소에 가겠다는 말은 안 하세요. 반복해서 찾는 과거 장소는 없어요.",
+   "recorded_at": "2026-10-07T17:56:15.661718+00:00"
+  },
+  {
+   "slot": "dementia_wandering_pattern",
+   "question": "어르신께서 길을 잃거나 실종된 적은 없으신가요?",
+   "answer": "실종된 적은 없어요. 실종 때 어디로 갔는지는 경험이 없어 모르겠어요.",
+   "recorded_at": "2026-10-07T17:56:18.061133+00:00"
+  },
+  {
+   "slot": "lost_behavior",
+   "question": "길을 잃으시면 보통 어떻게 하시나요? (예: 길을 잃으면 그 자리에 서서 기다리지 않고 계속 앞으로 걸어갑니다)",
+   "answer": "길을 잃었다고 본인이 알아차리고 제가 곁에 없을 때는 그 자리에 서서 기다리는 모습을 두 번 봤어요. 제가 오면 기다림은 끝났어요.",
+   "recorded_at": "2026-10-07T17:56:20.543877+00:00"
+  },
+  {
+   "slot": "hazard_awareness_vulnerability",
+   "question": "어르신은 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요? (예: 차가 오는 것은 알아보지만 신호를 잘 지키지 못합니다)",
+   "answer": "차도 신호와 물가, 계단을 스스로 피할 수 있는지는 못 봐서 모르겠어요. 다만 해든상가 안에서 시끄러우면 밖으로 나오시는 것은 직접 봤어요. 다른 상가도 그러시는지는 모르겠어요.",
+   "recorded_at": "2026-10-07T17:56:23.664858+00:00"
+  },
+  {
+   "slot": "wayfinding_error_recovery_deficit",
+   "question": "해든상가처럼 시끄러운 곳을 피해서 밖으로 나오시는 것은 직접 보셨지만, 다른 상가에서도 같은 행동을 하는지 아직 확인이 안 된 상황이군요. 그렇다면, 어르신께서 익숙한 동네에서 길을 잘못 들거나 목적지를 잊는 경우가 있는지, 그리고 그럴 때 스스로 알아차리고 돌아올 수 있는지 구체적인 사례를 들어 설명해 주실 수 있을까요?",
+   "answer": "함께 다닐 때 방향을 잘못 들어 제가 알려준 적이 있어요. 혼자 스스로 되돌아올 수 있는지는 모르겠어요.",
+   "recorded_at": "2026-10-07T17:56:27.337751+00:00"
+  },
+  {
+   "slot": "communication_approach_vulnerability",
+   "question": "어르신은 이름을 부르거나 간단한 질문을 했을 때 어떻게 반응하나요? (예: 이름을 부르면 쳐다보지만 대답은 잘하지 않습니다)",
+   "answer": "이름을 부르면 저를 쳐다보세요. 낯선 사람이나 경찰이 다가올 때는 어떻게 반응하는지 보지 못했어요.",
+   "recorded_at": "2026-10-07T17:56:30.757830+00:00"
+  },
+  {
+   "slot": "communication_approach_vulnerability",
+   "question": "낯선 사람이나 경찰이 어르신께 말을 걸 때, 어르신은 어떤 표정이나 몸짓을 보이시나요?",
+   "answer": "이름을 부르면 저를 쳐다보세요. 낯선 사람이나 경찰이 다가올 때는 어떻게 반응하는지 보지 못했어요.",
+   "recorded_at": "2026-10-07T17:56:33.727192+00:00"
+  },
+  {
+   "slot": "mobility_transport_capacity",
+   "question": "어르신은 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요? (예: 쉬지 않고 약 30분 정도 걸을 수 있고, 집에서 1km 정도까지 혼자 이동할 수 있습니다)",
+   "answer": "저와 걸을 때 무릎 때문에 여섯 분을 계속 걷거나 이백팔십 미터 가면 먼저 도달한 쪽에서 앉아 쉬어야 해요. 쉬실 때는 오 분 앉아 있다가 다시 걸으세요. 천천히 걷고 혼자 외출하지는 않으세요.",
+   "recorded_at": "2026-10-07T17:56:36.871691+00:00"
+  },
+  {
+   "slot": "distress_induced_movement_reactivity",
+   "question": "어르신이 불안하거나 초조해지실 때, 그때 이동 행동이 어떻게 달라지나요?",
+   "answer": "불안하거나 초조할 때 이동이 달라지는지는 직접 본 적이 없어 모르겠어요.",
+   "recorded_at": "2026-10-07T17:56:41.102877+00:00"
+  },
+  {
+   "slot": "medication",
+   "question": "복용 중인 약이 있나요? (예: 혈압약과 치매약을 아침저녁으로 드시고, 거르면 어지러워하십니다)",
+   "answer": "약을 거른 뒤 증상은 관찰한 적이 없어 모르겠어요. 밤이나 추위, 더위에 혼자 이동하는 것도 못 봤어요.",
+   "recorded_at": "2026-10-07T17:56:43.470865+00:00"
+  },
+  {
+   "slot": "routine_destinations",
+   "question": "말씀해주신 곳(느티공원, 해든상가, 솔빛쉼터) 외에 어르신이 평소 자주 가시거나 좋아하시는 곳이 또 있을까요?",
+   "answer": "혼자 가는 곳은 없고 저와 함께 다녀요. 경기도 고양시 일산서구 대화동의 느티공원과 해든상가, 솔빛쉼터를 함께 가요. 정해진 길이나 도는 방향은 없어요.",
+   "recorded_at": "2026-10-07T17:56:44.202130+00:00"
+  },
+  {
+   "slot": "confirmation",
+   "question": "등록 요약을 보고 확인·정정하는 단계",
+   "answer": "네, 맞아요.",
+   "recorded_at": "2026-10-07T17:56:52.295333+00:00"
+  }
+ ],
+ "guardian_edited_notes": null,
+ "guardian_note_revisions": [],
+ "prepared_initial": {
+  "version": "onboarding-person-v6-grounded-conditions",
+  "fingerprint": "68b6b7dbfa57aa03389515dd39b807c06b29037ffbeb6f7bcd82225dbbcf47be",
+  "core": {
+   "goals": {
+    "느티공원": {
+     "value": "habitual_visit",
+     "period": "unspecified",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "해든상가": {
+     "value": "habitual_visit",
+     "period": "unspecified",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "솔빛쉼터": {
+     "value": "habitual_visit",
+     "period": "unspecified",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    }
+   },
+   "routes": {
+    "느티공원": {
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "해든상가": {
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "솔빛쉼터": {
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    }
+   },
+   "found_history": {
+    "느티공원": {
+     "value": "not_reported",
+     "note_ids": [],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "해든상가": {
+     "value": "not_reported",
+     "note_ids": [],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "솔빛쉼터": {
+     "value": "not_reported",
+     "note_ids": [],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    }
+   },
+   "mobility": {
+    "value": "B",
+    "note_ids": [
+     "N9"
+    ],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "emotion": {
+    "value": "unknown",
+    "note_ids": [],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "other_traits": [
+    {
+     "type": "wayfinding_failure",
+     "period": "unspecified",
+     "note_ids": [
+      "N4"
+     ]
+    },
+    {
+     "type": "rest_pattern",
+     "period": "unspecified",
+     "note_ids": [
+      "N9"
+     ]
+    }
+   ],
+   "persistence": {
+    "value": "unknown",
+    "note_ids": [],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "direction": {
+    "value": "unknown",
+    "note_ids": [],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "environment": {
+    "water": {
+     "value": "unknown",
+     "note_ids": [],
+     "explanation": "환경 전용 해석 단계에서 별도 평가."
+    },
+    "forest": {
+     "value": "unknown",
+     "note_ids": [],
+     "explanation": "환경 전용 해석 단계에서 별도 평가."
+    },
+    "park": {
+     "value": "unknown",
+     "note_ids": [],
+     "explanation": "환경 전용 해석 단계에서 별도 평가."
+    },
+    "market": {
+     "value": "unknown",
+     "note_ids": [],
+     "explanation": "환경 전용 해석 단계에서 별도 평가."
+    }
+   }
+  },
+  "scope": {
+   "persistence": {
+    "evidence": "supported",
+    "pattern": "consistent",
+    "value": "wait_for_help",
+    "note_ids": [
+     "N4"
+    ],
+    "explanation": "도움을 기다린 근거. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+   },
+   "environment": {
+    "water": {
+     "response": "unknown",
+     "condition": "조건 미확인",
+     "note_ids": [],
+     "scope": "unknown",
+     "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+    },
+    "forest": {
+     "response": "unknown",
+     "condition": "조건 미확인",
+     "note_ids": [],
+     "scope": "unknown",
+     "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+    },
+    "park": {
+     "response": "unknown",
+     "condition": "조건 미확인",
+     "note_ids": [],
+     "scope": "unknown",
+     "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+    },
+    "market": {
+     "response": "unknown",
+     "condition": "조건 미확인",
+     "note_ids": [
+      "N0",
+      "N1",
+      "N5"
+     ],
+     "scope": "unknown",
+     "explanation": "두 해석이 일치하지 않아 적용 보류."
+    }
+   },
+   "baseline_direction": {
+    "value": "unknown",
+    "note_ids": []
+   }
+  },
+  "audit": {
+   "dropped": [
+    {
+     "field": "environment.market",
+     "reason": "basis_not_admissible",
+     "value": "approach",
+     "basis": [
+      {
+       "note_id": "N0",
+       "situation": "routine_outing"
+      },
+      {
+       "note_id": "N1",
+       "situation": "routine_outing"
+      }
+     ],
+     "task": "initial_person_context"
+    }
+   ],
+   "context_disagreements": [
+    {
+     "field": "environment.market",
+     "draft": [
+      "unknown",
+      "unknown"
+     ],
+     "review": [
+      "avoid",
+      "place_specific"
+     ],
+     "draft_clauses": [],
+     "review_clauses": [
+      [
+       {
+        "signal": "noisy",
+        "state": "present"
+       }
+      ],
+      [
+       {
+        "signal": "crowded",
+        "state": "present"
+       }
+      ]
+     ]
+    },
+    {
+     "field": "behavior_rules",
+     "rule": [
+      "clock_day",
+      "persistence",
+      "wait_for_help"
+     ],
+     "in": "draft",
+     "note_ids": [
+      "N4"
+     ]
+    }
+   ],
+   "fallbacks": [],
+   "context_basis": [
+    {
+     "field": "persistence",
+     "reason": "basis",
+     "value": "wait_for_help",
+     "basis": [
+      {
+       "note_id": "N4",
+       "situation": "lost_or_confused"
+      }
+     ],
+     "task": "initial_person_context"
+    },
+    {
+     "field": "behavior_rules",
+     "reason": "basis",
+     "value": "wait_for_help",
+     "basis": [
+      {
+       "note_id": "N4",
+       "situation": "lost_or_confused"
+      }
+     ],
+     "task": "initial_person_context"
+    },
+    {
+     "field": "persistence",
+     "reason": "basis",
+     "value": "wait_for_help",
+     "basis": [
+      {
+       "note_id": "N4",
+       "situation": "lost_or_confused"
+      }
+     ],
+     "task": "initial_person_context_review"
+    },
+    {
+     "field": "environment.market",
+     "reason": "basis",
+     "value": "avoid",
+     "basis": [
+      {
+       "note_id": "N5",
+       "situation": "encounter_reaction"
+      }
+     ],
+     "task": "initial_person_context_review"
+    }
+   ],
+   "route_draft_candidates": {
+    "느티공원": {
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "해든상가": {
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    },
+    "솔빛쉼터": {
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "explanation": "원문 근거를 연결한 초기 특성 판단."
+    }
+   },
+   "trait_review_omissions": [],
+   "core_review_changes": [],
+   "condition_recovery": [
+    {
+     "feature": "market",
+     "note_ids": [
+      "N0",
+      "N1",
+      "N5"
+     ],
+     "reactions": {
+      "approach": false,
+      "avoid": false
+     },
+     "cells": []
+    }
+   ],
+   "environment_scope_checks": [],
+   "route_history_checks": [],
+   "route_citation_checks": [
+    {
+     "place": "느티공원",
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "answer": true
+    },
+    {
+     "place": "해든상가",
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "answer": true
+    },
+    {
+     "place": "솔빛쉼터",
+     "value": "accompanied_only",
+     "note_ids": [
+      "N0",
+      "N1"
+     ],
+     "answer": true
+    }
+   ],
+   "missing_rest_check": {
+    "note_ids": [
+     "N9"
+    ],
+    "answer": true
+   },
+   "claim_checks": [
+    {
+     "field": "persistence",
+     "value": "wait_for_help",
+     "statement": "대상자는 길을 잃으면 그 자리에 머물며 도움을 기다린다.",
+     "answer": true
+    },
+    {
+     "field": "behavior_rules:day_night",
+     "value": null,
+     "statement": "대상자는 길을 잃었을 때 낮과 밤에 서로 다르게 행동한다고 보호자가 말했다.",
+     "answer": false
+    },
+    {
+     "field": "mobility",
+     "value": "B",
+     "statement": "대상자는 집 근처만 짧게 걷고, 오래 걷지 못하거나 걷다가 자주 쉬어야 한다.",
+     "answer": true
+    }
+   ],
+   "trait_checks": [
+    {
+     "type": "wayfinding_failure",
+     "note_ids": [
+      "N4"
+     ],
+     "statement": "대상자가 익숙한 곳을 알아보지 못하거나 목적지를 지나치거나 길을 찾지 못한 개인 경험을 보호자가 보고했다.",
+     "answer": true
+    },
+    {
+     "type": "rest_pattern",
+     "note_ids": [
+      "N9"
+     ],
+     "statement": "대상자가 걷다가 신체적 휴식을 필요로 하거나 보행과 휴식을 반복한다고 보호자가 보고했다. 길을 잃어 가족을 기다리는 선택과는 구분한다.",
+     "answer": true
+    }
+   ],
+   "rejected_traits": [],
+   "unconfirmed_traits": [],
+   "restored_traits": []
+  },
+  "retrieval_audit": [
+   {
+    "id": "R0",
+    "source": "[보행] 가족 돌봄 제공자의 치매노인 배회관리 경험",
+    "kind": "paper",
+    "use": "primary_excerpt"
+   },
+   {
+    "id": "R1",
+    "source": "QA기타",
+    "kind": "qa",
+    "use": "excluded_derived_or_unclassified"
+   },
+   {
+    "id": "R2",
+    "source": "[보행] 가족 돌봄 제공자의 치매노인 배회관리 경험",
+    "kind": "paper",
+    "use": "primary_excerpt"
+   },
+   {
+    "id": "R3",
+    "source": "[보행] Persons with dementia missing in the community Is it wandering or something unique",
+    "kind": "qa",
+    "use": "excluded_derived_or_unclassified"
+   }
+  ],
+  "prepared_at": "2026-10-07T23:32:06.531669+00:00",
+  "profile_snapshot_at": "2026-10-07T17:56:52.795719",
+  "persona_version": 0
+ },
+ "prepared_mind": {},
+ "mind_preparation_status": {},
+ "initial_preparation_status": {
+  "state": "ready",
+  "job_id": "edf7282d-8837-46bb-a5fd-b4fc2feb201b",
+  "fingerprint": "68b6b7dbfa57aa03389515dd39b807c06b29037ffbeb6f7bcd82225dbbcf47be",
+  "version": "onboarding-person-v6-grounded-conditions",
+  "updated_at": "2026-10-07T17:56:52.795719"
+ },
+ "axis_scores": {},
+ "axis_scoring_report": {},
+ "route_familiarity": [],
+ "env_responses": [],
+ "behavior_tendency": null,
+ "created_at": "2026-10-07T17:56:52.787400",
+ "guardian_id": "",
+ "version": 0,
+ "completed_tiers": [
+  1,
+  2,
+  3
+ ]
+}

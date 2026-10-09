@@ -48,6 +48,8 @@ def refresh_due_cases(now=None) -> list[tuple[str, str]]:
     """
     from app.phase2 import pipeline  # 지연 임포트 — 순환 참조 회피
 
+    from app.phase3.alerts import retry_pending_notifications
+    retry_pending_notifications(now=now)
     done: list[tuple[str, str]] = []
     for case in storage.cases.list():
         if case.status not in _ACTIVE:
@@ -57,6 +59,8 @@ def refresh_due_cases(now=None) -> list[tuple[str, str]]:
             continue
         try:
             pipeline.run_prediction(case, now=now)
+            from app.phase3.alerts import notify_prediction
+            notify_prediction(case)
             done.append((case.id, reason))
             log.info("[refresh] %s 재예측 — %s", case.id, reason)
         except Exception as e:  # noqa: BLE001 — 한 건 실패가 나머지를 막지 않는다

@@ -16,6 +16,8 @@ import { Platform } from 'react-native';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import * as authApi from '../api/auth';
+import { useGuardianStore } from './guardianStore';
+import { useGuardianCaseStore } from './guardianCaseStore';
 import type { Role } from '../types/domain';
 
 type AuthState = {
@@ -37,6 +39,8 @@ type AuthState = {
   restore: () => Promise<void>;
 };
 
+let signingOut: Promise<unknown> = Promise.resolve();
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
@@ -47,11 +51,13 @@ export const useAuthStore = create<AuthState>()(
       restoring: true,
 
       signIn: async (loginId, password) => {
+        await signingOut;
         const r = await authApi.login(loginId, password);
         set({ token: r.token, role: r.role, user: r.login_id, userId: r.user_id, restoring: false });
       },
 
       signUp: async (loginId, password, role) => {
+        await signingOut;
         const r = await authApi.signup(loginId, password, role);
         set({ token: r.token, role: r.role, user: r.login_id, userId: r.user_id, restoring: false });
       },
@@ -59,8 +65,9 @@ export const useAuthStore = create<AuthState>()(
       switchRole: async (role) => {
         const token = get().token;
         if (!token) return;
+        if (role !== 'citizen') await import('../hooks/useWebPush').then(m => m.disableWebPush()).catch(() => {});
         const r = await authApi.changeRole(token, role);
-        set({ role: r.role, user: r.login_id, userId: r.user_id });
+        set({ token: r.token, role: r.role, user: r.login_id, userId: r.user_id });
         // 역할이 바뀌면 화면 트리가 통째로 갈린다(보호자↔시민). 그 자리에서
         // 갈아끼우면 내비게이션 상태가 어긋나 흰 화면이 되는 경우가 있다
         // (현장 제보 08-11). 웹에서는 한 번 새로 띄워 확실하게 만든다 —
@@ -73,7 +80,7 @@ export const useAuthStore = create<AuthState>()(
       signOut: () => {
         const token = get().token;
         // 서버에서도 지운다 — 기기에서만 지우면 남은 토큰이 계속 유효하다.
-        if (token) authApi.logout(token).catch(() => {});
+        if (token) signingOut = import('../hooks/useWebPush').then(m=>m.disableWebPush()).catch(()=>{}).finally(()=>authApi.logout(token).catch(()=>{}));
         set({ token: null, role: null, user: null, userId: null, restoring: false });
       },
 
@@ -85,7 +92,7 @@ export const useAuthStore = create<AuthState>()(
         }
         try {
           const r = await authApi.me(token);
-          set({ role: r.role, user: r.login_id, userId: r.user_id, restoring: false });
+          set({ token: r.token, role: r.role, user: r.login_id, userId: r.user_id, restoring: false });
         } catch {
           // 서버가 토큰을 모른다 = 로그아웃 상태. 네트워크 실패도 같은 취급인데,
           // 남은 토큰으로 남의 기록을 보여주는 쪽보다 다시 로그인하는 쪽이 낫다.
@@ -101,3 +108,11 @@ export const useAuthStore = create<AuthState>()(
     },
   ),
 );
+
+// Drop all local guardian selections when the authenticated owner changes.
+useAuthStore.subscribe((next, previous) => {
+  if (next.userId !== previous.userId) {
+    useGuardianStore.getState().reset();
+    useGuardianCaseStore.getState().clear();
+  }
+});

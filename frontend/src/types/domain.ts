@@ -72,9 +72,12 @@ export type PoaGrid = {
    * **fallback 은 조용히 일어난다.** 표시하지 않으면 통계 평균을 "AI 예측"으로
    * 보여주게 된다 — 수색 인력을 잘못된 확신으로 보내는 일이라 반드시 드러낸다.
    */
-  priorSource: 'exaone' | 'fallback' | 'stub' | 'unknown';
+  priorSource: 'exaone' | 'fallback' | 'stub' | 'profile_baseline' | 'prepared_person' | 'unknown';
   /** fallback/stub 일 때의 사유 (운영 진단용). */
   priorFallbackReason?: string;
+  /** 준비된 K 해석 적용과 기존 대체 경로를 구분. */
+  initialPriorPath?: 'prepared_person' | 'legacy_SAR_fallback';
+  personalInterpretationStatus?: string;
   /**
    * 도로망 위에서 걸은 예측인지. false 면 연속 공간(도로 제약 없음)이다.
    * `use_roadnet` 기본값이 true 라(PR #122) false 는 대개 로딩 실패를 뜻한다 —

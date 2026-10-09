@@ -33,7 +33,10 @@ const TILE = 256;
  * (학교 WiFi·이동통신 양쪽에서 지도가 회색으로만 떴다 — 실측 08-11).
  * 앱은 이미 우리 서버에 붙어 있으므로 그 경로로 받으면 확실하다. 서버가 캐시도 한다.
  */
-const TILE_URL = (z: number, x: number, y: number) => `${API_BASE}/geo/tiles/${z}/${x}/${y}.png`;
+const TILE_URL = (z: number, x: number, y: number) =>
+  process.env.EXPO_PUBLIC_TRANSPORT === 'supabase'
+    ? `https://tile.openstreetmap.org/${z}/${x}/${y}.png`
+    : `${API_BASE}/geo/tiles/${z}/${x}/${y}.png`;
 
 function lngToX(lng: number, z: number) {
   return ((lng + 180) / 360) * Math.pow(2, z) * TILE;

@@ -57,11 +57,15 @@ def sanitize_prior(data: dict, persona: Persona | None, default: PriorParams) ->
                           and isinstance(v, str)), "")
     reasoning = reasoning.strip()[:REASONING_MAX_CHARS]
     weights = sanitize_attraction_levels(data.get("attraction_levels"), persona)
+    raw_levels = data.get("attraction_levels") if isinstance(data.get("attraction_levels"), dict) else {}
+    labels = {ap.label for ap in persona.attraction_points} if persona else set()
+    levels = {k: v for k, v in raw_levels.items() if k in labels and v in LEVEL_WEIGHTS}
     return PriorParams(
         strategy_probs=sanitize_strategy_probs(data.get("strategy_probs"), default.strategy_probs),
         attraction_weights=weights if weights else default.attraction_weights,
         radius_lognormal=sanitize_radius(data.get("radius_level"), default.radius_lognormal),
         reasoning=reasoning or "[가드레일] reasoning 누락 — 파라미터만 사용",
+        attraction_levels=levels,
     )
 
 
@@ -83,7 +87,9 @@ def sanitize_strategy_probs(raw, default: dict[str, float]) -> dict[str, float]:
     return {name: v / total for name, v in floored.items()}
 
 
-def sanitize_attraction_levels(raw, persona: Persona | None) -> dict[str, float]:
+def sanitize_attraction_levels(raw, persona: Persona | None,
+                               evidence: dict[str, str] | None = None,
+                               tilt: dict[str, float] | None = None) -> dict[str, float]:
     """(EXAONE 등급 × evidence 계수) → 정규화 → 상한. 지어낸 라벨은 버리고 빠진 라벨은 '중'.
 
     두 신호의 곱셈 병합(팀 결정 2026-07-21):
@@ -99,9 +105,14 @@ def sanitize_attraction_levels(raw, persona: Persona | None) -> dict[str, float]
     if persona is None or not persona.attraction_points:
         return {}
     levels = raw if isinstance(raw, dict) else {}
+    # evidence: 호출자가 보호자 원문 해석으로 근거 강도를 따로 판정했을 때만 준다(K 경로).
+    # tilt: 사건 시점 신호(SAR 등급)의 장소별 배율 — 없으면 1.
+    evidence = evidence or {}
+    tilt = tilt or {}
     weights = {
         ap.label: (LEVEL_WEIGHTS.get(levels.get(ap.label), LEVEL_WEIGHTS["중"])
-                   * evidence_prior_weight(ap.evidence))
+                   * evidence_prior_weight(evidence.get(ap.label, ap.evidence))
+                   * tilt.get(ap.label, 1.0))
         for ap in persona.attraction_points
     }
     total = sum(weights.values())

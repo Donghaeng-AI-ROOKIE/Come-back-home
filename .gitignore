@@ -10,3 +10,8 @@ backend/axencoder-sar-ft/
 # 판정 로직(debugStore·useAlertGate)은 커밋되며 기본값이 꺼짐이라,
 # 이 폴더가 없어도 앱은 정상 동작한다.
 frontend/src/dev/
+
+# Local dependency symlinks and deployment bundles
+node_modules
+.env.local
+dist
