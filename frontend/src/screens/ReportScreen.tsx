@@ -8,6 +8,7 @@ import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { useQueryClient } from '@tanstack/react-query';
 import { createReport, searchPlace } from '../api/guardian';
+import { reportTimeIso } from '../utils/reportTime';
 import { useGuardianStore } from '../store/guardianStore';
 import { usePersonas } from '../hooks/queries';
 import { useMyLocation } from '../hooks/useMyLocation';
@@ -39,6 +40,7 @@ export default function ReportScreen() {
   const persona = personas.find((item) => item.id === selectedPersonaId) ?? personas[0] ?? null;
   const [pickerOpen, setPickerOpen] = useState(false);
   const [situation, setSituation] = useState('');
+  const [lastSeenAt, setLastSeenAt] = useState('');
   const [top, setTop] = useState('');
   const [bottom, setBottom] = useState('');
   const [shoes, setShoes] = useState('');
@@ -133,6 +135,11 @@ export default function ReportScreen() {
       setError('마지막 목격 장소를 먼저 검색해 주세요. 위 검색창에 장소를 입력하고 검색(엔터)하면 지도가 그 위치로 바뀝니다.');
       return;
     }
+    const incidentTime = reportTimeIso(lastSeenAt);
+    if (!incidentTime) {
+      setError('마지막으로 본 시각을 2026-09-25 14:30 형식으로 입력해 주세요. 미래 시각은 사용할 수 없습니다.');
+      return;
+    }
     setError('');
     const hasAppearance = [top, bottom, shoes, etc].some((value) => value.trim().length > 0);
     setSending(true);
@@ -140,7 +147,7 @@ export default function ReportScreen() {
       const c = await createReport({
         missing_type: 'dementia',
         lkp,
-        lkp_time: new Date().toISOString().replace('Z', ''),
+        lkp_time: incidentTime,
         persona_id: persona?.id ?? null,
         appearance: hasAppearance ? {
           top: top.trim(),
@@ -197,10 +204,16 @@ export default function ReportScreen() {
                     <Text style={styles.familyHint}>{personas.length > 1 ? '눌러서 변경' : '치매 등록'}</Text>
                   </View>
                 )
-                : <Text style={styles.familyHint}>사전 등록된 가족이 없습니다. 눌러서 등록해 주세요.</Text>}
+                : <Text style={styles.familyHint}>등록 없이 아래에서 바로 신고할 수 있습니다. 등록은 선택 사항입니다.</Text>}
           </Pressable>
         </View>
 
+        <View style={styles.locationSection}>
+          <Text style={styles.familyName}>마지막으로 본 시각</Text>
+          <TextInput value={lastSeenAt} onChangeText={setLastSeenAt}
+            placeholder="예: 2026-09-25 14:30" accessibilityLabel="마지막 목격 시각"
+            style={styles.searchInput} autoCapitalize="none" />
+        </View>
         <View style={styles.locationSection}>
           <SectionHeader icon={<SvgXml xml={icMappinRedXml} width={15} height={20} />} title="마지막 목격 장소" />
           <View style={styles.searchField}>

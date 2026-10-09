@@ -1,0 +1,47 @@
+services:
+  cloud-worker:
+    image: cbh-cloud-worker:${CBH_RELEASE:-20261008}
+    build:
+      context: ../..
+      dockerfile: deploy/supabase/Dockerfile
+    restart: unless-stopped
+    init: true
+    env_file: ${CBH_WORKER_ENV:?set protected worker.env path}
+    environment:
+      PERSIST_STORAGE: 'true'
+      PRIVACY_SCHEDULER_INTERVAL_SECONDS: '300'
+      PRIVACY_RETRY_POLL_SECONDS: '30'
+      STORAGE_DB_PATH: /app/data/storage.db
+      PRIVACY_AUDIT_PATH: /app/data/audit_log.jsonl
+      RESEARCH_USAGE_LEDGER_PATH: /app/data/research_usage_events.jsonl
+      ROADNET_CACHE_DIR: /app/data/roadnet_cache
+      PERSONAL_WALK_CACHE_PATH: /app/assets/kintex/kintex_walk.graphml
+      RAG_INDEX_PATH: /app/assets/rag/rag_index_upstage.npz
+      MIND_POLICY_DEPLOYMENT: staging
+      MIND_POLICY_CONTRACT: guarded_core
+      EXAONE_WARMUP_ENABLED: 'false'
+      SEED_DEMO_DATA: 'false'
+      POA_REFRESH_ENABLED: ${CBH_POA_REFRESH_ENABLED:-true}
+      LAYER2_PERIODIC_MINUTES: '60'
+      ROADNET_PRELOAD: 'false'
+      REVERSE_GEOCODE_ON_INTAKE: 'false'
+      REFLEX_ALERT_ON_INTAKE: 'true'
+    volumes:
+      - ${CBH_CLOUD_DATA:?use a NEW cloud data directory}:/app/data
+      - ${CBH_ASSETS:?existing read-only KINTEX and RAG assets}:/app/assets:ro
+    # No ports, devices, privileged mode or GPU allocation. Existing model servers
+    # are accessed only through the host gateway after model routing verification.
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    cpus: 4
+    mem_limit: 8g
+    user: '${CBH_UID:?set data owner UID}:${CBH_GID:?set data owner GID}'
+    pids_limit: 256
+    stop_grace_period: 45s
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    read_only: true
+    tmpfs: ['/tmp:size=256m,mode=1777']
+    logging:
+      driver: json-file
+      options: {max-size: '5m', max-file: '2'}

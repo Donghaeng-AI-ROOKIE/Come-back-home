@@ -6,6 +6,7 @@ from enum import Enum
 from pydantic import BaseModel, Field, model_validator
 
 from app.schemas.common import GeoPoint
+from app.schemas.environment import EnvironmentCondition
 
 
 class PersonaType(str, Enum):
@@ -37,6 +38,9 @@ class AttractionEvidence(str, Enum):
 # 한 장소의 독식을 막는다.
 EVIDENCE_PRIOR_WEIGHTS: dict[str, float] = {
     "previous_missing_found": 0.9,   # 과거 실제 발견지 — 가장 강한 근거
+    # 이번 사건에 대한 진술(신고 상황에 적힌 오늘의 목적지, 사건 뒤 등록 때의 당일 발언) —
+    # 과거 발견지와 같은 최상위. K 경로의 사건 적용(phase2.person_projection)에서만 쓴다.
+    "incident_statement": 0.9,
     "caregiver_report": 0.5,         # 보호자 관찰
     "mention_only": 0.3,             # 언급만
 }
@@ -98,6 +102,17 @@ class EnvResponse(BaseModel):
     feature: str        # water | forest | park | market (envlayer 카테고리)
     direction: str      # "접근" | "회피"
     strength: float     # 0.1~0.9 — 등급을 코드가 매핑한 값
+    # OR of AND clauses. Empty outer list is the legacy unconditional response.
+    condition_clauses: list[list[EnvironmentCondition]] = Field(default_factory=list, max_length=4)
+
+    @model_validator(mode="after")
+    def valid_conditions(self):
+        for clause in self.condition_clauses:
+            if not clause or len(clause) > 4:
+                raise ValueError("empty or oversized condition clause")
+            if len({c.signal for c in clause}) != len(clause):
+                raise ValueError("duplicate/contradictory condition signal")
+        return self
 
 
 class Persona(BaseModel):
@@ -116,6 +131,20 @@ class Persona(BaseModel):
     # 축별 보호자 원발화 — Mi:dm 재서술 노트(axis_evidence)의 정보 손실을 우회하는
     # 채점 1차 근거 (골드셋 실험: 원문 quote 검증이 환각 필터로 작동).
     axis_quotes: dict[str, list[str]] = {}
+    # 축이 없는 일상 목적지·실종 대처 슬롯도 원문을 잃지 않는다.
+    # 신규 K 초기 해석의 입력. API 표시용 요약과 분리하며 Persona와 함께 파기.
+    onboarding_quotes: dict[str, list[str]] = {}
+    # 인터뷰의 모든 보호자 답을 그때의 질문과 함께 필터 없이 보존 — [{"slot","question","answer"}].
+    # 짧은 답("네", "가끔요")은 질문이 있어야 뜻이 통하고, 무지·부정 답도 해석은 K 가 한다.
+    onboarding_turns: list[dict] = []
+    # Persisted with Persona; private typed preparation, never raw API reasoning.
+    guardian_edited_notes: list[str] | None = None
+    # Only changed notes, with collection time; never replace unrelated interview evidence.
+    guardian_note_revisions: list[dict] = Field(default_factory=list)
+    prepared_initial: dict = Field(default_factory=dict)
+    prepared_mind: dict = Field(default_factory=dict)
+    mind_preparation_status: dict = Field(default_factory=dict)
+    initial_preparation_status: dict = Field(default_factory=dict)
     # 축 점수(0.1~0.9) — phase0.axis_scoring 이 채움. F(판정 불가)·근거 없음 축은
     # 키 자체가 없다 → Phase 2 는 없는 축을 유형 기본 prior 로 폴백.
     # 리포트의 축별 F·quote 실패 카운트 = 앞단 추출 품질 감시 지표.
@@ -141,6 +170,7 @@ class Persona(BaseModel):
     guardian_id: str = ""
     # supplement/update 로 같은 persona 에 병합 저장할 때마다 1씩 증가.
     # 동시수정 완전방지(버전 충돌 거부)는 하지 않음 — 최소한의 변경 흔적만 남긴다.
+    last_confirmed_at: datetime | None = None
     version: int = 0
     # 지금까지 이 persona 에 실제로 답변된 슬롯 tier 집합(SlotSpec.tier.value 값,
     # 1=route/2=capacity/3=refine). 신고 전 미니챗이 Tier1만 채우면 [1]만 들어가고,
@@ -164,6 +194,19 @@ class InterviewSession(BaseModel):
     prev_target_key: str | None = None   # 직전에 겨냥한 슬롯 (추출 대상)
     # 누적 추출 (종료 시 Persona 로 변환)
     draft_fields: dict = {}                       # name/age/home
+    # home 답변을 **받은 그 턴에** 지오코딩한 결과 — {"query","lat","lng","precision",
+    # "source","matched","address"}. query 가 draft_fields["home"] 과 같을 때만 유효
+    # (정정으로 텍스트가 바뀌면 다시 검증). 없으면 지도 확인이 안 된 상태다.
+    # 구버전은 finalize(요약 확인 뒤)에서만 좌표화해 "포켓몬랜드" 같은 답이 그대로
+    # 통과하고 10여 개 질문 뒤에야 실패가 드러났다(2026-09-26).
+    home_geo: dict | None = None
+    # 지도 확인 실패로 집을 되물은 횟수 — 지오코더 장애 시 무한 되묻기를 막는 상한.
+    home_check_failures: int = 0
+    # 집 답이 여러 곳을 가리켜 되묻는 중인 상태 — "산남동"(파주/청주), "마포구 스타벅스"
+    # (15개 지점). 지오코더는 첫 결과만 주므로 조용히 엉뚱한 곳이 등록되던 갭(2026-10-01).
+    home_choices: list[dict] = []       # 나열한 보기 [{label,address,lat,lng,precision,source}] — 6개 이상이면 비움
+    home_choice_text: str = ""          # 되물은 답 원문 — "합정동이요" 같은 보탬을 여기에 합친다
+    home_choice_rounds: int = 0         # 이번 집 답에 되물은 횟수 — 상한 뒤엔 첫 결과로 통과
     draft_attractions: list[dict] = []            # [{"label","area_text","place_type","evidence"}]
     draft_behaviors: list[str] = []
     # 어느 슬롯을 겨냥했을 때 나온 노트인지 — {slot_key: [노트...]}.
@@ -172,6 +215,11 @@ class InterviewSession(BaseModel):
     # 근거가 나온 보호자 원발화 원문 — {slot_key: [발화...]}. 노트는 Mi:dm 재서술이라
     # 정보가 깎이므로 원문을 병행 보존 → finalize 에서 Persona.axis_quotes 가 된다.
     slot_quotes: dict[str, list[str]] = {}
+    # 보호자 답 전체 — 질문과 짝지어 필터 없이 기록(finalize 에서 Persona.onboarding_turns).
+    slot_turns: list[dict] = []
+    # 추출 결과를 원문에 대조하다 버리거나 내린 것 — {"event","label",...}. 모델 판정을
+    # 코드가 고치지 않고 받지 않은 이유만 남긴다(무엇이 왜 빠졌는지 추적용).
+    extraction_audit: list[dict] = []
     awaiting_confirmation: bool = False   # 요약 확인("이게 맞나요?") 대기 중
     asked_more_places: bool = False       # 요약 전 '추가 장소 스윕' 1회 보장용 플래그
     # 지역 표기 없는 끌림점의 주소 되묻기 — 없으면 지오코딩이 실패해 그 장소가

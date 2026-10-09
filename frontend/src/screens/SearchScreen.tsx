@@ -111,6 +111,12 @@ function degradedNotice(grid?: PoaGrid): { label: string; a11y: string } | null 
       a11y: '이 지도는 개인 맞춤 예측이 아닙니다. AI 예측에 실패해 연령·유형 평균으로 표시됩니다.',
     };
   }
+  if (grid.initialPriorPath === 'legacy_SAR_fallback') {
+    return {
+      label: '새 개인 행동 해석이 아직 반영되지 않았어요',
+      a11y: '개인 행동 해석의 준비가 완료되지 않아 현재 가능한 정보로 예상 구역을 표시합니다.',
+    };
+  }
   // 도로망 폴백은 개인화는 살아 있고 지형 제약만 빠진 상태다 — 문구를 구분한다.
   if (!grid.roadnetUsed && grid.roadnetFallbackReason !== 'off') {
     return {

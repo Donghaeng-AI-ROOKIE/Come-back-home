@@ -38,7 +38,7 @@ def test_lost_behavior_opts_out_of_followup():
     assert slot.probes                      # probes 자체는 남긴다(embed_text·문장화용)
     s = InterviewSession(id="lb-off", guardian_name="보호자",
                          persona_type=PersonaType.dementia)
-    assert not interview._needs_probe(s, slot, "그 자리에 가만히 서계세요")
+    assert not interview._needs_probe(s, slot, "informative")
 
 
 def test_only_lost_behavior_opts_out():
@@ -58,23 +58,24 @@ def _session(**kw) -> InterviewSession:
 
 def test_needs_probe_when_thin():
     s = _session()
-    assert interview._needs_probe(s, _MED, "혈압약을 저녁에만 드세요")
+    assert interview._needs_probe(s, _MED, "informative")
 
 
 def test_no_probe_twice_for_same_slot():
     s = _session(probed_keys=["medication"])
-    assert not interview._needs_probe(s, _MED, "혈압약을 저녁에만 드세요")
+    assert not interview._needs_probe(s, _MED, "informative")
 
 
 def test_no_probe_when_enough_collected():
     s = _session(slot_notes={"medication": ["혈압약 저녁 복용", "거르면 어지러워함"]})
-    assert not interview._needs_probe(s, _MED, "혈압약을 저녁에만 드세요")
+    assert not interview._needs_probe(s, _MED, "informative")
 
 
 def test_no_probe_for_ignorance_or_negative():
+    """모른다·해당 없다(모델 판정)는 더 물어도 얻을 게 없다."""
     s = _session()
-    assert not interview._needs_probe(s, _MED, "잘 모르겠어요")
-    assert not interview._needs_probe(s, _MED, "아니요")
+    assert not interview._needs_probe(s, _MED, "unknown")
+    assert not interview._needs_probe(s, _MED, "none")
 
 
 def test_probe_question_actually_asked(monkeypatch):
@@ -320,8 +321,8 @@ def test_empty_answer_is_not_probed(monkeypatch):
 def test_utterance_saved_when_model_returns_no_notes():
     """Mi:dm 이 노트를 안 내면 원발화를 근거로 남긴다 — 대화했는데 저장 안 되는 상태 방지."""
     s = _session()
-    interview._apply_extraction(s, _MED, {"attraction_points": [], "behavior_notes": [],
-                                          "slot_filled": True},
+    interview._apply_extraction(s, _MED, {"answer_kind": "informative", "attraction_points": [],
+                                          "behavior_notes": [], "slot_filled": True},
                                 utterance="혈압약을 저녁에만 드세요")
     assert s.slot_notes["medication"] == ["혈압약을 저녁에만 드세요"]
     assert s.draft_behaviors == ["복약·건강 상태: 혈압약을 저녁에만 드세요"]

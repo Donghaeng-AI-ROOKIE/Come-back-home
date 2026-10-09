@@ -24,6 +24,7 @@ import type {
 import { DEMO_CASE_ID } from '../data/missing';
 import { tierForProb } from '../theme/poa';
 import { buildAlert, buildBeforeAfter, buildPoaGrid } from '../data/mock';
+import { CLOUD_TRANSPORT } from './supabase';
 import { DEMO_USER_ID, SLOW_TIMEOUT_MS, USE_MOCK, api } from './config';
 
 export { API_BASE, USE_MOCK, ApiError } from './config';
@@ -32,8 +33,10 @@ export { DEMO_CASE_ID };
 type PoaResponse = {
   top_cells: { cell: string; prob: number; polygon: GeoPoint[] }[];
   /** prior 출처 — 폴백(개인화 없음)을 앱이 숨기지 않고 알리기 위한 값. */
-  prior_source?: 'exaone' | 'fallback' | 'stub' | 'unknown';
+  prior_source?: 'exaone' | 'fallback' | 'stub' | 'profile_baseline' | 'prepared_person' | 'unknown';
   prior_fallback_reason?: string;
+  initial_prior_path?: 'prepared_person' | 'legacy_SAR_fallback' | null;
+  personal_interpretation_status?: string | null;
   /** 도로망 위에서 걸었는지 — 로딩 실패 시 연속 공간 폴백이 조용히 일어난다. */
   roadnet_used?: boolean;
   roadnet_fallback_reason?: string;
@@ -93,6 +96,8 @@ function toGrid(caseId: string, t: TimeAxis, data: PoaResponse): PoaGrid {
     topLabel: `최고확률 구역 ${peakPct}%`,
     priorSource: data.prior_source ?? 'unknown',
     priorFallbackReason: data.prior_fallback_reason || undefined,
+    initialPriorPath: data.initial_prior_path ?? undefined,
+    personalInterpretationStatus: data.personal_interpretation_status ?? undefined,
     roadnetUsed: data.roadnet_used ?? false,
     roadnetFallbackReason: data.roadnet_fallback_reason || undefined,
     computedAt: data.computed_at,
@@ -178,6 +183,7 @@ export async function submitTip(
     // 그래서 실패하면 **정말 안 들어갔는지 서버에 확인한다.** 들어갔으면 그
     // 제보로 이어 간다. 여기서 그냥 오류를 올리면 사용자는 이미 접수된 제보를
     // 또 보내게 되고, 같은 목격이 두 건으로 세어져 확률지도가 왜곡된다.
+    if (CLOUD_TRANSPORT) throw e;
     const landed = await findLandedTip(caseId, input.text);
     if (!landed) throw e;
     res = landed;

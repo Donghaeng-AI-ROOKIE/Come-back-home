@@ -89,6 +89,8 @@ def test_poa_endpoint_exposes_prior_source():
     body = poa.json()
     assert "prior_source" in body, "폴백 여부를 앱이 알 수 없으면 통계 평균을 AI 예측으로 보여주게 된다"
     assert body["prior_source"] in ("exaone", "fallback", "stub", "unknown")
+    assert body["initial_prior_path"] == "legacy_SAR_fallback"
+    assert body["personal_interpretation_status"] != "applied"
 
 
 def test_roadnet_fallback_is_visible(monkeypatch):

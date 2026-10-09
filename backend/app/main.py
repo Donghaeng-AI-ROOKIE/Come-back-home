@@ -31,7 +31,7 @@ def _warm_exaone() -> None:
     """
     from app import llm
 
-    if llm.exaone.is_stub:
+    if not settings.exaone_warmup_enabled or llm.exaone.is_stub:
         return
     try:
         llm.exaone.chat([{"role": "user", "content": "ok"}], max_tokens=1, temperature=0.0)
@@ -48,13 +48,19 @@ async def lifespan(app: FastAPI):
         from app.seed import seed_demo
 
         seed_demo()
+    from app.privacy import scheduler as privacy_scheduler
+
+    privacy_scheduler.start()
     # 기동을 막지 않도록 별도 스레드에서 예열한다.
     threading.Thread(target=_warm_exaone, name="exaone-warmup", daemon=True).start()
     # 시간이 흐르면 지도도 갱신한다 — 판정 로직은 있었지만 호출하는 쪽이 없었다.
     from app.phase2 import refresher
 
     refresher.start()
+    from app.phase0.person_preparation import recover
+    recover()
     yield
+    privacy_scheduler.stop()
 
 
 app = FastAPI(

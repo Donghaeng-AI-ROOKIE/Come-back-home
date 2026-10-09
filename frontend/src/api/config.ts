@@ -73,13 +73,29 @@ const TIMEOUT_MS = 12_000;
  * 계산을 실패로 표시하는** 최악의 조합이 된다. 그래서 넉넉히 기다린다.
  * 사용자는 그동안 '2. AI 예상 경로 분석' 단계가 도는 것을 보고 있다.
  */
-export const SLOW_TIMEOUT_MS = 240_000;
+// 신규 지역 도로망 등 긴 예측 요청에 여유를 둔다. K 개인 해석은 온보딩 뒤 백그라운드에서 준비한다.
+export const SLOW_TIMEOUT_MS = 600_000;
+
+/**
+ * 온보딩 챗봇 답변 한 턴의 상한(ms).
+ *
+ * 한 턴은 서버가 Mi:dm 을 2~3번(추출·꼬리질문 판정·문장화) 부르고 집 주소면
+ * 지오코딩까지 한다. 정상은 1~2초지만 게이트웨이가 한 번 멈추면 호출당 최대
+ * 12초(서버 midm_timeout)를 기다리므로, 조회용 12초를 그대로 쓰면 **서버는 멀쩡히
+ * 답을 만들었는데 앱이 먼저 끊는다** — 실측(2026-09-26): 앱은 "서버가 끊겼다"로
+ * 보이고, 재전송하면 같은 답이 세션에 두 번 쌓였다.
+ */
+export const CHAT_TIMEOUT_MS = 45_000;
 
 /** 공통 fetch — 실패를 삼키지 않고 상태코드와 서버 메시지를 그대로 올린다. */
 export async function api<T>(
   path: string,
   init?: RequestInit & { timeoutMs?: number },
 ): Promise<T> {
+  if (process.env.EXPO_PUBLIC_TRANSPORT === 'supabase') {
+    const { cloudRequest } = await import('./cloudTransport');
+    return cloudRequest<T>(path, init);
+  }
   let res: Response;
   const { timeoutMs = TIMEOUT_MS, ...rest } = init ?? {};
   const controller = new AbortController();

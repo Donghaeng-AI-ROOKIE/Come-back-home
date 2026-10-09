@@ -21,6 +21,7 @@ import { navigationRef } from './navigationRef';
 import { useAuthStore } from '../store/authStore';
 import { useAlertGate } from '../hooks/useAlertGate';
 import { useActiveWalk } from '../hooks/queries';
+import { WebPushContext, useWebPushController } from '../hooks/useWebPush';
 import { usePushRegistration } from '../hooks/usePushRegistration';
 import { useNotificationRouting } from '../hooks/useNotificationRouting';
 import { color } from '../theme/tokens';
@@ -95,6 +96,7 @@ export default function RootNavigator() {
   // 탭 라우팅은 역할 무관하게 건다. 둘 다 푸시 미지원 환경(웹·Expo Go·
   // projectId 미설정)에서는 조용히 물러난다.
   usePushRegistration(isCitizen);
+  const webPush = useWebPushController(isCitizen);
   useNotificationRouting();
 
   const gate = useAlertGate(isCitizen);
@@ -155,6 +157,7 @@ export default function RootNavigator() {
   booted.current = true;
 
   return (
+    <WebPushContext.Provider value={webPush}>
     <Stack.Navigator
       // 관문 판정은 initialRouteName 으로만 반영되는데, 이 값은 네비게이터가
       // **마운트될 때 한 번만** 읽힌다. 로그인 직후처럼 네비게이터가 이미 떠 있는
@@ -205,6 +208,7 @@ export default function RootNavigator() {
         </Stack.Group>
       )}
     </Stack.Navigator>
+    </WebPushContext.Provider>
   );
 }
 

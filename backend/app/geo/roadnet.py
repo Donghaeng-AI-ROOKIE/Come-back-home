@@ -53,6 +53,8 @@ class OSMnxNetwork(RoadNetwork):
         """LKP 중심 반경 보행 그래프 로딩 — 디스크 캐시 우선, 없으면 Overpass 다운로드."""
         import osmnx as ox
 
+        west,south,east,north = ox.utils_geo.bbox_from_point((center.lat,center.lng),dist=radius_m)
+        self.coverage_bbox=[south,west,north,east]
         cache = self.cache_dir / f"walk_{center.lat:.4f}_{center.lng:.4f}_{radius_m}.graphml"
         if cache.exists():
             self.graph = ox.load_graphml(cache)
@@ -70,6 +72,10 @@ class OSMnxNetwork(RoadNetwork):
 
         net = cls()
         net.graph = ox.load_graphml(path)
+        import json
+        manifest=Path(path).with_suffix('.json')
+        if manifest.exists():
+            net.coverage_bbox=json.loads(manifest.read_text()).get('bbox_south_west_north_east')
         return net
 
     # ── 그래프 조회 ─────────────────────────────────────────────────
@@ -154,3 +160,23 @@ def get_network(center: GeoPoint, radius_m: int | None = None) -> OSMnxNetwork:
         net.load(center, r)
         _networks[key] = net
     return _networks[key]
+
+
+_verified_networks = {}
+
+def verified_network(path):
+    """Load an immutable offline map only after checking its provenance hash."""
+    import hashlib,json
+    path=Path(path).resolve();manifest=path.with_suffix('.json')
+    stat=path.stat();mstat=manifest.stat()
+    key=(str(path),stat.st_size,stat.st_mtime_ns,mstat.st_mtime_ns)
+    if key not in _verified_networks:
+        meta=json.loads(manifest.read_text())
+        if meta.get('region')!='KINTEX, Goyang' or not meta.get('bbox_south_west_north_east'):
+            raise ValueError('verified KINTEX provenance required')
+        if hashlib.sha256(path.read_bytes()).hexdigest()!=meta.get('sha256'):
+            raise ValueError('map integrity mismatch')
+        net=OSMnxNetwork.from_graphml(path)
+        _verified_networks.clear()  # one configured regional map, not an unbounded cache
+        _verified_networks[key]=net
+    return _verified_networks[key]

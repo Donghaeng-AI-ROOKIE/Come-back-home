@@ -5,6 +5,7 @@
  * 토큰만 남긴다) 로그에도 찍지 않는다.
  */
 import { api, USE_MOCK } from './config';
+import { CLOUD_TRANSPORT, cloudSignup, cloudLogin, cloudMe, cloudLogout, cloudRole } from './supabase';
 
 export type AuthResult = {
   token: string;
@@ -38,6 +39,7 @@ function mockLoginRole(loginId: string): AuthResult['role'] {
 
 export function signup(loginId: string, password: string, role: 'citizen' | 'guardian') {
   if (USE_MOCK) return Promise.resolve(mockAuthResult(loginId, role));
+  if (CLOUD_TRANSPORT) return cloudSignup(loginId, password, role);
   return api<AuthResult>('/auth/signup', {
     method: 'POST',
     body: JSON.stringify({ login_id: loginId, password, role }),
@@ -46,6 +48,7 @@ export function signup(loginId: string, password: string, role: 'citizen' | 'gua
 
 export function login(loginId: string, password: string) {
   if (USE_MOCK) return Promise.resolve(mockAuthResult(loginId, mockLoginRole(loginId)));
+  if (CLOUD_TRANSPORT) return cloudLogin(loginId, password);
   return api<AuthResult>('/auth/login', {
     method: 'POST',
     body: JSON.stringify({ login_id: loginId, password }),
@@ -58,11 +61,13 @@ export function me(token: string) {
     const result = parseMockToken(token);
     return result ? Promise.resolve(result) : Promise.reject(new Error('미리보기 토큰이 올바르지 않습니다.'));
   }
+  if (CLOUD_TRANSPORT) return cloudMe();
   return api<AuthResult>('/auth/me', { headers: { Authorization: `Bearer ${token}` } });
 }
 
 export function logout(token: string) {
   if (USE_MOCK) return Promise.resolve({ ok: true });
+  if (CLOUD_TRANSPORT) return cloudLogout();
   return api<{ ok: boolean }>('/auth/logout', {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}` },
@@ -77,6 +82,7 @@ export function changeRole(token: string, role: 'citizen' | 'guardian') {
       ? Promise.resolve(mockAuthResult(current.login_id, role))
       : Promise.reject(new Error('미리보기 토큰이 올바르지 않습니다.'));
   }
+  if (CLOUD_TRANSPORT) return cloudRole(role);
   return api<AuthResult>('/auth/role', {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}` },

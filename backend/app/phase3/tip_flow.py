@@ -80,6 +80,7 @@ def needs_heavy(case: Case, tip: Tip, now: datetime | None = None) -> bool:
     return rerun
 
 
+@storage.serialize_case
 def process_tip(
     case: Case,
     *,
@@ -103,6 +104,9 @@ def process_tip(
     **제보자를 기다리게 할 이유가 없다.** 그 사람은 현장에서 찾고 있고, 제보는
     이미 저장됐다. 재계산 결과는 모두가 주기 조회로 받아 간다.
     """
+    from app.privacy.lifecycle import ensure_not_closed
+    ensure_not_closed(case)
+    case = storage.cases.get(case.id) or case
     now = now or datetime.now()
 
     # 구조화 1회 — 슬롯 JSON + 구체성 등급이 같은 호출 결과라 여기서 한 번만 부르고
@@ -167,6 +171,7 @@ def process_tip(
     return tip
 
 
+@storage.serialize_case
 def finish_tip(case_id: str, tip_id: str, now: datetime | None = None) -> None:
     """`defer_heavy` 로 미뤄 둔 뒷일 — 층2 재예측·D3 알림. 백그라운드에서 돈다.
 
@@ -178,7 +183,7 @@ def finish_tip(case_id: str, tip_id: str, now: datetime | None = None) -> None:
     """
     with _case_lock(case_id):
         case = storage.cases.get(case_id)
-        if case is None:
+        if case is None or case.status in (CaseStatus.found, CaseStatus.closed):
             return
         tip = next((t for t in case.tips if t.id == tip_id), None)
         if tip is None:
@@ -209,18 +214,6 @@ def _apply_heavy(case: Case, tip: Tip, now: datetime) -> None:
             case.current_poa = poa_update.reapply_tips(
                 case.baseline_poa or {}, case.tips, since=case.lkp_time)
 
-    # ⑤ D3 — 3차 알림(새 지역 한정) 평가. last_alert_poa 가 없으면(수동 POA
-    #    알림을 한 번도 보낸 적 없으면) 비교 기준이 없어 평가하지 않는다 —
-    #    비교 기준 없이는 "새 지역"을 판정할 수 없으므로 의도된 동작.
-    if case.current_poa and case.last_alert_poa:
-        js = triggers.jensen_shannon_divergence(case.current_poa, case.last_alert_poa)
-        if js >= settings.js_divergence_threshold:
-            new_cells = alerts.select_new_region_cells(case.current_poa, case.last_alert_poa)
-            if new_cells:
-                summary = (
-                    case.report.appearance.summary if case.report.appearance
-                    else "인상착의 정보 없음"
-                )
-                alerts.send_alerts(case.id, new_cells, summary, kind="new_region")
-                case.last_alert_poa = dict(case.current_poa)
-                case.last_alert_at = now
+    # All update paths use the same POA/D3 policy and delivery bookkeeping.
+    storage.cases.save(case.id, case)
+    alerts.notify_prediction(case)

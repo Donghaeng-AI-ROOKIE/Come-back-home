@@ -17,7 +17,7 @@
 대신 **정밀도를 최소로 깎는다.**
 
   ✅ cell_res7   ≈5km² 칸 하나. 예측 구역(실측 17km²)을 구분하기엔 충분하고
-                 개인 위치는 안 드러난다. **폰이 좌표를 res7 로 바꿔서 보낸다** —
+                 정밀 좌표는 받지 않는다. **폰이 좌표를 res7 로 바꿔서 보낸다** —
                  정밀 좌표는 기기를 떠난 적이 없다(서버를 믿을 필요가 없는 구조).
   ✅ engagement  참여도 등급 3값. 사람마다 다른 확률 문턱을 서버가 적용하는 데 쓴다.
                  원시 이력(열람·제보 횟수)은 여전히 폰에만 있다.
@@ -26,7 +26,7 @@
   ❌ **위치 이력**   현재 값만 덮어쓴다. 이력을 남기는 순간 해상도와 무관하게
                      이동 궤적이 되고, 거친 셀을 쓰는 의미가 사라진다
   ❌ 제보 이력       익명 제보 약속이 깨진다
-  ❌ 계정·연락처     시민 사용자 인증 자체가 없다
+  ✅ 계정 식별자     인증된 사용자의 구독 관리에만 사용. 연락처는 받지 않는다
 
 발송 기록(sent_at)만 예외로 남는데, 이건 **서버가 자기가 한 일을 아는 것**이라
 추가 수집이 0이다. 알림 피로도 예산이 이 기록만으로 성립하도록 설계한 이유다.
@@ -61,6 +61,9 @@ class Device(BaseModel):
 
     # Expo Push 토큰 (ExponentPushToken[...] 형식). 이것이 곧 식별자이자 주소다.
     token: str
+    owner_id: str = ""  # cloud subscription ownership, derived from auth.uid()
+    location_updated_at: datetime | None = None
+    entry_sent_at: dict[str, datetime] = Field(default_factory=dict)
     # iOS 확장 시 필요. 값이 android 하나뿐인 지금 넣어두는 이유: 나중에 섞이면
     # 어느 기기가 무엇인지 구분할 방법이 없고, 이미 등록된 것은 되돌아가 채울 수 없다.
     platform: Platform
@@ -71,7 +74,7 @@ class Device(BaseModel):
     #: None 이면 위치를 아직 못 받은 것(그 기기는 타겟 발송에서 제외된다).
     cell_res7: str | None = None
     #: 웹 푸시 구독(endpoint·keys). platform=web 일 때만 채워진다.
-    #: 브라우저가 스스로 만들어 준 주소이며 개인 식별정보가 아니다.
+    #: 브라우저별 지속 식별자. 외부 공개·로그 출력을 금지한다.
     web_subscription: dict | None = None
     #: 참여도 등급. 모르면 normal 로 본다(기본 문턱).
     engagement: Engagement = Engagement.normal

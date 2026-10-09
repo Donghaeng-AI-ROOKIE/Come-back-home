@@ -1,3 +1,4 @@
+import { CaseLifecycleCard } from '../components/LifecycleControls';
 /**
  * 보호자 알림 탭 — 제보 알림 (피그마 2695:15003 목록 / 2696:15126 상세).
  *
@@ -128,7 +129,7 @@ function groupTips(cases: Case[]): TipGroup[] {
 
 /** 지도에 그릴 사건 — 최종 목격 좌표가 있는 것 중 가장 최근(스토어가 최신순). */
 function mapCaseOf(cases: Case[]): Case | null {
-  return cases.find((c) => c.lkp && Number.isFinite(c.lkp.lat) && Number.isFinite(c.lkp.lng)) ?? null;
+  return cases.find((c) => !['found','closed'].includes(c.status) && c.lkp && Number.isFinite(c.lkp.lat) && Number.isFinite(c.lkp.lng)) ?? null;
 }
 
 export default function GuardianAlertsScreen() {
@@ -292,6 +293,7 @@ export default function GuardianAlertsScreen() {
 
         {selected == null ? (
           <ScrollView contentContainerStyle={[styles.sheetBody, hasMap ? null : styles.sheetBodyFull]} showsVerticalScrollIndicator={false}>
+            {cases.map(c => <CaseLifecycleCard key={c.id} item={c} />)}
             <Text style={styles.title}>제보 알림</Text>
             <Text style={styles.subtitle}>주변 시민들의 실제 제보입니다.</Text>
             {isLoading ? <ActivityIndicator color={color.guardian} style={styles.loading} /> : null}

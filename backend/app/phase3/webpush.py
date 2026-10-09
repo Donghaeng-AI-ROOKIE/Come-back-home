@@ -18,6 +18,10 @@ res7 셀 하나로만 받는다(devices.py 와 같은 경계). VAPID 개인키�
 from __future__ import annotations
 
 import json
+import logging
+import time
+import uuid
+from app.llm.usage_ledger import append_event
 
 from app.config import settings
 
@@ -50,23 +54,34 @@ def send_one(subscription: dict, title: str, body: str, data: dict) -> bool:
     """
     if not enabled():
         return False
+    started=time.monotonic()
+    common={'attempt_id':str(uuid.uuid4()),'provider':'Web Push','role':'notification_send',
+            'run_id':'webpush-delivery','actual_cost':None,'support_round':None}
+    append_event({**common,'event_type':'transport_attempt_started'},settings.research_usage_ledger_path)
+    code=None;error=None
     try:
-        webpush(
+        response=webpush(
             subscription_info=subscription,
-            data=json.dumps({"title": title, "body": body, "data": data}, ensure_ascii=False),
+            data=json.dumps({'title':title,'body':body,'data':data},ensure_ascii=False),
             vapid_private_key=settings.vapid_private_key,
-            vapid_claims={"sub": settings.vapid_contact},
-            timeout=settings.push_timeout_sec,
-            ttl=settings.webpush_ttl_sec,
-        )
-        return True
-    except WebPushException as e:  # noqa: BLE001 — 한 명 실패가 전체를 막지 않는다
-        code = getattr(getattr(e, "response", None), "status_code", None)
-        print(f"[webpush] 발송 실패(status={code}): {e}")
+            vapid_claims={'sub':settings.vapid_contact},
+            timeout=settings.push_timeout_sec,ttl=min(settings.webpush_ttl_sec,300))
+        code=getattr(response,'status_code',201)
+        return 200<=code<300
+    except Exception as exc:
+        code=getattr(getattr(exc,'response',None),'status_code',None)
+        error=type(exc).__name__
+        if code in (404,410):
+            from app.phase3 import devices
+            for device in devices.all_devices():
+                if device.web_subscription and device.web_subscription.get('endpoint')==subscription.get('endpoint'):
+                    devices.unregister(device.token)
+        logging.getLogger(__name__).warning('Web push failed: type=%s status=%s',error,code)
         return False
-    except Exception as e:  # noqa: BLE001
-        print(f"[webpush] 발송 실패({type(e).__name__}): {e}")
-        return False
+    finally:
+        append_event({**common,'event_type':'transport_attempt_finished','http_status':code,
+            'error_type':error,'duration_ms':round((time.monotonic()-started)*1000,2),
+            'device_delivery_confirmed':False},settings.research_usage_ledger_path)
 
 
 def is_gone(subscription: dict) -> bool:

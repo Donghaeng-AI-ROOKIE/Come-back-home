@@ -65,21 +65,33 @@ def send(
 
     web_sent = 0
     web_failed = 0
+    suppressed = 0
+    accepted_web = []
+    failed_tokens = []
     for d in web_devices:
-        if d.web_subscription and webpush.send_one(d.web_subscription, title, body, data):
+        if d.owner_id:
+            from app.phase3.webpush_entry import deliver
+            status=deliver(d,title,body,data)
+            if status=='accepted':web_sent+=1;accepted_web.append(d.token)
+            elif status=='cooldown':suppressed+=1
+            else:web_failed+=1;failed_tokens.append(d.token)
+        elif d.web_subscription and webpush.send_one(d.web_subscription, title, body, data):
             web_sent += 1
+            accepted_web.append(d.token)
         else:
             web_failed += 1
+            failed_tokens.append(d.token)
 
     if not expo_tokens:
-        return {"sent": web_sent, "failed": web_failed, "tickets": [], "stub": False}
+        return {"sent": web_sent, "failed": web_failed, "tickets": [], "stub": False,
+                "sent_tokens":accepted_web,"failed_tokens":failed_tokens,"suppressed":suppressed}
     tokens = expo_tokens
 
     if not settings.push_enabled:
         # 스텁: 네트워크 없이 "보낸 셈" 친다. 실패 0 으로 두면 호출부의 집계 코드가
         # 실경로와 같은 모양을 타므로, 나중에 켰을 때 처음 도는 경로가 줄어든다.
         return {"sent": len(tokens) + web_sent, "failed": web_failed,
-                "tickets": [], "stub": True}
+                "tickets": [], "stub": True,"sent_tokens":tokens+accepted_web,"failed_tokens":failed_tokens,"suppressed":suppressed}
 
     headers = {"Content-Type": "application/json"}
     if settings.expo_access_token:
@@ -87,7 +99,7 @@ def send(
         headers["Authorization"] = f"Bearer {settings.expo_access_token}"
 
     tickets: list[dict] = []
-    failed = 0
+    accepted_expo = []
     for batch in _chunk(tokens, MAX_BATCH):
         messages = [
             {
@@ -107,18 +119,24 @@ def send(
                 timeout=settings.push_timeout_sec,
             )
             resp.raise_for_status()
-            tickets.extend(resp.json().get("data", []))
+            batch_tickets = resp.json().get("data", [])
+            if not isinstance(batch_tickets, list):
+                batch_tickets = []
+            tickets.extend(batch_tickets)
+            for i, token in enumerate(batch):
+                ticket = batch_tickets[i] if i < len(batch_tickets) else {}
+                if isinstance(ticket, dict) and ticket.get("status") == "ok":
+                    accepted_expo.append(token)
+                else:
+                    failed_tokens.append(token)
         except (httpx.HTTPError, ValueError) as e:
             # 한 배치가 실패해도 나머지는 계속 보낸다 — 500명 중 100명이 못 받는 것과
             # 전원이 못 받는 것은 다르다.
-            failed += len(batch)
+            failed_tokens.extend(batch)
             tickets.append({"status": "error", "message": str(e)})
 
-    # ticket status 가 "error" 인 건 전송 자체가 거부된 것(무효 토큰 등).
-    ticket_errors = sum(1 for t in tickets if t.get("status") == "error")
     return {
-        "sent": len(tokens) - failed - ticket_errors + web_sent,
-        "failed": failed + ticket_errors + web_failed,
-        "tickets": tickets,
-        "stub": False,
+        "sent": len(accepted_expo) + web_sent, "failed": len(failed_tokens),
+        "tickets": tickets, "stub": False, "suppressed": suppressed,
+        "sent_tokens": accepted_expo + accepted_web, "failed_tokens": failed_tokens,
     }

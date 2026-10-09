@@ -76,11 +76,13 @@ export function useResolvedAlerts(enabled = true) {
 }
 
 export function usePoaPrediction(caseId: string, t: TimeAxis) {
-  return useQuery({
+  const result = useQuery({
     queryKey: ['poa', caseId, t],
     queryFn: () => getPoaPrediction(caseId, t),
     enabled: !!caseId,
+    refetchInterval: ALERT_POLL_MS,
   });
+  return { ...result, data: result.isError ? undefined : result.data };
 }
 
 export function useCase(caseId: string) {
@@ -94,11 +96,12 @@ export function useCase(caseId: string) {
  * 이유가 없다.
  */
 export function useGuardianCases() {
+  const userId = useAuthStore(s => s.userId);
   const caseIds = useGuardianCaseStore((s) => s.caseIds);
   return useQuery({
-    queryKey: ['guardianCases', caseIds],
-    queryFn: () => getMyCases(caseIds),
-    enabled: caseIds.length > 0,
+    queryKey: ['guardianCases', userId, caseIds],
+    queryFn: () => getMyCases(caseIds, userId ?? undefined),
+    enabled: userId != null,
     refetchInterval: ALERT_POLL_MS,
     refetchOnWindowFocus: true,
   });

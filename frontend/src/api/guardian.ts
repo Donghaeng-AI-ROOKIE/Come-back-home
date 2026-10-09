@@ -7,8 +7,9 @@
  * 인터뷰는 서버가 다음 질문을 고른다 — 앱이 질문 목록을 들고 있지 않다.
  * 슬롯 충족도에 따라 질문이 달라지므로 앱에 박아 두면 서버와 어긋난다.
  */
+import { CLOUD_TRANSPORT } from './supabase';
 import type { GeoPoint } from '../types/domain';
-import { SLOW_TIMEOUT_MS, api } from './config';
+import { CHAT_TIMEOUT_MS, SLOW_TIMEOUT_MS, api } from './config';
 
 export type PersonaType = 'dementia';
 
@@ -87,6 +88,7 @@ export type Persona = {
   /** 인터뷰가 추출한 관찰 문장 — "슬롯라벨: 내용" 형태로 저장된다. */
   behavior_notes: string[];
   created_at?: string;
+  last_confirmed_at?: string | null;
 };
 
 export type CaseAppearance = {
@@ -126,8 +128,10 @@ export type Case = {
     appearance?: CaseAppearance | null;
     situation?: string;
   };
+  prior?: { initial_interpretation?: { status?: string } } | null;
   tips: CaseTip[];
   last_alert_at?: string | null;
+  closed_at?: string | null;
 };
 
 // ── Phase 0 — 사전등록 인터뷰 ────────────────────────────────────
@@ -208,6 +212,7 @@ export function answerInterview(sessionId: string, text: string) {
   return api<InterviewSession>(`/phase0/interviews/${sessionId}/answers`, {
     method: 'POST',
     body: JSON.stringify({ text }),
+    timeoutMs: CHAT_TIMEOUT_MS,
   });
 }
 
@@ -280,6 +285,12 @@ export function createReport(body: {
   return api<Case>('/phase1/reports', { method: 'POST', body: JSON.stringify(body) });
 }
 
+export function linkCasePersona(caseId: string, personaId: string) {
+  return api<Case>(`/phase1/cases/${caseId}/persona`, {
+    method: 'PATCH', body: JSON.stringify({ persona_id: personaId }),
+  });
+}
+
 export function getCase(caseId: string) {
   return api<Case>(`/phase1/cases/${caseId}`);
 }
@@ -294,7 +305,8 @@ export function getCase(caseId: string) {
  * 종결·파기된 사건은 404 라 조용히 빠진다 — 화면에 남겨 두면 이미 끝난 수색을
  * 계속 붙잡고 있게 된다.
  */
-export async function getMyCases(caseIds: readonly string[]) {
+export async function getMyCases(caseIds: readonly string[], guardianId?: string) {
+  if (CLOUD_TRANSPORT) return api<Case[]>(`/phase1/cases?guardian_id=${encodeURIComponent(guardianId ?? "")}`);
   const settled = await Promise.allSettled(caseIds.map((id) => getCase(id)));
   return settled.flatMap((r) => (r.status === 'fulfilled' ? [r.value] : []));
 }
@@ -368,4 +380,36 @@ async function pollPoaReady(caseId: string, tries = 20, gapMs = 6_000): Promise<
     await new Promise((r) => setTimeout(r, gapMs));
   }
   return false;
+}
+
+
+/** 보호자 사전등록의 백그라운드 준비 상태. 원문·실행 규칙은 반환하지 않는다. */
+export type PreparationStatus = {
+  initial_state: string;
+  mind_state: string;
+  can_retry: boolean;
+  partial: boolean;
+  quarantined_rule_count: number;
+  unrepresented_note_count: number;
+  contract: string;
+};
+
+export function getPreparationStatus(personaId: string) {
+  return api<PreparationStatus>(`/phase0/personas/${personaId}/preparation`);
+}
+export function retryPreparation(personaId: string) {
+  return api<PreparationStatus>(`/phase0/personas/${personaId}/prepare`, { method: 'POST' });
+}
+
+export function closeCase(caseId: string, ownerId: string, reason: 'found' | 'withdrawn') {
+  return api(`/phase1/cases/${caseId}/close`, { method: 'POST', body: JSON.stringify({ owner_id: ownerId, reason }) });
+}
+export function deleteCase(caseId: string, ownerId: string) {
+  return api(`/phase1/cases/${caseId}`, { method: 'DELETE', body: JSON.stringify({ owner_id: ownerId }) });
+}
+export function deletePersona(personaId: string, ownerId: string) {
+  return api(`/phase0/personas/${personaId}`, { method: 'DELETE', body: JSON.stringify({ owner_id: ownerId }) });
+}
+export function confirmPersona(personaId: string, ownerId: string) {
+  return api<Persona>(`/phase0/personas/${personaId}/confirm`, { method: 'POST', body: JSON.stringify({ owner_id: ownerId }) });
 }

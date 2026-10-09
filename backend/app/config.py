@@ -1,6 +1,7 @@
 """전역 설정. .env 로 오버라이드 가능 (.env.example 참고)."""
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing import Literal
 
 
 class Settings(BaseSettings):
@@ -17,12 +18,31 @@ class Settings(BaseSettings):
     midm_base_url: str = ""
     midm_model: str = ""
     llm_timeout: float = 30.0        # LLM HTTP 타임아웃(초)
+    # Isolated deployment checks must be able to start without an implicit
+    # billable/model warm-up request. Existing deployments retain the default.
+    exaone_warmup_enabled: bool = True
+    # Mi:dm 전용 상한 — 온보딩 한 턴은 Mi:dm 을 2~3번 부르고 앱은 그 턴 전체를 기다린다.
+    # 정상 응답은 1~2초(2.5 실측 2026-09-26)인데 게이트웨이가 멈추면 llm_timeout(30초)을
+    # 다 기다려 한 번만 걸려도 앱이 먼저 포기했다("서버가 끊겼어요"). 짧게 끊고 폴백
+    # (빈 추출→재질문·씨앗 질문)으로 넘기는 편이 대화를 살린다. EXAONE 은 로컬 7.8B
+    # 첫 호출이 길어 별도.
+    midm_timeout: float = 12.0
 
     # LG EXAONE 서빙 엔드포인트 (OpenAI 호환 chat completions) — Mi:dm 과 같은 규약
     #   exaone_base_url = 발급받은 endpoint URL (…/v1 또는 …/v1/chat/completions 앞부분)
     #   exaone_model    = 발급받은 endpoint ID (chat 요청의 model 필드로 들어감)
     exaone_base_url: str = ""
     exaone_model: str = ""
+    # SAR prior 다음의 K 초기 행동 해석. 접속 설정 시 항상 사용(별도 on/off 없음).
+    kexaone_api_key: str = ""
+    kexaone_base_url: str = ""
+    kexaone_model: str = ""
+    kexaone_timeout: float = 420.0
+    research_usage_ledger_path: str = "data/research_usage_events.jsonl"
+    # A server deployment boundary, not a per-person inference toggle.
+    # Unqualified new policy contracts can run only in an isolated staging server.
+    mind_policy_contract: Literal["sourced_followup", "guarded_core"] = "sourced_followup"
+    mind_policy_deployment: Literal["production", "staging"] = "production"
 
     # Phase 3 제보 구조화 전용 — Mi:dm 2.0 Mini 확정(2026-07-29 4파전 실측,
     # llm/tip_llm.py 참고). Phase 0 온보딩 대화 전용 Mi:dm(midm_*)과는 별개
@@ -171,11 +191,17 @@ class Settings(BaseSettings):
     mind_contract: str = "v2"
 
     # RAG — 논문 코퍼스 검색으로 EXAONE 추론에 근거를 붙인다 (P1-4).
-    #   인덱스는 sar-finetune/build_rag.py 산출물(npz 한 개: 벡터+메타+임베더명).
-    #   임베더는 인덱스에 기록된 것을 따른다(질의·문서 모델이 다르면 검색이 무의미).
+    #   인덱스는 experiments/embedder_swap/build_index.py 산출물(npz 한 개: 벡터+
+    #   메타+임베더명). 임베더는 위 embed_* 설정(get_embedder)이 정하고, 인덱스에
+    #   기록된 임베더명과 다르면 로드 시 경고한다(질의·문서 모델이 다르면 검색이
+    #   무의미).
+    #   기본 인덱스 = Upstage embedding-passage 로 빌드한 치매 단독 1,200청크본.
+    #   구 KURE 빌드본(rag_index.npz, 2,488청크)은 8/12 사무국 판정(임베딩도 연계
+    #   기업 모델이어야 함)으로 폐기돼 배포에도 없다 — 기본값이 그쪽을 가리키면
+    #   .env 에 RAG_INDEX_PATH 가 없을 때 "인덱스 없음"으로 RAG 가 조용히 꺼진다.
     #   rag_max_per_source: 한 논문이 top-k 를 독식하지 못하게 하는 출처당 상한.
     rag_enabled: bool = True
-    rag_index_path: str = "data/rag_index.npz"
+    rag_index_path: str = "data/rag_index_upstage.npz"
     rag_top_k: int = 4
     rag_max_per_source: int = 2
     rag_max_chars: int = 1800
@@ -201,6 +227,7 @@ class Settings(BaseSettings):
     #   roadnet_preload=True 면 신고 접수(Phase 1) 시 LKP 반경 그래프를 미리 로딩.
     #   테스트·오프라인 환경 기본값은 False (시뮬레이션이 필요할 때 캐시에서 로딩).
     roadnet_preload: bool = False
+    personal_walk_cache_path: str = ""      # verified offline regional GraphML with adjacent manifest
     roadnet_radius_m: int = 3000            # 아키텍처 문서: LKP 반경 3km (동적 스케일의 하한)
     # P1-3 — 로딩 반경을 프로파일·경과시간의 p90 지원으로 스케일 (radius.roadnet_radius_m).
     #   고정 3km 는 치매 6h 중앙값 3.9km 가 그래프 밖(sim_testset 3h/6h dist_ratio 저하 실측).
@@ -486,6 +513,17 @@ class Settings(BaseSettings):
     # 감사로그 영속 파일 (JSONL append-only) — 인메모리 storage 는 재시작 시
     # 증발하므로 파기 증적만은 파일로 남긴다. DB 전환 시 테이블로 임포트.
     privacy_audit_path: str = "data/audit_log.jsonl"
+    # 개인정보 자동 파기 워커. 화면 없이도 API와 로그로 상태를 확인한다.
+    privacy_scheduler_enabled: bool = True
+    # 만료 대상 전체 탐색은 하루 한 번. 재시작 직후에는 즉시 한 번 수행한다.
+    privacy_scheduler_interval_seconds: int = 300
+    # 이미 등록된 실패 작업의 재시도 시각만 이 간격으로 확인한다.
+    privacy_retry_poll_seconds: int = 30
+    privacy_retry_base_seconds: int = 60
+    privacy_retry_max_attempts: int = 5
+    privacy_control_retention_days: int = 90
+    # 관리자 API 보호용 공유 키. 비어 있으면 관리자 API를 비활성화한다.
+    privacy_admin_key: str = ""
 
 
 settings = Settings()

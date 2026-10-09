@@ -76,7 +76,7 @@ def test_full_pipeline(case):
     assert sum(case.current_poa.values()) == pytest.approx(1.0)
 
 
-def test_d3_new_region_alert_on_layer2_rerun(case):
+def test_d3_new_region_alert_on_layer2_rerun(case, monkeypatch):
     """D3 — 층2 재실행(새 LKP, 먼 거리)으로 새 지역이 등장하면 last_alert_poa 갱신.
 
     last_alert_poa 시딩 전에는 D3 가 비활성 상태로 남아야 한다(비교 기준 없음).
@@ -96,6 +96,9 @@ def test_d3_new_region_alert_on_layer2_rerun(case):
     case.last_alert_poa = dict(case.current_poa)
     case.last_alert_at = datetime.now()
     seeded_snapshot = dict(case.last_alert_poa)
+    from app.phase3 import alerts
+    # Advance the baseline only after actual vendor acceptance, never zero recipients.
+    monkeypatch.setattr(alerts, 'send_alerts', lambda *a, **kw: {'sent': 1, 'failed': 0, 'stub': False})
 
     # 층2 트리거(고신뢰+위치·시각 특정, 먼 지점) → 새 LKP 로 Phase2 재실행
     # → h3 grid 자체가 옛 지점 주변과 거의 안 겹쳐 새 지역 다수 등장

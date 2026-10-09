@@ -9,7 +9,13 @@ import os
 
 import pytest
 
-from app.geo.geocode import GazetteerGeocoder, KakaoGeocoder, to_attraction_points
+from app.geo.geocode import (
+    GazetteerGeocoder,
+    GeoResult,
+    KakaoGeocoder,
+    to_attraction_points,
+)
+from app.schemas.common import GeoPoint
 
 
 def test_gazetteer_prefers_dong_over_gu():
@@ -147,7 +153,11 @@ def test_anchor_filters_far_matches_to_unresolved():
 
 
 def test_kakao_keyword_sends_anchor_params(monkeypatch):
-    """앵커가 있으면 카카오 키워드검색에 x/y/radius/sort=distance 가 실린다 (오프라인)."""
+    """앵커가 있으면 카카오 키워드검색에 x/y/radius 와 정확도순 정렬이 실린다 (오프라인).
+
+    거리순이면 이름이 겹치는 가장 가까운 가게가 첫 결과가 된다(2026-09-26 실측:
+    '킨텍스'→집 근처 카페, '일산호수공원'→집 근처 식당).
+    """
     from app.geo.geocode import ANCHOR_MAX_KM, GeoPoint
 
     captured = {}
@@ -164,8 +174,23 @@ def test_kakao_keyword_sends_anchor_params(monkeypatch):
     assert res is not None and res.precision == "poi"
     assert captured["extra"] == {
         "x": home.lng, "y": home.lat,
-        "radius": int(ANCHOR_MAX_KM * 1000), "sort": "distance",
+        "radius": int(ANCHOR_MAX_KM * 1000), "sort": "accuracy",
     }
+
+
+def test_kakao_region_flag_searches_address_first(monkeypatch):
+    """이름 없는 장소의 동네('파주')는 접미사가 없어도 주소 검색을 먼저 한다."""
+    calls = []
+    g = KakaoGeocoder("fake-key")
+
+    def fake_get(url, query, extra=None):
+        calls.append(url)
+        return [{"y": "37.76", "x": "126.78", "address_name": "경기 파주시", "place_name": "x"}]
+
+    monkeypatch.setattr(g, "_get", fake_get)
+    res = g.locate("파주", region=True)
+    assert calls == [KakaoGeocoder.ADDRESS_URL]
+    assert res.precision == "address"
 
 
 def test_attraction_geocode_prefers_label_over_area():
@@ -264,3 +289,148 @@ def test_kakao_denial_is_logged_once_and_falls_back(capsys, monkeypatch):
     assert out.count("카카오 지오코딩 거부") == 1       # 호출마다가 아니라 한 번만
     assert "403" in out and "OPEN_MAP_AND_LOCAL" in out  # 원인이 그대로 보인다
     assert "dummy-key" not in out                        # 키는 절대 로그로 새지 않는다
+
+
+# ── 이름 없이 부른 장소(모델 판정 name_kind=generic) — 보호자가 말한 동네로 ─────────
+# E2E(2026-09-26): '교회'(보호자: 파주시 아동동)가 집 60m 옆 교회로 좌표화됐다. 카카오
+# 키워드 검색이 집 기준 거리순이라 동네가 붙어도 가장 가까운 아무 교회가 첫 결과였다.
+
+def test_generic_place_uses_the_stated_area_not_the_nearest_match():
+    from app.geo.geocode import GeoPoint
+
+    home = GeoPoint(lat=37.6779, lng=126.7526)
+    near_church = GeoPoint(lat=37.6783, lng=126.7530)   # 집 옆 교회(엉뚱한 곳)
+    adong = GeoPoint(lat=37.7600, lng=126.7800)         # 파주시 아동동
+    g = GazetteerGeocoder({"교회": near_church, "아동동": adong})
+    points, unresolved = to_attraction_points(
+        [{"label": "교회", "area_text": "파주시 아동동", "name_kind": "generic"}], geocoder=g, anchor=home)
+    assert not unresolved
+    assert (points[0].location.lat, points[0].location.lng) == (adong.lat, adong.lng)
+    assert points[0].label == "교회"
+
+
+def test_generic_place_without_area_is_not_placed():
+    """동네를 모르는 '예전에 살던 집'은 좌표를 만들지 않는다 — 집 근처 아무 '…집'이 걸리지 않게."""
+    from app.geo.geocode import GeoPoint
+
+    g = GazetteerGeocoder({"집": GeoPoint(lat=37.6780, lng=126.7527)})
+    points, unresolved = to_attraction_points(
+        [{"label": "예전에 살던 집", "area_text": "", "name_kind": "generic"}], geocoder=g,
+        anchor=GeoPoint(lat=37.6779, lng=126.7526))
+    assert points == []
+    assert unresolved[0]["reason"] == "이름 없는 장소 — 동네 미확인"
+
+
+def test_proper_name_keeps_label_search():
+    """고유한 이름은 종전대로 라벨을 먼저 찾는다(라벨-좌표 일치)."""
+    from app.geo.geocode import GeoPoint
+
+    station = GeoPoint(lat=37.5476, lng=126.9422)
+    dong = GeoPoint(lat=37.5510, lng=126.9419)
+    g = GazetteerGeocoder({"대흥역": station, "대흥동": dong})
+    points, _ = to_attraction_points(
+        [{"label": "대흥역", "area_text": "대흥동", "name_kind": "proper"}], geocoder=g)
+    assert abs(points[0].location.lat - station.lat) < 1e-6
+
+
+# ── 모델이 고르는 좌표화(chooser) — 최종 게이트 1회차: 교차로 2곳이 '오거리공원 화장실'로 찍혔다 ──
+class _CandidateGeo:
+    """키워드 후보 목록과 주소 검색을 흉내 낸다. 호출 기록을 남긴다."""
+
+    def __init__(self, table, regions=None):
+        self.table, self.regions, self.asked = table, regions or {}, []
+
+    def keyword_candidates(self, query, anchor=None, size=5):
+        self.asked.append(query)
+        return [GeoResult(GeoPoint(lat=lat, lng=lng), "poi", "kakao", name, {"category": cat, "distance_m": dist})
+                for name, lat, lng, cat, dist in self.table.get(query, [])]
+
+    def locate(self, query, anchor=None, *, region=False):
+        p = self.regions.get(query)
+        return GeoResult(p, "address", "kakao", query) if p else None
+
+
+class _Chooser:
+    def __init__(self, picks, landmark=None):
+        self.picks, self.lm, self.calls = picks, landmark, []
+
+    def pick(self, draft, results, landmark=None):
+        self.calls.append(([r.matched for r in results], landmark))
+        names = [r.matched for r in results]
+        want = self.picks.get(landmark or draft['label'])
+        return names.index(want) if want in names else None
+
+    def landmark(self, draft):
+        return self.lm
+
+
+HOME = GeoPoint(lat=37.6873, lng=126.7791)
+PARK_WC = ('오거리공원 화장실', 37.67605, 126.76456, '화장실', 1792)
+MARKET = ('일산시장', 37.68562, 126.77082, '시장', 756)
+
+
+def test_chooser_picks_the_guardian_place_among_candidates():
+    geo = _CandidateGeo({'쌍용아파트': [('쌍용아파트', 37.67054, 126.78872, '아파트', 2044),
+                                     ('일산쌍용아파트', 37.68657, 126.77686, '아파트', 216)]})
+    pts, un = to_attraction_points([{'label': '쌍용아파트', 'area_text': ''}], geo, anchor=HOME,
+                                   chooser=_Chooser({'쌍용아파트': '일산쌍용아파트'}))
+    assert not un and (pts[0].location.lat, pts[0].precision) == (37.68657, 'poi')
+
+
+def test_no_candidate_matches_then_landmark_in_the_guardian_words_is_used():
+    geo = _CandidateGeo({'일산시장 앞 오거리': [PARK_WC], '일산시장앞오거리': [PARK_WC], '일산시장': [MARKET]})
+    chooser = _Chooser({'일산시장': '일산시장'}, landmark='일산시장')
+    pts, un = to_attraction_points([{'label': '일산시장 앞 오거리', 'area_text': ''}], geo, anchor=HOME, chooser=chooser)
+    assert not un and (pts[0].location.lat, pts[0].precision) == (37.68562, 'approx')
+    assert len(chooser.calls) == 2      # 같은 후보 목록(띄어쓰기 변형)은 한 번만 묻는다 + 랜드마크 한 번
+
+
+def test_nothing_chosen_falls_back_to_the_area_and_then_to_unresolved():
+    geo = _CandidateGeo({'딸 집': [PARK_WC]}, regions={'대화동': GeoPoint(lat=37.677, lng=126.748)})
+    pts, _ = to_attraction_points([{'label': '딸 집', 'area_text': '대화동'}], geo, anchor=HOME, chooser=_Chooser({}))
+    assert pts[0].precision == 'address'
+    pts, un = to_attraction_points([{'label': '딸 집', 'area_text': ''}], geo, anchor=HOME, chooser=_Chooser({}))
+    assert not pts and un[0]['reason'] == '검색 후보 중 보호자가 말한 곳 없음'
+
+
+def test_place_chooser_rejects_a_landmark_not_in_the_guardian_words(monkeypatch):
+    from app.phase0 import interview
+    monkeypatch.setattr(interview.midm, 'landmark_query', lambda label, quote: '이마트')
+    assert interview._CHOOSER.landmark({'label': '일산시장 앞 오거리', 'quote': '일산시장 앞 오거리에서 헤매세요'}) is None
+    monkeypatch.setattr(interview.midm, 'landmark_query', lambda label, quote: '일산 시장')
+    assert interview._CHOOSER.landmark({'label': '일산시장 앞 오거리', 'quote': ''}) == '일산 시장'
+
+
+def test_place_pick_parsing():
+    from app.phase0 import prompts
+    assert prompts.parse_place_pick('{"pick": 2}', 3) == 1
+    assert prompts.parse_place_pick('{"pick": null}', 3) is None
+    assert prompts.parse_place_pick('{"pick": 4}', 3) is None
+    assert prompts.parse_place_pick('{"pick": true}', 3) is None
+    assert prompts.parse_place_landmark('{"query": " 일산시장 "}') == '일산시장'
+    assert prompts.parse_place_landmark('{"query": null}') is None
+
+
+def test_place_chooser_rejects_a_pick_that_is_not_confirmed(monkeypatch):
+    """9회차: '일산시장 앞 오거리'에 2.2km 떨어진 '문화공원 오거리공원'을 골랐다 — 고른 뒤 한 번 더 묻는다."""
+    from app.phase0 import interview
+    r = GeoResult(GeoPoint(lat=37.676, lng=126.765), 'poi', 'kakao', '문화공원 오거리공원', {'category': '도시근린공원'})
+    monkeypatch.setattr(interview.midm, 'pick_place', lambda label, quote, options, landmark=None: 0)
+    asked = []
+    monkeypatch.setattr(interview.midm, 'yes_no', lambda q, u: asked.append(q) or False)
+    assert interview._CHOOSER.pick({'label': '일산시장 앞 오거리', 'quote': '일산시장 앞 오거리에서 헤매세요'}, [r]) is None
+    assert "'문화공원 오거리공원'(도시근린공원) 그 자체이거나" in asked[0]
+    # 랜드마크 고르기는 다시 묻지 않는다(10회차: 맞는 '일산쌍용아파트'를 확인 질문이 버렸다)
+    monkeypatch.setattr(interview.midm, 'yes_no', lambda q, u: pytest.fail('landmark pick must not be re-asked'))
+    assert interview._CHOOSER.pick({'label': '일산시장 앞 오거리', 'quote': ''}, [r], landmark='일산시장') == 0
+
+
+def test_area_fallback_takes_only_an_address_result():
+    """10회차: 동네 대체가 주소 없이 키워드 첫 결과('오거리공원 화장실')를 다시 끌어왔다."""
+    class _PoiRegionGeo(_CandidateGeo):
+        def locate(self, query, anchor=None, *, region=False):
+            return GeoResult(GeoPoint(lat=37.676, lng=126.765), 'poi', 'kakao', '오거리공원 화장실')
+    geo = _PoiRegionGeo({})
+    pts, un = to_attraction_points([{'label': '쌍용아파트 앞 오거리', 'area_text': '쌍용아파트 앞 오거리'}], geo,
+                                   anchor=HOME, chooser=_Chooser({}))
+    assert not pts and un[0]['reason'] == '검색 후보 중 보호자가 말한 곳 없음'

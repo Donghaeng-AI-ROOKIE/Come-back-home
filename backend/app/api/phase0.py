@@ -1,5 +1,8 @@
 """Phase 0 API — 온보딩 인터뷰·페르소나 등록."""
 
+from datetime import datetime, timezone
+from difflib import SequenceMatcher
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
@@ -77,7 +80,8 @@ def list_slots(persona_type: PersonaType | None = None):
 
 # axis_quotes = 보호자 원발화 그대로(quote 검증용 내부 값) — 프론트가 쓸 일이 없어
 # API 응답에서 제외한다. 저장·파기·채점 로직에는 영향 없음(응답 스키마만 필터링).
-_PERSONA_EXCLUDE = {"axis_quotes"}
+# onboarding_turns 는 보호자 질문·답 원문 전체다(K 입력용) — onboarding_quotes 와 같이 공개 응답에서 뺀다.
+_PERSONA_EXCLUDE = {"axis_quotes", "onboarding_quotes", "onboarding_turns", "guardian_edited_notes", "guardian_note_revisions", "prepared_initial", "prepared_mind"}
 
 
 @router.post("/personas", response_model=Persona, response_model_exclude=_PERSONA_EXCLUDE)
@@ -90,7 +94,7 @@ def register_persona(body: RegisterPersonaIn):
     )
 
 
-@router.get("/personas", response_model=list[Persona], response_model_exclude=_PERSONA_EXCLUDE)
+@router.get("/personas", response_model=list[Persona], response_model_exclude={"__all__": _PERSONA_EXCLUDE})
 def list_personas(guardian_id: str | None = None):
     """이 보호자가 등록한 가족만 — 보호자 홈의 '사전 등록된 가족'.
 
@@ -183,6 +187,7 @@ def update_persona(persona_id: str, body: UpdatePersonaIn):
     if persona is None:
         raise HTTPException(404, "페르소나 없음")
     updates = body.model_dump(exclude_unset=True, exclude_none=True)
+    updates = {k: v for k, v in updates.items() if v != persona.model_dump()[k]}
     if not updates:
         return persona
     # **검증을 거쳐 다시 만든다.** `model_copy(update=...)` 를 쓰면 안 된다 —
@@ -194,9 +199,25 @@ def update_persona(persona_id: str, body: UpdatePersonaIn):
     # 예측이 500 으로 실패했다("AI 분석만 다시 시도해 주세요"가 계속 뜨던 원인).
     # 디스크 데이터는 멀쩡했다 — dict 든 모델이든 같은 JSON 으로 저장되기 때문에,
     # 서버를 재시작하면 사라졌다가 수정할 때마다 되살아나는 형태였다.
-    updated = Persona.model_validate({**persona.model_dump(), **updates})
-    storage.personas.save(persona_id, updated)
-    return updated
+    def apply(current):
+        values = {**current.model_dump(), **updates, "version": current.version + 1}
+        if "behavior_notes" in updates:
+            before, after = current.behavior_notes, updates["behavior_notes"]
+            revisions = list(current.guardian_note_revisions)
+            for op, i, j, a, b in SequenceMatcher(a=before, b=after, autojunk=False).get_opcodes():
+                if op != "equal":
+                    revisions.append({"before": before[i:j], "after": after[a:b],
+                                      "recorded_at": datetime.now(timezone.utc).isoformat()})
+            values["guardian_note_revisions"] = revisions
+        return Persona.model_validate(values)
+    updated = storage.personas.update_existing(persona_id, apply)
+    if updated is None:
+        raise HTTPException(404, "페르소나 없음")
+    from app.phase0.person_preparation import enqueue
+    from app.phase0.persona_events import notify_persona_updated
+    enqueue(persona_id)
+    notify_persona_updated(persona_id, updated.version)
+    return storage.personas.get(persona_id) or updated
 
 
 class StartSessionIn(BaseModel):
@@ -294,3 +315,60 @@ def complete_session(session_id: str):
         "persona_status": status,
         "persona_version": persona.version if persona else None,
     }
+
+
+@router.post("/personas/{persona_id}/prepare")
+def prepare_initial_person(persona_id: str):
+    """기존 프로필 준비/실패 작업의 명시적 재요청. 응답은 작업 완료를 기다리지 않는다."""
+    if storage.personas.get(persona_id) is None:
+        raise HTTPException(404, "페르소나 없음")
+    from app.phase0.person_preparation import enqueue
+    enqueue(persona_id, retry=True)
+    current = storage.personas.get(persona_id)
+    if current is None:
+        raise HTTPException(404, "페르소나 없음")
+    from app.phase0.mind_preparation import status
+    return status(current)
+
+
+@router.get("/personas/{persona_id}/preparation")
+def preparation_status(persona_id: str):
+    from app.phase0.mind_preparation import status
+    persona=storage.personas.get(persona_id)
+    if persona is None:raise HTTPException(404, "페르소나 없음")
+    return status(persona)
+
+
+class OwnedPersonaIn(BaseModel):
+    owner_id: str
+
+
+def _owned_persona(persona_id: str, owner: str):
+    persona = storage.personas.get(persona_id)
+    if persona is None or not owner or persona.guardian_id != owner:
+        raise HTTPException(404, "내 등록 정보를 찾을 수 없습니다.")
+    return persona
+
+
+@router.post("/personas/{persona_id}/confirm", response_model=Persona,
+             response_model_exclude=_PERSONA_EXCLUDE)
+def confirm_persona(persona_id: str, body: OwnedPersonaIn):
+    _owned_persona(persona_id, body.owner_id)
+    def apply(current):
+        current.last_confirmed_at = datetime.now()
+        return current
+    updated = storage.personas.update_existing(persona_id, apply)
+    if updated is None:
+        raise HTTPException(404, "등록 정보가 삭제되었습니다.")
+    return updated
+
+
+@router.delete("/personas/{persona_id}")
+def delete_persona(persona_id: str, body: OwnedPersonaIn):
+    from app.privacy import lifecycle
+    _owned_persona(persona_id, body.owner_id)
+    try:
+        lifecycle.purge_persona(persona_id)
+    except lifecycle.ActiveCaseLinked:
+        raise HTTPException(409, "진행 중인 수색을 먼저 종결해 주세요.")
+    return {"deleted": True}

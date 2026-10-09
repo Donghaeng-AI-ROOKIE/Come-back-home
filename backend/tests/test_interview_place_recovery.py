@@ -21,26 +21,29 @@ def _session(**kw) -> InterviewSession:
 # ── ① 주소 없는 끌림점 탐지·되묻기·확정 ──────────────────────────────
 
 def test_arealess_attraction_detected():
+    # 자리표시("언급 없음")는 추출 단계에서 원문 대조로 이미 비워진다(test_interview_correction)
     s = _session(draft_attractions=[
         {"label": "원마루 공원", "area_text": "분평동"},
-        {"label": "예전에 살던 집", "area_text": "언급 없음"},   # 플레이스홀더 = 없음
+        {"label": "예전에 살던 집", "area_text": "  "},
         {"label": "옛 직장", "area_text": ""},
     ])
     assert [a["label"] for a in interview._arealess_attractions(s)] == ["예전에 살던 집", "옛 직장"]
 
 
-def test_pending_area_answer_fills_area_text():
-    """되묻기 답변은 LLM 추출을 거치지 않고 결정론적으로 확정된다(home 규칙 폴백과 동일 원칙)."""
+def test_pending_area_answer_fills_area_text(monkeypatch):
+    """되묻기 답에서 지역 표현은 모델이 고르고, 코드는 답에 그대로 있는지만 본다."""
+    monkeypatch.setattr(interview.midm, "extract_area", lambda label, answer: "청주시 서원구 산남동")
     s = _session(draft_attractions=[{"label": "예전에 살던 집", "area_text": ""}],
                  pending_area_label="예전에 살던 집")
     interview._resolve_pending_area(s, "청주시 서원구 산남동이요")
-    # 말끝 조사는 떼고 저장 — 이 값이 그대로 지오코딩 질의가 된다
+    # 조사를 뗀 값이 그대로 지오코딩 질의가 된다
     assert s.draft_attractions[0]["area_text"] == "청주시 서원구 산남동"
     assert s.pending_area_label is None
 
 
-def test_pending_area_ignorance_does_not_loop():
-    """'모르겠어요'면 값을 만들지 않고 되묻기를 끝낸다 — 같은 질문 반복 금지."""
+def test_pending_area_ignorance_does_not_loop(monkeypatch):
+    """모른다는 답(모델이 지역 없음)이면 값을 만들지 않고 되묻기를 끝낸다 — 같은 질문 반복 금지."""
+    monkeypatch.setattr(interview.midm, "extract_area", lambda label, answer: None)
     s = _session(draft_attractions=[{"label": "예전에 살던 집", "area_text": ""}],
                  pending_area_label="예전에 살던 집")
     interview._resolve_pending_area(s, "모르겠어요")
@@ -48,18 +51,34 @@ def test_pending_area_ignorance_does_not_loop():
     assert s.pending_area_label is None
 
 
-def test_pending_area_rejects_sentence_answer():
-    """문장형 답("그냥 옛날에 살던 곳이에요")은 지오코딩 불가 — 받지 않는다."""
+def test_pending_area_rejects_area_not_in_answer(monkeypatch):
+    """모델이 답에 없는 지역을 내면(지어낸 값) 받지 않고 기록한다."""
+    monkeypatch.setattr(interview.midm, "extract_area", lambda label, answer: "청주시 서원구 분평동")
     s = _session(draft_attractions=[{"label": "예전에 살던 집", "area_text": ""}],
                  pending_area_label="예전에 살던 집")
     interview._resolve_pending_area(s, "그냥 아주 옛날에 살던 곳이라 잘 기억이 안 나요")
     assert s.draft_attractions[0]["area_text"] == ""
+    assert s.extraction_audit == [{"event": "area_not_in_answer", "label": "예전에 살던 집",
+                                   "area": "청주시 서원구 분평동"}]
 
 
-def test_past_place_label_created_when_model_misses_it(monkeypatch):
-    """'예전에 살던 집'을 Mi:dm 이 장소로 안 뽑아도(실측 0/3) 끌림점을 만든다.
+def test_pending_area_takes_place_name_from_sentence(monkeypatch):
+    """문장으로 답해도 모델이 고른 지명만 쓴다 — 라이브 실측(2026-08-07) '예전 가게' 소실."""
+    seen = []
+    monkeypatch.setattr(interview.midm, "extract_area",
+                        lambda label, answer: seen.append((label, answer)) or "망원시장")
+    s = _session(draft_attractions=[{"label": "예전 가게", "area_text": ""}],
+                 pending_area_label="예전 가게")
+    interview._resolve_pending_area(s, "망원시장에서 생선가게를 하셨어요")
+    assert s.draft_attractions[0]["area_text"] == "망원시장"
+    assert seen == [("예전 가게", "망원시장에서 생선가게를 하셨어요")]
+
+
+def test_past_place_rechecked_when_model_misses_it(monkeypatch):
+    """'예전에 살던 집'을 Mi:dm 이 장소로 안 뽑으면(실측 0/3) 무엇이 빠졌는지 알려 다시 묻는다.
 
     노트로만 남으면 예측에 못 들어간다 — 보호자가 말한 목적지 후보가 통째로 증발.
+    예전에는 정규식이 발화에서 라벨을 직접 만들었다.
     """
     from app import storage
 
@@ -68,14 +87,20 @@ def test_past_place_label_created_when_model_misses_it(monkeypatch):
                  filled_keys=["identity", "home"],
                  prev_target_key="autobiographical_destination_pull")
     storage.interviews.save(s.id, s)
-    monkeypatch.setattr(interview.midm, "extract_answer",
-                        lambda slot, conv: {"fields": {},
-                                            "attraction_points": [],     # 장소 못 뽑음
-                                            "behavior_notes": ["예전에 살던 집 이야기를 자주 함"],
-                                            "slot_filled": True})
+
+    def extractor(slot, conv, recheck_places=False):
+        out = {"answer_kind": "informative", "fields": {}, "attraction_points": [],
+               "behavior_notes": ["예전에 살던 집 이야기를 자주 함"], "slot_filled": True}
+        if recheck_places:
+            out["attraction_points"] = [{"label": "예전에 살던 집", "area_text": "",
+                                         "evidence": "caregiver_report",
+                                         "quote": "예전에 살던 집 이야길 종종 하십니다"}]
+        return out
+
+    monkeypatch.setattr(interview.midm, "extract_answer", extractor)
     out = interview.answer_interview(s.id, "예전에 살던 집 이야길 종종 하십니다")
     assert [a["label"] for a in out.draft_attractions] == ["예전에 살던 집"]
-    assert out.draft_attractions[0]["evidence"] == "caregiver_report"   # "종종" → 승급
+    assert out.draft_attractions[0]["evidence"] == "caregiver_report"   # 모델 판정 유지
     assert "'예전에 살던 집'은 어느 동네인가요" in out.messages[-1]["text"]
 
 
@@ -110,11 +135,12 @@ def test_past_place_area_asked_immediately(monkeypatch):
                  prev_target_key="autobiographical_destination_pull")
     storage.interviews.save(s.id, s)
     monkeypatch.setattr(interview.midm, "extract_answer",
-                        lambda slot, conv: {"fields": {}, "behavior_notes": [],
-                                            "slot_filled": True,
-                                            "attraction_points": [
-                                                {"label": "예전에 살던 집",
-                                                 "area_text": "청주시 서원구 분평동"}]})
+                        lambda slot, conv, **_: {"fields": {}, "behavior_notes": [],
+                                                 "slot_filled": True,
+                                                 "attraction_points": [
+                                                     {"label": "예전에 살던 집",
+                                                      "area_text": "청주시 서원구 분평동"}]})
+    monkeypatch.setattr(interview.midm, "extract_area", lambda label, answer: "청주시 서원구 산남동")
     out = interview.answer_interview(s.id, "예전에 살던 집에 가야한다는 말을 종종 합니다")
     # 발화에 없는 지역(= 현재 집 동네를 복사한 값)은 버리고 되묻는다
     assert "'예전에 살던 집'은 어느 동네인가요" in out.messages[-1]["text"]
@@ -140,7 +166,8 @@ def test_past_place_area_not_asked_when_guardian_said_it(monkeypatch):
                                             "slot_filled": True,
                                             "attraction_points": [
                                                 {"label": "예전에 살던 집",
-                                                 "area_text": "산남동"}]})
+                                                 "area_text": "산남동",
+                                                 "quote": "산남동에 있는 예전 집"}]})
     monkeypatch.setattr(interview, "_next_slot", lambda *a, **k: None)
     out = interview.answer_interview(s.id, "산남동에 있는 예전 집에 가야한다고 하세요")
     assert out.pending_area_label is None
@@ -164,7 +191,7 @@ def test_summary_gate_asks_for_missing_area(monkeypatch):
     s = _session(id="pr-gate", draft_fields={"name": "송복남", "age": "82세",
                                              "home": "청주시 서원구 분평동"},
                  filled_keys=["identity", "home"],
-                 draft_attractions=[{"label": "예전에 살던 집", "area_text": "언급 없음",
+                 draft_attractions=[{"label": "예전에 살던 집", "area_text": "",
                                      "origin_slot": "autobiographical_destination_pull"}],
                  asked_more_places=True,          # 장소 스윕은 이미 끝난 상태
                  prev_target_key="routine_destinations")
@@ -172,10 +199,11 @@ def test_summary_gate_asks_for_missing_area(monkeypatch):
 
     # LLM 없이 결정론적으로 — 추출은 빈손, 다음 슬롯 없음(= 종료 판정 진입)
     monkeypatch.setattr(interview.midm, "extract_answer",
-                        lambda slot, conv: {"fields": {}, "attraction_points": [],
-                                            "behavior_notes": [],
-                                            "slot_filled": True})
+                        lambda slot, conv, **_: {"fields": {}, "attraction_points": [],
+                                                 "behavior_notes": [],
+                                                 "slot_filled": True})
     monkeypatch.setattr(interview, "_next_slot", lambda *a, **k: None)
+    monkeypatch.setattr(interview.midm, "extract_area", lambda label, answer: "청주시 서원구 산남동")
 
     out = interview.answer_interview(s.id, "딱히 없어요")
     assert "'예전에 살던 집'은 어느 동네인가요" in out.messages[-1]["text"]
@@ -201,7 +229,7 @@ def test_confirmation_added_place_triggers_area_question(monkeypatch):
                                             "home": "청주시 서원구 분평동"},
                  awaiting_confirmation=True)
     monkeypatch.setattr(interview.midm, "extract_correction",
-                        lambda labels, utterance: {"fields": {}, "place_ops": [
+                        lambda labels, utterance: {"intent": "correct", "fields": {}, "place_ops": [
                             {"op": "add", "value": "청주 중앙시장", "area": ""}]})
     out = interview._handle_confirmation(s, "청주 중앙시장도 자주 가세요")
     assert "'청주 중앙시장'은 어느 동네인가요" in out.messages[-1]["text"]
@@ -239,3 +267,26 @@ def test_question_examples_stripped_for_extraction():
     assert out[0]["text"] == "어디에서 발견됐는지 알려주세요."
     assert out[1]["text"] == "원평중학교 앞에서요"
     assert "(예:" in msgs[0]["text"]        # 원본 불변
+
+
+def test_generic_place_area_is_asked_even_if_label_geocodes(monkeypatch):
+    """이름 없이 부른 곳('교회')은 라벨로 좌표가 나와도 동네를 묻는다 — 집 옆 아무 교회가 걸린다."""
+    from app import storage
+
+    s = _session(id="pr-generic", draft_fields={"name": "이순례", "age": "77세",
+                                                "home": "고양시 일산서구 대화동"},
+                 filled_keys=["identity", "home"],
+                 prev_target_key="autobiographical_destination_pull")
+    storage.interviews.save(s.id, s)
+    monkeypatch.setattr(interview.midm, "extract_answer",
+                        lambda slot, conv, **_: {"answer_kind": "informative", "fields": {},
+                                                 "behavior_notes": [], "slot_filled": True,
+                                                 "attraction_points": [
+                                                     {"label": "교회", "area_text": "", "name_kind": "generic",
+                                                      "evidence": "caregiver_report",
+                                                      "quote": "일요일 아침마다 교회에 가야 한다고 하세요"}]})
+    monkeypatch.setattr(interview, "_geocodable", lambda label: True)
+    out = interview.answer_interview(s.id, "요즘 일요일 아침마다 교회에 가야 한다고 하세요.")
+    assert out.pending_area_label == "교회"
+    assert "'교회'은 어느 동네인가요" in out.messages[-1]["text"]
+    assert out.draft_attractions[0]["name_kind"] == "generic"
