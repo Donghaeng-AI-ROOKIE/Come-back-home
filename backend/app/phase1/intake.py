@@ -76,7 +76,13 @@ def create_report(
         lkp=report.lkp,
         lkp_time=report.lkp_time,
     )
-    storage.cases.save(case.id, case)
+    with storage.persona_link_lock:
+        if persona_id and guardian_id:
+            persona = storage.personas.get(persona_id)
+            if persona is None or persona.guardian_id != guardian_id:
+                from fastapi import HTTPException
+                raise HTTPException(404, "내 등록 정보를 찾을 수 없습니다.")
+        storage.cases.save(case.id, case)
 
     # 축 점수 백필 — 비동기 채점이 유실된 미채점 페르소나의 마지막 채점 기회
     # (Phase 2 가 점수를 소비하기 직전). 실패해도 접수는 계속.

@@ -190,6 +190,7 @@ def request_case_deletion(case: Case) -> None:
     purge_case(case, cause="explicit_request")
 
 
+@storage.serialize_persona_links
 def purge_persona(persona_id: str, *, cause: str = "explicit_request") -> None:
     """페르소나 파기 — 인터뷰 세션·종결된 연결 케이스까지 동반삭제.
 

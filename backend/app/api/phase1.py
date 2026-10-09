@@ -107,6 +107,7 @@ class LinkPersonaIn(BaseModel):
 
 
 @router.patch("/cases/{case_id}/persona", response_model=Case, response_model_exclude={"continuous_state", "prior_context_key", "alert_delivery"})
+@storage.serialize_persona_links
 @storage.serialize_case
 def link_persona(case_id: str, body: LinkPersonaIn):
     """Attach post-report onboarding without creating another missing incident.

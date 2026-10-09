@@ -236,3 +236,13 @@ def test_expo_failed_batch_has_nonnegative_counts_and_only_accepted_receipts(mon
  assert result['sent']==1 and result['failed']==101
  assert result['sent_tokens']==[tokens[100]]
  assert set(result['failed_tokens'])==set(tokens)-{tokens[100]}
+
+
+def test_deleted_persona_cannot_be_relinked_after_cloud_authorization():
+ from app.phase1 import intake
+ p=Persona(id='deleted-owner-person',guardian_id=OWNER,type=PersonaType.dementia,name='Synthetic',age=75,home=POINT)
+ storage.personas.save(p.id,p)
+ lifecycle.purge_persona(p.id)
+ with pytest.raises(HTTPException) as exc:
+  intake.create_report(guardian_id=OWNER,missing_type=PersonaType.dementia,lkp=POINT,lkp_time=datetime.now(),persona_id=p.id)
+ assert exc.value.status_code==404 and storage.cases.list()==[]

@@ -238,6 +238,18 @@ def serialize_case(fn):
     return wrapped
 
 
+# Linking a persona and deleting it must not race across cloud lanes.
+persona_link_lock = threading.RLock()
+
+
+def serialize_persona_links(fn):
+    @wraps(fn)
+    def wrapped(*args, **kwargs):
+        with persona_link_lock:
+            return fn(*args, **kwargs)
+    return wrapped
+
+
 def new_id() -> str:
     return uuid.uuid4().hex[:12]
 
