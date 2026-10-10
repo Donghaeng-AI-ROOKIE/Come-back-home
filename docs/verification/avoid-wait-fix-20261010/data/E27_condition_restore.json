@@ -1,0 +1,220 @@
+{
+ "E27": {
+  "policy": {
+   "rules": [
+    {
+     "id": "a_0",
+     "when": [
+      [
+       {
+        "fact": "is_walking",
+        "op": "eq",
+        "value": true
+       },
+       {
+        "fact": "continuous_walk_minutes",
+        "op": "gte",
+        "value": 30
+       }
+      ]
+     ],
+     "action": "rest",
+     "goal_label": null,
+     "feature": null,
+     "place_labels": [],
+     "hold_minutes": 5.0,
+     "supersedes": [],
+     "evidence": [
+      {
+       "note_id": "N1",
+       "quote": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+      }
+     ],
+     "after_wait": null
+    },
+    {
+     "id": "a_1",
+     "when": [
+      [
+       {
+        "fact": "lost_awareness",
+        "op": "eq",
+        "value": true
+       }
+      ]
+     ],
+     "action": "wait",
+     "goal_label": null,
+     "feature": null,
+     "place_labels": [],
+     "hold_minutes": 20.0,
+     "supersedes": [],
+     "evidence": [
+      {
+       "note_id": "N2",
+       "quote": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 20분 기다려요. 그래도 가족이 없으면 다시 가상 E27 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+      }
+     ],
+     "after_wait": null
+    },
+    {
+     "id": "a_2",
+     "when": [
+      [
+       {
+        "fact": "lost_awareness",
+        "op": "eq",
+        "value": true
+       },
+       {
+        "fact": "family_present",
+        "op": "eq",
+        "value": false
+       }
+      ]
+     ],
+     "action": "seek",
+     "goal_label": "가상 E27 공원",
+     "feature": null,
+     "place_labels": [],
+     "hold_minutes": null,
+     "supersedes": [],
+     "evidence": [
+      {
+       "note_id": "N2",
+       "quote": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 20분 기다려요. 그래도 가족이 없으면 다시 가상 E27 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+      }
+     ],
+     "after_wait": null
+    }
+   ],
+   "unrepresented": [
+    {
+     "note_id": "N0",
+     "reason": "평지 30분 보행 후 5분 휴식 필요, 길 잃음 시 20분 대기, 가족 없을 시 가상 E27 공원 이동."
+    }
+   ]
+  },
+  "stored_policy": {
+   "rules": [
+    {
+     "id": "a_0",
+     "when": [
+      [
+       {
+        "fact": "is_walking",
+        "op": "eq",
+        "value": true
+       },
+       {
+        "fact": "continuous_walk_minutes",
+        "op": "gte",
+        "value": 30
+       }
+      ]
+     ],
+     "action": "rest",
+     "goal_label": null,
+     "feature": null,
+     "place_labels": [],
+     "hold_minutes": 5.0,
+     "supersedes": [],
+     "evidence": [
+      {
+       "note_id": "N1",
+       "quote": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+      }
+     ],
+     "after_wait": null
+    },
+    {
+     "id": "a_1",
+     "when": [
+      [
+       {
+        "fact": "lost_awareness",
+        "op": "eq",
+        "value": true
+       }
+      ]
+     ],
+     "action": "wait",
+     "goal_label": null,
+     "feature": null,
+     "place_labels": [],
+     "hold_minutes": 20.0,
+     "supersedes": [],
+     "evidence": [
+      {
+       "note_id": "N2",
+       "quote": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 20분 기다려요. 그래도 가족이 없으면 다시 가상 E27 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+      }
+     ],
+     "after_wait": null
+    },
+    {
+     "id": "a_2",
+     "when": [
+      [
+       {
+        "fact": "family_present",
+        "op": "eq",
+        "value": false
+       }
+      ]
+     ],
+     "action": "seek",
+     "goal_label": "가상 E27 공원",
+     "feature": null,
+     "place_labels": [],
+     "hold_minutes": null,
+     "supersedes": [],
+     "evidence": [
+      {
+       "note_id": "N2",
+       "quote": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 20분 기다려요. 그래도 가족이 없으면 다시 가상 E27 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+      }
+     ],
+     "after_wait": null
+    }
+   ],
+   "unrepresented": [
+    {
+     "note_id": "N0",
+     "reason": "평지 30분 보행 후 5분 휴식 필요, 길 잃음 시 20분 대기, 가족 없을 시 가상 E27 공원 이동."
+    }
+   ]
+  },
+  "change": {
+   "rule_id": "a_2",
+   "when_before": [
+    [
+     {
+      "fact": "family_present",
+      "op": "eq",
+      "value": false
+     }
+    ]
+   ],
+   "when_after": [
+    [
+     {
+      "fact": "lost_awareness",
+      "op": "eq",
+      "value": true
+     },
+     {
+      "fact": "family_present",
+      "op": "eq",
+      "value": false
+     }
+    ]
+   ]
+  },
+  "source_note": "N2",
+  "source_answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 20분 기다려요. 그래도 가족이 없으면 다시 가상 E27 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+  "reason": "원문 N2는 \"길을 잃었다는 걸 알아차리면 그 자리에 멈춰 20분 기다려요. 그래도 가족이 없으면 다시 공원 쪽으로\"로 이동이 같은 길 잃음 에피소드의 후속임을 명시한다. 저장 규칙 a_2는 이 조건(lost_awareness)을 빠뜨려 길 잃음과 무관하게 가족 부재만으로 발동했다. 빠진 조건만 복원하고 행동·목적지·근거·다른 규칙은 그대로 둔다.",
+  "method": "manual interpretation correction from the original answer (no new K call); stored result kept alongside",
+  "revision": "d5201206af0934deeadc5ad499bcc995bcdddad9fd8a71eff6ccb9809ffdde43"
+ }
+}
