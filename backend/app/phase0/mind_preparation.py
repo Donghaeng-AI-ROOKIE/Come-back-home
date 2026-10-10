@@ -42,12 +42,7 @@ def interpret(personal,run_id,*,candidate=None):
         body=(candidate.repair_request(personal,settings.kexaone_model,draft,problem)
               if role=='review' and conditional else
               candidate.request(personal,settings.kexaone_model,draft=draft))
-        if len(json.dumps(body,ensure_ascii=False).encode())>40000:raise ValueError('input byte cap')
-        response=logged_json_request(url,body,
-            headers={'Authorization':'Bearer '+settings.kexaone_api_key,'Content-Type':'application/json'},
-            provider='FriendliAI',model=settings.kexaone_model,role='mind_policy_'+role,run_id=run_id,
-            logical_request_id=run_id+':'+role,timeout=max(420,settings.kexaone_timeout),
-            ledger_path=settings.research_usage_ledger_path,max_started=2)
+        response=_send(url,body,role,run_id)
         choice=response['choices'][0]
         finish=choice.get('finish_reason')
         if finish!='stop' and not (conditional and role=='draft' and finish=='length'):
@@ -81,8 +76,66 @@ def interpret(personal,run_id,*,candidate=None):
         if recovery:
             return parsed.model_dump(mode='json'),audit
         if valid and conditional:
+            checks=_checks(parsed)
+            audit[-1]['interpretation_checks']=checks
+            # Only after a valid first output: the re-read is then the second and
+            # last public output. A corrected second output is never re-asked.
+            if checks and role=='draft' and settings.mind_policy_interpretation_review and hasattr(candidate,'check_request'):
+                parsed=_interpretation_review(candidate,personal,run_id,url,draft_value,parsed,checks,audit)
             return parsed.model_dump(mode='json'),audit
     return parsed.model_dump(mode='json'),audit
+
+
+def _send(url,body,role,run_id):
+    if len(json.dumps(body,ensure_ascii=False).encode())>40000:raise ValueError('input byte cap')
+    return logged_json_request(url,body,
+        headers={'Authorization':'Bearer '+settings.kexaone_api_key,'Content-Type':'application/json'},
+        provider='FriendliAI',model=settings.kexaone_model,role='mind_policy_'+role,run_id=run_id,
+        logical_request_id=run_id+':'+role,timeout=max(420,settings.kexaone_timeout),
+        ledger_path=settings.research_usage_ledger_path,max_started=2)
+
+
+def _checks(policy):
+    """Structural warnings on the policy as it will execute (same-answer order applied)."""
+    return mind_policy.interpretation_checks(mind_policy.normalize_sequences(policy)[0])
+
+
+def _review_state(audit):
+    entry=next((x for x in audit if x.get('role')=='interpretation_check'),None)
+    if entry is not None:
+        return 'K_reread_adopted_not_independent_human_validation' if entry['adopted'] else 'K_reread_failed_first_policy_kept'
+    if not any(x.get('interpretation_checks') for x in audit):return 'no_structural_warning'
+    if not settings.mind_policy_interpretation_review:return 'warning_recorded_reread_off'
+    if any(x.get('role')=='review' for x in audit):return 'warning_recorded_second_output_already_used'
+    return 'warning_recorded_reread_unsupported'
+
+
+def _interpretation_review(candidate,personal,run_id,url,draft_value,parsed,checks,audit):
+    """One K re-read of the flagged answers as the second public output.
+
+    The revised policy is adopted only if it compiles; otherwise the first
+    policy is kept and the failure is disclosed. Never a reason to fail the
+    preparation, and never an automatic rule edit by code.
+    """
+    entry={'role':'interpretation_check','checks_sent':checks,'adopted':False}
+    try:
+        response=_send(url,candidate.check_request(personal,settings.kexaone_model,draft_value,checks),
+                       'interpretation_check',run_id)
+        choice=response['choices'][0]
+        entry.update(request_id=response.get('id'),usage=response.get('usage'),finish_reason=choice.get('finish_reason'))
+        if choice.get('finish_reason')!='stop':raise ValueError('incomplete policy output')
+        revised=candidate.compile(decode_json_content(choice['message'].get('content','')),personal)
+        restore=getattr(candidate,'restore_draft_scope',None)
+        restored=unresolved=[]
+        if restore is not None:revised,restored,unresolved=restore(draft_value,revised,personal)
+        entry.update(schema_valid=True,adopted=True,remaining_checks=_checks(revised),
+                     **({'scope_restored_from_draft':restored} if restored else {}),
+                     **({'scope_restore_unresolved':unresolved} if unresolved else {}))
+        parsed=revised
+    except Exception as error:
+        entry.update(schema_valid=False,error_type=type(error).__name__)
+    audit.append(entry)
+    return parsed
 
 
 def prepare(persona_id,*,retry=False,job_id=None):
@@ -117,7 +170,9 @@ def prepare(persona_id,*,retry=False,job_id=None):
                   'invalid_first_output_corrected':bool(audit and not audit[0]['schema_valid'] and audit[-1]['schema_valid']),
                   'policy_quality':'partial' if any(x.get('recovery') for x in audit) else 'compiled',
                   'quarantined_rule_count':sum(x.get('recovery',{}).get('quarantined_rule_count',0) for x in audit),
-                  'quote_source':'exact_source_copied_from_named_note_when_unspecified'}
+                  'quote_source':'exact_source_copied_from_named_note_when_unspecified',
+                  'interpretation_checks':_checks(mind_policy.Policy.model_validate(policy)),
+                  'interpretation_check_review':_review_state(audit)}
         state='ready';error=None
     except Exception as e:prepared={};state='failed';error=type(e).__name__
     def finish(p):

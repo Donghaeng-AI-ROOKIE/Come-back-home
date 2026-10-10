@@ -316,6 +316,50 @@ def normalize_sequences(policy):
     return Policy(rules=out, unrepresented=policy.unrepresented), report
 
 
+def _compatible(a_clause, b_clause):
+    """Two AND branches can hold at once (Boolean facts only; numbers assumed satisfiable)."""
+    values = {}
+    for atom in list(a_clause) + list(b_clause):
+        if atom.fact in BOOLEAN_FACTS:
+            if values.setdefault(atom.fact, atom.value) is not atom.value:
+                return False
+    return True
+
+
+def interpretation_checks(policy):
+    """Structural warnings about how K turned answers into rules. Detects, never edits.
+
+    C1 same_note_followup_missing_wait_trigger: a finite wait and a movement from
+       the same single answer, where the movement does not carry the wait's
+       trigger (e.g. 'wait when lost; then if no family go' compiled without
+       'lost' on the departure). Ordering cannot apply; K must re-read.
+    C2 other_answer_movement_competes_with_finite_wait: a movement from a
+       different answer can be active together with a finite wait and no
+       precedence links them, so walkers split between waiting and leaving.
+       The source may or may not say which happens; K must decide, not code.
+    """
+    rules = list(policy.rules)
+    warnings = []
+    def notes(rule):
+        return sorted({e.note_id for e in rule.evidence})
+    for wait in rules:
+        if wait.action != 'wait' or wait.hold_minutes is None:
+            continue
+        for move in rules:
+            if move.action not in ('seek', 'walk') or move.id in wait.supersedes or wait.id in move.supersedes:
+                continue
+            same = notes(move) == notes(wait) and len(notes(wait)) == 1
+            if same and len(wait.when) == 1:
+                trigger = {_atom_key(a) for a in wait.when[0]}
+                if not all(trigger <= {_atom_key(a) for a in clause} for clause in move.when):
+                    warnings.append({'check': 'same_note_followup_missing_wait_trigger', 'wait_rule_id': wait.id,
+                                     'movement_rule_id': move.id, 'note_ids': notes(wait)})
+            elif not same and any(_compatible(w, s) for w in wait.when for s in move.when):
+                warnings.append({'check': 'other_answer_movement_competes_with_finite_wait', 'wait_rule_id': wait.id,
+                                 'movement_rule_id': move.id, 'wait_note_ids': notes(wait), 'movement_note_ids': notes(move)})
+    return warnings
+
+
 def add_fixed(policy,personal):
     fixed=fixed_rules(personal);features={r.feature for r in fixed}
     # Avoid reinterpreting the same established environment response.

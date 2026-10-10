@@ -39,6 +39,8 @@ def run(case,persona,prior,net,hours,*,seed=None,persist=True):
                      'reason':'verified_map_coverage_missing'}
     cells,quality=_run_policy(case,persona,prior,net,hours,policy,status,seed=seed,persist=persist)
     quality['sequence_normalization']=sequence
+    # Disclosure only: structural interpretation warnings never change execution.
+    quality['interpretation_checks']=mind_policy.interpretation_checks(policy)
     return cells,quality
 
 

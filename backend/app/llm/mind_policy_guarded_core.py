@@ -33,6 +33,30 @@ def repair_request(personal, model, draft, problem):
     return compact.bounded(body)
 
 
+def _describe(check):
+    if check['check'] == 'same_note_followup_missing_wait_trigger':
+        return (f"{check['movement_rule_id']} 이동과 {check['wait_rule_id']} 대기는 같은 답변 {check['note_ids']}에서 나왔지만 "
+                '이동 조건에 대기의 발동 조건이 없다. 원문이 이 이동이 언제 일어난다고 말하는지 확인한다.')
+    return (f"{check['movement_rule_id']} 이동(답변 {check['movement_note_ids']})은 {check['wait_rule_id']} 대기"
+            f"(답변 {check['wait_note_ids']})와 동시에 성립할 수 있고 둘 사이 순서가 없다. "
+            '각 답변이 어떤 상황의 행동을 말하는지 원문에서 확인한다.')
+
+
+def check_request(personal, model, draft, checks):
+    """Re-read only the answers a structural check flagged.
+
+    The checks name rules and answers, never an expected condition or word.
+    """
+    body = request(personal, model)
+    payload = json.loads(body['messages'][1]['content'])
+    payload.update(previous_public_output=deepcopy(draft), structural_checks=[_describe(c) for c in checks],
+        task='구조 검사 항목만 원문으로 다시 확인한 완전한 JSON을 출력한다. 원문이 그 이동이 일어나는 상황이나 순서를 말하면 '
+             '이동 규칙의 조건에 반영하고, 원문이 말하지 않으면 바꾸지 않는다. 규칙을 지워서 검사를 피하지 않는다. '
+             '검사 항목과 관계없는 규칙의 조건·수치·범위는 보존한다.')
+    body['messages'][1]['content'] = json.dumps(payload, ensure_ascii=False)
+    return compact.bounded(body)
+
+
 def compile(value, personal):
     return compact.compile_d12(value, personal)
 

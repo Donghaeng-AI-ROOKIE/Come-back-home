@@ -52,6 +52,7 @@ def test_product_hourly_update_reuses_preparation_prior_and_walkers(full_geograp
     monkeypatch.setattr(pipeline.simulation,'run_monte_carlo',mc)
     a=pipeline.run_prediction(case,now=START+timedelta(hours=1),seed=42)
     assert a.quality['continuous_clock'] and not a.quality['checkpoint_reused']
+    assert isinstance(a.quality['interpretation_checks'],list)
     b=pipeline.run_prediction(case,now=START+timedelta(hours=2),seed=42)
     assert b.quality['checkpoint_reused'] and calls==['prior']
     assert all(x['minute']==pytest.approx(120) for x in case.continuous_state['checkpoint']['particles'])
