@@ -10,7 +10,7 @@ import math
 from app.llm import mind_policy as m
 from app.phase2.place_bound_walk import PlaceBoundPopulation
 
-VERSION = 'persistent-context-v6-known-environment-order'
+VERSION = 'persistent-context-v7-terminal-reunion'
 # An executor fix must invalidate old checkpoints without changing the paired
 # walkers' uncertainty hypotheses or action ties as an unrelated side effect.
 HYPOTHESIS_NAMESPACE = 'persistent-context-v2-sourced-followup'

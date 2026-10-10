@@ -313,3 +313,17 @@ def test_observed_reunion_stops_walking(geography):
     result = pop.advance_to(30)
     assert [p.distance for p in pop.particles] == pytest.approx(moved)
     assert result['quality']['reunion_observed_walkers'] == len(pop.particles)
+
+
+def test_reunion_stays_terminal_after_its_observation_window(geography):
+    """A reunion ends the case walk; the observation expiring does not reopen it."""
+    s = seek_rule(when=[[dict(fact='lost_awareness', op='eq', value=True)]])
+    observations = [obs('lost_awareness', True), obs('family_present', False, 0, 5),
+                    obs('family_present', True, 5, 8)]
+    pop, _ = _walk(geography, policy(s), observations, 5)
+    moved = [p.distance for p in pop.particles]
+    assert any(d > 0 for d in moved)
+    result = pop.advance_to(30)
+    assert [p.distance for p in pop.particles] == pytest.approx(moved)
+    assert all(p.reunited for p in pop.particles)
+    assert result['quality']['reunion_observed_walkers'] == len(pop.particles)

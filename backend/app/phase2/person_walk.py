@@ -21,7 +21,7 @@ from app.phase2.simulation import _bearing,_kappa,STRATEGIES
 from app.schemas.common import GeoPoint
 from app.schemas.prediction import MindState
 
-VERSION='continuous-person-v5-known-environment'
+VERSION='continuous-person-v6-terminal-reunion'
 FEATURE_LIMITS_M={'market':60,'park':60,'forest':60,'water':100}
 
 
@@ -95,6 +95,7 @@ class Particle:
     followup_rule_id:str|None=None
     env_insufficient_rules:list[str]=field(default_factory=list)
     env_insufficient_minutes:dict[str,float]=field(default_factory=dict)
+    reunited:bool=False
 
 class Population:
     CHECKPOINT_FAMILY='continuous-person'
@@ -341,10 +342,12 @@ class Population:
     def _decide(self,p,rng):
         p.env_insufficient_rules=[]
         f=self.facts(p);labels,features=self.near(p)
-        if f.get('family_present') is True:
+        if f.get('family_present') is True or p.reunited:
             # An observed family beside the person is a reunion: the case
-            # lifecycle closes it. The simulation never walks them on after it.
-            if not (p.events and p.events[-1].get('kind')=='reunion_observed_no_further_walking'):
+            # lifecycle closes it. The simulation never walks them on after it,
+            # including after the observation's validity window ends.
+            if not p.reunited:
+                p.reunited=True
                 self._event(p,'reunion_observed_no_further_walking')
             p.mode='wait';p.hold_until=p.minute+1.;p.hold_rule_id=None
             p.last_uncertain=False;p.last_baseline=False
@@ -571,7 +574,8 @@ class Population:
             'case_state':'open_case_forecast_only',
             'family_presence_source':'typed_observation_only; unobserved_is_unknown_not_absent',
             'family_presence_observed':any(o.fact=='family_present' for o in self.observations),
-            'reunion_observed_walkers':sum(any(e['kind']=='reunion_observed_no_further_walking' for e in p.events) for p in self.particles),
+            'reunion_observed_walkers':sum(p.reunited for p in self.particles),
+            'reunion_terminal':'no_walking_after_observed_reunion_even_after_observation_expiry',
             'environment_insufficient_minutes':{rid:sum(p.env_insufficient_minutes.get(rid,0.) for p in self.particles)
                 for rid in sorted({r for p in self.particles for r in p.env_insufficient_minutes})},
             'environment_insufficient_walkers':sum(bool(p.env_insufficient_minutes) for p in self.particles)}}
