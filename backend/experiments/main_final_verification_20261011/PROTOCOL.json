@@ -1,0 +1,46 @@
+{
+  "experiment": "EFFICIENCY_main_final_20261011",
+  "frozen_at": "2026-10-11 KST, revision 3 before the evaluation split (r1 aborted after 5 minutes, unscored)",
+  "source_commit": "ad9597f",
+  "source_tree_backend_app": "57f46901e12339e059845da34ab45d4ea00fef90",
+  "file_sha256": {
+    "PROTOCOL.md": "714ae9174814930611c3eba080bf4e496dd74df13c55be904196fd7d6b6ce59c",
+    "scope.json": "967f52d6f91f800906a92a408870117140f949e974d7b82d3f317c3309b6c133",
+    "inputs.json": "9964eed59b6deaf5382b11cdf7d05b436337ff8e98cc8e48e497882b7f9013ce",
+    "truth_private.json": "336b2f887d08347699733f9f5a838c3a8c2a20066d2003e5ea9ae51e1c9b1b01",
+    "dataset_manifest.json": "d11eb66a9c63c40478c6371c18090db214792d54b47c895e9946494e7c2c16c6",
+    "dataset_notes.json": "8eabab48605b3aa6afdfc25c98fcbb96825bfc123cce6baf31d8b83f7e1f3b68",
+    "build_dataset.py": "fe43257ffe8a8e0746cdd04793a5595ff6d0fa33fb51c4817c95e3f0d676c22b",
+    "run_main.py": "9aa0ee30a9de4936a4188146b26efd4b917fa8c5f1ea27aef919ca807706559a",
+    "evaluate_main.py": "5800e7cc2bea7ef4affe5cdd851e0d8864ec77e3f6818e7c68e11fee2c91a56e",
+    "geo_policy.py": "9e088413be41d064de4712918b35169437789f9122cd9b644dda709ee3576cc8",
+    "scripts/launch.sh": "58b0985c8dee937a4e3765f1ce393afcb6e59f47eb98fba9c911810f751935ee"
+  },
+  "revision_2_file_sha256": {
+    "PROTOCOL.md": "2ada8235ebf704ff6b3e8205cbf2c1a5d132db4139e2098f3e16b3d78569ce2a",
+    "scope.json": "967f52d6f91f800906a92a408870117140f949e974d7b82d3f317c3309b6c133",
+    "inputs.json": "9964eed59b6deaf5382b11cdf7d05b436337ff8e98cc8e48e497882b7f9013ce",
+    "truth_private.json": "336b2f887d08347699733f9f5a838c3a8c2a20066d2003e5ea9ae51e1c9b1b01",
+    "dataset_manifest.json": "d11eb66a9c63c40478c6371c18090db214792d54b47c895e9946494e7c2c16c6",
+    "dataset_notes.json": "8eabab48605b3aa6afdfc25c98fcbb96825bfc123cce6baf31d8b83f7e1f3b68",
+    "build_dataset.py": "fe43257ffe8a8e0746cdd04793a5595ff6d0fa33fb51c4817c95e3f0d676c22b",
+    "run_main.py": "dc81b80b48586b1d08fcf5e96a5bba59f22b001f53d97487d6c888e3f5847f29",
+    "evaluate_main.py": "5800e7cc2bea7ef4affe5cdd851e0d8864ec77e3f6818e7c68e11fee2c91a56e",
+    "geo_policy.py": "9e088413be41d064de4712918b35169437789f9122cd9b644dda709ee3576cc8",
+    "scripts/launch.sh": "58b0985c8dee937a4e3765f1ce393afcb6e59f47eb98fba9c911810f751935ee"
+  },
+  "revision_1_file_sha256": {
+    "PROTOCOL.md": "18ab8e8b359b8f2c224c4dc76dbc61236cf6b4167ab3caf3e7303ecf195b3420",
+    "scope.json": "967f52d6f91f800906a92a408870117140f949e974d7b82d3f317c3309b6c133",
+    "inputs.json": "9964eed59b6deaf5382b11cdf7d05b436337ff8e98cc8e48e497882b7f9013ce",
+    "truth_private.json": "336b2f887d08347699733f9f5a838c3a8c2a20066d2003e5ea9ae51e1c9b1b01",
+    "dataset_manifest.json": "d11eb66a9c63c40478c6371c18090db214792d54b47c895e9946494e7c2c16c6",
+    "dataset_notes.json": "8eabab48605b3aa6afdfc25c98fcbb96825bfc123cce6baf31d8b83f7e1f3b68",
+    "build_dataset.py": "fe43257ffe8a8e0746cdd04793a5595ff6d0fa33fb51c4817c95e3f0d676c22b",
+    "run_main.py": "b981acf027a088097756bad611601cb750c1b048dbb733aba5866af5049a9274",
+    "evaluate_main.py": "92302f7079fe861497cac54dced4aaf2a0dac4e45d75c1b359adc9eda3ae3c7f",
+    "geo_policy.py": "9e088413be41d064de4712918b35169437789f9122cd9b644dda709ee3576cc8",
+    "scripts/launch.sh": "3d0cf2f5468dfad4b387dfee3ccff52dd52452b4178dfe6f151826dbf7dbe362"
+  },
+  "truth_excluded_from_inference": true
+}
