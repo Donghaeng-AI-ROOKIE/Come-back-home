@@ -11,7 +11,7 @@ class ApiError extends Error {constructor(status,path,message){super(message);th
 function harness(rpc,store=new Map()) {
   const exports={};
   const deps={
-    './config':{ApiError},
+    './errors':{ApiError},
     './supabase':{cloudMe:async()=>({user_id:'owner'}),supabase:()=>({rpc})},
     '../store/safeStorage':{safeStorage:{getItem:async k=>store.get(k)??null,setItem:async(k,v)=>store.set(k,v),removeItem:async k=>store.delete(k)}}
   };

@@ -150,7 +150,10 @@ def list_active_alerts(cell_res7: str | None = None):
     if not cell_res7:
         return []
     out = []
+    from app.test_scope import isolated
     for case in storage.cases.list():
+        if isolated(case):
+            continue
         if case.status in (CaseStatus.found, CaseStatus.closed):
             continue
         try:
@@ -192,7 +195,10 @@ def list_resolved_alerts(cell_res7: str | None = None, hours: int = 24):
         return []
     cutoff = datetime.now() - timedelta(hours=hours)
     out = []
+    from app.test_scope import isolated
     for case in storage.cases.list():
+        if isolated(case):
+            continue
         if case.status is not CaseStatus.found:
             continue
         if case.closed_at is None or case.closed_at < cutoff:

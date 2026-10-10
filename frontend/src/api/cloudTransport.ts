@@ -1,4 +1,4 @@
-import { ApiError } from './config';
+import { ApiError } from './errors';
 import { cloudMe, supabase } from './supabase';
 import { safeStorage } from '../store/safeStorage';
 

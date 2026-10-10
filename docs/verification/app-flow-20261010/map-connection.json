@@ -1,0 +1,15 @@
+{
+  "before_snap_m": 167.76677233200215,
+  "after_snap_m": 121.20035667782399,
+  "before_nodes": 78502,
+  "after_nodes": 78503,
+  "connections": [
+    {
+      "snap_distance_m": 121.356,
+      "source": "existing_osm_edge",
+      "limit_m": 150.0
+    }
+  ],
+  "self_road_distance_km": 0.0,
+  "elapsed_s": 17.739079832972493
+}

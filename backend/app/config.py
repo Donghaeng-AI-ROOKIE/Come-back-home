@@ -7,6 +7,9 @@ from typing import Literal
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
+    # Server-managed disposable test owners; clients cannot mark a real report as a test.
+    synthetic_guardian_ids: str = ""
+
     # 모델 API 키 — 비어 있으면 해당 클라이언트는 스텁 모드
     exaone_api_key: str = ""
     midm_api_key: str = ""

@@ -82,7 +82,9 @@ def target_for_case(case):
 def targets(cell,device=None):
     if cell is None:return []
     result=[]
+    from app.test_scope import isolated
     for case in storage.cases.list():
+        if isolated(case):continue
         if case.status in (CaseStatus.found,CaseStatus.closed):continue
         try:
             kind,cells=target_for_case(case)
@@ -110,6 +112,8 @@ def deliver(device,title,body,payload,*,test=False,now=None):
     token=device.token
     if not test:
         case = storage.cases.get(payload.get('case_id'))
+        from app.test_scope import isolated
+        if isolated(case):return 'synthetic_isolated'
         if case is None or case.status in (CaseStatus.found, CaseStatus.closed):
             return 'closed'
     # A changed target area or D1 -> POA -> D3 is a different notification event.

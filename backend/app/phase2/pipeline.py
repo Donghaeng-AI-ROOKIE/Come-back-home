@@ -45,6 +45,12 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
         from app.geo import roadnet
         try:
             net=roadnet.verified_network(settings.personal_walk_cache_path)
+            from app.geo.road_anchors import connect_anchors
+            points=[case.lkp]+[a.location for a in (persona.attraction_points if persona else [])]
+            net=connect_anchors(net, points)
+            south,west,north,east=net.coverage_bbox
+            if not (south <= case.lkp.lat <= north and west <= case.lkp.lng <= east):
+                return None,'verified regional map does not cover the report location'
             if net.road_distance_km(case.lkp,case.lkp) is None:
                 return None,'verified regional map does not cover the report location'
             return net,''
@@ -150,6 +156,8 @@ def run_prediction(
     _lap("topdown_ms")
     staged_case = case.model_copy(deep=True)
     poa_bu, poa_stat, quality = continuous_prediction.run_pair(staged_case, source_persona, prior, net, elapsed_hours, seed=seed)
+    if net is not None:
+        quality['road_anchor_connections']=getattr(net,'anchor_connections',[])
     if poa_bu is None:
         poa_bu = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed,

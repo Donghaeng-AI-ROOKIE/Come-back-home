@@ -68,9 +68,11 @@ def create_report(
         ]
         report.appearance.summary = ", ".join(p for p in parts if p)
 
+    from app.test_scope import synthetic_owner
     case = Case(
         id=storage.new_id(),
         guardian_id=guardian_id,
+        synthetic_test=synthetic_owner(guardian_id),
         report=report,
         status=CaseStatus.intake,
         lkp=report.lkp,
