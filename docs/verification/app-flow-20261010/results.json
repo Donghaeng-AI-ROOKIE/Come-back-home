@@ -1,0 +1,260 @@
+{
+  "scenario": "Synthetic guardian onboarding at KINTEX; two isolated reports",
+  "onboarding_done": true,
+  "initial_state": "ready",
+  "mind_state": "ready",
+  "mind_rules": 3,
+  "cases": [
+    {
+      "id": "989672c3b0a9",
+      "synthetic_test": true,
+      "engine": "continuous-person-v4",
+      "walkers_per_channel": 500,
+      "roadnet_used": true,
+      "initial_interpretation": {
+        "status": "applied",
+        "initial_prior_path": "prepared_person",
+        "K_called_during_prediction": false,
+        "SAR_called_during_prediction": true
+      },
+      "unresolved_mass": 0.0
+    },
+    {
+      "id": "f53c21c58889",
+      "synthetic_test": true,
+      "engine": "continuous-person-v4",
+      "walkers_per_channel": 500,
+      "roadnet_used": true,
+      "initial_interpretation": {
+        "status": "applied",
+        "initial_prior_path": "prepared_person",
+        "K_called_during_prediction": false,
+        "SAR_called_during_prediction": true
+      },
+      "unresolved_mass": 0.0
+    }
+  ],
+  "checkpoint_evidence": {
+    "agent": {
+      "walkers": 500,
+      "clock_minutes": [
+        11.437163
+      ],
+      "mode_counts": {
+        "wait": 162,
+        "walk": 338
+      },
+      "rule_total_minutes": {
+        "a_0": 1246.6507851666688,
+        "a_2": 1690.0
+      },
+      "event_counts_last24_per_walker": {
+        "context_assumption": 1000,
+        "action": 838,
+        "rest_complete": 338
+      },
+      "sample_rest": {
+        "minute": 11.437163166666666,
+        "rule_minutes": {
+          "a_2": 5.0
+        },
+        "events": [
+          {
+            "minute": 0.0,
+            "kind": "context_assumption",
+            "fact_key": "global:lost_awareness",
+            "value": false,
+            "generation": 0,
+            "source": "unvalidated_scenario_hypothesis"
+          },
+          {
+            "minute": 0.0,
+            "kind": "context_assumption",
+            "fact_key": "global:family_present",
+            "value": false,
+            "generation": 0,
+            "source": "unvalidated_scenario_hypothesis"
+          },
+          {
+            "minute": 6.0,
+            "kind": "action",
+            "action": "rest",
+            "rule_id": "a_2",
+            "source": "K_person_policy",
+            "uncertain": true,
+            "unknown_facts": [
+              "global:family_present",
+              "global:lost_awareness"
+            ],
+            "goal": null
+          },
+          {
+            "minute": 11.0,
+            "kind": "rest_complete"
+          },
+          {
+            "minute": 11.0,
+            "kind": "action",
+            "action": "walk",
+            "rule_id": null,
+            "source": "population_prior",
+            "uncertain": true,
+            "unknown_facts": [
+              "global:family_present",
+              "global:lost_awareness"
+            ],
+            "goal": null
+          }
+        ]
+      }
+    },
+    "statistical": {
+      "walkers": 500,
+      "clock_minutes": [
+        11.437163
+      ],
+      "mode_counts": {
+        "wait": 162,
+        "walk": 338
+      },
+      "rule_total_minutes": {
+        "a_0": 1246.6507851666688,
+        "a_2": 1690.0
+      },
+      "event_counts_last24_per_walker": {
+        "context_assumption": 1000,
+        "action": 838,
+        "rest_complete": 338
+      },
+      "sample_rest": {
+        "minute": 11.437163166666666,
+        "rule_minutes": {
+          "a_2": 5.0
+        },
+        "events": [
+          {
+            "minute": 0.0,
+            "kind": "context_assumption",
+            "fact_key": "global:lost_awareness",
+            "value": false,
+            "generation": 0,
+            "source": "unvalidated_scenario_hypothesis"
+          },
+          {
+            "minute": 0.0,
+            "kind": "context_assumption",
+            "fact_key": "global:family_present",
+            "value": false,
+            "generation": 0,
+            "source": "unvalidated_scenario_hypothesis"
+          },
+          {
+            "minute": 6.0,
+            "kind": "action",
+            "action": "rest",
+            "rule_id": "a_2",
+            "source": "K_person_policy",
+            "uncertain": true,
+            "unknown_facts": [
+              "global:family_present",
+              "global:lost_awareness"
+            ],
+            "goal": null
+          },
+          {
+            "minute": 11.0,
+            "kind": "rest_complete"
+          },
+          {
+            "minute": 11.0,
+            "kind": "action",
+            "action": "walk",
+            "rule_id": null,
+            "source": "population_prior",
+            "uncertain": true,
+            "unknown_facts": [
+              "global:family_present",
+              "global:lost_awareness"
+            ],
+            "goal": null
+          }
+        ]
+      }
+    }
+  },
+  "previews": {
+    "1": {
+      "cells": 50,
+      "mass": 1.0
+    },
+    "2": {
+      "cells": 84,
+      "mass": 1.0
+    }
+  },
+  "preview_total_variation": 0.23399999999999999,
+  "model_counts": [
+    {
+      "model": "midm-pro-fp8-kaic",
+      "role": "midm_chat",
+      "status": 200,
+      "count": 34
+    },
+    {
+      "model": "embedding-query",
+      "role": "embedding_query",
+      "status": 200,
+      "count": 32
+    },
+    {
+      "model": "embedding-passage",
+      "role": "embedding_passage",
+      "status": 200,
+      "count": 20
+    },
+    {
+      "model": "depmkuykpfon9lg",
+      "role": "initial_person_core",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "model": "depmkuykpfon9lg",
+      "role": "initial_person_context",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "model": "exaone-sar",
+      "role": "exaone_chat",
+      "status": 200,
+      "count": 3
+    },
+    {
+      "model": "depmkuykpfon9lg",
+      "role": "initial_person_context_review",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "model": "depmkuykpfon9lg",
+      "role": "initial_person_semantic_audit",
+      "status": 200,
+      "count": 1
+    },
+    {
+      "model": "depmkuykpfon9lg",
+      "role": "mind_policy_draft",
+      "status": 200,
+      "count": 1
+    }
+  ],
+  "actual_cost": null,
+  "support_round": null,
+  "limitations": [
+    "One synthetic person, two report timings. Not an accuracy benchmark.",
+    "Unknown conditions use provisional hypotheses, not observed clinical facts.",
+    "No live iPhone push test; public citizens excluded.",
+    "1h/2h were API previews, not two hours of wall-clock waiting."
+  ]
+}
