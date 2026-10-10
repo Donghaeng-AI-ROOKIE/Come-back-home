@@ -289,6 +289,13 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
     @param poa 상대확률 환산에 쓸 원본 분포. 없으면 문턱을 적용하지 않는다
         (reflex 처럼 확률 개념이 없는 경우).
     """
+    from app import storage
+    from app.test_scope import isolated
+    if isolated(storage.cases.get(case_id)):
+        return {"case_id": case_id, "kind": kind, "sent": 0, "failed": 0,
+                "sent_tokens": [], "failed_tokens": [], "devices": 0, "in_area": 0,
+                "below_threshold": 0, "suppressed": 0, "stub": False,
+                "status": "synthetic_isolated", "source_cells": len(cells)}
     title, body = build_message(kind, appearance_summary)
     target_cells = target_parent_cells(cells) if cells else set()
     # 부모 셀은 3~8개라 페이로드에 그대로 실린다 — 폰이 앱 안 관문 판정에 쓴다.
@@ -381,6 +388,9 @@ def notify_prediction(case, *, force=False, now=None, reflex=False) -> dict:
         current = storage.cases.get(case.id)
         if current is None or current.status in (CaseStatus.found, CaseStatus.closed) or (not current.current_poa and not reflex):
             return {"status": "inactive"}
+        from app.test_scope import isolated
+        if isolated(current):
+            return {"status": "synthetic_isolated", "sent": 0}
         pending = current.alert_delivery
         if pending.get("status") == "failed" and pending.get("poa") == (current.current_poa or {}) and not force:
             return {"status": "retry_exhausted"}

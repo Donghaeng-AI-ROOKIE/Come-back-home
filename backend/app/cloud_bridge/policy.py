@@ -152,6 +152,9 @@ def authorize(owner: str, method: str, path: str, body) -> Request:
             case = storage.cases.get(m[1])
             if case is None:
                 raise HTTPException(404, "사건을 찾을 수 없습니다.")
+            from app.test_scope import isolated
+            if isolated(case):
+                _own(storage.cases, m[1], owner)
             if action == "alerts" or "elapsed_hours" in query:
                 _own(storage.cases, m[1], owner)
             if action == "tips":

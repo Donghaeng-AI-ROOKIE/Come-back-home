@@ -31,6 +31,8 @@ class Case(BaseModel):
     # Set from Supabase's verified job owner by the private cloud bridge.
     # Legacy cases without an owner stay inaccessible through the cloud bridge.
     guardian_id: str = ""
+    # Persist isolation even after the temporary owner allowlist is removed.
+    synthetic_test: bool = False
     report: MissingReport
     status: CaseStatus = CaseStatus.intake
 
