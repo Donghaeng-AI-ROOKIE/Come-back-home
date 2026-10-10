@@ -50,7 +50,7 @@ export default function ReportSentScreen() {
         </View>
         <View style={styles.notice}>
           <Text style={styles.noticeTitle}>안내사항</Text>
-          <Text style={styles.noticeText}>{predict.isError ? '신고는 접수됐습니다. AI 분석만 다시 시도해 주세요.' : '입력한 정보로 예상 위치를 계산하고 있습니다. 인근 시민들의 제보가 확인되는 대로 안내해 드리겠습니다.'}</Text>
+          <Text style={styles.noticeText}>{predict.isError ? '신고는 접수됐습니다. AI 분석만 다시 시도해 주세요.' : predict.isSuccess ? '예상 위치 계산이 완료됐습니다. 지도에서 예상 위치와 접수된 제보를 확인할 수 있습니다.' : '입력한 정보로 예상 위치를 계산하고 있습니다. 인근 시민들의 제보가 확인되는 대로 안내해 드리겠습니다.'}</Text>
           {missingProfile ? <Text style={styles.noticeText}>사전등록 정보가 없어 개인별 습관은 아직 반영되지 않았습니다.</Text>
             : awaitingPreparation ? <Text style={styles.noticeText}>현재 확보된 정보로 예측했습니다. 개인 특성 해석은 아직 반영되지 않았습니다.</Text> : null}
         </View>
@@ -58,6 +58,10 @@ export default function ReportSentScreen() {
           <PreparationNotice personaId={reportCase.report.persona_id} />
         </View> : null}
         <View style={styles.actions}>
+          {predict.isSuccess ? <Pressable style={styles.guide} accessibilityRole="button"
+            onPress={() => navigation.navigate('GuardianTabs', { screen: 'GuardianAlerts' })}>
+            <Text style={styles.guideText}>예상 위치 지도 보기</Text>
+          </Pressable> : null}
           {missingProfile ? <Pressable style={styles.guide}
             onPress={() => navigation.navigate('RegChat', { mode: 'quick', caseId })}>
             <Text style={styles.guideText}>신고한 가족 정보 추가하기</Text>
