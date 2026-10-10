@@ -1,0 +1,28 @@
+{
+  "experiment": "EFFICIENCY_main_final_20261011",
+  "purpose": "Final synthetic effectiveness check of main (ad9597f): does the full product (D) contain the synthetic person more often than the same product without personal answers (B), at the same or smaller area? Not clinical accuracy or real discovery rate.",
+  "source_sha": "ad9597f",
+  "runtime_mind": "excluded (not in main; user decision 2026-10-11)",
+  "people": {"development": 4, "evaluation": 32, "ids": "F01-F36, new RNG indices 40-75; E01-E40 not reused"},
+  "arms": ["B_population", "D_full_prepared"],
+  "arm_definition": {
+    "B_population": "same product, persona without guardian answers or places (age, type, home only); main chooses its engine (legacy walk + dem5 when no policy)",
+    "D_full_prepared": "same product after product preparation (K initial interpretation + Mi:dm claim check + K guarded_core policy); main chooses its engine"
+  },
+  "times_h": [1, 2, 4, 6],
+  "walk_seeds": [104729, 130363],
+  "walkers": 500,
+  "futures": ["habitual", "departure", "contradictory"],
+  "shared_prediction_across_unobserved_futures": true,
+  "limits": {
+    "per_person": {"K_EXAONE": 8, "Mi_dm": 100, "SAR_EXAONE": 8, "dem5_mind": 80, "embedding": 6},
+    "max_output_tokens": {"K_EXAONE": 28000, "Mi_dm": 1200, "SAR_EXAONE": 700, "dem5_mind": 700},
+    "max_input_bytes": 100000,
+    "automatic_retry": false,
+    "new_map_calls": 0, "training": 0, "real_push": 0
+  },
+  "cost_amount": null,
+  "support_round": null,
+  "map_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+  "status": "frozen_before_external_calls"
+}
