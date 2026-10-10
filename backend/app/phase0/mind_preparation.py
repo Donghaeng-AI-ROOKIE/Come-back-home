@@ -36,7 +36,7 @@ def interpret(personal,run_id,*,candidate=None):
     candidate = candidate or selected()
     base=settings.kexaone_base_url.rstrip('/')
     url=base if base.endswith('/chat/completions') else base+('/chat/completions' if base.endswith('/v1') else '/v1/chat/completions')
-    draft=None;audit=[];problem=None
+    draft=None;audit=[];problem=None;draft_value=None
     for role in ('draft','review'):
         conditional=getattr(candidate,'REVIEW_POLICY',None)=='on_validation_failure'
         body=(candidate.repair_request(personal,settings.kexaone_model,draft,problem)
@@ -57,6 +57,7 @@ def interpret(personal,run_id,*,candidate=None):
         try:
             if finish!='stop':raise ValueError('incomplete policy output: '+str(finish))
             draft=decode_json_content(content)
+            if role=='draft':draft_value=draft
             parsed=candidate.compile(draft,personal)
         except (ValueError,TypeError,KeyError,AssertionError,AttributeError,SyntaxError) as error:
             if role=='review':
@@ -68,9 +69,14 @@ def interpret(personal,run_id,*,candidate=None):
             # The scheduled second source review may read a malformed public
             # draft. Never coerce its action or treat syntax repair as truth.
             draft=content;valid=False;problem=type(error).__name__+': '+str(error)[:1200]
+        restored=[]
+        restore=getattr(candidate,'restore_draft_scope',None)
+        if role=='review' and restore is not None and (valid or recovery):
+            parsed,restored=restore(draft_value,parsed,personal)
         audit.append({'role':role,'request_id':response.get('id'),'usage':response.get('usage'),
                       'schema_valid':valid,'finish_reason':finish,
-                      **({'recovery':recovery} if recovery else {})})
+                      **({'recovery':recovery} if recovery else {}),
+                      **({'scope_restored_from_draft':restored} if restored else {})})
         if recovery:
             return parsed.model_dump(mode='json'),audit
         if valid and conditional:

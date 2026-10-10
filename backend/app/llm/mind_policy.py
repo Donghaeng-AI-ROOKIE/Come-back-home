@@ -49,8 +49,13 @@ class Atom(Strict):
         return self
 
 class AfterWait(Strict):
-    """Only an explicitly sourced movement after a completed finite wait."""
+    """Sourced movement, gated by facts at finite-wait completion.
+
+    The condition qualifies departure once, not an indefinite opportunity to
+    depart later. Stored policies without a condition keep their meaning.
+    """
     action: Literal['walk', 'seek']
+    when: list[list[Atom]] = Field(default_factory=lambda: [[]], min_length=1, max_length=6)
     goal_label: str | None = None
     evidence: list[Evidence] = Field(min_length=1, max_length=5)
 
@@ -60,6 +65,8 @@ class AfterWait(Strict):
             raise ValueError('follow-up seek requires a registered goal')
         if any(e.quote is None for e in self.evidence):
             raise ValueError('follow-up needs an explicit original quote')
+        if any(len(clause) > 8 for clause in self.when):
+            raise ValueError('oversized follow-up AND clause')
         return self
 
 
@@ -245,6 +252,73 @@ def fixed_rules(personal):
              'evidence':[{'note_id':n} for n in item['note_ids']]}
         out.extend(validate({'rules':[raw],'unrepresented':[]},personal).rules)
     return out
+
+
+def _atom_key(atom):
+    return (atom.fact, atom.op, atom.value)
+
+
+def normalize_sequences(policy):
+    """Order a finite wait before the movement the same source note gives after it.
+
+    The deployed contract has no follow-up field and tells K not to emit the
+    post-wait departure as an independent rule. Stored policies nevertheless
+    contain such pairs, which the executor would choose between at random,
+    skipping the wait. This is structural, not text matching. A pair is
+    converted only when all hold:
+      - W is a finite wait with no follow-up yet; S is seek/walk;
+      - W and S cite exactly the same single source note;
+      - neither has place scope or precedence, and no other rule refers to S;
+      - W has one AND branch and every S branch contains all of W's atoms;
+      - the wait and the movement form a one-to-one pair.
+    S's remaining atoms become the follow-up condition checked at completion.
+    Everything else is left unchanged and reported, never guessed.
+    """
+    rules = list(policy.rules)
+    referenced = {rid for r in rules for rid in r.supersedes}
+    def notes(rule):
+        return {e.note_id for e in rule.evidence}
+    candidates = []
+    for wait in rules:
+        if wait.action != 'wait' or wait.hold_minutes is None or wait.after_wait is not None:
+            continue
+        for move in rules:
+            if move.action not in ('seek', 'walk') or move is wait:
+                continue
+            if notes(move) != notes(wait) or len(notes(wait)) != 1:
+                continue
+            if wait.place_labels or move.place_labels or wait.supersedes or move.supersedes:
+                continue
+            if move.id in referenced or move.after_wait is not None:
+                continue
+            candidates.append((wait, move))
+    report = {'converted': [], 'not_converted': []}
+    waits = [w.id for w, _ in candidates]; moves = [s.id for _, s in candidates]
+    replaced = {}; dropped = set()
+    for wait, move in candidates:
+        reason = None
+        if waits.count(wait.id) > 1 or moves.count(move.id) > 1:
+            reason = 'not_one_to_one'
+        elif len(wait.when) != 1:
+            reason = 'multi_branch_wait_trigger'
+        else:
+            trigger = {_atom_key(a) for a in wait.when[0]}
+            if not all(trigger <= {_atom_key(a) for a in clause} for clause in move.when):
+                reason = 'movement_not_conditioned_on_wait_trigger'
+        if reason:
+            report['not_converted'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id, 'reason': reason})
+            continue
+        follow_when = [[a for a in clause if _atom_key(a) not in trigger] for clause in move.when]
+        follow = AfterWait(action=move.action, when=follow_when, goal_label=move.goal_label,
+                           evidence=[e.model_copy() for e in move.evidence])
+        replaced[wait.id] = wait.model_copy(update={'after_wait': follow})
+        dropped.add(move.id)
+        report['converted'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id,
+                                    'note_id': next(iter(notes(wait)))})
+    if not replaced:
+        return policy, report
+    out = [replaced.get(r.id, r) for r in rules if r.id not in dropped]
+    return Policy(rules=out, unrepresented=policy.unrepresented), report
 
 
 def add_fixed(policy,personal):

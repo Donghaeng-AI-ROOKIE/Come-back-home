@@ -85,3 +85,56 @@ def recover(value, personal):
                     'retained_rule_count': len(rules),
                     'partially_unrepresented_note_ids': sorted(lost),
                     'semantic_correctness_claimed': False}
+
+
+def _rule_signature(rule):
+    when = sorted(sorted((a.fact, a.op, str(a.value)) for a in clause) for clause in rule.when)
+    return (rule.action, rule.feature, rule.goal_label, rule.hold_minutes,
+            tuple(sorted({e.note_id for e in rule.evidence})), json.dumps(when))
+
+
+def restore_draft_scope(draft_value, policy, personal):
+    """A correction must not silently widen a place-limited rule.
+
+    The correction request asks to keep valid rules' scope. When a draft rule
+    that compiles on its own is repeated in the correction with identical
+    action, target, duration, condition and source, but its place limit was
+    dropped, the draft's place limit is restored. Added limits and condition
+    changes are accepted as legitimate corrections. Nothing else is altered.
+    """
+    if not isinstance(draft_value, dict):
+        return policy, []
+    try:
+        _validate_shape(draft_value, compact.schema_a(personal))
+        parsed = compact.OutputA.model_validate(draft_value)
+    except Exception:
+        return policy, []
+    ids = {n['id'] for n in personal['notes']}
+    standalone = []
+    for item in parsed.rules:
+        if not item.applies_only_at:
+            continue
+        single = {'source_assessment': parsed.source_assessment, 'rules': [item.model_dump()],
+                  'non_action_note_ids': sorted(ids - set(item.note_ids))}
+        try:
+            compiled = compact.compile_d12(single, personal)
+        except (ValueError, TypeError, KeyError, AssertionError, AttributeError, SyntaxError):
+            continue
+        standalone += [r for r in compiled.rules if r.id == 'a_0']
+    by_signature = {}
+    for rule in standalone:
+        by_signature.setdefault(_rule_signature(rule), []).append(rule)
+    restored = []; rules = []
+    for rule in policy.rules:
+        match = by_signature.get(_rule_signature(rule), []) if not rule.place_labels else []
+        scopes = {tuple(r.place_labels) for r in match}
+        if len(scopes) == 1:
+            scope = list(next(iter(scopes)))
+            restored.append({'rule_id': rule.id, 'restored_place_labels': scope})
+            rule = rule.model_copy(update={'place_labels': scope})
+        rules.append(rule)
+    if not restored:
+        return policy, []
+    out = m.validate({'rules': [r.model_dump() for r in rules],
+                      'unrepresented': [u.model_dump() for u in policy.unrepresented]}, personal)
+    return out, restored

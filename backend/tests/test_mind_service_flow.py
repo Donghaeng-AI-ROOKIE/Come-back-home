@@ -116,7 +116,8 @@ def test_saved_onboarding_preparation_actual_api_hourly_restore_and_found(cached
             response=client.post('/phase2/cases/'+case_id+'/predict?seed=17')
             assert response.status_code==200,response.text
             q=response.json()['quality']
-        assert q['context_executor']=='persistent-context-v4-bounded-environment'
+        from app.phase2.persistent_context_walk import VERSION as CONTEXT_EXECUTOR
+        assert q['context_executor']==CONTEXT_EXECUTOR
         assert q['deployment_scope']=='staging' and q['policy_contract']==m.VERSION
         assert q['unresolved_mass']==0 and q['resolved_mass']==pytest.approx(1)
         if candidate_kind=='guarded_partial':
