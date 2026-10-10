@@ -285,13 +285,22 @@ def test_layer_nearness_uses_interpolated_edge_position(geography):
 
 # ---- open case: family is not beside the person -----------------------------
 
-def test_unobserved_family_is_absent_while_the_case_is_open(geography):
-    """Review item 4: never a 50% 'family beside' hypothesis during a missing case."""
+def test_unobserved_family_is_uncertain_not_a_confirmed_absence(geography):
+    """No observation never becomes a confirmed fact in a personal condition."""
     s = seek_rule(when=[[dict(fact='family_present', op='eq', value=False)]])
     pop, result = _walk(geography, policy(s), [], 2)
+    q = result['quality']
+    assert q['family_presence_observed'] is False and 'unknown' in q['family_presence_source']
+    assert any('family_present' in k for p in pop.particles for k in p.context_assumptions)
+    hypotheses = [v['value'] for p in pop.particles for k, v in p.context_assumptions.items() if 'family_present' in k]
+    assert True in hypotheses and False in hypotheses
+    assert 0 < sum(p.target == '등록 목적지' for p in pop.particles) < len(pop.particles)
+
+
+def test_observed_absence_is_used_as_a_fact(geography):
+    s = seek_rule(when=[[dict(fact='family_present', op='eq', value=False)]])
+    pop, _ = _walk(geography, policy(s), [obs('family_present', False)], 2)
     assert all(p.target == '등록 목적지' for p in pop.particles)
-    assert result['quality']['family_present_when_unobserved'] is False
-    assert not any('family_present' in k for p in pop.particles for k in p.context_assumptions)
 
 
 def test_observed_reunion_stops_walking(geography):

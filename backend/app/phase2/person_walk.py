@@ -209,10 +209,13 @@ class Population:
         for feature,signals in conditions.items():
             for signal,value in signals.items():
                 if feature+'.'+signal in f:f[feature+'.'+signal]=value
-        # A missing-person case is open only while family is not beside the
-        # person; otherwise they would have been found. Unobserved therefore
-        # means False, never a 50% hypothesis that walks a reunited person on.
-        f['family_present']=False
+        # Three different things, kept apart (2026-10-10 review):
+        # - case state: the forecast runs only for an open case (lifecycle);
+        # - observed accompaniment: a typed family_present observation; True is
+        #   a reunion and ends walking in _decide;
+        # - the person's experienced family absence in a personal rule: without
+        #   an observation it stays unknown (an explicit uncertainty), never a
+        #   confirmed fact derived from the absence of an observation.
         values={}
         for obs in self.observations:
             # These are typed, bounded observations, never extracted by text matching.
@@ -565,7 +568,9 @@ class Population:
             'map_extent_checked':True,'map_boundary_margin_m':50.,
             'environment_knowledge':dict(self.layer_state),
             'environment_absence_inferred_without_layer':False,
-            'family_present_when_unobserved':False,
+            'case_state':'open_case_forecast_only',
+            'family_presence_source':'typed_observation_only; unobserved_is_unknown_not_absent',
+            'family_presence_observed':any(o.fact=='family_present' for o in self.observations),
             'reunion_observed_walkers':sum(any(e['kind']=='reunion_observed_no_further_walking' for e in p.events) for p in self.particles),
             'environment_insufficient_minutes':{rid:sum(p.env_insufficient_minutes.get(rid,0.) for p in self.particles)
                 for rid in sorted({r for p in self.particles for r in p.env_insufficient_minutes})},
