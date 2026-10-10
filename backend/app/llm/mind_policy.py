@@ -49,13 +49,8 @@ class Atom(Strict):
         return self
 
 class AfterWait(Strict):
-    """Sourced movement, gated by facts at finite-wait completion.
-
-    The condition qualifies departure once, not an indefinite opportunity to
-    depart later. Stored policies without a condition keep their meaning.
-    """
+    """Only an explicitly sourced movement after a completed finite wait."""
     action: Literal['walk', 'seek']
-    when: list[list[Atom]] = Field(default_factory=lambda: [[]], min_length=1, max_length=6)
     goal_label: str | None = None
     evidence: list[Evidence] = Field(min_length=1, max_length=5)
 
@@ -65,8 +60,6 @@ class AfterWait(Strict):
             raise ValueError('follow-up seek requires a registered goal')
         if any(e.quote is None for e in self.evidence):
             raise ValueError('follow-up needs an explicit original quote')
-        if any(len(clause) > 8 for clause in self.when):
-            raise ValueError('oversized follow-up AND clause')
         return self
 
 
@@ -259,19 +252,21 @@ def _atom_key(atom):
 
 
 def normalize_sequences(policy):
-    """Order a finite wait before the movement the same source note gives after it.
+    """Let a finite wait take precedence over the departure its own note gives after it.
 
     The deployed contract has no follow-up field and tells K not to emit the
     post-wait departure as an independent rule. Stored policies nevertheless
     contain such pairs, which the executor would choose between at random,
-    skipping the wait. This is structural, not text matching. A pair is
-    converted only when all hold:
-      - W is a finite wait with no follow-up yet; S is seek/walk;
+    skipping the wait. This is structural, not text matching, and deletes
+    nothing: S stays in the policy with its own condition. Only an explicit
+    precedence is added, W supersedes S, so S is suppressed while W is active
+    (including its sourced duration) and is evaluated normally once W has
+    completed. A pair is ordered only when all hold:
+      - W is a finite wait without a follow-up; S is seek/walk;
       - W and S cite exactly the same single source note;
       - neither has place scope or precedence, and no other rule refers to S;
       - W has one AND branch and every S branch contains all of W's atoms;
       - the wait and the movement form a one-to-one pair.
-    S's remaining atoms become the follow-up condition checked at completion.
     Everything else is left unchanged and reported, never guessed.
     """
     rules = list(policy.rules)
@@ -289,35 +284,35 @@ def normalize_sequences(policy):
                 continue
             if wait.place_labels or move.place_labels or wait.supersedes or move.supersedes:
                 continue
-            if move.id in referenced or move.after_wait is not None:
+            if move.id in referenced:
                 continue
             candidates.append((wait, move))
-    report = {'converted': [], 'not_converted': []}
-    waits = [w.id for w, _ in candidates]; moves = [s.id for _, s in candidates]
-    replaced = {}; dropped = set()
+    report = {'ordered': [], 'not_ordered': []}
+    eligible = []
     for wait, move in candidates:
-        reason = None
-        if waits.count(wait.id) > 1 or moves.count(move.id) > 1:
-            reason = 'not_one_to_one'
-        elif len(wait.when) != 1:
-            reason = 'multi_branch_wait_trigger'
-        else:
-            trigger = {_atom_key(a) for a in wait.when[0]}
-            if not all(trigger <= {_atom_key(a) for a in clause} for clause in move.when):
-                reason = 'movement_not_conditioned_on_wait_trigger'
-        if reason:
-            report['not_converted'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id, 'reason': reason})
+        if len(wait.when) != 1:
+            report['not_ordered'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id,
+                                          'reason': 'multi_branch_wait_trigger'})
             continue
-        follow_when = [[a for a in clause if _atom_key(a) not in trigger] for clause in move.when]
-        follow = AfterWait(action=move.action, when=follow_when, goal_label=move.goal_label,
-                           evidence=[e.model_copy() for e in move.evidence])
-        replaced[wait.id] = wait.model_copy(update={'after_wait': follow})
-        dropped.add(move.id)
-        report['converted'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id,
-                                    'note_id': next(iter(notes(wait)))})
-    if not replaced:
+        trigger = {_atom_key(a) for a in wait.when[0]}
+        if not all(trigger <= {_atom_key(a) for a in clause} for clause in move.when):
+            report['not_ordered'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id,
+                                          'reason': 'movement_not_conditioned_on_wait_trigger'})
+            continue
+        eligible.append((wait, move))
+    waits = [w.id for w, _ in eligible]; moves = [s.id for _, s in eligible]
+    precedence = {}
+    for wait, move in eligible:
+        if waits.count(wait.id) > 1 or moves.count(move.id) > 1:
+            report['not_ordered'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id,
+                                          'reason': 'not_one_to_one'})
+            continue
+        precedence[wait.id] = move.id
+        report['ordered'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id,
+                                  'note_id': next(iter(notes(wait)))})
+    if not precedence:
         return policy, report
-    out = [replaced.get(r.id, r) for r in rules if r.id not in dropped]
+    out = [r.model_copy(update={'supersedes': [precedence[r.id]]}) if r.id in precedence else r for r in rules]
     return Policy(rules=out, unrepresented=policy.unrepresented), report
 
 

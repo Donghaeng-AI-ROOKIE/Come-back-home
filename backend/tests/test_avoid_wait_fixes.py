@@ -1,15 +1,16 @@
 """Regression tests for the avoidance-scope and wait-order fixes (2026-10-10).
 
-Covers: same-note wait->movement ordering at execution time (with negative
+Covers: same-note wait->movement precedence (nothing deleted, with negative
 controls), draft place-scope restoration after a correction, and place-type
 signal facts evaluated only near known sites. Synthetic fixtures only.
 """
+import random
 import pytest
 from app.llm import mind_policy as m
 from app.llm import mind_policy_guarded_core as guarded
 from app.phase2.persistent_context_walk import PersistentContextPopulation
 from app.geo.h3grid import haversine_km
-from tests.kintex_fixtures import geography, person, prior, START
+from tests.kintex_fixtures import geography, person, prior, START  # noqa: F401 (pytest fixture)
 from tests.test_person_policy import policy, rule, obs
 
 Q = '무릎이 아프면'
@@ -28,24 +29,21 @@ def seek_rule(rid='s', note='N0', when=None, goal='등록 목적지'):
                 supersedes=[], evidence=[dict(note_id=note, quote=Q)])
 
 
-# ---- normalization (pure policy structure) ---------------------------------
+# ---- ordering (pure policy structure) ----------------------------------------
 
-def test_same_note_wait_then_move_becomes_completion_followup():
-    rest = rule('rest')
-    pol = policy(wait_rule(), seek_rule(), rest)
+def test_same_note_wait_gets_precedence_and_nothing_is_deleted():
+    pol = policy(wait_rule(), seek_rule(), rule('rest'))
     out, report = m.normalize_sequences(pol)
-    assert [r.id for r in out.rules] == ['w', 'r1']
-    w = out.rules[0]
-    assert w.after_wait.action == 'seek' and w.after_wait.goal_label == '등록 목적지'
-    assert [[(a.fact, a.value) for a in c] for c in w.after_wait.when] == [[('family_present', False)]]
-    assert report['converted'] == [{'wait_rule_id': 'w', 'movement_rule_id': 's', 'note_id': 'N0'}]
-    # Unrelated traits are preserved byte for byte.
-    assert out.rules[1].model_dump() == pol.rules[2].model_dump()
+    assert [r.id for r in out.rules] == ['w', 's', 'r1']
+    assert out.rules[0].supersedes == ['s']
+    # The movement keeps its own condition; unrelated traits are byte-identical.
+    assert out.rules[1].model_dump() == pol.rules[1].model_dump()
+    assert out.rules[2].model_dump() == pol.rules[2].model_dump()
+    assert report['ordered'] == [{'wait_rule_id': 'w', 'movement_rule_id': 's', 'note_id': 'N0'}]
 
 
 @pytest.mark.parametrize('case,expected', [
-    # Exception-like movement not conditioned on the wait trigger: never sequenced.
-    ('trigger_not_contained', 'movement_not_conditioned_on_wait_trigger'),
+    ('trigger_not_contained', 'movement_not_conditioned_on_wait_trigger'),  # possible exception: never ordered
     ('different_note', None),
     ('scoped', None),
     ('referenced', None),
@@ -66,120 +64,220 @@ def test_ambiguous_pairs_are_left_unchanged_and_reported(case, expected):
     pol = policy(w, s, *extra)
     out, report = m.normalize_sequences(pol)
     assert out.model_dump() == pol.model_dump()
-    assert report['converted'] == []
+    assert report['ordered'] == []
     if expected:
-        assert {x['reason'] for x in report['not_converted']} == {expected}
+        assert expected in {x['reason'] for x in report['not_ordered']}
 
 
-def test_stored_followup_without_condition_still_parses():
-    raw = wait_rule()
-    raw['after_wait'] = dict(action='walk', goal_label=None, evidence=[dict(note_id='N0', quote=Q)])
-    parsed = policy(raw)
-    assert parsed.rules[0].after_wait.when == [[]]
+def test_unrelated_same_note_movement_does_not_block_a_valid_pair():
+    rain = dict(seek_rule('s2', when=[[dict(fact='rain_observed', op='eq', value=True)]]), action='walk', goal_label=None)
+    out, report = m.normalize_sequences(policy(wait_rule(), seek_rule(), rain))
+    assert out.rules[0].supersedes == ['s']
+    assert {x['movement_rule_id']: x['reason'] for x in report['not_ordered']} == {'s2': 'movement_not_conditioned_on_wait_trigger'}
 
 
-# ---- execution: the wait is not skipped -------------------------------------
+# ---- execution: the wait is not skipped, and the departure is not lost ------
 
 def _far_goal_person(net, center, metres=400):
-    node, loc = next((n, l) for n, l in ((n, net.node_location(n)) for n in net.graph.nodes)
-                     if abs(haversine_km(center, l) * 1000 - metres) < 60)
+    loc = next(l for l in (net.node_location(n) for n in net.graph.nodes)
+               if abs(haversine_km(center, l) * 1000 - metres) < 60)
     base = person(center)
     return base.model_copy(update={'attraction_points': [a.model_copy(update={'location': loc, 'place_type': None})
                                                           for a in base.attraction_points]})
 
 
-def _walk(geography, pol, observations, minutes):
+def _walk(geography, pol, observations, minutes, count=40):
     net, center = geography
     pop = PersistentContextPopulation(net, _far_goal_person(net, center), prior(), pol, center, START,
-                                      count=40, seed=17, behavior_observations=observations)
+                                      count=count, seed=17, behavior_observations=observations)
     return pop, pop.advance_to(minutes)
 
 
-def test_normalized_pair_waits_full_duration_then_departs(geography):
-    raw = policy(wait_rule(), seek_rule())
-    normalized, _ = m.normalize_sequences(raw)
-    observations = [obs('lost_awareness', True), obs('family_present', False)]
-    _, before = _walk(geography, raw, observations, 9.9)
-    pop, after = _walk(geography, normalized, observations, 9.9)
-    # The unordered pair lets some walkers leave before the wait ends.
-    assert before['quality']['unresolved_mass'] == 0
-    assert all(p.mode == 'wait' and p.distance == 0 for p in pop.particles)
-    pop.advance_to(14)
-    assert all(any(e['kind'] == 'sourced_wait_followup' for e in p.events) for p in pop.particles)
-    assert sum(p.distance > 0 for p in pop.particles) == len(pop.particles)
-
-
-def test_followup_withheld_when_condition_false_at_completion(geography):
-    normalized, _ = m.normalize_sequences(policy(wait_rule(), seek_rule()))
-    pop, _ = _walk(geography, normalized, [obs('lost_awareness', True), obs('family_present', True)], 14)
-    assert all(any(e['kind'] == 'sourced_wait_followup_withheld' for e in p.events) for p in pop.particles)
-    assert not any(p.mode == 'seek' for p in pop.particles)
+LOST = [obs('lost_awareness', True), obs('family_present', False)]
 
 
 def test_unordered_pair_baseline_skips_wait_for_some_walkers(geography):
-    """Documents the defect the normalization fixes (deployed behaviour)."""
-    raw = policy(wait_rule(), seek_rule())
-    pop, _ = _walk(geography, raw, [obs('lost_awareness', True), obs('family_present', False)], 9.9)
+    """Documents the deployed defect the ordering fixes."""
+    pop, _ = _walk(geography, policy(wait_rule(), seek_rule()), LOST, 9.9)
     assert any(p.distance > 0 for p in pop.particles)
+
+
+def test_ordered_pair_waits_full_duration_then_departs(geography):
+    ordered, _ = m.normalize_sequences(policy(wait_rule(), seek_rule()))
+    pop, _ = _walk(geography, ordered, LOST, 9.9)
+    assert all(p.mode == 'wait' and p.distance == 0 for p in pop.particles)
+    pop.advance_to(14)
+    assert all(p.distance > 0 and p.target == '등록 목적지' for p in pop.particles)
+
+
+def test_walking_state_condition_still_departs_after_the_wait(geography):
+    """Review #6/#14: a movement conditioned on walking state must not vanish."""
+    s = seek_rule(when=[[dict(fact='lost_awareness', op='eq', value=True), dict(fact='is_walking', op='eq', value=True)]])
+    ordered, report = m.normalize_sequences(policy(wait_rule(), s))
+    assert report['ordered']
+    pop, _ = _walk(geography, ordered, [obs('lost_awareness', True)], 9.9)
+    assert all(p.distance == 0 for p in pop.particles)
+    pop.advance_to(16)
+    assert sum(p.target == '등록 목적지' and p.distance > 0 for p in pop.particles) == len(pop.particles)
+
+
+def test_later_condition_after_the_wait_is_preserved(geography):
+    """Review #7: a departure whose own condition becomes true later still happens."""
+    s = seek_rule(when=[[dict(fact='lost_awareness', op='eq', value=True), dict(fact='dark_observed', op='eq', value=True)]])
+    ordered, _ = m.normalize_sequences(policy(wait_rule(), s))
+    observations = [obs('lost_awareness', True), obs('dark_observed', False, 0, 20), obs('dark_observed', True, 20, 360)]
+    pop, _ = _walk(geography, ordered, observations, 19)
+    assert not any(p.target == '등록 목적지' for p in pop.particles)
+    pop.advance_to(26)
+    assert sum(p.target == '등록 목적지' for p in pop.particles) == len(pop.particles)
+
+
+def test_ordering_is_execution_only_and_reported_in_quality():
+    from app.phase2 import continuous_prediction as cp
+    from tests.kintex_fixtures import person as base_person
+    stored = policy(wait_rule(), seek_rule())
+    who = base_person().model_copy(update={'prepared_mind': {'policy': stored.model_dump(mode='json')}})
+    original = cp.mind_preparation.ready
+    try:
+        cp.mind_preparation.ready = lambda persona: (m.Policy.model_validate(persona.prepared_mind['policy']), 'ready')
+        executed, status, report = cp._executable_policy(who)
+    finally:
+        cp.mind_preparation.ready = original
+    assert status == 'ready' and executed.rules[0].supersedes == ['s'] and report['ordered']
+    # The stored policy is untouched.
+    assert who.prepared_mind['policy']['rules'][0]['supersedes'] == []
 
 
 # ---- draft place scope restoration ------------------------------------------
 
-def _draft(scope, condition='market.noisy'):
-    return {'source_assessment': '합성', 'non_action_note_ids': [],
-            'rules': [{'action': 'avoid_market', 'goal_place': '', 'applies_only_at': scope,
-                       'condition': condition, 'hold_minutes': 0, 'note_ids': ['N0']}]}
+def _draft(*items):
+    return {'source_assessment': '합성', 'non_action_note_ids': [], 'rules': list(items)}
 
 
-def _compiled(scope, condition='market.noisy'):
-    return guarded.compile(_draft(scope, condition), m.source(person()))
+def _avoid(scope, condition='market.noisy'):
+    return {'action': 'avoid_market', 'goal_place': '', 'applies_only_at': scope,
+            'condition': condition, 'hold_minutes': 0, 'note_ids': ['N0']}
+
+
+def _compiled(*items):
+    return guarded.compile(_draft(*items), m.source(person()))
 
 
 def test_correction_that_only_drops_place_scope_is_restored():
     src = m.source(person())
-    review = _compiled([])
-    restored, audit = guarded.restore_draft_scope(_draft(['등록 목적지']), review, src)
+    review = _compiled(_avoid([]))
+    bad_rest = {'action': 'rest', 'goal_place': '', 'applies_only_at': [], 'condition': 'is_0walking',
+                'hold_minutes': 5, 'note_ids': ['N0']}
+    restored, audit, unresolved = guarded.restore_draft_scope(_draft(bad_rest, _avoid(['등록 목적지'])), review, src)
     assert restored.rules[0].place_labels == ['등록 목적지']
-    assert audit == [{'rule_id': 'a_0', 'restored_place_labels': ['등록 목적지']}]
+    assert audit == [{'rule_id': 'a_0', 'restored_place_labels': ['등록 목적지']}] and unresolved == []
 
 
 @pytest.mark.parametrize('draft_scope,review_scope,review_condition', [
-    ([], ['등록 목적지'], 'market.noisy'),          # legitimately added scope kept
-    (['등록 목적지'], [], 'market.crowded'),          # condition changed: not the same rule
+    ([], ['등록 목적지'], 'market.noisy'),         # legitimately added scope kept
+    (['등록 목적지'], [], 'market.crowded'),         # condition changed: not the same rule
 ])
 def test_legitimate_corrections_are_not_reverted(draft_scope, review_scope, review_condition):
     src = m.source(person())
-    review = _compiled(review_scope, review_condition)
-    out, audit = guarded.restore_draft_scope(_draft(draft_scope), review, src)
+    review = _compiled(_avoid(review_scope, review_condition))
+    out, audit, _ = guarded.restore_draft_scope(_draft(_avoid(draft_scope)), review, src)
     assert audit == [] and out.model_dump() == review.model_dump()
 
 
-def test_undecodable_draft_restores_nothing():
-    review = _compiled([])
-    out, audit = guarded.restore_draft_scope('not json', review, m.source(person()))
-    assert audit == [] and out is review
+def test_numeric_literal_form_does_not_hide_a_dropped_scope():
+    src = m.source(person())
+    review = _compiled(_avoid([], 'market.noisy and clock_hour >= 18.0'))
+    out, audit, _ = guarded.restore_draft_scope(_draft(_avoid(['등록 목적지'], 'market.noisy and clock_hour >= 18')), review, src)
+    assert out.rules[0].place_labels == ['등록 목적지'] and audit
+
+
+def test_draft_with_scoped_and_unscoped_versions_is_reported_not_narrowed():
+    src = m.source(person())
+    review = _compiled(_avoid([]))
+    out, audit, unresolved = guarded.restore_draft_scope(_draft(_avoid([]), _avoid(['등록 목적지'])), review, src)
+    assert audit == [] and out.rules[0].place_labels == []
+    assert unresolved and unresolved[0]['reason'] == 'ambiguous_draft_scopes'
+
+
+def test_fixed_initial_rules_are_never_narrowed():
+    from app.llm import mind_policy_compact as compact
+    base = person()
+    initial = {'version': 'x', 'core': {}, 'scope': {'environment': {'market': {
+        'response': 'avoid', 'scope': 'conditional_category', 'note_ids': ['N0'],
+        'condition_clauses': [[{'signal': 'noisy', 'state': 'present'}]]}}}}
+    src = m.source(base.model_copy(update={'prepared_initial': initial}))
+    fixed = compact.fixed(src)
+    assert [r.id for r in fixed] == ['initial_env_market']
+    review = m.Policy(rules=fixed, unrepresented=[])
+    out, audit, _ = guarded.restore_draft_scope(_draft(_avoid(['등록 목적지'])), review, src)
+    assert audit == [] and out.rules[0].place_labels == []
+
+
+def test_undecodable_draft_is_reported():
+    review = _compiled(_avoid([]))
+    out, audit, unresolved = guarded.restore_draft_scope('not json', review, m.source(person()))
+    assert audit == [] and out is review and unresolved == [{'reason': 'draft_unparsed_scope_check_skipped'}]
 
 
 # ---- place-type signals only near known sites -------------------------------
 
+def _market_and_goal(net, center):
+    who = _far_goal_person(net, center)
+    market = who.attraction_points[0].model_copy(update={'label': '시장', 'location': center, 'place_type': 'market'})
+    return who.model_copy(update={'attraction_points': [market, who.attraction_points[0]]})
+
+
 def test_unscoped_signal_movement_fires_only_near_a_known_site(geography):
     """'시장이 시끄러우면 쉼터로' without place scope must not fire everywhere."""
     net, center = geography
-    who = _far_goal_person(net, center)
-    # Make the registered place a market at the start, the goal is elsewhere.
-    market = who.attraction_points[0].model_copy(update={'label': '시장', 'location': center, 'place_type': 'market'})
-    who = who.model_copy(update={'attraction_points': [market, who.attraction_points[0]]})
     s = seek_rule(when=[[dict(fact='market.noisy', op='eq', value=True)]])
-    pop = PersistentContextPopulation(net, who, prior(), policy(s), center, START, count=40, seed=17)
+    pop = PersistentContextPopulation(net, _market_and_goal(net, center), prior(), policy(s), center, START, count=40, seed=17)
     p = pop.particles[0]
-    labels, features = pop.near(p)
-    assert features['market'] is True and pop.known_sites(p, 'market') == ['registered:시장']
-    far = next(n for n, l in pop.locations.items() if haversine_km(center, l) * 1000 > 800)
-    p.node = far
-    rule_, _, _ = pop._select_rule(p, __import__('random').Random(1), pop.facts(p), *pop.near(p))
-    assert rule_ is None
-    assert 's' in p.env_insufficient_rules
-    # Near the registered market an unknown noise is a grounded, persistent hypothesis.
+    assert pop.near(p)[1]['market'] is True and pop.nearest_site(p, 'market') == ['places', ['시장']]
+    p.node = next(n for n, l in pop.locations.items() if haversine_km(center, l) * 1000 > 800)
+    chosen, _, _ = pop._select_rule(p, random.Random(1), pop.facts(p), *pop.near(p))
+    assert chosen is None and 's' in p.env_insufficient_rules
+    # Near the registered market an unknown noise is one persistent hypothesis
+    # per physical site, shared with a named rule for the same place.
     q = pop.particles[1]
-    pop._select_rule(q, __import__('random').Random(1), pop.facts(q), *pop.near(q))
-    assert any(k.startswith('["environment", "market.noisy", ["sites"') for k in q.context_assumptions)
+    pop._select_rule(q, random.Random(1), pop.facts(q), *pop.near(q))
+    assert any('["places", ["시장"]]' in k for k in q.context_assumptions)
+
+
+def test_or_branch_that_is_true_still_runs_without_environment_information(geography):
+    """Review #9: one unknown environment branch must not switch off a true branch."""
+    w = wait_rule(when=[[dict(fact='market.noisy', op='eq', value=True)], [dict(fact='lost_awareness', op='eq', value=True)]])
+    pop, _ = _walk(geography, policy(w), [obs('lost_awareness', True)], 5)
+    assert all(p.mode == 'wait' for p in pop.particles)
+
+
+def test_layer_absence_is_false_not_insufficient(geography):
+    """Review #12: a layer that shows no market nearby is absence, not missing information."""
+    net, center = geography
+    s = seek_rule(when=[[dict(fact='market.noisy', op='eq', value=True)]])
+    original = net.node_env
+    try:
+        net.node_env = {n: {'market_m': 5000.0} for n in net.graph.nodes}
+        pop = PersistentContextPopulation(net, _far_goal_person(net, center), prior(), policy(s), center, START, count=10, seed=17)
+        p = pop.particles[0]
+        assert pop.feature_absent(p, 'market') is True
+        chosen, _, _ = pop._select_rule(p, random.Random(1), pop.facts(p), *pop.near(p))
+        assert chosen is None and p.env_insufficient_rules == []
+        assert pop.distribution(0)['quality']['environment_knowledge']['market'] == 'map_layer'
+    finally:
+        net.node_env = original
+
+
+def test_layer_nearness_uses_interpolated_edge_position(geography):
+    """Review #10/#15: leaving a mapped feature, 'near' follows the road position."""
+    net, center = geography
+    original = net.node_env
+    try:
+        pop = PersistentContextPopulation(net, _far_goal_person(net, center), prior(), policy(), center, START, count=1, seed=17)
+        p = pop.particles[0]; u = p.node; v = pop.neighbors[u][0]
+        net.node_env = {n: {'market_m': 2000.0} for n in net.graph.nodes}
+        net.node_env[u] = {'market_m': 10.0}; net.node_env[v] = {'market_m': 400.0}
+        p.edge_to = v; p.edge_length = 100.; p.edge_remaining = 20.  # 80% along the edge
+        assert pop.near(p)[1]['market'] is False and pop.known_sites(p, 'market') == []
+    finally:
+        net.node_env = original

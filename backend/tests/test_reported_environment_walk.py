@@ -80,7 +80,7 @@ def test_registered_market_is_a_known_location_not_a_complete_category_map(cache
     pop=population(cached,[],registered_market=True);p=pop.particles[0]
     # A registered market is a known site of that type, even without a report.
     assert pop.near(p)[1]['market'] is True
-    assert pop.known_sites(p,'market')==['registered:등록 목적지']
+    assert pop.known_sites(p,'market')==[['places',['등록 목적지']]]
     # Away from it the category remains unknown (insufficient), never absent.
     far=next(n for n,loc in pop.locations.items() if haversine_km(start,loc)*1000>500)
     p.node=far

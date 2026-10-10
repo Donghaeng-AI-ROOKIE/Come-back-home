@@ -124,6 +124,13 @@ class Population:
         # complete category map: elsewhere a missing layer stays unknown.
         self.typed_places={a.label:(a.place_type,a.location) for a in self.persona.attraction_points
                            if a.place_type in FEATURE_LIMITS_M}
+        # A layer can establish absence only if it actually holds distances.
+        node_env=getattr(net,'node_env',None) or {}
+        self.layer_state={}
+        for feature in FEATURE_LIMITS_M:
+            values=[env.get(feature+'_m') for env in node_env.values() if feature+'_m' in env]
+            self.layer_state[feature]=('map_layer' if any(v is not None for v in values) else
+                'map_layer_without_geometry' if values else 'registered_places_and_bounded_reports_only')
         self.familiar=[self.persona.home]+list(self.goal_locations.values())
         self.route_scores={r.route:r.score for r in self.persona.route_familiarity}
         self.routine_labels={a.label for a in self.persona.attraction_points if a.origin_slot=='routine_destinations'}
@@ -217,35 +224,57 @@ class Population:
         labels=[name for name,point in self.goal_locations.items() if haversine_km(loc,point)*1000<=60]
         features={}
         for feature,limit in FEATURE_LIMITS_M.items():
-            distance=self.net.env(p.node).get(feature+'_m')
-            if p.edge_to is not None:
-                other=self.net.env(p.edge_to).get(feature+'_m')
-                fraction=1-p.edge_remaining/p.edge_length
-                distance=(distance+(other-distance)*fraction
-                          if distance is not None and other is not None else None)
+            distance=self._layer_distance(p,feature)
             features[feature]=None if distance is None else distance<=limit
             # A bounded field report or a registered place supplies geometry
             # only around itself. Outside them, a missing map layer remains
             # unknown (insufficient environment information), not absence.
-            if self.known_sites(p,feature,loc):features[feature]=True
+            if self._point_sites(p,feature,loc):features[feature]=True
         result=(labels,features)
         if not self.scene.observations and p.edge_to is None:self._near_cache[p.node]=result
         return result
 
     def has_layer(self,feature):
-        """A computed category layer can establish absence; its key is present."""
-        return feature+'_m' in self.net.env(self.net.nearest_node(self.start))
+        return self.layer_state.get(feature)=='map_layer'
+
+    def _layer_distance(self,p,feature):
+        """Mapped distance at the walker's interpolated road position, or None."""
+        distance=self.net.env(p.node).get(feature+'_m')
+        if p.edge_to is not None:
+            other=self.net.env(p.edge_to).get(feature+'_m')
+            fraction=1-p.edge_remaining/p.edge_length
+            distance=(distance+(other-distance)*fraction
+                      if distance is not None and other is not None else None)
+        return distance
+
+    def _point_sites(self,p,feature,loc):
+        """Registered places and bounded reports of this type around the walker."""
+        limit=FEATURE_LIMITS_M.get(feature)
+        if limit is None:return []
+        sites=[(haversine_km(loc,point)*1000,['places',[label]]) for label,(kind,point) in self.typed_places.items()
+               if kind==feature and haversine_km(loc,point)*1000<=limit]
+        sites+=[(haversine_km(loc,a)*1000,['report','%.6f,%.6f'%(a.lat,a.lng)])
+                for a in self.scene.anchors_at(loc,feature,p.minute)]
+        return [site for _,site in sorted(sites,key=lambda x:(x[0],json.dumps(x[1],ensure_ascii=False)))]
 
     def known_sites(self,p,feature,loc=None):
-        """Known locations of a place type around the walker, with their source."""
-        loc=loc or self.position(p);limit=FEATURE_LIMITS_M.get(feature)
-        if limit is None:return []
-        sites=['registered:'+label for label,(kind,point) in self.typed_places.items()
-               if kind==feature and haversine_km(loc,point)*1000<=limit]
-        sites+=['report:%.6f,%.6f'%(a.lat,a.lng) for a in self.scene.anchors_at(loc,feature,p.minute)]
-        distance=self.net.env(p.node).get(feature+'_m')
-        if distance is not None and distance<=limit:sites.append('map_layer:'+feature)
-        return sorted(set(sites))
+        """Known physical sites of a place type around the walker (nearest first)."""
+        loc=loc or self.position(p)
+        sites=self._point_sites(p,feature,loc)
+        distance=self._layer_distance(p,feature)
+        if distance is not None and distance<=FEATURE_LIMITS_M.get(feature,0):sites.append(['map_layer',feature])
+        return sites
+
+    def nearest_site(self,p,feature):
+        sites=self.known_sites(p,feature)
+        return sites[0] if sites else None
+
+    def feature_absent(self,p,feature):
+        """Only a layer holding distances can show that no such place is near."""
+        if feature not in FEATURE_LIMITS_M or not self.has_layer(feature) or self.known_sites(p,feature):
+            return False
+        distance=self._layer_distance(p,feature)
+        return distance is not None and distance>FEATURE_LIMITS_M[feature]
 
     def _baseline(self,p,rng,facts):
         # Reaching or recognizing a place does not establish a stopping response.
@@ -333,7 +362,9 @@ class Population:
             # No known location to move away from: the environment information
             # is insufficient here. Keep the rule, disclose it, never block the
             # walker or reject the whole map, and never invent a direction.
-            self._event(p,'avoidance_environment_insufficient',feature=feature,rule_id=rid)
+            last=p.events[-1] if p.events else {}
+            if not (last.get('kind')=='avoidance_environment_insufficient' and last.get('rule_id')==rid):
+                self._event(p,'avoidance_environment_insufficient',feature=feature,rule_id=rid)
             if rid not in p.env_insufficient_rules:p.env_insufficient_rules.append(rid)
             mode,hold,goal,_=self._baseline(p,rng,f);feature=None;scope=[];rid=None;baseline=True
         p.mode=mode;p.avoid_feature=feature;p.avoid_labels=list(scope)
@@ -520,9 +551,7 @@ class Population:
             'environment_distance_on_edge':'linear_interpolation_of_mapped_endpoint_distances',
             'radius_role':'existing_statistical_p95_support_not_fitted_terminal_distance',
             'map_extent_checked':True,'map_boundary_margin_m':50.,
-            'environment_knowledge':{feature:('map_layer' if self.has_layer(feature) else
-                                     'registered_places_and_bounded_reports_only')
-                                     for feature in FEATURE_LIMITS_M},
+            'environment_knowledge':dict(self.layer_state),
             'environment_absence_inferred_without_layer':False,
             'environment_insufficient_minutes':{rid:sum(p.env_insufficient_minutes.get(rid,0.) for p in self.particles)
                 for rid in sorted({r for p in self.particles for r in p.env_insufficient_minutes})},

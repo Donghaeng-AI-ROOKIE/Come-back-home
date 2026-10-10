@@ -69,14 +69,15 @@ def interpret(personal,run_id,*,candidate=None):
             # The scheduled second source review may read a malformed public
             # draft. Never coerce its action or treat syntax repair as truth.
             draft=content;valid=False;problem=type(error).__name__+': '+str(error)[:1200]
-        restored=[]
+        restored=[];unresolved=[]
         restore=getattr(candidate,'restore_draft_scope',None)
         if role=='review' and restore is not None and (valid or recovery):
-            parsed,restored=restore(draft_value,parsed,personal)
+            parsed,restored,unresolved=restore(draft_value,parsed,personal)
         audit.append({'role':role,'request_id':response.get('id'),'usage':response.get('usage'),
                       'schema_valid':valid,'finish_reason':finish,
                       **({'recovery':recovery} if recovery else {}),
-                      **({'scope_restored_from_draft':restored} if restored else {})})
+                      **({'scope_restored_from_draft':restored} if restored else {}),
+                      **({'scope_restore_unresolved':unresolved} if unresolved else {})})
         if recovery:
             return parsed.model_dump(mode='json'),audit
         if valid and conditional:

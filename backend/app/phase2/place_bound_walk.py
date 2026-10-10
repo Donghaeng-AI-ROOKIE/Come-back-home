@@ -107,14 +107,14 @@ class PlaceBoundPopulation(Population):
     def checkpoint(self):
         return super().checkpoint() | {'place_binding_digest': self.place_binding_digest}
 
-    def place_bindings(self, p, rules=None):
+    def place_bindings(self, p):
         now = self.started_at + timedelta(minutes=p.minute)
         known = {}
         for observation in self.place_recognitions:
             if observation.valid_from <= now < observation.valid_until:
                 known.setdefault(observation.place_label, set()).add(observation.value)
         result = {}
-        for rule in self.policy.rules if rules is None else rules:
+        for rule in self.policy.rules:
             if not any(a.fact in PLACE_FACTS for c in rule.when for a in c): continue
             label = rule.place_labels[0] if rule.place_labels else rule.goal_label or p.target
             values = known.get(label, set())
