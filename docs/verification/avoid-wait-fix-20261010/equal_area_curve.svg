@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Apple SD Gothic Neo, sans-serif" font-size="12">
 <rect width="640" height="360" fill="#fff"/>
-<text x="60" y="18" font-size="13">같은 면적 예산에서의 합성 위치 포함률 (평가 32명, 이미 본 자료의 개발 재평가)</text>
+<text x="60" y="18" font-size="13">같은 면적 예산의 합성 위치 포함률 (같은 평가 31명, E20 제외, 개발 재평가)</text>
 <line x1="60" x2="620" y1="310.0" y2="310.0" stroke="#ddd"/><text x="52" y="314.0" text-anchor="end">0%</text>
 <line x1="60" x2="620" y1="263.3" y2="263.3" stroke="#ddd"/><text x="52" y="267.3" text-anchor="end">10%</text>
 <line x1="60" x2="620" y1="216.7" y2="216.7" stroke="#ddd"/><text x="52" y="220.7" text-anchor="end">20%</text>
@@ -18,37 +18,26 @@
 <text x="550.0" y="328" text-anchor="middle">20</text>
 <text x="620.0" y="328" text-anchor="middle">30</text>
 <text x="340.0" y="350" text-anchor="middle">지도 상위 셀 면적 예산 (㎢)</text>
-<polyline points="60.0,238.3 130.0,196.4 200.0,169.0 270.0,130.7 340.0,102.8 410.0,87.6 480.0,81.5 550.0,81.5 620.0,81.5" fill="none" stroke="#000" stroke-width="2" stroke-dasharray=""/>
-<circle cx="60.0" cy="238.3" r="2.5" fill="#000"/>
-<circle cx="130.0" cy="196.4" r="2.5" fill="#000"/>
-<circle cx="200.0" cy="169.0" r="2.5" fill="#000"/>
-<circle cx="270.0" cy="130.7" r="2.5" fill="#000"/>
-<circle cx="340.0" cy="102.8" r="2.5" fill="#000"/>
-<circle cx="410.0" cy="87.6" r="2.5" fill="#000"/>
-<circle cx="480.0" cy="81.5" r="2.5" fill="#000"/>
-<circle cx="550.0" cy="81.5" r="2.5" fill="#000"/>
-<circle cx="620.0" cy="81.5" r="2.5" fill="#000"/>
-<line x1="72" x2="100" y1="48" y2="48" stroke="#000" stroke-width="2" stroke-dasharray=""/><text x="106" y="52">현재 배포본 D</text>
-<polyline points="60.0,239.5 130.0,197.6 200.0,163.0 270.0,130.7 340.0,97.9 410.0,84.0 480.0,78.5 550.0,78.5 620.0,78.5" fill="none" stroke="#000" stroke-width="2" stroke-dasharray="6,4"/>
-<circle cx="60.0" cy="239.5" r="2.5" fill="#000"/>
-<circle cx="130.0" cy="197.6" r="2.5" fill="#000"/>
-<circle cx="200.0" cy="163.0" r="2.5" fill="#000"/>
-<circle cx="270.0" cy="130.7" r="2.5" fill="#000"/>
-<circle cx="340.0" cy="97.9" r="2.5" fill="#000"/>
-<circle cx="410.0" cy="84.0" r="2.5" fill="#000"/>
-<circle cx="480.0" cy="78.5" r="2.5" fill="#000"/>
-<circle cx="550.0" cy="78.5" r="2.5" fill="#000"/>
-<circle cx="620.0" cy="78.5" r="2.5" fill="#000"/>
-<line x1="72" x2="100" y1="64" y2="64" stroke="#000" stroke-width="2" stroke-dasharray="6,4"/><text x="106" y="68">수정본 D</text>
-<polyline points="60.0,274.8 130.0,239.5 200.0,190.9 270.0,142.3 340.0,103.4 410.0,84.0 480.0,71.2 550.0,68.8 620.0,68.8" fill="none" stroke="#888" stroke-width="2" stroke-dasharray="2,3"/>
-<circle cx="60.0" cy="274.8" r="2.5" fill="#888"/>
-<circle cx="130.0" cy="239.5" r="2.5" fill="#888"/>
-<circle cx="200.0" cy="190.9" r="2.5" fill="#888"/>
-<circle cx="270.0" cy="142.3" r="2.5" fill="#888"/>
-<circle cx="340.0" cy="103.4" r="2.5" fill="#888"/>
-<circle cx="410.0" cy="84.0" r="2.5" fill="#888"/>
-<circle cx="480.0" cy="71.2" r="2.5" fill="#888"/>
-<circle cx="550.0" cy="68.8" r="2.5" fill="#888"/>
-<circle cx="620.0" cy="68.8" r="2.5" fill="#888"/>
-<line x1="72" x2="100" y1="80" y2="80" stroke="#888" stroke-width="2" stroke-dasharray="2,3"/><text x="106" y="84">구성요소 C(초기 개인화, 행동 규칙 없음)</text>
+<polyline points="60.0,236.0 130.0,192.7 200.0,164.5 270.0,125.0 340.0,96.1 410.0,80.4 480.0,74.2 550.0,74.2 620.0,74.2" fill="none" stroke="#000" stroke-width="2" stroke-dasharray=""/>
+<circle cx="60.0" cy="236.0" r="2.5" fill="#000"/>
+<circle cx="130.0" cy="192.7" r="2.5" fill="#000"/>
+<circle cx="200.0" cy="164.5" r="2.5" fill="#000"/>
+<circle cx="270.0" cy="125.0" r="2.5" fill="#000"/>
+<circle cx="340.0" cy="96.1" r="2.5" fill="#000"/>
+<circle cx="410.0" cy="80.4" r="2.5" fill="#000"/>
+<circle cx="480.0" cy="74.2" r="2.5" fill="#000"/>
+<circle cx="550.0" cy="74.2" r="2.5" fill="#000"/>
+<circle cx="620.0" cy="74.2" r="2.5" fill="#000"/>
+<line x1="72" x2="100" y1="48" y2="48" stroke="#000" stroke-width="2" stroke-dasharray=""/><text x="106" y="52">현재 배포본</text>
+<polyline points="60.0,238.5 130.0,191.5 200.0,162.0 270.0,126.8 340.0,91.1 410.0,75.4 480.0,68.5 550.0,68.5 620.0,68.5" fill="none" stroke="#000" stroke-width="2" stroke-dasharray="6,4"/>
+<circle cx="60.0" cy="238.5" r="2.5" fill="#000"/>
+<circle cx="130.0" cy="191.5" r="2.5" fill="#000"/>
+<circle cx="200.0" cy="162.0" r="2.5" fill="#000"/>
+<circle cx="270.0" cy="126.8" r="2.5" fill="#000"/>
+<circle cx="340.0" cy="91.1" r="2.5" fill="#000"/>
+<circle cx="410.0" cy="75.4" r="2.5" fill="#000"/>
+<circle cx="480.0" cy="68.5" r="2.5" fill="#000"/>
+<circle cx="550.0" cy="68.5" r="2.5" fill="#000"/>
+<circle cx="620.0" cy="68.5" r="2.5" fill="#000"/>
+<line x1="72" x2="100" y1="64" y2="64" stroke="#000" stroke-width="2" stroke-dasharray="6,4"/><text x="106" y="68">수정본</text>
 </svg>
