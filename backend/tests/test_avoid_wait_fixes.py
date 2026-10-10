@@ -281,3 +281,26 @@ def test_layer_nearness_uses_interpolated_edge_position(geography):
         assert pop.near(p)[1]['market'] is False and pop.known_sites(p, 'market') == []
     finally:
         net.node_env = original
+
+
+# ---- open case: family is not beside the person -----------------------------
+
+def test_unobserved_family_is_absent_while_the_case_is_open(geography):
+    """Review item 4: never a 50% 'family beside' hypothesis during a missing case."""
+    s = seek_rule(when=[[dict(fact='family_present', op='eq', value=False)]])
+    pop, result = _walk(geography, policy(s), [], 2)
+    assert all(p.target == '등록 목적지' for p in pop.particles)
+    assert result['quality']['family_present_when_unobserved'] is False
+    assert not any('family_present' in k for p in pop.particles for k in p.context_assumptions)
+
+
+def test_observed_reunion_stops_walking(geography):
+    """A family observed beside the person ends walking; it is not re-walked."""
+    s = seek_rule(when=[[dict(fact='lost_awareness', op='eq', value=True)]])
+    observations = [obs('lost_awareness', True), obs('family_present', False, 0, 5), obs('family_present', True, 5, 360)]
+    pop, _ = _walk(geography, policy(s), observations, 5)
+    moved = [p.distance for p in pop.particles]
+    assert any(d > 0 for d in moved)
+    result = pop.advance_to(30)
+    assert [p.distance for p in pop.particles] == pytest.approx(moved)
+    assert result['quality']['reunion_observed_walkers'] == len(pop.particles)

@@ -209,6 +209,10 @@ class Population:
         for feature,signals in conditions.items():
             for signal,value in signals.items():
                 if feature+'.'+signal in f:f[feature+'.'+signal]=value
+        # A missing-person case is open only while family is not beside the
+        # person; otherwise they would have been found. Unobserved therefore
+        # means False, never a 50% hypothesis that walks a reunited person on.
+        f['family_present']=False
         values={}
         for obs in self.observations:
             # These are typed, bounded observations, never extracted by text matching.
@@ -334,6 +338,14 @@ class Population:
     def _decide(self,p,rng):
         p.env_insufficient_rules=[]
         f=self.facts(p);labels,features=self.near(p)
+        if f.get('family_present') is True:
+            # An observed family beside the person is a reunion: the case
+            # lifecycle closes it. The simulation never walks them on after it.
+            if not (p.events and p.events[-1].get('kind')=='reunion_observed_no_further_walking'):
+                self._event(p,'reunion_observed_no_further_walking')
+            p.mode='wait';p.hold_until=p.minute+1.;p.hold_rule_id=None
+            p.last_uncertain=False;p.last_baseline=False
+            return False,False
         if p.mode=='rest' and p.minute<p.hold_until-1e-8:
             return p.last_uncertain,p.last_baseline
         # Current condition changes can release waiting. Confirmed discovery is
@@ -553,6 +565,8 @@ class Population:
             'map_extent_checked':True,'map_boundary_margin_m':50.,
             'environment_knowledge':dict(self.layer_state),
             'environment_absence_inferred_without_layer':False,
+            'family_present_when_unobserved':False,
+            'reunion_observed_walkers':sum(any(e['kind']=='reunion_observed_no_further_walking' for e in p.events) for p in self.particles),
             'environment_insufficient_minutes':{rid:sum(p.env_insufficient_minutes.get(rid,0.) for p in self.particles)
                 for rid in sorted({r for p in self.particles for r in p.env_insufficient_minutes})},
             'environment_insufficient_walkers':sum(bool(p.env_insufficient_minutes) for p in self.particles)}}

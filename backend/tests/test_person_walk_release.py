@@ -50,9 +50,11 @@ def test_inactive_physical_clause_does_not_disable_rest(geography):
 def test_fractional_observation_change_interrupts_wait_at_its_time(geography):
     r = rule('wait', when=[[dict(fact='lost_awareness', op='eq', value=True),
                            dict(fact='family_present', op='eq', value=False)]])
+    # The release is a fractional-time change of the wait condition itself.
+    # (A family observed beside the person is a reunion and is not walked on.)
     pop = population(geography, policy(r), behavior_observations=[
-        obs('lost_awareness', True), obs('family_present', False, 0, .25),
-        obs('family_present', True, .25),
+        obs('lost_awareness', True, 0, .25), obs('lost_awareness', False, .25),
+        obs('family_present', False),
     ])
     pop.advance_to(1)
     assert all(walker.waiting == pytest.approx(.25) for walker in pop.particles)
