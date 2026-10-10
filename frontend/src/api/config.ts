@@ -13,6 +13,8 @@
  * (EXPO_PUBLIC_ 접두어가 붙은 것만 앱 번들에 주입된다 — Expo 규약.)
  */
 import { Platform } from 'react-native';
+import { ApiError } from './errors';
+import { cloudRequest } from './cloudTransport';
 
 /**
  * 웹은 **자기가 서빙된 그 출처**로 API 를 부른다(`/api/...`).
@@ -40,16 +42,7 @@ export const USE_MOCK = process.env.EXPO_PUBLIC_USE_MOCK === 'true';
 /** 인증 도입 전 임시 사용자 식별자 (백엔드 walk API 의 기본값과 같아야 한다). */
 export const DEMO_USER_ID = 'demo-citizen';
 
-export class ApiError extends Error {
-  constructor(
-    readonly status: number,
-    readonly path: string,
-    message: string,
-  ) {
-    super(message);
-    this.name = 'ApiError';
-  }
-}
+export { ApiError } from './errors';
 
 /**
  * 요청 하나가 이보다 오래 걸리면 실패로 본다(ms).
@@ -93,7 +86,7 @@ export async function api<T>(
   init?: RequestInit & { timeoutMs?: number },
 ): Promise<T> {
   if (process.env.EXPO_PUBLIC_TRANSPORT === 'supabase') {
-    const { cloudRequest } = await import('./cloudTransport');
+    // Keep the transport with the app bundle: old open tabs must not fetch a removed release chunk.
     return cloudRequest<T>(path, init);
   }
   let res: Response;
