@@ -1,0 +1,1476 @@
+[
+ {
+  "person_id": "E01",
+  "deployed_map_hit": 0.5,
+  "deployed_alert_hit": 0.4166666666666667,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "development",
+  "family": "goal",
+  "deployed_rule_minutes_6h": {
+   "a_0": 13.114913768658166,
+   "a_1": 109.20776167286078
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 15.389252082709225,
+  "deployed_rest_minutes_6h": 112.0747616728608,
+  "deployed_distance_m_6h": 11161.727339732635,
+  "fixed_map_hit": 0.5,
+  "fixed_alert_hit": 0.4166666666666667,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 13.114913768658166,
+   "a_1": 109.20776167286078
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 15.389252082709225,
+  "fixed_rest_minutes_6h": 112.0747616728608,
+  "fixed_distance_m_6h": 11161.727339732635,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E02",
+  "deployed_map_hit": 0.4166666666666667,
+  "deployed_alert_hit": 0.5,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "development",
+  "family": "rest",
+  "deployed_rule_minutes_6h": {
+   "a_0": 24.521389949150695,
+   "a_1": 61.065
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 15.60804285128583,
+  "deployed_rest_minutes_6h": 67.509,
+  "deployed_distance_m_6h": 13290.381943138278,
+  "fixed_map_hit": 0.4166666666666667,
+  "fixed_alert_hit": 0.5,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 24.521389949150695,
+   "a_1": 61.065
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 15.60804285128583,
+  "fixed_rest_minutes_6h": 67.509,
+  "fixed_distance_m_6h": 13290.381943138278,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E03",
+  "deployed_map_hit": 0.5,
+  "deployed_alert_hit": 0.5833333333333334,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "development",
+  "family": "wait",
+  "deployed_rule_minutes_6h": {
+   "a_0": 150.50033339225973,
+   "a_1": 5.03,
+   "a_2": 2.5670667087397128
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 48.25519987415878,
+  "deployed_rest_minutes_6h": 152.05633339225977,
+  "deployed_distance_m_6h": 7665.046403211908,
+  "fixed_map_hit": 0.5,
+  "fixed_alert_hit": 0.5833333333333334,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 151.05633339225975,
+   "a_1": 5.03,
+   "a_2": 5.191993766569075
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 47.88606370861727,
+  "fixed_rest_minutes_6h": 152.57633339225978,
+  "fixed_distance_m_6h": 7657.804939157901,
+  "ordered_pairs": [
+   {
+    "wait_rule_id": "a_1",
+    "movement_rule_id": "a_2",
+    "note_id": "N2"
+   }
+  ],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E04",
+  "deployed_map_hit": 0.3333333333333333,
+  "deployed_alert_hit": 0.4583333333333333,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "development",
+  "family": "avoid",
+  "deployed_rule_minutes_6h": {
+   "a_0": 130.672,
+   "a_1": 1.2549999999999997
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 16.92,
+  "deployed_rest_minutes_6h": 133.731,
+  "deployed_distance_m_6h": 10048.751999999999,
+  "fixed_map_hit": 0.3333333333333333,
+  "fixed_alert_hit": 0.4583333333333333,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 130.672,
+   "a_1": 1.2549999999999997
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 16.92,
+  "fixed_rest_minutes_6h": 133.731,
+  "fixed_distance_m_6h": 10048.751999999999,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E05",
+  "deployed_map_hit": 0.375,
+  "deployed_alert_hit": 0.4583333333333333,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "development",
+  "family": "goal",
+  "deployed_rule_minutes_6h": {
+   "a_0": 43.331999999999994
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 13.68,
+  "deployed_rest_minutes_6h": 49.73700000000001,
+  "deployed_distance_m_6h": 14235.983999999999,
+  "fixed_map_hit": 0.375,
+  "fixed_alert_hit": 0.4583333333333333,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 43.331999999999994
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 13.68,
+  "fixed_rest_minutes_6h": 49.73700000000001,
+  "fixed_distance_m_6h": 14235.983999999999,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E06",
+  "deployed_map_hit": 0.3333333333333333,
+  "deployed_alert_hit": 0.5833333333333334,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "development",
+  "family": "rest",
+  "deployed_rule_minutes_6h": {
+   "a_1": 86.12700000000001
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 5.76,
+  "deployed_rest_minutes_6h": 88.759,
+  "deployed_distance_m_6h": 12743.087999999996,
+  "fixed_map_hit": 0.3333333333333333,
+  "fixed_alert_hit": 0.5833333333333334,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_1": 86.12700000000001
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 5.76,
+  "fixed_rest_minutes_6h": 88.759,
+  "fixed_distance_m_6h": 12743.087999999996,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E07",
+  "deployed_map_hit": 0.08333333333333333,
+  "deployed_alert_hit": 0.3333333333333333,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "development",
+  "family": "wait",
+  "deployed_rule_minutes_6h": {
+   "a_0": 22.954308511391016,
+   "a_1": 249.8520117814275,
+   "a_2": 9.994,
+   "a_3": 11.58,
+   "a_4": 4.65480337077752
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 276.1020117814275,
+  "deployed_rest_minutes_6h": 10.971,
+  "deployed_distance_m_6h": 3500.4954344914804,
+  "fixed_map_hit": 0.16666666666666666,
+  "fixed_alert_hit": 0.3333333333333333,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 22.954308511391016,
+   "a_1": 269.2036571793217,
+   "a_2": 7.2780000000000005,
+   "a_3": 12.69,
+   "a_4": 10.606065812967856
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 291.61365717932154,
+  "fixed_rest_minutes_6h": 7.9830000000000005,
+  "fixed_distance_m_6h": 2899.360455392565,
+  "ordered_pairs": [
+   {
+    "wait_rule_id": "a_3",
+    "movement_rule_id": "a_4",
+    "note_id": "N2"
+   }
+  ],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E08",
+  "deployed_map_hit": 0.375,
+  "deployed_alert_hit": 0.4166666666666667,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "development",
+  "family": "avoid",
+  "deployed_rule_minutes_6h": {
+   "a_0": 78.51966420376218,
+   "a_2": 25.99671904805653
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 21.403044720844594,
+  "deployed_rest_minutes_6h": 96.69566420376219,
+  "deployed_distance_m_6h": 11611.261971618873,
+  "fixed_map_hit": 0.5,
+  "fixed_alert_hit": 0.5833333333333334,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 91.90199999999999,
+   "a_2": 0.9027980604841894
+  },
+  "fixed_env_insufficient_minutes_6h": {
+   "a_2": 260.0235946296112
+  },
+  "fixed_wait_minutes_6h": 21.6,
+  "fixed_rest_minutes_6h": 102.69200000000001,
+  "fixed_distance_m_6h": 11313.984000000002,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": [
+   {
+    "rule_id": "a_2",
+    "deployed_min": 25.99671904805653,
+    "fixed_min": 0.9027980604841894
+   }
+  ]
+ },
+ {
+  "person_id": "E09",
+  "deployed_map_hit": 0.25,
+  "deployed_alert_hit": 0.4583333333333333,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "goal",
+  "deployed_rule_minutes_6h": {
+   "a_0": 34.584671673637075,
+   "a_1": 103.3025177596758
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 14.130686420999893,
+  "deployed_rest_minutes_6h": 108.54951775967581,
+  "deployed_distance_m_6h": 11391.350199327566,
+  "fixed_map_hit": 0.25,
+  "fixed_alert_hit": 0.4166666666666667,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 68.11331595400239,
+   "a_1": 95.14666190298254
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 12.429893375183894,
+  "fixed_rest_minutes_6h": 102.17679816828917,
+  "fixed_distance_m_6h": 11778.878805913293,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E10",
+  "deployed_map_hit": 0.3333333333333333,
+  "deployed_alert_hit": 0.5416666666666666,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "rest",
+  "deployed_rule_minutes_6h": {
+   "a_0": 167.05700000000002
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 16.92,
+  "deployed_rest_minutes_6h": 169.168,
+  "deployed_distance_m_6h": 8347.775999999996,
+  "fixed_map_hit": 0.3333333333333333,
+  "fixed_alert_hit": 0.5416666666666666,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 167.05700000000002
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 16.92,
+  "fixed_rest_minutes_6h": 169.168,
+  "fixed_distance_m_6h": 8347.775999999996,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E11",
+  "deployed_map_hit": 0.4166666666666667,
+  "deployed_alert_hit": 0.4166666666666667,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "wait",
+  "deployed_rule_minutes_6h": {
+   "a_0": 153.918400013297,
+   "a_1": 20.12,
+   "a_3": 16.424406551875645
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 35.02195931816611,
+  "deployed_rest_minutes_6h": 155.58740001329704,
+  "deployed_distance_m_6h": 8130.750752089767,
+  "fixed_map_hit": 0.4166666666666667,
+  "fixed_alert_hit": 0.4166666666666667,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 151.92291514693136,
+   "a_1": 20.12,
+   "a_3": 32.851756892806065
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 33.56475297645043,
+  "fixed_rest_minutes_6h": 153.8629151469314,
+  "fixed_distance_m_6h": 8283.47193007767,
+  "ordered_pairs": [
+   {
+    "wait_rule_id": "a_1",
+    "movement_rule_id": "a_3",
+    "note_id": "N2"
+   }
+  ],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E12",
+  "deployed_map_hit": 0.4166666666666667,
+  "deployed_alert_hit": 0.3333333333333333,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "avoid",
+  "deployed_rule_minutes_6h": {
+   "a_0": 130.484,
+   "a_1": 0.7358791106559576,
+   "a_2": 0.7685545339954648
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 18.36,
+  "deployed_rest_minutes_6h": 133.14999999999998,
+  "deployed_distance_m_6h": 10007.519999999999,
+  "fixed_map_hit": 0.4166666666666667,
+  "fixed_alert_hit": 0.3333333333333333,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 130.484,
+   "a_1": 0.7358791106559576,
+   "a_2": 0.7685545339954648
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 18.36,
+  "fixed_rest_minutes_6h": 133.14999999999998,
+  "fixed_distance_m_6h": 10007.519999999999,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E13",
+  "deployed_map_hit": 0.375,
+  "deployed_alert_hit": 0.5,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "goal",
+  "deployed_rule_minutes_6h": {
+   "a_0": 18.364472117923004,
+   "a_1": 129.15759876405855
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 14.501322461641745,
+  "deployed_rest_minutes_6h": 132.49959876405862,
+  "deployed_distance_m_6h": 10223.955781166384,
+  "fixed_map_hit": 0.375,
+  "fixed_alert_hit": 0.5,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 18.364472117923004,
+   "a_1": 129.15759876405855
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 14.501322461641745,
+  "fixed_rest_minutes_6h": 132.49959876405862,
+  "fixed_distance_m_6h": 10223.955781166384,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E14",
+  "deployed_map_hit": 0.375,
+  "deployed_alert_hit": 0.4166666666666667,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "rest",
+  "deployed_rule_minutes_6h": {
+   "a_0": 45.83658091705678,
+   "a_1": 122.99916617195262
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 14.82745834884842,
+  "deployed_rest_minutes_6h": 127.85416617195263,
+  "deployed_distance_m_6h": 10431.28202300155,
+  "fixed_map_hit": 0.375,
+  "fixed_alert_hit": 0.4166666666666667,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 45.83658091705678,
+   "a_1": 122.99916617195262
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 14.82745834884842,
+  "fixed_rest_minutes_6h": 127.85416617195263,
+  "fixed_distance_m_6h": 10431.28202300155,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E15",
+  "deployed_map_hit": 0.4583333333333333,
+  "deployed_alert_hit": 0.5,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "wait",
+  "deployed_rule_minutes_6h": {
+   "a_0": 43.79410256487922,
+   "a_1": 20.12,
+   "a_2": 13.021466457717526
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 43.956190529248985,
+  "deployed_rest_minutes_6h": 53.00110256487923,
+  "deployed_distance_m_6h": 12626.049931481843,
+  "fixed_map_hit": 0.375,
+  "fixed_alert_hit": 0.5,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 43.00935225603466,
+   "a_1": 20.12,
+   "a_2": 26.012501712180253
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 42.79436792009835,
+  "fixed_rest_minutes_6h": 53.35335225603466,
+  "fixed_distance_m_6h": 12664.909431545613,
+  "ordered_pairs": [
+   {
+    "wait_rule_id": "a_1",
+    "movement_rule_id": "a_2",
+    "note_id": "N2"
+   }
+  ],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E16",
+  "deployed_map_hit": 0.5,
+  "deployed_alert_hit": 0.5833333333333334,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "avoid",
+  "deployed_rule_minutes_6h": {
+   "a_0": 40.297
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 16.2,
+  "deployed_rest_minutes_6h": 50.52900000000001,
+  "deployed_distance_m_6h": 14077.007999999998,
+  "fixed_map_hit": 0.5,
+  "fixed_alert_hit": 0.5833333333333334,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 40.297
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 16.2,
+  "fixed_rest_minutes_6h": 50.52900000000001,
+  "fixed_distance_m_6h": 14077.007999999998,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E17",
+  "deployed_map_hit": 0.5,
+  "deployed_alert_hit": 0.5,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "goal",
+  "deployed_rule_minutes_6h": {
+   "a_0": 171.061
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 8.64,
+  "deployed_rest_minutes_6h": 173.15800000000002,
+  "deployed_distance_m_6h": 8553.695999999996,
+  "fixed_map_hit": 0.5,
+  "fixed_alert_hit": 0.5,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 171.061
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 8.64,
+  "fixed_rest_minutes_6h": 173.15800000000002,
+  "fixed_distance_m_6h": 8553.695999999996,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E18",
+  "deployed_map_hit": 0.4583333333333333,
+  "deployed_alert_hit": 0.2916666666666667,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "rest",
+  "deployed_rule_minutes_6h": {
+   "a_0": 62.900999999999996
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 15.120000000000001,
+  "deployed_rest_minutes_6h": 68.855,
+  "deployed_distance_m_6h": 13249.199999999997,
+  "fixed_map_hit": 0.4583333333333333,
+  "fixed_alert_hit": 0.2916666666666667,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 62.900999999999996
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 15.120000000000001,
+  "fixed_rest_minutes_6h": 68.855,
+  "fixed_distance_m_6h": 13249.199999999997,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E19",
+  "deployed_map_hit": 0.4583333333333333,
+  "deployed_alert_hit": 0.4166666666666667,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "wait",
+  "deployed_rule_minutes_6h": {
+   "a_0": 77.684,
+   "a_1": 20.12,
+   "a_2": 15.572621143384058
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 60.13364597021575,
+  "deployed_rest_minutes_6h": 88.20200000000003,
+  "deployed_distance_m_6h": 10159.888993429642,
+  "fixed_map_hit": 0.3333333333333333,
+  "fixed_alert_hit": 0.4166666666666667,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 76.551,
+   "a_1": 20.12,
+   "a_2": 31.37025978434217
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 57.74534618696063,
+  "fixed_rest_minutes_6h": 87.584,
+  "fixed_distance_m_6h": 10304.191383025889,
+  "ordered_pairs": [
+   {
+    "wait_rule_id": "a_1",
+    "movement_rule_id": "a_2",
+    "note_id": "N2"
+   }
+  ],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E20",
+  "deployed_map_hit": 0.0,
+  "deployed_alert_hit": 0.0,
+  "deployed_complete": 0,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "avoid",
+  "deployed_rule_minutes_6h": {},
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": null,
+  "deployed_rest_minutes_6h": null,
+  "deployed_distance_m_6h": null,
+  "fixed_map_hit": 0.08333333333333333,
+  "fixed_alert_hit": 0.3333333333333333,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 38.939,
+   "a_1": 0.33800000000000024,
+   "a_2": 2.500385775159562
+  },
+  "fixed_env_insufficient_minutes_6h": {
+   "a_2": 316.62375078429045
+  },
+  "fixed_wait_minutes_6h": 19.080000000000002,
+  "fixed_rest_minutes_6h": 50.458000000000006,
+  "fixed_distance_m_6h": 13942.176000000005,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "reprepared_with_recorded_K_responses",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E21",
+  "deployed_map_hit": 0.5,
+  "deployed_alert_hit": 0.5,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "goal",
+  "deployed_rule_minutes_6h": {
+   "a_0": 40.242000000000004
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 19.080000000000002,
+  "deployed_rest_minutes_6h": 49.871,
+  "deployed_distance_m_6h": 13970.352000000003,
+  "fixed_map_hit": 0.5,
+  "fixed_alert_hit": 0.5,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 40.242000000000004
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 19.080000000000002,
+  "fixed_rest_minutes_6h": 49.871,
+  "fixed_distance_m_6h": 13970.352000000003,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E22",
+  "deployed_map_hit": 0.5,
+  "deployed_alert_hit": 0.625,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "rest",
+  "deployed_rule_minutes_6h": {
+   "a_0": 167.577
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 14.76,
+  "deployed_rest_minutes_6h": 169.983,
+  "deployed_distance_m_6h": 8412.336,
+  "fixed_map_hit": 0.5,
+  "fixed_alert_hit": 0.625,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 167.577
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 14.76,
+  "fixed_rest_minutes_6h": 169.983,
+  "fixed_distance_m_6h": 8412.336,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E23",
+  "deployed_map_hit": 0.5,
+  "deployed_alert_hit": 0.5,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "wait",
+  "deployed_rule_minutes_6h": {
+   "a_0": 7.4618007307014995,
+   "a_1": 37.502,
+   "a_2": 2.5,
+   "a_3": 1.7849353232065956
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 45.34345096286205,
+  "deployed_rest_minutes_6h": 45.271,
+  "deployed_distance_m_6h": 12930.50635378262,
+  "fixed_map_hit": 0.5,
+  "fixed_alert_hit": 0.5,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 7.4618007307014995,
+   "a_1": 37.416,
+   "a_2": 5.03,
+   "a_3": 3.742081478286388
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 47.18488058702208,
+  "fixed_rest_minutes_6h": 45.004000000000005,
+  "fixed_distance_m_6h": 12854.93373182294,
+  "ordered_pairs": [
+   {
+    "wait_rule_id": "a_2",
+    "movement_rule_id": "a_3",
+    "note_id": "N2"
+   }
+  ],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E24",
+  "deployed_map_hit": 0.3333333333333333,
+  "deployed_alert_hit": 0.5,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "avoid",
+  "deployed_rule_minutes_6h": {
+   "a_0": 101.11500000000001
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 21.6,
+  "deployed_rest_minutes_6h": 106.489,
+  "deployed_distance_m_6h": 11131.728,
+  "fixed_map_hit": 0.3333333333333333,
+  "fixed_alert_hit": 0.5,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 101.11500000000001
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 21.6,
+  "fixed_rest_minutes_6h": 106.489,
+  "fixed_distance_m_6h": 11131.728,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E25",
+  "deployed_map_hit": 0.5416666666666666,
+  "deployed_alert_hit": 0.4166666666666667,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "goal",
+  "deployed_rule_minutes_6h": {
+   "a_0": 12.403255294916228,
+   "a_1": 51.592966041351275
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 15.684208781119624,
+  "deployed_rest_minutes_6h": 58.028966041351275,
+  "deployed_distance_m_6h": 13741.767608521397,
+  "fixed_map_hit": 0.5416666666666666,
+  "fixed_alert_hit": 0.4166666666666667,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 12.403255294916228,
+   "a_1": 51.592966041351275
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 15.684208781119624,
+  "fixed_rest_minutes_6h": 58.028966041351275,
+  "fixed_distance_m_6h": 13741.767608521397,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E26",
+  "deployed_map_hit": 0.375,
+  "deployed_alert_hit": 0.375,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "rest",
+  "deployed_rule_minutes_6h": {
+   "a_0": 131.470788103067,
+   "a_1": 105.2130722017534
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 8.525528135937696,
+  "deployed_rest_minutes_6h": 120.22507220175342,
+  "deployed_distance_m_6h": 11099.971183790825,
+  "fixed_map_hit": 0.375,
+  "fixed_alert_hit": 0.375,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 131.470788103067,
+   "a_1": 105.2130722017534
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 8.525528135937696,
+  "fixed_rest_minutes_6h": 120.22507220175342,
+  "fixed_distance_m_6h": 11099.971183790825,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E27",
+  "deployed_map_hit": 0.3333333333333333,
+  "deployed_alert_hit": 0.375,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "wait",
+  "deployed_rule_minutes_6h": {
+   "a_0": 25.936999999999998,
+   "a_1": 8.970924671478322,
+   "a_2": 128.0216483602813
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 17.58108997569208,
+  "deployed_rest_minutes_6h": 51.14,
+  "deployed_distance_m_6h": 13981.38768116678,
+  "fixed_map_hit": 0.375,
+  "fixed_alert_hit": 0.3333333333333333,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 18.049999999999997,
+   "a_1": 7.8485312670111105,
+   "a_2": 251.98111681028416
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 9.981484784211414,
+  "fixed_rest_minutes_6h": 50.677,
+  "fixed_distance_m_6h": 14368.392730357853,
+  "ordered_pairs": [],
+  "not_ordered": [
+   {
+    "wait_rule_id": "a_1",
+    "movement_rule_id": "a_2",
+    "reason": "movement_not_conditioned_on_wait_trigger"
+   }
+  ],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E28",
+  "deployed_map_hit": 0.25,
+  "deployed_alert_hit": 0.5,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "avoid",
+  "deployed_rule_minutes_6h": {
+   "a_0": 47.047126150234696,
+   "a_1": 136.8648734233234,
+   "a_2": 3.5198432250879748,
+   "a_3": 90.4165688469665
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 12.810433291725724,
+  "deployed_rest_minutes_6h": 144.74087342332336,
+  "deployed_distance_m_6h": 9717.537277677644,
+  "fixed_map_hit": 0.2916666666666667,
+  "fixed_alert_hit": 0.5,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 56.36593676481034,
+   "a_1": 142.69897794836635,
+   "a_2": 4.133467242197361,
+   "a_3": 26.349255368978632
+  },
+  "fixed_env_insufficient_minutes_6h": {
+   "a_3": 179.5860038177968
+  },
+  "fixed_wait_minutes_6h": 12.86531150220555,
+  "fixed_rest_minutes_6h": 149.7619779483664,
+  "fixed_distance_m_6h": 9473.89010637255,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E29",
+  "deployed_map_hit": 0.4166666666666667,
+  "deployed_alert_hit": 0.16666666666666666,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "goal",
+  "deployed_rule_minutes_6h": {
+   "a_0": 29.41830713711165,
+   "a_1": 36.143
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 17.69015663940704,
+  "deployed_rest_minutes_6h": 50.432,
+  "deployed_distance_m_6h": 14010.136481308462,
+  "fixed_map_hit": 0.4166666666666667,
+  "fixed_alert_hit": 0.16666666666666666,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 29.41830713711165,
+   "a_1": 36.143
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 17.69015663940704,
+  "fixed_rest_minutes_6h": 50.432,
+  "fixed_distance_m_6h": 14010.136481308462,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E30",
+  "deployed_map_hit": 0.3333333333333333,
+  "deployed_alert_hit": 0.4583333333333333,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "rest",
+  "deployed_rule_minutes_6h": {
+   "a_0": 44.91008336828306,
+   "a_1": 77.99941289655632
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 15.597068108366285,
+  "deployed_rest_minutes_6h": 89.32641289655635,
+  "deployed_distance_m_6h": 12243.672911763713,
+  "fixed_map_hit": 0.3333333333333333,
+  "fixed_alert_hit": 0.4583333333333333,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 44.91008336828306,
+   "a_1": 77.99941289655632
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 15.597068108366285,
+  "fixed_rest_minutes_6h": 89.32641289655635,
+  "fixed_distance_m_6h": 12243.672911763713,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E31",
+  "deployed_map_hit": 0.5,
+  "deployed_alert_hit": 0.4166666666666667,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "wait",
+  "deployed_rule_minutes_6h": {
+   "a_0": 13.659850553482984,
+   "a_1": 64.97941719388803,
+   "a_2": 20.12,
+   "a_3": 3.4125301889584403
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 59.876455939909135,
+  "deployed_rest_minutes_6h": 70.18941719388803,
+  "deployed_distance_m_6h": 11036.838089577734,
+  "fixed_map_hit": 0.5,
+  "fixed_alert_hit": 0.4166666666666667,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 13.659850553482984,
+   "a_1": 65.45482899465267,
+   "a_2": 20.12,
+   "a_3": 7.381356039676564
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 59.443256370148376,
+  "fixed_rest_minutes_6h": 70.62082899465267,
+  "fixed_distance_m_6h": 11036.923902489549,
+  "ordered_pairs": [
+   {
+    "wait_rule_id": "a_2",
+    "movement_rule_id": "a_3",
+    "note_id": "N2"
+   }
+  ],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E32",
+  "deployed_map_hit": 0.20833333333333334,
+  "deployed_alert_hit": 0.4166666666666667,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "avoid",
+  "deployed_rule_minutes_6h": {
+   "a_0": 59.34143459966543,
+   "a_2": 35.37468674488036
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 18.289606696458243,
+  "deployed_rest_minutes_6h": 68.63643459966544,
+  "deployed_distance_m_6h": 13107.550017786061,
+  "fixed_map_hit": 0.4166666666666667,
+  "fixed_alert_hit": 0.4166666666666667,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 61.89989841677421,
+   "a_2": 1.0794896961496607
+  },
+  "fixed_env_insufficient_minutes_6h": {
+   "a_2": 300.2625328359419
+  },
+  "fixed_wait_minutes_6h": 18.36,
+  "fixed_rest_minutes_6h": 68.30589841677423,
+  "fixed_distance_m_6h": 13120.036875994838,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": [
+   {
+    "rule_id": "a_2",
+    "deployed_min": 35.37468674488036,
+    "fixed_min": 1.0794896961496607
+   }
+  ]
+ },
+ {
+  "person_id": "E33",
+  "deployed_map_hit": 0.375,
+  "deployed_alert_hit": 0.4166666666666667,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "goal",
+  "deployed_rule_minutes_6h": {
+   "a_0": 31.125459382425817,
+   "a_1": 101.9199059983977
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 13.652195475393935,
+  "deployed_rest_minutes_6h": 115.28690599839771,
+  "deployed_distance_m_6h": 11090.923129258,
+  "fixed_map_hit": 0.375,
+  "fixed_alert_hit": 0.4166666666666667,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 31.125459382425817,
+   "a_1": 101.9199059983977
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 13.652195475393935,
+  "fixed_rest_minutes_6h": 115.28690599839771,
+  "fixed_distance_m_6h": 11090.923129258,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E34",
+  "deployed_map_hit": 0.3333333333333333,
+  "deployed_alert_hit": 0.25,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "rest",
+  "deployed_rule_minutes_6h": {
+   "a_0": 21.426792031563245,
+   "a_1": 137.3355253112208
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 14.720872054419534,
+  "deployed_rest_minutes_6h": 140.35752531122083,
+  "deployed_distance_m_6h": 9836.236926449263,
+  "fixed_map_hit": 0.25,
+  "fixed_alert_hit": 0.25,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 42.4332839837783,
+   "a_1": 134.73188597006305
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 13.385593236437035,
+  "fixed_rest_minutes_6h": 137.97188597006303,
+  "fixed_distance_m_6h": 10014.840998087999,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E35",
+  "deployed_map_hit": 0.3333333333333333,
+  "deployed_alert_hit": 0.25,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "wait",
+  "deployed_rule_minutes_6h": {
+   "a_0": 35.90857020189751,
+   "a_1": 97.53064781383733,
+   "a_2": 15.09
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 30.945275752794455,
+  "deployed_rest_minutes_6h": 108.65364781383732,
+  "deployed_distance_m_6h": 10579.251668801673,
+  "fixed_map_hit": 0.25,
+  "fixed_alert_hit": 0.25,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 71.03564372475378,
+   "a_1": 88.99324334960643,
+   "a_2": 15.09
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 28.448751539162515,
+  "fixed_rest_minutes_6h": 103.05824334960644,
+  "fixed_distance_m_6h": 10967.664245339089,
+  "ordered_pairs": [
+   {
+    "wait_rule_id": "a_2",
+    "movement_rule_id": "a_3",
+    "note_id": "N2"
+   }
+  ],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E36",
+  "deployed_map_hit": 0.08333333333333333,
+  "deployed_alert_hit": 0.3333333333333333,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "avoid",
+  "deployed_rule_minutes_6h": {
+   "a_0": 49.56058550794319,
+   "a_1": 160.59866106496628,
+   "a_2": 129.49961140562598
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 0.0,
+  "deployed_rest_minutes_6h": 69.8325855079432,
+  "deployed_distance_m_6h": 13928.035895618726,
+  "fixed_map_hit": 0.20833333333333334,
+  "fixed_alert_hit": 0.2916666666666667,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 82.47800000000001,
+   "a_1": 6.866
+  },
+  "fixed_env_insufficient_minutes_6h": {
+   "a_1": 283.99900000000014,
+   "a_2": 283.99900000000014
+  },
+  "fixed_wait_minutes_6h": 15.48,
+  "fixed_rest_minutes_6h": 86.218,
+  "fixed_distance_m_6h": 12398.496,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": [
+   {
+    "rule_id": "a_1",
+    "deployed_min": 160.59866106496628,
+    "fixed_min": 6.866
+   },
+   {
+    "rule_id": "a_2",
+    "deployed_min": 129.49961140562598,
+    "fixed_min": 0.0
+   }
+  ]
+ },
+ {
+  "person_id": "E37",
+  "deployed_map_hit": 0.4583333333333333,
+  "deployed_alert_hit": 0.25,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "goal",
+  "deployed_rule_minutes_6h": {
+   "a_1": 40.272999999999996
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 16.2,
+  "deployed_rest_minutes_6h": 50.51800000000001,
+  "deployed_distance_m_6h": 14077.536,
+  "fixed_map_hit": 0.4583333333333333,
+  "fixed_alert_hit": 0.25,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_1": 40.272999999999996
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 16.2,
+  "fixed_rest_minutes_6h": 50.51800000000001,
+  "fixed_distance_m_6h": 14077.536,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E38",
+  "deployed_map_hit": 0.4166666666666667,
+  "deployed_alert_hit": 0.3333333333333333,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "rest",
+  "deployed_rule_minutes_6h": {
+   "a_0": 29.827078603233772,
+   "a_1": 29.266
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 9.75463725974774,
+  "deployed_rest_minutes_6h": 55.17,
+  "deployed_distance_m_6h": 14163.617411532108,
+  "fixed_map_hit": 0.4166666666666667,
+  "fixed_alert_hit": 0.3333333333333333,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 29.827078603233772,
+   "a_1": 29.266
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 9.75463725974774,
+  "fixed_rest_minutes_6h": 55.17,
+  "fixed_distance_m_6h": 14163.617411532108,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 8,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E39",
+  "deployed_map_hit": 0.375,
+  "deployed_alert_hit": 0.5,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "wait",
+  "deployed_rule_minutes_6h": {
+   "a_0": 71.21174209618437,
+   "a_1": 20.12,
+   "a_2": 9.362453770509187
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 62.898187844096974,
+  "deployed_rest_minutes_6h": 73.34774209618438,
+  "deployed_distance_m_6h": 10740.19536286649,
+  "fixed_map_hit": 0.3333333333333333,
+  "fixed_alert_hit": 0.5,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 71.07706814418471,
+   "a_1": 20.12,
+   "a_2": 18.806797703624106
+  },
+  "fixed_env_insufficient_minutes_6h": {},
+  "fixed_wait_minutes_6h": 61.568144785501616,
+  "fixed_rest_minutes_6h": 73.19306814418474,
+  "fixed_distance_m_6h": 10811.461779375051,
+  "ordered_pairs": [
+   {
+    "wait_rule_id": "a_1",
+    "movement_rule_id": "a_2",
+    "note_id": "N2"
+   }
+  ],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E40",
+  "deployed_map_hit": 0.20833333333333334,
+  "deployed_alert_hit": 0.4583333333333333,
+  "deployed_complete": 24,
+  "checks": 24,
+  "split": "evaluation",
+  "family": "avoid",
+  "deployed_rule_minutes_6h": {
+   "a_0": 80.76396016076308,
+   "a_2": 22.49790675145504
+  },
+  "deployed_env_insufficient_minutes_6h": {},
+  "deployed_wait_minutes_6h": 18.983685808468543,
+  "deployed_rest_minutes_6h": 84.58596016076311,
+  "deployed_distance_m_6h": 12308.65699347688,
+  "fixed_map_hit": 0.4583333333333333,
+  "fixed_alert_hit": 0.4583333333333333,
+  "fixed_complete": 24,
+  "fixed_rule_minutes_6h": {
+   "a_0": 82.077
+  },
+  "fixed_env_insufficient_minutes_6h": {
+   "a_2": 286.41382346307813
+  },
+  "fixed_wait_minutes_6h": 19.080000000000002,
+  "fixed_rest_minutes_6h": 85.52199999999999,
+  "fixed_distance_m_6h": 12259.103999999998,
+  "ordered_pairs": [],
+  "not_ordered": [],
+  "policy_source": "stored",
+  "maps_identical": 0,
+  "maps": 8,
+  "rule_execution_drops": [
+   {
+    "rule_id": "a_2",
+    "deployed_min": 22.49790675145504,
+    "fixed_min": 0.0
+   }
+  ]
+ }
+]

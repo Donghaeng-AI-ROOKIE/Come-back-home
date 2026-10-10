@@ -56,16 +56,42 @@ def test_sourced_arrival_response_can_stop_and_retains_goal(geography):
     p.advance_to(2)
     assert all(x.arrived and x.target=='등록 목적지' and x.waiting==pytest.approx(2) for x in p.particles)
 
-def test_unmapped_avoidance_is_not_fake_success(geography):
+def test_avoidance_without_known_location_is_disclosed_not_blocked(geography):
+    """No known site to move away from: insufficient environment information.
+
+    The rule is kept, never silently dropped; the walker is not blocked and the
+    whole map is not rejected; the unverifiable time is disclosed. This is not
+    a claim that no market exists."""
+    from app.phase2.person_walk import Population
+    from tests.kintex_fixtures import person, prior, START
+    net,center=geography
+    who=person(center);who=who.model_copy(update={'attraction_points':[a.model_copy(update={'place_type':None}) for a in who.attraction_points]})
     r=rule('avoid',when=[[]]);r.update(feature='market')
-    p=population(geography,policy(r),count=30)
-    original=p.net.node_env;p.net.node_env={}
+    pop=Population(net,who,prior(),policy(r),center,START,count=30)
+    original=pop.net.node_env;pop.net.node_env={}
     try:
-        result=p.advance_to(1)
-        assert result['quality']['unresolved_mass']>0
-        assert any(e['kind']=='unmapped_avoidance' for x in p.particles for e in x.events)
-        assert sum(result['cells'].values())+result['quality']['unresolved_mass']==pytest.approx(1)
-    finally:p.net.node_env=original
+        result=pop.advance_to(1)
+        q=result['quality']
+        assert q['unresolved_mass']==0 and sum(result['cells'].values())==pytest.approx(1)
+        assert not any(x.blocked for x in pop.particles)
+        assert any(e['kind']=='avoidance_environment_insufficient' for x in pop.particles for e in x.events)
+        assert q['environment_insufficient_minutes'].get('r1',0)>0 and q['environment_insufficient_walkers']>0
+        assert q['environment_knowledge']['market']=='registered_places_and_bounded_reports_only'
+        assert [r.id for r in pop.policy.rules]==['r1']
+    finally:pop.net.node_env=original
+
+def test_registered_market_avoidance_moves_away_from_that_place(geography):
+    from app.phase2.person_walk import Population
+    from app.geo.h3grid import haversine_km
+    from tests.kintex_fixtures import person, prior, START
+    net,center=geography
+    r=rule('avoid',when=[[]]);r.update(feature='market')
+    pop=Population(net,person(center),prior(),policy(r),center,START,count=20)
+    result=pop.advance_to(.5)
+    assert result['quality']['unresolved_mass']==0
+    assert all(x.mode=='avoid' or x.distance>0 for x in pop.particles)
+    moved=[haversine_km(center,pop.position(x))*1000 for x in pop.particles]
+    assert sum(moved)/len(moved)>5
 
 def test_environment_observation_uses_partial_edge_position(geography):
     from datetime import timedelta

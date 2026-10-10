@@ -52,6 +52,7 @@ def test_product_hourly_update_reuses_preparation_prior_and_walkers(full_geograp
     monkeypatch.setattr(pipeline.simulation,'run_monte_carlo',mc)
     a=pipeline.run_prediction(case,now=START+timedelta(hours=1),seed=42)
     assert a.quality['continuous_clock'] and not a.quality['checkpoint_reused']
+    assert isinstance(a.quality['interpretation_checks'],list)
     b=pipeline.run_prediction(case,now=START+timedelta(hours=2),seed=42)
     assert b.quality['checkpoint_reused'] and calls==['prior']
     assert all(x['minute']==pytest.approx(120) for x in case.continuous_state['checkpoint']['particles'])
@@ -249,8 +250,10 @@ def test_personal_wait_is_not_diluted_by_policy_free_thirty_percent(geography):
     assert a==b
     assert combine.alpha_pool([a,b],alphas=[.7,.3],mode='linear')==pytest.approx(a)
     continuous_prediction.run_pair(c,p,prior(),net,1.55,seed=42)
+    # Family observed beside the person at 90 min is a reunion: no re-walk.
     for checkpoint in (c.continuous_state['checkpoint'],c.continuous_state['statistical']['checkpoint']):
-        assert all(x['waiting']==pytest.approx(90) and x['distance']>0 for x in checkpoint['particles'])
+        assert all(x['distance']==0 and any(e['kind']=='reunion_observed_no_further_walking' for e in x['events'])
+                   for x in checkpoint['particles'])
 
 
 def test_pair_only_removes_updated_mind_not_prepared_reactions(geography):

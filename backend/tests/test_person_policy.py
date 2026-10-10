@@ -35,11 +35,14 @@ def test_five_minutes_is_walking_not_elapsed_and_rest_resumes(geography):
     for a in p.particles:
         assert a.walking==pytest.approx(7);assert a.rest==pytest.approx(5)
         assert a.continuous_walk==pytest.approx(2);assert a.distance==pytest.approx(7*p.speed)
-def test_family_arrival_interrupts_wait(geography):
+def test_family_arrival_ends_the_wait_and_is_not_walked_on(geography):
+    # Family beside the person is a reunion: the case lifecycle closes it and
+    # the simulation must not walk the person on afterwards (2026-10-10).
     r=rule('wait',when=[[dict(fact='lost_awareness',op='eq',value=True),dict(fact='family_present',op='eq',value=False)]])
     p=population(geography,policy(r),behavior_observations=[obs('lost_awareness',True),obs('family_present',False,0,10),obs('family_present',True,10)])
     p.advance_to(12)
-    assert all(a.waiting==pytest.approx(10) and a.walking==pytest.approx(2) for a in p.particles)
+    assert all(a.walking==0 and a.distance==0 for a in p.particles)
+    assert all(any(e['kind']=='reunion_observed_no_further_walking' and e['minute']==pytest.approx(10) for e in a.events) for a in p.particles)
 def test_expired_observation_becomes_unknown(geography):
     p=population(geography,behavior_observations=[obs('lost_awareness',True,0,10)])
     assert p.facts(p.particles[0])['lost_awareness'] is True

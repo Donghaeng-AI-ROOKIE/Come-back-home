@@ -5,6 +5,7 @@ from app.config import settings
 from app import storage
 from app.privacy import lifecycle
 from app.phase0 import mind_preparation
+from app.llm import mind_policy
 from app.phase2.persistent_context_walk import PersistentContextPopulation as Population, VERSION
 from app.schemas.prediction import MindState
 
@@ -31,12 +32,24 @@ def graph_key(net):
 @storage.serialize_case
 def run(case,persona,prior,net,hours,*,seed=None,persist=True):
     lifecycle.ensure_not_closed(case)
-    policy,status=mind_preparation.ready(persona)
+    policy,status,sequence=_executable_policy(persona)
     if policy is None:return None,{'engine':'legacy','personal_policy_status':status,'continuous_clock':False}
     if net is None or getattr(net,'coverage_bbox',None) is None:
         return None,{'engine':'legacy','personal_policy_status':status,'continuous_clock':False,
                      'reason':'verified_map_coverage_missing'}
-    return _run_policy(case,persona,prior,net,hours,policy,status,seed=seed,persist=persist)
+    cells,quality=_run_policy(case,persona,prior,net,hours,policy,status,seed=seed,persist=persist)
+    quality['sequence_normalization']=sequence
+    # Disclosure only: structural interpretation warnings never change execution.
+    quality['interpretation_checks']=mind_policy.interpretation_checks(policy)
+    return cells,quality
+
+
+def _executable_policy(persona):
+    """Stored policy stays unchanged; ordering is applied for execution only."""
+    policy,status=mind_preparation.ready(persona)
+    if policy is None:return None,status,None
+    policy,report=mind_policy.normalize_sequences(policy)
+    return policy,status,report
 
 
 def _run_policy(case,persona,prior,net,hours,policy,status,*,seed=None,persist=True):
@@ -98,7 +111,7 @@ def run_pair(case,persona,prior,net,hours,*,seed=None,persist=True):
     quality.update(preview=not persist,checkpoint_committed=False)
     if bu is None or quality.get('unresolved_mass',0)>1e-9:
         return bu,None,quality
-    shared_policy,status=mind_preparation.ready(persona)
+    shared_policy,status,_=_executable_policy(persona)
     if shared_policy is None:
         # Never silently replace a policy that became unavailable with an empty
         # program and publish that counterfactual as 30% of the final map.

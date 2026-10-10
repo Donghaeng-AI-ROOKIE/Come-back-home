@@ -1,0 +1,2889 @@
+{
+ "deployed": [
+  {
+   "label": "deployed",
+   "person_id": "E15",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "rest",
+     "goal": null,
+     "hold": 5.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        25
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "wait",
+     "goal": null,
+     "hold": 40.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "seek",
+     "goal": "가상 E15 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_2": 245
+    },
+    "walkers_with_repeated_seek_same_rule": 81,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 243,
+    "wait_starts_per_rule": {
+     "a_1": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_1": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_1": 0
+    },
+    "wait_spans_examples": {
+     "a_1": [
+      40.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 122
+    },
+    "post_arrival": {
+     "arrivals": 243,
+     "dwell_minutes_median": 8.346,
+     "left_within_1min": 49,
+     "stayed_to_end": 10,
+     "next_move_by": {
+      "population_prior:None": 233
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 131,
+      "seek": 68,
+      "rest": 233,
+      "wait": 68,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 250,
+      "seek": 1,
+      "rest": 216,
+      "wait": 33,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 334,
+      "seek": 0,
+      "rest": 134,
+      "wait": 32,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 366,
+      "seek": 0,
+      "rest": 102,
+      "wait": 32,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E15 공원": 113
+     },
+     "120": {
+      "가상 E15 공원": 54
+     },
+     "240": {
+      "가상 E15 공원": 13
+     },
+     "360": {
+      "가상 E15 공원": 12
+     }
+    }
+   }
+  },
+  {
+   "label": "deployed",
+   "person_id": "E19",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "rest",
+     "goal": null,
+     "hold": 15.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        30
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "wait",
+     "goal": null,
+     "hold": 40.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "seek",
+     "goal": "가상 E19 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_2": 248
+    },
+    "walkers_with_repeated_seek_same_rule": 87,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 347,
+    "wait_starts_per_rule": {
+     "a_1": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_1": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_1": 0
+    },
+    "wait_spans_examples": {
+     "a_1": [
+      40.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 125
+    },
+    "post_arrival": {
+     "arrivals": 347,
+     "dwell_minutes_median": 23.327,
+     "left_within_1min": 40,
+     "stayed_to_end": 10,
+     "next_move_by": {
+      "population_prior:None": 337
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 313,
+      "seek": 98,
+      "rest": 27,
+      "wait": 62,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 267,
+      "seek": 6,
+      "rest": 151,
+      "wait": 76,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 326,
+      "seek": 0,
+      "rest": 111,
+      "wait": 63,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 278,
+      "seek": 0,
+      "rest": 159,
+      "wait": 63,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E19 공원": 32
+     },
+     "120": {
+      "가상 E19 공원": 52
+     },
+     "240": {
+      "가상 E19 공원": 13
+     },
+     "360": {
+      "가상 E19 공원": 12
+     }
+    }
+   }
+  },
+  {
+   "label": "deployed",
+   "person_id": "E34",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "seek",
+     "goal": "가상 E34 시장",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "rest",
+     "goal": null,
+     "hold": 15.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        20
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_0": 578
+    },
+    "walkers_with_repeated_seek_same_rule": 164,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 373,
+    "wait_starts_per_rule": {},
+    "walkers_with_wait_restarted": {},
+    "completed_wait_spans_out_of_bounds": {},
+    "wait_spans_examples": {},
+    "repeated_seek_preceded_by": {
+     "rest_complete": 314
+    },
+    "post_arrival": {
+     "arrivals": 373,
+     "dwell_minutes_median": 15.0,
+     "left_within_1min": 155,
+     "stayed_to_end": 11,
+     "next_move_by": {
+      "population_prior:None": 362
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 0,
+    "modes_at": {
+     "60": {
+      "walk": 102,
+      "seek": 8,
+      "rest": 375,
+      "wait": 15,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 365,
+      "seek": 0,
+      "rest": 113,
+      "wait": 22,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 177,
+      "seek": 0,
+      "rest": 301,
+      "wait": 22,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 304,
+      "seek": 0,
+      "rest": 174,
+      "wait": 22,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E34 시장": 302
+     },
+     "120": {
+      "가상 E34 시장": 255
+     },
+     "240": {
+      "가상 E34 시장": 111
+     },
+     "360": {
+      "가상 E34 시장": 57
+     }
+    }
+   }
+  },
+  {
+   "label": "deployed",
+   "person_id": "E35",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "seek",
+     "goal": "가상 E35 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "rest",
+     "goal": null,
+     "hold": 15.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "continuous_walk_minutes",
+        25
+       ],
+       [
+        "is_walking",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "wait",
+     "goal": null,
+     "hold": 30.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_3": {
+     "action": "seek",
+     "goal": "가상 E35 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_0": 695,
+     "a_3": 0
+    },
+    "walkers_with_repeated_seek_same_rule": 238,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 400,
+    "wait_starts_per_rule": {
+     "a_2": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_2": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_2": 0
+    },
+    "wait_spans_examples": {
+     "a_2": [
+      30.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 431
+    },
+    "post_arrival": {
+     "arrivals": 400,
+     "dwell_minutes_median": 15.0,
+     "left_within_1min": 168,
+     "stayed_to_end": 19,
+     "next_move_by": {
+      "population_prior:None": 381
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 101,
+      "seek": 201,
+      "rest": 181,
+      "wait": 17,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 219,
+      "seek": 34,
+      "rest": 196,
+      "wait": 51,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 294,
+      "seek": 0,
+      "rest": 170,
+      "wait": 36,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 296,
+      "seek": 0,
+      "rest": 168,
+      "wait": 36,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E35 공원": 0
+     },
+     "120": {
+      "가상 E35 공원": 68
+     },
+     "240": {
+      "가상 E35 공원": 25
+     },
+     "360": {
+      "가상 E35 공원": 27
+     }
+    }
+   }
+  },
+  {
+   "label": "deployed",
+   "person_id": "E39",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "rest",
+     "goal": null,
+     "hold": 5.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        15
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "wait",
+     "goal": null,
+     "hold": 40.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "seek",
+     "goal": "가상 E39 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_2": 260
+    },
+    "walkers_with_repeated_seek_same_rule": 66,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 270,
+    "wait_starts_per_rule": {
+     "a_1": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_1": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_1": 0
+    },
+    "wait_spans_examples": {
+     "a_1": [
+      40.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 137
+    },
+    "post_arrival": {
+     "arrivals": 270,
+     "dwell_minutes_median": 15.363,
+     "left_within_1min": 36,
+     "stayed_to_end": 20,
+     "next_move_by": {
+      "population_prior:None": 250
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 13,
+      "seek": 16,
+      "rest": 355,
+      "wait": 116,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 80,
+      "seek": 0,
+      "rest": 353,
+      "wait": 67,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 130,
+      "seek": 0,
+      "rest": 303,
+      "wait": 67,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 171,
+      "seek": 0,
+      "rest": 262,
+      "wait": 67,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E39 공원": 126
+     },
+     "120": {
+      "가상 E39 공원": 99
+     },
+     "240": {
+      "가상 E39 공원": 34
+     },
+     "360": {
+      "가상 E39 공원": 25
+     }
+    }
+   }
+  }
+ ],
+ "fixed3": [
+  {
+   "label": "fixed3",
+   "person_id": "E15",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "rest",
+     "goal": null,
+     "hold": 5.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        25
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "wait",
+     "goal": null,
+     "hold": 40.0,
+     "supersedes": [
+      "a_2"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "seek",
+     "goal": "가상 E15 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_2": 473
+    },
+    "walkers_with_repeated_seek_same_rule": 154,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 338,
+    "wait_starts_per_rule": {
+     "a_1": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_1": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_1": 0
+    },
+    "wait_spans_examples": {
+     "a_1": [
+      40.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 224
+    },
+    "post_arrival": {
+     "arrivals": 338,
+     "dwell_minutes_median": 5.0,
+     "left_within_1min": 136,
+     "stayed_to_end": 18,
+     "next_move_by": {
+      "population_prior:None": 320
+     }
+    },
+    "family_hypothesis_true": 0,
+    "family_hypothesis_false": 0,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 15,
+      "seek": 246,
+      "rest": 225,
+      "wait": 14,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 222,
+      "seek": 6,
+      "rest": 240,
+      "wait": 32,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 320,
+      "seek": 0,
+      "rest": 148,
+      "wait": 32,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 357,
+      "seek": 0,
+      "rest": 111,
+      "wait": 32,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E15 공원": 61
+     },
+     "120": {
+      "가상 E15 공원": 81
+     },
+     "240": {
+      "가상 E15 공원": 23
+     },
+     "360": {
+      "가상 E15 공원": 21
+     }
+    }
+   }
+  },
+  {
+   "label": "fixed3",
+   "person_id": "E19",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "rest",
+     "goal": null,
+     "hold": 15.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        30
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "wait",
+     "goal": null,
+     "hold": 40.0,
+     "supersedes": [
+      "a_2"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "seek",
+     "goal": "가상 E19 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_2": 503
+    },
+    "walkers_with_repeated_seek_same_rule": 177,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 409,
+    "wait_starts_per_rule": {
+     "a_1": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_1": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_1": 0
+    },
+    "wait_spans_examples": {
+     "a_1": [
+      40.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 254
+    },
+    "post_arrival": {
+     "arrivals": 409,
+     "dwell_minutes_median": 15.0,
+     "left_within_1min": 149,
+     "stayed_to_end": 30,
+     "next_move_by": {
+      "population_prior:None": 379
+     }
+    },
+    "family_hypothesis_true": 0,
+    "family_hypothesis_false": 0,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 209,
+      "seek": 244,
+      "rest": 14,
+      "wait": 33,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 280,
+      "seek": 18,
+      "rest": 146,
+      "wait": 56,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 316,
+      "seek": 0,
+      "rest": 121,
+      "wait": 63,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 270,
+      "seek": 0,
+      "rest": 167,
+      "wait": 63,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E19 공원": 1
+     },
+     "120": {
+      "가상 E19 공원": 74
+     },
+     "240": {
+      "가상 E19 공원": 36
+     },
+     "360": {
+      "가상 E19 공원": 32
+     }
+    }
+   }
+  },
+  {
+   "label": "fixed3",
+   "person_id": "E34",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "seek",
+     "goal": "가상 E34 시장",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "rest",
+     "goal": null,
+     "hold": 15.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        20
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_0": 941
+    },
+    "walkers_with_repeated_seek_same_rule": 295,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 500,
+    "wait_starts_per_rule": {},
+    "walkers_with_wait_restarted": {},
+    "completed_wait_spans_out_of_bounds": {},
+    "wait_spans_examples": {},
+    "repeated_seek_preceded_by": {
+     "rest_complete": 441
+    },
+    "post_arrival": {
+     "arrivals": 500,
+     "dwell_minutes_median": 15.0,
+     "left_within_1min": 163,
+     "stayed_to_end": 22,
+     "next_move_by": {
+      "population_prior:None": 478
+     }
+    },
+    "family_hypothesis_true": 0,
+    "family_hypothesis_false": 0,
+    "lost_hypothesis_true": 0,
+    "modes_at": {
+     "60": {
+      "walk": 174,
+      "seek": 31,
+      "rest": 284,
+      "wait": 11,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 279,
+      "seek": 0,
+      "rest": 199,
+      "wait": 22,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 234,
+      "seek": 0,
+      "rest": 244,
+      "wait": 22,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 271,
+      "seek": 0,
+      "rest": 207,
+      "wait": 22,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E34 시장": 449
+     },
+     "120": {
+      "가상 E34 시장": 320
+     },
+     "240": {
+      "가상 E34 시장": 146
+     },
+     "360": {
+      "가상 E34 시장": 96
+     }
+    }
+   }
+  },
+  {
+   "label": "fixed3",
+   "person_id": "E35",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "seek",
+     "goal": "가상 E35 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "rest",
+     "goal": null,
+     "hold": 15.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "continuous_walk_minutes",
+        25
+       ],
+       [
+        "is_walking",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "wait",
+     "goal": null,
+     "hold": 30.0,
+     "supersedes": [
+      "a_3"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_3": {
+     "action": "seek",
+     "goal": "가상 E35 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_0": 1292,
+     "a_3": 0
+    },
+    "walkers_with_repeated_seek_same_rule": 445,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 500,
+    "wait_starts_per_rule": {
+     "a_2": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_2": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_2": 0
+    },
+    "wait_spans_examples": {
+     "a_2": [
+      30.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 792
+    },
+    "post_arrival": {
+     "arrivals": 500,
+     "dwell_minutes_median": 0.0,
+     "left_within_1min": 303,
+     "stayed_to_end": 36,
+     "next_move_by": {
+      "population_prior:None": 464
+     }
+    },
+    "family_hypothesis_true": 0,
+    "family_hypothesis_false": 0,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 0,
+      "seek": 392,
+      "rest": 108,
+      "wait": 0,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 194,
+      "seek": 66,
+      "rest": 171,
+      "wait": 69,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 297,
+      "seek": 0,
+      "rest": 167,
+      "wait": 36,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 307,
+      "seek": 0,
+      "rest": 157,
+      "wait": 36,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E35 공원": 0
+     },
+     "120": {
+      "가상 E35 공원": 117
+     },
+     "240": {
+      "가상 E35 공원": 45
+     },
+     "360": {
+      "가상 E35 공원": 45
+     }
+    }
+   }
+  },
+  {
+   "label": "fixed3",
+   "person_id": "E39",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "rest",
+     "goal": null,
+     "hold": 5.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        15
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "wait",
+     "goal": null,
+     "hold": 40.0,
+     "supersedes": [
+      "a_2"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "seek",
+     "goal": "가상 E39 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_2": 536
+    },
+    "walkers_with_repeated_seek_same_rule": 143,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 345,
+    "wait_starts_per_rule": {
+     "a_1": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_1": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_1": 0
+    },
+    "wait_spans_examples": {
+     "a_1": [
+      40.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 287
+    },
+    "post_arrival": {
+     "arrivals": 345,
+     "dwell_minutes_median": 5.0,
+     "left_within_1min": 120,
+     "stayed_to_end": 33,
+     "next_move_by": {
+      "population_prior:None": 312
+     }
+    },
+    "family_hypothesis_true": 0,
+    "family_hypothesis_false": 0,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 10,
+      "seek": 118,
+      "rest": 338,
+      "wait": 34,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 102,
+      "seek": 0,
+      "rest": 331,
+      "wait": 67,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 147,
+      "seek": 0,
+      "rest": 286,
+      "wait": 67,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 188,
+      "seek": 0,
+      "rest": 245,
+      "wait": 67,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E39 공원": 56
+     },
+     "120": {
+      "가상 E39 공원": 133
+     },
+     "240": {
+      "가상 E39 공원": 48
+     },
+     "360": {
+      "가상 E39 공원": 39
+     }
+    }
+   }
+  }
+ ],
+ "final4": [
+  {
+   "label": "final4",
+   "person_id": "E15",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "rest",
+     "goal": null,
+     "hold": 5.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        25
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "wait",
+     "goal": null,
+     "hold": 40.0,
+     "supersedes": [
+      "a_2"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "seek",
+     "goal": "가상 E15 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_2": 245
+    },
+    "walkers_with_repeated_seek_same_rule": 82,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 243,
+    "wait_starts_per_rule": {
+     "a_1": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_1": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_1": 0
+    },
+    "wait_spans_examples": {
+     "a_1": [
+      40.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 122
+    },
+    "post_arrival": {
+     "arrivals": 243,
+     "dwell_minutes_median": 5.825,
+     "left_within_1min": 74,
+     "stayed_to_end": 10,
+     "next_move_by": {
+      "population_prior:None": 233
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 131,
+      "seek": 122,
+      "rest": 225,
+      "wait": 22,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 254,
+      "seek": 1,
+      "rest": 213,
+      "wait": 32,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 335,
+      "seek": 0,
+      "rest": 133,
+      "wait": 32,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 366,
+      "seek": 0,
+      "rest": 102,
+      "wait": 32,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E15 공원": 61
+     },
+     "120": {
+      "가상 E15 공원": 53
+     },
+     "240": {
+      "가상 E15 공원": 13
+     },
+     "360": {
+      "가상 E15 공원": 12
+     }
+    }
+   }
+  },
+  {
+   "label": "final4",
+   "person_id": "E19",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "rest",
+     "goal": null,
+     "hold": 15.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        30
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "wait",
+     "goal": null,
+     "hold": 40.0,
+     "supersedes": [
+      "a_2"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "seek",
+     "goal": "가상 E19 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_2": 249
+    },
+    "walkers_with_repeated_seek_same_rule": 89,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 347,
+    "wait_starts_per_rule": {
+     "a_1": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_1": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_1": 0
+    },
+    "wait_spans_examples": {
+     "a_1": [
+      40.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 126
+    },
+    "post_arrival": {
+     "arrivals": 347,
+     "dwell_minutes_median": 18.289,
+     "left_within_1min": 76,
+     "stayed_to_end": 10,
+     "next_move_by": {
+      "population_prior:None": 337
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 313,
+      "seek": 121,
+      "rest": 13,
+      "wait": 53,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 253,
+      "seek": 9,
+      "rest": 176,
+      "wait": 62,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 321,
+      "seek": 0,
+      "rest": 116,
+      "wait": 63,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 277,
+      "seek": 0,
+      "rest": 160,
+      "wait": 63,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E19 공원": 1
+     },
+     "120": {
+      "가상 E19 공원": 48
+     },
+     "240": {
+      "가상 E19 공원": 14
+     },
+     "360": {
+      "가상 E19 공원": 12
+     }
+    }
+   }
+  },
+  {
+   "label": "final4",
+   "person_id": "E34",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "seek",
+     "goal": "가상 E34 시장",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "rest",
+     "goal": null,
+     "hold": 15.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        20
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_0": 578
+    },
+    "walkers_with_repeated_seek_same_rule": 164,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 373,
+    "wait_starts_per_rule": {},
+    "walkers_with_wait_restarted": {},
+    "completed_wait_spans_out_of_bounds": {},
+    "wait_spans_examples": {},
+    "repeated_seek_preceded_by": {
+     "rest_complete": 314
+    },
+    "post_arrival": {
+     "arrivals": 373,
+     "dwell_minutes_median": 15.0,
+     "left_within_1min": 155,
+     "stayed_to_end": 11,
+     "next_move_by": {
+      "population_prior:None": 362
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 0,
+    "modes_at": {
+     "60": {
+      "walk": 102,
+      "seek": 8,
+      "rest": 375,
+      "wait": 15,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 365,
+      "seek": 0,
+      "rest": 113,
+      "wait": 22,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 177,
+      "seek": 0,
+      "rest": 301,
+      "wait": 22,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 304,
+      "seek": 0,
+      "rest": 174,
+      "wait": 22,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E34 시장": 302
+     },
+     "120": {
+      "가상 E34 시장": 255
+     },
+     "240": {
+      "가상 E34 시장": 111
+     },
+     "360": {
+      "가상 E34 시장": 57
+     }
+    }
+   }
+  },
+  {
+   "label": "final4",
+   "person_id": "E35",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "seek",
+     "goal": "가상 E35 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "rest",
+     "goal": null,
+     "hold": 15.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "continuous_walk_minutes",
+        25
+       ],
+       [
+        "is_walking",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "wait",
+     "goal": null,
+     "hold": 30.0,
+     "supersedes": [
+      "a_3"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_3": {
+     "action": "seek",
+     "goal": "가상 E35 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_0": 695,
+     "a_3": 0
+    },
+    "walkers_with_repeated_seek_same_rule": 238,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 400,
+    "wait_starts_per_rule": {
+     "a_2": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_2": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_2": 0
+    },
+    "wait_spans_examples": {
+     "a_2": [
+      30.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 431
+    },
+    "post_arrival": {
+     "arrivals": 400,
+     "dwell_minutes_median": 15.0,
+     "left_within_1min": 168,
+     "stayed_to_end": 19,
+     "next_move_by": {
+      "population_prior:None": 381
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 101,
+      "seek": 201,
+      "rest": 181,
+      "wait": 17,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 219,
+      "seek": 34,
+      "rest": 196,
+      "wait": 51,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 294,
+      "seek": 0,
+      "rest": 170,
+      "wait": 36,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 296,
+      "seek": 0,
+      "rest": 168,
+      "wait": 36,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E35 공원": 0
+     },
+     "120": {
+      "가상 E35 공원": 68
+     },
+     "240": {
+      "가상 E35 공원": 25
+     },
+     "360": {
+      "가상 E35 공원": 27
+     }
+    }
+   }
+  },
+  {
+   "label": "final4",
+   "person_id": "E39",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "rest",
+     "goal": null,
+     "hold": 5.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        15
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "wait",
+     "goal": null,
+     "hold": 40.0,
+     "supersedes": [
+      "a_2"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "seek",
+     "goal": "가상 E39 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_2": 264
+    },
+    "walkers_with_repeated_seek_same_rule": 70,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 270,
+    "wait_starts_per_rule": {
+     "a_1": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_1": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_1": 0
+    },
+    "wait_spans_examples": {
+     "a_1": [
+      40.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 141
+    },
+    "post_arrival": {
+     "arrivals": 270,
+     "dwell_minutes_median": 11.392,
+     "left_within_1min": 55,
+     "stayed_to_end": 20,
+     "next_move_by": {
+      "population_prior:None": 250
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 13,
+      "seek": 61,
+      "rest": 379,
+      "wait": 47,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 72,
+      "seek": 0,
+      "rest": 361,
+      "wait": 67,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 125,
+      "seek": 0,
+      "rest": 308,
+      "wait": 67,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 169,
+      "seek": 0,
+      "rest": 264,
+      "wait": 67,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E39 공원": 56
+     },
+     "120": {
+      "가상 E39 공원": 101
+     },
+     "240": {
+      "가상 E39 공원": 35
+     },
+     "360": {
+      "가상 E39 공원": 25
+     }
+    }
+   }
+  }
+ ],
+ "final4_interpfix": [
+  {
+   "label": "final4_interpfix",
+   "person_id": "E35",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "seek",
+     "goal": "가상 E35 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "family_present",
+        false
+       ],
+       [
+        "lost_awareness",
+        false
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "rest",
+     "goal": null,
+     "hold": 15.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "continuous_walk_minutes",
+        25
+       ],
+       [
+        "is_walking",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "wait",
+     "goal": null,
+     "hold": 30.0,
+     "supersedes": [
+      "a_3"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_3": {
+     "action": "seek",
+     "goal": "가상 E35 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_0": 369,
+     "a_3": 328
+    },
+    "walkers_with_repeated_seek_same_rule": 238,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 400,
+    "wait_starts_per_rule": {
+     "a_2": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_2": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_2": 0
+    },
+    "wait_spans_examples": {
+     "a_2": [
+      30.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 433
+    },
+    "post_arrival": {
+     "arrivals": 400,
+     "dwell_minutes_median": 0.0,
+     "left_within_1min": 210,
+     "stayed_to_end": 19,
+     "next_move_by": {
+      "population_prior:None": 381
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 101,
+      "seek": 194,
+      "rest": 188,
+      "wait": 17,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 214,
+      "seek": 53,
+      "rest": 205,
+      "wait": 28,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 294,
+      "seek": 0,
+      "rest": 170,
+      "wait": 36,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 295,
+      "seek": 0,
+      "rest": 169,
+      "wait": 36,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E35 공원": 0
+     },
+     "120": {
+      "가상 E35 공원": 51
+     },
+     "240": {
+      "가상 E35 공원": 25
+     },
+     "360": {
+      "가상 E35 공원": 27
+     }
+    }
+   }
+  },
+  {
+   "label": "final4_interpfix",
+   "person_id": "E07",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "seek",
+     "goal": "가상 E07 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "target_recognized",
+        true
+       ],
+       [
+        "lost_awareness",
+        false
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "wait",
+     "goal": null,
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "physical_arrival",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "rest",
+     "goal": null,
+     "hold": 5.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        25
+       ]
+      ]
+     ]
+    },
+    "a_3": {
+     "action": "wait",
+     "goal": null,
+     "hold": 30.0,
+     "supersedes": [
+      "a_4"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_4": {
+     "action": "seek",
+     "goal": "가상 E07 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_0": 235,
+     "a_4": 206
+    },
+    "walkers_with_repeated_seek_same_rule": 153,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 372,
+    "wait_starts_per_rule": {
+     "a_3": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_3": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_3": 0
+    },
+    "wait_spans_examples": {
+     "a_3": [
+      30.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 174
+    },
+    "post_arrival": {
+     "arrivals": 372,
+     "dwell_minutes_median": 304.262,
+     "left_within_1min": 0,
+     "stayed_to_end": 372,
+     "next_move_by": {}
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 9,
+      "seek": 61,
+      "rest": 212,
+      "wait": 218,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 13,
+      "seek": 0,
+      "rest": 85,
+      "wait": 402,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 39,
+      "seek": 0,
+      "rest": 59,
+      "wait": 402,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 60,
+      "seek": 0,
+      "rest": 38,
+      "wait": 402,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E07 공원": 197
+     },
+     "120": {
+      "가상 E07 공원": 372
+     },
+     "240": {
+      "가상 E07 공원": 372
+     },
+     "360": {
+      "가상 E07 공원": 372
+     }
+    }
+   }
+  },
+  {
+   "label": "final4_interpfix",
+   "person_id": "E23",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "seek",
+     "goal": "가상 E23 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "target_recognized",
+        true
+       ],
+       [
+        "lost_awareness",
+        false
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "rest",
+     "goal": null,
+     "hold": 5.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        30
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "wait",
+     "goal": null,
+     "hold": 10.0,
+     "supersedes": [
+      "a_3"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    },
+    "a_3": {
+     "action": "seek",
+     "goal": "가상 E23 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_0": 128,
+     "a_3": 125
+    },
+    "walkers_with_repeated_seek_same_rule": 3,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 403,
+    "wait_starts_per_rule": {
+     "a_2": 123
+    },
+    "walkers_with_wait_restarted": {
+     "a_2": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_2": 0
+    },
+    "wait_spans_examples": {
+     "a_2": [
+      10.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 3
+    },
+    "post_arrival": {
+     "arrivals": 403,
+     "dwell_minutes_median": 0.0,
+     "left_within_1min": 222,
+     "stayed_to_end": 28,
+     "next_move_by": {
+      "population_prior:None": 375
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 425,
+      "seek": 0,
+      "rest": 13,
+      "wait": 62,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 419,
+      "seek": 0,
+      "rest": 19,
+      "wait": 62,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 365,
+      "seek": 0,
+      "rest": 73,
+      "wait": 62,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 363,
+      "seek": 0,
+      "rest": 75,
+      "wait": 62,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E23 공원": 82
+     },
+     "120": {
+      "가상 E23 공원": 48
+     },
+     "240": {
+      "가상 E23 공원": 40
+     },
+     "360": {
+      "가상 E23 공원": 38
+     }
+    }
+   }
+  },
+  {
+   "label": "final4_interpfix",
+   "person_id": "E31",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "seek",
+     "goal": "가상 E31 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "target_recognized",
+        true
+       ],
+       [
+        "lost_awareness",
+        false
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "rest",
+     "goal": null,
+     "hold": 10.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        30
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "wait",
+     "goal": null,
+     "hold": 40.0,
+     "supersedes": [
+      "a_3"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_3": {
+     "action": "seek",
+     "goal": "가상 E31 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_0": 139,
+     "a_3": 148
+    },
+    "walkers_with_repeated_seek_same_rule": 40,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 404,
+    "wait_starts_per_rule": {
+     "a_2": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_2": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_2": 0
+    },
+    "wait_spans_examples": {
+     "a_2": [
+      40.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 40
+    },
+    "post_arrival": {
+     "arrivals": 404,
+     "dwell_minutes_median": 10.0,
+     "left_within_1min": 197,
+     "stayed_to_end": 23,
+     "next_move_by": {
+      "population_prior:None": 381
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 315,
+      "seek": 121,
+      "rest": 12,
+      "wait": 52,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 79,
+      "seek": 0,
+      "rest": 358,
+      "wait": 63,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 189,
+      "seek": 0,
+      "rest": 248,
+      "wait": 63,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 246,
+      "seek": 0,
+      "rest": 191,
+      "wait": 63,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E31 공원": 82
+     },
+     "120": {
+      "가상 E31 공원": 59
+     },
+     "240": {
+      "가상 E31 공원": 29
+     },
+     "360": {
+      "가상 E31 공원": 28
+     }
+    }
+   }
+  },
+  {
+   "label": "final4_interpfix",
+   "person_id": "E27",
+   "seed": 104729,
+   "policy_status": "ready",
+   "rules": {
+    "a_0": {
+     "action": "rest",
+     "goal": null,
+     "hold": 5.0,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "is_walking",
+        true
+       ],
+       [
+        "continuous_walk_minutes",
+        30
+       ]
+      ]
+     ]
+    },
+    "a_1": {
+     "action": "wait",
+     "goal": null,
+     "hold": 20.0,
+     "supersedes": [
+      "a_2"
+     ],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ]
+      ]
+     ]
+    },
+    "a_2": {
+     "action": "seek",
+     "goal": "가상 E27 공원",
+     "hold": null,
+     "supersedes": [],
+     "when": [
+      [
+       [
+        "lost_awareness",
+        true
+       ],
+       [
+        "family_present",
+        false
+       ]
+      ]
+     ]
+    }
+   },
+   "summary": {
+    "walkers": 500,
+    "seek_starts_per_rule": {
+     "a_2": 1096
+    },
+    "walkers_with_repeated_seek_same_rule": 123,
+    "reseek_after_arrival_events": 0,
+    "walkers_arrived": 204,
+    "wait_starts_per_rule": {
+     "a_1": 249
+    },
+    "walkers_with_wait_restarted": {
+     "a_1": 0
+    },
+    "completed_wait_spans_out_of_bounds": {
+     "a_1": 0
+    },
+    "wait_spans_examples": {
+     "a_1": [
+      20.0
+     ]
+    },
+    "repeated_seek_preceded_by": {
+     "rest_complete": 973
+    },
+    "post_arrival": {
+     "arrivals": 204,
+     "dwell_minutes_median": 10.487,
+     "left_within_1min": 58,
+     "stayed_to_end": 20,
+     "next_move_by": {
+      "population_prior:None": 184
+     }
+    },
+    "family_hypothesis_true": 236,
+    "family_hypothesis_false": 264,
+    "lost_hypothesis_true": 249,
+    "modes_at": {
+     "60": {
+      "walk": 347,
+      "seek": 118,
+      "rest": 18,
+      "wait": 17,
+      "avoid": 0
+     },
+     "120": {
+      "walk": 328,
+      "seek": 106,
+      "rest": 49,
+      "wait": 17,
+      "avoid": 0
+     },
+     "240": {
+      "walk": 325,
+      "seek": 79,
+      "rest": 76,
+      "wait": 20,
+      "avoid": 0
+     },
+     "360": {
+      "walk": 357,
+      "seek": 49,
+      "rest": 71,
+      "wait": 23,
+      "avoid": 0
+     }
+    },
+    "near_goal_within_100m_at": {
+     "60": {
+      "가상 E27 공원": 0
+     },
+     "120": {
+      "가상 E27 공원": 0
+     },
+     "240": {
+      "가상 E27 공원": 23
+     },
+     "360": {
+      "가상 E27 공원": 22
+     }
+    }
+   }
+  }
+ ]
+}

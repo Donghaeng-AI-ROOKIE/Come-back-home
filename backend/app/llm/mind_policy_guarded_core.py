@@ -33,6 +33,30 @@ def repair_request(personal, model, draft, problem):
     return compact.bounded(body)
 
 
+def _describe(check):
+    if check['check'] == 'same_note_followup_missing_wait_trigger':
+        return (f"{check['movement_rule_id']} 이동과 {check['wait_rule_id']} 대기는 같은 답변 {check['note_ids']}에서 나왔지만 "
+                '이동 조건에 대기의 발동 조건이 없다. 원문이 이 이동이 언제 일어난다고 말하는지 확인한다.')
+    return (f"{check['movement_rule_id']} 이동(답변 {check['movement_note_ids']})은 {check['wait_rule_id']} 대기"
+            f"(답변 {check['wait_note_ids']})와 동시에 성립할 수 있고 둘 사이 순서가 없다. "
+            '각 답변이 어떤 상황의 행동을 말하는지 원문에서 확인한다.')
+
+
+def check_request(personal, model, draft, checks):
+    """Re-read only the answers a structural check flagged.
+
+    The checks name rules and answers, never an expected condition or word.
+    """
+    body = request(personal, model)
+    payload = json.loads(body['messages'][1]['content'])
+    payload.update(previous_public_output=deepcopy(draft), structural_checks=[_describe(c) for c in checks],
+        task='구조 검사 항목만 원문으로 다시 확인한 완전한 JSON을 출력한다. 원문이 그 이동이 일어나는 상황이나 순서를 말하면 '
+             '이동 규칙의 조건에 반영하고, 원문이 말하지 않으면 바꾸지 않는다. 규칙을 지워서 검사를 피하지 않는다. '
+             '검사 항목과 관계없는 규칙의 조건·수치·범위는 보존한다.')
+    body['messages'][1]['content'] = json.dumps(payload, ensure_ascii=False)
+    return compact.bounded(body)
+
+
 def compile(value, personal):
     return compact.compile_d12(value, personal)
 
@@ -85,3 +109,65 @@ def recover(value, personal):
                     'retained_rule_count': len(rules),
                     'partially_unrepresented_note_ids': sorted(lost),
                     'semantic_correctness_claimed': False}
+
+
+def _signature_value(value):
+    return value if type(value) is bool else float(value)
+
+
+def _rule_signature(rule):
+    when = sorted(sorted((a.fact, a.op, json.dumps(_signature_value(a.value))) for a in clause)
+                  for clause in rule.when)
+    hold = None if rule.hold_minutes is None else float(rule.hold_minutes)
+    return (rule.action, rule.feature, rule.goal_label, hold,
+            tuple(sorted({e.note_id for e in rule.evidence})), json.dumps(when))
+
+
+def restore_draft_scope(draft_value, policy, personal):
+    """A correction must not silently widen a place-limited rule.
+
+    The correction request asks to keep valid rules' scope. Each draft rule is
+    checked on its own. When a draft rule that compiles alone is repeated in
+    the correction with identical action, target, duration, condition and
+    source but its place limit was dropped, the draft's limit is restored.
+    Added limits and condition changes are accepted as corrections. Fixed
+    rules compiled from the agreed initial interpretation are never touched.
+    If the draft holds both scoped and unscoped (or several different) scopes
+    for the same rule, nothing is guessed: the widening is reported instead.
+    Returns (policy, restored, unresolved).
+    """
+    rules_raw = draft_value.get('rules') if isinstance(draft_value, dict) else None
+    if not isinstance(rules_raw, list):
+        # Undecodable or malformed draft: no scope to compare; say so.
+        return policy, [], [{'reason': 'draft_unparsed_scope_check_skipped'}]
+    ids = {n['id'] for n in personal['notes']}
+    fixed_ids = {r.id for r in compact.fixed(personal)}
+    scopes_by_signature = {}
+    for item in rules_raw:
+        try:
+            parsed_item = compact.RuleA.model_validate(item)
+            single = {'source_assessment': 'single draft rule', 'rules': [parsed_item.model_dump()],
+                      'non_action_note_ids': sorted(ids - set(parsed_item.note_ids))}
+            compiled = compact.compile_d12(single, personal)
+        except (ValueError, TypeError, KeyError, AssertionError, AttributeError, SyntaxError):
+            continue
+        for rule in compiled.rules:
+            if rule.id == 'a_0':
+                scopes_by_signature.setdefault(_rule_signature(rule), set()).add(tuple(rule.place_labels))
+    restored = []; unresolved = []; rules = []
+    for rule in policy.rules:
+        scopes = set() if rule.place_labels or rule.id in fixed_ids else scopes_by_signature.get(_rule_signature(rule), set())
+        limited = scopes - {()}
+        if limited and len(scopes) == 1:
+            scope = list(next(iter(limited)))
+            restored.append({'rule_id': rule.id, 'restored_place_labels': scope})
+            rule = rule.model_copy(update={'place_labels': scope})
+        elif limited:
+            unresolved.append({'rule_id': rule.id, 'reason': 'ambiguous_draft_scopes',
+                               'draft_scopes': sorted(list(x) for x in scopes)})
+        rules.append(rule)
+    if not restored:
+        return policy, [], unresolved
+    out = m.validate({'rules': [r.model_dump() for r in rules],
+                      'unrepresented': [u.model_dump() for u in policy.unrepresented]}, personal)
+    return out, restored, unresolved

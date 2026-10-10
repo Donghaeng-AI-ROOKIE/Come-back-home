@@ -10,7 +10,7 @@ import math
 from app.llm import mind_policy as m
 from app.phase2.place_bound_walk import PlaceBoundPopulation
 
-VERSION = 'persistent-context-v4-bounded-environment'
+VERSION = 'persistent-context-v7-terminal-reunion'
 # An executor fix must invalidate old checkpoints without changing the paired
 # walkers' uncertainty hypotheses or action ties as an unrelated side effect.
 HYPOTHESIS_NAMESPACE = 'persistent-context-v2-sourced-followup'
@@ -63,10 +63,18 @@ class PersistentContextPopulation(PlaceBoundPopulation):
         if fact in bindings.get(rule.id, {}):
             return bindings[rule.id][fact][0]
         if '.' in fact:
-            # A named site's unknown signal is not shared with other sites.
+            # A place-type signal ("market.noisy") is observed near a place of
+            # that type. Key an unknown by ONE physical site, so the same site
+            # keeps its value and different sites never share it. Without a
+            # known site there is nothing to perceive: return None, the caller
+            # distinguishes layer-confirmed absence from insufficient information.
             named = sorted(set(rule.place_labels) & set(labels))
-            location = ['places', named] if named else ['road_node', p.node]
-            return json.dumps(['environment', fact, location], ensure_ascii=False)
+            if named:
+                return json.dumps(['environment', fact, ['places', named]], ensure_ascii=False)
+            site = self.nearest_site(p, fact.split('.', 1)[0])
+            if site is None:
+                return None
+            return json.dumps(['environment', fact, site], ensure_ascii=False)
         if fact == 'target_recognized':
             return json.dumps([fact, p.target], ensure_ascii=False)
         return 'global:' + fact
@@ -82,14 +90,31 @@ class PersistentContextPopulation(PlaceBoundPopulation):
                 if rule.id in p.completed_waits:
                     p.completed_waits.remove(rule.id)
                 continue
-            if spatial is None:
-                spatial = self._value(p, key, key, None)
-            local = dict(facts)
+            local = dict(facts); environment_unknown = False
             for clause in rule.when:
                 for atom in clause:
                     actual = bindings.get(rule.id, {}).get(atom.fact, (None, facts.get(atom.fact)))[1]
                     variable = self._fact_key(p, rule, atom.fact, bindings, labels)
+                    if variable is None and actual is None:
+                        # No known site: a complete map layer may still show
+                        # absence; otherwise the information is insufficient.
+                        if self.feature_absent(p, atom.fact.split('.', 1)[0]):
+                            local[atom.fact] = False
+                        else:
+                            local[atom.fact] = None; environment_unknown = True
+                        continue
                     local[atom.fact] = self._value(p, variable, atom.fact, actual)
+            truth_now = m.truth(rule.when, local)
+            if spatial is None or (environment_unknown and truth_now is None):
+                # Category scope or signal without any known location: not a
+                # fact, not absence. A branch that is already true still runs
+                # (OR). Otherwise keep the rule, do not execute it here, and
+                # disclose the time it could not be checked.
+                if truth_now is not False and rule.id not in p.env_insufficient_rules:
+                    p.env_insufficient_rules.append(rule.id)
+                if spatial is None and rule.id in p.completed_waits:
+                    p.completed_waits.remove(rule.id)
+                continue
             continuing = p.mode == 'wait' and p.hold_rule_id == rule.id and rule.hold_minutes is not None
             if continuing:
                 # Waiting itself stops walking and resets its counters. Those
@@ -169,6 +194,7 @@ class PersistentContextPopulation(PlaceBoundPopulation):
             explicit_wait_duration='episode_from_entry; no_refresh; rearm_after_non_walking_guard_false',
             unreported_wait_duration='not_inferred; conditional_wait_may_persist',
             after_wait_action='only_explicit_source; timed_completion_only; movement_until_new_response',
+            environment_signal_scope='known_sites_only; one_hypothesis_per_physical_site; layer_absence_is_false; otherwise_insufficient_not_absent',
             context_assumption_count=sum(len(p.context_assumptions) for p in self.particles),
             sourced_wait_completions=sum(e['kind'] == 'sourced_wait_complete' for p in self.particles for e in p.events))
         return out

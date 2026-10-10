@@ -15,11 +15,18 @@ def observation(location,**kw):
         'valid_from':START,'valid_until':START+timedelta(minutes=10),
         'noisy':True,'source':'synthetic_scenario'}|kw))
 
-def population(cached,observations=(),**kw):
+def untyped_person(start):
+    """Registered place without a place type: report geometry is the only source."""
+    base=person(start)
+    return base.model_copy(update={'attraction_points':[a.model_copy(update={'place_type':None})
+                                                        for a in base.attraction_points]})
+
+def population(cached,observations=(),registered_market=False,**kw):
     net,node,_=cached;start=net.node_location(node)
     r=rule('avoid',when=[[dict(fact='market.noisy',op='eq',value=True)]])
     r.update(feature='market',place_labels=[])
-    return PersistentContextPopulation(net,person(start),prior(),policy(r),start,START,
+    who=person(start) if registered_market else untyped_person(start)
+    return PersistentContextPopulation(net,who,prior(),policy(r),start,START,
         count=4,seed=17,environment_observations=observations,**kw)
 
 def test_reported_area_supplies_missing_geometry_without_mutating_map(cached):
@@ -66,3 +73,18 @@ def test_split_restart_preserves_reported_environment_walk(cached):
     restored=population(cached,observations,checkpoint=json.loads(json.dumps(split.checkpoint())))
     assert restored.advance_to(.5)==expected
     assert restored.checkpoint()==whole.checkpoint()
+
+
+def test_registered_market_is_a_known_location_not_a_complete_category_map(cached):
+    net,node,_=cached;start=net.node_location(node)
+    pop=population(cached,[],registered_market=True);p=pop.particles[0]
+    # A registered market is a known site of that type, even without a report.
+    assert pop.near(p)[1]['market'] is True
+    assert pop.known_sites(p,'market')==[['places',['등록 목적지']]]
+    # Away from it the category remains unknown (insufficient), never absent.
+    far=next(n for n,loc in pop.locations.items() if haversine_km(start,loc)*1000>500)
+    p.node=far
+    assert pop.near(p)[1]['market'] is None and pop.known_sites(p,'market')==[]
+    q=pop.distribution(0)['quality']
+    assert q['environment_knowledge']['market']=='registered_places_and_bounded_reports_only'
+    assert q['environment_absence_inferred_without_layer'] is False

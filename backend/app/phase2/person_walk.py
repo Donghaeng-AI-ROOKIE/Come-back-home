@@ -21,7 +21,8 @@ from app.phase2.simulation import _bearing,_kappa,STRATEGIES
 from app.schemas.common import GeoPoint
 from app.schemas.prediction import MindState
 
-VERSION='continuous-person-v4'
+VERSION='continuous-person-v6-terminal-reunion'
+FEATURE_LIMITS_M={'market':60,'park':60,'forest':60,'water':100}
 
 
 @dataclass(frozen=True)
@@ -92,6 +93,9 @@ class Particle:
     completed_waits:list[str]=field(default_factory=list)
     wait_start_facts:dict=field(default_factory=dict)
     followup_rule_id:str|None=None
+    env_insufficient_rules:list[str]=field(default_factory=list)
+    env_insufficient_minutes:dict[str,float]=field(default_factory=dict)
+    reunited:bool=False
 
 class Population:
     CHECKPOINT_FAMILY='continuous-person'
@@ -117,6 +121,17 @@ class Population:
         self.attrs={(n,v):net.edge_attrs(n,v) for n,ns in self.neighbors.items() for v in ns}
         self.goals={a.label:net.nearest_node(a.location) for a in self.persona.attraction_points}
         self.goal_locations={a.label:a.location for a in self.persona.attraction_points}
+        # Registered places are known locations of their type. They are not a
+        # complete category map: elsewhere a missing layer stays unknown.
+        self.typed_places={a.label:(a.place_type,a.location) for a in self.persona.attraction_points
+                           if a.place_type in FEATURE_LIMITS_M}
+        # A layer can establish absence only if it actually holds distances.
+        node_env=getattr(net,'node_env',None) or {}
+        self.layer_state={}
+        for feature in FEATURE_LIMITS_M:
+            values=[env.get(feature+'_m') for env in node_env.values() if feature+'_m' in env]
+            self.layer_state[feature]=('map_layer' if any(v is not None for v in values) else
+                'map_layer_without_geometry' if values else 'registered_places_and_bounded_reports_only')
         self.familiar=[self.persona.home]+list(self.goal_locations.values())
         self.route_scores={r.route:r.score for r in self.persona.route_familiarity}
         self.routine_labels={a.label for a in self.persona.attraction_points if a.origin_slot=='routine_destinations'}
@@ -195,6 +210,13 @@ class Population:
         for feature,signals in conditions.items():
             for signal,value in signals.items():
                 if feature+'.'+signal in f:f[feature+'.'+signal]=value
+        # Three different things, kept apart (2026-10-10 review):
+        # - case state: the forecast runs only for an open case (lifecycle);
+        # - observed accompaniment: a typed family_present observation; True is
+        #   a reunion and ends walking in _decide;
+        # - the person's experienced family absence in a personal rule: without
+        #   an observation it stays unknown (an explicit uncertainty), never a
+        #   confirmed fact derived from the absence of an observation.
         values={}
         for obs in self.observations:
             # These are typed, bounded observations, never extracted by text matching.
@@ -209,20 +231,58 @@ class Population:
         loc=self.position(p)
         labels=[name for name,point in self.goal_locations.items() if haversine_km(loc,point)*1000<=60]
         features={}
-        for feature,limit in [('market',60),('park',60),('forest',60),('water',100)]:
-            distance=self.net.env(p.node).get(feature+'_m')
-            if p.edge_to is not None:
-                other=self.net.env(p.edge_to).get(feature+'_m')
-                fraction=1-p.edge_remaining/p.edge_length
-                distance=(distance+(other-distance)*fraction
-                          if distance is not None and other is not None else None)
+        for feature,limit in FEATURE_LIMITS_M.items():
+            distance=self._layer_distance(p,feature)
             features[feature]=None if distance is None else distance<=limit
-            # A bounded field report supplies geometry only in its observed area.
-            # Outside it, a missing map layer remains unknown, not absence.
-            if self.scene.anchors_at(loc,feature,p.minute):features[feature]=True
+            # A bounded field report or a registered place supplies geometry
+            # only around itself. Outside them, a missing map layer remains
+            # unknown (insufficient environment information), not absence.
+            if self._point_sites(p,feature,loc):features[feature]=True
         result=(labels,features)
         if not self.scene.observations and p.edge_to is None:self._near_cache[p.node]=result
         return result
+
+    def has_layer(self,feature):
+        return self.layer_state.get(feature)=='map_layer'
+
+    def _layer_distance(self,p,feature):
+        """Mapped distance at the walker's interpolated road position, or None."""
+        distance=self.net.env(p.node).get(feature+'_m')
+        if p.edge_to is not None:
+            other=self.net.env(p.edge_to).get(feature+'_m')
+            fraction=1-p.edge_remaining/p.edge_length
+            distance=(distance+(other-distance)*fraction
+                      if distance is not None and other is not None else None)
+        return distance
+
+    def _point_sites(self,p,feature,loc):
+        """Registered places and bounded reports of this type around the walker."""
+        limit=FEATURE_LIMITS_M.get(feature)
+        if limit is None:return []
+        sites=[(haversine_km(loc,point)*1000,['places',[label]]) for label,(kind,point) in self.typed_places.items()
+               if kind==feature and haversine_km(loc,point)*1000<=limit]
+        sites+=[(haversine_km(loc,a)*1000,['report','%.6f,%.6f'%(a.lat,a.lng)])
+                for a in self.scene.anchors_at(loc,feature,p.minute)]
+        return [site for _,site in sorted(sites,key=lambda x:(x[0],json.dumps(x[1],ensure_ascii=False)))]
+
+    def known_sites(self,p,feature,loc=None):
+        """Known physical sites of a place type around the walker (nearest first)."""
+        loc=loc or self.position(p)
+        sites=self._point_sites(p,feature,loc)
+        distance=self._layer_distance(p,feature)
+        if distance is not None and distance<=FEATURE_LIMITS_M.get(feature,0):sites.append(['map_layer',feature])
+        return sites
+
+    def nearest_site(self,p,feature):
+        sites=self.known_sites(p,feature)
+        return sites[0] if sites else None
+
+    def feature_absent(self,p,feature):
+        """Only a layer holding distances can show that no such place is near."""
+        if feature not in FEATURE_LIMITS_M or not self.has_layer(feature) or self.known_sites(p,feature):
+            return False
+        distance=self._layer_distance(p,feature)
+        return distance is not None and distance>FEATURE_LIMITS_M[feature]
 
     def _baseline(self,p,rng,facts):
         # Reaching or recognizing a place does not establish a stopping response.
@@ -280,7 +340,18 @@ class Population:
         return p.minute+hold
 
     def _decide(self,p,rng):
+        p.env_insufficient_rules=[]
         f=self.facts(p);labels,features=self.near(p)
+        if f.get('family_present') is True or p.reunited:
+            # An observed family beside the person is a reunion: the case
+            # lifecycle closes it. The simulation never walks them on after it,
+            # including after the observation's validity window ends.
+            if not p.reunited:
+                p.reunited=True
+                self._event(p,'reunion_observed_no_further_walking')
+            p.mode='wait';p.hold_until=p.minute+1.;p.hold_rule_id=None
+            p.last_uncertain=False;p.last_baseline=False
+            return False,False
         if p.mode=='rest' and p.minute<p.hold_until-1e-8:
             return p.last_uncertain,p.last_baseline
         # Current condition changes can release waiting. Confirmed discovery is
@@ -305,10 +376,16 @@ class Population:
             p.target=goal;p.arrived=False;p.recognized=None;p.recognition_source='unobserved'
         if mode=='rest':hold=hold or 5.
         if mode=='wait':hold=hold or 30.
+        if mode=='avoid' and not scope and not math.isfinite(self._feature_distance(p,p.node,feature,labels=[])):
+            # No known location to move away from: the environment information
+            # is insufficient here. Keep the rule, disclose it, never block the
+            # walker or reject the whole map, and never invent a direction.
+            last=p.events[-1] if p.events else {}
+            if not (last.get('kind')=='avoidance_environment_insufficient' and last.get('rule_id')==rid):
+                self._event(p,'avoidance_environment_insufficient',feature=feature,rule_id=rid)
+            if rid not in p.env_insufficient_rules:p.env_insufficient_rules.append(rid)
+            mode,hold,goal,_=self._baseline(p,rng,f);feature=None;scope=[];rid=None;baseline=True
         p.mode=mode;p.avoid_feature=feature;p.avoid_labels=list(scope)
-        if mode=='avoid' and not scope and not math.isfinite(self._feature_distance(p,p.node)):
-            p.blocked=True;self._event(p,'unmapped_avoidance',feature=feature)
-            return uncertain,baseline
         if hold is not None:p.hold_until=self._hold_deadline(p,rule,mode,hold,old_mode)
         p.last_uncertain=uncertain;p.last_baseline=baseline;p.hold_rule_id=rid
         if mode in ('rest','wait'):
@@ -325,13 +402,19 @@ class Population:
                 p.heading=_bearing(self.locations[v],self.locations[u]);self._event(p,'avoid_turn')
         return uncertain,baseline
 
-    def _feature_distance(self,p,node):
-        if p.avoid_labels:
-            return min(haversine_km(self.locations[node],self.goal_locations[x])*1000 for x in p.avoid_labels)
-        value=self.net.env(node).get((p.avoid_feature or '')+'_m')
-        anchors=self.scene.anchors_at(self.position(p),p.avoid_feature,p.minute)
-        if anchors:
-            observed=min(haversine_km(self.locations[node],point)*1000 for point in anchors)
+    def _feature_distance(self,p,node,feature=None,labels=None):
+        feature=feature or p.avoid_feature
+        labels=p.avoid_labels if labels is None else labels
+        if labels:
+            return min(haversine_km(self.locations[node],self.goal_locations[x])*1000 for x in labels)
+        value=self.net.env(node).get((feature or '')+'_m')
+        here=self.position(p)
+        points=list(self.scene.anchors_at(here,feature,p.minute))
+        # Registered places of this type that the walker is actually near.
+        points+=[point for label,(kind,point) in self.typed_places.items()
+                 if kind==feature and haversine_km(here,point)*1000<=FEATURE_LIMITS_M.get(feature,0)]
+        if points:
+            observed=min(haversine_km(self.locations[node],point)*1000 for point in points)
             value=observed if value is None else min(value,observed)
         return float('inf') if value is None else value
 
@@ -443,6 +526,8 @@ class Population:
             if baseline:p.baseline_minutes+=dt
             if p.hold_rule_id:
                 p.rule_minutes[p.hold_rule_id]=p.rule_minutes.get(p.hold_rule_id,0.)+dt
+            for rid in p.env_insufficient_rules:
+                p.env_insufficient_minutes[rid]=p.env_insufficient_minutes.get(rid,0.)+dt
             if self.trace_hook is not None:self.trace_hook(p,self.position(p))
         p.rng_state=rng.getstate()
 
@@ -483,4 +568,14 @@ class Population:
             'rule_scope_distance_m':60.,'clinical_accuracy_measured':False,'latent_high_band':.7,'latent_high_band_source':'existing_gauges_report_provisional_not_clinical','new_model_calls_during_walk':0,
             'environment_distance_on_edge':'linear_interpolation_of_mapped_endpoint_distances',
             'radius_role':'existing_statistical_p95_support_not_fitted_terminal_distance',
-            'map_extent_checked':True,'map_boundary_margin_m':50.}}
+            'map_extent_checked':True,'map_boundary_margin_m':50.,
+            'environment_knowledge':dict(self.layer_state),
+            'environment_absence_inferred_without_layer':False,
+            'case_state':'open_case_forecast_only',
+            'family_presence_source':'typed_observation_only; unobserved_is_unknown_not_absent',
+            'family_presence_observed':any(o.fact=='family_present' for o in self.observations),
+            'reunion_observed_walkers':sum(p.reunited for p in self.particles),
+            'reunion_terminal':'no_walking_after_observed_reunion_even_after_observation_expiry',
+            'environment_insufficient_minutes':{rid:sum(p.env_insufficient_minutes.get(rid,0.) for p in self.particles)
+                for rid in sorted({r for p in self.particles for r in p.env_insufficient_minutes})},
+            'environment_insufficient_walkers':sum(bool(p.env_insufficient_minutes) for p in self.particles)}}

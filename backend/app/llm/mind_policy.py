@@ -247,6 +247,119 @@ def fixed_rules(personal):
     return out
 
 
+def _atom_key(atom):
+    return (atom.fact, atom.op, atom.value)
+
+
+def normalize_sequences(policy):
+    """Let a finite wait take precedence over the departure its own note gives after it.
+
+    The deployed contract has no follow-up field and tells K not to emit the
+    post-wait departure as an independent rule. Stored policies nevertheless
+    contain such pairs, which the executor would choose between at random,
+    skipping the wait. This is structural, not text matching, and deletes
+    nothing: S stays in the policy with its own condition. Only an explicit
+    precedence is added, W supersedes S, so S is suppressed while W is active
+    (including its sourced duration) and is evaluated normally once W has
+    completed. A pair is ordered only when all hold:
+      - W is a finite wait without a follow-up; S is seek/walk;
+      - W and S cite exactly the same single source note;
+      - neither has place scope or precedence, and no other rule refers to S;
+      - W has one AND branch and every S branch contains all of W's atoms;
+      - the wait and the movement form a one-to-one pair.
+    Everything else is left unchanged and reported, never guessed.
+    """
+    rules = list(policy.rules)
+    referenced = {rid for r in rules for rid in r.supersedes}
+    def notes(rule):
+        return {e.note_id for e in rule.evidence}
+    candidates = []
+    for wait in rules:
+        if wait.action != 'wait' or wait.hold_minutes is None or wait.after_wait is not None:
+            continue
+        for move in rules:
+            if move.action not in ('seek', 'walk') or move is wait:
+                continue
+            if notes(move) != notes(wait) or len(notes(wait)) != 1:
+                continue
+            if wait.place_labels or move.place_labels or wait.supersedes or move.supersedes:
+                continue
+            if move.id in referenced:
+                continue
+            candidates.append((wait, move))
+    report = {'ordered': [], 'not_ordered': []}
+    eligible = []
+    for wait, move in candidates:
+        if len(wait.when) != 1:
+            report['not_ordered'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id,
+                                          'reason': 'multi_branch_wait_trigger'})
+            continue
+        trigger = {_atom_key(a) for a in wait.when[0]}
+        if not all(trigger <= {_atom_key(a) for a in clause} for clause in move.when):
+            report['not_ordered'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id,
+                                          'reason': 'movement_not_conditioned_on_wait_trigger'})
+            continue
+        eligible.append((wait, move))
+    waits = [w.id for w, _ in eligible]; moves = [s.id for _, s in eligible]
+    precedence = {}
+    for wait, move in eligible:
+        if waits.count(wait.id) > 1 or moves.count(move.id) > 1:
+            report['not_ordered'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id,
+                                          'reason': 'not_one_to_one'})
+            continue
+        precedence[wait.id] = move.id
+        report['ordered'].append({'wait_rule_id': wait.id, 'movement_rule_id': move.id,
+                                  'note_id': next(iter(notes(wait)))})
+    if not precedence:
+        return policy, report
+    out = [r.model_copy(update={'supersedes': [precedence[r.id]]}) if r.id in precedence else r for r in rules]
+    return Policy(rules=out, unrepresented=policy.unrepresented), report
+
+
+def _compatible(a_clause, b_clause):
+    """Two AND branches can hold at once (Boolean facts only; numbers assumed satisfiable)."""
+    values = {}
+    for atom in list(a_clause) + list(b_clause):
+        if atom.fact in BOOLEAN_FACTS:
+            if values.setdefault(atom.fact, atom.value) is not atom.value:
+                return False
+    return True
+
+
+def interpretation_checks(policy):
+    """Structural warnings about how K turned answers into rules. Detects, never edits.
+
+    C1 same_note_followup_missing_wait_trigger: a finite wait and a movement from
+       the same single answer, where the movement does not carry the wait's
+       trigger (e.g. 'wait when lost; then if no family go' compiled without
+       'lost' on the departure). Ordering cannot apply; K must re-read.
+    C2 other_answer_movement_competes_with_finite_wait: a movement from a
+       different answer can be active together with a finite wait and no
+       precedence links them, so walkers split between waiting and leaving.
+       The source may or may not say which happens; K must decide, not code.
+    """
+    rules = list(policy.rules)
+    warnings = []
+    def notes(rule):
+        return sorted({e.note_id for e in rule.evidence})
+    for wait in rules:
+        if wait.action != 'wait' or wait.hold_minutes is None:
+            continue
+        for move in rules:
+            if move.action not in ('seek', 'walk') or move.id in wait.supersedes or wait.id in move.supersedes:
+                continue
+            same = notes(move) == notes(wait) and len(notes(wait)) == 1
+            if same and len(wait.when) == 1:
+                trigger = {_atom_key(a) for a in wait.when[0]}
+                if not all(trigger <= {_atom_key(a) for a in clause} for clause in move.when):
+                    warnings.append({'check': 'same_note_followup_missing_wait_trigger', 'wait_rule_id': wait.id,
+                                     'movement_rule_id': move.id, 'note_ids': notes(wait)})
+            elif not same and any(_compatible(w, s) for w in wait.when for s in move.when):
+                warnings.append({'check': 'other_answer_movement_competes_with_finite_wait', 'wait_rule_id': wait.id,
+                                 'movement_rule_id': move.id, 'wait_note_ids': notes(wait), 'movement_note_ids': notes(move)})
+    return warnings
+
+
 def add_fixed(policy,personal):
     fixed=fixed_rules(personal);features={r.feature for r in fixed}
     # Avoid reinterpreting the same established environment response.

@@ -1,0 +1,482 @@
+[
+ {
+  "label": "fixed3",
+  "person_id": "E03",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 10.0,
+  "recognition": "false",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_2",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 0,
+  "waiting_on_rule_before_end": 500,
+  "moved_by_end_plus_5": 500,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E03",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 10.0,
+  "recognition": "unobserved",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_2",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 0,
+  "waiting_on_rule_before_end": 500,
+  "moved_by_end_plus_5": 500,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E07",
+  "wait_rule_id": "a_3",
+  "hold_minutes": 30.0,
+  "recognition": "false",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_3",
+     "movement_rule_id": "a_4",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 140,
+  "waiting_on_rule_before_end": 360,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E07",
+  "wait_rule_id": "a_3",
+  "hold_minutes": 30.0,
+  "recognition": "unobserved",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_3",
+     "movement_rule_id": "a_4",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 140,
+  "waiting_on_rule_before_end": 360,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E11",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 40.0,
+  "recognition": "false",
+  "policy_status": "ready_partial",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_3",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 0,
+  "waiting_on_rule_before_end": 500,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E11",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 40.0,
+  "recognition": "unobserved",
+  "policy_status": "ready_partial",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_3",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 0,
+  "waiting_on_rule_before_end": 500,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E15",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 40.0,
+  "recognition": "false",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_2",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 0,
+  "waiting_on_rule_before_end": 500,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E15",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 40.0,
+  "recognition": "unobserved",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_2",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 0,
+  "waiting_on_rule_before_end": 500,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E19",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 40.0,
+  "recognition": "false",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_2",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 0,
+  "waiting_on_rule_before_end": 500,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E19",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 40.0,
+  "recognition": "unobserved",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_2",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 0,
+  "waiting_on_rule_before_end": 500,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E23",
+  "wait_rule_id": "a_2",
+  "hold_minutes": 10.0,
+  "recognition": "false",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_2",
+     "movement_rule_id": "a_3",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 120,
+  "waiting_on_rule_before_end": 380,
+  "moved_by_end_plus_5": 500,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E23",
+  "wait_rule_id": "a_2",
+  "hold_minutes": 10.0,
+  "recognition": "unobserved",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_2",
+     "movement_rule_id": "a_3",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 120,
+  "waiting_on_rule_before_end": 380,
+  "moved_by_end_plus_5": 500,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E27",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 20.0,
+  "recognition": "false",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [],
+   "not_ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_2",
+     "reason": "movement_not_conditioned_on_wait_trigger"
+    }
+   ]
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 264,
+  "waiting_on_rule_before_end": 236,
+  "moved_by_end_plus_5": 500,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E27",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 20.0,
+  "recognition": "unobserved",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [],
+   "not_ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_2",
+     "reason": "movement_not_conditioned_on_wait_trigger"
+    }
+   ]
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 264,
+  "waiting_on_rule_before_end": 236,
+  "moved_by_end_plus_5": 500,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E31",
+  "wait_rule_id": "a_2",
+  "hold_minutes": 40.0,
+  "recognition": "false",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_2",
+     "movement_rule_id": "a_3",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 111,
+  "waiting_on_rule_before_end": 484,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E31",
+  "wait_rule_id": "a_2",
+  "hold_minutes": 40.0,
+  "recognition": "unobserved",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_2",
+     "movement_rule_id": "a_3",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 111,
+  "waiting_on_rule_before_end": 484,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E35",
+  "wait_rule_id": "a_2",
+  "hold_minutes": 30.0,
+  "recognition": "false",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_2",
+     "movement_rule_id": "a_3",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 250,
+  "waiting_on_rule_before_end": 250,
+  "moved_by_end_plus_5": 500,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E35",
+  "wait_rule_id": "a_2",
+  "hold_minutes": 30.0,
+  "recognition": "unobserved",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_2",
+     "movement_rule_id": "a_3",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 250,
+  "waiting_on_rule_before_end": 250,
+  "moved_by_end_plus_5": 500,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E39",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 40.0,
+  "recognition": "false",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_2",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 0,
+  "waiting_on_rule_before_end": 500,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ },
+ {
+  "label": "fixed3",
+  "person_id": "E39",
+  "wait_rule_id": "a_1",
+  "hold_minutes": 40.0,
+  "recognition": "unobserved",
+  "policy_status": "ready",
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_2",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "after_wait": null,
+  "moved_before_wait_end": 0,
+  "waiting_on_rule_before_end": 500,
+  "moved_by_end_plus_5": 499,
+  "followup_departures": 0,
+  "walkers": 500
+ }
+]

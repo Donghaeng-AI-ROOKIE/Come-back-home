@@ -46,6 +46,10 @@ class Settings(BaseSettings):
     # Unqualified new policy contracts can run only in an isolated staging server.
     mind_policy_contract: Literal["sourced_followup", "guarded_core"] = "sourced_followup"
     mind_policy_deployment: Literal["production", "staging"] = "production"
+    # Structural interpretation checks are always recorded. When this is on, a
+    # flagged policy gets one K re-read of the named answers (the second public
+    # output). Off until verified with real K outputs (2026-10-10: not yet run).
+    mind_policy_interpretation_review: bool = False
 
     # Phase 3 제보 구조화 전용 — Mi:dm 2.0 Mini 확정(2026-07-29 4파전 실측,
     # llm/tip_llm.py 참고). Phase 0 온보딩 대화 전용 Mi:dm(midm_*)과는 별개
