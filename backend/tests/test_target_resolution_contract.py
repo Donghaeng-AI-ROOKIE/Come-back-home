@@ -44,15 +44,17 @@ def active_case():
     return case
 
 def test_final_defaults_are_not_the_legacy_regression_fixture(monkeypatch):
-    for key in ('PUSH_TARGET_RES','PERSONAL_CHANNEL_WEIGHT','ALERT_COVERAGE',
-                'STATISTICAL_CHANNEL_DEFINITION','ALERT_SELECTION_POLICY','MAX_ALERT_AREA_KM2'):
+    for key in ('PUSH_TARGET_RES','PERSONAL_CHANNEL_WEIGHT','ALERT_COVERAGE'):
         monkeypatch.delenv(key,raising=False)
     cfg=Settings(_env_file=None)
-    assert (cfg.push_target_res,cfg.personal_channel_weight,cfg.alert_coverage)==(9,.1,.95)
-    assert (cfg.statistical_channel_definition,cfg.alert_selection_policy,cfg.max_alert_area_km2)==('literature_distance_prior','area_budget',6.368199998062131)
+    assert (cfg.push_target_res,cfg.personal_channel_weight,cfg.alert_coverage)==(9,.9,.95)
     for res in ('7','8','9'):
         monkeypatch.setenv('PUSH_TARGET_RES',res)
         assert Settings(_env_file=None).push_target_res==int(res)
+    for weight in (0.,.1,.299999):
+        with pytest.raises(ValidationError):Settings(personal_channel_weight=weight,_env_file=None)
+    for weight in (.3,.7,.9,1.):
+        assert Settings(personal_channel_weight=weight,_env_file=None).personal_channel_weight==weight
     for res in (6,10,8.5):
         with pytest.raises(ValidationError):Settings(push_target_res=res,_env_file=None)
 

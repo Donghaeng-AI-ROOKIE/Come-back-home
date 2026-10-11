@@ -1,6 +1,6 @@
 {
   "chosen": "personal10_literature90_res9_area6.3682",
-  "product_default": "selected",
+  "product_default": "withdrawn_by_user_and_rolled_back",
   "scope": "best evaluated configuration on these synthetic stress routes; not clinical optimum",
   "previous_final_superseded": true,
   "ci_vs_current_all_original_gates_pass": true,
@@ -14,5 +14,15 @@
     "previous_final": 12.8156757880846
   },
   "results_sha256": "bd69aed52a0c0112b5345f4f38f35b384777470294a2feac92692d45b8e58cc7",
-  "protocol_sha256": "e83fa6cebce152508874c7ab19ef9857d169a7b1567c5255005d9f4b45140386"
+  "protocol_sha256": "e83fa6cebce152508874c7ab19ef9857d169a7b1567c5255005d9f4b45140386",
+  "withdrawal_reason": "Personalization must be at least30%; preserve personalization-following performance first and evaluate departures jointly",
+  "restored_product_default": {
+    "personal_weight": 0.9,
+    "statistical_weight": 0.1,
+    "statistical_definition": "onboarded_population_prior",
+    "selection": "coverage",
+    "coverage": 0.95,
+    "target_res": 9
+  },
+  "minimum_personal_weight": 0.3
 }

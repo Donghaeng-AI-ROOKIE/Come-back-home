@@ -65,33 +65,3 @@ def test_d3_coarse_overlap_does_not_resend_old_delivery_cover(monkeypatch):
     result=alerts.notify_prediction(c)
     assert set(captured)=={'coarse-'+cell for cell in new}
     assert storage.cases.get(c.id).alert_delivery['exclude_targets']==sorted(old)
-
-
-def test_literature_only_safety_cell_reaches_all_notification_surfaces(monkeypatch):
-    """Independent statistical mass must become delivery at zero personal support."""
-    from app.phase2.combine import alpha_pool
-    from app.config import Settings
-    cfg=Settings(_env_file=None,statistical_channel_definition='literature_distance_prior',
-                 alert_selection_policy='area_budget',max_alert_area_km2=6.368199998062131,push_target_res=9)
-    for key in ('alert_selection_policy','max_alert_area_km2','push_target_res'):
-        monkeypatch.setattr(settings,key,getattr(cfg,key))
-    center=h3.latlng_to_cell(37.6652,126.7483,9)
-    counter=sorted(h3.grid_ring(center,4))[0]
-    personal={center:1.};statistical={counter:1.}
-    mixed=alpha_pool([personal,statistical],[.1,.9])
-    report=MissingReport(id='safety-r',missing_type='dementia',lkp=GeoPoint(lat=37.6652,lng=126.7483),lkp_time=datetime.now()-timedelta(hours=1))
-    case=Case(id='safety-c',report=report,lkp=report.lkp,lkp_time=report.lkp_time,current_poa=mixed)
-    storage.cases.save(case.id,case)
-    device=devices.register('stat-only',Platform.android,counter,Engagement.low)
-    targets=set(alerts.describe_alert(case)['target_cells'])
-    assert counter in targets and counter not in personal
-    assert webpush_entry.targets(counter,device)[0]['case_id']==case.id
-    client=TestClient(app)
-    assert client.get('/phase3/alerts',params={'target_cell':counter}).json()[0]['case_id']==case.id
-    policy=client.get('/phase3/targeting-policy').json()
-    assert policy['coverage'] is None and policy['max_area_km2']==6.368199998062131
-    captured=[]
-    monkeypatch.setattr(alerts.push,'send',lambda tokens,**kw:captured.extend(tokens) or {'sent':len(tokens),'failed':0,'stub':True,'sent_tokens':tokens})
-    result=alerts.notify_prediction(case)
-    assert result['sent']==1 and captured==['stat-only']
-    assert sum(cell_area_km2(c) for c in targets)<=6.368199998062131
