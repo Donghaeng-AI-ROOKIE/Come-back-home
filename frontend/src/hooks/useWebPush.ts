@@ -6,6 +6,7 @@ import { useMyLocation } from './useMyLocation';
 import { useAuthStore } from '../store/authStore';
 import { useEngagementLevel } from '../store/engagementStore';
 import { cellOf } from '../utils/h3cell';
+import { useTargetingPolicy } from './useTargetingPolicy';
 import { enteredTargets,EntryTarget } from '../utils/webPushEntry';
 import { safeStorage } from '../store/safeStorage';
 import { navigateWhenReady } from '../navigation/navigationRef';
@@ -29,6 +30,7 @@ export async function disableWebPush(){
  }
 }
 export function useWebPushController(enabled:boolean){
+ const policy=useTargetingPolicy(enabled);const targetRes=policy.resolution;
  const [status,setStatus]=useState<WebPushStatus>('unsupported');
  const [error,setError]=useState('');const [message,setMessage]=useState('');
  const [device,setDevice]=useState<string|null>(null);
@@ -36,25 +38,28 @@ export function useWebPushController(enabled:boolean){
  const location=useMyLocation(enabled);const level=useEngagementLevel();
  const live=useRef({location,device});live.current={location,device};
  const register=useCallback(async(sub:PushSubscription)=>{
+   if(targetRes==null)throw new Error('Targeting policy unavailable');
    const loc=live.current.location;
    const fresh=loc.observedAt!=null&&Date.now()>=loc.observedAt&&Date.now()-loc.observedAt<60_000;
    const result=await post<{device_id:string}>('subscription',{subscription:sub.toJSON(),
-     cell_res7:fresh?cellOf(loc.point):null,engagement:level});
+     target_cell:fresh?cellOf(loc.point,targetRes):null,engagement:level});
    if(useAuthStore.getState().userId!==owner)return result.device_id;
    await safeStorage.setItem(DEVICE_KEY,result.device_id);setDevice(result.device_id);return result.device_id;
- },[level,owner]);
+ },[level,owner,targetRes]);
  useEffect(()=>{
    setDevice(null);key.current='';
    if(!enabled||Platform.OS!=='web'||typeof window==='undefined')return;
+   if(targetRes==null){setStatus('working');if(policy.isError){setStatus('idle');setError('알림 구역 설정을 확인하지 못했어요. 잠시 후 다시 열어 주세요.');}return;}
    if(isIos()&&!standalone()){setStatus('needs-install');return;}
    if(!('serviceWorker' in navigator)||!('PushManager' in window)||!('Notification' in window)){setStatus('unsupported');return;}
    if(Notification.permission==='denied'){setStatus('denied');return;}
    let cancelled=false;setStatus('working');
    void(async()=>{
      try{
-       const conf=await api<{key:string;enabled:boolean}>('/phase3/webpush/public-key');
+       const conf=await api<{key:string;enabled:boolean;target_res:number}>('/phase3/webpush/public-key');
        if(cancelled)return;
        if(!conf.enabled||!conf.key){setStatus('disabled');return;}
+       if(conf.target_res!==targetRes)throw new Error('Targeting policy changed');
        key.current=conf.key;
        const reg=await navigator.serviceWorker.register('/sw.js');await navigator.serviceWorker.ready;
        const sub=await reg.pushManager.getSubscription();
@@ -64,7 +69,7 @@ export function useWebPushController(enabled:boolean){
      }catch{if(!cancelled){setStatus('idle');setError('알림 연결을 확인하지 못했어요. 잠시 후 다시 열어 주세요.');}}
    })();
    return()=>{cancelled=true;};
- },[enabled,owner,register]);
+ },[enabled,owner,register,targetRes,policy.isError]);
  const enable=useCallback(async()=>{
    if(!key.current){setError('알림 서버에 연결한 뒤 다시 시도해 주세요.');return;}
    // iOS requires a direct tap gesture, before any network await.
@@ -77,7 +82,7 @@ export function useWebPushController(enabled:boolean){
    }catch{setStatus('idle');setError('알림 연결에 실패했어요. 다시 눌러 주세요.');}
  },[register]);
  useEffect(()=>{
-   if(!enabled||status!=='subscribed'||!device)return;
+   if(!enabled||status!=='subscribed'||!device||targetRes==null)return;
    let cancelled=false,busy=false;
    const check=async()=>{
      if(cancelled||busy||document.visibilityState!=='visible')return;
@@ -85,10 +90,10 @@ export function useWebPushController(enabled:boolean){
      try{
        const loc=live.current.location;
        const fresh=loc.status==='granted'&&loc.observedAt!=null&&Date.now()>=loc.observedAt&&Date.now()-loc.observedAt<=60_000;
-       const result=await post<{targets:EntryTarget[]}>('location',{device_id:device,cell_res7:fresh?cellOf(loc.point):null});
+       const result=await post<{targets:EntryTarget[]}>('location',{device_id:device,target_cell:fresh?cellOf(loc.point,targetRes):null});
        if(cancelled)return;
        const current=live.current.location;
-       if(!fresh || cellOf(current.point)!==cellOf(loc.point))return;
+       if(!fresh || cellOf(current.point,targetRes)!==cellOf(loc.point,targetRes))return;
        for(const caseId of enteredTargets(current.point,current.accuracyM,current.observedAt,result.targets)){
 
          const sent=await post<{status:string}>('enter',{device_id:device,case_id:caseId});
@@ -103,7 +108,7 @@ export function useWebPushController(enabled:boolean){
    void check();const id=setInterval(()=>void check(),15_000);
    document.addEventListener('visibilitychange',check);
    return()=>{cancelled=true;clearInterval(id);document.removeEventListener('visibilitychange',check);};
- },[enabled,status,device]);
+ },[enabled,status,device,targetRes]);
  useEffect(()=>{
    if(!enabled||Platform.OS!=='web'||!('serviceWorker' in navigator))return;
    const go=(id:unknown)=>typeof id==='string'&&/^[\w-]{1,80}$/.test(id)&&navigateWhenReady('AlertDetail',{caseId:id});

@@ -1,0 +1,270 @@
+{
+  "status": "previously_seen31_exploratory_confirmation",
+  "selection_sha256": "3c837bb77a726faa7dc8d7ade17d7c4f27cc0f0e030adfb755c4f35a97f885c5",
+  "settings": {
+    "weight": 0.9,
+    "res": 9,
+    "coverage": 0.95
+  },
+  "candidate_native": {
+    "people": 31,
+    "checks": 744,
+    "area_km2": 5.741552068596366,
+    "hit": 0.48655913978494625
+  },
+  "preliminary_native": {
+    "people": 31,
+    "checks": 744,
+    "area_km2": 6.368199998062131,
+    "hit": 0.42338709677419356
+  },
+  "candidate_native_auc": {
+    "auc10": 46.09219797446073,
+    "auc30": 52.712331843498895
+  },
+  "native_grid": [
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.8,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 10.718965335596868,
+      "hit": 0.521505376344086
+    },
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.85,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 12.703388494364248,
+      "hit": 0.5349462365591398
+    },
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.9,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 16.17179303567334,
+      "hit": 0.5698924731182796
+    },
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.95,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 21.058675413287855,
+      "hit": 0.6263440860215054
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.8,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 3.318658488887811,
+      "hit": 0.42338709677419356
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.85,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 4.120245596520445,
+      "hit": 0.44623655913978494
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.9,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 5.277774927409519,
+      "hit": 0.4771505376344086
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.95,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 7.04762875875448,
+      "hit": 0.5026881720430108
+    },
+    {
+      "weight": 0.9,
+      "res": 8,
+      "coverage": 0.8,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 9.693086402871444,
+      "hit": 0.5080645161290323
+    },
+    {
+      "weight": 0.9,
+      "res": 8,
+      "coverage": 0.85,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 11.321387357605508,
+      "hit": 0.5268817204301075
+    },
+    {
+      "weight": 0.9,
+      "res": 8,
+      "coverage": 0.9,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 14.00410188111988,
+      "hit": 0.5403225806451613
+    },
+    {
+      "weight": 0.9,
+      "res": 8,
+      "coverage": 0.95,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 17.940550050026115,
+      "hit": 0.5981182795698925
+    },
+    {
+      "weight": 0.9,
+      "res": 9,
+      "coverage": 0.8,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 2.8438498603959,
+      "hit": 0.40456989247311825
+    },
+    {
+      "weight": 0.9,
+      "res": 9,
+      "coverage": 0.85,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 3.5064622143686344,
+      "hit": 0.42876344086021506
+    },
+    {
+      "weight": 0.9,
+      "res": 9,
+      "coverage": 0.9,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 4.427290498152805,
+      "hit": 0.45698924731182794
+    },
+    {
+      "weight": 0.9,
+      "res": 9,
+      "coverage": 0.95,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 5.741552068596366,
+      "hit": 0.48655913978494625
+    }
+  ],
+  "candidate_minus_preliminary": {
+    "hit": {
+      "delta": 0.06317204301075267,
+      "ci95": [
+        0.0026881720430107377,
+        0.12903225806451613
+      ]
+    },
+    "area_km2": {
+      "delta": -0.6266479294657643,
+      "ci95": [
+        -1.4786430494881744,
+        0.21850756514956193
+      ]
+    }
+  },
+  "original_res7_auc_reference": {
+    "preliminary": {
+      "auc10": 23.568502460187922,
+      "auc30": 48.8705853273287
+    },
+    "independent": {
+      "auc10": 26.668725224069618,
+      "auc30": 49.03171272833746
+    }
+  },
+  "new_api_calls": 0,
+  "fresh_holdout_done": false,
+  "input_hashes": {
+    "E09_104729.json": "c3a1f750748d401ac9ef418947c3d886439a31cba2ad83836a97dbcb82b6b7e2",
+    "E09_130363.json": "0554cd3b5f5679e3bd34e1f51fe185f736ddfe9e0570a3ca39b3b8d3045a2b4d",
+    "E10_104729.json": "4aea621c6a6293e05ca4b331974e9e5f2366e1d47f89e8d25817b03245c26378",
+    "E10_130363.json": "8c809cb40cd9dfa2ff7f8467f075b4c0e565ec4534a358fdd772faaf1e19f2e4",
+    "E11_104729.json": "70e2e7715a83aa6f5f8fbbae48f137081bd4a8f1c52d07ca107e4e94d42f1615",
+    "E11_130363.json": "5a04a2ec232c77645a324dd0a8830bb1a44331290c69438d5e755700114297d5",
+    "E12_104729.json": "d8efb45985d2c6105ac7047f11ec58bc88eae4b91d2290c7561bda9ab8747071",
+    "E12_130363.json": "8f41af9caa52d7aaf1cf0911e492ff05ec9f6da29a7ae7d589b0bc90e7fa0d38",
+    "E13_104729.json": "6b7e3145c9adbefb1df7caac4a753fb158a0b0ea42b258ee8297fdd1e71295d3",
+    "E13_130363.json": "7c7048139a0edf3ca7985d6f5f7a42fe17cbf236bd89d36ca6a95d3981f765c0",
+    "E14_104729.json": "10ebfd8688f51d7271e70b8fe7819700f5177f47197bbcb894a3dcf762bb76ba",
+    "E14_130363.json": "03a95e97f6f5a30702f6029830812aca545bb96b5e1a658c0331b6b1c7ad5de7",
+    "E15_104729.json": "ea9573913c63b87c77bcabc5375ca9ecbc9ba78fce20069f70a5e94c3d399e42",
+    "E15_130363.json": "96bdbc060be538fe146975365cc2d32bccc558df0d1b5ece78f7863fb5c57650",
+    "E16_104729.json": "59d7eeba45c52c76e2a47a5c3f815d18cafd545f705aa7552c208e10c40ded11",
+    "E16_130363.json": "60cb0cb254d827f3c230115ce6c7c67cf627a61200324826de53f3b457266d1a",
+    "E17_104729.json": "870b009a2d828bd6605f45e30c8f6e46b31fdb7032c73564bd09a7e9bb4e7764",
+    "E17_130363.json": "4c6a2ab66662005b32e234fd49d2c06240a126e20205b179775fad28a5c652d0",
+    "E18_104729.json": "0e7e7f45cbde031e0d18e1c013ad1a9b0128a55e0cc4f32206890b92bd6731bf",
+    "E18_130363.json": "8f4d436026ca16aa7a5c319e8afde1a9193978d88a207ecccf45f2e497be70ad",
+    "E19_104729.json": "0ea3cf60d17302ceffc95c53f4f788d6241b6ca4f9181db5398d6dc66a8e1840",
+    "E19_130363.json": "7e33e73763822e643fd1a85fcb2040527055eb7ef9776265726b5dfcea6e1616",
+    "E21_104729.json": "717757a8d0a3fe74ef9ca8028bb9314f5a3323c25a354c356cf204dd7c18870c",
+    "E21_130363.json": "bc3993b2b0baa52b6c83fc3450c78ebc8ce8e5c791cd2fb5fc72e795a73631e2",
+    "E22_104729.json": "f0c63a3a685c4522f073f9c6bc5ca4bef4ded2455f8d5fb25b7f30b357cd9ad7",
+    "E22_130363.json": "b94c2969769bb546bf6e55114d364fe8d1eb366669f1478cd76027528fb35560",
+    "E23_104729.json": "86806f5b261fe52b0c3775538a6cb0db40db24367dd6db3bb1dd40550fd7c1d1",
+    "E23_130363.json": "1d64da6631bc31bf2fa2b2d39e32d8085b62bd5badf742fc3416c244f9797fd8",
+    "E24_104729.json": "0806bb3ada9aa9252fffcd310e0a8f135c2293c3ec6f0aadb75cf66ffe7143a9",
+    "E24_130363.json": "c82c06a33ed11f6ce6fe2b5601296fade63312bc2063ad9cbb477c81cff1193e",
+    "E25_104729.json": "909c2c2458152cbb6aa0f4e3931b39fef6389e1efbca16c1d2d21db566603b55",
+    "E25_130363.json": "2c28f2450239ea77945a385f5b39d3f4b65c229a358dd7aa52d3f416ef2f2e09",
+    "E26_104729.json": "6c137683c3ecb22df1bd944001658d6d802ee982ae765a2706723c5a118ea1c2",
+    "E26_130363.json": "94c7991eac8b7508a5fe7de3cab6c93d3a14b01c720d002e09043c11ed21eaf9",
+    "E27_104729.json": "a3cced317e877ad86c317a42a9f88dec452d5e5d9b59851d07f34cd9c44c62f7",
+    "E27_130363.json": "f2caeeafb671b98ce32101a4071c5d5ec7816a2712628bf3e1586be4ee743107",
+    "E28_104729.json": "2e53935d803a269081620a0307b56d37f31e0a70bc4f2594c8ed4bcda7cea6a3",
+    "E28_130363.json": "29682f3cdd5168497c13a7cec1931426e188986ff79e852de82c3125725e1383",
+    "E29_104729.json": "c1db0a08fba60eab7a2a78b3a0f29e6c47d250e3a04b751961da3af1d1ebf3b2",
+    "E29_130363.json": "534ccb54981bc5960f54ace13f25499d2224337c82ae8c2ae49e255fbcd101e2",
+    "E30_104729.json": "a50eee42e90dc5f09f835e28e5afa725a280e2d7331ad6e418f9f11e0253e3c8",
+    "E30_130363.json": "7db44dd716c34271065c7760752f7d25f5abaa812b1587a5a86a7a0ccde5951a",
+    "E31_104729.json": "223414514e637133c5ab31e825cf11de982152af977cce39f26a4a76599882d1",
+    "E31_130363.json": "24ef4faee777efd8e36cfc08061b2b1adba41c81b97888c11361469f0a90a01a",
+    "E32_104729.json": "2cb97e2955472157d8e146a260cb4321c6edfd26ec646e2e1dd019ed40a9d048",
+    "E32_130363.json": "7bd2d5391b6e5f4f851956e1f9b0af7fcf65ffa9310305af9ab61d1cc0c932b4",
+    "E33_104729.json": "5e7b495395f0c906942590ce3005faa9cc22c59819c793b2e66819c0ec19ea87",
+    "E33_130363.json": "e291ced3a33ad4a17de3b64b1d4c30c65acfab3f507b36fef77cacee093467e8",
+    "E34_104729.json": "b79af1d97b1640f1ddf9cda7114dede4b0cf5b1465a4174c1bb2da343b856b81",
+    "E34_130363.json": "9886cf249adae3475b6ecc8d0e34d47f51499e66c01082b18bc396b076b4b120",
+    "E35_104729.json": "f121e4af15fc9aa0e7a2a35bc931b90bf1ffa69cd4abca5133730a9ab0ec2e1a",
+    "E35_130363.json": "f839def720fa87ad7ec62e3c56a3ffc3d41b53f78dc3da3a2bad603b6901f877",
+    "E36_104729.json": "9892046ef732f0760d5903e5a8c96aa2e578577161016f2ec289f31fa26cddbe",
+    "E36_130363.json": "c6b9ab869ad1e4833cfc2a2f7a9615aaf27eff800bf39c1c5f563f98e253bdb6",
+    "E37_104729.json": "c8b307b09d675294e7841599926ea271faa52b3ccacfe3b4fd0e0a3fb77f6967",
+    "E37_130363.json": "eadaf77ec1c35bcecbcc956cf8a0bc5c56ab35aac431c38d872096019babdc5f",
+    "E38_104729.json": "b44b8b68adc5a270a7222f94bb232534bb390bf2ec35eb35a34e814c14573952",
+    "E38_130363.json": "69d7365d8797afc7c8984c5ca6df6ed0119b3383969f5a650dd219734c51c13b",
+    "E39_104729.json": "8649d1f094be86f4d244d3fa326d0c7fef487f1fc90b0a4129a6c226e14ac084",
+    "E39_130363.json": "12a8ada18e29d034dc3016317c6107dcecc6197c1e833476a6e549f7e353ff00",
+    "E40_104729.json": "9e85de007cbd9c8aa86bfbc5605305cfff42d0f5cc3a20f2a62accb0db82121d",
+    "E40_130363.json": "428c18c2cf5985b779341db372805b04bf85e295563012926adc3dfed276f959"
+  },
+  "source_sha256": "8ddbc233d904530a825f97a8ae296bfaf08082bdf2f110a550aed00ebdd7be96",
+  "gates": {
+    "native_hit_noninferior_ci": true,
+    "native_area_reduction_ci": false,
+    "fresh_holdout_done": false,
+    "external_push_receipt_done": false
+  }
+}

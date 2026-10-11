@@ -137,7 +137,7 @@ def authorize(owner: str, method: str, path: str, body) -> Request:
         allowed = method == "POST"
         if allowed:
             _own(storage.walk_sessions, m[1], owner, "user_id")
-    elif p in ("/phase0/slots", "/phase3/alerts", "/phase3/alerts/resolved",
+    elif p in ("/phase0/slots", "/phase3/targeting-policy", "/phase3/alerts", "/phase3/alerts/resolved",
                "/geo/search", "/geo/nearby-walks") and method == "GET":
         allowed = True
     elif p == "/geo/labels" and method == "POST":

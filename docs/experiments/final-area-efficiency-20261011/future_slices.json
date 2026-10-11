@@ -1,0 +1,47 @@
+[
+  {
+    "future": "habitual",
+    "preliminary": {
+      "checks": 248,
+      "hit_pct": 77.41935483870968,
+      "area_km2": 6.368199998062131,
+      "efficiency_pp_per_km2": 12.157180186280062
+    },
+    "selected": {
+      "checks": 248,
+      "hit_pct": 94.35483870967742,
+      "area_km2": 5.741552068596368,
+      "efficiency_pp_per_km2": 16.433681621691584
+    }
+  },
+  {
+    "future": "departure",
+    "preliminary": {
+      "checks": 248,
+      "hit_pct": 38.70967741935484,
+      "area_km2": 6.368199998062131,
+      "efficiency_pp_per_km2": 6.078590093140031
+    },
+    "selected": {
+      "checks": 248,
+      "hit_pct": 50.806451612903224,
+      "area_km2": 5.741552068596368,
+      "efficiency_pp_per_km2": 8.84890548860316
+    }
+  },
+  {
+    "future": "contradictory",
+    "preliminary": {
+      "checks": 248,
+      "hit_pct": 10.887096774193548,
+      "area_km2": 6.368199998062131,
+      "efficiency_pp_per_km2": 1.7096034636956339
+    },
+    "selected": {
+      "checks": 248,
+      "hit_pct": 0.8064516129032258,
+      "area_km2": 5.741552068596368,
+      "efficiency_pp_per_km2": 0.14045881727941523
+    }
+  }
+]

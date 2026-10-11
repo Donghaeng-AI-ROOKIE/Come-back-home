@@ -1,0 +1,132 @@
+{
+  "status": "fixed_dev_selection_seen31_exploratory",
+  "settings": {
+    "weight": 0.9,
+    "res": 9,
+    "coverage": 0.95
+  },
+  "selection_sha256": "3c837bb77a726faa7dc8d7ade17d7c4f27cc0f0e030adfb755c4f35a97f885c5",
+  "primary_efficiency": {
+    "formula": "100 * sum(hits) / sum(area_km2); ratio of totals, not mean of per-event ratios",
+    "unit": "percentage points of synthetic truth inclusion per km2",
+    "preliminary": 6.6484579143719085,
+    "old_final": 7.26995186514293,
+    "selected": 8.474348642524719,
+    "delta_pp_per_km2": 1.8258907281528103,
+    "delta_ci95": [
+      0.6397484697033605,
+      2.9728682611831814
+    ],
+    "relative_gain_pct": 27.46337198293456,
+    "relative_gain_ci95": [
+      8.423943352830605,
+      51.216156119237766
+    ],
+    "cost_is_area_proxy_not_actual_recipients_or_money": true,
+    "positive_ci": true
+  },
+  "common_res9_same_area_budget": {
+    "method": "Same res9 fine-cell ranking and WGS84 areas for both forecast surfaces, no delivery claims for old client",
+    "preliminary_auc10": 38.448076750765246,
+    "selected_auc10": 46.09219797446073,
+    "delta": 7.6441212236954925,
+    "delta_ci95": [
+      3.7898347856538726,
+      12.052281483312372
+    ],
+    "budgets": [
+      {
+        "area_km2": 1,
+        "preliminary_inclusion": 0.24059139784946237,
+        "selected_inclusion": 0.3239247311827957
+      },
+      {
+        "area_km2": 2,
+        "preliminary_inclusion": 0.3521505376344086,
+        "selected_inclusion": 0.3978494623655914
+      },
+      {
+        "area_km2": 3,
+        "preliminary_inclusion": 0.38306451612903225,
+        "selected_inclusion": 0.4489247311827957
+      },
+      {
+        "area_km2": 5,
+        "preliminary_inclusion": 0.4274193548387097,
+        "selected_inclusion": 0.5094086021505376
+      },
+      {
+        "area_km2": 10,
+        "preliminary_inclusion": 0.4422043010752688,
+        "selected_inclusion": 0.5403225806451613
+      },
+      {
+        "area_km2": 20,
+        "preliminary_inclusion": 0.4422043010752688,
+        "selected_inclusion": 0.5645161290322581
+      },
+      {
+        "area_km2": 30,
+        "preliminary_inclusion": 0.4422043010752688,
+        "selected_inclusion": 0.5645161290322581
+      }
+    ]
+  },
+  "original_common_res7_auc10": {
+    "preliminary": 23.568502460187922,
+    "selected": 26.716167527506084,
+    "delta": 3.1476650673181594,
+    "delta_ci95": [
+      0.9502027803201136,
+      5.429362826333857
+    ]
+  },
+  "native_comparison": {
+    "candidate_native": {
+      "people": 31,
+      "checks": 744,
+      "area_km2": 5.741552068596366,
+      "hit": 0.48655913978494625
+    },
+    "preliminary_native": {
+      "people": 31,
+      "checks": 744,
+      "area_km2": 6.368199998062131,
+      "hit": 0.42338709677419356
+    },
+    "candidate_minus_preliminary": {
+      "hit": {
+        "delta": 0.06317204301075267,
+        "ci95": [
+          0.0026881720430107377,
+          0.12903225806451613
+        ]
+      },
+      "area_km2": {
+        "delta": -0.6266479294657643,
+        "ci95": [
+          -1.4786430494881744,
+          0.21850756514956193
+        ]
+      }
+    },
+    "gates": {
+      "native_hit_noninferior_ci": true,
+      "native_area_reduction_ci": false,
+      "fresh_holdout_done": false,
+      "external_push_receipt_done": false
+    }
+  },
+  "bootstrap": {
+    "people": 31,
+    "checks": 744,
+    "unit": "person",
+    "paired": true,
+    "draws": 10000,
+    "seed": 2026101106,
+    "confidence": 0.95
+  },
+  "release_qualification": false,
+  "fresh_holdout": false,
+  "new_model_calls": 0
+}
