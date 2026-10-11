@@ -20,7 +20,7 @@ from app.phase2.simulation import _bearing,_kappa,STRATEGIES
 from app.schemas.common import GeoPoint
 from app.schemas.prediction import MindState
 
-VERSION='continuous-person-v7-host-clock'
+VERSION='continuous-person-v8-open-case-family-absent'
 
 
 def korean_clock(started_at):
@@ -217,19 +217,18 @@ class Population:
         for feature,signals in conditions.items():
             for signal,value in signals.items():
                 if feature+'.'+signal in f:f[feature+'.'+signal]=value
-        # Three different things, kept apart (2026-10-10 review):
-        # - case state: the forecast runs only for an open case (lifecycle);
-        # - observed accompaniment: a typed family_present observation; True is
-        #   a reunion and ends walking in _decide;
-        # - the person's experienced family absence in a personal rule: without
-        #   an observation it stays unknown (an explicit uncertainty), never a
-        #   confirmed fact derived from the absence of an observation.
+        # Reunion ends the case (user decision 2026-10-11). The forecast runs
+        # only for an open case (lifecycle), so the family is not beside the
+        # person: family_present is a known False unless a typed observation
+        # says otherwise. A True observation is a reunion and ends walking in
+        # _decide; the report API sends guardians to case closure instead.
         values={}
         for obs in self.observations:
             # These are typed, bounded observations, never extracted by text matching.
             if obs.valid_from<=now<obs.valid_until:
                 values.setdefault(obs.fact,set()).add(obs.value)
         for name,vs in values.items():f[name]=next(iter(vs)) if len(vs)==1 else None
+        if f['family_present'] is None:f['family_present']=False
         return f
 
     def near(self,p):
@@ -579,7 +578,8 @@ class Population:
             'environment_knowledge':dict(self.layer_state),
             'environment_absence_inferred_without_layer':False,
             'case_state':'open_case_forecast_only',
-            'family_presence_source':'typed_observation_only; unobserved_is_unknown_not_absent',
+            'family_presence_source':'open_case_implies_absent; typed_true_is_terminal_reunion',
+            'family_present_when_unobserved':False,
             'family_presence_observed':any(o.fact=='family_present' for o in self.observations),
             'reunion_observed_walkers':sum(p.reunited for p in self.particles),
             'reunion_terminal':'no_walking_after_observed_reunion_even_after_observation_expiry',
