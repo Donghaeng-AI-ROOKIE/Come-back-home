@@ -1,0 +1,19 @@
+{
+  "candidate": "w0.3_area5.80",
+  "minimum_personal_weight": 0.3,
+  "personal_weight": 0.3,
+  "statistical_weight": 0.7,
+  "max_area_km2": 5.8,
+  "criterion": "User hard constraint personal>=30%. Preserve personal-following habitual performance against prior final first; only consider candidates with no point loss in habitual/departure/contrary vs prior final AND preliminary, then maximize overall area efficiency. Validate habitual and overall noninferiority CIs vs previous personal90 final. Evaluate no-personal ablation as diagnostic only, not allowable product candidate.",
+  "eligible": [
+    "w0.3_area5.80",
+    "w0.3_area6.00",
+    "w0.3_area6.20",
+    "w0.4_area6.00",
+    "w0.4_area6.20"
+  ],
+  "selected_from_seen_1201_1203_truth_only": true,
+  "confirmation_generated": false,
+  "cost_search_sha256": "6ab66f88a124cb55874e07dab17640814036fdeeb4034a3805e8851e3c4e1d9e",
+  "previous_1221_1223_confirmation_not_used_for_selection": true
+}

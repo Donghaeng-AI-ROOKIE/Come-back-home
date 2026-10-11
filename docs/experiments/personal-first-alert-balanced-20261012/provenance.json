@@ -1,0 +1,17 @@
+{
+  "base_develop": "9bfb05eeee04b67a34bb5b1655990baf50e1688b",
+  "rollback_pr": 285,
+  "withdrawn_pr": 284,
+  "cache_sources": [
+    "EFFICIENCY_KINTEX_v1_20261009",
+    "CHANNEL_ALERT_repair_20261011/results_independent_sar",
+    "SAR_DISTANCE_ONLY_20261012/results/distance_maps"
+  ],
+  "truth_path_local": "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/실험/PERSONAL_FIRST_ALERT_COST_20261012/truth_private.json",
+  "map_path_local": "/Users/damisoda/Desktop/서강대학교/INSIGHT/인공지능 루키대회/결선/실험/MIND_completion_20261004/map_full_support/kintex_walk.graphml",
+  "scripts_require_existing_local_sources": true,
+  "cost_status": "unconfirmed",
+  "model_calls": 0,
+  "remote_calls": 0,
+  "actual_push": 0
+}

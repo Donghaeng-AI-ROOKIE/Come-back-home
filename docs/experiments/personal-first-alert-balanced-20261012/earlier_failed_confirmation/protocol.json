@@ -1,0 +1,346 @@
+{
+  "experiment_id": "PERSONAL_FIRST_ALERT_BALANCE_20261012",
+  "stage": "frozen_personal_first_before_confirmation",
+  "people": [
+    "E01",
+    "E02",
+    "E03",
+    "E04",
+    "E05",
+    "E06",
+    "E07",
+    "E08",
+    "E09",
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E14",
+    "E15",
+    "E16",
+    "E17",
+    "E18",
+    "E19",
+    "E21",
+    "E22",
+    "E23",
+    "E24",
+    "E25",
+    "E26",
+    "E27",
+    "E28",
+    "E29",
+    "E30",
+    "E31",
+    "E32",
+    "E33",
+    "E34",
+    "E35",
+    "E36",
+    "E37",
+    "E38",
+    "E39",
+    "E40"
+  ],
+  "excluded_people": {
+    "E20": "no verified independent personal prediction from previous preparation"
+  },
+  "truth_seed_development": 2026101221,
+  "truth_seeds_validation": [
+    2026101222,
+    2026101223
+  ],
+  "prediction_seeds": [
+    104729,
+    130363
+  ],
+  "hours": [
+    1,
+    2,
+    4,
+    6
+  ],
+  "futures": [
+    "habitual",
+    "departure",
+    "contradictory"
+  ],
+  "profiles": {
+    "preliminary": {
+      "selection": "preserved native res7 policy"
+    },
+    "current": {
+      "statistical": "onboarded_population_prior",
+      "selection": "coverage",
+      "coverage": 0.95
+    },
+    "candidate": {
+      "statistical": "literature_distance_prior",
+      "selection": "area_budget",
+      "personal_weight": 0.3,
+      "max_area_km2": 6.368199998062131
+    },
+    "stat_only_control": {
+      "statistical": "literature_distance_prior",
+      "selection": "area_budget",
+      "personal_weight": 0.0,
+      "diagnostic_not_eligible_product": true
+    }
+  },
+  "personal_weight": 0.3,
+  "target_res": 9,
+  "max_alert_cells": 500,
+  "selection": "Choose highest efficiency on development among area candidates with no point loss in total, habitual, departure or contradictory inclusion against current. If none qualify, retain current. Freeze one before validation.",
+  "validation_gates": {
+    "efficiency_delta_ci95_lower": ">0",
+    "overall_hit_delta_ci95_lower": ">=0",
+    "habitual_hit_delta_ci95_lower": ">=0",
+    "departure_hit_delta_ci95_lower": ">=0",
+    "contradictory_hit_delta_ci95_lower": ">0",
+    "actual_delivery_area_budget_violations": 0
+  },
+  "failure_action": "Do not label this version final if these constraints fail; retain findings and continue independent new batch.",
+  "bootstrap": {
+    "unit": "paired person cluster",
+    "draws": 10000,
+    "seed": 2026101210
+  },
+  "fresh_truth": "New independent routes/timing/nonpersonal destinations for existing synthetic onboarding people. No unseen people or clinical labels. New random weighted road paths, near/mid/far counterpersonal destinations balanced, fresh departure and dwell times. Equal future weights are stress tests, not population frequencies.",
+  "new_models_max": 0,
+  "remote_calls_max": 0,
+  "actual_push_max": 0,
+  "local_truth_routes_max": 351,
+  "local_selection_profiles": 3,
+  "cost": null,
+  "map_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+  "inputs_sha256": "a42eb2ce2687265de4564b70ca8e163d5ceede0d890981e995755183084ca51b",
+  "anchors_sha256": "a4e5651a5d3f3e99d1957c5cc9797b4724c47f005e81792e7642cab1a2e5dc11",
+  "predictions": {
+    "E01": {
+      "104729": "dfce8a170dd2e6cef3030115b35bcdeab7af776944538baba07a3e910a555d9d",
+      "130363": "45b325e0efe673c4016a7f99f7c30ed7dedf934cc629ac7b29b38a22d0d88606"
+    },
+    "E02": {
+      "104729": "50eabf61653c51ac8ed38000ca1a3c10f4738f178813604c48e7789b06a997af",
+      "130363": "11d4fdfc2ba973c474f31e9739b460da99316e15b61c8bed0fd2b8ff31a42d61"
+    },
+    "E03": {
+      "104729": "da31f7ee8cddade265b409791cea33c84ac44ae46d5c93b340c140ca90e08f2f",
+      "130363": "e4fbe292eb2277b9a5f30f65abf48b74d5348f4ec76ca46d6dba22490c38132b"
+    },
+    "E04": {
+      "104729": "22ef3d9bbae1bbb99b53ba0deefdb4076c1a60a94470b34620fa0cb2fbaf7c75",
+      "130363": "55c49d7cac782362ee1f936866f0edbc4938bc8d38e0015b2c0d744e11a7f750"
+    },
+    "E05": {
+      "104729": "a0578dd02365d8ffe4a608a66a4dee99d19e1cd9c3d71744d63929545e40780d",
+      "130363": "2c546b1a3ea59fe36a670bb2677c95a2dee849bf707338f56b29f49ed8c5cf66"
+    },
+    "E06": {
+      "104729": "8d5793ec6f68516b15bc9646a8d2c77bd00608e9877ebffd0c7d781763dbf437",
+      "130363": "6f7dd703ddf0bca0e1bce0daf6cf5e03e92a0ff0b08d459cf838690bf232240a"
+    },
+    "E07": {
+      "104729": "7af70e2ddd51e1780612bbd11ab11a5d153b1d6d6e29eae61432d33c675b75d4",
+      "130363": "380a3527c3bd6e703062a7d38c6476d1c01e6272931aecf2dfac241da441a9b3"
+    },
+    "E08": {
+      "104729": "074b0123cbbd0546a6e6e219d9f4f594d0747383ec773dd8980702d431a7b737",
+      "130363": "647b8d1ae5436d947e8a3a7d13822055cf4eda13c1226d3d4a83f9f72e9678ac"
+    },
+    "E09": {
+      "104729": "c3a1f750748d401ac9ef418947c3d886439a31cba2ad83836a97dbcb82b6b7e2",
+      "130363": "0554cd3b5f5679e3bd34e1f51fe185f736ddfe9e0570a3ca39b3b8d3045a2b4d"
+    },
+    "E10": {
+      "104729": "4aea621c6a6293e05ca4b331974e9e5f2366e1d47f89e8d25817b03245c26378",
+      "130363": "8c809cb40cd9dfa2ff7f8467f075b4c0e565ec4534a358fdd772faaf1e19f2e4"
+    },
+    "E11": {
+      "104729": "70e2e7715a83aa6f5f8fbbae48f137081bd4a8f1c52d07ca107e4e94d42f1615",
+      "130363": "5a04a2ec232c77645a324dd0a8830bb1a44331290c69438d5e755700114297d5"
+    },
+    "E12": {
+      "104729": "d8efb45985d2c6105ac7047f11ec58bc88eae4b91d2290c7561bda9ab8747071",
+      "130363": "8f41af9caa52d7aaf1cf0911e492ff05ec9f6da29a7ae7d589b0bc90e7fa0d38"
+    },
+    "E13": {
+      "104729": "6b7e3145c9adbefb1df7caac4a753fb158a0b0ea42b258ee8297fdd1e71295d3",
+      "130363": "7c7048139a0edf3ca7985d6f5f7a42fe17cbf236bd89d36ca6a95d3981f765c0"
+    },
+    "E14": {
+      "104729": "10ebfd8688f51d7271e70b8fe7819700f5177f47197bbcb894a3dcf762bb76ba",
+      "130363": "03a95e97f6f5a30702f6029830812aca545bb96b5e1a658c0331b6b1c7ad5de7"
+    },
+    "E15": {
+      "104729": "ea9573913c63b87c77bcabc5375ca9ecbc9ba78fce20069f70a5e94c3d399e42",
+      "130363": "96bdbc060be538fe146975365cc2d32bccc558df0d1b5ece78f7863fb5c57650"
+    },
+    "E16": {
+      "104729": "59d7eeba45c52c76e2a47a5c3f815d18cafd545f705aa7552c208e10c40ded11",
+      "130363": "60cb0cb254d827f3c230115ce6c7c67cf627a61200324826de53f3b457266d1a"
+    },
+    "E17": {
+      "104729": "870b009a2d828bd6605f45e30c8f6e46b31fdb7032c73564bd09a7e9bb4e7764",
+      "130363": "4c6a2ab66662005b32e234fd49d2c06240a126e20205b179775fad28a5c652d0"
+    },
+    "E18": {
+      "104729": "0e7e7f45cbde031e0d18e1c013ad1a9b0128a55e0cc4f32206890b92bd6731bf",
+      "130363": "8f4d436026ca16aa7a5c319e8afde1a9193978d88a207ecccf45f2e497be70ad"
+    },
+    "E19": {
+      "104729": "0ea3cf60d17302ceffc95c53f4f788d6241b6ca4f9181db5398d6dc66a8e1840",
+      "130363": "7e33e73763822e643fd1a85fcb2040527055eb7ef9776265726b5dfcea6e1616"
+    },
+    "E21": {
+      "104729": "717757a8d0a3fe74ef9ca8028bb9314f5a3323c25a354c356cf204dd7c18870c",
+      "130363": "bc3993b2b0baa52b6c83fc3450c78ebc8ce8e5c791cd2fb5fc72e795a73631e2"
+    },
+    "E22": {
+      "104729": "f0c63a3a685c4522f073f9c6bc5ca4bef4ded2455f8d5fb25b7f30b357cd9ad7",
+      "130363": "b94c2969769bb546bf6e55114d364fe8d1eb366669f1478cd76027528fb35560"
+    },
+    "E23": {
+      "104729": "86806f5b261fe52b0c3775538a6cb0db40db24367dd6db3bb1dd40550fd7c1d1",
+      "130363": "1d64da6631bc31bf2fa2b2d39e32d8085b62bd5badf742fc3416c244f9797fd8"
+    },
+    "E24": {
+      "104729": "0806bb3ada9aa9252fffcd310e0a8f135c2293c3ec6f0aadb75cf66ffe7143a9",
+      "130363": "c82c06a33ed11f6ce6fe2b5601296fade63312bc2063ad9cbb477c81cff1193e"
+    },
+    "E25": {
+      "104729": "909c2c2458152cbb6aa0f4e3931b39fef6389e1efbca16c1d2d21db566603b55",
+      "130363": "2c28f2450239ea77945a385f5b39d3f4b65c229a358dd7aa52d3f416ef2f2e09"
+    },
+    "E26": {
+      "104729": "6c137683c3ecb22df1bd944001658d6d802ee982ae765a2706723c5a118ea1c2",
+      "130363": "94c7991eac8b7508a5fe7de3cab6c93d3a14b01c720d002e09043c11ed21eaf9"
+    },
+    "E27": {
+      "104729": "a3cced317e877ad86c317a42a9f88dec452d5e5d9b59851d07f34cd9c44c62f7",
+      "130363": "f2caeeafb671b98ce32101a4071c5d5ec7816a2712628bf3e1586be4ee743107"
+    },
+    "E28": {
+      "104729": "2e53935d803a269081620a0307b56d37f31e0a70bc4f2594c8ed4bcda7cea6a3",
+      "130363": "29682f3cdd5168497c13a7cec1931426e188986ff79e852de82c3125725e1383"
+    },
+    "E29": {
+      "104729": "c1db0a08fba60eab7a2a78b3a0f29e6c47d250e3a04b751961da3af1d1ebf3b2",
+      "130363": "534ccb54981bc5960f54ace13f25499d2224337c82ae8c2ae49e255fbcd101e2"
+    },
+    "E30": {
+      "104729": "a50eee42e90dc5f09f835e28e5afa725a280e2d7331ad6e418f9f11e0253e3c8",
+      "130363": "7db44dd716c34271065c7760752f7d25f5abaa812b1587a5a86a7a0ccde5951a"
+    },
+    "E31": {
+      "104729": "223414514e637133c5ab31e825cf11de982152af977cce39f26a4a76599882d1",
+      "130363": "24ef4faee777efd8e36cfc08061b2b1adba41c81b97888c11361469f0a90a01a"
+    },
+    "E32": {
+      "104729": "2cb97e2955472157d8e146a260cb4321c6edfd26ec646e2e1dd019ed40a9d048",
+      "130363": "7bd2d5391b6e5f4f851956e1f9b0af7fcf65ffa9310305af9ab61d1cc0c932b4"
+    },
+    "E33": {
+      "104729": "5e7b495395f0c906942590ce3005faa9cc22c59819c793b2e66819c0ec19ea87",
+      "130363": "e291ced3a33ad4a17de3b64b1d4c30c65acfab3f507b36fef77cacee093467e8"
+    },
+    "E34": {
+      "104729": "b79af1d97b1640f1ddf9cda7114dede4b0cf5b1465a4174c1bb2da343b856b81",
+      "130363": "9886cf249adae3475b6ecc8d0e34d47f51499e66c01082b18bc396b076b4b120"
+    },
+    "E35": {
+      "104729": "f121e4af15fc9aa0e7a2a35bc931b90bf1ffa69cd4abca5133730a9ab0ec2e1a",
+      "130363": "f839def720fa87ad7ec62e3c56a3ffc3d41b53f78dc3da3a2bad603b6901f877"
+    },
+    "E36": {
+      "104729": "9892046ef732f0760d5903e5a8c96aa2e578577161016f2ec289f31fa26cddbe",
+      "130363": "c6b9ab869ad1e4833cfc2a2f7a9615aaf27eff800bf39c1c5f563f98e253bdb6"
+    },
+    "E37": {
+      "104729": "c8b307b09d675294e7841599926ea271faa52b3ccacfe3b4fd0e0a3fb77f6967",
+      "130363": "eadaf77ec1c35bcecbcc956cf8a0bc5c56ab35aac431c38d872096019babdc5f"
+    },
+    "E38": {
+      "104729": "b44b8b68adc5a270a7222f94bb232534bb390bf2ec35eb35a34e814c14573952",
+      "130363": "69d7365d8797afc7c8984c5ca6df6ed0119b3383969f5a650dd219734c51c13b"
+    },
+    "E39": {
+      "104729": "8649d1f094be86f4d244d3fa326d0c7fef487f1fc90b0a4129a6c226e14ac084",
+      "130363": "12a8ada18e29d034dc3016317c6107dcecc6197c1e833476a6e549f7e353ff00"
+    },
+    "E40": {
+      "104729": "9e85de007cbd9c8aa86bfbc5605305cfff42d0f5cc3a20f2a62accb0db82121d",
+      "130363": "428c18c2cf5985b779341db372805b04bf85e295563012926adc3dfed276f959"
+    }
+  },
+  "literature_maps": {
+    "E01": "eff58719e9938f54ac7e23b5dc07a3d41e4de57fe361ff3f05c400f7f40dedf3",
+    "E02": "205744e43c681dfbcb0755399dc58e9e1778ab6127d624b08408374016cf5cf0",
+    "E03": "49ab5a80c9c1b081365cca33564e59aa8e0a7c098ab2e8a382431175afd778cd",
+    "E04": "1afc71f97aa8d9813ed0bf48db361255388c27fdf089b819d56085270d13b0c2",
+    "E05": "7818f030cee7be75aa3b4ef11d8cdfd1744b77af50ba1a5267a343658c33e3f0",
+    "E06": "20ad9af4c2c717680f06f71ee96b71c8a2fbec7d9d25723c94755cfc9438f9c9",
+    "E07": "f33e9dc6d43111ea983631e2def2278b545156393d36b104c9e6c729a2da3958",
+    "E08": "1e98c69f36de7455ad6a74d52be5a41cc643b2b69ab6dd2b6abd319d257dbeec",
+    "E09": "f5943f0ac719c3175a24dc33b39229f24c164da4d86e8612870e852d68f41e14",
+    "E10": "8fd0315f581418dfdad7ba4053653449724896198035c4cd1e967fb0aee19273",
+    "E11": "0b1c60437bb6cd82fb6681baf9bc82d68b56904969d7e002e3ac3c6c5aa1fee1",
+    "E12": "9ff24b063703d61f099a386726690f9712fe1f2fffbfdee5efec0d32a2ed9158",
+    "E13": "f9e63eb78afc9f7680060a04d0ca42cb25946dce6cbae3513b5c3236d4126740",
+    "E14": "3ce642fbbd8e9253e01b4fdfc16b741c2b5f5784cb93040efef623d7508de269",
+    "E15": "280a8430852fcb7564c11a7764bd41898dcf85f0b1dadd72d4d44d50aa663947",
+    "E16": "0eabe124ac94feb56eeef278a8f1c456cecb10b0b842da8d677b9508551c5012",
+    "E17": "a5a4bd56d5a69ff3ebd57a0485dcfa5fc14b742a77393eea07af83957b1f23c7",
+    "E18": "4e815d6192658bdd08b39994ac0715d5b4852c9b000f03ad5a43f0f131f5f685",
+    "E19": "0ddb8b3e88a0721c55f97264562a0ba60ff89bc77a24af0677de0519fc316599",
+    "E21": "137256254ab48e50efca3bcf323f8d268dfc93e3cfdbbe63fd875faa51c046e9",
+    "E22": "f75ee574b7286a19569bc956dc7e843b3e437de991fdae697f5edb977346f718",
+    "E23": "b99ba3333e30e93b7c04c501261245fb4dd45d86597a3c03ba2d1f6c71405645",
+    "E24": "c34f37789402fb32137e8d8500305b5b4b87a57b805a08f5a8705b40e3ec625b",
+    "E25": "583c1b0eaca99a91c0b18eaa092fa152360a241bad54a943e87b84f4400ff9f3",
+    "E26": "90867b39bff57252040392b6ab435af96fce497c961c1aa03ec2d1968d6a0b17",
+    "E27": "0ee630412144f86432d177c775f503feb5e2f906e909867d28363b54797a8559",
+    "E28": "733237b8e82d99f1b97c794b2589367e6b5aa1a43b3ddc459bf3743266b713ee",
+    "E29": "f2ec5d4343bd00dd5fc6a7937adb44c4fb1b1b72ba6c5a64ead83dff90744315",
+    "E30": "d65a4a1ea88f6df6387b2e7abadc4123ce6bbbf0dcdc1c522956e4bcb788d5a9",
+    "E31": "bcad56e3ddff8d984a966f12455bb43394dd190b68e2f0be2c322971b2c11627",
+    "E32": "c67270cf819fec55a336838faec0ef5cf2afe1739ae394a0909705d543d13148",
+    "E33": "5401d34e28fb52723c3c1773035f07fa887fe186391a448e8c7c4f8f0d4fa145",
+    "E34": "945b7adf86bd3da7dc356e5a77ae54a4b65ab746459177a530e98e63edc0f96b",
+    "E35": "ef39db6c1d579860293fab64bbbeb8ca0e193a13096ec68b4a6722e069d81382",
+    "E36": "854617124b1eb3e5ff05e5e882ef112b8ff1ad4713dc7d2b16d7318ade4a5547",
+    "E37": "e1b000a0b3573ffadf0e9723ea6cad53d036adfb494c2f461752a2488ed6224e",
+    "E38": "0a40a5458621eb5931ece82598b85d97a41850baf0e145228702ce5eac653d61",
+    "E39": "b7833a600eeaac51242f8f18fbdcc95d8671b8d8c4638832cdaaddb5f61e67a7",
+    "E40": "ebab9ebe63eddd5090e2379e166e4e5f29d049fe7a0824b13b5d7a77d58564de"
+  },
+  "scope": "Local cached predictions only; no remote/model/map fetch or real notification",
+  "local_selection_profiles_max": 24,
+  "local_confirmation_routes_max": 351,
+  "validation_rule": "User hard constraint personal>=30%. Preserve personal-following habitual performance against prior final first; only consider candidates with no point loss in habitual/departure/contrary vs prior final AND preliminary, then maximize overall area efficiency. Validate habitual and overall noninferiority CIs vs previous personal90 final. Evaluate no-personal ablation as diagnostic only, not allowable product candidate.",
+  "candidate_selection": {
+    "candidate": "w0.3_area6.37",
+    "minimum_personal_weight": 0.3,
+    "personal_weight": 0.3,
+    "statistical_weight": 0.7,
+    "max_area_km2": 6.368199998062131,
+    "criterion": "User hard constraint personal>=30%. Preserve personal-following habitual performance against prior final first; only consider candidates with no point loss in habitual/departure/contrary vs prior final AND preliminary, then maximize overall area efficiency. Validate habitual and overall noninferiority CIs vs previous personal90 final. Evaluate no-personal ablation as diagnostic only, not allowable product candidate.",
+    "eligible": [
+      "w0.5_area6.37",
+      "w0.5_area7.00",
+      "w0.6_area7.00",
+      "w0.7_area7.00",
+      "w0.85_area7.00",
+      "w0.8_area7.00",
+      "w0.9_area7.00",
+      "w0.3_area6.37",
+      "w0.3_area7.00",
+      "w0.4_area6.37",
+      "w0.4_area7.00"
+    ],
+    "selected_from_seen_1201_1203_truth_only": true,
+    "confirmation_generated": false
+  },
+  "minimum_personal_weight": 0.3,
+  "personal_first_gate": "Habitual delta CI vs previous personal90 final lower>=0; habitual and overall inclusion must beat same-area no-personal ablation. Departures/contrary point no loss vs both references, report CIs and misses. No zero-miss claim."
+}

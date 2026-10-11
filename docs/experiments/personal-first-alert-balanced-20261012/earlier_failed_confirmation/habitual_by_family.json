@@ -1,0 +1,22 @@
+{
+  "avoid": {
+    "current": 89.35185185185185,
+    "candidate": 92.12962962962963,
+    "stat_only_control": 69.44444444444444
+  },
+  "goal": {
+    "current": 99.16666666666667,
+    "candidate": 100.0,
+    "stat_only_control": 86.66666666666667
+  },
+  "rest": {
+    "current": 90.0,
+    "candidate": 99.16666666666667,
+    "stat_only_control": 75.83333333333333
+  },
+  "wait": {
+    "current": 87.5,
+    "candidate": 97.91666666666667,
+    "stat_only_control": 76.66666666666667
+  }
+}

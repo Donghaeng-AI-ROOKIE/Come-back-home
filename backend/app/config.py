@@ -6,8 +6,9 @@ from typing import Literal
 
 
 class Settings(BaseSettings):
-    personal_channel_weight: float = Field(default=0.9, ge=0.3, le=1.0)
-    statistical_channel_definition: Literal["shared_personal_policy", "onboarded_population_prior", "literature_distance_prior"] = "onboarded_population_prior"
+    # Validated jointly on personal-following and departing routes; user floor 30%.
+    personal_channel_weight: float = Field(default=0.3, ge=0.3, le=1.0)
+    statistical_channel_definition: Literal["shared_personal_policy", "onboarded_population_prior", "literature_distance_prior"] = "literature_distance_prior"
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
@@ -403,8 +404,8 @@ class Settings(BaseSettings):
     # 500셀 ≈ 52km². 건강한 케이스(경과 1h)는 80% 도달에 ~159셀이라 안 걸린다.
     # 값은 잠정 — 실제 알림 로그 쌓이면 평가곡선(알림수 vs 발견율)으로 튜닝 대상.
     max_alert_cells: int = 500
-    alert_selection_policy: Literal["coverage", "area_budget"] = "coverage"
-    max_alert_area_km2: float = Field(default=6.368199998062131, ge=0.0, le=1000.0)
+    alert_selection_policy: Literal["coverage", "area_budget"] = "area_budget"
+    max_alert_area_km2: float = Field(default=5.8, ge=0.0, le=1000.0)
 
     # ── Phase 3 익명 동시 참여자 수(presence) ────────────────────────
     # TTL 은 프론트 폴링 주기(30s)의 3배 — 한두 번 놓쳐도(터널·일시 오프라인)
