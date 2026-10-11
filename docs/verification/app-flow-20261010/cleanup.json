@@ -1,0 +1,34 @@
+{
+  "cleanup": [
+    {
+      "step": "public_alerts",
+      "status": 200
+    },
+    {
+      "step": "close_early",
+      "status": 200
+    },
+    {
+      "step": "close_prepared",
+      "status": 200
+    },
+    {
+      "step": "delete_early",
+      "status": 200
+    },
+    {
+      "step": "delete_prepared",
+      "status": 200
+    },
+    {
+      "step": "delete_persona",
+      "status": 200
+    }
+  ],
+  "auth_user_deleted": true,
+  "remaining_synthetic_records": {
+    "cases": 0,
+    "personas": 0,
+    "interviews": 0
+  }
+}

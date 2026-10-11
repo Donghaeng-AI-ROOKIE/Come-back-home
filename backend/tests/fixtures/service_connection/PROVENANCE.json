@@ -1,0 +1,18 @@
+{
+  "synthetic_only": true,
+  "saved_model_outputs_not_fresh_calls": true,
+  "files": {
+    "persona.json": {
+      "source": "../../실험/MIND_captured_initial_20261008/capture/output/persona_prepared.json",
+      "sha256": "53855603a7661de9d62d4dcb62e283ae26746cef4011a48973a6dcb6150a7ff9"
+    },
+    "initial.json": {
+      "source": "../../실험/MIND_captured_initial_20261008/capture/output/after_claim_check.json",
+      "sha256": "e3db338dea3925fc64def2a4e28866c800a4e992a58735d951aa023a8e037961"
+    },
+    "mind_public.json": {
+      "source": "../../실험/MIND_captured_policy_20261008/d12/actual_app_synthetic_person/1/first/response.public.json",
+      "sha256": "b7984ff47aa6e8fe190bd19bf2b9e084c5929a6d49e3e8f947f67efac95b58e8"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-"""Offline B/C targeting comparison; production selection helpers, no dispatch.
+"""Offline B/C targeting comparison with explicit historical/current policies.
 
 Run from backend with python -B -m experiments.personalized_alert_replay.analyze_targeting_resolution.
 Existing analysis scripts and production settings are never modified.
@@ -21,6 +21,7 @@ import h3
 import numpy as np
 
 from app.config import settings
+from app.geo import h3grid
 from app.phase3 import alerts
 
 HERE = Path(__file__).resolve().parent
@@ -95,15 +96,24 @@ def load_pairs(path: Path) -> tuple[list[dict], dict]:
 
 
 def evaluate_surface(poa: dict, truth: dict, truth_res9: str, resolution: int,
-                     coverage: float, max_cells: int, threshold: float) -> dict:
+                     coverage: float, max_cells: int, threshold: float, *,
+                     targeting_policy: str = "legacy_peak_threshold") -> dict:
     selected = alerts.select_alert_cells(poa, coverage=coverage, max_cells=max_cells)
-    parents = alerts.target_parent_cells(selected, res=resolution)
+    # Archive reruns retain the original logical-parent + second-threshold policy.
+    # Current dispatch parity must opt into geographic coverage without that filter.
+    if targeting_policy == "selected_coverage_geographic_cover_v1":
+        parents = alerts.target_parent_cells(selected, res=resolution)
+    elif targeting_policy == "legacy_peak_threshold":
+        parents = h3grid.parent_cells(selected, resolution)
+    else:
+        raise ValueError(f"Unknown targeting policy: {targeting_policy}")
     relative = alerts.relative_prob_by_parent(poa, res=resolution)
-    # Same predicate as send_alerts for kind=poa; empty score map bypasses threshold.
-    eligible = {p for p in parents if not relative or relative.get(p, 0.0) >= threshold}
+    eligible = (set(parents) if targeting_policy == "selected_coverage_geographic_cover_v1"
+                else {p for p in parents if not relative or relative.get(p, 0.0) >= threshold})
     truth_target = h3.latlng_to_cell(truth["lat"], truth["lng"], resolution)
     proxy = h3.cell_to_parent(truth_res9, resolution)
-    return {"stages": {"raw": region(poa), "selected": region(selected),
+    return {"targeting_policy": targeting_policy,
+            "stages": {"raw": region(poa), "selected": region(selected),
                        "parents": region(parents), "eligible": region(eligible)},
             "selected_probability_mass": math.fsum(poa[c] for c in selected),
             "cap_reached": len(selected) == max_cells,
@@ -212,7 +222,7 @@ def fmt_metric(m: dict) -> str:
 def render_report(result: dict) -> str:
     s, meta = result["summary"], result["metadata"]
     lines = ["# res7·res8 타겟팅 재분석", "",
-             "저장된 예측에 운영 선정 함수를 적용한 오프라인 분석이다. 실제 푸시는 전송하지 않았다.", "",
+             "저장된 예측에 당시 논리 부모·참여도 문턱 정책을 적용한 역사 재현이다. 현재 발송 정책과 구분하며 실제 푸시는 전송하지 않았다.", "",
              f"- 입력: `{meta['input']}` (SHA-256: `{meta['input_sha256']}`)",
              f"- 인물 {len(result['audit']['profiles'])}명, 시나리오 {result['audit']['scenarios']}개, 대응 시점 {result['audit']['paired_timepoints']}개.",
              "- B: 비개인화, C: 개인화. 주 비교: res8의 C 대 B. 보조 비교: res7 및 해상도 변경.",
@@ -293,6 +303,7 @@ def main() -> None:
     summary = build_summary(records, audit["profiles"], args.bootstrap, args.seed)
     source_paths = [Path(__file__), BACKEND / "app/phase3/alerts.py", BACKEND / "app/geo/h3grid.py", BACKEND / "app/config.py"]
     result = {"metadata": {"created_utc": datetime.now(timezone.utc).isoformat(),
+                           "targeting_policy": "legacy_peak_threshold",
                            "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=BACKEND, text=True).strip(),
                            "git_branch": subprocess.check_output(["git", "branch", "--show-current"], cwd=BACKEND, text=True).strip(),
                            "input": str(args.input.resolve()), "input_sha256": sha256(args.input),

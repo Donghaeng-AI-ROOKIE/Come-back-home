@@ -1,3 +1,4 @@
+import { PersonaLifecycleCard } from '../components/LifecycleControls';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -19,6 +20,7 @@ import PersonIcon from '../../assets/figma/detail-person.svg';
 import MapIcon from '../../assets/figma/detail-map.svg';
 import BookmarkIcon from '../../assets/figma/detail-bookmark.svg';
 import FigmaStatusBar from '../components/FigmaStatusBar';
+import PreparationNotice from '../components/PreparationNotice';
 
 function splitNote(note: string): [string, string] {
   const i = note.indexOf(':');
@@ -75,6 +77,7 @@ export default function PersonaDetailScreen() {
     setError(null);
     try {
       const p = await getPersona(personaId);
+      void qc.invalidateQueries({ queryKey: ['preparation', personaId] });
       setPersona(p); setName(p.name); setAge(String(p.age));
       setNotes(p.behavior_notes ?? []); setPoints(p.attraction_points ?? []);
     } catch (e) {
@@ -122,6 +125,7 @@ export default function PersonaDetailScreen() {
         ...(JSON.stringify(points) !== JSON.stringify(persona.attraction_points ?? [])
           ? { attraction_points: points } : {}),
       });
+      void qc.invalidateQueries({ queryKey: ['preparation', personaId] });
       setPersona(updated); setStorePersona(updated); setEditing(false);
       // 홈의 '사전 등록된 가족' 목록은 별도 쿼리라, 여기서 무효화하지 않으면
       // 저장은 됐는데 목록에는 옛 이름·나이가 계속 뜬다(현장 제보 08-11 —
@@ -157,6 +161,8 @@ export default function PersonaDetailScreen() {
       {error ? <Pressable onPress={load} style={styles.error}><Text style={styles.errorText}>{error}{`\n`}눌러서 다시 시도</Text></Pressable> : null}
 
       {persona ? <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <PreparationNotice personaId={personaId} />
+        <PersonaLifecycleCard item={persona} onConfirmed={setPersona} onDeleted={() => { useGuardianStore.getState().reset(); navigation.goBack(); }} />
         <SectionTitle icon={<PersonIcon width={12} height={12} color={color.guardian} />} title="기본 정보" />
         <View style={styles.basicCard}>
           {editing ? <>

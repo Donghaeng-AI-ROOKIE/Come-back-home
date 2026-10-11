@@ -1,0 +1,38 @@
+{
+  "tested_product_commit": "b790ee4fd8bd142b78910f4dc767db1be79c109e",
+  "checks": {
+    "backend": {
+      "command": "python -m pytest -q tests",
+      "passed": 1531,
+      "skipped": 2,
+      "log_sha256": "381d83682f00c1096174cb080732cd8f6d2f9b16e260c929b7f6559a8ebe8489"
+    },
+    "frontend": {
+      "command": "node --test tests/*.cjs tests/*.mjs",
+      "passed": 13,
+      "failed": 0,
+      "log_sha256": "8a6c51072dec16ad2e6614cf3e6a5d18c7c504c7eca52eb395e85ac979947afe"
+    },
+    "typescript": {
+      "command": "tsc --noEmit",
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "web_export": {
+      "command": "CI=1 expo export --platform web",
+      "exit_code": 0,
+      "log_sha256": "4c855021e67e460b42cbde5034917702f22564f214a686677a972d5fbd978155"
+    },
+    "archived_research": {
+      "passed": 195,
+      "subtests_passed": 16,
+      "isolated_directories": 7,
+      "all_exit_zero": true,
+      "command": "Each archive directory: PYTHONPATH=<archive>:<backend> python -m pytest -q test_*.py",
+      "reason": "Historical local imports and duplicate module names require separate Python processes."
+    }
+  },
+  "new_model_calls": 0,
+  "production_deployment": false,
+  "actual_push_sent": false
+}

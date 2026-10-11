@@ -92,7 +92,8 @@ def test_recovered_job_does_not_delete_active_case(monkeypatch, tmp_path):
     assert storage.cases.get(case.id) is not None
     assert storage.privacy_jobs.get(job.id).stage == "eligibility_changed"
     assert storage.privacy_jobs.get(job.id).state == "cancelled"
-    assert run.skipped_count == 1
+    # close_case now reserves its own expiry job, also cancelled after eligibility changes.
+    assert run.skipped_count == 2
     assert run.success_count == 0
 
 

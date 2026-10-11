@@ -9,6 +9,8 @@
 import threading
 from datetime import datetime
 
+from fastapi import HTTPException
+
 from app import storage
 from app.config import settings
 from app.geo import reverse, roadnet
@@ -18,11 +20,19 @@ from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
 from app.schemas.report import Appearance, MissingReport
-from app.schemas.environment import EnvironmentObservation
+from app.schemas.environment import EnvironmentObservation, BehaviorObservation
+
+
+# Reunion ends the case (2026-10-11 decision). A family-present observation is
+# not report input: the guardian closes the case instead, so no alert or
+# forecast starts for a person who is already with the family.
+REUNION_IS_CLOSURE = ("가족과 함께 있다는 관찰은 신고에 넣을 수 없습니다. "
+                      "가족을 만났다면 사건 화면의 '가족을 찾았어요'로 사건을 종결해 주세요.")
 
 
 def create_report(
     *,
+    guardian_id: str = "",
     missing_type: PersonaType,
     lkp: GeoPoint,
     lkp_time: datetime,
@@ -30,6 +40,7 @@ def create_report(
     situation: str = "",
     appearance: Appearance | None = None,
     environment_observations: list[EnvironmentObservation] | None = None,
+    behavior_observations: list[BehaviorObservation] | None = None,
 ) -> Case:
     """신고 접수 → Case 생성.
 
@@ -38,6 +49,8 @@ def create_report(
     - appearance 는 보호자가 직접 입력한 구조화 텍스트
     - 상의·하의·신발 색상은 외부 모델 없이 규칙 함수로 추출
     """
+    if any(o.fact == "family_present" and o.value is True for o in behavior_observations or []):
+        raise HTTPException(status_code=422, detail=REUNION_IS_CLOSURE)
     report = MissingReport(
         id=storage.new_id(),
         persona_id=persona_id,
@@ -46,6 +59,7 @@ def create_report(
         lkp_time=lkp_time,
         situation=situation,
         environment_observations=environment_observations or [],
+        behavior_observations=behavior_observations or [],
         appearance=appearance.model_copy(deep=True) if appearance is not None else None,
     )
 
@@ -65,14 +79,22 @@ def create_report(
         ]
         report.appearance.summary = ", ".join(p for p in parts if p)
 
+    from app.test_scope import synthetic_owner
     case = Case(
         id=storage.new_id(),
+        guardian_id=guardian_id,
+        synthetic_test=synthetic_owner(guardian_id),
         report=report,
         status=CaseStatus.intake,
         lkp=report.lkp,
         lkp_time=report.lkp_time,
     )
-    storage.cases.save(case.id, case)
+    with storage.persona_link_lock:
+        if persona_id and guardian_id:
+            persona = storage.personas.get(persona_id)
+            if persona is None or persona.guardian_id != guardian_id:
+                raise HTTPException(404, "내 등록 정보를 찾을 수 없습니다.")
+        storage.cases.save(case.id, case)
 
     # 축 점수 백필 — 비동기 채점이 유실된 미채점 페르소나의 마지막 채점 기회
     # (Phase 2 가 점수를 소비하기 직전). 실패해도 접수는 계속.
@@ -95,7 +117,7 @@ def create_report(
         try:
             cells = alerts.select_reflex_cells(case.lkp)
             summary = report.appearance.summary if report.appearance else "인상착의 정보 없음"
-            alerts.send_alerts(case.id, cells, summary, kind="reflex")
+            alerts.notify_prediction(case, reflex=True)
         except Exception as e:  # noqa: BLE001 — 알림 실패가 접수를 막으면 안 됨
             print(f"[reflex] 1차 알림 실패 (신고 접수는 계속): {e}")
 

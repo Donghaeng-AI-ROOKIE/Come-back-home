@@ -27,7 +27,8 @@ def test_matches_production_recipients(monkeypatch, resolution, level):
     truth = {"lat": lat, "lng": lng}
     threshold = settings.push_prob_threshold[level]
     result = analysis.evaluate_surface(poa, truth, h3.latlng_to_cell(lat, lng, 9),
-                                       resolution, .8, 500, threshold)
+                                       resolution, .8, 500, threshold,
+                                       targeting_policy="selected_coverage_geographic_cover_v1")
     devices = [SimpleNamespace(token=p, cell_res7=p, engagement=SimpleNamespace(value=level))
                for p in alerts.target_parent_cells(list(poa), res=resolution)]
     captured = []

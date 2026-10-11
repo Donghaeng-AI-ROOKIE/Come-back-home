@@ -37,7 +37,11 @@ def _worker():
     while True:
         job=_jobs.get()
         try:
-            run_job(*job)
+            if len(job)==3 and job[2]=='mind':
+                from app.phase0.mind_preparation import run_queued
+                run_queued(*job[:2])
+            else:
+                run_job(*job)
         except Exception as exc:
             # One broken persisted job must not kill the queue worker or log PII.
             logging.getLogger(__name__).error("Preparation worker failed: %s", type(exc).__name__)
@@ -45,28 +49,33 @@ def _worker():
             _jobs.task_done()
 
 
-def _dispatch(persona_id, job_id):
+def _dispatch(persona_id, job_id, kind='initial'):
     global _started
     with _start_lock:
         if not _started:
             for i in range(2):
                 threading.Thread(target=_worker,name=f'person-preparation-{i}',daemon=True).start()
             _started=True
-    _jobs.put((persona_id,job_id))
+    _jobs.put((persona_id,job_id) if kind=='initial' else (persona_id,job_id,kind))
 
 
 def enqueue(persona_id, *, retry=False):
     job_id=str(uuid.uuid4())
     def mark(current):
         key=fingerprint(current);status=current.initial_preparation_status
-        if status.get('fingerprint')==key and (status.get('state') in {'queued','running','ready'} or (not retry and status.get('state') in {'failed','interrupted'})):
+        current_ready=(status.get('state')=='ready' and current.prepared_initial.get('fingerprint')==key)
+        if status.get('fingerprint')==key and (status.get('state') in {'queued','running'} or current_ready or
+                (not retry and status.get('state') in {'failed','interrupted'})):
             return None
         state='queued' if all((settings.kexaone_api_key,settings.kexaone_base_url,settings.kexaone_model)) else 'unconfigured'
         if not initial_behavior.build_payload(current,None,[],None)['notes']:state='no_person_evidence'
-        return current.model_copy(deep=True,update={'prepared_initial':{},'initial_preparation_status':{
+        return current.model_copy(deep=True,update={'prepared_initial':{},'prepared_mind':{},'mind_preparation_status':{},'initial_preparation_status':{
             'state':state,'job_id':job_id,'fingerprint':key,'version':VERSION,'updated_at':datetime.now().isoformat()}})
     updated=storage.personas.update_existing(persona_id,mark)
     if updated and updated.initial_preparation_status['state']=='queued':_dispatch(persona_id,job_id)
+    if updated is None and retry:
+        from app.phase0 import mind_preparation
+        return mind_preparation.enqueue(persona_id,retry=True)
     return updated
 
 
@@ -100,12 +109,16 @@ def run_job(persona_id, job_id):
                 error_type=error,updated_at=datetime.now().isoformat())})
     saved=storage.personas.update_existing(persona_id,finish)
     if saved and state=='ready':
+        from app.phase0 import mind_preparation
+        mind_preparation.prepare(persona_id)
         # Existing active cases can now use prepared traits without another K call.
         from app.phase0.persona_events import notify_persona_updated
         notify_persona_updated(persona_id,saved.version)
 
 
 def recover():
+    from app.phase0 import mind_preparation
+    mind_preparation.recover()
     for p in storage.personas.list():
         status=p.initial_preparation_status
         if status.get('state')=='queued':_dispatch(p.id,status['job_id'])
@@ -218,7 +231,8 @@ def _apply_prepared(persona, report, sar, default, situation_links=None):
         return sar.model_copy(update={'initial_interpretation':{'status':'preparation_invalid','version':VERSION,'K_called_during_prediction':False}})
     prepared_at = datetime.fromisoformat(saved['prepared_at']) if saved.get('prepared_at') else None
     result.initial_interpretation.update(
-        prepared_before_incident=(prepared_at < report.lkp_time if prepared_at is not None else None),
+        prepared_before_incident=(_local_naive(prepared_at) < _local_naive(report.lkp_time)
+                                  if prepared_at is not None else None),
         prepared_outside_prediction=True,K_called_during_prediction=False,
         preparation_fingerprint=saved['fingerprint'],profile_snapshot_at=saved.get('profile_snapshot_at'),
         goal_temporality='recurring goals kept in their clock period; single reports before the incident treated as historical',

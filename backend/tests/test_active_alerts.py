@@ -179,7 +179,7 @@ def test_payload_fields_are_fixed():
     got = phase3_api.list_active_alerts(_cell7(LKP))[0]
     assert set(got) == {
         "case_id", "issued_at", "area", "severity", "kind",
-        "target_cells", "target_res",
+        "target_cells", "target_res", "targeting_policy",
         "summary", "matched_person_id", "age", "appearance", "appearance_colors",
         "lkp", "lkp_time",
     }

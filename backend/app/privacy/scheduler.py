@@ -22,8 +22,8 @@ def _loop() -> None:
         run_once(mode="recovery")
     except Exception:  # noqa: BLE001 — 다음 주기를 계속 시도
         log.exception("[privacy] 시작 시 복구 실행 실패")
-    # 이후에는 30초마다 재시도 대기 작업만 확인하고, 하루가 되면 전체 만료
-    # 대상을 다시 탐색한다. 재시작 직후 복구 회차는 위에서 이미 수행했다.
+    # Reserved case expiry runs on the 30-second tick. Discover abandoned
+    # interviews periodically; this is separate from the heartbeat deadline.
     next_discovery = time.time() + settings.privacy_scheduler_interval_seconds
     while not _stop.wait(settings.privacy_retry_poll_seconds):
         try:

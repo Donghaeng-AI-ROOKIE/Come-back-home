@@ -1,7 +1,7 @@
 """기기 레지스트리 — 푸시 발송 대상 관리.
 
 개인정보 경계는 `schemas/device.py` 주석 참고. 요약하면 **토큰과 발송 기록만**
-두고 위치·제보 이력·계정은 붙이지 않는다.
+두고 현재 coarse 위치 및 구독 소유 계정을 관리한다. 정밀 좌표·제보 이력은 붙이지 않는다.
 """
 
 from datetime import datetime, timedelta
@@ -78,7 +78,10 @@ def devices_in_cells(cells: set[str]) -> list[Device]:
     사람에게 해당되는지 알 수 없는데 아무거나 보내면 **틀린 사건**을 알리게 되기
     때문이다 — 프론트 지오펜스를 fail-closed 로 둔 것과 같은 판단.
     """
-    return [d for d in storage.devices.list() if d.cell_res7 is not None and d.cell_res7 in cells]
+    now=datetime.now()
+    return [d for d in storage.devices.list() if d.cell_res7 is not None and d.cell_res7 in cells
+            and (not d.owner_id or (d.location_updated_at is not None
+                 and timedelta(0)<=now-d.location_updated_at<=timedelta(minutes=5)))]
 
 
 def record_sent(tokens: list[str], now: datetime | None = None) -> None:

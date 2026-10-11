@@ -10,6 +10,7 @@ import h3
 import numpy as np
 
 from app.config import settings
+from app.geo import h3grid
 from app.phase3 import alerts
 from experiments.personalized_alert_replay.analyze_targeting_resolution import HERE, BACKEND, load_pairs, area, sha256
 from experiments.personalized_alert_replay.analyze_equal_area_targeting import SEED, REPLICATES, select_prefix, aggregate
@@ -18,14 +19,16 @@ from experiments.personalized_alert_replay.compare_parent_scoring import paired_
 
 def select_conditions(poa, res):
     selected = alerts.select_alert_cells(poa, coverage=settings.alert_coverage, max_cells=settings.max_alert_cells)
-    parents = alerts.target_parent_cells(selected, res=res)
+    # Preserve this archived threshold ablation; current delivery uses geographic
+    # coverage and no engagement-dependent second probability cutoff.
+    parents = h3grid.parent_cells(selected, res)
     rel = alerts.relative_prob_by_parent(poa, res=res)
     ranked = sorted(((c, rel.get(c, 0.)) for c in parents), key=lambda x: (-x[1], x[0]))
     choices = {'off': sorted(parents)}
     for level, threshold in settings.push_prob_threshold.items():
         chosen = sorted(c for c in parents if not rel or rel.get(c, 0.) >= threshold)
         choices[f'on/{level}'] = chosen
-        # Same snapshot's current dispatch area, no tuning against truth.
+        # Same snapshot's historical dispatch area, no tuning against truth.
         cap = math.fsum(area(c) for c in chosen)
         choices[f'matched/{level}'] = sorted(select_prefix(ranked, cap)[0])
     return selected, choices

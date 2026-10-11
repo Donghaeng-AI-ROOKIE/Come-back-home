@@ -1,10 +1,18 @@
 """전역 설정. .env 로 오버라이드 가능 (.env.example 참고)."""
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing import Literal
 
 
 class Settings(BaseSettings):
+    personal_channel_weight: float = Field(default=0.7, ge=0.0, le=1.0)
+    statistical_channel_definition: Literal["shared_personal_policy", "onboarded_population_prior"] = "onboarded_population_prior"
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    # Server-managed disposable test owners; clients cannot mark a real report as a test.
+    synthetic_guardian_ids: str = ""
 
     # 모델 API 키 — 비어 있으면 해당 클라이언트는 스텁 모드
     exaone_api_key: str = ""
@@ -17,6 +25,9 @@ class Settings(BaseSettings):
     midm_base_url: str = ""
     midm_model: str = ""
     llm_timeout: float = 30.0        # LLM HTTP 타임아웃(초)
+    # Isolated deployment checks must be able to start without an implicit
+    # billable/model warm-up request. Existing deployments retain the default.
+    exaone_warmup_enabled: bool = True
     # Mi:dm 전용 상한 — 온보딩 한 턴은 Mi:dm 을 2~3번 부르고 앱은 그 턴 전체를 기다린다.
     # 정상 응답은 1~2초(2.5 실측 2026-09-26)인데 게이트웨이가 멈추면 llm_timeout(30초)을
     # 다 기다려 한 번만 걸려도 앱이 먼저 포기했다("서버가 끊겼어요"). 짧게 끊고 폴백
@@ -35,6 +46,14 @@ class Settings(BaseSettings):
     kexaone_model: str = ""
     kexaone_timeout: float = 420.0
     research_usage_ledger_path: str = "data/research_usage_events.jsonl"
+    # A server deployment boundary, not a per-person inference toggle.
+    # Unqualified new policy contracts can run only in an isolated staging server.
+    mind_policy_contract: Literal["sourced_followup", "guarded_core"] = "sourced_followup"
+    mind_policy_deployment: Literal["production", "staging"] = "production"
+    # Structural interpretation checks are always recorded. When this is on, a
+    # flagged policy gets one K re-read of the named answers (the second public
+    # output). Off until verified with real K outputs (2026-10-10: not yet run).
+    mind_policy_interpretation_review: bool = False
 
     # Phase 3 제보 구조화 전용 — Mi:dm 2.0 Mini 확정(2026-07-29 4파전 실측,
     # llm/tip_llm.py 참고). Phase 0 온보딩 대화 전용 Mi:dm(midm_*)과는 별개
@@ -219,6 +238,7 @@ class Settings(BaseSettings):
     #   roadnet_preload=True 면 신고 접수(Phase 1) 시 LKP 반경 그래프를 미리 로딩.
     #   테스트·오프라인 환경 기본값은 False (시뮬레이션이 필요할 때 캐시에서 로딩).
     roadnet_preload: bool = False
+    personal_walk_cache_path: str = ""      # verified offline regional GraphML with adjacent manifest
     roadnet_radius_m: int = 3000            # 아키텍처 문서: LKP 반경 3km (동적 스케일의 하한)
     # P1-3 — 로딩 반경을 프로파일·경과시간의 p90 지원으로 스케일 (radius.roadnet_radius_m).
     #   고정 3km 는 치매 6h 중앙값 3.9km 가 그래프 밖(sim_testset 3h/6h dist_ratio 저하 실측).
@@ -507,7 +527,7 @@ class Settings(BaseSettings):
     # 개인정보 자동 파기 워커. 화면 없이도 API와 로그로 상태를 확인한다.
     privacy_scheduler_enabled: bool = True
     # 만료 대상 전체 탐색은 하루 한 번. 재시작 직후에는 즉시 한 번 수행한다.
-    privacy_scheduler_interval_seconds: int = 86400
+    privacy_scheduler_interval_seconds: int = 300
     # 이미 등록된 실패 작업의 재시도 시각만 이 간격으로 확인한다.
     privacy_retry_poll_seconds: int = 30
     privacy_retry_base_seconds: int = 60

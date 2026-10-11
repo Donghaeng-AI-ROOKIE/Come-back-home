@@ -1,0 +1,463 @@
+[
+ {
+  "person_id": "E01",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E02",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E03",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E04",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E05",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E06",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E07",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E08",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E09",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E10",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E11",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": false,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E12",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E13",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E14",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E15",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E16",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": false,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E17",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E18",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E19",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E20",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": false,
+  "scope_restored": [
+   [
+    {
+     "rule_id": "a_1",
+     "restored_place_labels": [
+      "가상 E20 시장"
+     ]
+    }
+   ]
+  ],
+  "error": null
+ },
+ {
+  "person_id": "E21",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E22",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E23",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E24",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E25",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E26",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E27",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E28",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E29",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E30",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E31",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E32",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E33",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E34",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E35",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E36",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E37",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E38",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E39",
+  "roles_replayed": [
+   "mind_policy_draft",
+   "mind_policy_review"
+  ],
+  "request_bodies_equal": false,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ },
+ {
+  "person_id": "E40",
+  "roles_replayed": [
+   "mind_policy_draft"
+  ],
+  "request_bodies_equal": true,
+  "revision_unchanged": true,
+  "policy_equal_to_stored": true,
+  "scope_restored": [],
+  "error": null
+ }
+]

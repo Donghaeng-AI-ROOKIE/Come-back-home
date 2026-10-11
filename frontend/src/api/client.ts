@@ -24,6 +24,7 @@ import type {
 import { DEMO_CASE_ID } from '../data/missing';
 import { tierForProb } from '../theme/poa';
 import { buildAlert, buildBeforeAfter, buildPoaGrid } from '../data/mock';
+import { CLOUD_TRANSPORT } from './supabase';
 import { DEMO_USER_ID, SLOW_TIMEOUT_MS, USE_MOCK, api } from './config';
 
 export { API_BASE, USE_MOCK, ApiError } from './config';
@@ -182,6 +183,7 @@ export async function submitTip(
     // 그래서 실패하면 **정말 안 들어갔는지 서버에 확인한다.** 들어갔으면 그
     // 제보로 이어 간다. 여기서 그냥 오류를 올리면 사용자는 이미 접수된 제보를
     // 또 보내게 되고, 같은 목격이 두 건으로 세어져 확률지도가 왜곡된다.
+    if (CLOUD_TRANSPORT) throw e;
     const landed = await findLandedTip(caseId, input.text);
     if (!landed) throw e;
     res = landed;

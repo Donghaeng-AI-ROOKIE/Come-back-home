@@ -1,0 +1,417 @@
+{
+ "core": {
+  "goals": {
+   "느티공원": {
+    "value": "habitual_visit",
+    "period": "unspecified",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "해든상가": {
+    "value": "habitual_visit",
+    "period": "unspecified",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "솔빛쉼터": {
+    "value": "habitual_visit",
+    "period": "unspecified",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   }
+  },
+  "routes": {
+   "느티공원": {
+    "value": "accompanied_only",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "해든상가": {
+    "value": "accompanied_only",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "솔빛쉼터": {
+    "value": "accompanied_only",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   }
+  },
+  "found_history": {
+   "느티공원": {
+    "value": "not_reported",
+    "note_ids": [],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "해든상가": {
+    "value": "not_reported",
+    "note_ids": [],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "솔빛쉼터": {
+    "value": "not_reported",
+    "note_ids": [],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   }
+  },
+  "mobility": {
+   "value": "B",
+   "note_ids": [
+    "N9"
+   ],
+   "explanation": "원문 근거를 연결한 초기 특성 판단."
+  },
+  "emotion": {
+   "value": "unknown",
+   "note_ids": [],
+   "explanation": "원문 근거를 연결한 초기 특성 판단."
+  },
+  "other_traits": [
+   {
+    "type": "wayfinding_failure",
+    "period": "unspecified",
+    "note_ids": [
+     "N4"
+    ]
+   },
+   {
+    "type": "rest_pattern",
+    "period": "unspecified",
+    "note_ids": [
+     "N9"
+    ]
+   }
+  ],
+  "persistence": {
+   "value": "unknown",
+   "note_ids": [],
+   "explanation": "원문 근거를 연결한 초기 특성 판단."
+  },
+  "direction": {
+   "value": "unknown",
+   "note_ids": [],
+   "explanation": "원문 근거를 연결한 초기 특성 판단."
+  },
+  "environment": {
+   "water": {
+    "value": "unknown",
+    "note_ids": [],
+    "explanation": "환경 전용 해석 단계에서 별도 평가."
+   },
+   "forest": {
+    "value": "unknown",
+    "note_ids": [],
+    "explanation": "환경 전용 해석 단계에서 별도 평가."
+   },
+   "park": {
+    "value": "unknown",
+    "note_ids": [],
+    "explanation": "환경 전용 해석 단계에서 별도 평가."
+   },
+   "market": {
+    "value": "unknown",
+    "note_ids": [],
+    "explanation": "환경 전용 해석 단계에서 별도 평가."
+   }
+  }
+ },
+ "context": {
+  "persistence": {
+   "evidence": "supported",
+   "pattern": "consistent",
+   "value": "wait_for_help",
+   "note_ids": [
+    "N4"
+   ],
+   "explanation": "도움을 기다린 근거. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+  },
+  "environment": {
+   "water": {
+    "response": "unknown",
+    "condition": "조건 미확인",
+    "note_ids": [],
+    "scope": "unknown",
+    "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+   },
+   "forest": {
+    "response": "unknown",
+    "condition": "조건 미확인",
+    "note_ids": [],
+    "scope": "unknown",
+    "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+   },
+   "park": {
+    "response": "unknown",
+    "condition": "조건 미확인",
+    "note_ids": [],
+    "scope": "unknown",
+    "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+   },
+   "market": {
+    "response": "unknown",
+    "condition": "조건 미확인",
+    "note_ids": [
+     "N0",
+     "N1",
+     "N5"
+    ],
+    "scope": "unknown",
+    "explanation": "두 해석이 일치하지 않아 적용 보류."
+   }
+  },
+  "baseline_direction": {
+   "value": "unknown",
+   "note_ids": []
+  }
+ },
+ "audit": {
+  "dropped": [
+   {
+    "field": "environment.market",
+    "reason": "basis_not_admissible",
+    "value": "approach",
+    "basis": [
+     {
+      "note_id": "N0",
+      "situation": "routine_outing"
+     },
+     {
+      "note_id": "N1",
+      "situation": "routine_outing"
+     }
+    ],
+    "task": "initial_person_context"
+   }
+  ],
+  "context_disagreements": [
+   {
+    "field": "environment.market",
+    "draft": [
+     "unknown",
+     "unknown"
+    ],
+    "review": [
+     "avoid",
+     "place_specific"
+    ],
+    "draft_clauses": [],
+    "review_clauses": [
+     [
+      {
+       "signal": "noisy",
+       "state": "present"
+      }
+     ],
+     [
+      {
+       "signal": "crowded",
+       "state": "present"
+      }
+     ]
+    ]
+   },
+   {
+    "field": "behavior_rules",
+    "rule": [
+     "clock_day",
+     "persistence",
+     "wait_for_help"
+    ],
+    "in": "draft",
+    "note_ids": [
+     "N4"
+    ]
+   }
+  ],
+  "fallbacks": [],
+  "context_basis": [
+   {
+    "field": "persistence",
+    "reason": "basis",
+    "value": "wait_for_help",
+    "basis": [
+     {
+      "note_id": "N4",
+      "situation": "lost_or_confused"
+     }
+    ],
+    "task": "initial_person_context"
+   },
+   {
+    "field": "behavior_rules",
+    "reason": "basis",
+    "value": "wait_for_help",
+    "basis": [
+     {
+      "note_id": "N4",
+      "situation": "lost_or_confused"
+     }
+    ],
+    "task": "initial_person_context"
+   },
+   {
+    "field": "persistence",
+    "reason": "basis",
+    "value": "wait_for_help",
+    "basis": [
+     {
+      "note_id": "N4",
+      "situation": "lost_or_confused"
+     }
+    ],
+    "task": "initial_person_context_review"
+   },
+   {
+    "field": "environment.market",
+    "reason": "basis",
+    "value": "avoid",
+    "basis": [
+     {
+      "note_id": "N5",
+      "situation": "encounter_reaction"
+     }
+    ],
+    "task": "initial_person_context_review"
+   }
+  ],
+  "route_draft_candidates": {
+   "느티공원": {
+    "value": "accompanied_only",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "해든상가": {
+    "value": "accompanied_only",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   },
+   "솔빛쉼터": {
+    "value": "accompanied_only",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "explanation": "원문 근거를 연결한 초기 특성 판단."
+   }
+  },
+  "trait_review_omissions": [],
+  "core_review_changes": [],
+  "condition_recovery": [
+   {
+    "feature": "market",
+    "note_ids": [
+     "N0",
+     "N1",
+     "N5"
+    ],
+    "reactions": {
+     "approach": false,
+     "avoid": false
+    },
+    "cells": []
+   }
+  ],
+  "environment_scope_checks": [],
+  "route_history_checks": [],
+  "route_citation_checks": [
+   {
+    "place": "느티공원",
+    "value": "accompanied_only",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "answer": true
+   },
+   {
+    "place": "해든상가",
+    "value": "accompanied_only",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "answer": true
+   },
+   {
+    "place": "솔빛쉼터",
+    "value": "accompanied_only",
+    "note_ids": [
+     "N0",
+     "N1"
+    ],
+    "answer": true
+   }
+  ],
+  "missing_rest_check": {
+   "note_ids": [
+    "N9"
+   ],
+   "answer": true
+  },
+  "claim_checks": [
+   {
+    "field": "persistence",
+    "value": "wait_for_help",
+    "statement": "대상자는 길을 잃으면 그 자리에 머물며 도움을 기다린다.",
+    "answer": true
+   },
+   {
+    "field": "behavior_rules:day_night",
+    "value": null,
+    "statement": "대상자는 길을 잃었을 때 낮과 밤에 서로 다르게 행동한다고 보호자가 말했다.",
+    "answer": false
+   },
+   {
+    "field": "mobility",
+    "value": "B",
+    "statement": "대상자는 집 근처만 짧게 걷고, 오래 걷지 못하거나 걷다가 자주 쉬어야 한다.",
+    "answer": true
+   }
+  ],
+  "trait_checks": [
+   {
+    "type": "wayfinding_failure",
+    "note_ids": [
+     "N4"
+    ],
+    "statement": "대상자가 익숙한 곳을 알아보지 못하거나 목적지를 지나치거나 길을 찾지 못한 개인 경험을 보호자가 보고했다.",
+    "answer": true
+   },
+   {
+    "type": "rest_pattern",
+    "note_ids": [
+     "N9"
+    ],
+    "statement": "대상자가 걷다가 신체적 휴식을 필요로 하거나 보행과 휴식을 반복한다고 보호자가 보고했다. 길을 잃어 가족을 기다리는 선택과는 구분한다.",
+    "answer": true
+   }
+  ],
+  "rejected_traits": [],
+  "unconfirmed_traits": [],
+  "restored_traits": []
+ }
+}

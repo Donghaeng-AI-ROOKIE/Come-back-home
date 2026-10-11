@@ -1,0 +1,512 @@
+{
+  "split": "development",
+  "people": 4,
+  "arms": {
+    "B_population": {
+      "rows": 96,
+      "complete": 96,
+      "pending": 0,
+      "map_area": 2.436972969131591,
+      "map_hit": 0.15625,
+      "alert_area": 4.5249912457854125,
+      "alert_hit": 0.1875,
+      "auc10": 15.416434759354393,
+      "auc20": 32.81951865356634,
+      "auc30": 44.01079405922065,
+      "engines": {
+        "legacy": 32
+      }
+    },
+    "D_full_prepared": {
+      "rows": 96,
+      "complete": 96,
+      "pending": 0,
+      "map_area": 2.2994395365783777,
+      "map_hit": 0.3333333333333333,
+      "alert_area": 6.0696562447395594,
+      "alert_hit": 0.34375,
+      "auc10": 17.382587445786495,
+      "auc20": 33.67711887210682,
+      "auc30": 43.90434427918141,
+      "engines": {
+        "continuous-person-v6-terminal-reunion": 32
+      }
+    }
+  },
+  "decision": {
+    "verdict": "CONFIRMED",
+    "P1_equal_alert_area_auc10": {
+      "holds": true,
+      "delta": 1.9661526864321028,
+      "ci": [
+        0.00012924655298274246,
+        5.161464783916973
+      ],
+      "level": 0.975,
+      "people_better": 3,
+      "people_worse": 0
+    },
+    "P2_smaller_map_more_often": {
+      "holds": false,
+      "map_hit": {
+        "delta": 0.17708333333333331,
+        "ci": [
+          0.020833333333333336,
+          0.36458333333333337
+        ],
+        "level": 0.975,
+        "people_better": 3,
+        "people_worse": 0
+      },
+      "map_area": {
+        "delta": -0.137533432553213,
+        "ci": [
+          -1.1915362617761827,
+          1.193326346067345
+        ],
+        "level": 0.975,
+        "people_better": 1,
+        "people_worse": 3
+      }
+    }
+  },
+  "secondary_95": {
+    "alert_hit": {
+      "delta": 0.15625,
+      "ci": [
+        0.020833333333333315,
+        0.2916666666666667
+      ],
+      "level": 0.95,
+      "people_better": 3,
+      "people_worse": 0
+    },
+    "alert_area": {
+      "delta": 1.5446649989541479,
+      "ci": [
+        -0.22148777304261857,
+        3.3108177709509143
+      ],
+      "level": 0.95,
+      "people_better": 2,
+      "people_worse": 2
+    },
+    "map_hit": {
+      "delta": 0.17708333333333331,
+      "ci": [
+        0.04166666666666667,
+        0.33333333333333337
+      ],
+      "level": 0.95,
+      "people_better": 3,
+      "people_worse": 0
+    },
+    "map_area": {
+      "delta": -0.137533432553213,
+      "ci": [
+        -1.1373824822535346,
+        1.139172566544697
+      ],
+      "level": 0.95,
+      "people_better": 1,
+      "people_worse": 3
+    },
+    "auc10": {
+      "delta": 1.9661526864321028,
+      "ci": [
+        0.0002584931059654849,
+        4.7932912626097615
+      ],
+      "level": 0.95,
+      "people_better": 3,
+      "people_worse": 0
+    },
+    "auc20": {
+      "delta": 0.8576002185404805,
+      "ci": [
+        -2.0237901607829833,
+        4.228158801991245
+      ],
+      "level": 0.95,
+      "people_better": 3,
+      "people_worse": 1
+    },
+    "auc30": {
+      "delta": -0.10644978003924344,
+      "ci": [
+        -1.8878787750612407,
+        1.613521355481307
+      ],
+      "level": 0.95,
+      "people_better": 2,
+      "people_worse": 2
+    }
+  },
+  "by_future": {
+    "habitual": {
+      "B_population": {
+        "rows": 32,
+        "complete": 32,
+        "pending": 0,
+        "map_area": 2.436972969131591,
+        "map_hit": 0.3125,
+        "alert_area": 4.524991245785412,
+        "alert_hit": 0.21875,
+        "auc10": 24.95876842207491,
+        "auc20": 55.65690224329978,
+        "auc30": 69.81913054610014,
+        "engines": {
+          "legacy": 10
+        }
+      },
+      "D_full_prepared": {
+        "rows": 32,
+        "complete": 32,
+        "pending": 0,
+        "map_area": 2.2994395365783777,
+        "map_hit": 0.65625,
+        "alert_area": 6.06965624473956,
+        "alert_hit": 0.53125,
+        "auc10": 26.438812986886056,
+        "auc20": 57.12538916154928,
+        "auc30": 71.29144987994295,
+        "engines": {
+          "continuous-person-v6-terminal-reunion": 10
+        }
+      }
+    },
+    "departure": {
+      "B_population": {
+        "rows": 32,
+        "complete": 32,
+        "pending": 0,
+        "map_area": 2.436972969131591,
+        "map_hit": 0.15625,
+        "alert_area": 4.524991245785412,
+        "alert_hit": 0.21875,
+        "auc10": 13.207669405400155,
+        "auc20": 32.510220492105184,
+        "auc30": 43.33702021855464,
+        "engines": {
+          "legacy": 10
+        }
+      },
+      "D_full_prepared": {
+        "rows": 32,
+        "complete": 32,
+        "pending": 0,
+        "map_area": 2.2994395365783777,
+        "map_hit": 0.34375,
+        "alert_area": 6.06965624473956,
+        "alert_hit": 0.40625,
+        "auc10": 18.72974137101069,
+        "auc20": 34.1663634650398,
+        "auc30": 43.72121417737722,
+        "engines": {
+          "continuous-person-v6-terminal-reunion": 10
+        }
+      }
+    },
+    "contradictory": {
+      "B_population": {
+        "rows": 32,
+        "complete": 32,
+        "pending": 0,
+        "map_area": 2.436972969131591,
+        "map_hit": 0.0,
+        "alert_area": 4.524991245785412,
+        "alert_hit": 0.125,
+        "auc10": 8.082866450588106,
+        "auc20": 10.291433225294053,
+        "auc30": 18.87623141300718,
+        "engines": {
+          "legacy": 10
+        }
+      },
+      "D_full_prepared": {
+        "rows": 32,
+        "complete": 32,
+        "pending": 0,
+        "map_area": 2.2994395365783777,
+        "map_hit": 0.0,
+        "alert_area": 6.06965624473956,
+        "alert_hit": 0.09375,
+        "auc10": 6.979207979462743,
+        "auc20": 9.739603989731371,
+        "auc30": 16.70036878022408,
+        "engines": {
+          "continuous-person-v6-terminal-reunion": 10
+        }
+      }
+    }
+  },
+  "by_hour": {
+    "1": {
+      "B_population": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 2.162170719712639,
+        "map_hit": 0.25,
+        "alert_area": 3.972954158699261,
+        "alert_hit": 0.25,
+        "auc10": 25.444291884983375,
+        "auc20": 50.943995893097316,
+        "auc30": 64.91546805005285,
+        "engines": {
+          "legacy": 8
+        }
+      },
+      "D_full_prepared": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 0.6126040009809764,
+        "map_hit": 0.4166666666666667,
+        "alert_area": 4.8555405598289445,
+        "alert_hit": 0.625,
+        "auc10": 32.807887727434235,
+        "auc20": 54.62579381432275,
+        "auc30": 65.41710303544455,
+        "engines": {
+          "continuous-person-v6-terminal-reunion": 8
+        }
+      }
+    },
+    "2": {
+      "B_population": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 2.3964101536629383,
+        "map_hit": 0.08333333333333333,
+        "alert_area": 4.856102097140813,
+        "alert_hit": 0.25,
+        "auc10": 12.722145942491688,
+        "auc20": 35.74992541918317,
+        "auc30": 49.70023687216269,
+        "engines": {
+          "legacy": 8
+        }
+      },
+      "D_full_prepared": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 1.4323093750680613,
+        "map_hit": 0.5,
+        "alert_area": 7.504295379773384,
+        "alert_hit": 0.4166666666666667,
+        "auc10": 21.056352647619246,
+        "auc20": 38.693670230074524,
+        "auc30": 51.92519866489025,
+        "engines": {
+          "continuous-person-v6-terminal-reunion": 8
+        }
+      }
+    },
+    "4": {
+      "B_population": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 2.558625959579462,
+        "map_hit": 0.125,
+        "alert_area": 4.856287765301295,
+        "alert_hit": 0.125,
+        "auc10": 13.22264364484191,
+        "auc20": 23.028573170927768,
+        "auc30": 31.078875256416396,
+        "engines": {
+          "legacy": 8
+        }
+      },
+      "D_full_prepared": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 2.9638227903117875,
+        "map_hit": 0.16666666666666666,
+        "alert_area": 5.738746739084391,
+        "alert_hit": 0.20833333333333334,
+        "auc10": 10.277531774367095,
+        "auc20": 25.472038934178347,
+        "auc30": 33.314625986048775,
+        "engines": {
+          "continuous-person-v6-terminal-reunion": 8
+        }
+      }
+    },
+    "6": {
+      "B_population": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 2.6306850435713245,
+        "map_hit": 0.16666666666666666,
+        "alert_area": 4.414620962000279,
+        "alert_hit": 0.125,
+        "auc10": 10.27665756510059,
+        "auc20": 21.555580131057102,
+        "auc30": 30.348596058250664,
+        "engines": {
+          "legacy": 8
+        }
+      },
+      "D_full_prepared": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 4.189021979952687,
+        "map_hit": 0.25,
+        "alert_area": 6.18004230027152,
+        "alert_hit": 0.125,
+        "auc10": 5.388577633725404,
+        "auc20": 15.916972509851654,
+        "auc30": 24.96044943034205,
+        "engines": {
+          "continuous-person-v6-terminal-reunion": 8
+        }
+      }
+    }
+  },
+  "by_family": {
+    "goal": {
+      "B_population": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 2.252472357339466,
+        "map_hit": 0.16666666666666666,
+        "alert_area": 5.29851629432834,
+        "alert_hit": 0.16666666666666666,
+        "auc10": 15.158943849661744,
+        "auc20": 30.857063566800353,
+        "auc30": 44.057726926919884,
+        "engines": {
+          "legacy": 8
+        }
+      },
+      "D_full_prepared": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 1.9463895344339608,
+        "map_hit": 0.25,
+        "alert_area": 7.506400284047103,
+        "alert_hit": 0.375,
+        "auc10": 21.54982653773745,
+        "auc20": 36.494522471753356,
+        "auc30": 45.30799245164294,
+        "engines": {
+          "continuous-person-v6-terminal-reunion": 8
+        }
+      }
+    },
+    "rest": {
+      "B_population": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 2.450380648058829,
+        "map_hit": 0.2916666666666667,
+        "alert_area": 5.296777347723269,
+        "alert_hit": 0.4166666666666667,
+        "auc10": 25.947686410740616,
+        "auc20": 42.14050987203697,
+        "auc30": 53.867452813543615,
+        "engines": {
+          "legacy": 8
+        }
+      },
+      "D_full_prepared": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 1.9276827070627316,
+        "map_hit": 0.5,
+        "alert_area": 4.8552962125827355,
+        "alert_hit": 0.4583333333333333,
+        "auc10": 27.420897482181392,
+        "auc20": 42.877115407757366,
+        "auc30": 55.844229999783174,
+        "engines": {
+          "continuous-person-v6-terminal-reunion": 8
+        }
+      }
+    },
+    "wait": {
+      "B_population": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 2.531632972958005,
+        "map_hit": 0.08333333333333333,
+        "alert_area": 3.9728222599657683,
+        "alert_hit": 0.08333333333333333,
+        "auc10": 15.170531143289805,
+        "auc20": 32.33585025348504,
+        "auc30": 40.40580593543496,
+        "engines": {
+          "legacy": 8
+        }
+      },
+      "D_full_prepared": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 4.224762375349633,
+        "map_hit": 0.5,
+        "alert_area": 8.386573812148834,
+        "alert_hit": 0.4583333333333333,
+        "auc10": 15.171048129501736,
+        "auc20": 32.33610874659101,
+        "auc30": 39.686890979304714,
+        "engines": {
+          "continuous-person-v6-terminal-reunion": 8
+        }
+      }
+    },
+    "avoid": {
+      "B_population": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 2.5134058981700638,
+        "map_hit": 0.08333333333333333,
+        "alert_area": 3.5318490811242698,
+        "alert_hit": 0.08333333333333333,
+        "auc10": 5.388577633725404,
+        "auc20": 25.94465092194299,
+        "auc30": 37.71219056098415,
+        "engines": {
+          "legacy": 8
+        }
+      },
+      "D_full_prepared": {
+        "rows": 24,
+        "complete": 24,
+        "pending": 0,
+        "map_area": 1.098923529467186,
+        "map_hit": 0.08333333333333333,
+        "alert_area": 3.5303546701795665,
+        "alert_hit": 0.08333333333333333,
+        "auc10": 5.388577633725404,
+        "auc20": 23.00072886232555,
+        "auc30": 34.77826368599481,
+        "engines": {
+          "continuous-person-v6-terminal-reunion": 8
+        }
+      }
+    }
+  },
+  "notes": {
+    "all_synthetic": true,
+    "independent_n": 4,
+    "boot": 10000,
+    "boot_seed": 20261011,
+    "map": "res9 cumulative 80% probability; exact synthetic truth res9 cell",
+    "alert": "production res7 normal footprint; direct device res7 cell",
+    "auc": "AUC@L = mean of 100*max(0,1-r/L), r = area at which the truth res7 cell is first included by geographic score rank; failure = 0"
+  }
+}

@@ -1,0 +1,112 @@
+{
+ "label": "fixed3",
+ "person_id": "E20",
+ "policy_source": "reprepared_with_recorded_K_responses",
+ "policy_status": "ready",
+ "rules": [
+  {
+   "id": "a_0",
+   "action": "rest",
+   "feature": null,
+   "goal": null,
+   "place_labels": [],
+   "when": [
+    [
+     [
+      "is_walking",
+      true
+     ],
+     [
+      "continuous_walk_minutes",
+      30
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "a_1",
+   "action": "avoid",
+   "feature": "market",
+   "goal": null,
+   "place_labels": [
+    "가상 E20 시장"
+   ],
+   "when": [
+    [
+     [
+      "market.noisy",
+      true
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "a_2",
+   "action": "seek",
+   "feature": null,
+   "goal": "가상 E20 쉼터",
+   "place_labels": [],
+   "when": [
+    [
+     [
+      "market.noisy",
+      true
+     ]
+    ]
+   ]
+  }
+ ],
+ "scenarios": {
+  "A_noisy_at_market": {
+   "map_published": true,
+   "unresolved_mass": 0.0,
+   "unresolved_reasons": {},
+   "walkers": 500,
+   "executed_avoid": 370,
+   "executed_seek_shelter": 500,
+   "executed_seek_market": 0,
+   "beyond_60m_from_market_at_15min": 489,
+   "beyond_120m_from_market_at_15min": 468,
+   "mean_distance_from_market_m": 338.00328369677516,
+   "mean_distance_to_shelter_m": 2453.61264308842,
+   "environment_insufficient_minutes": {
+    "a_2": 5195.089214940757
+   },
+   "environment_insufficient_walkers": 500
+  },
+  "B_quiet_at_market": {
+   "map_published": true,
+   "unresolved_mass": 0.0,
+   "unresolved_reasons": {},
+   "walkers": 500,
+   "executed_avoid": 0,
+   "executed_seek_shelter": 0,
+   "executed_seek_market": 0,
+   "beyond_60m_from_market_at_15min": 444,
+   "beyond_120m_from_market_at_15min": 431,
+   "mean_distance_from_market_m": 396.8316623204238,
+   "mean_distance_to_shelter_m": 2648.2437570776924,
+   "environment_insufficient_minutes": {
+    "a_2": 4794.986887918029
+   },
+   "environment_insufficient_walkers": 464
+  },
+  "C_far_no_info": {
+   "map_published": true,
+   "unresolved_mass": 0.0,
+   "unresolved_reasons": {},
+   "walkers": 500,
+   "executed_avoid": 0,
+   "executed_seek_shelter": 0,
+   "executed_seek_market": 0,
+   "beyond_60m_from_market_at_15min": 500,
+   "beyond_120m_from_market_at_15min": 500,
+   "mean_distance_from_market_m": 1928.2697295074724,
+   "mean_distance_to_shelter_m": 2880.952243857668,
+   "environment_insufficient_minutes": {
+    "a_2": 7500.0
+   },
+   "environment_insufficient_walkers": 500
+  }
+ }
+}

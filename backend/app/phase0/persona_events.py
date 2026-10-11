@@ -47,6 +47,8 @@ def _rerun_case(case_id: str, persona_version: int) -> None:
         case.current_poa = poa_update.reapply_tips(
             case.baseline_poa or {}, case.tips, since=case.lkp_time)
         storage.cases.save(case.id, case)
+        from app.phase3.alerts import notify_prediction
+        notify_prediction(case)
     except Exception as e:  # noqa: BLE001 — 재예측 실패가 persona 저장을 되돌리면 안 됨
         print(f"[persona_events] persona v{persona_version} 갱신 재예측 실패 "
               f"(case={case_id}): {e}")

@@ -142,6 +142,8 @@ class Persona(BaseModel):
     # Only changed notes, with collection time; never replace unrelated interview evidence.
     guardian_note_revisions: list[dict] = Field(default_factory=list)
     prepared_initial: dict = Field(default_factory=dict)
+    prepared_mind: dict = Field(default_factory=dict)
+    mind_preparation_status: dict = Field(default_factory=dict)
     initial_preparation_status: dict = Field(default_factory=dict)
     # 축 점수(0.1~0.9) — phase0.axis_scoring 이 채움. F(판정 불가)·근거 없음 축은
     # 키 자체가 없다 → Phase 2 는 없는 축을 유형 기본 prior 로 폴백.
@@ -168,6 +170,7 @@ class Persona(BaseModel):
     guardian_id: str = ""
     # supplement/update 로 같은 persona 에 병합 저장할 때마다 1씩 증가.
     # 동시수정 완전방지(버전 충돌 거부)는 하지 않음 — 최소한의 변경 흔적만 남긴다.
+    last_confirmed_at: datetime | None = None
     version: int = 0
     # 지금까지 이 persona 에 실제로 답변된 슬롯 tier 집합(SlotSpec.tier.value 값,
     # 1=route/2=capacity/3=refine). 신고 전 미니챗이 Tier1만 채우면 [1]만 들어가고,

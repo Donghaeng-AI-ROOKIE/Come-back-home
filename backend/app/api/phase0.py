@@ -81,7 +81,7 @@ def list_slots(persona_type: PersonaType | None = None):
 # axis_quotes = 보호자 원발화 그대로(quote 검증용 내부 값) — 프론트가 쓸 일이 없어
 # API 응답에서 제외한다. 저장·파기·채점 로직에는 영향 없음(응답 스키마만 필터링).
 # onboarding_turns 는 보호자 질문·답 원문 전체다(K 입력용) — onboarding_quotes 와 같이 공개 응답에서 뺀다.
-_PERSONA_EXCLUDE = {"axis_quotes", "onboarding_quotes", "onboarding_turns", "guardian_edited_notes", "guardian_note_revisions", "prepared_initial"}
+_PERSONA_EXCLUDE = {"axis_quotes", "onboarding_quotes", "onboarding_turns", "guardian_edited_notes", "guardian_note_revisions", "prepared_initial", "prepared_mind"}
 
 
 @router.post("/personas", response_model=Persona, response_model_exclude=_PERSONA_EXCLUDE)
@@ -327,4 +327,48 @@ def prepare_initial_person(persona_id: str):
     current = storage.personas.get(persona_id)
     if current is None:
         raise HTTPException(404, "페르소나 없음")
-    return current.initial_preparation_status
+    from app.phase0.mind_preparation import status
+    return status(current)
+
+
+@router.get("/personas/{persona_id}/preparation")
+def preparation_status(persona_id: str):
+    from app.phase0.mind_preparation import status
+    persona=storage.personas.get(persona_id)
+    if persona is None:raise HTTPException(404, "페르소나 없음")
+    return status(persona)
+
+
+class OwnedPersonaIn(BaseModel):
+    owner_id: str
+
+
+def _owned_persona(persona_id: str, owner: str):
+    persona = storage.personas.get(persona_id)
+    if persona is None or not owner or persona.guardian_id != owner:
+        raise HTTPException(404, "내 등록 정보를 찾을 수 없습니다.")
+    return persona
+
+
+@router.post("/personas/{persona_id}/confirm", response_model=Persona,
+             response_model_exclude=_PERSONA_EXCLUDE)
+def confirm_persona(persona_id: str, body: OwnedPersonaIn):
+    _owned_persona(persona_id, body.owner_id)
+    def apply(current):
+        current.last_confirmed_at = datetime.now()
+        return current
+    updated = storage.personas.update_existing(persona_id, apply)
+    if updated is None:
+        raise HTTPException(404, "등록 정보가 삭제되었습니다.")
+    return updated
+
+
+@router.delete("/personas/{persona_id}")
+def delete_persona(persona_id: str, body: OwnedPersonaIn):
+    from app.privacy import lifecycle
+    _owned_persona(persona_id, body.owner_id)
+    try:
+        lifecycle.purge_persona(persona_id)
+    except lifecycle.ActiveCaseLinked:
+        raise HTTPException(409, "진행 중인 수색을 먼저 종결해 주세요.")
+    return {"deleted": True}

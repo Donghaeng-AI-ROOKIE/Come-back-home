@@ -33,7 +33,7 @@ def _require_admin(key: str | None) -> None:
         raise HTTPException(403, "관리자 권한 필요")
 
 
-@router.post("/cases/{case_id}/close", response_model=Case)
+@router.post("/cases/{case_id}/close", response_model=Case, response_model_exclude={"continuous_state", "prior_context_key"})
 def close_case(case_id: str, body: CloseCaseIn, x_privacy_admin_key: str | None = Header(default=None)):
     _require_admin(x_privacy_admin_key)
     """케이스 종결(발견/철회) — 이 시점부터 파기 TTL 카운트다운 시작."""
@@ -115,6 +115,7 @@ def automation_status(x_privacy_admin_key: str | None = Header(default=None)):
     return {
         "last_run": last,
         "next_run_at": state.next_run_at if state else None,
+        "next_discovery_at": state.next_discovery_at if state else None,
         "heartbeat_at": state.heartbeat_at if state else None,
         "overdue_count": len(overdue),
         "retry_wait_count": len(retry_wait),

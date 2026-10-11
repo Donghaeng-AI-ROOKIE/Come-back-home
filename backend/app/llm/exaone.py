@@ -478,18 +478,18 @@ class ExaoneClient(LLMClient):
             body["guided_json"] = guided_json
         if repetition_penalty is not None:
             body["repetition_penalty"] = repetition_penalty
-        payload = json.dumps(body).encode("utf-8")
-        req = urllib.request.Request(
-            self._chat_url(),
-            data=payload,
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {self.api_key}",
-            },
-            method="POST",
-        )
-        with urllib.request.urlopen(req, timeout=settings.llm_timeout) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
+        # Persist usage before network I/O; self-hosted tokens are not API charges.
+        import uuid
+        from app.llm.usage_ledger import logged_json_request
+        run_id = "exaone:" + str(uuid.uuid4())
+        data = logged_json_request(
+            self._chat_url(), body,
+            headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.api_key}"},
+            provider="LG EXAONE (self-hosted)", model=body["model"],
+            role="exaone_chat", run_id=run_id, logical_request_id=run_id,
+            billing_basis="self_hosted_gpu",
+            timeout=settings.llm_timeout, ledger_path=settings.research_usage_ledger_path,
+            max_started=1)
         message = data["choices"][0]["message"]
         content = message.get("content")
         if content is None:

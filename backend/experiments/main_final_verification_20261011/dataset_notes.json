@@ -1,0 +1,48 @@
+{
+  "people": 36,
+  "development": 4,
+  "evaluation": 32,
+  "unique_future_paths": 108,
+  "previous_set": "E01-E40 (EFFICIENCY_KINTEX_v1) used for development of main; not reused",
+  "map_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+  "map_metadata": {
+    "region": "KINTEX, Goyang",
+    "center": {
+      "lat": 37.6652142,
+      "lng": 126.7483258
+    },
+    "query_half_extent_m": 14000,
+    "bbox_south_west_north_east": [
+      37.53945063550126,
+      126.5894521104606,
+      37.79097776449874,
+      126.90719948953941
+    ],
+    "nodes": 78502,
+    "edges": 226318,
+    "osmnx_version": "2.1.0",
+    "sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+    "raw_sha256": "ae833c4537dcfca91e73071433231713fae09eb777d1edd9410b6032b21fecff",
+    "query_sha256": "5c17b1643fa4190e8816a6af86156935806c69b1aaed7f7c590a3ab87d520b68",
+    "attribution": "© OpenStreetMap contributors, ODbL",
+    "retrieved_at": "2026-10-04T20:41:23+0900",
+    "source": "https://overpass-api.de/api/interpreter",
+    "new_geocode_requests": 0,
+    "request_slot": 2,
+    "actual_cost": null,
+    "support_round": null,
+    "limitations": [
+      "outdoor walk ways; no live noise or crowds",
+      "not an indoor booth map",
+      "center is KINTEX station, reused from verified September 28 lookup",
+      "finite map boundary, disconnected components retained"
+    ]
+  },
+  "independence": "Truth uses NetworkX shortest paths and authored timelines; no prediction engine, output or RNG.",
+  "limitation": "Onboarding and truth share authored assumptions. Four families/repeated sentence patterns, not expert labels or representative dementia population.",
+  "split": "Disjoint IDs/geometries/parameters; archetypes overlap, not out-of-template generalization.",
+  "facilities": "Synthetic labels/coordinates on actual outdoor roads; no real POI/noise claim.",
+  "truth_weights": "Equal stress-test weights, not empirical future probabilities.",
+  "snapshot_boundary": "Completed onboarding snapshots with real seed questions; no adaptive chatbot test.",
+  "no_family_arrival": "No hypothetical reunion. Observed return ends the incident."
+}

@@ -1,0 +1,262 @@
+{
+  "status": "previously_seen31_development_confirmation_not_fresh_holdout",
+  "people": 31,
+  "checks_per_arm": 744,
+  "selection_sha256": "25168bbd8622646d6856c3f9adf3fcc41e6d7f4e940702bb7ffc9f87a9cb6a1b",
+  "weight": 1,
+  "native_selected": {
+    "res": 9,
+    "coverage": 0.95,
+    "people": 8,
+    "checks": 192,
+    "area_km2": 4.644424229054945,
+    "hit": 0.46875
+  },
+  "channel_tv_mean": 0.4264112903225807,
+  "old_and_preliminary": {
+    "alert_district_proxy": {
+      "people": 31,
+      "checks": 744,
+      "area_km2": 63.64228190651323,
+      "hit": 0.6908602150537635
+    },
+    "alert_city_proxy": {
+      "people": 31,
+      "checks": 744,
+      "area_km2": 266.25186040169734,
+      "hit": 0.956989247311828
+    },
+    "preliminary": {
+      "people": 31,
+      "checks": 744,
+      "area_km2": 6.368199998062131,
+      "hit": 0.42338709677419356
+    },
+    "final": {
+      "people": 31,
+      "checks": 744,
+      "area_km2": 5.712865619324096,
+      "hit": 0.4153225806451613
+    }
+  },
+  "candidate_native": {
+    "people": 31,
+    "checks": 744,
+    "area_km2": 5.143116885870682,
+    "hit": 0.46908602150537637
+  },
+  "native_grid": [
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.8,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 10.712789238880127,
+      "hit": 0.521505376344086
+    },
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.85,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 12.65857890416008,
+      "hit": 0.5336021505376344
+    },
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.9,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 15.923256408436258,
+      "hit": 0.5685483870967742
+    },
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.95,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 20.838664875245776,
+      "hit": 0.6276881720430108
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.8,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 3.318650969640981,
+      "hit": 0.42473118279569894
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.85,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 4.120237948305775,
+      "hit": 0.4475806451612903
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.9,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 5.27772219155322,
+      "hit": 0.478494623655914
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.95,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 7.04758019377361,
+      "hit": 0.5026881720430108
+    },
+    {
+      "weight": 1,
+      "res": 8,
+      "coverage": 0.8,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 9.294147187568454,
+      "hit": 0.5013440860215054
+    },
+    {
+      "weight": 1,
+      "res": 8,
+      "coverage": 0.85,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 11.09530819342262,
+      "hit": 0.5241935483870968
+    },
+    {
+      "weight": 1,
+      "res": 8,
+      "coverage": 0.9,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 13.668014222621455,
+      "hit": 0.5443548387096774
+    },
+    {
+      "weight": 1,
+      "res": 8,
+      "coverage": 0.95,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 16.926691748671683,
+      "hit": 0.5806451612903226
+    },
+    {
+      "weight": 1,
+      "res": 9,
+      "coverage": 0.8,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 2.606603070740134,
+      "hit": 0.3978494623655914
+    },
+    {
+      "weight": 1,
+      "res": 9,
+      "coverage": 0.85,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 3.194474590847406,
+      "hit": 0.4166666666666667
+    },
+    {
+      "weight": 1,
+      "res": 9,
+      "coverage": 0.9,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 4.006827094908284,
+      "hit": 0.44623655913978494
+    },
+    {
+      "weight": 1,
+      "res": 9,
+      "coverage": 0.95,
+      "people": 31,
+      "checks": 744,
+      "area_km2": 5.143116885870682,
+      "hit": 0.46908602150537637
+    }
+  ],
+  "auc": {
+    "preliminary": {
+      "auc10": 23.568502460187922,
+      "auc30": 48.8705853273287
+    },
+    "independent": {
+      "auc10": 26.668725224069618,
+      "auc30": 49.03171272833746
+    }
+  },
+  "candidate_minus_preliminary": {
+    "hit": {
+      "delta": 0.04569892473118279,
+      "ci95": [
+        -0.0174731182795699,
+        0.11290322580645158
+      ],
+      "cluster_unit": "person",
+      "previously_seen_people": 31
+    },
+    "area_km2": {
+      "delta": -1.22508311219145,
+      "ci95": [
+        -2.1203683999654563,
+        -0.3295762655388959
+      ],
+      "cluster_unit": "person",
+      "previously_seen_people": 31
+    }
+  },
+  "auc_minus_preliminary": {
+    "auc10": {
+      "delta": 3.1002227638816966,
+      "ci95": [
+        0.9424210933712174,
+        5.441578890876262
+      ],
+      "cluster_unit": "person",
+      "previously_seen_people": 31
+    },
+    "auc30": {
+      "delta": 0.16112740100876105,
+      "ci95": [
+        -1.5126018982072449,
+        1.8615669205044665
+      ],
+      "cluster_unit": "person",
+      "previously_seen_people": 31
+    }
+  },
+  "new_model_calls": 0,
+  "new_map_calls": 0,
+  "runtime_enabled": false,
+  "production_device_resolution": 7,
+  "limitations": [
+    "Previously seen synthetic cases; not a new independent confirmation",
+    "Native res8/9 are geographic targeting only, actual push delivery not measured",
+    "H3 cell probabilities assume within-cell uniformity for res7 AUC",
+    "Runtime reinterpretation remains disabled after qualification failure",
+    "KINTEX OSM places are not live noise/crowd observations"
+  ],
+  "gates": {
+    "auc10_positive_ci": true,
+    "native_hit_noninferior_ci": false,
+    "native_area_reduction_ci": true,
+    "fresh_holdout_done": false,
+    "actual_delivery_done": false
+  }
+}

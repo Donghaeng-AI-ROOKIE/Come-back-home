@@ -61,6 +61,7 @@ class PrivacySchedulerState(BaseModel):
     last_run_id: str = ""
     last_run_at: datetime | None = None
     next_run_at: datetime | None = None
+    next_discovery_at: datetime | None = None
 
 
 class PrivacyAlert(BaseModel):

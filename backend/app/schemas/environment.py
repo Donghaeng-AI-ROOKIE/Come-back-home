@@ -24,3 +24,19 @@ class EnvironmentObservation(BaseModel):
         if self.crowded is None and self.noisy is None:
             raise ValueError("environment observation has no observed signal")
         return self
+
+
+class BehaviorObservation(BaseModel):
+    """Explicit reported/observed condition with expiry, never an LLM belief."""
+    fact: Literal['lost_awareness', 'family_present', 'pain_observed',
+                  'target_recognized', 'dark_observed', 'rain_observed']
+    value: StrictBool
+    valid_from: LocalNaiveDT
+    valid_until: LocalNaiveDT
+    source: Literal['guardian_report', 'field_observation', 'synthetic_scenario']
+
+    @model_validator(mode='after')
+    def positive_interval(self):
+        if self.valid_until <= self.valid_from:
+            raise ValueError('behavior observation needs a positive validity interval')
+        return self

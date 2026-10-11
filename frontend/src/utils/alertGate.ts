@@ -46,7 +46,7 @@ export function alertAppliesToMe(alert: PoliceAlert, myPoint: GeoPoint | null): 
  * 확률 문턱(피로도 예산)은 **푸시를 보낼지**의 기준이지 관문의 기준이 아니다.
  * 관문은 사용자가 **직접 앱을 연** 순간의 이야기이므로, 대상 구역 안에 사건이
  * 있으면 보여주는 게 맞다 — 확률이 낮다고 "당신 주변에 실종자가 있다"는 사실을
- * 숨길 이유가 없다. 발송은 alertBudget.meetsAlertThreshold 가 담당한다.
+ * 숨길 이유가 없다. 발송 대상은 서버의 선택 구역(target_cells)이 결정한다.
  *
  * 그래서 관문 판정은 두 가지만 본다.
  *   1) 참여도로 관문을 막지 않는다(항상 통과)

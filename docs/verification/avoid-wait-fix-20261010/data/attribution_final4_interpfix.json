@@ -1,0 +1,216 @@
+[
+ {
+  "label": "final4_interpfix",
+  "person_id": "E07",
+  "override": true,
+  "wait_rule_id": "a_3",
+  "wait_note_ids": [
+   "N2"
+  ],
+  "wait_quote": [
+   "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 30분 기다려요. 그래도 가족이 없으면 다시 가상 E07 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+  ],
+  "hold_minutes": 30.0,
+  "supersedes": [
+   "a_4"
+  ],
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_3",
+     "movement_rule_id": "a_4",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "moved_before_wait_end": 0,
+  "causes": [],
+  "onboarding_turns": [
+   {
+    "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+    "answer": "평소 목적지는 가상 E07 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요."
+   },
+   {
+    "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+    "answer": "평지에서 보통 25분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+   },
+   {
+    "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+    "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 30분 기다려요. 그래도 가족이 없으면 다시 가상 E07 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+   }
+  ]
+ },
+ {
+  "label": "final4_interpfix",
+  "person_id": "E23",
+  "override": true,
+  "wait_rule_id": "a_2",
+  "wait_note_ids": [
+   "N2"
+  ],
+  "wait_quote": [
+   "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 10분 기다려요. 그래도 가족이 없으면 다시 가상 E23 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+  ],
+  "hold_minutes": 10.0,
+  "supersedes": [
+   "a_3"
+  ],
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_2",
+     "movement_rule_id": "a_3",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "moved_before_wait_end": 0,
+  "causes": [],
+  "onboarding_turns": [
+   {
+    "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+    "answer": "평소 목적지는 가상 E23 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요."
+   },
+   {
+    "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+    "answer": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+   },
+   {
+    "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+    "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 10분 기다려요. 그래도 가족이 없으면 다시 가상 E23 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+   }
+  ]
+ },
+ {
+  "label": "final4_interpfix",
+  "person_id": "E27",
+  "override": true,
+  "wait_rule_id": "a_1",
+  "wait_note_ids": [
+   "N2"
+  ],
+  "wait_quote": [
+   "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 20분 기다려요. 그래도 가족이 없으면 다시 가상 E27 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+  ],
+  "hold_minutes": 20.0,
+  "supersedes": [
+   "a_2"
+  ],
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_1",
+     "movement_rule_id": "a_2",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "moved_before_wait_end": 0,
+  "causes": [],
+  "onboarding_turns": [
+   {
+    "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+    "answer": "가상 E27 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+   },
+   {
+    "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+    "answer": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+   },
+   {
+    "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+    "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 20분 기다려요. 그래도 가족이 없으면 다시 가상 E27 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+   }
+  ]
+ },
+ {
+  "label": "final4_interpfix",
+  "person_id": "E31",
+  "override": true,
+  "wait_rule_id": "a_2",
+  "wait_note_ids": [
+   "N2"
+  ],
+  "wait_quote": [
+   "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 E31 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+  ],
+  "hold_minutes": 40.0,
+  "supersedes": [
+   "a_3"
+  ],
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_2",
+     "movement_rule_id": "a_3",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "moved_before_wait_end": 0,
+  "causes": [],
+  "onboarding_turns": [
+   {
+    "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+    "answer": "산책하러 나가면 보통 가상 E31 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요."
+   },
+   {
+    "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+    "answer": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+   },
+   {
+    "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+    "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 E31 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+   },
+   {
+    "question": "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요? 옛집, 예전 직장, 시장, 병원, 약국, 종교시설처럼 구체적인 장소를 알려주세요.",
+    "answer": "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+   }
+  ]
+ },
+ {
+  "label": "final4_interpfix",
+  "person_id": "E35",
+  "override": true,
+  "wait_rule_id": "a_2",
+  "wait_note_ids": [
+   "N2"
+  ],
+  "wait_quote": [
+   "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 30분 기다려요. 그래도 가족이 없으면 다시 가상 E35 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+  ],
+  "hold_minutes": 30.0,
+  "supersedes": [
+   "a_3"
+  ],
+  "sequence_normalization": {
+   "ordered": [
+    {
+     "wait_rule_id": "a_2",
+     "movement_rule_id": "a_3",
+     "note_id": "N2"
+    }
+   ],
+   "not_ordered": []
+  },
+  "moved_before_wait_end": 0,
+  "causes": [],
+  "onboarding_turns": [
+   {
+    "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+    "answer": "매일 가상 E35 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요."
+   },
+   {
+    "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+    "answer": "평지에서 보통 25분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요."
+   },
+   {
+    "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+    "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 30분 기다려요. 그래도 가족이 없으면 다시 가상 E35 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+   }
+  ]
+ }
+]

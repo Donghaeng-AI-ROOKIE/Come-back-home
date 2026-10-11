@@ -20,6 +20,18 @@ class SceneConditions:
         self.net, self.observations, self.started_at = net, observations or [], started_at
         self._nearby = {}
 
+    def anchors_at(self, location, feature, elapsed_minutes):
+        """Locations explicitly reported here/now, not a complete category map.
+
+        Keep signal truth separate: conflicting noise reports still describe a
+        location, but never establish whether it is noisy.
+        """
+        if self.started_at is None:return []
+        when=self.started_at+timedelta(minutes=elapsed_minutes)
+        return [o.location for o in self.observations if o.feature==feature
+                and o.valid_from<=when<o.valid_until
+                and haversine_km(location,o.location)*1000<=o.radius_m]
+
     def at(self, node, elapsed_minutes):
         if not self.observations or self.started_at is None:
             return {}
@@ -27,9 +39,18 @@ class SceneConditions:
             location=self.net.node_location(node)
             self._nearby[node]=[o for o in self.observations
                 if haversine_km(location,o.location)*1000 <= o.radius_m]
+        return self._values(self._nearby[node],elapsed_minutes)
+
+    def at_location(self,location,elapsed_minutes):
+        """For a walker partway along a road, use its actual interpolated position."""
+        if not self.observations or self.started_at is None:return {}
+        nearby=[o for o in self.observations if haversine_km(location,o.location)*1000<=o.radius_m]
+        return self._values(nearby,elapsed_minutes)
+
+    def _values(self,nearby,elapsed_minutes):
         when=self.started_at+timedelta(minutes=elapsed_minutes)
         values={}
-        for o in self._nearby[node]:
+        for o in nearby:
             if o.valid_from <= when < o.valid_until:
                 for signal in ('crowded','noisy'):
                     value=getattr(o,signal)

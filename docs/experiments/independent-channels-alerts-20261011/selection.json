@@ -1,0 +1,161 @@
+{
+  "status": "frozen_on_development_8_before_seen31_scoring",
+  "new_holdout": false,
+  "runtime_enabled": false,
+  "people": [
+    "E01",
+    "E02",
+    "E03",
+    "E04",
+    "E05",
+    "E06",
+    "E07",
+    "E08"
+  ],
+  "metric": "original geographic res7 AUC@10 using WGS84 areas; not native delivery AUC",
+  "weight_selection_rule": "maximum dev8 AUC@10; ties nearest previous 0.7",
+  "native_selection_rule": "maximum dev8 hit subject to mean area <= preliminary; ties smaller area, then res9, then lower coverage. If no feasible candidate, mark area gate failed.",
+  "weight": 1,
+  "native_candidate": {
+    "res": 9,
+    "coverage": 0.95,
+    "people": 8,
+    "checks": 192,
+    "area_km2": 4.644424229054945,
+    "hit": 0.46875
+  },
+  "dev_native_joint_gate": false,
+  "preliminary_native": {
+    "people": 8,
+    "checks": 192,
+    "area_km2": 5.521502602183193,
+    "hit": 0.4947916666666667
+  },
+  "weight_grid": [
+    {
+      "personal_weight": 0,
+      "auc10": 28.430732472438464,
+      "auc30": 53.40545598027353
+    },
+    {
+      "personal_weight": 0.3,
+      "auc10": 30.114975379051174,
+      "auc30": 53.926135567006035
+    },
+    {
+      "personal_weight": 0.5,
+      "auc10": 30.114975379051174,
+      "auc30": 54.078752103547025
+    },
+    {
+      "personal_weight": 0.6,
+      "auc10": 31.03521153517865,
+      "auc30": 54.32391444340144
+    },
+    {
+      "personal_weight": 0.7,
+      "auc10": 31.03521153517865,
+      "auc30": 54.32305419018544
+    },
+    {
+      "personal_weight": 0.8,
+      "auc10": 31.03521153517865,
+      "auc30": 54.01623193324489
+    },
+    {
+      "personal_weight": 0.9,
+      "auc10": 31.03521153517865,
+      "auc30": 53.95478946816876
+    },
+    {
+      "personal_weight": 1,
+      "auc10": 31.219258766404142,
+      "auc30": 53.5908740935101
+    }
+  ],
+  "native_grid": [
+    {
+      "res": 8,
+      "coverage": 0.8,
+      "people": 8,
+      "checks": 192,
+      "area_km2": 7.453315109255224,
+      "hit": 0.4895833333333333
+    },
+    {
+      "res": 8,
+      "coverage": 0.85,
+      "people": 8,
+      "checks": 192,
+      "area_km2": 9.022675694083494,
+      "hit": 0.5
+    },
+    {
+      "res": 8,
+      "coverage": 0.9,
+      "people": 8,
+      "checks": 192,
+      "area_km2": 11.640887526587571,
+      "hit": 0.5208333333333334
+    },
+    {
+      "res": 8,
+      "coverage": 0.95,
+      "people": 8,
+      "checks": 192,
+      "area_km2": 15.308317774567433,
+      "hit": 0.5416666666666666
+    },
+    {
+      "res": 9,
+      "coverage": 0.8,
+      "people": 8,
+      "checks": 192,
+      "area_km2": 2.246759665784513,
+      "hit": 0.40625
+    },
+    {
+      "res": 9,
+      "coverage": 0.85,
+      "people": 8,
+      "checks": 192,
+      "area_km2": 2.7819487912226095,
+      "hit": 0.4270833333333333
+    },
+    {
+      "res": 9,
+      "coverage": 0.9,
+      "people": 8,
+      "checks": 192,
+      "area_km2": 3.549232631043345,
+      "hit": 0.4427083333333333
+    },
+    {
+      "res": 9,
+      "coverage": 0.95,
+      "people": 8,
+      "checks": 192,
+      "area_km2": 4.644424229054945,
+      "hit": 0.46875
+    }
+  ],
+  "source_hashes": {
+    "E01_104729.json": "dfce8a170dd2e6cef3030115b35bcdeab7af776944538baba07a3e910a555d9d",
+    "E01_130363.json": "45b325e0efe673c4016a7f99f7c30ed7dedf934cc629ac7b29b38a22d0d88606",
+    "E02_104729.json": "50eabf61653c51ac8ed38000ca1a3c10f4738f178813604c48e7789b06a997af",
+    "E02_130363.json": "11d4fdfc2ba973c474f31e9739b460da99316e15b61c8bed0fd2b8ff31a42d61",
+    "E03_104729.json": "da31f7ee8cddade265b409791cea33c84ac44ae46d5c93b340c140ca90e08f2f",
+    "E03_130363.json": "e4fbe292eb2277b9a5f30f65abf48b74d5348f4ec76ca46d6dba22490c38132b",
+    "E04_104729.json": "22ef3d9bbae1bbb99b53ba0deefdb4076c1a60a94470b34620fa0cb2fbaf7c75",
+    "E04_130363.json": "55c49d7cac782362ee1f936866f0edbc4938bc8d38e0015b2c0d744e11a7f750",
+    "E05_104729.json": "a0578dd02365d8ffe4a608a66a4dee99d19e1cd9c3d71744d63929545e40780d",
+    "E05_130363.json": "2c546b1a3ea59fe36a670bb2677c95a2dee849bf707338f56b29f49ed8c5cf66",
+    "E06_104729.json": "8d5793ec6f68516b15bc9646a8d2c77bd00608e9877ebffd0c7d781763dbf437",
+    "E06_130363.json": "6f7dd703ddf0bca0e1bce0daf6cf5e03e92a0ff0b08d459cf838690bf232240a",
+    "E07_104729.json": "7af70e2ddd51e1780612bbd11ab11a5d153b1d6d6e29eae61432d33c675b75d4",
+    "E07_130363.json": "380a3527c3bd6e703062a7d38c6476d1c01e6272931aecf2dfac241da441a9b3",
+    "E08_104729.json": "074b0123cbbd0546a6e6e219d9f4f594d0747383ec773dd8980702d431a7b737",
+    "E08_130363.json": "647b8d1ae5436d947e8a3a7d13822055cf4eda13c1226d3d4a83f9f72e9678ac"
+  },
+  "new_model_calls": 0
+}

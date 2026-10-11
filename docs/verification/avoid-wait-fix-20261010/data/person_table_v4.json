@@ -1,0 +1,1740 @@
+[
+ {
+  "person_id": "E01",
+  "deployed": {
+   "map_hits": 12,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.9920285437248664,
+   "wait": 15.389252082709225,
+   "rest": 112.0747616728608,
+   "rules": {
+    "a_0": 13.114913768658166,
+    "a_1": 109.20776167286078
+   }
+  },
+  "split": "development",
+  "prev_fix": {
+   "map_hits": 12,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.9920285437248664
+  },
+  "final": {
+   "map_hits": 12,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.9920285437248664,
+   "wait": 15.389252082709225,
+   "rest": 112.0747616728608,
+   "rules": {
+    "a_0": 13.114913768658166,
+    "a_1": 109.20776167286078
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E02",
+  "deployed": {
+   "map_hits": 10,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.1703523145191603,
+   "wait": 15.60804285128583,
+   "rest": 67.509,
+   "rules": {
+    "a_0": 24.521389949150695,
+    "a_1": 61.065
+   }
+  },
+  "split": "development",
+  "prev_fix": {
+   "map_hits": 10,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.1703523145191603
+  },
+  "final": {
+   "map_hits": 10,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.1703523145191603,
+   "wait": 15.60804285128583,
+   "rest": 67.509,
+   "rules": {
+    "a_0": 24.521389949150695,
+    "a_1": 61.065
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E03",
+  "deployed": {
+   "map_hits": 12,
+   "alert_hits": 14,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.9458138295750844,
+   "wait": 48.25519987415878,
+   "rest": 152.05633339225977,
+   "rules": {
+    "a_0": 150.50033339225973,
+    "a_1": 5.03,
+    "a_2": 2.5670667087397128
+   }
+  },
+  "split": "development",
+  "prev_fix": {
+   "map_hits": 12,
+   "alert_hits": 14,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.7836449823567595
+  },
+  "final": {
+   "map_hits": 12,
+   "alert_hits": 14,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.9368067304429537,
+   "wait": 48.240199874158776,
+   "rest": 152.5553333922598,
+   "rules": {
+    "a_0": 151.03733339225974,
+    "a_1": 5.03,
+    "a_2": 2.5670667087397128
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": [],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E04",
+  "deployed": {
+   "map_hits": 8,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.6298285718189043,
+   "wait": 16.92,
+   "rest": 133.731,
+   "rules": {
+    "a_0": 130.672,
+    "a_1": 1.2549999999999997
+   }
+  },
+  "split": "development",
+  "prev_fix": {
+   "map_hits": 8,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.6298285718189043
+  },
+  "final": {
+   "map_hits": 8,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.6298285718189043,
+   "wait": 16.92,
+   "rest": 133.731,
+   "rules": {
+    "a_0": 130.672,
+    "a_1": 1.2549999999999997
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E05",
+  "deployed": {
+   "map_hits": 9,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.451617756458149,
+   "wait": 13.68,
+   "rest": 49.73700000000001,
+   "rules": {
+    "a_0": 43.331999999999994
+   }
+  },
+  "split": "development",
+  "prev_fix": {
+   "map_hits": 9,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.451617756458149
+  },
+  "final": {
+   "map_hits": 9,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.451617756458149,
+   "wait": 13.68,
+   "rest": 49.73700000000001,
+   "rules": {
+    "a_0": 43.331999999999994
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E06",
+  "deployed": {
+   "map_hits": 8,
+   "alert_hits": 14,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.5598121631289303,
+   "wait": 5.76,
+   "rest": 88.759,
+   "rules": {
+    "a_1": 86.12700000000001
+   }
+  },
+  "split": "development",
+  "prev_fix": {
+   "map_hits": 8,
+   "alert_hits": 14,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.5598121631289303
+  },
+  "final": {
+   "map_hits": 8,
+   "alert_hits": 14,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.5598121631289303,
+   "wait": 5.76,
+   "rest": 88.759,
+   "rules": {
+    "a_1": 86.12700000000001
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E07",
+  "deployed": {
+   "map_hits": 2,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 0.14421502030465136,
+   "wait": 276.1020117814275,
+   "rest": 10.971,
+   "rules": {
+    "a_0": 22.954308511391016,
+    "a_1": 249.8520117814275,
+    "a_2": 9.994,
+    "a_3": 11.58,
+    "a_4": 4.65480337077752
+   }
+  },
+  "split": "development",
+  "prev_fix": {
+   "map_hits": 4,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 0.1261926485472286
+  },
+  "final": {
+   "map_hits": 2,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 0.14421502030465136,
+   "wait": 276.08701178142746,
+   "rest": 10.986,
+   "rules": {
+    "a_0": 22.954308511391016,
+    "a_1": 248.7270117814275,
+    "a_2": 10.024000000000001,
+    "a_3": 12.69,
+    "a_4": 4.65480337077752
+   }
+  },
+  "maps_identical_to_deployed": 6,
+  "maps": 8,
+  "interpretation_checks": [
+   {
+    "check": "other_answer_movement_competes_with_finite_wait",
+    "wait_rule_id": "a_3",
+    "movement_rule_id": "a_0",
+    "wait_note_ids": [
+     "N2"
+    ],
+    "movement_note_ids": [
+     "N0"
+    ]
+   }
+  ],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E08",
+  "deployed": {
+   "map_hits": 9,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.358441249605743,
+   "wait": 21.403044720844594,
+   "rest": 96.69566420376219,
+   "rules": {
+    "a_0": 78.51966420376218,
+    "a_2": 25.99671904805653
+   }
+  },
+  "split": "development",
+  "prev_fix": {
+   "map_hits": 12,
+   "alert_hits": 14,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.251357422726308
+  },
+  "final": {
+   "map_hits": 12,
+   "alert_hits": 14,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.251357422726308,
+   "wait": 21.6,
+   "rest": 102.69200000000001,
+   "rules": {
+    "a_0": 91.90199999999999,
+    "a_2": 0.9027980604841894
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": [
+   {
+    "rule_id": "a_2",
+    "deployed_min": 25.99671904805653,
+    "final_min": 0.9027980604841894
+   }
+  ]
+ },
+ {
+  "person_id": "E09",
+  "deployed": {
+   "map_hits": 6,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.59496028098601,
+   "wait": 14.130686420999893,
+   "rest": 108.54951775967581,
+   "rules": {
+    "a_0": 34.584671673637075,
+    "a_1": 103.3025177596758
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 6,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.8020122485726686
+  },
+  "final": {
+   "map_hits": 6,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.59496028098601,
+   "wait": 14.130686420999893,
+   "rest": 108.54951775967581,
+   "rules": {
+    "a_0": 34.584671673637075,
+    "a_1": 103.3025177596758
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": [],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E10",
+  "deployed": {
+   "map_hits": 8,
+   "alert_hits": 13,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.406501670317072,
+   "wait": 16.92,
+   "rest": 169.168,
+   "rules": {
+    "a_0": 167.05700000000002
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 8,
+   "alert_hits": 13,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.406501670317072
+  },
+  "final": {
+   "map_hits": 8,
+   "alert_hits": 13,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.406501670317072,
+   "wait": 16.92,
+   "rest": 169.168,
+   "rules": {
+    "a_0": 167.05700000000002
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E11",
+  "deployed": {
+   "map_hits": 10,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.2977017655871752,
+   "wait": 35.02195931816611,
+   "rest": 155.58740001329704,
+   "rules": {
+    "a_0": 153.918400013297,
+    "a_1": 20.12,
+    "a_3": 16.424406551875645
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 10,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.0363616949283978
+  },
+  "final": {
+   "map_hits": 10,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.2436311932043203,
+   "wait": 34.97695931816611,
+   "rest": 156.01876935092258,
+   "rules": {
+    "a_0": 154.34976935092257,
+    "a_1": 20.12,
+    "a_3": 16.42440655187564
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": [],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E12",
+  "deployed": {
+   "map_hits": 10,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.7016905426148603,
+   "wait": 18.36,
+   "rest": 133.14999999999998,
+   "rules": {
+    "a_0": 130.484,
+    "a_1": 0.7358791106559576,
+    "a_2": 0.7685545339954648
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 10,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.7016905426148603
+  },
+  "final": {
+   "map_hits": 10,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.7016905426148603,
+   "wait": 18.36,
+   "rest": 133.14999999999998,
+   "rules": {
+    "a_0": 130.484,
+    "a_1": 0.7358791106559576,
+    "a_2": 0.7685545339954648
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E13",
+  "deployed": {
+   "map_hits": 9,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.5488866649907167,
+   "wait": 14.501322461641745,
+   "rest": 132.49959876405862,
+   "rules": {
+    "a_0": 18.364472117923004,
+    "a_1": 129.15759876405855
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 9,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.5488866649907167
+  },
+  "final": {
+   "map_hits": 9,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.5488866649907167,
+   "wait": 14.501322461641745,
+   "rest": 132.49959876405862,
+   "rules": {
+    "a_0": 18.364472117923004,
+    "a_1": 129.15759876405855
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E14",
+  "deployed": {
+   "map_hits": 9,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.2884813133427984,
+   "wait": 14.82745834884842,
+   "rest": 127.85416617195263,
+   "rules": {
+    "a_0": 45.83658091705678,
+    "a_1": 122.99916617195262
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 9,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.2884813133427984
+  },
+  "final": {
+   "map_hits": 9,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.2884813133427984,
+   "wait": 14.82745834884842,
+   "rest": 127.85416617195263,
+   "rules": {
+    "a_0": 45.83658091705678,
+    "a_1": 122.99916617195262
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E15",
+  "deployed": {
+   "map_hits": 11,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.340817133855823,
+   "wait": 43.956190529248985,
+   "rest": 53.00110256487923,
+   "rules": {
+    "a_0": 43.79410256487922,
+    "a_1": 20.12,
+    "a_2": 13.021466457717526
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 9,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.7100292508185153
+  },
+  "final": {
+   "map_hits": 10,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.377001195169664,
+   "wait": 43.94119052924899,
+   "rest": 53.216429825717675,
+   "rules": {
+    "a_0": 44.13442982571766,
+    "a_1": 20.12,
+    "a_2": 13.021466457717526
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": [],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E16",
+  "deployed": {
+   "map_hits": 12,
+   "alert_hits": 14,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.5675058197133462,
+   "wait": 16.2,
+   "rest": 50.52900000000001,
+   "rules": {
+    "a_0": 40.297
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 12,
+   "alert_hits": 14,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.5675058197133462
+  },
+  "final": {
+   "map_hits": 12,
+   "alert_hits": 14,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.5675058197133462,
+   "wait": 16.2,
+   "rest": 50.52900000000001,
+   "rules": {
+    "a_0": 40.297
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E17",
+  "deployed": {
+   "map_hits": 12,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.1260596170682224,
+   "wait": 8.64,
+   "rest": 173.15800000000002,
+   "rules": {
+    "a_0": 171.061
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 12,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.1260596170682224
+  },
+  "final": {
+   "map_hits": 12,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.1260596170682224,
+   "wait": 8.64,
+   "rest": 173.15800000000002,
+   "rules": {
+    "a_0": 171.061
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E18",
+  "deployed": {
+   "map_hits": 11,
+   "alert_hits": 7,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.151413972739151,
+   "wait": 15.120000000000001,
+   "rest": 68.855,
+   "rules": {
+    "a_0": 62.900999999999996
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 11,
+   "alert_hits": 7,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.151413972739151
+  },
+  "final": {
+   "map_hits": 11,
+   "alert_hits": 7,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.151413972739151,
+   "wait": 15.120000000000001,
+   "rest": 68.855,
+   "rules": {
+    "a_0": 62.900999999999996
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E19",
+  "deployed": {
+   "map_hits": 11,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.548863409373454,
+   "wait": 60.13364597021575,
+   "rest": 88.20200000000003,
+   "rules": {
+    "a_0": 77.684,
+    "a_1": 20.12,
+    "a_2": 15.572621143384058
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 8,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.2966465523447708
+  },
+  "final": {
+   "map_hits": 11,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.5038367229378236,
+   "wait": 60.098645970215756,
+   "rest": 89.057,
+   "rules": {
+    "a_0": 78.975,
+    "a_1": 20.12,
+    "a_2": 15.572621143384058
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": [],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E20",
+  "deployed": {
+   "map_hits": 0,
+   "alert_hits": 0,
+   "checks": 24,
+   "complete": 0,
+   "map_area": null,
+   "wait": null,
+   "rest": null,
+   "rules": {}
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 2,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.5668215532037955
+  },
+  "final": {
+   "map_hits": 2,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.5668215532037955,
+   "wait": 19.080000000000002,
+   "rest": 50.458000000000006,
+   "rules": {
+    "a_0": 38.939,
+    "a_1": 0.33800000000000024,
+    "a_2": 2.500385775159562
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E21",
+  "deployed": {
+   "map_hits": 12,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.117395301295683,
+   "wait": 19.080000000000002,
+   "rest": 49.871,
+   "rules": {
+    "a_0": 40.242000000000004
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 12,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.117395301295683
+  },
+  "final": {
+   "map_hits": 12,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.117395301295683,
+   "wait": 19.080000000000002,
+   "rest": 49.871,
+   "rules": {
+    "a_0": 40.242000000000004
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E22",
+  "deployed": {
+   "map_hits": 12,
+   "alert_hits": 15,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.9366712074437988,
+   "wait": 14.76,
+   "rest": 169.983,
+   "rules": {
+    "a_0": 167.577
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 12,
+   "alert_hits": 15,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.9366712074437988
+  },
+  "final": {
+   "map_hits": 12,
+   "alert_hits": 15,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.9366712074437988,
+   "wait": 14.76,
+   "rest": 169.983,
+   "rules": {
+    "a_0": 167.577
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E23",
+  "deployed": {
+   "map_hits": 12,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.1530206661490454,
+   "wait": 45.34345096286205,
+   "rest": 45.271,
+   "rules": {
+    "a_0": 7.4618007307014995,
+    "a_1": 37.502,
+    "a_2": 2.5,
+    "a_3": 1.7849353232065956
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 12,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.0539203347718265
+  },
+  "final": {
+   "map_hits": 12,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.1440177256563686,
+   "wait": 45.34345096286205,
+   "rest": 45.398,
+   "rules": {
+    "a_0": 7.4618007307014995,
+    "a_1": 37.714,
+    "a_2": 2.5,
+    "a_3": 1.7849353232065956
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": [
+   {
+    "check": "other_answer_movement_competes_with_finite_wait",
+    "wait_rule_id": "a_2",
+    "movement_rule_id": "a_0",
+    "wait_note_ids": [
+     "N2"
+    ],
+    "movement_note_ids": [
+     "N0"
+    ]
+   }
+  ],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E24",
+  "deployed": {
+   "map_hits": 8,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.5770754550114425,
+   "wait": 21.6,
+   "rest": 106.489,
+   "rules": {
+    "a_0": 101.11500000000001
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 8,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.5770754550114425
+  },
+  "final": {
+   "map_hits": 8,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.5770754550114425,
+   "wait": 21.6,
+   "rest": 106.489,
+   "rules": {
+    "a_0": 101.11500000000001
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E25",
+  "deployed": {
+   "map_hits": 13,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.9544672297032526,
+   "wait": 15.684208781119624,
+   "rest": 58.028966041351275,
+   "rules": {
+    "a_0": 12.403255294916228,
+    "a_1": 51.592966041351275
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 13,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.9544672297032526
+  },
+  "final": {
+   "map_hits": 13,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.9544672297032526,
+   "wait": 15.684208781119624,
+   "rest": 58.028966041351275,
+   "rules": {
+    "a_0": 12.403255294916228,
+    "a_1": 51.592966041351275
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E26",
+  "deployed": {
+   "map_hits": 9,
+   "alert_hits": 9,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.242398756004795,
+   "wait": 8.525528135937696,
+   "rest": 120.22507220175342,
+   "rules": {
+    "a_0": 131.470788103067,
+    "a_1": 105.2130722017534
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 9,
+   "alert_hits": 9,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.242398756004795
+  },
+  "final": {
+   "map_hits": 9,
+   "alert_hits": 9,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.242398756004795,
+   "wait": 8.525528135937696,
+   "rest": 120.22507220175342,
+   "rules": {
+    "a_0": 131.470788103067,
+    "a_1": 105.2130722017534
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E27",
+  "deployed": {
+   "map_hits": 8,
+   "alert_hits": 9,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.4954680875190687,
+   "wait": 17.58108997569208,
+   "rest": 51.14,
+   "rules": {
+    "a_0": 25.936999999999998,
+    "a_1": 8.970924671478322,
+    "a_2": 128.0216483602813
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 9,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.8198075219068188
+  },
+  "final": {
+   "map_hits": 8,
+   "alert_hits": 9,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.4954680875190687,
+   "wait": 17.58108997569208,
+   "rest": 51.14,
+   "rules": {
+    "a_0": 25.936999999999998,
+    "a_1": 8.970924671478322,
+    "a_2": 128.0216483602813
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": [
+   {
+    "check": "same_note_followup_missing_wait_trigger",
+    "wait_rule_id": "a_1",
+    "movement_rule_id": "a_2",
+    "note_ids": [
+     "N2"
+    ]
+   }
+  ],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E28",
+  "deployed": {
+   "map_hits": 6,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 0.9544834223799602,
+   "wait": 12.810433291725724,
+   "rest": 144.74087342332336,
+   "rules": {
+    "a_0": 47.047126150234696,
+    "a_1": 136.8648734233234,
+    "a_2": 3.5198432250879748,
+    "a_3": 90.4165688469665
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 7,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.1795488798855194
+  },
+  "final": {
+   "map_hits": 7,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.1795488798855194,
+   "wait": 12.86531150220555,
+   "rest": 149.7619779483664,
+   "rules": {
+    "a_0": 56.36593676481034,
+    "a_1": 142.69897794836635,
+    "a_2": 4.133467242197361,
+    "a_3": 26.349255368978632
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E29",
+  "deployed": {
+   "map_hits": 10,
+   "alert_hits": 4,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.764017561978989,
+   "wait": 17.69015663940704,
+   "rest": 50.432,
+   "rules": {
+    "a_0": 29.41830713711165,
+    "a_1": 36.143
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 10,
+   "alert_hits": 4,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.764017561978989
+  },
+  "final": {
+   "map_hits": 10,
+   "alert_hits": 4,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.764017561978989,
+   "wait": 17.69015663940704,
+   "rest": 50.432,
+   "rules": {
+    "a_0": 29.41830713711165,
+    "a_1": 36.143
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E30",
+  "deployed": {
+   "map_hits": 8,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.7565540511404294,
+   "wait": 15.597068108366285,
+   "rest": 89.32641289655635,
+   "rules": {
+    "a_0": 44.91008336828306,
+    "a_1": 77.99941289655632
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 8,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.7565540511404294
+  },
+  "final": {
+   "map_hits": 8,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.7565540511404294,
+   "wait": 15.597068108366285,
+   "rest": 89.32641289655635,
+   "rules": {
+    "a_0": 44.91008336828306,
+    "a_1": 77.99941289655632
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E31",
+  "deployed": {
+   "map_hits": 12,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.6676192372667131,
+   "wait": 59.876455939909135,
+   "rest": 70.18941719388803,
+   "rules": {
+    "a_0": 13.659850553482984,
+    "a_1": 64.97941719388803,
+    "a_2": 20.12,
+    "a_3": 3.4125301889584403
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 12,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.5414329999216079
+  },
+  "final": {
+   "map_hits": 12,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.658603250098924,
+   "wait": 59.86145593990914,
+   "rest": 70.60255039519623,
+   "rules": {
+    "a_0": 13.659850553482984,
+    "a_1": 65.46255039519622,
+    "a_2": 20.12,
+    "a_3": 3.4125301889584403
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": [
+   {
+    "check": "other_answer_movement_competes_with_finite_wait",
+    "wait_rule_id": "a_2",
+    "movement_rule_id": "a_0",
+    "wait_note_ids": [
+     "N2"
+    ],
+    "movement_note_ids": [
+     "N0"
+    ]
+   }
+  ],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E32",
+  "deployed": {
+   "map_hits": 5,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.439786274299642,
+   "wait": 18.289606696458243,
+   "rest": 68.63643459966544,
+   "rules": {
+    "a_0": 59.34143459966543,
+    "a_2": 35.37468674488036
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 10,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.295137466436144
+  },
+  "final": {
+   "map_hits": 10,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.295137466436144,
+   "wait": 18.36,
+   "rest": 68.30589841677423,
+   "rules": {
+    "a_0": 61.89989841677421,
+    "a_2": 1.0794896961496607
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": [
+   {
+    "rule_id": "a_2",
+    "deployed_min": 35.37468674488036,
+    "final_min": 1.0794896961496607
+   }
+  ]
+ },
+ {
+  "person_id": "E33",
+  "deployed": {
+   "map_hits": 9,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.5404282803704095,
+   "wait": 13.652195475393935,
+   "rest": 115.28690599839771,
+   "rules": {
+    "a_0": 31.125459382425817,
+    "a_1": 101.9199059983977
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 9,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.5404282803704095
+  },
+  "final": {
+   "map_hits": 9,
+   "alert_hits": 10,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.5404282803704095,
+   "wait": 13.652195475393935,
+   "rest": 115.28690599839771,
+   "rules": {
+    "a_0": 31.125459382425817,
+    "a_1": 101.9199059983977
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E34",
+  "deployed": {
+   "map_hits": 8,
+   "alert_hits": 6,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.3065667948738016,
+   "wait": 14.720872054419534,
+   "rest": 140.35752531122083,
+   "rules": {
+    "a_0": 21.426792031563245,
+    "a_1": 137.3355253112208
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 6,
+   "alert_hits": 6,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 0.621766283478983
+  },
+  "final": {
+   "map_hits": 8,
+   "alert_hits": 6,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.3065667948738016,
+   "wait": 14.720872054419534,
+   "rest": 140.35752531122083,
+   "rules": {
+    "a_0": 21.426792031563245,
+    "a_1": 137.3355253112208
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": [],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E35",
+  "deployed": {
+   "map_hits": 8,
+   "alert_hits": 6,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.856859907145548,
+   "wait": 30.945275752794455,
+   "rest": 108.65364781383732,
+   "rules": {
+    "a_0": 35.90857020189751,
+    "a_1": 97.53064781383733,
+    "a_2": 15.09
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 6,
+   "alert_hits": 6,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.099829126976029
+  },
+  "final": {
+   "map_hits": 8,
+   "alert_hits": 6,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.856859907145548,
+   "wait": 30.945275752794455,
+   "rest": 108.65364781383732,
+   "rules": {
+    "a_0": 35.90857020189751,
+    "a_1": 97.53064781383733,
+    "a_2": 15.09
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": [
+   {
+    "check": "other_answer_movement_competes_with_finite_wait",
+    "wait_rule_id": "a_2",
+    "movement_rule_id": "a_0",
+    "wait_note_ids": [
+     "N2"
+    ],
+    "movement_note_ids": [
+     "N0"
+    ]
+   }
+  ],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E36",
+  "deployed": {
+   "map_hits": 2,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.144017112544411,
+   "wait": 0.0,
+   "rest": 69.8325855079432,
+   "rules": {
+    "a_0": 49.56058550794319,
+    "a_1": 160.59866106496628,
+    "a_2": 129.49961140562598
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 5,
+   "alert_hits": 7,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.8737899760716927
+  },
+  "final": {
+   "map_hits": 5,
+   "alert_hits": 7,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.8737899760716927,
+   "wait": 15.48,
+   "rest": 86.218,
+   "rules": {
+    "a_0": 82.47800000000001,
+    "a_1": 6.866
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": [
+   {
+    "rule_id": "a_1",
+    "deployed_min": 160.59866106496628,
+    "final_min": 6.866
+   },
+   {
+    "rule_id": "a_2",
+    "deployed_min": 129.49961140562598,
+    "final_min": 0.0
+   }
+  ]
+ },
+ {
+  "person_id": "E37",
+  "deployed": {
+   "map_hits": 11,
+   "alert_hits": 6,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.071315052612214,
+   "wait": 16.2,
+   "rest": 50.51800000000001,
+   "rules": {
+    "a_1": 40.272999999999996
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 11,
+   "alert_hits": 6,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.071315052612214
+  },
+  "final": {
+   "map_hits": 11,
+   "alert_hits": 6,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.071315052612214,
+   "wait": 16.2,
+   "rest": 50.51800000000001,
+   "rules": {
+    "a_1": 40.272999999999996
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E38",
+  "deployed": {
+   "map_hits": 10,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.672787673553524,
+   "wait": 9.75463725974774,
+   "rest": 55.17,
+   "rules": {
+    "a_0": 29.827078603233772,
+    "a_1": 29.266
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 10,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.672787673553524
+  },
+  "final": {
+   "map_hits": 10,
+   "alert_hits": 8,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 3.672787673553524,
+   "wait": 9.75463725974774,
+   "rest": 55.17,
+   "rules": {
+    "a_0": 29.827078603233772,
+    "a_1": 29.266
+   }
+  },
+  "maps_identical_to_deployed": 8,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E39",
+  "deployed": {
+   "map_hits": 9,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.9287253629621188,
+   "wait": 62.898187844096974,
+   "rest": 73.34774209618438,
+   "rules": {
+    "a_0": 71.21174209618437,
+    "a_1": 20.12,
+    "a_2": 9.362453770509187
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 8,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.6313653507012045
+  },
+  "final": {
+   "map_hits": 9,
+   "alert_hits": 12,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 1.9828051569485856,
+   "wait": 62.86818784409698,
+   "rest": 73.69930189381083,
+   "rules": {
+    "a_0": 71.57330189381082,
+    "a_1": 20.12,
+    "a_2": 9.362453770509187
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": [],
+  "rule_execution_drops": []
+ },
+ {
+  "person_id": "E40",
+  "deployed": {
+   "map_hits": 5,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 2.9720583876546147,
+   "wait": 18.983685808468543,
+   "rest": 84.58596016076311,
+   "rules": {
+    "a_0": 80.76396016076308,
+    "a_2": 22.49790675145504
+   }
+  },
+  "split": "evaluation",
+  "prev_fix": {
+   "map_hits": 11,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.377630606988173
+  },
+  "final": {
+   "map_hits": 11,
+   "alert_hits": 11,
+   "checks": 24,
+   "complete": 24,
+   "map_area": 4.377630606988173,
+   "wait": 19.080000000000002,
+   "rest": 85.52199999999999,
+   "rules": {
+    "a_0": 82.077
+   }
+  },
+  "maps_identical_to_deployed": 0,
+  "maps": 8,
+  "interpretation_checks": null,
+  "rule_execution_drops": [
+   {
+    "rule_id": "a_2",
+    "deployed_min": 22.49790675145504,
+    "final_min": 0.0
+   }
+  ]
+ }
+]

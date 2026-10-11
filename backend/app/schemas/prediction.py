@@ -39,6 +39,9 @@ class PriorParams(BaseModel):
     initial_interpretation: dict = Field(default_factory=dict)
     # 사건별 해석 결과. 등록된 보호자 사실을 덮어쓰지 않고 보행 입력에만 투영.
     persona_adjustments: dict = Field(default_factory=dict)
+    # Numeric SAR baseline captured before applying personal K interpretation.
+    # No guardian quotes/reasoning in this snapshot; older priors may lack it.
+    sar_numeric_baseline: dict = Field(default_factory=dict)
 
 
 class MindState(BaseModel):
@@ -64,4 +67,5 @@ class PredictionResult(BaseModel):
     poa_topdown: POA
     poa_bottomup: POA
     poa_statistical: POA
+    quality: dict = Field(default_factory=dict)
     poa_combined: POA                         # α-pool 통합 결과 (최종)

@@ -138,7 +138,10 @@ class Repository(Generic[T]):
     def _decode(self, raw: str) -> T:
         data = json.loads(raw)
         if self._model is not None and issubclass(self._model, BaseModel):
-            return self._model.model_validate(data)
+            item = self._model.model_validate(data)
+            if hasattr(item, "_was_stored"):
+                item._was_stored = True
+            return item
         return data
 
     def _load(self) -> None:
@@ -175,6 +178,8 @@ class Repository(Generic[T]):
             return self._save(item_id, updated) if updated is not None else None
 
     def _save(self, item_id: str, item: T) -> T:
+        if hasattr(item, "_was_stored"):
+            item._was_stored = True
         self._load()
         conn = self._persistent()
         if conn is not None:
@@ -229,6 +234,18 @@ def serialize_case(fn):
         case_or_id = args[0] if args else kwargs.get("case", kwargs.get("case_id"))
         key = case_or_id if isinstance(case_or_id, str) else case_or_id.id
         with _case_locks[hash(key) % len(_case_locks)]:
+            return fn(*args, **kwargs)
+    return wrapped
+
+
+# Linking a persona and deleting it must not race across cloud lanes.
+persona_link_lock = threading.RLock()
+
+
+def serialize_persona_links(fn):
+    @wraps(fn)
+    def wrapped(*args, **kwargs):
+        with persona_link_lock:
             return fn(*args, **kwargs)
     return wrapped
 

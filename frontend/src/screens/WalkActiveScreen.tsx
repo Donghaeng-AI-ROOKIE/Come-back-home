@@ -18,6 +18,7 @@ import { clearWalkProgress } from '../utils/walkProgress';
 import BaseMap from '../components/BaseMap';
 import MapPin from '../components/MapPin';
 import WebMap from '../components/WebMap';
+import PushEnableCard from '../components/PushEnableCard';
 
 const leftMascot = require('../../assets/figma/mascot-walk-right.png');
 const rightMascot = require('../../assets/figma/mascot-walk-left.png');
@@ -103,6 +104,7 @@ export default function WalkActiveScreen() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
       <FigmaStatusBar />
+      <PushEnableCard compact />
       <View style={styles.body}>
         <View style={styles.greenTop} />
         {/* 실제 위치·실제 경로. 시안 지도 그림을 깔면 걷지 않은 길이 그려진다. */}

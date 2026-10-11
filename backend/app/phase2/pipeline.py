@@ -14,12 +14,13 @@ from datetime import datetime
 from time import perf_counter
 
 from app import storage
+from app.privacy import lifecycle
 from app.config import settings
 from app.llm import exaone
 from app.phase2 import combine, radius, simulation, topdown, initial_person
 from app.llm.initial_behavior import simulation_persona
 from app.phase0.person_preparation import apply_prepared
-from app.phase2 import situation_link
+from app.phase2 import situation_link, continuous_prediction
 from app.schemas.case import Case, CaseStatus
 from app.schemas.debug import PredictionDebug, SimTrace
 from app.schemas.prediction import MindState, POA, PredictionResult
@@ -40,6 +41,21 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
     """
     if not settings.use_roadnet:
         return None, "off"
+    if settings.personal_walk_cache_path:
+        from app.geo import roadnet
+        try:
+            net=roadnet.verified_network(settings.personal_walk_cache_path)
+            from app.geo.road_anchors import connect_anchors
+            points=[case.lkp]+[a.location for a in (persona.attraction_points if persona else [])]
+            net=connect_anchors(net, points)
+            south,west,north,east=net.coverage_bbox
+            if not (south <= case.lkp.lat <= north and west <= case.lkp.lng <= east):
+                return None,'verified regional map does not cover the report location'
+            if net.road_distance_km(case.lkp,case.lkp) is None:
+                return None,'verified regional map does not cover the report location'
+            return net,''
+        except (OSError,ValueError,KeyError) as exc:
+            return None,'verified regional map unavailable: '+type(exc).__name__
     r = None
     if (settings.roadnet_dynamic_radius and prior is not None
             and elapsed_hours is not None):
@@ -71,14 +87,18 @@ def _initial_prior(persona, report, links):
     replacement out of this fix; retaining SAR is not a claim of its superiority.
     """
     prior = exaone.generate_prior(persona, report)
+    sar_snapshot={k:prior.model_dump(mode='json')[k] for k in (
+        'strategy_probs','attraction_weights','radius_lognormal','attraction_levels','source','fallback_reason')}
     default = exaone._default_prior(persona, report)
     prepared = apply_prepared(persona, report, prior, default, links)
+    prepared.sar_numeric_baseline=sar_snapshot
     if prepared.initial_interpretation.get('status') == 'applied':
         prepared.source = 'prepared_person'
         prepared.initial_interpretation.update(
             initial_prior_path='prepared_person', numeric_baseline_source=prior.source,
             sar_source=prior.source, SAR_called_during_prediction=not exaone.is_stub)
         return prepared
+    prior.sar_numeric_baseline=sar_snapshot
     prior.initial_interpretation = dict(prepared.initial_interpretation,
         initial_prior_path='legacy_SAR_fallback', numeric_baseline_source=prior.source,
         SAR_called_during_prediction=not exaone.is_stub)
@@ -93,6 +113,7 @@ def run_prediction(
     seed: int | None = None,
     trace: bool = False,   # E2E 대시보드 — 워커 궤적·EXAONE 이벤트 수집 (결과 불변)
 ) -> PredictionResult:
+    lifecycle.ensure_not_closed(case)
     now = now or datetime.now()
     elapsed_hours = max((now - case.lkp_time).total_seconds() / 3600.0, 0.05)
 
@@ -113,7 +134,12 @@ def run_prediction(
     # separately grounded in the report; it is not inferred from SAR weights.
     links = situation_link.cached(case, persona)
     last_call = exaone.call_log[-1] if exaone.call_log else None
-    prior = _initial_prior(persona, case.report, links)
+    prior_key = continuous_prediction.prior_key(case, persona)
+    if case.prior is not None and case.prior_context_key == prior_key:
+        prior = case.prior.model_copy(deep=True)
+    else:
+        prior = _initial_prior(persona, case.report, links)
+    source_persona = persona
     prior_call = (exaone.call_log[-1]
                   if exaone.call_log and exaone.call_log[-1] is not last_call
                   and exaone.call_log[-1]["kind"] == "prior" else None)
@@ -122,7 +148,7 @@ def run_prediction(
     persona = simulation_persona(persona, prior)
     _lap("initial_person_ms")
 
-    # 마음 상태 초기화 (이후 제보의 심리 단서로 갱신됨)
+    # Direction state supplied to the personal channel; statistical stays neutral.
     mind = case.mind or MindState()
 
     # ② 예측 — 도로망이 있으면 두 MC 모두 그래프 위를 걷는다
@@ -132,36 +158,58 @@ def run_prediction(
     sim_trace = SimTrace() if trace else None
     poa_td = topdown.topdown_poa(case.lkp, prior, persona, elapsed_hours)  # 디버그·시각화 전용
     _lap("topdown_ms")
-    poa_bu = simulation.run_monte_carlo(
+    staged_case = case.model_copy(deep=True)
+    poa_bu, poa_stat, quality = continuous_prediction.run_pair(staged_case, source_persona, prior, net, elapsed_hours, seed=seed)
+    if net is not None:
+        quality['road_anchor_connections']=getattr(net,'anchor_connections',[])
+    if poa_bu is None:
+        poa_bu = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed,
         trace=sim_trace, environment_observations=case.report.environment_observations,
         started_at=case.lkp_time)
+    if quality.get('unresolved_mass',0)>1e-9:
+        case.prediction_quality=quality
+        storage.cases.save(case.id,case)
+        raise continuous_prediction.IncompletePredictionError('continuous prediction contains unresolved map probability mass')
     _lap("bottomup_ms")
-    poa_stat = simulation.run_monte_carlo(
-        case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed,
-        environment_observations=case.report.environment_observations, started_at=case.lkp_time)
+    if poa_stat is None:
+        poa_stat = simulation.run_monte_carlo(
+            case.lkp, prior, persona, elapsed_hours, mode="statistical", net=net, seed=seed,
+            environment_observations=case.report.environment_observations, started_at=case.lkp_time)
     _lap("statistical_ms")
 
-    # ③ α-pool 통합 — bottom-up·statistical 2-way. bottom-up 이 AI 개인화가 있는
-    #    쪽이라 더 큰 가중(0.7 : 0.3, 기존 3-way 비율 0.5:0.2 을 그대로 재정규화한 값).
+    # ③ α-pool: statistical uses original onboarded SAR numbers; personal uses
+    #    sourced conditional mind rules.
+    #    The configured weight is applied to both predictions and previews.
     #    초기(제보 없음)엔 linear (넓게), 제보 누적 후 log-linear (좁게)
     pool_mode = "log_linear" if len(case.tips) >= 3 else "linear"
     combined = combine.alpha_pool([poa_bu, poa_stat],
-                                  alphas=[0.7, 0.3], mode=pool_mode)
+                                  alphas=[settings.personal_channel_weight, 1-settings.personal_channel_weight], mode=pool_mode)
 
     # 케이스 상태 갱신 — baseline 은 KL 이탈 트리거의 비교 기준
+    case.continuous_state = staged_case.continuous_state
+    case.prior_context_key = prior_key
+    case.prediction_quality = quality
+    case.poa_by_hour = {}
     case.prior = prior
     case.mind = mind
     case.baseline_poa = dict(combined)
-    case.current_poa = dict(combined)
+    from app.phase3.poa_update import reapply_tips
+    case.current_poa = reapply_tips(combined, case.tips, since=case.lkp_time)
     case.last_sim_at = now
     case.roadnet_used = net is not None
     case.roadnet_fallback_reason = roadnet_fallback
     case.status = CaseStatus.predicted
     storage.cases.save(case.id, case)
+    if quality.get("mind_fill_pending"):
+        # The map above did not wait for the model; a background fill asks the
+        # reserved conditions and recomputes this horizon when answers arrive.
+        from app.llm import runtime_mind_jobs
+        runtime_mind_jobs.submit(case.id)
 
     result = PredictionResult(
         case_id=case.id,
+        quality=quality,
         prior=prior,
         poa_topdown=POA(cells=poa_td, source="topdown"),
         poa_bottomup=POA(cells=poa_bu, source="bottomup"),
@@ -190,6 +238,7 @@ def run_prediction(
     return result
 
 
+@storage.serialize_case
 def poa_at_elapsed(case: Case, elapsed_hours: float, *, seed: int | None = 42) -> dict[str, float]:
     """"만약 t시간 경과라면" 의 POA — 시간축 슬라이더용.
 
@@ -204,18 +253,25 @@ def poa_at_elapsed(case: Case, elapsed_hours: float, *, seed: int | None = 42) -
 
     결과는 case.poa_by_hour 에 캐시한다(호출부 책임).
     """
+    lifecycle.ensure_not_closed(case)
     if case.prior is None:
         raise ValueError("prior 없음 — 먼저 예측을 실행해야 한다")
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     elapsed = max(elapsed_hours, 0.05)
+    source_persona = persona
     persona = simulation_persona(persona, case.prior)
     net, _ = _load_roadnet(case, case.prior, persona, elapsed)
     mind = case.mind or MindState()
-    bu = simulation.run_monte_carlo(
+    bu, stat, quality = continuous_prediction.run_pair(case, source_persona, case.prior, net, elapsed, seed=seed, persist=False)
+    if quality.get("unresolved_mass",0)>1e-9:
+        raise continuous_prediction.IncompletePredictionError("preview contains unresolved map probability mass")
+    if bu is None:
+        bu = simulation.run_monte_carlo(
         case.lkp, case.prior, persona, elapsed, mode="agent", net=net,
         mind=mind, seed=seed,
         environment_observations=case.report.environment_observations, started_at=case.lkp_time)
-    stat = simulation.run_monte_carlo(
-        case.lkp, case.prior, persona, elapsed, mode="statistical", net=net, seed=seed,
-        environment_observations=case.report.environment_observations, started_at=case.lkp_time)
-    return combine.alpha_pool([bu, stat], alphas=[0.7, 0.3], mode="linear")
+    if stat is None:
+        stat = simulation.run_monte_carlo(
+            case.lkp, case.prior, persona, elapsed, mode="statistical", net=net, seed=seed,
+            environment_observations=case.report.environment_observations, started_at=case.lkp_time)
+    return combine.alpha_pool([bu, stat], alphas=[settings.personal_channel_weight, 1-settings.personal_channel_weight], mode="linear")

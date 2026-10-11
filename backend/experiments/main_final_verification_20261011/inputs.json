@@ -1,0 +1,3336 @@
+[
+  {
+    "person_id": "F01",
+    "split": "development",
+    "family": "goal",
+    "persona": {
+      "id": "F01",
+      "type": "dementia",
+      "name": "합성 어르신 F01",
+      "age": 74,
+      "home": {
+        "lat": 37.6626698,
+        "lng": 126.7538432
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F01 공원",
+          "location": {
+            "lat": 37.6414073,
+            "lng": 126.7562296
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F01 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F01 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "autobiographical_destination_pull": [
+          "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F01 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "autobiographical_destination_pull",
+          "question": "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요? 옛집, 예전 직장, 시장, 병원, 약국, 종교시설처럼 구체적인 장소를 알려주세요.",
+          "answer": "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F01",
+      "persona_id": "F01",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6615984,
+        "lng": 126.7506458
+      },
+      "lkp_time": "2026-10-10T10:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F02",
+    "split": "development",
+    "family": "rest",
+    "persona": {
+      "id": "F02",
+      "type": "dementia",
+      "name": "합성 어르신 F02",
+      "age": 81,
+      "home": {
+        "lat": 37.6611321,
+        "lng": 126.7478627
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F02 시장",
+          "location": {
+            "lat": 37.6634481,
+            "lng": 126.7349336
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F02 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "걸은 시간이 25분쯤 되면 다리가 아프다고 멈춰 15분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F02 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "걸은 시간이 25분쯤 되면 다리가 아프다고 멈춰 15분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F02 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "걸은 시간이 25분쯤 되면 다리가 아프다고 멈춰 15분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F02",
+      "persona_id": "F02",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6635019,
+        "lng": 126.7453933
+      },
+      "lkp_time": "2026-10-10T16:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F03",
+    "split": "development",
+    "family": "wait",
+    "persona": {
+      "id": "F03",
+      "type": "dementia",
+      "name": "합성 어르신 F03",
+      "age": 71,
+      "home": {
+        "lat": 37.660106,
+        "lng": 126.750586
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F03 공원",
+          "location": {
+            "lat": 37.651059,
+            "lng": 126.734539
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F03 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "평지에서 보통 25분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 10분 기다려요. 그래도 가족이 없으면 다시 가상 F03 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+        "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F03 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 25분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 10분 기다려요. 그래도 가족이 없으면 다시 가상 F03 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+        ],
+        "communication_approach_vulnerability": [
+          "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F03 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 25분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 10분 기다려요. 그래도 가족이 없으면 다시 가상 F03 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "communication_approach_vulnerability",
+          "question": "대상자는 이름을 부르거나 간단한 질문을 했을 때 어떻게 반응하나요? 자신의 이름, 주소 또는 보호자 연락처를 말할 수 있는지도 알려주세요.",
+          "answer": "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F03",
+      "persona_id": "F03",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6618897,
+        "lng": 126.7460919
+      },
+      "lkp_time": "2026-10-10T10:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F04",
+    "split": "development",
+    "family": "avoid",
+    "persona": {
+      "id": "F04",
+      "type": "dementia",
+      "name": "합성 어르신 F04",
+      "age": 84,
+      "home": {
+        "lat": 37.6618897,
+        "lng": 126.7460919
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F04 시장",
+          "location": {
+            "lat": 37.6603922,
+            "lng": 126.7335129
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        },
+        {
+          "label": "가상 F04 쉼터",
+          "location": {
+            "lat": 37.6520912,
+            "lng": 126.7383058
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "hazard_awareness_vulnerability",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F04 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "가상 F04 시장이 시끄러울 때만 그곳을 피해서 가상 F04 쉼터 쪽으로 가요. 조용하면 가상 F04 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F04 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "hazard_awareness_vulnerability": [
+          "가상 F04 시장이 시끄러울 때만 그곳을 피해서 가상 F04 쉼터 쪽으로 가요. 조용하면 가상 F04 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F04 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "hazard_awareness_vulnerability",
+          "question": "대상자는 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요?",
+          "answer": "가상 F04 시장이 시끄러울 때만 그곳을 피해서 가상 F04 쉼터 쪽으로 가요. 조용하면 가상 F04 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F04",
+      "persona_id": "F04",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6640232,
+        "lng": 126.744821
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [
+        {
+          "feature": "market",
+          "location": {
+            "lat": 37.6603922,
+            "lng": 126.7335129
+          },
+          "radius_m": 120,
+          "noisy": true,
+          "crowded": null,
+          "source": "synthetic_scenario",
+          "valid_from": "2026-10-10T08:00:00",
+          "valid_until": "2026-10-10T14:00:00"
+        }
+      ],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F05",
+    "split": "evaluation",
+    "family": "goal",
+    "persona": {
+      "id": "F05",
+      "type": "dementia",
+      "name": "합성 어르신 F05",
+      "age": 81,
+      "home": {
+        "lat": 37.6708594,
+        "lng": 126.7419494
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F05 공원",
+          "location": {
+            "lat": 37.6850894,
+            "lng": 126.753001
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "산책하러 나가면 보통 가상 F05 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+        "평지에서 보통 20분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "산책하러 나가면 보통 가상 F05 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 20분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "산책하러 나가면 보통 가상 F05 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 20분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F05",
+      "persona_id": "F05",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6709616,
+        "lng": 126.7480777
+      },
+      "lkp_time": "2026-10-10T10:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F06",
+    "split": "evaluation",
+    "family": "rest",
+    "persona": {
+      "id": "F06",
+      "type": "dementia",
+      "name": "합성 어르신 F06",
+      "age": 76,
+      "home": {
+        "lat": 37.661102,
+        "lng": 126.7573933
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F06 시장",
+          "location": {
+            "lat": 37.6430213,
+            "lng": 126.7674155
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "산책하러 나가면 보통 가상 F06 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+        "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "산책하러 나가면 보통 가상 F06 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요."
+        ],
+        "mobility_transport_capacity": [
+          "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "autobiographical_destination_pull": [
+          "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "산책하러 나가면 보통 가상 F06 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "autobiographical_destination_pull",
+          "question": "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요? 옛집, 예전 직장, 시장, 병원, 약국, 종교시설처럼 구체적인 장소를 알려주세요.",
+          "answer": "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F06",
+      "persona_id": "F06",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6599824,
+        "lng": 126.7505488
+      },
+      "lkp_time": "2026-10-10T14:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F07",
+    "split": "evaluation",
+    "family": "wait",
+    "persona": {
+      "id": "F07",
+      "type": "dementia",
+      "name": "합성 어르신 F07",
+      "age": 68,
+      "home": {
+        "lat": 37.6717999,
+        "lng": 126.7482302
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F07 공원",
+          "location": {
+            "lat": 37.6892444,
+            "lng": 126.7556988
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "산책하러 나가면 보통 가상 F07 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+        "평지에서 보통 15분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 30분 기다려요. 그래도 가족이 없으면 다시 가상 F07 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "산책하러 나가면 보통 가상 F07 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 15분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 30분 기다려요. 그래도 가족이 없으면 다시 가상 F07 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "산책하러 나가면 보통 가상 F07 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 15분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 30분 기다려요. 그래도 가족이 없으면 다시 가상 F07 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F07",
+      "persona_id": "F07",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6712039,
+        "lng": 126.750632
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F08",
+    "split": "evaluation",
+    "family": "avoid",
+    "persona": {
+      "id": "F08",
+      "type": "dementia",
+      "name": "합성 어르신 F08",
+      "age": 80,
+      "home": {
+        "lat": 37.6680142,
+        "lng": 126.7535161
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F08 시장",
+          "location": {
+            "lat": 37.661755,
+            "lng": 126.7790478
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        },
+        {
+          "label": "가상 F08 쉼터",
+          "location": {
+            "lat": 37.676103,
+            "lng": 126.7789773
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "hazard_awareness_vulnerability",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "산책하러 나가면 보통 가상 F08 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+        "평지에서 보통 15분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "가상 F08 시장이 시끄러울 때만 그곳을 피해서 가상 F08 쉼터 쪽으로 가요. 조용하면 가상 F08 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "산책하러 나가면 보통 가상 F08 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 15분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "hazard_awareness_vulnerability": [
+          "가상 F08 시장이 시끄러울 때만 그곳을 피해서 가상 F08 쉼터 쪽으로 가요. 조용하면 가상 F08 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "산책하러 나가면 보통 가상 F08 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 15분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "hazard_awareness_vulnerability",
+          "question": "대상자는 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요?",
+          "answer": "가상 F08 시장이 시끄러울 때만 그곳을 피해서 가상 F08 쉼터 쪽으로 가요. 조용하면 가상 F08 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F08",
+      "persona_id": "F08",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6652926,
+        "lng": 126.7537538
+      },
+      "lkp_time": "2026-10-10T14:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [
+        {
+          "feature": "market",
+          "location": {
+            "lat": 37.661755,
+            "lng": 126.7790478
+          },
+          "radius_m": 120,
+          "noisy": false,
+          "crowded": null,
+          "source": "synthetic_scenario",
+          "valid_from": "2026-10-10T14:00:00",
+          "valid_until": "2026-10-10T20:00:00"
+        }
+      ],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F09",
+    "split": "evaluation",
+    "family": "goal",
+    "persona": {
+      "id": "F09",
+      "type": "dementia",
+      "name": "합성 어르신 F09",
+      "age": 83,
+      "home": {
+        "lat": 37.6700645,
+        "lng": 126.7511302
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F09 공원",
+          "location": {
+            "lat": 37.6708042,
+            "lng": 126.7802805
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "매일 가상 F09 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+        "평지에서 보통 30분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "매일 가상 F09 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 30분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "매일 가상 F09 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F09",
+      "persona_id": "F09",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6678508,
+        "lng": 126.7529523
+      },
+      "lkp_time": "2026-10-10T10:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F10",
+    "split": "evaluation",
+    "family": "rest",
+    "persona": {
+      "id": "F10",
+      "type": "dementia",
+      "name": "합성 어르신 F10",
+      "age": 79,
+      "home": {
+        "lat": 37.6601504,
+        "lng": 126.7501406
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F10 시장",
+          "location": {
+            "lat": 37.6546892,
+            "lng": 126.7450284
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "매일 가상 F10 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+        "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "매일 가상 F10 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요."
+        ],
+        "mobility_transport_capacity": [
+          "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "communication_approach_vulnerability": [
+          "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "매일 가상 F10 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "communication_approach_vulnerability",
+          "question": "대상자는 이름을 부르거나 간단한 질문을 했을 때 어떻게 반응하나요? 자신의 이름, 주소 또는 보호자 연락처를 말할 수 있는지도 알려주세요.",
+          "answer": "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F10",
+      "persona_id": "F10",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6597324,
+        "lng": 126.7452498
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F11",
+    "split": "evaluation",
+    "family": "wait",
+    "persona": {
+      "id": "F11",
+      "type": "dementia",
+      "name": "합성 어르신 F11",
+      "age": 88,
+      "home": {
+        "lat": 37.6618031,
+        "lng": 126.746293
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F11 공원",
+          "location": {
+            "lat": 37.6651652,
+            "lng": 126.7375427
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "매일 가상 F11 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+        "평지에서 보통 20분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 20분 기다려요. 그래도 가족이 없으면 다시 가상 F11 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+        "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "매일 가상 F11 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 20분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 20분 기다려요. 그래도 가족이 없으면 다시 가상 F11 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+        ],
+        "autobiographical_destination_pull": [
+          "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "매일 가상 F11 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 20분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 20분 기다려요. 그래도 가족이 없으면 다시 가상 F11 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "autobiographical_destination_pull",
+          "question": "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요? 옛집, 예전 직장, 시장, 병원, 약국, 종교시설처럼 구체적인 장소를 알려주세요.",
+          "answer": "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F11",
+      "persona_id": "F11",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6643107,
+        "lng": 126.7452876
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F12",
+    "split": "evaluation",
+    "family": "avoid",
+    "persona": {
+      "id": "F12",
+      "type": "dementia",
+      "name": "합성 어르신 F12",
+      "age": 69,
+      "home": {
+        "lat": 37.6628204,
+        "lng": 126.7555677
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F12 시장",
+          "location": {
+            "lat": 37.6559075,
+            "lng": 126.7623
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        },
+        {
+          "label": "가상 F12 쉼터",
+          "location": {
+            "lat": 37.6588566,
+            "lng": 126.7696229
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "hazard_awareness_vulnerability",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "매일 가상 F12 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+        "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "가상 F12 시장이 시끄러울 때만 그곳을 피해서 가상 F12 쉼터 쪽으로 가요. 조용하면 가상 F12 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "매일 가상 F12 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "hazard_awareness_vulnerability": [
+          "가상 F12 시장이 시끄러울 때만 그곳을 피해서 가상 F12 쉼터 쪽으로 가요. 조용하면 가상 F12 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "매일 가상 F12 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "hazard_awareness_vulnerability",
+          "question": "대상자는 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요?",
+          "answer": "가상 F12 시장이 시끄러울 때만 그곳을 피해서 가상 F12 쉼터 쪽으로 가요. 조용하면 가상 F12 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F12",
+      "persona_id": "F12",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6612829,
+        "lng": 126.7536333
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [
+        {
+          "feature": "market",
+          "location": {
+            "lat": 37.6559075,
+            "lng": 126.7623
+          },
+          "radius_m": 120,
+          "noisy": true,
+          "crowded": null,
+          "source": "synthetic_scenario",
+          "valid_from": "2026-10-10T08:00:00",
+          "valid_until": "2026-10-10T14:00:00"
+        }
+      ],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F13",
+    "split": "evaluation",
+    "family": "goal",
+    "persona": {
+      "id": "F13",
+      "type": "dementia",
+      "name": "합성 어르신 F13",
+      "age": 72,
+      "home": {
+        "lat": 37.6602304,
+        "lng": 126.7507052
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F13 공원",
+          "location": {
+            "lat": 37.6545377,
+            "lng": 126.7313726
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "평소 목적지는 가상 F13 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+        "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "평소 목적지는 가상 F13 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "평소 목적지는 가상 F13 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F13",
+      "persona_id": "F13",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6618031,
+        "lng": 126.746293
+      },
+      "lkp_time": "2026-10-10T16:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F14",
+    "split": "evaluation",
+    "family": "rest",
+    "persona": {
+      "id": "F14",
+      "type": "dementia",
+      "name": "합성 어르신 F14",
+      "age": 78,
+      "home": {
+        "lat": 37.6687015,
+        "lng": 126.7412777
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F14 시장",
+          "location": {
+            "lat": 37.6891484,
+            "lng": 126.7482819
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "평소 목적지는 가상 F14 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+        "걸은 시간이 20분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "평소 목적지는 가상 F14 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요."
+        ],
+        "mobility_transport_capacity": [
+          "걸은 시간이 20분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "평소 목적지는 가상 F14 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "걸은 시간이 20분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F14",
+      "persona_id": "F14",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6705724,
+        "lng": 126.7469108
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F15",
+    "split": "evaluation",
+    "family": "wait",
+    "persona": {
+      "id": "F15",
+      "type": "dementia",
+      "name": "합성 어르신 F15",
+      "age": 80,
+      "home": {
+        "lat": 37.6687603,
+        "lng": 126.7564357
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F15 공원",
+          "location": {
+            "lat": 37.6550486,
+            "lng": 126.7703179
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "평소 목적지는 가상 F15 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+        "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F15 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "평소 목적지는 가상 F15 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F15 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "평소 목적지는 가상 F15 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F15 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F15",
+      "persona_id": "F15",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6638653,
+        "lng": 126.7550978
+      },
+      "lkp_time": "2026-10-10T10:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F16",
+    "split": "evaluation",
+    "family": "avoid",
+    "persona": {
+      "id": "F16",
+      "type": "dementia",
+      "name": "합성 어르신 F16",
+      "age": 88,
+      "home": {
+        "lat": 37.6609594,
+        "lng": 126.7482615
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F16 시장",
+          "location": {
+            "lat": 37.652434,
+            "lng": 126.7318958
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        },
+        {
+          "label": "가상 F16 쉼터",
+          "location": {
+            "lat": 37.6445278,
+            "lng": 126.749782
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "hazard_awareness_vulnerability",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "평소 목적지는 가상 F16 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+        "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "가상 F16 시장이 시끄러울 때만 그곳을 피해서 가상 F16 쉼터 쪽으로 가요. 조용하면 가상 F16 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+        "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "평소 목적지는 가상 F16 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "hazard_awareness_vulnerability": [
+          "가상 F16 시장이 시끄러울 때만 그곳을 피해서 가상 F16 쉼터 쪽으로 가요. 조용하면 가상 F16 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+        ],
+        "autobiographical_destination_pull": [
+          "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "평소 목적지는 가상 F16 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "hazard_awareness_vulnerability",
+          "question": "대상자는 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요?",
+          "answer": "가상 F16 시장이 시끄러울 때만 그곳을 피해서 가상 F16 쉼터 쪽으로 가요. 조용하면 가상 F16 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "autobiographical_destination_pull",
+          "question": "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요? 옛집, 예전 직장, 시장, 병원, 약국, 종교시설처럼 구체적인 장소를 알려주세요.",
+          "answer": "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F16",
+      "persona_id": "F16",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6619339,
+        "lng": 126.7453449
+      },
+      "lkp_time": "2026-10-10T10:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [
+        {
+          "feature": "market",
+          "location": {
+            "lat": 37.652434,
+            "lng": 126.7318958
+          },
+          "radius_m": 120,
+          "noisy": false,
+          "crowded": null,
+          "source": "synthetic_scenario",
+          "valid_from": "2026-10-10T10:00:00",
+          "valid_until": "2026-10-10T16:00:00"
+        }
+      ],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F17",
+    "split": "evaluation",
+    "family": "goal",
+    "persona": {
+      "id": "F17",
+      "type": "dementia",
+      "name": "합성 어르신 F17",
+      "age": 87,
+      "home": {
+        "lat": 37.6691703,
+        "lng": 126.747697
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F17 공원",
+          "location": {
+            "lat": 37.6880376,
+            "lng": 126.7590717
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F17 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "평지에서 보통 20분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F17 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 20분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "communication_approach_vulnerability": [
+          "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F17 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 20분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "communication_approach_vulnerability",
+          "question": "대상자는 이름을 부르거나 간단한 질문을 했을 때 어떻게 반응하나요? 자신의 이름, 주소 또는 보호자 연락처를 말할 수 있는지도 알려주세요.",
+          "answer": "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F17",
+      "persona_id": "F17",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6682828,
+        "lng": 126.7494276
+      },
+      "lkp_time": "2026-10-10T16:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F18",
+    "split": "evaluation",
+    "family": "rest",
+    "persona": {
+      "id": "F18",
+      "type": "dementia",
+      "name": "합성 어르신 F18",
+      "age": 80,
+      "home": {
+        "lat": 37.6687939,
+        "lng": 126.7544669
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F18 시장",
+          "location": {
+            "lat": 37.6536699,
+            "lng": 126.7643051
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F18 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 15분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F18 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 15분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F18 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 15분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F18",
+      "persona_id": "F18",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6636233,
+        "lng": 126.7525415
+      },
+      "lkp_time": "2026-10-10T10:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F19",
+    "split": "evaluation",
+    "family": "wait",
+    "persona": {
+      "id": "F19",
+      "type": "dementia",
+      "name": "합성 어르신 F19",
+      "age": 76,
+      "home": {
+        "lat": 37.6603789,
+        "lng": 126.7503708
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F19 공원",
+          "location": {
+            "lat": 37.6508367,
+            "lng": 126.7354696
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F19 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F19 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F19 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F19 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F19 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 15분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F19 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F19",
+      "persona_id": "F19",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6640833,
+        "lng": 126.7461019
+      },
+      "lkp_time": "2026-10-10T16:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F20",
+    "split": "evaluation",
+    "family": "avoid",
+    "persona": {
+      "id": "F20",
+      "type": "dementia",
+      "name": "합성 어르신 F20",
+      "age": 78,
+      "home": {
+        "lat": 37.6611062,
+        "lng": 126.7512517
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F20 시장",
+          "location": {
+            "lat": 37.6555128,
+            "lng": 126.730561
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        },
+        {
+          "label": "가상 F20 쉼터",
+          "location": {
+            "lat": 37.6445278,
+            "lng": 126.749782
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "hazard_awareness_vulnerability",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F20 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "평지에서 보통 15분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "가상 F20 시장이 시끄러울 때만 그곳을 피해서 가상 F20 쉼터 쪽으로 가요. 조용하면 가상 F20 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F20 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 15분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "hazard_awareness_vulnerability": [
+          "가상 F20 시장이 시끄러울 때만 그곳을 피해서 가상 F20 쉼터 쪽으로 가요. 조용하면 가상 F20 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F20 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 15분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "hazard_awareness_vulnerability",
+          "question": "대상자는 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요?",
+          "answer": "가상 F20 시장이 시끄러울 때만 그곳을 피해서 가상 F20 쉼터 쪽으로 가요. 조용하면 가상 F20 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F20",
+      "persona_id": "F20",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6633059,
+        "lng": 126.7467237
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [
+        {
+          "feature": "market",
+          "location": {
+            "lat": 37.6555128,
+            "lng": 126.730561
+          },
+          "radius_m": 120,
+          "noisy": true,
+          "crowded": null,
+          "source": "synthetic_scenario",
+          "valid_from": "2026-10-10T08:00:00",
+          "valid_until": "2026-10-10T14:00:00"
+        }
+      ],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F21",
+    "split": "evaluation",
+    "family": "goal",
+    "persona": {
+      "id": "F21",
+      "type": "dementia",
+      "name": "합성 어르신 F21",
+      "age": 82,
+      "home": {
+        "lat": 37.6706663,
+        "lng": 126.7456376
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F21 공원",
+          "location": {
+            "lat": 37.6861521,
+            "lng": 126.759449
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "산책하러 나가면 보통 가상 F21 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+        "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "산책하러 나가면 보통 가상 F21 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "autobiographical_destination_pull": [
+          "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "산책하러 나가면 보통 가상 F21 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "autobiographical_destination_pull",
+          "question": "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요? 옛집, 예전 직장, 시장, 병원, 약국, 종교시설처럼 구체적인 장소를 알려주세요.",
+          "answer": "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F21",
+      "persona_id": "F21",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6685403,
+        "lng": 126.7496085
+      },
+      "lkp_time": "2026-10-10T10:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F22",
+    "split": "evaluation",
+    "family": "rest",
+    "persona": {
+      "id": "F22",
+      "type": "dementia",
+      "name": "합성 어르신 F22",
+      "age": 76,
+      "home": {
+        "lat": 37.6615477,
+        "lng": 126.7591064
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F22 시장",
+          "location": {
+            "lat": 37.6390307,
+            "lng": 126.7651841
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "산책하러 나가면 보통 가상 F22 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+        "걸은 시간이 15분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "산책하러 나가면 보통 가상 F22 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요."
+        ],
+        "mobility_transport_capacity": [
+          "걸은 시간이 15분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "산책하러 나가면 보통 가상 F22 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "걸은 시간이 15분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F22",
+      "persona_id": "F22",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.658858,
+        "lng": 126.75429
+      },
+      "lkp_time": "2026-10-10T14:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F23",
+    "split": "evaluation",
+    "family": "wait",
+    "persona": {
+      "id": "F23",
+      "type": "dementia",
+      "name": "합성 어르신 F23",
+      "age": 88,
+      "home": {
+        "lat": 37.6720014,
+        "lng": 126.7447738
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F23 공원",
+          "location": {
+            "lat": 37.6794441,
+            "lng": 126.7478198
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "산책하러 나가면 보통 가상 F23 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+        "평지에서 보통 25분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 30분 기다려요. 그래도 가족이 없으면 다시 가상 F23 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "산책하러 나가면 보통 가상 F23 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 25분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 30분 기다려요. 그래도 가족이 없으면 다시 가상 F23 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "산책하러 나가면 보통 가상 F23 공원까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 25분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 30분 기다려요. 그래도 가족이 없으면 다시 가상 F23 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F23",
+      "persona_id": "F23",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6716581,
+        "lng": 126.7485574
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F24",
+    "split": "evaluation",
+    "family": "avoid",
+    "persona": {
+      "id": "F24",
+      "type": "dementia",
+      "name": "합성 어르신 F24",
+      "age": 85,
+      "home": {
+        "lat": 37.6648742,
+        "lng": 126.7422802
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F24 시장",
+          "location": {
+            "lat": 37.671148,
+            "lng": 126.7469615
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        },
+        {
+          "label": "가상 F24 쉼터",
+          "location": {
+            "lat": 37.6711408,
+            "lng": 126.7396138
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "hazard_awareness_vulnerability",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "산책하러 나가면 보통 가상 F24 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+        "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "가상 F24 시장이 시끄러울 때만 그곳을 피해서 가상 F24 쉼터 쪽으로 가요. 조용하면 가상 F24 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+        "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "산책하러 나가면 보통 가상 F24 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "hazard_awareness_vulnerability": [
+          "가상 F24 시장이 시끄러울 때만 그곳을 피해서 가상 F24 쉼터 쪽으로 가요. 조용하면 가상 F24 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+        ],
+        "communication_approach_vulnerability": [
+          "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "산책하러 나가면 보통 가상 F24 시장까지 가요. 그곳에 가야 한다고 평소 자주 말씀하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "hazard_awareness_vulnerability",
+          "question": "대상자는 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요?",
+          "answer": "가상 F24 시장이 시끄러울 때만 그곳을 피해서 가상 F24 쉼터 쪽으로 가요. 조용하면 가상 F24 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "communication_approach_vulnerability",
+          "question": "대상자는 이름을 부르거나 간단한 질문을 했을 때 어떻게 반응하나요? 자신의 이름, 주소 또는 보호자 연락처를 말할 수 있는지도 알려주세요.",
+          "answer": "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F24",
+      "persona_id": "F24",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6667416,
+        "lng": 126.7476286
+      },
+      "lkp_time": "2026-10-10T10:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [
+        {
+          "feature": "market",
+          "location": {
+            "lat": 37.671148,
+            "lng": 126.7469615
+          },
+          "radius_m": 120,
+          "noisy": false,
+          "crowded": null,
+          "source": "synthetic_scenario",
+          "valid_from": "2026-10-10T10:00:00",
+          "valid_until": "2026-10-10T16:00:00"
+        }
+      ],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F25",
+    "split": "evaluation",
+    "family": "goal",
+    "persona": {
+      "id": "F25",
+      "type": "dementia",
+      "name": "합성 어르신 F25",
+      "age": 74,
+      "home": {
+        "lat": 37.6610893,
+        "lng": 126.7428266
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F25 공원",
+          "location": {
+            "lat": 37.6668778,
+            "lng": 126.7311043
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "매일 가상 F25 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+        "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "매일 가상 F25 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "매일 가상 F25 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 20분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F25",
+      "persona_id": "F25",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6648742,
+        "lng": 126.7422802
+      },
+      "lkp_time": "2026-10-10T16:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F26",
+    "split": "evaluation",
+    "family": "rest",
+    "persona": {
+      "id": "F26",
+      "type": "dementia",
+      "name": "합성 어르신 F26",
+      "age": 87,
+      "home": {
+        "lat": 37.6664314,
+        "lng": 126.7594136
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F26 시장",
+          "location": {
+            "lat": 37.6606972,
+            "lng": 126.7672885
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "매일 가상 F26 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+        "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 5분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "매일 가상 F26 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요."
+        ],
+        "mobility_transport_capacity": [
+          "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 5분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "autobiographical_destination_pull": [
+          "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "매일 가상 F26 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 5분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "autobiographical_destination_pull",
+          "question": "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요? 옛집, 예전 직장, 시장, 병원, 약국, 종교시설처럼 구체적인 장소를 알려주세요.",
+          "answer": "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F26",
+      "persona_id": "F26",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6628369,
+        "lng": 126.7582179
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F27",
+    "split": "evaluation",
+    "family": "wait",
+    "persona": {
+      "id": "F27",
+      "type": "dementia",
+      "name": "합성 어르신 F27",
+      "age": 82,
+      "home": {
+        "lat": 37.6722859,
+        "lng": 126.7430061
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F27 공원",
+          "location": {
+            "lat": 37.6771875,
+            "lng": 126.7449943
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "매일 가상 F27 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+        "평지에서 보통 30분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F27 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "매일 가상 F27 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 30분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F27 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "매일 가상 F27 공원에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F27 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F27",
+      "persona_id": "F27",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6728145,
+        "lng": 126.7462663
+      },
+      "lkp_time": "2026-10-10T16:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F28",
+    "split": "evaluation",
+    "family": "avoid",
+    "persona": {
+      "id": "F28",
+      "type": "dementia",
+      "name": "합성 어르신 F28",
+      "age": 81,
+      "home": {
+        "lat": 37.6609339,
+        "lng": 126.7428176
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F28 시장",
+          "location": {
+            "lat": 37.6644243,
+            "lng": 126.7357526
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        },
+        {
+          "label": "가상 F28 쉼터",
+          "location": {
+            "lat": 37.658536,
+            "lng": 126.7337805
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "hazard_awareness_vulnerability",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "매일 가상 F28 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+        "평지에서 보통 30분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "가상 F28 시장이 시끄러울 때만 그곳을 피해서 가상 F28 쉼터 쪽으로 가요. 조용하면 가상 F28 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "매일 가상 F28 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 30분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "hazard_awareness_vulnerability": [
+          "가상 F28 시장이 시끄러울 때만 그곳을 피해서 가상 F28 쉼터 쪽으로 가요. 조용하면 가상 F28 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "매일 가상 F28 시장에 가십니다. 혼자 나가도 그곳으로 가는 모습을 여러 번 봤어요. 가는 길은 익숙해요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "hazard_awareness_vulnerability",
+          "question": "대상자는 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요?",
+          "answer": "가상 F28 시장이 시끄러울 때만 그곳을 피해서 가상 F28 쉼터 쪽으로 가요. 조용하면 가상 F28 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F28",
+      "persona_id": "F28",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6648742,
+        "lng": 126.7422802
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [
+        {
+          "feature": "market",
+          "location": {
+            "lat": 37.6644243,
+            "lng": 126.7357526
+          },
+          "radius_m": 120,
+          "noisy": true,
+          "crowded": null,
+          "source": "synthetic_scenario",
+          "valid_from": "2026-10-10T08:00:00",
+          "valid_until": "2026-10-10T14:00:00"
+        }
+      ],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F29",
+    "split": "evaluation",
+    "family": "goal",
+    "persona": {
+      "id": "F29",
+      "type": "dementia",
+      "name": "합성 어르신 F29",
+      "age": 75,
+      "home": {
+        "lat": 37.6680213,
+        "lng": 126.7436214
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F29 공원",
+          "location": {
+            "lat": 37.6749215,
+            "lng": 126.759684
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "평소 목적지는 가상 F29 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+        "평지에서 보통 30분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "평소 목적지는 가상 F29 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 30분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "평소 목적지는 가상 F29 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 15분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F29",
+      "persona_id": "F29",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6668035,
+        "lng": 126.749041
+      },
+      "lkp_time": "2026-10-10T14:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F30",
+    "split": "evaluation",
+    "family": "rest",
+    "persona": {
+      "id": "F30",
+      "type": "dementia",
+      "name": "합성 어르신 F30",
+      "age": 74,
+      "home": {
+        "lat": 37.6648742,
+        "lng": 126.7422802
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F30 시장",
+          "location": {
+            "lat": 37.6806641,
+            "lng": 126.7359525
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "평소 목적지는 가상 F30 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+        "걸은 시간이 25분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "평소 목적지는 가상 F30 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요."
+        ],
+        "mobility_transport_capacity": [
+          "걸은 시간이 25분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "평소 목적지는 가상 F30 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "걸은 시간이 25분쯤 되면 다리가 아프다고 멈춰 10분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F30",
+      "persona_id": "F30",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.66742,
+        "lng": 126.7444249
+      },
+      "lkp_time": "2026-10-10T10:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F31",
+    "split": "evaluation",
+    "family": "wait",
+    "persona": {
+      "id": "F31",
+      "type": "dementia",
+      "name": "합성 어르신 F31",
+      "age": 75,
+      "home": {
+        "lat": 37.6611321,
+        "lng": 126.7478627
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F31 공원",
+          "location": {
+            "lat": 37.6591936,
+            "lng": 126.7264017
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "평소 목적지는 가상 F31 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+        "평지에서 보통 20분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 10분 기다려요. 그래도 가족이 없으면 다시 가상 F31 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+        "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요.",
+        "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "평소 목적지는 가상 F31 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 20분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 10분 기다려요. 그래도 가족이 없으면 다시 가상 F31 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+        ],
+        "autobiographical_destination_pull": [
+          "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+        ],
+        "communication_approach_vulnerability": [
+          "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "평소 목적지는 가상 F31 공원이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 20분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 10분 기다려요. 그래도 가족이 없으면 다시 가상 F31 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "autobiographical_destination_pull",
+          "question": "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요? 옛집, 예전 직장, 시장, 병원, 약국, 종교시설처럼 구체적인 장소를 알려주세요.",
+          "answer": "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "communication_approach_vulnerability",
+          "question": "대상자는 이름을 부르거나 간단한 질문을 했을 때 어떻게 반응하나요? 자신의 이름, 주소 또는 보호자 연락처를 말할 수 있는지도 알려주세요.",
+          "answer": "낯선 사람에게 먼저 말을 거는지는 제가 본 적이 없어 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F31",
+      "persona_id": "F31",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6650372,
+        "lng": 126.7464408
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F32",
+    "split": "evaluation",
+    "family": "avoid",
+    "persona": {
+      "id": "F32",
+      "type": "dementia",
+      "name": "합성 어르신 F32",
+      "age": 77,
+      "home": {
+        "lat": 37.6740715,
+        "lng": 126.7475558
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F32 시장",
+          "location": {
+            "lat": 37.6771092,
+            "lng": 126.760013
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        },
+        {
+          "label": "가상 F32 쉼터",
+          "location": {
+            "lat": 37.6835096,
+            "lng": 126.7506559
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "hazard_awareness_vulnerability",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "평소 목적지는 가상 F32 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+        "평지에서 보통 15분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "가상 F32 시장이 시끄러울 때만 그곳을 피해서 가상 F32 쉼터 쪽으로 가요. 조용하면 가상 F32 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "평소 목적지는 가상 F32 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 15분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "hazard_awareness_vulnerability": [
+          "가상 F32 시장이 시끄러울 때만 그곳을 피해서 가상 F32 쉼터 쪽으로 가요. 조용하면 가상 F32 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "평소 목적지는 가상 F32 시장이에요. 그 길은 스스로 찾아가시고, 거기서 한동안 머무르세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 15분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "hazard_awareness_vulnerability",
+          "question": "대상자는 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요?",
+          "answer": "가상 F32 시장이 시끄러울 때만 그곳을 피해서 가상 F32 쉼터 쪽으로 가요. 조용하면 가상 F32 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F32",
+      "persona_id": "F32",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.672362,
+        "lng": 126.7527055
+      },
+      "lkp_time": "2026-10-10T16:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [
+        {
+          "feature": "market",
+          "location": {
+            "lat": 37.6771092,
+            "lng": 126.760013
+          },
+          "radius_m": 120,
+          "noisy": false,
+          "crowded": null,
+          "source": "synthetic_scenario",
+          "valid_from": "2026-10-10T16:00:00",
+          "valid_until": "2026-10-10T22:00:00"
+        }
+      ],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F33",
+    "split": "evaluation",
+    "family": "goal",
+    "persona": {
+      "id": "F33",
+      "type": "dementia",
+      "name": "합성 어르신 F33",
+      "age": 68,
+      "home": {
+        "lat": 37.6623648,
+        "lng": 126.7519027
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F33 공원",
+          "location": {
+            "lat": 37.652434,
+            "lng": 126.7318958
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F33 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "평지에서 보통 30분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F33 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 30분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F33 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F33",
+      "persona_id": "F33",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6642936,
+        "lng": 126.7474155
+      },
+      "lkp_time": "2026-10-10T14:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F34",
+    "split": "evaluation",
+    "family": "rest",
+    "persona": {
+      "id": "F34",
+      "type": "dementia",
+      "name": "합성 어르신 F34",
+      "age": 87,
+      "home": {
+        "lat": 37.6597324,
+        "lng": 126.7452498
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F34 시장",
+          "location": {
+            "lat": 37.647226,
+            "lng": 126.7415962
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F34 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 5분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F34 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 5분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F34 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "걸은 시간이 30분쯤 되면 다리가 아프다고 멈춰 5분 쉬세요. 쉬고 나서는 다시 목적지로 걸으세요. 매번 그런 편이에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F34",
+      "persona_id": "F34",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6606568,
+        "lng": 126.7439672
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F35",
+    "split": "evaluation",
+    "family": "wait",
+    "persona": {
+      "id": "F35",
+      "type": "dementia",
+      "name": "합성 어르신 F35",
+      "age": 72,
+      "home": {
+        "lat": 37.6612788,
+        "lng": 126.7547081
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F35 공원",
+          "location": {
+            "lat": 37.6401215,
+            "lng": 126.7574955
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F35 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F35 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F35 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F35 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F35 공원 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 30분 정도 걸으세요. 그 다음에는 5분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었다는 걸 알아차리면 그 자리에 멈춰 40분 기다려요. 그래도 가족이 없으면 다시 가상 F35 공원 쪽으로 걸으세요. 가족을 만나서 귀가한 뒤는 실종이 끝난 경우예요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F35",
+      "persona_id": "F35",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6602199,
+        "lng": 126.7506951
+      },
+      "lkp_time": "2026-10-10T08:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [],
+      "behavior_observations": []
+    }
+  },
+  {
+    "person_id": "F36",
+    "split": "evaluation",
+    "family": "avoid",
+    "persona": {
+      "id": "F36",
+      "type": "dementia",
+      "name": "합성 어르신 F36",
+      "age": 70,
+      "home": {
+        "lat": 37.6644012,
+        "lng": 126.7579497
+      },
+      "created_at": "2026-10-08T09:00:00",
+      "version": 1,
+      "attraction_points": [
+        {
+          "label": "가상 F36 시장",
+          "location": {
+            "lat": 37.6482042,
+            "lng": 126.7574878
+          },
+          "place_type": "market",
+          "evidence": "caregiver_report",
+          "origin_slot": "routine_destinations",
+          "weight": 0.5,
+          "precision": "poi"
+        },
+        {
+          "label": "가상 F36 쉼터",
+          "location": {
+            "lat": 37.6568311,
+            "lng": 126.7755831
+          },
+          "place_type": "park",
+          "evidence": "caregiver_report",
+          "origin_slot": "hazard_awareness_vulnerability",
+          "weight": 0.5,
+          "precision": "poi"
+        }
+      ],
+      "behavior_notes": [
+        "가상 F36 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+        "평지에서 보통 25분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+        "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+        "가상 F36 시장이 시끄러울 때만 그곳을 피해서 가상 F36 쉼터 쪽으로 가요. 조용하면 가상 F36 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+        "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+      ],
+      "onboarding_quotes": {
+        "routine_destinations": [
+          "가상 F36 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요."
+        ],
+        "mobility_transport_capacity": [
+          "평지에서 보통 25분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요."
+        ],
+        "lost_behavior": [
+          "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요."
+        ],
+        "hazard_awareness_vulnerability": [
+          "가상 F36 시장이 시끄러울 때만 그곳을 피해서 가상 F36 쉼터 쪽으로 가요. 조용하면 가상 F36 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요."
+        ],
+        "autobiographical_destination_pull": [
+          "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요."
+        ]
+      },
+      "onboarding_turns": [
+        {
+          "slot": "routine_destinations",
+          "question": "혼자 나가실 때 주로 어디에 가시나요? (마트, 공원, 경로당 등) 가는 길도 정해져 있나요?",
+          "answer": "가상 F36 시장 쪽을 반복해서 찾으세요. 늘 다니는 길은 알아보시지만 처음 온 골목은 어려워하세요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "mobility_transport_capacity",
+          "question": "대상자는 평소 보호자의 도움 없이 얼마나 오래 또는 멀리 걸을 수 있나요?",
+          "answer": "평지에서 보통 25분 정도 걸으세요. 그 다음에는 10분 쉬면 다시 걸을 수 있어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "lost_behavior",
+          "question": "길을 잃으시면 보통 어떻게 하시나요? 한자리에 머무시는 편인가요, 계속 걸으시나요, 아니면 숨으시나요?",
+          "answer": "길을 잃었을 때 어떻게 하실지는 잘 모르겠어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "hazard_awareness_vulnerability",
+          "question": "대상자는 차도, 횡단보도, 물가, 계단처럼 위험한 장소를 스스로 알아보고 피할 수 있나요?",
+          "answer": "가상 F36 시장이 시끄러울 때만 그곳을 피해서 가상 F36 쉼터 쪽으로 가요. 조용하면 가상 F36 시장에 들어가세요. 모든 공원이나 시장을 피하는 것은 아니에요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        },
+        {
+          "slot": "autobiographical_destination_pull",
+          "question": "대상자가 반복해서 찾거나 가려고 하는 과거의 장소가 있나요? 옛집, 예전 직장, 시장, 병원, 약국, 종교시설처럼 구체적인 장소를 알려주세요.",
+          "answer": "예전 직장 이야기는 하시지만 요즘 찾아가겠다고 하신 적이나 실제 간 적은 없어요.",
+          "recorded_at": "2026-10-08T09:00:00"
+        }
+      ]
+    },
+    "report": {
+      "id": "report-F36",
+      "persona_id": "F36",
+      "missing_type": "dementia",
+      "lkp": {
+        "lat": 37.6612829,
+        "lng": 126.7536333
+      },
+      "lkp_time": "2026-10-10T16:00:00",
+      "situation": "혼자 걷는 모습을 마지막으로 봤습니다. 오늘 어디로 가려는지는 모릅니다.",
+      "environment_observations": [
+        {
+          "feature": "market",
+          "location": {
+            "lat": 37.6482042,
+            "lng": 126.7574878
+          },
+          "radius_m": 120,
+          "noisy": true,
+          "crowded": null,
+          "source": "synthetic_scenario",
+          "valid_from": "2026-10-10T16:00:00",
+          "valid_until": "2026-10-10T22:00:00"
+        }
+      ],
+      "behavior_observations": []
+    }
+  }
+]

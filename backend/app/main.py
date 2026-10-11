@@ -31,7 +31,7 @@ def _warm_exaone() -> None:
     """
     from app import llm
 
-    if llm.exaone.is_stub:
+    if not settings.exaone_warmup_enabled or llm.exaone.is_stub:
         return
     try:
         llm.exaone.chat([{"role": "user", "content": "ok"}], max_tokens=1, temperature=0.0)

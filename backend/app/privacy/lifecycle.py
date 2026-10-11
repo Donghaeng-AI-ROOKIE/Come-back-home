@@ -112,25 +112,36 @@ def ensure_not_closed(case: Case) -> None:
     특히 Phase 2 예측은 status 를 predicted 로 덮어써 종결을 '부활'시키므로
     (pipeline.run_prediction), 모든 수색 진입점이 이 게이트를 먼저 통과해야 한다.
     """
-    if case.status in (CaseStatus.found, CaseStatus.closed):
-        raise AlreadyClosed(
-            f"종결된 케이스 ({case.status.value}) — 예측·알림·제보 불가"
-        )
+    # A queued worker may still hold an active copy after the stored case ended.
+    current = storage.cases.get(case.id)
+    if current is None and case._was_stored:
+        raise AlreadyClosed('삭제된 사건 — 작업 불가')
+    for candidate in (case, current):
+        if candidate is not None and candidate.status in (CaseStatus.found, CaseStatus.closed):
+            raise AlreadyClosed(
+                f"종결된 케이스 ({candidate.status.value}) — 예측·알림·제보 불가"
+            )
 
 
+@storage.serialize_case
 def close_case(case: Case, reason: CloseReason, now: datetime | None = None) -> Case:
     """종결 처리 — 이 순간부터 TTL 카운트다운이 시작된다."""
-    if case.status in (CaseStatus.found, CaseStatus.closed):
-        raise AlreadyClosed(f"이미 종결된 케이스: {case.id} ({case.status.value})")
+    ensure_not_closed(case)
+    case = storage.cases.get(case.id) or case
     case.status = CaseStatus.found if reason == CloseReason.found else CaseStatus.closed
     case.close_reason = reason
     case.closed_at = now or datetime.now()
+    case.alert_delivery = {}
     storage.cases.save(case.id, case)
     # 종결과 동시에 익명 참여자 카운트를 턴다. 안 그러면 TTL(90s)이 다 지날 때까지
     # 끝난 사건에 "N명이 함께 보고 있어요"가 남는다.
     presence.clear(case.id)
     # 다듬은 안내 문구에는 인상착의가 들어 있다 — 사건과 함께 사라져야 한다.
     storytelling.clear_refined(case.id)
+    from app.schemas.privacy import PrivacyJob
+    job = PrivacyJob(id="case-expiry:" + case.id, target_type="case",
+                     target_id=case.id, due_at=purge_due_at(case))
+    storage.privacy_jobs.save(job.id, job)
     _audit("case_closed", "case", case.id, f"reason={reason.value}")
     return case
 
@@ -156,6 +167,7 @@ def retention_info(case: Case, now: datetime | None = None) -> dict:
     }
 
 
+@storage.serialize_case
 def purge_case(case: Case, *, cause: str) -> None:
     """케이스 파기 — 본체(report·tips 내장) + 파생물(debug_traces) 동반삭제."""
     storage.debug_traces.delete(case.id)
@@ -166,8 +178,10 @@ def purge_case(case: Case, *, cause: str) -> None:
     storage.vacuum()  # DELETE 만으로는 페이지에 원본이 남는다 (아래 주석 참조)
 
 
+@storage.serialize_case
 def request_case_deletion(case: Case) -> None:
     """명시 삭제요청 — 즉시 파기. 단 수색 중이면 철회 종결이 먼저다."""
+    case = storage.cases.get(case.id) or case
     if case.status in ACTIVE_STATUSES:
         raise NotClosed(
             f"수색 중 케이스는 삭제 불가: {case.id} — "
@@ -176,6 +190,7 @@ def request_case_deletion(case: Case) -> None:
     purge_case(case, cause="explicit_request")
 
 
+@storage.serialize_persona_links
 def purge_persona(persona_id: str, *, cause: str = "explicit_request") -> None:
     """페르소나 파기 — 인터뷰 세션·종결된 연결 케이스까지 동반삭제.
 

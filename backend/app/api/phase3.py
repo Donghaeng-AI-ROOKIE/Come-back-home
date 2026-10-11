@@ -30,6 +30,50 @@ class TipIn(BaseModel):
     reporter_user_id: str | None = None
 
 
+
+# These routes are private worker endpoints; cloud_bridge injects verified owner_id.
+class WebSubscriptionIn(BaseModel):
+    owner_id: str
+    subscription: dict
+    cell_res7: str | None = None
+    engagement: Engagement = Engagement.normal
+
+class WebDeviceIn(BaseModel):
+    owner_id: str
+    device_id: str = Field(min_length=8,max_length=80)
+
+class WebLocationIn(WebDeviceIn):
+    cell_res7: str | None = None
+
+class WebEntryIn(WebDeviceIn):
+    case_id: str = Field(min_length=1,max_length=80)
+
+@router.post("/webpush/subscription")
+def register_web_subscription(body: WebSubscriptionIn):
+    from app.phase3 import webpush_entry as entry
+    return entry.register(body.owner_id,body.subscription,body.cell_res7,body.engagement)
+
+@router.delete("/webpush/subscription")
+def delete_web_subscription(body: WebDeviceIn):
+    from app.phase3 import webpush_entry as entry
+    return entry.unregister(body.owner_id,body.device_id)
+
+@router.post("/webpush/location")
+def update_web_location(body: WebLocationIn):
+    from app.phase3 import webpush_entry as entry
+    return entry.update_location(body.owner_id,body.device_id,body.cell_res7)
+
+@router.post("/webpush/enter")
+def notify_web_entry(body: WebEntryIn):
+    from app.phase3 import webpush_entry as entry
+    return entry.enter(body.owner_id,body.device_id,body.case_id)
+
+@router.post("/webpush/test")
+def test_web_notification(body: WebDeviceIn):
+    from app.phase3 import webpush_entry as entry
+    return entry.enter(body.owner_id,body.device_id,'test',test=True)
+
+
 class PresenceIn(BaseModel):
     # 클라이언트가 생성한 불투명 난수. 서버는 이것이 누구인지 모른다 — 계정·기기·
     # 위치 어디에도 연결하지 않는다(자세한 근거: phase3/presence.py).
@@ -47,7 +91,7 @@ def _get_case(case_id: str):
 def _require_active(case):
     """종결(발견/철회)된 케이스에 알림·제보가 계속 흐르면 개인정보 파기
     라이프사이클이 무효가 된다 — 인상착의 알림 발송, 제보로 인한 status
-    되돌림(searching)을 여기서 차단. 조회(GET)는 막지 않는다."""
+    되돌림(searching)을 여기서 차단. 종결된 수색 지도·안내 조회도 차단한다."""
     try:
         lifecycle.ensure_not_closed(case)
     except lifecycle.AlreadyClosed as e:
@@ -61,7 +105,7 @@ def send_reflex_alerts(case_id: str):
     _require_active(case)
     cells = alerts.select_reflex_cells(case.lkp)
     summary = case.report.appearance.summary if case.report.appearance else "인상착의 정보 없음"
-    return alerts.send_alerts(case.id, cells, summary, kind="reflex")
+    return alerts.notify_prediction(case, reflex=True, force=True)
 
 
 @router.post("/cases/{case_id}/alerts")
@@ -77,14 +121,7 @@ def send_alerts(case_id: str):
     _require_active(case)
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
-    cells = alerts.select_alert_cells(case.current_poa)
-    summary = case.report.appearance.summary if case.report.appearance else "인상착의 정보 없음"
-    # poa 를 넘겨야 서버가 참여도별 확률 문턱을 적용할 수 있다(피로도 예산).
-    result = alerts.send_alerts(case.id, cells, summary, poa=case.current_poa)
-    case.last_alert_poa = dict(case.current_poa)
-    case.last_alert_at = datetime.now()
-    storage.cases.save(case.id, case)
-    return result
+    return alerts.notify_prediction(case, force=True)
 
 
 @router.get("/alerts")
@@ -113,7 +150,10 @@ def list_active_alerts(cell_res7: str | None = None):
     if not cell_res7:
         return []
     out = []
+    from app.test_scope import isolated
     for case in storage.cases.list():
+        if isolated(case):
+            continue
         if case.status in (CaseStatus.found, CaseStatus.closed):
             continue
         try:
@@ -155,7 +195,10 @@ def list_resolved_alerts(cell_res7: str | None = None, hours: int = 24):
         return []
     cutoff = datetime.now() - timedelta(hours=hours)
     out = []
+    from app.test_scope import isolated
     for case in storage.cases.list():
+        if isolated(case):
+            continue
         if case.status is not CaseStatus.found:
             continue
         if case.closed_at is None or case.closed_at < cutoff:
@@ -223,6 +266,7 @@ def submit_tip(case_id: str, body: TipIn, background: BackgroundTasks):
 
 
 @router.get("/cases/{case_id}/poa")
+@storage.serialize_case
 def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
     """POA 상위 셀 조회 (지도 시각화용).
 
@@ -235,6 +279,12 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
     **케이스 상태는 바뀌지 않는다** — 알림·제보는 계속 실제 경과시간 지도만 쓴다.
     """
     case = _get_case(case_id)
+    _require_active(case)
+    if elapsed_hours is not None:
+        try:
+            lifecycle.ensure_not_closed(case)
+        except lifecycle.AlreadyClosed as e:
+            raise HTTPException(409, str(e))
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
 
@@ -250,6 +300,8 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
 
             try:
                 cached = pipeline.poa_at_elapsed(case, elapsed_hours)
+            except pipeline.continuous_prediction.IncompletePredictionError:
+                raise HTTPException(503, '계산되지 않은 확률이 남아 시간별 지도를 만들 수 없음')
             except ValueError as e:
                 raise HTTPException(409, str(e)) from e
             case.poa_by_hour[key] = cached
@@ -373,6 +425,7 @@ def get_guidance(case_id: str):
     앱은 그동안만 다시 묻는다. 기다리지 않는 이유는 storytelling 모듈 주석 참고.
     """
     case = _get_case(case_id)
+    _require_active(case)
     persona = (
         storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     )

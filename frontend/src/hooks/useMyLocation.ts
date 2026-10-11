@@ -69,6 +69,7 @@ export type MyLocation = {
    * 없어 무엇을 해야 할지 알 수 없었다).
    */
   message?: string;
+  observedAt?: number;
 };
 
 const INITIAL: MyLocation = { point: null, accuracyM: null, status: 'idle' };
@@ -104,6 +105,29 @@ async function start(): Promise<void> {
   setState({ ...state, status: 'requesting' });
 
   try {
+    if (Platform.OS === 'web') {
+      if (!navigator.geolocation) throw new Error('Geolocation unavailable');
+      let active = true;
+      const apply = (pos: GeolocationPosition) => {
+        if (active) setState({ point: { lat: pos.coords.latitude, lng: pos.coords.longitude },
+          accuracyM: pos.coords.accuracy, observedAt: pos.timestamp, status: 'granted' });
+      };
+      const fail = (err: GeolocationPositionError) => {
+        if (active) setState({ point: null, accuracyM: null,
+          status: err.code === 1 ? 'denied' : 'unavailable', message: explainGeoError(err) });
+      };
+      const options = { ...WEB_GEO_OPTIONS, timeout: 20_000 };
+      const watch = navigator.geolocation.watchPosition(apply, fail, options);
+      const refresh = () => {
+        if (document.visibilityState === 'visible') navigator.geolocation.getCurrentPosition(apply, fail, options);
+      };
+      // A stationary phone also needs a fresh observation; browsers need not emit watch updates.
+      const timer = setInterval(refresh, 30_000);
+      document.addEventListener('visibilitychange', refresh);
+      subscription = { remove: () => { active = false; navigator.geolocation.clearWatch(watch);
+        clearInterval(timer); document.removeEventListener('visibilitychange', refresh); } };
+      return;
+    }
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
       setState({ point: null, accuracyM: null, status: 'denied' });
@@ -115,6 +139,7 @@ async function start(): Promise<void> {
         point: { lat: loc.coords.latitude, lng: loc.coords.longitude },
         accuracyM: loc.coords.accuracy ?? null,
         status: 'granted',
+        observedAt: loc.timestamp,
       });
     };
 
@@ -122,20 +147,7 @@ async function start(): Promise<void> {
     // 그동안 관문이 대기하므로 체감 지연이 그대로 드러난다.
     const last = await Location.getLastKnownPositionAsync();
     if (last) apply(last);
-    else if (Platform.OS === 'web') {
-      // 웹에서는 위 호출이 **항상 null** 이라(브라우저에 '마지막 위치' 개념이 없다)
-      // 빠른 첫 값 경로가 통째로 비어 있었다. 아래 워처를 고정확도로 돌리면서
-      // 이 구멍이 더 아프게 됐다 — GPS 콜드 스타트는 실내에서 수십 초까지 간다.
-      // 그래서 거친 값이라도 먼저 한 번 받아 관문을 열어 두고, 워처가 정밀한
-      // 값으로 덮게 한다. (Balanced 로 요청해야 expo 가 고정확도를 끈다.)
-      try {
-        const coarse = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
-        // 그사이 더 나은 값이 들어왔으면 거친 값으로 덮지 않는다.
-        if (state.point == null) apply(coarse);
-      } catch {
-        // 워처가 곧 채운다. 여기서 실패했다고 상태를 깎아내리지 않는다.
-      }
-    }
+
 
     // Accuracy.High(GPS): 표기 단위가 50m 라 Balanced(≈100m)로는 정확도 게이트에
     // 걸려 숫자가 아예 안 뜬다. 전경에서만 도는 단일 워처라 비용을 감수한다.
@@ -144,7 +156,6 @@ async function start(): Promise<void> {
         accuracy: Location.Accuracy.High,
         distanceInterval: 25, // 25m 이상 움직였을 때만 — 정지 상태 갱신 폭주 방지
         timeInterval: 10_000,
-        ...(Platform.OS === 'web' ? WEB_GEO_OPTIONS : null),
       } as Location.LocationOptions,
       apply,
       // **네이티브 전용.** 웹은 에러를 전달하지 않는다(expo 웹 구현이 브라우저
@@ -223,6 +234,7 @@ export function retryLocation(): void {
         point: { lat: pos.coords.latitude, lng: pos.coords.longitude },
         accuracyM: pos.coords.accuracy ?? null,
         status: 'granted',
+        observedAt: pos.timestamp,
       });
       // 이제 워처를 세워 계속 따라가게 한다(첫 시도 때 못 세웠을 수 있다).
       void start();

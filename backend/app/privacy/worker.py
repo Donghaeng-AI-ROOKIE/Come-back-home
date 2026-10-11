@@ -41,7 +41,7 @@ def _open_alert(code: str) -> None:
 def _due_jobs(now: datetime) -> list[PrivacyJob]:
     jobs = []
     for job in storage.privacy_jobs.list():
-        if job.state in {"pending", "running"}:
+        if job.state in {"pending", "running"} and job.due_at <= now:
             jobs.append(job)
         elif job.state == "retry_wait" and job.next_retry_at and now >= job.next_retry_at:
             jobs.append(job)
@@ -172,7 +172,9 @@ def run_once(mode: str = "automatic", now: datetime | None = None,
         state.last_run_at = run.finished_at
         interval = (settings.privacy_scheduler_interval_seconds
                     if discover else settings.privacy_retry_poll_seconds)
-        state.next_run_at = run.finished_at + timedelta(seconds=interval)
+        state.next_run_at = run.finished_at + timedelta(seconds=settings.privacy_retry_poll_seconds)
+        if discover:
+            state.next_discovery_at = run.finished_at + timedelta(seconds=interval)
         storage.privacy_scheduler.save("singleton", state)
         return run
 

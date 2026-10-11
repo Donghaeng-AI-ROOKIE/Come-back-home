@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 from app.schemas.common import GeoPoint, LocalNaiveDT
 from app.schemas.persona import PersonaType
-from app.schemas.environment import EnvironmentObservation
+from app.schemas.environment import EnvironmentObservation, BehaviorObservation
 
 
 class Appearance(BaseModel):
@@ -38,6 +38,7 @@ class MissingReport(BaseModel):
     lkp: GeoPoint                       # Last Known Position (최종 목격 지점)
     lkp_time: LocalNaiveDT
     environment_observations: list[EnvironmentObservation] = Field(default_factory=list, max_length=100)
+    behavior_observations: list[BehaviorObservation] = Field(default_factory=list, max_length=100)
     situation: str = ""                 # 보호자가 적은 실종 당시 상황 자유 서술
     appearance: Appearance | None = None
     created_at: datetime = Field(default_factory=datetime.now)
