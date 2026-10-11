@@ -46,15 +46,25 @@ def select_alert_cells(
     poa: dict[str, float],
     coverage: float | None = None,
     max_cells: int | None = None,
+    *, policy: str | None = None, max_area_km2: float | None = None,
+    target_res: int | None = None,
 ) -> list[str]:
-    """확률 내림차순으로 누적 커버리지(기본 95%)에 도달할 때까지 셀 선택.
+    """설정된 커버리지 또는 실제 발송 면적 상한으로 대상 선택.
 
-    반환된 셀 집합이 '1차 안전 반경' — 이 안의 사용자가 알림 대상.
+    coverage 정책은 누적 확률, area_budget 정책은 확률 밀도로 정렬한다.
+    면적 정책은 실제 발송 구역의 상한이며 95% 확률 보장이 아니다.
     """
     # 기본값 대입은 `or` 가 아니라 `is None` — coverage=0.0·max_cells=0 을
     # 명시적으로 넘겨도 falsy 라 기본값으로 치환되던 버그 방지.
     coverage = settings.alert_coverage if coverage is None else coverage
     max_cells = settings.max_alert_cells if max_cells is None else max_cells
+    policy = settings.alert_selection_policy if policy is None else policy
+    if policy == "area_budget":
+        from app.phase3.area_budget import select
+        return select(poa, settings.max_alert_area_km2 if max_area_km2 is None else max_area_km2,
+                      max_cells, settings.push_target_res if target_res is None else target_res)
+    if policy != "coverage":
+        raise ValueError('unsupported alert selection policy')
     # 비유한값(NaN/inf) 셀 제외 — 정렬 불안정·acc 오염(NaN 누적 시 커버리지
     # 판정 무력화) 방지. 상류(전략확률 가드레일)에서 막지만 심층 방어.
     ranked = sorted(
@@ -96,6 +106,14 @@ def select_new_region_cells(
     coverage = settings.alert_coverage if coverage is None else coverage
     max_cells = settings.max_alert_cells if max_cells is None else max_cells
 
+    if settings.alert_selection_policy == "area_budget":
+        # A dense literature prior has the same support at successive updates.
+        # D3 compares delivered selections, not just positive support keys.
+        selected = select_alert_cells(current_poa, coverage, max_cells)
+        old_targets = target_parent_cells(select_alert_cells(last_alert_poa, coverage, max_cells))
+        from app.geo import h3cover
+        fresh = [c for c in selected if h3cover.cover([c],settings.push_target_res)-old_targets]
+        return fresh if sum(current_poa[c] for c in fresh) >= mass_threshold else []
     new_cells = set(current_poa) - set(last_alert_poa)
     ranked = sorted(
         ((c, current_poa[c]) for c in new_cells if math.isfinite(current_poa[c])),
@@ -105,6 +123,20 @@ def select_new_region_cells(
     if total_new_mass < mass_threshold:
         return []
     return _cumulative_top_cells(ranked, target_total=total_new_mass, coverage=coverage, max_cells=max_cells)
+
+
+def targeting_policy_name():
+    return ("selected_area_budget_geographic_cover_v1" if settings.alert_selection_policy == "area_budget"
+            else "selected_coverage_geographic_cover_v1")
+
+
+def targeting_metadata():
+    return {"target_res": settings.push_target_res,
+            "coverage": settings.alert_coverage if settings.alert_selection_policy == "coverage" else None,
+            "max_area_km2": settings.max_alert_area_km2 if settings.alert_selection_policy == "area_budget" else None,
+            "targeting_policy": targeting_policy_name(),
+            "selection_policy": settings.alert_selection_policy,
+            "selection_scope": "poa_and_new_region"}
 
 
 def select_reflex_cells(lkp: GeoPoint, k: int | None = None) -> list[str]:
@@ -202,7 +234,7 @@ def describe_alert(case: Case, now: datetime | None = None) -> dict:
         "kind": kind,
         "target_cells": sorted(target_parent_cells(cells)) if cells else [],
         "target_res": settings.push_target_res,
-        "targeting_policy": "selected_coverage_geographic_cover_v1",
+        "targeting_policy": targeting_policy_name(),
         "summary": look.summary if look and look.summary else "인상착의 정보 없음",
         "matched_person_id": case.report.persona_id,
         # 시민 화면이 띄울 최소 신원 — 🚨 **이름은 보내지 않는다.** 나이·인상착의로
@@ -275,7 +307,8 @@ def eligible_for_alert(device, kind: str, rel_by_parent: dict[str, float],
 
 def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
                 kind: str = "poa", poa: dict[str, float] | None = None,
-                *, only_tokens: set[str] | None = None, delivery_details: bool = False) -> dict:
+                *, only_tokens: set[str] | None = None, delivery_details: bool = False,
+                exclude_targets: set[str] | None = None) -> dict:
     """대상 res7 셀 안의 기기에 타겟 알림 발송.
 
     선택된 예측 셀과 지리적으로 겹치는 res7 대상 구역의 기기만 고른다.
@@ -295,14 +328,14 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
                 "below_threshold": 0, "suppressed": 0, "stub": False,
                 "status": "synthetic_isolated", "source_cells": len(cells)}
     title, body = build_message(kind, appearance_summary)
-    target_cells = target_parent_cells(cells) if cells else set()
+    target_cells = (target_parent_cells(cells) if cells else set()) - (exclude_targets or set())
     # 부모 셀은 3~8개라 페이로드에 그대로 실린다 — 폰이 앱 안 관문 판정에 쓴다.
     payload = {
         "case_id": case_id,
         "kind": kind,   # reflex(1차 안전반경) | poa(예측 기반 타겟) | new_region(3차, 새 지역 한정)
         "target_cells": sorted(target_cells),
         "target_res": settings.push_target_res,
-        "targeting_policy": "selected_coverage_geographic_cover_v1",
+        "targeting_policy": targeting_policy_name(),
         "appearance": appearance_summary,
     }
 
@@ -371,7 +404,7 @@ def describe_resolved(case: Case) -> dict:
         "close_reason": case.close_reason.value if case.close_reason else None,
         "target_cells": sorted(target_parent_cells(cells)) if cells else [],
         "target_res": settings.push_target_res,
-        "targeting_policy": "selected_coverage_geographic_cover_v1",
+        "targeting_policy": targeting_policy_name(),
     }
 
 
@@ -413,6 +446,10 @@ def notify_prediction(case, *, force=False, now=None, reflex=False) -> dict:
         event = {"id": storage.new_id(), "kind": kind, "cells": cells,
                  "poa": dict(current.current_poa or {}), "attempts": 0, "status": "retry",
                  "retry_at": now.isoformat(), "tokens": None}
+        if kind == 'new_region' and settings.alert_selection_policy == 'area_budget':
+            # A boundary fine cell can cover both new and previously notified
+            # coarse cells. Exclude the old delivery cover, also on retries.
+            event['exclude_targets'] = sorted(target_parent_cells(select_alert_cells(current.last_alert_poa)))
         def reserve(latest):
             if latest.status in (CaseStatus.found, CaseStatus.closed):
                 return None
@@ -436,7 +473,8 @@ def _deliver_event(case, event, now):
         result = send_alerts(case.id, event["cells"], look.summary if look else "인상착의 정보 없음",
                              kind=event["kind"], poa=event["poa"] if event["kind"] == "poa" else None,
                              only_tokens=set(event["tokens"]) if event["tokens"] is not None else None,
-                             delivery_details=True)
+                             delivery_details=True,
+                             **({"exclude_targets":set(event["exclude_targets"])} if "exclude_targets" in event else {}))
     except Exception:
         result = {"sent": 0, "failed": 1, "stub": False}
     def complete(latest):

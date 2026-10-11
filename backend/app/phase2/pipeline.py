@@ -182,7 +182,10 @@ def run_prediction(
     #    sourced conditional mind rules.
     #    The configured weight is applied to both predictions and previews.
     #    초기(제보 없음)엔 linear (넓게), 제보 누적 후 log-linear (좁게)
-    pool_mode = "log_linear" if len(case.tips) >= 3 else "linear"
+    # The literature channel reserves nonpersonal support; log pooling would
+    # erase every literature-only cell at the personal channel's zero support.
+    literature = settings.statistical_channel_definition == 'literature_distance_prior'
+    pool_mode = "log_linear" if len(case.tips) >= 3 and not literature else "linear"
     combined = combine.alpha_pool([poa_bu, poa_stat],
                                   alphas=[settings.personal_channel_weight, 1-settings.personal_channel_weight], mode=pool_mode)
 

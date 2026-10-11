@@ -314,7 +314,9 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
         round((case.last_sim_at - case.lkp_time).total_seconds() / 3600.0, 2)
         if case.last_sim_at else None)
     if elapsed_hours is not None:
-        key = f"{elapsed_hours:g}"
+        from app.config import settings
+        from app.phase2.literature_distance import VERSION as literature_version
+        key = f"{settings.statistical_channel_definition}:{literature_version}:{settings.personal_channel_weight}:{elapsed_hours:g}"
         cached = case.poa_by_hour.get(key)
         if cached is None:
             from app.phase2 import pipeline
@@ -407,9 +409,7 @@ def webpush_public_key() -> dict:
 
 @router.get("/targeting-policy")
 def targeting_policy():
-    from app.config import settings
-    return {"target_res": settings.push_target_res, "coverage": settings.alert_coverage,
-            "targeting_policy": "selected_coverage_geographic_cover_v1",
+    return {**alerts.targeting_metadata(),
             "location_ttl_seconds": 300, "supported_location_resolutions": [7,8,9]}
 
 

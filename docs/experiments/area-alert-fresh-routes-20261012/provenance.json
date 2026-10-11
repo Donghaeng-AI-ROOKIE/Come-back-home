@@ -1,0 +1,27 @@
+{
+  "protocol_sha256": "f300f37a598aa991ec6d1861edc4685efe1285f15829b5e5a0b8d28ef689c867",
+  "truth_manifest": {
+    "routes": 351,
+    "truth_sha256": "14a0eebebc64c262bc0c0a6e7f1ba5994a8a54283ee2050da8208025a8705148",
+    "generator_sha256": "628432ce55a4baed0fe4e2f591176541e56b963ccd64e65c5ff5b9db9bcc0ceb",
+    "protocol_sha256": "f300f37a598aa991ec6d1861edc4685efe1285f15829b5e5a0b8d28ef689c867",
+    "prediction_outputs_read": false,
+    "new_people": false,
+    "clinical": false
+  },
+  "source_files": {
+    "backend/app/phase2/literature_distance.py": "433975753a4388f7f99b4c14de7d5d1acaed572d187b276058d0a78536d4e76e",
+    "backend/app/phase2/continuous_prediction.py": "9c8f0e072bb8c61691101773b3f62fc03f74810862b3821cbe4a6f61d2663f89",
+    "backend/app/phase2/pipeline.py": "67a73c94b9b55e361cd708849de9fd68ad524a787e088e1f68b4ca51634b0fc4",
+    "backend/app/phase3/area_budget.py": "e238da1524b80f20ff0c51f21a002d03bbb73c18a5f1ceb89fa312bc09dc70b3",
+    "backend/app/phase3/alerts.py": "162666b18a42b75a6bd43dd6ab1157487af916d392c6f700a503f8f9af9dd5c8",
+    "backend/app/api/phase3.py": "e90efa4d42eab2dbce1108479f37591f127a93d8e10c0ae719bd6cc87c3caa21"
+  },
+  "default_changed": false,
+  "operational_deployment": false,
+  "final_targeted_tests": 84,
+  "full_suite_before_final_D3_test_additions": {
+    "passed": 1562,
+    "skipped": 2
+  }
+}
