@@ -134,11 +134,21 @@ def test_updated_direction_state_is_separate_from_trigger_gauge(geography):
     assert quality['direction_state_source']=='updated_mind_state'
 
 
-def test_korean_clock_is_independent_of_host_timezone(geography,monkeypatch):
+def test_korean_clock_follows_stored_server_local_time(geography,monkeypatch):
+    # Stored naive times are server-local (schemas.common._to_local_naive), the
+    # same reading as the SAR prompt and the app (walkFormat.serverTimeMs). On a
+    # UTC server, 08:00 Korean time is stored as 23:00 of the previous day.
     import time
+    from zoneinfo import ZoneInfo
+    from tests.kintex_fixtures import START
     monkeypatch.setenv('TZ','UTC');time.tzset()
     try:
-        pop=population(geography)
-        assert pop.facts(pop.particles[0])['clock_hour']==8
+        stored=START.replace(tzinfo=ZoneInfo('Asia/Seoul')).astimezone().replace(tzinfo=None)
+        assert stored.hour==(START.hour-9)%24
+        net,center=geography
+        from tests.test_person_policy import person,prior,policy
+        from app.phase2.person_walk import Population
+        pop=Population(net,person(center),prior(),policy(),center,stored,count=4)
+        assert pop.facts(pop.particles[0])['clock_hour']==START.hour
     finally:
         monkeypatch.undo();time.tzset()
