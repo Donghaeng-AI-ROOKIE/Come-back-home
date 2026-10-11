@@ -1,10 +1,14 @@
 """전역 설정. .env 로 오버라이드 가능 (.env.example 참고)."""
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Literal
 
 
 class Settings(BaseSettings):
+    personal_channel_weight: float = Field(default=0.7, ge=0.0, le=1.0)
+    statistical_channel_definition: Literal["shared_personal_policy", "onboarded_population_prior"] = "onboarded_population_prior"
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     # Server-managed disposable test owners; clients cannot mark a real report as a test.

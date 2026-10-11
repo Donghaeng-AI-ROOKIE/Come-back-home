@@ -119,18 +119,14 @@ def select_reflex_cells(lkp: GeoPoint, k: int | None = None) -> list[str]:
 
 
 def target_parent_cells(cells: list[str], res: int | None = None) -> set[str]:
-    """예측 셀(res9) → 발송 대상 res7 부모 집합.
+    """선택된 예측 셀과 지리적으로 겹치는 coarse 셀 전체.
 
-    폰은 자기 위치를 res7 셀 하나로 바꿔 알려주고(schemas/device.py), 서버는 이
-    집합과 대조해 대상을 고른다. **부모/자식 비교라 근사 오차가 없다** —
-    한때 중심+반경 원으로 근사했는데 육각 셀 집합보다 넓어 구역 밖 사람이
-    4~8배 섞였다. 그건 "폰에 H3 가 없다"는 잘못된 전제에서 나온 우회책이었다.
-
-    부모 셀은 3~8개뿐이라 푸시 페이로드(약 4KiB 상한)에도 그대로 실린다 —
-    res9 목록(500개 ≈ 7KB)이 안 실린다고 봤던 것은 해상도를 낮출 생각을
-    안 한 탓이었다.
+    H3 논리 부모는 지리 경계를 완전히 덮지 않는다. 경계 양쪽 기기도 같은
+    선택 구역의 대상이 되도록 교차 면적이 있는 셀을 포함한다. 기기는 여전히
+    res7 위치 하나만 전송한다.
     """
-    return h3grid.parent_cells(cells, res or settings.push_target_res)
+    from app.geo.h3cover import cover
+    return cover(cells, settings.push_target_res if res is None else res)
 
 
 def relative_prob_by_parent(
@@ -206,6 +202,7 @@ def describe_alert(case: Case, now: datetime | None = None) -> dict:
         "kind": kind,
         "target_cells": sorted(target_parent_cells(cells)) if cells else [],
         "target_res": settings.push_target_res,
+        "targeting_policy": "selected_coverage_geographic_cover_v1",
         "summary": look.summary if look and look.summary else "인상착의 정보 없음",
         "matched_person_id": case.report.persona_id,
         # 시민 화면이 띄울 최소 신원 — 🚨 **이름은 보내지 않는다.** 나이·인상착의로
@@ -261,8 +258,16 @@ def build_message(kind: str, appearance_summary: str) -> tuple[str, str]:
     return title, body
 
 
-def eligible_for_alert(device, kind: str, rel_by_parent: dict[str, float]) -> bool:
-    """Shared admission for event fanout and walking-entry web push."""
+def eligible_for_alert(device, kind: str, rel_by_parent: dict[str, float],
+                       selected_targets: set[str] | None = None) -> bool:
+    """Selected coverage is authoritative for event fanout and walking entry.
+
+    A second peak-relative filter erased selected probability mass. Existing delivery and dismissal guards remain separate from probability
+    selection; engagement thresholds no longer erase the advertised coverage. With no selection,
+    retain the legacy diagnostic threshold for callers outside this path.
+    """
+    if selected_targets is not None:
+        return device.cell_res7 in selected_targets
     return (kind == "reflex" or not rel_by_parent
             or rel_by_parent.get(device.cell_res7 or "", 0.0)
                >= settings.push_prob_threshold[device.engagement.value])
@@ -273,21 +278,14 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
                 *, only_tokens: set[str] | None = None, delivery_details: bool = False) -> dict:
     """대상 res7 셀 안의 기기에 타겟 알림 발송.
 
-    ## 두 단계로 거른다
-      1) **지오펜스** — 예측 셀(res9)의 res7 부모 집합 안에 있는 기기만.
-         폰이 자기 res7 칸을 알려주므로 서버가 고를 수 있다(schemas/device.py).
-      2) **확률 문턱** — 그 칸의 최고 상대확률이 기기의 참여도 등급 문턱을 넘어야
-         보낸다. 잘 확인하는 사람은 덜 확실한 곳에서도, 잘 안 보는 사람은 확실한
-         곳에서만(알림 피로도 예산, 작업8).
-
-    🚨 `reflex`(D1 골든타임)는 **문턱 면제**. POA 가 나오기 전에 나가는 알림이라
-    확률이라는 게 아직 없고, 피로도로 줄일 대상도 아니다.
+    선택된 예측 셀과 지리적으로 겹치는 res7 대상 구역의 기기만 고른다.
+    선택 구역을 참여도별 상대확률 문턱으로 다시 줄이지 않는다. 이 변경으로
+    수신 대상은 늘 수 있으며, 실제 전달량은 별도 평가가 필요하다.
 
     발송 실패는 예외로 올리지 않는다. 신고 접수(reflex_alert_on_intake)에서
     호출되는 경로가 있어, 알림이 실패했다고 접수·예측까지 무너지면 안 된다.
 
-    @param poa 상대확률 환산에 쓸 원본 분포. 없으면 문턱을 적용하지 않는다
-        (reflex 처럼 확률 개념이 없는 경우).
+    @param poa 기존 호출 계약과 진단 환산을 위해 유지한 원본 분포.
     """
     from app import storage
     from app.test_scope import isolated
@@ -304,6 +302,7 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
         "kind": kind,   # reflex(1차 안전반경) | poa(예측 기반 타겟) | new_region(3차, 새 지역 한정)
         "target_cells": sorted(target_cells),
         "target_res": settings.push_target_res,
+        "targeting_policy": "selected_coverage_geographic_cover_v1",
         "appearance": appearance_summary,
     }
 
@@ -315,7 +314,7 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
     recipients = []
     below_threshold = 0
     for device in candidates:
-        if eligible_for_alert(device, kind, rel_by_parent):
+        if eligible_for_alert(device, kind, rel_by_parent, target_cells):
             recipients.append(device)
         else:
             below_threshold += 1
@@ -372,6 +371,7 @@ def describe_resolved(case: Case) -> dict:
         "close_reason": case.close_reason.value if case.close_reason else None,
         "target_cells": sorted(target_parent_cells(cells)) if cells else [],
         "target_res": settings.push_target_res,
+        "targeting_policy": "selected_coverage_geographic_cover_v1",
     }
 
 

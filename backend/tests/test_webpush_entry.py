@@ -151,13 +151,13 @@ def test_expired_subscription_is_removed_and_log_contains_no_payload(monkeypatch
 
 
 
-def test_entry_uses_original_engagement_threshold_and_reflex_exemption(monkeypatch):
+def test_entry_preserves_selected_coverage_and_reflex_exemption(monkeypatch):
     row=case(monkeypatch); token=registered()
     far=h3.latlng_to_cell(37.70,126.80,9)
     row.current_poa={far:0.5,FINE:0.25,h3.latlng_to_cell(37.72,126.79,9):0.25}
     from app.schemas.device import Engagement
     d=storage.devices.get(token);d.engagement=Engagement.low;storage.devices.save(token,d)
-    assert entry.update_location(OWNER,token,COARSE)['targets']==[]
+    assert entry.update_location(OWNER,token,COARSE)['targets']
     d.engagement=Engagement.high;storage.devices.save(token,d)
     targets=entry.update_location(OWNER,token,COARSE)['targets']
     assert targets and targets[0]['resolution']==7

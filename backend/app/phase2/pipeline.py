@@ -87,14 +87,18 @@ def _initial_prior(persona, report, links):
     replacement out of this fix; retaining SAR is not a claim of its superiority.
     """
     prior = exaone.generate_prior(persona, report)
+    sar_snapshot={k:prior.model_dump(mode='json')[k] for k in (
+        'strategy_probs','attraction_weights','radius_lognormal','attraction_levels','source','fallback_reason')}
     default = exaone._default_prior(persona, report)
     prepared = apply_prepared(persona, report, prior, default, links)
+    prepared.sar_numeric_baseline=sar_snapshot
     if prepared.initial_interpretation.get('status') == 'applied':
         prepared.source = 'prepared_person'
         prepared.initial_interpretation.update(
             initial_prior_path='prepared_person', numeric_baseline_source=prior.source,
             sar_source=prior.source, SAR_called_during_prediction=not exaone.is_stub)
         return prepared
+    prior.sar_numeric_baseline=sar_snapshot
     prior.initial_interpretation = dict(prepared.initial_interpretation,
         initial_prior_path='legacy_SAR_fallback', numeric_baseline_source=prior.source,
         SAR_called_during_prediction=not exaone.is_stub)
@@ -144,7 +148,8 @@ def run_prediction(
     persona = simulation_persona(persona, prior)
     _lap("initial_person_ms")
 
-    # 마음 상태 초기화 (이후 제보의 심리 단서로 갱신됨)
+    # Legacy case-wide direction state. The continuous runtime interpreter keeps
+    # each walker's decisions in continuous_state; tips do not update case.mind.
     mind = case.mind or MindState()
 
     # ② 예측 — 도로망이 있으면 두 MC 모두 그래프 위를 걷는다
@@ -174,13 +179,13 @@ def run_prediction(
             environment_observations=case.report.environment_observations, started_at=case.lkp_time)
     _lap("statistical_ms")
 
-    # ③ α-pool 통합 — 양쪽 모두 초기 개인 정보를 공유한다. 연속 엔진에서는
-    #    조건별 개인 정책도 양쪽에서 보존하고 갱신된 마음 상태만 bottom-up에 적용한다.
-    #    0.7:0.3은 기존 고정값이며 새 연속 대조 경로에 최적화한 값이 아니다.
+    # ③ α-pool: statistical uses original onboarded SAR numbers; personal uses
+    #    sourced conditional mind rules.
+    #    The configured weight is applied to both predictions and previews.
     #    초기(제보 없음)엔 linear (넓게), 제보 누적 후 log-linear (좁게)
     pool_mode = "log_linear" if len(case.tips) >= 3 else "linear"
     combined = combine.alpha_pool([poa_bu, poa_stat],
-                                  alphas=[0.7, 0.3], mode=pool_mode)
+                                  alphas=[settings.personal_channel_weight, 1-settings.personal_channel_weight], mode=pool_mode)
 
     # 케이스 상태 갱신 — baseline 은 KL 이탈 트리거의 비교 기준
     case.continuous_state = staged_case.continuous_state
@@ -197,6 +202,11 @@ def run_prediction(
     case.roadnet_fallback_reason = roadnet_fallback
     case.status = CaseStatus.predicted
     storage.cases.save(case.id, case)
+    if quality.get("mind_fill_pending"):
+        # The map above did not wait for the model; a background fill asks the
+        # reserved conditions and recomputes this horizon when answers arrive.
+        from app.llm import runtime_mind_jobs
+        runtime_mind_jobs.submit(case.id)
 
     result = PredictionResult(
         case_id=case.id,
@@ -265,4 +275,4 @@ def poa_at_elapsed(case: Case, elapsed_hours: float, *, seed: int | None = 42) -
         stat = simulation.run_monte_carlo(
             case.lkp, case.prior, persona, elapsed, mode="statistical", net=net, seed=seed,
             environment_observations=case.report.environment_observations, started_at=case.lkp_time)
-    return combine.alpha_pool([bu, stat], alphas=[0.7, 0.3], mode="linear")
+    return combine.alpha_pool([bu, stat], alphas=[settings.personal_channel_weight, 1-settings.personal_channel_weight], mode="linear")

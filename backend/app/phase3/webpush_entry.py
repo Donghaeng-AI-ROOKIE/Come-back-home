@@ -91,7 +91,7 @@ def targets(cell,device=None):
             parents=alerts.target_parent_cells(cells)
             if cell not in parents:continue
             rel=alerts.relative_prob_by_parent(case.current_poa) if case.current_poa else {}
-            if device is not None and not alerts.eligible_for_alert(device,kind,rel):continue
+            if device is not None and not alerts.eligible_for_alert(device,kind,rel,parents):continue
             result.append({'case_id':case.id,'cells':sorted(parents),
                            'resolution':settings.push_target_res,'kind':kind})
         except (ValueError,TypeError):

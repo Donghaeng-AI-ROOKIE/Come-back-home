@@ -8,14 +8,15 @@ from app.phase0 import mind_preparation
 from app.llm import mind_policy
 from app.phase2 import person_walk
 from app.phase2.persistent_context_walk import PersistentContextPopulation as Population, VERSION
-from app.schemas.prediction import MindState
+from app.schemas.prediction import MindState, PriorParams
 
 
 def digest(value):return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False,default=str).encode()).hexdigest()
 
 
 def prior_key(case,persona):
-    return digest({'report':case.report.model_dump(mode='json'),'anchor':case.lkp.model_dump(),
+    return digest({'numeric_snapshot_contract':'sar-before-personal-v1',
+        'report':case.report.model_dump(mode='json'),'anchor':case.lkp.model_dump(),
         'time':case.lkp_time,'person':persona.model_dump(mode='json') if persona else None})
 
 
@@ -98,15 +99,24 @@ def _run_policy(case,persona,prior,net,hours,policy,status,*,seed=None,persist=T
     return result['cells'],result['quality']
 
 
+def statistical_prior(prior):
+    """Original SAR numbers before K adjustments, with a visible legacy limit."""
+    if prior.sar_numeric_baseline:
+        return PriorParams.model_validate(prior.sar_numeric_baseline), 'original_sar_numeric_snapshot'
+    # Do not reverse-engineer an unrecorded radius or pretend the old snapshot
+    # existed. Existing persisted priors stay usable with explicit disclosure.
+    return prior, ('legacy_prepared_numbers_raw_sar_snapshot_missing'
+                   if prior.persona_adjustments or prior.initial_interpretation.get('status')=='applied'
+                   else 'unadjusted_prior_without_snapshot')
+
+
 @storage.serialize_case
 def run_pair(case,persona,prior,net,hours,*,seed=None,persist=True):
-    """Same initial person, two continuous clocks, one atomic checkpoint.
+    """Separate onboarded SAR statistical walking from sourced personal mind walking.
 
-    Both channels retain the same prepared conditional personal policy. Only the
-    agent channel receives the updated mind state. Removing personal reactions
-    is an experimental ablation, not the second person in a production mixture.
-    The statistical name is kept for compatibility; it is not independent of
-    personal information. Fixed 0.7:0.3 weights are not retuned here.
+    Shared physical observations and roads; separate conditional programs,
+    numeric priors, direction states, RNG/checkpoints. A legacy definition can
+    reproduce the previous comparison, without becoming the default mixture.
     """
     lifecycle.ensure_not_closed(case)
     staged=case.model_copy(deep=True)
@@ -127,22 +137,45 @@ def run_pair(case,persona,prior,net,hours,*,seed=None,persist=True):
     statistical.continuous_state=deepcopy(case.continuous_state.get('statistical',{}))
     # Common initial random numbers make the no-policy contrast interpretable;
     # each channel then persists its own random state independently.
-    stat,sq=_run_policy(statistical,persona,prior,net,hours,
-        shared_policy,status,
+    statistical_policy=shared_policy
+    statistical_status=status
+    statistical_numbers=prior
+    statistical_prior_source="shared_prepared_prior"
+    if settings.statistical_channel_definition=='onboarded_population_prior':
+        statistical_policy=mind_policy.Policy(rules=[],unrepresented=[])
+        statistical_status='onboarded_population_prior_without_personal_mind_program'
+        statistical_numbers,statistical_prior_source=statistical_prior(prior)
+        if statistical_prior_source=='legacy_prepared_numbers_raw_sar_snapshot_missing':
+            # Old cases cannot truthfully supply the independent numeric channel
+            # in a preview. A normal prediction refresh obtains the new snapshot
+            # because prior_key versions this contract; preserve published state.
+            quality.update(unresolved_mass=1.,resolved_mass=0.,checkpoint_committed=False,
+                statistical_prior_source=statistical_prior_source,
+                unresolved_reasons={'raw_sar_numeric_snapshot_missing':settings.mc_num_walkers})
+            return {},{},quality
+    stat,sq=_run_policy(statistical,persona,statistical_numbers,net,hours,
+        statistical_policy,statistical_status,
         seed=staged.continuous_state['seed'],persist=True)
     complete=quality.get('unresolved_mass',0)<=1e-9 and sq.get('unresolved_mass',0)<=1e-9
     committed=bool(persist and complete)
     sq.update(preview=not persist,checkpoint_committed=committed)
     quality.update(statistical=sq,checkpoint_committed=committed,
         both_channels_continuous=True,
-        statistical_definition='same_initial_person_and_conditional_policy_without_updated_mind',
-        personal_policy_shared_between_channels=True,
-        policy_free_ablation_included_in_mixture=False,
-        mixture_weights_status='fixed_0.7_0.3_not_revalidated_for_continuous_pair')
+        channel_contract='independent-statistical-prior-personal-mind-v1',
+        statistical_uses_onboarding_prior=True,
+        statistical_prior_source=statistical_prior_source,
+        statistical_uses_conditional_mind_program=settings.statistical_channel_definition=='shared_personal_policy',
+        statistical_definition=settings.statistical_channel_definition,
+        personal_policy_shared_between_channels=settings.statistical_channel_definition=='shared_personal_policy',
+        statistical_policy_free=settings.statistical_channel_definition=='onboarded_population_prior',
+        mixture_weights_status='configured_pending_development_validation',
+        personal_channel_weight=settings.personal_channel_weight,
+        channels_identical=bu==stat,
+        channel_total_variation=.5*sum(abs(bu.get(c,0)-stat.get(c,0)) for c in set(bu)|set(stat)))
     if not complete:
         quality['personal_unresolved_mass']=quality.get('unresolved_mass',0)
-        quality['unresolved_mass']=.7*quality['personal_unresolved_mass']+.3*sq['unresolved_mass']
-        quality['resolved_mass']=.7*sum(bu.values())+.3*sum(stat.values())
+        quality['unresolved_mass']=settings.personal_channel_weight*quality['personal_unresolved_mass']+(1-settings.personal_channel_weight)*sq['unresolved_mass']
+        quality['resolved_mass']=settings.personal_channel_weight*sum(bu.values())+(1-settings.personal_channel_weight)*sum(stat.values())
         quality['unresolved_reasons']={'statistical:'+k:v for k,v in sq['unresolved_reasons'].items()}
     if committed:
         staged.continuous_state['statistical']=statistical.continuous_state
