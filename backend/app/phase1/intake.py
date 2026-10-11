@@ -9,6 +9,8 @@
 import threading
 from datetime import datetime
 
+from fastapi import HTTPException
+
 from app import storage
 from app.config import settings
 from app.geo import reverse, roadnet
@@ -19,6 +21,13 @@ from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
 from app.schemas.report import Appearance, MissingReport
 from app.schemas.environment import EnvironmentObservation, BehaviorObservation
+
+
+# Reunion ends the case (2026-10-11 decision). A family-present observation is
+# not report input: the guardian closes the case instead, so no alert or
+# forecast starts for a person who is already with the family.
+REUNION_IS_CLOSURE = ("가족과 함께 있다는 관찰은 신고에 넣을 수 없습니다. "
+                      "가족을 만났다면 사건 화면의 '가족을 찾았어요'로 사건을 종결해 주세요.")
 
 
 def create_report(
@@ -40,6 +49,8 @@ def create_report(
     - appearance 는 보호자가 직접 입력한 구조화 텍스트
     - 상의·하의·신발 색상은 외부 모델 없이 규칙 함수로 추출
     """
+    if any(o.fact == "family_present" and o.value is True for o in behavior_observations or []):
+        raise HTTPException(status_code=422, detail=REUNION_IS_CLOSURE)
     report = MissingReport(
         id=storage.new_id(),
         persona_id=persona_id,
@@ -82,7 +93,6 @@ def create_report(
         if persona_id and guardian_id:
             persona = storage.personas.get(persona_id)
             if persona is None or persona.guardian_id != guardian_id:
-                from fastapi import HTTPException
                 raise HTTPException(404, "내 등록 정보를 찾을 수 없습니다.")
         storage.cases.save(case.id, case)
 
