@@ -44,10 +44,12 @@ def active_case():
     return case
 
 def test_final_defaults_are_not_the_legacy_regression_fixture(monkeypatch):
-    for key in ('PUSH_TARGET_RES','PERSONAL_CHANNEL_WEIGHT','ALERT_COVERAGE'):
+    for key in ('PUSH_TARGET_RES','PERSONAL_CHANNEL_WEIGHT','ALERT_COVERAGE',
+                'STATISTICAL_CHANNEL_DEFINITION','ALERT_SELECTION_POLICY','MAX_ALERT_AREA_KM2'):
         monkeypatch.delenv(key,raising=False)
     cfg=Settings(_env_file=None)
-    assert (cfg.push_target_res,cfg.personal_channel_weight,cfg.alert_coverage)==(9,.9,.95)
+    assert (cfg.push_target_res,cfg.personal_channel_weight,cfg.alert_coverage)==(9,.1,.95)
+    assert (cfg.statistical_channel_definition,cfg.alert_selection_policy,cfg.max_alert_area_km2)==('literature_distance_prior','area_budget',6.368199998062131)
     for res in ('7','8','9'):
         monkeypatch.setenv('PUSH_TARGET_RES',res)
         assert Settings(_env_file=None).push_target_res==int(res)
