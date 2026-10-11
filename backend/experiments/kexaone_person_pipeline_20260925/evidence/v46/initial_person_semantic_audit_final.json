@@ -1,0 +1,19 @@
+{
+  "model": "depmkuykpfon9lg",
+  "usage": {
+    "completion_tokens": 2450,
+    "prompt_tokens": 2875,
+    "prompt_tokens_details": {
+      "cached_tokens": 1120
+    },
+    "total_tokens": 5325
+  },
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "message": {
+        "content": "{\"goals\":{\"복지관\":{\"value\":\"current_statement\",\"note_ids\":[\"N3\"]}},\"routes\":{\"복지관\":{\"value\":\"routine_independent\",\"note_ids\":[\"N4\"]}},\"mobility\":{\"value\":\"C\",\"note_ids\":[\"N2\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]}}"
+      }
+    }
+  ]
+}

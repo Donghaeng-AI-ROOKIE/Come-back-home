@@ -1,0 +1,10 @@
+{
+  "test_result": "3 passed",
+  "saved_record_checks": "1944 paired condition records; area cap, actual area, truth membership, group hits verified",
+  "input_unchanged": true,
+  "artifacts_sha256": {
+    "REPORT.md": "75d9e0eca4fac431cf8ef87da7facce91a608bcfb14925415d7bbf15f18431b5",
+    "snapshots.jsonl": "34649bd39c01eb8b47bddd940f35229060d2a9df37775aa1afc96b129755e2da",
+    "summary.json": "fe5cbc56858e378f34dbc989af8d2f89f953c11d879ea41c9cf06c32ea78af40"
+  }
+}

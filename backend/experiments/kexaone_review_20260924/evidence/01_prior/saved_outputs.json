@@ -1,0 +1,3026 @@
+[
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:A:k:0",
+    "family": "F01",
+    "variant": "A",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "주민센터": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "시장은 최근 두 달간 반복적으로 향하는 모습이 관찰되어 보호자의 직접 관찰 근거로 '상' 등급을 부여했다. 공원과 주민센터는 과거 여러 차례 향한 기록이 있으나 최근 관찰되지 않아 '중'으로 평가했다. 치매 노인이지만 익숙한 경로를 따라 반복 이동하는 경향이 있어 route_following 확률을 가장 높게 설정했으며, 특정 장소(시장)를 향한 끌림이 강해 landmark_seeking도 높은 비중을 뒀다. 방향 혼동 가능성으로 인해 random_walk와 staying_put도 일부 반영했고, 이동 반경은 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_A_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.40, \"direction_keeping\": 0.10, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.10, \"landmark_seeking\": 0.30}, \"attraction_levels\": {\"시장\": \"상\", \"공원\": \"중\", \"주민센터\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"시장은 최근 두 달간 반복적으로 향하는 모습이 관찰되어 보호자의 직접 관찰 근거로 '상' 등급을 부여했다. 공원과 주민센터는 과거 여러 차례 향한 기록이 있으나 최근 관찰되지 않아 '중'으로 평가했다. 치매 노인이지만 익숙한 경로를 따라 반복 이동하는 경향이 있어 route_following 확률을 가장 높게 설정했으며, 특정 장소(시장)를 향한 끌림이 강해 landmark_seeking도 높은 비중을 뒀다. 방향 혼동 가능성으로 인해 random_walk와 staying_put도 일부 반영했고, 이동 반경은 평균 수준으로 판단했다.\"}",
+    "raw_sha256": "ace7aec01e3f135e66727c1af67143d88ec7c222ec64910b60bbea1a63904312",
+    "source_file_sha256": "a368b648f73c302cc6cb2447ddeac7125db25b304ac781eaaee143caba2adef8",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 208,
+      "prompt_tokens": 1454,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 1662
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:A:k:1",
+    "family": "F01",
+    "variant": "A",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.35
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "주민센터": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "시장은 보호자가 반복 지향을 직접 관찰했고 최근 두 달간 실제로 시장 방향으로 걷는 모습이 반복되어 최상위 끌림점으로 평가했다. 공원과 주민센터는 반복 관찰은 있으나 최근 행동에서 나타나지 않아 중간 등급으로 판단했다. 치매 노인이지만 익숙한 경로를 따라 이동하는 경향이 있어 route_following 확률을 높였고, 특정 장소(시장)를 향한 끌림이 강해 landmark_seeking 확률도 높게 설정했다. 방향 혼동 가능성도 있으나 전반적인 이동 패턴은 익숙한 범위 내에 머무는 경향이 있어 radius_level은 '중'으로 평가했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_A_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.40, \"direction_keeping\": 0.10, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.05, \"landmark_seeking\": 0.35}, \"attraction_levels\": {\"시장\": \"상\", \"공원\": \"중\", \"주민센터\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"시장은 보호자가 반복 지향을 직접 관찰했고 최근 두 달간 실제로 시장 방향으로 걷는 모습이 반복되어 최상위 끌림점으로 평가했다. 공원과 주민센터는 반복 관찰은 있으나 최근 행동에서 나타나지 않아 중간 등급으로 판단했다. 치매 노인이지만 익숙한 경로를 따라 이동하는 경향이 있어 route_following 확률을 높였고, 특정 장소(시장)를 향한 끌림이 강해 landmark_seeking 확률도 높게 설정했다. 방향 혼동 가능성도 있으나 전반적인 이동 패턴은 익숙한 범위 내에 머무는 경향이 있어 radius_level은 '중'으로 평가했다.\"}",
+    "raw_sha256": "52bc716fde095d7a6c6e08056ace69876cd3cfef37206ec0999885b824f23b11",
+    "source_file_sha256": "d875156549576a2747b9683d5def29dfa87e423badf2c46c2c06aabdf3e7f96f",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 209,
+      "prompt_tokens": 1454,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1663
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:A:sar:0",
+    "family": "F01",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.2,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "주민센터": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 과거에도 여러 차례 방문한 곳이다. 이는 치매 노인이 특정 장소를 반복적으로 찾는 성향을 보여주는 근거다. 최근 두 달 동안 시장 쪽으로 향하는 모습을 자주 관찰했지만, 공원은 그렇지 않았다. 이는 치매 노인이 특정 장소를 선호하는 경향이 있지만, 그 선호가 시간에 따라 변할 수 있음을 시사한다. 따라서 이 치매 노인은 특정 장소를 반복적으로 찾는 성향이 있지만, 그 장소가 무엇인지는 확실하지 않다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_A_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.15\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"중\",\n    \"주민센터\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 과거에도 여러 차례 방문한 곳이다. 이는 치매 노인이 특정 장소를 반복적으로 찾는 성향을 보여주는 근거다. 최근 두 달 동안 시장 쪽으로 향하는 모습을 자주 관찰했지만, 공원은 그렇지 않았다. 이는 치매 노인이 특정 장소를 선호하는 경향이 있지만, 그 선호가 시간에 따라 변할 수 있음을 시사한다. 따라서 이 치매 노인은 특정 장소를 반복적으로 찾는 성향이 있지만, 그 장소가 무엇인지는 확실하지 않다.\"\n}\n```",
+    "raw_sha256": "f7b642e17f45f2274f994d7d49a9e12049453dd8253ef012827b973a75619f61",
+    "source_file_sha256": "2102e7bfafa24da5a6a3d9020570abb61d409680dc595557670c9b0ee04194eb",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1765,
+      "total_tokens": 2051,
+      "completion_tokens": 286,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:A:sar:1",
+    "family": "F01",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.6,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "주민센터": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했기에 상위 끌림점으로 판단했다. 최근 두 달 동안 시장 쪽으로 향하는 모습이 관찰되었으므로 'route_following' 확률을 높였다. 'direction_keeping' 확률도 높게 뒀는데, 치매 노인이 특정 장소를 반복적으로 방문하며 그 방향을 유지하는 경향이 있기 때문이다. 'random_walk' 확률은 낮게 뒀는데, 치매 노인이 특정 장소를 반복적으로 방문하는 경향이 있기 때문이다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_A_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.60,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.05\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"중\",\n    \"주민센터\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했기에 상위 끌림점으로 판단했다. 최근 두 달 동안 시장 쪽으로 향하는 모습이 관찰되었으므로 'route_following' 확률을 높였다. 'direction_keeping' 확률도 높게 뒀는데, 치매 노인이 특정 장소를 반복적으로 방문하며 그 방향을 유지하는 경향이 있기 때문이다. 'random_walk' 확률은 낮게 뒀는데, 치매 노인이 특정 장소를 반복적으로 방문하는 경향이 있기 때문이다.\"\n}\n```",
+    "raw_sha256": "7319ac9c90d374aab4fc34e9ba314afdb137597ff6e3464f2612f939b86c3bfc",
+    "source_file_sha256": "ecb700c8cbdaf34fd2a5b813541ce565acbac3ee1c7bddc2dff0eaafda69c775",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1765,
+      "total_tokens": 2034,
+      "completion_tokens": 269,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:B:k:0",
+    "family": "F01",
+    "variant": "B",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.2,
+        "random_walk": 0.15,
+        "backtracking": 0.1,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.25
+      },
+      "attraction_weights": {
+        "시장": 0.2857142857142857,
+        "공원": 0.42857142857142855,
+        "주민센터": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "공원은 보호자가 반복 지향을 직접 관찰했고 최근 두 달간 실제로 향하는 모습이 여러 차례 확인되어 최상위 끌림점으로 평가했다. 시장은 과거 지향은 있었으나 최근 관찰되지 않아 중간 등급으로 낮췄고, 주민센터도 반복 지향은 있으나 최근 행동 변화 없어 중간으로 판단했다. 치매 노인이지만 익숙한 경로를 따라 이동하는 경향이 있어 route_following과 landmark_seeking 확률을 높게 설정했으며, 방향 혼동 가능성으로 인해 random_walk와 direction_keeping도 일부 반영했다. 이동 반경은 평균적인 치매 노인 수준인 중으로 평가했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_B_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.20, \"random_walk\": 0.15, \"backtracking\": 0.10, \"staying_put\": 0.05, \"landmark_seeking\": 0.25}, \"attraction_levels\": {\"시장\": \"중\", \"공원\": \"상\", \"주민센터\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"공원은 보호자가 반복 지향을 직접 관찰했고 최근 두 달간 실제로 향하는 모습이 여러 차례 확인되어 최상위 끌림점으로 평가했다. 시장은 과거 지향은 있었으나 최근 관찰되지 않아 중간 등급으로 낮췄고, 주민센터도 반복 지향은 있으나 최근 행동 변화 없어 중간으로 판단했다. 치매 노인이지만 익숙한 경로를 따라 이동하는 경향이 있어 route_following과 landmark_seeking 확률을 높게 설정했으며, 방향 혼동 가능성으로 인해 random_walk와 direction_keeping도 일부 반영했다. 이동 반경은 평균적인 치매 노인 수준인 중으로 평가했다.\"}",
+    "raw_sha256": "718ca66870ec44f948035bd70335401fdacc773bcc841f437060dbac08120eb3",
+    "source_file_sha256": "84d904d63fb277b57fa55c645c0fc0a13f75595ab4e2bbccdae055fe328159c8",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 213,
+      "prompt_tokens": 1454,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 1667
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:B:k:1",
+    "family": "F01",
+    "variant": "B",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.35
+      },
+      "attraction_weights": {
+        "시장": 0.2857142857142857,
+        "공원": 0.42857142857142855,
+        "주민센터": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "공원은 최근 두 달간 반복적으로 향하는 모습이 관찰되어 '반복 지향 직접 관찰' 근거로 끌림점 등급을 '상'으로 설정했다. 시장은 과거 관찰 이력은 있으나 최근 경향이 없어 '중'으로 평가했다. 주민센터는 언급만 있어 '중'으로 유지했다. 치매 노인이 익숙한 거점 사이를 오간다는 점에서 'landmark_seeking' 전략 확률을 가장 높게 설정했으며, 방향 혼동 가능성으로 인해 배회 성향도 일부 반영했다. 이동 반경은 평소 생활 반경 내에서 움직이므로 '중'으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_B_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.15, \"backtracking\": 0.05, \"staying_put\": 0.10, \"landmark_seeking\": 0.35}, \"attraction_levels\": {\"시장\": \"중\", \"공원\": \"상\", \"주민센터\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"공원은 최근 두 달간 반복적으로 향하는 모습이 관찰되어 '반복 지향 직접 관찰' 근거로 끌림점 등급을 '상'으로 설정했다. 시장은 과거 관찰 이력은 있으나 최근 경향이 없어 '중'으로 평가했다. 주민센터는 언급만 있어 '중'으로 유지했다. 치매 노인이 익숙한 거점 사이를 오간다는 점에서 'landmark_seeking' 전략 확률을 가장 높게 설정했으며, 방향 혼동 가능성으로 인해 배회 성향도 일부 반영했다. 이동 반경은 평소 생활 반경 내에서 움직이므로 '중'으로 판단했다.\"}",
+    "raw_sha256": "daa46f99eb2458d2361d183decb67a474fdb6d355270c43754ffcca91a5f476c",
+    "source_file_sha256": "ee3f2b54274477f3cce0651b9469758a26c1f69a23fe06019aa60cb596d586e1",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 209,
+      "prompt_tokens": 1454,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1663
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:B:sar:0",
+    "family": "F01",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.25
+      },
+      "attraction_weights": {
+        "시장": 0.375,
+        "공원": 0.375,
+        "주민센터": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했으므로 모두 상위 끌림점으로 판단했다. 최근 관찰에서 시장은 관찰되지 않았지만, 공원은 여러 차례 관찰되었다. 이는 치매 노인이 특정 장소를 선호하는 경향이 있지만, 최근 행동 패턴은 다를 수 있음을 시사한다. 따라서 방향상실 등급은 '중상'으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_B_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.40,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.25\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"주민센터\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했으므로 모두 상위 끌림점으로 판단했다. 최근 관찰에서 시장은 관찰되지 않았지만, 공원은 여러 차례 관찰되었다. 이는 치매 노인이 특정 장소를 선호하는 경향이 있지만, 최근 행동 패턴은 다를 수 있음을 시사한다. 따라서 방향상실 등급은 '중상'으로 판단했다.\"\n}\n```",
+    "raw_sha256": "9af102d30e95ece055bc8ea56c9117a4c1e41000103f100a6f33487853390cf9",
+    "source_file_sha256": "863bc6e0fc728240195b64c60b4d728e0f955974a16bcfcbd885f030ee74b69d",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1765,
+      "total_tokens": 2008,
+      "completion_tokens": 243,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:B:sar:1",
+    "family": "F01",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 과거 실종 때 실제 발견된 곳이며 보호자가 반복 지향을 직접 관찰한 곳으로, 모두 최상위 끌림점으로 판단했다. 최근 두 달 동안 혼자 나서면 공원 쪽으로 향하는 모습을 보였지만 시장은 관찰되지 않았다. 이는 방향상실이 있지만 특정 장소를 향한 의도가 있는 경우로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_B_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.10,\n    \"random_walk\": 0.05,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"주민센터\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 과거 실종 때 실제 발견된 곳이며 보호자가 반복 지향을 직접 관찰한 곳으로, 모두 최상위 끌림점으로 판단했다. 최근 두 달 동안 혼자 나서면 공원 쪽으로 향하는 모습을 보였지만 시장은 관찰되지 않았다. 이는 방향상실이 있지만 특정 장소를 향한 의도가 있는 경우로 판단했다.\"\n}\n```",
+    "raw_sha256": "7a8e698b1b68dd67c4815606bea296fd6d68a2c3cdf5aadb0993a0977e03a50a",
+    "source_file_sha256": "8cc9cb1d068bf1c3dc315dbeae106d1b198dd407c05315d487e1e1478157decb",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1765,
+      "total_tokens": 2002,
+      "completion_tokens": 237,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:C:k:0",
+    "family": "F01",
+    "variant": "C",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.5,
+        "공원": 0.3333333333333333,
+        "주민센터": 0.16666666666666666
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "시장은 보호자가 직접 반복 지향을 관찰했고 최근 외출 시 실제로 향한 방향이므로 최상위 끌림점으로 평가했다. 공원은 보호자가 반복 지향을 관찰했다고 했으나 최근 관찰되지 않았고, 주민센터는 언급만 있어 낮은 등급을 부여했다. 익숙한 경로 추종과 특정 장소 향한 이동이 두드러져 route_following과 landmark_seeking 확률을 높였다. 방향 혼동 가능성과 배회 성향을 고려해 random_walk과 staying_put도 일부 반영했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_C_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.4, \"direction_keeping\": 0.1, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.1, \"landmark_seeking\": 0.3}, \"attraction_levels\": {\"시장\": \"상\", \"공원\": \"중\", \"주민센터\": \"하\"}, \"radius_level\": \"중\", \"reasoning\": \"시장은 보호자가 직접 반복 지향을 관찰했고 최근 외출 시 실제로 향한 방향이므로 최상위 끌림점으로 평가했다. 공원은 보호자가 반복 지향을 관찰했다고 했으나 최근 관찰되지 않았고, 주민센터는 언급만 있어 낮은 등급을 부여했다. 익숙한 경로 추종과 특정 장소 향한 이동이 두드러져 route_following과 landmark_seeking 확률을 높였다. 방향 혼동 가능성과 배회 성향을 고려해 random_walk과 staying_put도 일부 반영했다.\"}",
+    "raw_sha256": "14578cb9e466d50e8c8674e2d726b80d6e1205c7b1653ddce3a42f051576f0f1",
+    "source_file_sha256": "6000c3a88d0e1756059ba70c52c932efa9dd3b86e57fac1f4d11d06753fd30c7",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 190,
+      "prompt_tokens": 1458,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 1648
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:C:k:1",
+    "family": "F01",
+    "variant": "C",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.5,
+        "공원": 0.3333333333333333,
+        "주민센터": 0.16666666666666666
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "시장은 보호자가 직접 반복 지향을 관찰했고 최근 외출 시 실제로 향한 방향이므로 최상위 끌림점으로 평가했다. 공원은 언급은 있으나 최근 관찰되지 않았고, 주민센터는 언급만 있어 등급을 낮췄다. 익숙한 경로를 따라 이동할 가능성이 높으나, 방향 혼동 가능성도 배제할 수 없어 배회 전략에 일부 확률을 부여했다. 이동 반경은 등록된 거점 사이 왕복 수준으로 평균적인 치매 노인과 유사하다고 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_C_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.4, \"direction_keeping\": 0.1, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.1, \"landmark_seeking\": 0.3}, \"attraction_levels\": {\"시장\": \"상\", \"공원\": \"중\", \"주민센터\": \"하\"}, \"radius_level\": \"중\", \"reasoning\": \"시장은 보호자가 직접 반복 지향을 관찰했고 최근 외출 시 실제로 향한 방향이므로 최상위 끌림점으로 평가했다. 공원은 언급은 있으나 최근 관찰되지 않았고, 주민센터는 언급만 있어 등급을 낮췄다. 익숙한 경로를 따라 이동할 가능성이 높으나, 방향 혼동 가능성도 배제할 수 없어 배회 전략에 일부 확률을 부여했다. 이동 반경은 등록된 거점 사이 왕복 수준으로 평균적인 치매 노인과 유사하다고 판단했다.\"}",
+    "raw_sha256": "f9e13fad2c3a8d910aa6feb3109f53bd6a4d64b0e5679306e532ce7b394dd946",
+    "source_file_sha256": "a27dbb9d95cae892f526bbae6ce78f6ea9255456c237cbb465cbc95f2a59ed99",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 185,
+      "prompt_tokens": 1458,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1643
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:C:sar:0",
+    "family": "F01",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 평소 자주 가던 곳이다. 이들은 치매 노인이 과거에 자주 방문했던 장소로, 치매 노인이 배회할 때 목적지가 있는 것처럼 보이는 근거가 된다. 따라서 이들은 모두 상위 끌림점으로 판단했다. 최근의 방향성은 시장으로 향하는 경향이 있었으나, 공원을 향한 모습은 관찰되지 않았다. 이는 치매 노인이 특정 장소를 향해 가는 것이 아니라, 여러 장소를 배회하는 상태일 가능성을 시사한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_C_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.35,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"주민센터\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 평소 자주 가던 곳이다. 이들은 치매 노인이 과거에 자주 방문했던 장소로, 치매 노인이 배회할 때 목적지가 있는 것처럼 보이는 근거가 된다. 따라서 이들은 모두 상위 끌림점으로 판단했다. 최근의 방향성은 시장으로 향하는 경향이 있었으나, 공원을 향한 모습은 관찰되지 않았다. 이는 치매 노인이 특정 장소를 향해 가는 것이 아니라, 여러 장소를 배회하는 상태일 가능성을 시사한다.\"\n}\n```",
+    "raw_sha256": "3e613ff131a04b21ba57782ee642fb127ddf89f61cfbfdbb28d424b86692bb6d",
+    "source_file_sha256": "14a9756ca2160104f9f4a78caa74769b7e2ae64548ce5762146430931e1356e7",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1768,
+      "total_tokens": 2053,
+      "completion_tokens": 285,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F01:C:sar:1",
+    "family": "F01",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 과거에도 여러 차례 방문한 곳이다. 따라서 이들은 모두 상위 끌림점으로 판단했다. 최근 관찰에서는 시장으로 향하는 모습만 확인되었지만, 이는 과거의 이동 패턴과 일치하므로 방향상실이 발생했다고 판단하지 않았다. 치매 노인의 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F01_C_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.20\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"주민센터\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 과거에도 여러 차례 방문한 곳이다. 따라서 이들은 모두 상위 끌림점으로 판단했다. 최근 관찰에서는 시장으로 향하는 모습만 확인되었지만, 이는 과거의 이동 패턴과 일치하므로 방향상실이 발생했다고 판단하지 않았다. 치매 노인의 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "83f383372a4953fb721f8aeadbd14eb29ddeb781c578e58bd7034b9317942160",
+    "source_file_sha256": "718428d2e7088280feb71d61ad7ec1d237022adf9aeb5fc28d9243aebf0fc0ff",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1768,
+      "total_tokens": 2017,
+      "completion_tokens": 249,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:A:k:0",
+    "family": "F02",
+    "variant": "A",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.15,
+        "backtracking": 0.1,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "옛 공장": 0.2857142857142857,
+        "경로당": 0.42857142857142855,
+        "동네 도서관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 반복 지향을 직접 관찰한 세 장소 모두 끌림점으로 설정하되, 경로당은 실제 방문 빈도가 가장 높아 '상', 옛 공장과 도서관은 회상 수준에 그쳐 '중'으로 평가했다. 최근 공장 향한 행동은 없어 과거 직업에 대한 끌림은 약화된 것으로 보인다. 익숙한 경로 의존 성향이 있으나 방향 혼동 가능성도 있어 route_following과 landmark_seeking에 가중치를 두었고, 배회 형태는 '목적 상실형 익숙 거점 순회' 유형에 가까워 익숙한 거점 사이를 맴돌 가능성이 높다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_A_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.15, \"backtracking\": 0.10, \"staying_put\": 0.10, \"landmark_seeking\": 0.30}, \"attraction_levels\": {\"옛 공장\": \"중\", \"경로당\": \"상\", \"동네 도서관\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"보호자가 반복 지향을 직접 관찰한 세 장소 모두 끌림점으로 설정하되, 경로당은 실제 방문 빈도가 가장 높아 '상', 옛 공장과 도서관은 회상 수준에 그쳐 '중'으로 평가했다. 최근 공장 향한 행동은 없어 과거 직업에 대한 끌림은 약화된 것으로 보인다. 익숙한 경로 의존 성향이 있으나 방향 혼동 가능성도 있어 route_following과 landmark_seeking에 가중치를 두었고, 배회 형태는 '목적 상실형 익숙 거점 순회' 유형에 가까워 익숙한 거점 사이를 맴돌 가능성이 높다.\"}",
+    "raw_sha256": "1e75e0cc9cd116140b1b4820bde4642fd568929fa1fb78971cd6db2159b5436a",
+    "source_file_sha256": "18835b652b2fbc31c84b97ea0c9a8365cba15cf05f442f2ec3c9bc5d635df4bc",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 209,
+      "prompt_tokens": 1484,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1693
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:A:k:1",
+    "family": "F02",
+    "variant": "A",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.35
+      },
+      "attraction_weights": {
+        "옛 공장": 0.25,
+        "경로당": 0.375,
+        "동네 도서관": 0.375
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 반복적으로 지향하는 모습을 직접 관찰한 경로당과 동네 도서관은 끌림점으로서 '상' 등급을 부여했다. 옛 공장은 과거 근무지이나 최근 출근 시도는 없고 회상 수준에 그쳐 '중'으로 평가했다. 세 장소 모두 익숙하고 반복 방문 이력이 있어 landmark_seeking 전략 확률이 가장 높게 설정되었다. 방향 혼동 가능성과 반복 행동 양상을 고려해 random_walk와 staying_put도 일부 반영했으며, 익숙한 거점 간 왕복 가능성이 높다고 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_A_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.15, \"backtracking\": 0.05, \"staying_put\": 0.10, \"landmark_seeking\": 0.35}, \"attraction_levels\": {\"옛 공장\": \"중\", \"경로당\": \"상\", \"동네 도서관\": \"상\"}, \"radius_level\": \"중\", \"reasoning\": \"보호자가 반복적으로 지향하는 모습을 직접 관찰한 경로당과 동네 도서관은 끌림점으로서 '상' 등급을 부여했다. 옛 공장은 과거 근무지이나 최근 출근 시도는 없고 회상 수준에 그쳐 '중'으로 평가했다. 세 장소 모두 익숙하고 반복 방문 이력이 있어 landmark_seeking 전략 확률이 가장 높게 설정되었다. 방향 혼동 가능성과 반복 행동 양상을 고려해 random_walk와 staying_put도 일부 반영했으며, 익숙한 거점 간 왕복 가능성이 높다고 판단했다.\"}",
+    "raw_sha256": "107193834cb46f7648d6f1cbaee6c041d83282c517e1f1267d804dfe00d7fa10",
+    "source_file_sha256": "7a06a36df4d02f94b3fb3f4455b8ae15e5cf5662c995022d4e0fe492cb3ea918",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 201,
+      "prompt_tokens": 1484,
+      "prompt_tokens_details": {
+        "cached_tokens": 1472
+      },
+      "total_tokens": 1685
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:A:sar:0",
+    "family": "F02",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "옛 공장": 0.375,
+        "경로당": 0.375,
+        "동네 도서관": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 과거에 자주 방문했던 곳이다. 이들은 모두 '상' 등급으로 판단했다. 최근에는 경로당에 반복해서 가는 모습을 관찰했지만, 옛 공장이나 동네 도서관에 대한 최근 의도는 관찰되지 않았다. 이는 치매 노인이 과거에 자주 방문했던 장소를 현재에도 방문하려는 경향이 있음을 시사한다. 그러나 최근의 의도가 불분명하기 때문에, 이들 장소에 대한 이동 성향은 '상' 등급으로 유지했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_A_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.20\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 과거에 자주 방문했던 곳이다. 이들은 모두 '상' 등급으로 판단했다. 최근에는 경로당에 반복해서 가는 모습을 관찰했지만, 옛 공장이나 동네 도서관에 대한 최근 의도는 관찰되지 않았다. 이는 치매 노인이 과거에 자주 방문했던 장소를 현재에도 방문하려는 경향이 있음을 시사한다. 그러나 최근의 의도가 불분명하기 때문에, 이들 장소에 대한 이동 성향은 '상' 등급으로 유지했다.\"\n}\n```",
+    "raw_sha256": "5dfc64bfe244e8c22ab703976435579700af41d68e32b14ac589c5a5b949c93f",
+    "source_file_sha256": "cd76c0943edcee086ed48cc24885e3cf3761a82b23f295cbb72b4f661e2c163a",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1801,
+      "total_tokens": 2086,
+      "completion_tokens": 285,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:A:sar:1",
+    "family": "F02",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.2,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "옛 공장": 0.375,
+        "경로당": 0.375,
+        "동네 도서관": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 최근에도 이들 장소를 여러 차례 방문했다는 점에서 상위 끌림점으로 판단했다. 'route_following' 확률이 높은 이유는 치매 노인이 과거에 일했던 공장을 포함해 세 장소 모두 과거에 자주 방문했던 곳이며, 최근에도 이들 장소를 반복해서 방문했기 때문이다. 'direction_keeping' 확률도 높은데, 이는 치매 노인이 과거에 일했던 공장을 포함해 세 장소 모두 과거에 자주 방문했던 곳이며, 최근에도 이들 장소를 반복해서 방문했기 때문이다. 'random_walk' 확률은 낮지만, 치매 노인이 최근에 특정 장소로 향하는 모습을 보이지 않았기 때문에 완전히 배제할 수 없다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_A_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.40,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.20\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 최근에도 이들 장소를 여러 차례 방문했다는 점에서 상위 끌림점으로 판단했다. 'route_following' 확률이 높은 이유는 치매 노인이 과거에 일했던 공장을 포함해 세 장소 모두 과거에 자주 방문했던 곳이며, 최근에도 이들 장소를 반복해서 방문했기 때문이다. 'direction_keeping' 확률도 높은데, 이는 치매 노인이 과거에 일했던 공장을 포함해 세 장소 모두 과거에 자주 방문했던 곳이며, 최근에도 이들 장소를 반복해서 방문했기 때문이다. 'random_walk' 확률은 낮지만, 치매 노인이 최근에 특정 장소로 향하는 모습을 보이지 않았기 때문에 완전히 배제할 수 없다.\"\n}\n```",
+    "raw_sha256": "98a102f353a12cf8f0a89f9360cebe8a4605ae1e96d7b68498cfc4816b98eb3a",
+    "source_file_sha256": "6ea72e1be4c6ec07909ac9c5146bd5393d8d5c020cb2b85d7eeca279b17f7457",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1801,
+      "total_tokens": 2137,
+      "completion_tokens": 336,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:B:k:0",
+    "family": "F02",
+    "variant": "B",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.2,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.35
+      },
+      "attraction_weights": {
+        "옛 공장": 0.5,
+        "경로당": 0.3333333333333333,
+        "동네 도서관": 0.16666666666666666
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "옛 공장은 보호자가 직접 반복 지향을 관찰했고, 과거 근무지이자 현재 '출근해야 한다'는 언급까지 있어 최상위 끌림점으로 판단했다. 경로당은 반복 방문이 관찰되었으나 동기 부여가 명확하지 않아 중간 등급으로 평가했다. 도서관은 언급만 있어 하위 등급으로 뒀다. 세 장소 모두 반복 방문 이력이 있으나 최근 방향 혼동 가능성과 과거 이탈 패턴을 고려할 때, 익숙한 거점 사이 순환 또는 특정 목표(출근)를 향한 이동이 예상된다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_B_k_0.json",
+    "raw_content": "{\n  \"strategy_probs\": {\n    \"route_following\": 0.25,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.35\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"중\",\n    \"동네 도서관\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"옛 공장은 보호자가 직접 반복 지향을 관찰했고, 과거 근무지이자 현재 '출근해야 한다'는 언급까지 있어 최상위 끌림점으로 판단했다. 경로당은 반복 방문이 관찰되었으나 동기 부여가 명확하지 않아 중간 등급으로 평가했다. 도서관은 언급만 있어 하위 등급으로 뒀다. 세 장소 모두 반복 방문 이력이 있으나 최근 방향 혼동 가능성과 과거 이탈 패턴을 고려할 때, 익숙한 거점 사이 순환 또는 특정 목표(출근)를 향한 이동이 예상된다.\"\n}",
+    "raw_sha256": "3b215cb8c6bd240fb0f699b2f799cf64824cb2b9f75bae8644e6b74b824e21c2",
+    "source_file_sha256": "7a85609a2d24fb24869ee8d083372b4007c42e95348a80c5893a91fdb2686a50",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 222,
+      "prompt_tokens": 1486,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1708
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:B:k:1",
+    "family": "F02",
+    "variant": "B",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.2,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.35
+      },
+      "attraction_weights": {
+        "옛 공장": 0.375,
+        "경로당": 0.375,
+        "동네 도서관": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "옛 공장과 경로당은 보호자가 직접 반복 지향을 관찰했고, 특히 옛 공장은 과거 근무지이자 최근 '출근해야 한다'는 언급과 함께 반복적으로 향하는 행동이 확인되어 최상위 끌림점으로 평가했다. 동네 도서관은 반복 방문 이력은 있으나 직접 관찰된 지향성은 낮아 중등급으로 판단했다. 세 장소 모두 익숙한 거점이므로 배회보다는 끌림점 중심 이동 가능성이 높으며, 방향 혼동 가능성도 있으나 익숙한 경로를 따라 이동할 확률이 우세하다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_B_k_1.json",
+    "raw_content": "{\n  \"strategy_probs\": {\n    \"route_following\": 0.25,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.35\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"옛 공장과 경로당은 보호자가 직접 반복 지향을 관찰했고, 특히 옛 공장은 과거 근무지이자 최근 '출근해야 한다'는 언급과 함께 반복적으로 향하는 행동이 확인되어 최상위 끌림점으로 평가했다. 동네 도서관은 반복 방문 이력은 있으나 직접 관찰된 지향성은 낮아 중등급으로 판단했다. 세 장소 모두 익숙한 거점이므로 배회보다는 끌림점 중심 이동 가능성이 높으며, 방향 혼동 가능성도 있으나 익숙한 경로를 따라 이동할 확률이 우세하다.\"\n}",
+    "raw_sha256": "db4cce404768d9d3cf29a8314a7c81cb414712a3a87ae001d72cd7f1688d7f0f",
+    "source_file_sha256": "1ddcea6ef5a5132a6c4ecff8572c585d00c4f088999b27f55ef7e838be1daede",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 219,
+      "prompt_tokens": 1486,
+      "prompt_tokens_details": {
+        "cached_tokens": 1472
+      },
+      "total_tokens": 1705
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:B:sar:0",
+    "family": "F02",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.2,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "옛 공장": 0.375,
+        "경로당": 0.375,
+        "동네 도서관": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 직접 반복 지향을 관찰한 곳으로, 치매 노인의 이동 성향을 판단하는 데 중요한 근거가 된다. 이들 장소는 모두 치매 노인이 과거에 자주 방문했던 곳으로, 최근에도 여러 차례 향하는 모습을 가족이 관찰했다. 이는 치매 노인이 특정 장소를 반복적으로 방문하는 성향을 보여주는 것으로, 이들 장소를 상위 끌림점으로 판단했다. 동네 도서관은 다른 두 장소에 비해 상대적으로 낮은 끌림점 등급을 부여했다. 최근의 행동 패턴을 보면, 치매 노인은 옛 공장에 출근해야 한다고 반복해서 말하며 그 방향으로 나서는 모습을 보였다. 이는 치매 노인이 옛 공장을 중요한 장소로 인식하고 있음을 시사한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_B_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 직접 반복 지향을 관찰한 곳으로, 치매 노인의 이동 성향을 판단하는 데 중요한 근거가 된다. 이들 장소는 모두 치매 노인이 과거에 자주 방문했던 곳으로, 최근에도 여러 차례 향하는 모습을 가족이 관찰했다. 이는 치매 노인이 특정 장소를 반복적으로 방문하는 성향을 보여주는 것으로, 이들 장소를 상위 끌림점으로 판단했다. 동네 도서관은 다른 두 장소에 비해 상대적으로 낮은 끌림점 등급을 부여했다. 최근의 행동 패턴을 보면, 치매 노인은 옛 공장에 출근해야 한다고 반복해서 말하며 그 방향으로 나서는 모습을 보였다. 이는 치매 노인이 옛 공장을 중요한 장소로 인식하고 있음을 시사한다.\"\n}\n```",
+    "raw_sha256": "df5406a1c5b6f3ced19482bfaab4659723078f92d9cf5ced3b9a2edcc162d35e",
+    "source_file_sha256": "21bbdba4b976884d823d34bdc84a08e51ff616c0a11f08ccf3c59cd42717b29d",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1803,
+      "total_tokens": 2130,
+      "completion_tokens": 327,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:B:sar:1",
+    "family": "F02",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.47368421052631576,
+        "direction_keeping": 0.15789473684210525,
+        "random_walk": 0.05263157894736842,
+        "backtracking": 0.05263157894736842,
+        "staying_put": 0.05263157894736842,
+        "landmark_seeking": 0.21052631578947367
+      },
+      "attraction_weights": {
+        "옛 공장": 0.42857142857142855,
+        "경로당": 0.42857142857142855,
+        "동네 도서관": 0.14285714285714285
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 이들을 뚜렷한 목적지로 인식하고 있음을 시사한다. 따라서 이들은 상위 끌림점으로 판단했다. '방향상실' 등급은 '중상'으로, 치매 노인이 과거에 이들 장소를 여러 차례 방문했지만 최근에는 특정 장소를 반복해서 가는 모습을 보여 방향상실이 있는 것으로 판단했다. '이동 성향'은 '목적 지향형 익숙 거점 순회 — 익숙한 장소를 반복 방문하며 특정 장소를 목적지로 삼는 경향'으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_B_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.05,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.20\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 이들을 뚜렷한 목적지로 인식하고 있음을 시사한다. 따라서 이들은 상위 끌림점으로 판단했다. '방향상실' 등급은 '중상'으로, 치매 노인이 과거에 이들 장소를 여러 차례 방문했지만 최근에는 특정 장소를 반복해서 가는 모습을 보여 방향상실이 있는 것으로 판단했다. '이동 성향'은 '목적 지향형 익숙 거점 순회 — 익숙한 장소를 반복 방문하며 특정 장소를 목적지로 삼는 경향'으로 판단했다.\"\n}\n```",
+    "raw_sha256": "8d32e5378c88b101adc20e8819e25114bd9392984f473af34b902887d8ee9535",
+    "source_file_sha256": "b64be5e7a3bed9f2b9adfa15ba8f5930e9b0316c0662f1148855188ccd5a113f",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1803,
+      "total_tokens": 2094,
+      "completion_tokens": 291,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:C:k:0",
+    "family": "F02",
+    "variant": "C",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.15,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "옛 공장": 0.2857142857142857,
+        "경로당": 0.42857142857142855,
+        "동네 도서관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "경로당은 보호자가 반복 지향을 직접 관찰했고 최근에도 반복적으로 방문하는 모습이 확인되어 최상위 끌림점으로 평가했다. 옛 공장은 과거 회상은 있으나 최근 방향성이나 행동은 관찰되지 않아 중간 등급으로 봤다. 동네 도서관도 반복 지향은 있으나 최근 행동 언급이 없어 중간으로 판단했다. 세 장소 모두 익숙한 경로이므로 route_following 확률이 높고, 방향 혼동 가능성에 따라 random_walk와 staying_put도 일부 반영했다. 이동 반경은 익숙한 거점 간 왕복 수준이므로 평균적인 치매 노인보다 멀지 않아 '중'으로 평가했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_C_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.4, \"direction_keeping\": 0.1, \"random_walk\": 0.1, \"backtracking\": 0.05, \"staying_put\": 0.15, \"landmark_seeking\": 0.2}, \"attraction_levels\": {\"옛 공장\": \"중\", \"경로당\": \"상\", \"동네 도서관\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"경로당은 보호자가 반복 지향을 직접 관찰했고 최근에도 반복적으로 방문하는 모습이 확인되어 최상위 끌림점으로 평가했다. 옛 공장은 과거 회상은 있으나 최근 방향성이나 행동은 관찰되지 않아 중간 등급으로 봤다. 동네 도서관도 반복 지향은 있으나 최근 행동 언급이 없어 중간으로 판단했다. 세 장소 모두 익숙한 경로이므로 route_following 확률이 높고, 방향 혼동 가능성에 따라 random_walk와 staying_put도 일부 반영했다. 이동 반경은 익숙한 거점 간 왕복 수준이므로 평균적인 치매 노인보다 멀지 않아 '중'으로 평가했다.\"}",
+    "raw_sha256": "6e1d967823c57b92940bb46bbf3562cc587583e3510f325ef00d21b6a07af663",
+    "source_file_sha256": "406d96b297c00768e35cfaf7848b10489528f8f2636a78e26d2d0eca56370503",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 212,
+      "prompt_tokens": 1485,
+      "prompt_tokens_details": {
+        "cached_tokens": 960
+      },
+      "total_tokens": 1697
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:C:k:1",
+    "family": "F02",
+    "variant": "C",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "옛 공장": 0.25,
+        "경로당": 0.375,
+        "동네 도서관": 0.375
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 반복 지향을 직접 관찰한 경로당과 동네 도서관은 끌림점으로 '상' 등급을 부여했다. 옛 공장은 과거 직장이지만 최근 그 방향으로 나서는 모습은 없어 '중'으로 평가했다. 세 장소 모두 반복 방문 이력이 있어 익숙한 거점 회귀 성향이 강하며, 방향 혼동 가능성도 고려했다. 그러나 최근 의도적 이동보다는 익숙한 거점 사이를 맴도는 배회 가능성이 높으므로, 경로 추종과 끌림점 탐색을 중심으로 전략을 배분했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_C_k_1.json",
+    "raw_content": "{\n  \"strategy_probs\": {\n    \"route_following\": 0.4,\n    \"direction_keeping\": 0.1,\n    \"random_walk\": 0.1,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.3\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"중\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"보호자가 반복 지향을 직접 관찰한 경로당과 동네 도서관은 끌림점으로 '상' 등급을 부여했다. 옛 공장은 과거 직장이지만 최근 그 방향으로 나서는 모습은 없어 '중'으로 평가했다. 세 장소 모두 반복 방문 이력이 있어 익숙한 거점 회귀 성향이 강하며, 방향 혼동 가능성도 고려했다. 그러나 최근 의도적 이동보다는 익숙한 거점 사이를 맴도는 배회 가능성이 높으므로, 경로 추종과 끌림점 탐색을 중심으로 전략을 배분했다.\"\n}",
+    "raw_sha256": "717a256d5d4c3c0de14d575159cee7de981c7610430921ae035e436abb46b30d",
+    "source_file_sha256": "7c7a6c12f11671d00f91c13cb2686b1700fdfa0a9335da536b76e79831f1bc23",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 216,
+      "prompt_tokens": 1485,
+      "prompt_tokens_details": {
+        "cached_tokens": 1472
+      },
+      "total_tokens": 1701
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:C:sar:0",
+    "family": "F02",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.16666666666666666,
+        "random_walk": 0.11111111111111112,
+        "backtracking": 0.05555555555555556,
+        "staying_put": 0.05555555555555556,
+        "landmark_seeking": 0.11111111111111112
+      },
+      "attraction_weights": {
+        "옛 공장": 0.375,
+        "경로당": 0.375,
+        "동네 도서관": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했으므로 모두 상위 끌림점으로 판단했다. 옛 공장은 과거 직장을 떠올리는 장소로, 최근에는 그곳에 출근하겠다고 하거나 그 방향으로 나서는 모습은 없었지만 과거의 행동 패턴을 고려해 상위 끌림점으로 판단했다. 경로당과 동네 도서관은 최근에도 자주 방문하는 모습을 가족이 관찰했으므로 상위 끌림점으로 판단했다. 치매 노인의 생활 반경이 단순하다는 점을 고려해 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_C_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했으므로 모두 상위 끌림점으로 판단했다. 옛 공장은 과거 직장을 떠올리는 장소로, 최근에는 그곳에 출근하겠다고 하거나 그 방향으로 나서는 모습은 없었지만 과거의 행동 패턴을 고려해 상위 끌림점으로 판단했다. 경로당과 동네 도서관은 최근에도 자주 방문하는 모습을 가족이 관찰했으므로 상위 끌림점으로 판단했다. 치매 노인의 생활 반경이 단순하다는 점을 고려해 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "bb4a4dc11c59933b42f857563f42d53488d0194c484135840f611d0c1a9db076",
+    "source_file_sha256": "91a42d7ccc0bf1b219931d90203490b43416586934ddc353dc9757b2be3c6447",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1801,
+      "total_tokens": 2079,
+      "completion_tokens": 278,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F02:C:sar:1",
+    "family": "F02",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.2,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "옛 공장": 0.375,
+        "경로당": 0.375,
+        "동네 도서관": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했으므로 모두 상위 끌림점으로 판단했다. 이들은 치매 노인의 과거 직장, 현재 자주 방문하는 장소, 최근 자주 언급되는 장소로, 치매 노인의 행동 패턴과 연결되는 중요한 장소들이다. 최근 옛 공장에 출근하겠다고 하거나 그 방향으로 나서는 모습은 본 적 없지만, 과거에 여러 차례 향하는 모습을 가족이 관찰했다는 점에서 여전히 중요한 장소로 판단했다. 배회 성향은 'route_following'이 높은 것은 과거에 자주 방문한 장소를 따라 걷는 경향이 있기 때문이며, 'direction_keeping'도 높은 것은 최근 경로당에 자주 가는 모습을 가족이 관찰했기 때문이다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F02_C_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"옛 공장\": \"상\",\n    \"경로당\": \"상\",\n    \"동네 도서관\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했으므로 모두 상위 끌림점으로 판단했다. 이들은 치매 노인의 과거 직장, 현재 자주 방문하는 장소, 최근 자주 언급되는 장소로, 치매 노인의 행동 패턴과 연결되는 중요한 장소들이다. 최근 옛 공장에 출근하겠다고 하거나 그 방향으로 나서는 모습은 본 적 없지만, 과거에 여러 차례 향하는 모습을 가족이 관찰했다는 점에서 여전히 중요한 장소로 판단했다. 배회 성향은 'route_following'이 높은 것은 과거에 자주 방문한 장소를 따라 걷는 경향이 있기 때문이며, 'direction_keeping'도 높은 것은 최근 경로당에 자주 가는 모습을 가족이 관찰했기 때문이다.\"\n}\n```",
+    "raw_sha256": "babd76a29e3a918db6601a594ef42caf5d3e8385d426ca33d38937c7c9b3d5e6",
+    "source_file_sha256": "5923795c9ccf200020029033fc4a9bbc239c6546966cfa29b6bd39d105fa632b",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1801,
+      "total_tokens": 2125,
+      "completion_tokens": 324,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:A:k:0",
+    "family": "F03",
+    "variant": "A",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.38095238095238093,
+        "direction_keeping": 0.09523809523809523,
+        "random_walk": 0.047619047619047616,
+        "backtracking": 0.047619047619047616,
+        "staying_put": 0.09523809523809523,
+        "landmark_seeking": 0.3333333333333333
+      },
+      "attraction_weights": {
+        "옛집": 0.3333333333333333,
+        "복지관": 0.3333333333333333,
+        "동네 약국": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했으며, 특히 옛집과 복지관은 정기 방문 이력과 최근 인식 반응까지 확인되어 끌림점 등급을 '상'으로 설정했다. 동네 약국도 반복 방문이 관찰되어 동일한 등급을 부여했다. 익숙한 경로를 따라 이동할 가능성이 높아 route_following과 landmark_seeking 확률을 높게 배정했으며, 방향 혼동 가능성에 따라 random_walk와 staying_put에 소폭 반영했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_A_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.4, \"direction_keeping\": 0.1, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.1, \"landmark_seeking\": 0.35}, \"attraction_levels\": {\"옛집\": \"상\", \"복지관\": \"상\", \"동네 약국\": \"상\"}, \"radius_level\": \"중\", \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했으며, 특히 옛집과 복지관은 정기 방문 이력과 최근 인식 반응까지 확인되어 끌림점 등급을 '상'으로 설정했다. 동네 약국도 반복 방문이 관찰되어 동일한 등급을 부여했다. 익숙한 경로를 따라 이동할 가능성이 높아 route_following과 landmark_seeking 확률을 높게 배정했으며, 방향 혼동 가능성에 따라 random_walk와 staying_put에 소폭 반영했다.\"}",
+    "raw_sha256": "1f63a003d366126d3665529fcb3ad3b7541e6ea70d88b8e2ad50adaede6f70e0",
+    "source_file_sha256": "5b563de0f4587a205d9bc5485c166f47534151bde7c4e732c09f184e0df43246",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 190,
+      "prompt_tokens": 1480,
+      "prompt_tokens_details": {
+        "cached_tokens": 576
+      },
+      "total_tokens": 1670
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:A:k:1",
+    "family": "F03",
+    "variant": "A",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.38095238095238093,
+        "direction_keeping": 0.09523809523809523,
+        "random_walk": 0.047619047619047616,
+        "backtracking": 0.047619047619047616,
+        "staying_put": 0.09523809523809523,
+        "landmark_seeking": 0.3333333333333333
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "옛집과 복지관은 보호자가 직접 반복 지향을 관찰했고, 복지관 입구에서 인지 후 멈추는 행동까지 확인되어 최상위 끌림점으로 판단했다. 동네 약국도 반복 방문 이력이 있으나 구체적 행동 관찰이 부족해 중간 등급으로 평가했다. 세 장소 모두 익숙한 경로 내 반복 이동 패턴을 보이며, 방향 혼동 가능성은 있으나 익숙한 거점 사이 왕복 가능성이 높다고 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_A_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.4, \"direction_keeping\": 0.1, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.1, \"landmark_seeking\": 0.35}, \"attraction_levels\": {\"옛집\": \"상\", \"복지관\": \"상\", \"동네 약국\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"옛집과 복지관은 보호자가 직접 반복 지향을 관찰했고, 복지관 입구에서 인지 후 멈추는 행동까지 확인되어 최상위 끌림점으로 판단했다. 동네 약국도 반복 방문 이력이 있으나 구체적 행동 관찰이 부족해 중간 등급으로 평가했다. 세 장소 모두 익숙한 경로 내 반복 이동 패턴을 보이며, 방향 혼동 가능성은 있으나 익숙한 거점 사이 왕복 가능성이 높다고 판단했다.\"}",
+    "raw_sha256": "036610c6bb43a698d2791188109a800979fe13d4d30de25c7a935a290fb22ecf",
+    "source_file_sha256": "fb49efc44ffefa9db0863e7ac0fcfb2bac7fdfc1e5cfa7f302926a1858612d6f",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 180,
+      "prompt_tokens": 1480,
+      "prompt_tokens_details": {
+        "cached_tokens": 1472
+      },
+      "total_tokens": 1660
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:A:sar:0",
+    "family": "F03",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했으므로 모두 상위 끌림점으로 판단했다. 옛집과 복지관은 과거 거주·이용 이력이 있어 더욱 높게 평가했다. 동네 약국은 그 다음으로 자주 방문했지만 직접 관찰 증거가 없어 중간 수준으로 판단했다. 최근의 방향 혼동은 없었지만, 복지관에 도착하면 멈추는 모습이 반복되어 방향상실이 완전히 없는 것은 아니라고 판단했다. 따라서 이동 성향은 '상'으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_A_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.10,\n    \"random_walk\": 0.05,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했으므로 모두 상위 끌림점으로 판단했다. 옛집과 복지관은 과거 거주·이용 이력이 있어 더욱 높게 평가했다. 동네 약국은 그 다음으로 자주 방문했지만 직접 관찰 증거가 없어 중간 수준으로 판단했다. 최근의 방향 혼동은 없었지만, 복지관에 도착하면 멈추는 모습이 반복되어 방향상실이 완전히 없는 것은 아니라고 판단했다. 따라서 이동 성향은 '상'으로 판단했다.\"\n}\n```",
+    "raw_sha256": "a06130546e9734c318ef26e94c0dc00e4751240232c789ab86756e18b874af36",
+    "source_file_sha256": "d4c83f528a2173ad726fe56cf948c50e4bbd3040519cfc390cc462f3e80b079f",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1795,
+      "total_tokens": 2068,
+      "completion_tokens": 273,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:A:sar:1",
+    "family": "F03",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.6111111111111112,
+        "direction_keeping": 0.16666666666666666,
+        "random_walk": 0.11111111111111112,
+        "backtracking": 0.05555555555555556,
+        "staying_put": 0.03333333333333333,
+        "landmark_seeking": 0.022222222222222223
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 과거에도 여러 차례 방문했다는 점에서 모두 상위 끌림점으로 판단했다. 이들 장소는 치매 노인의 생활 반경 내에서 중요한 거점으로 볼 수 있다. 최근의 방향성은 복지관을 향해 걷다가 멈추는 모습으로, 이는 특정 장소를 향한 의도가 있음을 시사한다. 그러나 이는 아직 확실한 목적지로 판단하기는 어렵다. 따라서 배회 위험 등급은 '상'으로 판단하고, 성향은 '목적 지향형 익숙 거점 순회 — 특정 장소를 향한 의도가 있으나 아직 확실한 목적지로 판단하기는 어려움'으로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_A_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.55,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.03,\n    \"landmark_seeking\": 0.02\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 과거에도 여러 차례 방문했다는 점에서 모두 상위 끌림점으로 판단했다. 이들 장소는 치매 노인의 생활 반경 내에서 중요한 거점으로 볼 수 있다. 최근의 방향성은 복지관을 향해 걷다가 멈추는 모습으로, 이는 특정 장소를 향한 의도가 있음을 시사한다. 그러나 이는 아직 확실한 목적지로 판단하기는 어렵다. 따라서 배회 위험 등급은 '상'으로 판단하고, 성향은 '목적 지향형 익숙 거점 순회 — 특정 장소를 향한 의도가 있으나 아직 확실한 목적지로 판단하기는 어려움'으로 판단한다.\"\n}\n```",
+    "raw_sha256": "fc4b46c36059c2797d1ce2390222405f3b9d4ab4165fd7aec3267e0b3ed4ebc3",
+    "source_file_sha256": "8f5a35c32b89c2161832ffa9047dd7eb3327d1e99caf585799b8db09a2994083",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1795,
+      "total_tokens": 2098,
+      "completion_tokens": 303,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:B:k:0",
+    "family": "F03",
+    "variant": "B",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.25
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "옛집과 복지관은 보호자가 반복 지향을 직접 관찰했고, 과거 정기 방문 이력이 있어 끌림점 등급을 '상'으로 설정했다. 동네 약국은 반복 지향은 있으나 직접 관찰보다는 언급 수준에 가까워 '중'으로 평가했다. 치매 노인이 익숙한 세 장소를 오가는 경향이 있어 route_following 확률을 가장 높게 설정했으며, 방향 혼동과 인식 저하로 인해 방향 유지나 배회 가능성도 일부 반영했다. 이동 반경은 과거 행동 패턴상 제한적이지만 최근 인식 저하로 다소 벗어날 수 있어 '중'으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_B_k_0.json",
+    "raw_content": "{\n  \"strategy_probs\": {\n    \"route_following\": 0.40,\n    \"direction_keeping\": 0.10,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.25\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"옛집과 복지관은 보호자가 반복 지향을 직접 관찰했고, 과거 정기 방문 이력이 있어 끌림점 등급을 '상'으로 설정했다. 동네 약국은 반복 지향은 있으나 직접 관찰보다는 언급 수준에 가까워 '중'으로 평가했다. 치매 노인이 익숙한 세 장소를 오가는 경향이 있어 route_following 확률을 가장 높게 설정했으며, 방향 혼동과 인식 저하로 인해 방향 유지나 배회 가능성도 일부 반영했다. 이동 반경은 과거 행동 패턴상 제한적이지만 최근 인식 저하로 다소 벗어날 수 있어 '중'으로 판단했다.\"\n}",
+    "raw_sha256": "1f6c1c963a55145b070f4840fb0594f5affa2f182a662b333c3485887e21b96c",
+    "source_file_sha256": "a5687f4e32c6f134d9ecebd00ee8c7410f58ca7906dcfcf67c5e0820529bc155",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 234,
+      "prompt_tokens": 1484,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1718
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:B:k:1",
+    "family": "F03",
+    "variant": "B",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.1,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.25
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "옛집과 복지관은 보호자가 반복 지향을 직접 관찰했고, 특히 복지관은 정기 방문 장소로서 높은 끌림점 등급을 부여했다. 동네 약국도 반복 지향이 관찰되었으나, 구체적 언급이나 과거 발견 이력이 없어 '중'으로 평가했다. 최근 복지관 입구에서 인지 실패 후 계속 걷는 행동은 방향 유지 성향을 보이지만, 익숙한 경로 이탈 가능성을 시사한다. 세 장소 모두 반복 방문 이력이 있어 배회보다는 익숙 거점 회귀형 성향이 강하나, 최근 인지 저하로 인해 경로 이탈 가능성도 있어 'route_following'과 'landmark_seeking'을 중심으로 확률을 배분했다. 이동 반경은 과거 반복 거점 간 거리와 최근 방향 혼동을 고려해 평균 수준('중')으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_B_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.40, \"direction_keeping\": 0.10, \"random_walk\": 0.05, \"backtracking\": 0.10, \"staying_put\": 0.10, \"landmark_seeking\": 0.25}, \"attraction_levels\": {\"옛집\": \"상\", \"복지관\": \"상\", \"동네 약국\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"옛집과 복지관은 보호자가 반복 지향을 직접 관찰했고, 특히 복지관은 정기 방문 장소로서 높은 끌림점 등급을 부여했다. 동네 약국도 반복 지향이 관찰되었으나, 구체적 언급이나 과거 발견 이력이 없어 '중'으로 평가했다. 최근 복지관 입구에서 인지 실패 후 계속 걷는 행동은 방향 유지 성향을 보이지만, 익숙한 경로 이탈 가능성을 시사한다. 세 장소 모두 반복 방문 이력이 있어 배회보다는 익숙 거점 회귀형 성향이 강하나, 최근 인지 저하로 인해 경로 이탈 가능성도 있어 'route_following'과 'landmark_seeking'을 중심으로 확률을 배분했다. 이동 반경은 과거 반복 거점 간 거리와 최근 방향 혼동을 고려해 평균 수준('중')으로 판단했다.\"}",
+    "raw_sha256": "f93c4f8e1d04e2bc22d3418ac81d439a0e8d0fafec23b7180021d5d560cd0dcb",
+    "source_file_sha256": "c76b301616dad60e1fc183454d0e88795eec8ea1fe2dfc181185fa44b9ab9f98",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 247,
+      "prompt_tokens": 1484,
+      "prompt_tokens_details": {
+        "cached_tokens": 1472
+      },
+      "total_tokens": 1731
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:B:sar:0",
+    "family": "F03",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했기에 상위 끌림점으로 판단했다. 옛집과 복지관은 치매 노인의 오랜 거주와 방문 이력이 있어 더욱 높게 평가했다. 동네 약국은 직접 관찰 근거가 없어 중간 등급으로 분류했다. 최근의 방향 혼동은 익숙한 장소에서도 방향을 잃는 모습을 보여 배회 성향을 높였다. 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_B_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.35,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했기에 상위 끌림점으로 판단했다. 옛집과 복지관은 치매 노인의 오랜 거주와 방문 이력이 있어 더욱 높게 평가했다. 동네 약국은 직접 관찰 근거가 없어 중간 등급으로 분류했다. 최근의 방향 혼동은 익숙한 장소에서도 방향을 잃는 모습을 보여 배회 성향을 높였다. 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "4a5328e9890d36e6da490bb5fb50e4422cf964320594e375e2a6c022461a8fdb",
+    "source_file_sha256": "b5f9715f955f23f3b0f97136a48b5c82b01449059350f6c7d51242d959813f40",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1799,
+      "total_tokens": 2053,
+      "completion_tokens": 254,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:B:sar:1",
+    "family": "F03",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4736842105263158,
+        "direction_keeping": 0.15789473684210525,
+        "random_walk": 0.10526315789473685,
+        "backtracking": 0.052631578947368425,
+        "staying_put": 0.052631578947368425,
+        "landmark_seeking": 0.15789473684210525
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인의 이동 성향을 판단하는 데 중요한 근거가 된다. 특히 옛집과 복지관은 과거 거주지나 자주 방문한 장소로, 치매 노인의 생활 반경 내에서 중요한 역할을 했을 가능성이 높다. 최근의 방향 혼동은 익숙한 복지관을 향해 걷다가도 방향을 잃는 모습을 보여, 이동 성향이 악화되었음을 시사한다. 따라서 이들 장소를 상위 끌림점으로 판단하고, 배회 위험 등급은 '상'으로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_B_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.15\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인의 이동 성향을 판단하는 데 중요한 근거가 된다. 특히 옛집과 복지관은 과거 거주지나 자주 방문한 장소로, 치매 노인의 생활 반경 내에서 중요한 역할을 했을 가능성이 높다. 최근의 방향 혼동은 익숙한 복지관을 향해 걷다가도 방향을 잃는 모습을 보여, 이동 성향이 악화되었음을 시사한다. 따라서 이들 장소를 상위 끌림점으로 판단하고, 배회 위험 등급은 '상'으로 판단한다.\"\n}\n```",
+    "raw_sha256": "f48e2388174df9b12c4f61535dec26cfd2575de527b10027b5424cec398d044a",
+    "source_file_sha256": "d667e6eb14af45b63d34d3d830d4f6a3ec92d37003d850b28964833d2ea00d98",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1799,
+      "total_tokens": 2079,
+      "completion_tokens": 280,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:C:k:0",
+    "family": "F03",
+    "variant": "C",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.38095238095238093,
+        "direction_keeping": 0.09523809523809523,
+        "random_walk": 0.047619047619047616,
+        "backtracking": 0.047619047619047616,
+        "staying_put": 0.09523809523809523,
+        "landmark_seeking": 0.3333333333333333
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "옛집과 복지관은 보호자가 직접 반복 지향을 관찰했고, 특히 복지관은 최근 입구를 알아본 후 멈추는 행동까지 확인되어 최상위 끌림점으로 판단했다. 동네 약국은 반복 방문 이력은 있으나 최근 행동 관찰이 없어 중간 등급으로 설정했다. 세 장소 모두 익숙한 거점이므로 경로 추종과 끌림점 탐색 전략이 결합된 형태로, 배회보다는 목적 있는 이동 가능성이 높다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_C_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.4, \"direction_keeping\": 0.1, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.1, \"landmark_seeking\": 0.35}, \"attraction_levels\": {\"옛집\": \"상\", \"복지관\": \"상\", \"동네 약국\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"옛집과 복지관은 보호자가 직접 반복 지향을 관찰했고, 특히 복지관은 최근 입구를 알아본 후 멈추는 행동까지 확인되어 최상위 끌림점으로 판단했다. 동네 약국은 반복 방문 이력은 있으나 최근 행동 관찰이 없어 중간 등급으로 설정했다. 세 장소 모두 익숙한 거점이므로 경로 추종과 끌림점 탐색 전략이 결합된 형태로, 배회보다는 목적 있는 이동 가능성이 높다.\"}",
+    "raw_sha256": "378e9f0c9fbd0de4d6d164c977b5d15b84090df26177fb61a5e3f34c8bb89746",
+    "source_file_sha256": "e9d389281566e07e8855ba59b8ce95f46589c0bb62d329f83fe774d3846da3f3",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 183,
+      "prompt_tokens": 1481,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1664
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:C:k:1",
+    "family": "F03",
+    "variant": "C",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "옛집과 복지관은 보호자가 반복 지향을 직접 관찰했고, 특히 복지관은 최근 입구를 알아본 후 멈추는 행동이 확인되어 최상위 끌림점으로 판단했다. 동네 약국은 반복 방문 이력이 있으나 최근 행동에서 언급되지 않아 중간 등급으로 평가했다. 세 장소 모두 익숙한 거점이며, 방향 혼동 가능성은 있으나 익숙한 경로를 따라 이동할 가능성이 높고, 복지관 주변에서 맴돌 가능성도 있어 배회보다는 목적 지향적 이동이 우세하다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_C_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.40, \"direction_keeping\": 0.10, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.10, \"landmark_seeking\": 0.30}, \"attraction_levels\": {\"옛집\": \"상\", \"복지관\": \"상\", \"동네 약국\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"옛집과 복지관은 보호자가 반복 지향을 직접 관찰했고, 특히 복지관은 최근 입구를 알아본 후 멈추는 행동이 확인되어 최상위 끌림점으로 판단했다. 동네 약국은 반복 방문 이력이 있으나 최근 행동에서 언급되지 않아 중간 등급으로 평가했다. 세 장소 모두 익숙한 거점이며, 방향 혼동 가능성은 있으나 익숙한 경로를 따라 이동할 가능성이 높고, 복지관 주변에서 맴돌 가능성도 있어 배회보다는 목적 지향적 이동이 우세하다.\"}",
+    "raw_sha256": "d564d8409cf96c6fa9102045440d5034210d9faf59e7cc15dae708d88cc24101",
+    "source_file_sha256": "048074ae8abec9c9d81aff4b751c21ad8453d8c7043545e4fa3f034335161cff",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 195,
+      "prompt_tokens": 1481,
+      "prompt_tokens_details": {
+        "cached_tokens": 1472
+      },
+      "total_tokens": 1676
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:C:sar:0",
+    "family": "F03",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문했던 장소들이다. 이들을 상위 끌림점으로 판단했다. 최근 관찰에서는 옛집을 향해 가다가 멈추는 모습을 보였는데, 이는 치매 노인이 특정 장소를 향해 가다가 방향을 잃거나 주저하는 모습으로 해석할 수 있다. 따라서 이동 성향은 '상'으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_C_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.20\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문했던 장소들이다. 이들을 상위 끌림점으로 판단했다. 최근 관찰에서는 옛집을 향해 가다가 멈추는 모습을 보였는데, 이는 치매 노인이 특정 장소를 향해 가다가 방향을 잃거나 주저하는 모습으로 해석할 수 있다. 따라서 이동 성향은 '상'으로 판단했다.\"\n}\n```",
+    "raw_sha256": "af803d330492984bb15678488c5eadc78a3b4610535e61e126cb139f30486088",
+    "source_file_sha256": "e010bad1fe9811a68d1b38f6ae5c3bfdf7eafb54a0bd434f3116dc99fb1ce9f1",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1792,
+      "total_tokens": 2043,
+      "completion_tokens": 251,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F03:C:sar:1",
+    "family": "F03",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "옛집": 0.375,
+        "복지관": 0.375,
+        "동네 약국": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 직접 반복 지향을 관찰한 곳으로, 치매 노인이 자주 방문했던 익숙한 장소들이다. 이들은 모두 '상' 등급으로 분류된다. 최근 관찰에서는 복지관을 향해 가다가 멈추는 모습이 있었는데, 이는 치매 노인이 방향을 잃었을 때 특정 장소를 향해 가다가 멈추는 행동 패턴을 반영한다. 따라서 배회 위험 등급은 '상', 성향은 '목적 지향형 익숙 거점 순회 — 특정 장소를 향해 가다가 멈추는 행동을 보일 가능성'으로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F03_C_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.10,\n    \"random_walk\": 0.05,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"옛집\": \"상\",\n    \"복지관\": \"상\",\n    \"동네 약국\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 직접 반복 지향을 관찰한 곳으로, 치매 노인이 자주 방문했던 익숙한 장소들이다. 이들은 모두 '상' 등급으로 분류된다. 최근 관찰에서는 복지관을 향해 가다가 멈추는 모습이 있었는데, 이는 치매 노인이 방향을 잃었을 때 특정 장소를 향해 가다가 멈추는 행동 패턴을 반영한다. 따라서 배회 위험 등급은 '상', 성향은 '목적 지향형 익숙 거점 순회 — 특정 장소를 향해 가다가 멈추는 행동을 보일 가능성'으로 판단한다.\"\n}\n```",
+    "raw_sha256": "8edc0d6a60e74f2b32a2a74f2cdd1984992c3560831c10e55bccc19e030711e0",
+    "source_file_sha256": "09d8a933349d35de4eee9bbb88282f5d722a18afb134c1637233ef4b50bd22d6",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1792,
+      "total_tokens": 2071,
+      "completion_tokens": 279,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:A:k:0",
+    "family": "F04",
+    "variant": "A",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.3,
+        "backtracking": 0.2,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "성당, 시장, 주민센터 모두 보호자가 직접 반복 지향을 관찰했으나, 최근 행동은 뚜렷한 목적지 없이 짧은 구간을 왕복하며 반복하는 배회 양상이다. 이는 목적 상실형 익숙 거점 순회에 해당하며, 방향상실 등급은 '중상', 성향은 '익숙 거점 사이 맴도는 배회'로 판단된다. 이동 반경은 반복적이고 제한된 경로 내 움직임이므로 평균보다 작아 '하'로 평가했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_A_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.30, \"backtracking\": 0.20, \"staying_put\": 0.05, \"landmark_seeking\": 0.10}, \"attraction_levels\": {\"성당\": \"중\", \"시장\": \"중\", \"주민센터\": \"중\"}, \"radius_level\": \"하\", \"reasoning\": \"성당, 시장, 주민센터 모두 보호자가 직접 반복 지향을 관찰했으나, 최근 행동은 뚜렷한 목적지 없이 짧은 구간을 왕복하며 반복하는 배회 양상이다. 이는 목적 상실형 익숙 거점 순회에 해당하며, 방향상실 등급은 '중상', 성향은 '익숙 거점 사이 맴도는 배회'로 판단된다. 이동 반경은 반복적이고 제한된 경로 내 움직임이므로 평균보다 작아 '하'로 평가했다.\"}",
+    "raw_sha256": "bb5e02279f0e4987d2bf4ce514f862e33c675f4b55bb8dd4aa47e649cca67c6d",
+    "source_file_sha256": "3223138712cca8c3462eac764ba908f769007344e9f6c1a0ba537ffed5c7da12",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 189,
+      "prompt_tokens": 1466,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 1655
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:A:k:1",
+    "family": "F04",
+    "variant": "A",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.3,
+        "backtracking": 0.15,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "성당, 시장, 주민센터 모두 보호자가 반복 지향을 직접 관찰했고, 과거 여러 차례 향한 이력이 있어 끌림점 등급을 '상'으로 설정했다. 그러나 최근 짧은 길을 반복해 오가는 행동은 목적 없는 배회를 시사하며, 이는 'random_walk'와 'backtracking' 확률을 높였다. 방향 혼동과 반복 이동 경향을 고려하면 이동 반경은 제한적일 것으로 보아 '하'로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_A_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.30, \"backtracking\": 0.15, \"staying_put\": 0.05, \"landmark_seeking\": 0.15}, \"attraction_levels\": {\"성당\": \"상\", \"시장\": \"상\", \"주민센터\": \"상\"}, \"radius_level\": \"하\", \"reasoning\": \"성당, 시장, 주민센터 모두 보호자가 반복 지향을 직접 관찰했고, 과거 여러 차례 향한 이력이 있어 끌림점 등급을 '상'으로 설정했다. 그러나 최근 짧은 길을 반복해 오가는 행동은 목적 없는 배회를 시사하며, 이는 'random_walk'와 'backtracking' 확률을 높였다. 방향 혼동과 반복 이동 경향을 고려하면 이동 반경은 제한적일 것으로 보아 '하'로 판단했다.\"}",
+    "raw_sha256": "38d77d8123f0a3fd5f1a6c949e06ed8cb680959ddac7105eed0c19ca0b41a28f",
+    "source_file_sha256": "aedc70f6339b07bc0b91660de5572b40071bec076f8cc367be12d4d8ecd1f972",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 189,
+      "prompt_tokens": 1466,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1655
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:A:sar:0",
+    "family": "F04",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 이들을 여러 차례 방문한 이력이 있어 이들을 상위 끌림점으로 판단했다. 최근의 반복적인 짧은 구간 이동은 방향상실의 신호로 해석되지만, 이는 이미 익숙한 경로를 따라 걷는 행동이므로 '목적 없는 반복'으로 분류했다. 따라서 배회 위험 등급은 '상', 성향은 '목적 없는 반복형 — 익숙한 경로를 따라 반복적으로 짧은 구간을 이동함'으로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_A_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.20\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 이들을 여러 차례 방문한 이력이 있어 이들을 상위 끌림점으로 판단했다. 최근의 반복적인 짧은 구간 이동은 방향상실의 신호로 해석되지만, 이는 이미 익숙한 경로를 따라 걷는 행동이므로 '목적 없는 반복'으로 분류했다. 따라서 배회 위험 등급은 '상', 성향은 '목적 없는 반복형 — 익숙한 경로를 따라 반복적으로 짧은 구간을 이동함'으로 판단한다.\"\n}\n```",
+    "raw_sha256": "7225e74a8d644cec3957a1bfae4a0de7534497d67d86c53749f77ea52d6d9adb",
+    "source_file_sha256": "51f7f019793db1c4ff85030d27a1fa9d063e18fcdc73d1de04c42e30b26a6548",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1781,
+      "total_tokens": 2056,
+      "completion_tokens": 275,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:A:sar:1",
+    "family": "F04",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4444444444444445,
+        "direction_keeping": 0.22222222222222224,
+        "random_walk": 0.16666666666666666,
+        "backtracking": 0.11111111111111112,
+        "staying_put": 0.03333333333333333,
+        "landmark_seeking": 0.022222222222222223
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문하는 익숙한 장소임을 반영했다. 이들은 '상' 등급으로 분류했다. 최근의 반복적인 짧은 거리 이동은 방향상실의 핵심 신호로 판단했다. 따라서 배회 위험 등급은 '상', 성향은 '반복 방문 장소 순회 — 익숙한 장소들 사이를 반복 방문하며 방향을 잃는 상태'로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_A_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.40,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.10,\n    \"staying_put\": 0.03,\n    \"landmark_seeking\": 0.02\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\",\n    \"길가\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문하는 익숙한 장소임을 반영했다. 이들은 '상' 등급으로 분류했다. 최근의 반복적인 짧은 거리 이동은 방향상실의 핵심 신호로 판단했다. 따라서 배회 위험 등급은 '상', 성향은 '반복 방문 장소 순회 — 익숙한 장소들 사이를 반복 방문하며 방향을 잃는 상태'로 판단했다.\"\n}\n```",
+    "raw_sha256": "edd536f9ebaf176c3c59598be5c7d97854f668efaa9b26e804d529debda798ca",
+    "source_file_sha256": "2ef089f2eed7843386a43faf557cf5a5a13008b90acdfbcabe429b9b98fd83ec",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1781,
+      "total_tokens": 2048,
+      "completion_tokens": 267,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:B:k:0",
+    "family": "F04",
+    "variant": "B",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.2,
+        "direction_keeping": 0.1,
+        "random_walk": 0.35,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "성당, 시장, 주민센터는 보호자가 반복 지향을 직접 관찰한 장소로, 끌림점 등급은 '중'으로 설정했다. 그러나 실종자가 뚜렷한 목적지 없이 매번 다른 골목으로 방향을 바꾸며 걷는 행동은 방향성 상실과 배회 양상을 보이며, 이는 'random_walk' 전략 확률을 높였다. 등록된 장소들이 과거에 반복적으로 방문된 점은 익숙 거점 회귀 가능성을 시사하지만, 최근 행동에서 경로의 비일관성이 두드러지므로 전체적으로는 중간 수준의 이동 반경과 배회 위험을 고려했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_B_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.20, \"direction_keeping\": 0.10, \"random_walk\": 0.35, \"backtracking\": 0.05, \"staying_put\": 0.10, \"landmark_seeking\": 0.20}, \"attraction_levels\": {\"성당\": \"중\", \"시장\": \"중\", \"주민센터\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"성당, 시장, 주민센터는 보호자가 반복 지향을 직접 관찰한 장소로, 끌림점 등급은 '중'으로 설정했다. 그러나 실종자가 뚜렷한 목적지 없이 매번 다른 골목으로 방향을 바꾸며 걷는 행동은 방향성 상실과 배회 양상을 보이며, 이는 'random_walk' 전략 확률을 높였다. 등록된 장소들이 과거에 반복적으로 방문된 점은 익숙 거점 회귀 가능성을 시사하지만, 최근 행동에서 경로의 비일관성이 두드러지므로 전체적으로는 중간 수준의 이동 반경과 배회 위험을 고려했다.\"}",
+    "raw_sha256": "0e5c78fc1c60275f6672e6bb3a6d6f0a852051665a8874b6672f492d0740a4f4",
+    "source_file_sha256": "c9420934514246520aa73e5706290062b73cebcd563fd1e4b0c773534dcbf319",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 207,
+      "prompt_tokens": 1466,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 1673
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:B:k:1",
+    "family": "F04",
+    "variant": "B",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.3,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.25
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "성당, 시장, 주민센터 모두 보호자가 반복 지향을 직접 관찰했고, 과거 여러 차례 향한 이력이 있어 끌림점 등급은 '상'으로 설정했다. 그러나 최근 뚜렷한 목적지 없이 매번 다른 골목으로 방향을 바꾸며 걷는 행동이 관찰되어 방향성 상실과 배회 가능성이 높다고 판단했다. 따라서 random_walk 확률을 가장 높게 설정하고, landmark_seeking도 유지하되 route_following은 다소 낮췄다. 이동 반경은 치매 노인의 일반적 패턴과 유사해 '중'으로 평가했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_B_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.30, \"backtracking\": 0.05, \"staying_put\": 0.05, \"landmark_seeking\": 0.25}, \"attraction_levels\": {\"성당\": \"상\", \"시장\": \"상\", \"주민센터\": \"상\"}, \"radius_level\": \"중\", \"reasoning\": \"성당, 시장, 주민센터 모두 보호자가 반복 지향을 직접 관찰했고, 과거 여러 차례 향한 이력이 있어 끌림점 등급은 '상'으로 설정했다. 그러나 최근 뚜렷한 목적지 없이 매번 다른 골목으로 방향을 바꾸며 걷는 행동이 관찰되어 방향성 상실과 배회 가능성이 높다고 판단했다. 따라서 random_walk 확률을 가장 높게 설정하고, landmark_seeking도 유지하되 route_following은 다소 낮췄다. 이동 반경은 치매 노인의 일반적 패턴과 유사해 '중'으로 평가했다.\"}",
+    "raw_sha256": "66067507673060373cfd57003a6580dd53e82d0f4fd32a3496c1bc655ece2f65",
+    "source_file_sha256": "8ec9982a1c66d735c1ec55aaad25d14b1b4bcd09832867df215747c53bfd886a",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 204,
+      "prompt_tokens": 1466,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1670
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:B:sar:0",
+    "family": "F04",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.15,
+        "random_walk": 0.2,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 직접 반복 지향을 관찰한 곳으로, 치매 노인이 이들 장소를 자주 방문하는 것을 확인했다. 이들 장소는 치매 노인이 자주 방문하는 익숙한 장소로 판단되어 상위 끌림점으로 분류했다. 최근의 방향성은 뚜렷한 목적지 없이 골목으로 방향을 바꾸며 여러 경로를 걷는 모습으로, 이는 배회 행동의 특징과 일치한다. 그러나 이는 치매 노인의 배회 행동이 항상 방향상실을 동반하지 않는다는 점을 고려해야 한다. 따라서 배회 위험 등급은 '상'으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_B_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.20,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\",\n    \"공원\": \"하\",\n    \"병원\": \"하\",\n    \"편의점\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 직접 반복 지향을 관찰한 곳으로, 치매 노인이 이들 장소를 자주 방문하는 것을 확인했다. 이들 장소는 치매 노인이 자주 방문하는 익숙한 장소로 판단되어 상위 끌림점으로 분류했다. 최근의 방향성은 뚜렷한 목적지 없이 골목으로 방향을 바꾸며 여러 경로를 걷는 모습으로, 이는 배회 행동의 특징과 일치한다. 그러나 이는 치매 노인의 배회 행동이 항상 방향상실을 동반하지 않는다는 점을 고려해야 한다. 따라서 배회 위험 등급은 '상'으로 판단했다.\"\n}\n```",
+    "raw_sha256": "201b67e79f1e3d1985fee7835242d21c94454a9cc13022d1f232d3221566d33b",
+    "source_file_sha256": "022444bdae4002698675d62440c4d1d20977e04313d89330d4a3c7e1783751a0",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1778,
+      "total_tokens": 2089,
+      "completion_tokens": 311,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:B:sar:1",
+    "family": "F04",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.1,
+        "random_walk": 0.2,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했기에 상위 끌림점으로 판단했다. 최근의 방향성은 뚜렷한 목적지 없이 골목을 따라 걷는 모습으로, 이는 배회 행동의 특징과 일치한다. 따라서 이동 성향은 경로를 따라 걷는 경향이 높지만, 그 경로가 항상 같지는 않다는 점을 반영했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_B_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.10,\n    \"random_walk\": 0.20,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.15\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\",\n    \"공원\": \"하\",\n    \"병원\": \"하\",\n    \"편의점\": \"하\",\n    \"교회\": \"하\",\n    \"학교\": \"하\",\n    \"은행\": \"하\",\n    \"도서관\": \"하\",\n    \"아파트\": \"하\",\n    \"주택\": \"하\",\n    \"병원\": \"하\",\n    \"편의점\": \"하\",\n    \"교회\": \"하\",\n    \"학교\": \"하\",\n    \"은행\": \"하\",\n    \"도서관\": \"하\",\n    \"아파트\": \"하\",\n    \"주택\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했기에 상위 끌림점으로 판단했다. 최근의 방향성은 뚜렷한 목적지 없이 골목을 따라 걷는 모습으로, 이는 배회 행동의 특징과 일치한다. 따라서 이동 성향은 경로를 따라 걷는 경향이 높지만, 그 경로가 항상 같지는 않다는 점을 반영했다.\"\n}\n```",
+    "raw_sha256": "63428e101810791cfb87d3bc7ee0dc35c26c06bdc717680f0733cf21f6de53cd",
+    "source_file_sha256": "025279f9cfbfc19815320ca7ed5c56c45935d2b82d039fb29d257cda8a19e430",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1778,
+      "total_tokens": 2148,
+      "completion_tokens": 370,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:C:k:0",
+    "family": "F04",
+    "variant": "C",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.15,
+        "backtracking": 0.2,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "성당, 시장, 주민센터는 모두 보호자가 직접 반복 지향을 관찰한 장소로, 끌림점 등급은 '중'으로 설정했다. 그러나 최근 짧은 구간을 왔다 갔다 하는 행동은 목적 없이 익숙한 경로를 왕복하는 'backtracking' 성향을 시사한다. 방향 혼동 가능성과 반복적 왔다 갔다 행동은 배회 초기 단계의 특징으로, 이동 반경은 평균 수준('중')으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_C_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.15, \"backtracking\": 0.20, \"staying_put\": 0.10, \"landmark_seeking\": 0.20}, \"attraction_levels\": {\"성당\": \"중\", \"시장\": \"중\", \"주민센터\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"성당, 시장, 주민센터는 모두 보호자가 직접 반복 지향을 관찰한 장소로, 끌림점 등급은 '중'으로 설정했다. 그러나 최근 짧은 구간을 왔다 갔다 하는 행동은 목적 없이 익숙한 경로를 왕복하는 'backtracking' 성향을 시사한다. 방향 혼동 가능성과 반복적 왔다 갔다 행동은 배회 초기 단계의 특징으로, 이동 반경은 평균 수준('중')으로 판단했다.\"}",
+    "raw_sha256": "e7e9e8d67d7346ebad51672916efb8b185485128237b49f56d6a2e32dbf14092",
+    "source_file_sha256": "3e9f1549f44f8d5b02e93028e406c1ca17cd3d0305a118e4fc2262c2c9d54425",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 186,
+      "prompt_tokens": 1465,
+      "prompt_tokens_details": {
+        "cached_tokens": 960
+      },
+      "total_tokens": 1651
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:C:k:1",
+    "family": "F04",
+    "variant": "C",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.15,
+        "backtracking": 0.2,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "성당, 시장, 주민센터는 모두 보호자가 반복 지향을 직접 관찰한 장소로, 끌림점 등급을 '상'으로 설정했다. 최근 짧은 구간에서 왔다 갔다 하는 행동은 방향상실이나 불안 기반의 배회 양상으로, backtracking과 random_walk 확률을 높였다. 그러나 익숙한 경로에 대한 강한 의존성과 반복 방문 이력이 있어 route_following과 landmark_seeking도 상당한 비중을 둔다. 이동 반경은 과거 행동 패턴상 제한적이나 방향 혼동 가능성으로 인해 평균 수준('중')으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_C_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.15, \"backtracking\": 0.20, \"staying_put\": 0.10, \"landmark_seeking\": 0.20}, \"attraction_levels\": {\"성당\": \"상\", \"시장\": \"상\", \"주민센터\": \"상\"}, \"radius_level\": \"중\", \"reasoning\": \"성당, 시장, 주민센터는 모두 보호자가 반복 지향을 직접 관찰한 장소로, 끌림점 등급을 '상'으로 설정했다. 최근 짧은 구간에서 왔다 갔다 하는 행동은 방향상실이나 불안 기반의 배회 양상으로, backtracking과 random_walk 확률을 높였다. 그러나 익숙한 경로에 대한 강한 의존성과 반복 방문 이력이 있어 route_following과 landmark_seeking도 상당한 비중을 둔다. 이동 반경은 과거 행동 패턴상 제한적이나 방향 혼동 가능성으로 인해 평균 수준('중')으로 판단했다.\"}",
+    "raw_sha256": "54dea3fa5c8c4cfce4d18d9bb8f3a0f81bd36a0867de6c3d2d3f16883f33a19a",
+    "source_file_sha256": "25771a169fc662b36b79d7d8a28dd01800b0d8343c1cd560ba74a4ead59f32a1",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 209,
+      "prompt_tokens": 1465,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1674
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:C:sar:0",
+    "family": "F04",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.2,
+        "random_walk": 0.1,
+        "backtracking": 0.1,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했으므로 상위 끌림점으로 판단했다. 치매 노인이 세 장소를 모두 자주 방문했다는 점에서 이들은 치매 노인의 일상 생활에서 중요한 역할을 하는 것으로 보인다. 최근의 방향성은 명확하지 않지만, 짧은 구간을 반복적으로 방문하는 패턴이 관찰되었다. 이는 치매 노인의 배회 행동에서 흔히 볼 수 있는 특징으로, 특정 장소를 반복적으로 방문하며 방향성을 잃는 경우가 많다. 따라서 이동 성향은 '반복 방문형'으로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_C_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.5,\n    \"direction_keeping\": 0.2,\n    \"random_walk\": 0.1,\n    \"backtracking\": 0.1,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.05\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했으므로 상위 끌림점으로 판단했다. 치매 노인이 세 장소를 모두 자주 방문했다는 점에서 이들은 치매 노인의 일상 생활에서 중요한 역할을 하는 것으로 보인다. 최근의 방향성은 명확하지 않지만, 짧은 구간을 반복적으로 방문하는 패턴이 관찰되었다. 이는 치매 노인의 배회 행동에서 흔히 볼 수 있는 특징으로, 특정 장소를 반복적으로 방문하며 방향성을 잃는 경우가 많다. 따라서 이동 성향은 '반복 방문형'으로 판단한다.\"\n}\n```",
+    "raw_sha256": "2406e2adbbada40fb691e7ed4ac1740cdf21ae859e7d1b115b071e59b1dcfc7a",
+    "source_file_sha256": "517b9f25a7736c790136fd8ec1a110117af3e25f49053571f0e44ae642c058a4",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1780,
+      "total_tokens": 2060,
+      "completion_tokens": 280,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F04:C:sar:1",
+    "family": "F04",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4444444444444445,
+        "direction_keeping": 0.16666666666666666,
+        "random_walk": 0.11111111111111112,
+        "backtracking": 0.11111111111111112,
+        "staying_put": 0.05555555555555556,
+        "landmark_seeking": 0.11111111111111112
+      },
+      "attraction_weights": {
+        "성당": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "주민센터": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 이들은 치매 노인의 주요 끌림점으로 판단했다. 최근 행동은 짧은 구간을 반복해서 오가는 모습으로, 이는 방향상실이 있지만 특정 장소로의 이동이 아니라 반복적인 배회 행동으로 해석된다. 따라서 이동 성향은 '반복적인 익숙 거점 순회 — 특정 목적 없이 익숙한 장소들을 반복 방문하는 상태'로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F04_C_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.40,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.10,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"성당\": \"상\",\n    \"시장\": \"상\",\n    \"주민센터\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 이들은 치매 노인의 주요 끌림점으로 판단했다. 최근 행동은 짧은 구간을 반복해서 오가는 모습으로, 이는 방향상실이 있지만 특정 장소로의 이동이 아니라 반복적인 배회 행동으로 해석된다. 따라서 이동 성향은 '반복적인 익숙 거점 순회 — 특정 목적 없이 익숙한 장소들을 반복 방문하는 상태'로 판단한다.\"\n}\n```",
+    "raw_sha256": "f11bf80794c6dd24266c474940658a402909b94ca1b88a7381d5be10e48b022e",
+    "source_file_sha256": "bab4744c3ae670d0e542379e99b0e16a409656f5de58becfe1b5ed22ec2d7307",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1780,
+      "total_tokens": 2036,
+      "completion_tokens": 256,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:A:k:0",
+    "family": "F05",
+    "variant": "A",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.2,
+        "backtracking": 0.05,
+        "staying_put": 0.3,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 반복 지향을 직접 관찰한 세 장소는 모두 끌림점으로 작용할 가능성이 있으나, 최근 방향 혼동과 가까운 곳에서 머무는 행동이 반복되어 이동 범위는 제한적일 것으로 판단된다. '앞만 보고 걸어감' 또는 '불안한 왔다 갔다'보다는 '가까운 곳에 멈춤'이 주된 양상이므로, 배회보다는 머무름(staying_put) 전략 확률이 가장 높게 설정되었다. 끌림점은 모두 직접 관찰된 행동 기반으로 '중' 등급을 부여했으며, 이동 반경은 유형 평균보다 낮은 '하'로 평가했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_A_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.20, \"backtracking\": 0.05, \"staying_put\": 0.30, \"landmark_seeking\": 0.10}, \"attraction_levels\": {\"동네 공원\": \"중\", \"시장\": \"중\", \"경로당\": \"중\"}, \"radius_level\": \"하\", \"reasoning\": \"보호자가 반복 지향을 직접 관찰한 세 장소는 모두 끌림점으로 작용할 가능성이 있으나, 최근 방향 혼동과 가까운 곳에서 머무는 행동이 반복되어 이동 범위는 제한적일 것으로 판단된다. '앞만 보고 걸어감' 또는 '불안한 왔다 갔다'보다는 '가까운 곳에 멈춤'이 주된 양상이므로, 배회보다는 머무름(staying_put) 전략 확률이 가장 높게 설정되었다. 끌림점은 모두 직접 관찰된 행동 기반으로 '중' 등급을 부여했으며, 이동 반경은 유형 평균보다 낮은 '하'로 평가했다.\"}",
+    "raw_sha256": "9e1813c93516cd6122ff391e8b3e255f4367afba48090d91f583f45502288eb4",
+    "source_file_sha256": "b3dc3dad723edd51a2b4772d5f11a8f98001886611bd965802a3f3c9ac0e85b9",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 212,
+      "prompt_tokens": 1462,
+      "prompt_tokens_details": {
+        "cached_tokens": 960
+      },
+      "total_tokens": 1674
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:A:k:1",
+    "family": "F05",
+    "variant": "A",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.3,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 반복 지향을 직접 관찰한 세 장소(공원, 시장, 경로당)는 모두 중간 수준의 끌림점으로 평가했다. 최근 길을 몰라 헤매고 가까운 곳에 머무는 행동이 반복된 점에서, 이동 반경은 제한적이며 'staying_put' 전략 확률이 가장 높게 설정되었다. 방향 유지나 배회보다는 익숙한 거점 주변에서 머무르거나 왔다 갔다 하는 행동이 우세할 것으로 판단된다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_A_k_1.json",
+    "raw_content": "{\n  \"strategy_probs\": {\n    \"route_following\": 0.25,\n    \"direction_keeping\": 0.10,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.30,\n    \"landmark_seeking\": 0.15\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"중\",\n    \"시장\": \"중\",\n    \"경로당\": \"중\"\n  },\n  \"radius_level\": \"하\",\n  \"reasoning\": \"보호자가 반복 지향을 직접 관찰한 세 장소(공원, 시장, 경로당)는 모두 중간 수준의 끌림점으로 평가했다. 최근 길을 몰라 헤매고 가까운 곳에 머무는 행동이 반복된 점에서, 이동 반경은 제한적이며 'staying_put' 전략 확률이 가장 높게 설정되었다. 방향 유지나 배회보다는 익숙한 거점 주변에서 머무르거나 왔다 갔다 하는 행동이 우세할 것으로 판단된다.\"\n}",
+    "raw_sha256": "5bce8b11b3b4f204018e01bf193879e0e1df59fce856f219b51158189a98de00",
+    "source_file_sha256": "a0d158b8f837d13d74fdc8fb000812e5af2578cec772687126eb8e920d4627d5",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 203,
+      "prompt_tokens": 1462,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1665
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:A:sar:0",
+    "family": "F05",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.2,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "동네 공원": 0.375,
+        "시장": 0.375,
+        "경로당": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문하는 익숙한 장소들이다. 이들은 치매 노인이 배회할 때 자주 향하는 장소로 판단되어 상위 끌림점으로 분류했다. 최근 길을 몰라 헤매는 상황에서 멈춰 머무는 모습을 가족이 여러 번 관찰했지만, 어느 장소에 가겠다는 말은 하지 않았다. 이는 치매 노인이 목표를 잃고 배회하는 상태일 가능성을 시사한다. 따라서 배회 위험 등급은 '중상', 성향은 '목적 상실형 익숙 거점 순회 — 낯선 구역으로 크게 벗어나기보다 기존 거점 사이를 맴돌 가능성'으로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_A_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문하는 익숙한 장소들이다. 이들은 치매 노인이 배회할 때 자주 향하는 장소로 판단되어 상위 끌림점으로 분류했다. 최근 길을 몰라 헤매는 상황에서 멈춰 머무는 모습을 가족이 여러 번 관찰했지만, 어느 장소에 가겠다는 말은 하지 않았다. 이는 치매 노인이 목표를 잃고 배회하는 상태일 가능성을 시사한다. 따라서 배회 위험 등급은 '중상', 성향은 '목적 상실형 익숙 거점 순회 — 낯선 구역으로 크게 벗어나기보다 기존 거점 사이를 맴돌 가능성'으로 판단한다.\"\n}\n```",
+    "raw_sha256": "1f299c0523c488b7f8311c2bf38cf513c03400b3006245306426d94e1e2de098",
+    "source_file_sha256": "41512c627d7145aad5e90c49c87369b2e7d921ff637adbc1cb87e80f6d3aa7c4",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1785,
+      "total_tokens": 2090,
+      "completion_tokens": 305,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:A:sar:1",
+    "family": "F05",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.43478260869565216,
+        "direction_keeping": 0.21739130434782608,
+        "random_walk": 0.16304347826086954,
+        "backtracking": 0.10869565217391304,
+        "staying_put": 0.05434782608695652,
+        "landmark_seeking": 0.021739130434782608
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 여러 차례 방문한 이력이 있어 상위 끌림점으로 판단했다. 최근에는 방향을 잃고 멈추는 모습을 보이지만, 어느 장소를 가겠다는 말은 하지 않았다. 이는 배회 행동의 전형적인 특징이므로, 이동 성향은 '방향상실'로 판단했다. 배회 위험 등급은 '중상'으로, 성향은 '목적 상실형 익숙 거점 순회 — 낯선 구역으로 크게 벗어나기보다 기존 거점 사이를 맴돌 가능성'으로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_A_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.40,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.10,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.00\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 여러 차례 방문한 이력이 있어 상위 끌림점으로 판단했다. 최근에는 방향을 잃고 멈추는 모습을 보이지만, 어느 장소를 가겠다는 말은 하지 않았다. 이는 배회 행동의 전형적인 특징이므로, 이동 성향은 '방향상실'로 판단했다. 배회 위험 등급은 '중상'으로, 성향은 '목적 상실형 익숙 거점 순회 — 낯선 구역으로 크게 벗어나기보다 기존 거점 사이를 맴돌 가능성'으로 판단한다.\"\n}\n```",
+    "raw_sha256": "d2a70b6c9bedde81a27b4032620f0c1f268a8c9e5729be95766c6707864d4c74",
+    "source_file_sha256": "787668d295187e1a3d79a67f8b522664228ad2170eae0754f96cfd741f0e3c0c",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1785,
+      "total_tokens": 2068,
+      "completion_tokens": 283,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:B:k:0",
+    "family": "F05",
+    "variant": "B",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.35,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 반복 지향을 직접 관찰한 세 장소 모두 끌림점으로 설정했으나, 최근 방향 감각 상실 상황에서 멈추지 않고 직진하는 행동이 반복되어 방향 유지 성향이 가장 높게 평가된다. 이는 '앞만 보고 걸어감'의 배회 양상과 일치하며, 주변 인식 없이 한 방향으로 지속 이동하는 치매 노인의 전형적 행동이다. 과거 방문 이력은 있으나 목적 없이 이동하는 점에서 끌림점 등급은 '중'으로 조정했다. 이동 반경은 정상 평균보다 멀리 갈 가능성이 있어 '상'으로 평가했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_B_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.35, \"random_walk\": 0.10, \"backtracking\": 0.05, \"staying_put\": 0.05, \"landmark_seeking\": 0.20}, \"attraction_levels\": {\"동네 공원\": \"중\", \"시장\": \"중\", \"경로당\": \"중\"}, \"radius_level\": \"상\", \"reasoning\": \"보호자가 반복 지향을 직접 관찰한 세 장소 모두 끌림점으로 설정했으나, 최근 방향 감각 상실 상황에서 멈추지 않고 직진하는 행동이 반복되어 방향 유지 성향이 가장 높게 평가된다. 이는 '앞만 보고 걸어감'의 배회 양상과 일치하며, 주변 인식 없이 한 방향으로 지속 이동하는 치매 노인의 전형적 행동이다. 과거 방문 이력은 있으나 목적 없이 이동하는 점에서 끌림점 등급은 '중'으로 조정했다. 이동 반경은 정상 평균보다 멀리 갈 가능성이 있어 '상'으로 평가했다.\"}",
+    "raw_sha256": "936a5425c7496c3840873495e39508767e0ff0b9790ddbc043ced4e32f82e576",
+    "source_file_sha256": "03f8399dea827040cfc6ee1169e5003ea28fc4cdb5b584df9e3a7de7121be064",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 208,
+      "prompt_tokens": 1462,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 1670
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:B:k:1",
+    "family": "F05",
+    "variant": "B",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.35,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 반복 지향을 직접 관찰한 세 장소 모두 끌림점으로 작용하나, 최근 멈추지 않고 계속 걷는 행동과 방향 혼동이 빈번해 익숙한 경로보다는 한 방향으로 직진하는 경향이 더 강하다. '앞만 보고 걸어감' 형태와 유사하며, 과거 이력상 멀리까지 이동한 사례가 있어 반경 수준은 '상'으로 판단했다. 배회 위험은 높지만, 특정 장소보다는 방향 유지 성향이 두드러진다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_B_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.35, \"random_walk\": 0.15, \"backtracking\": 0.05, \"staying_put\": 0.05, \"landmark_seeking\": 0.15}, \"attraction_levels\": {\"동네 공원\": \"중\", \"시장\": \"중\", \"경로당\": \"중\"}, \"radius_level\": \"상\", \"reasoning\": \"보호자가 반복 지향을 직접 관찰한 세 장소 모두 끌림점으로 작용하나, 최근 멈추지 않고 계속 걷는 행동과 방향 혼동이 빈번해 익숙한 경로보다는 한 방향으로 직진하는 경향이 더 강하다. '앞만 보고 걸어감' 형태와 유사하며, 과거 이력상 멀리까지 이동한 사례가 있어 반경 수준은 '상'으로 판단했다. 배회 위험은 높지만, 특정 장소보다는 방향 유지 성향이 두드러진다.\"}",
+    "raw_sha256": "09e74fef3d8331276589b4eaa05c7b8dd76562505ad9fc29bcbc73ed74249a90",
+    "source_file_sha256": "78c4480328ef233137c5689668749fafe0c714a74af4fca684b60d93307a63fd",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 192,
+      "prompt_tokens": 1462,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1654
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:B:sar:0",
+    "family": "F05",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.55,
+        "direction_keeping": 0.2,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 모두 상위 끌림점으로 분류했다. 치매 노인이 길을 잃고 헤매는 모습을 여러 번 관찰했지만, 어느 특정 장소로 가겠다는 말은 하지 않았다. 이는 목적 없이 배회하는 상태로 판단했다. 이동 성향은 평소 익숙한 경로를 따라 걷는 경향이 강하므로 'route_following'이 가장 높게 나왔다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_B_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.55,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.05\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 모두 상위 끌림점으로 분류했다. 치매 노인이 길을 잃고 헤매는 모습을 여러 번 관찰했지만, 어느 특정 장소로 가겠다는 말은 하지 않았다. 이는 목적 없이 배회하는 상태로 판단했다. 이동 성향은 평소 익숙한 경로를 따라 걷는 경향이 강하므로 'route_following'이 가장 높게 나왔다.\"\n}\n```",
+    "raw_sha256": "6883ef6ca1e5dd396c120d05c7ae66308507a77e3b28235020f961434f3099e9",
+    "source_file_sha256": "9ba7c42384321a39339e6ff489168c823ef4cc0e01d9aef85e0b7d9c23a81a2f",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1786,
+      "total_tokens": 2040,
+      "completion_tokens": 254,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:B:sar:1",
+    "family": "F05",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.3,
+        "direction_keeping": 0.25,
+        "random_walk": 0.2,
+        "backtracking": 0.1,
+        "staying_put": 0.03,
+        "landmark_seeking": 0.12
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 여러 차례 방문한 이력이 있어 상위 끌림점으로 판단했다. 최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 가는 모습을 보여 배회 성향이 높다고 판단했다. 이동 반경은 유형 평균 수준으로 봤다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_B_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.30,\n    \"direction_keeping\": 0.25,\n    \"random_walk\": 0.20,\n    \"backtracking\": 0.10,\n    \"staying_put\": 0.03,\n    \"landmark_seeking\": 0.12\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 여러 차례 방문한 이력이 있어 상위 끌림점으로 판단했다. 최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 가는 모습을 보여 배회 성향이 높다고 판단했다. 이동 반경은 유형 평균 수준으로 봤다.\"\n}\n```",
+    "raw_sha256": "6592bf565d3289f48b70c2bbc0786647e0be1c4bfc0acaa8eedb3ee01eb9406f",
+    "source_file_sha256": "3eb419e1ad462f94cf25d67ef771b9d98f0a49acc1ca4b1fd020888cfb08e058",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1786,
+      "total_tokens": 2015,
+      "completion_tokens": 229,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:C:k:0",
+    "family": "F05",
+    "variant": "C",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.3,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "보호자가 반복 지향을 직접 관찰한 세 장소 모두 익숙한 거점으로, 배회 시 방문 가능성은 있으나 최근 방향 혼동과 멈춤 행동이 빈번해 이동 반경은 제한적이다. 목적 없이 익숙한 장소를 순회할 가능성도 있으나, 최근 멈춤 행동이 많아 머무름 확률이 높게 반영됐다. 방향 유지 능력은 저하되었으나, 익숙한 경로를 따라 이동하려는 경향은 유지된다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_C_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.15, \"backtracking\": 0.05, \"staying_put\": 0.30, \"landmark_seeking\": 0.15}, \"attraction_levels\": {\"동네 공원\": \"중\", \"시장\": \"중\", \"경로당\": \"중\"}, \"radius_level\": \"하\", \"reasoning\": \"보호자가 반복 지향을 직접 관찰한 세 장소 모두 익숙한 거점으로, 배회 시 방문 가능성은 있으나 최근 방향 혼동과 멈춤 행동이 빈번해 이동 반경은 제한적이다. 목적 없이 익숙한 장소를 순회할 가능성도 있으나, 최근 멈춤 행동이 많아 머무름 확률이 높게 반영됐다. 방향 유지 능력은 저하되었으나, 익숙한 경로를 따라 이동하려는 경향은 유지된다.\"}",
+    "raw_sha256": "7cbf1f095d7f6f097b696d863aab968bb0a05bbf6cf9f5bde2981c69771873dd",
+    "source_file_sha256": "9e9a0cb2d0f0c198c497f21cdf8858565da7f4f62a60f235ce9c12f9fe6ca4d8",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 183,
+      "prompt_tokens": 1461,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 1644
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:C:k:1",
+    "family": "F05",
+    "variant": "C",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.2,
+        "backtracking": 0.05,
+        "staying_put": 0.25,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 익숙한 거점 사이를 순환하는 행동 양상을 보인다. 그러나 최근 길을 몰라 헤맬 때 멈추는 행동이 반복되어 방향 유지 능력이 저하된 상태이며, 목적 없이 배회할 가능성도 있다. 이동 반경은 유형 평균보다 작을 것으로 보이며, 익숙한 경로를 따라 움직이되 방향 전환에 어려움이 있어 배회 위험은 중간 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_C_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.20, \"backtracking\": 0.05, \"staying_put\": 0.25, \"landmark_seeking\": 0.15}, \"attraction_levels\": {\"동네 공원\": \"중\", \"시장\": \"중\", \"경로당\": \"중\"}, \"radius_level\": \"하\", \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 익숙한 거점 사이를 순환하는 행동 양상을 보인다. 그러나 최근 길을 몰라 헤맬 때 멈추는 행동이 반복되어 방향 유지 능력이 저하된 상태이며, 목적 없이 배회할 가능성도 있다. 이동 반경은 유형 평균보다 작을 것으로 보이며, 익숙한 경로를 따라 움직이되 방향 전환에 어려움이 있어 배회 위험은 중간 수준으로 판단했다.\"}",
+    "raw_sha256": "1cc04b6a8a8b954664d72b07b270fb3f0b6e22d857c0591d69d821a39e905b11",
+    "source_file_sha256": "1d275ff01430f07135e541792719fe35b64256fc94a89b04a9fc18e8d7d4a04a",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 190,
+      "prompt_tokens": 1461,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1651
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:C:sar:0",
+    "family": "F05",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.2,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "동네 공원": 0.375,
+        "시장": 0.375,
+        "경로당": 0.25
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문한 곳이라는 점에서 높은 순위를 부여했다. 평소 행동에서는 방향을 잃고 멈추는 모습을 보여 배회 성향이 있지만, 그 정도는 중간 수준으로 판단했다. 배회 위험 등급은 '중상'으로, '목적 상실형 familiar place 순회 — 익숙한 장소들을 반복적으로 방문하며 방향을 잃고 멈추는 상태'로 판단한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_C_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"중\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문한 곳이라는 점에서 높은 순위를 부여했다. 평소 행동에서는 방향을 잃고 멈추는 모습을 보여 배회 성향이 있지만, 그 정도는 중간 수준으로 판단했다. 배회 위험 등급은 '중상'으로, '목적 상실형 familiar place 순회 — 익숙한 장소들을 반복적으로 방문하며 방향을 잃고 멈추는 상태'로 판단한다.\"\n}\n```",
+    "raw_sha256": "5614149abbddccbd83ecee242696382b0a09141d77a3bf83a28abfee5a223cf0",
+    "source_file_sha256": "b95cee5fd999b49365c390ff5daaa8c6b523769dd4a18dfb0a111c06270cda46",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1784,
+      "total_tokens": 2046,
+      "completion_tokens": 262,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F05:C:sar:1",
+    "family": "F05",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "동네 공원": 0.3333333333333333,
+        "시장": 0.3333333333333333,
+        "경로당": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 끌림점 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문하는 장소임을 반영해 모두 '상' 등급으로 판단했다. 평소 행동에서는 방향을 잃고 멈추는 모습이 있었지만, 이는 배회의 한 형태로 볼 수 있으며, 최근 길을 몰라 헤맬 때에도 가까운 곳에 멈춰 있었으므로 이동 반경은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F05_C_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.35,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"동네 공원\": \"상\",\n    \"시장\": \"상\",\n    \"경로당\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 끌림점 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 자주 방문하는 장소임을 반영해 모두 '상' 등급으로 판단했다. 평소 행동에서는 방향을 잃고 멈추는 모습이 있었지만, 이는 배회의 한 형태로 볼 수 있으며, 최근 길을 몰라 헤맬 때에도 가까운 곳에 멈춰 있었으므로 이동 반경은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "f8c532a25ba252a566744ebf7f2d15a21f1e4b1a80cbd87276f670ac1e5e535a",
+    "source_file_sha256": "d054bb99adbd13afe3c4584ae3c66537ae66d5a2b9d5cdbde926fc23e66b02e3",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1784,
+      "total_tokens": 2036,
+      "completion_tokens": 252,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:A:k:0",
+    "family": "F06",
+    "variant": "A",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "시장은 최근 한 달간 가족이 직접 반복 지향을 관찰했고, 실종 직전에도 시장 방향으로 이동한 사례가 확인되어 최상위 끌림점으로 평가했다. 공원과 복지관은 과거 반복 방문 이력이 있으나 최근 관찰되지 않아 중간 등급을 부여했다. 세 장소 모두 등록된 익숙 거점이며, 치매 노인이 익숙한 경로를 따라 반복적으로 이동하는 성향이 강해 route_following과 landmark_seeking 확률을 높게 설정했다. 방향 혼동 가능성과 감독 공백을 고려해 random_walk 및 staying_put 확률은 낮게 유지했으며, 이동 반경은 과거 행동 패턴상 평균 수준으로 판단해 radius_level을 '중'으로 설정했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_A_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.45, \"direction_keeping\": 0.10, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.05, \"landmark_seeking\": 0.30}, \"attraction_levels\": {\"시장\": \"상\", \"공원\": \"중\", \"복지관\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"시장은 최근 한 달간 가족이 직접 반복 지향을 관찰했고, 실종 직전에도 시장 방향으로 이동한 사례가 확인되어 최상위 끌림점으로 평가했다. 공원과 복지관은 과거 반복 방문 이력이 있으나 최근 관찰되지 않아 중간 등급을 부여했다. 세 장소 모두 등록된 익숙 거점이며, 치매 노인이 익숙한 경로를 따라 반복적으로 이동하는 성향이 강해 route_following과 landmark_seeking 확률을 높게 설정했다. 방향 혼동 가능성과 감독 공백을 고려해 random_walk 및 staying_put 확률은 낮게 유지했으며, 이동 반경은 과거 행동 패턴상 평균 수준으로 판단해 radius_level을 '중'으로 설정했다.\"}",
+    "raw_sha256": "7aa4850158ee5cacffbb4be5729ac8b7829c7987f9d58afbe52bf7837d8befa1",
+    "source_file_sha256": "4142e73135391567694f5a8d7b74304ecf96db91085625014aec0e4172f0160e",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 222,
+      "prompt_tokens": 1459,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 1681
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:A:k:1",
+    "family": "F06",
+    "variant": "A",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "시장은 보호자가 직접 반복 지향을 관찰했고 최근에도 여러 차례 시장 방향으로 이동한 사실이 확인되어 최상위 끌림점으로 평가했다. 공원과 복지관은 반복 지향은 관찰되었지만 최근 직접 목격된 빈도는 낮아 중간 등급을 부여했다. 세 장소 모두 등록된 반복 이동 경로이므로 익숙 경로 의존 성향이 강해 route_following 확률을 높게 설정했으며, 방향 유지 성향도 일부 반영했다. 최근 방향 혼동 가능성에 따라 배회 성향은 낮게, 그러나 익숙한 거점 회귀 가능성을 고려해 landmark_seeking을 상당 부분 반영했다. 이동 반경은 등록된 세 장소 간 왕복이 중심이므로 평균적인 치매 노인보다 다소 넓은 활동 범위를 보일 가능성이 있어 '중'으로 평가했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_A_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.4, \"direction_keeping\": 0.1, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.1, \"landmark_seeking\": 0.3}, \"attraction_levels\": {\"시장\": \"상\", \"공원\": \"중\", \"복지관\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"시장은 보호자가 직접 반복 지향을 관찰했고 최근에도 여러 차례 시장 방향으로 이동한 사실이 확인되어 최상위 끌림점으로 평가했다. 공원과 복지관은 반복 지향은 관찰되었지만 최근 직접 목격된 빈도는 낮아 중간 등급을 부여했다. 세 장소 모두 등록된 반복 이동 경로이므로 익숙 경로 의존 성향이 강해 route_following 확률을 높게 설정했으며, 방향 유지 성향도 일부 반영했다. 최근 방향 혼동 가능성에 따라 배회 성향은 낮게, 그러나 익숙한 거점 회귀 가능성을 고려해 landmark_seeking을 상당 부분 반영했다. 이동 반경은 등록된 세 장소 간 왕복이 중심이므로 평균적인 치매 노인보다 다소 넓은 활동 범위를 보일 가능성이 있어 '중'으로 평가했다.\"}",
+    "raw_sha256": "27ac214ac2baeaa47c46bf26ab0bf7b3e838eb094cbf36398039464a064d199f",
+    "source_file_sha256": "d4d15cc2d2fbd8b6d3d945d2e63e5b5637d8b3163522437575055f6263c28b4b",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 232,
+      "prompt_tokens": 1459,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1691
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:A:sar:0",
+    "family": "F06",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 직접 반복 지향을 관찰했기에 모두 '상' 등급으로 판단했다. 치매 노인이 이 세 장소를 모두 자주 방문했고, 최근에도 시장으로 향하는 모습을 가족이 직접 확인했기에, 이들 장소는 치매 노인의 일상적인 이동 패턴에 포함된다. 최근 관찰에서는 시장으로 향하는 모습만 확인했지만, 이는 치매 노인이 평소 이동 패턴을 유지하면서 특정 장소로 향하는 모습을 보여주는 것으로 해석된다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_A_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.35,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 직접 반복 지향을 관찰했기에 모두 '상' 등급으로 판단했다. 치매 노인이 이 세 장소를 모두 자주 방문했고, 최근에도 시장으로 향하는 모습을 가족이 직접 확인했기에, 이들 장소는 치매 노인의 일상적인 이동 패턴에 포함된다. 최근 관찰에서는 시장으로 향하는 모습만 확인했지만, 이는 치매 노인이 평소 이동 패턴을 유지하면서 특정 장소로 향하는 모습을 보여주는 것으로 해석된다.\"\n}\n```",
+    "raw_sha256": "95f0e1b8d00744f1aa414a6f098f7cf7dd4fab0ba7853e880e779bda60ff1ecf",
+    "source_file_sha256": "6e9ce6b2fa4bbbb37fd5feed7f3e2eaff5d616a1c5d607f3a3f1e94cf8a3270e",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1775,
+      "total_tokens": 2042,
+      "completion_tokens": 267,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:A:sar:1",
+    "family": "F06",
+    "variant": "A",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 평소에도 자주 방문했던 익숙한 장소들이다. 최근 관찰에서는 시장으로 향한 모습이 확인되었지만, 공원이나 복지관으로 향한 모습은 확인되지 않았다. 이는 치매 노인이 특정 장소를 반복적으로 방문하는 성향이 있지만, 최근에는 시장으로 향하는 경향이 더 강하게 나타났음을 시사한다. 따라서 이들 장소는 모두 상위 끌림점으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_A_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.10,\n    \"random_walk\": 0.05,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 평소에도 자주 방문했던 익숙한 장소들이다. 최근 관찰에서는 시장으로 향한 모습이 확인되었지만, 공원이나 복지관으로 향한 모습은 확인되지 않았다. 이는 치매 노인이 특정 장소를 반복적으로 방문하는 성향이 있지만, 최근에는 시장으로 향하는 경향이 더 강하게 나타났음을 시사한다. 따라서 이들 장소는 모두 상위 끌림점으로 판단했다.\"\n}\n```",
+    "raw_sha256": "c59ab97f538e935ee79782559a9cb1f4e6e6b88b6db9e020cd23f0429d0e7b58",
+    "source_file_sha256": "3d2f433a9d02887e2a69f3f5f860a49d286df83287589b7175e4344c95db12ef",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1775,
+      "total_tokens": 2040,
+      "completion_tokens": 265,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:B:k:0",
+    "family": "F06",
+    "variant": "B",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.1,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.35
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했으나 최근 선호도 변화 가능성 있음. 치매 노인이 익숙한 거점 사이를 왕복하는 패턴을 보이므로 소수 익숙 거점 회귀형 성향으로 판단. 그러나 최근 외출 관찰 부족으로 정확한 방향성 예측은 제한적. 끌림점은 모두 직접 관찰 기반이나 최근 변화 가능성 있어 '중'으로 평가. 이동 반경은 등록된 세 장소 간 왕복 패턴을 고려할 때 유형 평균 수준인 '중'으로 판단.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_B_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.25, \"direction_keeping\": 0.10, \"random_walk\": 0.15, \"backtracking\": 0.05, \"staying_put\": 0.10, \"landmark_seeking\": 0.35}, \"attraction_levels\": {\"시장\": \"중\", \"공원\": \"중\", \"복지관\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했으나 최근 선호도 변화 가능성 있음. 치매 노인이 익숙한 거점 사이를 왕복하는 패턴을 보이므로 소수 익숙 거점 회귀형 성향으로 판단. 그러나 최근 외출 관찰 부족으로 정확한 방향성 예측은 제한적. 끌림점은 모두 직접 관찰 기반이나 최근 변화 가능성 있어 '중'으로 평가. 이동 반경은 등록된 세 장소 간 왕복 패턴을 고려할 때 유형 평균 수준인 '중'으로 판단.\"}",
+    "raw_sha256": "e290a9ff244b3d07f75631ebba5e61aaca596364a923bd823abfc055426a8c90",
+    "source_file_sha256": "d1ed75fd5b6ef10833193f3b239b78fd104e12a726d84ad49ed2fc9079980e80",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 193,
+      "prompt_tokens": 1465,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 1658
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:B:k:1",
+    "family": "F06",
+    "variant": "B",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "시장, 공원, 복지관은 모두 보호자가 반복 지향을 직접 관찰한 장소로, 끌림점 등급은 '중'으로 설정했다. 최근 한 달간 외출 방향에 대한 직접 관찰이 없어 선호 변화를 반영할 수 없다. 치매 노인은 익숙한 경로를 따라 이동하는 경향이 있어 route_following 확률을 가장 높게 설정했으며, 방향 유지나 배회 가능성도 일부 반영했다. 이동 반경은 과거 반복 방문 패턴을 고려할 때 평균 수준('중')으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_B_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.40, \"direction_keeping\": 0.10, \"random_walk\": 0.15, \"backtracking\": 0.05, \"staying_put\": 0.10, \"landmark_seeking\": 0.20}, \"attraction_levels\": {\"시장\": \"중\", \"공원\": \"중\", \"복지관\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"시장, 공원, 복지관은 모두 보호자가 반복 지향을 직접 관찰한 장소로, 끌림점 등급은 '중'으로 설정했다. 최근 한 달간 외출 방향에 대한 직접 관찰이 없어 선호 변화를 반영할 수 없다. 치매 노인은 익숙한 경로를 따라 이동하는 경향이 있어 route_following 확률을 가장 높게 설정했으며, 방향 유지나 배회 가능성도 일부 반영했다. 이동 반경은 과거 반복 방문 패턴을 고려할 때 평균 수준('중')으로 판단했다.\"}",
+    "raw_sha256": "740aba7046e6acd5892b0e335e047ff424037bd41ff202b2511946b2122f8c1e",
+    "source_file_sha256": "d95a2ec8c32e5f8e36913192a95d139d68984a6e636559c23c5a96eb8490bede",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 194,
+      "prompt_tokens": 1465,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1659
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:B:sar:0",
+    "family": "F06",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.2,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 과거에 여러 차례 방문한 것으로 보아 이들은 모두 상위 끌림점이다. 최근 선호를 알 수 없으므로 이들 사이에서 선택이 이루어지는 것으로 판단했다. 치매 노인의 배회 성향은 유형 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_B_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.20,\n    \"random_walk\": 0.15,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰했고, 치매 노인이 과거에 여러 차례 방문한 것으로 보아 이들은 모두 상위 끌림점이다. 최근 선호를 알 수 없으므로 이들 사이에서 선택이 이루어지는 것으로 판단했다. 치매 노인의 배회 성향은 유형 평균 수준으로 판단했다.\"\n}\n```",
+    "raw_sha256": "b927ed3e1248ab4fd02cd015637873d791fcc28801c499599f294c988ff5fbc7",
+    "source_file_sha256": "d00501f0b2ab522740d28bbaaca4781b24bff10dc5fd6d592fe7bc963d67557d",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1780,
+      "total_tokens": 2007,
+      "completion_tokens": 227,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:B:sar:1",
+    "family": "F06",
+    "variant": "B",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.45,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인의 일상적인 이동 패턴에 포함되어 있다. 최근의 이동 의도는 확인되지 않았지만, 과거의 반복 지향이 현재의 이동 성향에도 영향을 미칠 가능성이 높다. 따라서 이 세 장소는 모두 상위 끌림점으로 판단했다. 이동 성향은 평소 경로를 따라 이동하는 경향이 높지만, 최근의 방향성이 불분명해 배회 가능성도 고려했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_B_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.20\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인의 일상적인 이동 패턴에 포함되어 있다. 최근의 이동 의도는 확인되지 않았지만, 과거의 반복 지향이 현재의 이동 성향에도 영향을 미칠 가능성이 높다. 따라서 이 세 장소는 모두 상위 끌림점으로 판단했다. 이동 성향은 평소 경로를 따라 이동하는 경향이 높지만, 최근의 방향성이 불분명해 배회 가능성도 고려했다.\"\n}\n```",
+    "raw_sha256": "c02caa494f944ed8a65e92fe10468467ca24b0f4446ae4dbd159df9fa98a16d8",
+    "source_file_sha256": "5178e915fd9b5d24eb6d511049c823fa892b4076043ac8aae03963a8dbdba97d",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1780,
+      "total_tokens": 2039,
+      "completion_tokens": 259,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:C:k:0",
+    "family": "F06",
+    "variant": "C",
+    "model": "k",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.35
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "시장이 보호자에 의해 반복 지향이 직접 관찰되었고 최근 외출 방향도 시장 쪽이었으므로 최상위 끌림점으로 판단했다. 공원과 복지관은 반복 지향은 관찰되었지만 최근 방향성은 확인되지 않아 중간 등급을 부여했다. 치매 노인이지만 등록된 세 장소 간 왕복이 반복된 생활 패턴을 보이므로 익숙한 경로 추종과 끌림점 탐색이 결합된 전략이 우세할 것으로 봤다. 방향 혼동 가능성은 있으나 이동 반경은 과거 패턴상 제한적이므로 평균 수준으로 평가했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_C_k_0.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.4, \"direction_keeping\": 0.1, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.05, \"landmark_seeking\": 0.35}, \"attraction_levels\": {\"시장\": \"상\", \"공원\": \"중\", \"복지관\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"시장이 보호자에 의해 반복 지향이 직접 관찰되었고 최근 외출 방향도 시장 쪽이었으므로 최상위 끌림점으로 판단했다. 공원과 복지관은 반복 지향은 관찰되었지만 최근 방향성은 확인되지 않아 중간 등급을 부여했다. 치매 노인이지만 등록된 세 장소 간 왕복이 반복된 생활 패턴을 보이므로 익숙한 경로 추종과 끌림점 탐색이 결합된 전략이 우세할 것으로 봤다. 방향 혼동 가능성은 있으나 이동 반경은 과거 패턴상 제한적이므로 평균 수준으로 평가했다.\"}",
+    "raw_sha256": "53b844989cc1e6025f9725e5f2b543fd8a7c4df7b3ca035630f90e3a45266760",
+    "source_file_sha256": "ca97af308a4e57b618ab682a11519bd477c0be25387bc75b95f933aa85a4dba0",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 195,
+      "prompt_tokens": 1456,
+      "prompt_tokens_details": {
+        "cached_tokens": 1056
+      },
+      "total_tokens": 1651
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:C:k:1",
+    "family": "F06",
+    "variant": "C",
+    "model": "k",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.35
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "시장이 보호자에 의해 반복 지향이 직접 관찰되었고 최근 외출 방향도 시장 쪽으로 확인되어 최상위 끌림점으로 평가했다. 공원과 복지관은 반복 지향은 관찰되었지만 최근 방향성은 확인되지 않아 중간 등급을 부여했다. 세 장소 모두 등록된 익숙 거점이며, 가족이 여러 차례 목격한 점과 치매 노인의 배회 패턴에서 소수 익숙 거점 회귀형 성향이 나타날 가능성이 높아 배회 위험은 평균 수준으로 판단했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_C_k_1.json",
+    "raw_content": "{\"strategy_probs\": {\"route_following\": 0.4, \"direction_keeping\": 0.1, \"random_walk\": 0.05, \"backtracking\": 0.05, \"staying_put\": 0.05, \"landmark_seeking\": 0.35}, \"attraction_levels\": {\"시장\": \"상\", \"공원\": \"중\", \"복지관\": \"중\"}, \"radius_level\": \"중\", \"reasoning\": \"시장이 보호자에 의해 반복 지향이 직접 관찰되었고 최근 외출 방향도 시장 쪽으로 확인되어 최상위 끌림점으로 평가했다. 공원과 복지관은 반복 지향은 관찰되었지만 최근 방향성은 확인되지 않아 중간 등급을 부여했다. 세 장소 모두 등록된 익숙 거점이며, 가족이 여러 차례 목격한 점과 치매 노인의 배회 패턴에서 소수 익숙 거점 회귀형 성향이 나타날 가능성이 높아 배회 위험은 평균 수준으로 판단했다.\"}",
+    "raw_sha256": "cfde8db543a8cf61cb5f25d0812bb809ff25d3bf31bb0b1eebc5cb08a5ca0604",
+    "source_file_sha256": "f106a968e5f0956ed907341dfdd42f4594a45148da8d128b8249407fc523cffa",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 185,
+      "prompt_tokens": 1456,
+      "prompt_tokens_details": {
+        "cached_tokens": 1440
+      },
+      "total_tokens": 1641
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:C:sar:0",
+    "family": "F06",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 0,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.15,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.3
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 평소 자주 가는 곳임을 반영해 상위 끌림점으로 판단했다. 최근 관찰에서는 시장으로 향하는 모습이 가장 빈번했다. 그러나 이는 전체 이동 패턴을 반영하지 않으므로, 배회 성향은 '상'으로 유지했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_C_sar_0.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.35,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.30\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"세 장소 모두 보호자가 반복 지향을 직접 관찰한 곳으로, 치매 노인이 평소 자주 가는 곳임을 반영해 상위 끌림점으로 판단했다. 최근 관찰에서는 시장으로 향하는 모습이 가장 빈번했다. 그러나 이는 전체 이동 패턴을 반영하지 않으므로, 배회 성향은 '상'으로 유지했다.\"\n}\n```",
+    "raw_sha256": "686c2e9f3b158f8c1ab8c74d1a648ecf7fc4f6cc106010fa7a6ab6c52f7281ae",
+    "source_file_sha256": "e7a885e1d8fdf8719cce47aa7b1388a9559e85cc286536ff30c5dacf3c1aa05e",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1775,
+      "total_tokens": 2006,
+      "completion_tokens": 231,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "KEXAONE_P_v2_20260922:F06:C:sar:1",
+    "family": "F06",
+    "variant": "C",
+    "model": "sar",
+    "repeat": 1,
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.6382978723404256,
+        "direction_keeping": 0.1595744680851064,
+        "random_walk": 0.10638297872340427,
+        "backtracking": 0.053191489361702135,
+        "staying_put": 0.021276595744680854,
+        "landmark_seeking": 0.021276595744680854
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "세 장소 모두 보호자가 직접 반복 지향을 관찰했고, 치매 노인이 이들 장소를 여러 차례 방문한 이력이 있어 모두 상위 끌림점으로 판단했다. 최근 관찰에서는 시장으로 향하는 모습이 가장 빈번했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "F06_C_sar_1.json",
+    "raw_content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.60,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.00,\n    \"landmark_seeking\": 0.00\n  },\n  \"attraction_levels\": {\n    \"시장\": \"상\",\n    \"공원\": \"상\",\n    \"복지관\": \"상\"\n  },\n  \"radius_level\": \"상\",\n  \"reasoning\": \"세 장소 모두 보호자가 직접 반복 지향을 관찰했고, 치매 노인이 이들 장소를 여러 차례 방문한 이력이 있어 모두 상위 끌림점으로 판단했다. 최근 관찰에서는 시장으로 향하는 모습이 가장 빈번했다.\"\n}\n```",
+    "raw_sha256": "25d855c8ce854a02c79eef754a1a370ebc7293cf6234eb2f8d49678a7461954e",
+    "source_file_sha256": "b711bafd97f405fa079c3983ace0ceaf5ae94992468d11c26f824f5dee4e10f3",
+    "model_returned": "exaone-sar",
+    "usage": {
+      "prompt_tokens": 1775,
+      "total_tokens": 1985,
+      "completion_tokens": 210,
+      "prompt_tokens_details": null
+    },
+    "finish_reason": "stop"
+  }
+]

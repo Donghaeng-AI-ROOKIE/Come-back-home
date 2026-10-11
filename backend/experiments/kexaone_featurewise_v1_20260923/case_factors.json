@@ -1,0 +1,38 @@
+[
+  {
+    "case": "C01",
+    "destination": "시장",
+    "persistence": "머무름",
+    "route_shape": "미확인"
+  },
+  {
+    "case": "C02",
+    "destination": "공원",
+    "persistence": "머무름",
+    "route_shape": "미확인"
+  },
+  {
+    "case": "C03",
+    "destination": "시장",
+    "persistence": "계속 걷기",
+    "route_shape": "미확인"
+  },
+  {
+    "case": "C04",
+    "destination": "공원",
+    "persistence": "계속 걷기",
+    "route_shape": "미확인"
+  },
+  {
+    "case": "C05",
+    "destination": "시장",
+    "persistence": "계속 걷기",
+    "route_shape": "방향 유지"
+  },
+  {
+    "case": "C06",
+    "destination": "시장",
+    "persistence": "계속 걷기",
+    "route_shape": "방향 전환"
+  }
+]

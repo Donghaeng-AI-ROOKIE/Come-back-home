@@ -1,0 +1,46 @@
+{
+  "case": "unsupported_dark",
+  "validation_pass": true,
+  "parsed": {
+    "persistence": {
+      "evidence": "missing",
+      "pattern": "unresolved",
+      "value": "unknown",
+      "note_ids": [],
+      "explanation": "적용할 선택 미확인. 근거 관계와 사건 조건을 함께 검토한 초기 가설."
+    },
+    "environment": {
+      "water": {
+        "response": "unknown",
+        "condition": "조건 미확인",
+        "note_ids": [],
+        "scope": "unknown",
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+      },
+      "forest": {
+        "response": "unknown",
+        "condition": "조건 미확인",
+        "note_ids": [],
+        "scope": "unknown",
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+      },
+      "park": {
+        "response": "unknown",
+        "condition": "조건 미확인",
+        "note_ids": [],
+        "scope": "unknown",
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+      },
+      "market": {
+        "response": "avoid",
+        "condition": "추가 조건 필요",
+        "note_ids": [
+          "N0"
+        ],
+        "scope": "conditional_category",
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+      }
+    }
+  },
+  "elapsed_seconds": 95.81647634599358
+}

@@ -108,8 +108,8 @@ D1_KIM = Scenario(
 
 # ── D2. 대흥역 발견 (evidence 0.9) + 옛집 라벨생성·되묻기 ──────────────────
 # 실측 핵심: "대흥역에서 발견"은 previous_missing_found(0.9), Mi:dm 이 이전 턴
-# 장소를 되뱉는 백스톱 검증. autobiographical 은 지역 없는 "예전에 살던 집" →
-# _ensure_past_place 라벨 생성 → 그 턴 주소 되묻기.
+# 장소를 되뱉을 때의 원문 대조·재추출 검증. autobiographical 은 지역 없는
+# "예전에 살던 집" → (못 뽑으면 재추출) → 그 턴 주소 되묻기.
 D2_DAEHEUNG = Scenario(
     id="D2_daeheung", title="치매 · 대흥역 발견(0.9) + 옛집 되묻기",
     guardian_name="박보호", persona_type="dementia",

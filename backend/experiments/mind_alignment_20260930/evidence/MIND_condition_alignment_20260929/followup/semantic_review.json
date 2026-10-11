@@ -1,0 +1,50 @@
+{
+  "method": "Codex unblinded source-and-response review; not independent human evaluation",
+  "total": 8,
+  "full_pass": 7,
+  "contract_pass": 8,
+  "action_match": 7,
+  "candidate_sha256": "35e1c455e95ca8f23e7faab8112302e4d9bd9b852964b8942022e384c2f77d80",
+  "rows": [
+    {
+      "id": "H3_D01-1",
+      "meaning_pass": true,
+      "note": "피로 우선 휴식. 비교 표현은 어색하나 원문 우선순위와 현재 높은 피로에 부합."
+    },
+    {
+      "id": "H3_D01-2",
+      "meaning_pass": true,
+      "note": "낮은 피로와 확인된 소음에 따른 공원 회피."
+    },
+    {
+      "id": "H3_D01-3",
+      "meaning_pass": true,
+      "note": "낮은 피로와 소음 없음에 따른 이동 유지."
+    },
+    {
+      "id": "H3_D01-4",
+      "meaning_pass": true,
+      "note": "소음 미확인을 없다고 가정하지 않고 유보."
+    },
+    {
+      "id": "H3_D04-1",
+      "meaning_pass": true,
+      "note": "동행자 부재와 소음 확인을 올바르게 연결한 시장 회피."
+    },
+    {
+      "id": "H3_D04-2",
+      "meaning_pass": true,
+      "note": "동행자 존재 예외에 따라 소음에도 기존 이동 유지."
+    },
+    {
+      "id": "H3_D04-3",
+      "meaning_pass": true,
+      "note": "조용하면 혼자여도 이동이라는 원문과 일치."
+    },
+    {
+      "id": "H3_D04-4",
+      "meaning_pass": false,
+      "note": "동행 미확인에서 혼자라고 단정할 수 없다는 이유로 이동을 확정. 혼자일 가능성이 남아 있으므로 고정 rubric 실패."
+    }
+  ]
+}

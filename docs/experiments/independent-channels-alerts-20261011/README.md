@@ -61,7 +61,7 @@
 
 ## 증빙
 
-`selection.json`: 개발8명 비율·설정 동결, 입력 결과 해시. `seen31_summary.json`:744조건·사람 단위 부트스트랩·전체 보조 설정표. `figure_example.json`:같은 그림의 H3 대상·면적·정답 포함 여부. 원시 합성 결과와 요청/응답·사용 원장은 로컬 연구 폴더에 보존하며 요약만 공개한다.
+`selection.json`: 개발8명 비율·설정 동결, 입력 결과 해시. `seen31_summary.json`:744조건·사람 단위 부트스트랩·전체 보조 설정표. `figure_example.json`:같은 그림의 H3 대상·면적·정답 포함 여부. `core_product_verification.json`:제품 run_pair의 1/2/4/6시간 채널 재생 일치 증빙. 원시 합성 결과와 요청/응답·사용 원장은 로컬 연구 폴더에 보존하며 요약만 공개한다.
 
 KINTEX 지도 SHA256: `953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92`. © OpenStreetMap contributors, ODbL. 기존 Upstage 검색 인덱스와 지도 원본을 유지했다. 비용·실청구액 미확인은0원으로 쓰지 않는다.
 

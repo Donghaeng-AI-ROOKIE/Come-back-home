@@ -1,0 +1,81 @@
+{
+  "completed_calls": 4,
+  "planned_total": 4,
+  "complete_json_objects": 4,
+  "length_finishes": 0,
+  "final_content_present": 4,
+  "contract_pass": 4,
+  "aggregate_action_match": 3,
+  "all_branch_actions_match": 3,
+  "branch_action_matches": 11,
+  "branch_opportunities_in_executed_requests": 12,
+  "repeat_pairs_completed": 2,
+  "stable_branch_command_pairs": 1,
+  "meaning_not_yet_certified_by_this_script": true,
+  "case_scores": [
+    {
+      "id": "H3_D04-1",
+      "repeat": 1,
+      "stage": "json_completion",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 2,
+      "branches_total": 2,
+      "completion_tokens": 3888
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 1,
+      "stage": "json_completion",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 4,
+      "branches_total": 4,
+      "completion_tokens": 4660
+    },
+    {
+      "id": "H3_D04-1",
+      "repeat": 2,
+      "stage": "json_completion",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": false,
+      "all_branch_actions_match": false,
+      "branches_correct": 1,
+      "branches_total": 2,
+      "completion_tokens": 526
+    },
+    {
+      "id": "H3_D04-4",
+      "repeat": 2,
+      "stage": "json_completion",
+      "final_content_present": true,
+      "finish_reason": "stop",
+      "contract_pass": true,
+      "aggregate_action_match": true,
+      "all_branch_actions_match": true,
+      "branches_correct": 4,
+      "branches_total": 4,
+      "completion_tokens": 3037
+    }
+  ],
+  "stability": [
+    {
+      "id": "H3_D04-1",
+      "complete_both": true,
+      "same_branch_commands": false
+    },
+    {
+      "id": "H3_D04-4",
+      "complete_both": true,
+      "same_branch_commands": true
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.40,\n    \"direction_keeping\": 0.25,\n    \"random_walk\": 0.20,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.00,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"시장\": \"하\",\n    \"공원\": \"하\",\n    \"복지관\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"치매 노인이 낮에는 가족이 있는 곳에서 기다렸다가 밤에는 길을 찾으려 이동했다는 점에서, 낮에는 보호자의 감독 아래 있었고 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보인다. 이는 낮에는 보호자의 감독 아래 있었던 경로를 따라 이동했고 밤에는 배회하며 길을 찾으려 했던 것으로 해석된다. 이에 따라 경로 추종 확률을 높였다. 다만, 낮과 밤의 행동이 다르다는 점에서 밤에는 배회하며 길을 찾으려 했던 것으로 보이므로, 배회 확률도 높였다. 그러나 낮과 밤의 행동이 다르다는 점에서, 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보이므로, 보호자의 감독 아래 있었던 낮의 행동과는 달리 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보인다. 이에 따라 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보이므로, 보호자의 감독 아래 있었던 낮의 행동과는 달리 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보인다. 이에 따라 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보이므로, 보호자의 감독 아래 있었던 낮의 행동과는 달리 밤에는 보호자의 감독이 없는 상황에서 길을 찾으려 했던 것으로 보인다.\"\n}\n```",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 1492,
+    "total_tokens": 1972,
+    "completion_tokens": 480,
+    "prompt_tokens_details": null
+  },
+  "model": "exaone-sar",
+  "note": "Provider response content preserved. Request, RAG full text, reasoning channel and credentials excluded."
+}

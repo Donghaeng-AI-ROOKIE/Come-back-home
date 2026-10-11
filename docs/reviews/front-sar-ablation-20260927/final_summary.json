@@ -1,0 +1,1329 @@
+{
+  "base_arms": {
+    "A": {
+      "rows": 12,
+      "ready": 12,
+      "passed_runs": 9,
+      "passed_checks": 129,
+      "total_checks": 132,
+      "failed_checks": [
+        {
+          "tag": "G1_r2",
+          "criterion": {
+            "path": "core.routes.푸른시장.value",
+            "accept": [
+              "repeated_independent"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        },
+        {
+          "tag": "E1_r2",
+          "criterion": {
+            "special": "all_goals_unknown"
+          },
+          "pass": false,
+          "observed": {
+            "다온공원": "historical_only",
+            "푸른시장": "historical_only",
+            "은빛경로당": "historical_only"
+          }
+        },
+        {
+          "tag": "G1_r1",
+          "criterion": {
+            "path": "core.routes.푸른시장.value",
+            "accept": [
+              "repeated_independent"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        }
+      ],
+      "failed_runs": [
+        {
+          "tag": "G1_r2",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        },
+        {
+          "tag": "E1_r2",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        },
+        {
+          "tag": "G1_r1",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        }
+      ],
+      "pipeline_fallbacks": [
+        {
+          "tag": "E2_r1",
+          "fallbacks": [
+            "context_review_failed:ValueError"
+          ]
+        },
+        {
+          "tag": "W1_r2",
+          "fallbacks": [
+            "core_draft_failed:ValueError"
+          ]
+        },
+        {
+          "tag": "E2_r2",
+          "fallbacks": [
+            "core_draft_failed:ValueError"
+          ]
+        }
+      ]
+    },
+    "B": {
+      "rows": 12,
+      "ready": 12,
+      "passed_runs": 9,
+      "passed_checks": 129,
+      "total_checks": 132,
+      "failed_checks": [
+        {
+          "tag": "G1_r2",
+          "criterion": {
+            "path": "core.routes.푸른시장.value",
+            "accept": [
+              "repeated_independent"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        },
+        {
+          "tag": "E1_r2",
+          "criterion": {
+            "special": "all_goals_unknown"
+          },
+          "pass": false,
+          "observed": {
+            "다온공원": "historical_only",
+            "푸른시장": "historical_only",
+            "은빛경로당": "historical_only"
+          }
+        },
+        {
+          "tag": "G1_r1",
+          "criterion": {
+            "path": "core.routes.푸른시장.value",
+            "accept": [
+              "repeated_independent"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        }
+      ],
+      "failed_runs": [
+        {
+          "tag": "G1_r2",
+          "state": "ready",
+          "source": "exaone",
+          "error_type": null
+        },
+        {
+          "tag": "E1_r2",
+          "state": "ready",
+          "source": "exaone",
+          "error_type": null
+        },
+        {
+          "tag": "G1_r1",
+          "state": "ready",
+          "source": "exaone",
+          "error_type": null
+        }
+      ],
+      "pipeline_fallbacks": [
+        {
+          "tag": "E2_r1",
+          "fallbacks": [
+            "context_review_failed:ValueError"
+          ]
+        },
+        {
+          "tag": "W1_r2",
+          "fallbacks": [
+            "core_draft_failed:ValueError"
+          ]
+        },
+        {
+          "tag": "E2_r2",
+          "fallbacks": [
+            "core_draft_failed:ValueError"
+          ]
+        }
+      ]
+    },
+    "C": {
+      "rows": 12,
+      "ready": 12,
+      "passed_runs": 9,
+      "passed_checks": 123,
+      "total_checks": 132,
+      "failed_checks": [
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "path": "context.environment.market.response",
+            "accept": [
+              "avoid"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        },
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "path": "context.environment.market.scope",
+            "accept": [
+              "conditional_category"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        },
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "path": "context.environment.market.condition",
+            "accept": [
+              "추가 조건 필요"
+            ]
+          },
+          "pass": false,
+          "observed": "조건 미확인"
+        },
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "special": "clauses",
+            "feature": "market",
+            "value": [
+              [
+                {
+                  "signal": "crowded",
+                  "state": "present"
+                }
+              ],
+              [
+                {
+                  "signal": "noisy",
+                  "state": "present"
+                }
+              ]
+            ]
+          },
+          "pass": false,
+          "observed": []
+        },
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "path": "core.mobility.value",
+            "accept": [
+              "C"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        },
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "special": "environment_scope_preserved",
+            "scope": "conditional_category"
+          },
+          "pass": false,
+          "observed": []
+        },
+        {
+          "tag": "E1_r1",
+          "criterion": {
+            "path": "context.environment.market.scope",
+            "accept": [
+              "place_specific"
+            ]
+          },
+          "pass": false,
+          "observed": "conditional_category"
+        },
+        {
+          "tag": "E1_r1",
+          "criterion": {
+            "special": "environment_scope_preserved",
+            "scope": "place_specific"
+          },
+          "pass": false,
+          "observed": [
+            {
+              "feature": "market",
+              "direction": "회피",
+              "strength": 0.5,
+              "condition_clauses": [
+                [
+                  {
+                    "signal": "crowded",
+                    "state": "present"
+                  },
+                  {
+                    "signal": "noisy",
+                    "state": "present"
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "G1_r1",
+          "criterion": {
+            "path": "core.routes.푸른시장.value",
+            "accept": [
+              "repeated_independent"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        }
+      ],
+      "failed_runs": [
+        {
+          "tag": "E2_r1",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        },
+        {
+          "tag": "E1_r1",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        },
+        {
+          "tag": "G1_r1",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        }
+      ],
+      "pipeline_fallbacks": [
+        {
+          "tag": "E2_r1",
+          "fallbacks": [
+            "core_draft_failed:ValueError"
+          ]
+        },
+        {
+          "tag": "E1_r1",
+          "fallbacks": [
+            "core_draft_failed:ValueError",
+            "context_review_failed:ValueError"
+          ]
+        }
+      ]
+    }
+  },
+  "later_stages": {
+    "repair": {
+      "A": {
+        "rows": 12,
+        "all_programmed_checks_pass": 9,
+        "rows_with_supplementary_issues": 4,
+        "final_gate_pass": 8,
+        "failed": [
+          {
+            "case": "E1_r1",
+            "failed_checks": [],
+            "unconfirmed_traits": [
+              {
+                "type": "other",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_specific_trait_contract"
+              }
+            ]
+          },
+          {
+            "case": "E2_r1",
+            "failed_checks": [],
+            "unconfirmed_traits": [
+              {
+                "type": "other",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_specific_trait_contract"
+              }
+            ]
+          },
+          {
+            "case": "E2_r2",
+            "failed_checks": [],
+            "unconfirmed_traits": [
+              {
+                "type": "other",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_specific_trait_contract"
+              }
+            ]
+          }
+        ]
+      },
+      "B": {
+        "rows": 12,
+        "all_programmed_checks_pass": 9,
+        "rows_with_supplementary_issues": 4,
+        "final_gate_pass": 8,
+        "failed": [
+          {
+            "case": "E1_r1",
+            "failed_checks": [],
+            "unconfirmed_traits": [
+              {
+                "type": "other",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_specific_trait_contract"
+              }
+            ]
+          },
+          {
+            "case": "E2_r1",
+            "failed_checks": [],
+            "unconfirmed_traits": [
+              {
+                "type": "other",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_specific_trait_contract"
+              }
+            ]
+          },
+          {
+            "case": "E2_r2",
+            "failed_checks": [],
+            "unconfirmed_traits": [
+              {
+                "type": "other",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_specific_trait_contract"
+              }
+            ]
+          }
+        ]
+      },
+      "C": {
+        "rows": 12,
+        "all_programmed_checks_pass": 9,
+        "rows_with_supplementary_issues": 7,
+        "final_gate_pass": 5,
+        "failed": [
+          {
+            "case": "E1_r2",
+            "failed_checks": [],
+            "unconfirmed_traits": [
+              {
+                "type": "other",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_specific_trait_contract"
+              }
+            ]
+          },
+          {
+            "case": "E2_r1",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.environment.market.response",
+                  "accept": [
+                    "avoid"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.scope",
+                  "accept": [
+                    "conditional_category"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.condition",
+                  "accept": [
+                    "추가 조건 필요"
+                  ]
+                },
+                "pass": false,
+                "observed": "조건 미확인"
+              },
+              {
+                "criterion": {
+                  "special": "clauses",
+                  "feature": "market",
+                  "value": [
+                    [
+                      {
+                        "signal": "crowded",
+                        "state": "present"
+                      }
+                    ],
+                    [
+                      {
+                        "signal": "noisy",
+                        "state": "present"
+                      }
+                    ]
+                  ]
+                },
+                "pass": false,
+                "observed": []
+              },
+              {
+                "criterion": {
+                  "path": "core.mobility.value",
+                  "accept": [
+                    "C"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "special": "environment_scope_preserved",
+                  "scope": "conditional_category"
+                },
+                "pass": false,
+                "observed": []
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "E2_r2",
+            "failed_checks": [],
+            "unconfirmed_traits": [
+              {
+                "type": "other",
+                "period": "unspecified",
+                "note_ids": [
+                  "N2"
+                ],
+                "reason": "no_specific_trait_contract"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "fresh": {
+      "A": {
+        "rows": 8,
+        "all_programmed_checks_pass": 6,
+        "rows_with_supplementary_issues": 2,
+        "final_gate_pass": 6,
+        "failed": [
+          {
+            "case": "E2",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.environment.market.response",
+                  "accept": [
+                    "avoid"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.scope",
+                  "accept": [
+                    "conditional_category"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.condition",
+                  "accept": [
+                    "추가 조건 필요"
+                  ]
+                },
+                "pass": false,
+                "observed": "조건 미확인"
+              },
+              {
+                "criterion": {
+                  "special": "clauses",
+                  "feature": "market",
+                  "value": [
+                    [
+                      {
+                        "signal": "crowded",
+                        "state": "present"
+                      }
+                    ],
+                    [
+                      {
+                        "signal": "noisy",
+                        "state": "present"
+                      }
+                    ]
+                  ]
+                },
+                "pass": false,
+                "observed": []
+              },
+              {
+                "criterion": {
+                  "special": "environment_scope_preserved",
+                  "scope": "conditional_category"
+                },
+                "pass": false,
+                "observed": []
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "H_wait",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "special": "trait_present",
+                  "value": "rest_pattern"
+                },
+                "pass": false,
+                "observed": [
+                  "wayfinding_failure",
+                  "hiding_or_staying"
+                ]
+              }
+            ],
+            "unconfirmed_traits": []
+          }
+        ]
+      }
+    },
+    "grounding_v2": {
+      "A": {
+        "rows": 16,
+        "all_programmed_checks_pass": 2,
+        "rows_with_supplementary_issues": 4,
+        "final_gate_pass": 2,
+        "failed": [
+          {
+            "case": "E1",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.environment.market.response",
+                  "accept": [
+                    "avoid"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.scope",
+                  "accept": [
+                    "place_specific"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.condition",
+                  "accept": [
+                    "추가 조건 필요"
+                  ]
+                },
+                "pass": false,
+                "observed": "조건 미확인"
+              },
+              {
+                "criterion": {
+                  "special": "clauses",
+                  "feature": "market",
+                  "value": [
+                    [
+                      {
+                        "signal": "crowded",
+                        "state": "present"
+                      },
+                      {
+                        "signal": "noisy",
+                        "state": "present"
+                      }
+                    ]
+                  ]
+                },
+                "pass": false,
+                "observed": []
+              },
+              {
+                "criterion": {
+                  "special": "environment_scope_preserved",
+                  "scope": "place_specific"
+                },
+                "pass": false,
+                "observed": []
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "E1",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.environment.market.response",
+                  "accept": [
+                    "avoid"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.scope",
+                  "accept": [
+                    "place_specific"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.condition",
+                  "accept": [
+                    "추가 조건 필요"
+                  ]
+                },
+                "pass": false,
+                "observed": "조건 미확인"
+              },
+              {
+                "criterion": {
+                  "special": "clauses",
+                  "feature": "market",
+                  "value": [
+                    [
+                      {
+                        "signal": "crowded",
+                        "state": "present"
+                      },
+                      {
+                        "signal": "noisy",
+                        "state": "present"
+                      }
+                    ]
+                  ]
+                },
+                "pass": false,
+                "observed": []
+              },
+              {
+                "criterion": {
+                  "special": "environment_scope_preserved",
+                  "scope": "place_specific"
+                },
+                "pass": false,
+                "observed": []
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "E2",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.environment.market.response",
+                  "accept": [
+                    "avoid"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.scope",
+                  "accept": [
+                    "conditional_category"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.condition",
+                  "accept": [
+                    "추가 조건 필요"
+                  ]
+                },
+                "pass": false,
+                "observed": "조건 미확인"
+              },
+              {
+                "criterion": {
+                  "special": "clauses",
+                  "feature": "market",
+                  "value": [
+                    [
+                      {
+                        "signal": "crowded",
+                        "state": "present"
+                      }
+                    ],
+                    [
+                      {
+                        "signal": "noisy",
+                        "state": "present"
+                      }
+                    ]
+                  ]
+                },
+                "pass": false,
+                "observed": []
+              },
+              {
+                "criterion": {
+                  "special": "environment_scope_preserved",
+                  "scope": "conditional_category"
+                },
+                "pass": false,
+                "observed": []
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "E2",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.environment.market.response",
+                  "accept": [
+                    "avoid"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.scope",
+                  "accept": [
+                    "conditional_category"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "path": "context.environment.market.condition",
+                  "accept": [
+                    "추가 조건 필요"
+                  ]
+                },
+                "pass": false,
+                "observed": "조건 미확인"
+              },
+              {
+                "criterion": {
+                  "special": "clauses",
+                  "feature": "market",
+                  "value": [
+                    [
+                      {
+                        "signal": "crowded",
+                        "state": "present"
+                      }
+                    ],
+                    [
+                      {
+                        "signal": "noisy",
+                        "state": "present"
+                      }
+                    ]
+                  ]
+                },
+                "pass": false,
+                "observed": []
+              },
+              {
+                "criterion": {
+                  "special": "environment_scope_preserved",
+                  "scope": "conditional_category"
+                },
+                "pass": false,
+                "observed": []
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "G2",
+            "failed_checks": [
+              {
+                "criterion": "required_trait:past_role",
+                "pass": false
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "G2",
+            "failed_checks": [
+              {
+                "criterion": "required_trait:past_role",
+                "pass": false
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "H_history",
+            "failed_checks": [
+              {
+                "criterion": "required_trait:past_role",
+                "pass": false
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "H_history",
+            "failed_checks": [
+              {
+                "criterion": "required_trait:past_role",
+                "pass": false
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "H_wait",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.persistence.value",
+                  "accept": [
+                    "wait_for_help"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "H_wait",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.persistence.value",
+                  "accept": [
+                    "wait_for_help"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "W1",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.persistence.value",
+                  "accept": [
+                    "wait_for_help"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "W1",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.persistence.value",
+                  "accept": [
+                    "wait_for_help"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "W2",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.persistence.value",
+                  "accept": [
+                    "keep_moving"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "special": "persistence_direction",
+                  "value": "keep_moving"
+                },
+                "pass": false,
+                "observed": 0.10526315789473685
+              }
+            ],
+            "unconfirmed_traits": []
+          },
+          {
+            "case": "W2",
+            "failed_checks": [
+              {
+                "criterion": {
+                  "path": "context.persistence.value",
+                  "accept": [
+                    "keep_moving"
+                  ]
+                },
+                "pass": false,
+                "observed": "unknown"
+              },
+              {
+                "criterion": {
+                  "special": "persistence_direction",
+                  "value": "keep_moving"
+                },
+                "pass": false,
+                "observed": 0.10526315789473685
+              }
+            ],
+            "unconfirmed_traits": []
+          }
+        ]
+      },
+      "excluded_from_quality_comparison": "executor matched context_review as context; only one K stage replayed, paid Mi:dm costs retained"
+    },
+    "grounding_v3": {
+      "A": {
+        "rows": 16,
+        "all_programmed_checks_pass": 16,
+        "rows_with_supplementary_issues": 0,
+        "final_gate_pass": 16,
+        "failed": []
+      }
+    }
+  },
+  "usage_by_stage": {
+    "base": {
+      "K": {
+        "started": 96,
+        "finished": 96,
+        "total_tokens_reported": 1094003,
+        "usage_unavailable": 0,
+        "finish_reasons": {
+          "stop": 90,
+          "length": 6
+        },
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      },
+      "SAR": {
+        "started": 24,
+        "finished": 24,
+        "total_tokens_reported": 46443,
+        "usage_unavailable": 0,
+        "finish_reasons": {
+          "stop": 24
+        },
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      },
+      "Midm": {
+        "started": 52,
+        "finished": 52,
+        "total_tokens_reported": 50333,
+        "usage_unavailable": 0,
+        "finish_reasons": {
+          "stop": 52
+        },
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      }
+    },
+    "repair": {
+      "K": {
+        "started": 0,
+        "finished": 0,
+        "total_tokens_reported": 0,
+        "usage_unavailable": 0,
+        "finish_reasons": {},
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      },
+      "SAR": {
+        "started": 0,
+        "finished": 0,
+        "total_tokens_reported": 0,
+        "usage_unavailable": 0,
+        "finish_reasons": {},
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      },
+      "Midm": {
+        "started": 61,
+        "finished": 61,
+        "total_tokens_reported": 51537,
+        "usage_unavailable": 0,
+        "finish_reasons": {
+          "stop": 61
+        },
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      }
+    },
+    "fresh": {
+      "K": {
+        "started": 32,
+        "finished": 32,
+        "total_tokens_reported": 316987,
+        "usage_unavailable": 0,
+        "finish_reasons": {
+          "stop": 32
+        },
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      },
+      "SAR": {
+        "started": 0,
+        "finished": 0,
+        "total_tokens_reported": 0,
+        "usage_unavailable": 0,
+        "finish_reasons": {},
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      },
+      "Midm": {
+        "started": 33,
+        "finished": 33,
+        "total_tokens_reported": 28789,
+        "usage_unavailable": 0,
+        "finish_reasons": {
+          "stop": 33
+        },
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      }
+    },
+    "grounding_v2": {
+      "K": {
+        "started": 0,
+        "finished": 0,
+        "total_tokens_reported": 0,
+        "usage_unavailable": 0,
+        "finish_reasons": {},
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      },
+      "SAR": {
+        "started": 0,
+        "finished": 0,
+        "total_tokens_reported": 0,
+        "usage_unavailable": 0,
+        "finish_reasons": {},
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      },
+      "Midm": {
+        "started": 36,
+        "finished": 36,
+        "total_tokens_reported": 30294,
+        "usage_unavailable": 0,
+        "finish_reasons": {
+          "stop": 36
+        },
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      }
+    },
+    "grounding_v3": {
+      "K": {
+        "started": 0,
+        "finished": 0,
+        "total_tokens_reported": 0,
+        "usage_unavailable": 0,
+        "finish_reasons": {},
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      },
+      "SAR": {
+        "started": 0,
+        "finished": 0,
+        "total_tokens_reported": 0,
+        "usage_unavailable": 0,
+        "finish_reasons": {},
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      },
+      "Midm": {
+        "started": 16,
+        "finished": 16,
+        "total_tokens_reported": 13636,
+        "usage_unavailable": 0,
+        "finish_reasons": {
+          "stop": 16
+        },
+        "actual_cost": null,
+        "unit_price": null,
+        "support_round": null
+      }
+    }
+  },
+  "global_usage": {
+    "K": {
+      "started": 128,
+      "finished": 128,
+      "tokens": {
+        "prompt_tokens": 565231,
+        "completion_tokens": 845759,
+        "total_tokens": 1410990
+      },
+      "finish_reasons": {
+        "stop": 122,
+        "length": 6
+      },
+      "http_statuses": {
+        "200": 128
+      },
+      "actual_cost": null,
+      "support_round": null,
+      "unit_price": null
+    },
+    "SAR": {
+      "started": 24,
+      "finished": 24,
+      "tokens": {
+        "prompt_tokens": 39364,
+        "completion_tokens": 7079,
+        "total_tokens": 46443
+      },
+      "finish_reasons": {
+        "stop": 24
+      },
+      "http_statuses": {
+        "200": 24
+      },
+      "actual_cost": null,
+      "support_round": null,
+      "unit_price": null
+    },
+    "Midm": {
+      "started": 198,
+      "finished": 198,
+      "tokens": {
+        "prompt_tokens": 172807,
+        "completion_tokens": 1782,
+        "total_tokens": 174589
+      },
+      "finish_reasons": {
+        "stop": 198
+      },
+      "http_statuses": {
+        "200": 198
+      },
+      "actual_cost": null,
+      "support_round": null,
+      "unit_price": null
+    }
+  },
+  "all_attempts_finished": true,
+  "ledger_unique_events": true,
+  "limits": {
+    "K": 128,
+    "SAR": 32,
+    "Midm": 240
+  },
+  "analysis_scope": "front interpretation, stored evidence and initial inputs, no mind/walking trials",
+  "fresh_preflight_failure": {
+    "workers": 8,
+    "model_requests": 0,
+    "reason": "behavior_notes list schema mismatch in experiment executor, corrected before paid calls"
+  }
+}

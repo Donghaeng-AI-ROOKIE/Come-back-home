@@ -1,0 +1,18 @@
+{
+  "contract": "mind-person-action-v5",
+  "data_source": "96 reformatted authored records; 8 previously inspected development records; no fresh model generated labels",
+  "independent_human_review": false,
+  "clinical_validation": false,
+  "files": {
+    "train.jsonl": {
+      "records": 96,
+      "families": 24,
+      "sha256": "2472773887b556d3852fe6c33bded598300352e8136a96f4ef3eff38aa48f929"
+    },
+    "development.jsonl": {
+      "records": 8,
+      "families": 2,
+      "sha256": "0922be10dfa728dc848653733f34e17f058701b78efac0f93944bf45bc814196"
+    }
+  }
+}

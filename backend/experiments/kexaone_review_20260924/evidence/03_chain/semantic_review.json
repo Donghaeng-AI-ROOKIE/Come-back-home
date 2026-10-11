@@ -1,0 +1,122 @@
+{
+  "status": "AI manual review of saved outputs; not independent human evaluation or model accuracy",
+  "structural_passed": 23,
+  "clear_positive_observation_mislabels_in_passed": 16,
+  "reviewed_flags": [
+    {
+      "output": "F01_A_chain_0.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 두 달 동안 혼자 나서면 시장 쪽으로 걷는 모습을 여러 번 봤다."
+      ]
+    },
+    {
+      "output": "F01_A_chain_1.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 두 달 동안 혼자 나서면 시장 쪽으로 걷는 모습을 여러 번 봤다."
+      ]
+    },
+    {
+      "output": "F01_B_chain_0.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 두 달 동안 혼자 나서면 공원 쪽으로 걷는 모습을 여러 번 봤다."
+      ]
+    },
+    {
+      "output": "F01_B_chain_1.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 두 달 동안 혼자 나서면 공원 쪽으로 걷는 모습을 여러 번 봤다."
+      ]
+    },
+    {
+      "output": "F01_C_chain_0.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "지난 두 달에 여러 번 지켜봤는데, 혼자 외출할 때 걸어간 방향은 시장이었다."
+      ]
+    },
+    {
+      "output": "F01_C_chain_1.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "지난 두 달에 여러 번 지켜봤는데, 혼자 외출할 때 걸어간 방향은 시장이었다."
+      ]
+    },
+    {
+      "output": "F02_B_chain_0.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 공장에 출근해야 한다고 반복해서 말하고 공장 방향으로 나서는 모습도 여러 번 관찰했다. 옛 공장 이야기를 하며 지금 출근하려고 한다."
+      ]
+    },
+    {
+      "output": "F02_B_chain_1.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 공장에 출근해야 한다고 반복해서 말하고 공장 방향으로 나서는 모습도 여러 번 관찰했다.",
+        "옛 공장 이야기를 하며 지금 출근하려고 한다."
+      ]
+    },
+    {
+      "output": "F04_A_chain_0.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 밖에서 걷는 모습을 여러 번 관찰했는데, 뚜렷한 목적지를 말하지 않고 같은 짧은 길을 오가며 이미 지난 구간을 반복해서 걷곤 했다."
+      ]
+    },
+    {
+      "output": "F04_A_chain_1.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 밖에서 걷는 모습을 여러 번 관찰했는데, 뚜렷한 목적지를 말하지 않고 같은 짧은 길을 오가며 이미 지난 구간을 반복해서 걷곤 했다."
+      ]
+    },
+    {
+      "output": "F04_B_chain_0.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 밖에서 걷는 모습을 여러 번 관찰했는데, 뚜렷한 목적지를 말하지 않고 매번 다른 골목으로 방향을 바꾸며 여러 경로를 걷곤 했다."
+      ]
+    },
+    {
+      "output": "F04_B_chain_1.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 밖에서 걷는 모습을 여러 번 관찰했는데, 뚜렷한 목적지를 말하지 않고 매번 다른 골목으로 방향을 바꾸며 여러 경로를 걷곤 했다."
+      ]
+    },
+    {
+      "output": "F05_A_chain_0.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 길을 몰라 헤매는 상황에서 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다."
+      ]
+    },
+    {
+      "output": "F05_B_chain_0.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다."
+      ]
+    },
+    {
+      "output": "F05_B_chain_1.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "최근 길을 몰라 헤매는 상황에서 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.",
+        "어느 장소에 가겠다는 말은 하지 않았다."
+      ]
+    },
+    {
+      "output": "F06_C_chain_1.json",
+      "issue": "Affirmatively reported movement observation classified as not_observed",
+      "quotes": [
+        "가족이 지난 한 달에 직접 여러 번 본 외출 방향은 시장 쪽이었다."
+      ]
+    }
+  ],
+  "limitations": "Some quotes combine absent stated intention with observed movement; field lacks proposition-level target. This contract result cannot generalize to all K extraction designs."
+}

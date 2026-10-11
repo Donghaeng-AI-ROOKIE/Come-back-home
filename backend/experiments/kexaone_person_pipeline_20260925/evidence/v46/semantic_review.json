@@ -1,0 +1,22 @@
+{
+  "preregistered_pass": true,
+  "checks": {
+    "goal": true,
+    "route": true,
+    "mobility": true,
+    "day_moving": true,
+    "day_retrace": true,
+    "night_wait": true,
+    "night_direction_unknown": true,
+    "market_AND": true,
+    "unconditional_wait": true,
+    "unconditional_retrace": true,
+    "zero_K_during_injection": true
+  },
+  "whole_preparation_cases": 1,
+  "context_probe_cases": 1,
+  "holdout_population": false,
+  "scope": "known failure regression + synthetic unconditional control; not evidence of 95% independent accuracy",
+  "elapsed_seconds": 124.35308636003174,
+  "deployment": false
+}

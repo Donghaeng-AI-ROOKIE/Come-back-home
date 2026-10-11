@@ -1,0 +1,26 @@
+{
+  "records": 152,
+  "split_counts": {
+    "train": 120,
+    "development": 16,
+    "evaluation": 16
+  },
+  "errors": [],
+  "status": "PASS",
+  "checked": "hash, output fields, builder equality, IDs, declared family splits",
+  "semantic_accuracy_measured": false,
+  "token_lengths_measured": false,
+  "characters_min_max": [
+    3335,
+    3658
+  ],
+  "clinical_review": false,
+  "remaining": [
+    "manual semantic review",
+    "cross-family near-duplicate review",
+    "actual tokenizer truncation check",
+    "source-held-out evaluation",
+    "real saved onboarding pipeline inputs",
+    "KINTEX closed-loop model evaluation"
+  ]
+}

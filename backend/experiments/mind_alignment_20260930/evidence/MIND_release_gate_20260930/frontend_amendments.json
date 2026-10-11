@@ -1,0 +1,54 @@
+[
+  {
+    "id": "E1_2",
+    "change": "Pre-call acceptance allows defer as well as continuation: non-avoidance was observed but alternative motion was not explicitly stated. Does not retroactively change earlier scores."
+  },
+  {
+    "id": "E2_2",
+    "change": "Pre-call acceptance allows defer as well as continuation: non-avoidance was observed but alternative motion was not explicitly stated. Does not retroactively change earlier scores."
+  },
+  {
+    "id": "H_wait_1",
+    "change": "Add explicit self-awareness Boolean; keep original orientation event and saved K interpretation.",
+    "added_event": {
+      "kind": "self_lost_awareness_observation",
+      "value": true,
+      "elapsed_minutes": 60.0,
+      "provenance": "authored probe clarification, not patient observation",
+      "meaning": "본인이 길을 잃었다고 알아차렸는지에 대한 합성 관측"
+    }
+  },
+  {
+    "id": "H_wait_2",
+    "change": "Add explicit self-awareness Boolean; keep original orientation event and saved K interpretation.",
+    "added_event": {
+      "kind": "self_lost_awareness_observation",
+      "value": false,
+      "elapsed_minutes": 60.0,
+      "provenance": "authored probe clarification, not patient observation",
+      "meaning": "본인이 길을 잃었다고 알아차렸는지에 대한 합성 관측"
+    }
+  },
+  {
+    "id": "W1_1",
+    "change": "Add explicit self-awareness Boolean; keep original orientation event and saved K interpretation.",
+    "added_event": {
+      "kind": "self_lost_awareness_observation",
+      "value": true,
+      "elapsed_minutes": 60.0,
+      "provenance": "authored probe clarification, not patient observation",
+      "meaning": "본인이 길을 잃었다고 알아차렸는지에 대한 합성 관측"
+    }
+  },
+  {
+    "id": "W2_1",
+    "change": "Add explicit self-awareness Boolean; keep original orientation event and saved K interpretation.",
+    "added_event": {
+      "kind": "self_lost_awareness_observation",
+      "value": true,
+      "elapsed_minutes": 60.0,
+      "provenance": "authored probe clarification, not patient observation",
+      "meaning": "본인이 길을 잃었다고 알아차렸는지에 대한 합성 관측"
+    }
+  }
+]

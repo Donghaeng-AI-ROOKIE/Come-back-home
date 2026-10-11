@@ -1,0 +1,30 @@
+[
+  {
+    "id": "fatigue_high__r1",
+    "case": "fatigue_high",
+    "error_type": "TimeoutError",
+    "contract_pass": false,
+    "elapsed_seconds": 60.77850058290642
+  },
+  {
+    "id": "after_rest__r1",
+    "case": "after_rest",
+    "error_type": "TimeoutError",
+    "contract_pass": false,
+    "elapsed_seconds": 60.03677329199854
+  },
+  {
+    "id": "fatigue_high__r2",
+    "case": "fatigue_high",
+    "error_type": "TimeoutError",
+    "contract_pass": false,
+    "elapsed_seconds": 60.035819665994495
+  },
+  {
+    "id": "after_rest__r2",
+    "case": "after_rest",
+    "error_type": "TimeoutError",
+    "contract_pass": false,
+    "elapsed_seconds": 60.068117624963634
+  }
+]

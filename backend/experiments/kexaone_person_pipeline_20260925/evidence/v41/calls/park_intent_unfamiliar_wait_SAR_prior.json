@@ -1,0 +1,12 @@
+{
+  "content": "```json\n{\n  \"strategy_probs\": {\n    \"route_following\": 0.45,\n    \"direction_keeping\": 0.15,\n    \"random_walk\": 0.10,\n    \"backtracking\": 0.05,\n    \"staying_put\": 0.05,\n    \"landmark_seeking\": 0.10\n  },\n  \"attraction_levels\": {\n    \"시장\": \"하\",\n    \"공원\": \"하\",\n    \"복지관\": \"하\"\n  },\n  \"radius_level\": \"중\",\n  \"reasoning\": \"공원, 시장, 복지관은 모두 지나가듯 언급만 되었고, 실제 방문 경험은 없다. 다만, 아침마다 공원에 가서 친구를 만나야 한다고 말씀하신 점에서 공원에 대한 인지는 있는 것으로 보인다. 그러나 치매 노인의 경우, 특정 장소에 대한 인지가 있어도 실제 방문 경험이 없으면 그 장소를 목적지로 삼는 확률은 낮다. 따라서 이들 장소는 낮은 수준의 끌림점으로 분류했다. 'route_following' 확률이 높은 이유는 치매 노인이 익숙한 경로를 따라 이동하는 경향이 있기 때문이다. 다만, 이 노인의 경우 새로운 동네로 이사 온 지 얼마 되지 않았고, 공원이라는 특정 장소에 대한 인지는 있지만 실제 방문 경험은 없다. 따라서 'direction_keeping' 확률도 어느 정도 반영했다. 'random_walk' 확률은 낮지만, 치매 노인의 배회 행동이 'random_walk'와 유사하게 나타날 수 있다는 점을 고려해 반영했다.\"\n}\n```",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 1471,
+    "total_tokens": 1845,
+    "completion_tokens": 374,
+    "prompt_tokens_details": null
+  },
+  "model": "exaone-sar",
+  "note": "Provider response content preserved. Request, RAG full text, reasoning channel and credentials excluded."
+}

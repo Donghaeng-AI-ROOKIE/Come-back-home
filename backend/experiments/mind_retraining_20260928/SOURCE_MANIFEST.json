@@ -1,0 +1,322 @@
+{
+  "baseline_commit": "35817311f543bb25c287186d9a6072477f97ae37",
+  "files": [
+    {
+      "archive": "실험/MIND_baseline_live_20260928/results.json",
+      "published": "evidence/baseline/results.json",
+      "sha256": "c52fdec080439ac781b113a385d33d875742b5f094c2a9817d694d406d56cf34",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_baseline_live_20260928/cases.json",
+      "published": "evidence/baseline/cases.json",
+      "sha256": "47cb46ee2581e72694bb53affd8df1fc2dfcac0757bd959eb0954796b62fb0e4",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_baseline_live_20260928/summary.json",
+      "published": "evidence/baseline/summary.json",
+      "sha256": "b38dc9a2a66d3ec9a7a96e22dc038ff03c203bd10e4fa1ff9ed897917d47d892",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_baseline_live_20260928/replay_verification.json",
+      "published": "evidence/baseline/replay_verification.json",
+      "sha256": "5d204c3b4df0ec03a0fd9900ffa639c7665d8314727337ebe1a253232d4b1c12",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_baseline_live_20260928/호출예산_재사용_점검.md",
+      "published": "BUDGET_AND_TIME.md",
+      "sha256": "3660ffd59ccdf9bab19ac8b923205288c7c3baf5f8de777325e0956cb7c85f6c",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_context_pilot_20260928/results.json",
+      "published": "evidence/contract_pilot/v1/results.json",
+      "sha256": "6c4effba6c913af083a24cd28a5b8b58acb3593dcf5f3cadfafbe4d9051452ed",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_context_pilot_20260928/summary.json",
+      "published": "evidence/contract_pilot/v1/summary.json",
+      "sha256": "32086498b95af71e8ec14ff3bd9ee14090dbc5b8cfa75b656ecd615fdeebe306",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_context_pilot_20260928/v2_probe/results.json",
+      "published": "evidence/contract_pilot/v2_probe/results.json",
+      "sha256": "991806db386a6d13df8441f999291276c013ce9b43c2bbe154dd5ae129542877",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_context_pilot_20260928/v2_probe/summary.json",
+      "published": "evidence/contract_pilot/v2_probe/summary.json",
+      "sha256": "81ea4330504a94199b6cc5f9c022b86d1f717e13eb2907b1bf2f1b97db72f747",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_context_pilot_20260928/v3_probe/results.json",
+      "published": "evidence/contract_pilot/v3_probe/results.json",
+      "sha256": "dc5fce2e03acef7e9a442770ea2714f3882e6b15f730473a93383b498acc35d6",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_context_pilot_20260928/v3_probe/summary.json",
+      "published": "evidence/contract_pilot/v3_probe/summary.json",
+      "sha256": "2c37f915ea2bb59a9e43124587416c08622c221e8abc939d7d7cb55b4f7da935",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_context_pilot_20260928/진단/schema_cpu_result.json",
+      "published": "evidence/contract_pilot/schema_cpu_result.json",
+      "sha256": "5ebd9fd880492a151d268d08cdb9c1fa907d203d39296b0850d5eeb319785005",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_context_pilot_20260928/진단/mask_probe_repaired_result.json",
+      "published": "evidence/contract_pilot/mask_probe_repaired_result.json",
+      "sha256": "318eae13a6cfc825148b0f383e3c7ed62368b28f1f0c4589b9270edf598a9f8b",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_grounded_improvement_20260928/evaluation.json",
+      "published": "evidence/grounded/evaluation.json",
+      "sha256": "dd88a90bf56d1adb12bc3c48c422a18504d2d512a6e8192cca9689f07f622ad1",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_grounded_improvement_20260928/development.json",
+      "published": "evidence/grounded/development.json",
+      "sha256": "983d09e2a3cdc89a34a78b6295ae787a91a047acc0fd0f4f418ef178a2ab095c",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_grounded_improvement_20260928/usage_summary.json",
+      "published": "evidence/grounded/usage_summary.json",
+      "sha256": "1dd0d026f9ddc0a3bf2a34e5d9d8ca0f5b54c643468c8c501050b1b1430b6cf5",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_grounded_improvement_20260928/KINTEX_저장응답_행동연결.json",
+      "published": "evidence/grounded/KINTEX_저장응답_행동연결.json",
+      "sha256": "8f3ebbde7fe67e485c2ce5c2c507f71926347f1301c515bf917c5ca57f548167",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_grounded_improvement_20260928/c5/evaluation_k.json",
+      "published": "evidence/grounded/c5/evaluation_k.json",
+      "sha256": "49ad65476f24f77b1b8ee6c19abac02aa4776a88616501499bf660afa3975c62",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_grounded_improvement_20260928/c5/evaluation_summary.json",
+      "published": "evidence/grounded/c5/evaluation_summary.json",
+      "sha256": "fbd8b9810572a29c0d8448ae4cf2913546776df2fb2bd78ea5896790293a409a",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_grounded_improvement_20260928/c5/evaluation_semantic_review.json",
+      "published": "evidence/grounded/c5/evaluation_semantic_review.json",
+      "sha256": "6e60648d85345134eaf579edd6d5ec0160ad4d1d36e485fd03acaae1a435249d",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_grounded_improvement_20260928/c5/development_k.json",
+      "published": "evidence/grounded/c5/development_k.json",
+      "sha256": "3f94ef0a18f600b3143b60fcecbb2db3364c8d0a7f35e1e01a64021ccafb29a7",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_grounded_improvement_20260928/c1/development_k.json",
+      "published": "evidence/grounded/c1/development_k.json",
+      "sha256": "38c3112244134e9c2f948f257c67b45fc7bf98613fddb7095f75dd0d413862ee",
+      "transformation": "none"
+    },
+    {
+      "archive": "지도캐시/KINTEX_20260928/검증결과.json",
+      "published": "evidence/kintex/검증결과.json",
+      "sha256": "58c399f5019638c34620a19750100d19f60f3aa52c6f109f58a6bd199746ee8b",
+      "transformation": "none"
+    },
+    {
+      "archive": "지도캐시/KINTEX_20260928/실행검사_경로.json",
+      "published": "evidence/kintex/실행검사_경로.json",
+      "sha256": "1a702399885c64ea7a195b85bfb37d05b91e0df6fb4f320fa534ffd0fda66056",
+      "transformation": "none"
+    },
+    {
+      "archive": "지도캐시/KINTEX_20260928/KINTEX_도로망_실행검사.svg",
+      "published": "assets/kintex-road-check.svg",
+      "sha256": "31dae6e57bd752da6be00ee8878754bf05d508ce08237673a79fbbc58e79a692",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/contract.py",
+      "published": "lora/contract.py",
+      "sha256": "c24ef30b669dde2f36ca606d23160946b17e5df4cbcab18062a371a48b4acc52",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/audit.py",
+      "published": "lora/audit.py",
+      "sha256": "7d9327e9c32be9dfad6ac06e534512d52c08b57ae638f15c6423c80f1659ec06",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/preflight.py",
+      "published": "lora/preflight.py",
+      "sha256": "1c254e2489cc2761071603dda16d24c7e4182ccb0511f9391d63a7fd3a158c1c",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/train_candidate.py",
+      "published": "lora/train_candidate.py",
+      "sha256": "ee0f539e8e09947fb422b21ea22ce763366a50227605bf64820084e4254f920e",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/test_contract.py",
+      "published": "lora/test_contract.py",
+      "sha256": "93db84cec1322ff619502406374f9befd18d6d27b5926022b12d1e13479754dc",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/test_preflight.py",
+      "published": "lora/test_preflight.py",
+      "sha256": "0e9cff667f9339fa3753d9f6e2638ba00c2e57c3992eda9c1bf070173b8cc611",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/sources.json",
+      "published": "lora/sources.json",
+      "sha256": "1a96a0b67eaec084c2429c7132ec75e6414d98edefe092b23f1ddc8328dda5f6",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/돌봄경험자_검토용_12사례.md",
+      "published": "lora/돌봄경험자_검토용_12사례.md",
+      "sha256": "1d6b75e93bef63ccb6f497aded8becdec89d876529ec040a72528e402ece9562",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/review_packet_mapping.json",
+      "published": "lora/review_packet_mapping.json",
+      "sha256": "eb4ca802c0297ff6c37b690d9abf9702be262267d26422aa2ffc300f9c4c77b9",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/dataset_v2/train.jsonl",
+      "published": "lora/dataset_v2/train.jsonl",
+      "sha256": "cc8f09d3463bb5675584fe923075598a06f7cf3486261cb26deb3b93b3f00a48",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/dataset_v2/audit.json",
+      "published": "lora/dataset_v2/audit.json",
+      "sha256": "4ac57646eed259e0248188d33b758160b19de26b54130778ca1a81cbd61843e7",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/dataset_v2/manifest.json",
+      "published": "lora/dataset_v2/manifest.json",
+      "sha256": "41458af49d7a6bdebc02d88eb14b7cfb2a83e60c78f9f8639477ac1b7c23d270",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/dataset_v2/evaluation.jsonl",
+      "published": "lora/dataset_v2/evaluation.jsonl",
+      "sha256": "6b3932cb9ba5653966521f7c77e03bd7ffa9d9bf5f3f714a08ab938ab9cb16dd",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/dataset_v2/development.jsonl",
+      "published": "lora/dataset_v2/development.jsonl",
+      "sha256": "e6225a721891139d1d4a9d13f4df546edcbfd757007721ea0b41d3234cf5b59b",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/results/base_development.jsonl",
+      "published": "lora/results/base_development.jsonl",
+      "sha256": "fec9b63cc0a29111c679940cf5fe8b77d9f578bccdc333648620fb9f3f70e780",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/results/lora_final_development.jsonl",
+      "published": "lora/results/lora_final_development.jsonl",
+      "sha256": "884ced758f1a0a07082d724ce1f111ad3770d4cbcbb31bcf4598cd8447e08199",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/results/trainer_state.json",
+      "published": "lora/results/trainer_state.json",
+      "sha256": "502522cc398108cb3f2618e460f084960906f9b5d3dcddeef9c214bb6d00a4f8",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/results/evaluation_summary.json",
+      "published": "lora/results/evaluation_summary.json",
+      "sha256": "46b527fd824ea02e46516de64aca2979d5ca38b545afbc0116598b7f87f485cc",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/results/readable_decision_comparison.jsonl",
+      "published": "lora/results/readable_decision_comparison.jsonl",
+      "sha256": "000349956d6d38cab81db65217ea69117b5f4c7ea9f4c0b9731cc986692ef301",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/results/lora_explanation_review.json",
+      "published": "lora/results/lora_explanation_review.json",
+      "sha256": "fa68483ae2c3dd83acdc65e62661d808741fb92ae944a6244aa7baa4169452ce",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/results/usage_summary.json",
+      "published": "lora/results/usage_summary.json",
+      "sha256": "737f976346f4dbb0eb68ed9e5e4a49c49e66f5928ffaab0dec54fd2737c9e9ea",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/results/lora_target_coverage.json",
+      "published": "lora/results/lora_target_coverage.json",
+      "sha256": "5d56848bc000e5390cc70758acfd720d0ac50850f1a13929058a83749ee1276a",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/results/token_lengths.json",
+      "published": "lora/results/token_lengths.json",
+      "sha256": "63a02693400bb3cd1d1c94cfa22944b5b926dde5d0b7c6629bcaac4fad3df50a",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/results/service_result.json",
+      "published": "lora/results/service_result.json",
+      "sha256": "240a7d1712537fcaba3c85c2f9ccca4535e680bd2b3ab9413b5e6d5b359f1e8f",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/gpu_preparation/tokenization_report.json",
+      "published": "lora/results/tokenization_report.json",
+      "sha256": "76e0e389d34f112af4dd6ae1d64e76ab499b2992e27a7381b568cb3f46a7ade2",
+      "transformation": "none"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/첫학습_결과.md",
+      "published": "LORA_RESULTS.md",
+      "sha256": "af1af2f54e2f58b0c26b374d4a146e1098d9a392405079e07568806d2e56a832",
+      "transformation": "packaged evidence path references adjusted",
+      "published_sha256": "e6bb359b273396f7c7fa1b09169eb6405232ce03e4bce97c20d800365ff0af3e"
+    },
+    {
+      "archive": "실험/MIND_LoRA_data_v1_20260928/training_pilot/evaluate_saved.py",
+      "published": "lora/evaluate_saved.py",
+      "sha256": "6f259e2009ffae85ebacc825e711bd8e1bffcef6fa6ef21025cf0ccc8a9473cb",
+      "transformation": "import path adjusted for packaged layout",
+      "published_sha256": "f63501b749eb81246ee431d0bad12d8d2be6a55c47faec88479a57434b179948"
+    }
+  ],
+  "omitted": "Host credentials, SSH/service-control scripts, full GPU weights, request transport envelopes, duplicate historical datasets. All omitted originals remain in local experiment archive.",
+  "synthetic_guardian_cases": true,
+  "no_new_live_calls_for_pr": true
+}

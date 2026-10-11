@@ -1,0 +1,11 @@
+{
+  "calls": 16,
+  "input_tokens": 23092,
+  "output_tokens": 39798,
+  "latency_median_seconds": 18.925267783459276,
+  "latency_max_seconds": 48.00526108290069,
+  "complete_ledger_pairs": true,
+  "unit_price": null,
+  "actual_cost": null,
+  "support_round": null
+}

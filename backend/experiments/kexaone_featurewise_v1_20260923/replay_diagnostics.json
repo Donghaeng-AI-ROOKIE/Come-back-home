@@ -1,0 +1,2648 @@
+[
+  {
+    "case": "C01",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 109,
+    "source_file": "C01_CONTROL_1_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.6914294154258607,
+      "displacement_km": 0.5034344022788908,
+      "revisit_fraction": 0.22894016036484305,
+      "backtrack_fraction": 0.10110432579273283,
+      "turn_fraction": 0.894,
+      "endpoint_within_200m": 0.248,
+      "strategy_share": {
+        "route_following": 0.462,
+        "direction_keeping": 0.214,
+        "landmark_seeking": 0.044,
+        "staying_put": 0.142,
+        "random_walk": 0.096,
+        "backtracking": 0.042
+      },
+      "zone_entry_share": {
+        "시장": 0.138,
+        "공원": 0.022,
+        "복지관": 0.156
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.853975248575727,
+      "nonedge_transitions": 0,
+      "edge_transitions": 21939
+    },
+    "junction_metrics": {
+      "junction_opportunities": 18124,
+      "side_turn_count": 9186,
+      "turn_45plus_count": 10933,
+      "reverse_count": 1747,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5068417567865813,
+      "turn_45plus_rate": 0.6032332818362393
+    }
+  },
+  {
+    "case": "C01",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 41,
+    "source_file": "C01_CONTROL_1_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.7830260117811134,
+      "displacement_km": 0.5203354198212797,
+      "revisit_fraction": 0.2248766223115404,
+      "backtrack_fraction": 0.0975356801493711,
+      "turn_fraction": 0.892,
+      "endpoint_within_200m": 0.24,
+      "strategy_share": {
+        "route_following": 0.394,
+        "staying_put": 0.144,
+        "random_walk": 0.112,
+        "direction_keeping": 0.26,
+        "backtracking": 0.038,
+        "landmark_seeking": 0.052
+      },
+      "zone_entry_share": {
+        "시장": 0.106,
+        "공원": 0.022,
+        "복지관": 0.148
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.9443872292698923,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23687
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20228,
+      "side_turn_count": 10010,
+      "turn_45plus_count": 11746,
+      "reverse_count": 1736,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4948586118251928,
+      "turn_45plus_rate": 0.5806802452046668
+    }
+  },
+  {
+    "case": "C01",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 73,
+    "source_file": "C01_CONTROL_1_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.6478016043367445,
+      "displacement_km": 0.5551796198097441,
+      "revisit_fraction": 0.21467924041763775,
+      "backtrack_fraction": 0.08983102570371959,
+      "turn_fraction": 0.912,
+      "endpoint_within_200m": 0.236,
+      "strategy_share": {
+        "route_following": 0.39,
+        "random_walk": 0.104,
+        "direction_keeping": 0.264,
+        "staying_put": 0.128,
+        "landmark_seeking": 0.046,
+        "backtracking": 0.068
+      },
+      "zone_entry_share": {
+        "시장": 0.108,
+        "공원": 0.012,
+        "복지관": 0.156
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.800536416994072,
+      "nonedge_transitions": 0,
+      "edge_transitions": 21437
+    },
+    "junction_metrics": {
+      "junction_opportunities": 18321,
+      "side_turn_count": 9057,
+      "turn_45plus_count": 10481,
+      "reverse_count": 1424,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.49435074504666776,
+      "turn_45plus_rate": 0.5720757600567654
+    }
+  },
+  {
+    "case": "C01",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 109,
+    "source_file": "C01_FEATURES_0_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.5693983548506134,
+      "displacement_km": 0.4709588361356057,
+      "revisit_fraction": 0.23297921122901305,
+      "backtrack_fraction": 0.10102371091124121,
+      "turn_fraction": 0.908,
+      "endpoint_within_200m": 0.24,
+      "strategy_share": {
+        "route_following": 0.414,
+        "direction_keeping": 0.286,
+        "landmark_seeking": 0.046,
+        "random_walk": 0.09,
+        "staying_put": 0.128,
+        "backtracking": 0.036
+      },
+      "zone_entry_share": {
+        "시장": 0.184,
+        "공원": 0.016,
+        "복지관": 0.132
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.7106794740797175,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23387
+    },
+    "junction_metrics": {
+      "junction_opportunities": 19653,
+      "side_turn_count": 9862,
+      "turn_45plus_count": 11498,
+      "reverse_count": 1636,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5018063399989824,
+      "turn_45plus_rate": 0.5850506284027884
+    }
+  },
+  {
+    "case": "C01",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 41,
+    "source_file": "C01_FEATURES_0_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.9908117930961073,
+      "displacement_km": 0.5540417566432181,
+      "revisit_fraction": 0.26962439763900026,
+      "backtrack_fraction": 0.11470503372565222,
+      "turn_fraction": 0.9199248705690857,
+      "endpoint_within_200m": 0.182,
+      "strategy_share": {
+        "route_following": 0.406,
+        "direction_keeping": 0.274,
+        "landmark_seeking": 0.072,
+        "staying_put": 0.108,
+        "random_walk": 0.11,
+        "backtracking": 0.03
+      },
+      "zone_entry_share": {
+        "시장": 0.208,
+        "공원": 0.014,
+        "복지관": 0.144
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.1636839849687934,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26751
+    },
+    "junction_metrics": {
+      "junction_opportunities": 22691,
+      "side_turn_count": 11527,
+      "turn_45plus_count": 13631,
+      "reverse_count": 2104,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5079987660305848,
+      "turn_45plus_rate": 0.6007227535146094
+    }
+  },
+  {
+    "case": "C01",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 73,
+    "source_file": "C01_FEATURES_0_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.6895139240105563,
+      "displacement_km": 0.5112229896549526,
+      "revisit_fraction": 0.23282160651441083,
+      "backtrack_fraction": 0.10260945855902216,
+      "turn_fraction": 0.932,
+      "endpoint_within_200m": 0.214,
+      "strategy_share": {
+        "route_following": 0.4,
+        "direction_keeping": 0.294,
+        "random_walk": 0.078,
+        "backtracking": 0.068,
+        "staying_put": 0.102,
+        "landmark_seeking": 0.058
+      },
+      "zone_entry_share": {
+        "시장": 0.192,
+        "공원": 0.014,
+        "복지관": 0.124
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.852311219330013,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23557
+    },
+    "junction_metrics": {
+      "junction_opportunities": 19929,
+      "side_turn_count": 9984,
+      "turn_45plus_count": 11659,
+      "reverse_count": 1675,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5009784735812133,
+      "turn_45plus_rate": 0.5850268453008179
+    }
+  },
+  {
+    "case": "C02",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 109,
+    "source_file": "C02_CONTROL_0_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.116167276071318,
+      "displacement_km": 0.6162730707658366,
+      "revisit_fraction": 0.2404644704780357,
+      "backtrack_fraction": 0.09918748680737859,
+      "turn_fraction": 0.946,
+      "endpoint_within_200m": 0.158,
+      "strategy_share": {
+        "route_following": 0.384,
+        "direction_keeping": 0.296,
+        "landmark_seeking": 0.078,
+        "staying_put": 0.056,
+        "random_walk": 0.144,
+        "backtracking": 0.042
+      },
+      "zone_entry_share": {
+        "시장": 0.124,
+        "공원": 0.046,
+        "복지관": 0.174
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.3127960045976894,
+      "nonedge_transitions": 0,
+      "edge_transitions": 25143
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21522,
+      "side_turn_count": 10455,
+      "turn_45plus_count": 12197,
+      "reverse_count": 1742,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.48578199052132703,
+      "turn_45plus_rate": 0.566722423566583
+    }
+  },
+  {
+    "case": "C02",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 41,
+    "source_file": "C02_CONTROL_0_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.252369795399861,
+      "displacement_km": 0.6383253785093405,
+      "revisit_fraction": 0.24527565110783592,
+      "backtrack_fraction": 0.10061555446509153,
+      "turn_fraction": 0.9319573696145125,
+      "endpoint_within_200m": 0.16,
+      "strategy_share": {
+        "route_following": 0.39,
+        "staying_put": 0.064,
+        "backtracking": 0.044,
+        "direction_keeping": 0.306,
+        "random_walk": 0.15,
+        "landmark_seeking": 0.046
+      },
+      "zone_entry_share": {
+        "시장": 0.108,
+        "공원": 0.034,
+        "복지관": 0.148
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.4637399698451796,
+      "nonedge_transitions": 0,
+      "edge_transitions": 25094
+    },
+    "junction_metrics": {
+      "junction_opportunities": 22080,
+      "side_turn_count": 10706,
+      "turn_45plus_count": 12698,
+      "reverse_count": 1994,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.48487318840579713,
+      "turn_45plus_rate": 0.5750905797101449
+    }
+  },
+  {
+    "case": "C02",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 73,
+    "source_file": "C02_CONTROL_0_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.1133633935885188,
+      "displacement_km": 0.6093468309120512,
+      "revisit_fraction": 0.23825697851552557,
+      "backtrack_fraction": 0.0984847647751392,
+      "turn_fraction": 0.938,
+      "endpoint_within_200m": 0.158,
+      "strategy_share": {
+        "route_following": 0.38,
+        "random_walk": 0.162,
+        "direction_keeping": 0.328,
+        "backtracking": 0.054,
+        "landmark_seeking": 0.032,
+        "staying_put": 0.044
+      },
+      "zone_entry_share": {
+        "시장": 0.09,
+        "공원": 0.026,
+        "복지관": 0.156
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.308959162760575,
+      "nonedge_transitions": 0,
+      "edge_transitions": 25520
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21962,
+      "side_turn_count": 10445,
+      "turn_45plus_count": 12272,
+      "reverse_count": 1827,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4755942081777616,
+      "turn_45plus_rate": 0.558783353064384
+    }
+  },
+  {
+    "case": "C02",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 109,
+    "source_file": "C02_CONTROL_1_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.093897536264092,
+      "displacement_km": 0.584181505478469,
+      "revisit_fraction": 0.2425653486640886,
+      "backtrack_fraction": 0.0989432303177103,
+      "turn_fraction": 0.934,
+      "endpoint_within_200m": 0.184,
+      "strategy_share": {
+        "route_following": 0.388,
+        "direction_keeping": 0.29,
+        "landmark_seeking": 0.096,
+        "random_walk": 0.096,
+        "staying_put": 0.084,
+        "backtracking": 0.046
+      },
+      "zone_entry_share": {
+        "시장": 0.124,
+        "공원": 0.022,
+        "복지관": 0.192
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.2941081726499277,
+      "nonedge_transitions": 0,
+      "edge_transitions": 25380
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21975,
+      "side_turn_count": 10557,
+      "turn_45plus_count": 12226,
+      "reverse_count": 1669,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4804095563139932,
+      "turn_45plus_rate": 0.5563594994311718
+    }
+  },
+  {
+    "case": "C02",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 41,
+    "source_file": "C02_CONTROL_1_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.7613379153873665,
+      "displacement_km": 0.5646479292048275,
+      "revisit_fraction": 0.23526732319445212,
+      "backtrack_fraction": 0.1008106305559641,
+      "turn_fraction": 0.9339795918367347,
+      "endpoint_within_200m": 0.174,
+      "strategy_share": {
+        "route_following": 0.42,
+        "landmark_seeking": 0.086,
+        "direction_keeping": 0.274,
+        "random_walk": 0.094,
+        "backtracking": 0.036,
+        "staying_put": 0.09
+      },
+      "zone_entry_share": {
+        "시장": 0.102,
+        "공원": 0.036,
+        "복지관": 0.198
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.927161054102121,
+      "nonedge_transitions": 0,
+      "edge_transitions": 22781
+    },
+    "junction_metrics": {
+      "junction_opportunities": 19312,
+      "side_turn_count": 9572,
+      "turn_45plus_count": 11262,
+      "reverse_count": 1690,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4956503728251864,
+      "turn_45plus_rate": 0.5831607290803645
+    }
+  },
+  {
+    "case": "C02",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 73,
+    "source_file": "C02_CONTROL_1_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.857064587178149,
+      "displacement_km": 0.5869157275771859,
+      "revisit_fraction": 0.2152046187560469,
+      "backtrack_fraction": 0.08930919548148666,
+      "turn_fraction": 0.9139315095261358,
+      "endpoint_within_200m": 0.226,
+      "strategy_share": {
+        "route_following": 0.398,
+        "random_walk": 0.088,
+        "direction_keeping": 0.268,
+        "staying_put": 0.108,
+        "landmark_seeking": 0.078,
+        "backtracking": 0.06
+      },
+      "zone_entry_share": {
+        "시장": 0.122,
+        "공원": 0.018,
+        "복지관": 0.156
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.0399939616793015,
+      "nonedge_transitions": 0,
+      "edge_transitions": 22742
+    },
+    "junction_metrics": {
+      "junction_opportunities": 19798,
+      "side_turn_count": 9696,
+      "turn_45plus_count": 11306,
+      "reverse_count": 1610,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.48974643903424586,
+      "turn_45plus_rate": 0.5710677846247095
+    }
+  },
+  {
+    "case": "C02",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 109,
+    "source_file": "C02_FEATURES_1_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.5435532583391467,
+      "displacement_km": 0.5151020919062526,
+      "revisit_fraction": 0.20679630135497679,
+      "backtrack_fraction": 0.09726197314949277,
+      "turn_fraction": 0.864,
+      "endpoint_within_200m": 0.27,
+      "strategy_share": {
+        "route_following": 0.4,
+        "random_walk": 0.11,
+        "staying_put": 0.21,
+        "landmark_seeking": 0.138,
+        "direction_keeping": 0.088,
+        "backtracking": 0.054
+      },
+      "zone_entry_share": {
+        "시장": 0.108,
+        "공원": 0.032,
+        "복지관": 0.122
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.6958664007675512,
+      "nonedge_transitions": 0,
+      "edge_transitions": 19023
+    },
+    "junction_metrics": {
+      "junction_opportunities": 15857,
+      "side_turn_count": 7976,
+      "turn_45plus_count": 9774,
+      "reverse_count": 1798,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5029955224821845,
+      "turn_45plus_rate": 0.6163839313867693
+    }
+  },
+  {
+    "case": "C02",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 41,
+    "source_file": "C02_FEATURES_1_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.428461133792537,
+      "displacement_km": 0.48455399565971513,
+      "revisit_fraction": 0.22553642348166916,
+      "backtrack_fraction": 0.10303861669654,
+      "turn_fraction": 0.896,
+      "endpoint_within_200m": 0.256,
+      "strategy_share": {
+        "route_following": 0.378,
+        "landmark_seeking": 0.152,
+        "staying_put": 0.202,
+        "random_walk": 0.14,
+        "backtracking": 0.058,
+        "direction_keeping": 0.07
+      },
+      "zone_entry_share": {
+        "시장": 0.09,
+        "공원": 0.03,
+        "복지관": 0.142
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.5765183944429344,
+      "nonedge_transitions": 0,
+      "edge_transitions": 19277
+    },
+    "junction_metrics": {
+      "junction_opportunities": 16094,
+      "side_turn_count": 8355,
+      "turn_45plus_count": 10263,
+      "reverse_count": 1909,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5191375667950789,
+      "turn_45plus_rate": 0.6376910649931652
+    }
+  },
+  {
+    "case": "C02",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 73,
+    "source_file": "C02_FEATURES_1_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.4130728048300254,
+      "displacement_km": 0.4697533887252391,
+      "revisit_fraction": 0.2079955992089188,
+      "backtrack_fraction": 0.09837585495708026,
+      "turn_fraction": 0.888,
+      "endpoint_within_200m": 0.256,
+      "strategy_share": {
+        "route_following": 0.394,
+        "staying_put": 0.196,
+        "landmark_seeking": 0.146,
+        "backtracking": 0.068,
+        "direction_keeping": 0.08,
+        "random_walk": 0.116
+      },
+      "zone_entry_share": {
+        "시장": 0.122,
+        "공원": 0.032,
+        "복지관": 0.128
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.553965886204279,
+      "nonedge_transitions": 0,
+      "edge_transitions": 18476
+    },
+    "junction_metrics": {
+      "junction_opportunities": 15358,
+      "side_turn_count": 7794,
+      "turn_45plus_count": 9517,
+      "reverse_count": 1723,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.507487954160698,
+      "turn_45plus_rate": 0.6196770412814169
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 109,
+    "source_file": "C03_CONTROL_0_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.8697160946741502,
+      "displacement_km": 0.5955668585332098,
+      "revisit_fraction": 0.2331528333958512,
+      "backtrack_fraction": 0.09259023870862614,
+      "turn_fraction": 0.922,
+      "endpoint_within_200m": 0.196,
+      "strategy_share": {
+        "route_following": 0.312,
+        "direction_keeping": 0.382,
+        "staying_put": 0.066,
+        "landmark_seeking": 0.084,
+        "backtracking": 0.06,
+        "random_walk": 0.096
+      },
+      "zone_entry_share": {
+        "시장": 0.102,
+        "공원": 0.016,
+        "복지관": 0.198
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.0479865152900576,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24915
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20956,
+      "side_turn_count": 9936,
+      "turn_45plus_count": 11418,
+      "reverse_count": 1482,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4741362855506776,
+      "turn_45plus_rate": 0.5448558885283451
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 41,
+    "source_file": "C03_CONTROL_0_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.821732932790194,
+      "displacement_km": 0.5427904580980702,
+      "revisit_fraction": 0.2210873626343823,
+      "backtrack_fraction": 0.08771639758107813,
+      "turn_fraction": 0.924,
+      "endpoint_within_200m": 0.182,
+      "strategy_share": {
+        "direction_keeping": 0.378,
+        "route_following": 0.286,
+        "random_walk": 0.124,
+        "landmark_seeking": 0.102,
+        "backtracking": 0.052,
+        "staying_put": 0.058
+      },
+      "zone_entry_share": {
+        "시장": 0.098,
+        "공원": 0.022,
+        "복지관": 0.17
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.996295409552223,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23831
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20891,
+      "side_turn_count": 9929,
+      "turn_45plus_count": 11534,
+      "reverse_count": 1605,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.475276434828395,
+      "turn_45plus_rate": 0.5521037767459671
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 73,
+    "source_file": "C03_CONTROL_0_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.1740241229007604,
+      "displacement_km": 0.6192631213470788,
+      "revisit_fraction": 0.23258734671552309,
+      "backtrack_fraction": 0.08763457222547506,
+      "turn_fraction": 0.9558812288965777,
+      "endpoint_within_200m": 0.148,
+      "strategy_share": {
+        "route_following": 0.256,
+        "random_walk": 0.134,
+        "direction_keeping": 0.406,
+        "landmark_seeking": 0.102,
+        "staying_put": 0.052,
+        "backtracking": 0.05
+      },
+      "zone_entry_share": {
+        "시장": 0.11,
+        "공원": 0.018,
+        "복지관": 0.17
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.3790141660970923,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26794
+    },
+    "junction_metrics": {
+      "junction_opportunities": 23383,
+      "side_turn_count": 10961,
+      "turn_45plus_count": 12612,
+      "reverse_count": 1652,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.46875935508702904,
+      "turn_45plus_rate": 0.5393662062181928
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 109,
+    "source_file": "C03_CONTROL_1_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.713369016019418,
+      "displacement_km": 0.5756669668528006,
+      "revisit_fraction": 0.21724961497951756,
+      "backtrack_fraction": 0.09082654321208715,
+      "turn_fraction": 0.9219548872180451,
+      "endpoint_within_200m": 0.186,
+      "strategy_share": {
+        "route_following": 0.486,
+        "direction_keeping": 0.27,
+        "staying_put": 0.056,
+        "backtracking": 0.054,
+        "random_walk": 0.1,
+        "landmark_seeking": 0.034
+      },
+      "zone_entry_share": {
+        "시장": 0.152,
+        "공원": 0.024,
+        "복지관": 0.148
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.891610254575062,
+      "nonedge_transitions": 0,
+      "edge_transitions": 21684
+    },
+    "junction_metrics": {
+      "junction_opportunities": 18638,
+      "side_turn_count": 9226,
+      "turn_45plus_count": 10769,
+      "reverse_count": 1543,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4950101942268484,
+      "turn_45plus_rate": 0.5777980470007511
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 41,
+    "source_file": "C03_CONTROL_1_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.8887315096035397,
+      "displacement_km": 0.5700650167183681,
+      "revisit_fraction": 0.2325848468293527,
+      "backtrack_fraction": 0.0986987182223717,
+      "turn_fraction": 0.936,
+      "endpoint_within_200m": 0.16,
+      "strategy_share": {
+        "route_following": 0.518,
+        "backtracking": 0.042,
+        "random_walk": 0.088,
+        "direction_keeping": 0.29,
+        "staying_put": 0.046,
+        "landmark_seeking": 0.016
+      },
+      "zone_entry_share": {
+        "시장": 0.11,
+        "공원": 0.022,
+        "복지관": 0.198
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.0819892540714586,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23484
+    },
+    "junction_metrics": {
+      "junction_opportunities": 19817,
+      "side_turn_count": 9780,
+      "turn_45plus_count": 11391,
+      "reverse_count": 1611,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4935156683655447,
+      "turn_45plus_rate": 0.5748095069889488
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 73,
+    "source_file": "C03_CONTROL_1_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.9284031041074825,
+      "displacement_km": 0.5585225079668796,
+      "revisit_fraction": 0.24545771212221035,
+      "backtrack_fraction": 0.10579809036728947,
+      "turn_fraction": 0.948,
+      "endpoint_within_200m": 0.182,
+      "strategy_share": {
+        "route_following": 0.498,
+        "direction_keeping": 0.284,
+        "landmark_seeking": 0.02,
+        "random_walk": 0.09,
+        "staying_put": 0.05,
+        "backtracking": 0.058
+      },
+      "zone_entry_share": {
+        "시장": 0.168,
+        "공원": 0.028,
+        "복지관": 0.186
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.086457389862466,
+      "nonedge_transitions": 0,
+      "edge_transitions": 25315
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21458,
+      "side_turn_count": 10555,
+      "turn_45plus_count": 12302,
+      "reverse_count": 1747,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4918911361729891,
+      "turn_45plus_rate": 0.5733059931028055
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 109,
+    "source_file": "C03_FEATURES_0_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.8697160946741502,
+      "displacement_km": 0.5955668585332098,
+      "revisit_fraction": 0.2331528333958512,
+      "backtrack_fraction": 0.09259023870862614,
+      "turn_fraction": 0.922,
+      "endpoint_within_200m": 0.196,
+      "strategy_share": {
+        "route_following": 0.312,
+        "direction_keeping": 0.382,
+        "staying_put": 0.066,
+        "landmark_seeking": 0.084,
+        "backtracking": 0.06,
+        "random_walk": 0.096
+      },
+      "zone_entry_share": {
+        "시장": 0.102,
+        "공원": 0.016,
+        "복지관": 0.198
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.0479865152900576,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24915
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20956,
+      "side_turn_count": 9936,
+      "turn_45plus_count": 11418,
+      "reverse_count": 1482,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4741362855506776,
+      "turn_45plus_rate": 0.5448558885283451
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 41,
+    "source_file": "C03_FEATURES_0_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.821732932790194,
+      "displacement_km": 0.5427904580980702,
+      "revisit_fraction": 0.2210873626343823,
+      "backtrack_fraction": 0.08771639758107813,
+      "turn_fraction": 0.924,
+      "endpoint_within_200m": 0.182,
+      "strategy_share": {
+        "direction_keeping": 0.378,
+        "route_following": 0.286,
+        "random_walk": 0.124,
+        "landmark_seeking": 0.102,
+        "backtracking": 0.052,
+        "staying_put": 0.058
+      },
+      "zone_entry_share": {
+        "시장": 0.098,
+        "공원": 0.022,
+        "복지관": 0.17
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.996295409552223,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23831
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20891,
+      "side_turn_count": 9929,
+      "turn_45plus_count": 11534,
+      "reverse_count": 1605,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.475276434828395,
+      "turn_45plus_rate": 0.5521037767459671
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 73,
+    "source_file": "C03_FEATURES_0_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.1740241229007604,
+      "displacement_km": 0.6192631213470788,
+      "revisit_fraction": 0.23258734671552309,
+      "backtrack_fraction": 0.08763457222547506,
+      "turn_fraction": 0.9558812288965777,
+      "endpoint_within_200m": 0.148,
+      "strategy_share": {
+        "route_following": 0.256,
+        "random_walk": 0.134,
+        "direction_keeping": 0.406,
+        "landmark_seeking": 0.102,
+        "staying_put": 0.052,
+        "backtracking": 0.05
+      },
+      "zone_entry_share": {
+        "시장": 0.11,
+        "공원": 0.018,
+        "복지관": 0.17
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.3790141660970923,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26794
+    },
+    "junction_metrics": {
+      "junction_opportunities": 23383,
+      "side_turn_count": 10961,
+      "turn_45plus_count": 12612,
+      "reverse_count": 1652,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.46875935508702904,
+      "turn_45plus_rate": 0.5393662062181928
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 109,
+    "source_file": "C03_FEATURES_1_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.7267990242838063,
+      "displacement_km": 0.5319005930250441,
+      "revisit_fraction": 0.2395452024839872,
+      "backtrack_fraction": 0.10495380435837533,
+      "turn_fraction": 0.9218666666666667,
+      "endpoint_within_200m": 0.198,
+      "strategy_share": {
+        "route_following": 0.52,
+        "direction_keeping": 0.27,
+        "landmark_seeking": 0.048,
+        "staying_put": 0.074,
+        "random_walk": 0.04,
+        "backtracking": 0.048
+      },
+      "zone_entry_share": {
+        "시장": 0.148,
+        "공원": 0.028,
+        "복지관": 0.154
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.8903667750179913,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23170
+    },
+    "junction_metrics": {
+      "junction_opportunities": 19244,
+      "side_turn_count": 9635,
+      "turn_45plus_count": 11294,
+      "reverse_count": 1659,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5006755352317606,
+      "turn_45plus_rate": 0.586884223654126
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 41,
+    "source_file": "C03_FEATURES_1_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.4740472279948436,
+      "displacement_km": 0.5464816508640663,
+      "revisit_fraction": 0.21307541436306338,
+      "backtrack_fraction": 0.09551683730804898,
+      "turn_fraction": 0.93,
+      "endpoint_within_200m": 0.192,
+      "strategy_share": {
+        "route_following": 0.482,
+        "direction_keeping": 0.31,
+        "landmark_seeking": 0.04,
+        "staying_put": 0.048,
+        "backtracking": 0.062,
+        "random_walk": 0.058
+      },
+      "zone_entry_share": {
+        "시장": 0.146,
+        "공원": 0.018,
+        "복지관": 0.154
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.6123194312975095,
+      "nonedge_transitions": 0,
+      "edge_transitions": 20958
+    },
+    "junction_metrics": {
+      "junction_opportunities": 17995,
+      "side_turn_count": 8821,
+      "turn_45plus_count": 10250,
+      "reverse_count": 1429,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4901917199222006,
+      "turn_45plus_rate": 0.5696026674076132
+    }
+  },
+  {
+    "case": "C03",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 73,
+    "source_file": "C03_FEATURES_1_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.86811785934993,
+      "displacement_km": 0.5533944563419674,
+      "revisit_fraction": 0.23961623275586888,
+      "backtrack_fraction": 0.10567136814298117,
+      "turn_fraction": 0.928,
+      "endpoint_within_200m": 0.18,
+      "strategy_share": {
+        "route_following": 0.474,
+        "direction_keeping": 0.332,
+        "landmark_seeking": 0.052,
+        "random_walk": 0.054,
+        "staying_put": 0.044,
+        "backtracking": 0.044
+      },
+      "zone_entry_share": {
+        "시장": 0.138,
+        "공원": 0.03,
+        "복지관": 0.184
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.0440694644145156,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24416
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20631,
+      "side_turn_count": 10107,
+      "turn_45plus_count": 11744,
+      "reverse_count": 1637,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.48989384906209105,
+      "turn_45plus_rate": 0.56924046338035
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 109,
+    "source_file": "C04_CONTROL_0_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.0625289462142207,
+      "displacement_km": 0.5813226110778417,
+      "revisit_fraction": 0.243325638102125,
+      "backtrack_fraction": 0.09843994265874911,
+      "turn_fraction": 0.958,
+      "endpoint_within_200m": 0.154,
+      "strategy_share": {
+        "route_following": 0.422,
+        "direction_keeping": 0.332,
+        "landmark_seeking": 0.06,
+        "staying_put": 0.058,
+        "random_walk": 0.086,
+        "backtracking": 0.042
+      },
+      "zone_entry_share": {
+        "시장": 0.1,
+        "공원": 0.038,
+        "복지관": 0.166
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.235169908196559,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24863
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21553,
+      "side_turn_count": 10327,
+      "turn_45plus_count": 12060,
+      "reverse_count": 1733,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.47914443464946876,
+      "turn_45plus_rate": 0.5595508745882244
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 41,
+    "source_file": "C04_CONTROL_0_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.093669550022011,
+      "displacement_km": 0.6057884817818046,
+      "revisit_fraction": 0.23288262412984315,
+      "backtrack_fraction": 0.09402700598052342,
+      "turn_fraction": 0.932,
+      "endpoint_within_200m": 0.176,
+      "strategy_share": {
+        "route_following": 0.4,
+        "staying_put": 0.064,
+        "backtracking": 0.05,
+        "direction_keeping": 0.316,
+        "random_walk": 0.102,
+        "landmark_seeking": 0.068
+      },
+      "zone_entry_share": {
+        "시장": 0.09,
+        "공원": 0.036,
+        "복지관": 0.14
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.2872888799109274,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24975
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21125,
+      "side_turn_count": 10160,
+      "turn_45plus_count": 11856,
+      "reverse_count": 1696,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4809467455621302,
+      "turn_45plus_rate": 0.5612307692307692
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 73,
+    "source_file": "C04_CONTROL_0_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.1218086072237132,
+      "displacement_km": 0.6019344130940314,
+      "revisit_fraction": 0.2334497319267318,
+      "backtrack_fraction": 0.09741349484254518,
+      "turn_fraction": 0.9459701880752301,
+      "endpoint_within_200m": 0.15,
+      "strategy_share": {
+        "route_following": 0.394,
+        "direction_keeping": 0.378,
+        "staying_put": 0.052,
+        "random_walk": 0.086,
+        "backtracking": 0.05,
+        "landmark_seeking": 0.04
+      },
+      "zone_entry_share": {
+        "시장": 0.112,
+        "공원": 0.016,
+        "복지관": 0.152
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.3188618122718805,
+      "nonedge_transitions": 0,
+      "edge_transitions": 25099
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21493,
+      "side_turn_count": 10119,
+      "turn_45plus_count": 11713,
+      "reverse_count": 1594,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.47080444795980086,
+      "turn_45plus_rate": 0.5449681291583306
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 109,
+    "source_file": "C04_CONTROL_1_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.316734267493547,
+      "displacement_km": 0.6548594229551356,
+      "revisit_fraction": 0.24642619668639396,
+      "backtrack_fraction": 0.09549932790098842,
+      "turn_fraction": 0.952,
+      "endpoint_within_200m": 0.148,
+      "strategy_share": {
+        "route_following": 0.364,
+        "direction_keeping": 0.384,
+        "landmark_seeking": 0.058,
+        "staying_put": 0.05,
+        "random_walk": 0.096,
+        "backtracking": 0.048
+      },
+      "zone_entry_share": {
+        "시장": 0.108,
+        "공원": 0.04,
+        "복지관": 0.154
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.5030921292368196,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26499
+    },
+    "junction_metrics": {
+      "junction_opportunities": 23191,
+      "side_turn_count": 10911,
+      "turn_45plus_count": 12594,
+      "reverse_count": 1684,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.47048423957569746,
+      "turn_45plus_rate": 0.5430554956664223
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 41,
+    "source_file": "C04_CONTROL_1_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.9411971131745367,
+      "displacement_km": 0.5773495170383635,
+      "revisit_fraction": 0.2226847947014155,
+      "backtrack_fraction": 0.08324562617763982,
+      "turn_fraction": 0.939979797979798,
+      "endpoint_within_200m": 0.176,
+      "strategy_share": {
+        "direction_keeping": 0.398,
+        "route_following": 0.34,
+        "landmark_seeking": 0.05,
+        "random_walk": 0.12,
+        "staying_put": 0.052,
+        "backtracking": 0.04
+      },
+      "zone_entry_share": {
+        "시장": 0.1,
+        "공원": 0.034,
+        "복지관": 0.158
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.1260578126440306,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24072
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21317,
+      "side_turn_count": 10219,
+      "turn_45plus_count": 11845,
+      "reverse_count": 1626,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.47938265234320027,
+      "turn_45plus_rate": 0.5556598020359338
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 73,
+    "source_file": "C04_CONTROL_1_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.294720449275573,
+      "displacement_km": 0.6226602725346353,
+      "revisit_fraction": 0.23150152216302197,
+      "backtrack_fraction": 0.08490399114117689,
+      "turn_fraction": 0.9319091235174405,
+      "endpoint_within_200m": 0.158,
+      "strategy_share": {
+        "route_following": 0.342,
+        "direction_keeping": 0.404,
+        "staying_put": 0.062,
+        "random_walk": 0.104,
+        "landmark_seeking": 0.038,
+        "backtracking": 0.05
+      },
+      "zone_entry_share": {
+        "시장": 0.098,
+        "공원": 0.034,
+        "복지관": 0.168
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.512235739678395,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26388
+    },
+    "junction_metrics": {
+      "junction_opportunities": 23025,
+      "side_turn_count": 10622,
+      "turn_45plus_count": 12208,
+      "reverse_count": 1586,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4613246471226927,
+      "turn_45plus_rate": 0.5302062975027144
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 109,
+    "source_file": "C04_FEATURES_0_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.2346508777267173,
+      "displacement_km": 0.558743138288496,
+      "revisit_fraction": 0.26967766982822167,
+      "backtrack_fraction": 0.11975721966597869,
+      "turn_fraction": 0.954,
+      "endpoint_within_200m": 0.172,
+      "strategy_share": {
+        "route_following": 0.29,
+        "direction_keeping": 0.198,
+        "random_walk": 0.24,
+        "landmark_seeking": 0.174,
+        "backtracking": 0.054,
+        "staying_put": 0.044
+      },
+      "zone_entry_share": {
+        "시장": 0.13,
+        "공원": 0.026,
+        "복지관": 0.164
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.4231059483396646,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26354
+    },
+    "junction_metrics": {
+      "junction_opportunities": 22346,
+      "side_turn_count": 11672,
+      "turn_45plus_count": 14112,
+      "reverse_count": 2440,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5223306184552046,
+      "turn_45plus_rate": 0.631522420119932
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 41,
+    "source_file": "C04_FEATURES_0_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.2829010950527358,
+      "displacement_km": 0.5946311602641684,
+      "revisit_fraction": 0.26828905704970113,
+      "backtrack_fraction": 0.11143589410084255,
+      "turn_fraction": 0.95,
+      "endpoint_within_200m": 0.14,
+      "strategy_share": {
+        "direction_keeping": 0.244,
+        "route_following": 0.292,
+        "random_walk": 0.218,
+        "landmark_seeking": 0.158,
+        "backtracking": 0.038,
+        "staying_put": 0.05
+      },
+      "zone_entry_share": {
+        "시장": 0.11,
+        "공원": 0.034,
+        "복지관": 0.17
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.4904481899963087,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26489
+    },
+    "junction_metrics": {
+      "junction_opportunities": 22894,
+      "side_turn_count": 11466,
+      "turn_45plus_count": 13720,
+      "reverse_count": 2254,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5008299117672753,
+      "turn_45plus_rate": 0.5992836551061413
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 73,
+    "source_file": "C04_FEATURES_0_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.122765296615123,
+      "displacement_km": 0.559532521107874,
+      "revisit_fraction": 0.2653553490273525,
+      "backtrack_fraction": 0.11288411583729782,
+      "turn_fraction": 0.9479906976744186,
+      "endpoint_within_200m": 0.152,
+      "strategy_share": {
+        "route_following": 0.274,
+        "random_walk": 0.262,
+        "direction_keeping": 0.17,
+        "backtracking": 0.06,
+        "landmark_seeking": 0.176,
+        "staying_put": 0.058
+      },
+      "zone_entry_share": {
+        "시장": 0.108,
+        "공원": 0.022,
+        "복지관": 0.186
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.311125064366781,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26488
+    },
+    "junction_metrics": {
+      "junction_opportunities": 22633,
+      "side_turn_count": 11569,
+      "turn_45plus_count": 13926,
+      "reverse_count": 2358,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5111562762338179,
+      "turn_45plus_rate": 0.6152962488401891
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 109,
+    "source_file": "C04_FEATURES_1_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.943832284483088,
+      "displacement_km": 0.5862239900182543,
+      "revisit_fraction": 0.25184006194175584,
+      "backtrack_fraction": 0.10803875067108477,
+      "turn_fraction": 0.9439548872180451,
+      "endpoint_within_200m": 0.154,
+      "strategy_share": {
+        "route_following": 0.426,
+        "direction_keeping": 0.268,
+        "landmark_seeking": 0.102,
+        "staying_put": 0.054,
+        "random_walk": 0.1,
+        "backtracking": 0.05
+      },
+      "zone_entry_share": {
+        "시장": 0.132,
+        "공원": 0.016,
+        "복지관": 0.2
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.1245455117129244,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24723
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20983,
+      "side_turn_count": 10289,
+      "turn_45plus_count": 12008,
+      "reverse_count": 1719,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4903493304103322,
+      "turn_45plus_rate": 0.5722727922604013
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 41,
+    "source_file": "C04_FEATURES_1_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.8826177853959742,
+      "displacement_km": 0.5582121839615303,
+      "revisit_fraction": 0.2397484213654715,
+      "backtrack_fraction": 0.09836994268839919,
+      "turn_fraction": 0.942,
+      "endpoint_within_200m": 0.17,
+      "strategy_share": {
+        "route_following": 0.406,
+        "landmark_seeking": 0.108,
+        "direction_keeping": 0.288,
+        "random_walk": 0.096,
+        "backtracking": 0.042,
+        "staying_put": 0.06
+      },
+      "zone_entry_share": {
+        "시장": 0.124,
+        "공원": 0.032,
+        "복지관": 0.18
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.063422417101417,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23685
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20491,
+      "side_turn_count": 9976,
+      "turn_45plus_count": 11658,
+      "reverse_count": 1682,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.48684788443706994,
+      "turn_45plus_rate": 0.5689327021619247
+    }
+  },
+  {
+    "case": "C04",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 73,
+    "source_file": "C04_FEATURES_1_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.8766506555067894,
+      "displacement_km": 0.5293751965804578,
+      "revisit_fraction": 0.23427087955190085,
+      "backtrack_fraction": 0.0992626007389953,
+      "turn_fraction": 0.9399468348685517,
+      "endpoint_within_200m": 0.194,
+      "strategy_share": {
+        "route_following": 0.424,
+        "random_walk": 0.088,
+        "direction_keeping": 0.284,
+        "staying_put": 0.056,
+        "backtracking": 0.068,
+        "landmark_seeking": 0.08
+      },
+      "zone_entry_share": {
+        "시장": 0.122,
+        "공원": 0.012,
+        "복지관": 0.174
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.0410264701879806,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24033
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20419,
+      "side_turn_count": 10041,
+      "turn_45plus_count": 11685,
+      "reverse_count": 1644,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4917478818747245,
+      "turn_45plus_rate": 0.5722611293403203
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 109,
+    "source_file": "C05_CONTROL_0_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.994342109450339,
+      "displacement_km": 0.560945193319813,
+      "revisit_fraction": 0.23923688802759563,
+      "backtrack_fraction": 0.09552816748139242,
+      "turn_fraction": 0.934,
+      "endpoint_within_200m": 0.18,
+      "strategy_share": {
+        "route_following": 0.404,
+        "direction_keeping": 0.358,
+        "landmark_seeking": 0.06,
+        "staying_put": 0.052,
+        "random_walk": 0.074,
+        "backtracking": 0.052
+      },
+      "zone_entry_share": {
+        "시장": 0.144,
+        "공원": 0.028,
+        "복지관": 0.184
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.166428413070746,
+      "nonedge_transitions": 0,
+      "edge_transitions": 25587
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21898,
+      "side_turn_count": 10660,
+      "turn_45plus_count": 12308,
+      "reverse_count": 1648,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.48680244771211983,
+      "turn_45plus_rate": 0.5620604621426615
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 41,
+    "source_file": "C05_CONTROL_0_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.8524689508315793,
+      "displacement_km": 0.5526622110745074,
+      "revisit_fraction": 0.2506167480413273,
+      "backtrack_fraction": 0.1050694396155803,
+      "turn_fraction": 0.932,
+      "endpoint_within_200m": 0.178,
+      "strategy_share": {
+        "route_following": 0.41,
+        "direction_keeping": 0.326,
+        "landmark_seeking": 0.06,
+        "staying_put": 0.054,
+        "backtracking": 0.056,
+        "random_walk": 0.094
+      },
+      "zone_entry_share": {
+        "시장": 0.142,
+        "공원": 0.014,
+        "복지관": 0.164
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.020846256057503,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24956
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21174,
+      "side_turn_count": 10423,
+      "turn_45plus_count": 12231,
+      "reverse_count": 1808,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4922546519316142,
+      "turn_45plus_rate": 0.5776423916123548
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 73,
+    "source_file": "C05_CONTROL_0_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.043949378692982,
+      "displacement_km": 0.5805465711455157,
+      "revisit_fraction": 0.23926602136875705,
+      "backtrack_fraction": 0.10078250934637085,
+      "turn_fraction": 0.9299897959183674,
+      "endpoint_within_200m": 0.168,
+      "strategy_share": {
+        "route_following": 0.396,
+        "direction_keeping": 0.356,
+        "staying_put": 0.054,
+        "random_walk": 0.098,
+        "backtracking": 0.064,
+        "landmark_seeking": 0.032
+      },
+      "zone_entry_share": {
+        "시장": 0.148,
+        "공원": 0.018,
+        "복지관": 0.152
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.2303630964632544,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26342
+    },
+    "junction_metrics": {
+      "junction_opportunities": 22337,
+      "side_turn_count": 10877,
+      "turn_45plus_count": 12750,
+      "reverse_count": 1873,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.486949903747146,
+      "turn_45plus_rate": 0.57080180865828
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 109,
+    "source_file": "C05_CONTROL_1_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.7267990242838063,
+      "displacement_km": 0.5319005930250441,
+      "revisit_fraction": 0.2395452024839872,
+      "backtrack_fraction": 0.10495380435837533,
+      "turn_fraction": 0.9218666666666667,
+      "endpoint_within_200m": 0.198,
+      "strategy_share": {
+        "route_following": 0.52,
+        "direction_keeping": 0.27,
+        "landmark_seeking": 0.048,
+        "staying_put": 0.074,
+        "random_walk": 0.04,
+        "backtracking": 0.048
+      },
+      "zone_entry_share": {
+        "시장": 0.148,
+        "공원": 0.028,
+        "복지관": 0.154
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.8903667750179913,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23170
+    },
+    "junction_metrics": {
+      "junction_opportunities": 19244,
+      "side_turn_count": 9635,
+      "turn_45plus_count": 11294,
+      "reverse_count": 1659,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5006755352317606,
+      "turn_45plus_rate": 0.586884223654126
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 41,
+    "source_file": "C05_CONTROL_1_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.4740472279948436,
+      "displacement_km": 0.5464816508640663,
+      "revisit_fraction": 0.21307541436306338,
+      "backtrack_fraction": 0.09551683730804898,
+      "turn_fraction": 0.93,
+      "endpoint_within_200m": 0.192,
+      "strategy_share": {
+        "route_following": 0.482,
+        "direction_keeping": 0.31,
+        "landmark_seeking": 0.04,
+        "staying_put": 0.048,
+        "backtracking": 0.062,
+        "random_walk": 0.058
+      },
+      "zone_entry_share": {
+        "시장": 0.146,
+        "공원": 0.018,
+        "복지관": 0.154
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.6123194312975095,
+      "nonedge_transitions": 0,
+      "edge_transitions": 20958
+    },
+    "junction_metrics": {
+      "junction_opportunities": 17995,
+      "side_turn_count": 8821,
+      "turn_45plus_count": 10250,
+      "reverse_count": 1429,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4901917199222006,
+      "turn_45plus_rate": 0.5696026674076132
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 73,
+    "source_file": "C05_CONTROL_1_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.86811785934993,
+      "displacement_km": 0.5533944563419674,
+      "revisit_fraction": 0.23961623275586888,
+      "backtrack_fraction": 0.10567136814298117,
+      "turn_fraction": 0.928,
+      "endpoint_within_200m": 0.18,
+      "strategy_share": {
+        "route_following": 0.474,
+        "direction_keeping": 0.332,
+        "landmark_seeking": 0.052,
+        "random_walk": 0.054,
+        "staying_put": 0.044,
+        "backtracking": 0.044
+      },
+      "zone_entry_share": {
+        "시장": 0.138,
+        "공원": 0.03,
+        "복지관": 0.184
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.0440694644145156,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24416
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20631,
+      "side_turn_count": 10107,
+      "turn_45plus_count": 11744,
+      "reverse_count": 1637,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.48989384906209105,
+      "turn_45plus_rate": 0.56924046338035
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 109,
+    "source_file": "C05_FEATURES_0_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.7267990242838063,
+      "displacement_km": 0.5319005930250441,
+      "revisit_fraction": 0.2395452024839872,
+      "backtrack_fraction": 0.10495380435837533,
+      "turn_fraction": 0.9218666666666667,
+      "endpoint_within_200m": 0.198,
+      "strategy_share": {
+        "route_following": 0.52,
+        "direction_keeping": 0.27,
+        "landmark_seeking": 0.048,
+        "staying_put": 0.074,
+        "random_walk": 0.04,
+        "backtracking": 0.048
+      },
+      "zone_entry_share": {
+        "시장": 0.148,
+        "공원": 0.028,
+        "복지관": 0.154
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.8903667750179913,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23170
+    },
+    "junction_metrics": {
+      "junction_opportunities": 19244,
+      "side_turn_count": 9635,
+      "turn_45plus_count": 11294,
+      "reverse_count": 1659,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5006755352317606,
+      "turn_45plus_rate": 0.586884223654126
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 41,
+    "source_file": "C05_FEATURES_0_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.4740472279948436,
+      "displacement_km": 0.5464816508640663,
+      "revisit_fraction": 0.21307541436306338,
+      "backtrack_fraction": 0.09551683730804898,
+      "turn_fraction": 0.93,
+      "endpoint_within_200m": 0.192,
+      "strategy_share": {
+        "route_following": 0.482,
+        "direction_keeping": 0.31,
+        "landmark_seeking": 0.04,
+        "staying_put": 0.048,
+        "backtracking": 0.062,
+        "random_walk": 0.058
+      },
+      "zone_entry_share": {
+        "시장": 0.146,
+        "공원": 0.018,
+        "복지관": 0.154
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 2.6123194312975095,
+      "nonedge_transitions": 0,
+      "edge_transitions": 20958
+    },
+    "junction_metrics": {
+      "junction_opportunities": 17995,
+      "side_turn_count": 8821,
+      "turn_45plus_count": 10250,
+      "reverse_count": 1429,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4901917199222006,
+      "turn_45plus_rate": 0.5696026674076132
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 73,
+    "source_file": "C05_FEATURES_0_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.86811785934993,
+      "displacement_km": 0.5533944563419674,
+      "revisit_fraction": 0.23961623275586888,
+      "backtrack_fraction": 0.10567136814298117,
+      "turn_fraction": 0.928,
+      "endpoint_within_200m": 0.18,
+      "strategy_share": {
+        "route_following": 0.474,
+        "direction_keeping": 0.332,
+        "landmark_seeking": 0.052,
+        "random_walk": 0.054,
+        "staying_put": 0.044,
+        "backtracking": 0.044
+      },
+      "zone_entry_share": {
+        "시장": 0.138,
+        "공원": 0.03,
+        "복지관": 0.184
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.0440694644145156,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24416
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20631,
+      "side_turn_count": 10107,
+      "turn_45plus_count": 11744,
+      "reverse_count": 1637,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.48989384906209105,
+      "turn_45plus_rate": 0.56924046338035
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 109,
+    "source_file": "C05_FEATURES_1_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.8852026110968976,
+      "displacement_km": 0.5784110945526979,
+      "revisit_fraction": 0.23817336741160916,
+      "backtrack_fraction": 0.1000189182251037,
+      "turn_fraction": 0.938,
+      "endpoint_within_200m": 0.142,
+      "strategy_share": {
+        "route_following": 0.492,
+        "direction_keeping": 0.304,
+        "staying_put": 0.048,
+        "backtracking": 0.038,
+        "random_walk": 0.1,
+        "landmark_seeking": 0.018
+      },
+      "zone_entry_share": {
+        "시장": 0.156,
+        "공원": 0.016,
+        "복지관": 0.16
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.069476459773024,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24030
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20648,
+      "side_turn_count": 10190,
+      "turn_45plus_count": 11973,
+      "reverse_count": 1783,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.493510267338241,
+      "turn_45plus_rate": 0.5798624564122433
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 41,
+    "source_file": "C05_FEATURES_1_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.970828496630273,
+      "displacement_km": 0.5697219572120742,
+      "revisit_fraction": 0.25569308774656757,
+      "backtrack_fraction": 0.10583893290800017,
+      "turn_fraction": 0.9259858156028369,
+      "endpoint_within_200m": 0.166,
+      "strategy_share": {
+        "route_following": 0.48,
+        "direction_keeping": 0.276,
+        "staying_put": 0.058,
+        "random_walk": 0.108,
+        "backtracking": 0.054,
+        "landmark_seeking": 0.024
+      },
+      "zone_entry_share": {
+        "시장": 0.14,
+        "공원": 0.026,
+        "복지관": 0.168
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.169665828417084,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24974
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21111,
+      "side_turn_count": 10545,
+      "turn_45plus_count": 12505,
+      "reverse_count": 1960,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.49950262896120506,
+      "turn_45plus_rate": 0.592345222869594
+    }
+  },
+  {
+    "case": "C05",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 73,
+    "source_file": "C05_FEATURES_1_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.2493768323029517,
+      "displacement_km": 0.593287696830036,
+      "revisit_fraction": 0.2642972469419214,
+      "backtrack_fraction": 0.11453269405230808,
+      "turn_fraction": 0.9517975848188615,
+      "endpoint_within_200m": 0.158,
+      "strategy_share": {
+        "route_following": 0.48,
+        "direction_keeping": 0.32,
+        "landmark_seeking": 0.01,
+        "random_walk": 0.112,
+        "backtracking": 0.04,
+        "staying_put": 0.038
+      },
+      "zone_entry_share": {
+        "시장": 0.18,
+        "공원": 0.026,
+        "복지관": 0.166
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.4455274203940838,
+      "nonedge_transitions": 0,
+      "edge_transitions": 28190
+    },
+    "junction_metrics": {
+      "junction_opportunities": 23783,
+      "side_turn_count": 11769,
+      "turn_45plus_count": 13832,
+      "reverse_count": 2063,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4948492620779548,
+      "turn_45plus_rate": 0.5815918933692134
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 109,
+    "source_file": "C06_CONTROL_0_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.2799671965472657,
+      "displacement_km": 0.6047070224666288,
+      "revisit_fraction": 0.24919114831798642,
+      "backtrack_fraction": 0.09263821010846754,
+      "turn_fraction": 0.9378787066510303,
+      "endpoint_within_200m": 0.154,
+      "strategy_share": {
+        "direction_keeping": 0.292,
+        "landmark_seeking": 0.134,
+        "route_following": 0.186,
+        "random_walk": 0.26,
+        "backtracking": 0.064,
+        "staying_put": 0.064
+      },
+      "zone_entry_share": {
+        "시장": 0.07,
+        "공원": 0.014,
+        "복지관": 0.154
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.4942405022672482,
+      "nonedge_transitions": 0,
+      "edge_transitions": 27188
+    },
+    "junction_metrics": {
+      "junction_opportunities": 23905,
+      "side_turn_count": 11583,
+      "turn_45plus_count": 13618,
+      "reverse_count": 2035,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.48454298263961515,
+      "turn_45plus_rate": 0.5696716168165655
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 41,
+    "source_file": "C06_CONTROL_0_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.2272589830643335,
+      "displacement_km": 0.6167107452655124,
+      "revisit_fraction": 0.25250748411958857,
+      "backtrack_fraction": 0.09581203039142633,
+      "turn_fraction": 0.946,
+      "endpoint_within_200m": 0.162,
+      "strategy_share": {
+        "direction_keeping": 0.338,
+        "staying_put": 0.048,
+        "route_following": 0.228,
+        "landmark_seeking": 0.106,
+        "random_walk": 0.218,
+        "backtracking": 0.062
+      },
+      "zone_entry_share": {
+        "시장": 0.096,
+        "공원": 0.018,
+        "복지관": 0.164
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.441480733189982,
+      "nonedge_transitions": 0,
+      "edge_transitions": 27368
+    },
+    "junction_metrics": {
+      "junction_opportunities": 23396,
+      "side_turn_count": 11438,
+      "turn_45plus_count": 13441,
+      "reverse_count": 2003,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.48888698922892804,
+      "turn_45plus_rate": 0.5744999145153018
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "seed": 73,
+    "source_file": "C06_CONTROL_0_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.167692090288594,
+      "displacement_km": 0.6001644388267522,
+      "revisit_fraction": 0.24256622382455942,
+      "backtrack_fraction": 0.09358794701111732,
+      "turn_fraction": 0.937987012987013,
+      "endpoint_within_200m": 0.172,
+      "strategy_share": {
+        "direction_keeping": 0.354,
+        "random_walk": 0.24,
+        "route_following": 0.19,
+        "landmark_seeking": 0.116,
+        "backtracking": 0.052,
+        "staying_put": 0.048
+      },
+      "zone_entry_share": {
+        "시장": 0.094,
+        "공원": 0.032,
+        "복지관": 0.162
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.376266918909668,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26795
+    },
+    "junction_metrics": {
+      "junction_opportunities": 23732,
+      "side_turn_count": 11401,
+      "turn_45plus_count": 13295,
+      "reverse_count": 1895,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4804062025956514,
+      "turn_45plus_rate": 0.5602140569694927
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 109,
+    "source_file": "C06_CONTROL_1_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.959615787828818,
+      "displacement_km": 0.5920213695907578,
+      "revisit_fraction": 0.23452849916742446,
+      "backtrack_fraction": 0.09711946629260423,
+      "turn_fraction": 0.9399146697837522,
+      "endpoint_within_200m": 0.168,
+      "strategy_share": {
+        "direction_keeping": 0.284,
+        "landmark_seeking": 0.202,
+        "route_following": 0.298,
+        "random_walk": 0.13,
+        "staying_put": 0.05,
+        "backtracking": 0.036
+      },
+      "zone_entry_share": {
+        "시장": 0.106,
+        "공원": 0.018,
+        "복지관": 0.174
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.138205326285442,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23390
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20162,
+      "side_turn_count": 10000,
+      "turn_45plus_count": 11773,
+      "reverse_count": 1773,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.49598254141454223,
+      "turn_45plus_rate": 0.5839202460073405
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 41,
+    "source_file": "C06_CONTROL_1_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.098778348749323,
+      "displacement_km": 0.625038529716295,
+      "revisit_fraction": 0.24128847839870587,
+      "backtrack_fraction": 0.10007154672385343,
+      "turn_fraction": 0.9339751037344398,
+      "endpoint_within_200m": 0.182,
+      "strategy_share": {
+        "direction_keeping": 0.316,
+        "landmark_seeking": 0.2,
+        "random_walk": 0.164,
+        "route_following": 0.236,
+        "backtracking": 0.032,
+        "staying_put": 0.052
+      },
+      "zone_entry_share": {
+        "시장": 0.104,
+        "공원": 0.018,
+        "복지관": 0.16
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.296923973481339,
+      "nonedge_transitions": 0,
+      "edge_transitions": 24702
+    },
+    "junction_metrics": {
+      "junction_opportunities": 21501,
+      "side_turn_count": 10499,
+      "turn_45plus_count": 12246,
+      "reverse_count": 1747,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4883028696339705,
+      "turn_45plus_rate": 0.5695549044230501
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "seed": 73,
+    "source_file": "C06_CONTROL_1_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 2.9663329149616002,
+      "displacement_km": 0.621978256832428,
+      "revisit_fraction": 0.2174731797935644,
+      "backtrack_fraction": 0.08861914298254235,
+      "turn_fraction": 0.9139093968614104,
+      "endpoint_within_200m": 0.204,
+      "strategy_share": {
+        "direction_keeping": 0.32,
+        "backtracking": 0.046,
+        "random_walk": 0.146,
+        "landmark_seeking": 0.184,
+        "staying_put": 0.072,
+        "route_following": 0.232
+      },
+      "zone_entry_share": {
+        "시장": 0.088,
+        "공원": 0.03,
+        "복지관": 0.154
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.1528421084620937,
+      "nonedge_transitions": 0,
+      "edge_transitions": 23523
+    },
+    "junction_metrics": {
+      "junction_opportunities": 20080,
+      "side_turn_count": 9617,
+      "turn_45plus_count": 11251,
+      "reverse_count": 1635,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4789342629482072,
+      "turn_45plus_rate": 0.5603087649402391
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 109,
+    "source_file": "C06_FEATURES_0_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.3518208359422053,
+      "displacement_km": 0.6302532526243299,
+      "revisit_fraction": 0.2653306628050173,
+      "backtrack_fraction": 0.10926439240695665,
+      "turn_fraction": 0.9539607843137256,
+      "endpoint_within_200m": 0.148,
+      "strategy_share": {
+        "direction_keeping": 0.29,
+        "landmark_seeking": 0.178,
+        "route_following": 0.174,
+        "random_walk": 0.264,
+        "backtracking": 0.048,
+        "staying_put": 0.046
+      },
+      "zone_entry_share": {
+        "시장": 0.124,
+        "공원": 0.018,
+        "복지관": 0.138
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.577520119954231,
+      "nonedge_transitions": 0,
+      "edge_transitions": 28463
+    },
+    "junction_metrics": {
+      "junction_opportunities": 24364,
+      "side_turn_count": 12209,
+      "turn_45plus_count": 14628,
+      "reverse_count": 2419,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5011081924150386,
+      "turn_45plus_rate": 0.6003940239697915
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 41,
+    "source_file": "C06_FEATURES_0_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.043653673688485,
+      "displacement_km": 0.5592603808159341,
+      "revisit_fraction": 0.2540040901795863,
+      "backtrack_fraction": 0.10451625953313472,
+      "turn_fraction": 0.932,
+      "endpoint_within_200m": 0.18,
+      "strategy_share": {
+        "direction_keeping": 0.282,
+        "landmark_seeking": 0.17,
+        "random_walk": 0.238,
+        "route_following": 0.22,
+        "backtracking": 0.05,
+        "staying_put": 0.04
+      },
+      "zone_entry_share": {
+        "시장": 0.106,
+        "공원": 0.02,
+        "복지관": 0.152
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.237693363498189,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26193
+    },
+    "junction_metrics": {
+      "junction_opportunities": 22289,
+      "side_turn_count": 11140,
+      "turn_45plus_count": 13263,
+      "reverse_count": 2123,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.49979810668939834,
+      "turn_45plus_rate": 0.5950468841132397
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "seed": 73,
+    "source_file": "C06_FEATURES_0_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.23610684833824,
+      "displacement_km": 0.597978656050815,
+      "revisit_fraction": 0.25644017128428664,
+      "backtrack_fraction": 0.1005530196102486,
+      "turn_fraction": 0.9299528693160396,
+      "endpoint_within_200m": 0.206,
+      "strategy_share": {
+        "direction_keeping": 0.3,
+        "random_walk": 0.262,
+        "backtracking": 0.048,
+        "landmark_seeking": 0.134,
+        "route_following": 0.202,
+        "staying_put": 0.054
+      },
+      "zone_entry_share": {
+        "시장": 0.094,
+        "공원": 0.022,
+        "복지관": 0.146
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.4488381416282627,
+      "nonedge_transitions": 0,
+      "edge_transitions": 26923
+    },
+    "junction_metrics": {
+      "junction_opportunities": 23269,
+      "side_turn_count": 11514,
+      "turn_45plus_count": 13587,
+      "reverse_count": 2073,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.4948214362456487,
+      "turn_45plus_rate": 0.5839099230736172
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 109,
+    "source_file": "C06_FEATURES_1_109.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.441166583268689,
+      "displacement_km": 0.5922974736355006,
+      "revisit_fraction": 0.29119767559503207,
+      "backtrack_fraction": 0.12039412881449407,
+      "turn_fraction": 0.964,
+      "endpoint_within_200m": 0.142,
+      "strategy_share": {
+        "direction_keeping": 0.142,
+        "random_walk": 0.356,
+        "route_following": 0.296,
+        "staying_put": 0.03,
+        "landmark_seeking": 0.136,
+        "backtracking": 0.04
+      },
+      "zone_entry_share": {
+        "시장": 0.134,
+        "공원": 0.022,
+        "복지관": 0.162
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.661833165392913,
+      "nonedge_transitions": 0,
+      "edge_transitions": 28660
+    },
+    "junction_metrics": {
+      "junction_opportunities": 25084,
+      "side_turn_count": 12780,
+      "turn_45plus_count": 15586,
+      "reverse_count": 2806,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5094881199170787,
+      "turn_45plus_rate": 0.6213522564184341
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 41,
+    "source_file": "C06_FEATURES_1_41.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.193236863827378,
+      "displacement_km": 0.5413094171797437,
+      "revisit_fraction": 0.276908318764854,
+      "backtrack_fraction": 0.10973408179755648,
+      "turn_fraction": 0.936,
+      "endpoint_within_200m": 0.192,
+      "strategy_share": {
+        "direction_keeping": 0.142,
+        "random_walk": 0.378,
+        "landmark_seeking": 0.132,
+        "backtracking": 0.054,
+        "route_following": 0.228,
+        "staying_put": 0.066
+      },
+      "zone_entry_share": {
+        "시장": 0.116,
+        "공원": 0.014,
+        "복지관": 0.134
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.3934183440977694,
+      "nonedge_transitions": 0,
+      "edge_transitions": 27190
+    },
+    "junction_metrics": {
+      "junction_opportunities": 23631,
+      "side_turn_count": 12351,
+      "turn_45plus_count": 15016,
+      "reverse_count": 2665,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.522660911514536,
+      "turn_45plus_rate": 0.6354365028987348
+    }
+  },
+  {
+    "case": "C06",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "seed": 73,
+    "source_file": "C06_FEATURES_1_73.json",
+    "metrics": {
+      "walkers": 500,
+      "path_km": 3.2129381878348093,
+      "displacement_km": 0.5417000840393824,
+      "revisit_fraction": 0.28431032187416855,
+      "backtrack_fraction": 0.11885559427539706,
+      "turn_fraction": 0.934,
+      "endpoint_within_200m": 0.194,
+      "strategy_share": {
+        "direction_keeping": 0.184,
+        "random_walk": 0.35,
+        "backtracking": 0.032,
+        "landmark_seeking": 0.128,
+        "route_following": 0.236,
+        "staying_put": 0.07
+      },
+      "zone_entry_share": {
+        "시장": 0.142,
+        "공원": 0.01,
+        "복지관": 0.14
+      },
+      "limits": "zone entry is not goal selection; near-origin endpoint is not measured rest; step paths have no pause-duration truth",
+      "road_path_km": 3.4199841189159605,
+      "nonedge_transitions": 0,
+      "edge_transitions": 28159
+    },
+    "junction_metrics": {
+      "junction_opportunities": 23920,
+      "side_turn_count": 12391,
+      "turn_45plus_count": 15060,
+      "reverse_count": 2669,
+      "undefined_tangents": 0,
+      "side_turn_rate": 0.5180183946488295,
+      "turn_45plus_rate": 0.6295986622073578
+    }
+  }
+]

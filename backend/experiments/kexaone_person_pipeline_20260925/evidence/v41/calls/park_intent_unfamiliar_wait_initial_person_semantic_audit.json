@@ -1,0 +1,14 @@
+{
+  "content": "{\"goals\":{\"시장\":{\"value\":\"unknown\",\"note_ids\":[]},\"공원\":{\"value\":\"current_statement\",\"note_ids\":[\"N0\"]},\"복지관\":{\"value\":\"unknown\",\"note_ids\":[]}},\"routes\":{\"시장\":{\"value\":\"unknown\",\"note_ids\":[\"N1\"]},\"공원\":{\"value\":\"new_route\",\"note_ids\":[\"N1\"]},\"복지관\":{\"value\":\"unknown\",\"note_ids\":[\"N1\"]}},\"persistence\":{\"value\":\"wait_for_help\",\"note_ids\":[\"N2\"]},\"direction\":{\"value\":\"unknown\",\"note_ids\":[\"N2\"]},\"mobility\":{\"value\":\"C\",\"note_ids\":[\"N3\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]}}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 10281,
+    "prompt_tokens": 3118,
+    "prompt_tokens_details": {
+      "cached_tokens": 2144
+    },
+    "total_tokens": 13399
+  },
+  "model": "depmkuykpfon9lg",
+  "note": "Provider response content preserved. Request, RAG full text, reasoning channel and credentials excluded."
+}

@@ -1,0 +1,33 @@
+{
+  "experiment": "KEXAONE_behavior_owner_v46_20260925",
+  "authorization": "Continue alternative methods until deployable, 4-call scope announced",
+  "max_K_calls": 4,
+  "max_SAR_calls": 0,
+  "max_embedding_calls": 0,
+  "automatic_retries": false,
+  "change": "pre-onboarding core owns goal/route/mobility/emotion; context owns baseline + conditional persistence/direction; no duplicate unconditional directional draft",
+  "case_scope": "v45 profile reused for regression; new unconditional context probe; not independent validation cohort",
+  "pass": {
+    "main_core_owned": {
+      "goal": "복지관 current_statement",
+      "route": [
+        "repeated_independent",
+        "routine_independent"
+      ],
+      "mobility": "C"
+    },
+    "main_day": "keep_moving + retrace",
+    "main_night": "wait_for_help + unknown direction",
+    "market": "avoid only AND(crowded present, noisy present)",
+    "probe": "both clock periods wait_for_help + retrace, either unconditional or equivalent two rules"
+  },
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null,
+  "hashes": {
+    "probe.json": "2e9bd5568ae4b716de3530ee4f300e028dc0ea124c1aef99a45fced41ec0b6a5",
+    "new_profile.json": "570894758441568a508875ec15d76df1f637b93b520eaac4301bcb7287ed8ca4",
+    "person_evidence.py": "d9afb9abb3a31a49ab828ef1b5a8484eae573f189fa1051e12fd8bb019b54017",
+    "person_scope.py": "1421e920cb22c8235cad4ab9d5262375d16c032567dab13919d476d7d0283c8e"
+  }
+}

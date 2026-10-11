@@ -1,0 +1,673 @@
+[
+  {
+    "file": "calls/E1_r1_C_5.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 944,
+      "completion_tokens": 9,
+      "total_tokens": 953
+    }
+  },
+  {
+    "file": "calls/E1_r2_A_6.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 941,
+      "completion_tokens": 9,
+      "total_tokens": 950
+    }
+  },
+  {
+    "file": "calls/E1_r2_A_7.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 940,
+      "completion_tokens": 9,
+      "total_tokens": 949
+    }
+  },
+  {
+    "file": "calls/E1_r2_A_8.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 942,
+      "completion_tokens": 9,
+      "total_tokens": 951
+    }
+  },
+  {
+    "file": "calls/E2_r1_A_9.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 951,
+      "completion_tokens": 9,
+      "total_tokens": 960
+    }
+  },
+  {
+    "file": "calls/E2_r1_C_10.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 792,
+      "completion_tokens": 9,
+      "total_tokens": 801
+    }
+  },
+  {
+    "file": "calls/E2_r1_C_11.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 822,
+      "completion_tokens": 9,
+      "total_tokens": 831
+    }
+  },
+  {
+    "file": "calls/E2_r1_C_12.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 818,
+      "completion_tokens": 9,
+      "total_tokens": 827
+    }
+  },
+  {
+    "file": "calls/E2_r2_A_13.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 951,
+      "completion_tokens": 9,
+      "total_tokens": 960
+    }
+  },
+  {
+    "file": "calls/E2_r2_C_14.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 951,
+      "completion_tokens": 9,
+      "total_tokens": 960
+    }
+  },
+  {
+    "file": "calls/G1_r1_A_15.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 946,
+      "completion_tokens": 9,
+      "total_tokens": 955
+    }
+  },
+  {
+    "file": "calls/G1_r1_A_16.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 837,
+      "completion_tokens": 9,
+      "total_tokens": 846
+    }
+  },
+  {
+    "file": "calls/G1_r1_A_17.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G1_r1_A_18.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G1_r1_A_19.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 797,
+      "completion_tokens": 9,
+      "total_tokens": 806
+    }
+  },
+  {
+    "file": "calls/G1_r1_A_20.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 796,
+      "completion_tokens": 9,
+      "total_tokens": 805
+    }
+  },
+  {
+    "file": "calls/G1_r1_C_21.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 946,
+      "completion_tokens": 9,
+      "total_tokens": 955
+    }
+  },
+  {
+    "file": "calls/G1_r1_C_22.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 837,
+      "completion_tokens": 9,
+      "total_tokens": 846
+    }
+  },
+  {
+    "file": "calls/G1_r1_C_23.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G1_r1_C_24.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G1_r2_A_25.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 946,
+      "completion_tokens": 9,
+      "total_tokens": 955
+    }
+  },
+  {
+    "file": "calls/G1_r2_A_26.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 837,
+      "completion_tokens": 9,
+      "total_tokens": 846
+    }
+  },
+  {
+    "file": "calls/G1_r2_A_27.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G1_r2_A_28.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 796,
+      "completion_tokens": 9,
+      "total_tokens": 805
+    }
+  },
+  {
+    "file": "calls/G1_r2_A_29.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G1_r2_C_30.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 946,
+      "completion_tokens": 9,
+      "total_tokens": 955
+    }
+  },
+  {
+    "file": "calls/G1_r2_C_31.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G1_r2_C_32.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G2_r1_A_33.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 854,
+      "completion_tokens": 9,
+      "total_tokens": 863
+    }
+  },
+  {
+    "file": "calls/G2_r1_A_34.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 799,
+      "completion_tokens": 9,
+      "total_tokens": 808
+    }
+  },
+  {
+    "file": "calls/G2_r1_A_35.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G2_r1_C_36.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 854,
+      "completion_tokens": 9,
+      "total_tokens": 863
+    }
+  },
+  {
+    "file": "calls/G2_r1_C_37.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 854,
+      "completion_tokens": 9,
+      "total_tokens": 863
+    }
+  },
+  {
+    "file": "calls/G2_r2_A_38.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 854,
+      "completion_tokens": 9,
+      "total_tokens": 863
+    }
+  },
+  {
+    "file": "calls/G2_r2_A_39.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G2_r2_C_40.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 793,
+      "completion_tokens": 9,
+      "total_tokens": 802
+    }
+  },
+  {
+    "file": "calls/G2_r2_C_41.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 854,
+      "completion_tokens": 9,
+      "total_tokens": 863
+    }
+  },
+  {
+    "file": "calls/W1_r1_A_42.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 801,
+      "completion_tokens": 9,
+      "total_tokens": 810
+    }
+  },
+  {
+    "file": "calls/W1_r1_A_43.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 792,
+      "completion_tokens": 9,
+      "total_tokens": 801
+    }
+  },
+  {
+    "file": "calls/W1_r1_A_44.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 820,
+      "completion_tokens": 9,
+      "total_tokens": 829
+    }
+  },
+  {
+    "file": "calls/W1_r1_C_45.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 792,
+      "completion_tokens": 9,
+      "total_tokens": 801
+    }
+  },
+  {
+    "file": "calls/W1_r1_C_46.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 801,
+      "completion_tokens": 9,
+      "total_tokens": 810
+    }
+  },
+  {
+    "file": "calls/W1_r1_C_47.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 819,
+      "completion_tokens": 9,
+      "total_tokens": 828
+    }
+  },
+  {
+    "file": "calls/W1_r1_C_48.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 820,
+      "completion_tokens": 9,
+      "total_tokens": 829
+    }
+  },
+  {
+    "file": "calls/W1_r2_A_49.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 792,
+      "completion_tokens": 9,
+      "total_tokens": 801
+    }
+  },
+  {
+    "file": "calls/W1_r2_A_50.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 863,
+      "completion_tokens": 9,
+      "total_tokens": 872
+    }
+  },
+  {
+    "file": "calls/W1_r2_A_51.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 820,
+      "completion_tokens": 9,
+      "total_tokens": 829
+    }
+  },
+  {
+    "file": "calls/W1_r2_C_52.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 801,
+      "completion_tokens": 9,
+      "total_tokens": 810
+    }
+  },
+  {
+    "file": "calls/W1_r2_C_53.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 820,
+      "completion_tokens": 9,
+      "total_tokens": 829
+    }
+  },
+  {
+    "file": "calls/W2_r1_A_54.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 792,
+      "completion_tokens": 9,
+      "total_tokens": 801
+    }
+  },
+  {
+    "file": "calls/W2_r1_A_55.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 801,
+      "completion_tokens": 9,
+      "total_tokens": 810
+    }
+  },
+  {
+    "file": "calls/W2_r1_A_56.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 805,
+      "completion_tokens": 9,
+      "total_tokens": 814
+    }
+  },
+  {
+    "file": "calls/W2_r1_C_57.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 792,
+      "completion_tokens": 9,
+      "total_tokens": 801
+    }
+  },
+  {
+    "file": "calls/W2_r1_C_58.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 861,
+      "completion_tokens": 9,
+      "total_tokens": 870
+    }
+  },
+  {
+    "file": "calls/W2_r2_A_59.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 812,
+      "completion_tokens": 9,
+      "total_tokens": 821
+    }
+  },
+  {
+    "file": "calls/W2_r2_A_60.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 805,
+      "completion_tokens": 9,
+      "total_tokens": 814
+    }
+  },
+  {
+    "file": "calls/W2_r2_C_61.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 861,
+      "completion_tokens": 9,
+      "total_tokens": 870
+    }
+  },
+  {
+    "file": "calls/negative_job_only_3.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 801,
+      "completion_tokens": 9,
+      "total_tokens": 810
+    }
+  },
+  {
+    "file": "calls/negative_wait_only_1.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 796,
+      "completion_tokens": 9,
+      "total_tokens": 805
+    }
+  },
+  {
+    "file": "calls/positive_past_route_4.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 801,
+      "completion_tokens": 9,
+      "total_tokens": 810
+    }
+  },
+  {
+    "file": "calls/positive_request_2.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 792,
+      "completion_tokens": 9,
+      "total_tokens": 801
+    }
+  }
+]

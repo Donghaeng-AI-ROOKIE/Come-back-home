@@ -1,0 +1,1402 @@
+{
+  "reviewer": "Codex unblinded final-response review, not independent human or clinical review",
+  "counts": {
+    "pass": 27,
+    "fail": 12,
+    "wording_review": 1
+  },
+  "rows": [
+    {
+      "id": "PC041_P0_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "correction",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "앞서 전달한 설명: 공원에서 소음이 들리는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        },
+        {
+          "id": "N2",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 앞선 N1은 현재 반응을 잘못 설명한 것이어서 정정합니다. 공원에서 소음이 들리는 상황에는 공원에서 멀어지는 쪽으로 돌아간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "avoid_park",
+        "reason": "공원에서 소음이 들리는 상황 확인; 본인이 불안하다고 말하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 공원에서 멀어지는 쪽으로 돌아간다.",
+        "source_ids": [
+          "N2"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "avoid_park",
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "공원 소음 상황에서 공원에서 멀어지는 쪽으로 이동하므로 avoid_park 명령을 선택함."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC041_P1_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "correction",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "앞서 전달한 설명: 공원에서 소음이 들리는 상황에는 공원에서 멀어지는 쪽으로 돌아간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        },
+        {
+          "id": "N2",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 앞선 N1은 현재 반응을 잘못 설명한 것이어서 정정합니다. 공원에서 소음이 들리는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "continue",
+        "reason": "공원에서 소음이 들리는 상황 확인; 본인이 불안하다고 말하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 원래 가던 길과 목표를 유지한다.",
+        "source_ids": [
+          "N2"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "공원에서 소음이 들리는 상황(현재 관측)에 따라 원래 가던 길과 목표를 유지해야 하므로 계속 진행한다."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC041_P0_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "correction",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "앞서 전달한 설명: 공원에서 소음이 들리는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        },
+        {
+          "id": "N2",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 앞선 N1은 현재 반응을 잘못 설명한 것이어서 정정합니다. 공원에서 소음이 들리는 상황에는 공원에서 멀어지는 쪽으로 돌아간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "공원에서 소음이 들리는 상황 미확인; 본인이 불안하다고 말하는 상황 아님이 확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N2"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "공원 소음 상황이 확인되지 않아 원래 경로와 목표(등록 장소 A)를 유지합니다."
+      },
+      "command_match": false,
+      "source_match": true,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "관측 상태 반전 또는 행동·설명 불일치/형식 실패. 원응답 보존, 사후 보정 없음."
+    },
+    {
+      "id": "PC041_P1_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "correction",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "앞서 전달한 설명: 공원에서 소음이 들리는 상황에는 공원에서 멀어지는 쪽으로 돌아간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        },
+        {
+          "id": "N2",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 앞선 N1은 현재 반응을 잘못 설명한 것이어서 정정합니다. 공원에서 소음이 들리는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "continue",
+        "reason": "공원에서 소음이 들리는 상황 미확인; 본인이 불안하다고 말하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 원래 가던 길과 목표를 유지한다.",
+        "source_ids": [
+          "N2"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "공원 소음 유무와 관계없이 원래 이동하던 길과 목표를 유지하는 본인의 반응(N2)에 따라, 현재 등록 장소 A를 향한 이동을 계속함"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC042_P0_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "latest_observation",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 시장에서 소음이 들리는 상황에는 시장에서 멀어지는 쪽으로 돌아간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 많이 지쳤다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "avoid_market",
+        "reason": "시장에서 소음이 들리는 상황 확인; 본인이 많이 지쳤다고 말하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 시장에서 멀어지는 쪽으로 돌아간다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "avoid_market",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "시장 소음 감지로 시장에서 멀어지는 이동 선택 (N1)"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC042_P1_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "latest_observation",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 시장에서 소음이 들리는 상황에는 그 자리에 서서 기다린다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 많이 지쳤다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "stay",
+        "reason": "시장에서 소음이 들리는 상황 확인; 본인이 많이 지쳤다고 말하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 그 자리에 서서 기다린다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "stay",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "시장 소음이 감지되었으므로 원문 N1에 따라 제자리에서 기다리기 명령을 선택합니다."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC042_P0_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "latest_observation",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 시장에서 소음이 들리는 상황에는 시장에서 멀어지는 쪽으로 돌아간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 많이 지쳤다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "시장에서 소음이 들리는 상황 미확인; 본인이 많이 지쳤다고 말하는 상황 아님이 확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "시장 소음 상태 미확인으로 인해 시장 소음 상황에서의 반응 여부가 결정되지 않아 판단 유보"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC042_P1_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "latest_observation",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 시장에서 소음이 들리는 상황에는 그 자리에 서서 기다린다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 많이 지쳤다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "시장에서 소음이 들리는 상황 미확인; 본인이 많이 지쳤다고 말하는 상황 아님이 확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "시장 소음 여부는 미확인이나, 해당 상황인지 여부에 따라 대기 또는 계속 행동이 달라져 결정 유보 필요"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC043_P0_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "single",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 숲길에서 소음이 들리는 상황에는 숲길에서 멀어지는 쪽으로 돌아간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 시장에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "avoid_forest",
+        "reason": "숲길에서 소음이 들리는 상황 확인; 시장에서 사람이 붐비는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 숲길에서 멀어지는 쪽으로 돌아간다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "avoid_forest",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "현재 숲길에서 소음이 확인되어 N1에 따라 숲길에서 멀어지는 방향으로 이동해야 함"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC043_P1_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "single",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 숲길에서 소음이 들리는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 시장에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "continue",
+        "reason": "숲길에서 소음이 들리는 상황 확인; 시장에서 사람이 붐비는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 원래 가던 길과 목표를 유지한다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "숲길 소음(참) 시 원래 길과 목표(등록 장소 A) 유지하는 행동 반응에 따라 현재 seek 상태 유지 결정"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC043_P0_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "single",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 숲길에서 소음이 들리는 상황에는 숲길에서 멀어지는 쪽으로 돌아간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 시장에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "숲길에서 소음이 들리는 상황 미확인; 시장에서 사람이 붐비는 상황 아님이 확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "숲길 소음 상태 미확인으로 조건 충족 여부 판단 불가하여 유보"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC043_P1_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "single",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 숲길에서 소음이 들리는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 시장에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "continue",
+        "reason": "숲길에서 소음이 들리는 상황 미확인; 시장에서 사람이 붐비는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 원래 가던 길과 목표를 유지한다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "증거 N1에 따라 숲길 소음 상황 여부와 무관하게 원래 경로와 목표를 유지하므로, 현재 등록 장소 A로의 이동을 계속합니다."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC044_P0_S4_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "and",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 물가에서 소음이 들리는 상황, 그리고 낯선 사람이 다가오는 상황이 모두 해당할 때만 물가에서 멀어지는 쪽으로 돌아간다. 둘 중 하나라도 아니면 원래 하던 이동과 목표를 유지한다."
+        }
+      ],
+      "observations": [
+        true,
+        true
+      ],
+      "expected": {
+        "next_command_id": "avoid_water",
+        "reason": "물가에서 소음이 들리는 상황 확인; 낯선 사람이 다가오는 상황 확인. 현재 조건에서 원문의 개인 반응은 물가에서 멀어지는 쪽으로 돌아간다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "물과 소음, 낯선 사람 접근이 모두 확인되어 물가에서 멀어지는 행동을 수행하나 목표 등록 장소 A를 유지하므로 현재 이동을 계속함"
+      },
+      "command_match": false,
+      "source_match": true,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "관측 상태 반전 또는 행동·설명 불일치/형식 실패. 원응답 보존, 사후 보정 없음."
+    },
+    {
+      "id": "PC044_P1_S4_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "and",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 물가에서 소음이 들리는 상황, 그리고 낯선 사람이 다가오는 상황이 모두 해당할 때만 그 자리에 서서 기다린다. 둘 중 하나라도 아니면 원래 하던 이동과 목표를 유지한다."
+        }
+      ],
+      "observations": [
+        true,
+        true
+      ],
+      "expected": {
+        "next_command_id": "stay",
+        "reason": "물가에서 소음이 들리는 상황 확인; 낯선 사람이 다가오는 상황 확인. 현재 조건에서 원문의 개인 반응은 그 자리에 서서 기다린다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "물가 소음과 낯선 사람 접근이 모두 확인되어 해당 조건이 충족되어 멈춰야 하므로 continue로 판단했으나, 원문 조건에 따라 둘 다 참일 때 멈추므로 continue 명령이 적절함."
+      },
+      "command_match": false,
+      "source_match": true,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "관측 상태 반전 또는 행동·설명 불일치/형식 실패. 원응답 보존, 사후 보정 없음."
+    },
+    {
+      "id": "PC044_P0_S5_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "and",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 물가에서 소음이 들리는 상황, 그리고 낯선 사람이 다가오는 상황이 모두 해당할 때만 물가에서 멀어지는 쪽으로 돌아간다. 둘 중 하나라도 아니면 원래 하던 이동과 목표를 유지한다."
+        }
+      ],
+      "observations": [
+        true,
+        null
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "물가에서 소음이 들리는 상황 확인; 낯선 사람이 다가오는 상황 미확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "물가 소음은 확인되었으나 낯선 사람 접근 여부는 미확인되어, 원문 조건(둘 다 해당 시에만 물가에서 멀어짐)이 충족되지 않으므로 등록 장소 A로의 기존 이동을 유지함"
+      },
+      "command_match": false,
+      "source_match": true,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "관측 상태 반전 또는 행동·설명 불일치/형식 실패. 원응답 보존, 사후 보정 없음."
+    },
+    {
+      "id": "PC044_P1_S5_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "and",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 물가에서 소음이 들리는 상황, 그리고 낯선 사람이 다가오는 상황이 모두 해당할 때만 그 자리에 서서 기다린다. 둘 중 하나라도 아니면 원래 하던 이동과 목표를 유지한다."
+        }
+      ],
+      "observations": [
+        true,
+        null
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "물가에서 소음이 들리는 상황 확인; 낯선 사람이 다가오는 상황 미확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "물가 소음은 확인되었으나 낯선 사람이 다가오는 상황은 미확인이므로 원래 이동합니다."
+      },
+      "command_match": false,
+      "source_match": true,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "관측 상태 반전 또는 행동·설명 불일치/형식 실패. 원응답 보존, 사후 보정 없음."
+    },
+    {
+      "id": "PC045_P0_S1_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "or",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 많이 지쳤다고 말하는 상황, 또는 공원에서 소음이 들리는 상황 중 하나 이상에 해당하면 잠시 앉아서 쉰다. 둘 다 아니면 원래 하던 이동과 목표를 유지한다."
+        }
+      ],
+      "observations": [
+        false,
+        true
+      ],
+      "expected": {
+        "next_command_id": "rest",
+        "reason": "본인이 많이 지쳤다고 말하는 상황 아님이 확인; 공원에서 소음이 들리는 상황 확인. 현재 조건에서 원문의 개인 반응은 잠시 앉아서 쉰다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "rest",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "공원 소음이 확인되어 N1에 따라 휴식 명령 실행"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC045_P1_S1_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "or",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 많이 지쳤다고 말하는 상황, 또는 공원에서 소음이 들리는 상황 중 하나 이상에 해당하면 원래 가던 길과 목표를 유지한다. 둘 다 아니면 원래 하던 이동과 목표를 유지한다."
+        }
+      ],
+      "observations": [
+        false,
+        true
+      ],
+      "expected": {
+        "next_command_id": "continue",
+        "reason": "본인이 많이 지쳤다고 말하는 상황 아님이 확인; 공원에서 소음이 들리는 상황 확인. 현재 조건에서 원문의 개인 반응은 원래 가던 길과 목표를 유지한다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "공원 소음이 감지되어 원래 가던 길과 목표를 유지합니다."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC045_P0_S2_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "or",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 많이 지쳤다고 말하는 상황, 또는 공원에서 소음이 들리는 상황 중 하나 이상에 해당하면 잠시 앉아서 쉰다. 둘 다 아니면 원래 하던 이동과 목표를 유지한다."
+        }
+      ],
+      "observations": [
+        false,
+        null
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "본인이 많이 지쳤다고 말하는 상황 아님이 확인; 공원에서 소음이 들리는 상황 미확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "본인이 많이 지쳤다는 상황(거짓)은 아니지만 공원 소음 여부는 미확인이므로 조건 불명확하여 유보합니다."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "wording_review",
+      "is_independent_human_review": false,
+      "review_note": "거짓은 아니지만이라는 표현이 피로 발언 부재 관측과 충돌하게 읽힐 수 있음. 유보 명령은 맞음."
+    },
+    {
+      "id": "PC045_P1_S2_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "or",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 많이 지쳤다고 말하는 상황, 또는 공원에서 소음이 들리는 상황 중 하나 이상에 해당하면 원래 가던 길과 목표를 유지한다. 둘 다 아니면 원래 하던 이동과 목표를 유지한다."
+        }
+      ],
+      "observations": [
+        false,
+        null
+      ],
+      "expected": {
+        "next_command_id": "continue",
+        "reason": "본인이 많이 지쳤다고 말하는 상황 아님이 확인; 공원에서 소음이 들리는 상황 미확인. 현재 조건에서 원문의 개인 반응은 원래 가던 길과 목표를 유지한다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "본인이 많이 지쳤다고 말하는 상황(관측값 거짓) 또는 공원 소음 상황(미확인)에 해당하지 않으나, 둘 다 아닌 경우와 둘 다 해당하는 경우 모두 원래 이동과 목표 유지 필요"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "미확인인 공원 소음 조건을 해당하지 않는다고 기술했다. 명령은 같아도 관측 보존 실패."
+    },
+    {
+      "id": "PC046_P0_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "unless",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 다리가 무겁다고 말하는 상황에는 잠시 앉아서 쉰다. 다만 가족이 곁에서 동행하는 상황이면 앞의 반응 대신 원래 하던 이동과 목표를 유지한다. 첫 상황이 아닐 때도 기존 이동을 유지한다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "rest",
+        "reason": "본인이 다리가 무겁다고 말하는 상황 확인; 가족이 곁에서 동행하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 잠시 앉아서 쉰다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "본인의 다리 무거움 보고 시. 보호자 동행(relation=family) 없음이 확인됐으나, 첫 상황 여부가 미확인이다. 가능한 행동(앉기 또는 이동 유지)이 달라 결정을 유보한다."
+      },
+      "command_match": false,
+      "source_match": true,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "관측 상태 반전 또는 행동·설명 불일치/형식 실패. 원응답 보존, 사후 보정 없음."
+    },
+    {
+      "id": "PC046_P1_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "unless",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 다리가 무겁다고 말하는 상황에는 그 자리에 서서 기다린다. 다만 가족이 곁에서 동행하는 상황이면 앞의 반응 대신 원래 하던 이동과 목표를 유지한다. 첫 상황이 아닐 때도 기존 이동을 유지한다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "stay",
+        "reason": "본인이 다리가 무겁다고 말하는 상황 확인; 가족이 곁에서 동행하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 그 자리에 서서 기다린다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "본인이 다리 무겁다고 말한 상황에서 가족 동행 여부가 미확인이므로 보행 유지 및 중단 여부 판단 불가하여 유보함"
+      },
+      "command_match": false,
+      "source_match": true,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "관측 상태 반전 또는 행동·설명 불일치/형식 실패. 원응답 보존, 사후 보정 없음."
+    },
+    {
+      "id": "PC046_P0_S5_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "unless",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 다리가 무겁다고 말하는 상황에는 잠시 앉아서 쉰다. 다만 가족이 곁에서 동행하는 상황이면 앞의 반응 대신 원래 하던 이동과 목표를 유지한다. 첫 상황이 아닐 때도 기존 이동을 유지한다."
+        }
+      ],
+      "observations": [
+        true,
+        null
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "본인이 다리가 무겁다고 말하는 상황 확인; 가족이 곁에서 동행하는 상황 미확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "다리 무거움 확인했으나 가족 동행 미확인으로 반응이 명확하지 않아 결정 유보."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC046_P1_S5_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "unless",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 다리가 무겁다고 말하는 상황에는 그 자리에 서서 기다린다. 다만 가족이 곁에서 동행하는 상황이면 앞의 반응 대신 원래 하던 이동과 목표를 유지한다. 첫 상황이 아닐 때도 기존 이동을 유지한다."
+        }
+      ],
+      "observations": [
+        true,
+        null
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "본인이 다리가 무겁다고 말하는 상황 확인; 가족이 곁에서 동행하는 상황 미확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "stay",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "본인이 다리가 무겁다고 말하는 상황(확인됨)이지만 가족 동행 여부 미확인으로 판단 유보 조건 충족하지 않아 현재 제자리 기다리기로 결정"
+      },
+      "command_match": false,
+      "source_match": true,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "관측 상태 반전 또는 행동·설명 불일치/형식 실패. 원응답 보존, 사후 보정 없음."
+    },
+    {
+      "id": "PC047_P0_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "priority",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 길을 잃었다고 알아차린 상황에는 먼저 그 자리에 서서 기다린다. 첫 상황이 아니면서 공원에서 사람이 붐비는 상황일 때는 공원에서 멀어지는 쪽으로 돌아간다. 둘 다 아니면 기존 이동과 목표를 유지한다. 두 상황이 겹칠 때는 첫 번째 반응이 우선이다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "stay",
+        "reason": "본인이 길을 잃었다고 알아차린 상황 확인; 공원에서 사람이 붐비는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 그 자리에 서서 기다린다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "stay",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "본인이 길을 잃었다고 알아차린 상황(N1)에 해당하므로 제자리에서 기다리기(stay)를 선택합니다."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC047_P1_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "priority",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 길을 잃었다고 알아차린 상황에는 먼저 목표 없이 주변을 걷는다. 첫 상황이 아니면서 공원에서 사람이 붐비는 상황일 때는 공원에서 멀어지는 쪽으로 돌아간다. 둘 다 아니면 기존 이동과 목표를 유지한다. 두 상황이 겹칠 때는 첫 번째 반응이 우선이다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "roam",
+        "reason": "본인이 길을 잃었다고 알아차린 상황 확인; 공원에서 사람이 붐비는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 목표 없이 주변을 걷는다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "roam",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "본인이 길을 잃었다고 인지했으므로 목표 없이 주변을 걷는 roam 명령을 선택함."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC047_P0_S2_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "priority",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 길을 잃었다고 알아차린 상황에는 먼저 그 자리에 서서 기다린다. 첫 상황이 아니면서 공원에서 사람이 붐비는 상황일 때는 공원에서 멀어지는 쪽으로 돌아간다. 둘 다 아니면 기존 이동과 목표를 유지한다. 두 상황이 겹칠 때는 첫 번째 반응이 우선이다."
+        }
+      ],
+      "observations": [
+        false,
+        null
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "본인이 길을 잃었다고 알아차린 상황 아님이 확인; 공원에서 사람이 붐비는 상황 미확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "본인이 길을 잃었다고 인지하지 않은 상태이나, 공원 혼잡도가 미확인되어 공원에서 멀어지는 행동을 적용할 수 없습니다."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC047_P1_S2_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "priority",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 길을 잃었다고 알아차린 상황에는 먼저 목표 없이 주변을 걷는다. 첫 상황이 아니면서 공원에서 사람이 붐비는 상황일 때는 공원에서 멀어지는 쪽으로 돌아간다. 둘 다 아니면 기존 이동과 목표를 유지한다. 두 상황이 겹칠 때는 첫 번째 반응이 우선이다."
+        }
+      ],
+      "observations": [
+        false,
+        null
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "본인이 길을 잃었다고 알아차린 상황 아님이 확인; 공원에서 사람이 붐비는 상황 미확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "본인이 길을 잃었다고 알아차린 상황이 아니므로 첫 반응이 우선 적용되지 않으며, 공원 혼잡 상태 미확인으로 두 번째 조건 판단 불가하여 기존 이동 유지 여부 판단할 수 없음"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC048_P0_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "correction",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "앞서 전달한 설명: 본인이 목마르다고 말하는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 물가에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        },
+        {
+          "id": "N2",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 앞선 N1은 현재 반응을 잘못 설명한 것이어서 정정합니다. 본인이 목마르다고 말하는 상황에는 등록 장소 B로 목표를 바꾸어 간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 물가에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "seek_1",
+        "reason": "본인이 목마르다고 말하는 상황 확인; 물가에서 사람이 붐비는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 등록 장소 B로 목표를 바꾸어 간다.",
+        "source_ids": [
+          "N2"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "seek_1",
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "본인이 목마르다고 보고된 상황이므로 등록 장소 B로 목표를 변경해야 함 (N2 정정사항 반영)."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC048_P1_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "correction",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "앞서 전달한 설명: 본인이 목마르다고 말하는 상황에는 등록 장소 B로 목표를 바꾸어 간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 물가에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        },
+        {
+          "id": "N2",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 앞선 N1은 현재 반응을 잘못 설명한 것이어서 정정합니다. 본인이 목마르다고 말하는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 물가에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "continue",
+        "reason": "본인이 목마르다고 말하는 상황 확인; 물가에서 사람이 붐비는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 원래 가던 길과 목표를 유지한다.",
+        "source_ids": [
+          "N2"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "본인이 목마르다고 말하는 상황에도 원래 가던 길과 목표를 유지하므로 등록 장소 A로 계속 이동합니다."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC048_P0_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "correction",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "앞서 전달한 설명: 본인이 목마르다고 말하는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 물가에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        },
+        {
+          "id": "N2",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 앞선 N1은 현재 반응을 잘못 설명한 것이어서 정정합니다. 본인이 목마르다고 말하는 상황에는 등록 장소 B로 목표를 바꾸어 간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 물가에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "본인이 목마르다고 말하는 상황 미확인; 물가에서 사람이 붐비는 상황 아님이 확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N2"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "본인의 갈증 여부 미확인으로 목마름 반응 여부 판단 불가, 원래 목표인 등록 장소 A 유지 대기"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "판단 유보를 선택하면서 설명에 목표 유지 대기를 부여했다. 모델의 유보와 환자의 제자리 대기를 구분해야 한다."
+    },
+    {
+      "id": "PC048_P1_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "correction",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "앞서 전달한 설명: 본인이 목마르다고 말하는 상황에는 등록 장소 B로 목표를 바꾸어 간다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 물가에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        },
+        {
+          "id": "N2",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 앞선 N1은 현재 반응을 잘못 설명한 것이어서 정정합니다. 본인이 목마르다고 말하는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 물가에서 사람이 붐비는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "continue",
+        "reason": "본인이 목마르다고 말하는 상황 미확인; 물가에서 사람이 붐비는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 원래 가던 길과 목표를 유지한다.",
+        "source_ids": [
+          "N2"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "본인의 갈증 여부와 무관하게 등록 장소 A를 유지하는 행동을 원문의 정정된 설명(N2)에 따라 확인함."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC049_P0_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "latest_observation",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 불안하다고 말하는 상황에는 그 자리에 서서 기다린다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 다리가 무겁다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "stay",
+        "reason": "본인이 불안하다고 말하는 상황 확인; 본인이 다리가 무겁다고 말하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 그 자리에 서서 기다린다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "command_match": false,
+      "source_match": false,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명이 400자 상한을 초과했으며 행동 판단과도 충돌. 유효한 마음 출력 아님.",
+      "reason_display": "길이 제한을 넘은 장문은 원응답 파일에 보존. 공유용 검토표에서는 생략."
+    },
+    {
+      "id": "PC049_P1_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "latest_observation",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 불안하다고 말하는 상황에는 목표 없이 주변을 걷는다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 다리가 무겁다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "roam",
+        "reason": "본인이 불안하다고 말하는 상황 확인; 본인이 다리가 무겁다고 말하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 목표 없이 주변을 걷는다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "roam",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "본인이 불안하다고 말하는 상황( anxiety 확인)에 목표 없이 걷기 행동으로 전환해야 함"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC049_P0_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "latest_observation",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 불안하다고 말하는 상황에는 그 자리에 서서 기다린다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 다리가 무겁다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "본인이 불안하다고 말하는 상황 미확인; 본인이 다리가 무겁다고 말하는 상황 아님이 확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "본인이 불안하다고 말하는지 확인되지 않았으므로 판단 유보"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC049_P1_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "latest_observation",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 본인이 불안하다고 말하는 상황에는 목표 없이 주변을 걷는다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 다리가 무겁다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "본인이 불안하다고 말하는 상황 미확인; 본인이 다리가 무겁다고 말하는 상황 아님이 확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "불안 보고 상태가 미확인이어서 본인 반응을 알 수 없어 판단 유보"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC050_P0_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "single",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 가족이 곁에서 동행하는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "continue",
+        "reason": "가족이 곁에서 동행하는 상황 확인; 본인이 불안하다고 말하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 원래 가던 길과 목표를 유지한다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "원문 N1에 따라 가족 동행 유무 및 불안 호소와 무관하게 원래 목표인 등록 장소 A를 유지하므로 진행 중인 이동합니다."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC050_P1_S3_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "single",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 가족이 곁에서 동행하는 상황에는 그 자리에 서서 기다린다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        true,
+        false
+      ],
+      "expected": {
+        "next_command_id": "stay",
+        "reason": "가족이 곁에서 동행하는 상황 확인; 본인이 불안하다고 말하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 그 자리에 서서 기다린다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "stay",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "가족 동반 시 기다리는 행동 관측에 따라 제자리에서 기다리도록 지시"
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC050_P0_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "single",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 가족이 곁에서 동행하는 상황에는 원래 가던 길과 목표를 유지한다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "continue",
+        "reason": "가족이 곁에서 동행하는 상황 미확인; 본인이 불안하다고 말하는 상황 아님이 확인. 현재 조건에서 원문의 개인 반응은 원래 가던 길과 목표를 유지한다.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "개인 반응에 따라. 가족 동행 여부와 무관하게 원래 이동합니다. 목표를 유지하며, 본인이 불안하다고 말하지 않습니다."
+      },
+      "command_match": true,
+      "source_match": true,
+      "semantic_review_status": "pass",
+      "is_independent_human_review": false,
+      "review_note": "공개 설명·개인 원문·현재 관측·명령 일치 확인"
+    },
+    {
+      "id": "PC050_P1_S6_V3",
+      "arm": "explicit_knowledge_state",
+      "kind": "single",
+      "sources": [
+        {
+          "id": "N1",
+          "text": "한 번만 있었던 일이 아니라, 같이 외출할 때 반복해서 봤어요. 구체적으로 적으면 가족이 곁에서 동행하는 상황에는 그 자리에 서서 기다린다. 이 상황이 아니면 원래 하던 이동과 목표를 유지한다. 본인이 불안하다고 말하는 상황만으로는 그 반응이 달라지지 않는다."
+        }
+      ],
+      "observations": [
+        null,
+        false
+      ],
+      "expected": {
+        "next_command_id": "defer",
+        "reason": "가족이 곁에서 동행하는 상황 미확인; 본인이 불안하다고 말하는 상황 아님이 확인. 가능한 개인 반응이 서로 달라 판단 유보.",
+        "source_ids": [
+          "N1"
+        ]
+      },
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "가족이 동행하지 않은 상황으로 확인되어 등록 장소 A로의 이동을 계속합니다."
+      },
+      "command_match": false,
+      "source_match": true,
+      "semantic_review_status": "fail",
+      "is_independent_human_review": false,
+      "review_note": "관측 상태 반전 또는 행동·설명 불일치/형식 실패. 원응답 보존, 사후 보정 없음."
+    }
+  ]
+}

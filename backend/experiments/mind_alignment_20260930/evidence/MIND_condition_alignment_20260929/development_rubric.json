@@ -1,0 +1,314 @@
+[
+  {
+    "id": "H3_D01-1",
+    "expected_behavior": {
+      "action": "rest",
+      "avoid_feature": null,
+      "confusion_level": "unknown",
+      "evidence_ids": [
+        "N1",
+        "state",
+        "environment",
+        "history",
+        "clock"
+      ],
+      "goal_label": null,
+      "goal_operation": "keep",
+      "reason": "소음보다 먼저 쉬는 명시적 개인 우선순위를 적용한다.",
+      "status": "decision"
+    },
+    "condition_checks": [
+      {
+        "condition": "높은 피로일 때 우선 휴식",
+        "relation": "applies",
+        "fact_ids": [
+          "/state/fatigue",
+          "/engine_current_facts/fatigue_band"
+        ]
+      },
+      {
+        "condition": "공원 소음 회피",
+        "relation": "applies",
+        "fact_ids": [
+          "/environment/observed_signals/park/noisy"
+        ]
+      }
+    ],
+    "priority_note": "1번은 휴식이 소음 회피보다 우선. 2번은 회피. 3번은 조용함과 낮은 피로로 이동. 4번은 소음 미확인으로 판단 유보.",
+    "review_method": "Codex unblinded semantic comparison; no independent human review",
+    "never_send_to_model": true
+  },
+  {
+    "id": "H3_D01-2",
+    "expected_behavior": {
+      "action": "avoid",
+      "avoid_feature": "park",
+      "confusion_level": "unknown",
+      "evidence_ids": [
+        "N1",
+        "state",
+        "environment",
+        "history",
+        "clock"
+      ],
+      "goal_label": null,
+      "goal_operation": "keep",
+      "reason": "피로가 낮고 소음이 확인되어 공원 회피 조건이다.",
+      "status": "decision"
+    },
+    "condition_checks": [
+      {
+        "condition": "높은 피로일 때 우선 휴식",
+        "relation": "does_not_apply",
+        "fact_ids": [
+          "/state/fatigue",
+          "/engine_current_facts/fatigue_band"
+        ]
+      },
+      {
+        "condition": "공원 소음 회피",
+        "relation": "applies",
+        "fact_ids": [
+          "/environment/observed_signals/park/noisy"
+        ]
+      }
+    ],
+    "priority_note": "1번은 휴식이 소음 회피보다 우선. 2번은 회피. 3번은 조용함과 낮은 피로로 이동. 4번은 소음 미확인으로 판단 유보.",
+    "review_method": "Codex unblinded semantic comparison; no independent human review",
+    "never_send_to_model": true
+  },
+  {
+    "id": "H3_D01-3",
+    "expected_behavior": {
+      "action": "continue",
+      "avoid_feature": null,
+      "confusion_level": "unknown",
+      "evidence_ids": [
+        "N1",
+        "state",
+        "environment",
+        "history",
+        "clock"
+      ],
+      "goal_label": null,
+      "goal_operation": "keep",
+      "reason": "피로와 소음 회피 조건 모두 성립하지 않아 기존 이동을 유지한다.",
+      "status": "decision"
+    },
+    "condition_checks": [
+      {
+        "condition": "높은 피로일 때 우선 휴식",
+        "relation": "does_not_apply",
+        "fact_ids": [
+          "/state/fatigue",
+          "/engine_current_facts/fatigue_band"
+        ]
+      },
+      {
+        "condition": "공원 소음 회피",
+        "relation": "does_not_apply",
+        "fact_ids": [
+          "/environment/observed_signals/park/noisy"
+        ]
+      }
+    ],
+    "priority_note": "1번은 휴식이 소음 회피보다 우선. 2번은 회피. 3번은 조용함과 낮은 피로로 이동. 4번은 소음 미확인으로 판단 유보.",
+    "review_method": "Codex unblinded semantic comparison; no independent human review",
+    "never_send_to_model": true
+  },
+  {
+    "id": "H3_D01-4",
+    "expected_behavior": {
+      "action": null,
+      "avoid_feature": null,
+      "confusion_level": "unknown",
+      "evidence_ids": [
+        "N1",
+        "state",
+        "environment",
+        "history",
+        "clock"
+      ],
+      "goal_label": null,
+      "goal_operation": null,
+      "reason": "피로는 낮지만 소음 관측이 없어 이동과 회피를 구분할 추가 정보가 필요하다.",
+      "status": "insufficient_information"
+    },
+    "condition_checks": [
+      {
+        "condition": "높은 피로일 때 우선 휴식",
+        "relation": "does_not_apply",
+        "fact_ids": [
+          "/state/fatigue",
+          "/engine_current_facts/fatigue_band"
+        ]
+      },
+      {
+        "condition": "공원 소음 회피",
+        "relation": "unknown",
+        "fact_ids": [
+          "/environment/observed_signals/park/noisy"
+        ]
+      }
+    ],
+    "priority_note": "1번은 휴식이 소음 회피보다 우선. 2번은 회피. 3번은 조용함과 낮은 피로로 이동. 4번은 소음 미확인으로 판단 유보.",
+    "review_method": "Codex unblinded semantic comparison; no independent human review",
+    "never_send_to_model": true
+  },
+  {
+    "id": "H3_D04-1",
+    "expected_behavior": {
+      "action": "avoid",
+      "avoid_feature": "market",
+      "confusion_level": "unknown",
+      "evidence_ids": [
+        "N1",
+        "state",
+        "environment",
+        "history",
+        "clock"
+      ],
+      "goal_label": null,
+      "goal_operation": "keep",
+      "reason": "소음과 가족 부재가 확인되어 회피 조건에 해당한다.",
+      "status": "decision"
+    },
+    "condition_checks": [
+      {
+        "condition": "시끄러울 때 혼자면 회피",
+        "relation": "applies",
+        "fact_ids": [
+          "/environment/observed_signals/market/noisy",
+          "/state/recent_events/1/value"
+        ]
+      },
+      {
+        "condition": "가족 동행 시 소음에도 이동",
+        "relation": "does_not_apply",
+        "fact_ids": [
+          "/state/recent_events/1/value"
+        ]
+      }
+    ],
+    "priority_note": "조용함이 확인되면 혼자여도 이동. 소음 있음에서 동행 여부 미확인이면 동행 예외를 확정하지 않음.",
+    "review_method": "Codex unblinded semantic comparison; no independent human review",
+    "never_send_to_model": true
+  },
+  {
+    "id": "H3_D04-2",
+    "expected_behavior": {
+      "action": "continue",
+      "avoid_feature": null,
+      "confusion_level": "unknown",
+      "evidence_ids": [
+        "N1",
+        "state",
+        "environment",
+        "history",
+        "clock"
+      ],
+      "goal_label": null,
+      "goal_operation": "keep",
+      "reason": "가족 동행이라는 개인의 예외 조건 때문에 기존 이동을 유지한다.",
+      "status": "decision"
+    },
+    "condition_checks": [
+      {
+        "condition": "시끄러울 때 혼자면 회피",
+        "relation": "does_not_apply",
+        "fact_ids": [
+          "/environment/observed_signals/market/noisy",
+          "/state/recent_events/1/value"
+        ]
+      },
+      {
+        "condition": "가족 동행 시 소음에도 이동",
+        "relation": "applies",
+        "fact_ids": [
+          "/state/recent_events/1/value"
+        ]
+      }
+    ],
+    "priority_note": "조용함이 확인되면 혼자여도 이동. 소음 있음에서 동행 여부 미확인이면 동행 예외를 확정하지 않음.",
+    "review_method": "Codex unblinded semantic comparison; no independent human review",
+    "never_send_to_model": true
+  },
+  {
+    "id": "H3_D04-3",
+    "expected_behavior": {
+      "action": "continue",
+      "avoid_feature": null,
+      "confusion_level": "unknown",
+      "evidence_ids": [
+        "N1",
+        "state",
+        "environment",
+        "history",
+        "clock"
+      ],
+      "goal_label": null,
+      "goal_operation": "keep",
+      "reason": "조용한 경우에는 혼자여도 이동을 유지한다.",
+      "status": "decision"
+    },
+    "condition_checks": [
+      {
+        "condition": "시끄러울 때 혼자면 회피",
+        "relation": "does_not_apply",
+        "fact_ids": [
+          "/environment/observed_signals/market/noisy",
+          "/state/recent_events/1/value"
+        ]
+      },
+      {
+        "condition": "가족 동행 시 소음에도 이동",
+        "relation": "does_not_apply",
+        "fact_ids": [
+          "/state/recent_events/1/value"
+        ]
+      }
+    ],
+    "priority_note": "조용함이 확인되면 혼자여도 이동. 소음 있음에서 동행 여부 미확인이면 동행 예외를 확정하지 않음.",
+    "review_method": "Codex unblinded semantic comparison; no independent human review",
+    "never_send_to_model": true
+  },
+  {
+    "id": "H3_D04-4",
+    "expected_behavior": {
+      "action": null,
+      "avoid_feature": null,
+      "confusion_level": "unknown",
+      "evidence_ids": [
+        "N1",
+        "state",
+        "environment",
+        "history",
+        "clock"
+      ],
+      "goal_label": null,
+      "goal_operation": null,
+      "reason": "가족 동행 여부가 미확인이라 예외 조건 적용을 결정할 수 없다.",
+      "status": "insufficient_information"
+    },
+    "condition_checks": [
+      {
+        "condition": "시끄러울 때 혼자면 회피",
+        "relation": "unknown",
+        "fact_ids": [
+          "/environment/observed_signals/market/noisy",
+          "/state/recent_events/1/value"
+        ]
+      },
+      {
+        "condition": "가족 동행 시 소음에도 이동",
+        "relation": "unknown",
+        "fact_ids": [
+          "/state/recent_events/1/value"
+        ]
+      }
+    ],
+    "priority_note": "조용함이 확인되면 혼자여도 이동. 소음 있음에서 동행 여부 미확인이면 동행 예외를 확정하지 않음.",
+    "review_method": "Codex unblinded semantic comparison; no independent human review",
+    "never_send_to_model": true
+  }
+]

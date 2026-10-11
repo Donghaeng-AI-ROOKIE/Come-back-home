@@ -1,0 +1,10 @@
+{
+  "final_outputs": 16,
+  "four_K_responses_replayed_per_case": true,
+  "all_required_and_supplementary_checks_pass": true,
+  "all_selected_paths_prepared_person_no_SAR": true,
+  "strategy_normalization": true,
+  "ledger_pairs_and_unique_ids": true,
+  "within_approval_caps": true,
+  "provider_reasoning_not_exported": true
+}

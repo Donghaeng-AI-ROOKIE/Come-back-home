@@ -1,0 +1,909 @@
+{
+  "all_outputs_reviewed": true,
+  "diagnostic_replay": true,
+  "policy": "Unobserved behavior may remain a qualified domain hypothesis; not automatically a fabricated observation. All structurally usable priors replay, including semantic flags. Attraction level vs normalized weight is distinguished. Numeric magnitude is not a gold truth.",
+  "reviewed_sha256": {
+    "C03_CONTROL_1.json": "dab25455bfd70c080a3fba8c2f5da482aa77b2bfa1dc58a492c1ba88f83e0724",
+    "C02_CONTROL_0.json": "5c6ce6477208a7e84f753cd06f806faff03186a54127f7c562adf95b26f56f8c",
+    "C04_CONTROL_1.json": "f70efe2be117018725cfae58fe5424c9afbaca3006f7c9ff4255e53eba106d15",
+    "C05_CONTROL_0.json": "7e659e952285550c728652ce48e6e8ce18e783eb8d6ae9a7af8a70c912e6373a",
+    "C05_CONTROL_1.json": "64187f2c0ea46b10ab8f69d6fa1c42fd7a18d27241f51acbbeda11e77775ddca",
+    "C04_CONTROL_0.json": "d0f7b99919092268e5ded4ad01149045e9abf6a0776dfd69c40b3b59780a5261",
+    "C02_CONTROL_1.json": "95064615a5535448a07e120453cd2343ced551dd74196b86a7409b19ac2a026b",
+    "C03_CONTROL_0.json": "de43491d03f41a0a0a4088ca4a086952df5d9e477692528d15b27a2334aca7a1",
+    "C01_CONTROL_0.json": "2ef03b27a02b5532dd6f5f143b491c61693c3d2c081915dee10c5fe5f78c45b2",
+    "C06_CONTROL_0.json": "1eb82fb569c1ac9cdaa975271ccccb25a9c7013b1e460626cadbe02d768f2b87",
+    "C01_FEATURES_0.json": "08e3474918435b6005e019bbdb0d541ecd8cb39a053ef3f85bd9967ce170e68e",
+    "C06_FEATURES_1.json": "bab427fc3bdaf3632a4a5c51d47076970d5c5752094cbc235be5712d988e76fc",
+    "C01_FEATURES_1.json": "5c2705a9eaf8ee260dd6c7b2bbaf129c07f8f745e4ea60ac481e1c98323198c8",
+    "C06_FEATURES_0.json": "7854d2e46bd13526eb73c54cb9ecb031483e34daada8e118821d88fbe9b44e4c",
+    "C06_CONTROL_1.json": "fc4e878397b1091db4154309701277d8c3bc37b6c03882d22098c8eab4f94c86",
+    "C01_CONTROL_1.json": "d18fa6c66017be3cc0e40a34ea6445c41e19a2831bbdc77b23f07974f28593cd",
+    "C03_FEATURES_0.json": "bc82c1fcdc76dd26e2b03965f01e38a887f8c27b36d5f03593126c0dad47a8ca",
+    "C04_FEATURES_1.json": "e1f4755e773c778c7bb7e7926f3040e04bfc71d98b0fa0bf6c4e352a5df642fc",
+    "C03_FEATURES_1.json": "fc6b7534a576b16b001527b249fdd0ee4dd4f1e50891e326765eb4e08c19298e",
+    "C04_FEATURES_0.json": "e01908d38e70e60a18f11efdd6e704767abee2f53990e09f2d1e0e59cbcaf184",
+    "C05_FEATURES_0.json": "ae7e8154b5e35b352dfbcf4c616e7db8d7b46541c565f0ce1a966f1a584b1911",
+    "C02_FEATURES_1.json": "52cde298b801bd3e1d2c9b474744a3ee7e44b7b8e896242d2f19913c14c0340a",
+    "C05_FEATURES_1.json": "89b909b37f239b3850d26ce73f523343c3675c3f90feefefe04c452db3ab1375",
+    "C02_FEATURES_0.json": "041f33cb736fd42253ba53d1511be0b3f850ba4005f0288d105fffc8517666fc"
+  },
+  "outputs": {
+    "C01_CONTROL_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "JSON 종료 괄호 과다. 자동 보정 없이 보행 제외. 원문은 머무름과 경로 미확인을 구분하나 장소 우선성 설명이 모두 상인 등급에 표현되지 않음.",
+      "display_flags": [
+        "출력 형식: not_standalone_json",
+        "수치 prior 사용 불가·보행 제외"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": false
+    },
+    "C01_CONTROL_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "머무름 관찰 반영. 장소 우선성이 모두 상인 등급에서는 구분되지 않음. 실종 시작점이 미확인이라는 문구는 앱 입력과 대조 필요.",
+      "display_flags": [
+        "출력 형식: unknowns, decision_target, decision_target"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": true
+    },
+    "C01_FEATURES_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "머무름과 경로 미확인 분리. 최종 통합에서 시장 방향을 방향 유지로 연결하는 표현. N0 근거 누락. route/landmark 상향 선언과 숫자 방향 불일치.",
+      "display_flags": [
+        "출력 형식: not_standalone_json, missing_note_coverage",
+        "통합 설명과 전략 수치 방향 불일치",
+        "이동 지속성/목적지와 방향 유지 혼동 검토"
+      ],
+      "strategy_action_check": [
+        {
+          "target": "strategy_probs.route_following",
+          "declared": "increase",
+          "reference": 0.45,
+          "output": 0.4,
+          "actual": "decrease",
+          "mismatch": true
+        },
+        {
+          "target": "strategy_probs.direction_keeping",
+          "declared": "increase",
+          "reference": 0.2,
+          "output": 0.3,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.staying_put",
+          "declared": "increase",
+          "reference": 0.05,
+          "output": 0.1,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.landmark_seeking",
+          "declared": "increase",
+          "reference": 0.1,
+          "output": 0.05,
+          "actual": "decrease",
+          "mismatch": true
+        }
+      ],
+      "replay_eligible": true
+    },
+    "C01_FEATURES_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "prior와 integration을 features 내부에 중첩. 스키마 수정 없이 보행 제외. N0 보존. 머무름 인정하나 이동 지속성을 중으로 평가.",
+      "display_flags": [
+        "출력 형식: not_standalone_json, envelope_keys, feature_keys, feature.integration.not_object, feature.prior.fields, feature.prior.evidence_count, feature.prior.hypotheses_count, feature.prior.unknowns, feature.prior.conclusion, integration_count",
+        "수치 prior 사용 불가·보행 제외"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": false
+    },
+    "C02_CONTROL_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "공원과 머무름을 서술하나 staying_put은 참조값과 동일. 방향 유지 가능성을 가설 및 미확인으로 한정.",
+      "display_flags": [
+        "출력 형식: decision_target"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": true
+    },
+    "C02_CONTROL_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "반복 관찰이 주어졌는데 공원 방향 이동이 반복적인지 미확인으로 기재. 머무름 관찰과 구체적 행동 미관찰 문구가 혼재.",
+      "display_flags": [
+        "출력 형식: not_standalone_json"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": true
+    },
+    "C02_FEATURES_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "JSON 종료 괄호 과다. 자동 보정 없이 보행 제외. 원문은 공원 끌림과 머무름을 구분. N0 직접 근거 누락.",
+      "display_flags": [
+        "출력 형식: not_standalone_json",
+        "수치 prior 사용 불가·보행 제외"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": false
+    },
+    "C02_FEATURES_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "공원 끌림과 머무름을 구분. route 상향 선언과 숫자 하락. R0에 신체 능력 일반적 유지라는 주장 근거는 해당 발췌에서 확인 어려움.",
+      "display_flags": [
+        "출력 형식: not_standalone_json, missing_note_coverage",
+        "통합 설명과 전략 수치 방향 불일치"
+      ],
+      "strategy_action_check": [
+        {
+          "target": "strategy_probs.route_following",
+          "declared": "increase",
+          "reference": 0.45,
+          "output": 0.4,
+          "actual": "decrease",
+          "mismatch": true
+        },
+        {
+          "target": "strategy_probs.landmark_seeking",
+          "declared": "increase",
+          "reference": 0.1,
+          "output": 0.15,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.staying_put",
+          "declared": "increase",
+          "reference": 0.05,
+          "output": 0.2,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.direction_keeping",
+          "declared": "uncertain",
+          "reference": 0.2,
+          "output": 0.1,
+          "actual": "decrease",
+          "mismatch": false
+        }
+      ],
+      "replay_eligible": true
+    },
+    "C03_CONTROL_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "직진을 일반 가설로 제한하나 지속 보행 및 시장 방향을 direction_keeping 상향 근거로 연결. 모든 장소 상으로 최근 목적지 차이 미표현.",
+      "display_flags": [],
+      "strategy_action_check": [],
+      "replay_eligible": true
+    },
+    "C03_CONTROL_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "직진 일반 가설의 개인 불확실성 명시. 시장 우선성 강화 선언과 동일 장소 등급 간 차이. landmark_seeking=0.",
+      "display_flags": [
+        "출력 형식: decision_target"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": true
+    },
+    "C03_FEATURES_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "피처에서는 방향 미확인이라고 하나 통합에서 계속 걸음을 방향 유지 근거로 연결. landmark 상향 선언과 숫자 유지.",
+      "display_flags": [
+        "출력 형식: missing_note_coverage",
+        "통합 설명과 전략 수치 방향 불일치",
+        "이동 지속성/목적지와 방향 유지 혼동 검토"
+      ],
+      "strategy_action_check": [
+        {
+          "target": "strategy_probs.route_following",
+          "declared": "uncertain",
+          "reference": 0.45,
+          "output": 0.3,
+          "actual": "decrease",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.direction_keeping",
+          "declared": "increase",
+          "reference": 0.2,
+          "output": 0.4,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.landmark_seeking",
+          "declared": "increase",
+          "reference": 0.1,
+          "output": 0.1,
+          "actual": "maintain",
+          "mismatch": true
+        },
+        {
+          "target": "strategy_probs.random_walk",
+          "declared": "decrease",
+          "reference": 0.15,
+          "output": 0.1,
+          "actual": "decrease",
+          "mismatch": false
+        }
+      ],
+      "replay_eligible": true
+    },
+    "C03_FEATURES_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "방향 전환 미관찰을 직진 관찰로 변환. route_shape 결론 및 통합에서 관찰되지 않은 직진을 개인 사실처럼 기재. landmark 상향 선언과 실제 하락.",
+      "display_flags": [
+        "출력 형식: not_standalone_json, feature.route_shape.hypotheses_count, feature.mobility_range.unknowns, missing_note_coverage",
+        "통합 설명과 전략 수치 방향 불일치",
+        "미확인 직진을 관찰 사실로 변환"
+      ],
+      "strategy_action_check": [
+        {
+          "target": "strategy_probs.route_following",
+          "declared": "increase",
+          "reference": 0.45,
+          "output": 0.5,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.direction_keeping",
+          "declared": "increase",
+          "reference": 0.2,
+          "output": 0.3,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.landmark_seeking",
+          "declared": "increase",
+          "reference": 0.1,
+          "output": 0.05,
+          "actual": "decrease",
+          "mismatch": true
+        },
+        {
+          "target": "strategy_probs.random_walk",
+          "declared": "decrease",
+          "reference": 0.15,
+          "output": 0.05,
+          "actual": "decrease",
+          "mismatch": false
+        }
+      ],
+      "replay_eligible": true
+    },
+    "C04_CONTROL_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "직진은 가설로 제시되지만 통합에서 지속성/목적지와 섞임. 공원 끌림 중/상 설명이 같은 응답 안에서 충돌.",
+      "display_flags": [
+        "출력 형식: not_standalone_json, decisions_count"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": true
+    },
+    "C04_CONTROL_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "가설의 불확실성을 적었으나 prior reasoning에서 최근 지속적 직진 경향을 개인 특성처럼 기재. 공원 우선성 수치 반영.",
+      "display_flags": [],
+      "strategy_action_check": [],
+      "replay_eligible": true
+    },
+    "C04_FEATURES_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "route_shape 미확인 보존. 지속성 기반 direction 상향 선언하나 숫자는 동일. 공원 우선성은 모든 장소 상으로 미표현.",
+      "display_flags": [
+        "출력 형식: not_standalone_json, feature.route_shape.unknowns, missing_note_coverage",
+        "통합 설명과 전략 수치 방향 불일치",
+        "이동 지속성/목적지와 방향 유지 혼동 검토"
+      ],
+      "strategy_action_check": [
+        {
+          "target": "strategy_probs.route_following",
+          "declared": "uncertain",
+          "reference": 0.45,
+          "output": 0.3,
+          "actual": "decrease",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.direction_keeping",
+          "declared": "increase",
+          "reference": 0.2,
+          "output": 0.2,
+          "actual": "maintain",
+          "mismatch": true
+        },
+        {
+          "target": "strategy_probs.random_walk",
+          "declared": "increase",
+          "reference": 0.15,
+          "output": 0.25,
+          "actual": "increase",
+          "mismatch": false
+        }
+      ],
+      "replay_eligible": true
+    },
+    "C04_FEATURES_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "route_shape 미확인인데 movement_persistence만으로 direction 상향. route 유지 선언과 숫자 하락. 공원 강화 설명과 모든 장소 상의 불일치. 신체 능력 변화도 없음 표현과 변화 여부 미확인 혼재.",
+      "display_flags": [
+        "출력 형식: missing_note_coverage",
+        "통합 설명과 전략 수치 방향 불일치",
+        "이동 지속성/목적지와 방향 유지 혼동 검토"
+      ],
+      "strategy_action_check": [
+        {
+          "target": "strategy_probs.route_following",
+          "declared": "maintain",
+          "reference": 0.45,
+          "output": 0.4,
+          "actual": "decrease",
+          "mismatch": true
+        },
+        {
+          "target": "strategy_probs.direction_keeping",
+          "declared": "increase",
+          "reference": 0.2,
+          "output": 0.3,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.random_walk",
+          "declared": "decrease",
+          "reference": 0.15,
+          "output": 0.1,
+          "actual": "decrease",
+          "mismatch": false
+        }
+      ],
+      "replay_eligible": true
+    },
+    "C05_CONTROL_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "명시된 직진 관찰 반영. 경로 익숙도와 되돌아감은 가설/미확인으로 유지.",
+      "display_flags": [
+        "출력 형식: not_standalone_json, unknowns"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": true
+    },
+    "C05_CONTROL_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "명시된 직진 관찰 반영. 직진과 익숙 경로 가능성을 연결하나 경로 미확인 한계 명시.",
+      "display_flags": [
+        "출력 형식: decision_target"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": true
+    },
+    "C05_FEATURES_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "명시된 직진 관찰 반영. 시장 상향은 원등급 상 유지이나 다른 장소를 낮춰 정규화 상대 가중치는 상승. 숫자 전략 상향/하향 일치.",
+      "display_flags": [
+        "출력 형식: missing_note_coverage"
+      ],
+      "strategy_action_check": [
+        {
+          "target": "strategy_probs.route_following",
+          "declared": "increase",
+          "reference": 0.45,
+          "output": 0.5,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.direction_keeping",
+          "declared": "increase",
+          "reference": 0.2,
+          "output": 0.3,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.random_walk",
+          "declared": "decrease",
+          "reference": 0.15,
+          "output": 0.05,
+          "actual": "decrease",
+          "mismatch": false
+        }
+      ],
+      "replay_eligible": true
+    },
+    "C05_FEATURES_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "명시된 직진 관찰 반영. landmark 상향 선언과 0 출력, staying 하향 선언과 유지. 수치 통합의 불일치.",
+      "display_flags": [
+        "출력 형식: feature.mobility_range.unknowns, missing_note_coverage",
+        "통합 설명과 전략 수치 방향 불일치"
+      ],
+      "strategy_action_check": [
+        {
+          "target": "strategy_probs.route_following",
+          "declared": "increase",
+          "reference": 0.45,
+          "output": 0.49019607843137253,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.direction_keeping",
+          "declared": "increase",
+          "reference": 0.2,
+          "output": 0.29411764705882354,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.landmark_seeking",
+          "declared": "increase",
+          "reference": 0.1,
+          "output": 0.0196078431372549,
+          "actual": "decrease",
+          "mismatch": true
+        },
+        {
+          "target": "strategy_probs.staying_put",
+          "declared": "decrease",
+          "reference": 0.05,
+          "output": 0.049019607843137254,
+          "actual": "decrease",
+          "mismatch": false
+        }
+      ],
+      "replay_eligible": true
+    },
+    "C06_CONTROL_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "잦은 방향 전환 인정. 방향 유지 가설을 별도로 두고 불확실성 명시. C05와 direction 확률 동일.",
+      "display_flags": [
+        "출력 형식: decision_target"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": true
+    },
+    "C06_CONTROL_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "방향 전환 관찰과 방향 유지 가설의 충돌을 직접 명시하나 direction 확률 C05와 동일. 시장 우선성 선언과 동일 장소 등급.",
+      "display_flags": [
+        "출력 형식: decision_target"
+      ],
+      "strategy_action_check": [],
+      "replay_eligible": true
+    },
+    "C06_FEATURES_0.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "잦은 전환을 피처에서 인정하지만 통합에서 지속성을 방향 유지 근거로 연결. C05와 direction 동일.",
+      "display_flags": [
+        "출력 형식: not_standalone_json, missing_note_coverage",
+        "이동 지속성/목적지와 방향 유지 혼동 검토"
+      ],
+      "strategy_action_check": [
+        {
+          "target": "strategy_probs.route_following",
+          "declared": "decrease",
+          "reference": 0.45,
+          "output": 0.2,
+          "actual": "decrease",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.direction_keeping",
+          "declared": "increase",
+          "reference": 0.2,
+          "output": 0.3,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.random_walk",
+          "declared": "increase",
+          "reference": 0.15,
+          "output": 0.25,
+          "actual": "increase",
+          "mismatch": false
+        }
+      ],
+      "replay_eligible": true
+    },
+    "C06_FEATURES_1.json": {
+      "reviewer": "Codex manual full-response review + deterministic strategy-action check",
+      "review_type": "diagnostic; no clinical ground truth or blinded independent review",
+      "notes": "잦은 전환 관찰에 맞춰 direction 하향/random 상향. 이번 응답의 통합 행동 선언과 숫자 방향 일치.",
+      "display_flags": [
+        "출력 형식: not_standalone_json, missing_note_coverage"
+      ],
+      "strategy_action_check": [
+        {
+          "target": "strategy_probs.route_following",
+          "declared": "decrease",
+          "reference": 0.45,
+          "output": 0.25,
+          "actual": "decrease",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.direction_keeping",
+          "declared": "decrease",
+          "reference": 0.2,
+          "output": 0.15,
+          "actual": "decrease",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.random_walk",
+          "declared": "increase",
+          "reference": 0.15,
+          "output": 0.35,
+          "actual": "increase",
+          "mismatch": false
+        },
+        {
+          "target": "strategy_probs.landmark_seeking",
+          "declared": "increase",
+          "reference": 0.1,
+          "output": 0.15,
+          "actual": "increase",
+          "mismatch": false
+        }
+      ],
+      "replay_eligible": true
+    }
+  },
+  "strategy_actions": [
+    {
+      "file": "C01_FEATURES_0.json",
+      "target": "strategy_probs.route_following",
+      "declared": "increase",
+      "reference": 0.45,
+      "output": 0.4,
+      "actual": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C01_FEATURES_0.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "output": 0.3,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C01_FEATURES_0.json",
+      "target": "strategy_probs.staying_put",
+      "declared": "increase",
+      "reference": 0.05,
+      "output": 0.1,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C01_FEATURES_0.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "output": 0.05,
+      "actual": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C02_FEATURES_1.json",
+      "target": "strategy_probs.route_following",
+      "declared": "increase",
+      "reference": 0.45,
+      "output": 0.4,
+      "actual": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C02_FEATURES_1.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "output": 0.15,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C02_FEATURES_1.json",
+      "target": "strategy_probs.staying_put",
+      "declared": "increase",
+      "reference": 0.05,
+      "output": 0.2,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C02_FEATURES_1.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "uncertain",
+      "reference": 0.2,
+      "output": 0.1,
+      "actual": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_0.json",
+      "target": "strategy_probs.route_following",
+      "declared": "uncertain",
+      "reference": 0.45,
+      "output": 0.3,
+      "actual": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_0.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "output": 0.4,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_0.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "output": 0.1,
+      "actual": "maintain",
+      "mismatch": true
+    },
+    {
+      "file": "C03_FEATURES_0.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "decrease",
+      "reference": 0.15,
+      "output": 0.1,
+      "actual": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_1.json",
+      "target": "strategy_probs.route_following",
+      "declared": "increase",
+      "reference": 0.45,
+      "output": 0.5,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_1.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "output": 0.3,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C03_FEATURES_1.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "output": 0.05,
+      "actual": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C03_FEATURES_1.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "decrease",
+      "reference": 0.15,
+      "output": 0.05,
+      "actual": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C04_FEATURES_0.json",
+      "target": "strategy_probs.route_following",
+      "declared": "uncertain",
+      "reference": 0.45,
+      "output": 0.3,
+      "actual": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C04_FEATURES_0.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "output": 0.2,
+      "actual": "maintain",
+      "mismatch": true
+    },
+    {
+      "file": "C04_FEATURES_0.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "increase",
+      "reference": 0.15,
+      "output": 0.25,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C04_FEATURES_1.json",
+      "target": "strategy_probs.route_following",
+      "declared": "maintain",
+      "reference": 0.45,
+      "output": 0.4,
+      "actual": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C04_FEATURES_1.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "output": 0.3,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C04_FEATURES_1.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "decrease",
+      "reference": 0.15,
+      "output": 0.1,
+      "actual": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_0.json",
+      "target": "strategy_probs.route_following",
+      "declared": "increase",
+      "reference": 0.45,
+      "output": 0.5,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_0.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "output": 0.3,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_0.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "decrease",
+      "reference": 0.15,
+      "output": 0.05,
+      "actual": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_1.json",
+      "target": "strategy_probs.route_following",
+      "declared": "increase",
+      "reference": 0.45,
+      "output": 0.49019607843137253,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_1.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "output": 0.29411764705882354,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C05_FEATURES_1.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "output": 0.0196078431372549,
+      "actual": "decrease",
+      "mismatch": true
+    },
+    {
+      "file": "C05_FEATURES_1.json",
+      "target": "strategy_probs.staying_put",
+      "declared": "decrease",
+      "reference": 0.05,
+      "output": 0.049019607843137254,
+      "actual": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_0.json",
+      "target": "strategy_probs.route_following",
+      "declared": "decrease",
+      "reference": 0.45,
+      "output": 0.2,
+      "actual": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_0.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "increase",
+      "reference": 0.2,
+      "output": 0.3,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_0.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "increase",
+      "reference": 0.15,
+      "output": 0.25,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_1.json",
+      "target": "strategy_probs.route_following",
+      "declared": "decrease",
+      "reference": 0.45,
+      "output": 0.25,
+      "actual": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_1.json",
+      "target": "strategy_probs.direction_keeping",
+      "declared": "decrease",
+      "reference": 0.2,
+      "output": 0.15,
+      "actual": "decrease",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_1.json",
+      "target": "strategy_probs.random_walk",
+      "declared": "increase",
+      "reference": 0.15,
+      "output": 0.35,
+      "actual": "increase",
+      "mismatch": false
+    },
+    {
+      "file": "C06_FEATURES_1.json",
+      "target": "strategy_probs.landmark_seeking",
+      "declared": "increase",
+      "reference": 0.1,
+      "output": 0.15,
+      "actual": "increase",
+      "mismatch": false
+    }
+  ]
+}

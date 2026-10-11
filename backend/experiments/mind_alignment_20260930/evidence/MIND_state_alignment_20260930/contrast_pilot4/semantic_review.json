@@ -1,0 +1,412 @@
+{
+  "method": "Codex comparison of original source, authored observations and public final explanation; unblinded, not independent human review",
+  "counts": {
+    "wording_review": 2,
+    "pass": 30,
+    "fail": 8
+  },
+  "clinical_review": false,
+  "internal_reasoning_reviewed": false,
+  "rows": [
+    {
+      "id": "PC041_P0_S3_V3",
+      "verdict": "wording_review",
+      "note": "공원에서 소음이 관측됐다는 것과 공원 자체가 소음을 낸다는 문구를 구분할 필요.",
+      "expected_command": "avoid_park",
+      "actual_command": "avoid_park",
+      "final_explanation": "공원에서 소음이 들리는 상황으로 공원을 피해 이동하기로 결정함. 현재 공원이 소음을 낸다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC041_P1_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "continue",
+      "actual_command": "continue",
+      "final_explanation": "공원 소음 상황에서도 기존 경로와 목표를 유지합니다. 현재 소음 있는 공원 환경이지만 등록 장소 A 향해 계속 이동합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC041_P0_S6_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "공원 소음 여부 미확인(N2 기준 소음 시 공원 회피)",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC041_P1_S6_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "continue",
+      "actual_command": "continue",
+      "final_explanation": "공원 소음 여부와 상관없이 등록 장소 A를 향해 계속 이동합니다. 정정된 증거 노트(N2)에 따라 소음 존재 유무와 상관없이 원래 경로와 목표를 유지한다는 개인 반응을 반영했습니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC042_P0_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "avoid_market",
+      "actual_command": "avoid_market",
+      "final_explanation": "시장 소음이 확인되었으므로 개인이 시장에서 멀어지는 행동을 하여 시장에서 멀리 이동합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC042_P1_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "stay",
+      "actual_command": "stay",
+      "final_explanation": "시장 소음 상황이 확인되어 소음이 있을 때처럼 제자리에서 대기합니다. 피곤함 언급 여부는 반응에 영향을 주지 않습니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC042_P0_S6_V3",
+      "verdict": "wording_review",
+      "note": "올바른 defer이나 설명 끝이 결정으로 끊겨 유보인지 불명확한 문장.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "원문(N1)에 따르면 소음 발생 시 멀어지지만, 현재 소음 상태가 미확인되어 결정.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC042_P1_S6_V3",
+      "verdict": "fail",
+      "note": "명령/계약이 원문과 현재 관측의 정답 기준에 불일치. 선택 명령과 공개 설명을 함께 확인.",
+      "expected_command": "defer",
+      "actual_command": "continue",
+      "final_explanation": "시장 소음 상황이 아닌 현재 조건에서 원래 이동과 목표를 유지하므로 계속 이동함",
+      "contract_pass": true,
+      "command_match": false
+    },
+    {
+      "id": "PC043_P0_S3_V3",
+      "verdict": "fail",
+      "note": "명령/계약이 원문과 현재 관측의 정답 기준에 불일치. 선택 명령과 공개 설명을 함께 확인.",
+      "expected_command": "avoid_forest",
+      "actual_command": "defer",
+      "final_explanation": "숲길 소음 발생 시 멀어지는 행동이지만 현재 환경 관측과 행동 지침 미확인으로 해석 유보",
+      "contract_pass": true,
+      "command_match": false
+    },
+    {
+      "id": "PC043_P1_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "continue",
+      "actual_command": "continue",
+      "final_explanation": "현재 숲길에서 소음이 발생하는 상황으로, 개인 원문(N1)에 따라 원래 목표(등록 장소 A)를 유지하며 계속 진행해야 합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC043_P0_S6_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "숲길 소음 여부 미확인으로 원문 조건 충족 여부를 알 수 없어 결정을 유보합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC043_P1_S6_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "continue",
+      "actual_command": "continue",
+      "final_explanation": "개인의 원문에 따라 숲길 소음 여부와 무관하게 원래 가던 길과 목표를 유지하므로, 현재 등록 장소 A를 향한 이동을 지속한다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC044_P0_S4_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "avoid_water",
+      "actual_command": "avoid_water",
+      "final_explanation": "물가 소음 및 낯선 사람 접근이 모두 확인되어 물가에서 멀어지는 방향으로 이동합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC044_P1_S4_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "stay",
+      "actual_command": "stay",
+      "final_explanation": "원문에 따라 물가 소음과 낯선 사람 접근이 동시에 확인될 때만 정지하나, 현재 두 조건 모두 충족되므로 정지해야 함",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC044_P0_S5_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "물가 소음은 확인되었으나, 낯선 사람 접근 여부는 미확인 상태입니다. 증거 N1에 따라 두 조건(소음 + 낯선 사람 접근)이 모두 충족될 때만 물가에서 멀어지므로, 현재 상태로 행동 결정이 불가능합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC044_P1_S5_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "개인은 물가 소음과 낯선 사람 접근이 동시에 확인될 때만 정지합니다. 현재는 낯선 사람 접근이 미확인 상태라서 행동을 확정할 수 없습니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC045_P0_S1_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "rest",
+      "actual_command": "rest",
+      "final_explanation": "공원 소음 확인되어 본인 지침에 따라 휴식 명령을 내립니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC045_P1_S1_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "continue",
+      "actual_command": "continue",
+      "final_explanation": "공원 소음이 확인되었으므로(원문의 B 조건 참), 원문 지시에 따라 원래 가던 길과 목표를 유지하여 이동을 계속합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC045_P0_S2_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "공원 소음 여부가 미확인되어 조건 충족 여부를 판단할 수 없습니다. 조건 충족 시 휴식, 미충족 시 이동 유지로 행동이 달라 유보합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC045_P1_S2_V3",
+      "verdict": "fail",
+      "note": "명령/계약이 원문과 현재 관측의 정답 기준에 불일치. 선택 명령과 공개 설명을 함께 확인.",
+      "expected_command": "continue",
+      "actual_command": "defer",
+      "final_explanation": "공원 소음 미확인 상태이나. 피곤함이 거짓으로 확인됐으나 공원 소음 미확인으로 OR 조건 성립 여부 미확인. 조건에 따라 행동 결정 유보 필요.",
+      "contract_pass": true,
+      "command_match": false
+    },
+    {
+      "id": "PC046_P0_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "rest",
+      "actual_command": "rest",
+      "final_explanation": "본인이 다리 무거움을 보고하고 가족이 동행하지 않을 경우 휴식한다는 개인 반응에 따라 현재 휴식 명령을 선택합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC046_P1_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "stay",
+      "actual_command": "stay",
+      "final_explanation": "본인이 다리가 무겁고 가족 동행이 없으므로 제자리에 머물러 대기",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC046_P0_S5_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "보호자 기록에 따르면 가족 동행 시 기존 이동을 유지하지만, 현재 동행자 관계가 '미확인'이므로 가족 여부를 판단할 수 없어 결정 유보",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC046_P1_S5_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "가족 동행 여부 미확인 상태에서 무거운 다리 증상 발생 시 일반적으로 정지하나, 가족 동반 시 이동 유지. 현재 동반자 관계 미확인으로 행동 결정 유보.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC047_P0_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "stay",
+      "actual_command": "stay",
+      "final_explanation": "본인이 길을 잃었다고 인지한 상황(self_lost_awareness_observation=true)에서 첫 반응인 제자리 대기 선택. 공원이 붐비지 않아(밀집도 false) 두 번째 조건 해당되지 않음.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC047_P1_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "roam",
+      "actual_command": "roam",
+      "final_explanation": "본인이 길을 잃었다고 인지함이 확인되었으므로, 개인 반응(N1)에 따라 목표 없이 주변을 걸으라는 명령을 선택합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC047_P0_S2_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "본인이 길을 잃었다고 알아차린 상황이 아니고 공원이 붐비는지 확인되지 않아 행동 결정 유보",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC047_P1_S2_V3",
+      "verdict": "fail",
+      "note": "defer의 공개 설명을 환자의 대기 행동으로 바꿈.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "본인이 길을 잃었다고 인지하지 못했으며, 공원이 붐비는지 미확인 상태입니다. 조건 성립 여부에 따라 행동 차이가 있으므로 대기합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC048_P0_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "seek_1",
+      "actual_command": "seek_1",
+      "final_explanation": "본인이 목마르다고 확인되었으므로 등록 장소 B로 목표를 변경하여 이동합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC048_P1_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "continue",
+      "actual_command": "continue",
+      "final_explanation": "목마름을 확인했으나 N2에 따라 원래 목표(등록 장소 A) 향해 이동 유지",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC048_P0_S6_V3",
+      "verdict": "fail",
+      "note": "미확인 목마름 발언을 조건 불성립으로 바꾸고, defer를 기존 목표 유지 지침으로 잘못 설명.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "본인이 목마르다고 말한 상황이 확인되지 않았으므로 목표 변경 조건이 성립하지 않아 기존 목표 유지 지침에 따라 defer 결정",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC048_P1_S6_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "continue",
+      "actual_command": "continue",
+      "final_explanation": "본인이 목마르다고 말하는 상황과 아닌 경우 모두 원래 이동 및 목표를 유지하므로 현재 '등록 장소 A' 향한 이동을 계속합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC049_P0_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "stay",
+      "actual_command": "stay",
+      "final_explanation": "본인이 불안하다고 관측된 경우 그 자리에 서서 기다린다는 반응에 따라 제자리에 머무르는 명령을 선택합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC049_P1_S3_V3",
+      "verdict": "fail",
+      "note": "원문의 목표 없는 보행을 순환 이동으로 설명. 원문·엔진 명령에 순환 경로는 없음.",
+      "expected_command": "roam",
+      "actual_command": "roam",
+      "final_explanation": "원문의 불안 상황에서 목표 없이 걷는다는 반응에 따라 현재 불안이 확인되어 기존 목표 추구 대신 순환 이동 명령 선택",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC049_P0_S6_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "개인은 불안을 호소할 때만 멈추며, 현재 불안 상태 미확인으로 판단 유보.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC049_P1_S6_V3",
+      "verdict": "fail",
+      "note": "관련 없는 동행 미확인을 이유에 추가하고 실제 등록 장소 A를 목표 B로 바꿈.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "불안 및 함께 외출하는지 확인되지 않아 특정 상황에서의 행동(목표 없는 방랑)을 적용할 수 없음. 현재 이동 중인 목표 B 유지 여부 미결정.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC050_P0_S3_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "continue",
+      "actual_command": "continue",
+      "final_explanation": "가족이 동행 중인 상황에서 원래 목적지를 유지하는 개인 반응에 따라 등록 장소 A 향해 계속 이동 결정",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC050_P1_S3_V3",
+      "verdict": "fail",
+      "note": "가족 동행 조건을 동거 조건으로 바꾸고 기다리다 행동한다는 원문에 없는 후속 반응을 추가.",
+      "expected_command": "stay",
+      "actual_command": "stay",
+      "final_explanation": "가족 동행 중. 증거 N1에 따라 동거 시 기다리다 행동하므로 stay 명령 선택합니다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC050_P0_S6_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "continue",
+      "actual_command": "continue",
+      "final_explanation": "가족이 동행하든 않든 원래 목표와 이동 방식을 유지하므로 현재 경로를 계속 진행한다.",
+      "contract_pass": true,
+      "command_match": true
+    },
+    {
+      "id": "PC050_P1_S6_V3",
+      "verdict": "pass",
+      "note": "공개 최종 설명과 명령이 제공된 원문·현재 관측에 부합.",
+      "expected_command": "defer",
+      "actual_command": "defer",
+      "final_explanation": "가족 동행 여부 미확인 시 행동 유보. 원문에 따라 가족 동행 상황 외에는 기존 이동 유지하되, 현재 동행 관계 확인 불가로 명령을 유보합니다.",
+      "contract_pass": true,
+      "command_match": true
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "pytest": {
+    "command": "python -m pytest tests/test_mind_action_decision.py tests/test_mind_person_handoff.py tests/test_mind_upgrade.py tests/test_mind_v2_integration.py -q",
+    "passed": 53,
+    "failed": 0,
+    "seconds": 3.66
+  },
+  "dataset_audit": {
+    "errors": [],
+    "train": 96,
+    "development": 8
+  },
+  "model_quality_claim": false,
+  "code": {
+    "backend/app/llm/mind_action_decision.py": "c1067d80ad17f215bb504e6b710e6b76b4bad0b669d44565c994c0bf493003cd",
+    "backend/experiments/mind_person_handoff/session.py": "6d784f13e5afe245cccd5fc7fe0a717ce393696307a709d49fd88e165934092b",
+    "backend/experiments/mind_upgrade/runtime.py": "9b235d284eaf28095107f862e64bbd414f7eb3032081ab0fc1743f00e7bba077",
+    "backend/tests/test_mind_action_decision.py": "6d22334b6cd45d55796bb54a865a6009a8565cae293ad7c9bfd44b719f78e498"
+  }
+}

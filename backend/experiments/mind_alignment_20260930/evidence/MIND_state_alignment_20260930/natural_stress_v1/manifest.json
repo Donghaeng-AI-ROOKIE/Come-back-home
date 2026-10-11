@@ -1,0 +1,25 @@
+{
+  "rows": 80,
+  "source_narratives": 20,
+  "clinical_patients": 0,
+  "new_model_calls": 0,
+  "sha256": "81085f231873cf37fba65efbd14b1dd9818c6c9f86ab939caf4d5cddbd80a4cf",
+  "status": "authored_heldout_draft_not_executed",
+  "checks": [
+    "command/source validity",
+    "exact source disjoint from training/development/evaluation"
+  ],
+  "limitations": [
+    "Four scenes per narrative are not independent persons.",
+    "Authored by Codex, not independently reviewed caregiver speech.",
+    "Prepared K interpretation absent; separate actual-frontend test required."
+  ],
+  "command_counts": {
+    "avoid_park": 2,
+    "continue": 28,
+    "defer": 28,
+    "stay": 10,
+    "seek_1": 6,
+    "rest": 6
+  }
+}

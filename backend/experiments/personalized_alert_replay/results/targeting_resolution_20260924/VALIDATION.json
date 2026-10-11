@@ -1,0 +1,23 @@
+{
+  "tests": "12 passed",
+  "saved_condition_records": 1296,
+  "saved_groups": 12,
+  "area_count_truth_summary_checks": "passed",
+  "source_and_input_sha256": "passed",
+  "protected_files_unchanged_vs_HEAD": [
+    "experiments/personalized_alert_replay/analyze_alert_targeting.py",
+    "experiments/personalized_alert_replay/analyze_v2_preregistered.py",
+    "experiments/personalized_alert_replay/results/persona_abc_v2_r1.jsonl",
+    "app/phase3/alerts.py",
+    "app/config.py"
+  ],
+  "network_push_calls": 0,
+  "production_target_resolution": 7,
+  "artifacts_sha256": {
+    "FINDINGS.md": "fcc3db8f718c7d70d8a44c80caaffb49e2cf6bef502f105aabd252f504d76e64",
+    "REPORT.md": "c9c4362e4e5fca406792b72f81f8b4c9136c96753c59d72e2534af495f292553",
+    "snapshots.jsonl": "b55aeff00c663e0cfa2ada4e5590a8dc1a997365a30c11b8df0bd17d61a99354",
+    "summary.json": "ca403da5b8a857f518a84673d99713022d031b6f066bd739851243da9a1b4186"
+  },
+  "documentation_update": "Integrated metrics and interpretation into coherent report structures; removed duplicate appendices. Analysis code and numeric artifacts unchanged."
+}

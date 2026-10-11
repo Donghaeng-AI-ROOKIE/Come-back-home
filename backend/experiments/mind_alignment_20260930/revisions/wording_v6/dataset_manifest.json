@@ -1,0 +1,33 @@
+{
+  "version": "personal_contrasts_v6",
+  "parent_version": "personal_contrasts_v5",
+  "parent_train_sha256": "461c4b3abd2fe57e2b1d574c1fc975617dcedf4237e8821a9f9d5fad69778913",
+  "status": "wording_repaired_mechanical_candidate_not_trained",
+  "changed_profiles": [
+    "PC009_P1",
+    "PC023_P1",
+    "PC037_P1"
+  ],
+  "changed_rows": 81,
+  "changed_path": "/context/person/evidence_notes/0/text",
+  "development_and_evaluation": "byte-identical frozen references; evaluation caveats remain",
+  "quality_flags": "Original row-level review flags retained; mechanical PASS is not independent review",
+  "human_review": false,
+  "clinical_validation": false,
+  "model_calls": 0,
+  "training_runs": 0,
+  "files": {
+    "train.jsonl": {
+      "rows": 2160,
+      "sha256": "fbf6886262580b763ba766f476aea23b550ca45c40abe41bc7042b3a2e6c5582"
+    },
+    "development.jsonl": {
+      "rows": 180,
+      "sha256": "78e78411bbea72bc8d7e5a3d53b34530e741fe8fd26887c2678e6e29262f59e2"
+    },
+    "evaluation.jsonl": {
+      "rows": 360,
+      "sha256": "7c151acf5eb1a3a97eccf0db9981a91e4451fcb311d0d402da9f33250e8ca158"
+    }
+  }
+}

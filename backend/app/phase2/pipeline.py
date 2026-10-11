@@ -148,8 +148,7 @@ def run_prediction(
     persona = simulation_persona(persona, prior)
     _lap("initial_person_ms")
 
-    # Legacy case-wide direction state. The continuous runtime interpreter keeps
-    # each walker's decisions in continuous_state; tips do not update case.mind.
+    # Direction state supplied to the personal channel; statistical stays neutral.
     mind = case.mind or MindState()
 
     # ② 예측 — 도로망이 있으면 두 MC 모두 그래프 위를 걷는다
