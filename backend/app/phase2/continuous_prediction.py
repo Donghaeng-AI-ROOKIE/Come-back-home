@@ -6,6 +6,7 @@ from app import storage
 from app.privacy import lifecycle
 from app.phase0 import mind_preparation
 from app.llm import mind_policy
+from app.phase2 import person_walk
 from app.phase2.persistent_context_walk import PersistentContextPopulation as Population, VERSION
 from app.schemas.prediction import MindState
 
@@ -55,7 +56,9 @@ def _executable_policy(persona):
 def _run_policy(case,persona,prior,net,hours,policy,status,*,seed=None,persist=True):
     previous=case.continuous_state
     effective_seed=seed if seed is not None else previous.get('seed',42)
-    key=digest({'version':VERSION,'person':prior_key(case,persona),'prior':prior.model_dump(mode='json'),
+    # Both executor layers version the checkpoint: a walker change must never
+    # reuse a checkpoint the walker itself would reject as stale.
+    key=digest({'version':VERSION,'walker':person_walk.VERSION,'person':prior_key(case,persona),'prior':prior.model_dump(mode='json'),
         'policy':policy.model_dump(mode='json'),
         'mind':(case.mind or MindState()).model_dump(mode='json'),
         'graph':graph_key(net),'environment':net.node_env,'seed':effective_seed,'walkers':settings.mc_num_walkers})
