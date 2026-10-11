@@ -47,7 +47,7 @@ def select_alert_cells(
     coverage: float | None = None,
     max_cells: int | None = None,
 ) -> list[str]:
-    """확률 내림차순으로 누적 커버리지(기본 80%)에 도달할 때까지 셀 선택.
+    """확률 내림차순으로 누적 커버리지(기본 95%)에 도달할 때까지 셀 선택.
 
     반환된 셀 집합이 '1차 안전 반경' — 이 안의 사용자가 알림 대상.
     """
@@ -59,7 +59,7 @@ def select_alert_cells(
     # 판정 무력화) 방지. 상류(전략확률 가드레일)에서 막지만 심층 방어.
     ranked = sorted(
         ((c, p) for c, p in poa.items() if math.isfinite(p)),
-        key=lambda kv: kv[1], reverse=True,
+        key=lambda kv: (-kv[1], kv[0]),
     )
     return _cumulative_top_cells(ranked, target_total=1.0, coverage=coverage, max_cells=max_cells)
 
@@ -267,7 +267,7 @@ def eligible_for_alert(device, kind: str, rel_by_parent: dict[str, float],
     retain the legacy diagnostic threshold for callers outside this path.
     """
     if selected_targets is not None:
-        return device.cell_res7 in selected_targets
+        return devices.location_in_targets(devices.location_cell(device), selected_targets)
     return (kind == "reflex" or not rel_by_parent
             or rel_by_parent.get(device.cell_res7 or "", 0.0)
                >= settings.push_prob_threshold[device.engagement.value])

@@ -1,0 +1,559 @@
+{
+  "status": "frozen_dev8_after_user_area_cost_metric_instruction_before_new_seen31_scoring",
+  "new_holdout": false,
+  "user_instruction": "면적당 알람 정확도; 발송 면적을 비용으로 고려",
+  "selection_rule": "maximize 100*mean(hit)/mean(area), subject to development mean hit>=preliminary AND mean area<=preliminary; no relaxation of either point criterion",
+  "weight": 0.9,
+  "res": 9,
+  "coverage": 0.95,
+  "chosen": {
+    "weight": 0.9,
+    "res": 9,
+    "coverage": 0.95,
+    "area_km2": 5.281216032677167,
+    "hit": 0.4947916666666667,
+    "efficiency_pp_per_km2": 9.368896549680542
+  },
+  "preliminary_native": {
+    "people": 8,
+    "checks": 192,
+    "area_km2": 5.521502602183193,
+    "hit": 0.4947916666666667
+  },
+  "preliminary_efficiency_pp_per_km2": 8.961177822700417,
+  "grid": [
+    {
+      "weight": 0,
+      "res": 8,
+      "coverage": 0.8,
+      "area_km2": 12.3435812289071,
+      "hit": 0.53125,
+      "efficiency_pp_per_km2": 4.303856313238171
+    },
+    {
+      "weight": 0,
+      "res": 8,
+      "coverage": 0.85,
+      "area_km2": 15.381064390109387,
+      "hit": 0.5677083333333334,
+      "efficiency_pp_per_km2": 3.6909560933792824
+    },
+    {
+      "weight": 0,
+      "res": 8,
+      "coverage": 0.9,
+      "area_km2": 19.119612486779342,
+      "hit": 0.625,
+      "efficiency_pp_per_km2": 3.2688947039704357
+    },
+    {
+      "weight": 0,
+      "res": 8,
+      "coverage": 0.95,
+      "area_km2": 23.15782860111861,
+      "hit": 0.6458333333333334,
+      "efficiency_pp_per_km2": 2.7888337220966273
+    },
+    {
+      "weight": 0,
+      "res": 9,
+      "coverage": 0.8,
+      "area_km2": 3.725130469292059,
+      "hit": 0.4322916666666667,
+      "efficiency_pp_per_km2": 11.604738954252559
+    },
+    {
+      "weight": 0,
+      "res": 9,
+      "coverage": 0.85,
+      "area_km2": 4.583874284125845,
+      "hit": 0.4479166666666667,
+      "efficiency_pp_per_km2": 9.771573976577445
+    },
+    {
+      "weight": 0,
+      "res": 9,
+      "coverage": 0.9,
+      "area_km2": 5.716375367556583,
+      "hit": 0.4739583333333333,
+      "efficiency_pp_per_km2": 8.2912388158289
+    },
+    {
+      "weight": 0,
+      "res": 9,
+      "coverage": 0.95,
+      "area_km2": 7.1417992644609045,
+      "hit": 0.4947916666666667,
+      "efficiency_pp_per_km2": 6.928109406950909
+    },
+    {
+      "weight": 0.3,
+      "res": 8,
+      "coverage": 0.8,
+      "area_km2": 10.67122182135889,
+      "hit": 0.5364583333333334,
+      "efficiency_pp_per_km2": 5.02715005192367
+    },
+    {
+      "weight": 0.3,
+      "res": 8,
+      "coverage": 0.85,
+      "area_km2": 12.918999049514442,
+      "hit": 0.5625,
+      "efficiency_pp_per_km2": 4.3540524915600285
+    },
+    {
+      "weight": 0.3,
+      "res": 8,
+      "coverage": 0.9,
+      "area_km2": 16.989569466671135,
+      "hit": 0.6041666666666666,
+      "efficiency_pp_per_km2": 3.5561034542510073
+    },
+    {
+      "weight": 0.3,
+      "res": 8,
+      "coverage": 0.95,
+      "area_km2": 22.566010600280524,
+      "hit": 0.640625,
+      "efficiency_pp_per_km2": 2.83889346392506
+    },
+    {
+      "weight": 0.3,
+      "res": 9,
+      "coverage": 0.8,
+      "area_km2": 3.54929332484322,
+      "hit": 0.4375,
+      "efficiency_pp_per_km2": 12.32639739684872
+    },
+    {
+      "weight": 0.3,
+      "res": 9,
+      "coverage": 0.85,
+      "area_km2": 4.404503451314328,
+      "hit": 0.4739583333333333,
+      "efficiency_pp_per_km2": 10.760766532987992
+    },
+    {
+      "weight": 0.3,
+      "res": 9,
+      "coverage": 0.9,
+      "area_km2": 5.639584317842988,
+      "hit": 0.5052083333333334,
+      "efficiency_pp_per_km2": 8.958254808513335
+    },
+    {
+      "weight": 0.3,
+      "res": 9,
+      "coverage": 0.95,
+      "area_km2": 7.405326124331867,
+      "hit": 0.515625,
+      "efficiency_pp_per_km2": 6.962893886682423
+    },
+    {
+      "weight": 0.5,
+      "res": 8,
+      "coverage": 0.8,
+      "area_km2": 9.882511839752503,
+      "hit": 0.5260416666666666,
+      "efficiency_pp_per_km2": 5.322955086688172
+    },
+    {
+      "weight": 0.5,
+      "res": 8,
+      "coverage": 0.85,
+      "area_km2": 11.948904857198727,
+      "hit": 0.5625,
+      "efficiency_pp_per_km2": 4.707544387727857
+    },
+    {
+      "weight": 0.5,
+      "res": 8,
+      "coverage": 0.9,
+      "area_km2": 15.537793355745512,
+      "hit": 0.5885416666666666,
+      "efficiency_pp_per_km2": 3.78780727218925
+    },
+    {
+      "weight": 0.5,
+      "res": 8,
+      "coverage": 0.95,
+      "area_km2": 21.840573632613143,
+      "hit": 0.6354166666666666,
+      "efficiency_pp_per_km2": 2.9093405574194224
+    },
+    {
+      "weight": 0.5,
+      "res": 9,
+      "coverage": 0.8,
+      "area_km2": 3.282253003113695,
+      "hit": 0.453125,
+      "efficiency_pp_per_km2": 13.805303843736146
+    },
+    {
+      "weight": 0.5,
+      "res": 9,
+      "coverage": 0.85,
+      "area_km2": 4.135226714693787,
+      "hit": 0.46875,
+      "efficiency_pp_per_km2": 11.335533269176775
+    },
+    {
+      "weight": 0.5,
+      "res": 9,
+      "coverage": 0.9,
+      "area_km2": 5.349908097052349,
+      "hit": 0.5,
+      "efficiency_pp_per_km2": 9.345954938468683
+    },
+    {
+      "weight": 0.5,
+      "res": 9,
+      "coverage": 0.95,
+      "area_km2": 7.38729175606661,
+      "hit": 0.5104166666666666,
+      "efficiency_pp_per_km2": 6.909388224006464
+    },
+    {
+      "weight": 0.6,
+      "res": 8,
+      "coverage": 0.8,
+      "area_km2": 9.283044863106047,
+      "hit": 0.5104166666666666,
+      "efficiency_pp_per_km2": 5.49837552434153
+    },
+    {
+      "weight": 0.6,
+      "res": 8,
+      "coverage": 0.85,
+      "area_km2": 11.404605973923575,
+      "hit": 0.5416666666666666,
+      "efficiency_pp_per_km2": 4.749543017138669
+    },
+    {
+      "weight": 0.6,
+      "res": 8,
+      "coverage": 0.9,
+      "area_km2": 14.55952098446403,
+      "hit": 0.5729166666666666,
+      "efficiency_pp_per_km2": 3.9349966752203356
+    },
+    {
+      "weight": 0.6,
+      "res": 8,
+      "coverage": 0.95,
+      "area_km2": 20.136300666637474,
+      "hit": 0.6145833333333334,
+      "efficiency_pp_per_km2": 3.0521163917243075
+    },
+    {
+      "weight": 0.6,
+      "res": 9,
+      "coverage": 0.8,
+      "area_km2": 3.088435919600706,
+      "hit": 0.453125,
+      "efficiency_pp_per_km2": 14.67166591102797
+    },
+    {
+      "weight": 0.6,
+      "res": 9,
+      "coverage": 0.85,
+      "area_km2": 3.919985683468159,
+      "hit": 0.4583333333333333,
+      "efficiency_pp_per_km2": 11.692219572797738
+    },
+    {
+      "weight": 0.6,
+      "res": 9,
+      "coverage": 0.9,
+      "area_km2": 5.088470170387912,
+      "hit": 0.484375,
+      "efficiency_pp_per_km2": 9.519069264054945
+    },
+    {
+      "weight": 0.6,
+      "res": 9,
+      "coverage": 0.95,
+      "area_km2": 6.978135865499738,
+      "hit": 0.5104166666666666,
+      "efficiency_pp_per_km2": 7.3145131666208005
+    },
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.8,
+      "area_km2": 8.841401696515975,
+      "hit": 0.5104166666666666,
+      "efficiency_pp_per_km2": 5.773028804559354
+    },
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.85,
+      "area_km2": 10.899845034737886,
+      "hit": 0.5260416666666666,
+      "efficiency_pp_per_km2": 4.826138949592108
+    },
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.9,
+      "area_km2": 14.10999249905347,
+      "hit": 0.546875,
+      "efficiency_pp_per_km2": 3.875799367268874
+    },
+    {
+      "weight": 0.7,
+      "res": 8,
+      "coverage": 0.95,
+      "area_km2": 18.8187447498358,
+      "hit": 0.609375,
+      "efficiency_pp_per_km2": 3.238127771541813
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.8,
+      "area_km2": 2.873226538850092,
+      "hit": 0.4427083333333333,
+      "efficiency_pp_per_km2": 15.408055276786904
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.85,
+      "area_km2": 3.645062465579985,
+      "hit": 0.4635416666666667,
+      "efficiency_pp_per_km2": 12.716974566111041
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.9,
+      "area_km2": 4.777488319428719,
+      "hit": 0.484375,
+      "efficiency_pp_per_km2": 10.13869564118412
+    },
+    {
+      "weight": 0.7,
+      "res": 9,
+      "coverage": 0.95,
+      "area_km2": 6.494701076959477,
+      "hit": 0.5052083333333334,
+      "efficiency_pp_per_km2": 7.778777303940967
+    },
+    {
+      "weight": 0.8,
+      "res": 8,
+      "coverage": 0.8,
+      "area_km2": 8.273548801904731,
+      "hit": 0.5,
+      "efficiency_pp_per_km2": 6.043355904118077
+    },
+    {
+      "weight": 0.8,
+      "res": 8,
+      "coverage": 0.85,
+      "area_km2": 10.25312207806686,
+      "hit": 0.5208333333333334,
+      "efficiency_pp_per_km2": 5.079753555724093
+    },
+    {
+      "weight": 0.8,
+      "res": 8,
+      "coverage": 0.9,
+      "area_km2": 13.242505035146086,
+      "hit": 0.5364583333333334,
+      "efficiency_pp_per_km2": 4.051033636834976
+    },
+    {
+      "weight": 0.8,
+      "res": 8,
+      "coverage": 0.95,
+      "area_km2": 17.603946941070905,
+      "hit": 0.5989583333333334,
+      "efficiency_pp_per_km2": 3.4024093309207437
+    },
+    {
+      "weight": 0.8,
+      "res": 9,
+      "coverage": 0.8,
+      "area_km2": 2.621951615790902,
+      "hit": 0.4322916666666667,
+      "efficiency_pp_per_km2": 16.487400608888336
+    },
+    {
+      "weight": 0.8,
+      "res": 9,
+      "coverage": 0.85,
+      "area_km2": 3.337449568396241,
+      "hit": 0.4427083333333333,
+      "efficiency_pp_per_km2": 13.26486960358984
+    },
+    {
+      "weight": 0.8,
+      "res": 9,
+      "coverage": 0.9,
+      "area_km2": 4.367354523760498,
+      "hit": 0.4791666666666667,
+      "efficiency_pp_per_km2": 10.971554153888144
+    },
+    {
+      "weight": 0.8,
+      "res": 9,
+      "coverage": 0.95,
+      "area_km2": 5.914429559332878,
+      "hit": 0.5052083333333334,
+      "efficiency_pp_per_km2": 8.541962132867445
+    },
+    {
+      "weight": 0.9,
+      "res": 8,
+      "coverage": 0.8,
+      "area_km2": 7.650475982335036,
+      "hit": 0.4895833333333333,
+      "efficiency_pp_per_km2": 6.399383965962146
+    },
+    {
+      "weight": 0.9,
+      "res": 8,
+      "coverage": 0.85,
+      "area_km2": 9.251432327443466,
+      "hit": 0.515625,
+      "efficiency_pp_per_km2": 5.573461294965635
+    },
+    {
+      "weight": 0.9,
+      "res": 8,
+      "coverage": 0.9,
+      "area_km2": 11.956691487692924,
+      "hit": 0.53125,
+      "efficiency_pp_per_km2": 4.443118738547516
+    },
+    {
+      "weight": 0.9,
+      "res": 8,
+      "coverage": 0.95,
+      "area_km2": 16.37379275350064,
+      "hit": 0.5729166666666666,
+      "efficiency_pp_per_km2": 3.498985698009276
+    },
+    {
+      "weight": 0.9,
+      "res": 9,
+      "coverage": 0.8,
+      "area_km2": 2.4247774492493934,
+      "hit": 0.40625,
+      "efficiency_pp_per_km2": 16.75411490344227
+    },
+    {
+      "weight": 0.9,
+      "res": 9,
+      "coverage": 0.85,
+      "area_km2": 3.028713029164526,
+      "hit": 0.4375,
+      "efficiency_pp_per_km2": 14.445079338556049
+    },
+    {
+      "weight": 0.9,
+      "res": 9,
+      "coverage": 0.9,
+      "area_km2": 3.9233674436852675,
+      "hit": 0.4583333333333333,
+      "efficiency_pp_per_km2": 11.682141423460841
+    },
+    {
+      "weight": 0.9,
+      "res": 9,
+      "coverage": 0.95,
+      "area_km2": 5.281216032677167,
+      "hit": 0.4947916666666667,
+      "efficiency_pp_per_km2": 9.368896549680542
+    },
+    {
+      "weight": 1,
+      "res": 8,
+      "coverage": 0.8,
+      "area_km2": 7.445534199845224,
+      "hit": 0.4895833333333333,
+      "efficiency_pp_per_km2": 6.575529978003601
+    },
+    {
+      "weight": 1,
+      "res": 8,
+      "coverage": 0.85,
+      "area_km2": 9.180725035200199,
+      "hit": 0.4947916666666667,
+      "efficiency_pp_per_km2": 5.3894617774692675
+    },
+    {
+      "weight": 1,
+      "res": 8,
+      "coverage": 0.9,
+      "area_km2": 11.767815920275384,
+      "hit": 0.5208333333333334,
+      "efficiency_pp_per_km2": 4.4259133288783215
+    },
+    {
+      "weight": 1,
+      "res": 8,
+      "coverage": 0.95,
+      "area_km2": 15.47479687357182,
+      "hit": 0.5625,
+      "efficiency_pp_per_km2": 3.6349427045510962
+    },
+    {
+      "weight": 1,
+      "res": 9,
+      "coverage": 0.8,
+      "area_km2": 2.246785235269499,
+      "hit": 0.390625,
+      "efficiency_pp_per_km2": 17.385951886636153
+    },
+    {
+      "weight": 1,
+      "res": 9,
+      "coverage": 0.85,
+      "area_km2": 2.78201433893998,
+      "hit": 0.421875,
+      "efficiency_pp_per_km2": 15.164371875981969
+    },
+    {
+      "weight": 1,
+      "res": 9,
+      "coverage": 0.9,
+      "area_km2": 3.5494005970443623,
+      "hit": 0.4427083333333333,
+      "efficiency_pp_per_km2": 12.472763251969445
+    },
+    {
+      "weight": 1,
+      "res": 9,
+      "coverage": 0.95,
+      "area_km2": 4.644643866357786,
+      "hit": 0.4791666666666667,
+      "efficiency_pp_per_km2": 10.316542676982838
+    }
+  ],
+  "development_people": [
+    "E01",
+    "E02",
+    "E03",
+    "E04",
+    "E05",
+    "E06",
+    "E07",
+    "E08"
+  ],
+  "futures": [
+    "habitual",
+    "departure",
+    "contradictory"
+  ],
+  "cost_is_area_proxy_not_money": true,
+  "new_model_calls": 0,
+  "dataset_hashes": {
+    "dev_native_rows": "043097d2ce6df50ba15a1b2f427aeaba27ee6524181b70c07796cadbd744497d",
+    "truth": "a2ccac26ff9ac4bb536004e8f3d3a74a4c5f248efe289d406c337ced84efff46"
+  }
+}

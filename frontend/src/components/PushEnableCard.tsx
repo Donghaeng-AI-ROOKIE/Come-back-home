@@ -27,6 +27,9 @@ export default function PushEnableCard({ compact = false }: { compact?: boolean 
       </Text> : <Text style={styles.body}>
         화면을 열고 이동하면 알림 대상 구역 진입을 확인해요. 화면을 닫으면 위치 갱신이 멈출 수 있어요.
       </Text>}
+      {!compact ? <Text style={styles.body}>
+        주변 알림을 고르기 위해 현재 위치를 작은 구역 번호로 바꿔 보내요. 좌표와 이동 경로는 보내지 않으며 이전 구역 번호는 덮어써요.
+      </Text> : null}
       {!compact && subscribed ? <Text style={styles.body}>
         화면을 닫은 뒤에는 5분 이내 확인한 위치를 기준으로 새 실종 경보를 받아요.
       </Text> : null}

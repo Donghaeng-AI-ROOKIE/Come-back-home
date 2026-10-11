@@ -154,18 +154,22 @@ Tip {
 | 메서드 | 경로 | 요청/쿼리 | 응답 |
 |---|---|---|---|
 | POST | `/phase3/cases/{case_id}/reflex-alerts` | — | `{ case_id, target_cells, message, sent, note }` — 1차 경보 수동 재발송 |
-| POST | `/phase3/cases/{case_id}/alerts` | — | 동일 — POA 누적 80% 타겟 알림. 최초 호출 시 `last_alert_poa` 시딩 |
-| GET | `/phase3/alerts` | `?cell_res7=` | 그 셀의 활성 알림 목록 |
-| GET | `/phase3/alerts/resolved` | `?cell_res7=&hours=24` | 최근 해제(발견·종결)된 알림 |
+| POST | `/phase3/cases/{case_id}/alerts` | — | 동일 — POA 누적 설정값(기본 95%) 타겟 알림. 최초 호출 시 `last_alert_poa` 시딩 |
+| GET | `/phase3/alerts` | `?target_cell=` (기존 `cell_res7` 지원) | 그 셀의 활성 알림 목록 |
+| GET | `/phase3/alerts/resolved` | `?target_cell=&hours=24` (기존 `cell_res7` 지원) | 최근 해제(발견·종결)된 알림 |
 | POST | `/phase3/cases/{case_id}/tips` | `{ text, location?, seen_at?, force?, reporter_user_id? }` | **Tip 또는 되묻기** (아래) |
 | GET | `/phase3/cases/{case_id}/poa` | `?top=20&elapsed_hours=` | `{ case_id, total_cells, top_cells:[{cell,prob,polygon}], prior_source, roadnet_used, ... }` |
 | GET | `/phase3/cases/{case_id}/guidance` | — | 시민 화면에 띄울 안내 문구 |
 | GET | `/phase3/cases/{case_id}/rerun-check` | — | `{ case_id, should_rerun, reason }` |
 | POST | `/phase3/cases/{case_id}/presence` | `{ token }` | 그 사건을 보고 있는 사람 수 |
 | GET | `/phase3/cases/{case_id}/presence` | — | 동일 |
-| POST | `/phase3/devices` | `{ token, platform, cell_res7?, engagement, web_subscription? }` | 등록 결과 |
+| POST | `/phase3/devices` | `{ token, platform, target_cell?, engagement, web_subscription? }` | 등록 결과 |
 | DELETE | `/phase3/devices/{token}` | — | 해제 결과 |
-| GET | `/phase3/webpush/public-key` | — | `{ public_key }` (VAPID) |
+| GET | `/phase3/targeting-policy` | — | `{ target_res, coverage, targeting_policy, location_ttl_seconds, supported_location_resolutions }` |
+| GET | `/phase3/webpush/public-key` | — | `{ key, enabled, ...targeting-policy }` (VAPID) |
+| POST | `/phase3/webpush/subscription` | `{ subscription, target_cell?, engagement? }` | `{ device_id, registered, targetable }` |
+| POST | `/phase3/webpush/location` | `{ device_id, target_cell? }` | `{ targets:[{case_id,cells,resolution,kind}], location_ttl_seconds }` |
+| POST | `/phase3/webpush/enter` | `{ device_id, case_id }` | `{ status }` — 관측 기반 진입 판정, 실제 수신 증명이 아님 |
 
 > `POST /tips`는 두 가지 형태를 반환한다.
 >
@@ -174,7 +178,9 @@ Tip {
 >
 > `text`는 자유 텍스트 한 덩어리다. 위치·시각은 별도 필드가 아니라 이 텍스트에서 구조화·지오코딩·시각 변환으로 뽑는다(`location`·`seen_at`은 지도 핀 등 명시값이 있을 때만).
 
-**개인정보 경계.** `presence`의 `token`은 클라이언트가 만든 불투명 난수이며 계정·기기·좌표 어디에도 연결하지 않는다. 좌표 필드가 없는 것은 의도된 설계다 — 셀 단위 집계도 위치정보이기 때문이다. `devices`의 `cell_res7`은 폰이 자기 좌표를 res7로 낮춰 보낸 값이고 서버는 현재 값만 덮어쓴다. `reporter_user_id`는 Tip에 저장하지 않고 카운터만 올린다.
+프런트 정책 조회는 기존 Supabase read lane `/phase3/webpush/public-key`의 정책 필드를 사용한다. `/phase3/targeting-policy`는 직접 API 진단 경로이며, 새로운 SQL migration은 필요하지 않다.
+
+**개인정보 경계.** `presence`의 `token`은 클라이언트가 만든 불투명 난수이며 계정·기기·좌표 어디에도 연결하지 않는다. 좌표 필드가 없는 것은 의도된 설계다 — 셀 단위 집계도 위치정보이기 때문이다. `target_cell`은 서버 정책 해상도(res7/8/9)로 폰에서 변환한 현재 위치 셀이며 기본 res9는 기존 res7보다 작은 위치 구역을 드러낸다. 현재 셀만 덮어쓰고 좌표·이동 이력을 보내지 않는다. 인증 웹 위치와 새 fine 셀은 5분 후 발송 대상에서 제외되며, 이는 위치 값 자체의 자동 삭제를 뜻하지 않는다. 기존 `cell_res7`은 지리적 겹침 근사로 지원하고 fine 위치를 복원하지 않는다. 웹 null은 현재 셀을 지우고 native null은 이전 관측의 시각을 갱신하지 않는다. 서로 다른 두 위치 필드 또는 잘못된 H3는 422다. 웹 `owner_id`는 인증 브리지에서 주입한다. native `/devices`의 Cloud 브리지/EAS 실기기 연결과 외부 푸시 수신은 이 변경의 검증 범위가 아니다. `reporter_user_id`는 Tip에 저장하지 않고 카운터만 올린다.
 
 ### Walk — 산책 (평시 모드)
 

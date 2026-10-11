@@ -63,10 +63,11 @@ def test_foreign_account_cannot_update_send_or_delete(monkeypatch):
 def test_endpoint_cannot_be_used_as_arbitrary_server_request(url):
     with pytest.raises(HTTPException):entry.register(OWNER,sub(url),None,'normal')
 
-def test_rejects_bad_encryption_keys_and_fine_location():
+def test_rejects_bad_encryption_keys_and_unsupported_location_resolution():
     invalid=sub(); invalid['keys']['p256dh']='invalid'
     with pytest.raises(HTTPException):entry.register(OWNER,invalid,None,'normal')
-    with pytest.raises(HTTPException):entry.register(OWNER,sub(),FINE,'normal')
+    unsupported=h3.latlng_to_cell(37.6688,126.7457,6)
+    with pytest.raises(HTTPException):entry.register(OWNER,sub(),unsupported,'normal')
 
 def test_entry_send_is_deduplicated_even_after_restart(monkeypatch):
     row=case(monkeypatch); token=registered(); calls=[]
@@ -135,7 +136,8 @@ def test_bridge_public_key_reaches_real_api(monkeypatch):
         async with httpx.AsyncClient(transport=httpx.ASGITransport(app),base_url='http://test') as client:
             return await dispatch(client,dict(owner_id=OWNER,method='GET',path='/phase3/webpush/public-key'),enabled=True)
     status,out=asyncio.run(run())
-    assert status==200 and out=={'key':'synthetic-public','enabled':True}
+    assert status==200 and out['key']=='synthetic-public' and out['enabled'] is True
+    assert out['target_res']==7 and out['supported_location_resolutions']==[7,8,9]
 
 def test_expired_subscription_is_removed_and_log_contains_no_payload(monkeypatch):
     token=registered();events=[]

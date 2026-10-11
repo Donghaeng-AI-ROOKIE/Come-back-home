@@ -1,0 +1,50 @@
+{
+  "settings": {
+    "personal_weight": 0.9,
+    "target_res": 9,
+    "coverage": 0.95
+  },
+  "saved_channel_executor_proof": "channel_executor_verification.json",
+  "does_not_rerun_models_or_reestimate_channels": true,
+  "new_model_calls": 0,
+  "new_map_calls": 0,
+  "new_push_calls": 0,
+  "rows": [
+    {
+      "hour": 1,
+      "selected_mass": 0.953,
+      "selected_count": 19,
+      "target_count": 19,
+      "area_km2": 1.3702590866107345,
+      "saved_score_area_delta": 0.0,
+      "all_selected_cells_geographically_covered": true
+    },
+    {
+      "hour": 2,
+      "selected_mass": 0.9516,
+      "selected_count": 24,
+      "target_count": 24,
+      "area_km2": 1.7307332487581968,
+      "saved_score_area_delta": 0.0,
+      "all_selected_cells_geographically_covered": true
+    },
+    {
+      "hour": 4,
+      "selected_mass": 0.95,
+      "selected_count": 74,
+      "target_count": 74,
+      "area_km2": 5.336796536914647,
+      "saved_score_area_delta": 0.0,
+      "all_selected_cells_geographically_covered": true
+    },
+    {
+      "hour": 6,
+      "selected_mass": 0.9504,
+      "selected_count": 115,
+      "target_count": 115,
+      "area_km2": 8.294751282682716,
+      "saved_score_area_delta": 0.0,
+      "all_selected_cells_geographically_covered": true
+    }
+  ]
+}

@@ -11,6 +11,7 @@ import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import { useMyLocation } from './useMyLocation';
 import { LAST_SEEN } from '../data/missing';
 import { cellOf } from '../utils/h3cell';
+import { useTargetingPolicy } from './useTargetingPolicy';
 import type { TimeAxis } from '../types/domain';
 
 // ── 수색 ──────────────────────────────────────────────────────────
@@ -34,22 +35,24 @@ import type { TimeAxis } from '../types/domain';
 export const ALERT_POLL_MS = 15_000;
 
 export function useActiveAlerts(enabled = true) {
+  const policy = useTargetingPolicy(enabled);
   const { point } = useMyLocation(enabled);
   const forceInArea = useDebugStore((s) => s.forceInAlertArea);
   // 데모 오버라이드는 "판정을 건너뛰는" 게 아니라 **위치를 갈아끼우는** 쪽으로
   // 건다. 서버가 대상을 고르는 구조라 필터만 꺼봐야 받을 게 없기 때문이고,
   // 실제 동작(내 칸으로 묻는다)을 그대로 타는 편이 시연으로서도 정직하다.
-  const cell = cellOf(forceInArea ? LAST_SEEN : point);
-  return useQuery({
+  const cell = policy.resolution == null ? null : cellOf(forceInArea ? LAST_SEEN : point, policy.resolution);
+  const query = useQuery({
     queryKey: ['activeAlerts', cell],
     queryFn: () => getActiveAlerts(cell),
-    enabled,
+    enabled: enabled && policy.resolution != null,
     // 앱을 열어 둔 채로 신고가 접수되는 경우를 이 주기가 잡는다. 골든타임이라
     // 오래 모르고 있으면 안 되고, 응답이 경보 몇 건짜리 배열이라 서버 부담도
     // 크지 않다(presence 하트비트가 이미 30초).
     refetchInterval: ALERT_POLL_MS,
     refetchOnWindowFocus: true,
   });
+  return { ...query, isError: query.isError || policy.isError, error: query.error ?? policy.error };
 }
 
 /**
@@ -63,13 +66,14 @@ export function useActiveAlerts(enabled = true) {
  * 대가 서버에 거는 요청이 그대로 두 배가 된다.
  */
 export function useResolvedAlerts(enabled = true) {
+  const policy = useTargetingPolicy(enabled);
   const { point } = useMyLocation(enabled);
   const forceInArea = useDebugStore((s) => s.forceInAlertArea);
-  const cell = cellOf(forceInArea ? LAST_SEEN : point);
+  const cell = policy.resolution == null ? null : cellOf(forceInArea ? LAST_SEEN : point, policy.resolution);
   return useQuery({
     queryKey: ['resolvedAlerts', cell],
     queryFn: () => getResolvedAlerts(cell),
-    enabled,
+    enabled: enabled && policy.resolution != null,
     refetchInterval: ALERT_POLL_MS * 4,
     refetchOnWindowFocus: true,
   });

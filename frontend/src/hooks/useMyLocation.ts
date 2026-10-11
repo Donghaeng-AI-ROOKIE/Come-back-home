@@ -29,7 +29,7 @@
  * 그래서 홈에서 그 사실을 알려야 한다.
  */
 import { useEffect, useSyncExternalStore } from 'react';
-import { Platform } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import * as Location from 'expo-location';
 import type { GeoPoint } from '../types/domain';
 
@@ -151,7 +151,7 @@ async function start(): Promise<void> {
 
     // Accuracy.High(GPS): 표기 단위가 50m 라 Balanced(≈100m)로는 정확도 게이트에
     // 걸려 숫자가 아예 안 뜬다. 전경에서만 도는 단일 워처라 비용을 감수한다.
-    subscription = await Location.watchPositionAsync(
+    const nativeSubscription = await Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.High,
         distanceInterval: 25, // 25m 이상 움직였을 때만 — 정지 상태 갱신 폭주 방지
@@ -166,12 +166,23 @@ async function start(): Promise<void> {
         if (state.point == null) setState({ point: null, accuracyM: null, status: 'unavailable' });
       },
     );
+    // Obtain a real fresh fix while stationary; never re-date the previous fix.
+    const refresh = async () => {
+      if (AppState.currentState !== 'active') return;
+      try { const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+        if (refCount > 0) apply(loc);
+      } catch { /* the previous timestamp expires normally */ }
+    };
+    const timer = setInterval(() => void refresh(), 60_000);
+    subscription = { remove: () => { clearInterval(timer); nativeSubscription.remove(); } };
   } catch {
     // 위치서비스가 꺼져 있거나 기기가 지원하지 않는 경우.
     // 화면이 이것 때문에 깨지면 안 되므로 조용히 물러난다.
     setState({ point: null, accuracyM: null, status: 'unavailable' });
   } finally {
     starting = false;
+    // Permission/watch setup can finish after the last screen unmounts.
+    if (refCount === 0) stop();
   }
 }
 

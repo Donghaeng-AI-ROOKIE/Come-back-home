@@ -1,7 +1,8 @@
 """Authenticated web subscriptions and on-device fine-cell entry receipts.
 
-Only the current coarse H3 cell is retained. Fine coordinates/cell and movement
-paths remain on the phone. Entry is a client observation, not server GPS proof.
+Only the current negotiated H3 res7/8/9 cell is retained, with a five-minute
+eligibility TTL. Coordinates and movement history are not sent. A res9 cell
+reveals a smaller location region. Entry is client observation, not GPS proof.
 """
 import base64,hashlib,re,threading,time
 from datetime import datetime,timedelta
@@ -21,7 +22,7 @@ ENTRY_COOLDOWN=timedelta(hours=1)
 MAX_DAILY=6
 
 def valid_cell(cell):
-    if cell is not None and (not h3.is_valid_cell(cell) or h3.get_resolution(cell)!=7):
+    if cell is not None and (not h3.is_valid_cell(cell) or h3.get_resolution(cell) not in (7,8,9)):
         raise HTTPException(422,'올바른 위치 구역이 필요합니다.')
     return cell
 
@@ -67,7 +68,7 @@ def register(owner,sub,cell,engagement):
         if storage.devices.get(token) is None and sum(d.owner_id==owner for d in devices.all_devices())>=5:
             raise HTTPException(429,'알림 기기는 계정당 5개까지 등록할 수 있습니다.')
         d=devices.register(token,Platform.web,cell,engagement,web_subscription=sub)
-        d.owner_id=owner;d.cell_res7=cell;d.location_updated_at=datetime.now() if cell else None
+        d.owner_id=owner;devices.set_location(d,cell)
         storage.devices.save(token,d)
     return {'device_id':token,'registered':True,'targetable':cell is not None}
 
@@ -89,7 +90,7 @@ def targets(cell,device=None):
         try:
             kind,cells=target_for_case(case)
             parents=alerts.target_parent_cells(cells)
-            if cell not in parents:continue
+            if not devices.location_in_targets(cell,parents):continue
             rel=alerts.relative_prob_by_parent(case.current_poa) if case.current_poa else {}
             if device is not None and not alerts.eligible_for_alert(device,kind,rel,parents):continue
             result.append({'case_id':case.id,'cells':sorted(parents),
@@ -102,7 +103,7 @@ def update_location(owner,token,cell):
     valid_cell(cell)
     with _lock:
         d=owned(owner,token)
-        d.cell_res7=cell;d.location_updated_at=datetime.now() if cell else None
+        devices.set_location(d,cell)
         storage.devices.save(token,d)
     return {'targets':targets(cell,d),'location_ttl_seconds':int(LOCATION_TTL.total_seconds())}
 
@@ -151,9 +152,10 @@ def enter(owner,token,case_id,*,test=False,now=None):
         return {'status':status,'delivery_confirmed':False}
     case=storage.cases.get(case_id)
     if case is None or case.status in (CaseStatus.found,CaseStatus.closed):return {'status':'closed'}
-    if d.cell_res7 is None or d.location_updated_at is None or not timedelta(0)<=now-d.location_updated_at<=LOCATION_TTL:
+    cell=devices.location_cell(d)
+    if cell is None or d.location_updated_at is None or not timedelta(0)<=now-d.location_updated_at<=LOCATION_TTL:
         return {'status':'location_stale'}
-    if not any(t['case_id']==case_id for t in targets(d.cell_res7,d)):return {'status':'outside'}
+    if not any(t['case_id']==case_id for t in targets(cell,d)):return {'status':'outside'}
     kind,cells=target_for_case(case)
     look=case.report.appearance
     summary=look.summary if look and look.summary else '인상착의 정보 없음'

@@ -12,7 +12,7 @@
  * 권한 거부·에뮬레이터·projectId 미설정 어느 쪽이든 앱은 정상 동작해야 한다.
  * 푸시는 부가 경로이고, 앱을 직접 열어서 보는 경로가 이미 살아 있다.
  *
- * ## 서버에 올라가는 것: 토큰 + res7 칸 + 참여도 등급, 그게 전부
+ * ## 서버에 올라가는 것: 토큰 + 서버 해상도의 현재 H3 칸 + 참여도 등급, 그게 전부
  * 좌표는 여기서 셀로 바꿔서 나간다(utils/h3cell.ts). 참여도도 등급만 나가고
  * 원본 이력은 폰에 남는다(store/engagementStore.ts). 자세한 경계는 api/client.ts
  * 의 registerDevice 주석과 백엔드 schemas/device.py 참고.
@@ -26,6 +26,7 @@ import { registerDevice } from '../api/client';
 import { useEngagementLevel } from '../store/engagementStore';
 import { cellOf } from '../utils/h3cell';
 import { useMyLocation } from './useMyLocation';
+import { useTargetingPolicy } from './useTargetingPolicy';
 
 export type PushStatus =
   | 'idle'
@@ -63,12 +64,13 @@ function easProjectId(): string | null {
 export function usePushRegistration(enabled = true): PushStatus {
   const [status, setStatus] = useState<PushStatus>('idle');
   const [token, setToken] = useState<string | null>(null);
-  const { point } = useMyLocation(enabled);
+  const { point, observedAt, status: locationStatus } = useMyLocation(enabled);
+  const policy = useTargetingPolicy(enabled);
   const level = useEngagementLevel();
 
-  // 좌표가 아니라 **칸**으로 바꾼 뒤 비교한다 — GPS 는 25m 마다 갱신되지만 res7
-  // 칸(≈5km²)은 좀처럼 안 바뀌므로, 이것만으로 재등록 폭주가 자연히 막힌다.
-  const cell = cellOf(point);
+  // 서버 해상도로 변환하고 관측 시각이 신선한 위치만 등록한다.
+  const fresh = locationStatus === 'granted' && observedAt != null && Date.now() >= observedAt && Date.now()-observedAt <= 60_000;
+  const cell = policy.resolution == null || !fresh ? null : cellOf(point, policy.resolution);
   const lastSent = useRef<string | null>(null);
 
   // ── 1) 토큰 발급 (한 번) ────────────────────────────────
@@ -114,10 +116,10 @@ export function usePushRegistration(enabled = true): PushStatus {
 
   // ── 2) 등록·갱신 (칸이나 등급이 바뀔 때마다) ────────────
   useEffect(() => {
-    if (!enabled || token == null) return;
-    // 같은 값을 다시 보내지 않는다. 서버는 upsert 라 해로울 건 없지만, 위치를
-    // 얼마나 자주 보고하는지 자체가 활동 패턴이 된다 — 안 보내는 게 낫다.
-    const key = `${cell ?? ''}|${level}`;
+    if (!enabled || token == null || policy.resolution == null) return;
+    // 같은 관측의 중복 전송을 막고, 실제 새 관측으로만 TTL을 갱신한다.
+    // A stationary phone must refresh the current cell before its server TTL.
+    const key = `${cell ?? ''}|${level}|${policy.resolution}|${Math.floor((observedAt ?? 0)/60_000)}`;
     if (lastSent.current === key) return;
 
     let cancelled = false;
@@ -137,7 +139,7 @@ export function usePushRegistration(enabled = true): PushStatus {
     return () => {
       cancelled = true;
     };
-  }, [enabled, token, cell, level]);
+  }, [enabled, token, cell, level, policy.resolution, observedAt]);
 
   return status;
 }

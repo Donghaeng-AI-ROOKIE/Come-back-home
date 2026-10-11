@@ -1,0 +1,43 @@
+{
+  "backend": {
+    "command": "python -m pytest -q tests",
+    "passed": 1547,
+    "skipped": 2,
+    "external_network": "blocked",
+    "legacy_fixture": {
+      "target_res": 7,
+      "personal_weight": 0.7,
+      "coverage": 0.8
+    },
+    "new_contract_tests": "test_target_resolution_contract.py verifies final defaults and res7/8/9 registration, query, fanout, web entry, expiry and invalid input"
+  },
+  "frontend": {
+    "command": "node --test tests/*.test.cjs",
+    "passed": 16,
+    "failed": 0,
+    "tsc_no_emit": "passed",
+    "web_build": "passed",
+    "vendor_push_calls": 0
+  },
+  "final_profile": "final_profile_verification.json: E09 1/2/4/6h saved-channel mix and actual targeting area match exactly",
+  "channel_executor": "channel_executor_verification.json preserved from #280; not rerun in this followup",
+  "new_model_calls": 0,
+  "new_map_calls": 0,
+  "new_push_calls": 0,
+  "production_deployed": false,
+  "release_qualified": false,
+  "limits": [
+    "previously seen 31 synthetic people, no fresh holdout",
+    "contradictory future hit 0.81%, below preliminary10.89%",
+    "area reduction alone CI crosses zero",
+    "area is a proxy, not measured money/recipients",
+    "native Cloud bridge/EAS and vendor delivery unverified"
+  ],
+  "source_validation_logs": {
+    "cbh-final-resolution-backend-final.log": "e0055bf78d1b954577a17951d5d7c46adf178f4bcc56c766b29eb8ad6e3a4a96",
+    "cbh-final-resolution-front-tests.log": "b66f67abc8f4e85584b10f79eb81b7fa30b793de98c695554216374ae95d7acf",
+    "cbh-final-resolution-tsc.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cbh-final-resolution-webbuild.log": "24c6998b5f55a546fabd489762d53bc8109a08b0c50e03860f4782c4c4c32af7"
+  },
+  "metadata_transport": "Existing public-key read lane, no SQL migration"
+}
