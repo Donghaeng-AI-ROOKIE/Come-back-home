@@ -1,0 +1,173 @@
+{
+  "experiment_id": "SAR_ADDITIVE_SAFETY_20261012",
+  "status": "fixed_two_policy_seen31_exploratory",
+  "policy": {
+    "recorded_at": "2026-10-11T15:32:02.567218+00:00",
+    "purpose": "Preserve current targets and give nonpersonal statistical support a positive selection probability",
+    "candidates": [
+      "additive_top_density",
+      "additive_weighted_rotation"
+    ],
+    "primary_area_budget": "extra max(10% of matched current area, largest candidate cell area), minimum one whole res9 safety cell",
+    "random_sampling": "K=floor(extra_budget/max_candidate_cell_area); K independent draws with replacement proportional to literature cell mass, deduplicate; geographic area cannot exceed extra budget",
+    "scope": "Only positive-mass literature cells outside current alert targets; no true positions used in generation or selection",
+    "seeding": "existing person seed plus hour via numpy SeedSequence; synthetic labels excluded; replayable sample at same snapshot",
+    "expected_inclusion": "baseline included=1; otherwise 1-(1-q_cell/Q_outside)^K, zero outside literature support",
+    "static_target_limitation": "top density leaves other cells permanently out; weighted rotation is experimental, not a production trigger or push policy",
+    "weights": {
+      "personal": 0.9,
+      "statistical": 0.1
+    },
+    "people": 31,
+    "checks": 744,
+    "new_model_calls": 0,
+    "actual_push": 0,
+    "remote_runs": 0,
+    "cost_amount": null,
+    "fresh_holdout": false,
+    "default_changed": false,
+    "promotion": "No automatic promotion from synthetic mean results; await area-priority preference and new validation."
+  },
+  "baseline": {
+    "people": 31,
+    "checks": 744,
+    "hits": 362,
+    "hit_pct": 48.655913978494624,
+    "mean_area_km2": 5.741552068596368,
+    "efficiency_pp_per_km2": 8.474348642524719,
+    "auc10": 46.09219797446073,
+    "budget5_hit": 50.94086021505376,
+    "budget10_hit": 54.03225806451613
+  },
+  "arms": {
+    "additive_top_density": {
+      "realized": {
+        "checks": 744,
+        "hit_pct": 49.32795698924731,
+        "mean_area_km2": 6.2847151895433555,
+        "efficiency_pp_per_km2": 7.848877077408413,
+        "metric_kind": "realized synthetic inclusion, two existing seeds only"
+      },
+      "analytic_expectation": null,
+      "future_slices": {
+        "habitual": {
+          "realized": {
+            "checks": 248,
+            "hit_pct": 95.96774193548387,
+            "mean_area_km2": 6.2847151895433555,
+            "efficiency_pp_per_km2": 15.27002243397713,
+            "metric_kind": "realized synthetic inclusion, two existing seeds only"
+          },
+          "analytic_expectation": null
+        },
+        "departure": {
+          "realized": {
+            "checks": 248,
+            "hit_pct": 51.20967741935484,
+            "mean_area_km2": 6.2847151895433555,
+            "efficiency_pp_per_km2": 8.1482892819962,
+            "metric_kind": "realized synthetic inclusion, two existing seeds only"
+          },
+          "analytic_expectation": null
+        },
+        "contradictory": {
+          "realized": {
+            "checks": 248,
+            "hit_pct": 0.8064516129032258,
+            "mean_area_km2": 6.2847151895433555,
+            "efficiency_pp_per_km2": 0.12831951625190866,
+            "metric_kind": "realized synthetic inclusion, two existing seeds only"
+          },
+          "analytic_expectation": null
+        }
+      },
+      "lost_baseline_hits": 0,
+      "max_extra_area_fraction": 0.33329380921112683,
+      "max_extra_area_km2": 1.5142496500641691,
+      "min_added_cells": 1,
+      "max_added_cells": 21,
+      "positive_probability_every_outside_support_cell": false,
+      "uncovered_contradictory_outside_literature_support": 0,
+      "missing_baseline_contradictory_with_positive_expected_probability": null
+    },
+    "additive_weighted_rotation": {
+      "realized": {
+        "checks": 744,
+        "hit_pct": 49.32795698924731,
+        "mean_area_km2": 6.268056649925103,
+        "efficiency_pp_per_km2": 7.86973694467754,
+        "metric_kind": "realized synthetic inclusion, two existing seeds only"
+      },
+      "analytic_expectation": {
+        "checks": 744,
+        "hit_pct": 49.114857052797724,
+        "mean_area_km2": 6.265484108224603,
+        "efficiency_pp_per_km2": 7.838956448445128,
+        "metric_kind": "analytic sampling expectation, not measured accuracy"
+      },
+      "future_slices": {
+        "habitual": {
+          "realized": {
+            "checks": 248,
+            "hit_pct": 95.56451612903226,
+            "mean_area_km2": 6.268056649925104,
+            "efficiency_pp_per_km2": 15.246275116255395,
+            "metric_kind": "realized synthetic inclusion, two existing seeds only"
+          },
+          "analytic_expectation": {
+            "checks": 248,
+            "hit_pct": 94.80691255843452,
+            "mean_area_km2": 6.265484108224604,
+            "efficiency_pp_per_km2": 15.131618071456435,
+            "metric_kind": "analytic sampling expectation, not measured accuracy"
+          }
+        },
+        "departure": {
+          "realized": {
+            "checks": 248,
+            "hit_pct": 51.20967741935484,
+            "mean_area_km2": 6.268056649925104,
+            "efficiency_pp_per_km2": 8.169944893520825,
+            "metric_kind": "realized synthetic inclusion, two existing seeds only"
+          },
+          "analytic_expectation": {
+            "checks": 248,
+            "hit_pct": 51.24333869427006,
+            "mean_area_km2": 6.265484108224604,
+            "efficiency_pp_per_km2": 8.178671880597976,
+            "metric_kind": "analytic sampling expectation, not measured accuracy"
+          }
+        },
+        "contradictory": {
+          "realized": {
+            "checks": 248,
+            "hit_pct": 1.2096774193548387,
+            "mean_area_km2": 6.268056649925104,
+            "efficiency_pp_per_km2": 0.1929908242563974,
+            "metric_kind": "realized synthetic inclusion, two existing seeds only"
+          },
+          "analytic_expectation": {
+            "checks": 248,
+            "hit_pct": 1.2943199056885921,
+            "mean_area_km2": 6.265484108224604,
+            "efficiency_pp_per_km2": 0.20657939328096905,
+            "metric_kind": "analytic sampling expectation, not measured accuracy"
+          }
+        }
+      },
+      "lost_baseline_hits": 0,
+      "max_extra_area_fraction": 0.33289676636045584,
+      "max_extra_area_km2": 1.5141747938036332,
+      "min_added_cells": 1,
+      "max_added_cells": 21,
+      "positive_probability_every_outside_support_cell": true,
+      "uncovered_contradictory_outside_literature_support": 0,
+      "missing_baseline_contradictory_with_positive_expected_probability": 246
+    }
+  },
+  "source_sha256": "2398167cf52d81d6b9bd2e50292517a8dca88bac11282f2cf3abee0a19291314",
+  "new_model_calls": 0,
+  "default_changed": false,
+  "fresh_holdout": false,
+  "actual_push": false
+}

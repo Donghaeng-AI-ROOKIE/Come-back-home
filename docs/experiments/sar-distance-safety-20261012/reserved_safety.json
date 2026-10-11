@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-10-11T15:28:44.177898+00:00",
+  "user_instruction": "개인화대로 안 움직이는 경우도 포함할 조금의 가능성",
+  "candidate_count": 1,
+  "policy": "reserve_novelty_area10_v1",
+  "area_budget": "per-person/seed/hour current alert area, whole res9 cells, never exceed",
+  "personal_quota": 0.9,
+  "statistical_quota": 0.1,
+  "personal_ranking": "personal probability / WGS84 cell area",
+  "novelty_mask": "exclude personal-only cells selected within full current area budget; do not spend the safety quota on cells already in that personal cover",
+  "statistical_ranking": "distance-only probability / WGS84 cell area outside novelty mask",
+  "unused_quota": "leave unused, no reallocation or overspending",
+  "max_cells": 500,
+  "model_mixture": "unchanged personal90/statistical10; target-selection policy is a separate trial",
+  "people": 31,
+  "checks": 744,
+  "promotion_gates": [
+    "contradictory inclusion improvement CI>0",
+    "overall inclusion noninferior CI>=0",
+    "area-efficiency noninferior CI>=0",
+    "actual area never exceeds matched budget"
+  ],
+  "new_model_calls": 0,
+  "map_requests": 0,
+  "remote_runs": 0,
+  "actual_push": 0,
+  "cost_amount": null,
+  "fresh_holdout": false,
+  "product_default_changed": false
+}

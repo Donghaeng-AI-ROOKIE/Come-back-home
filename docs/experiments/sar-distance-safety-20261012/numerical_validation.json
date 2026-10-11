@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-10-11T15:23:04.911930+00:00",
+  "purpose": "Numerical sensitivity only, not another candidate or parameter selection",
+  "bands": 128,
+  "people": 31,
+  "maps_max": 124,
+  "new_model_calls": 0,
+  "remote_runs": 0,
+  "actual_push": 0,
+  "default_change": false,
+  "fixed_primary_bands": 64,
+  "cost_amount": null
+}

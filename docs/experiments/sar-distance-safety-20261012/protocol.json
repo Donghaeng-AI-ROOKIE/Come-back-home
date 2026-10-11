@@ -1,0 +1,474 @@
+{
+  "experiment_id": "SAR_DISTANCE_ONLY_20261012",
+  "recorded_at": "2026-10-11T15:19:32.617305+00:00",
+  "user_choice": "문헌 거리분포 지도",
+  "status": "fixed_before_new_comparison_scoring",
+  "personal_weight": 0.9,
+  "statistical_weight": 0.1,
+  "resolution": 9,
+  "coverage": 0.95,
+  "max_alert_cells": 500,
+  "hours": [
+    1,
+    2,
+    4,
+    6
+  ],
+  "seeds": [
+    104729,
+    130363
+  ],
+  "people": [
+    "E01",
+    "E02",
+    "E03",
+    "E04",
+    "E05",
+    "E06",
+    "E07",
+    "E08",
+    "E09",
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E14",
+    "E15",
+    "E16",
+    "E17",
+    "E18",
+    "E19",
+    "E21",
+    "E22",
+    "E23",
+    "E24",
+    "E25",
+    "E26",
+    "E27",
+    "E28",
+    "E29",
+    "E30",
+    "E31",
+    "E32",
+    "E33",
+    "E34",
+    "E35",
+    "E36",
+    "E37",
+    "E38",
+    "E39",
+    "E40"
+  ],
+  "development_people": [
+    "E01",
+    "E02",
+    "E03",
+    "E04",
+    "E05",
+    "E06",
+    "E07",
+    "E08"
+  ],
+  "seen_comparison_people": [
+    "E09",
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E14",
+    "E15",
+    "E16",
+    "E17",
+    "E18",
+    "E19",
+    "E21",
+    "E22",
+    "E23",
+    "E24",
+    "E25",
+    "E26",
+    "E27",
+    "E28",
+    "E29",
+    "E30",
+    "E31",
+    "E32",
+    "E33",
+    "E34",
+    "E35",
+    "E36",
+    "E37",
+    "E38",
+    "E39",
+    "E40"
+  ],
+  "futures": [
+    "habitual",
+    "departure",
+    "contradictory"
+  ],
+  "truth_sha256": "a2ccac26ff9ac4bb536004e8f3d3a74a4c5f248efe289d406c337ced84efff46",
+  "personal_maps_frozen": true,
+  "parameter_source": "existing repository ISRID Urban dementia lognormal approximation; no refit",
+  "mu": 0.095,
+  "sigma": 1.48,
+  "distribution_definition": "crow-flight find-location displacement; isotropic direction assumption, not hourly occupancy",
+  "conditioning": "R <= min(exp(mu+1.645*sigma), max(0.5, 4.32*hours)) km; retained and excluded tail reported",
+  "geometry": "WGS84 local AEQD; equal-CDF radial bands, mass allocated by intersection area; not per-cell radial density",
+  "bands": 64,
+  "circle_quad_segments": 256,
+  "input_scope": "Only LKP and elapsed time for the new prior; no persona/anchors/conditional rules/strategies/true positions",
+  "candidate_count": 1,
+  "comparison": "Fixed personal90+old statistical10 vs fixed personal90+distance-only10; historical preliminary reference",
+  "primary_metric": "100*sum(hit)/sum(target_area_km2), WGS84 full selected res9 cells",
+  "other_metrics": [
+    "overall inclusion",
+    "mean target area",
+    "habitual/departure/contradictory inclusion",
+    "same res9 area budget 5 and 10 km2",
+    "res9 AUC10",
+    "selected model mass; max-cell cap saturation"
+  ],
+  "bootstrap": {
+    "unit": "person",
+    "paired": true,
+    "draws": 10000,
+    "seed": 20261012
+  },
+  "scope": {
+    "local_distance_maps_max": 156,
+    "new_model_calls_max": 0,
+    "remote_runs_max": 0,
+    "map_requests_max": 0,
+    "actual_push_max": 0,
+    "cost_amount": null,
+    "cost_status": "unconfirmed; local CPU only, not recorded as free"
+  },
+  "promotion": "Exploratory comparison only; no default change from an average alone; report every future slice. No fresh holdout or production qualification.",
+  "map_manifest": {
+    "region": "KINTEX, Goyang",
+    "center": {
+      "lat": 37.6652142,
+      "lng": 126.7483258
+    },
+    "query_half_extent_m": 14000,
+    "bbox_south_west_north_east": [
+      37.53945063550126,
+      126.5894521104606,
+      37.79097776449874,
+      126.90719948953941
+    ],
+    "nodes": 78502,
+    "edges": 226318,
+    "osmnx_version": "2.1.0",
+    "sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+    "raw_sha256": "ae833c4537dcfca91e73071433231713fae09eb777d1edd9410b6032b21fecff",
+    "query_sha256": "5c17b1643fa4190e8816a6af86156935806c69b1aaed7f7c590a3ab87d520b68",
+    "attribution": "© OpenStreetMap contributors, ODbL",
+    "retrieved_at": "2026-10-04T20:41:23+0900",
+    "source": "https://overpass-api.de/api/interpreter",
+    "new_geocode_requests": 0,
+    "request_slot": 2,
+    "actual_cost": null,
+    "support_round": null,
+    "limitations": [
+      "outdoor walk ways; no live noise or crowds",
+      "not an indoor booth map",
+      "center is KINTEX station, reused from verified September 28 lookup",
+      "finite map boundary, disconnected components retained"
+    ]
+  },
+  "map_manifest_sha256": "79f89b0e88bf94f6ac20c9aa595f60290018fe7b7d681f5b466936908a2c3f38",
+  "distance_source_sha256": "afcb07094d0e2f2ca23087e58d7f0769cc5de0e1d48b90f515c87686e7493bc9",
+  "sources": [
+    {
+      "url": "https://www.dbs-sar.com/LPB/lpb.htm",
+      "role": "original book publisher"
+    },
+    {
+      "url": "https://www.scribd.com/document/1005035709/Lost-Person-Behavior",
+      "role": "original Koester book, displacement interpretation"
+    },
+    {
+      "url": "https://blog.oplopanax.ca/wp-content/uploads/2013/06/AnalysisofMissingDementia.pdf",
+      "role": "Laing reproduction of Koester urban quantiles; secondary crosscheck, not new original quantile fit"
+    }
+  ],
+  "input_hashes": {
+    "E01": {
+      "prepared_sha256": "6cde439c1d8f6b5315e9bc37ac070c4b6f7d8a73116bc887dfb7c7f94f48d2a6",
+      "walk_map_sha256": {
+        "104729": "dfce8a170dd2e6cef3030115b35bcdeab7af776944538baba07a3e910a555d9d",
+        "130363": "45b325e0efe673c4016a7f99f7c30ed7dedf934cc629ac7b29b38a22d0d88606"
+      }
+    },
+    "E02": {
+      "prepared_sha256": "57ee550c16ace179659bdffb0148585f48500a06534d0a17698737f17d65cee9",
+      "walk_map_sha256": {
+        "104729": "50eabf61653c51ac8ed38000ca1a3c10f4738f178813604c48e7789b06a997af",
+        "130363": "11d4fdfc2ba973c474f31e9739b460da99316e15b61c8bed0fd2b8ff31a42d61"
+      }
+    },
+    "E03": {
+      "prepared_sha256": "306caeb89ebcd898784f38462154e0b55dae43f9ffdcf82c722cbfa5959771fa",
+      "walk_map_sha256": {
+        "104729": "da31f7ee8cddade265b409791cea33c84ac44ae46d5c93b340c140ca90e08f2f",
+        "130363": "e4fbe292eb2277b9a5f30f65abf48b74d5348f4ec76ca46d6dba22490c38132b"
+      }
+    },
+    "E04": {
+      "prepared_sha256": "759b71e8d1711704d8f9d4c48c23e651b371a33dcfb87af7163aa3a5be121418",
+      "walk_map_sha256": {
+        "104729": "22ef3d9bbae1bbb99b53ba0deefdb4076c1a60a94470b34620fa0cb2fbaf7c75",
+        "130363": "55c49d7cac782362ee1f936866f0edbc4938bc8d38e0015b2c0d744e11a7f750"
+      }
+    },
+    "E05": {
+      "prepared_sha256": "90e05d8c0231611151f6e5382cb4bd5e4322d062e7afe35e6fc16db5e206f244",
+      "walk_map_sha256": {
+        "104729": "a0578dd02365d8ffe4a608a66a4dee99d19e1cd9c3d71744d63929545e40780d",
+        "130363": "2c546b1a3ea59fe36a670bb2677c95a2dee849bf707338f56b29f49ed8c5cf66"
+      }
+    },
+    "E06": {
+      "prepared_sha256": "2bf8d0fdc2f7ba871a187ea169acf705fe69c4b3331c86f543ad02a9fb39801e",
+      "walk_map_sha256": {
+        "104729": "8d5793ec6f68516b15bc9646a8d2c77bd00608e9877ebffd0c7d781763dbf437",
+        "130363": "6f7dd703ddf0bca0e1bce0daf6cf5e03e92a0ff0b08d459cf838690bf232240a"
+      }
+    },
+    "E07": {
+      "prepared_sha256": "88c2c644948b2227579a8f66e1907fd1ed979d48ce7a6b0ceadeb734a474facf",
+      "walk_map_sha256": {
+        "104729": "7af70e2ddd51e1780612bbd11ab11a5d153b1d6d6e29eae61432d33c675b75d4",
+        "130363": "380a3527c3bd6e703062a7d38c6476d1c01e6272931aecf2dfac241da441a9b3"
+      }
+    },
+    "E08": {
+      "prepared_sha256": "22ed468dc02ffff7800e2544010eaf1758a19b6cb9287561a511ffd4aa0be2c1",
+      "walk_map_sha256": {
+        "104729": "074b0123cbbd0546a6e6e219d9f4f594d0747383ec773dd8980702d431a7b737",
+        "130363": "647b8d1ae5436d947e8a3a7d13822055cf4eda13c1226d3d4a83f9f72e9678ac"
+      }
+    },
+    "E09": {
+      "prepared_sha256": "baf0efb5229b25b24ef67b5219dedf1ea6be50767d39eb17bb8f5af7eabcd42a",
+      "walk_map_sha256": {
+        "104729": "c3a1f750748d401ac9ef418947c3d886439a31cba2ad83836a97dbcb82b6b7e2",
+        "130363": "0554cd3b5f5679e3bd34e1f51fe185f736ddfe9e0570a3ca39b3b8d3045a2b4d"
+      }
+    },
+    "E10": {
+      "prepared_sha256": "767e4e7c203a0ce63afec08d822aeca84416a32c776b71327078b61793ac1dfb",
+      "walk_map_sha256": {
+        "104729": "4aea621c6a6293e05ca4b331974e9e5f2366e1d47f89e8d25817b03245c26378",
+        "130363": "8c809cb40cd9dfa2ff7f8467f075b4c0e565ec4534a358fdd772faaf1e19f2e4"
+      }
+    },
+    "E11": {
+      "prepared_sha256": "40650c837cd01211f5e5c6df2518ac86e2e277080b7d436de3bcba67cab4f659",
+      "walk_map_sha256": {
+        "104729": "70e2e7715a83aa6f5f8fbbae48f137081bd4a8f1c52d07ca107e4e94d42f1615",
+        "130363": "5a04a2ec232c77645a324dd0a8830bb1a44331290c69438d5e755700114297d5"
+      }
+    },
+    "E12": {
+      "prepared_sha256": "ce384b485f2e93333a43e3055a5e1ab6b536a589a9fff498835a081794816e31",
+      "walk_map_sha256": {
+        "104729": "d8efb45985d2c6105ac7047f11ec58bc88eae4b91d2290c7561bda9ab8747071",
+        "130363": "8f41af9caa52d7aaf1cf0911e492ff05ec9f6da29a7ae7d589b0bc90e7fa0d38"
+      }
+    },
+    "E13": {
+      "prepared_sha256": "005d7368cd6b3ef2b1e5ae46d2b938c01680bf9d5b229266aaf4b938f0344bf4",
+      "walk_map_sha256": {
+        "104729": "6b7e3145c9adbefb1df7caac4a753fb158a0b0ea42b258ee8297fdd1e71295d3",
+        "130363": "7c7048139a0edf3ca7985d6f5f7a42fe17cbf236bd89d36ca6a95d3981f765c0"
+      }
+    },
+    "E14": {
+      "prepared_sha256": "803f923a3faae6e6ed85aaa58569e3d7e3736ba805dd396ec55c386e9a68778d",
+      "walk_map_sha256": {
+        "104729": "10ebfd8688f51d7271e70b8fe7819700f5177f47197bbcb894a3dcf762bb76ba",
+        "130363": "03a95e97f6f5a30702f6029830812aca545bb96b5e1a658c0331b6b1c7ad5de7"
+      }
+    },
+    "E15": {
+      "prepared_sha256": "a4e3c517fb18c1c213ed218a5ad259fda5a3c80af7cc6fd4b95a9f43348ab9c7",
+      "walk_map_sha256": {
+        "104729": "ea9573913c63b87c77bcabc5375ca9ecbc9ba78fce20069f70a5e94c3d399e42",
+        "130363": "96bdbc060be538fe146975365cc2d32bccc558df0d1b5ece78f7863fb5c57650"
+      }
+    },
+    "E16": {
+      "prepared_sha256": "57df97639e490d2860f819d8b2c0c4fd1cfaa3c9e3004fe265bf5b51d7b56ceb",
+      "walk_map_sha256": {
+        "104729": "59d7eeba45c52c76e2a47a5c3f815d18cafd545f705aa7552c208e10c40ded11",
+        "130363": "60cb0cb254d827f3c230115ce6c7c67cf627a61200324826de53f3b457266d1a"
+      }
+    },
+    "E17": {
+      "prepared_sha256": "130edeaa4060d22ddaf7a4562ca54677e077e54b85179765732caf15c895703b",
+      "walk_map_sha256": {
+        "104729": "870b009a2d828bd6605f45e30c8f6e46b31fdb7032c73564bd09a7e9bb4e7764",
+        "130363": "4c6a2ab66662005b32e234fd49d2c06240a126e20205b179775fad28a5c652d0"
+      }
+    },
+    "E18": {
+      "prepared_sha256": "76fcbaf7c5a99ee559f572e9c6aac040ecf79f9e34ee7bf4a3bd411b91b32e10",
+      "walk_map_sha256": {
+        "104729": "0e7e7f45cbde031e0d18e1c013ad1a9b0128a55e0cc4f32206890b92bd6731bf",
+        "130363": "8f4d436026ca16aa7a5c319e8afde1a9193978d88a207ecccf45f2e497be70ad"
+      }
+    },
+    "E19": {
+      "prepared_sha256": "c5cfe2f060ca09c7132b18ce669f88c1fcb2f123b560b3fdfbdaf9dbc02a93a4",
+      "walk_map_sha256": {
+        "104729": "0ea3cf60d17302ceffc95c53f4f788d6241b6ca4f9181db5398d6dc66a8e1840",
+        "130363": "7e33e73763822e643fd1a85fcb2040527055eb7ef9776265726b5dfcea6e1616"
+      }
+    },
+    "E21": {
+      "prepared_sha256": "ff8a01fb44df7f2e079a96310c5403f07d3cfd7767f02d5f3bf0e55a5d343395",
+      "walk_map_sha256": {
+        "104729": "717757a8d0a3fe74ef9ca8028bb9314f5a3323c25a354c356cf204dd7c18870c",
+        "130363": "bc3993b2b0baa52b6c83fc3450c78ebc8ce8e5c791cd2fb5fc72e795a73631e2"
+      }
+    },
+    "E22": {
+      "prepared_sha256": "9a33bbc7f042ced8caa218ca628eb0bd3adcb55ba2579405ae6b706f7a6cafb2",
+      "walk_map_sha256": {
+        "104729": "f0c63a3a685c4522f073f9c6bc5ca4bef4ded2455f8d5fb25b7f30b357cd9ad7",
+        "130363": "b94c2969769bb546bf6e55114d364fe8d1eb366669f1478cd76027528fb35560"
+      }
+    },
+    "E23": {
+      "prepared_sha256": "66a8b2b3c97a9c6a4f14f6b9a8b01333fce8b13d24d6b336d16e005cae63a762",
+      "walk_map_sha256": {
+        "104729": "86806f5b261fe52b0c3775538a6cb0db40db24367dd6db3bb1dd40550fd7c1d1",
+        "130363": "1d64da6631bc31bf2fa2b2d39e32d8085b62bd5badf742fc3416c244f9797fd8"
+      }
+    },
+    "E24": {
+      "prepared_sha256": "992bb9b715c5c6b6d75409c32daff9bf26e1f00e329263f7fb3c4d45fc1672c1",
+      "walk_map_sha256": {
+        "104729": "0806bb3ada9aa9252fffcd310e0a8f135c2293c3ec6f0aadb75cf66ffe7143a9",
+        "130363": "c82c06a33ed11f6ce6fe2b5601296fade63312bc2063ad9cbb477c81cff1193e"
+      }
+    },
+    "E25": {
+      "prepared_sha256": "4f54ad70c5be4e79bdba88d68139137d976bcb3fc5eeb6cb6f911e28a59e27af",
+      "walk_map_sha256": {
+        "104729": "909c2c2458152cbb6aa0f4e3931b39fef6389e1efbca16c1d2d21db566603b55",
+        "130363": "2c28f2450239ea77945a385f5b39d3f4b65c229a358dd7aa52d3f416ef2f2e09"
+      }
+    },
+    "E26": {
+      "prepared_sha256": "6b815bd920fec6278a93800018a83d1bdbc0e40ae0eaed0a961b2a73064cc623",
+      "walk_map_sha256": {
+        "104729": "6c137683c3ecb22df1bd944001658d6d802ee982ae765a2706723c5a118ea1c2",
+        "130363": "94c7991eac8b7508a5fe7de3cab6c93d3a14b01c720d002e09043c11ed21eaf9"
+      }
+    },
+    "E27": {
+      "prepared_sha256": "47db8d8d0db672edb3b03ed8ea7e0dce243ac89e6d2285f3312826e12239a048",
+      "walk_map_sha256": {
+        "104729": "a3cced317e877ad86c317a42a9f88dec452d5e5d9b59851d07f34cd9c44c62f7",
+        "130363": "f2caeeafb671b98ce32101a4071c5d5ec7816a2712628bf3e1586be4ee743107"
+      }
+    },
+    "E28": {
+      "prepared_sha256": "a9142877837a1f7310a19841047f182d01f4d0f37368d8131eb624a3d8b4772c",
+      "walk_map_sha256": {
+        "104729": "2e53935d803a269081620a0307b56d37f31e0a70bc4f2594c8ed4bcda7cea6a3",
+        "130363": "29682f3cdd5168497c13a7cec1931426e188986ff79e852de82c3125725e1383"
+      }
+    },
+    "E29": {
+      "prepared_sha256": "ba6e0a7c94dc4e9fa4f3f4a6469308a9591e1ad1d1040b8ece84d160c177eba3",
+      "walk_map_sha256": {
+        "104729": "c1db0a08fba60eab7a2a78b3a0f29e6c47d250e3a04b751961da3af1d1ebf3b2",
+        "130363": "534ccb54981bc5960f54ace13f25499d2224337c82ae8c2ae49e255fbcd101e2"
+      }
+    },
+    "E30": {
+      "prepared_sha256": "10926fb3cea6a6097958bfe02d142b819c360f3dcade512d1de30657c76bd203",
+      "walk_map_sha256": {
+        "104729": "a50eee42e90dc5f09f835e28e5afa725a280e2d7331ad6e418f9f11e0253e3c8",
+        "130363": "7db44dd716c34271065c7760752f7d25f5abaa812b1587a5a86a7a0ccde5951a"
+      }
+    },
+    "E31": {
+      "prepared_sha256": "c7cc6c205b723e3b4d809c03c580f306eedf4626a4986bf41caa5f703ffd9512",
+      "walk_map_sha256": {
+        "104729": "223414514e637133c5ab31e825cf11de982152af977cce39f26a4a76599882d1",
+        "130363": "24ef4faee777efd8e36cfc08061b2b1adba41c81b97888c11361469f0a90a01a"
+      }
+    },
+    "E32": {
+      "prepared_sha256": "beae000f7fafa12c8dcb1d49417fce2bfb032663a6afa371e2f009b2e485354b",
+      "walk_map_sha256": {
+        "104729": "2cb97e2955472157d8e146a260cb4321c6edfd26ec646e2e1dd019ed40a9d048",
+        "130363": "7bd2d5391b6e5f4f851956e1f9b0af7fcf65ffa9310305af9ab61d1cc0c932b4"
+      }
+    },
+    "E33": {
+      "prepared_sha256": "c50f8e4536f93ca0cc8bd3a05e898650c70484c535b485b9288306057c130438",
+      "walk_map_sha256": {
+        "104729": "5e7b495395f0c906942590ce3005faa9cc22c59819c793b2e66819c0ec19ea87",
+        "130363": "e291ced3a33ad4a17de3b64b1d4c30c65acfab3f507b36fef77cacee093467e8"
+      }
+    },
+    "E34": {
+      "prepared_sha256": "9e17e4a17b2a229bfc3c11136adf51bf52352d49aaca084cc7c49bb0dc00b882",
+      "walk_map_sha256": {
+        "104729": "b79af1d97b1640f1ddf9cda7114dede4b0cf5b1465a4174c1bb2da343b856b81",
+        "130363": "9886cf249adae3475b6ecc8d0e34d47f51499e66c01082b18bc396b076b4b120"
+      }
+    },
+    "E35": {
+      "prepared_sha256": "2894aa0f11078c82206556326ac21aaf9b1423e635ceea073b15bce5d989c587",
+      "walk_map_sha256": {
+        "104729": "f121e4af15fc9aa0e7a2a35bc931b90bf1ffa69cd4abca5133730a9ab0ec2e1a",
+        "130363": "f839def720fa87ad7ec62e3c56a3ffc3d41b53f78dc3da3a2bad603b6901f877"
+      }
+    },
+    "E36": {
+      "prepared_sha256": "80d08cd4d531820a98c160b7e528f08be71689417e9991e4ef187dd1739f07b4",
+      "walk_map_sha256": {
+        "104729": "9892046ef732f0760d5903e5a8c96aa2e578577161016f2ec289f31fa26cddbe",
+        "130363": "c6b9ab869ad1e4833cfc2a2f7a9615aaf27eff800bf39c1c5f563f98e253bdb6"
+      }
+    },
+    "E37": {
+      "prepared_sha256": "b7084a31720e490efa65113dfd6587015bb24537efb8673542987421cf6e3be4",
+      "walk_map_sha256": {
+        "104729": "c8b307b09d675294e7841599926ea271faa52b3ccacfe3b4fd0e0a3fb77f6967",
+        "130363": "eadaf77ec1c35bcecbcc956cf8a0bc5c56ab35aac431c38d872096019babdc5f"
+      }
+    },
+    "E38": {
+      "prepared_sha256": "87d0cf83b9bbc5cb3288402277aa9a04e9f6a26b6f5d87f5439af80928dfb6ca",
+      "walk_map_sha256": {
+        "104729": "b44b8b68adc5a270a7222f94bb232534bb390bf2ec35eb35a34e814c14573952",
+        "130363": "69d7365d8797afc7c8984c5ca6df6ed0119b3383969f5a650dd219734c51c13b"
+      }
+    },
+    "E39": {
+      "prepared_sha256": "4e313300920f6d1dafee5e691c51e19714073bea3788cf2393d7660c5507ddb4",
+      "walk_map_sha256": {
+        "104729": "8649d1f094be86f4d244d3fa326d0c7fef487f1fc90b0a4129a6c226e14ac084",
+        "130363": "12a8ada18e29d034dc3016317c6107dcecc6197c1e833476a6e549f7e353ff00"
+      }
+    },
+    "E40": {
+      "prepared_sha256": "6fd0f75db6ab29951a749bbd105d866eb547133e55513edeb51601638ed6e53a",
+      "walk_map_sha256": {
+        "104729": "9e85de007cbd9c8aa86bfbc5605305cfff42d0f5cc3a20f2a62accb0db82121d",
+        "130363": "428c18c2cf5985b779341db372805b04bf85e295563012926adc3dfed276f959"
+      }
+    }
+  },
+  "original_private_protocol_sha256": "d14fd094f60a05b9e9d0ea05be8d546c4bda709b16ac3f2ac51dd4f3624ce65c",
+  "public_redaction": "LKP coordinates and all private input snapshots excluded; parameters, map provenance and hashes retained"
+}
