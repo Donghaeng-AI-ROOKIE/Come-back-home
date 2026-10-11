@@ -1,0 +1,686 @@
+{
+  "experiment_id": "SAR_DISTANCE_ONLY_20261012",
+  "protocol_sha256": "d14fd094f60a05b9e9d0ea05be8d546c4bda709b16ac3f2ac51dd4f3624ce65c",
+  "source_sha256": "2bcb24f5479129ebaa8e3e38c74b0949ebca15969698eaa03dc03d4b36d25f7d",
+  "settings": {
+    "personal_weight": 0.9,
+    "statistical_weight": 0.1,
+    "resolution": 9,
+    "coverage": 0.95,
+    "max_alert_cells": 500
+  },
+  "development": {
+    "current": {
+      "people": 8,
+      "checks": 192,
+      "hits": 95,
+      "hit_pct": 49.479166666666664,
+      "mean_area_km2": 5.281216032677167,
+      "efficiency_pp_per_km2": 9.36889654968054,
+      "auc10": 48.39225903506974,
+      "budget5_hit": 52.083333333333336,
+      "budget10_hit": 57.8125
+    },
+    "distance_only": {
+      "people": 8,
+      "checks": 192,
+      "hits": 96,
+      "hit_pct": 50.0,
+      "mean_area_km2": 6.385355550877807,
+      "efficiency_pp_per_km2": 7.830417523598417,
+      "auc10": 48.611504777522036,
+      "budget5_hit": 51.5625,
+      "budget10_hit": 60.416666666666664
+    },
+    "candidate_minus_current": {
+      "efficiency_pp_per_km2": {
+        "point": -1.5384790260821237,
+        "ci95": [
+          -2.660676204804995,
+          -0.938156877505425
+        ],
+        "undefined_bootstrap_draws": 0
+      },
+      "hit_pp": {
+        "point": 0.5208333333333334,
+        "ci95": [
+          -1.5625,
+          2.6041666666666665
+        ],
+        "undefined_bootstrap_draws": 0
+      },
+      "mean_area_km2": {
+        "point": 1.1041395182006397,
+        "ci95": [
+          0.9947653072457013,
+          1.2144980710477289
+        ],
+        "undefined_bootstrap_draws": 0
+      },
+      "auc10_pp": {
+        "point": 0.21924574245229186,
+        "ci95": [
+          -2.17967249065931,
+          3.499417610716364
+        ],
+        "undefined_bootstrap_draws": 0
+      },
+      "relative_efficiency_gain_pct": {
+        "point": -16.421133672722465,
+        "ci95": [
+          -23.44784342789805,
+          -11.568968373749941
+        ],
+        "undefined_bootstrap_draws": 0
+      }
+    }
+  },
+  "seen31": {
+    "current": {
+      "people": 31,
+      "checks": 744,
+      "hits": 362,
+      "hit_pct": 48.655913978494624,
+      "mean_area_km2": 5.741552068596368,
+      "efficiency_pp_per_km2": 8.474348642524719,
+      "auc10": 46.09219797446073,
+      "budget5_hit": 50.94086021505376,
+      "budget10_hit": 54.03225806451613
+    },
+    "distance_only": {
+      "people": 31,
+      "checks": 744,
+      "hits": 378,
+      "hit_pct": 50.806451612903224,
+      "mean_area_km2": 6.942326467098154,
+      "efficiency_pp_per_km2": 7.318361049957938,
+      "auc10": 47.11111700237036,
+      "budget5_hit": 50.403225806451616,
+      "budget10_hit": 58.46774193548387
+    },
+    "candidate_minus_current": {
+      "efficiency_pp_per_km2": {
+        "point": -1.155987592566781,
+        "ci95": [
+          -1.480475199987511,
+          -0.9084310456292054
+        ],
+        "undefined_bootstrap_draws": 0
+      },
+      "hit_pp": {
+        "point": 2.150537634408602,
+        "ci95": [
+          0.9408602150537635,
+          3.360215053763441
+        ],
+        "undefined_bootstrap_draws": 0
+      },
+      "mean_area_km2": {
+        "point": 1.2007743985017862,
+        "ci95": [
+          1.088256018724872,
+          1.3244248126147915
+        ],
+        "undefined_bootstrap_draws": 0
+      },
+      "auc10_pp": {
+        "point": 1.018919027909633,
+        "ci95": [
+          0.5516144829295123,
+          1.5053577422119218
+        ],
+        "undefined_bootstrap_draws": 0
+      },
+      "relative_efficiency_gain_pct": {
+        "point": -13.641019992568825,
+        "ci95": [
+          -16.502642908200155,
+          -11.15692921473112
+        ],
+        "undefined_bootstrap_draws": 0
+      }
+    }
+  },
+  "future_slices": {
+    "habitual": {
+      "current": {
+        "people": 31,
+        "checks": 248,
+        "hits": 234,
+        "hit_pct": 94.35483870967742,
+        "mean_area_km2": 5.741552068596368,
+        "efficiency_pp_per_km2": 16.433681621691584,
+        "auc10": 84.69989522966412,
+        "budget5_hit": 92.33870967741935,
+        "budget10_hit": 95.56451612903226
+      },
+      "distance_only": {
+        "people": 31,
+        "checks": 248,
+        "hits": 237,
+        "hit_pct": 95.56451612903226,
+        "mean_area_km2": 6.942326467098154,
+        "efficiency_pp_per_km2": 13.765488641587549,
+        "auc10": 85.57036584814239,
+        "budget5_hit": 92.74193548387096,
+        "budget10_hit": 97.58064516129032
+      },
+      "candidate_minus_current": {
+        "efficiency_pp_per_km2": {
+          "point": -2.6681929801040365,
+          "ci95": [
+            -3.379582146322405,
+            -2.1420221494310825
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "hit_pp": {
+          "point": 1.2096774193548387,
+          "ci95": [
+            0.0,
+            2.8225806451612905
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "mean_area_km2": {
+          "point": 1.2007743985017874,
+          "ci95": [
+            1.0882560187248722,
+            1.3244248126147933
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "auc10_pp": {
+          "point": 0.8704706184782569,
+          "ci95": [
+            0.005809425428263593,
+            1.803161418138527
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "relative_efficiency_gain_pct": {
+          "point": -16.23612433005981,
+          "ci95": [
+            -18.93028244710197,
+            -14.012776595961682
+          ],
+          "undefined_bootstrap_draws": 0
+        }
+      },
+      "preliminary_native": {
+        "people": 31,
+        "checks": 248,
+        "hits": 192,
+        "hit_pct": 77.41935483870968,
+        "mean_area_km2": 6.368199998062131,
+        "efficiency_pp_per_km2": 12.157180186280062
+      }
+    },
+    "departure": {
+      "current": {
+        "people": 31,
+        "checks": 248,
+        "hits": 126,
+        "hit_pct": 50.806451612903224,
+        "mean_area_km2": 5.741552068596368,
+        "efficiency_pp_per_km2": 8.84890548860316,
+        "auc10": 46.9026949968794,
+        "budget5_hit": 51.61290322580645,
+        "budget10_hit": 55.64516129032258
+      },
+      "distance_only": {
+        "people": 31,
+        "checks": 248,
+        "hits": 130,
+        "hit_pct": 52.41935483870968,
+        "mean_area_km2": 6.942326467098154,
+        "efficiency_pp_per_km2": 7.550689972178824,
+        "auc10": 46.851286579888395,
+        "budget5_hit": 50.806451612903224,
+        "budget10_hit": 56.451612903225815
+      },
+      "candidate_minus_current": {
+        "efficiency_pp_per_km2": {
+          "point": -1.298215516424337,
+          "ci95": [
+            -1.718148405042916,
+            -0.9325060138220312
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "hit_pp": {
+          "point": 1.6129032258064515,
+          "ci95": [
+            0.0,
+            3.629032258064516
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "mean_area_km2": {
+          "point": 1.2007743985017874,
+          "ci95": [
+            1.0882560187248722,
+            1.3244248126147933
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "auc10_pp": {
+          "point": -0.05140841699101422,
+          "ci95": [
+            -0.6695629408985988,
+            0.6232400161373305
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "relative_efficiency_gain_pct": {
+          "point": -14.670916285594382,
+          "ci95": [
+            -17.75429801388772,
+            -11.501123908179979
+          ],
+          "undefined_bootstrap_draws": 0
+        }
+      },
+      "preliminary_native": {
+        "people": 31,
+        "checks": 248,
+        "hits": 96,
+        "hit_pct": 38.70967741935484,
+        "mean_area_km2": 6.368199998062131,
+        "efficiency_pp_per_km2": 6.078590093140031
+      }
+    },
+    "contradictory": {
+      "current": {
+        "people": 31,
+        "checks": 248,
+        "hits": 2,
+        "hit_pct": 0.8064516129032258,
+        "mean_area_km2": 5.741552068596368,
+        "efficiency_pp_per_km2": 0.14045881727941523,
+        "auc10": 6.67400369683868,
+        "budget5_hit": 8.870967741935484,
+        "budget10_hit": 10.887096774193548
+      },
+      "distance_only": {
+        "people": 31,
+        "checks": 248,
+        "hits": 11,
+        "hit_pct": 4.435483870967742,
+        "mean_area_km2": 6.942326467098154,
+        "efficiency_pp_per_km2": 0.6389045361074389,
+        "auc10": 8.911698579080301,
+        "budget5_hit": 7.661290322580645,
+        "budget10_hit": 21.370967741935484
+      },
+      "candidate_minus_current": {
+        "efficiency_pp_per_km2": {
+          "point": 0.4984457188280237,
+          "ci95": [
+            0.09046404274757294,
+            0.98793522793401
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "hit_pp": {
+          "point": 3.629032258064516,
+          "ci95": [
+            0.8064516129032258,
+            6.854838709677419
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "mean_area_km2": {
+          "point": 1.2007743985017874,
+          "ci95": [
+            1.0882560187248722,
+            1.3244248126147933
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "auc10_pp": {
+          "point": 2.237694882241621,
+          "ci95": [
+            0.5794125417579794,
+            3.849810369428649
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "relative_efficiency_gain_pct": {
+          "point": 354.8696539544853,
+          "ci95": null,
+          "undefined_bootstrap_draws": 1296,
+          "ci95_status": "undefined: resampled baseline has zero hits; draws not silently discarded"
+        }
+      },
+      "preliminary_native": {
+        "people": 31,
+        "checks": 248,
+        "hits": 27,
+        "hit_pct": 10.887096774193548,
+        "mean_area_km2": 6.368199998062131,
+        "efficiency_pp_per_km2": 1.7096034636956339
+      }
+    }
+  },
+  "hour_slices": {
+    "1": {
+      "current": {
+        "people": 31,
+        "checks": 186,
+        "hits": 116,
+        "hit_pct": 62.365591397849464,
+        "mean_area_km2": 1.9572977010020816,
+        "efficiency_pp_per_km2": 31.863109718015828,
+        "auc10": 70.23700506744017,
+        "budget5_hit": 75.80645161290323,
+        "budget10_hit": 76.88172043010752
+      },
+      "distance_only": {
+        "people": 31,
+        "checks": 186,
+        "hits": 128,
+        "hit_pct": 68.81720430107526,
+        "mean_area_km2": 3.115764117140073,
+        "efficiency_pp_per_km2": 22.086782475767727,
+        "auc10": 74.18460518730703,
+        "budget5_hit": 76.34408602150538,
+        "budget10_hit": 91.39784946236558
+      },
+      "candidate_minus_current": {
+        "efficiency_pp_per_km2": {
+          "point": -9.776327242248108,
+          "ci95": [
+            -12.995008922557933,
+            -7.174728612543149
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "hit_pp": {
+          "point": 6.451612903225806,
+          "ci95": [
+            2.6881720430107525,
+            10.75268817204301
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "mean_area_km2": {
+          "point": 1.1584664161379918,
+          "ci95": [
+            1.053786434697051,
+            1.2654962712965774
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "auc10_pp": {
+          "point": 3.947600119866864,
+          "ci95": [
+            2.0115101192996776,
+            6.073447107944574
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "relative_efficiency_gain_pct": {
+          "point": -30.682275925881896,
+          "ci95": [
+            -37.04752267341427,
+            -24.337368450305835
+          ],
+          "undefined_bootstrap_draws": 0
+        }
+      }
+    },
+    "2": {
+      "current": {
+        "people": 31,
+        "checks": 186,
+        "hits": 118,
+        "hit_pct": 63.44086021505376,
+        "mean_area_km2": 3.9725120215491834,
+        "efficiency_pp_per_km2": 15.969960536535613,
+        "auc10": 59.17774374379014,
+        "budget5_hit": 66.12903225806451,
+        "budget10_hit": 68.27956989247312
+      },
+      "distance_only": {
+        "people": 31,
+        "checks": 186,
+        "hits": 122,
+        "hit_pct": 65.59139784946237,
+        "mean_area_km2": 5.462386655797295,
+        "efficiency_pp_per_km2": 12.007827710227991,
+        "auc10": 58.72941659427672,
+        "budget5_hit": 65.05376344086021,
+        "budget10_hit": 69.35483870967742
+      },
+      "candidate_minus_current": {
+        "efficiency_pp_per_km2": {
+          "point": -3.9621328263076236,
+          "ci95": [
+            -5.318234303364042,
+            -2.9789564494601426
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "hit_pp": {
+          "point": 2.150537634408602,
+          "ci95": [
+            0.0,
+            4.838709677419355
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "mean_area_km2": {
+          "point": 1.4898746342481122,
+          "ci95": [
+            1.3561335086004118,
+            1.6377089248512406
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "auc10_pp": {
+          "point": -0.4483271495134324,
+          "ci95": [
+            -1.6866460210283474,
+            0.5265828789219528
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "relative_efficiency_gain_pct": {
+          "point": -24.809909938369422,
+          "ci95": [
+            -28.967425529235143,
+            -21.08373094833477
+          ],
+          "undefined_bootstrap_draws": 0
+        }
+      }
+    },
+    "4": {
+      "current": {
+        "people": 31,
+        "checks": 186,
+        "hits": 70,
+        "hit_pct": 37.634408602150536,
+        "mean_area_km2": 7.2753895155933925,
+        "efficiency_pp_per_km2": 5.1728376221628345,
+        "auc10": 29.36386788664514,
+        "budget5_hit": 33.87096774193548,
+        "budget10_hit": 40.32258064516129
+      },
+      "distance_only": {
+        "people": 31,
+        "checks": 186,
+        "hits": 69,
+        "hit_pct": 37.096774193548384,
+        "mean_area_km2": 8.493023096900483,
+        "efficiency_pp_per_km2": 4.367911610541458,
+        "auc10": 29.33659831407333,
+        "budget5_hit": 33.33333333333333,
+        "budget10_hit": 40.32258064516129
+      },
+      "candidate_minus_current": {
+        "efficiency_pp_per_km2": {
+          "point": -0.8049260116213759,
+          "ci95": [
+            -1.0672155291682583,
+            -0.6001277067583891
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "hit_pp": {
+          "point": -0.5376344086021505,
+          "ci95": [
+            -1.6129032258064515,
+            0.0
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "mean_area_km2": {
+          "point": 1.2176335813070887,
+          "ci95": [
+            1.0849625742191726,
+            1.3677800965942284
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "auc10_pp": {
+          "point": -0.02726957257181145,
+          "ci95": [
+            -0.855855749097107,
+            0.7680237368384235
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "relative_efficiency_gain_pct": {
+          "point": -15.560627849068743,
+          "ci95": [
+            -18.658054011271208,
+            -12.914462134751943
+          ],
+          "undefined_bootstrap_draws": 0
+        }
+      }
+    },
+    "6": {
+      "current": {
+        "people": 31,
+        "checks": 186,
+        "hits": 58,
+        "hit_pct": 31.182795698924732,
+        "mean_area_km2": 9.761009036240813,
+        "efficiency_pp_per_km2": 3.1946282995076434,
+        "auc10": 25.590175199967483,
+        "budget5_hit": 27.956989247311824,
+        "budget10_hit": 30.64516129032258
+      },
+      "distance_only": {
+        "people": 31,
+        "checks": 186,
+        "hits": 59,
+        "hit_pct": 31.72043010752688,
+        "mean_area_km2": 10.698131998554766,
+        "efficiency_pp_per_km2": 2.9650438143604942,
+        "auc10": 26.19384791382433,
+        "budget5_hit": 26.881720430107524,
+        "budget10_hit": 32.795698924731184
+      },
+      "candidate_minus_current": {
+        "efficiency_pp_per_km2": {
+          "point": -0.2295844851471487,
+          "ci95": [
+            -0.3549662431380474,
+            -0.08849604796186716
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "hit_pp": {
+          "point": 0.5376344086021505,
+          "ci95": [
+            0.0,
+            1.6129032258064515
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "mean_area_km2": {
+          "point": 0.937122962313951,
+          "ci95": [
+            0.8114435560889225,
+            1.0836991714041846
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "auc10_pp": {
+          "point": 0.6036727138568485,
+          "ci95": [
+            -0.1498852846723058,
+            1.5330088402441104
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "relative_efficiency_gain_pct": {
+          "point": -7.18657895763749,
+          "ci95": [
+            -10.236360093672303,
+            -2.9584370813988445
+          ],
+          "undefined_bootstrap_draws": 0
+        }
+      }
+    }
+  },
+  "bootstrap": {
+    "unit": "person",
+    "paired": true,
+    "draws": 10000,
+    "seed": 20261012
+  },
+  "current_score_parity": true,
+  "private_inputs_excluded_from_new_prior": true,
+  "new_model_calls": 0,
+  "actual_push": 0,
+  "fresh_holdout": false,
+  "release_qualification": false,
+  "product_default_changed": false,
+  "preliminary_native": {
+    "people": 31,
+    "checks": 744,
+    "hits": 315,
+    "hit_pct": 42.33870967741935,
+    "mean_area_km2": 6.368199998062132,
+    "efficiency_pp_per_km2": 6.6484579143719085
+  },
+  "selection_diagnostics": {
+    "current": {
+      "maps": 248,
+      "min_selected_mass": 0.95,
+      "mean_selected_mass": 0.9513879032258065,
+      "max_selected_cells": 211,
+      "cell_cap_saturated_maps": 0,
+      "coverage_not_attained_maps": 0
+    },
+    "distance_only": {
+      "maps": 248,
+      "min_selected_mass": 0.9500174698821998,
+      "mean_selected_mass": 0.9507397905524253,
+      "max_selected_cells": 221,
+      "cell_cap_saturated_maps": 0,
+      "coverage_not_attained_maps": 0
+    }
+  },
+  "distance_tail_by_hour": {
+    "1": 0.17761383408856946,
+    "2": 0.08183415283128348,
+    "4": 0.04998490553912138,
+    "6": 0.04998490553912138
+  },
+  "gates": {
+    "efficiency_positive_ci": false,
+    "inclusion_noninferior_ci": true,
+    "area_reduction_ci": false,
+    "all_future_point_inclusion_at_least_current": true,
+    "requested_coverage_attained_all_maps": true,
+    "fresh_holdout": false,
+    "actual_push": false
+  }
+}

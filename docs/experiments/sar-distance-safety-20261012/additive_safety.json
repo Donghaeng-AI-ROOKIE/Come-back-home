@@ -1,0 +1,27 @@
+{
+  "recorded_at": "2026-10-11T15:32:02.567218+00:00",
+  "purpose": "Preserve current targets and give nonpersonal statistical support a positive selection probability",
+  "candidates": [
+    "additive_top_density",
+    "additive_weighted_rotation"
+  ],
+  "primary_area_budget": "extra max(10% of matched current area, largest candidate cell area), minimum one whole res9 safety cell",
+  "random_sampling": "K=floor(extra_budget/max_candidate_cell_area); K independent draws with replacement proportional to literature cell mass, deduplicate; geographic area cannot exceed extra budget",
+  "scope": "Only positive-mass literature cells outside current alert targets; no true positions used in generation or selection",
+  "seeding": "existing person seed plus hour via numpy SeedSequence; synthetic labels excluded; replayable sample at same snapshot",
+  "expected_inclusion": "baseline included=1; otherwise 1-(1-q_cell/Q_outside)^K, zero outside literature support",
+  "static_target_limitation": "top density leaves other cells permanently out; weighted rotation is experimental, not a production trigger or push policy",
+  "weights": {
+    "personal": 0.9,
+    "statistical": 0.1
+  },
+  "people": 31,
+  "checks": 744,
+  "new_model_calls": 0,
+  "actual_push": 0,
+  "remote_runs": 0,
+  "cost_amount": null,
+  "fresh_holdout": false,
+  "default_changed": false,
+  "promotion": "No automatic promotion from synthetic mean results; await area-priority preference and new validation."
+}

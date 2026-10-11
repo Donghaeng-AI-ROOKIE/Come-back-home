@@ -1,0 +1,38 @@
+[
+  {
+    "arm": "preliminary",
+    "person": "E09",
+    "seed": 104729,
+    "hour": 4,
+    "area_km2": 7.066889655982495,
+    "hit": false,
+    "selected_mass": null
+  },
+  {
+    "arm": "current",
+    "person": "E09",
+    "seed": 104729,
+    "hour": 4,
+    "area_km2": 5.336796536914647,
+    "hit": true,
+    "selected_mass": 0.95
+  },
+  {
+    "arm": "distance_only",
+    "person": "E09",
+    "seed": 104729,
+    "hour": 4,
+    "area_km2": 6.562899363795459,
+    "hit": true,
+    "selected_mass": 0.9501690079290707
+  },
+  {
+    "arm": "uniform_dev_area_budget",
+    "person": "E09",
+    "seed": 104729,
+    "hour": 4,
+    "area_km2": 5.264614497722745,
+    "hit": true,
+    "selected_mass": 0.9194361961731813
+  }
+]

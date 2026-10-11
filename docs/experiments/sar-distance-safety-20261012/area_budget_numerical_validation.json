@@ -1,0 +1,21 @@
+{
+  "purpose": "uniform development-mean area budget numerical quadrature validation, not new candidate",
+  "bands": 128,
+  "max_statistical_map_tv_64_to_128": 0.004766091377777353,
+  "hits_changed": 0,
+  "checks": 744,
+  "hit_pct": 51.075268817204304,
+  "mean_area_km2": 5.263745173144958,
+  "efficiency_pp_per_km2": 9.703218362048498,
+  "relative_efficiency_gain_vs_current_pct": 14.501052191282838,
+  "future_hit_pct": {
+    "habitual": 93.14516129032258,
+    "departure": 51.61290322580645,
+    "contradictory": 8.46774193548387
+  },
+  "primary_result_remains_64_bands": true,
+  "product_default_changed": false,
+  "new_model_calls": 0,
+  "wall_seconds": 70.44243541700416,
+  "source_sha256": "0e8483933b9d15da25c4444e40fe17bdcdf46e5a7c5a518d1c82f9023fc91a70"
+}
