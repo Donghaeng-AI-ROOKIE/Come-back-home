@@ -122,7 +122,36 @@ def run_pair(case,persona,prior,net,hours,*,seed=None,persist=True):
     staged=case.model_copy(deep=True)
     bu,quality=run(staged,persona,prior,net,hours,seed=seed,persist=True)
     quality.update(preview=not persist,checkpoint_committed=False)
-    if bu is None or quality.get('unresolved_mass',0)>1e-9:
+    if quality.get('unresolved_mass',0)>1e-9:
+        return bu,None,quality
+    definition=settings.statistical_channel_definition
+    if definition=='literature_distance_prior':
+        from app.phase2.literature_distance import distance_map
+        try:
+            stat,sq=distance_map(case.lkp.lat,case.lkp.lng,hours,
+                coverage_bbox=getattr(net,'coverage_bbox',None))
+        except ValueError:
+            quality.update(unresolved_mass=1-settings.personal_channel_weight,
+                resolved_mass=settings.personal_channel_weight,checkpoint_committed=False,
+                unresolved_reasons={'literature_distance_support_invalid':1},
+                statistical_definition=definition)
+            return bu,{},quality
+        committed=bool(persist and bu is not None)
+        quality.update(statistical=sq,checkpoint_committed=committed,
+            both_channels_continuous=False,channel_contract='personal-mind-literature-distance-v1',
+            statistical_definition=definition,statistical_uses_onboarding_prior=False,
+            statistical_prior_source='ISRID_urban_lognormal_approximation',
+            statistical_uses_conditional_mind_program=False,statistical_policy_free=True,
+            personal_policy_shared_between_channels=False,
+            personal_channel_weight=settings.personal_channel_weight,
+            channels_identical=bu==stat,
+            channel_total_variation=(.5*sum(abs(bu.get(c,0)-stat.get(c,0))
+                for c in set(bu)|set(stat))) if bu is not None else None)
+        if committed:
+            staged.continuous_state.pop('statistical',None)
+            case.continuous_state=staged.continuous_state
+        return bu,stat,quality
+    if bu is None:
         return bu,None,quality
     shared_policy,status,_=_executable_policy(persona)
     if shared_policy is None:
@@ -141,7 +170,7 @@ def run_pair(case,persona,prior,net,hours,*,seed=None,persist=True):
     statistical_status=status
     statistical_numbers=prior
     statistical_prior_source="shared_prepared_prior"
-    if settings.statistical_channel_definition=='onboarded_population_prior':
+    if definition=='onboarded_population_prior':
         statistical_policy=mind_policy.Policy(rules=[],unrepresented=[])
         statistical_status='onboarded_population_prior_without_personal_mind_program'
         statistical_numbers,statistical_prior_source=statistical_prior(prior)
@@ -164,10 +193,10 @@ def run_pair(case,persona,prior,net,hours,*,seed=None,persist=True):
         channel_contract='independent-statistical-prior-personal-mind-v1',
         statistical_uses_onboarding_prior=True,
         statistical_prior_source=statistical_prior_source,
-        statistical_uses_conditional_mind_program=settings.statistical_channel_definition=='shared_personal_policy',
-        statistical_definition=settings.statistical_channel_definition,
-        personal_policy_shared_between_channels=settings.statistical_channel_definition=='shared_personal_policy',
-        statistical_policy_free=settings.statistical_channel_definition=='onboarded_population_prior',
+        statistical_uses_conditional_mind_program=definition=='shared_personal_policy',
+        statistical_definition=definition,
+        personal_policy_shared_between_channels=definition=='shared_personal_policy',
+        statistical_policy_free=definition=='onboarded_population_prior',
         mixture_weights_status='configured_pending_development_validation',
         personal_channel_weight=settings.personal_channel_weight,
         channels_identical=bu==stat,
