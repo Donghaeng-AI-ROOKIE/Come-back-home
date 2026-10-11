@@ -38,6 +38,8 @@ os.environ["REVERSE_GEOCODE_ON_INTAKE"] = "false"
 os.environ["PUSH_TARGET_RES"] = "7"
 os.environ["PERSONAL_CHANNEL_WEIGHT"] = "0.7"
 os.environ["ALERT_COVERAGE"] = "0.8"
+os.environ["STATISTICAL_CHANNEL_DEFINITION"] = "onboarded_population_prior"
+os.environ["ALERT_SELECTION_POLICY"] = "coverage"
 
 # 감사로그 파일도 테스트 전용 경로로 돌린다.
 #

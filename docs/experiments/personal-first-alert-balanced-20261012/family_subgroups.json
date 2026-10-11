@@ -1,0 +1,291 @@
+{
+  "groups": {
+    "avoid": {
+      "preliminary": {
+        "habitual": {
+          "checks": 216,
+          "hits": 181,
+          "pct": 83.79629629629629
+        },
+        "departure": {
+          "checks": 216,
+          "hits": 133,
+          "pct": 61.574074074074076
+        },
+        "contradictory": {
+          "checks": 216,
+          "hits": 90,
+          "pct": 41.666666666666664
+        }
+      },
+      "current": {
+        "habitual": {
+          "checks": 216,
+          "hits": 193,
+          "pct": 89.35185185185185
+        },
+        "departure": {
+          "checks": 216,
+          "hits": 134,
+          "pct": 62.03703703703704
+        },
+        "contradictory": {
+          "checks": 216,
+          "hits": 40,
+          "pct": 18.51851851851852
+        }
+      },
+      "candidate": {
+        "habitual": {
+          "checks": 216,
+          "hits": 200,
+          "pct": 92.5925925925926
+        },
+        "departure": {
+          "checks": 216,
+          "hits": 137,
+          "pct": 63.425925925925924
+        },
+        "contradictory": {
+          "checks": 216,
+          "hits": 71,
+          "pct": 32.870370370370374
+        }
+      },
+      "stat_only_control": {
+        "habitual": {
+          "checks": 216,
+          "hits": 160,
+          "pct": 74.07407407407408
+        },
+        "departure": {
+          "checks": 216,
+          "hits": 138,
+          "pct": 63.888888888888886
+        },
+        "contradictory": {
+          "checks": 216,
+          "hits": 90,
+          "pct": 41.666666666666664
+        }
+      }
+    },
+    "goal": {
+      "preliminary": {
+        "habitual": {
+          "checks": 240,
+          "hits": 158,
+          "pct": 65.83333333333333
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 116,
+          "pct": 48.333333333333336
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 54,
+          "pct": 22.5
+        }
+      },
+      "current": {
+        "habitual": {
+          "checks": 240,
+          "hits": 234,
+          "pct": 97.5
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 147,
+          "pct": 61.25
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 22,
+          "pct": 9.166666666666666
+        }
+      },
+      "candidate": {
+        "habitual": {
+          "checks": 240,
+          "hits": 237,
+          "pct": 98.75
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 154,
+          "pct": 64.16666666666667
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 66,
+          "pct": 27.5
+        }
+      },
+      "stat_only_control": {
+        "habitual": {
+          "checks": 240,
+          "hits": 216,
+          "pct": 90.0
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 152,
+          "pct": 63.333333333333336
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 76,
+          "pct": 31.666666666666668
+        }
+      }
+    },
+    "rest": {
+      "preliminary": {
+        "habitual": {
+          "checks": 240,
+          "hits": 166,
+          "pct": 69.16666666666667
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 111,
+          "pct": 46.25
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 61,
+          "pct": 25.416666666666668
+        }
+      },
+      "current": {
+        "habitual": {
+          "checks": 240,
+          "hits": 207,
+          "pct": 86.25
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 140,
+          "pct": 58.333333333333336
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 25,
+          "pct": 10.416666666666666
+        }
+      },
+      "candidate": {
+        "habitual": {
+          "checks": 240,
+          "hits": 226,
+          "pct": 94.16666666666667
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 165,
+          "pct": 68.75
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 73,
+          "pct": 30.416666666666668
+        }
+      },
+      "stat_only_control": {
+        "habitual": {
+          "checks": 240,
+          "hits": 160,
+          "pct": 66.66666666666667
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 122,
+          "pct": 50.833333333333336
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 84,
+          "pct": 35.0
+        }
+      }
+    },
+    "wait": {
+      "preliminary": {
+        "habitual": {
+          "checks": 240,
+          "hits": 204,
+          "pct": 85.0
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 142,
+          "pct": 59.166666666666664
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 68,
+          "pct": 28.333333333333332
+        }
+      },
+      "current": {
+        "habitual": {
+          "checks": 240,
+          "hits": 215,
+          "pct": 89.58333333333333
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 120,
+          "pct": 50.0
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 16,
+          "pct": 6.666666666666667
+        }
+      },
+      "candidate": {
+        "habitual": {
+          "checks": 240,
+          "hits": 236,
+          "pct": 98.33333333333333
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 151,
+          "pct": 62.916666666666664
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 73,
+          "pct": 30.416666666666668
+        }
+      },
+      "stat_only_control": {
+        "habitual": {
+          "checks": 240,
+          "hits": 166,
+          "pct": 69.16666666666667
+        },
+        "departure": {
+          "checks": 240,
+          "hits": 146,
+          "pct": 60.833333333333336
+        },
+        "contradictory": {
+          "checks": 240,
+          "hits": 82,
+          "pct": 34.166666666666664
+        }
+      }
+    }
+  },
+  "habitual_family_point_gates": {
+    "avoid": true,
+    "goal": true,
+    "rest": true,
+    "wait": true
+  },
+  "all_families_habitual_preserved": true
+}

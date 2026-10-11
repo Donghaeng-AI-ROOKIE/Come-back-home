@@ -1,0 +1,32 @@
+{
+  "candidate": "personal30_literature70_area6.3682",
+  "status": "not_adopted",
+  "current_product_default": "restored_personal90_original_SAR10_coverage95",
+  "reason": "efficiency CI vs previous personal90 baseline did not pass",
+  "gates": {
+    "preliminary_habitual_point_noninferior": true,
+    "preliminary_departure_point_noninferior": true,
+    "preliminary_contradictory_point_noninferior": true,
+    "current_habitual_point_noninferior": true,
+    "current_departure_point_noninferior": true,
+    "current_contradictory_point_noninferior": true,
+    "efficiency_vs_preliminary": true,
+    "budget_and_parity": true,
+    "personal_habitual_effect_vs_stat_only_ci": true,
+    "personal_overall_effect_vs_stat_only_ci": true,
+    "efficiency_positive_ci_vs_current": false,
+    "overall_noninferior_ci_vs_current": true,
+    "habitual_noninferior_ci_vs_current": true,
+    "departure_noninferior_ci_vs_current": true,
+    "contradictory_improvement_ci_vs_current": true,
+    "efficiency_positive_ci_vs_preliminary": true
+  },
+  "personal_habitual_effect_vs_stat_only_pp": {
+    "point": 20.085470085470085,
+    "ci95": [
+      13.675213675213675,
+      26.923076923076923
+    ]
+  },
+  "protocol_unchanged": true
+}

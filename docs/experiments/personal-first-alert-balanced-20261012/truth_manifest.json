@@ -1,0 +1,9 @@
+{
+  "routes": 351,
+  "truth_sha256": "f81878c522a46fb1da8eb66a4f8b5e6fedb9f6e059d95d4575388d7afda143b0",
+  "generator_sha256": "628432ce55a4baed0fe4e2f591176541e56b963ccd64e65c5ff5b9db9bcc0ceb",
+  "protocol_sha256": "500ad1c4f992ee37c1e07dfa320ef3f43026fd918157dc2e6901b8a90ebc71db",
+  "prediction_outputs_read": false,
+  "new_people": false,
+  "clinical": false
+}
