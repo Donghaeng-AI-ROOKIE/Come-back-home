@@ -264,3 +264,13 @@ def test_pair_only_removes_updated_mind_not_prepared_reactions(geography):
     assert quality['direction_state_source']=='updated_mind_state'
     assert quality['statistical']['direction_state_source']=='unobserved_default_0.5'
     assert c.continuous_state['checkpoint']['policy_digest']==c.continuous_state['statistical']['checkpoint']['policy_digest']
+
+def test_walker_version_change_starts_fresh_instead_of_failing(geography,monkeypatch):
+    # A checkpoint from an older walking engine must not be reused: the walker
+    # rejects it as stale, which would leave the whole map unresolved.
+    from app.phase2 import person_walk
+    net,center=geography;p=prepared(center);c=case_for(p)
+    continuous_prediction.run(c,p,prior(),net,1,seed=42)
+    monkeypatch.setattr(person_walk,'VERSION',person_walk.VERSION+'-next')
+    cells,q=continuous_prediction.run(c,p,prior(),net,1,seed=42)
+    assert not q.get('checkpoint_reused') and q['unresolved_mass']==0 and cells

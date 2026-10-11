@@ -6,9 +6,8 @@ Both channels can share this clock. A policy-free channel still shares initial
 personal traits; it is not a population-only statistical baseline.
 """
 from __future__ import annotations
-from copy import deepcopy
 from dataclasses import dataclass,field,asdict
-from datetime import datetime,timedelta
+from datetime import timedelta
 from zoneinfo import ZoneInfo
 from bisect import bisect_right
 import math,random,hashlib,json
@@ -21,7 +20,18 @@ from app.phase2.simulation import _bearing,_kappa,STRATEGIES
 from app.schemas.common import GeoPoint
 from app.schemas.prediction import MindState
 
-VERSION='continuous-person-v6-terminal-reunion'
+VERSION='continuous-person-v7-host-clock'
+
+
+def korean_clock(started_at):
+    """Korean wall-clock time of a stored timestamp.
+
+    Stored naive timestamps are server-local (schemas.common._to_local_naive),
+    the same convention the SAR prompt and person preparation read with
+    astimezone. The cloud worker runs in UTC, so treating naive values as
+    Korean time made clock-conditioned rules 9 hours late.
+    """
+    return started_at.astimezone(ZoneInfo('Asia/Seoul'))
 FEATURE_LIMITS_M={'market':60,'park':60,'forest':60,'water':100}
 
 
@@ -107,10 +117,7 @@ class Population:
         self.trace_hook=trace_hook
         self.net=net;self.persona=simulation_persona(persona,prior);self.prior=prior
         self.policy=policy;self.start=start;self.started_at=started_at;self.seed=seed
-        # Historical stored naive timestamps are Korean local time. Never let
-        # the deployment host's timezone change clock-conditioned behavior.
-        self.clock_origin=(started_at.replace(tzinfo=ZoneInfo('Asia/Seoul'))
-                           if started_at.tzinfo is None else started_at.astimezone(ZoneInfo('Asia/Seoul')))
+        self.clock_origin=korean_clock(started_at)
         self.observations=list(behavior_observations);self.scene=SceneConditions(net,environment_observations,started_at)
         self.rest_policy=rest_policy if rest_policy is not None else BaselineRestPolicy()
         self.observation_boundaries=sorted({(time-started_at).total_seconds()/60
