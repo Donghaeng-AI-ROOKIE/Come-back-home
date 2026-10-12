@@ -55,7 +55,7 @@
 
 - 백엔드 핵심 기능·인증·격리·prior·지도·면적·알림·종결 검사176개 통과. TestClient의httpx 관련 deprecation 경고1개.
 - 최종 프런트26개 검사, TypeScript, 실제 Supabase 설정을 검증한 Expo 운영 빌드 통과.
-- 일반·한글·중첩 화면 URL,48KB 잘못된 percent 인코딩, 식별자 생성기의음수·0 크기를 별도 제한 프로세스로 검사했다.
+- 일반·한글·중첩 화면 URL,48KB 잘못된 percent 인코딩, 식별자 생성기의음수·0 크기를 별도 제한 프로세스로 검사했다. [검증 요약](validation-summary.json).
 - 공개 manifest·HTML·JS와 빌드 해시·실제compiled auth설정 대조. 브라우저 로그인·보호자 홈·메뉴 이동·로그아웃 확인.
 - 별도 버전 도메인에서 합성 계정으로 검사해 기존 사용자의 로그인 세션을 덮어쓰지 않았다.
 
@@ -66,6 +66,8 @@
 1. navigation의`query-string → decode-uri-component0.2.2` 경로는 공식core7.23.0으로 제거했다. [유지관리자 권고](https://github.com/SamVerschueren/decode-uri-component/security/advisories/GHSA-vcc3-ghjq-m6fr).
 2. 정확한 웹 번들의 소스맵에서`nanoid/non-secure` 포함을 확인했고, 원장에 받은음수·0 크기 권고의 패치3.3.18을 적용했다. 위험 입력의 무한 루프 경계를 실제 회귀 검사했다. 다른 주요 버전으로 올리지 않았다.
 3. 나머지 이미 받은 권고의 영향 패키지와 마지막 웹 번들 모듈을 대조했다. [웹 모듈 대조](web-module-audit.json). 소스맵과 배포JS는`sourceMappingURL/debugId` 주석만 제외해 일치해야 판정한다. 소스맵은 로컬 검사에만 사용하고 배포하지 않았다.
+
+GitHub 기본 브랜치의 보안 알림은49건(프런트47·별도dashboard2, 고위험39·중간10)이다. 기본 브랜치의 권고별 알림 수와 이 PR의 최종 `npm --omit=dev` 영향 패키지38개는 대상·집계 단위가 달라 서로 같은 숫자여야 하는 것이 아니다. PR은 아직열려 있어 기본 브랜치 반영 완료로 주장하지 않는다. [기본 브랜치 알림 범위](github-default-alerts.json).
 
 Expo44로 내리라는 자동audit 제안은 SDK57과 맞지 않아 적용하지 않았다. 빌드 환경의 나머지 권고와 네이티브 배포 가능성은 남아 있으며 전체 공급망 감사 완료로 표현하지 않는다. 워커Python의 모든 라이브러리를 대상으로 한 신규 취약점 스캔도 수행하지 않았다.
 

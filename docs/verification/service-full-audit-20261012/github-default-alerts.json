@@ -1,0 +1,406 @@
+{
+  "scope": "GitHub default branch; advisory alert records across frontend and dashboard, not final npm affected-package count",
+  "open_alerts": 49,
+  "manifest_counts": {
+    "frontend/package-lock.json": 47,
+    "dashboard/package-lock.json": 2
+  },
+  "severity_counts": {
+    "high": 39,
+    "medium": 10
+  },
+  "alerts": [
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-68fv-2mgg-jv7q",
+      "manifest": "frontend/package-lock.json",
+      "number": 51,
+      "package": "source-map-js",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-vc2v-76pw-4v95",
+      "manifest": "frontend/package-lock.json",
+      "number": 50,
+      "package": "compression",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-vfj7-8cjw-p6xm",
+      "manifest": "frontend/package-lock.json",
+      "number": 49,
+      "package": "braces",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-86w9-cpqp-85rv",
+      "manifest": "frontend/package-lock.json",
+      "number": 48,
+      "package": "node-forge",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-q2hr-2g5m-vwhr",
+      "manifest": "frontend/package-lock.json",
+      "number": 47,
+      "package": "brace-expansion",
+      "severity": "medium"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-68fv-2mgg-jv7q",
+      "manifest": "dashboard/package-lock.json",
+      "number": 46,
+      "package": "source-map-js",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-qhr7-859c-m2p7",
+      "manifest": "frontend/package-lock.json",
+      "number": 45,
+      "package": "brace-expansion",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-6j4f-fj2g-mc7p",
+      "manifest": "frontend/package-lock.json",
+      "number": 44,
+      "package": "brace-expansion",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-w3rx-r6r6-pgpr",
+      "manifest": "frontend/package-lock.json",
+      "number": 43,
+      "package": "image-size",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-5p2g-fcmc-qvqq",
+      "manifest": "frontend/package-lock.json",
+      "number": 42,
+      "package": "image-size",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-2883-xcg3-v3hh",
+      "manifest": "frontend/package-lock.json",
+      "number": 41,
+      "package": "js-yaml",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-w27v-7q3p-w38r",
+      "manifest": "frontend/package-lock.json",
+      "number": 40,
+      "package": "svgo",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-4vpr-x523-8j87",
+      "manifest": "frontend/package-lock.json",
+      "number": 39,
+      "package": "svgo",
+      "severity": "medium"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-c7q8-3ch8-vqpv",
+      "manifest": "frontend/package-lock.json",
+      "number": 38,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-c7q8-3ch8-vqpv",
+      "manifest": "frontend/package-lock.json",
+      "number": 37,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-27p8-2357-5qqv",
+      "manifest": "frontend/package-lock.json",
+      "number": 36,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-27p8-2357-5qqv",
+      "manifest": "frontend/package-lock.json",
+      "number": 35,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-3px3-54cx-rmw9",
+      "manifest": "frontend/package-lock.json",
+      "number": 34,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-vr34-hp96-76pp",
+      "manifest": "frontend/package-lock.json",
+      "number": 33,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-6h8r-xr42-gp59",
+      "manifest": "frontend/package-lock.json",
+      "number": 32,
+      "package": "@xmldom/xmldom",
+      "severity": "medium"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-6h8r-xr42-gp59",
+      "manifest": "frontend/package-lock.json",
+      "number": 31,
+      "package": "@xmldom/xmldom",
+      "severity": "medium"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-8344-3jmq-59r6",
+      "manifest": "frontend/package-lock.json",
+      "number": 30,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-8344-3jmq-59r6",
+      "manifest": "frontend/package-lock.json",
+      "number": 29,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-x4fp-j954-r2f4",
+      "manifest": "frontend/package-lock.json",
+      "number": 28,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-965w-775f-mr7g",
+      "manifest": "frontend/package-lock.json",
+      "number": 27,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-965w-775f-mr7g",
+      "manifest": "frontend/package-lock.json",
+      "number": 26,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-93r5-fhx6-vmg9",
+      "manifest": "frontend/package-lock.json",
+      "number": 25,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-93r5-fhx6-vmg9",
+      "manifest": "frontend/package-lock.json",
+      "number": 24,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-6mj3-qw4j-hgrw",
+      "manifest": "frontend/package-lock.json",
+      "number": 23,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-w5vr-8v7q-w6rv",
+      "manifest": "frontend/package-lock.json",
+      "number": 22,
+      "package": "baseline-browser-mapping",
+      "severity": "medium"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-g53g-w8rj-fmg7",
+      "manifest": "frontend/package-lock.json",
+      "number": 21,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-w2rr-34g9-rvrj",
+      "manifest": "frontend/package-lock.json",
+      "number": 20,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-w2rr-34g9-rvrj",
+      "manifest": "frontend/package-lock.json",
+      "number": 19,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-4w3w-2rp5-g8jm",
+      "manifest": "frontend/package-lock.json",
+      "number": 18,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-4w3w-2rp5-g8jm",
+      "manifest": "frontend/package-lock.json",
+      "number": 17,
+      "package": "@xmldom/xmldom",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-6gmq-8vp8-gcm6",
+      "manifest": "frontend/package-lock.json",
+      "number": 16,
+      "package": "@xmldom/xmldom",
+      "severity": "medium"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-6gmq-8vp8-gcm6",
+      "manifest": "frontend/package-lock.json",
+      "number": 15,
+      "package": "@xmldom/xmldom",
+      "severity": "medium"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-c83g-rgw3-j3cx",
+      "manifest": "frontend/package-lock.json",
+      "number": 14,
+      "package": "browserslist",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-73wf-gq98-2v4g",
+      "manifest": "frontend/package-lock.json",
+      "number": 13,
+      "package": "browserslist",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-vcc3-ghjq-m6fr",
+      "manifest": "frontend/package-lock.json",
+      "number": 12,
+      "package": "decode-uri-component",
+      "severity": "medium"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-2v37-7h3g-55p8",
+      "manifest": "frontend/package-lock.json",
+      "number": 11,
+      "package": "nanoid",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-28wg-ghj8-5hjv",
+      "manifest": "frontend/package-lock.json",
+      "number": 8,
+      "package": "nanoid",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-5p4m-2wfm-xmqj",
+      "manifest": "frontend/package-lock.json",
+      "number": 7,
+      "package": "js-yaml",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-fxqj-rqcc-2cmp",
+      "manifest": "frontend/package-lock.json",
+      "number": 6,
+      "package": "postcss",
+      "severity": "medium"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-rgw5-rvv9-x895",
+      "manifest": "frontend/package-lock.json",
+      "number": 5,
+      "package": "brace-expansion",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-mh99-v99m-4gvg",
+      "manifest": "frontend/package-lock.json",
+      "number": 4,
+      "package": "brace-expansion",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-r28c-9q8g-f849",
+      "manifest": "frontend/package-lock.json",
+      "number": 3,
+      "package": "postcss",
+      "severity": "high"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-w5hq-g745-h8pq",
+      "manifest": "frontend/package-lock.json",
+      "number": 2,
+      "package": "uuid",
+      "severity": "medium"
+    },
+    {
+      "ecosystem": "npm",
+      "ghsa": "GHSA-2v37-7h3g-55p8",
+      "manifest": "dashboard/package-lock.json",
+      "number": 1,
+      "package": "nanoid",
+      "severity": "high"
+    }
+  ]
+}
