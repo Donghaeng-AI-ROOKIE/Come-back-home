@@ -51,5 +51,8 @@
     "postinstall": "patch-package",
     "build:web:cloud": "node scripts/build-cloud-web.mjs"
   },
-  "private": true
+  "private": true,
+  "overrides": {
+    "@react-navigation/core": "7.23.0"
+  }
 }
