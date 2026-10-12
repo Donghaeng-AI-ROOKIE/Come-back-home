@@ -1,0 +1,1562 @@
+[
+  {
+    "person_id": "E01",
+    "profiles": {
+      "preliminary": {
+        "overall": 36.11111111111111,
+        "area": 3.535707167044639,
+        "habitual": 66.66666666666666,
+        "departure": 41.66666666666667,
+        "contradictory": 0.0
+      },
+      "current": {
+        "overall": 72.22222222222221,
+        "area": 5.770795956348828,
+        "habitual": 100.0,
+        "departure": 70.83333333333334,
+        "contradictory": 45.83333333333333
+      },
+      "directional_candidate": {
+        "overall": 73.61111111111111,
+        "area": 5.914990295866035,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 45.83333333333333
+      },
+      "personal50_res8": {
+        "overall": 66.66666666666666,
+        "area": 5.554860299918872,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "best_directional50_res8": {
+        "overall": 72.22222222222221,
+        "area": 5.554149185427123,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 41.66666666666667
+      }
+    }
+  },
+  {
+    "person_id": "E02",
+    "profiles": {
+      "preliminary": {
+        "overall": 41.66666666666667,
+        "area": 3.5317071076011652,
+        "habitual": 75.0,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "current": {
+        "overall": 58.333333333333336,
+        "area": 5.767528074816912,
+        "habitual": 100.0,
+        "departure": 54.166666666666664,
+        "contradictory": 20.833333333333336
+      },
+      "directional_candidate": {
+        "overall": 69.44444444444444,
+        "area": 5.9839031614035445,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 41.66666666666667
+      },
+      "personal50_res8": {
+        "overall": 52.77777777777778,
+        "area": 5.550585865699503,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 8.333333333333332
+      },
+      "best_directional50_res8": {
+        "overall": 58.333333333333336,
+        "area": 5.551107581999331,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 25.0
+      }
+    }
+  },
+  {
+    "person_id": "E03",
+    "profiles": {
+      "preliminary": {
+        "overall": 69.44444444444444,
+        "area": 3.5337068395295144,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 41.66666666666667
+      },
+      "current": {
+        "overall": 73.61111111111111,
+        "area": 5.768781859487064,
+        "habitual": 100.0,
+        "departure": 70.83333333333334,
+        "contradictory": 50.0
+      },
+      "directional_candidate": {
+        "overall": 77.77777777777779,
+        "area": 5.913062890817686,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 50.0
+      },
+      "personal50_res8": {
+        "overall": 72.22222222222221,
+        "area": 5.55232989401512,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 41.66666666666667
+      },
+      "best_directional50_res8": {
+        "overall": 77.77777777777779,
+        "area": 5.552595243380081,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 50.0
+      }
+    }
+  },
+  {
+    "person_id": "E04",
+    "profiles": {
+      "preliminary": {
+        "overall": 70.83333333333334,
+        "area": 6.6239505586805345,
+        "habitual": 87.5,
+        "departure": 83.33333333333334,
+        "contradictory": 41.66666666666667
+      },
+      "current": {
+        "overall": 58.333333333333336,
+        "area": 5.767792671824044,
+        "habitual": 79.16666666666666,
+        "departure": 62.5,
+        "contradictory": 33.33333333333333
+      },
+      "directional_candidate": {
+        "overall": 62.5,
+        "area": 5.912064326229185,
+        "habitual": 79.16666666666666,
+        "departure": 66.66666666666666,
+        "contradictory": 41.66666666666667
+      },
+      "personal50_res8": {
+        "overall": 51.388888888888886,
+        "area": 5.550516931129987,
+        "habitual": 91.66666666666666,
+        "departure": 62.5,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 50.0,
+        "area": 5.550954718796571,
+        "habitual": 83.33333333333334,
+        "departure": 66.66666666666666,
+        "contradictory": 0.0
+      }
+    }
+  },
+  {
+    "person_id": "E05",
+    "profiles": {
+      "preliminary": {
+        "overall": 66.66666666666666,
+        "area": 7.068890135219099,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "current": {
+        "overall": 66.66666666666666,
+        "area": 5.770247637338706,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "directional_candidate": {
+        "overall": 66.66666666666666,
+        "area": 5.9865306742855235,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "personal50_res8": {
+        "overall": 63.888888888888886,
+        "area": 5.554311661826283,
+        "habitual": 100.0,
+        "departure": 62.5,
+        "contradictory": 29.166666666666668
+      },
+      "best_directional50_res8": {
+        "overall": 66.66666666666666,
+        "area": 5.553909629485987,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      }
+    }
+  },
+  {
+    "person_id": "E06",
+    "profiles": {
+      "preliminary": {
+        "overall": 58.333333333333336,
+        "area": 6.626157832586049,
+        "habitual": 83.33333333333334,
+        "departure": 50.0,
+        "contradictory": 41.66666666666667
+      },
+      "current": {
+        "overall": 54.166666666666664,
+        "area": 5.77021800624413,
+        "habitual": 100.0,
+        "departure": 54.166666666666664,
+        "contradictory": 8.333333333333332
+      },
+      "directional_candidate": {
+        "overall": 62.5,
+        "area": 5.914420433652036,
+        "habitual": 100.0,
+        "departure": 62.5,
+        "contradictory": 25.0
+      },
+      "personal50_res8": {
+        "overall": 55.55555555555556,
+        "area": 5.554145810769551,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 16.666666666666664
+      },
+      "best_directional50_res8": {
+        "overall": 61.111111111111114,
+        "area": 5.55370298408476,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 33.33333333333333
+      }
+    }
+  },
+  {
+    "person_id": "E07",
+    "profiles": {
+      "preliminary": {
+        "overall": 58.333333333333336,
+        "area": 7.069414006574155,
+        "habitual": 83.33333333333334,
+        "departure": 58.333333333333336,
+        "contradictory": 33.33333333333333
+      },
+      "current": {
+        "overall": 52.77777777777778,
+        "area": 5.770064147100971,
+        "habitual": 100.0,
+        "departure": 58.333333333333336,
+        "contradictory": 0.0
+      },
+      "directional_candidate": {
+        "overall": 55.55555555555556,
+        "area": 5.914259043499559,
+        "habitual": 100.0,
+        "departure": 58.333333333333336,
+        "contradictory": 8.333333333333332
+      },
+      "personal50_res8": {
+        "overall": 50.0,
+        "area": 5.554094391174481,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 58.333333333333336,
+        "area": 5.553807085062385,
+        "habitual": 100.0,
+        "departure": 58.333333333333336,
+        "contradictory": 16.666666666666664
+      }
+    }
+  },
+  {
+    "person_id": "E08",
+    "profiles": {
+      "preliminary": {
+        "overall": 55.55555555555556,
+        "area": 6.182487170230388,
+        "habitual": 75.0,
+        "departure": 41.66666666666667,
+        "contradictory": 50.0
+      },
+      "current": {
+        "overall": 50.0,
+        "area": 5.7677709809101305,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "directional_candidate": {
+        "overall": 52.77777777777778,
+        "area": 5.912038975333482,
+        "habitual": 100.0,
+        "departure": 54.166666666666664,
+        "contradictory": 4.166666666666666
+      },
+      "personal50_res8": {
+        "overall": 52.77777777777778,
+        "area": 5.551279019725077,
+        "habitual": 87.5,
+        "departure": 58.333333333333336,
+        "contradictory": 12.5
+      },
+      "best_directional50_res8": {
+        "overall": 66.66666666666666,
+        "area": 5.551491503786232,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      }
+    }
+  },
+  {
+    "person_id": "E09",
+    "profiles": {
+      "preliminary": {
+        "overall": 58.333333333333336,
+        "area": 7.066889655982494,
+        "habitual": 58.333333333333336,
+        "departure": 66.66666666666666,
+        "contradictory": 50.0
+      },
+      "current": {
+        "overall": 65.27777777777779,
+        "area": 5.769438908856913,
+        "habitual": 95.83333333333334,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "directional_candidate": {
+        "overall": 65.27777777777779,
+        "area": 5.913695997590407,
+        "habitual": 95.83333333333334,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "personal50_res8": {
+        "overall": 52.77777777777778,
+        "area": 5.552991934930939,
+        "habitual": 100.0,
+        "departure": 58.333333333333336,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 65.27777777777779,
+        "area": 5.553204925410093,
+        "habitual": 100.0,
+        "departure": 62.5,
+        "contradictory": 33.33333333333333
+      }
+    }
+  },
+  {
+    "person_id": "E10",
+    "profiles": {
+      "preliminary": {
+        "overall": 76.38888888888889,
+        "area": 6.62717678027791,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 54.166666666666664
+      },
+      "current": {
+        "overall": 76.38888888888889,
+        "area": 5.770475998690754,
+        "habitual": 100.0,
+        "departure": 79.16666666666666,
+        "contradictory": 50.0
+      },
+      "directional_candidate": {
+        "overall": 77.77777777777779,
+        "area": 5.914705355652921,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 50.0
+      },
+      "personal50_res8": {
+        "overall": 56.94444444444444,
+        "area": 5.554323730438089,
+        "habitual": 87.5,
+        "departure": 58.333333333333336,
+        "contradictory": 25.0
+      },
+      "best_directional50_res8": {
+        "overall": 75.0,
+        "area": 5.554199933702767,
+        "habitual": 83.33333333333334,
+        "departure": 83.33333333333334,
+        "contradictory": 58.333333333333336
+      }
+    }
+  },
+  {
+    "person_id": "E11",
+    "profiles": {
+      "preliminary": {
+        "overall": 69.44444444444444,
+        "area": 7.0679365458798395,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 41.66666666666667
+      },
+      "current": {
+        "overall": 70.83333333333334,
+        "area": 5.769685555215478,
+        "habitual": 95.83333333333334,
+        "departure": 66.66666666666666,
+        "contradictory": 50.0
+      },
+      "directional_candidate": {
+        "overall": 70.83333333333334,
+        "area": 5.913896067520053,
+        "habitual": 95.83333333333334,
+        "departure": 66.66666666666666,
+        "contradictory": 50.0
+      },
+      "personal50_res8": {
+        "overall": 66.66666666666666,
+        "area": 5.553473062171083,
+        "habitual": 91.66666666666666,
+        "departure": 66.66666666666666,
+        "contradictory": 41.66666666666667
+      },
+      "best_directional50_res8": {
+        "overall": 55.55555555555556,
+        "area": 5.553269401736598,
+        "habitual": 66.66666666666666,
+        "departure": 58.333333333333336,
+        "contradictory": 41.66666666666667
+      }
+    }
+  },
+  {
+    "person_id": "E12",
+    "profiles": {
+      "preliminary": {
+        "overall": 36.11111111111111,
+        "area": 4.4167643711867335,
+        "habitual": 25.0,
+        "departure": 33.33333333333333,
+        "contradictory": 50.0
+      },
+      "current": {
+        "overall": 77.77777777777779,
+        "area": 5.767855766556516,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 50.0
+      },
+      "directional_candidate": {
+        "overall": 77.77777777777779,
+        "area": 5.912127665661343,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 50.0
+      },
+      "personal50_res8": {
+        "overall": 66.66666666666666,
+        "area": 5.550798070708659,
+        "habitual": 83.33333333333334,
+        "departure": 83.33333333333334,
+        "contradictory": 33.33333333333333
+      },
+      "best_directional50_res8": {
+        "overall": 72.22222222222221,
+        "area": 5.551302371503368,
+        "habitual": 83.33333333333334,
+        "departure": 83.33333333333334,
+        "contradictory": 50.0
+      }
+    }
+  },
+  {
+    "person_id": "E13",
+    "profiles": {
+      "preliminary": {
+        "overall": 58.333333333333336,
+        "area": 8.390357503300548,
+        "habitual": 66.66666666666666,
+        "departure": 58.333333333333336,
+        "contradictory": 50.0
+      },
+      "current": {
+        "overall": 55.55555555555556,
+        "area": 5.76824562821696,
+        "habitual": 95.83333333333334,
+        "departure": 62.5,
+        "contradictory": 8.333333333333332
+      },
+      "directional_candidate": {
+        "overall": 62.5,
+        "area": 5.9124984111761005,
+        "habitual": 95.83333333333334,
+        "departure": 75.0,
+        "contradictory": 16.666666666666664
+      },
+      "personal50_res8": {
+        "overall": 44.44444444444444,
+        "area": 5.5517534814949,
+        "habitual": 75.0,
+        "departure": 58.333333333333336,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 56.94444444444444,
+        "area": 5.551954465940806,
+        "habitual": 66.66666666666666,
+        "departure": 75.0,
+        "contradictory": 29.166666666666668
+      }
+    }
+  },
+  {
+    "person_id": "E14",
+    "profiles": {
+      "preliminary": {
+        "overall": 63.888888888888886,
+        "area": 8.834743689019682,
+        "habitual": 58.333333333333336,
+        "departure": 75.0,
+        "contradictory": 58.333333333333336
+      },
+      "current": {
+        "overall": 61.111111111111114,
+        "area": 5.769093010329917,
+        "habitual": 91.66666666666666,
+        "departure": 75.0,
+        "contradictory": 16.666666666666664
+      },
+      "directional_candidate": {
+        "overall": 61.111111111111114,
+        "area": 5.913350759956256,
+        "habitual": 91.66666666666666,
+        "departure": 75.0,
+        "contradictory": 16.666666666666664
+      },
+      "personal50_res8": {
+        "overall": 44.44444444444444,
+        "area": 5.552360062530759,
+        "habitual": 66.66666666666666,
+        "departure": 58.333333333333336,
+        "contradictory": 8.333333333333332
+      },
+      "best_directional50_res8": {
+        "overall": 50.0,
+        "area": 5.5526599926970714,
+        "habitual": 75.0,
+        "departure": 58.333333333333336,
+        "contradictory": 16.666666666666664
+      }
+    }
+  },
+  {
+    "person_id": "E15",
+    "profiles": {
+      "preliminary": {
+        "overall": 47.22222222222222,
+        "area": 3.5317071076011652,
+        "habitual": 100.0,
+        "departure": 41.66666666666667,
+        "contradictory": 0.0
+      },
+      "current": {
+        "overall": 65.27777777777779,
+        "area": 5.76700029051052,
+        "habitual": 95.83333333333334,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "directional_candidate": {
+        "overall": 65.27777777777779,
+        "area": 5.983363663776196,
+        "habitual": 95.83333333333334,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "personal50_res8": {
+        "overall": 65.27777777777779,
+        "area": 5.550237565669976,
+        "habitual": 95.83333333333334,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "best_directional50_res8": {
+        "overall": 63.888888888888886,
+        "area": 5.550761924329868,
+        "habitual": 91.66666666666666,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      }
+    }
+  },
+  {
+    "person_id": "E16",
+    "profiles": {
+      "preliminary": {
+        "overall": 66.66666666666666,
+        "area": 10.598596763583659,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "current": {
+        "overall": 62.5,
+        "area": 5.768752142838314,
+        "habitual": 100.0,
+        "departure": 62.5,
+        "contradictory": 25.0
+      },
+      "directional_candidate": {
+        "overall": 63.888888888888886,
+        "area": 5.9850950310333,
+        "habitual": 100.0,
+        "departure": 62.5,
+        "contradictory": 29.166666666666668
+      },
+      "personal50_res8": {
+        "overall": 50.0,
+        "area": 5.5525523159361265,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 63.888888888888886,
+        "area": 5.552670555101224,
+        "habitual": 100.0,
+        "departure": 62.5,
+        "contradictory": 29.166666666666668
+      }
+    }
+  },
+  {
+    "person_id": "E17",
+    "profiles": {
+      "preliminary": {
+        "overall": 77.77777777777779,
+        "area": 7.06541394713068,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 50.0
+      },
+      "current": {
+        "overall": 80.55555555555556,
+        "area": 5.768814074301072,
+        "habitual": 100.0,
+        "departure": 87.5,
+        "contradictory": 54.166666666666664
+      },
+      "directional_candidate": {
+        "overall": 80.55555555555556,
+        "area": 5.913066677814633,
+        "habitual": 100.0,
+        "departure": 87.5,
+        "contradictory": 54.166666666666664
+      },
+      "personal50_res8": {
+        "overall": 66.66666666666666,
+        "area": 5.552378600782648,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 25.0
+      },
+      "best_directional50_res8": {
+        "overall": 72.22222222222221,
+        "area": 5.552524812945411,
+        "habitual": 100.0,
+        "departure": 79.16666666666666,
+        "contradictory": 37.5
+      }
+    }
+  },
+  {
+    "person_id": "E18",
+    "profiles": {
+      "preliminary": {
+        "overall": 72.22222222222221,
+        "area": 7.06541394713068,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 50.0
+      },
+      "current": {
+        "overall": 56.94444444444444,
+        "area": 5.767578982477092,
+        "habitual": 100.0,
+        "departure": 54.166666666666664,
+        "contradictory": 16.666666666666664
+      },
+      "directional_candidate": {
+        "overall": 59.72222222222222,
+        "area": 5.983980227889747,
+        "habitual": 100.0,
+        "departure": 62.5,
+        "contradictory": 16.666666666666664
+      },
+      "personal50_res8": {
+        "overall": 50.0,
+        "area": 5.550577664031907,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 63.888888888888886,
+        "area": 5.551254369983338,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 25.0
+      }
+    }
+  },
+  {
+    "person_id": "E19",
+    "profiles": {
+      "preliminary": {
+        "overall": 51.388888888888886,
+        "area": 4.856847172424732,
+        "habitual": 83.33333333333334,
+        "departure": 50.0,
+        "contradictory": 20.833333333333336
+      },
+      "current": {
+        "overall": 56.94444444444444,
+        "area": 5.768081968088844,
+        "habitual": 100.0,
+        "departure": 62.5,
+        "contradictory": 8.333333333333332
+      },
+      "directional_candidate": {
+        "overall": 63.888888888888886,
+        "area": 5.912344820161358,
+        "habitual": 100.0,
+        "departure": 70.83333333333334,
+        "contradictory": 20.833333333333336
+      },
+      "personal50_res8": {
+        "overall": 50.0,
+        "area": 5.551027130560584,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 55.55555555555556,
+        "area": 5.551402848505057,
+        "habitual": 100.0,
+        "departure": 58.333333333333336,
+        "contradictory": 8.333333333333332
+      }
+    }
+  },
+  {
+    "person_id": "E21",
+    "profiles": {
+      "preliminary": {
+        "overall": 30.555555555555557,
+        "area": 7.068890135219099,
+        "habitual": 25.0,
+        "departure": 25.0,
+        "contradictory": 41.66666666666667
+      },
+      "current": {
+        "overall": 72.22222222222221,
+        "area": 5.769108529306887,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 41.66666666666667
+      },
+      "directional_candidate": {
+        "overall": 72.22222222222221,
+        "area": 5.985463034652763,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 41.66666666666667
+      },
+      "personal50_res8": {
+        "overall": 69.44444444444444,
+        "area": 5.552679178824756,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 33.33333333333333
+      },
+      "best_directional50_res8": {
+        "overall": 72.22222222222221,
+        "area": 5.552707554215321,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 41.66666666666667
+      }
+    }
+  },
+  {
+    "person_id": "E22",
+    "profiles": {
+      "preliminary": {
+        "overall": 41.66666666666667,
+        "area": 4.415133817483544,
+        "habitual": 58.333333333333336,
+        "departure": 41.66666666666667,
+        "contradictory": 25.0
+      },
+      "current": {
+        "overall": 76.38888888888889,
+        "area": 5.768321358448431,
+        "habitual": 100.0,
+        "departure": 79.16666666666666,
+        "contradictory": 50.0
+      },
+      "directional_candidate": {
+        "overall": 76.38888888888889,
+        "area": 5.912570351142399,
+        "habitual": 100.0,
+        "departure": 79.16666666666666,
+        "contradictory": 50.0
+      },
+      "personal50_res8": {
+        "overall": 61.111111111111114,
+        "area": 5.551599683017795,
+        "habitual": 91.66666666666666,
+        "departure": 66.66666666666666,
+        "contradictory": 25.0
+      },
+      "best_directional50_res8": {
+        "overall": 70.83333333333334,
+        "area": 5.551797061263525,
+        "habitual": 83.33333333333334,
+        "departure": 79.16666666666666,
+        "contradictory": 50.0
+      }
+    }
+  },
+  {
+    "person_id": "E23",
+    "profiles": {
+      "preliminary": {
+        "overall": 47.22222222222222,
+        "area": 3.5337068395295144,
+        "habitual": 100.0,
+        "departure": 41.66666666666667,
+        "contradictory": 0.0
+      },
+      "current": {
+        "overall": 50.0,
+        "area": 5.76873464472892,
+        "habitual": 100.0,
+        "departure": 45.83333333333333,
+        "contradictory": 4.166666666666666
+      },
+      "directional_candidate": {
+        "overall": 52.77777777777778,
+        "area": 5.985136340162345,
+        "habitual": 100.0,
+        "departure": 45.83333333333333,
+        "contradictory": 12.5
+      },
+      "personal50_res8": {
+        "overall": 47.22222222222222,
+        "area": 5.552308242808965,
+        "habitual": 100.0,
+        "departure": 41.66666666666667,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 54.166666666666664,
+        "area": 5.552601430663701,
+        "habitual": 100.0,
+        "departure": 54.166666666666664,
+        "contradictory": 8.333333333333332
+      }
+    }
+  },
+  {
+    "person_id": "E24",
+    "profiles": {
+      "preliminary": {
+        "overall": 52.77777777777778,
+        "area": 3.5337068395295144,
+        "habitual": 100.0,
+        "departure": 58.333333333333336,
+        "contradictory": 0.0
+      },
+      "current": {
+        "overall": 54.166666666666664,
+        "area": 5.769544082583874,
+        "habitual": 100.0,
+        "departure": 58.333333333333336,
+        "contradictory": 4.166666666666666
+      },
+      "directional_candidate": {
+        "overall": 54.166666666666664,
+        "area": 5.913747064404041,
+        "habitual": 100.0,
+        "departure": 58.333333333333336,
+        "contradictory": 4.166666666666666
+      },
+      "personal50_res8": {
+        "overall": 55.55555555555556,
+        "area": 5.553483619895811,
+        "habitual": 100.0,
+        "departure": 58.333333333333336,
+        "contradictory": 8.333333333333332
+      },
+      "best_directional50_res8": {
+        "overall": 66.66666666666666,
+        "area": 5.552941481135496,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 25.0
+      }
+    }
+  },
+  {
+    "person_id": "E25",
+    "profiles": {
+      "preliminary": {
+        "overall": 30.555555555555557,
+        "area": 3.5337068395295144,
+        "habitual": 33.33333333333333,
+        "departure": 25.0,
+        "contradictory": 33.33333333333333
+      },
+      "current": {
+        "overall": 69.44444444444444,
+        "area": 5.768505438719459,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 33.33333333333333
+      },
+      "directional_candidate": {
+        "overall": 69.44444444444444,
+        "area": 5.984927600216612,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 33.33333333333333
+      },
+      "personal50_res8": {
+        "overall": 63.888888888888886,
+        "area": 5.551727588665587,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 25.0
+      },
+      "best_directional50_res8": {
+        "overall": 69.44444444444444,
+        "area": 5.552467984675906,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 33.33333333333333
+      }
+    }
+  },
+  {
+    "person_id": "E26",
+    "profiles": {
+      "preliminary": {
+        "overall": 13.88888888888889,
+        "area": 3.533182816452979,
+        "habitual": 16.666666666666664,
+        "departure": 25.0,
+        "contradictory": 0.0
+      },
+      "current": {
+        "overall": 51.388888888888886,
+        "area": 5.768150049727067,
+        "habitual": 87.5,
+        "departure": 41.66666666666667,
+        "contradictory": 25.0
+      },
+      "directional_candidate": {
+        "overall": 54.166666666666664,
+        "area": 5.912417540202164,
+        "habitual": 87.5,
+        "departure": 41.66666666666667,
+        "contradictory": 33.33333333333333
+      },
+      "personal50_res8": {
+        "overall": 40.27777777777778,
+        "area": 5.551063707463532,
+        "habitual": 54.166666666666664,
+        "departure": 41.66666666666667,
+        "contradictory": 25.0
+      },
+      "best_directional50_res8": {
+        "overall": 45.83333333333333,
+        "area": 5.551861767610319,
+        "habitual": 45.83333333333333,
+        "departure": 50.0,
+        "contradictory": 41.66666666666667
+      }
+    }
+  },
+  {
+    "person_id": "E27",
+    "profiles": {
+      "preliminary": {
+        "overall": 38.88888888888889,
+        "area": 10.598596763583659,
+        "habitual": 41.66666666666667,
+        "departure": 41.66666666666667,
+        "contradictory": 33.33333333333333
+      },
+      "current": {
+        "overall": 45.83333333333333,
+        "area": 5.768731194879234,
+        "habitual": 87.5,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "directional_candidate": {
+        "overall": 59.72222222222222,
+        "area": 5.985063778841184,
+        "habitual": 87.5,
+        "departure": 66.66666666666666,
+        "contradictory": 25.0
+      },
+      "personal50_res8": {
+        "overall": 30.555555555555557,
+        "area": 5.55246088411671,
+        "habitual": 66.66666666666666,
+        "departure": 25.0,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 50.0,
+        "area": 5.552317184509542,
+        "habitual": 58.333333333333336,
+        "departure": 41.66666666666667,
+        "contradictory": 50.0
+      }
+    }
+  },
+  {
+    "person_id": "E28",
+    "profiles": {
+      "preliminary": {
+        "overall": 66.66666666666666,
+        "area": 5.740273882307112,
+        "habitual": 100.0,
+        "departure": 70.83333333333334,
+        "contradictory": 29.166666666666668
+      },
+      "current": {
+        "overall": 77.77777777777779,
+        "area": 5.767059090209983,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 50.0
+      },
+      "directional_candidate": {
+        "overall": 77.77777777777779,
+        "area": 5.911303058288656,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 50.0
+      },
+      "personal50_res8": {
+        "overall": 77.77777777777779,
+        "area": 5.549866623771958,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 50.0
+      },
+      "best_directional50_res8": {
+        "overall": 77.77777777777779,
+        "area": 5.550339868774291,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 50.0
+      }
+    }
+  },
+  {
+    "person_id": "E29",
+    "profiles": {
+      "preliminary": {
+        "overall": 40.27777777777778,
+        "area": 9.271623915737152,
+        "habitual": 45.83333333333333,
+        "departure": 41.66666666666667,
+        "contradictory": 33.33333333333333
+      },
+      "current": {
+        "overall": 66.66666666666666,
+        "area": 5.767777336920694,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "directional_candidate": {
+        "overall": 66.66666666666666,
+        "area": 5.984182263512655,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "personal50_res8": {
+        "overall": 52.77777777777778,
+        "area": 5.550903929197819,
+        "habitual": 91.66666666666666,
+        "departure": 50.0,
+        "contradictory": 16.666666666666664
+      },
+      "best_directional50_res8": {
+        "overall": 62.5,
+        "area": 5.55137407989091,
+        "habitual": 91.66666666666666,
+        "departure": 54.166666666666664,
+        "contradictory": 41.66666666666667
+      }
+    }
+  },
+  {
+    "person_id": "E30",
+    "profiles": {
+      "preliminary": {
+        "overall": 8.333333333333332,
+        "area": 3.5317071076011652,
+        "habitual": 25.0,
+        "departure": 0.0,
+        "contradictory": 0.0
+      },
+      "current": {
+        "overall": 51.388888888888886,
+        "area": 5.7680829342043545,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 4.166666666666666
+      },
+      "directional_candidate": {
+        "overall": 54.166666666666664,
+        "area": 5.912294948691368,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 12.5
+      },
+      "personal50_res8": {
+        "overall": 48.61111111111111,
+        "area": 5.551676654173333,
+        "habitual": 95.83333333333334,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 51.388888888888886,
+        "area": 5.551597781750441,
+        "habitual": 91.66666666666666,
+        "departure": 50.0,
+        "contradictory": 12.5
+      }
+    }
+  },
+  {
+    "person_id": "E31",
+    "profiles": {
+      "preliminary": {
+        "overall": 41.66666666666667,
+        "area": 3.535707167044639,
+        "habitual": 83.33333333333334,
+        "departure": 41.66666666666667,
+        "contradictory": 0.0
+      },
+      "current": {
+        "overall": 50.0,
+        "area": 5.771163025509113,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "directional_candidate": {
+        "overall": 50.0,
+        "area": 5.915380826097004,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "personal50_res8": {
+        "overall": 50.0,
+        "area": 5.555017253729228,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 63.888888888888886,
+        "area": 5.554680021657489,
+        "habitual": 100.0,
+        "departure": 58.333333333333336,
+        "contradictory": 33.33333333333333
+      }
+    }
+  },
+  {
+    "person_id": "E32",
+    "profiles": {
+      "preliminary": {
+        "overall": 55.55555555555556,
+        "area": 7.06541394713068,
+        "habitual": 100.0,
+        "departure": 58.333333333333336,
+        "contradictory": 8.333333333333332
+      },
+      "current": {
+        "overall": 58.333333333333336,
+        "area": 5.767670802467912,
+        "habitual": 91.66666666666666,
+        "departure": 62.5,
+        "contradictory": 20.833333333333336
+      },
+      "directional_candidate": {
+        "overall": 66.66666666666666,
+        "area": 5.984075796032831,
+        "habitual": 91.66666666666666,
+        "departure": 70.83333333333334,
+        "contradictory": 37.5
+      },
+      "personal50_res8": {
+        "overall": 50.0,
+        "area": 5.55074311669992,
+        "habitual": 100.0,
+        "departure": 50.0,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 72.22222222222221,
+        "area": 5.551626166017047,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 41.66666666666667
+      }
+    }
+  },
+  {
+    "person_id": "E33",
+    "profiles": {
+      "preliminary": {
+        "overall": 16.666666666666664,
+        "area": 3.5317071076011652,
+        "habitual": 16.666666666666664,
+        "departure": 33.33333333333333,
+        "contradictory": 0.0
+      },
+      "current": {
+        "overall": 69.44444444444444,
+        "area": 5.768108221569433,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 33.33333333333333
+      },
+      "directional_candidate": {
+        "overall": 72.22222222222221,
+        "area": 5.912300469133898,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 33.33333333333333
+      },
+      "personal50_res8": {
+        "overall": 62.5,
+        "area": 5.55136854413287,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 20.833333333333336
+      },
+      "best_directional50_res8": {
+        "overall": 72.22222222222221,
+        "area": 5.5514420201013985,
+        "habitual": 100.0,
+        "departure": 79.16666666666666,
+        "contradictory": 37.5
+      }
+    }
+  },
+  {
+    "person_id": "E34",
+    "profiles": {
+      "preliminary": {
+        "overall": 47.22222222222222,
+        "area": 5.301083126115083,
+        "habitual": 75.0,
+        "departure": 50.0,
+        "contradictory": 16.666666666666664
+      },
+      "current": {
+        "overall": 75.0,
+        "area": 5.7696410814542025,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 41.66666666666667
+      },
+      "directional_candidate": {
+        "overall": 75.0,
+        "area": 5.913852201789446,
+        "habitual": 100.0,
+        "departure": 83.33333333333334,
+        "contradictory": 41.66666666666667
+      },
+      "personal50_res8": {
+        "overall": 63.888888888888886,
+        "area": 5.553516565226144,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 25.0
+      },
+      "best_directional50_res8": {
+        "overall": 72.22222222222221,
+        "area": 5.5532056889298484,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 41.66666666666667
+      }
+    }
+  },
+  {
+    "person_id": "E35",
+    "profiles": {
+      "preliminary": {
+        "overall": 83.33333333333334,
+        "area": 7.068890135219099,
+        "habitual": 83.33333333333334,
+        "departure": 91.66666666666666,
+        "contradictory": 75.0
+      },
+      "current": {
+        "overall": 66.66666666666666,
+        "area": 5.769797245457762,
+        "habitual": 91.66666666666666,
+        "departure": 75.0,
+        "contradictory": 33.33333333333333
+      },
+      "directional_candidate": {
+        "overall": 66.66666666666666,
+        "area": 5.9140252806282785,
+        "habitual": 91.66666666666666,
+        "departure": 75.0,
+        "contradictory": 33.33333333333333
+      },
+      "personal50_res8": {
+        "overall": 62.5,
+        "area": 5.553363201197449,
+        "habitual": 87.5,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "best_directional50_res8": {
+        "overall": 59.72222222222222,
+        "area": 5.553397846586544,
+        "habitual": 75.0,
+        "departure": 62.5,
+        "contradictory": 41.66666666666667
+      }
+    }
+  },
+  {
+    "person_id": "E36",
+    "profiles": {
+      "preliminary": {
+        "overall": 50.0,
+        "area": 10.598596763583659,
+        "habitual": 66.66666666666666,
+        "departure": 50.0,
+        "contradictory": 33.33333333333333
+      },
+      "current": {
+        "overall": 47.22222222222222,
+        "area": 5.768691370377891,
+        "habitual": 62.5,
+        "departure": 45.83333333333333,
+        "contradictory": 33.33333333333333
+      },
+      "directional_candidate": {
+        "overall": 47.22222222222222,
+        "area": 5.985013975896127,
+        "habitual": 62.5,
+        "departure": 45.83333333333333,
+        "contradictory": 33.33333333333333
+      },
+      "personal50_res8": {
+        "overall": 45.83333333333333,
+        "area": 5.55224662977454,
+        "habitual": 62.5,
+        "departure": 41.66666666666667,
+        "contradictory": 33.33333333333333
+      },
+      "best_directional50_res8": {
+        "overall": 30.555555555555557,
+        "area": 5.552386894982912,
+        "habitual": 41.66666666666667,
+        "departure": 16.666666666666664,
+        "contradictory": 33.33333333333333
+      }
+    }
+  },
+  {
+    "person_id": "E37",
+    "profiles": {
+      "preliminary": {
+        "overall": 66.66666666666666,
+        "area": 7.06541394713068,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "current": {
+        "overall": 68.05555555555556,
+        "area": 5.768304630033329,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 37.5
+      },
+      "directional_candidate": {
+        "overall": 68.05555555555556,
+        "area": 5.984721133952544,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 37.5
+      },
+      "personal50_res8": {
+        "overall": 59.72222222222222,
+        "area": 5.551629999410833,
+        "habitual": 91.66666666666666,
+        "departure": 66.66666666666666,
+        "contradictory": 20.833333333333336
+      },
+      "best_directional50_res8": {
+        "overall": 59.72222222222222,
+        "area": 5.551907729410984,
+        "habitual": 79.16666666666666,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      }
+    }
+  },
+  {
+    "person_id": "E38",
+    "profiles": {
+      "preliminary": {
+        "overall": 47.22222222222222,
+        "area": 9.27180841134453,
+        "habitual": 66.66666666666666,
+        "departure": 41.66666666666667,
+        "contradictory": 33.33333333333333
+      },
+      "current": {
+        "overall": 51.388888888888886,
+        "area": 5.766771376589215,
+        "habitual": 95.83333333333334,
+        "departure": 50.0,
+        "contradictory": 8.333333333333332
+      },
+      "directional_candidate": {
+        "overall": 59.72222222222222,
+        "area": 5.983162172270834,
+        "habitual": 95.83333333333334,
+        "departure": 58.333333333333336,
+        "contradictory": 25.0
+      },
+      "personal50_res8": {
+        "overall": 34.72222222222222,
+        "area": 5.549933923282967,
+        "habitual": 70.83333333333334,
+        "departure": 33.33333333333333,
+        "contradictory": 0.0
+      },
+      "best_directional50_res8": {
+        "overall": 55.55555555555556,
+        "area": 5.55085571393568,
+        "habitual": 83.33333333333334,
+        "departure": 50.0,
+        "contradictory": 33.33333333333333
+      }
+    }
+  },
+  {
+    "person_id": "E39",
+    "profiles": {
+      "preliminary": {
+        "overall": 69.44444444444444,
+        "area": 6.627265928106786,
+        "habitual": 91.66666666666666,
+        "departure": 75.0,
+        "contradictory": 41.66666666666667
+      },
+      "current": {
+        "overall": 68.05555555555556,
+        "area": 5.770523276513935,
+        "habitual": 100.0,
+        "departure": 70.83333333333334,
+        "contradictory": 33.33333333333333
+      },
+      "directional_candidate": {
+        "overall": 68.05555555555556,
+        "area": 5.914727769042037,
+        "habitual": 100.0,
+        "departure": 70.83333333333334,
+        "contradictory": 33.33333333333333
+      },
+      "personal50_res8": {
+        "overall": 66.66666666666666,
+        "area": 5.554549444896073,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 33.33333333333333
+      },
+      "best_directional50_res8": {
+        "overall": 69.44444444444444,
+        "area": 5.55415629765073,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 33.33333333333333
+      }
+    }
+  },
+  {
+    "person_id": "E40",
+    "profiles": {
+      "preliminary": {
+        "overall": 75.0,
+        "area": 7.0659369661583895,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 50.0
+      },
+      "current": {
+        "overall": 72.22222222222221,
+        "area": 5.76839209690056,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 50.0
+      },
+      "directional_candidate": {
+        "overall": 72.22222222222221,
+        "area": 5.91265361802505,
+        "habitual": 100.0,
+        "departure": 66.66666666666666,
+        "contradictory": 50.0
+      },
+      "personal50_res8": {
+        "overall": 50.0,
+        "area": 5.551564125676818,
+        "habitual": 95.83333333333334,
+        "departure": 50.0,
+        "contradictory": 4.166666666666666
+      },
+      "best_directional50_res8": {
+        "overall": 72.22222222222221,
+        "area": 5.552093152261063,
+        "habitual": 100.0,
+        "departure": 75.0,
+        "contradictory": 41.66666666666667
+      }
+    }
+  }
+]

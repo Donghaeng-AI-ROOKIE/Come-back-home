@@ -1,0 +1,17 @@
+{
+  "habitual": {
+    "misses_before": 14,
+    "recovered": 0,
+    "remaining": 14
+  },
+  "departure": {
+    "misses_before": 43,
+    "recovered": 12,
+    "remaining": 31
+  },
+  "contradictory": {
+    "misses_before": 95,
+    "recovered": 20,
+    "remaining": 75
+  }
+}
