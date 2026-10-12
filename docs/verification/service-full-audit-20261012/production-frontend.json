@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-10-12T09:41:53.056Z",
+  "production_deployment": "5d971c4a-92af-4c51-92b0-5a164b4d5833",
+  "transport": "supabase",
+  "supabase_host": "qoprqgnlohnbzbynhchg.supabase.co",
+  "public_key_type": "publishable",
+  "mock": false,
+  "built_at": "2026-10-12T09:27:22.407Z",
+  "source_commit": "6f92ebee2667dabde3807584938bfb3ae8406f30",
+  "entry_bundle": "/_expo/static/js/web/index-5f6a0dc8941d4ff10fb8e4ecdccab6e7.js",
+  "entry_sha256": "bb6daf0ad41a77351b4b99ea2a2f8ab5d010af22b395ae493db55b053c93d4ba",
+  "compiled_contract_verified": true,
+  "navigation_core": "7.23.0",
+  "prior_valid_rollback": "bd27a698-ce14-4671-987f-3af80d75f7ae",
+  "backend_image_unchanged": "cbh-cloud-worker:20261012-62b5d88"
+}

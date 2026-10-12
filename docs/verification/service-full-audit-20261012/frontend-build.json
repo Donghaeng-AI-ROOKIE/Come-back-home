@@ -1,0 +1,12 @@
+{
+  "transport": "supabase",
+  "supabase_host": "qoprqgnlohnbzbynhchg.supabase.co",
+  "public_key_type": "publishable",
+  "mock": false,
+  "built_at": "2026-10-12T09:27:22.407Z",
+  "source_commit": "6f92ebee2667dabde3807584938bfb3ae8406f30",
+  "entry_bundle": "/_expo/static/js/web/index-5f6a0dc8941d4ff10fb8e4ecdccab6e7.js",
+  "entry_sha256": "bb6daf0ad41a77351b4b99ea2a2f8ab5d010af22b395ae493db55b053c93d4ba",
+  "navigation_core": "7.23.0",
+  "zip_sha256": "a3453e4d77ec245c1806668ffd519e92ec28c1101321b220939190d3fdb2da7c"
+}

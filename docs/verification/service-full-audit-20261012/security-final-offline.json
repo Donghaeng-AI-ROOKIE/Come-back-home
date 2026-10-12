@@ -1,0 +1,10 @@
+{
+  "online_final_rescan": "blocked_by_automatic_approval_review",
+  "reason": "npm audit transmits project dependency graph to external npm registry; explicit authorization missing per review",
+  "comparison_source": "npm-audit-after.json from already completed prior scan",
+  "installed_navigation_core": "7.23.0",
+  "installed_nanoid": "3.3.18",
+  "patched_decoder_chain_removed": true,
+  "nanoid_patched_against_retrieved_advisories": true,
+  "latest_registry_audit_after_nanoid_patch_performed": false
+}

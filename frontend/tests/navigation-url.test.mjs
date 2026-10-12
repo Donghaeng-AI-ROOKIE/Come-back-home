@@ -30,3 +30,15 @@ test('malformed long percent-encoded URL completes within a bounded child proces
   assert.equal(result.error, undefined, 'malformed query parser must not hang');
   assert.equal(result.status, 0, result.stderr);
 });
+
+test('route-key generator rejects unsafe sizes without hanging', () => {
+  const code = `const {nanoid,customAlphabet}=require('nanoid/non-secure');
+    if(nanoid().length!==21) process.exit(2);
+    try { nanoid(-1); } catch {}
+    try { customAlphabet('abc',0)(); } catch {}`;
+  const result = spawnSync(process.execPath, ['-e', code], {
+    cwd: new URL('..', import.meta.url), timeout: 3000, encoding: 'utf8',
+  });
+  assert.equal(result.error, undefined, 'invalid generator sizes must not hang');
+  assert.equal(result.status, 0, result.stderr);
+});

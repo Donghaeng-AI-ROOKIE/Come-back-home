@@ -1,0 +1,34 @@
+{
+  "mapped_bundle_code_matches_deployed": true,
+  "source_count": 1356,
+  "advisory_leaf_source_counts": {
+    "@xmldom/xmldom": 0,
+    "baseline-browser-mapping": 0,
+    "brace-expansion": 0,
+    "braces": 0,
+    "browserslist": 0,
+    "compression": 0,
+    "image-size": 0,
+    "js-yaml": 0,
+    "nanoid": 1,
+    "node-forge": 0,
+    "postcss": 0,
+    "source-map-js": 0,
+    "uuid": 0
+  },
+  "source_matches": {
+    "nanoid": [
+      "/node_modules/nanoid/non-secure/index.js"
+    ]
+  },
+  "classification": "Source-map module reachability, not proof of exploitation or full security audit",
+  "comparison_ignored_only_comments": [
+    "sourceMappingURL",
+    "debugId"
+  ],
+  "runtime_nanoid_version": "3.3.15",
+  "vulnerable_nanoid_nodes": [
+    "node_modules/nanoid"
+  ],
+  "scope": "Exact deployed JS matches sourcemap build after excluding only sourceMappingURL/debugId comments. Check affected package paths, not merely names."
+}
