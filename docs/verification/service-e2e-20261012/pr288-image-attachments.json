@@ -1,0 +1,22 @@
+{
+  "repository_visibility": "PRIVATE",
+  "signed_private_image_urls_persisted": false,
+  "attachments": {
+    "comparison.png": "https://github.com/user-attachments/assets/e4ea37f4-2a78-449a-ab89-b7eea7453413",
+    "administrative_comparison.png": "https://github.com/user-attachments/assets/7b9ed176-fbf6-4249-92ca-52ad7aceadfc",
+    "direction_mechanism.png": "https://github.com/user-attachments/assets/2407a882-20e0-4bc2-a39d-f2807ec9f0c8",
+    "E01_three_futures.png": "https://github.com/user-attachments/assets/0e84da25-3c84-4ccd-a90f-7f6437649a9d",
+    "E04_three_futures.png": "https://github.com/user-attachments/assets/05def6ea-9975-4af3-9c72-d145b574dfa4",
+    "E09_three_futures.png": "https://github.com/user-attachments/assets/c466e06b-6a09-49e0-ae32-f2dd8ba3ceb8",
+    "all_people.png": "https://github.com/user-attachments/assets/4518c0c7-340c-4eb2-9c69-4b2580e9115c"
+  },
+  "original_sha256": {
+    "comparison.png": "9707ff75ffb278ef6b27a02b1a2dd7cad5dec56185689c857dab5dd974854683",
+    "administrative_comparison.png": "51218bac32911f1ecc311a816a5157eb436f7fcb4715e3778af37a42697b5d56",
+    "direction_mechanism.png": "b27fc15befbd7122daca2d2d45f9ee811a64a1dd012ddef3a78f553d4906ef7a",
+    "E01_three_futures.png": "91bf7adcb1a966c8974fa27530fad0b11cb9e195f508a42d37362c6e3dff0a8e",
+    "E04_three_futures.png": "b7328aa979ad75f1278e5b6e7b5e75656d81bae88768416cc4b3af0f23dd4d7a",
+    "E09_three_futures.png": "b7c7331719d031333e5aaabd9788ecebd7939454407b1a5514a25876f9dcf5cc",
+    "all_people.png": "b2cb9c97232344ff3edac71678dba371937dc31589e23ab412020b35ff34d743"
+  }
+}
