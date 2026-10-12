@@ -287,7 +287,6 @@ def submit_tip(case_id: str, body: TipIn, background: BackgroundTasks):
 
 
 @router.get("/cases/{case_id}/poa")
-@storage.serialize_case
 def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
     """POA 상위 셀 조회 (지도 시각화용).
 
@@ -298,7 +297,37 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
 
     첫 조회는 계산하느라 ~7초 걸리고 이후는 캐시(case.poa_by_hour)에서 즉시 나온다.
     **케이스 상태는 바뀌지 않는다** — 알림·제보는 계속 실제 경과시간 지도만 쓴다.
+
+    같은 사건을 다시 계산하는 중이면(제보 층2 재예측 등, 수십 초~2분) 잠금을
+    기다리지 않고 **마지막으로 저장된 지도**를 준다. 기다리면 단일 계산 줄 전체가
+    멈춘다(2026-10-12 운영: 제보 1건 뒤 지도 요청이 약 2.5분 대기). 시간축 지도는
+    캐시를 채워야 하므로 기존처럼 잠근다.
     """
+    lock = storage.case_lock(case_id)
+    if elapsed_hours is None and not lock.acquire(blocking=False):
+        saved = storage.cases.saved_copy(case_id)
+        if saved is not None:
+            # 삭제·종결은 메모리 사본에 먼저 반영되므로 둘 다 확인한다.
+            _require_active(_get_case(case_id))
+            _require_active(saved)
+            if not saved.current_poa:
+                raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
+            return _poa_body(saved, saved.current_poa, _sim_elapsed(saved), top)
+        lock.acquire()
+    elif elapsed_hours is not None:
+        lock.acquire()
+    try:
+        return _get_poa_locked(case_id, top, elapsed_hours)
+    finally:
+        lock.release()
+
+
+def _sim_elapsed(case) -> float | None:
+    return (round((case.last_sim_at - case.lkp_time).total_seconds() / 3600.0, 2)
+            if case.last_sim_at else None)
+
+
+def _get_poa_locked(case_id: str, top: int, elapsed_hours: float | None):
     case = _get_case(case_id)
     _require_active(case)
     if elapsed_hours is not None:
@@ -310,9 +339,7 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
 
     poa = case.current_poa
-    shown_elapsed = (
-        round((case.last_sim_at - case.lkp_time).total_seconds() / 3600.0, 2)
-        if case.last_sim_at else None)
+    shown_elapsed = _sim_elapsed(case)
     if elapsed_hours is not None:
         from app.config import settings
         from app.phase2.literature_distance import VERSION as literature_version
@@ -331,7 +358,10 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
             storage.cases.save(case.id, case)
         poa = cached
         shown_elapsed = elapsed_hours
+    return _poa_body(case, poa, shown_elapsed, top)
 
+
+def _poa_body(case, poa: dict, shown_elapsed: float | None, top: int) -> dict:
     ranked = sorted(poa.items(), key=lambda kv: kv[1], reverse=True)[:top]
     return {
         "case_id": case.id,
