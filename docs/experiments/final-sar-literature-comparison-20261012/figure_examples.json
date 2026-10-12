@@ -1,0 +1,182 @@
+[
+  {
+    "person_id": "E01",
+    "future": "habitual",
+    "arm": "current_literature70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.771077738133073,
+    "hit": true
+  },
+  {
+    "person_id": "E01",
+    "future": "habitual",
+    "arm": "personalized_sar70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.771329654767394,
+    "hit": true
+  },
+  {
+    "person_id": "E01",
+    "future": "departure",
+    "arm": "current_literature70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.771077738133073,
+    "hit": false
+  },
+  {
+    "person_id": "E01",
+    "future": "departure",
+    "arm": "personalized_sar70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.771329654767394,
+    "hit": false
+  },
+  {
+    "person_id": "E01",
+    "future": "contradictory",
+    "arm": "current_literature70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.771077738133073,
+    "hit": false
+  },
+  {
+    "person_id": "E01",
+    "future": "contradictory",
+    "arm": "personalized_sar70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.771329654767394,
+    "hit": false
+  },
+  {
+    "person_id": "E04",
+    "future": "habitual",
+    "arm": "current_literature70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.767434576798916,
+    "hit": true
+  },
+  {
+    "person_id": "E04",
+    "future": "habitual",
+    "arm": "personalized_sar70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.765955389974594,
+    "hit": true
+  },
+  {
+    "person_id": "E04",
+    "future": "departure",
+    "arm": "current_literature70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.767434576798916,
+    "hit": true
+  },
+  {
+    "person_id": "E04",
+    "future": "departure",
+    "arm": "personalized_sar70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.765955389974594,
+    "hit": true
+  },
+  {
+    "person_id": "E04",
+    "future": "contradictory",
+    "arm": "current_literature70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.767434576798916,
+    "hit": true
+  },
+  {
+    "person_id": "E04",
+    "future": "contradictory",
+    "arm": "personalized_sar70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.765955389974594,
+    "hit": true
+  },
+  {
+    "person_id": "E09",
+    "future": "habitual",
+    "arm": "current_literature70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.769441182829857,
+    "hit": true
+  },
+  {
+    "person_id": "E09",
+    "future": "habitual",
+    "arm": "personalized_sar70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.769267940991401,
+    "hit": true
+  },
+  {
+    "person_id": "E09",
+    "future": "departure",
+    "arm": "current_literature70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.769441182829857,
+    "hit": false
+  },
+  {
+    "person_id": "E09",
+    "future": "departure",
+    "arm": "personalized_sar70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.769267940991401,
+    "hit": false
+  },
+  {
+    "person_id": "E09",
+    "future": "contradictory",
+    "arm": "current_literature70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.769441182829857,
+    "hit": false
+  },
+  {
+    "person_id": "E09",
+    "future": "contradictory",
+    "arm": "personalized_sar70",
+    "hour": 4,
+    "prediction_seed": 104729,
+    "truth_seed": 2026101261,
+    "area_km2": 5.769267940991401,
+    "hit": false
+  }
+]

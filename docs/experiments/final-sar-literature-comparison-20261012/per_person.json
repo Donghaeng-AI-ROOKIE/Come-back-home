@@ -1,0 +1,4214 @@
+[
+  {
+    "dataset": "retrospective",
+    "person_id": "E01",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.49910295237189
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E01",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 138.49910295237189
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E01",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 11,
+    "total_area_km2": 138.49910295237189
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E01",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 131.1491588495096
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E01",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 131.1491588495096
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E01",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 131.1491588495096
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E02",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4206737956059
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E02",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 138.4206737956059
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E02",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 138.4206737956059
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E02",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 126.73788303857928
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E02",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 126.73788303857928
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E02",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 126.73788303857928
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E03",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.45076462768952
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E03",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 138.45076462768952
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E03",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.45076462768952
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E03",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 132.8175286940596
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E03",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 132.8175286940596
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E03",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 132.8175286940596
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E04",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 138.42702412377707
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E04",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 138.42702412377707
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E04",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.42702412377707
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E04",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 132.33575712607418
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E04",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 132.33575712607418
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E04",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 132.33575712607418
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E05",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.48594329612894
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E05",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.48594329612894
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E05",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.48594329612894
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E05",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 134.1622347604916
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E05",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 134.1622347604916
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E05",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 134.1622347604916
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E06",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.48523214985912
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E06",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 138.48523214985912
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E06",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 138.48523214985912
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E06",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 21,
+    "total_area_km2": 135.4658952958485
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E06",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 11,
+    "total_area_km2": 135.4658952958485
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E06",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 135.4658952958485
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E07",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.48153953042328
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E07",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 138.48153953042328
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E07",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 138.48153953042328
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E07",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 21,
+    "total_area_km2": 131.78613018800783
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E07",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 131.78613018800783
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E07",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 131.78613018800783
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E08",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.42650354184312
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E08",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.42650354184312
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E08",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 138.42650354184312
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E08",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 131.71209019871128
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E08",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 131.71209019871128
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E08",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 3,
+    "total_area_km2": 131.71209019871128
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E09",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 138.46653381256593
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E09",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.46653381256593
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E09",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.46653381256593
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E09",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 130.6704031170491
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E09",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 130.6704031170491
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E09",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 7,
+    "total_area_km2": 130.6704031170491
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E10",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4914239685781
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E10",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 138.4914239685781
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E10",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.4914239685781
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E10",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 127.89260982463253
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E10",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 127.89260982463253
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E10",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 4,
+    "total_area_km2": 127.89260982463253
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E11",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 138.47245332517147
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E11",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.47245332517147
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E11",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.47245332517147
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E11",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 132.42104218436427
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E11",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 132.42104218436427
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E11",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 132.42104218436427
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E12",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4285383973564
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E12",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 138.4285383973564
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E12",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.4285383973564
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E12",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 138.40803645475728
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E12",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 138.40803645475728
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E12",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 9,
+    "total_area_km2": 138.40803645475728
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E13",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 138.43789507720703
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E13",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 138.43789507720703
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E13",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 138.43789507720703
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E13",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 130.64766909611464
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E13",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 130.64766909611464
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E13",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 130.64766909611464
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E14",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 22,
+    "total_area_km2": 138.458232247918
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E14",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.458232247918
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E14",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 4,
+    "total_area_km2": 138.458232247918
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E14",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 128.5022743569596
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E14",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 128.5022743569596
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E14",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 128.5022743569596
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E15",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 138.40800697225248
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E15",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.40800697225248
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E15",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.40800697225248
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E15",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 131.26322969835806
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E15",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 131.26322969835806
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E15",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 131.26322969835806
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E16",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.45005142811954
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E16",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 138.45005142811954
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E16",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 138.45005142811954
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E16",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.22997156360685
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E16",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 138.22997156360685
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E16",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 138.22997156360685
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E17",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.45153778322572
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E17",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 21,
+    "total_area_km2": 138.45153778322572
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E17",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 138.45153778322572
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E17",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 134.33494201851906
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E17",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 134.33494201851906
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E17",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 134.33494201851906
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E18",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4218955794502
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E18",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 138.4218955794502
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E18",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 4,
+    "total_area_km2": 138.4218955794502
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E18",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 134.50644936616337
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E18",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 134.50644936616337
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E18",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 3,
+    "total_area_km2": 134.50644936616337
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E19",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.43396723413224
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E19",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 138.43396723413224
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E19",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 138.43396723413224
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E19",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 129.77144134409593
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E19",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 129.77144134409593
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E19",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 129.77144134409593
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E21",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.45860470336532
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E21",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.45860470336532
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E21",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 138.45860470336532
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E21",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 132.61510250273736
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E21",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 132.61510250273736
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E21",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 9,
+    "total_area_km2": 132.61510250273736
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E22",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.43971260276234
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E22",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 138.43971260276234
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E22",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.43971260276234
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E22",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 133.02840730297171
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E22",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 133.02840730297171
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E22",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 11,
+    "total_area_km2": 133.02840730297171
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E23",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4496314734941
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E23",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 11,
+    "total_area_km2": 138.4496314734941
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E23",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 1,
+    "total_area_km2": 138.4496314734941
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E23",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 130.65472629108615
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E23",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 11,
+    "total_area_km2": 130.65472629108615
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E23",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 130.65472629108615
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E24",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.469057982013
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E24",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 138.469057982013
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E24",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 1,
+    "total_area_km2": 138.469057982013
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E24",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 135.0105999354379
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E24",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 135.0105999354379
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E24",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 1,
+    "total_area_km2": 135.0105999354379
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E25",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.444130529267
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E25",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.444130529267
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E25",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.444130529267
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E25",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 137.78916377884002
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E25",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 137.78916377884002
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E25",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 7,
+    "total_area_km2": 137.78916377884002
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E26",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 21,
+    "total_area_km2": 138.4356011934496
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E26",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 138.4356011934496
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E26",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 138.4356011934496
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E26",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 21,
+    "total_area_km2": 126.30745724976897
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E26",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 126.30745724976897
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E26",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 126.30745724976897
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E27",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 21,
+    "total_area_km2": 138.4495486771016
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E27",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.4495486771016
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E27",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 138.4495486771016
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E27",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 136.07194803569
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E27",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 136.07194803569
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E27",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 1,
+    "total_area_km2": 136.07194803569
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E28",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4094181650396
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E28",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 138.4094181650396
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E28",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.4094181650396
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E28",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 132.76399423095936
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E28",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 132.76399423095936
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E28",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 9,
+    "total_area_km2": 132.76399423095936
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E29",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.42665608609664
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E29",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.42665608609664
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E29",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.42665608609664
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E29",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 133.86540491343695
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E29",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 133.86540491343695
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E29",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 3,
+    "total_area_km2": 133.86540491343695
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E30",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4339904209045
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E30",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.4339904209045
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E30",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 1,
+    "total_area_km2": 138.4339904209045
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E30",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 130.64714666578226
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E30",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 130.64714666578226
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E30",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 3,
+    "total_area_km2": 130.64714666578226
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E31",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.5079126122187
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E31",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.5079126122187
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E31",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 138.5079126122187
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E31",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 127.47919809409153
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E31",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 127.47919809409153
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E31",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 1,
+    "total_area_km2": 127.47919809409153
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E32",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 22,
+    "total_area_km2": 138.4240992592299
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E32",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 138.4240992592299
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E32",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 138.4240992592299
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E32",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 134.94553125648002
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E32",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 134.94553125648002
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E32",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 134.94553125648002
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E33",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4345973176664
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E33",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.4345973176664
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E33",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.4345973176664
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E33",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 22,
+    "total_area_km2": 128.05401264196675
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E33",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 128.05401264196675
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E33",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 128.05401264196675
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E34",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.47138595490085
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E34",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 138.47138595490085
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E34",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 138.47138595490085
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E34",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 129.81023418982994
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E34",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 129.81023418982994
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E34",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 129.81023418982994
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E35",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 22,
+    "total_area_km2": 138.47513389098626
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E35",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.47513389098626
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E35",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.47513389098626
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E35",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 22,
+    "total_area_km2": 130.47518895431097
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E35",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 130.47518895431097
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E35",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 130.47518895431097
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E36",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 138.44859288906937
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E36",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 11,
+    "total_area_km2": 138.44859288906937
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E36",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.44859288906937
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E36",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 137.3622627512895
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E36",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 137.3622627512895
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E36",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 7,
+    "total_area_km2": 137.3622627512895
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E37",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4393111207999
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E37",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.4393111207999
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E37",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 9,
+    "total_area_km2": 138.4393111207999
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E37",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 22,
+    "total_area_km2": 138.42301079186296
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E37",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.42301079186296
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E37",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 7,
+    "total_area_km2": 138.42301079186296
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E38",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 138.4025130381412
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E38",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.4025130381412
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E38",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 138.4025130381412
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E38",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 22,
+    "total_area_km2": 132.322558006247
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E38",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 132.322558006247
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E38",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 4,
+    "total_area_km2": 132.322558006247
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E39",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.49255863633442
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E39",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 138.49255863633442
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E39",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.49255863633442
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E39",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 128.54595167832863
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E39",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 128.54595167832863
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E39",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 7,
+    "total_area_km2": 128.54595167832863
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E40",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.44141032561345
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E40",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.44141032561345
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E40",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.44141032561345
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E40",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4317195603143
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E40",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 138.4317195603143
+  },
+  {
+    "dataset": "retrospective",
+    "person_id": "E40",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.4317195603143
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E01",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.49910295237189
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E01",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 138.49910295237189
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E01",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.49910295237189
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E01",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 131.1491588495096
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E01",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 131.1491588495096
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E01",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 7,
+    "total_area_km2": 131.1491588495096
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E02",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4206737956059
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E02",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.4206737956059
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E02",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.4206737956059
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E02",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 126.73788303857928
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E02",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 126.73788303857928
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E02",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 126.73788303857928
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E03",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.45076462768952
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E03",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.45076462768952
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E03",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.45076462768952
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E03",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 132.8175286940596
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E03",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 132.8175286940596
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E03",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 132.8175286940596
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E04",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 138.42702412377707
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E04",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 138.42702412377707
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E04",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 138.42702412377707
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E04",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 132.33575712607418
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E04",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 132.33575712607418
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E04",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 132.33575712607418
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E05",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.48594329612894
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E05",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 138.48594329612894
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E05",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 138.48594329612894
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E05",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 134.1622347604916
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E05",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 134.1622347604916
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E05",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 4,
+    "total_area_km2": 134.1622347604916
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E06",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.48523214985912
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E06",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 138.48523214985912
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E06",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 138.48523214985912
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E06",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 135.4658952958485
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E06",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 135.4658952958485
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E06",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 135.4658952958485
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E07",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 138.48153953042328
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E07",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.48153953042328
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E07",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 138.48153953042328
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E07",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 131.78613018800783
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E07",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 131.78613018800783
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E07",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 7,
+    "total_area_km2": 131.78613018800783
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E08",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.42650354184312
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E08",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.42650354184312
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E08",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.42650354184312
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E08",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 22,
+    "total_area_km2": 131.71209019871128
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E08",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 131.71209019871128
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E08",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 11,
+    "total_area_km2": 131.71209019871128
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E09",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.46653381256593
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E09",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 138.46653381256593
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E09",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 138.46653381256593
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E09",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 130.6704031170491
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E09",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 130.6704031170491
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E09",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 4,
+    "total_area_km2": 130.6704031170491
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E10",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4914239685781
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E10",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.4914239685781
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E10",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 138.4914239685781
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E10",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 127.89260982463253
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E10",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 127.89260982463253
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E10",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 127.89260982463253
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E11",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.47245332517147
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E11",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 138.47245332517147
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E11",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.47245332517147
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E11",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 21,
+    "total_area_km2": 132.42104218436427
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E11",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 132.42104218436427
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E11",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 132.42104218436427
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E12",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4285383973564
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E12",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.4285383973564
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E12",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 138.4285383973564
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E12",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.40803645475728
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E12",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.40803645475728
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E12",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 138.40803645475728
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E13",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 138.43789507720703
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E13",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 138.43789507720703
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E13",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 7,
+    "total_area_km2": 138.43789507720703
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E13",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 22,
+    "total_area_km2": 130.64766909611464
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E13",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 130.64766909611464
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E13",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 4,
+    "total_area_km2": 130.64766909611464
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E14",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 138.458232247918
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E14",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.458232247918
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E14",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 3,
+    "total_area_km2": 138.458232247918
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E14",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 128.5022743569596
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E14",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 128.5022743569596
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E14",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 4,
+    "total_area_km2": 128.5022743569596
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E15",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 138.40800697225248
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E15",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.40800697225248
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E15",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 11,
+    "total_area_km2": 138.40800697225248
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E15",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 131.26322969835806
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E15",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 131.26322969835806
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E15",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 131.26322969835806
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E16",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.45005142811954
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E16",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 138.45005142811954
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E16",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 138.45005142811954
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E16",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.22997156360685
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E16",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.22997156360685
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E16",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 3,
+    "total_area_km2": 138.22997156360685
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E17",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.45153778322572
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E17",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 138.45153778322572
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E17",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.45153778322572
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E17",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 134.33494201851906
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E17",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 134.33494201851906
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E17",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 11,
+    "total_area_km2": 134.33494201851906
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E18",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4218955794502
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E18",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.4218955794502
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E18",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 138.4218955794502
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E18",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 21,
+    "total_area_km2": 134.50644936616337
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E18",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 134.50644936616337
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E18",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 134.50644936616337
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E19",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.43396723413224
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E19",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.43396723413224
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E19",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 138.43396723413224
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E19",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 129.77144134409593
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E19",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 129.77144134409593
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E19",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 129.77144134409593
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E21",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.45860470336532
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E21",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 138.45860470336532
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E21",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 138.45860470336532
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E21",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 132.61510250273736
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E21",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 132.61510250273736
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E21",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 3,
+    "total_area_km2": 132.61510250273736
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E22",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.43971260276234
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E22",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.43971260276234
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E22",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 9,
+    "total_area_km2": 138.43971260276234
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E22",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 23,
+    "total_area_km2": 133.02840730297171
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E22",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 133.02840730297171
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E22",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 133.02840730297171
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E23",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4496314734941
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E23",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.4496314734941
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E23",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 138.4496314734941
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E23",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 130.65472629108615
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E23",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 130.65472629108615
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E23",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 130.65472629108615
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E24",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.469057982013
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E24",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 138.469057982013
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E24",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.469057982013
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E24",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 135.0105999354379
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E24",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 135.0105999354379
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E24",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 135.0105999354379
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E25",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.444130529267
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E25",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.444130529267
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E25",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 11,
+    "total_area_km2": 138.444130529267
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E25",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 137.78916377884002
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E25",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 137.78916377884002
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E25",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 137.78916377884002
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E26",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4356011934496
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E26",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 138.4356011934496
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E26",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.4356011934496
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E26",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 126.30745724976897
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E26",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 126.30745724976897
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E26",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 126.30745724976897
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E27",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.4495486771016
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E27",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 138.4495486771016
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E27",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 138.4495486771016
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E27",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 136.07194803569
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E27",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 136.07194803569
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E27",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 1,
+    "total_area_km2": 136.07194803569
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E28",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4094181650396
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E28",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.4094181650396
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E28",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 11,
+    "total_area_km2": 138.4094181650396
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E28",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 132.76399423095936
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E28",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 132.76399423095936
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E28",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 132.76399423095936
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E29",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.42665608609664
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E29",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 138.42665608609664
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E29",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 138.42665608609664
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E29",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 133.86540491343695
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E29",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 133.86540491343695
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E29",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 133.86540491343695
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E30",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4339904209045
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E30",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 138.4339904209045
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E30",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 1,
+    "total_area_km2": 138.4339904209045
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E30",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 130.64714666578226
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E30",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 130.64714666578226
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E30",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 130.64714666578226
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E31",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.5079126122187
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E31",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 138.5079126122187
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E31",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 138.5079126122187
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E31",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 127.47919809409153
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E31",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 127.47919809409153
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E31",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 3,
+    "total_area_km2": 127.47919809409153
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E32",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 22,
+    "total_area_km2": 138.4240992592299
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E32",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 17,
+    "total_area_km2": 138.4240992592299
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E32",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.4240992592299
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E32",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 21,
+    "total_area_km2": 134.94553125648002
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E32",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 134.94553125648002
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E32",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 134.94553125648002
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E33",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4345973176664
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E33",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 138.4345973176664
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E33",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.4345973176664
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E33",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 128.05401264196675
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E33",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 18,
+    "total_area_km2": 128.05401264196675
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E33",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 9,
+    "total_area_km2": 128.05401264196675
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E34",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.47138595490085
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E34",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 138.47138595490085
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E34",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.47138595490085
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E34",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 129.81023418982994
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E34",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 129.81023418982994
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E34",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 9,
+    "total_area_km2": 129.81023418982994
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E35",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 20,
+    "total_area_km2": 138.47513389098626
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E35",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 138.47513389098626
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E35",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.47513389098626
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E35",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 19,
+    "total_area_km2": 130.47518895431097
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E35",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 130.47518895431097
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E35",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 130.47518895431097
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E36",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.44859288906937
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E36",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 7,
+    "total_area_km2": 138.44859288906937
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E36",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 3,
+    "total_area_km2": 138.44859288906937
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E36",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 15,
+    "total_area_km2": 137.3622627512895
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E36",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 137.3622627512895
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E36",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 137.3622627512895
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E37",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4393111207999
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E37",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.4393111207999
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E37",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 138.4393111207999
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E37",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.42301079186296
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E37",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 13,
+    "total_area_km2": 138.42301079186296
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E37",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 1,
+    "total_area_km2": 138.42301079186296
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E38",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4025130381412
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E38",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 8,
+    "total_area_km2": 138.4025130381412
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E38",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 2,
+    "total_area_km2": 138.4025130381412
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E38",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 21,
+    "total_area_km2": 132.322558006247
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E38",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 10,
+    "total_area_km2": 132.322558006247
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E38",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 1,
+    "total_area_km2": 132.322558006247
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E39",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.49255863633442
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E39",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 16,
+    "total_area_km2": 138.49255863633442
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E39",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 6,
+    "total_area_km2": 138.49255863633442
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E39",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 128.54595167832863
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E39",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 14,
+    "total_area_km2": 128.54595167832863
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E39",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 5,
+    "total_area_km2": 128.54595167832863
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E40",
+    "arm": "current_literature70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.44141032561345
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E40",
+    "arm": "current_literature70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.44141032561345
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E40",
+    "arm": "current_literature70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 0,
+    "total_area_km2": 138.44141032561345
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E40",
+    "arm": "personalized_sar70",
+    "future": "habitual",
+    "checks": 24,
+    "hits": 24,
+    "total_area_km2": 138.4317195603143
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E40",
+    "arm": "personalized_sar70",
+    "future": "departure",
+    "checks": 24,
+    "hits": 12,
+    "total_area_km2": 138.4317195603143
+  },
+  {
+    "dataset": "fresh_confirmation",
+    "person_id": "E40",
+    "arm": "personalized_sar70",
+    "future": "contradictory",
+    "checks": 24,
+    "hits": 1,
+    "total_area_km2": 138.4317195603143
+  }
+]
