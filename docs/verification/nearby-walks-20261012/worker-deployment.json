@@ -1,0 +1,41 @@
+{
+  "deployed_at": "2026-10-12T10:35:53.740590+00:00",
+  "before_image": "cbh-cloud-worker:20261012-62b5d88",
+  "image": "cbh-cloud-worker:20261012-walk-45b6086",
+  "image_id": "sha256:ae62b5a1f08929a37d23df0ba069f19cefd9b3bbc962368b47622e0a8e52b112",
+  "running": true,
+  "restart_count": 0,
+  "policy": {
+    "PERSONAL_CHANNEL_WEIGHT": "0.3",
+    "STATISTICAL_CHANNEL_DEFINITION": "literature_distance_prior",
+    "ALERT_SELECTION_POLICY": "area_budget",
+    "MAX_ALERT_AREA_KM2": "5.8",
+    "PUSH_TARGET_RES": "9",
+    "AXIS_SCORING_ENABLED": "false",
+    "CBH_API_ENABLED": "true"
+  },
+  "data_volumes_preserved": true,
+  "engine_changed": false,
+  "changed_backend_files": [
+    "api/geo.py",
+    "geo/nearby.py"
+  ],
+  "rollback_command": [
+    "sudo",
+    "-n",
+    "docker",
+    "compose",
+    "--env-file",
+    "/data/work/cbh-final-alert-20261012-e04a18e/compose.runtime.env",
+    "-p",
+    "cbh-cloud-worker",
+    "-f",
+    "/data/work/cbh-final-alert-20261012-e04a18e/deploy/supabase/compose.yml",
+    "up",
+    "-d",
+    "--no-build",
+    "--pull",
+    "never",
+    "cloud-worker"
+  ]
+}

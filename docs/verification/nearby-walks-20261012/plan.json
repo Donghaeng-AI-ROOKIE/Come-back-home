@@ -1,0 +1,16 @@
+{
+  "run_id": "nearby_mapo_kintex_20261012",
+  "target": "existing worker host 123.37.28.180:10022",
+  "map_points": "Public representative points in Mapo (World Cup park) and KINTEX, not user GPS",
+  "provider_hosts": [
+    "overpass.private.coffee",
+    "overpass-api.de"
+  ],
+  "max_upstream_requests": 4,
+  "timeout_seconds_per_request": 8,
+  "model_calls": 0,
+  "real_notifications": 0,
+  "actual_cost": null,
+  "cost_status": "unconfirmed",
+  "raw_map_provenance": "source,date,bounds,query and SHA256 saved; no prediction asset replaced"
+}
