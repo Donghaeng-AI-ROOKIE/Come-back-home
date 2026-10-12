@@ -156,4 +156,3 @@ def add_safety_to_core(core, safety, safety_budget, max_cells, target_res, *, mi
                   "total_area_km2":sum(cell_area_km2(c) for c in targets),
                   "safety_budget_km2":safety_budget,"outside_score_fraction":outside_fraction,
                   "gate_skipped":False}
-

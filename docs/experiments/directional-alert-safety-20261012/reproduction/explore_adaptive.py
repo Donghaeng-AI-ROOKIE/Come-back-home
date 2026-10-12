@@ -39,4 +39,3 @@ winner=max(eligible,key=lambda a:(summary[a]['efficiency'],summary[a]['contradic
 decision={'candidate':winner,'config':configs.get(winner),'eligible':eligible,'reason':'User global floor30% retained. Requested >=50%/res8 are separately measured comparisons, not assumed successful. Raw existing30/res9 core is kept100%. Skip extra area when most reverse scores already lie inside core; no truth input. Freeze before1251 fresh truth.','new_truth_not_generated_yet':True}
 for name,obj in [('adaptive_summary',summary),('adaptive_rows',rows),('adaptive_selections',sels),('adaptive_configs',configs),('adaptive_frozen_selection',decision)]:(O/f'results/{name}.json').write_text(json.dumps(obj,indent=2,default=lambda v:v.item())+'\n')
 print('best',sorted(summary.items(),key=lambda z:z[1]['efficiency'],reverse=True)[:10]);print(decision)
-

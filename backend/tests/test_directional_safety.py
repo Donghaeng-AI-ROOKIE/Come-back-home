@@ -72,4 +72,3 @@ def test_outside_score_gate_avoids_spending_area_for_mostly_covered_scores():
     result, meta = add_safety_to_core(core,{core[0]:.1,north:.9},.29,500,9,
                                     min_outside_score_mass=.5)
     assert north in result and not meta['gate_skipped']
-

@@ -17,11 +17,11 @@
     "preliminary_only_recovery.json": "ea497266f996a147860569bf0e068aab7a99322392ebc26c98656ad0f6bc69ec",
     "truth_physics_audit.json": "a79cce6bb1842b03aa0d9fba6e23651c5d097382cc0c77f631f412e583b222d5",
     "reproduction/audit_truth.py": "e677e384ba102780cf9d55627a74459a5d05764c7641b3b673654976c842a577",
-    "reproduction/explore_adaptive.py": "55367c28f3313f4a734b42e1495d911b8fef7bf1a572fe5ab42c88ce0ee8857d",
-    "reproduction/confirm_directional.py": "a8c98e6a4ac471b7f7929efcbb6955ed0ac7cf15dd5ce72953d91676439d71ae",
+    "reproduction/explore_adaptive.py": "dabbfe714bc15f3faaa9c8463beacd8a6c157be6291b7b48b5abec86da63188f",
+    "reproduction/confirm_directional.py": "a7bf14b0ab57678c068dd353fe2945afdbeb2b62cb81e1e60114b82b5ef992d2",
     "reproduction/build_truth.py": "628432ce55a4baed0fe4e2f591176541e56b963ccd64e65c5ff5b9db9bcc0ceb",
     "reproduction/publish_results.py": "9478cc655b77ab4e7db3cf67072f17d01e3e201b85282c64c29278fd9acd6abe",
-    "reproduction/explore_directional.py": "f271b2af88f211f2b665e81cbb96b2cc8c93c05a298e23d61f6ff6aa1d13c851",
+    "reproduction/explore_directional.py": "479233b7c8a875f96b273498e60d709389d24d239b4cd3d4bc489656f5d30166",
     "figures/E04_three_futures.png": "b7328aa979ad75f1278e5b6e7b5e75656d81bae88768416cc4b3af0f23dd4d7a",
     "figures/E01_three_futures.png": "91bf7adcb1a966c8974fa27530fad0b11cb9e195f508a42d37362c6e3dff0a8e",
     "figures/comparison.png": "9707ff75ffb278ef6b27a02b1a2dd7cad5dec56185689c857dab5dd974854683",
@@ -30,7 +30,7 @@
     "figures/all_people.png": "b2cb9c97232344ff3edac71678dba371937dc31589e23ab412020b35ff34d743",
     "figures/E09_three_futures.png": "b7c7331719d031333e5aaabd9788ecebd7939454407b1a5514a25876f9dcf5cc"
   },
-  "research_module_sha256": "7f86ad17904a251b6b0480c79c8aee9bc6f33b87ff71b7f69fc65bea8f09385f",
+  "research_module_sha256": "b6f56191f3ca3875645fe6e955d548d6123cf3abf547dbd8d65f52845c1593ef",
   "map_metadata_reference": "결선/실험/MIND_completion_20261004/map_full_support",
   "source_study": "결선/실험/DIRECTIONAL_ALERT_SAFETY_20261012",
   "defaults_unchanged": true

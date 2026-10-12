@@ -89,4 +89,3 @@ gates={'current_targets_preserved100pct':True,'current_hit_losses_zero':all(v==0
 summary['decision']={'candidate':p['candidate_selection']['candidate'],'gates':gates,'confirm':all(gates.values()),'production_deployed':False,'fresh_truth_seeds':[2026101251,2026101252,2026101253]}
 for name,obj in [('confirmation_rows',rows),('confirmation_selections',selections),('confirmation_summary',summary)]:(O/f'results/{name}.json').write_text(json.dumps(obj,indent=2,default=lambda v:v.item())+'\n')
 print(json.dumps(summary,indent=2,default=lambda v:v.item()))
-

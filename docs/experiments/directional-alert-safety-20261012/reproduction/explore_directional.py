@@ -90,4 +90,3 @@ for name,obj in [('exploration_summary',summary),('exploration_rows',rows),('exp
 print('references',{a:summary[a] for a in ['alert_district_proxy','alert_city_proxy','preliminary','current','base_w0.3_r9','base_w0.5_r8','base_w0.7_r8','base_w0.9_r8']})
 print('best candidates',sorted(((a,v) for a,v in summary.items() if a.startswith('dir')),key=lambda av:av[1]['efficiency'],reverse=True)[:10])
 print('selection',decision)
-
