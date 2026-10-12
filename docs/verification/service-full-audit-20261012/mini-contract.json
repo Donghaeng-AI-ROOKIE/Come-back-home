@@ -1,0 +1,20 @@
+{
+  "tip": {
+    "model": "midm-2.0-mini",
+    "configured": true,
+    "call_failures": 0,
+    "specificity": "상",
+    "time_kind": "relative",
+    "time_minutes_ago": 10,
+    "appearance_cue_count": 3,
+    "passed": true
+  },
+  "copy": {
+    "model": "midm-2.0-mini",
+    "configured": true,
+    "content_present": true,
+    "mentions_registered_place": true,
+    "passed": true
+  },
+  "passed": true
+}

@@ -1,0 +1,27 @@
+{
+  "run_id": "SERVICE_FULL_AUDIT_20261012",
+  "started_at": "2026-10-12T09:15:52.134676+00:00",
+  "checks": {
+    "password_login": true,
+    "runtime_targeting_policy": true
+  },
+  "model_calls_from_this_runner": 0,
+  "real_notifications": 0,
+  "engine_changed": false,
+  "existing_synthetic_profile": true,
+  "cleanup": {
+    "unfinished_synthetic_interview_deleted": true,
+    "auth_deleted": true,
+    "remaining_personas": 0,
+    "remaining_cases": 0,
+    "remaining_interviews": 0
+  },
+  "observed_model_or_embedding_started_upper_bound": 57,
+  "transport_requests": 73,
+  "completed_at": "2026-10-12T09:18:08.722229+00:00",
+  "passed": false,
+  "failure": {
+    "type": "observer_cache_correction",
+    "message": "Separate process memory cache cannot observe worker changes; interrupted before registration."
+  }
+}

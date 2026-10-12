@@ -1,0 +1,20 @@
+{
+  "backend": {
+    "passed": 176,
+    "failed": 0,
+    "warnings": 1,
+    "warning": "Starlette httpx TestClient deprecation"
+  },
+  "frontend": {
+    "passed": 26,
+    "failed": 0
+  },
+  "typescript": "passed",
+  "cloud_build": "passed",
+  "compiled_production_contract": "passed",
+  "browser_login_session_restore_navigation_logout": "passed",
+  "public_signup_api": "passed",
+  "github_required_checks_exposed": [],
+  "github_ci_green_claimed": false,
+  "prediction_engine_modified": false
+}

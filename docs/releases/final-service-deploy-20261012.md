@@ -2,7 +2,7 @@
 
 #290을 develop에 병합한 후 **개인화30% + 독립 문헌통계70%, res9, POA·새 구역 알림의 지리적 합집합 상한5.8㎢**를 공개 서비스에 적용했다. 이전 worker의 res7·정책 설정 누락은 해소됐다. 전체 축 채점은OFF이며 기존 SAR/K/Mi:dm 라우팅·데이터 볼륨·KINTEX/RAG 자산은 보존했다.
 
-**후속 정정:** 위 worker 정책 적용·인증 API 검사는 유효하지만, 당시 Pages 번들은 Supabase 빌드 설정이 누락되어 브라우저 로그인에 실패했다. 초기 화면·JS 로딩은 인증 성공 증빙이 아니었다. 웹 프런트 재빌드·재배포·실제 로그인 검사는 [로그인 수정 기록](../verification/login-cloud-build-20261012/README.md)을 기준으로 한다. 아래 Pages ID는 교체 전 이력이다.
+**후속 정정:** 위 worker 정책 적용·인증 API 검사는 유효하지만, 당시 Pages 번들은 Supabase 빌드 설정이 누락되어 브라우저 로그인에 실패했다. 초기 화면·JS 로딩은 인증 성공 증빙이 아니었다. 웹 프런트 재빌드·재배포·실제 로그인 검사는 [로그인 수정 기록](../verification/login-cloud-build-20261012/README.md)을 기준으로 한다. 아래 Pages ID는 교체 전 이력이다. 최종 웹은`4b187d50-585c-4b91-ad74-bb1228e0c0f0`이며 실제 새 등록·모델 준비·신고·예측·제보·종결과 가입·브라우저 인증은 [후속 전체 점검](../verification/service-full-audit-20261012/README.md)을 따른다. worker 이미지는 유지했다.
 
 ## 배포 버전
 
@@ -53,6 +53,6 @@
 
 ## 롤백
 
-이전 worker 이미지와 Compose/runtime env 경로, 온라인 DB 백업은 기존 서버에 보호 보관했다. 키·DB 원본·인증 정보는 Git에 넣지 않았다. [증빙의 rollback_command](../verification/final-service-deploy-20261012/verification.json)로 이전 worker를 동일 볼륨에 복구할 수 있다. 기본 롤백은 이미지만 되돌린다. 이후 사용자 변경·삭제를 덮어쓰지 않도록 DB 백업을 자동 복원하지 않는다. Pages는 위 이전 production 배포로 되돌린다.
+이전 worker 이미지와 Compose/runtime env 경로, 온라인 DB 백업은 기존 서버에 보호 보관했다. 키·DB 원본·인증 정보는 Git에 넣지 않았다. [증빙의 rollback_command](../verification/final-service-deploy-20261012/verification.json)로 이전 worker를 동일 볼륨에 복구할 수 있다. 기본 롤백은 이미지만 되돌린다. 이후 사용자 변경·삭제를 덮어쓰지 않도록 DB 백업을 자동 복원하지 않는다. Pages는 Supabase 인증을 확인한`bd27a698` 또는`5d971c4a`를 복구 후보로 사용한다. 설정 누락이 확인된`68abffec`를 정상 인증 복구 버전으로 사용하지 않는다.
 
 워커 재시작 반복·인증 왕복 실패·채널 정의/가중치 불일치·알림 구역 상한 초과·합성 격리 실패가 발견되면 롤백한다. 재검증 스크립트는 [reproduction](../verification/final-service-deploy-20261012/reproduction)에 보존했다. 저장된 합성 입력·보호된 설정·정지한 검사용 워커가 필요한 당시 실행 사본이며 운영에서 임의로 재실행하지 않는다.

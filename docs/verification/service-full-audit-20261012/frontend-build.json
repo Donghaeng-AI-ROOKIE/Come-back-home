@@ -3,10 +3,11 @@
   "supabase_host": "qoprqgnlohnbzbynhchg.supabase.co",
   "public_key_type": "publishable",
   "mock": false,
-  "built_at": "2026-10-12T09:27:22.407Z",
-  "source_commit": "6f92ebee2667dabde3807584938bfb3ae8406f30",
-  "entry_bundle": "/_expo/static/js/web/index-5f6a0dc8941d4ff10fb8e4ecdccab6e7.js",
-  "entry_sha256": "bb6daf0ad41a77351b4b99ea2a2f8ab5d010af22b395ae493db55b053c93d4ba",
+  "built_at": "2026-10-12T09:49:21.895Z",
+  "source_commit": "60e3ae82dc20d12b27ee63a8cc5d36864f6643b5",
+  "entry_bundle": "/_expo/static/js/web/index-f295f49cb2de6ffa5cb5a8e22ae1d6a8.js",
+  "entry_sha256": "83b096a87c187031aed7dcd6d94e6a82d5332af33e768b2ad58718cc81dcea42",
   "navigation_core": "7.23.0",
-  "zip_sha256": "a3453e4d77ec245c1806668ffd519e92ec28c1101321b220939190d3fdb2da7c"
+  "nanoid": "3.3.18",
+  "zip_sha256": "b76303e44b1a13a4d45b2d6898edcaaab5b55a8c5fabc7e78b4503fecf010b44"
 }

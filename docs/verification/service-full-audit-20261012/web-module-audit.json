@@ -1,5 +1,10 @@
 {
   "mapped_bundle_code_matches_deployed": true,
+  "comparison_ignored_only_comments": [
+    "sourceMappingURL",
+    "debugId"
+  ],
+  "entry_bundle": "/_expo/static/js/web/index-f295f49cb2de6ffa5cb5a8e22ae1d6a8.js",
   "source_count": 1356,
   "advisory_leaf_source_counts": {
     "@xmldom/xmldom": 0,
@@ -21,14 +26,9 @@
       "/node_modules/nanoid/non-secure/index.js"
     ]
   },
-  "classification": "Source-map module reachability, not proof of exploitation or full security audit",
-  "comparison_ignored_only_comments": [
-    "sourceMappingURL",
-    "debugId"
-  ],
-  "runtime_nanoid_version": "3.3.15",
-  "vulnerable_nanoid_nodes": [
-    "node_modules/nanoid"
-  ],
-  "scope": "Exact deployed JS matches sourcemap build after excluding only sourceMappingURL/debugId comments. Check affected package paths, not merely names."
+  "runtime_nanoid_version": "3.3.18",
+  "runtime_nanoid_advisories_patched": true,
+  "other_affected_advisory_leaf_packages_present_in_web": false,
+  "not_a_full_supply_chain_audit": true,
+  "scope": "Exact final compiled JS matches mapped build excluding metadata comments. Nanoid present but patched; other known advisory leaf packages absent from this web bundle."
 }
