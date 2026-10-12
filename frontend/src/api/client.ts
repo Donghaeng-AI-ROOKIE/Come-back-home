@@ -25,7 +25,7 @@ import { DEMO_CASE_ID } from '../data/missing';
 import { tierForProb } from '../theme/poa';
 import { targetingResolution, type TargetingPolicy } from '../utils/targetingPolicy';
 
-import { buildAlert, buildBeforeAfter, buildPoaGrid } from '../data/mock';
+import { buildAlert, buildPoaGrid } from '../data/mock';
 import { CLOUD_TRANSPORT } from './supabase';
 import { DEMO_USER_ID, SLOW_TIMEOUT_MS, USE_MOCK, api } from './config';
 
@@ -78,9 +78,6 @@ function polygonCentroid(poly: GeoPoint[]): GeoPoint {
   return { lat: s.lat / n, lng: s.lng / n };
 }
 
-/** H3 res9 육각형 1칸의 넓이(km²) — 알림 면적 환산에 쓴다(고정 상수). */
-const CELL_AREA_KM2 = 0.105;
-
 function toGrid(caseId: string, t: TimeAxis, data: PoaResponse): PoaGrid {
   // 백엔드 prob 는 전체 셀 합=1 기준이라 개별 값이 작다 → 최댓값 대비 상대값으로
   // 색을 펼친다. 표시용 변환이고, 누적 확률은 원본 prob 로 계산한다.
@@ -132,8 +129,11 @@ export async function getPoaPrediction(caseId: string, t: TimeAxis): Promise<Poa
 /**
  * 제보 전송.
  *
- * 백엔드는 before/after 를 주지 않으므로 **전송 전후로 POA 를 두 번 읽어**
- * 수색 구역 변화를 계산한다. 목업이 만들어 내던 숫자가 아니라 실제 갱신 결과다.
+ * **접수되면 바로 돌아온다.** 재예측은 서버가 응답 뒤에 따로 돌리고, 새 지도는
+ * 지도 화면의 주기 조회가 받아 간다. 예전에는 전송 전후로 지도를 한 번씩 더 읽어
+ * 구역 변화를 계산했는데, 완료 화면은 그 값을 쓰지 않았고 두 조회 모두 같은
+ * 계산 줄에서 기다려 제보자의 대기만 늘렸다(2026-10-12 운영 기록). 재계산이
+ * 끝나기 전에 읽은 '이후' 지도는 이전 지도와 같아 변화 수치도 의미가 없다.
  *
  * 위치를 특정하지 못하면 백엔드가 `{status:"need_more"}` 로 되묻는다 —
  * 이때는 던지지 않고 그대로 반환해 챗봇이 한 번 더 묻게 한다.
@@ -144,7 +144,6 @@ export async function submitTip(
   opts: { force?: boolean; reporterUserId?: string } = {},
 ): Promise<TipResult | NeedMore> {
   if (USE_MOCK) {
-    const { before, after, beforeKm2, afterKm2 } = buildBeforeAfter();
     const tip: Tip = {
       id: `tip-${Math.round(Date.now() / 1000)}`,
       caseId,
@@ -156,12 +155,9 @@ export async function submitTip(
       decision: 'layer1',
       createdAt: new Date().toISOString(),
     };
-    const deltaPct = Math.round(((afterKm2 - beforeKm2) / beforeKm2) * 100);
-    return delay({ tip, beforeAreaKm2: beforeKm2, afterAreaKm2: afterKm2, deltaPct,
-      beforeGrid: before, afterGrid: after }, 700);
+    return delay({ tip }, 700);
   }
 
-  const before = await api<PoaResponse>(`/phase3/cases/${caseId}/poa?top=64`);
   const body = JSON.stringify({
     text: input.text,
     location: input.location ?? null,
@@ -174,10 +170,8 @@ export async function submitTip(
   try {
     res = await api<TipResponse | NeedMore>(`/phase3/cases/${caseId}/tips`, {
       method: 'POST',
-      // 고신뢰 제보는 **층2(새 LKP 로 재예측)** 를 발동시킨다 — 그 순간 이 요청
-      // 하나가 예측 한 판을 통째로 품는다(실측 08-12: 29.5초, 새 지역이면 2분 초과).
-      // 기본 12초로 끊으면 재예측이 중간에 잘려 **사건에 POA 가 없는 상태**가 남고,
-      // 시민 화면의 확률지도가 통째로 비어 버린다.
+      // 재예측은 응답 뒤에 돌지만, 위치·시각 추출(Mi:dm)과 계산 줄 대기가 기본
+      // 12초를 넘을 수 있어 넉넉히 둔다. 끊겨도 아래에서 접수 여부를 확인한다.
       timeoutMs: SLOW_TIMEOUT_MS,
       body,
     });
@@ -199,9 +193,6 @@ export async function submitTip(
   }
   if ('status' in res && res.status === 'need_more') return res;
 
-  const after = await api<PoaResponse>(`/phase3/cases/${caseId}/poa?top=64`);
-  const beforeKm2 = before.top_cells.length * CELL_AREA_KM2;
-  const afterKm2 = after.top_cells.length * CELL_AREA_KM2;
   const tipRes = res as TipResponse;
   return {
     tip: {
@@ -215,12 +206,6 @@ export async function submitTip(
       decision: tipRes.decision ?? undefined,
       createdAt: tipRes.created_at,
     },
-    beforeAreaKm2: Number(beforeKm2.toFixed(2)),
-    afterAreaKm2: Number(afterKm2.toFixed(2)),
-    // 음수 = 좁혀짐. before 가 0 이면 나눗셈이 무한대가 되므로 0 으로 둔다.
-    deltaPct: beforeKm2 > 0 ? Math.round(((afterKm2 - beforeKm2) / beforeKm2) * 100) : 0,
-    beforeGrid: toGrid(caseId, 0, before),
-    afterGrid: toGrid(caseId, 0, after),
   };
 }
 
