@@ -1,0 +1,105 @@
+{
+  "person_id": "E09",
+  "prediction_seed": 104729,
+  "maps_verified": 8,
+  "rows": [
+    {
+      "arm": "current_literature70",
+      "hour": 1,
+      "personal_max_delta": 1.6653345369377348e-16,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.9282548156805507,
+      "statistical_source": "ISRID_urban_lognormal_approximation",
+      "statistical_uses_personal_mind": false,
+      "area_km2": 5.769566766655028,
+      "checkpoint_committed": true
+    },
+    {
+      "arm": "current_literature70",
+      "hour": 2,
+      "personal_max_delta": 1.1102230246251565e-16,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.9318876025980894,
+      "statistical_source": "ISRID_urban_lognormal_approximation",
+      "statistical_uses_personal_mind": false,
+      "area_km2": 5.769501484337091,
+      "checkpoint_committed": true
+    },
+    {
+      "arm": "current_literature70",
+      "hour": 4,
+      "personal_max_delta": 8.326672684688674e-17,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.8228794731970889,
+      "statistical_source": "ISRID_urban_lognormal_approximation",
+      "statistical_uses_personal_mind": false,
+      "area_km2": 5.769441182829857,
+      "checkpoint_committed": true
+    },
+    {
+      "arm": "current_literature70",
+      "hour": 6,
+      "personal_max_delta": 2.7755575615628914e-17,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.7604372086381065,
+      "statistical_source": "ISRID_urban_lognormal_approximation",
+      "statistical_uses_personal_mind": false,
+      "area_km2": 5.7692808205932975,
+      "checkpoint_committed": true
+    },
+    {
+      "arm": "personalized_sar70",
+      "hour": 1,
+      "personal_max_delta": 1.6653345369377348e-16,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.5940000000000003,
+      "statistical_source": "original_sar_numeric_snapshot",
+      "statistical_uses_personal_mind": false,
+      "area_km2": 4.615353950184882,
+      "checkpoint_committed": true
+    },
+    {
+      "arm": "personalized_sar70",
+      "hour": 2,
+      "personal_max_delta": 1.1102230246251565e-16,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.6160000000000003,
+      "statistical_source": "original_sar_numeric_snapshot",
+      "statistical_uses_personal_mind": false,
+      "area_km2": 5.768836536640227,
+      "checkpoint_committed": true
+    },
+    {
+      "arm": "personalized_sar70",
+      "hour": 4,
+      "personal_max_delta": 8.326672684688674e-17,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.5760000000000003,
+      "statistical_source": "original_sar_numeric_snapshot",
+      "statistical_uses_personal_mind": false,
+      "area_km2": 5.769267940991401,
+      "checkpoint_committed": true
+    },
+    {
+      "arm": "personalized_sar70",
+      "hour": 6,
+      "personal_max_delta": 2.7755575615628914e-17,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.5840000000000002,
+      "statistical_source": "original_sar_numeric_snapshot",
+      "statistical_uses_personal_mind": false,
+      "area_km2": 5.769312681405723,
+      "checkpoint_committed": true
+    }
+  ],
+  "preview_side_effects": false,
+  "engine_changes": 0,
+  "model_calls": 0,
+  "external_calls": 0,
+  "actual_push": 0,
+  "core_source_hashes": {
+    "backend/app/phase2/person_walk.py": "c6217d4abda4ff43f36bd097ca1660533e59c078243c010798049a32740076e8",
+    "backend/app/phase2/persistent_context_walk.py": "78533f58be4697ba2a02fde6258a8cefde1019ca9b6cb6b39a5d20230c1e300e",
+    "backend/app/phase2/continuous_prediction.py": "9c8f0e072bb8c61691101773b3f62fc03f74810862b3821cbe4a6f61d2663f89"
+  }
+}
