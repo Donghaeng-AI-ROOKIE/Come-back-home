@@ -6,10 +6,10 @@
     "confirmation_summary.json": "ebeb19a7dfa1c4b451e444bd35f15cb0677420247136de42d9218a52cbf98aaa",
     "example_data.json": "468b7a7ff11e7c6871bdb0d1ce22f85d969f81b30ff83b3eb979b55fcdaa1f73",
     "exploration_protocol.json": "086440040cb79915331d1849717c857b41babe68e4c43627c878b36c8961d414",
-    "final_decision.json": "50fc52abffe1bb5d4fddc73c86b3f73ddce9e29966829bf8c651074df9e86ea9",
+    "final_decision.json": "2fd3a2cb1371acd98cc716430aa857876ee42c74f9b141c1175d4608aa10fe16",
     "figure_examples.json": "43ba47f41867d0eac71be9e85465343560c8b27a8fcba32c6f46960ab75805c1",
     "per_person.json": "9aa26f8c3f1fdcff9aecc474f3daa5f170bec88040f9019a513ddc8e7ddef2fb",
-    "README.md": "65cdd237f52c89016baea1e54cc058412316ed4165001eed2248dcecdb947b04",
+    "README.md": "6512b20d279fd2f244e67bdfc82a364e7b2fd37ff8ab9c8a32807bc0bb9b67ac",
     "candidate_configs.json": "05aac6207a69b60fb4092bf910ef0fd1189802ddc17577a6ad09e1d6fd52bd21",
     "comparison_table.md": "df343150acdce4e6999dd387164bd9f9a5a3b92067ec361f2cd6bd87dc79b55e",
     "protocol.json": "d936fb4fb527d818b14805ca9564315a3f42d549e39f651909b1e14ff617abd6",
@@ -33,5 +33,7 @@
   "research_module_sha256": "b6f56191f3ca3875645fe6e955d548d6123cf3abf547dbd8d65f52845c1593ef",
   "map_metadata_reference": "결선/실험/MIND_completion_20261004/map_full_support",
   "source_study": "결선/실험/DIRECTIONAL_ALERT_SAFETY_20261012",
-  "defaults_unchanged": true
+  "defaults_unchanged": true,
+  "user_final_selection_document": "../final-alert-policy-20261012.md",
+  "user_final_selection_document_sha256": "c9a85338e5c1ef618787b73d65bc30129dabe5398194bb8d3914c91169e95a6d"
 }

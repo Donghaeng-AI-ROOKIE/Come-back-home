@@ -32,5 +32,21 @@
     "directional score is uncalibrated",
     "generic stub fanout only; app/web integration unperformed",
     "administrative alert comparison is a proxy, no actual dispatch logs"
-  ]
+  ],
+  "user_final_selection": {
+    "date": "2026-10-12",
+    "instruction": "그러면 그냥 지금까지 중에서 제일 좋은걸로 픽스하자",
+    "status": "fixed_existing_policy",
+    "selected_profile": "current",
+    "personal_weight": 0.3,
+    "literature_weight": 0.7,
+    "target_res": 9,
+    "area_cap_km2": 5.8,
+    "selection_policy": "area_budget",
+    "directional_safety_enabled": false,
+    "further_candidate_experiments": false,
+    "all_behavior_superiority_claimed": false,
+    "production_deployed": false,
+    "decision_document": "../final-alert-policy-20261012.md"
+  }
 }
