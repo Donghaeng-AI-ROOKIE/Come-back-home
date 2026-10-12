@@ -1,0 +1,177 @@
+[
+  {
+    "id": "and",
+    "notes": [
+      {
+        "id": "N0",
+        "text": "시장은 사람이 빽빽하게 몰리고 소리도 시끄러운 두 조건이 모두 겹칠 때만 피하세요. 붐벼도 조용하면, 시끄러워도 한산하면 피하지 않습니다. 어느 시장이든 같습니다.",
+        "sources": [
+          {
+            "kind": "guardian_quote",
+            "slot": "synthetic_guardian"
+          }
+        ]
+      }
+    ],
+    "incident": {
+      "last_seen_time": "2026-09-25T22:15:00",
+      "context": "합성 사건. 현재 시장 주변 혼잡·소음은 미확인."
+    },
+    "expected": {
+      "response": "avoid",
+      "scope": "conditional_category",
+      "condition_clauses": [
+        [
+          {
+            "signal": "crowded",
+            "state": "present"
+          },
+          {
+            "signal": "noisy",
+            "state": "present"
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "id": "or",
+    "notes": [
+      {
+        "id": "N0",
+        "text": "시장은 사람이 많기만 해도 피하고, 사람이 없어도 시끄럽기만 하면 피하세요. 두 상황 중 하나만 있어도 그렇고, 한산하고 조용하면 피하지 않습니다. 특정 시장에만 그런 것은 아닙니다.",
+        "sources": [
+          {
+            "kind": "guardian_quote",
+            "slot": "synthetic_guardian"
+          }
+        ]
+      }
+    ],
+    "incident": {
+      "last_seen_time": "2026-09-25T22:15:00",
+      "context": "합성 사건. 현재 시장 주변 혼잡·소음은 미확인."
+    },
+    "expected": {
+      "response": "avoid",
+      "scope": "conditional_category",
+      "condition_clauses": [
+        [
+          {
+            "signal": "crowded",
+            "state": "present"
+          }
+        ],
+        [
+          {
+            "signal": "noisy",
+            "state": "present"
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "id": "quiet",
+    "notes": [
+      {
+        "id": "N0",
+        "text": "사람 수와 관계없이 시장이 조용할 때만 들어가길 꺼리는 모습을 여러 시장에서 봤어요. 소리가 나는 시장에서는 피하지 않았습니다.",
+        "sources": [
+          {
+            "kind": "guardian_quote",
+            "slot": "synthetic_guardian"
+          }
+        ]
+      }
+    ],
+    "incident": {
+      "last_seen_time": "2026-09-25T22:15:00",
+      "context": "합성 사건. 현재 시장 주변 혼잡·소음은 미확인."
+    },
+    "expected": {
+      "response": "avoid",
+      "scope": "conditional_category",
+      "condition_clauses": [
+        [
+          {
+            "signal": "noisy",
+            "state": "absent"
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "id": "unknown",
+    "notes": [
+      {
+        "id": "N0",
+        "text": "시장 근처에서 어떻게 행동하는지는 한 번도 관찰하지 못했어요. 시끄러운 곳이나 붐비는 곳에서의 반응도 모릅니다.",
+        "sources": [
+          {
+            "kind": "guardian_quote",
+            "slot": "synthetic_guardian"
+          }
+        ]
+      }
+    ],
+    "incident": {
+      "last_seen_time": "2026-09-25T22:15:00",
+      "context": "합성 사건. 현재 시장 주변 혼잡·소음은 미확인."
+    },
+    "expected": {
+      "response": "unknown",
+      "scope": "unknown",
+      "condition_clauses": []
+    }
+  },
+  {
+    "id": "unsupported_dark",
+    "notes": [
+      {
+        "id": "N0",
+        "text": "어떤 시장이든 주변이 어두울 때만 피하세요. 밝으면 피하지 않아요. 혼잡이나 소음에 반응하는지는 모릅니다.",
+        "sources": [
+          {
+            "kind": "guardian_quote",
+            "slot": "synthetic_guardian"
+          }
+        ]
+      }
+    ],
+    "incident": {
+      "last_seen_time": "2026-09-25T22:15:00",
+      "context": "합성 사건. 현재 시장 주변 혼잡·소음은 미확인."
+    },
+    "expected": {
+      "response": "avoid",
+      "scope": "conditional_category",
+      "condition_clauses": []
+    }
+  },
+  {
+    "id": "one_place",
+    "notes": [
+      {
+        "id": "N0",
+        "text": "집 바로 옆 작은 시장 한 곳만 시끄러울 때 피하는 모습을 봤어요. 다른 시장에 대해서는 관찰한 적이 없고, 시장 전반을 싫어한다고 말할 근거는 없습니다.",
+        "sources": [
+          {
+            "kind": "guardian_quote",
+            "slot": "synthetic_guardian"
+          }
+        ]
+      }
+    ],
+    "incident": {
+      "last_seen_time": "2026-09-25T22:15:00",
+      "context": "합성 사건. 현재 시장 주변 혼잡·소음은 미확인."
+    },
+    "expected": {
+      "response": "avoid",
+      "scope": "place_specific",
+      "condition_clauses": []
+    }
+  }
+]

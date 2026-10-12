@@ -1,0 +1,10 @@
+{
+  "source_events": 146,
+  "appended_events": 146,
+  "paired_attempts": 72,
+  "duplicate_event_ids": 0,
+  "remote_ledger_sha256": "3a0570b8ee5832d5f94245f373ab38f74bb7245e252d4e94fa5fd5a72a83b9f4",
+  "source_archive": "Mac mini release verification archive; preserved outside the container",
+  "actual_cost": null,
+  "support_round": null
+}

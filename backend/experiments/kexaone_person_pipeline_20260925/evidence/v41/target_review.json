@@ -1,0 +1,105 @@
+{
+  "results": [
+    {
+      "case": "park_intent_unfamiliar_wait",
+      "status": "applied",
+      "SAR_fresh": true,
+      "target_pass": true,
+      "checks": [
+        {
+          "path": "goals.공원",
+          "expected": "current_statement",
+          "actual": "current_statement",
+          "match": true
+        },
+        {
+          "path": "routes.공원",
+          "expected": "new_route",
+          "actual": "new_route",
+          "match": true
+        },
+        {
+          "path": "persistence",
+          "expected": "wait_for_help",
+          "actual": "wait_for_help",
+          "match": true
+        },
+        {
+          "path": "direction",
+          "expected": "unknown",
+          "actual": "unknown",
+          "match": true
+        },
+        {
+          "path": "mobility",
+          "expected": "C",
+          "actual": "C",
+          "match": true
+        },
+        {
+          "path": "environment.park",
+          "expected": "unknown",
+          "actual": "unknown",
+          "match": true
+        }
+      ]
+    },
+    {
+      "case": "night_heading_context",
+      "status": "applied",
+      "SAR_fresh": true,
+      "target_pass": true,
+      "checks": [
+        {
+          "path": "persistence",
+          "expected": "keep_moving",
+          "actual": "keep_moving",
+          "match": true
+        },
+        {
+          "path": "direction",
+          "expected": "same_heading",
+          "actual": "same_heading",
+          "match": true
+        },
+        {
+          "path": "mobility",
+          "expected": "C",
+          "actual": "C",
+          "match": true
+        },
+        {
+          "path": "environment.market",
+          "expected": "unknown",
+          "actual": "unknown",
+          "match": true
+        }
+      ]
+    }
+  ],
+  "pass_count": 2,
+  "total_expected": 2,
+  "clinical_accuracy": false,
+  "supplementary_checks": {
+    "context_market_condition": true,
+    "derived_market_condition": true,
+    "no_unconditional_market_avoidance": true,
+    "unimplemented_condition_explicit": true,
+    "night_selected": true,
+    "both_SAR_fresh": true,
+    "both_K_applied": true,
+    "goals_not_invented": true
+  },
+  "preregistered_gate_pass": true,
+  "format_failure_count": 0,
+  "fallback_count": 0,
+  "cases_unchanged": true,
+  "independent_clinical_evaluation": false,
+  "scope": "2 new synthetic inputs; fixed candidate; one run each; interpretation and numeric input only; no new OSM run",
+  "observed_limitations": [
+    "Park context assigns place_specific/none to unknown environment response. No reaction is invented or injected, but these ancillary scope labels are not independently supported.",
+    "Night first core calls conditional day/night behavior alternating; context and final core audit select keep_moving for current night.",
+    "Conditional market avoidance retained as unsupported engine feature, not executed.",
+    "No independent expert labels or repeatability estimate; SAR and K output schemas differ, so no comparable SAR feature accuracy percentage assigned."
+  ]
+}

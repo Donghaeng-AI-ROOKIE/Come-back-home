@@ -1,0 +1,7 @@
+{
+  "exit_code": 0,
+  "stdout": "{\"schema\": \"v2_action_first\", \"compile_seconds\": 0.18569682398810983, \"tokens\": 55, \"all_prefix_tokens_accepted\": true, \"mask_total_seconds\": 7.39500684523955, \"mask_median_seconds\": 0.19897592812776566, \"mask_max_seconds\": 0.2023582891561091, \"new_model_calls\": 0, \"GPU_used\": false}\n",
+  "stderr": "",
+  "wall_seconds": 13.725671499967575,
+  "new_model_calls": 0
+}

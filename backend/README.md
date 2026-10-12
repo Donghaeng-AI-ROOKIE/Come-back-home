@@ -1,7 +1,9 @@
 # 돌아오길 백엔드
 
 실종자(치매 노인) 동선 예측 + 시민 타겟 알림 앱의 FastAPI 백엔드.
-Phase 0~3을 그대로 모듈로 옮겼다. 전체 구조는 [`../docs/IMPLEMENTATION_ARCHITECTURE.md`](../docs/IMPLEMENTATION_ARCHITECTURE.md)에 있다.
+현재 등록→개인준비→SAR prior→K 보정→보행→알림→제보→종결 흐름은 [서비스 E2E 정본](../docs/SERVICE_E2E_20261012.md)에 있다. 이전 구현 세부사항은 [IMPLEMENTATION_ARCHITECTURE.md](../docs/IMPLEMENTATION_ARCHITECTURE.md)에 보존한다.
+
+**전체 축 채점은OFF**다. 초기 prior와 저장 K 개인화는 계속 적용된다. 2026-10-12 worker `20261012-62b5d88`에 개인화30/독립 문헌70·res9·5.8㎢를 실제 배포하고 인증된 예측 경로에서 확인했다. 통계70%는 개인별 SAR/K 파라미터를 쓰지 않으며, 초기 SAR/K 보정과 마음·행동 정책은 개인화30%에 들어간다. [배포 기록](../docs/releases/final-service-deploy-20261012.md).
 모델 엔드포인트와 API 키가 있으면 실제 모델을 호출하고, 설정이 없거나 호출에 실패하면 통계·규칙 기반 폴백으로 전체 파이프라인을 계속 실행한다.
 
 ## 실행
@@ -25,12 +27,14 @@ app/
 ├── storage.py         SQLite 영속 저장소 (안전 삭제·VACUUM, → 실서비스 DB 교체 지점)
 ├── schemas/           Pydantic 도메인 모델 (persona, report, prediction, tip, case)
 ├── llm/               모델 클라이언트 + 설정 누락·장애 시 폴백
-│   ├── exaone.py        EXAONE — 지식 LoRA prior, 행동 LoRA 마음 재해석
+│   ├── exaone.py        SAR prior 생성, legacy 마음 LoRA 호출
+│   ├── initial_behavior.py  원문 입력 계약·시뮬레이션 프로필 보정
+│   ├── mind_policy.py    준비된 K 조건부 행동 정책
 │   ├── mind_v2.py       마음 재해석 v2 계약(행동·목표·혼란)
 │   ├── midm.py          Mi:dm — 온보딩 인터뷰 전용
 │   ├── tip_llm.py       제보 구조화·구체성 등급 (Mi:dm 2.0 Mini 선택, 스텁 폴백)
 │   └── copy_llm.py      알림·안내 문구 작성
-├── rag/                 수색 논문 인덱스와 발췌 검색 (prior 전용)
+├── rag/                 기존 논문 인덱스 검색 (SAR prior·K 개인 준비)
 ├── geo/
 │   ├── h3grid.py        H3 육각격자, likelihood 커널, 좌표 유틸
 │   ├── roadnet.py       OSMnx 보행 도로망 (USE_ROADNET=true 기본, 디스크 캐시)
@@ -39,10 +43,15 @@ app/
 ├── phase1/intake.py     신고 접수: 보호자 입력 인상착의 색상 추출 → Case 생성 → 1차 경보
 ├── phase2/
 │   ├── topdown.py       2-1 Top-down: prior → POA (MC 없음)
-│   ├── simulation.py    2-2 Bottom-up (agent+MC 500회) / 2-3 통계 MC (동적 마음 재해석 없음)
+│   ├── continuous_prediction.py  개인 보행·문헌 통계 지도 어댑터
+│   ├── persistent_context_walk.py 조건부 정책·시간·환경·체크포인트
+│   ├── person_walk.py   초기 prior 소비·도로망 보행
+│   ├── person_projection.py  저장 K 해석의 수치·프로필 보정
+│   ├── literature_distance.py 독립 문헌 거리분포 지도
+│   ├── simulation.py    기존 agent/statistical MC (legacy/fallback)
 │   ├── combine.py       α-pool (linear=넓게 / log-linear=좁게)
 │   ├── refresher.py     경과시간이 늘면 같은 모델을 더 늦은 시점에서 재평가 (기동 시 스레드)
-│   └── pipeline.py      3종 계산(top-down은 디버그용) → bottom-up·통계 2-way 통합 → 최종 POA, baseline 저장
+│   └── pipeline.py      SAR 생성·K 보정 → 개인/문헌 지도 결합 → Case 저장
 ├── phase3/
 │   ├── trust.py         제보 신뢰도 p 산출 (이진 아님 — p값 그대로 전달)
 │   ├── poa_update.py    ★층1: 새POA ∝ 기존POA × [p·L + (1−p)·1], 잔여 제보 재적용
@@ -50,23 +59,29 @@ app/
 │   ├── tip_flow.py      제보 수신 → p → 판정 → 층1 (+층2 재실행) → D3(3차, 새 지역 한정 알림) 오케스트레이션
 │   ├── presence.py      셀 단위 열람 집계 (불투명 토큰, 좌표 미수집)
 │   ├── push.py          웹푸시(VAPID)·Expo Push 발송 경로
-│   └── alerts.py        POA 상위 셀(누적 80%) 타겟 알림 + 새 지역 선별(D3, 집합차+합산질량임계 후 커버리지 타겟팅)
+│   ├── area_budget.py   실제 지리적 발송 구역 합집합의 면적 상한 선택
+│   └── alerts.py        대상 기기 매칭·새 구역 알림·실패 기록
 ├── walk/stats.py        산책 세션 집계 (평시 모드)
 └── api/                 Phase 0~3 · walk · geo · auth · privacy · debug 라우터 51개
 ```
 
-## 작업별 모델 라우팅
+## 현재 모델 라우팅과 보정 경계
 
-| 작업 | 설정·운영 모델 | RAG | 폴백 |
-|---|---|---|---|
-| Phase 0 축 컴파일 | `AXIS_SCORING_MODEL` / EXAONE 기본 모델 | 미사용 | 미채점 상태로 두고 기본값 사용 |
-| Phase 2 초기 prior | `EXAONE_MODEL` / `exaone-sar` | 상위 4개 발췌 사용 | 유형별 SAR 통계 prior |
-| Phase 2 마음 재해석 | `MIND_MODEL=exaone-mind-dem5` | 미사용 | 혼란 증가 휴리스틱 |
-| Phase 3 제보 구조화 | 별도 `TIP_LLM_*` / Mi:dm 2.0 Mini 선택 | 미사용 | 키워드 기반 결정적 스텁 |
+| 작업 | 모델·코드 | 현재 역할·폴백 |
+|---|---|---|
+| 온보딩 | KT Mi:dm / `MIDM_*` | 원문·맥락 저장, 답변 추출·질문 문장화. 제보 Mini와 별도 |
+| 전체 축 채점 | `AXIS_SCORING_MODEL` / EXAONE Base | **OFF**. 기존 축 유지·빈 축 기본 계수. ON만으로 Base가 자동 선택되지는 않음 |
+| SAR 초기 prior | `EXAONE_MODEL` / `exaone-sar` + RAG | 전략 확률·장소/반경 등급. 호출 실패는 기본값과 source로 표시 |
+| K 사전 개인 준비 | K-EXAONE / `prepared_initial`·`prepared_mind` | 원문·RAG 해석·재검토·조건부 규칙 저장 |
+| 사건별 개인 보정 | `apply_prepared → compile_person` | SAR 기준 위에 목적지·방향·이동 능력·길 익숙함·환경 반응 반영 |
+| 보행 중 마음 반영 | 저장 K 정책 + 코드 | 정상 준비 경로의 조건부 행동·체크포인트. 입자별 모델 호출 없음 |
+| legacy 마음 재해석 | `exaone-mind-dem5` | 예전/fallback 경로. 정상 K 정책 실행과 구분 |
+| 제보 구조화 | `TIP_LLM_*` / Mi:dm 2.0 Mini | 장소/시각 표현·외모·방향·구체성. 설정된 호출 실패는 판정 없음 |
+| 안내 문구 | `COPY_LLM_*`, 기본 Mini 상속 | 코드 초안 다듬기. 실패 시 초안 유지 |
 
-`EXAONE_MODEL`과 `AXIS_SCORING_MODEL`은 기본값이 비어 있어 배포 환경에서 지정한다. `EXAONE_MODEL=exaone-sar`를 사용할 때 축 채점을 기본 모델로 분리하려면 `AXIS_SCORING_MODEL`을 반드시 별도로 지정해야 한다. RAG 인덱스가 없거나 검색이 실패하면 prior는 발췌 없이 계속 생성된다. 마음 재해석은 학습 계약과 출력 형식을 보호하기 위해 RAG를 사용하지 않으며, 실제 모델 호출 상한은 예측당 5회다.
+`pipeline._initial_prior`가 SAR를 생성하고 저장 K 해석을 보정한 뒤 `case.prior`로 전달한다. `person_walk`는 전략·장소 가중치·반경을 실제 소비하며 `simulation_persona`는 프로필 복사본에 보정을 적용한다. 최종 문헌 통계70%는 개인화 prior의 일부가 아니라 별도로 계산한 지도다. 배포 worker 설정 읽기와 과거 합성 E2E 검증 자료는 [정본](../docs/SERVICE_E2E_20261012.md)에 연결했다.
 
-`exaone-mind-dem5`의 v2 계약은 행동·목표·혼란을 모두 출력하며, 행동→이동 전략 연결은 구현돼 기본 켜짐이다(PR #109·#118). 완전한 규칙 기반 혼란 산정의 운영 연결은 후속 구현이다.
+다음 갱신2층·이전 실험 설명은 기존 구현 기록이다. 현재 정책/모델 경계를 대외 설명할 때는 위 정본을 기준으로 한다.
 
 ## POA 갱신 2층 설계 (2026-07-03 확정)
 

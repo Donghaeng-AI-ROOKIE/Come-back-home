@@ -1,0 +1,38 @@
+[
+  {
+    "arm": "district_proxy",
+    "person_id": "E09",
+    "hour": 4,
+    "truth_seed": 2026101211,
+    "prediction_seed": 104729,
+    "area_km2": 60.016985948577,
+    "hit": false
+  },
+  {
+    "arm": "preliminary",
+    "person_id": "E09",
+    "hour": 4,
+    "truth_seed": 2026101211,
+    "prediction_seed": 104729,
+    "area_km2": 7.066889655982495,
+    "hit": false
+  },
+  {
+    "arm": "current",
+    "person_id": "E09",
+    "hour": 4,
+    "truth_seed": 2026101211,
+    "prediction_seed": 104729,
+    "area_km2": 5.336796536914647,
+    "hit": false
+  },
+  {
+    "arm": "candidate",
+    "person_id": "E09",
+    "hour": 4,
+    "truth_seed": 2026101211,
+    "prediction_seed": 104729,
+    "area_km2": 6.346490559304297,
+    "hit": false
+  }
+]

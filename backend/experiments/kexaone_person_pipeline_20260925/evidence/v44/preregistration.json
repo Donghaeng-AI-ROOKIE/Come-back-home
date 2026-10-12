@@ -1,0 +1,38 @@
+{
+  "experiment": "KEXAONE_preparation_split_v44_20260925",
+  "authorization": "User requested continuing alternatives until real integration is ready; 9-call scope announced before execution",
+  "max_K_calls": 9,
+  "max_SAR_calls": 0,
+  "max_embedding_calls": 0,
+  "automatic_retries": false,
+  "condition_cases": "v43 development regression; one_place now preserves noisy condition without executing category-wide. v43 original failure kept unchanged.",
+  "condition_pass": "6/6 raw normalized response, scope, condition clauses match targets; not clinical accuracy",
+  "prep_pass": {
+    "core": {
+      "goals.공원": "current_statement",
+      "routes.공원": "new_route",
+      "persistence": "unknown",
+      "direction": "unknown",
+      "mobility": "C"
+    },
+    "clock_day": {
+      "persistence": "wait_for_help",
+      "direction": "unknown"
+    },
+    "clock_night": {
+      "persistence": "keep_moving",
+      "direction": "same_heading"
+    },
+    "market_condition": "category avoid only noisy present; retain both periods; stored/reused without K; report time not fabricated"
+  },
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null,
+  "hashes": {
+    "cases.json": "3049a6ea451457c6741e091e9ea3cb516a4354827302d6c5e42a3fb84f0601ab",
+    "profile.json": "a3e40b36bd3e1b8e3092488a5619aa5011d88f62cab0ea1546f2702a3fe66726",
+    "frozen_research.json": "f44c64bae133bf9aa5db3c288dcbddea24fc9285b74fac5d3587e0dcbd0f0a79",
+    "person_scope.py": "078e11a7bb54e259d42eba7f03928fd93091484efba5b166cd7b55c9b89e5435",
+    "person_preparation.py": "1a919ec290665c5dfc691270ae45b1d99809c0875658974d95c68f10e9d235b4"
+  }
+}

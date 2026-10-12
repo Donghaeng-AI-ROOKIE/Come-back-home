@@ -1,0 +1,14 @@
+{
+  "content": "{\"persistence\": {\"evidence\": \"supported\", \"pattern\": \"consistent\", \"value\": \"wait_for_help\", \"note_ids\": [\"N2\"]}, \"environment\": {\"water\": {\"response\": \"unknown\", \"scope\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": []}, \"forest\": {\"response\": \"unknown\", \"scope\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": []}, \"park\": {\"response\": \"unknown\", \"scope\": \"place_specific\", \"condition\": \"none\", \"note_ids\": [\"N1\", \"N3\"]}, \"market\": {\"response\": \"unknown\", \"scope\": \"place_specific\", \"condition\": \"none\", \"note_ids\": [\"N1\"]}}}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 8656,
+    "prompt_tokens": 1469,
+    "prompt_tokens_details": {
+      "cached_tokens": 512
+    },
+    "total_tokens": 10125
+  },
+  "model": "depmkuykpfon9lg",
+  "note": "Provider response content preserved. Request, RAG full text, reasoning channel and credentials excluded."
+}

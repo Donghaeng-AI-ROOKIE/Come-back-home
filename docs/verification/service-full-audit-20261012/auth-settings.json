@@ -1,0 +1,1 @@
+{"http_status": 200, "disable_signup": false, "mailer_autoconfirm": true, "email_provider_enabled": true, "smtp_configuration": "not exposed by public auth settings; email delivery not tested"}

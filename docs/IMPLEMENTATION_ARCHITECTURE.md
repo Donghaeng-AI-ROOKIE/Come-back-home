@@ -1,35 +1,18 @@
-# 돌아오길 develop 구현·아키텍처 현황
+# 돌아오길 구현 아키텍처 — 현재 정본과 이전 구현 기록
 
-> 기준 브랜치: `origin/develop`
+> 2026-10-12 갱신 기준: release `62b5d88` 및 실제 서비스 배포·인증된 예측 확인. 현재 E2E 정본은 [SERVICE_E2E_20261012.md](SERVICE_E2E_20261012.md)다.
 >
-> 기준 커밋: [`c917334`](https://github.com/Donghaeng-AI-ROOKIE/Come-back-home/commit/c917334) (`2026-08-13`, PR #232 병합)
->
-> 조사 방식: API 라우터, 도메인 스키마, Phase별 서비스 모듈, 프런트엔드 클라이언트와 테스트 코드를 정적 추적
->
-> 주의: 이 문서는 기획 설계가 아니라 **현재 코드가 실제로 수행하는 동작**을 기준으로 작성한다. 스텁, 기능 플래그 비활성, 미배선 기능은 별도로 표시한다.
+> 이 문서에는 기존2026-08-13 `c917334` 조사와 실험 근거도 보존한다. 현재 요약·모델 라우팅·축/prior 경계를 수정했고, 이전 시뮬레이션은legacy/fallback 설명으로 표시했다. 과거 실험 수치를 최신 서비스 전체의 실호출 검증으로 전용하지 않는다.
 
-## 1. 결론 요약
+## 1. 현재 결론 요약
 
-현재 develop은 `Persona → MissingReport/Case → 위치 확률 분포(POA) → 타겟 알림·제보 갱신`의 전체 백엔드 흐름을 구현하고 있다. 핵심 위치 분포는 H3 셀 확률로 표현하며, LLM은 좌표를 생성하지 않고 제한된 구조화 판단만 제공한다.
-
-| 영역 | 현재 수준 | 핵심 판정 |
-|---|---|---|
-| Phase 0 보호자 온보딩 | 구현, 일부 기능 플래그 | 백엔드 적응형 인터뷰·지오코딩·Persona 확정 구현. 축 점수·경로 익숙함 컴파일은 기본 비활성 |
-| Phase 1 실종 신고 | 구현 | Case 생성, 보호자 구조화 인상착의, 즉시 안전반경 알림, 역지오코딩, 도로망 사전 로딩 구현. 사진·문서 첨부 경로는 제거(PR #136·#141) |
-| Phase 2 위치 예측 | 알고리즘 파이프라인 구현 | `exaone-sar`+RAG prior, `exaone-mind-dem5` 마음 재해석, Koester, 6전략, H3, 500 워커 MC, 기본 활성 OSMnx, 2-way 결합 구현 |
-| Phase 3 알림·제보 | 로직 구현, 웹푸시 배선 | POA 타겟 셀, 자유텍스트 제보 구조화·지오코딩·시각 변환·되묻기 게이트, 신뢰도 `p`, 층1 갱신, 층2 재실행, D3 새 지역 알림 구현. 웹푸시 구독·발송 경로와 presence 인덱스는 구현, 기본 꺼짐이며 실기기 수신 미검증 |
-| 개인정보 수명주기 | 백본 구현 | 종결·TTL·명시 삭제·연쇄 파기·감사로그 구현. 저장은 SQLite 영속 + 삭제 시 VACUUM 회수 |
-| 프런트엔드 | 실백엔드 연결 | 시민·보호자 21개 화면. 등록·보완 인터뷰, 신고, POA, 제보, 알림, 산책이 실백엔드에 연결됨. 목 데이터는 `EXPO_PUBLIC_USE_MOCK=true` 퇴로에서만 사용 |
-
-가장 중요한 현재 경계는 다음과 같다.
-
-1. 프런트 보호자 등록 화면은 백엔드 적응형 인터뷰(`/phase0/interviews`)를 실제로 호출한다(`frontend/src/api/guardian.ts`). 빠른 등록(Tier 1)과 보완 인터뷰도 같은 경로를 쓴다.
-2. Phase 2의 도로망·환경·스텝별 인지 게이지는 `USE_ROADNET`이 `true`일 때만 활성화된다(기본값 `true`, `.env`로 `false` 오버라이드 가능). 캐시 없는 좌표의 첫 요청은 Overpass 콜드 다운로드로 15~110초 걸릴 수 있다.
-3. Agent MC와 Statistical MC는 모두 500 워커지만 동일한 EXAONE prior를 공유한다. 따라서 Statistical MC는 “동적 마음 재해석 제외 비교군”이지 완전한 비-AI 기준선은 아니다.
-4. 알림 대상 셀 계산과 웹푸시 구독·발송 경로, 셀 단위 presence 인덱스는 구현돼 있다. 다만 `PUSH_ENABLED` 기본값은 `false`이고 실기기 수신은 검증되지 않았다.
-5. 프런트는 기본적으로 실백엔드를 부른다. 목 데이터는 `EXPO_PUBLIC_USE_MOCK=true`를 명시했을 때만 쓰는 시연장 퇴로다.
-6. `exaone-mind-dem5`의 v2 계약은 행동·목표·혼란을 출력하며, `MIND_BEHAVIOR_ENABLED` 기본값이 `true`라 행동 출력이 이동 전략에 연결된다. 혼란도는 규칙 기반 산정으로 완전히 대체되기 전까지 LLM 등급을 고정 수치로 변환해 쓴다.
-7. 제보 구조화 모델은 실험에서 원문에 없는 시각을 생성했다. 현재 코드는 형식과 시간 범위만 검사하며 원문 대조 가드는 없다.
+- 보호자 대화·원문 저장 → K-EXAONE 개인 해석·조건부 정책 준비 → 신고 시SAR 초기 수치 생성 → 저장 K 해석의 코드 보정 → 검증 도로망 개인 보행 → 확률지도·알림·제보 갱신 흐름이다.
+- **전체 축 채점은 코드 기본값과 실제 worker 모두OFF**다. Base는 축 채점용으로 지정할 수 있지만 현재 그 경로는 실행하지 않는다. K 이동 능력 등급 보정과 행동 규칙은 이 플래그와 별개다.
+- 준비된 개인 보행은 prior의 전략·장소 가중치·반경을 실제 소비한다. 시간이 지나면 저장 prior·체크포인트를 재사용한다. 모든 축을 개인별로 채점하거나 모든 서비스 경로에서 모델 호출이 없다고 주장하지 않는다.
+- develop 최종 정책은 개인화30% + **독립 문헌 거리분포 지도70%**, res9 실제 대상 면적 상한5.8㎢다. 기존 shared-SAR statistical 모드는 최종 통계 채널 정의가 아니다.
+- Mi:dm 온보딩과 Mi:dm 2.0 Mini의 제보·안내는 별도다. `COPY_LLM_*`가 비어 있으면 Mini의 `TIP_LLM_*`를 상속한다.
+- #290 머지 후 실제 worker `20261012-62b5d88` 및 최신 Pages 앱을 배포했다. 전체 축OFF·개인화30/문헌70·res9·5.8㎢는 실제 예측·조회로 확인했다. [배포 결과·한계·롤백](releases/final-service-deploy-20261012.md).
+- 이하 오래된 API·시뮬레이션·측정 설명은 그 당시 구현·실험의 기록이다. 현재 흐름의 기준은 [E2E 정본](SERVICE_E2E_20261012.md)과 각 최신 코드 경로다.
 
 ## 2. 전체 시스템 아키텍처
 
@@ -265,9 +248,11 @@ score = similarity + tier_bonus + gated_risk - asked_penalty
 4. 같은 장소가 다시 언급되면 근거를 `mention_only → caregiver_report → previous_missing_found` 방향으로만 승격한다.
 4-1. `AttractionPoint.weight`는 명시하지 않으면 evidence 계수(`0.9` / `0.5` / `0.3`)로 채워진다(스키마 검증자). 이 값은 Phase 2에서 EXAONE 등급과 곱셈 병합된다.
 
-### 4.5 축 점수와 경로 익숙함 컴파일
+### 4.5 선택적 전체 축 채점과 K 개인 보정
 
-이 경로는 `AXIS_SCORING_ENABLED=true`일 때만 실행되며 기본값은 `false`이다.
+**현재 전체 축 채점은OFF이며 배포 worker도false다.** 아래 도식은 플래그를 켰을 때의 선택적 기존 컴파일 경로다. `AXIS_SCORING_MODEL`을 Base로 별도 지정해야 하며, 비우면 `EXAONE_MODEL`로 라우팅된다.
+
+OFF는 새 전체 축 채점을 하지 않는다는 뜻이며 기존 점수를 삭제하지 않는다. 빈 축은 기본 게이지 계수를 유지한다. 별도의 K 준비·`compile_person`은 이동 능력 축과 길 익숙함·환경 반응을 보정하므로 OFF를 개인화 전체 중단으로 설명하지 않는다. [현재 축/prior 분리](SERVICE_E2E_20261012.md#3-축-점수와-초기-prior를-구분한다).
 
 ```mermaid
 flowchart LR
@@ -403,45 +388,33 @@ flowchart TD
 | 출력 | 네 POA 레이어와 최종 `baseline_poa/current_poa` |
 | 주요 파일 | [`pipeline.py`](../backend/app/phase2/pipeline.py), [`simulation.py`](../backend/app/phase2/simulation.py), [`guardrail.py`](../backend/app/phase2/guardrail.py), [`gauges.py`](../backend/app/phase2/gauges.py) |
 
-### 6.2 Phase 2 전체 아키텍처
+### 6.2 현재 Phase 2 흐름
 
 ```mermaid
 flowchart TD
-    IN["Case + Persona + elapsed time"] --> PRIOR["EXAONE generate_prior"]
-    PRIOR --> GUARD["6전략·끌림점·반경 가드레일"]
-    GUARD --> AXIS["Persona axis_scores 결정론적 반영"]
-
-    AXIS --> TD["Top-down POA<br/>디버그·시각화 전용"]
-    AXIS --> ROAD{"USE_ROADNET?"}
-    ROAD -- "예" --> NET["OSMnx 보행망<br/>경과시간별 3~6km"]
-    NET --> ENV["OSM·EGIS 환경 레이어<br/>실패 시 빈 환경으로 계속"]
-    ROAD -- "아니오 또는 로딩 실패" --> CONT["연속 공간 폴백"]
-
-    ENV --> AG["Agent MC 500 워커<br/>인지 게이지 + 희소 EXAONE"]
-    ENV --> ST["Statistical MC 500 워커<br/>동적 마음 재해석 없음"]
-    CONT --> AGC["Agent 연속공간 500 워커<br/>스텝별 게이지 없음"]
-    CONT --> STC["Statistical 연속공간 500 워커"]
-
-    AG --> POOL["2-way α-pool"]
-    ST --> POOL
-    AGC --> POOL
-    STC --> POOL
-    POOL --> MODE{"누적 Tip ≥ 3?"}
-    MODE -- "아니오" --> LIN["linear 0.7 / 0.3"]
-    MODE -- "예" --> LOG["log-linear 0.7 / 0.3"]
-    LIN --> SAVE["baseline_poa = current_poa"]
-    LOG --> SAVE
+    IN["Case + 원본Persona + 사건 시각"] --> SAR["exaone-sar + RAG / 초기 숫자·등급"]
+    SAVED["저장 K-EXAONE 개인 해석 + 신고 장소 연결"] --> CODE["apply_prepared / compile_person"]
+    SAR --> CODE
+    CODE --> PRIOR["prior + persona_adjustments / Case에 저장"]
+    PRIOR --> PERSONAL["조건부 정책·도로망 보행 / prior 소비 / 체크포인트"]
+    IN --> DIST["독립 문헌 거리분포 지도"]
+    PERSONAL --> MIX["develop 최종: linear 0.3 / 0.7"]
+    DIST --> MIX
+    MIX --> SAVE["baseline/current POA + 품질·실패 상태"]
 ```
+
+전체 축 채점OFF와 관계없이 SAR 초기 prior는 만들어지고 K의 저장 해석이 보정된다. 준비된 정상 경로는 보행 중 조건부 정책을 코드로 실행한다. 이전 마음 LoRA 재해석과 공유 prior MC는legacy/fallback 경로로 남아 있다. 이전 worker의 res7 배포 차이는2026-10-12 실제 교체로 해소했다. 저장된 합성 SAR/K 결과를 재사용한 실제 인증 요청으로 최종 결합·알림 선택을 확인했으며 새 모델 품질 시험은 아니다.
 
 ### 6.3 1단계: EXAONE prior와 가드레일
 
-EXAONE은 작업별 경로를 분리한다.
+현재 SAR 생성과 K 해석의 보정은 [E2E 정본의 초기 prior 흐름](SERVICE_E2E_20261012.md#4-초기-prior-생성과-개인-해석-보정)을 따른다. `pipeline._initial_prior`가 SAR 생성 → `apply_prepared` 보정 → `case.prior` 저장을 연결하고 `person_walk`가 전략/장소/반경을 소비한다. 아래 표는 현재 역할과 잔존legacy 경로를 구분한다.
 
 | 작업 | 설정·운영 모델 | 입력 | RAG | 현재 하류 소비 |
 |---|---|---|---|---|
-| Phase 0 축 채점 | `AXIS_SCORING_MODEL` / EXAONE 기본 모델 | 해당 축의 보호자 근거 | 미사용 | A~F 등급과 검증된 근거 |
+| 선택적 전체 축 채점 | `AXIS_SCORING_MODEL` / EXAONE Base | 해당 축의 보호자 근거 | 미사용 | **현재OFF**; ON 시 A~F와 근거 |
+| K 개인 준비·보정 | `KEXAONE_*` | 보호자 원문·기존 검색 발췌 | 사용 | 저장해석·이동능력·목적지·환경·조건부 정책, 코드 수치화 |
 | Phase 2 prior | `EXAONE_MODEL` / `exaone-sar` | Persona·신고·논문 발췌 | 사용 | 전략·끌림점·반경 등급 |
-| Phase 2 마음 재해석 | `MIND_MODEL=exaone-mind-dem5` | 현재 장면·게이지·Persona | 미사용 | 목표, 혼란/상태, 행동(`MIND_BEHAVIOR_ENABLED=true`면 보행 모드에 반영) |
+| legacy/fallback 마음 재해석 | `MIND_MODEL=exaone-mind-dem5` | 현재 장면·게이지·Persona | 미사용 | 과거 경로의 목표·혼란·행동; 준비된 정상 K 정책 실행과 구분 |
 
 `EXAONE_MODEL`과 `AXIS_SCORING_MODEL`의 저장소 기본값은 비어 있다. prior에 `exaone-sar`를 배포하면서 축 채점 모델을 비워 두면 축 채점도 지식 LoRA로 라우팅될 수 있으므로 EXAONE 기본 모델 ID를 별도로 지정해야 한다.
 
@@ -465,7 +438,9 @@ prior 모델의 출력은 좌표가 아니라 다음 `PriorParams`이다.
 
 EXAONE 미설정·실패 시 Koester·6전략 기본값으로 폴백한다. 현재 코드에서 치매 Koester는 Urban 분위수에 맞춘 `mu=0.095`, `sigma=1.48`이다.
 
-### 6.4 2단계: 예측기 3종
+### 6.4 보존된 이전 예측기와legacy/fallback 경로
+
+다음 상세 도식·상한·실험 수치는 이전 `simulation.py` 경로다. 현재 준비된 개인화는 `continuous_prediction.py`와`persistent_context_walk.py`에서 저장 정책·prior·체크포인트를 사용한다. 문헌 통계 채널은 MC나 개인 정책을 공유하지 않는다. [현재 흐름](SERVICE_E2E_20261012.md#5-보행-중-마음-반영과-두-지도).
 
 #### A. Top-down POA
 
@@ -516,29 +491,17 @@ v2 계약은 `behavior`, `goal_label`, `confusion_level`, `status`를 반환한�
 - 워커 이동 중 인지 게이지에 의한 EXAONE 마음 재해석은 수행하지 않는다.
 - 그러나 파이프라인 앞단의 **동일한 EXAONE prior는 공유**한다. 완전한 비-AI 통계 베이스라인은 아니다.
 
-### 6.5 3단계: 분포 결합과 Case 저장
+### 6.5 현재 분포 결합과 Case 저장
 
 ```text
-final POA = 0.7 × Agent MC + 0.3 × Statistical MC
+final POA = 0.3 × 개인화 보행 지도 + 0.7 × 독립 문헌 거리분포 지도
 ```
 
-- Tip이 3건 미만이면 linear pool로 어느 한쪽이 지지한 지역도 보존한다.
-- Tip이 3건 이상이면 log-linear pool로 두 분포가 함께 지지한 지역에 집중한다.
-- 결과를 `baseline_poa`와 `current_poa`에 동시에 저장하고 Case 상태를 `predicted`로 바꾼다.
+개인화 prior의 SAR/K 혼합 비율이 아니라 **계산된 두 지도**의 결합 비율이다. 문헌 채널은 개인화 0질량 지역을 지우지 않도록 제보 건수와 관계없이linear pool을 사용한다. 그 외legacy 채널은 제보3건부터log-linear를 사용하던 경로를 보존한다. 결과와 prior·맥락 키·체크포인트·품질을 Case에 저장한다. 알림은 res9 지리적 합집합을 기준으로 5.8㎢ 상한을 적용한다. 배포 worker의 이전res7과 구분한다.
 
-### 6.6 API와 현재 제한
+### 6.6 현재 API와 제한
 
-| 메서드 | 경로 | 구현 |
-|---|---|---|
-| `POST` | `/phase2/cases/{id}/predict?seed=` | 3종 POA 계산, 2-way 최종 결합 |
-
-현재 제한:
-
-- `USE_ROADNET=false`가 기본이라 기본 실행은 연속 공간 폴백이다.
-- 연속 공간 폴백은 20스텝 이동만 수행하며 도로·환경·F/C/E/H/A 게이지·희소 EXAONE 마음 재해석을 실행하지 않는다.
-- OSM·EGIS·Kakao 호출은 네트워크와 캐시 상태에 영향을 받는다.
-- 게이지 계수와 일부 유형별 SAR prior는 잠정값이다.
-- 최종 결합 가중치 `0.7/0.3`은 설정 파일이 아니라 파이프라인 코드에 고정돼 있다.
+예측과 시간 미리보기의 실제 경로는 `pipeline.py`와`continuous_prediction.py`를 따른다. 저장 prior·정책·검증 지도 없음을 성공으로 숨기지 않는다. 모델 실패·K 준비 상태·불완전 질량과 fallback을 품질에 남긴다. K 등급 수치화와 게이지 계수는 임상 보정값이 아니다. 서비스 전체 실호출·실제 발견·새 정책 운영 배포를 문서 정리만으로 검증했다고 주장하지 않는다. [현재 API 연동의 이전 검증](verification/app-flow-20261010/README.md).
 
 ### 6.7 PR 실험에서 확정·보류한 결정
 
@@ -786,10 +749,13 @@ stateDiagram-v2
 | 구성요소 | 현재 담당 | 금지·비담당 | 실패·미설정 시 |
 |---|---|---|---|
 | Mi:dm | 온보딩 답변 추출, 질문 문장화 | 좌표·전역 경로, 다음 온보딩 슬롯 자율 선택 | 규칙 추출·씨앗 질문 |
-| tip_llm | 제보 구조화, 구체성·일관성 등급 | 좌표 확정, 상대→절대 시각 산술 | Mi:dm 2.0 Mini 선택, 미설정 시 결정적 스텁 |
-| EXAONE 기본 모델 | 선택적 축 채점, 경로 익숙함, 개인 환경 반응 | prior·마음 재해석, 좌표 생성 | 미채점 상태로 두고 기본값 사용 |
+| tip_llm / Mi:dm 2.0 Mini | 제보 장소·시각·인상착의·방향 구조화, 구체성 등급 | 좌표 확정·시각 산술·신뢰도p·알림 결정 | 미설정 개발 스텁; 설정된 모델 실패는 판정 없음 |
+| copy_llm / 기본 Mini 상속 | 코드의 수색 안내 초안 문장 다듬기 | 예측·대상 구역·발송 결정 | 코드 초안 유지 |
+| EXAONE Base | 선택적 전체 축 채점, **현재OFF** | SAR prior·K 보정·좌표 생성 | 점수 없는 축의 기본 계수 유지 |
+| K-EXAONE | 원문·RAG 개인 해석과 조건부 정책 준비 | 좌표·전역 경로·임상적으로 보정된 숫자 생성 | 준비 실패/오래됨 상태를 기록하고SAR 기준 보존 |
 | `exaone-sar` 지식 LoRA | 논문 RAG와 Persona를 이용한 prior | 좌표·전역 경로, 마음 재해석 | 유형별 SAR 통계 prior |
-| `exaone-mind-dem5` 행동 LoRA | 행동·목표·혼란 출력. 행동은 보행 모드로, 목표·혼란은 게이지·이동에 반영 | prior·축 채점, 좌표 생성 | 혼란 증가 휴리스틱 |
+| 저장 K 정책 + 코드 | 정상 준비된 개인 보행의 조건부 행동 실행 | 입자마다 모델 재호출·좌표 생성 | 정책·맥락이 유효하지 않으면 명시적 품질/fallback |
+| `exaone-mind-dem5` 행동 LoRA | 이전legacy/fallback 마음 경로의 목표·행동·혼란 | 현재 저장 K 정책의 규칙 실행과 구분 | 이전 경로의 폴백 |
 | Koester | 유형별 이동거리 확률 | 자연어 해석 | 항상 알고리즘 경로에 존재 |
 | 6전략 MC | 확률적 이동과 종착점 분포 | 보호자 발화 해석 | 항상 실행 |
 | OSMnx | 보행 도로망 제약 | 마음·목적 | 연속 공간 워커 |
@@ -811,13 +777,13 @@ stateDiagram-v2
 | `RAG_TOP_K` | `4` | prior에 제공할 발췌 수 |
 | `EMBED_MODEL`/`EMBED_BASE_URL` | 코드 기본값 빈 문자열(미설정 시 해시 스텁 폴백) — 운영 배포는 업스테이지 임베딩 API로 채움 | Phase 0 다음 슬롯 검색·Phase 2 RAG 임베더 |
 | `TIP_LLM_TEMP_STRUCTURE` | `0.0` | 제보 구조화 재현성 우선 |
-| `AXIS_SCORING_ENABLED` | `false` | 축 점수와 route familiarity 컴파일 비활성 |
+| `AXIS_SCORING_ENABLED` | `false` | 새 전체 축 채점 OFF, 기존 점수 유지. K 이동 능력·길 익숙함 보정과 별개 |
 | `AXIS_SCORING_ASYNC` | `true` | Persona 확정 응답을 막지 않고 백그라운드 채점 |
 | `USE_ROADNET` | `true` | 기본은 도로망 MC(캐시 우선, 실패 시 연속 공간 폴백) |
 | `ROADNET_PRELOAD` | `false` | Phase 1에서 도로망 미리 받지 않음 |
 | `ROADNET_DYNAMIC_RADIUS` | `true` | prior·경과시간에 따라 도로망 반경을 3~6km로 조절 |
-| `MC_NUM_WALKERS` | `500` | Agent·Statistical 공통 워커 수 |
-| `MIND_CALL_BUDGET` | `5` | 예측당 실제 EXAONE 마음 재해석 상한. 발동 상황 5개 층에 층화 배분 |
+| `MC_NUM_WALKERS` | `500` | 개인보행 워커수; 최종 문헌 통계 채널은 MC가 아님 |
+| `MIND_CALL_BUDGET` | `5` | legacy 마음 재해석 상한; 정상 저장 K 정책은 입자별 코드 실행 |
 | `ROAD_PREFERENCE_STRENGTH` | `1.0` | 도로 위계 선호 세기. `0`이면 끔(ablation 대조군) |
 | `ENV_RESPONSE_STRENGTH` | `1.0` | 개인 환경 반응 세기. `0`이면 끔 |
 | `POA_REFRESH_ENABLED` | `true` | 기동 시 백그라운드 재예측 감시 스레드 시작 |
@@ -825,7 +791,12 @@ stateDiagram-v2
 | `PUSH_ENABLED` | `false` | 웹푸시 실제 발송 |
 | `REFLEX_ALERT_ON_INTAKE` | `true` | 신고 직후 안전반경 알림 경로 실행 |
 | `REFLEX_KRING` | `2` | H3 중심 포함 19셀 |
-| `ALERT_COVERAGE` | `0.8` | POA·D3 타겟 누적 커버리지 |
+| `ALERT_COVERAGE` | `0.95` | coverage 정책의값; 최종area_budget 정책의 면적상한과구분 |
+| `PERSONAL_CHANNEL_WEIGHT` | `0.3` | 최종지도 개인화비중; 최소0.3 |
+| `STATISTICAL_CHANNEL_DEFINITION` | `literature_distance_prior` | 독립문헌거리분포지도 |
+| `ALERT_SELECTION_POLICY` | `area_budget` | 실제대상 지리적합집합 기준선택 |
+| `MAX_ALERT_AREA_KM2` | `5.8` | 실제알림 대상면적상한 |
+| `PUSH_TARGET_RES` | `9` | develop확정 알림해상도; 배포확인worker는7 |
 | `MAX_ALERT_CELLS` | `500` | 알림 폭주 방지 상한 |
 | `TIP_DISCARD_THRESHOLD` | `0.2` | 제보 파기 기준 |
 | `TIP_LKP_THRESHOLD` | `0.8` | 새 LKP 후보 기준 |

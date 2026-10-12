@@ -1,0 +1,6 @@
+{
+  "segments": 25272,
+  "max_geodesic_displacement_over_walk_budget": 1.0023043545911057,
+  "violations_above_3pct_projection_tolerance": 0,
+  "violations": []
+}

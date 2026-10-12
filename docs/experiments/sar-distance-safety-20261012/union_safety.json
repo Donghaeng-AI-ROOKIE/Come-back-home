@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-10-11T15:40:52.229315+00:00",
+  "candidate_count": 1,
+  "policy": "preserve_current_union_uniform_dev_budget",
+  "definition": "Union original current alert targets with the already frozen literature90:10 uniform development-mean area-budget targets",
+  "purpose": "Keep every original covered truth; compare the cost of recovering omitted statistical regions",
+  "uniform_budget_km2": 5.281216032677167,
+  "no_individual_additional_area_cap": true,
+  "new_model_calls": 0,
+  "actual_push": 0,
+  "default_changed": false,
+  "fresh_holdout": false,
+  "cost_amount": null
+}

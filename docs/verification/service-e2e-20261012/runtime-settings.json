@@ -1,0 +1,26 @@
+{
+  "checked_at": "2026-10-12T04:41:27.567116+00:00",
+  "container": "cbh-cloud-worker-cloud-worker-1",
+  "image": "cbh-cloud-worker:20261011-df53252",
+  "settings": {
+    "axis_scoring_enabled": false,
+    "axis_scoring_model": "exaone-base",
+    "exaone_model": "exaone-sar",
+    "midm_model": "midm-pro-fp8-kaic",
+    "tip_llm_model": "midm-2.0-mini",
+    "copy_llm_model": "",
+    "mind_model": "exaone-mind-dem5",
+    "mind_policy_contract": "guarded_core",
+    "mind_policy_deployment": "staging",
+    "statistical_channel_definition": null,
+    "personal_channel_weight": null,
+    "alert_selection_policy": null,
+    "max_alert_area_km2": null,
+    "push_target_res": 7
+  },
+  "model_calls": 0,
+  "deployment_changes": 0,
+  "evidence_kind": "read_only_deployed_settings",
+  "endpoint_availability_tested": false,
+  "full_e2e_rerun": false
+}

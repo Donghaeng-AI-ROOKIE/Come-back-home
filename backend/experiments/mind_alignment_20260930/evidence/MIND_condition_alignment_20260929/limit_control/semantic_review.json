@@ -1,0 +1,82 @@
+{
+  "method": "Codex unblinded source-and-response review; not independent human evaluation",
+  "total_cases": 3,
+  "full_case_pass": 3,
+  "total_branches": 12,
+  "full_branch_pass": 12,
+  "rubric_changed": false,
+  "rows": [
+    {
+      "id": "H3_D01-1",
+      "branch": "b0",
+      "meaning_pass": true,
+      "note": "높은 피로의 개인 우선순위에 따라 휴식. 혼잡·동행 가정이 이 우선순위를 뒤집지 않음."
+    },
+    {
+      "id": "H3_D01-1",
+      "branch": "b1",
+      "meaning_pass": true,
+      "note": "높은 피로의 개인 우선순위에 따라 휴식. 혼잡·동행 가정이 이 우선순위를 뒤집지 않음."
+    },
+    {
+      "id": "H3_D01-1",
+      "branch": "b2",
+      "meaning_pass": true,
+      "note": "높은 피로의 개인 우선순위에 따라 휴식. 혼잡·동행 가정이 이 우선순위를 뒤집지 않음."
+    },
+    {
+      "id": "H3_D01-1",
+      "branch": "b3",
+      "meaning_pass": true,
+      "note": "높은 피로의 개인 우선순위에 따라 휴식. 혼잡·동행 가정이 이 우선순위를 뒤집지 않음."
+    },
+    {
+      "id": "H3_D01-2",
+      "branch": "b0",
+      "meaning_pass": true,
+      "note": "현재 낮은 피로와 공원 소음에 따라 모든 분기 회피. 괄호의 혼잡·동행은 해당 분기의 가정값이며 추가 개인 효과로 주장하지 않음."
+    },
+    {
+      "id": "H3_D01-2",
+      "branch": "b1",
+      "meaning_pass": true,
+      "note": "현재 낮은 피로와 공원 소음에 따라 모든 분기 회피. 괄호의 혼잡·동행은 해당 분기의 가정값이며 추가 개인 효과로 주장하지 않음."
+    },
+    {
+      "id": "H3_D01-2",
+      "branch": "b2",
+      "meaning_pass": true,
+      "note": "현재 낮은 피로와 공원 소음에 따라 모든 분기 회피. 괄호의 혼잡·동행은 해당 분기의 가정값이며 추가 개인 효과로 주장하지 않음."
+    },
+    {
+      "id": "H3_D01-2",
+      "branch": "b3",
+      "meaning_pass": true,
+      "note": "현재 낮은 피로와 공원 소음에 따라 모든 분기 회피. 괄호의 혼잡·동행은 해당 분기의 가정값이며 추가 개인 효과로 주장하지 않음."
+    },
+    {
+      "id": "H3_D01-3",
+      "branch": "b0",
+      "meaning_pass": true,
+      "note": "소음 없음과 낮은 피로로 현재 목표 장소 A로 계속 진행. 표현 탐색은 모호하지만 명령 continue와 같은 목표를 향한 이동 설명으로 읽히며 새 목표·배회 주장 없음."
+    },
+    {
+      "id": "H3_D01-3",
+      "branch": "b1",
+      "meaning_pass": true,
+      "note": "소음 없음과 낮은 피로로 현재 목표 장소 A로 계속 진행. 표현 탐색은 모호하지만 명령 continue와 같은 목표를 향한 이동 설명으로 읽히며 새 목표·배회 주장 없음."
+    },
+    {
+      "id": "H3_D01-3",
+      "branch": "b2",
+      "meaning_pass": true,
+      "note": "소음 없음과 낮은 피로로 현재 목표 장소 A로 계속 진행. 표현 탐색은 모호하지만 명령 continue와 같은 목표를 향한 이동 설명으로 읽히며 새 목표·배회 주장 없음."
+    },
+    {
+      "id": "H3_D01-3",
+      "branch": "b3",
+      "meaning_pass": true,
+      "note": "소음 없음과 낮은 피로로 현재 목표 장소 A로 계속 진행. 표현 탐색은 모호하지만 명령 continue와 같은 목표를 향한 이동 설명으로 읽히며 새 목표·배회 주장 없음."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-10-11T15:35:27.595441+00:00",
+  "candidate_count": 2,
+  "policies": [
+    "matched_current_area_budget",
+    "uniform_dev_current_mean_area_budget"
+  ],
+  "uniform_budget_km2": 5.281216032677167,
+  "policy": "personal90+literature10 pool; rank by mixed cell probability/area; select positive whole cells while area<=budget and cells<=500; no target truth inputs",
+  "matched_budget": "immutable original current95%-policy area for same person/seed/hour",
+  "uniform_budget": "immutable development8 current mean area, not chosen using seen31 labels",
+  "coverage": "area budget replaces requested95% mass; selected model mass reported, never described as95% guaranteed",
+  "scope": {
+    "new_model_calls": 0,
+    "actual_push": 0,
+    "remote_runs": 0,
+    "cost_amount": null
+  },
+  "fresh_holdout": false,
+  "default_changed": false
+}

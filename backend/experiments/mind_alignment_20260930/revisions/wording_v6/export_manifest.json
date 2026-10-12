@@ -1,0 +1,21 @@
+{
+  "status": "candidate_pending_current_tokenization",
+  "source_version": "personal_contrasts_v6",
+  "contract": "frozen motion_goal_candidate:separate_motion_and_goal",
+  "evaluation_included": false,
+  "training_runs": 0,
+  "files": {
+    "train.jsonl": {
+      "rows": 2160,
+      "sha256": "29149ef027c3eb62f35f85ca60eab02260bc1a5f70aa75da8a355a8ddb17e735"
+    },
+    "train_base.jsonl": {
+      "rows": 720,
+      "sha256": "f339860b720c4ca6770363492477ec4ebadfaeb4ad365a9d1f831f91129b92b1"
+    },
+    "development.jsonl": {
+      "rows": 180,
+      "sha256": "cc94263f236a93e4c681c3b3e61d6bbca0b24893c017acce8270d87ab0227a07"
+    }
+  }
+}

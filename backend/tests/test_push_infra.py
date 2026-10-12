@@ -183,10 +183,10 @@ def test_peak_area_reaches_every_engagement_level():
         assert r["devices"] == 1, f"{level.value} 가 최고 확률 칸에서 걸러졌다"
 
 
-def test_weak_area_filters_by_engagement():
-    """같은 칸·같은 사건인데 참여도에 따라 발송이 갈린다 — S6 의 핵심."""
+def test_selected_weak_area_reaches_every_engagement_level():
+    """선택된 커버리지 구역을 상대확률 문턱으로 다시 삭제하지 않는다."""
     poa, _, weak_cell = _peaked_poa()
-    for level, expected in [(Engagement.high, 1), (Engagement.normal, 1), (Engagement.low, 0)]:
+    for level, expected in [(Engagement.high, 1), (Engagement.normal, 1), (Engagement.low, 1)]:
         devices.reset()
         devices.register(TOKEN, Platform.android, weak_cell, level)
         r = alerts.send_alerts("case-1", list(poa), "요약", poa=poa)

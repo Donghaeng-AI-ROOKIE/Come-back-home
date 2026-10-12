@@ -234,7 +234,7 @@ def test_statistical_failure_rolls_back_personal_checkpoint(full_geography,monke
     assert c.continuous_state==before
 
 
-def test_personal_wait_is_not_diluted_by_policy_free_thirty_percent(geography):
+def test_statistical_prior_does_not_receive_personal_mind_program(geography):
     from app.phase2 import combine
     net,center=geography;p=prepared(center);c=case_for(p)
     wait=rule('wait',when=[[dict(fact='lost_awareness',op='eq',value=True),
@@ -243,27 +243,32 @@ def test_personal_wait_is_not_diluted_by_policy_free_thirty_percent(geography):
     c.report.behavior_observations=[obs('lost_awareness',True),obs('family_present',False,0,90),
                                     obs('family_present',True,90)]
     a,b,q=continuous_prediction.run_pair(c,p,prior(),net,1,seed=42)
-    assert q['personal_policy_shared_between_channels']
-    assert not q['policy_free_ablation_included_in_mixture']
-    for checkpoint in (c.continuous_state['checkpoint'],c.continuous_state['statistical']['checkpoint']):
-        assert all(x['waiting']==pytest.approx(60) and x['distance']==0 for x in checkpoint['particles'])
-    assert a==b
-    assert combine.alpha_pool([a,b],alphas=[.7,.3],mode='linear')==pytest.approx(a)
+    assert not q['personal_policy_shared_between_channels']
+    assert q['statistical_uses_onboarding_prior'] and not q['statistical_uses_conditional_mind_program']
+    assert all(x['waiting']==pytest.approx(60) and x['distance']==0
+               for x in c.continuous_state['checkpoint']['particles'])
+    stat=c.continuous_state['statistical']['checkpoint']['particles']
+    assert any(x['distance']>0 for x in stat) and all(not x['rule_minutes'] for x in stat)
+    assert a!=b and q['channel_total_variation']>0
+    for weight in [0,.3,.7,1]:
+        mixed=combine.alpha_pool([a,b],alphas=[weight,1-weight],mode='linear')
+        assert sum(mixed.values())==pytest.approx(1)
+    continuous_prediction.run_pair(c,p,prior(),net,1.5,seed=42)
+    before=[x['distance'] for x in c.continuous_state['checkpoint']['particles']+c.continuous_state['statistical']['checkpoint']['particles']]
     continuous_prediction.run_pair(c,p,prior(),net,1.55,seed=42)
-    # Family observed beside the person at 90 min is a reunion: no re-walk.
-    for checkpoint in (c.continuous_state['checkpoint'],c.continuous_state['statistical']['checkpoint']):
-        assert all(x['distance']==0 and any(e['kind']=='reunion_observed_no_further_walking' for e in x['events'])
-                   for x in checkpoint['particles'])
+    after=c.continuous_state['checkpoint']['particles']+c.continuous_state['statistical']['checkpoint']['particles']
+    assert [x['distance'] for x in after]==before
+    assert all(any(e['kind']=='reunion_observed_no_further_walking' for e in x['events']) for x in after)
 
 
-def test_pair_only_removes_updated_mind_not_prepared_reactions(geography):
+def test_statistical_channel_receives_neither_updated_mind_nor_personal_reactions(geography):
     from app.schemas.prediction import MindState
     net,center=geography;p=prepared(center);c=case_for(p)
     c.mind=MindState(confusion=.2,changed=True)
     _,_,quality=continuous_prediction.run_pair(c,p,prior(),net,.1,seed=42)
     assert quality['direction_state_source']=='updated_mind_state'
     assert quality['statistical']['direction_state_source']=='unobserved_default_0.5'
-    assert c.continuous_state['checkpoint']['policy_digest']==c.continuous_state['statistical']['checkpoint']['policy_digest']
+    assert c.continuous_state['checkpoint']['policy_digest']!=c.continuous_state['statistical']['checkpoint']['policy_digest']
 
 def test_walker_version_change_starts_fresh_instead_of_failing(geography,monkeypatch):
     # A checkpoint from an older walking engine must not be reused: the walker
@@ -274,3 +279,12 @@ def test_walker_version_change_starts_fresh_instead_of_failing(geography,monkeyp
     monkeypatch.setattr(person_walk,'VERSION',person_walk.VERSION+'-next')
     cells,q=continuous_prediction.run(c,p,prior(),net,1,seed=42)
     assert not q.get('checkpoint_reused') and q['unresolved_mass']==0 and cells
+
+
+def test_legacy_k_numbers_cannot_be_published_as_independent_sar_preview(geography):
+    net,center=geography;p=prepared(center);case=case_for(p);old={'private_sentinel':1};case.continuous_state=copy.deepcopy(old)
+    initial=prior();initial.initial_interpretation={'status':'applied'}
+    a,b,q=continuous_prediction.run_pair(case,p,initial,net,.1,seed=42,persist=False)
+    assert a=={} and b=={} and q['unresolved_mass']==1
+    assert q['statistical_prior_source']=='legacy_prepared_numbers_raw_sar_snapshot_missing'
+    assert not q['checkpoint_committed'] and case.continuous_state==old

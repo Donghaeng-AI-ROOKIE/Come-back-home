@@ -1,10 +1,15 @@
 """전역 설정. .env 로 오버라이드 가능 (.env.example 참고)."""
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Literal
 
 
 class Settings(BaseSettings):
+    # Validated jointly on personal-following and departing routes; user floor 30%.
+    personal_channel_weight: float = Field(default=0.3, ge=0.3, le=1.0)
+    statistical_channel_definition: Literal["shared_personal_policy", "onboarded_population_prior", "literature_distance_prior"] = "literature_distance_prior"
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     # Server-managed disposable test owners; clients cannot mark a real report as a test.
@@ -393,12 +398,14 @@ class Settings(BaseSettings):
     reflex_alert_on_intake: bool = True   # 신고 접수 시 자동 발송 (실패해도 접수 계속)
 
     # 알림 발송 — POA 상위 셀 누적 커버리지
-    alert_coverage: float = 0.8
+    alert_coverage: float = Field(default=0.95, ge=0.0, le=1.0)
     # 알림 셀 수 상한 (타겟팅 가드레일) — 꼬리가 두꺼운 분포에서 80% 커버리지가
     # 수천 셀(사실상 무차별)로 폭주하는 것을 차단. res9 셀 ≈0.105km² 기준
     # 500셀 ≈ 52km². 건강한 케이스(경과 1h)는 80% 도달에 ~159셀이라 안 걸린다.
     # 값은 잠정 — 실제 알림 로그 쌓이면 평가곡선(알림수 vs 발견율)으로 튜닝 대상.
     max_alert_cells: int = 500
+    alert_selection_policy: Literal["coverage", "area_budget"] = "area_budget"
+    max_alert_area_km2: float = Field(default=5.8, ge=0.0, le=1000.0)
 
     # ── Phase 3 익명 동시 참여자 수(presence) ────────────────────────
     # TTL 은 프론트 폴링 주기(30s)의 3배 — 한두 번 놓쳐도(터널·일시 오프라인)
@@ -433,7 +440,7 @@ class Settings(BaseSettings):
     # 실종 경보는 시간이 지나면 의미가 줄어든다 — 하루를 넘겨 배달할 이유가 없다.
     webpush_ttl_sec: int = 3600
 
-    push_target_res: int = 7
+    push_target_res: int = Field(default=9, ge=7, le=9)
     # 참여도 등급별 발송 확률 문턱 — **프론트 utils/alertBudget.ts 의
     # PROB_THRESHOLD 와 값이 같아야 한다**(서버·앱이 다르면 사용자는 "알림은
     # 왔는데 앱은 구역 밖이라 한다" 같은 모순을 본다).

@@ -1,0 +1,23 @@
+{
+  "event_type": "deployment_planned",
+  "event_id": "7a00952b-f561-4fd2-a906-38400d439ee1",
+  "run_id": "SERVICE_final_deploy_20261012",
+  "at": "2026-10-12T05:13:39.367521+00:00",
+  "target": "existing cloud worker on 123.37.28.180:10022; doraogil.pages.dev",
+  "authorized_by": "user explicit #290 merge and service final policy deployment",
+  "conditions": {
+    "personal_weight": 0.3,
+    "statistical_weight": 0.7,
+    "statistical_definition": "literature_distance_prior",
+    "res": 9,
+    "area_cap_km2": 5.8,
+    "axis_scoring": false
+  },
+  "model_call_cap": 0,
+  "synthetic_people_cap": 1,
+  "supabase_http_cap": 120,
+  "new_map_calls": 0,
+  "real_notifications_cap": 0,
+  "actual_cost": null,
+  "gpu_time_seconds": null
+}

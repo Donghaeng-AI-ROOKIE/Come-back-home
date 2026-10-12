@@ -19,6 +19,13 @@ services:
       RAG_INDEX_PATH: /app/assets/rag/rag_index_upstage.npz
       MIND_POLICY_DEPLOYMENT: staging
       MIND_POLICY_CONTRACT: guarded_core
+      # Frozen delivery profile: keep these explicit even with an older worker.env.
+      PERSONAL_CHANNEL_WEIGHT: ${CBH_PERSONAL_CHANNEL_WEIGHT:-0.3}
+      STATISTICAL_CHANNEL_DEFINITION: literature_distance_prior
+      ALERT_SELECTION_POLICY: area_budget
+      MAX_ALERT_AREA_KM2: ${CBH_MAX_ALERT_AREA_KM2:-5.8}
+      PUSH_TARGET_RES: ${CBH_PUSH_TARGET_RES:-9}
+      AXIS_SCORING_ENABLED: 'false'
       EXAONE_WARMUP_ENABLED: 'false'
       SEED_DEMO_DATA: 'false'
       POA_REFRESH_ENABLED: ${CBH_POA_REFRESH_ENABLED:-true}

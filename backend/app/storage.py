@@ -198,6 +198,21 @@ class Repository(Generic[T]):
             self._load()
             return self._items.get(item_id)
 
+    def saved_copy(self, item_id: str) -> T | None:
+        """Last committed version, decoded fresh from disk.
+
+        The cached object is mutated in place while a writer holds its case lock
+        (re-prediction). The row only changes on save, so it is a consistent
+        snapshot. None when persistence is off or the row is absent.
+        """
+        conn = self._persistent()
+        if conn is None:
+            return None
+        with _lock:
+            self._ensure_table(conn)
+            row = conn.execute(f"SELECT data FROM {self._table} WHERE id = ?", (item_id,)).fetchone()
+        return self._decode(row[0]) if row else None
+
     def list(self) -> list[T]:
         with self._mutation_lock:
             self._load()
@@ -228,12 +243,17 @@ class Repository(Generic[T]):
 _case_locks = [threading.RLock() for _ in range(64)]
 
 
+def case_lock(case_id: str) -> threading.RLock:
+    """The stripe `serialize_case` holds for this case."""
+    return _case_locks[hash(case_id) % len(_case_locks)]
+
+
 def serialize_case(fn):
     @wraps(fn)
     def wrapped(*args, **kwargs):
         case_or_id = args[0] if args else kwargs.get("case", kwargs.get("case_id"))
         key = case_or_id if isinstance(case_or_id, str) else case_or_id.id
-        with _case_locks[hash(key) % len(_case_locks)]:
+        with case_lock(key):
             return fn(*args, **kwargs)
     return wrapped
 

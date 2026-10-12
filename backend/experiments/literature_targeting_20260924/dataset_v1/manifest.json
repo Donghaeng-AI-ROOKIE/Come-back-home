@@ -1,0 +1,42 @@
+{
+  "status": "truth_frozen_predictions_not_run",
+  "seed": 20260924,
+  "generator_sha256": "5f6cbc79b92233a370fa42efc05418390809445629f7a5b942db3747392c9f1e",
+  "graphs": {
+    "development": {
+      "graph": "walk_37.6061_127.0106_3000.graphml",
+      "sha256": "e0698ddd7c999925dc2166e9369347fe9289ec5dcdb21b05c9531ac79cbe72e4",
+      "geometry_rejections": 0,
+      "profiles": 6
+    },
+    "evaluation": {
+      "graph": "walk_37.5511_126.9410_3000.graphml",
+      "sha256": "cc5610bcdaa128687e1483e0004a06059263fac74984e10f46e194a94341a9fa",
+      "geometry_rejections": 0,
+      "profiles": 6
+    }
+  },
+  "counts": {
+    "development": {
+      "profiles": 6,
+      "scenarios": 18,
+      "paired_timepoints": 72
+    },
+    "evaluation": {
+      "profiles": 6,
+      "scenarios": 18,
+      "paired_timepoints": 72
+    }
+  },
+  "protocol_sha256": "68ba93e8a4b69236cff570b5e3afdaca984126f132a583d8357a28de04860aa5",
+  "sources_sha256": "a963053d9650b8bf48a1100d45a922ffa6eb243407f8f62eeaeb48532f5b9dbe",
+  "files": {
+    "development_inputs.json": "00232fdc31a551e33486d4faa32c34fb76ca37c4916c2876314abefa22a37264",
+    "development_truth.json": "ca7f36c4d8a6a1a843c83d206ee37164a668091fa3dc0ddc0771fa3604d0a795",
+    "evaluation_inputs.json": "510718c64e7b7bf49080ab16313bb6c635267e7fbcbebb218dc0e7d6edda7f72",
+    "evaluation_truth.json": "3a09dd3caf2619a767cfaacf852a3d0903995e6d8e10ffeb8456cbb99157c561",
+    "SCENARIOS.md": "f3ae4ee3701e892bc90680d41728b094fe320e40418010b5999506bea712f1d2"
+  },
+  "selection": "road geometry only; no model output or H3 outcome selection",
+  "condition_prevalence": "equal design allocation; not real-world prevalence"
+}

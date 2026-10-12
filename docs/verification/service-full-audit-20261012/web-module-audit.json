@@ -1,0 +1,34 @@
+{
+  "mapped_bundle_code_matches_deployed": true,
+  "comparison_ignored_only_comments": [
+    "sourceMappingURL",
+    "debugId"
+  ],
+  "entry_bundle": "/_expo/static/js/web/index-f295f49cb2de6ffa5cb5a8e22ae1d6a8.js",
+  "source_count": 1356,
+  "advisory_leaf_source_counts": {
+    "@xmldom/xmldom": 0,
+    "baseline-browser-mapping": 0,
+    "brace-expansion": 0,
+    "braces": 0,
+    "browserslist": 0,
+    "compression": 0,
+    "image-size": 0,
+    "js-yaml": 0,
+    "nanoid": 1,
+    "node-forge": 0,
+    "postcss": 0,
+    "source-map-js": 0,
+    "uuid": 0
+  },
+  "source_matches": {
+    "nanoid": [
+      "/node_modules/nanoid/non-secure/index.js"
+    ]
+  },
+  "runtime_nanoid_version": "3.3.18",
+  "runtime_nanoid_advisories_patched": true,
+  "other_affected_advisory_leaf_packages_present_in_web": false,
+  "not_a_full_supply_chain_audit": true,
+  "scope": "Exact final compiled JS matches mapped build excluding metadata comments. Nanoid present but patched; other known advisory leaf packages absent from this web bundle."
+}

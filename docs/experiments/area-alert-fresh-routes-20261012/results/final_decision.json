@@ -1,0 +1,15 @@
+{
+  "candidate": "area6",
+  "gates": {
+    "efficiency_positive_ci": false,
+    "overall_noninferior_ci": true,
+    "habitual_noninferior_ci": false,
+    "departure_noninferior_ci": false,
+    "contradictory_improvement_ci": true,
+    "budget_no_violations": true
+  },
+  "final_default": "current",
+  "selection_sha256": "bba67a58a75f1dd56b4153af3feed1e4ccd5682d0f9502f1486293d7c41c99b2",
+  "validation_rows_sha256": "31ea809b37958adf70c5197fc4bc814392147fd44c762e86e8dfbd0a7737b314",
+  "retuning_on_validation": false
+}

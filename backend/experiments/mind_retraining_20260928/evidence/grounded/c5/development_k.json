@@ -1,0 +1,501 @@
+[
+  {
+    "job": "c5_development_k_D01_1",
+    "case": "D01",
+    "repeat": 1,
+    "provider": "k",
+    "candidate": "c5",
+    "stage": "development",
+    "expected": {
+      "actions": [
+        "rest"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    },
+    "usage": {
+      "completion_tokens": 149,
+      "prompt_tokens": 1845,
+      "prompt_tokens_details": {
+        "cached_tokens": 736
+      },
+      "total_tokens": 1994
+    },
+    "finish_reason": "stop",
+    "raw": "{\n  \"evidence\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"피곤하지 않으면 등록 장소 A로 계속 걷고, 많이 피곤해지면 잠깐 앉아 쉰 뒤 다시 걷는다.\"\n    }\n  ],\n  \"state_check\": {\n    \"fatigue_band\": \"high\",\n    \"rest_phase\": \"not_recorded\"\n  },\n  \"assessment\": \"보호자는 피로가 높아지면 잠시 앉아 쉰 후 다시 걷는다고 명시했으나, 현재 피로는 높지만 휴식 여부는 기록되지 않았으며, 이미 휴식이 완료된 시점은 없다. 현재 행동은 이전 상태와 조건이 일치하지만 휴식 여부는 확인되지 않았다.\",\n  \"confusion_level\": \"medium\",\n  \"decision\": {\n    \"action\": \"rest\"\n  }\n}",
+    "parsed": {
+      "evidence": [
+        {
+          "note_id": "N0",
+          "quote": "피곤하지 않으면 등록 장소 A로 계속 걷고, 많이 피곤해지면 잠깐 앉아 쉰 뒤 다시 걷는다."
+        }
+      ],
+      "state_check": {
+        "fatigue_band": "high",
+        "rest_phase": "not_recorded"
+      },
+      "assessment": "보호자는 피로가 높아지면 잠시 앉아 쉰 후 다시 걷는다고 명시했으나, 현재 피로는 높지만 휴식 여부는 기록되지 않았으며, 이미 휴식이 완료된 시점은 없다. 현재 행동은 이전 상태와 조건이 일치하지만 휴식 여부는 확인되지 않았다.",
+      "confusion_level": "medium",
+      "decision": {
+        "action": "rest"
+      }
+    },
+    "execution": {
+      "action": "rest",
+      "goal_operation": "keep",
+      "goal_label": null,
+      "avoid_feature": null,
+      "evidence_ids": [
+        "N0"
+      ],
+      "reason": "보호자는 피로가 높아지면 잠시 앉아 쉰 후 다시 걷는다고 명시했으나, 현재 피로는 높지만 휴식 여부는 기록되지 않았으며, 이미 휴식이 완료된 시점은 없다. 현재 행동은 이전 상태와 조건이 일치하지만 휴식 여부는 확인되지 않았다.",
+      "confusion_level": "medium"
+    },
+    "contract_pass": true,
+    "action_match": true,
+    "goal_match": true,
+    "feature_match": true,
+    "automatic_match": true,
+    "semantic_review": "pending",
+    "elapsed_seconds": 3.7751660419162363
+  },
+  {
+    "job": "c5_development_k_D02_1",
+    "case": "D02",
+    "repeat": 1,
+    "provider": "k",
+    "candidate": "c5",
+    "stage": "development",
+    "expected": {
+      "actions": [
+        "continue",
+        "seek"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    },
+    "usage": {
+      "completion_tokens": 142,
+      "prompt_tokens": 1845,
+      "prompt_tokens_details": {
+        "cached_tokens": 1184
+      },
+      "total_tokens": 1987
+    },
+    "finish_reason": "stop",
+    "raw": "{\n  \"evidence\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"피곤하지 않으면 등록 장소 A로 계속 걷고, 많이 피곤해지면 잠깐 앉아 쉰 뒤 다시 걷는다.\"\n    }\n  ],\n  \"state_check\": {\n    \"fatigue_band\": \"low\",\n    \"rest_phase\": \"not_recorded\"\n  },\n  \"assessment\": \"보호자가 관찰한 기준에 따르면 피곤하지 않을 때 등록 장소 A 방향으로 걷는 것을 선택한다. 현재 피로 상태가 낮아 보호자가 말한 '피곤하지 않음'에 해당하므로 계속 걷는 것이 일치한다.\",\n  \"confusion_level\": \"low\",\n  \"decision\": {\n    \"action\": \"continue\"\n  }\n}",
+    "parsed": {
+      "evidence": [
+        {
+          "note_id": "N0",
+          "quote": "피곤하지 않으면 등록 장소 A로 계속 걷고, 많이 피곤해지면 잠깐 앉아 쉰 뒤 다시 걷는다."
+        }
+      ],
+      "state_check": {
+        "fatigue_band": "low",
+        "rest_phase": "not_recorded"
+      },
+      "assessment": "보호자가 관찰한 기준에 따르면 피곤하지 않을 때 등록 장소 A 방향으로 걷는 것을 선택한다. 현재 피로 상태가 낮아 보호자가 말한 '피곤하지 않음'에 해당하므로 계속 걷는 것이 일치한다.",
+      "confusion_level": "low",
+      "decision": {
+        "action": "continue"
+      }
+    },
+    "execution": {
+      "action": "continue",
+      "goal_operation": "keep",
+      "goal_label": null,
+      "avoid_feature": null,
+      "evidence_ids": [
+        "N0"
+      ],
+      "reason": "보호자가 관찰한 기준에 따르면 피곤하지 않을 때 등록 장소 A 방향으로 걷는 것을 선택한다. 현재 피로 상태가 낮아 보호자가 말한 '피곤하지 않음'에 해당하므로 계속 걷는 것이 일치한다.",
+      "confusion_level": "low"
+    },
+    "contract_pass": true,
+    "action_match": true,
+    "goal_match": true,
+    "feature_match": true,
+    "automatic_match": true,
+    "semantic_review": "pending",
+    "elapsed_seconds": 3.623471291968599
+  },
+  {
+    "job": "c5_development_k_D03_1",
+    "case": "D03",
+    "repeat": 1,
+    "provider": "k",
+    "candidate": "c5",
+    "stage": "development",
+    "expected": {
+      "actions": [
+        "continue",
+        "seek"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    },
+    "usage": {
+      "completion_tokens": 141,
+      "prompt_tokens": 1861,
+      "prompt_tokens_details": {
+        "cached_tokens": 672
+      },
+      "total_tokens": 2002
+    },
+    "finish_reason": "stop",
+    "raw": "{\n  \"evidence\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"오래 걸어 피곤해지면 쉬고, 충분히 쉬고 나서는 등록 장소 A로 다시 걷는다.\"\n    }\n  ],\n  \"state_check\": {\n    \"fatigue_band\": \"low\",\n    \"rest_phase\": \"completed\"\n  },\n  \"assessment\": \"보호자는 '피곤해지면 쉬고, 충분히 쉬고 나서는 다시 걷는다'고 진술했다. 현재 피로는 낮으며 휴식은 완료된 상태다.\",\n  \"confusion_level\": \"low\",\n  \"decision\": {\n    \"action\": \"seek\",\n    \"goal_label\": \"등록 장소 A\"\n  }\n}",
+    "parsed": {
+      "evidence": [
+        {
+          "note_id": "N0",
+          "quote": "오래 걸어 피곤해지면 쉬고, 충분히 쉬고 나서는 등록 장소 A로 다시 걷는다."
+        }
+      ],
+      "state_check": {
+        "fatigue_band": "low",
+        "rest_phase": "completed"
+      },
+      "assessment": "보호자는 '피곤해지면 쉬고, 충분히 쉬고 나서는 다시 걷는다'고 진술했다. 현재 피로는 낮으며 휴식은 완료된 상태다.",
+      "confusion_level": "low",
+      "decision": {
+        "action": "seek",
+        "goal_label": "등록 장소 A"
+      }
+    },
+    "execution": {
+      "action": "seek",
+      "goal_operation": "set",
+      "goal_label": "등록 장소 A",
+      "avoid_feature": null,
+      "evidence_ids": [
+        "N0"
+      ],
+      "reason": "보호자는 '피곤해지면 쉬고, 충분히 쉬고 나서는 다시 걷는다'고 진술했다. 현재 피로는 낮으며 휴식은 완료된 상태다.",
+      "confusion_level": "low"
+    },
+    "contract_pass": true,
+    "action_match": true,
+    "goal_match": true,
+    "feature_match": true,
+    "automatic_match": true,
+    "semantic_review": "pending",
+    "elapsed_seconds": 3.721734583028592
+  },
+  {
+    "job": "c5_development_k_D04_1",
+    "case": "D04",
+    "repeat": 1,
+    "provider": "k",
+    "candidate": "c5",
+    "stage": "development",
+    "expected": {
+      "actions": [
+        "continue",
+        "seek",
+        "roam"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    },
+    "usage": {
+      "completion_tokens": 139,
+      "prompt_tokens": 1853,
+      "prompt_tokens_details": {
+        "cached_tokens": 672
+      },
+      "total_tokens": 1992
+    },
+    "finish_reason": "stop",
+    "raw": "{\n  \"evidence\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"몸이 지쳐도 앉아서 쉬지 않고 계속 걷는다. 쉬자고 해도 걸음을 멈추지 않는 모습이 반복된다.\"\n    }\n  ],\n  \"state_check\": {\n    \"fatigue_band\": \"high\",\n    \"rest_phase\": \"not_recorded\"\n  },\n  \"assessment\": \"보호자에 따르면, 어르신은 몸이 지쳐도 쉬지 않고 계속 걷는 행동을 반복적으로 보인다. 현재 휴식 기록은 없으며, 피로 수준이 높은 상태에서 휴식을 취하지 않은 것으로 판단된다.\",\n  \"confusion_level\": \"low\",\n  \"decision\": {\n    \"action\": \"continue\"\n  }\n}",
+    "parsed": {
+      "evidence": [
+        {
+          "note_id": "N0",
+          "quote": "몸이 지쳐도 앉아서 쉬지 않고 계속 걷는다. 쉬자고 해도 걸음을 멈추지 않는 모습이 반복된다."
+        }
+      ],
+      "state_check": {
+        "fatigue_band": "high",
+        "rest_phase": "not_recorded"
+      },
+      "assessment": "보호자에 따르면, 어르신은 몸이 지쳐도 쉬지 않고 계속 걷는 행동을 반복적으로 보인다. 현재 휴식 기록은 없으며, 피로 수준이 높은 상태에서 휴식을 취하지 않은 것으로 판단된다.",
+      "confusion_level": "low",
+      "decision": {
+        "action": "continue"
+      }
+    },
+    "execution": {
+      "action": "continue",
+      "goal_operation": "keep",
+      "goal_label": null,
+      "avoid_feature": null,
+      "evidence_ids": [
+        "N0"
+      ],
+      "reason": "보호자에 따르면, 어르신은 몸이 지쳐도 쉬지 않고 계속 걷는 행동을 반복적으로 보인다. 현재 휴식 기록은 없으며, 피로 수준이 높은 상태에서 휴식을 취하지 않은 것으로 판단된다.",
+      "confusion_level": "low"
+    },
+    "contract_pass": true,
+    "action_match": true,
+    "goal_match": true,
+    "feature_match": true,
+    "automatic_match": true,
+    "semantic_review": "pending",
+    "elapsed_seconds": 3.6825173340039328
+  },
+  {
+    "job": "c5_development_k_D05_1",
+    "case": "D05",
+    "repeat": 1,
+    "provider": "k",
+    "candidate": "c5",
+    "stage": "development",
+    "expected": {
+      "actions": [
+        "stay"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    },
+    "usage": {
+      "completion_tokens": 149,
+      "prompt_tokens": 1846,
+      "prompt_tokens_details": {
+        "cached_tokens": 672
+      },
+      "total_tokens": 1995
+    },
+    "finish_reason": "stop",
+    "raw": "{\n  \"evidence\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"길을 잃어 어디인지 모르겠으면 그 자리에 머물러 가족을 기다린다.\"\n    }\n  ],\n  \"state_check\": {\n    \"fatigue_band\": \"low\",\n    \"rest_phase\": \"not_recorded\"\n  },\n  \"assessment\": \"보호자는 길을 잃었을 때 이동하지 않고 그 자리에 머물며 가족을 기다린다고 진술했으며, 현재 피로 수준은 낮지만 휴식 기록이 없어 휴식 여부는 미확인 상태입니다. 현재 목적지(A)를 향해 이동 중이나.\",  \n  \"confusion_level\": \"medium\",\n  \"decision\": {\n    \"action\": \"seek\",\n    \"goal_label\": \"등록 장소 A\"\n  }\n}",
+    "parsed": {
+      "evidence": [
+        {
+          "note_id": "N0",
+          "quote": "길을 잃어 어디인지 모르겠으면 그 자리에 머물러 가족을 기다린다."
+        }
+      ],
+      "state_check": {
+        "fatigue_band": "low",
+        "rest_phase": "not_recorded"
+      },
+      "assessment": "보호자는 길을 잃었을 때 이동하지 않고 그 자리에 머물며 가족을 기다린다고 진술했으며, 현재 피로 수준은 낮지만 휴식 기록이 없어 휴식 여부는 미확인 상태입니다. 현재 목적지(A)를 향해 이동 중이나.",
+      "confusion_level": "medium",
+      "decision": {
+        "action": "seek",
+        "goal_label": "등록 장소 A"
+      }
+    },
+    "execution": {
+      "action": "seek",
+      "goal_operation": "set",
+      "goal_label": "등록 장소 A",
+      "avoid_feature": null,
+      "evidence_ids": [
+        "N0"
+      ],
+      "reason": "보호자는 길을 잃었을 때 이동하지 않고 그 자리에 머물며 가족을 기다린다고 진술했으며, 현재 피로 수준은 낮지만 휴식 기록이 없어 휴식 여부는 미확인 상태입니다. 현재 목적지(A)를 향해 이동 중이나.",
+      "confusion_level": "medium"
+    },
+    "contract_pass": true,
+    "action_match": false,
+    "goal_match": true,
+    "feature_match": true,
+    "automatic_match": false,
+    "semantic_review": "pending",
+    "elapsed_seconds": 3.625427082995884
+  },
+  {
+    "job": "c5_development_k_D06_1",
+    "case": "D06",
+    "repeat": 1,
+    "provider": "k",
+    "candidate": "c5",
+    "stage": "development",
+    "expected": {
+      "actions": [
+        "continue",
+        "seek",
+        "roam"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    },
+    "usage": {
+      "completion_tokens": 111,
+      "prompt_tokens": 1848,
+      "prompt_tokens_details": {
+        "cached_tokens": 672
+      },
+      "total_tokens": 1959
+    },
+    "finish_reason": "stop",
+    "raw": "{\"evidence\": [{\"note_id\": \"N0\", \"quote\": \"길을 잃어도 한 곳에서 기다리지 않고 가족을 찾으려고 계속 걸어 다닌다.\"}], \"state_check\": {\"fatigue_band\": \"low\", \"rest_phase\": \"not_recorded\"}, \"assessment\": \"보호자는 평소 길을 잃어도 한 곳에서 기다리지 않고 계속 걷는 행동을 기록함. 현재 피로 수준은 낮으나 휴식 기록은 확인되지 않음.\", \"confusion_level\": \"high\", \"decision\": {\"action\": \"seek\", \"goal_label\": \"등록 장소 A\"}}",
+    "parsed": {
+      "evidence": [
+        {
+          "note_id": "N0",
+          "quote": "길을 잃어도 한 곳에서 기다리지 않고 가족을 찾으려고 계속 걸어 다닌다."
+        }
+      ],
+      "state_check": {
+        "fatigue_band": "low",
+        "rest_phase": "not_recorded"
+      },
+      "assessment": "보호자는 평소 길을 잃어도 한 곳에서 기다리지 않고 계속 걷는 행동을 기록함. 현재 피로 수준은 낮으나 휴식 기록은 확인되지 않음.",
+      "confusion_level": "high",
+      "decision": {
+        "action": "seek",
+        "goal_label": "등록 장소 A"
+      }
+    },
+    "execution": {
+      "action": "seek",
+      "goal_operation": "set",
+      "goal_label": "등록 장소 A",
+      "avoid_feature": null,
+      "evidence_ids": [
+        "N0"
+      ],
+      "reason": "보호자는 평소 길을 잃어도 한 곳에서 기다리지 않고 계속 걷는 행동을 기록함. 현재 피로 수준은 낮으나 휴식 기록은 확인되지 않음.",
+      "confusion_level": "high"
+    },
+    "contract_pass": true,
+    "action_match": true,
+    "goal_match": true,
+    "feature_match": true,
+    "automatic_match": true,
+    "semantic_review": "pending",
+    "elapsed_seconds": 3.620794999995269
+  },
+  {
+    "job": "c5_development_k_D07_1",
+    "case": "D07",
+    "repeat": 1,
+    "provider": "k",
+    "candidate": "c5",
+    "stage": "development",
+    "expected": {
+      "actions": [
+        "avoid"
+      ],
+      "goal": null,
+      "avoid_feature": "market",
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    },
+    "usage": {
+      "completion_tokens": 150,
+      "prompt_tokens": 1849,
+      "prompt_tokens_details": {
+        "cached_tokens": 672
+      },
+      "total_tokens": 1999
+    },
+    "finish_reason": "stop",
+    "raw": "{\n  \"evidence\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"시장 주변이 조용하면 등록 장소 A로 계속 걷지만 시끄러우면 시장에서 멀어지는 길로 돌아간다.\"\n    }\n  ],\n  \"state_check\": {\n    \"fatigue_band\": \"low\",\n    \"rest_phase\": \"not_recorded\"\n  },\n  \"assessment\": \"시장 주변이 조용할 때 등록 장소 A로 계속 걷는다는 기록이 있으나, 현재 시장은 시끄럽고 보호자 진술의 조건(조용함)이 충족되지 않아 원래 행동 패턴을 따르기 어렵다.\",\n  \"confusion_level\": \"medium\",\n  \"decision\": {\n    \"action\": \"avoid\",\n    \"avoid_feature\": \"market\"\n  }\n}",
+    "parsed": {
+      "evidence": [
+        {
+          "note_id": "N0",
+          "quote": "시장 주변이 조용하면 등록 장소 A로 계속 걷지만 시끄러우면 시장에서 멀어지는 길로 돌아간다."
+        }
+      ],
+      "state_check": {
+        "fatigue_band": "low",
+        "rest_phase": "not_recorded"
+      },
+      "assessment": "시장 주변이 조용할 때 등록 장소 A로 계속 걷는다는 기록이 있으나, 현재 시장은 시끄럽고 보호자 진술의 조건(조용함)이 충족되지 않아 원래 행동 패턴을 따르기 어렵다.",
+      "confusion_level": "medium",
+      "decision": {
+        "action": "avoid",
+        "avoid_feature": "market"
+      }
+    },
+    "execution": {
+      "action": "avoid",
+      "goal_operation": "keep",
+      "goal_label": null,
+      "avoid_feature": "market",
+      "evidence_ids": [
+        "N0"
+      ],
+      "reason": "시장 주변이 조용할 때 등록 장소 A로 계속 걷는다는 기록이 있으나, 현재 시장은 시끄럽고 보호자 진술의 조건(조용함)이 충족되지 않아 원래 행동 패턴을 따르기 어렵다.",
+      "confusion_level": "medium"
+    },
+    "contract_pass": true,
+    "action_match": true,
+    "goal_match": true,
+    "feature_match": true,
+    "automatic_match": true,
+    "semantic_review": "pending",
+    "elapsed_seconds": 3.676336749922484
+  },
+  {
+    "job": "c5_development_k_D08_1",
+    "case": "D08",
+    "repeat": 1,
+    "provider": "k",
+    "candidate": "c5",
+    "stage": "development",
+    "expected": {
+      "actions": [
+        "continue",
+        "seek"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    },
+    "usage": {
+      "completion_tokens": 136,
+      "prompt_tokens": 1849,
+      "prompt_tokens_details": {
+        "cached_tokens": 1184
+      },
+      "total_tokens": 1985
+    },
+    "finish_reason": "stop",
+    "raw": "{\n  \"evidence\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"시장 주변이 조용하면 등록 장소 A로 계속 걷지만 시끄러우면 시장에서 멀어지는 길로 돌아간다.\"\n    }\n  ],\n  \"state_check\": {\n    \"fatigue_band\": \"low\",\n    \"rest_phase\": \"not_recorded\"\n  },\n  \"assessment\": \"시장 주변이 시끄럽지 않을 경우 등록 장소 A로 계속 걷는 조건문에 따르면, 현재 피로도가 낮고 휴식 기록이 없으므로 보행을 지속하는 것이 적절함.\",\n  \"confusion_level\": \"low\",\n  \"decision\": {\n    \"action\": \"continue\"\n  }\n}",
+    "parsed": {
+      "evidence": [
+        {
+          "note_id": "N0",
+          "quote": "시장 주변이 조용하면 등록 장소 A로 계속 걷지만 시끄러우면 시장에서 멀어지는 길로 돌아간다."
+        }
+      ],
+      "state_check": {
+        "fatigue_band": "low",
+        "rest_phase": "not_recorded"
+      },
+      "assessment": "시장 주변이 시끄럽지 않을 경우 등록 장소 A로 계속 걷는 조건문에 따르면, 현재 피로도가 낮고 휴식 기록이 없으므로 보행을 지속하는 것이 적절함.",
+      "confusion_level": "low",
+      "decision": {
+        "action": "continue"
+      }
+    },
+    "execution": {
+      "action": "continue",
+      "goal_operation": "keep",
+      "goal_label": null,
+      "avoid_feature": null,
+      "evidence_ids": [
+        "N0"
+      ],
+      "reason": "시장 주변이 시끄럽지 않을 경우 등록 장소 A로 계속 걷는 조건문에 따르면, 현재 피로도가 낮고 휴식 기록이 없으므로 보행을 지속하는 것이 적절함.",
+      "confusion_level": "low"
+    },
+    "contract_pass": true,
+    "action_match": true,
+    "goal_match": true,
+    "feature_match": true,
+    "automatic_match": true,
+    "semantic_review": "pending",
+    "elapsed_seconds": 3.602798041072674
+  }
+]

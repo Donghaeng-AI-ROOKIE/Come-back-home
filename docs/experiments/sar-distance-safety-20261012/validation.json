@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-10-11T15:44:23.364813+00:00",
+  "tests_passed": 6,
+  "current_score_parity": true,
+  "primary_and_area_budget_128_band_hit_changes": 0,
+  "strict_json": true,
+  "graph_sha256": "953d2bca91fe7388011e9ca161dc576c3c79366c578ed314d7cc8deea677db92",
+  "new_model_calls": 0,
+  "remote_runs": 0,
+  "actual_push": 0,
+  "cost_amount": null,
+  "product_default_changed": false,
+  "publication_scope": "research sources, numeric summaries, protocols without personal coordinates, synthetic illustrative plots"
+}

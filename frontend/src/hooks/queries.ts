@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getActiveAlerts, getGuidance, getNearbyWalks, getPoaPrediction, getResolvedAlerts, touchPresence } from '../api/client';
+import { isCaseEnded } from '../api/errors';
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
 import { getAreaLabels, getCase, getMyCases, getPersonaStatus, listPersonas, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
@@ -11,6 +12,7 @@ import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import { useMyLocation } from './useMyLocation';
 import { LAST_SEEN } from '../data/missing';
 import { cellOf } from '../utils/h3cell';
+import { useTargetingPolicy } from './useTargetingPolicy';
 import type { TimeAxis } from '../types/domain';
 
 // ── 수색 ──────────────────────────────────────────────────────────
@@ -34,22 +36,24 @@ import type { TimeAxis } from '../types/domain';
 export const ALERT_POLL_MS = 15_000;
 
 export function useActiveAlerts(enabled = true) {
+  const policy = useTargetingPolicy(enabled);
   const { point } = useMyLocation(enabled);
   const forceInArea = useDebugStore((s) => s.forceInAlertArea);
   // 데모 오버라이드는 "판정을 건너뛰는" 게 아니라 **위치를 갈아끼우는** 쪽으로
   // 건다. 서버가 대상을 고르는 구조라 필터만 꺼봐야 받을 게 없기 때문이고,
   // 실제 동작(내 칸으로 묻는다)을 그대로 타는 편이 시연으로서도 정직하다.
-  const cell = cellOf(forceInArea ? LAST_SEEN : point);
-  return useQuery({
+  const cell = policy.resolution == null ? null : cellOf(forceInArea ? LAST_SEEN : point, policy.resolution);
+  const query = useQuery({
     queryKey: ['activeAlerts', cell],
     queryFn: () => getActiveAlerts(cell),
-    enabled,
+    enabled: enabled && policy.resolution != null,
     // 앱을 열어 둔 채로 신고가 접수되는 경우를 이 주기가 잡는다. 골든타임이라
     // 오래 모르고 있으면 안 되고, 응답이 경보 몇 건짜리 배열이라 서버 부담도
     // 크지 않다(presence 하트비트가 이미 30초).
     refetchInterval: ALERT_POLL_MS,
     refetchOnWindowFocus: true,
   });
+  return { ...query, isError: query.isError || policy.isError, error: query.error ?? policy.error };
 }
 
 /**
@@ -63,26 +67,35 @@ export function useActiveAlerts(enabled = true) {
  * 대가 서버에 거는 요청이 그대로 두 배가 된다.
  */
 export function useResolvedAlerts(enabled = true) {
+  const policy = useTargetingPolicy(enabled);
   const { point } = useMyLocation(enabled);
   const forceInArea = useDebugStore((s) => s.forceInAlertArea);
-  const cell = cellOf(forceInArea ? LAST_SEEN : point);
+  const cell = policy.resolution == null ? null : cellOf(forceInArea ? LAST_SEEN : point, policy.resolution);
   return useQuery({
     queryKey: ['resolvedAlerts', cell],
     queryFn: () => getResolvedAlerts(cell),
-    enabled,
+    enabled: enabled && policy.resolution != null,
     refetchInterval: ALERT_POLL_MS * 4,
     refetchOnWindowFocus: true,
   });
 }
+
+/**
+ * 끝난 사건(삭제·종결)은 재시도도 주기 조회도 하지 않는다. 그 밖의 실패는
+ * 기존처럼 기본 3회 재시도 후 다음 주기에 다시 묻는다 — 일시 장애까지 멈추면
+ * 지도가 회복되지 않는다.
+ */
+const retryUnlessEnded = (failureCount: number, error: unknown) => !isCaseEnded(error) && failureCount < 3;
 
 export function usePoaPrediction(caseId: string, t: TimeAxis) {
   const result = useQuery({
     queryKey: ['poa', caseId, t],
     queryFn: () => getPoaPrediction(caseId, t),
     enabled: !!caseId,
-    refetchInterval: ALERT_POLL_MS,
+    retry: retryUnlessEnded,
+    refetchInterval: (q) => (isCaseEnded(q.state.error) ? false : ALERT_POLL_MS),
   });
-  return { ...result, data: result.isError ? undefined : result.data };
+  return { ...result, data: result.isError ? undefined : result.data, ended: isCaseEnded(result.error) };
 }
 
 export function useCase(caseId: string) {
@@ -121,8 +134,8 @@ export function useNearbyWalks() {
     queryKey: ['nearbyWalks', key],
     queryFn: () => getNearbyWalks(point!),
     enabled: point != null,
-    // 동네의 공원은 바뀌지 않는다 — 세션 동안 다시 묻지 않는다.
-    staleTime: Infinity,
+    // Empty results and temporary map failures must not persist for the whole session.
+    staleTime: 5 * 60_000,
     // 실패해도 다시 시도하지 않는다. 외부 지도 서비스가 느린 날 재시도가 붙으면
     // 대기 시간이 두 배가 되고, 그동안 화면에는 스피너만 돈다.
     retry: false,
@@ -228,7 +241,8 @@ export function usePresence(caseId: string, enabled = true) {
     queryKey: ['presence', caseId],
     queryFn: () => touchPresence(caseId),
     enabled: enabled && !!caseId,
-    refetchInterval: PRESENCE_POLL_MS,
+    // 끝난 사건에 하트비트를 계속 보내면 계산 줄만 점유한다.
+    refetchInterval: (q) => (isCaseEnded(q.state.error) ? false : PRESENCE_POLL_MS),
     staleTime: 0,
     retry: false,
   });
@@ -269,7 +283,8 @@ export function useGuidance(caseId: string, enabled = true) {
     // 서버가 LLM 으로 문구를 다듬는 **동안만** 다시 묻는다. 서버는 기다리지 않고
     // 템플릿을 먼저 주므로(골든타임), 이게 없으면 다듬은 문구가 화면에 영영 안 온다.
     // 항상 폴링하지 않는 이유: 다듬기는 사건당 한 번뿐이라 끝나면 물어볼 게 없다.
-    refetchInterval: (q) => (q.state.data?.pending ? 3_000 : false),
+    // 실패해도 직전 data(pending=true)가 남으므로 끝난 사건이면 먼저 끊는다.
+    refetchInterval: (q) => (!isCaseEnded(q.state.error) && q.state.data?.pending ? 3_000 : false),
   });
 }
 

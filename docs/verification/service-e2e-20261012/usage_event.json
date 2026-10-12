@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "event_id": "aba33215-28c4-486a-9820-8ae69f3c25d7",
+  "recorded_at": "2026-10-12T04:55:14.428479+00:00",
+  "event_type": "service_settings_read_finished",
+  "run_id": "SERVICE_E2E_DOC_20261012",
+  "authenticated_remote_commands": 1,
+  "model_calls": 0,
+  "actual_push": 0,
+  "deployment_changes": 0,
+  "actual_cost": null,
+  "cost_status": "unconfirmed",
+  "evidence": "docs/verification/service-e2e-20261012/runtime-settings.json"
+}

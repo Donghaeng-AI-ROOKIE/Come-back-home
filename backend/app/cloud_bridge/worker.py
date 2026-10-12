@@ -19,6 +19,83 @@ from app.llm.usage_ledger import append_event
 
 log = logging.getLogger(__name__)
 
+# Work that an endpoint deliberately left running after its response (FastAPI
+# BackgroundTasks: tip layer-2 re-prediction, post-prediction alerts). The
+# compute lane stops claiming new jobs while this many are still running so
+# heavy recomputations cannot pile up without bound.
+MAX_CONTINUATIONS = 2
+
+
+class EarlyResponseTransport(httpx.AsyncBaseTransport):
+    """In-process ASGI call that returns as soon as the response body is complete.
+
+    httpx.ASGITransport awaits the whole app call, which includes background
+    tasks. Under uvicorn those run after the client already has its answer; here
+    they held the tip job and the single compute consumer for the full layer-2
+    re-prediction (about 2.5 min on 2026-10-12, other users' maps queued behind).
+    """
+
+    def __init__(self, app):
+        self.app = app
+        self.pending: set[asyncio.Task] = set()
+
+    async def handle_async_request(self, request: httpx.Request) -> httpx.Response:
+        body = await request.aread()
+        scope = {
+            'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1',
+            'method': request.method,
+            'headers': [(k.lower(), v) for (k, v) in request.headers.raw],
+            'scheme': request.url.scheme, 'path': request.url.path,
+            'raw_path': request.url.raw_path.split(b'?')[0],
+            'query_string': request.url.query,
+            'server': (request.url.host, request.url.port),
+            'client': ('127.0.0.1', 123), 'root_path': '',
+        }
+        status, headers, parts = None, [], []
+        complete = asyncio.Event()
+        sent = False
+
+        async def receive():
+            nonlocal sent
+            if sent:
+                await complete.wait()
+                return {'type': 'http.disconnect'}
+            sent = True
+            return {'type': 'http.request', 'body': body, 'more_body': False}
+
+        async def send(message):
+            nonlocal status, headers
+            if message['type'] == 'http.response.start':
+                status, headers = message['status'], message.get('headers', [])
+            elif message['type'] == 'http.response.body':
+                if message.get('body'):
+                    parts.append(message['body'])
+                if not message.get('more_body', False):
+                    complete.set()
+
+        app_task = asyncio.create_task(self.app(scope, receive, send))
+        waiter = asyncio.create_task(complete.wait())
+        try:
+            await asyncio.wait({app_task, waiter}, return_when=asyncio.FIRST_COMPLETED)
+        finally:
+            waiter.cancel()
+        if not complete.is_set():
+            app_task.result()  # an exception before the response propagates as before
+            raise RuntimeError('ASGI app finished without a complete response')
+        if app_task.done():
+            # Starlette sends its 500 and then re-raises; keep the old propagation.
+            app_task.result()
+        else:
+            self.pending.add(app_task)
+            app_task.add_done_callback(self._continuation_done)
+        return httpx.Response(status, headers=headers, content=b''.join(parts), request=request)
+
+    def _continuation_done(self, task: asyncio.Task):
+        self.pending.discard(task)
+        if not task.cancelled() and task.exception() is not None:
+            # The client already has its answer; the endpoint's own data stays saved.
+            log.error('Work after response failed: %s', type(task.exception()).__name__)
+
 
 class Cloud:
     def __init__(self, url: str, key: str):
@@ -107,9 +184,12 @@ async def execute(cloud, api, job, *, enabled):
             await task
 
 
-async def consume(cloud, api, lane, enabled):
+async def consume(cloud, api, lane, enabled, continuations=None):
     while True:
         try:
+            # Read jobs never wait: they are cheap and keep lists/alerts responsive.
+            while lane == 'compute' and continuations is not None and len(continuations) >= MAX_CONTINUATIONS:
+                await asyncio.sleep(1)
             job = await cloud.rpc('cbh_claim', p_lane=lane)
             if job:
                 await execute(cloud, api, job, enabled=enabled)
@@ -129,10 +209,11 @@ async def main():
     cloud = Cloud(os.environ['SUPABASE_URL'], os.environ['SUPABASE_SERVICE_ROLE_KEY'])
     try:
         async with lifecycle:
-            async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),
+            transport = EarlyResponseTransport(app)
+            async with httpx.AsyncClient(transport=transport,
                     base_url='http://private-engine', timeout=None) as api:
                 await asyncio.gather(consume(cloud, api, 'read', enabled),
-                                     consume(cloud, api, 'compute', enabled))
+                                     consume(cloud, api, 'compute', enabled, transport.pending))
     finally:
         await cloud.client.aclose()
 

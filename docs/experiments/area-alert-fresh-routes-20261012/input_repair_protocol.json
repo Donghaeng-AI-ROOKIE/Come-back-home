@@ -1,0 +1,21 @@
+{
+  "reason": "Four speed-bound violations caused by nearest-node snap at departure; retain exact directed-edge position instead.",
+  "selection_frozen": {
+    "selected_candidate": "area6",
+    "eligible": [
+      "area6"
+    ],
+    "protocol_sha256": "f300f37a598aa991ec6d1861edc4685efe1285f15829b5e5a0b8d28ef689c867",
+    "development_rows_sha256": "4c1c0674360d72ab489021c66a678dde8520825236544ac17fffefadca9d2da4",
+    "validation_scored": false
+  },
+  "parameter_changes": false,
+  "profile_changes": false,
+  "seed_changes": false,
+  "old_truth_sha256": "2f168263058da17f765b35bd98d072b6dc6695a2c0066d45d972d41e16c3741f",
+  "corrected_generator_sha256": "628432ce55a4baed0fe4e2f591176541e56b963ccd64e65c5ff5b9db9bcc0ceb",
+  "new_external_calls_max": 0,
+  "new_actual_push_max": 0,
+  "new_truth_routes_max": 351,
+  "cost": null
+}

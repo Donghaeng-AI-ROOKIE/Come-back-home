@@ -1,0 +1,9 @@
+{
+  "selected_candidate": "area6",
+  "eligible": [
+    "area6"
+  ],
+  "protocol_sha256": "f300f37a598aa991ec6d1861edc4685efe1285f15829b5e5a0b8d28ef689c867",
+  "development_rows_sha256": "4538a311c4e4a4cb5159648d699c02239aaf3e25a8d6b3b83b5a6a916547ec33",
+  "validation_scored": false
+}

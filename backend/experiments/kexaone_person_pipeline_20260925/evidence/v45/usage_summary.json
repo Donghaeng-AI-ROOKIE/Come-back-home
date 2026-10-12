@@ -1,0 +1,12 @@
+{
+  "experiment": "KEXAONE_joint_audit_v45_20260925",
+  "K_calls": 4,
+  "reported_tokens": {
+    "prompt_tokens": 11116,
+    "completion_tokens": 23590,
+    "total_tokens": 34706
+  },
+  "actual_cost": null,
+  "unit_price": null,
+  "support_round": null
+}

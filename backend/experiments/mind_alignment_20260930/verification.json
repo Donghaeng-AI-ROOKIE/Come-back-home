@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "archived_files": 188,
+  "release": {
+    "frontend": {
+      "n": 16,
+      "command": 15,
+      "contract": 16
+    },
+    "canary": {
+      "n": 80,
+      "command": 72,
+      "contract": 79
+    },
+    "natural": {
+      "n": 80,
+      "command": 71,
+      "contract": 80
+    }
+  },
+  "request_bodies_reproduced": 176,
+  "conditional_remainder_not_run": 280,
+  "dataset_rows": {
+    "train": 2160,
+    "development": 180,
+    "evaluation": 360
+  },
+  "k_calls": 511,
+  "k_input_tokens": 896971,
+  "k_output_tokens": 1368911,
+  "archived_training_runs": 2,
+  "archived_gpu_generations": 32,
+  "new_calls_for_audit": 0
+}

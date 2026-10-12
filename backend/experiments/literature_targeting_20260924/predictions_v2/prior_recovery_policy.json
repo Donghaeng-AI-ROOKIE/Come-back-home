@@ -1,0 +1,7 @@
+{
+  "wrapper_sha256": "0c061a4b4d4ae282a02604268b41c48b923977860daf47ed721bad0309e1420e",
+  "max_prior_format_attempts": 3,
+  "reason": "prior JSON format failure after 33 development checkpoints; no outcome-based retry",
+  "completed_valid_checkpoints": "preserved; generation policy unchanged",
+  "scope": "development remainder and evaluation"
+}

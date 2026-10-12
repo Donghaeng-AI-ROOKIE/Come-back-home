@@ -23,13 +23,22 @@ import type {
 } from '../types/domain';
 import { DEMO_CASE_ID } from '../data/missing';
 import { tierForProb } from '../theme/poa';
-import { buildAlert, buildBeforeAfter, buildPoaGrid } from '../data/mock';
+import { targetingResolution, type TargetingPolicy } from '../utils/targetingPolicy';
+
+import { buildAlert, buildPoaGrid } from '../data/mock';
 import { CLOUD_TRANSPORT } from './supabase';
 import { DEMO_USER_ID, SLOW_TIMEOUT_MS, USE_MOCK, api } from './config';
 
 export { API_BASE, USE_MOCK, ApiError } from './config';
 export { DEMO_CASE_ID };
 
+export async function getTargetingPolicy(): Promise<TargetingPolicy> {
+  const policy = USE_MOCK ? { target_res: 7, coverage: 0.8, targeting_policy: 'mock', location_ttl_seconds: 300 }
+    // Existing Supabase read lane avoids waiting behind a model prediction job.
+    : await api<TargetingPolicy>('/phase3/webpush/public-key');
+  if (targetingResolution(policy) == null) throw new Error('Unsupported targeting resolution');
+  return policy as TargetingPolicy;
+}
 type PoaResponse = {
   top_cells: { cell: string; prob: number; polygon: GeoPoint[] }[];
   /** prior 출처 — 폴백(개인화 없음)을 앱이 숨기지 않고 알리기 위한 값. */
@@ -68,9 +77,6 @@ function polygonCentroid(poly: GeoPoint[]): GeoPoint {
   const s = poly.reduce((a, p) => ({ lat: a.lat + p.lat, lng: a.lng + p.lng }), { lat: 0, lng: 0 });
   return { lat: s.lat / n, lng: s.lng / n };
 }
-
-/** H3 res9 육각형 1칸의 넓이(km²) — 알림 면적 환산에 쓴다(고정 상수). */
-const CELL_AREA_KM2 = 0.105;
 
 function toGrid(caseId: string, t: TimeAxis, data: PoaResponse): PoaGrid {
   // 백엔드 prob 는 전체 셀 합=1 기준이라 개별 값이 작다 → 최댓값 대비 상대값으로
@@ -123,8 +129,11 @@ export async function getPoaPrediction(caseId: string, t: TimeAxis): Promise<Poa
 /**
  * 제보 전송.
  *
- * 백엔드는 before/after 를 주지 않으므로 **전송 전후로 POA 를 두 번 읽어**
- * 수색 구역 변화를 계산한다. 목업이 만들어 내던 숫자가 아니라 실제 갱신 결과다.
+ * **접수되면 바로 돌아온다.** 재예측은 서버가 응답 뒤에 따로 돌리고, 새 지도는
+ * 지도 화면의 주기 조회가 받아 간다. 예전에는 전송 전후로 지도를 한 번씩 더 읽어
+ * 구역 변화를 계산했는데, 완료 화면은 그 값을 쓰지 않았고 두 조회 모두 같은
+ * 계산 줄에서 기다려 제보자의 대기만 늘렸다(2026-10-12 운영 기록). 재계산이
+ * 끝나기 전에 읽은 '이후' 지도는 이전 지도와 같아 변화 수치도 의미가 없다.
  *
  * 위치를 특정하지 못하면 백엔드가 `{status:"need_more"}` 로 되묻는다 —
  * 이때는 던지지 않고 그대로 반환해 챗봇이 한 번 더 묻게 한다.
@@ -135,7 +144,6 @@ export async function submitTip(
   opts: { force?: boolean; reporterUserId?: string } = {},
 ): Promise<TipResult | NeedMore> {
   if (USE_MOCK) {
-    const { before, after, beforeKm2, afterKm2 } = buildBeforeAfter();
     const tip: Tip = {
       id: `tip-${Math.round(Date.now() / 1000)}`,
       caseId,
@@ -147,12 +155,9 @@ export async function submitTip(
       decision: 'layer1',
       createdAt: new Date().toISOString(),
     };
-    const deltaPct = Math.round(((afterKm2 - beforeKm2) / beforeKm2) * 100);
-    return delay({ tip, beforeAreaKm2: beforeKm2, afterAreaKm2: afterKm2, deltaPct,
-      beforeGrid: before, afterGrid: after }, 700);
+    return delay({ tip }, 700);
   }
 
-  const before = await api<PoaResponse>(`/phase3/cases/${caseId}/poa?top=64`);
   const body = JSON.stringify({
     text: input.text,
     location: input.location ?? null,
@@ -165,10 +170,8 @@ export async function submitTip(
   try {
     res = await api<TipResponse | NeedMore>(`/phase3/cases/${caseId}/tips`, {
       method: 'POST',
-      // 고신뢰 제보는 **층2(새 LKP 로 재예측)** 를 발동시킨다 — 그 순간 이 요청
-      // 하나가 예측 한 판을 통째로 품는다(실측 08-12: 29.5초, 새 지역이면 2분 초과).
-      // 기본 12초로 끊으면 재예측이 중간에 잘려 **사건에 POA 가 없는 상태**가 남고,
-      // 시민 화면의 확률지도가 통째로 비어 버린다.
+      // 재예측은 응답 뒤에 돌지만, 위치·시각 추출(Mi:dm)과 계산 줄 대기가 기본
+      // 12초를 넘을 수 있어 넉넉히 둔다. 끊겨도 아래에서 접수 여부를 확인한다.
       timeoutMs: SLOW_TIMEOUT_MS,
       body,
     });
@@ -190,9 +193,6 @@ export async function submitTip(
   }
   if ('status' in res && res.status === 'need_more') return res;
 
-  const after = await api<PoaResponse>(`/phase3/cases/${caseId}/poa?top=64`);
-  const beforeKm2 = before.top_cells.length * CELL_AREA_KM2;
-  const afterKm2 = after.top_cells.length * CELL_AREA_KM2;
   const tipRes = res as TipResponse;
   return {
     tip: {
@@ -206,12 +206,6 @@ export async function submitTip(
       decision: tipRes.decision ?? undefined,
       createdAt: tipRes.created_at,
     },
-    beforeAreaKm2: Number(beforeKm2.toFixed(2)),
-    afterAreaKm2: Number(afterKm2.toFixed(2)),
-    // 음수 = 좁혀짐. before 가 0 이면 나눗셈이 무한대가 되므로 0 으로 둔다.
-    deltaPct: beforeKm2 > 0 ? Math.round(((afterKm2 - beforeKm2) / beforeKm2) * 100) : 0,
-    beforeGrid: toGrid(caseId, 0, before),
-    afterGrid: toGrid(caseId, 0, after),
   };
 }
 
@@ -244,7 +238,7 @@ async function findLandedTip(caseId: string, text: string,
 export type AlertSendResult = {
   /** 예측 셀(res9) 수. 대상 구역의 크기. */
   sourceCells: number;
-  /** 발송 대상 res7 셀 목록. 폰이 관문 판정에 쓰는 그 목록과 같다. */
+  /** 서버 해상도의 발송 대상 셀 목록. 폰이 관문 판정에 쓰는 그 목록과 같다. */
   targetCells: string[];
   /** 대상 구역 안에 있던 기기 수(확률 문턱 적용 **전**). */
   inArea: number;
@@ -286,7 +280,7 @@ type AlertResponse = {
   area: string;
   severity: Severity;
   kind: AlertKind;
-  /** 대상 H3 셀(res7)과 그 해상도 — 폰이 자기 칸과 대조해 관문 여부를 정한다. */
+  /** 대상 H3 셀과 그 해상도 — 폰이 자기 칸과 대조해 관문 여부를 정한다. */
   target_cells: string[];
   target_res: number;
   summary: string;
@@ -325,14 +319,14 @@ type ResolvedAlertResponse = {
  * 푸시에서 최소화해 둔 것을 조회 경로가 무효화하는 셈. 발송과 **같은 기준**으로
  * 서버가 고른다(백엔드 `GET /phase3/alerts`).
  *
- * @param cellRes7 내 위치의 res7 셀. **null 이면 서버가 빈 목록을 준다** —
+ * @param targetCell 서버 설정에 맞춘 내 현재 위치의 H3 셀. **null 이면 서버가 빈 목록을 준다** —
  *   위치를 모르면 어느 사건이 나에게 해당되는지 고를 수 없기 때문(fail-closed).
  */
-export async function getActiveAlerts(cellRes7: string | null): Promise<PoliceAlert[]> {
-  if (USE_MOCK) return delay(cellRes7 ? [buildAlert()] : []);
-  if (cellRes7 == null) return [];
+export async function getActiveAlerts(targetCell: string | null): Promise<PoliceAlert[]> {
+  if (USE_MOCK) return delay(targetCell ? [buildAlert()] : []);
+  if (targetCell == null) return [];
   const rows = await api<AlertResponse[]>(
-    `/phase3/alerts?cell_res7=${encodeURIComponent(cellRes7)}`,
+    `/phase3/alerts?target_cell=${encodeURIComponent(targetCell)}`,
   );
   return rows.map((r) => ({
     caseId: r.case_id,
@@ -357,17 +351,17 @@ export async function getActiveAlerts(cellRes7: string | null): Promise<PoliceAl
 /**
  * 최근 **무사히 발견된** 사건 — 긴급 알림 화면의 '상황 종료' 카드(시안).
  *
- * 활성 경보와 같은 res7 기준으로 서버가 고른다. 내 칸이 없으면 빈 목록이다 —
+ * 활성 경보와 같은 해상도 기준으로 서버가 고른다. 내 칸이 없으면 빈 목록이다 —
  * 위치를 모르면 어느 사건이 "내 주변에서 있었던 일"인지 고를 수 없다.
  *
  * 인상착의·좌표는 **오지 않는다.** 이미 찾은 사람에게는 필요 없는 정보이고,
  * 파기를 기다리는 개인정보를 계속 뿌릴 이유가 없다(백엔드 describe_resolved).
  */
-export async function getResolvedAlerts(cellRes7: string | null): Promise<ResolvedAlert[]> {
+export async function getResolvedAlerts(targetCell: string | null): Promise<ResolvedAlert[]> {
   if (USE_MOCK) return delay([]);
-  if (cellRes7 == null) return [];
+  if (targetCell == null) return [];
   const rows = await api<ResolvedAlertResponse[]>(
-    `/phase3/alerts/resolved?cell_res7=${encodeURIComponent(cellRes7)}`,
+    `/phase3/alerts/resolved?target_cell=${encodeURIComponent(targetCell)}`,
   );
   return rows.map((r) => ({
     caseId: r.case_id,
@@ -413,6 +407,7 @@ export type NearbyWalk = {
 export async function getNearbyWalks(point: GeoPoint, limit = 4): Promise<NearbyWalk[]> {
   return api<NearbyWalk[]>(
     `/geo/nearby-walks?lat=${point.lat}&lng=${point.lng}&limit=${limit}`,
+    { timeoutMs: 45_000 },
   );
 }
 
@@ -436,22 +431,21 @@ export async function touchPresence(caseId: string): Promise<number> {
  * 서버가 토큰을 영속 저장하는 것은 푸시의 본질상 회피할 수 없다. 대신 붙는 정보를
  * 최소로 깎는다 — 백엔드 `schemas/device.py` 의 경계와 짝을 이룬다.
  *
- *   ✅ cellRes7   폰이 좌표를 res7(≈5km²)로 **직접 바꾼 값**. 정밀 좌표는 기기를
- *                 떠나지 않는다. null 이면 "이번엔 위치를 못 구했다"는 뜻이고,
- *                 서버는 마지막으로 알던 칸을 지우지 않는다.
- *   ✅ engagement 참여도 **등급**만. 열람·제보 횟수 원본은 폰에만 있다.
- *   ❌ 좌표·정밀 셀·위치 이력·제보 이력
+ * 서버 해상도(res7/8/9)의 현재 H3 셀을 보낸다. 작은 셀은 더 작은 위치 구역을
+ * 드러낸다. 좌표·이동 이력·제보 이력은 전송하지 않는다. native null은 마지막
+ * 관측을 갱신하지 않으며 fine 셀은 5분 후 대상에서 제외된다. 웹 null은 지운다.
+ * 참여도는 등급만 보내고 원시 이력은 보내지 않는다.
  */
 export async function registerDevice(
   token: string,
   platform: 'android' | 'ios',
-  cellRes7: string | null = null,
+  targetCell: string | null = null,
   engagement: 'high' | 'normal' | 'low' = 'normal',
 ): Promise<void> {
   if (USE_MOCK) return;
   await api('/phase3/devices', {
     method: 'POST',
-    body: JSON.stringify({ token, platform, cell_res7: cellRes7, engagement }),
+    body: JSON.stringify({ token, platform, target_cell: targetCell, engagement }),
   });
 }
 

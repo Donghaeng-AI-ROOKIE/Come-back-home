@@ -48,7 +48,12 @@
     "web": "expo start --web",
     "//build:web": "웹 배포본을 만든다. 부팅 감시기 심기까지 한 번에 — 따로 돌리면 잊는다.",
     "build:web": "expo export --platform web && node scripts/patch-boot-guard.mjs",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "build:web:cloud": "node scripts/build-cloud-web.mjs"
   },
-  "private": true
+  "private": true,
+  "overrides": {
+    "@react-navigation/core": "7.23.0",
+    "nanoid@^3": "3.3.18"
+  }
 }

@@ -1,0 +1,3921 @@
+[
+  {
+    "preparation": "claim_deletion_r1",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "wait_for_help",
+        "note_ids": [
+          "N1"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 5203,
+      "prompt_tokens": 4456,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 9659
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "claim_deletion_r1",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "wait_for_help",
+        "note_ids": [
+          "N1"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 4001,
+      "prompt_tokens": 4896,
+      "prompt_tokens_details": {
+        "cached_tokens": 3840
+      },
+      "total_tokens": 8897
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "claim_deletion_r1",
+    "role": "initial_person_core",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "repeated_statement",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "historical_only",
+          "period": "unspecified",
+          "note_ids": [
+            "N3",
+            "N5"
+          ]
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": []
+    },
+    "usage": {
+      "completion_tokens": 2553,
+      "prompt_tokens": 3496,
+      "prompt_tokens_details": {
+        "cached_tokens": 1248
+      },
+      "total_tokens": 6049
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "claim_deletion_r1",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "repeated_statement",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "historical_only",
+          "period": "unspecified",
+          "note_ids": [
+            "N3",
+            "N5"
+          ]
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 5904,
+      "prompt_tokens": 4531,
+      "prompt_tokens_details": {
+        "cached_tokens": 2368
+      },
+      "total_tokens": 10435
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "claim_deletion_r1",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 989,
+      "completion_tokens": 9,
+      "total_tokens": 998
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "claim_deletion_r1",
+    "role": "midm_02",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 993,
+      "completion_tokens": 9,
+      "total_tokens": 1002
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "claim_deletion_r2",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "wait_for_help",
+        "note_ids": [
+          "N1"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 4627,
+      "prompt_tokens": 4456,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 9083
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "claim_deletion_r2",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "wait_for_help",
+        "note_ids": [
+          "N1"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 6244,
+      "prompt_tokens": 4896,
+      "prompt_tokens_details": {
+        "cached_tokens": 3840
+      },
+      "total_tokens": 11140
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "claim_deletion_r2",
+    "role": "initial_person_core",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "repeated_statement",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "historical_only",
+          "period": "unspecified",
+          "note_ids": [
+            "N3",
+            "N5"
+          ]
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "hiding_or_staying",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 6687,
+      "prompt_tokens": 3496,
+      "prompt_tokens_details": {
+        "cached_tokens": 1248
+      },
+      "total_tokens": 10183
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "claim_deletion_r2",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "repeated_statement",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "historical_only",
+          "period": "unspecified",
+          "note_ids": [
+            "N3",
+            "N5"
+          ]
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 11275,
+      "prompt_tokens": 4650,
+      "prompt_tokens_details": {
+        "cached_tokens": 2368
+      },
+      "total_tokens": 15925
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "claim_deletion_r2",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 989,
+      "completion_tokens": 9,
+      "total_tokens": 998
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "claim_deletion_r2",
+    "role": "midm_02",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 993,
+      "completion_tokens": 9,
+      "total_tokens": 1002
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "fresh_collection_old_event_r1",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "missing",
+        "pattern": "unresolved",
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 6657,
+      "prompt_tokens": 4018,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 10675
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "fresh_collection_old_event_r1",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "missing",
+        "pattern": "unresolved",
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [
+            "N3"
+          ],
+          "condition_clauses": [],
+          "spatial_scope": "place_specific",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 3620,
+      "prompt_tokens": 4453,
+      "prompt_tokens_details": {
+        "cached_tokens": 3680
+      },
+      "total_tokens": 8073
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "fresh_collection_old_event_r1",
+    "role": "initial_person_core",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "historical_only",
+          "period": "unspecified",
+          "note_ids": [
+            "N3"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "unknown",
+          "note_ids": [
+            "N3"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 7035,
+      "prompt_tokens": 3118,
+      "prompt_tokens_details": {
+        "cached_tokens": 1216
+      },
+      "total_tokens": 10153
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "fresh_collection_old_event_r1",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "historical_only",
+          "period": "unspecified",
+          "note_ids": [
+            "N3"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "unknown",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 6018,
+      "prompt_tokens": 4161,
+      "prompt_tokens_details": {
+        "cached_tokens": 2240
+      },
+      "total_tokens": 10179
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "fresh_collection_old_event_r1",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 899,
+      "completion_tokens": 9,
+      "total_tokens": 908
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "fresh_collection_old_event_r2",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "missing",
+        "pattern": "unresolved",
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 1265,
+      "prompt_tokens": 4018,
+      "prompt_tokens_details": {
+        "cached_tokens": 4000
+      },
+      "total_tokens": 5283
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "fresh_collection_old_event_r2",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "missing",
+        "pattern": "unresolved",
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 7952,
+      "prompt_tokens": 4453,
+      "prompt_tokens_details": {
+        "cached_tokens": 3680
+      },
+      "total_tokens": 12405
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "fresh_collection_old_event_r2",
+    "role": "initial_person_core",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "historical_only",
+          "period": "unspecified",
+          "note_ids": [
+            "N3"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "unknown",
+          "note_ids": [
+            "N3"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": []
+    },
+    "usage": {
+      "completion_tokens": 1137,
+      "prompt_tokens": 3118,
+      "prompt_tokens_details": {
+        "cached_tokens": 3104
+      },
+      "total_tokens": 4255
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "fresh_collection_old_event_r2",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "historical_only",
+          "period": "unspecified",
+          "note_ids": [
+            "N3"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "unknown",
+          "note_ids": [
+            "N3"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 4598,
+      "prompt_tokens": 4139,
+      "prompt_tokens_details": {
+        "cached_tokens": 2240
+      },
+      "total_tokens": 8737
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "fresh_collection_old_event_r2",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 899,
+      "completion_tokens": 9,
+      "total_tokens": 908
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r1",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "wait_for_help",
+        "note_ids": [
+          "N1"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [
+          "N1"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 6025,
+      "prompt_tokens": 4124,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 10149
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r1",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "wait_for_help",
+        "note_ids": [
+          "N1"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [
+          "N1"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 3334,
+      "prompt_tokens": 4567,
+      "prompt_tokens_details": {
+        "cached_tokens": 3712
+      },
+      "total_tokens": 7901
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r1",
+    "role": "initial_person_core",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "repeated_statement",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "person_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 6066,
+      "prompt_tokens": 3204,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 9270
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r1",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "repeated_statement",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "person_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        },
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 3170,
+      "prompt_tokens": 4303,
+      "prompt_tokens_details": {
+        "cached_tokens": 2272
+      },
+      "total_tokens": 7473
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r1",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 906,
+      "completion_tokens": 9,
+      "total_tokens": 915
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r1",
+    "role": "midm_02",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 910,
+      "completion_tokens": 9,
+      "total_tokens": 919
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r2",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "wait_for_help",
+        "note_ids": [
+          "N1"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 8658,
+      "prompt_tokens": 4124,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 12782
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r2",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "wait_for_help",
+        "note_ids": [
+          "N1"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 5331,
+      "prompt_tokens": 4564,
+      "prompt_tokens_details": {
+        "cached_tokens": 3712
+      },
+      "total_tokens": 9895
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r2",
+    "role": "initial_person_core",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "repeated_statement",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 3106,
+      "prompt_tokens": 3204,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 6310
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r2",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "repeated_statement",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 3721,
+      "prompt_tokens": 4277,
+      "prompt_tokens_details": {
+        "cached_tokens": 2272
+      },
+      "total_tokens": 7998
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r2",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 906,
+      "completion_tokens": 9,
+      "total_tokens": 915
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "identity_only_r2",
+    "role": "midm_02",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 910,
+      "completion_tokens": 9,
+      "total_tokens": 919
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "incident_update_old_profile_r1",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "missing",
+        "pattern": "unresolved",
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 5597,
+      "prompt_tokens": 4191,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 9788
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "incident_update_old_profile_r1",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "missing",
+        "pattern": "unresolved",
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "none",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "none",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "approach",
+          "condition": "none",
+          "note_ids": [
+            "N4"
+          ],
+          "condition_clauses": [],
+          "spatial_scope": "place_specific",
+          "basis_situations": [
+            {
+              "note_id": "N4",
+              "situation": "destination_trip"
+            }
+          ]
+        },
+        "market": {
+          "response": "approach",
+          "condition": "none",
+          "note_ids": [
+            "N1"
+          ],
+          "condition_clauses": [],
+          "spatial_scope": "place_specific",
+          "basis_situations": [
+            {
+              "note_id": "N1",
+              "situation": "destination_trip"
+            }
+          ]
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 4380,
+      "prompt_tokens": 4626,
+      "prompt_tokens_details": {
+        "cached_tokens": 3712
+      },
+      "total_tokens": 9006
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "incident_update_old_profile_r1",
+    "role": "initial_person_core",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "current_statement",
+          "period": "unspecified",
+          "note_ids": [
+            "N4"
+          ]
+        },
+        "새봄시장": {
+          "value": "historical_only",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "unknown",
+          "note_ids": [
+            "N0",
+            "N1",
+            "N4"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": [
+            "N0",
+            "N1",
+            "N4"
+          ]
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 2557,
+      "prompt_tokens": 3271,
+      "prompt_tokens_details": {
+        "cached_tokens": 1216
+      },
+      "total_tokens": 5828
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "incident_update_old_profile_r1",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "length",
+    "final_json": null,
+    "usage": {
+      "completion_tokens": 28000,
+      "prompt_tokens": 4337,
+      "prompt_tokens_details": {
+        "cached_tokens": 2272
+      },
+      "total_tokens": 32337
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "incident_update_old_profile_r1",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 954,
+      "completion_tokens": 9,
+      "total_tokens": 963
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "incident_update_old_profile_r2",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "missing",
+        "pattern": "unresolved",
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 6695,
+      "prompt_tokens": 4191,
+      "prompt_tokens_details": {
+        "cached_tokens": 4160
+      },
+      "total_tokens": 10886
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "incident_update_old_profile_r2",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "missing",
+        "pattern": "unresolved",
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": [
+          {
+            "note_id": "N0",
+            "situation": "physical_or_health"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 2473,
+      "prompt_tokens": 4626,
+      "prompt_tokens_details": {
+        "cached_tokens": 4608
+      },
+      "total_tokens": 7099
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "incident_update_old_profile_r2",
+    "role": "initial_person_core",
+    "finish_reason": "length",
+    "final_json": null,
+    "usage": {
+      "completion_tokens": 28000,
+      "prompt_tokens": 3271,
+      "prompt_tokens_details": {
+        "cached_tokens": 3264
+      },
+      "total_tokens": 31271
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "incident_update_old_profile_r2",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "current_statement",
+          "period": "unspecified",
+          "note_ids": [
+            "N4"
+          ]
+        },
+        "새봄시장": {
+          "value": "historical_only",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "unknown",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 5218,
+      "prompt_tokens": 4113,
+      "prompt_tokens_details": {
+        "cached_tokens": 3808
+      },
+      "total_tokens": 9331
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "incident_update_old_profile_r2",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 954,
+      "completion_tokens": 9,
+      "total_tokens": 963
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r1",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "keep_moving",
+        "note_ids": [
+          "N5"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N5",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 10182,
+      "prompt_tokens": 4372,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 14554
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r1",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "keep_moving",
+        "note_ids": [
+          "N5"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N5",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [],
+        "basis_situations": []
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 8728,
+      "prompt_tokens": 4812,
+      "prompt_tokens_details": {
+        "cached_tokens": 3776
+      },
+      "total_tokens": 13540
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r1",
+    "role": "initial_person_core",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "recent_action",
+          "period": "unspecified",
+          "note_ids": [
+            "N2",
+            "N5"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "reported",
+        "note_ids": []
+      },
+      "other_traits": []
+    },
+    "usage": {
+      "completion_tokens": 474,
+      "prompt_tokens": 3432,
+      "prompt_tokens_details": {
+        "cached_tokens": 1216
+      },
+      "total_tokens": 3906
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r1",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "repeated_statement",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "unspecified",
+          "note_ids": [
+            "N1"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 6267,
+      "prompt_tokens": 4463,
+      "prompt_tokens_details": {
+        "cached_tokens": 2304
+      },
+      "total_tokens": 10730
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r1",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 1027,
+      "completion_tokens": 9,
+      "total_tokens": 1036
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r1",
+    "role": "midm_02",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 1034,
+      "completion_tokens": 9,
+      "total_tokens": 1043
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r2",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "keep_moving",
+        "note_ids": [
+          "N5"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N5",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [
+          "N1",
+          "N5"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          },
+          {
+            "note_id": "N5",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 5349,
+      "prompt_tokens": 4372,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "total_tokens": 9721
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r2",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "consistent",
+        "value": "keep_moving",
+        "note_ids": [
+          "N5"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N5",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [
+          "N1",
+          "N5"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          },
+          {
+            "note_id": "N5",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "behavior_rules": []
+    },
+    "usage": {
+      "completion_tokens": 1257,
+      "prompt_tokens": 4819,
+      "prompt_tokens_details": {
+        "cached_tokens": 3776
+      },
+      "total_tokens": 6076
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r2",
+    "role": "initial_person_core",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "repeated_statement",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0",
+            "N5"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 5040,
+      "prompt_tokens": 3432,
+      "prompt_tokens_details": {
+        "cached_tokens": 3424
+      },
+      "total_tokens": 8472
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r2",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "repeated_statement",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "new_route",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "B",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "time_pattern",
+          "period": "clock_day",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "rest_pattern",
+          "period": "unspecified",
+          "note_ids": [
+            "N0",
+            "N5"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 10790,
+      "prompt_tokens": 4515,
+      "prompt_tokens_details": {
+        "cached_tokens": 2304
+      },
+      "total_tokens": 15305
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r2",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 1027,
+      "completion_tokens": 9,
+      "total_tokens": 1036
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "one_behavior_correction_r2",
+    "role": "midm_02",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 1034,
+      "completion_tokens": 9,
+      "total_tokens": 1043
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r1",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "missing",
+        "pattern": "unresolved",
+        "value": "unknown",
+        "note_ids": [
+          "N2",
+          "N5"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N2",
+            "situation": "lost_or_confused"
+          },
+          {
+            "note_id": "N5",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [
+          "N2"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N2",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "behavior_rules": [
+        {
+          "period": "clock_day",
+          "dimension": "persistence",
+          "value": "keep_moving",
+          "note_ids": [
+            "N2",
+            "N5"
+          ],
+          "basis_situations": [
+            {
+              "note_id": "N2",
+              "situation": "lost_or_confused"
+            },
+            {
+              "note_id": "N5",
+              "situation": "lost_or_confused"
+            }
+          ]
+        },
+        {
+          "period": "clock_night",
+          "dimension": "persistence",
+          "value": "wait_for_help",
+          "note_ids": [
+            "N2"
+          ],
+          "basis_situations": [
+            {
+              "note_id": "N2",
+              "situation": "lost_or_confused"
+            }
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 9592,
+      "prompt_tokens": 4328,
+      "prompt_tokens_details": {
+        "cached_tokens": 3808
+      },
+      "total_tokens": 13920
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r1",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "supported",
+        "pattern": "conditional",
+        "value": "unknown",
+        "note_ids": [
+          "N1",
+          "N2",
+          "N5"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N1",
+            "situation": "lost_or_confused"
+          },
+          {
+            "note_id": "N2",
+            "situation": "lost_or_confused"
+          },
+          {
+            "note_id": "N5",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [
+          "N2"
+        ],
+        "basis_situations": []
+      },
+      "behavior_rules": [
+        {
+          "period": "clock_day",
+          "dimension": "persistence",
+          "value": "keep_moving",
+          "note_ids": [
+            "N2"
+          ],
+          "basis_situations": [
+            {
+              "note_id": "N2",
+              "situation": "lost_or_confused"
+            }
+          ]
+        },
+        {
+          "period": "clock_night",
+          "dimension": "persistence",
+          "value": "wait_for_help",
+          "note_ids": [
+            "N2"
+          ],
+          "basis_situations": [
+            {
+              "note_id": "N2",
+              "situation": "lost_or_confused"
+            }
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 1637,
+      "prompt_tokens": 4839,
+      "prompt_tokens_details": {
+        "cached_tokens": 4032
+      },
+      "total_tokens": 6476
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r1",
+    "role": "initial_person_core",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "unknown",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "C",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "routine_route",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2",
+            "N5"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 9214,
+      "prompt_tokens": 3388,
+      "prompt_tokens_details": {
+        "cached_tokens": 2368
+      },
+      "total_tokens": 12602
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r1",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "unknown",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "C",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "hiding_or_staying",
+          "period": "clock_night",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 5139,
+      "prompt_tokens": 4533,
+      "prompt_tokens_details": {
+        "cached_tokens": 2912
+      },
+      "total_tokens": 9672
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r1",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 980,
+      "completion_tokens": 9,
+      "total_tokens": 989
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r1",
+    "role": "midm_02",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 985,
+      "completion_tokens": 9,
+      "total_tokens": 994
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r1",
+    "role": "midm_03",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 988,
+      "completion_tokens": 9,
+      "total_tokens": 997
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r1",
+    "role": "midm_04",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 981,
+      "completion_tokens": 9,
+      "total_tokens": 990
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r2",
+    "role": "initial_person_context",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "missing",
+        "pattern": "conditional",
+        "value": "unknown",
+        "note_ids": [
+          "N2",
+          "N5"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N2",
+            "situation": "lost_or_confused"
+          },
+          {
+            "note_id": "N5",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [
+          "N2"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N2",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "behavior_rules": [
+        {
+          "period": "clock_day",
+          "dimension": "persistence",
+          "value": "keep_moving",
+          "note_ids": [
+            "N2",
+            "N5"
+          ],
+          "basis_situations": [
+            {
+              "note_id": "N2",
+              "situation": "lost_or_confused"
+            },
+            {
+              "note_id": "N5",
+              "situation": "lost_or_confused"
+            }
+          ]
+        },
+        {
+          "period": "clock_night",
+          "dimension": "persistence",
+          "value": "wait_for_help",
+          "note_ids": [
+            "N2"
+          ],
+          "basis_situations": [
+            {
+              "note_id": "N2",
+              "situation": "lost_or_confused"
+            }
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 8150,
+      "prompt_tokens": 4328,
+      "prompt_tokens_details": {
+        "cached_tokens": 3808
+      },
+      "total_tokens": 12478
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r2",
+    "role": "initial_person_context_review",
+    "finish_reason": "stop",
+    "final_json": {
+      "persistence": {
+        "evidence": "missing",
+        "pattern": "unresolved",
+        "value": "unknown",
+        "note_ids": [
+          "N2",
+          "N5"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N2",
+            "situation": "lost_or_confused"
+          },
+          {
+            "note_id": "N5",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "environment": {
+        "water": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "forest": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "park": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        },
+        "market": {
+          "response": "unknown",
+          "condition": "unknown",
+          "note_ids": [],
+          "condition_clauses": [],
+          "spatial_scope": "unknown",
+          "basis_situations": []
+        }
+      },
+      "baseline_direction": {
+        "value": "unknown",
+        "note_ids": [
+          "N2"
+        ],
+        "basis_situations": [
+          {
+            "note_id": "N2",
+            "situation": "lost_or_confused"
+          }
+        ]
+      },
+      "behavior_rules": [
+        {
+          "period": "clock_day",
+          "dimension": "persistence",
+          "value": "keep_moving",
+          "note_ids": [
+            "N2",
+            "N5"
+          ],
+          "basis_situations": [
+            {
+              "note_id": "N2",
+              "situation": "lost_or_confused"
+            },
+            {
+              "note_id": "N5",
+              "situation": "lost_or_confused"
+            }
+          ]
+        },
+        {
+          "period": "clock_night",
+          "dimension": "persistence",
+          "value": "wait_for_help",
+          "note_ids": [
+            "N2"
+          ],
+          "basis_situations": [
+            {
+              "note_id": "N2",
+              "situation": "lost_or_confused"
+            }
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 4605,
+      "prompt_tokens": 4839,
+      "prompt_tokens_details": {
+        "cached_tokens": 4832
+      },
+      "total_tokens": 9444
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r2",
+    "role": "initial_person_core",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "unknown",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "C",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "routine_route",
+          "period": "unspecified",
+          "note_ids": [
+            "N0"
+          ]
+        },
+        {
+          "type": "wayfinding_failure",
+          "period": "unspecified",
+          "note_ids": [
+            "N2"
+          ]
+        },
+        {
+          "type": "help_seeking",
+          "period": "clock_night",
+          "note_ids": [
+            "N2"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 7094,
+      "prompt_tokens": 3388,
+      "prompt_tokens_details": {
+        "cached_tokens": 2368
+      },
+      "total_tokens": 10482
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r2",
+    "role": "initial_person_semantic_audit",
+    "finish_reason": "stop",
+    "final_json": {
+      "goals": {
+        "솔빛공원": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "period": "unspecified",
+          "note_ids": []
+        }
+      },
+      "routes": {
+        "솔빛공원": {
+          "value": "unknown",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "unknown",
+          "note_ids": []
+        }
+      },
+      "found_history": {
+        "솔빛공원": {
+          "value": "not_reported",
+          "note_ids": []
+        },
+        "새봄시장": {
+          "value": "not_reported",
+          "note_ids": []
+        }
+      },
+      "mobility": {
+        "value": "C",
+        "note_ids": [
+          "N0"
+        ]
+      },
+      "emotion": {
+        "value": "unknown",
+        "note_ids": []
+      },
+      "other_traits": [
+        {
+          "type": "routine_route",
+          "period": "clock_day",
+          "note_ids": [
+            "N0"
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "completion_tokens": 6565,
+      "prompt_tokens": 4554,
+      "prompt_tokens_details": {
+        "cached_tokens": 4160
+      },
+      "total_tokens": 11119
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r2",
+    "role": "midm_01",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 980,
+      "completion_tokens": 9,
+      "total_tokens": 989
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r2",
+    "role": "midm_02",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 985,
+      "completion_tokens": 9,
+      "total_tokens": 994
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r2",
+    "role": "midm_03",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 988,
+      "completion_tokens": 9,
+      "total_tokens": 997
+    },
+    "error_type": null
+  },
+  {
+    "preparation": "supplement_after_edit_r2",
+    "role": "midm_04",
+    "finish_reason": "stop",
+    "final_json": {
+      "answer": true
+    },
+    "usage": {
+      "prompt_tokens": 981,
+      "completion_tokens": 9,
+      "total_tokens": 990
+    },
+    "error_type": null
+  }
+]

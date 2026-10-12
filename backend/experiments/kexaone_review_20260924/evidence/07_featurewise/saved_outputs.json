@@ -1,0 +1,1155 @@
+[
+  {
+    "id": "C01_CONTROL_0",
+    "case": "C01",
+    "family": "FEATURES",
+    "variant": "C01",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json"
+    ],
+    "prior_usable": false,
+    "file": "C01_CONTROL_0.json",
+    "raw_content": "{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다. 최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"개인은 익숙한 경로를 따라 반복적으로 시장, 복지관, 공원 사이를 왕복하는 성향을 보일 가능성이 높다.\",\n      \"basis\": [\"N0\", \"R1\"],\n      \"limitation\": \"최근 관찰은 시장 방향성과 머무름 행동만 포함하며, 경로 유지 여부나 방향 전환 여부는 직접 확인되지 않아 일반 가설 적용에 불확실성이 있다.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"개인은 길을 잃었을 때 가까운 장소에 머무르는(staying_put) 경향을 보일 수 있다.\",\n      \"basis\": [\"N1\", \"R0\"],\n      \"limitation\": \"이 행동은 특정 상황(헤맴)에서만 관찰되었으며, 전반적인 이동 전략으로 일반화하기에는 샘플이 부족하다.\"\n    }\n  ],\n  \"unknowns\": [\n    \"개인이 익숙한 경로(route_following)를 실제로 따르는지 여부\",\n    \"방향 유지(direction_keeping) 또는 방향 전환 빈도\",\n    \"최근 외출 시 랜드마크 기반 탐색(landmark_seeking)의 존재 여부\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"basis\": [\"N0\", \"H1\"],\n      \"reason\": \"과거 반복 지향과 R1의 소수 거점 회귀형 패턴을 고려해 익숙한 경로 의존 가능성을 높게 설정하되, 직접 관찰 부족으로 과도한 확신은 배제.\"\n    },\n    {\n      \"target\": \"strategy_probs.staying_put\",\n      \"basis\": [\"N1\", \"H2\"],\n      \"reason\": \"헤맴 상황에서의 머무름 행동이 관찰되었으므로, 특정 조건 하에서의 머무름 경향을 반영하기 위해 중간 수준 유지.\"\n    },\n    {\n      \"target\": \"attraction_levels.시장\",\n      \"basis\": [\"N0\", \"R1\"],\n      \"reason\": \"과거 반복 지향이 관찰되었고, 최근에도 시장 방향성이 확인되어 끌림점 수준을 '상'으로 유지.\"\n    },\n    {\n      \"target\": \"attraction_levels.공원\",\n      \"basis\": [\"N0\", \"R1\"],\n      \"reason\": \"과거 반복 지향이 관찰되었으나 최근 행동 확인 없음. 일반 가설상 소수 거점 회귀형 패턴을 유지하되, 관찰 부재를 반영해 '상' 유지하되 수정 가능성 열어둠.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.4,\n      \"direction_keeping\": 0.2,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.15,\n      \"landmark_seeking\": 0.1\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"상\",\n      \"복지관\": \"상\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"과거 반복 지향과 소수 익숙 거점 회귀형 패턴(R1)을 기반으로 익숙한 경로 의존과 끌림점 유지 가능성을 높게 보았으나, 최근 경로 유지 여부 미확인(H2의 한계)으로 인해 route_following을 SAR_REF보다 다소 보수적으로 조정하고, staying_put은 상황적 관찰을 반영해 약간 상향했다.\"\n    }\n  }\n}",
+    "raw_sha256": "07cb0688b4259a949f39da512a17d652673bf8f01e2f316fb20639a5861aecdc",
+    "source_file_sha256": "2ef03b27a02b5532dd6f5f143b491c61693c3d2c081915dee10c5fe5f78c45b2",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 792,
+      "prompt_tokens": 2080,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 2872
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C01_CONTROL_1",
+    "case": "C01",
+    "family": "FEATURES",
+    "variant": "C01",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "unknowns",
+      "decision_target",
+      "decision_target"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.25,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.15,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인 관찰(N1)은 시장 방향 보행과 머무름 경향을 지지하며, 익숙 경로 의존 가능성(H2)은 보수적으로 반영. 일반 지식(R0, R1)은 가설의 범위를 제한하고, 관찰되지 않은 행동(방향 전환)은 불확실성으로 처리.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C01_CONTROL_1.json",
+    "raw_content": "{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다. 최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"개인은 최근 시장 방향으로의 보행 경향을 보이며, 길을 잃었을 때는 '가까운 곳에 머무는(staying_put)' 전략을 일시적으로 사용할 수 있다.\",\n      \"basis\": [\"N1\"],\n      \"limitation\": \"N1은 시장 방향 보행과 머무름을 관찰했으나, 그 빈도나 지속 시간, 경로 전환 여부는 불명확하므로 일반화에는 한계가 있다.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"개인은 익숙한 경로(route_following)를 선호할 가능성이 높으나, 최근 방향 전환 여부는 관찰되지 않아 불확실하다.\",\n      \"basis\": [\"N2\", \"R0\"],\n      \"limitation\": \"R0는 치매 노인이 익숙한 경로를 따르는 경향이 있음을 시사하지만, N2에 따르면 방향 전환 여부는 직접 관찰되지 않았다.\"\n    },\n    {\n      \"id\": \"H3\",\n      \"claim\": \"개인은 landmark_seeking 성향을 가질 수 있으며, 특히 '시장'이 강한 끌림점으로 작용할 가능성이 있다.\",\n      \"basis\": [\"N1\", \"R1\"],\n      \"limitation\": \"R1은 소수 익숙 거점 회귀형 성향을 지지하지만, N1은 시장 방향 보행만 관찰했을 뿐 회귀 여부는 확인되지 않았다.\"\n    }\n  ],\n  \"unknowns\": [\n    \"개인이 최근 실제로 어떤 경로를 따라 이동했는지\",\n    \"헤맬 때 방향을 전환하는지 여부\",\n    \"실종 당시 보행 속도 및 지속성\",\n    \"실종 직전의 정확한 위치 및 이동 시작점\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"strategy_probs\",\n      \"basis\": [\"H1\", \"H2\"],\n      \"reason\": \"시장 방향 보행(N1)과 머무름 관찰(H1), 익숙 경로 의존 가능성(H2)을 종합해 route_following과 staying_put에 다소 높은 확률을 부여하되, 방향 전환 불확실성으로 인해 direction_keeping은 보수적으로 설정.\"\n    },\n    {\n      \"target\": \"attraction_levels\",\n      \"basis\": [\"N0\", \"H3\"],\n      \"reason\": \"과거 반복 지향(N0)과 시장 방향 보행(N1)을 종합해 시장은 '상', 공원과 복지관은 과거 관찰 기반으로 '상' 유지. 새로운 관찰이 복지관이나 공원에 대한 현재 경향을 지지하지 않으므로 변경하지 않음.\"\n    },\n    {\n      \"target\": \"radius_level\",\n      \"basis\": [\"N1\", \"H1\"],\n      \"reason\": \"시장 방향으로의 보행과 머무름 경향이 확인되었으나, 전체 이동 반경은 제한적일 가능성이 있어 '중'으로 설정.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.4,\n      \"direction_keeping\": 0.25,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.15,\n      \"landmark_seeking\": 0.05\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"상\",\n      \"복지관\": \"상\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인 관찰(N1)은 시장 방향 보행과 머무름 경향을 지지하며, 익숙 경로 의존 가능성(H2)은 보수적으로 반영. 일반 지식(R0, R1)은 가설의 범위를 제한하고, 관찰되지 않은 행동(방향 전환)은 불확실성으로 처리.\"\n  }\n}",
+    "raw_sha256": "75dc4d8c955673012135b3bc809a0a55b75a3b689a9d3db05d132ee17eec34fc",
+    "source_file_sha256": "d18fa6c66017be3cc0e40a34ea6445c41e19a2831bbdc77b23f07974f28593cd",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 837,
+      "prompt_tokens": 2080,
+      "prompt_tokens_details": {
+        "cached_tokens": 2048
+      },
+      "total_tokens": 2917
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C01_FEATURES_0",
+    "case": "C01",
+    "family": "FEATURES",
+    "variant": "C01",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json",
+      "missing_note_coverage"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.3,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.6,
+        "공원": 0.2,
+        "복지관": 0.2
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인 관찰(N1)에 따라 시장에 대한 지향성과 머무름 행동이 확인되었으며, 이는 landmark_seeking과 staying_put 전략을 지지한다. 방향 유지와 경로 의존성은 부분적으로 지지되나, 경로 전환 및 되돌아가기 여부는 미확인이다. 이동 범위와 신체 능력은 기존 제약을 따르며, 공원과 복지관에 대한 최근 관찰 부재로 끌림 수준을 하향 조정하였다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C01_FEATURES_0.json",
+    "raw_content": "```json\n{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R1\"],\n          \"claim\": \"치매 노인은 익숙한 장소(시장, 복지관 등)로 향하는 경향이 있으며, 이는 반복 방문 이력이 있는 장소에 대한 끌림으로 나타난다.\",\n          \"limitation\": \"이번 개인의 최근 행동 중 시장 외 장소에 대한 직접 관찰은 없으므로, 다른 장소에 대한 끌림은 추정일 뿐이다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"최근 공원이나 복지관 방문 여부\",\n        \"최근 외출 시 목적지를 스스로 언급했는지 여부\"\n      ],\n      \"conclusion\": \"개인 관찰(N1)에 따라 시장에 대한 지향성이 확인되었으며, 이는 일반 가설과 일치하지만 다른 장소에 대한 최근 행동은 미확인이다.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 방향 감각 상실 시 불안을 느끼며 지속적으로 왔다 갔다 하거나, 멈추는 행동을 보일 수 있다.\",\n          \"limitation\": \"이번 개인의 '멈춤'이 일시적 휴식인지, 지속적 머무름인지에 대한 직접 관찰은 제한적이며, 신체 능력 변화는 보고되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"멈춘 장소의 정확한 위치 및 지속 시간\",\n        \"이동 중 속도 변화 여부\"\n      ],\n      \"conclusion\": \"개인 관찰(N1)에 따라 헤매는 상황에서 가까운 곳에 머무르는 행동이 확인되었으며, 이는 일반 가설과 부합하지만 지속성과 맥락은 추가 확인이 필요하다.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"},\n        {\"note_id\": \"N2\", \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 익숙한 경로를 따르거나, 방향 유지 경향이 있으며, 방향 전환이 어려울 수 있다.\",\n          \"limitation\": \"이번 개인의 경로 이용 여부나 방향 전환 능력에 대한 직접 관찰이 없으므로, 익숙 경로 의존성은 추정 수준이다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"이동 중 경로 전환 여부\",\n        \"되돌아가는 행동(backtracking) 관찰 여부\"\n      ],\n      \"conclusion\": \"개인 관찰(N1,N2)에 따라 시장 방향 이동은 확인되었으나, 경로 형태나 방향 전환 여부는 미확인이므로 익숙 경로 의존성은 부분적으로만 지지된다.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R2\"],\n          \"claim\": \"재택 거주자 치매 노인은 익숙한 동네 산책이나 차량 운전을 통해 익숙한 장소로 이동하는 경우가 많으며, 이는 제한된 이동 범위 내에서의 행동이다.\",\n          \"limitation\": \"이번 개인의 이동 범위나 신체 능력 변화에 대한 직접 관찰은 없으며, 기존 제약(코드의 통계 반경·신체 조건 상한)을 따르는 것으로 간주한다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"최근 외출 시 이동 거리\",\n        \"이동 수단(도보, 차량 등) 사용 여부\"\n      ],\n      \"conclusion\": \"개인 관찰이 없어 이동 범위는 추정되며, 일반 가설상 익숙한 동네 내 이동 가능성이 높지만 직접 확인되지 않았다.\"\n    }\n  },\n  \"integration\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"increase\",\n      \"reason\": \"개인 관찰(N1)에 따라 시장 방향 이동이 반복되었으며, 이는 익숙한 경로 이용 가능성을 시사한다.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"feature_refs\": [\"route_shape\", \"destination_pull\"],\n      \"action\": \"increase\",\n      \"reason\": \"시장 방향 유지 경향이 관찰되었고, 방향 전환 여부는 미확인이나, 특정 방향 유지 가능성은 높다.\"\n    },\n    {\n      \"target\": \"strategy_probs.staying_put\",\n      \"feature_refs\": [\"movement_persistence\"],\n      \"action\": \"increase\",\n      \"reason\": \"헤맬 때 가까운 곳에 머무르는 행동이 관찰되었으며, 이는 일시적이나 지속적 머무름 가능성을 시사한다.\"\n    },\n    {\n      \"target\": \"strategy_probs.landmark_seeking\",\n      \"feature_refs\": [\"destination_pull\"],\n      \"action\": \"increase\",\n      \"reason\": \"시장에 대한 명확한 지향성이 관찰되었으며, 이는 특정 장소에 대한 끌림을 의미한다.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.4,\n      \"direction_keeping\": 0.3,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.1,\n      \"landmark_seeking\": 0.05\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"하\",\n      \"복지관\": \"하\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인 관찰(N1)에 따라 시장에 대한 지향성과 머무름 행동이 확인되었으며, 이는 landmark_seeking과 staying_put 전략을 지지한다. 방향 유지와 경로 의존성은 부분적으로 지지되나, 경로 전환 및 되돌아가기 여부는 미확인이다. 이동 범위와 신체 능력은 기존 제약을 따르며, 공원과 복지관에 대한 최근 관찰 부재로 끌림 수준을 하향 조정하였다.\"\n  }\n}\n```",
+    "raw_sha256": "4f7c5b2109523ac405fee7311397a16065a3240c8c0c73d1fe134560e24cf409",
+    "source_file_sha256": "08e3474918435b6005e019bbdb0d541ecd8cb39a053ef3f85bd9967ce170e68e",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1229,
+      "prompt_tokens": 2263,
+      "prompt_tokens_details": {
+        "cached_tokens": 512
+      },
+      "total_tokens": 3492
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C01_FEATURES_1",
+    "case": "C01",
+    "family": "FEATURES",
+    "variant": "C01",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json",
+      "envelope_keys",
+      "feature_keys",
+      "feature.integration.not_object",
+      "feature.prior.fields",
+      "feature.prior.evidence_count",
+      "feature.prior.hypotheses_count",
+      "feature.prior.unknowns",
+      "feature.prior.conclusion",
+      "integration_count"
+    ],
+    "prior_usable": false,
+    "prior_errors": [
+      "missing_prior"
+    ],
+    "file": "C01_FEATURES_1.json",
+    "raw_content": "```json\n{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N0\", \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\"},\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\", \"SAR_REF\"],\n          \"claim\": \"치매 노인은 소수 익숙 거점(시장, 공원, 복지관)으로 반복적으로 향하는 경향이 있으며, 최근 관찰된 시장 방향성은 기존 끌림점 내에서의 선택적 선호로 해석 가능하다.\",\n          \"limitation\": \"최근 관찰은 시장 방향에 국한되며, 공원이나 복지관에 대한 최근 행동은 없어 전체 끌림점 간 상대적 선호도는 불확실하다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"최근 공원 또는 복지관 방문 여부\",\n        \"시장 외 다른 장소에 대한 끌림 존재 여부\"\n      ],\n      \"conclusion\": \"개인 관찰(N0, N1)에 따라 시장과 공원, 복지관은 여전히 끌림점으로 작용할 가능성이 높으며, 최근 시장 방향성 관찰은 destination_pull을 '상'으로 유지하되, 선호 변화 가능성은 열려 있다.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 불안 상태에서 지속적으로 왔다 갔다 하거나, 방향 전환이 어려워 한 방향으로 직진하는 경향이 있다.\",\n          \"limitation\": \"본 사례에서는 '지속적 왔다 갔다' 또는 '앞만 보고 걷기'와 같은 명확한 지속성 패턴이 관찰되지 않아 일반 가설의 적용은 제한적이다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"정상적인 산책 중 이동 지속 시간\",\n        \"불안 수준과 이동 지속성 간의 상관관계\"\n      ],\n      \"conclusion\": \"개인 관찰(N1)에 따르면 헤매는 상황에서 머무는 경향이 있으나, 지속적 이동 또는 반복적 왔다 갔다 패턴은 확인되지 않아 movement_persistence은 '중'으로 판단되며, 정보 부족 상태이다.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N0\", \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\"},\n        {\"note_id\": \"N2\", \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\", \"R3\"],\n          \"claim\": \"치매 노인은 익숙한 경로를 따르는 경향이 있으며, 이탈 시에도 원래 경로 주변에서 재진입을 시도할 가능성이 높다.\",\n          \"limitation\": \"최근 헤맬 때의 방향 전환 또는 경로 이용 여부는 관찰되지 않아 route_following 또는 backtracking 여부는 불확실하다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"헤맬 때 익숙한 경로를 이용했는지 여부\",\n        \"방향 전환 빈도 또는 backtracking 발생 여부\"\n      ],\n      \"conclusion\": \"과거 반복 방문 이력(N0)으로 인해 route_following 가능성은 높으나, 최근 경로 이용 여부는 관찰되지 않아 route_shape은 '중'으로 판단되며, 정보 부족 상태이다.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R2\"],\n          \"claim\": \"재택 거주자 치매 노인은 익숙한 동네 산책 또는 차량 운전을 통해 익숙한 장소로 이동하는 경향이 있으며, 이는 비교적 넓은 이동 범위를 시사한다.\",\n          \"limitation\": \"본 사례에서는 이동 수단(보행/차량) 및 실제 이동 거리에 대한 관찰이 없어 mobility_range는 추정에 그친다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"실제 이동 수단(보행, 차량 등)\",\n        \"이동 거리 또는 반경에 대한 구체적 정보\"\n      ],\n      \"conclusion\": \"개인 관찰이 없어 mobility_range는 추정되며, 과거 반복 방문 이력과 R2의 일반 지식을 고려하면 '중' 수준이 타당하나, 신체적 이동 능력은 미확인 상태이다.\"\n    },\n    \"integration\": [\n      {\n        \"target\": \"strategy_probs.route_following\",\n        \"feature_refs\": [\"route_shape\"],\n        \"action\": \"maintain\",\n        \"reason\": \"과거 반복 방문 이력(N0)과 익숙 경로 의존 일반 가설(R3)에 따라 route_following은 유지되나, 최근 경로 이용 여부는 관찰되지 않아 조정 없음.\"\n      },\n      {\n        \"target\": \"strategy_probs.landmark_seeking\",\n        \"feature_refs\": [\"destination_pull\"],\n        \"action\": \"increase\",\n        \"reason\": \"최근 시장 방향성 관찰(N1)로 인해 landmark_seeking 중 시장에 대한 끌림이 강화된 것으로 간주되며, 기존 끌림점 내에서의 선호 변화 가능성 반영.\"\n      },\n      {\n        \"target\": \"strategy_probs.staying_put\",\n        \"feature_refs\": [\"movement_persistence\"],\n        \"action\": \"increase\",\n        \"reason\": \"헤맬 때 머무는 경향(N1)이 관찰되어 staying_put 확률이 일반 평균보다 다소 높을 수 있으나, 지속성 패턴 미확인으로 과도한 증가는 피함.\"\n      },\n      {\n        \"target\": \"strategy_probs.direction_keeping\",\n        \"feature_refs\": [\"route_shape\", \"movement_persistence\"],\n        \"action\": \"uncertain\",\n        \"reason\": \"방향 유지 여부는 관찰되지 않았으며, R0의 '앞만 보고 걷기' 가설은 적용 근거 부족. 정보 부족으로 인해 불확실.\"\n      }\n    ],\n    \"prior\": {\n      \"strategy_probs\": {\n        \"route_following\": 0.4,\n        \"direction_keeping\": 0.15,\n        \"random_walk\": 0.15,\n        \"backtracking\": 0.05,\n        \"staying_put\": 0.15,\n        \"landmark_seeking\": 0.1\n      },\n      \"attraction_levels\": {\n        \"시장\": \"상\",\n        \"공원\": \"상\",\n        \"복지관\": \"상\"\n      },\n      \"radius_level\": \"중\",\n      \"reasoning\": \"과거 반복 방문 이력(N0)과 최근 시장 방향성 관찰(N1)을 바탕으로 끌림점은 유지되며, landmark_seeking과 staying_put은 다소 증가. 그러나 경로 이용, 방향 전환, 이동 수단 등은 미확인으로 strategy_probs는 일반 평균에서 slight 조정만 적용.\"\n    }\n  }\n}\n```",
+    "raw_sha256": "52d7ae8459e0c67a640560e49e712ced4c22a43c6da005b0035ec3f3756538bb",
+    "source_file_sha256": "5c2705a9eaf8ee260dd6c7b2bbaf129c07f8f745e4ea60ac481e1c98323198c8",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1354,
+      "prompt_tokens": 2263,
+      "prompt_tokens_details": {
+        "cached_tokens": 2240
+      },
+      "total_tokens": 3617
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C02_CONTROL_0",
+    "case": "C02",
+    "family": "FEATURES",
+    "variant": "C02",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "decision_target"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.3,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.2857142857142857,
+        "공원": 0.42857142857142855,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "과거 반복 지향 이력은 유지하되, 최근 공원 방향 이동이 우세하므로 공원을 주요 끌림점으로 상향 조정했다. 경로 사용 여부는 미확인이므로 route_following은 다소 낮추고, 헤매는 상황에서의 머무름 행동을 반영해 staying_put을 포함시켰다. 방향 유지 성향은 부분적 관찰에 기반해 중간 수준으로 설정했다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C02_CONTROL_0.json",
+    "raw_content": "{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 공원 쪽으로 걷는 모습을 가족이 여러 번 봤다. 최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"개인은 최근 공원 방향으로의 이동 경향을 보이고 있으며, 방향 유지 성향이 강할 가능성이 있다.\",\n      \"basis\": [\"N1\", \"R0\"],\n      \"limitation\": \"공원 방향 이동은 반복 관찰되었으나, 그 경로가 익숙한지 여부는 미확인이므로 방향 유지 성향의 적용은 불확실하다.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"실종 시 헤매는 상황에서는 가까운 곳에 머무르는 경향(staying_put)이 나타날 수 있다.\",\n      \"basis\": [\"N1\", \"R0\"],\n      \"limitation\": \"이 행동은 '헤맬 때' 관찰된 것이며, 실종 직후의 행동과는 다를 수 있어 일반화에 주의가 필요하다.\"\n    }\n  ],\n  \"unknowns\": [\n    \"실종 당시 정확한 위치 및 이동 경로\",\n    \"최근 방향 전환 여부 및 경로 선택 방식\",\n    \"실종 직전의 인지 상태 또는 외부 자극 반응\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"basis\": [\"N0\", \"H1\"],\n      \"reason\": \"과거 반복 지향 이력이 있으나 최근 경로 사용 여부는 미확인이므로 익숙 경로 의존 성향은 유지하되 낮은 확률로 설정\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"basis\": [\"N1\", \"H1\"],\n      \"reason\": \"공원 방향 이동이 반복 관찰되었으나, 그 경로가 익숙한지 여부는 미확인이므로 방향 유지 성향은 부분적으로 적용\"\n    },\n    {\n      \"target\": \"strategy_probs.staying_put\",\n      \"basis\": [\"N1\", \"H2\"],\n      \"reason\": \"헤맬 때 머무는 행동이 관찰되었으므로 실종 초기 단계에서 머무는 전략을 포함\"\n    },\n    {\n      \"target\": \"attraction_levels\",\n      \"basis\": [\"N0\"],\n      \"reason\": \"시장, 공원, 복지관은 모두 과거 반복 지향 이력이 있으므로 끌림점으로 유지하되, 최근 공원 방향 이동이 우세하므로 공원에 다소 높은 가중치 부여 가능\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.4,\n      \"direction_keeping\": 0.3,\n      \"random_walk\": 0.15,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.05\n    },\n    \"attraction_levels\": {\n      \"시장\": \"중\",\n      \"공원\": \"상\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"과거 반복 지향 이력은 유지하되, 최근 공원 방향 이동이 우세하므로 공원을 주요 끌림점으로 상향 조정했다. 경로 사용 여부는 미확인이므로 route_following은 다소 낮추고, 헤매는 상황에서의 머무름 행동을 반영해 staying_put을 포함시켰다. 방향 유지 성향은 부분적 관찰에 기반해 중간 수준으로 설정했다.\"\n  }\n}",
+    "raw_sha256": "1971459ac581644cfd250fb2ea903ae2c7eb2875a0cb84ebe28369dd0ff762e5",
+    "source_file_sha256": "5c6ce6477208a7e84f753cd06f806faff03186a54127f7c562adf95b26f56f8c",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 763,
+      "prompt_tokens": 2080,
+      "prompt_tokens_details": {
+        "cached_tokens": 1984
+      },
+      "total_tokens": 2843
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C02_CONTROL_1",
+    "case": "C02",
+    "family": "FEATURES",
+    "variant": "C02",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.25,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.1,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인의 과거 반복 지향과 최근 공원 방향 이동 관찰을 종합하여 끌림점은 유지하되, 경로 따름과 방향 유지 성향은 관찰 부족으로 인해 다소 보수적으로 설정하였다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C02_CONTROL_1.json",
+    "raw_content": "```json\n{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 공원 쪽으로 걷는 모습을 가족이 여러 번 봤다. 최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"개인은 최근 공원 방향으로의 이동 경향을 보였으며, 길을 잃었을 때는 머무는 행동을 보일 가능성이 있다.\",\n      \"basis\": [\"N1\"],\n      \"limitation\": \"공원 방향 이동은 반복 관찰되었으나, 그 동기나 지속성, 경로 형태는 확인되지 않았으며, 헤맬 때의 구체적 행동은 관찰되지 않았다.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"개인은 익숙한 경로를 따라 이동하는 경향이 있으나, 최근 그 경로의 이탈 여부는 확인되지 않았다.\",\n      \"basis\": [\"N2\", \"R3\"],\n      \"limitation\": \"R3는 익숙 경로 이탈을 방향상실 신호로 보지만, 본 사례에서는 이탈 여부 자체가 관찰되지 않아 적용에 한계가 있다.\"\n    }\n  ],\n  \"unknowns\": [\n    \"최근 외출 시 실제로 익숙한 경로를 이용했는지 여부\",\n    \"공원 방향으로의 이동이 반복적인지, 단발성인지\",\n    \"헤맬 때의 구체적 행동 양상(예: 왔다 갔다, 방향 전환 여부)\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"basis\": [\"N0\", \"H2\"],\n      \"reason\": \"과거 반복 지향과 익숙 경로 의존 가설을 고려하되, 최근 이탈 여부는 미확인이므로 중간 수준의 경로 따름 성향을 유지한다.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"basis\": [\"H1\", \"R0\"],\n      \"reason\": \"공원 방향 이동 관찰과 '앞만 보고 걸어감' 가설을 참조하되, 방향 유지 여부는 직접 관찰되지 않아 보수적으로 설정한다.\"\n    },\n    {\n      \"target\": \"attraction_levels.공원\",\n      \"basis\": [\"N1\", \"R1\"],\n      \"reason\": \"최근 공원 방향 이동이 반복 관찰되었고, R1의 소수 익숙 거점 회귀형 패턴과 부합하므로 끌림점 수준을 '상'으로 유지한다.\"\n    },\n    {\n      \"target\": \"radius_level\",\n      \"basis\": [\"N1\", \"R1\"],\n      \"reason\": \"공원, 시장, 복지관 등 소수 장소 간 이동이 관찰되었고, 최근 머무는 행동도 보고되어 생활 반경이 제한적일 가능성이 있어 '중'으로 설정한다.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.4,\n      \"direction_keeping\": 0.25,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.1,\n      \"landmark_seeking\": 0.1\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"상\",\n      \"복지관\": \"상\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인의 과거 반복 지향과 최근 공원 방향 이동 관찰을 종합하여 끌림점은 유지하되, 경로 따름과 방향 유지 성향은 관찰 부족으로 인해 다소 보수적으로 설정하였다.\"\n  }\n}\n```",
+    "raw_sha256": "fccd2867c9e75b8ca508c58bfbac5e9a9cdc85821fa6dcb45093f40c147e3058",
+    "source_file_sha256": "95064615a5535448a07e120453cd2343ced551dd74196b86a7409b19ac2a026b",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 776,
+      "prompt_tokens": 2080,
+      "prompt_tokens_details": {
+        "cached_tokens": 2048
+      },
+      "total_tokens": 2856
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C02_FEATURES_0",
+    "case": "C02",
+    "family": "FEATURES",
+    "variant": "C02",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json"
+    ],
+    "prior_usable": false,
+    "file": "C02_FEATURES_0.json",
+    "raw_content": "```json\n{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 공원 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R1\"],\n          \"claim\": \"치매 노인은 익숙한 장소(공원, 시장, 복지관 등)로 향하는 경향이 있으며, 이는 반복 방문 이력이 있는 장소에 대한 끌림으로 나타난다.\",\n          \"limitation\": \"이번 개인의 경우 공원에 대한 최근 지향은 관찰되었으나, 시장이나 복지관에 대한 최근 지향은 확인되지 않아 전체 끌림점 중 공원이 우세할 가능성은 있으나, 과거 지향 이력이 현재에도 동일하게 작용한다는 보장은 없다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"시장 또는 복지관에 대한 최근 지향 여부\",\n        \"공원 외 다른 장소에 대한 끌림 존재 여부\"\n      ],\n      \"conclusion\": \"공원에 대한 최근 지향이 관찰되었으므로 destination_pull은 공원 중심으로 작용할 가능성이 있으나, 다른 장소에 대한 최근 행동 미확인으로 인해 전체 destination_pull의 강도는 중간 수준으로 추정된다.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 불안하거나 방향 감각을 잃었을 때 지속적으로 왔다 갔다 하거나 제자리에 머무르는 경향이 있으며, 이는 movement_persistence가 낮거나 staying_put 전략이 활성화됨을 시사한다.\",\n          \"limitation\": \"이번 개인의 staying_put은 방향 감각 상실 상황에서만 관찰되었고, 일반적인 이동 지속성 여부는 불명확하므로 movement_persistence는 상황에 따라 변동 가능함.\"\n        }\n      ],\n      \"unknowns\": [\n        \"방향 감각이 정상일 때의 이동 지속성 여부\",\n        \"불안하지 않은 상태에서의 이동 패턴\"\n      ],\n      \"conclusion\": \"방향 감각 상실 시 머무는 행동이 관찰되었으므로 movement_persistence는 낮은 편이나, 정상 상태에서의 지속성은 미확인이다.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N2\", \"quote\": \"헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R3\"],\n          \"claim\": \"치매 노인은 익숙한 경로를 따라 이동하려는 경향이 있으며, 이탈하더라도 원래 경로 주변에서 재진입을 시도할 가능성이 있다.\",\n          \"limitation\": \"이번 개인의 경우 익숙한 경로 이용 여부가 관찰되지 않았으므로 route_shape의 route_following 또는 direction_keeping은 추정에 불과함.\"\n        }\n      ],\n      \"unknowns\": [\n        \"익숙한 경로 이용 여부\",\n        \"방향 유지 또는 전환 경향\",\n        \"되돌아가는 행동(backtracking) 존재 여부\"\n      ],\n      \"conclusion\": \"익숙한 경로 이용 여부는 미확인이나, 일반 가설상 route_following 또는 direction_keeping 가능성이 있으나, 개인 관찰 부재로 인해 route_shape은 불확실하다.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R2\"],\n          \"claim\": \"치매 노인의 실종 직전 행동은 대개 익숙한 장소로의 이동 또는 산책이며, 이는 일정한 이동 범위 내에서의 활동 가능성을 시사한다.\",\n          \"limitation\": \"이번 개인의 이동 범위나 속도, 거리에 대한 직접 관찰이 없으므로 mobility_range는 추정에 기반함.\"\n        }\n      ],\n      \"unknowns\": [\n        \"실제 이동 거리 또는 반경\",\n        \"이동 속도 또는 지속 시간\",\n        \"신체적 제약 여부\"\n      ],\n      \"conclusion\": \"이동 능력에 대한 직접 관찰은 없으나, 일반 가설상 익숙한 장소로의 이동이 가능할 것으로 보이며, mobility_range는 중간 수준으로 추정된다.\"\n    }\n  },\n  \"integration\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"maintain\",\n      \"reason\": \"익숙한 경로 이용 여부는 미확인이나, 일반 가설상 route_following은 유지 가능하나, 개인 관찰 부재로 조정은 보류.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"uncertain\",\n      \"reason\": \"방향 유지 경향은 관찰되지 않았으며, 방향 감각 상실 시 머무는 행동만 확인되어 direction_keeping은 불확실.\"\n    },\n    {\n      \"target\": \"strategy_probs.staying_put\",\n      \"feature_refs\": [\"movement_persistence\"],\n      \"action\": \"increase\",\n      \"reason\": \"방향 감각 상실 시 머무는 행동이 반복 관찰되었으므로 staying_put 전략의 활성화 가능성은 높음.\"\n    },\n    {\n      \"target\": \"strategy_probs.landmark_seeking\",\n      \"feature_refs\": [\"destination_pull\"],\n      \"action\": \"increase\",\n      \"reason\": \"공원으로의 지향이 반복 관찰되었으므로 landmark_seeking 전략이 활성화되었을 가능성 있음.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.3,\n      \"direction_keeping\": 0.1,\n      \"random_walk\": 0.2,\n      \"backtracking\": 0.1,\n      \"staying_put\": 0.2,\n      \"landmark_seeking\": 0.1\n    },\n    \"attraction_levels\": {\n      \"시장\": \"중\",\n      \"공원\": \"상\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"공원에 대한 최근 지향이 관찰되어 attraction_levels에서 공원은 '상'으로 설정되었고, staying_put은 방향 감각 상실 시 머무는 행동으로 관찰되어 증가시켰다. 그러나 route_following과 direction_keeping은 미확인이므로 낮게 설정했으며, 이동 범위는 과거 이력과 일반 가설에 기반해 중간으로 유지했다.\"\n    }\n  }\n}\n```",
+    "raw_sha256": "d52fd78b68d40f48f956c2abe2d966857434e36c34981f487cf3ea231c976798",
+    "source_file_sha256": "041f33cb736fd42253ba53d1511be0b3f850ba4005f0288d105fffc8517666fc",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1255,
+      "prompt_tokens": 2263,
+      "prompt_tokens_details": {
+        "cached_tokens": 2176
+      },
+      "total_tokens": 3518
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C02_FEATURES_1",
+    "case": "C02",
+    "family": "FEATURES",
+    "variant": "C02",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json",
+      "missing_note_coverage"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.1,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.2,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "시장": 0.2857142857142857,
+        "공원": 0.42857142857142855,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "공원으로의 지향성과 헤맬 때 머무는 행동이 관찰되어 landmark_seeking과 staying_put 확률이 증가했으며, 경로 익숙함은 미확인이므로 route_following은 다소 유지하되 과도한 신뢰는 배제한다. 방향 유지 여부는 불확실하며, 이동 범위는 과거 이력과 일반 문헌을 기반으로 중간 수준으로 설정한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C02_FEATURES_1.json",
+    "raw_content": "```json\n{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 공원 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R1\"],\n          \"claim\": \"치매 노인은 익숙한 장소로의 이동을 반복하는 경향이 있으며, 특히 감독 없는 상태에서 평소처럼 동네를 산책하거나 익숙한 곳으로 이동하는 경향이 있다.\",\n          \"limitation\": \"이 가설은 반복 방문 이력이 있는 장소에 대한 지향성을 전제로 하며, 최근 관찰되지 않은 장소에 대한 지향성은 추정에 불과하다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"공원 외 다른 장소(시장, 복지관)로의 최근 이동 여부\",\n        \"공원 방문의 빈도와 지속 시간\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 공원 쪽으로 걷는 경향이 있으며, 이는 익숙한 장소로의 지향성을 시사한다. 그러나 다른 장소에 대한 최근 행동은 미확인이다.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 가까운 곳에 멈춰 머무는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 방향 감각 상실 시 불안을 느끼며, 지속적으로 왔다 갔다 하거나 제자리에 머무르는 경향이 있다.\",\n          \"limitation\": \"이 가설은 불안 기반의 반복 행동을 설명하지만, 모든 개인에게 동일하게 적용되지는 않으며, 최근 관찰되지 않은 행동 양상은 추정이다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"헤맬 때의 정확한 위치 및 주변 환경\",\n        \"멈춤 행동의 지속 시간과 빈도\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 길을 잃었을 때 가까운 곳에 머무르는 경향이 있으며, 이는 이동 지속성 감소와 정지 행동 증가를 시사한다.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 공원 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"},\n        {\"note_id\": \"N2\", \"quote\": \"헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R3\"],\n          \"claim\": \"치매 노인은 익숙한 경로를 따르는 경향이 있으나, 이탈 시 원래 경로 주변에서 재진입을 시도할 가능성이 있다.\",\n          \"limitation\": \"이 가설은 경로 이탈 후의 행동을 예측하지만, 이탈 전 경로의 정확한 형태나 이탈 시점의 맥락은 개인 관찰 없이는 확인할 수 없다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"공원으로 가는 경로의 익숙함 여부\",\n        \"방향 전환 또는 되돌아가는 행동의 관찰 여부\"\n      ],\n      \"conclusion\": \"공원 쪽으로 걷는 경향은 있으나, 경로의 익숙함이나 방향 유지 여부는 관찰되지 않아 익숙한 경로 이용 여부는 불확실하다.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인의 배회 반경은 과거 반복 방문 이력이 있는 장소를 중심으로 형성되며, 신체적 이동 능력은 일반적으로 유지되나, 방향 감각 상실 시 반경이 제한될 수 있다.\",\n          \"limitation\": \"신체 능력이나 이동 범위에 대한 직접 관찰이 없으므로, 이 가설은 일반적인 문헌 기반 추정이며 개인 적용 시 한계가 있다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"실제 이동 거리 및 속도\",\n        \"신체적 제약 여부\"\n      ],\n      \"conclusion\": \"이동 범위에 대한 개인 관찰은 없으며, 과거 반복 방문 이력이 있는 장소를 중심으로 한 중간 수준의 반경이 유지될 가능성이 있으나, 추정에 불과하다.\"\n    }\n  },\n  \"integration\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"increase\",\n      \"reason\": \"공원 쪽으로 걷는 경향은 익숙한 경로 이용 가능성을 시사하나, 경로의 정확한 형태는 미확인이므로 route_following 확률을 다소 증가시키되 과도한 신뢰는 배제한다.\"\n    },\n    {\n      \"target\": \"strategy_probs.landmark_seeking\",\n      \"feature_refs\": [\"destination_pull\"],\n      \"action\": \"increase\",\n      \"reason\": \"공원으로의 지향성이 관찰되었으며, 이는 특정 장소에 대한 끌림을 시사하므로 landmark_seeking 확률을 상향 조정한다.\"\n    },\n    {\n      \"target\": \"strategy_probs.staying_put\",\n      \"feature_refs\": [\"movement_persistence\"],\n      \"action\": \"increase\",\n      \"reason\": \"헤맬 때 가까운 곳에 머무는 행동이 관찰되었으므로, staying_put 확률을 상향 조정한다.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"uncertain\",\n      \"reason\": \"방향 유지 여부는 관찰되지 않았으며, 경로 이탈 가능성도 배제할 수 없어 direction_keeping은 불확실하다.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.4,\n      \"direction_keeping\": 0.1,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.2,\n      \"landmark_seeking\": 0.15\n    },\n    \"attraction_levels\": {\n      \"시장\": \"중\",\n      \"공원\": \"상\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"공원으로의 지향성과 헤맬 때 머무는 행동이 관찰되어 landmark_seeking과 staying_put 확률이 증가했으며, 경로 익숙함은 미확인이므로 route_following은 다소 유지하되 과도한 신뢰는 배제한다. 방향 유지 여부는 불확실하며, 이동 범위는 과거 이력과 일반 문헌을 기반으로 중간 수준으로 설정한다.\"\n  }\n}\n```",
+    "raw_sha256": "a5d4d9666a7f564533fce7aabb309a5d1213d9305cadd881743cd0eedef59770",
+    "source_file_sha256": "52cde298b801bd3e1d2c9b474744a3ee7e44b7b8e896242d2f19913c14c0340a",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1231,
+      "prompt_tokens": 2263,
+      "prompt_tokens_details": {
+        "cached_tokens": 2240
+      },
+      "total_tokens": 3494
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C03_CONTROL_0",
+    "case": "C03",
+    "family": "FEATURES",
+    "variant": "C03",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "envelope_valid": true,
+    "envelope_errors": [],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.3,
+        "direction_keeping": 0.4,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인 관찰(N1)이 시장 방향 반복 지향을 시사하므로 direction_keeping 확률을 일반 평균보다 높게 설정하되, 경로 사용 및 backtracking 여부는 미확인이므로 route_following과 backtracking은 보수적으로 유지. 끌림점은 과거 및 최근 관찰을 종합해 '상'으로 설정하되, 최근 행동 부재 장소는 과도한 신뢰 배제.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C03_CONTROL_0.json",
+    "raw_content": "{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다. 최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"개인은 최근 시장 쪽으로 향하는 경향이 있으며, 길을 잃었을 때도 멈추지 않고 계속 전진하는 '앞만 보고 걸어감' 또는 'direction_keeping' 성향을 보일 가능성이 있다.\",\n      \"basis\": [\"N1\", \"R0\"],\n      \"limitation\": \"N1은 시장 방향 관찰만 제공하며, 방향 유지 여부는 직접 관찰되지 않았고, R0의 '앞만 보고 걸어감'은 일반 사례 기반 가설이므로 개인 적용에 불확실성이 있다.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"개인은 익숙한 경로(route_following)를 선호할 가능성이 있으나, 최근 관찰 부재(N2)로 인해 이 성향의 유지 여부는 불확실하다.\",\n      \"basis\": [\"N0\", \"N2\", \"R3\"],\n      \"limitation\": \"N0은 과거 반복 지향을 보여주지만 최근 경로 사용 여부는 미확인이며, R3의 '익숙 경로 이탈 직후형'은 이탈 상황에서의 행동 가설일 뿐 정상 행동 패턴을 보장하지 않는다.\"\n    }\n  ],\n  \"unknowns\": [\n    \"최근 외출 시 실제로 어떤 경로를 사용했는지에 대한 직접 관찰 부재\",\n    \"헤맬 때 방향 전환 여부 또는 backtracking 여부 미확인\",\n    \"개인의 현재 끌림점 강도 변화 가능성 (예: 시장 외 다른 장소로의 이동 경향)\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"basis\": [\"H1\", \"N1\"],\n      \"reason\": \"N1에서 시장 쪽으로 걷는 반복 관찰과 R0의 '앞만 보고 걸어감' 가설을 종합하여, 방향 유지 성향을 높게 설정하되, 직접 관찰되지 않은 점을 고려해 과도한 확신은 피함.\"\n    },\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"basis\": [\"N0\", \"H2\"],\n      \"reason\": \"과거 세 장소 반복 방문(N0)이 있으나 최근 경로 사용은 미확인(N2)이므로, 익숙 경로 의존 가능성은 유지하되 낮은 확률로 설정.\"\n    },\n    {\n      \"target\": \"attraction_levels.시장\",\n      \"basis\": [\"N1\"],\n      \"reason\": \"최근 한 달간 시장 쪽으로 걷는 행동이 반복 관찰되었으므로, 끌림점 강도를 '상'으로 유지.\"\n    },\n    {\n      \"target\": \"attraction_levels.공원\",\n      \"basis\": [\"N0\"],\n      \"reason\": \"과거 반복 지향 관찰(N0)이 있으나 최근 관찰 없으므로 '상' 유지하되, 최근 행동 부재 가능성 고려.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.3,\n      \"direction_keeping\": 0.4,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.1\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"상\",\n      \"복지관\": \"상\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인 관찰(N1)이 시장 방향 반복 지향을 시사하므로 direction_keeping 확률을 일반 평균보다 높게 설정하되, 경로 사용 및 backtracking 여부는 미확인이므로 route_following과 backtracking은 보수적으로 유지. 끌림점은 과거 및 최근 관찰을 종합해 '상'으로 설정하되, 최근 행동 부재 장소는 과도한 신뢰 배제.\"\n  }\n}",
+    "raw_sha256": "df83648c28dd16a281bfb571ae3d86716e6d727d1befcc637643268b26582d26",
+    "source_file_sha256": "de43491d03f41a0a0a4088ca4a086952df5d9e477692528d15b27a2334aca7a1",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 842,
+      "prompt_tokens": 2080,
+      "prompt_tokens_details": {
+        "cached_tokens": 2016
+      },
+      "total_tokens": 2922
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C03_CONTROL_1",
+    "case": "C03",
+    "family": "FEATURES",
+    "variant": "C03",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "decision_target"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.49019607843137253,
+        "direction_keeping": 0.29411764705882354,
+        "random_walk": 0.09803921568627451,
+        "backtracking": 0.049019607843137254,
+        "staying_put": 0.049019607843137254,
+        "landmark_seeking": 0.0196078431372549
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "과거 반복 지향과 최근 시장 방향 관찰이 익숙한 경로 및 끌림점 유지 근거가 되나, 방향 전환 및 경로 이탈 여부 미확인으로 인해 일반 경향을 보수적으로 적용함.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C03_CONTROL_1.json",
+    "raw_content": "{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다. 최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"실종자는 익숙한 경로를 따라 시장 방향으로 이동할 가능성이 높다.\",\n      \"basis\": [\"N0\", \"N1\", \"R0\"],\n      \"limitation\": \"최근 헤맬 때의 경로 선택이나 방향 전환 여부는 관찰되지 않아, 경로 이탈 가능성은 배제할 수 없다.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"실종자는 방향 유지 성향이 강해 정면만 보고 직진할 가능성이 있다.\",\n      \"basis\": [\"N1\", \"R0\"],\n      \"limitation\": \"이 행동은 문헌 기반 일반 경향이며, 본 사례에서 정면 직진 여부는 직접 관찰되지 않았다.\"\n    }\n  ],\n  \"unknowns\": [\n    \"실종자가 헤매는 중 실제로 방향을 전환했는지 여부\",\n    \"실종자가 익숙한 경로를 사용했는지 여부\",\n    \"실종자가 특정 장소(시장 외)에 끌렸는지 여부\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"route_following\",\n      \"basis\": [\"H1\", \"N0\"],\n      \"reason\": \"과거 반복 지향과 최근 시장 방향 관찰이 익숙한 경로 의존을 지지함\"\n    },\n    {\n      \"target\": \"direction_keeping\",\n      \"basis\": [\"H2\", \"R0\"],\n      \"reason\": \"문헌 기반 일반 경향을 반영하되, 개인 관찰 부족으로 확신은 제한적임\"\n    },\n    {\n      \"target\": \"attraction_levels\",\n      \"basis\": [\"N0\", \"R1\"],\n      \"reason\": \"시장, 공원, 복지관 모두 과거 반복 지향이 확인되어 끌림점 '상'으로 유지. 최근 시장 방향 관찰로 시장 우선성 강화\"\n    },\n    {\n      \"target\": \"radius_level\",\n      \"basis\": [\"N0\", \"R1\", \"R3\"],\n      \"reason\": \"과거 반복 지향과 최근 방향 관찰이 있으나, 경로 이탈 가능성 존재로 인해 과도한 반경 설정은 회피\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.5,\n      \"direction_keeping\": 0.3,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.0\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"상\",\n      \"복지관\": \"상\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"과거 반복 지향과 최근 시장 방향 관찰이 익숙한 경로 및 끌림점 유지 근거가 되나, 방향 전환 및 경로 이탈 여부 미확인으로 인해 일반 경향을 보수적으로 적용함.\"\n  }\n}",
+    "raw_sha256": "0e5a69a8df4dec6f57804a8c7245a5c77d09779014ad9f9e3ab9439f6dda9883",
+    "source_file_sha256": "dab25455bfd70c080a3fba8c2f5da482aa77b2bfa1dc58a492c1ba88f83e0724",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 694,
+      "prompt_tokens": 2080,
+      "prompt_tokens_details": {
+        "cached_tokens": 2048
+      },
+      "total_tokens": 2774
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C03_FEATURES_0",
+    "case": "C03",
+    "family": "FEATURES",
+    "variant": "C03",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "missing_note_coverage"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.3,
+        "direction_keeping": 0.4,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인 관찰에 따르면 시장 방향으로의 이동과 지속적인 보행이 확인되어 방향 유지 및 특정 장소 지향성이 강화됨. 그러나 익숙한 경로 이용 여부는 미확인이므로 route_following은 보수적으로 유지. 일반 지식상 익숙한 장소 중심의 제한된 범위 내 이동이 예상되나, 신체 능력은 미확인.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C03_FEATURES_0.json",
+    "raw_content": "{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R1\"],\n          \"claim\": \"치매 노인은 익숙한 장소(마트, 복지관 등)로 향하는 경향이 있으며, 이는 반복적인 이동 패턴에 기반한다.\",\n          \"limitation\": \"이번 개인의 경우 최근 관찰은 시장 방향에 국한되며, 마트나 복지관에 대한 최근 지향은 확인되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"최근 외출 시 마트나 복지관 방향으로 이동했는지 여부\",\n        \"시장 외 다른 장소에 대한 끌림 여부\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 시장 방향으로의 이동이 최근 확인되었으며, 이는 특정 장소에 대한 지향성을 시사한다. 그러나 다른 익숙한 장소에 대한 최근 지향은 미확인이다.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 불안 상태에서 지속적인 왔다 갔다 또는 직진 보행을 보일 수 있으며, 이는 이동 지속성 증가와 관련된다.\",\n          \"limitation\": \"이번 개인의 '멈추지 않고 계속 걸어감'은 불안 또는 방향 상실의 징후일 수 있으나, 그 원인이 명확히 관찰되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"이동 중 휴식 여부 및 지속 시간\",\n        \"불안 또는 혼란의 정서적 상태\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 이동 중 멈추지 않는 행동이 반복되었으며, 이는 이동 지속성 증가를 시사한다. 그러나 정서적 맥락은 미확인이다.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N2\", \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R3\"],\n          \"claim\": \"익숙한 경로를 벗어나면 방향상실 가능성이 높아지며, 원래 경로 주변에서 재진입을 시도할 수 있다.\",\n          \"limitation\": \"이번 개인은 익숙한 경로 이용 여부가 관찰되지 않아, 경로 형태에 대한 판단은 일반 가설에 의존할 수밖에 없다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"익숙한 경로를 이용하는지 여부\",\n        \"방향 전환 또는 되돌아가는 행동 여부\"\n      ],\n      \"conclusion\": \"개인 관찰 부족으로 경로 형태는 미확인이나, 일반 지식상 익숙한 경로 이탈 시 재진입 시도 가능성이 있다.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 신체적 능력 내에서 익숙한 지역(시장, 공원, 복지관 등)을 중심으로 이동 범위를 형성한다.\",\n          \"limitation\": \"이번 개인의 신체적 이동 능력이나 실제 이동 범위는 관찰되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"신체적 이동 능력 및 범위\",\n        \"실제 이동 거리 또는 속도\"\n      ],\n      \"conclusion\": \"개인 관찰 부족으로 mobility_range는 미확인이나, 일반 지식상 익숙한 장소 중심의 제한된 범위 내 이동 가능성이 있다.\"\n    }\n  },\n  \"integration\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"uncertain\",\n      \"reason\": \"개인의 익숙한 경로 이용 여부가 관찰되지 않아 route_following 전략의 확률 조정 불가\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"feature_refs\": [\"movement_persistence\", \"route_shape\"],\n      \"action\": \"increase\",\n      \"reason\": \"개인 관찰상 멈추지 않고 계속 걸어가는 행동이 반복되었으며, 이는 방향 유지 경향을 시사함\"\n    },\n    {\n      \"target\": \"strategy_probs.landmark_seeking\",\n      \"feature_refs\": [\"destination_pull\"],\n      \"action\": \"increase\",\n      \"reason\": \"시장 방향으로의 이동이 최근 확인되었으며, 이는 특정 장소에 대한 끌림을 나타냄\"\n    },\n    {\n      \"target\": \"strategy_probs.random_walk\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"decrease\",\n      \"reason\": \"익숙한 경로 이탈 후 재진입 시도 가능성이 있으나, 현재 관찰 부족으로 무작위 보행 가능성은 낮음\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.3,\n      \"direction_keeping\": 0.4,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.1\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"상\",\n      \"복지관\": \"상\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인 관찰에 따르면 시장 방향으로의 이동과 지속적인 보행이 확인되어 방향 유지 및 특정 장소 지향성이 강화됨. 그러나 익숙한 경로 이용 여부는 미확인이므로 route_following은 보수적으로 유지. 일반 지식상 익숙한 장소 중심의 제한된 범위 내 이동이 예상되나, 신체 능력은 미확인.\"\n  }\n}",
+    "raw_sha256": "187d49906be536ac8543e2a3cea486a6e1311b2c38d7d26826daddb87359b565",
+    "source_file_sha256": "bc82c1fcdc76dd26e2b03965f01e38a887f8c27b36d5f03593126c0dad47a8ca",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1142,
+      "prompt_tokens": 2263,
+      "prompt_tokens_details": {
+        "cached_tokens": 2208
+      },
+      "total_tokens": 3405
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C03_FEATURES_1",
+    "case": "C03",
+    "family": "FEATURES",
+    "variant": "C03",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json",
+      "feature.route_shape.hypotheses_count",
+      "feature.mobility_range.unknowns",
+      "missing_note_coverage"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.3,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인 관찰에서 시장에 대한 최근 지향성과 이동 지속성이 확인되어 landmark_seeking 및 route_following 전략이 강화되었다. 방향 전환 및 경로 이용 여부는 미확인이나, 헤매는 상황에서도 직진하는 경향이 관찰되어 direction_keeping 전략도 상향 조정되었다. 생활 반경은 익숙한 장소 중심으로 제한적일 것으로 추정된다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C03_FEATURES_1.json",
+    "raw_content": "```json\n{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R1\"],\n          \"claim\": \"치매 노인은 익숙한 장소(시장, 복지관 등)를 반복적으로 방문하는 경향이 있으며, 이는 정상적이고 감독받지 않는 활동의 일환으로 나타난다.\",\n          \"limitation\": \"이번 개인의 최근 방문 장소가 시장으로 제한되어 관찰되었으나, 복지관이나 공원에 대한 최근 방문 여부는 확인되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"최근 복지관 또는 공원 방문 여부\",\n        \"시장 외 다른 장소에 대한 지향성 변화 여부\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 시장에 대한 지향성이 최근 확인되었으나, 다른 익숙한 장소에 대한 최근 지향성은 미확인이다.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 방향 전환이 어려우며, 한 방향으로 직진하는 경향이 있어 이동 지속성이 높게 나타난다.\",\n          \"limitation\": \"이번 개인의 방향 전환 여부는 직접 관찰되지 않았으므로, 직진 경향은 가설적 추정이다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"방향 전환 여부\",\n        \"이동 중 휴식 또는 정지 빈도\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 헤매는 상황에서도 멈추지 않고 계속 걸어가는 이동 지속성이 나타났으나, 방향 전환 여부는 미확인이다.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"},\n        {\"note_id\": \"N2\", \"quote\": \"헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R3\"],\n          \"claim\": \"치매 노인은 익숙한 경로를 따르는 경향이 있으며, 이탈 시에도 원래 경로 주변에서 재진입을 시도할 가능성이 있다.\",\n          \"limitation\": \"이번 개인의 경로 이용 여부는 직접 관찰되지 않았으며, 이탈 여부도 확인되지 않았다.\"\n        },\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"방향 전환이 어려우며, 한 방향으로 직진하는 경향이 있어 route_following 또는 direction_keeping 전략이 우세할 수 있다.\",\n          \"limitation\": \"이번 개인의 경로 이용이나 방향 유지 여부는 직접 관찰되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"익숙한 경로 이용 여부\",\n        \"방향 전환 또는 되돌아가는 행동 여부\"\n      ],\n      \"conclusion\": \"개인의 경로 형태는 직접 관찰되지 않았으나, 헤매는 상황에서도 직진하는 경향이 관찰되어 route_following 또는 direction_keeping 가설이 부분적으로 지지된다.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R1\"],\n          \"claim\": \"치매 노인의 배회는 주로 익숙한 장소(시장, 복지관 등) 사이의 이동으로 제한되며, 생활 반경은 제한적일 가능성이 높다.\",\n          \"limitation\": \"이번 개인의 이동 범위는 직접 관찰되지 않았으며, 과거 이력 외 최근 이동 거리는 미확인이다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"최근 이동 거리\",\n        \"이동 속도 또는 지속 시간\",\n        \"신체적 이동 능력 변화 여부\"\n      ],\n      \"conclusion\": \"개인의 mobility_range는 직접 관찰되지 않았으나, 익숙한 장소 지향성과 이동 지속성 관찰을 바탕으로 제한적 범위 내 이동 가능성이 있다.\"\n    }\n  },\n  \"integration\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"increase\",\n      \"reason\": \"개인 관찰에서 헤매는 상황에서도 멈추지 않고 직진하는 경향이 나타났으며, 이는 익숙한 경로를 따르는 행동과 일관된다.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"feature_refs\": [\"route_shape\", \"movement_persistence\"],\n      \"action\": \"increase\",\n      \"reason\": \"방향 전환이 관찰되지 않았고, 직진 경향이 반복되어 방향 유지 전략이 강화될 가능성이 있다.\"\n    },\n    {\n      \"target\": \"strategy_probs.landmark_seeking\",\n      \"feature_refs\": [\"destination_pull\"],\n      \"action\": \"increase\",\n      \"reason\": \"시장에 대한 최근 지향성이 관찰되어 특정 장소(시장)에 대한 끌림이 강화되었음을 시사한다.\"\n    },\n    {\n      \"target\": \"strategy_probs.random_walk\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"decrease\",\n      \"reason\": \"목적 없는 다방향 이동보다는 특정 방향(시장 쪽)으로의 직진 경향이 관찰되어 무작위 보행 가능성은 낮아진다.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.5,\n      \"direction_keeping\": 0.3,\n      \"random_walk\": 0.05,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.05\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"중\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인 관찰에서 시장에 대한 최근 지향성과 이동 지속성이 확인되어 landmark_seeking 및 route_following 전략이 강화되었다. 방향 전환 및 경로 이용 여부는 미확인이나, 헤매는 상황에서도 직진하는 경향이 관찰되어 direction_keeping 전략도 상향 조정되었다. 생활 반경은 익숙한 장소 중심으로 제한적일 것으로 추정된다.\"\n  }\n}\n```",
+    "raw_sha256": "f336817b8b9785c8df8eb95fd06d08f6057ebfc6cb99d954820fee6f0fd35faf",
+    "source_file_sha256": "fc6b7534a576b16b001527b249fdd0ee4dd4f1e50891e326765eb4e08c19298e",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1245,
+      "prompt_tokens": 2263,
+      "prompt_tokens_details": {
+        "cached_tokens": 2240
+      },
+      "total_tokens": 3508
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C04_CONTROL_0",
+    "case": "C04",
+    "family": "FEATURES",
+    "variant": "C04",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json",
+      "decisions_count"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.35,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.2857142857142857,
+        "공원": 0.42857142857142855,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "과거 반복 지향은 익숙 경로 및 끌림점 존재를 시사하나, 최근 공원 방향 이동 외에는 직접적 관찰이 부족하다. 일반 문헌상 방향 유지 및 경로 의존 경향이 초기 배회 양상으로 보고되므로, 이를 기반으로 전략 확률을 조정하되, 개인 관찰의 한계를 명시한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C04_CONTROL_0.json",
+    "raw_content": "```json\n{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 공원 쪽으로 걷는 모습을 가족이 여러 번 봤다. 최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"개인은 최근 공원 쪽으로 향하는 경향이 있으며, 길을 잃었을 때도 멈추지 않고 직진하는 '앞만 보고 걸어감' 형태의 배회를 보일 가능성이 있다.\",\n      \"basis\": [\"N1\", \"R0\"],\n      \"limitation\": \"이 행동은 특정 장소(공원)에 대한 끌림보다는 방향 유지 성향에서 비롯되었을 수 있으며, 공원 자체가 최종 목적지인지 여부는 불확실하다.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"개인은 익숙한 경로를 따라 이동하는 경향이 있으나, 최근 관찰 부재로 인해 그 경로의 유지 여부는 불확실하다.\",\n      \"basis\": [\"N2\", \"R3\"],\n      \"limitation\": \"가족이 경로 이탈 여부를 직접 관찰하지 못했으므로, 익숙 경로 의존성은 가설 수준에 머무른다.\"\n    }\n  ],\n  \"unknowns\": [\n    \"최근 헤맬 때 방향 전환 여부\",\n    \"익숙한 경로 사용 여부\",\n    \"공원 방문이 반복적 습관인지 일시적 끌림인지\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"route_following\",\n      \"basis\": [\"N0\", \"R3\"],\n      \"reason\": \"과거 반복 지향이 관찰되었고, 문헌상 익숙 경로 의존성이 배회 초기 경향으로 보고되므로, 익숙한 경로 따르는 경향을 중간 수준으로 설정하되, 최근 관찰 부재를 고려해 과도한 확신은 피한다.\"\n    },\n    {\n      \"target\": \"direction_keeping\",\n      \"basis\": [\"N1\", \"R0\"],\n      \"reason\": \"최근 공원 쪽으로 걷는 관찰과 '앞만 보고 걸어감' 형태의 문헌 보고를 종합해, 방향 유지 경향을 높게 설정하되, 이는 특정 장소보다는 직진 행동 양상에 기반함을 명시한다.\"\n    },\n    {\n      \"target\": \"landmark_seeking\",\n      \"basis\": [\"N1\", \"R1\"],\n      \"reason\": \"공원 쪽으로 향하는 반복적 관찰이 있으나, 그 장소가 끌림점인지 여부는 확인되지 않았고, 문헌상 소수 익숙 거점 회귀형이 가능하므로 공원을 '중' 수준의 끌림점으로 설정한다.\"\n    },\n    {\n      \"target\": \"attraction_levels\",\n      \"basis\": [\"N0\", \"R1\"],\n      \"reason\": \"시장, 복지관은 과거 관찰되었으나 최근 언급 없고, 공원은 최근 반복 관찰되었으므로 공원은 '상', 시장과 복지관은 '중'으로 설정하되, 이는 끌림 강도 추정일 뿐 최종 목적지를 보장하지 않는다.\"\n    },\n    {\n      \"target\": \"radius_level\",\n      \"basis\": [\"N0\", \"H1\"],\n      \"reason\": \"과거 세 장소 간 이동이 관찰되었고, 최근 공원 방향 이동이 있으나 범위 제한 여부는 불명이므로, 이동 반경은 '중'으로 설정하여 과도한 확장이나 축소를 피한다.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.4,\n      \"direction_keeping\": 0.35,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.05\n    },\n    \"attraction_levels\": {\n      \"시장\": \"중\",\n      \"공원\": \"상\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"과거 반복 지향은 익숙 경로 및 끌림점 존재를 시사하나, 최근 공원 방향 이동 외에는 직접적 관찰이 부족하다. 일반 문헌상 방향 유지 및 경로 의존 경향이 초기 배회 양상으로 보고되므로, 이를 기반으로 전략 확률을 조정하되, 개인 관찰의 한계를 명시한다.\"\n  }\n}\n```",
+    "raw_sha256": "17ab4e51ebcf8ffc52c4a1c0fe4930092d94b3ecac65401e6326e3f7cde56f4d",
+    "source_file_sha256": "d0f7b99919092268e5ded4ad01149045e9abf6a0776dfd69c40b3b59780a5261",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 890,
+      "prompt_tokens": 2080,
+      "prompt_tokens_details": {
+        "cached_tokens": 2016
+      },
+      "total_tokens": 2970
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C04_CONTROL_1",
+    "case": "C04",
+    "family": "FEATURES",
+    "variant": "C04",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "envelope_valid": true,
+    "envelope_errors": [],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.35,
+        "direction_keeping": 0.4,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.2857142857142857,
+        "공원": 0.42857142857142855,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인의 최근 공원 방향 보행과 지속적 직진 경향을 반영해 방향 유지와 공원 끌림점을 강화하되, 경로 이탈 여부와 방향 전환은 미확인이므로 익숙 경로 의존 가능성은 보수적으로 유지한다. 일반 문헌의 반복 거점 회귀형 패턴을 참고하되, 개인 관찰의 한계를 반영해 과도한 일반화는 피한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C04_CONTROL_1.json",
+    "raw_content": "{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 공원 쪽으로 걷는 모습을 가족이 여러 번 봤다. 최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"개인은 최근 공원 방향으로의 지속적 보행 경향이 있으며, 방향 전환 없이 직진하는 '앞만 보고 걸어감' 형태를 보일 가능성이 있다.\",\n      \"basis\": [\"N1\", \"R0\"],\n      \"limitation\": \"N2에서 방향 전환 여부와 경로 익숙도에 대한 직접 관찰이 없으므로, 이 가설은 N1의 행동 양상과 R0의 일반적 치매 행동 패턴에 기반하지만 개인 적용에는 불확실성이 있다.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"개인은 익숙한 경로를 따라 이동하는 경향이 있으나, 최근 헤맴 상황에서의 경로 이탈 여부는 확인되지 않았다.\",\n      \"basis\": [\"N0\", \"N2\", \"R3\"],\n      \"limitation\": \"R3는 익숙 경로 이탈을 핵심 신호로 보지만, N2는 경로 이탈 여부에 대한 관찰이 없으므로 개인에 대한 적용은 제한적이다.\"\n    }\n  ],\n  \"unknowns\": [\n    \"개인이 헤맬 때 실제로 방향을 전환했는지 여부\",\n    \"개인이 익숙한 경로를 이용하고 있는지 여부\",\n    \"개인의 현재 이동 속도 및 지속 시간에 대한 정량적 정보 부재\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"route_following\",\n      \"basis\": [\"N0\", \"H2\"],\n      \"reason\": \"과거에 시장·공원·복지관으로의 반복 이동이 관찰되었고, 익숙 경로 의존 가능성이 있으나 최근 경로 이탈 여부는 미확인이므로, 익숙 경로 유지 가능성은 유지하되 확신은 제한적이다.\"\n    },\n    {\n      \"target\": \"direction_keeping\",\n      \"basis\": [\"N1\", \"H1\"],\n      \"reason\": \"최근 공원 방향으로의 지속적 보행과 '멈추지 않고 계속 걸어감' 관찰에 따라 방향 유지 경향을 높게 설정하되, 방향 전환 여부는 미확인이므로 과도한 확신은 배제한다.\"\n    },\n    {\n      \"target\": \"landmark_seeking\",\n      \"basis\": [\"N0\", \"N1\"],\n      \"reason\": \"과거 시장·공원·복지관에 대한 반복 지향이 관찰되었고, 최근 공원 방향 보행이 확인되었으므로 공원을 주요 끌림점으로 유지한다. 다른 장소는 과거 지향일 뿐 최근 행동 증거는 없어 상대적 우선순위를 낮춘다.\"\n    },\n    {\n      \"target\": \"radius_level\",\n      \"basis\": [\"N0\", \"N1\", \"R1\"],\n      \"reason\": \"과거 세 장소에 대한 반복 지향과 최근 공원 방향 보행이 확인되었으나, 경로 이탈 여부와 이동 범위는 미확인이므로, 이동 반경은 '중'으로 설정하여 과도한 확장 추정을 피한다.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.35,\n      \"direction_keeping\": 0.4,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.05\n    },\n    \"attraction_levels\": {\n      \"시장\": \"중\",\n      \"공원\": \"상\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인의 최근 공원 방향 보행과 지속적 직진 경향을 반영해 방향 유지와 공원 끌림점을 강화하되, 경로 이탈 여부와 방향 전환은 미확인이므로 익숙 경로 의존 가능성은 보수적으로 유지한다. 일반 문헌의 반복 거점 회귀형 패턴을 참고하되, 개인 관찰의 한계를 반영해 과도한 일반화는 피한다.\"\n  }\n}",
+    "raw_sha256": "033536017f933d1ee519cef9d5995682d38124b33628893c73f9f4259438d864",
+    "source_file_sha256": "f70efe2be117018725cfae58fe5424c9afbaca3006f7c9ff4255e53eba106d15",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 863,
+      "prompt_tokens": 2080,
+      "prompt_tokens_details": {
+        "cached_tokens": 2048
+      },
+      "total_tokens": 2943
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C04_FEATURES_0",
+    "case": "C04",
+    "family": "FEATURES",
+    "variant": "C04",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json",
+      "feature.route_shape.unknowns",
+      "missing_note_coverage"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.3,
+        "direction_keeping": 0.2,
+        "random_walk": 0.25,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "공원 방향성에 대한 개인 관찰이 있으나, 경로 형태나 이동 범위는 미확인이다. 방향 상실 시 이동을 지속하는 행동은 무작위 보행 또는 지속적 이동 가능성을 시사하나, 방향 유지 여부는 불확실하다. 따라서 route_following과 direction_keeping은 낮게 설정하고, random_walk과 movement_persistence에 기반한 전략 확률을 조정하였다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C04_FEATURES_0.json",
+    "raw_content": "```json\n{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 공원 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 특정 장소(시장, 공원, 복지관 등)에 대한 반복 지향을 보이며, 이는 익숙함에 기반한 끌림점으로 작용한다.\",\n          \"limitation\": \"이번 개인의 최근 관찰은 공원 방향성만 확인되었고, 시장이나 복지관에 대한 최근 지향은 확인되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"최근 시장 또는 복지관 방문 여부\",\n        \"공원 외 다른 장소에 대한 끌림 여부\"\n      ],\n      \"conclusion\": \"공원 방향으로 걷는 개인 관찰이 있으나, 다른 장소에 대한 최근 지향은 미확인이므로 공원에 대한 끌림은 부분적으로 지지되지만 전체 끌림점 구조는 불확실하다.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 방향 상실 시에도 이동을 지속하는 경향이 있으며, 이는 '앞만 보고 걸어감' 또는 '불안한 듯 지속적으로 왔다 갔다 함'과 같은 형태로 나타난다.\",\n          \"limitation\": \"이번 개인의 이동 지속성은 방향 상실 상황에서 관찰되었으나, 정상 상태에서의 이동 패턴은 미확인이다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"정상 상태에서의 이동 빈도 및 지속성\",\n        \"휴식 또는 머무름 행동의 존재 여부\"\n      ],\n      \"conclusion\": \"방향 상실 시 이동을 멈추지 않는 개인 관찰이 있으나, 전반적인 이동 지속성은 일반 가설 수준에서만 추정 가능하다.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"},\n        {\"note_id\": \"N2\", \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\", \"R3\"],\n          \"claim\": \"치매 노인은 익숙한 경로를 따라 이동하거나, 방향을 유지하는 경향이 있으며, 이탈 시에도 원래 경로 주변에서 재진입을 시도할 가능성이 있다.\",\n          \"limitation\": \"이번 개인의 경로 형태는 미확인이며, 방향 유지 또는 경로 이탈 여부는 관찰되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"익숙한 경로 이용 여부\",\n        \"방향 유지 또는 전환 여부\",\n        \"되돌아가는 행동 존재 여부\"\n      ],\n      \"conclusion\": \"경로 형태에 대한 개인 관찰은 없으며, 일반 가설상 익숙 경로 의존 가능성이 있으나 확인되지 않았다.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R2\"],\n          \"claim\": \"재택 거주자 치매 노인은 익숙한 동네 산책이나 차량 운전을 통해 익숙한 장소로 이동하는 경우가 많으며, 이는 제한된 생활 반경 내에서 반복적인 이동 패턴을 보인다.\",\n          \"limitation\": \"이번 개인의 이동 범위는 미확인이며, 신체 능력이나 이동 거리에 대한 직접 관찰은 없다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"실제 이동 거리 또는 반경\",\n        \"신체적 이동 능력(보행 속도, 지구력 등)\"\n      ],\n      \"conclusion\": \"이동 범위는 개인 관찰 없이 일반 가설에 기반하며, '중' 수준으로 유지하되 추정임을 명시한다.\"\n    }\n  },\n  \"integration\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"uncertain\",\n      \"reason\": \"익숙한 경로 이용 여부는 개인 관찰 미확인이나, 일반 가설상 유지 가능하나 이탈 가능성도 존재하므로 불확실.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"feature_refs\": [\"route_shape\", \"movement_persistence\"],\n      \"action\": \"increase\",\n      \"reason\": \"방향 상실 시에도 이동을 지속하는 개인 관찰이 있으나, 방향 전환 여부는 미확인이므로 방향 유지보다는 지속성에 기반한 증가.\"\n    },\n    {\n      \"target\": \"strategy_probs.random_walk\",\n      \"feature_refs\": [\"route_shape\", \"movement_persistence\"],\n      \"action\": \"increase\",\n      \"reason\": \"방향 상실 시 멈추지 않고 계속 이동하는 관찰은 무작위 보행 또는 지속적 이동 가능성을 시사하나, 경로 전환 여부는 미확인.\"\n    },\n    {\n      \"target\": \"attraction_levels.공원\",\n      \"feature_refs\": [\"destination_pull\"],\n      \"action\": \"maintain\",\n      \"reason\": \"공원 방향성에 대한 개인 관찰이 있으나, 다른 장소에 대한 최근 지향 미확인이므로 기존 '상' 수준 유지.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.3,\n      \"direction_keeping\": 0.2,\n      \"random_walk\": 0.25,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.15\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"상\",\n      \"복지관\": \"상\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"공원 방향성에 대한 개인 관찰이 있으나, 경로 형태나 이동 범위는 미확인이다. 방향 상실 시 이동을 지속하는 행동은 무작위 보행 또는 지속적 이동 가능성을 시사하나, 방향 유지 여부는 불확실하다. 따라서 route_following과 direction_keeping은 낮게 설정하고, random_walk과 movement_persistence에 기반한 전략 확률을 조정하였다.\"\n  }\n}\n```",
+    "raw_sha256": "82c97ea85e3f82776f573520a6c4c74d784ff3013570c9960ca94115434f77be",
+    "source_file_sha256": "e01908d38e70e60a18f11efdd6e704767abee2f53990e09f2d1e0e59cbcaf184",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1240,
+      "prompt_tokens": 2263,
+      "prompt_tokens_details": {
+        "cached_tokens": 2208
+      },
+      "total_tokens": 3503
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C04_FEATURES_1",
+    "case": "C04",
+    "family": "FEATURES",
+    "variant": "C04",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "missing_note_coverage"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.3,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인 관찰(N1)에 따라 공원 방향성 지향과 이동 지속성이 확인되어 방향 유지 및 공원 끌림점 강화. 경로 형태는 미확인이나 일반 지식상 익숙 경로 선호 및 이탈 후 재진입 경향을 반영하여 route_following 유지, random_walk 감소. 신체 능력은 미확인이나 생활 반경은 제한적일 것으로 추정.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C04_FEATURES_1.json",
+    "raw_content": "{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 공원 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\"basis\": [\"R1\"], \"claim\": \"치매 노인은 평소 반복적으로 방문한 익숙한 장소(시장, 공원, 복지관)로 향하는 경향이 있으며, 특히 감독 없는 상황에서 익숙한 경로를 따라 이동하는 경향이 있다.\", \"limitation\": \"이번 개인의 최근 행동 관찰은 공원 방향성만 확인되었고, 시장이나 복지관에 대한 최근 지향성은 관찰되지 않았다.\"}\n      ],\n      \"unknowns\": [\n        \"최근 시장 또는 복지관 방문 여부\",\n        \"공원 방문의 구체적 동기(목적지인지, 경로상 통과인지)\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 공원 방향으로의 지향성이 확인되었으나, 다른 장소에 대한 최근 행동은 없어 공원이 현재 끌림점일 가능성은 있으나, 과거 지향성과 병행될 수 있음.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\"basis\": [\"R0\"], \"claim\": \"치매 노인은 방향 상실 시에도 이동을 지속하는 경향이 있으며, 이는 불안이나 혼란 상태에서의 지속적 보행 형태로 나타날 수 있다.\", \"limitation\": \"이번 개인의 이동 지속성은 관찰되었으나, 그 동기(목적지 존재 여부, 불안 수준)는 확인되지 않음.\"}\n      ],\n      \"unknowns\": [\n        \"이동 중 휴식 여부\",\n        \"이동 지속의 심리적 동기(목적지 탐색 vs. 불안 반응)\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 헤매는 상황에서도 이동을 지속하는 경향이 있으나, 그 배경은 불확실하며 일반 가설의 적용 한계가 있음.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"},\n        {\"note_id\": \"N2\", \"quote\": \"최근 헤맬 때 방향을 바꾸는지, 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\"basis\": [\"R3\"], \"claim\": \"익숙한 경로를 벗어나도 원래 경로 주변에서 재진입을 시도하는 경향이 있으며, 이탈은 정상 경로의 일부를 공유한 후 갈라지는 형태로 나타난다.\", \"limitation\": \"이번 개인의 경로 이탈 여부는 확인되지 않았고, 익숙한 경로 이용 여부도 관찰되지 않음.\"}\n      ],\n      \"unknowns\": [\n        \"익숙한 경로 이용 여부\",\n        \"방향 전환 또는 되돌아가기 여부\"\n      ],\n      \"conclusion\": \"개인의 경로 형태는 관찰되지 않아 일반 가설 적용이 제한적이며, 정보 부족 상태임.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\"basis\": [\"R1\"], \"claim\": \"재택 거주자 치매 노인은 생활 반경이 좁고, 익숙한 장소 간 왕복 이동이 일반적이다.\", \"limitation\": \"이번 개인의 이동 범위나 거리, 속도는 관찰되지 않았으며, 신체 능력 변화도 없음.\"}\n      ],\n      \"unknowns\": [\n        \"실제 이동 거리 및 범위\",\n        \"신체적 제약 또는 이동 능력 변화 여부\"\n      ],\n      \"conclusion\": \"개인의 신체적 이동 능력은 미확인이나, 일반 지식상 생활 반경은 제한적일 가능성이 높음.\"\n    }\n  },\n  \"integration\": [\n    {\n      \"target\": \"attraction_levels.공원\",\n      \"feature_refs\": [\"destination_pull\"],\n      \"action\": \"increase\",\n      \"reason\": \"개인 관찰(N1)에 따라 공원 방향성 지향이 확인되어 끌림점 수준을 '상'으로 유지 또는 강화함.\"\n    },\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"maintain\",\n      \"reason\": \"익숙한 경로 이용 여부는 관찰되지 않았으나, 일반 지식상 치매 노인은 익숙한 경로를 선호하므로 기존 설정을 유지함.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"feature_refs\": [\"movement_persistence\"],\n      \"action\": \"increase\",\n      \"reason\": \"개인 관찰(N1)에 따라 헤매는 상황에서도 이동을 지속하는 경향이 확인되어 방향 유지 전략 확률을 높임.\"\n    },\n    {\n      \"target\": \"strategy_probs.random_walk\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"decrease\",\n      \"reason\": \"방향 전환 또는 되돌아가기 여부는 관찰되지 않았고, 일반 지식상 익숙 경로 이탈 후 재진입 시도 경향이 있으므로 무작위 보행 가능성은 낮춤.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.4,\n      \"direction_keeping\": 0.3,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.1\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"상\",\n      \"복지관\": \"상\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인 관찰(N1)에 따라 공원 방향성 지향과 이동 지속성이 확인되어 방향 유지 및 공원 끌림점 강화. 경로 형태는 미확인이나 일반 지식상 익숙 경로 선호 및 이탈 후 재진입 경향을 반영하여 route_following 유지, random_walk 감소. 신체 능력은 미확인이나 생활 반경은 제한적일 것으로 추정.\"\n  }\n}",
+    "raw_sha256": "e2c7c206d8e716cd36f8f409c84e8a4d92396d907ee6c64cb0f34c48ac1b7ffd",
+    "source_file_sha256": "e1f4755e773c778c7bb7e7926f3040e04bfc71d98b0fa0bf6c4e352a5df642fc",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1190,
+      "prompt_tokens": 2263,
+      "prompt_tokens_details": {
+        "cached_tokens": 2240
+      },
+      "total_tokens": 3453
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C05_CONTROL_0",
+    "case": "C05",
+    "family": "FEATURES",
+    "variant": "C05",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json",
+      "unknowns"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.4,
+        "direction_keeping": 0.35,
+        "random_walk": 0.1,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인의 최근 시장 방향 이동과 방향 유지 관찰이 R0, R3의 일반 가설과 일치하나, 경로 확인 부재와 과거 반복 방문 이력의 지속성 미확인으로 인해 과도한 확신은 배제. 일반 경향을 유지하되, 방향 유지와 시장 끌림을 강화한 조정.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C05_CONTROL_0.json",
+    "raw_content": "```json\n{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다. 최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습을 가족이 여러 번 봤다. 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"개인은 최근 시장 방향으로의 지향성이 강화되었으며, 방향 유지 성향이 두드러진다.\",\n      \"basis\": [\"N1\", \"N2\"],\n      \"limitation\": \"방향 유지가 익숙한 경로 때문인지, 단순한 시각적 주의 집중 때문인지 구분되지 않으며, 관찰되지 않은 경로 이탈 가능성도 배제할 수 없다.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"개인은 무작위 보행보다는 특정 장소(시장) 또는 방향에 대한 끌림을 보이며, 경로 이탈 후에도 원래 방향으로 복귀하려는 경향이 있을 수 있다.\",\n      \"basis\": [\"N1\", \"R0\", \"R3\"],\n      \"limitation\": \"R3의 '익숙 경로 이탈 직후형'은 일반 사례 기반 추정이며, 본 개인의 경로 이탈 여부는 확인되지 않았다. 시장에 대한 끌림이 과거 반복 경험에서 비롯된 것인지, 최근 강화된 행동인지 명확하지 않다.\"\n    }\n  ],\n  \"unknowns\": [\n    \"개인이 실제로 익숙한 경로를 사용하고 있는지 여부\",\n    \"방향 유지가 시각적 주의 집중 때문인지, 경로 기억 때문인지\",\n    \"최근 외출 빈도와 지속 시간\",\n    \"실종 당시 보호자의 감독 상태\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"basis\": [\"N2\", \"R0\"],\n      \"reason\": \"방향 유지 성향이 관찰되었고, R0의 '앞만 보고 걸어감'과 유사하므로 익숙한 경로 추종 가능성을 유지하되, 경로 확인 부재로 인해 확률을 중간 수준으로 설정.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"basis\": [\"N2\"],\n      \"reason\": \"갈림길에서 방향 전환이 거의 없었다는 관찰에 기반하여 방향 유지 성향을 강화.\"\n    },\n    {\n      \"target\": \"attraction_levels.시장\",\n      \"basis\": [\"N1\", \"R1\"],\n      \"reason\": \"최근 시장 방향 이동이 반복 관찰되었고, R1의 '소수 익숙 거점 회귀형' 패턴과 일치하므로 끌림 수준을 '상'으로 유지.\"\n    },\n    {\n      \"target\": \"radius_level\",\n      \"basis\": [\"N1\", \"R1\"],\n      \"reason\": \"과거 시장·복지관·공원 등 소수 거점 반복 방문 경향과 최근 시장 방향 이동 관찰을 종합하여 이동 반경은 '중'으로 설정. 과도한 확장이나 축소는 근거 부족.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.4,\n      \"direction_keeping\": 0.35,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.05\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"중\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인의 최근 시장 방향 이동과 방향 유지 관찰이 R0, R3의 일반 가설과 일치하나, 경로 확인 부재와 과거 반복 방문 이력의 지속성 미확인으로 인해 과도한 확신은 배제. 일반 경향을 유지하되, 방향 유지와 시장 끌림을 강화한 조정.\"\n  }\n}\n```",
+    "raw_sha256": "8eb7e65d24a3f4163b637a776c650ff2b85f77e9b44f4c2257885722027f5c27",
+    "source_file_sha256": "7e659e952285550c728652ce48e6e8ce18e783eb8d6ae9a7af8a70c912e6373a",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 829,
+      "prompt_tokens": 2091,
+      "prompt_tokens_details": {
+        "cached_tokens": 2016
+      },
+      "total_tokens": 2920
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C05_CONTROL_1",
+    "case": "C05",
+    "family": "FEATURES",
+    "variant": "C05",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "decision_target"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.3,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인의 최근 행동에서 방향 유지와 시장 방향 이동 경향이 관찰되었으며, 이는 익숙한 경로 및 특정 끌림점 기반 이동 가능성을 시사한다. 그러나 경로 이용 여부와 최근 끌림 강도는 직접 확인되지 않아 일반 가설과 개인 관찰의 결합에 한계가 있다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C05_CONTROL_1.json",
+    "raw_content": "{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다. 최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습을 가족이 여러 번 봤다. 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"개인은 익숙한 경로를 따라 시장 방향으로 이동할 가능성이 높으며, 방향 전환보다는 직진 유지 성향이 강하다.\",\n      \"basis\": [\"N1\", \"N2\", \"R0\"],\n      \"limitation\": \"익숙한 경로 이용 여부는 직접 관찰되지 않았으며, 방향 유지 경향은 갈림길에서의 행동에 기반하므로 일반화에는 제한이 있다.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"개인은 특정 장소(시장)에 대한 끌림이 존재하며, 이는 반복적인 과거 지향과 최근 행동에서 일관되게 나타난다.\",\n      \"basis\": [\"N0\", \"N1\", \"R1\"],\n      \"limitation\": \"최근 끌림의 강도는 확인되지 않았으며, 다른 장소(공원, 복지관)에 대한 현재 관심은 관찰되지 않아 상대적 우선순위는 불확실하다.\"\n    }\n  ],\n  \"unknowns\": [\n    \"개인이 익숙한 경로를 이용하는지 여부\",\n    \"최근 끌림점의 상대적 우선순위(시장 vs 공원 vs 복지관)\",\n    \"실종 직전의 정확한 위치 및 이동 시작 시점\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"basis\": [\"H1\"],\n      \"reason\": \"개인이 갈림길에서 방향을 거의 바꾸지 않고 직진하는 경향이 관찰되었으며, 이는 익숙한 경로를 따라 이동할 가능성을 시사한다.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"basis\": [\"H1\", \"N2\"],\n      \"reason\": \"방향 전환이 거의 없고, 멈추지 않고 계속 걷는 행동이 반복 관찰되었으므로 방향 유지 성향을 높게 설정한다.\"\n    },\n    {\n      \"target\": \"strategy_probs.landmark_seeking\",\n      \"basis\": [\"H2\", \"N1\"],\n      \"reason\": \"시장 방향으로의 반복적 이동이 관찰되었고, 이는 특정 장소에 대한 끌림을 시사하므로 끌림점 기반 이동 전략을 포함한다.\"\n    },\n    {\n      \"target\": \"attraction_levels\",\n      \"basis\": [\"N0\", \"R1\"],\n      \"reason\": \"과거 반복 지향이 확인된 시장, 공원, 복지관을 모두 유지하되, 최근 관찰에서 시장 방향성이 두드러지므로 시장에 대한 상대적 끌림은 유지하되 다른 장소와의 우선순위는 불확실하다.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.5,\n      \"direction_keeping\": 0.3,\n      \"random_walk\": 0.05,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.05\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"중\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인의 최근 행동에서 방향 유지와 시장 방향 이동 경향이 관찰되었으며, 이는 익숙한 경로 및 특정 끌림점 기반 이동 가능성을 시사한다. 그러나 경로 이용 여부와 최근 끌림 강도는 직접 확인되지 않아 일반 가설과 개인 관찰의 결합에 한계가 있다.\"\n  }\n}",
+    "raw_sha256": "df1d825ba9422e9483bc157eb46a0e310ddc2409ade63ee19827b347ae072e2e",
+    "source_file_sha256": "64187f2c0ea46b10ab8f69d6fa1c42fd7a18d27241f51acbbeda11e77775ddca",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 806,
+      "prompt_tokens": 2091,
+      "prompt_tokens_details": {
+        "cached_tokens": 2080
+      },
+      "total_tokens": 2897
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C05_FEATURES_0",
+    "case": "C05",
+    "family": "FEATURES",
+    "variant": "C05",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "missing_note_coverage"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.5,
+        "direction_keeping": 0.3,
+        "random_walk": 0.05,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.05
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인 관찰(N1, N2)에 따라 시장에 대한 지향과 방향 유지 경향이 확인되었으며, 이는 route_following과 direction_keeping 전략을 강화한다. random_walk는 감소시키고, 끌림점은 관찰된 시장 중심으로 재조정하되, 공원과 복지관은 과거 이력이 있으나 최근 미확인이므로 '중'으로 유지한다. 이동 범위는 과거 생활 반경에 기반해 '중'으로 설정한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C05_FEATURES_0.json",
+    "raw_content": "{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\n          \"note_id\": \"N1\",\n          \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"\n        }\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R1\"],\n          \"claim\": \"치매 노인은 익숙한 장소(시장 등)로 향하는 경향이 있으며, 이는 반복 방문 이력이 있는 장소에 대한 끌림으로 나타난다.\",\n          \"limitation\": \"이번 개인의 경우 최근 한 달 동안 시장 쪽으로 걷는 행동만 관찰되었고, 공원이나 복지관에 대한 최근 지향은 확인되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"최근 공원이나 복지관 방문 여부\",\n        \"시장 외 다른 장소에 대한 지향 여부\"\n      ],\n      \"conclusion\": \"개인 관찰(N1)에 따라 시장에 대한 지향이 최근 확인되었으며, 이는 일반 가설(R1)과 일치하지만, 다른 장소에 대한 최근 행동은 미확인이다.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\n          \"note_id\": \"N1\",\n          \"quote\": \"최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"\n        }\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 불안하거나 방향 감각을 잃었을 때 지속적으로 왔다 갔다 하거나 멈추지 않고 직진하는 경향이 있다.\",\n          \"limitation\": \"이번 개인의 경우 '멈추지 않고 계속 걸어감'이 관찰되었으나, 불안의 정도나 왔다 갔다 하는 행동은 직접 관찰되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"불안 수준 또는 정서적 상태\",\n        \"지속적 이동 중 휴식 여부\"\n      ],\n      \"conclusion\": \"개인 관찰(N1)에 따라 이동 지속성이 확인되었으며, 이는 일반 가설(R0)과 부분적으로 일치하지만, 정서적 맥락은 미확인이다.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\n          \"note_id\": \"N2\",\n          \"quote\": \"헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습을 가족이 여러 번 봤다.\"\n        }\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\", \"R3\"],\n          \"claim\": \"치매 노인은 방향 전환이 어려우며, 익숙한 경로를 따라 직진하거나 되돌아가는 경향이 있다.\",\n          \"limitation\": \"이번 개인의 경우 방향 유지 경향이 관찰되었으나, 익숙한 경로를 이용하는지 여부는 직접 관찰되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"익숙한 경로 이용 여부\",\n        \"되돌아가는 행동(backtracking) 여부\"\n      ],\n      \"conclusion\": \"개인 관찰(N2)에 따라 방향 유지 경향이 확인되었으며, 이는 일반 가설(R0, R3)과 일치하지만, 경로 형태에 대한 직접 관찰은 부족하다.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R2\"],\n          \"claim\": \"치매 노인의 배회는 주로 익숙한 장소(시장, 복지관 등)로의 이동 또는 일상 활동 중 발생하며, 이동 범위는 과거 이력과 생활 반경에 따라 제한된다.\",\n          \"limitation\": \"이번 개인의 이동 범위나 신체 능력은 직접 관찰되지 않았으며, 과거 이력 외 추가 정보 없음.\"\n        }\n      ],\n      \"unknowns\": [\n        \"신체적 이동 능력\",\n        \"실제 이동 거리 또는 반경\"\n      ],\n      \"conclusion\": \"개인 관찰은 없으나, 일반 가설(R2)에 따라 이동 범위는 과거 이력과 생활 반경에 제한될 것으로 추정되며, 구체적 능력은 미확인이다.\"\n    }\n  },\n  \"integration\": [\n    {\n      \"target\": \"attraction_levels.시장\",\n      \"feature_refs\": [\"destination_pull\"],\n      \"action\": \"increase\",\n      \"reason\": \"개인 관찰(N1)에 따라 시장에 대한 지향이 최근 확인되었으며, 이는 기존 끌림점 중 '상' 수준을 유지하거나 강화할 근거가 된다.\"\n    },\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"increase\",\n      \"reason\": \"방향 유지 경향(N2)과 익숙 경로 의존 가설(R3)이 일치하며, 경로 이탈 후 재진입 시도 가능성도 고려된다.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"increase\",\n      \"reason\": \"갈림길에서 방향을 거의 바꾸지 않는 행동(N2)은 direction_keeping 전략의 확률을 높인다.\"\n    },\n    {\n      \"target\": \"strategy_probs.random_walk\",\n      \"feature_refs\": [\"movement_persistence\", \"route_shape\"],\n      \"action\": \"decrease\",\n      \"reason\": \"지속적 직진(N1, N2)과 방향 유지 경향이 random_walk보다 route_following 및 direction_keeping을 지지하므로, 무작위 이동 가능성은 낮다.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.5,\n      \"direction_keeping\": 0.3,\n      \"random_walk\": 0.05,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.05\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"중\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인 관찰(N1, N2)에 따라 시장에 대한 지향과 방향 유지 경향이 확인되었으며, 이는 route_following과 direction_keeping 전략을 강화한다. random_walk는 감소시키고, 끌림점은 관찰된 시장 중심으로 재조정하되, 공원과 복지관은 과거 이력이 있으나 최근 미확인이므로 '중'으로 유지한다. 이동 범위는 과거 생활 반경에 기반해 '중'으로 설정한다.\"\n  }\n}",
+    "raw_sha256": "bd07364f0ec89a0021dad82ebe2addc947c0f2e6ebb8816e979a848bacde5363",
+    "source_file_sha256": "ae7e8154b5e35b352dfbcf4c616e7db8d7b46541c565f0ce1a966f1a584b1911",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1229,
+      "prompt_tokens": 2274,
+      "prompt_tokens_details": {
+        "cached_tokens": 2208
+      },
+      "total_tokens": 3503
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C05_FEATURES_1",
+    "case": "C05",
+    "family": "FEATURES",
+    "variant": "C05",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "feature.mobility_range.unknowns",
+      "missing_note_coverage"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.49019607843137253,
+        "direction_keeping": 0.29411764705882354,
+        "random_walk": 0.09803921568627451,
+        "backtracking": 0.049019607843137254,
+        "staying_put": 0.049019607843137254,
+        "landmark_seeking": 0.0196078431372549
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인 관찰상 시장 방향 지향과 방향 유지 경향이 확인되어 route_following과 direction_keeping 전략의 확률을 상향 조정하였다. 지속적 이동 관찰로 인해 staying_put 전략은 하향 조정되었다. 끌림점은 시장에 대해 '상'으로 유지하되, 공원과 복지관은 최근 관찰 부재로 '중'으로 조정하였다. 이동 범위는 직접 관찰 없으므로 일반적 기준을 유지하되 개인차 가능성을 고려한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C05_FEATURES_1.json",
+    "raw_content": "{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R1\"],\n          \"claim\": \"치매 노인이 익숙한 장소(시장)로 향하는 경향이 있으며, 이는 반복 방문 이력이 있는 장소에 대한 끌림으로 나타날 수 있다.\",\n          \"limitation\": \"이번 개인의 최근 행동 관찰은 시장 방향성만 확인되었고, 공원이나 복지관에 대한 최근 지향은 확인되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"최근 공원 또는 복지관 방문 여부\",\n        \"시장 외 다른 장소에 대한 끌림 존재 여부\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 시장 방향에 대한 지향이 확인되었으며, 이는 일반 가설상 익숙한 장소로의 끌림 가능성을 지지한다.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인이 불안하거나 방향 감각을 잃었을 때 지속적으로 움직이는 경향이 있으며, 이는 '앞만 보고 걸어감' 또는 '불안한 듯 지속적으로 왔다 갔다 함'과 같은 형태로 나타날 수 있다.\",\n          \"limitation\": \"이번 개인의 지속적 이동은 방향 유지 여부와 함께 관찰되어야 하며, 단순한 지속성만으로는 불안 여부를 단정할 수 없다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"이동 중 휴식 여부\",\n        \"지속적 이동이 불안에서 비롯된 것인지, 아니면 다른 동기(예: 익숙한 경로 탐색)에서 비롯된 것인지\"\n      ],\n      \"conclusion\": \"개인 관찰상 지속적 이동이 확인되었으며, 이는 일반 가설상 방향 감각 상실 시 지속적 움직임 가능성을 지지하지만 동기는 불확실하다.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N2\", \"quote\": \"헤맬 때 갈림길에서도 방향을 거의 바꾸지 않고 앞쪽으로 계속 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R3\"],\n          \"claim\": \"익숙한 경로를 벗어난 후에도 원래 방향을 유지하려는 경향이 있으며, 이는 '익숙 경로 이탈 직후형'으로 해석될 수 있다.\",\n          \"limitation\": \"이번 개인의 경로 이탈 여부는 확인되지 않았으며, 방향 유지가 익숙 경로 내에서의 행동인지, 이탈 후인지 구분되지 않는다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"익숙한 경로를 이용하고 있는지 여부\",\n        \"방향 유지가 경로 이탈 후인지, 아니면 정상 경로 내에서의 행동인지\"\n      ],\n      \"conclusion\": \"개인 관찰상 방향 유지 경향이 확인되었으며, 이는 일반 가설상 익숙 경로 이탈 후 재진입 시도 가능성을 시사하지만 경로 이탈 여부는 불확실하다.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"SAR_REF\"],\n          \"claim\": \"80세 치매 노인의 일반적 이동 범위는 중간 수준(radius_level: 중)으로, 익숙한 장소(시장, 공원, 복지관) 간 왕복이 가능할 것으로 추정된다.\",\n          \"limitation\": \"이번 개인의 실제 이동 범위나 속도에 대한 직접 관찰은 없으므로, SAR_REF의 일반적 기준을 참고하되 개인차 가능성을 고려해야 한다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"실제 이동 거리 또는 반경\",\n        \"이동 속도 또는 지속 시간\",\n        \"신체적 제약 여부\"\n      ],\n      \"conclusion\": \"개인 관찰상 이동 범위에 대한 직접 정보는 없으므로, 일반적 기준(SAR_REF)을 참고하되 추정임을 명시한다.\"\n    }\n  },\n  \"integration\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"feature_refs\": [\"destination_pull\", \"route_shape\"],\n      \"action\": \"increase\",\n      \"reason\": \"개인 관찰상 시장 방향 지향과 방향 유지 경향이 확인되었으며, 이는 익숙한 경로 또는 방향 유지 전략의 가능성을 높인다.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"increase\",\n      \"reason\": \"갈림길에서 방향을 거의 바꾸지 않는 행동이 관찰되어 방향 유지 전략의 가능성이 높아졌다.\"\n    },\n    {\n      \"target\": \"strategy_probs.landmark_seeking\",\n      \"feature_refs\": [\"destination_pull\"],\n      \"action\": \"increase\",\n      \"reason\": \"시장 방향에 대한 반복적 지향이 관찰되어 특정 장소(시장)에 대한 끌림이 존재할 가능성이 높다.\"\n    },\n    {\n      \"target\": \"strategy_probs.staying_put\",\n      \"feature_refs\": [\"movement_persistence\"],\n      \"action\": \"decrease\",\n      \"reason\": \"지속적 이동 관찰로 인해 머무름보다는 이동 지속 전략이 더 우세할 가능성이 있다.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.5,\n      \"direction_keeping\": 0.3,\n      \"random_walk\": 0.1,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.0\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"중\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인 관찰상 시장 방향 지향과 방향 유지 경향이 확인되어 route_following과 direction_keeping 전략의 확률을 상향 조정하였다. 지속적 이동 관찰로 인해 staying_put 전략은 하향 조정되었다. 끌림점은 시장에 대해 '상'으로 유지하되, 공원과 복지관은 최근 관찰 부재로 '중'으로 조정하였다. 이동 범위는 직접 관찰 없으므로 일반적 기준을 유지하되 개인차 가능성을 고려한다.\"\n  }\n}",
+    "raw_sha256": "982d8076ebacc790707ed8c4c4f94f83de0c358a6891cf2513f95872fe1184ce",
+    "source_file_sha256": "89b909b37f239b3850d26ce73f523343c3675c3f90feefefe04c452db3ab1375",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1230,
+      "prompt_tokens": 2274,
+      "prompt_tokens_details": {
+        "cached_tokens": 2272
+      },
+      "total_tokens": 3504
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C06_CONTROL_0",
+    "case": "C06",
+    "family": "FEATURES",
+    "variant": "C06",
+    "condition": "CONTROL",
+    "repeat": 0,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "decision_target"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.2,
+        "direction_keeping": 0.35,
+        "random_walk": 0.25,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.1
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인 관찰(N1, N2)은 방향 유지보다는 방향 전환과 특정 장소(시장) 선호를 시사하므로, direction_keeping과 random_walk를 조정하고 route_following은 낮게 설정. 끌림점은 과거 관찰 기반으로 유지하되, 최근 행동 경향을 반영해 시장에 대한 상대적 우선순위를 암시적으로 반영.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C06_CONTROL_0.json",
+    "raw_content": "{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습을 가족이 여러 번 봤다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"개인은 최근 시장 방향으로 향하는 경향이 있으며, 방향 유지 성향이 일부 나타날 가능성이 있다.\",\n      \"basis\": [\"N1\", \"R0\"],\n      \"limitation\": \"N1은 시장 방향 관찰을 지지하지만, 방향 유지 여부는 직접 관찰되지 않았으며 R0의 '앞만 보고 걸어감'은 일반 사례에 국한된다.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"개인은 방향 전환 빈도가 높아 무작위 보행 또는 backtracking 성향이 나타날 가능성이 있다.\",\n      \"basis\": [\"N2\", \"R0\"],\n      \"limitation\": \"N2는 방향 전환 관찰을 지지하지만, 이는 backtracking인지 random_walk인지 구분되지 않으며, 실제 경로 재진입 여부는 미확인이다.\"\n    },\n    {\n      \"id\": \"H3\",\n      \"claim\": \"개인은 익숙한 경로 의존성보다는 장소 기반 끌림에 더 의존할 가능성이 있다.\",\n      \"basis\": [\"N0\", \"R1\"],\n      \"limitation\": \"R1은 소수 익숙 거점 회귀형을 지지하지만, N2에서 익숙한 경로 이용 여부는 관찰되지 않아 경로 의존성 가설은 불확실하다.\"\n    }\n  ],\n  \"unknowns\": [\n    \"개인이 실제로 익숙한 경로를 이용하는지 여부\",\n    \"최근 방향 유지 또는 경로 이탈의 정확한 시점과 맥락\",\n    \"실종 당시 주변 환경(장애물, 소음, 사람 등)의 영향\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"basis\": [\"H3\"],\n      \"reason\": \"익숙한 경로 이용 여부는 관찰되지 않아 route_following 확률을 낮게 설정함.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"basis\": [\"H1\"],\n      \"reason\": \"시장 방향 관찰이 있으나 지속성 미확인이므로 중간 수준으로 유지.\"\n    },\n    {\n      \"target\": \"strategy_probs.random_walk\",\n      \"basis\": [\"H2\"],\n      \"reason\": \"방향 전환 빈도가 높아 무작위 보행 가능성 반영.\"\n    },\n    {\n      \"target\": \"attraction_levels\",\n      \"basis\": [\"N0\"],\n      \"reason\": \"시장, 공원, 복지관 모두 과거 반복 지향 관찰됨. 최근 시장 선호 있으나 다른 장소도 유지.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.2,\n      \"direction_keeping\": 0.35,\n      \"random_walk\": 0.25,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.1\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"상\",\n      \"복지관\": \"상\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인 관찰(N1, N2)은 방향 유지보다는 방향 전환과 특정 장소(시장) 선호를 시사하므로, direction_keeping과 random_walk를 조정하고 route_following은 낮게 설정. 끌림점은 과거 관찰 기반으로 유지하되, 최근 행동 경향을 반영해 시장에 대한 상대적 우선순위를 암시적으로 반영.\"\n  }\n}",
+    "raw_sha256": "f1840d0a2792dbbd804b6fc9535b6c58bafb3d0da0bc8bdeed1b82eef886ae27",
+    "source_file_sha256": "1eb82fb569c1ac9cdaa975271ccccb25a9c7013b1e460626cadbe02d768f2b87",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 785,
+      "prompt_tokens": 2091,
+      "prompt_tokens_details": {
+        "cached_tokens": 2016
+      },
+      "total_tokens": 2876
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C06_CONTROL_1",
+    "case": "C06",
+    "family": "FEATURES",
+    "variant": "C06",
+    "condition": "CONTROL",
+    "repeat": 1,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "decision_target"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.3,
+        "random_walk": 0.15,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.2
+      },
+      "attraction_weights": {
+        "시장": 0.3333333333333333,
+        "공원": 0.3333333333333333,
+        "복지관": 0.3333333333333333
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "과거 반복 지향 이력은 끌림점 유지의 근거이나, 최근 관찰은 시장 방향 이동 경향과 방향 전환 양상을 보여 방향 유지와 익숙 경로 의존보다는 landmark_seeking과 방향 유지 전략의 혼합 가능성을 시사함. 문헌 기반 일반 경향은 참고하되, 개인 관찰의 모순점(방향 유지 vs 방향 전환)을 반영해 전략을 조정함.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C06_CONTROL_1.json",
+    "raw_content": "{\n  \"observations\": [\n    {\n      \"note_id\": \"N0\",\n      \"quote\": \"등록된 세 장소 모두 예전에 여러 차례 향하는 모습을 가족이 관찰했다. 최근의 방향이나 의도는 아래 추가 관찰을 따른다.\"\n    },\n    {\n      \"note_id\": \"N1\",\n      \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다. 최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"\n    },\n    {\n      \"note_id\": \"N2\",\n      \"quote\": \"최근 헤맬 때 갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습을 가족이 여러 번 봤다. 익숙한 길을 이용하는지는 가족이 직접 관찰하지 못했다.\"\n    }\n  ],\n  \"hypotheses\": [\n    {\n      \"id\": \"H1\",\n      \"claim\": \"개인은 최근 시장 방향으로의 지속적 이동 경향을 보이며, 방향 유지 전략(direction_keeping)을 사용할 가능성이 높다.\",\n      \"basis\": [\"N1\"],\n      \"limitation\": \"방향 유지 여부는 '앞만 보고 걸어감'과 같은 명확한 정면 직진 관찰이 없으므로, 방향 유지 전략은 가설적 추정이며, N2의 '좌우 방향 전환' 관찰과 모순될 수 있음.\"\n    },\n    {\n      \"id\": \"H2\",\n      \"claim\": \"개인은 익숙한 경로(route_following)보다는 방향 전환과 지속적 보행을 병행하는 복합적 이동 양상을 보일 수 있다.\",\n      \"basis\": [\"N1\", \"N2\"],\n      \"limitation\": \"익숙한 경로 사용 여부는 직접 관찰되지 않았으며, R0의 '앞만 보고 걸어감'이나 R3의 '익숙 경로 이탈'과 같은 문헌 기반 가설을 개인에게 직접 적용할 수 없음.\"\n    }\n  ],\n  \"unknowns\": [\n    \"개인이 실제로 익숙한 경로를 사용하고 있는지 여부\",\n    \"최근 방향 유지 또는 직진 여부의 명확한 관찰 부재\",\n    \"실종 당시 정확한 위치 및 이동 경로\"\n  ],\n  \"decisions\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"basis\": [\"H2\"],\n      \"reason\": \"익숙한 경로 사용 여부가 관찰되지 않았으나, 과거 반복 지향 이력이 있으므로 완전히 배제할 수 없음. 그러나 N2의 방향 전환 관찰로 인해 낮은 확률로 설정.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"basis\": [\"H1\"],\n      \"reason\": \"시장 쪽으로의 반복적 이동 경향이 있으나, 방향 유지의 명확한 관찰은 없으므로 중간 수준으로 설정.\"\n    },\n    {\n      \"target\": \"strategy_probs.landmark_seeking\",\n      \"basis\": [\"N0\", \"N1\"],\n      \"reason\": \"시장, 복지관, 공원이 반복적으로 지향된 장소로 확인되어 끌림점으로 유지. 시장에 대한 최근 관찰이 강화되었으나, 다른 장소의 끌림은 감소하지 않음.\"\n    },\n    {\n      \"target\": \"attraction_levels\",\n      \"basis\": [\"N0\"],\n      \"reason\": \"과거 반복 지향이 관찰된 장소는 끌림점으로 유지하되, 최근 관찰이 강화된 시장에 대해 상대적 우선순위를 반영하되, 다른 장소의 끌림을 '하'로 낮추지는 않음.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.25,\n      \"direction_keeping\": 0.3,\n      \"random_walk\": 0.15,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.2\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"상\",\n      \"복지관\": \"상\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"과거 반복 지향 이력은 끌림점 유지의 근거이나, 최근 관찰은 시장 방향 이동 경향과 방향 전환 양상을 보여 방향 유지와 익숙 경로 의존보다는 landmark_seeking과 방향 유지 전략의 혼합 가능성을 시사함. 문헌 기반 일반 경향은 참고하되, 개인 관찰의 모순점(방향 유지 vs 방향 전환)을 반영해 전략을 조정함.\"\n  }\n}",
+    "raw_sha256": "aabf79db55b824450804eb4686153a6d3ca35584784e897e09e8a7d876067f6f",
+    "source_file_sha256": "fc4e878397b1091db4154309701277d8c3bc37b6c03882d22098c8eab4f94c86",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 844,
+      "prompt_tokens": 2091,
+      "prompt_tokens_details": {
+        "cached_tokens": 2080
+      },
+      "total_tokens": 2935
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C06_FEATURES_0",
+    "case": "C06",
+    "family": "FEATURES",
+    "variant": "C06",
+    "condition": "FEATURES",
+    "repeat": 0,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json",
+      "missing_note_coverage"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.2,
+        "direction_keeping": 0.3,
+        "random_walk": 0.25,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인 관찰(N1, N2)에 따라 시장에 대한 지향성과 지속적 이동이 확인되었으나, 경로 형태는 불확실. 일반 가설상 끌림점은 유지되나, route_following은 감소하고 random_walk 또는 direction_keeping이 부분적으로 증가. 신체적 이동 능력은 미확인이나, 외출 시도는 가능 범위 내로 간주.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C06_FEATURES_0.json",
+    "raw_content": "```json\n{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\n          \"note_id\": \"N1\",\n          \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"\n        }\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 익숙한 장소(예: 시장)에 대한 지향성을 보이며, 이는 반복 방문 이력과 결합해 끌림점으로 작용할 수 있다.\",\n          \"limitation\": \"이번 개인의 최근 지향이 시장으로 관찰되었으나, 다른 장소(공원, 복지관)에 대한 최근 관찰은 없어 전체 끌림점 순위는 불확실하다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"공원과 복지관에 대한 최근 지향 여부\"\n      ],\n      \"conclusion\": \"개인 관찰(N1)에 따라 시장에 대한 지향성이 확인되었으며, 이는 일반 가설과 부합하나 다른 장소에 대한 최근 정보 부족으로 전체 destination_pull은 부분적으로만 확인됨.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\n          \"note_id\": \"N1\",\n          \"quote\": \"최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"\n        }\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 불안이나 방향 감각 상실 시 지속적인 이동(persistence)을 보이며, 이는 '앞만 보고 걸어감' 또는 '멈추지 않고 계속 걸어감' 형태로 나타난다.\",\n          \"limitation\": \"이번 개인의 지속적 이동은 관찰되었으나, 그 동기가 불안인지, 목적지 지향인지, 또는 단순 반복인지 구분되지 않음.\"\n        }\n      ],\n      \"unknowns\": [\n        \"지속 이동의 동기(불안, 목적지, 습관)\"\n      ],\n      \"conclusion\": \"개인 관찰(N1)에 따라 이동 지속성이 확인되었으며, 이는 일반 가설과 부합하나 동기 미확인으로 인해 해석에 한계 있음.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\n          \"note_id\": \"N2\",\n          \"quote\": \"최근 헤맬 때 갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습을 가족이 여러 번 봤다.\"\n        }\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"방향 감각 상실 시 방향 전환이 빈번해지고, 익숙한 경로 이탈 후 재진입 시도가 발생할 수 있으나, 경로 형태는 불규칙해질 수 있다.\",\n          \"limitation\": \"이번 개인의 방향 전환은 관찰되었으나, 익숙한 경로 이용 여부나 되돌아가는 행동(backtracking)은 확인되지 않음.\"\n        }\n      ],\n      \"unknowns\": [\n        \"익숙한 경로 이용 여부\",\n        \"되돌아가는 행동(backtracking) 존재 여부\"\n      ],\n      \"conclusion\": \"개인 관찰(N2)에 따라 방향 전환이 빈번하나, route_shape의 핵심 요소인 route_following 또는 backtracking은 확인되지 않아 불확실.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R2\"],\n          \"claim\": \"재택 거주자 치매 노인은 익숙한 장소(시장, 복지관 등)로의 이동을 시도하며, 이는 신체적 이동 능력이 유지되고 있음을 시사한다.\",\n          \"limitation\": \"이번 개인의 신체적 이동 능력에 대한 직접 관찰은 없으며, 이동 범위나 속도에 대한 정보는 제공되지 않음.\"\n        }\n      ],\n      \"unknowns\": [\n        \"신체적 이동 능력 및 범위에 대한 직접 관찰 부재\"\n      ],\n      \"conclusion\": \"개인 관찰 부재로 mobility_range는 추정 기반. 일반 가설상 이동 가능성이 있으나, 실제 능력 미확인.\"\n    }\n  },\n  \"integration\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"decrease\",\n      \"reason\": \"SAR_REF 대비 route_following은 익숙한 경로 이용을 가정하지만, N2에서 방향 전환이 빈번하고 익숙한 경로 이용 여부는 미확인이므로 감소.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"feature_refs\": [\"route_shape\", \"movement_persistence\"],\n      \"action\": \"increase\",\n      \"reason\": \"N1에서 멈추지 않고 계속 걸어가는 행동과 N2에서 방향 전환이 혼재하나, 지속적 이동 경향은 방향 유지 또는 고집과 부분적으로 일치하나, 전환 빈도 고려 시 불확실.\"\n    },\n    {\n      \"target\": \"strategy_probs.random_walk\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"increase\",\n      \"reason\": \"N2에서 갈림길에서 좌우로 방향을 자주 바꾸는 행동은 무작위 보행(random_walk) 또는 방향 전환 경향과 부합하나, 목적 없는 이동인지 여부는 미확인.\"\n    },\n    {\n      \"target\": \"attraction_levels.시장\",\n      \"feature_refs\": [\"destination_pull\"],\n      \"action\": \"maintain\",\n      \"reason\": \"N1에서 시장 쪽으로의 지향이 반복 관찰되어 끌림점 유지.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.2,\n      \"direction_keeping\": 0.3,\n      \"random_walk\": 0.25,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.15\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"중\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인 관찰(N1, N2)에 따라 시장에 대한 지향성과 지속적 이동이 확인되었으나, 경로 형태는 불확실. 일반 가설상 끌림점은 유지되나, route_following은 감소하고 random_walk 또는 direction_keeping이 부분적으로 증가. 신체적 이동 능력은 미확인이나, 외출 시도는 가능 범위 내로 간주.\"\n  }\n}\n```",
+    "raw_sha256": "e3a987ab1413efd3f409318392f59f7922fe3dd88a6646c58e85b831f5f2f93e",
+    "source_file_sha256": "7854d2e46bd13526eb73c54cb9ecb031483e34daada8e118821d88fbe9b44e4c",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1242,
+      "prompt_tokens": 2274,
+      "prompt_tokens_details": {
+        "cached_tokens": 2208
+      },
+      "total_tokens": 3516
+    },
+    "finish_reason": "stop"
+  },
+  {
+    "id": "C06_FEATURES_1",
+    "case": "C06",
+    "family": "FEATURES",
+    "variant": "C06",
+    "condition": "FEATURES",
+    "repeat": 1,
+    "envelope_valid": false,
+    "envelope_errors": [
+      "not_standalone_json",
+      "missing_note_coverage"
+    ],
+    "prior_usable": true,
+    "prior_errors": [],
+    "final": {
+      "strategy_probs": {
+        "route_following": 0.25,
+        "direction_keeping": 0.15,
+        "random_walk": 0.35,
+        "backtracking": 0.05,
+        "staying_put": 0.05,
+        "landmark_seeking": 0.15
+      },
+      "attraction_weights": {
+        "시장": 0.42857142857142855,
+        "공원": 0.2857142857142857,
+        "복지관": 0.2857142857142857
+      },
+      "radius_lognormal": {
+        "mu": 0.095,
+        "sigma": 1.48
+      },
+      "reasoning": "개인 관찰에 따르면 시장 방향성과 방향 전환이 빈번하며, 이는 landmark_seeking과 random_walk 가능성을 높인다. 그러나 익숙 경로 이용 여부는 미확인이므로 route_following과 direction_keeping은 낮추고, 이동 범위는 과거 이력에 기반해 중간 수준으로 설정한다.",
+      "source": "exaone",
+      "fallback_reason": ""
+    },
+    "file": "C06_FEATURES_1.json",
+    "raw_content": "```json\n{\n  \"features\": {\n    \"destination_pull\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 한 달 동안 혼자 외출하면 시장 쪽으로 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 익숙한 장소(시장 등)로 향하는 경향이 있으며, 이는 반복 지향에 기반한 끌림점 형성과 관련된다.\",\n          \"limitation\": \"이번 개인의 최근 관찰은 시장 방향성만 확인되었고, 공원이나 복지관에 대한 최근 지향은 확인되지 않았다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"공원이나 복지관에 대한 최근 외출 시 방향성 여부\",\n        \"시장 외 다른 장소에 대한 최근 지향 여부\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 시장 방향성이 확인되었으며, 이는 익숙한 장소에 대한 끌림점 유지 가능성을 시사한다. 그러나 다른 장소에 대한 최근 지향은 미확인이다.\"\n    },\n    \"movement_persistence\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N1\", \"quote\": \"최근 길을 몰라 헤매는 상황에서는 멈추지 않고 계속 걸어가는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\"],\n          \"claim\": \"치매 노인은 방향 상실 시에도 이동을 지속하는 경향이 있으며, 이는 불안이나 혼란 상태에서의 지속적 움직임과 관련된다.\",\n          \"limitation\": \"이번 개인의 지속적 이동이 불안 때문인지, 목적 있는 이동인지, 혹은 단순한 습관인지에 대한 직접적 판단은 불가능하다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"이동 중 휴식 여부\",\n        \"이동 지속의 동기(불안, 습관, 목적 등)\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 이동 지속성이 확인되었으며, 이는 방향 상실 상황에서도 움직임이 멈추지 않는 경향을 시사한다. 그러나 동기와 휴식 여부는 미확인이다.\"\n    },\n    \"route_shape\": {\n      \"personal_evidence\": [\n        {\"note_id\": \"N2\", \"quote\": \"최근 헤맬 때 갈림길에서 좌우로 방향을 자주 바꾸며 계속 걷는 모습을 가족이 여러 번 봤다.\"}\n      ],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R0\", \"R3\"],\n          \"claim\": \"치매 노인은 익숙한 경로를 따라 이동하려는 경향이 있으나, 방향 전환이 어려우거나 갈림길에서 혼란을 겪을 수 있다.\",\n          \"limitation\": \"이번 개인의 경로 이용 여부는 직접 관찰되지 않았으며, 방향 전환 빈도는 익숙 경로 이탈 또는 혼란 상태를 시사할 수 있다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"익숙한 경로를 이용하고 있는지 여부\",\n        \"갈림길에서의 선택이 무작위인지, 특정 장소에 대한 끌림 때문인지\"\n      ],\n      \"conclusion\": \"개인 관찰에 따르면 방향 전환이 빈번하며, 이는 경로 혼란 또는 익숙 경로 이탈 가능성을 시사한다. 그러나 경로 이용 여부는 미확인이다.\"\n    },\n    \"mobility_range\": {\n      \"personal_evidence\": [],\n      \"domain_hypotheses\": [\n        {\n          \"basis\": [\"R2\"],\n          \"claim\": \"치매 노인은 익숙한 장소(시장 등)로의 이동이 가능하며, 이는 과거 반복 방문 이력에 기반한 생활 반경 내에서 이루어진다.\",\n          \"limitation\": \"이번 개인의 이동 범위나 신체 능력은 직접 관찰되지 않았으며, 과거 이력만으로 추정 가능하다.\"\n        }\n      ],\n      \"unknowns\": [\n        \"실제 이동 가능한 거리 또는 반경\",\n        \"신체적 제약 여부\"\n      ],\n      \"conclusion\": \"개인 관찰은 이동 범위를 직접 제공하지 않으나, 익숙한 장소로의 이동 시도는 과거 이력과 일관된 생활 반경 내 행동 가능성을 시사한다.\"\n    }\n  },\n  \"integration\": [\n    {\n      \"target\": \"strategy_probs.route_following\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"decrease\",\n      \"reason\": \"개인 관찰(N2)에 따르면 방향 전환이 빈번하며, 익숙 경로 이용 여부는 미확인이므로 route_following 확률을 낮춤.\"\n    },\n    {\n      \"target\": \"strategy_probs.direction_keeping\",\n      \"feature_refs\": [\"route_shape\", \"movement_persistence\"],\n      \"action\": \"decrease\",\n      \"reason\": \"방향 전환이 빈번하고(N2), 지속적 이동(N1)이 관찰되었으나 방향 유지보다는 혼란 상태를 시사하므로 direction_keeping 감소.\"\n    },\n    {\n      \"target\": \"strategy_probs.random_walk\",\n      \"feature_refs\": [\"route_shape\"],\n      \"action\": \"increase\",\n      \"reason\": \"갈림길에서 방향을 자주 바꾸는 행동(N2)은 무작위적 방향 전환 가능성을 시사하므로 random_walk 확률 증가.\"\n    },\n    {\n      \"target\": \"strategy_probs.landmark_seeking\",\n      \"feature_refs\": [\"destination_pull\"],\n      \"action\": \"increase\",\n      \"reason\": \"시장 방향성(N1)이 반복적으로 관찰되었으므로 landmark_seeking 확률 증가.\"\n    }\n  ],\n  \"prior\": {\n    \"strategy_probs\": {\n      \"route_following\": 0.25,\n      \"direction_keeping\": 0.15,\n      \"random_walk\": 0.35,\n      \"backtracking\": 0.05,\n      \"staying_put\": 0.05,\n      \"landmark_seeking\": 0.15\n    },\n    \"attraction_levels\": {\n      \"시장\": \"상\",\n      \"공원\": \"중\",\n      \"복지관\": \"중\"\n    },\n    \"radius_level\": \"중\",\n    \"reasoning\": \"개인 관찰에 따르면 시장 방향성과 방향 전환이 빈번하며, 이는 landmark_seeking과 random_walk 가능성을 높인다. 그러나 익숙 경로 이용 여부는 미확인이므로 route_following과 direction_keeping은 낮추고, 이동 범위는 과거 이력에 기반해 중간 수준으로 설정한다.\"\n  }\n}\n```",
+    "raw_sha256": "0a67cccf078eb13a1c011bc092fa230f89a13f9cf4a6ff95724ee5715fff85b5",
+    "source_file_sha256": "bab427fc3bdaf3632a4a5c51d47076970d5c5752094cbc235be5712d988e76fc",
+    "model_returned": "depmkuykpfon9lg",
+    "usage": {
+      "completion_tokens": 1198,
+      "prompt_tokens": 2274,
+      "prompt_tokens_details": {
+        "cached_tokens": 2272
+      },
+      "total_tokens": 3472
+    },
+    "finish_reason": "stop"
+  }
+]

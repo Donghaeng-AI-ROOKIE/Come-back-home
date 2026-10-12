@@ -1,0 +1,8 @@
+{
+  "production_deployment": "68abffec-ac6d-49ef-a021-c563ff355a0f",
+  "entry": "index-31f8eef03eee1d6a8348c68e5bd6d738.js",
+  "cloud_contract_passed": false,
+  "reason": "Compiled transport is not Supabase (stale/missing build env)\n\nfalse !== true\n",
+  "browser_invalid_login": "연결에 실패했습니다. 네트워크를 확인해 주세요.",
+  "actual_model_calls": 0
+}

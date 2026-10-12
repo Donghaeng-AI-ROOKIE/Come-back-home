@@ -7,7 +7,13 @@ GPU는 외부로 HTTPS 연결만 한다. 맥미니, 노트북, SSH 터널이 실
 GPU의 80/443 포트를 공개할 필요도 없다. 회원 비밀번호는 Supabase Auth에만 전송하며
 작업 테이블이나 GPU에 저장하지 않는다. 기존 SQLite 계정은 자동 이관하지 않는다.
 
-## 현재 범위와 제한
+## 현재 상태
+
+2026-10-12 최종 worker `20261012-62b5d88`와 최신 Pages 앱을 배포했다. AI gate는true이며 전체 축 채점OFF, 개인화30/문헌70·res9·5.8㎢를 실제 인증된 예측·조회로 확인했다. 아래 설치·10월8일 기록은 초기 배포 시점 자료다. 현재 결과·범위·롤백은 [최종 서비스 배포 기록](../../docs/releases/final-service-deploy-20261012.md)을 기준으로 한다.
+
+산책 추천 후속 배포는 worker`20261012-walk-45b6086`·웹`315d7811`이다. 예측 정책은 유지했고 [마포구 지도·실제 인증/큐 조회](../../docs/verification/nearby-walks-20261012/README.md)를 확인했다.
+
+## 초기 설치 범위와 제한
 
 - `EXPO_PUBLIC_TRANSPORT=supabase`로 새 전송 경로 선택. 기존 서버 방식은 유지.
 - 새 프로젝트 `donghaeng` (`qoprqgnlohnbzbynhchg`). 다른 프로젝트 데이터에 접근하지 않는다.

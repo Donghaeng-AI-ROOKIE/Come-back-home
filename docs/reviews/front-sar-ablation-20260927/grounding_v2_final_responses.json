@@ -1,0 +1,398 @@
+[
+  {
+    "file": "calls/E2_r1_23.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 922,
+      "completion_tokens": 9,
+      "total_tokens": 931
+    }
+  },
+  {
+    "file": "calls/E2_r2_24.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 922,
+      "completion_tokens": 9,
+      "total_tokens": 931
+    }
+  },
+  {
+    "file": "calls/G1_r1_15.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 837,
+      "completion_tokens": 9,
+      "total_tokens": 846
+    }
+  },
+  {
+    "file": "calls/G1_r1_16.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 796,
+      "completion_tokens": 9,
+      "total_tokens": 805
+    }
+  },
+  {
+    "file": "calls/G1_r2_17.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 837,
+      "completion_tokens": 9,
+      "total_tokens": 846
+    }
+  },
+  {
+    "file": "calls/G1_r2_18.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 796,
+      "completion_tokens": 9,
+      "total_tokens": 805
+    }
+  },
+  {
+    "file": "calls/G2_r1_19.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 802,
+      "completion_tokens": 9,
+      "total_tokens": 811
+    }
+  },
+  {
+    "file": "calls/G2_r1_20.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 796,
+      "completion_tokens": 9,
+      "total_tokens": 805
+    }
+  },
+  {
+    "file": "calls/G2_r2_21.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 802,
+      "completion_tokens": 9,
+      "total_tokens": 811
+    }
+  },
+  {
+    "file": "calls/G2_r2_22.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 796,
+      "completion_tokens": 9,
+      "total_tokens": 805
+    }
+  },
+  {
+    "file": "calls/H_history_r1_29.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 917,
+      "completion_tokens": 9,
+      "total_tokens": 926
+    }
+  },
+  {
+    "file": "calls/H_history_r1_30.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 923,
+      "completion_tokens": 9,
+      "total_tokens": 932
+    }
+  },
+  {
+    "file": "calls/H_history_r1_31.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 857,
+      "completion_tokens": 9,
+      "total_tokens": 866
+    }
+  },
+  {
+    "file": "calls/H_history_r1_32.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 796,
+      "completion_tokens": 9,
+      "total_tokens": 805
+    }
+  },
+  {
+    "file": "calls/H_history_r2_33.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 917,
+      "completion_tokens": 9,
+      "total_tokens": 926
+    }
+  },
+  {
+    "file": "calls/H_history_r2_34.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 923,
+      "completion_tokens": 9,
+      "total_tokens": 932
+    }
+  },
+  {
+    "file": "calls/H_history_r2_35.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 857,
+      "completion_tokens": 9,
+      "total_tokens": 866
+    }
+  },
+  {
+    "file": "calls/H_history_r2_36.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 796,
+      "completion_tokens": 9,
+      "total_tokens": 805
+    }
+  },
+  {
+    "file": "calls/H_wait_r1_25.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 812,
+      "completion_tokens": 9,
+      "total_tokens": 821
+    }
+  },
+  {
+    "file": "calls/H_wait_r1_26.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 801,
+      "completion_tokens": 9,
+      "total_tokens": 810
+    }
+  },
+  {
+    "file": "calls/H_wait_r2_27.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 812,
+      "completion_tokens": 9,
+      "total_tokens": 821
+    }
+  },
+  {
+    "file": "calls/H_wait_r2_28.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 801,
+      "completion_tokens": 9,
+      "total_tokens": 810
+    }
+  },
+  {
+    "file": "calls/W1_r1_10.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 812,
+      "completion_tokens": 9,
+      "total_tokens": 821
+    }
+  },
+  {
+    "file": "calls/W1_r1_9.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 894,
+      "completion_tokens": 9,
+      "total_tokens": 903
+    }
+  },
+  {
+    "file": "calls/W1_r2_11.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 894,
+      "completion_tokens": 9,
+      "total_tokens": 903
+    }
+  },
+  {
+    "file": "calls/W1_r2_12.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 812,
+      "completion_tokens": 9,
+      "total_tokens": 821
+    }
+  },
+  {
+    "file": "calls/W2_r1_13.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 812,
+      "completion_tokens": 9,
+      "total_tokens": 821
+    }
+  },
+  {
+    "file": "calls/W2_r2_14.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 812,
+      "completion_tokens": 9,
+      "total_tokens": 821
+    }
+  },
+  {
+    "file": "calls/control_E1_00_1.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 799,
+      "completion_tokens": 9,
+      "total_tokens": 808
+    }
+  },
+  {
+    "file": "calls/control_E1_01_2.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 799,
+      "completion_tokens": 9,
+      "total_tokens": 808
+    }
+  },
+  {
+    "file": "calls/control_E1_10_3.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 798,
+      "completion_tokens": 9,
+      "total_tokens": 807
+    }
+  },
+  {
+    "file": "calls/control_E1_11_4.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 798,
+      "completion_tokens": 9,
+      "total_tokens": 807
+    }
+  },
+  {
+    "file": "calls/control_E2_00_5.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": false}",
+    "usage": {
+      "prompt_tokens": 806,
+      "completion_tokens": 9,
+      "total_tokens": 815
+    }
+  },
+  {
+    "file": "calls/control_E2_01_6.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 806,
+      "completion_tokens": 9,
+      "total_tokens": 815
+    }
+  },
+  {
+    "file": "calls/control_E2_10_7.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 805,
+      "completion_tokens": 9,
+      "total_tokens": 814
+    }
+  },
+  {
+    "file": "calls/control_E2_11_8.json",
+    "model": "midm-pro-fp8-kaic",
+    "finish_reason": "stop",
+    "final_content": "{\"answer\": true}",
+    "usage": {
+      "prompt_tokens": 805,
+      "completion_tokens": 9,
+      "total_tokens": 814
+    }
+  }
+]

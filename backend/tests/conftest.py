@@ -32,6 +32,15 @@ os.environ["PERSIST_STORAGE"] = "false"
 # 역지오코딩 자체의 검증은 그 모듈을 직접 부르는 테스트가 한다.
 os.environ["REVERSE_GEOCODE_ON_INTAKE"] = "false"
 
+# Historical regressions explicitly exercise the preserved res7 / 70:30 / 80%
+# configuration. test_target_resolution_contract.py separately checks the actual
+# final defaults and the complete res8/res9 API and fanout contracts.
+os.environ["PUSH_TARGET_RES"] = "7"
+os.environ["PERSONAL_CHANNEL_WEIGHT"] = "0.7"
+os.environ["ALERT_COVERAGE"] = "0.8"
+os.environ["STATISTICAL_CHANNEL_DEFINITION"] = "onboarded_population_prior"
+os.environ["ALERT_SELECTION_POLICY"] = "coverage"
+
 # 감사로그 파일도 테스트 전용 경로로 돌린다.
 #
 # 이건 편의가 아니라 **증적의 무결성 문제**다. 파기 증적은 "언제 무엇을 지웠다"를

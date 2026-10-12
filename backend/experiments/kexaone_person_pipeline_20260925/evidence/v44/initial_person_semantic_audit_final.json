@@ -1,0 +1,19 @@
+{
+  "model": "depmkuykpfon9lg",
+  "usage": {
+    "completion_tokens": 9157,
+    "prompt_tokens": 2743,
+    "prompt_tokens_details": {
+      "cached_tokens": 1408
+    },
+    "total_tokens": 11900
+  },
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "message": {
+        "content": "{\"goals\":{\"공원\":{\"value\":\"current_statement\",\"note_ids\":[\"N3\"]}},\"routes\":{\"공원\":{\"value\":\"new_route\",\"note_ids\":[\"N4\"]}},\"persistence\":{\"value\":\"unknown\",\"note_ids\":[\"N0\",\"N1\"]},\"direction\":{\"value\":\"same_heading\",\"note_ids\":[\"N1\"]},\"mobility\":{\"value\":\"C\",\"note_ids\":[\"N2\"]},\"emotion\":{\"value\":\"unknown\",\"note_ids\":[]}}"
+      }
+    }
+  ]
+}

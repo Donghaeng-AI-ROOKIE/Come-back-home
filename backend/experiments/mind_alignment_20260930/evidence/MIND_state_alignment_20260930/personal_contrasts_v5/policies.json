@@ -1,0 +1,1862 @@
+[
+  {
+    "group_id": "PC001",
+    "split": "train",
+    "kind": "single",
+    "first": {
+      "id": "park_noisy",
+      "phrase": "공원에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "noisy",
+      "action": "avoid_park"
+    },
+    "second": {
+      "id": "forest_noisy",
+      "phrase": "숲길에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "noisy",
+      "action": "avoid_forest"
+    },
+    "main_commands": [
+      "avoid_park",
+      "continue"
+    ],
+    "second_command": "avoid_forest",
+    "pair_key": "forest_noisy|park_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC002",
+    "split": "train",
+    "kind": "and",
+    "first": {
+      "id": "park_crowded",
+      "phrase": "공원에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "crowded",
+      "action": "avoid_park"
+    },
+    "second": {
+      "id": "reported_toilet_need",
+      "phrase": "본인이 화장실에 가고 싶다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "avoid_park",
+      "stay"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "park_crowded|reported_toilet_need",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC003",
+    "split": "train",
+    "kind": "or",
+    "first": {
+      "id": "market_noisy",
+      "phrase": "시장에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "noisy",
+      "action": "avoid_market"
+    },
+    "second": {
+      "id": "reported_hunger",
+      "phrase": "본인이 배고프다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "avoid_market",
+      "continue"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "market_noisy|reported_hunger",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC004",
+    "split": "train",
+    "kind": "unless",
+    "first": {
+      "id": "market_crowded",
+      "phrase": "시장에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "crowded",
+      "action": "avoid_market"
+    },
+    "second": {
+      "id": "reported_pain",
+      "phrase": "본인이 몸이 아프다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "avoid_market",
+      "stay"
+    ],
+    "second_command": "rest",
+    "pair_key": "market_crowded|reported_pain",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC005",
+    "split": "train",
+    "kind": "priority",
+    "first": {
+      "id": "forest_noisy",
+      "phrase": "숲길에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "noisy",
+      "action": "avoid_forest"
+    },
+    "second": {
+      "id": "reported_thirst",
+      "phrase": "본인이 목마르다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "avoid_forest",
+      "continue"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "forest_noisy|reported_thirst",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC006",
+    "split": "train",
+    "kind": "correction",
+    "first": {
+      "id": "forest_crowded",
+      "phrase": "숲길에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "crowded",
+      "action": "avoid_forest"
+    },
+    "second": {
+      "id": "forest_noisy",
+      "phrase": "숲길에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "noisy",
+      "action": "avoid_forest"
+    },
+    "main_commands": [
+      "avoid_forest",
+      "stay"
+    ],
+    "second_command": "avoid_forest",
+    "pair_key": "forest_crowded|forest_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC007",
+    "split": "train",
+    "kind": "latest_observation",
+    "first": {
+      "id": "water_noisy",
+      "phrase": "물가에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "noisy",
+      "action": "avoid_water"
+    },
+    "second": {
+      "id": "familiar_place_recognition",
+      "phrase": "본인이 주변 장소를 익숙한 곳으로 알아보는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "avoid_water",
+      "continue"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "familiar_place_recognition|water_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC008",
+    "split": "train",
+    "kind": "single",
+    "first": {
+      "id": "water_crowded",
+      "phrase": "물가에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "crowded",
+      "action": "avoid_water"
+    },
+    "second": {
+      "id": "reported_toilet_need",
+      "phrase": "본인이 화장실에 가고 싶다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "avoid_water",
+      "stay"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "reported_toilet_need|water_crowded",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC009",
+    "split": "train",
+    "kind": "and",
+    "first": {
+      "id": "reported_tiredness",
+      "phrase": "본인이 많이 지쳤다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "second": {
+      "id": "heavy_legs",
+      "phrase": "본인이 다리가 무겁다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "rest",
+      "continue"
+    ],
+    "second_command": "rest",
+    "pair_key": "heavy_legs|reported_tiredness",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC010",
+    "split": "train",
+    "kind": "or",
+    "first": {
+      "id": "heavy_legs",
+      "phrase": "본인이 다리가 무겁다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "second": {
+      "id": "forest_crowded",
+      "phrase": "숲길에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "crowded",
+      "action": "avoid_forest"
+    },
+    "main_commands": [
+      "rest",
+      "stay"
+    ],
+    "second_command": "avoid_forest",
+    "pair_key": "forest_crowded|heavy_legs",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC011",
+    "split": "train",
+    "kind": "unless",
+    "first": {
+      "id": "self_lost_awareness",
+      "phrase": "본인이 길을 잃었다고 알아차린 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "second": {
+      "id": "park_noisy",
+      "phrase": "공원에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "noisy",
+      "action": "avoid_park"
+    },
+    "main_commands": [
+      "stay",
+      "roam"
+    ],
+    "second_command": "avoid_park",
+    "pair_key": "park_noisy|self_lost_awareness",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC012",
+    "split": "train",
+    "kind": "priority",
+    "first": {
+      "id": "reported_thirst",
+      "phrase": "본인이 목마르다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "familiar_place_recognition",
+      "phrase": "본인이 주변 장소를 익숙한 곳으로 알아보는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "familiar_place_recognition|reported_thirst",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC013",
+    "split": "train",
+    "kind": "correction",
+    "first": {
+      "id": "reported_hunger",
+      "phrase": "본인이 배고프다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "park_noisy",
+      "phrase": "공원에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "noisy",
+      "action": "avoid_park"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "avoid_park",
+    "pair_key": "park_noisy|reported_hunger",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC014",
+    "split": "train",
+    "kind": "latest_observation",
+    "first": {
+      "id": "reported_toilet_need",
+      "phrase": "본인이 화장실에 가고 싶다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "reported_anxiety",
+      "phrase": "본인이 불안하다고 말하는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "stay",
+    "pair_key": "reported_anxiety|reported_toilet_need",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC015",
+    "split": "train",
+    "kind": "single",
+    "first": {
+      "id": "familiar_place_recognition",
+      "phrase": "본인이 주변 장소를 익숙한 곳으로 알아보는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "market_noisy",
+      "phrase": "시장에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "noisy",
+      "action": "avoid_market"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "avoid_market",
+    "pair_key": "familiar_place_recognition|market_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC016",
+    "split": "train",
+    "kind": "and",
+    "first": {
+      "id": "reported_anxiety",
+      "phrase": "본인이 불안하다고 말하는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "second": {
+      "id": "reported_thirst",
+      "phrase": "본인이 목마르다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "stay",
+      "roam"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "reported_anxiety|reported_thirst",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC017",
+    "split": "train",
+    "kind": "or",
+    "first": {
+      "id": "reported_pain",
+      "phrase": "본인이 몸이 아프다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "second": {
+      "id": "reported_thirst",
+      "phrase": "본인이 목마르다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "rest",
+      "continue"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "reported_pain|reported_thirst",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC018",
+    "split": "train",
+    "kind": "unless",
+    "first": {
+      "id": "reported_cold",
+      "phrase": "본인이 춥다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "family_companion",
+      "phrase": "가족이 곁에서 동행하는 상황",
+      "kind": "family",
+      "action": "continue"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "continue",
+    "pair_key": "family_companion|reported_cold",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC019",
+    "split": "train",
+    "kind": "priority",
+    "first": {
+      "id": "approaching_stranger",
+      "phrase": "낯선 사람이 다가오는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "second": {
+      "id": "forest_noisy",
+      "phrase": "숲길에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "noisy",
+      "action": "avoid_forest"
+    },
+    "main_commands": [
+      "stay",
+      "roam"
+    ],
+    "second_command": "avoid_forest",
+    "pair_key": "approaching_stranger|forest_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC020",
+    "split": "train",
+    "kind": "correction",
+    "first": {
+      "id": "family_companion",
+      "phrase": "가족이 곁에서 동행하는 상황",
+      "kind": "family",
+      "action": "continue"
+    },
+    "second": {
+      "id": "reported_toilet_need",
+      "phrase": "본인이 화장실에 가고 싶다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "continue",
+      "stay"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "family_companion|reported_toilet_need",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC021",
+    "split": "train",
+    "kind": "latest_observation",
+    "first": {
+      "id": "park_noisy",
+      "phrase": "공원에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "noisy",
+      "action": "avoid_park"
+    },
+    "second": {
+      "id": "heavy_legs",
+      "phrase": "본인이 다리가 무겁다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "avoid_park",
+      "continue"
+    ],
+    "second_command": "rest",
+    "pair_key": "heavy_legs|park_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC022",
+    "split": "train",
+    "kind": "single",
+    "first": {
+      "id": "park_crowded",
+      "phrase": "공원에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "crowded",
+      "action": "avoid_park"
+    },
+    "second": {
+      "id": "reported_pain",
+      "phrase": "본인이 몸이 아프다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "avoid_park",
+      "stay"
+    ],
+    "second_command": "rest",
+    "pair_key": "park_crowded|reported_pain",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC023",
+    "split": "train",
+    "kind": "and",
+    "first": {
+      "id": "market_noisy",
+      "phrase": "시장에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "noisy",
+      "action": "avoid_market"
+    },
+    "second": {
+      "id": "market_crowded",
+      "phrase": "시장에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "crowded",
+      "action": "avoid_market"
+    },
+    "main_commands": [
+      "avoid_market",
+      "continue"
+    ],
+    "second_command": "avoid_market",
+    "pair_key": "market_crowded|market_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC024",
+    "split": "train",
+    "kind": "or",
+    "first": {
+      "id": "market_crowded",
+      "phrase": "시장에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "crowded",
+      "action": "avoid_market"
+    },
+    "second": {
+      "id": "reported_toilet_need",
+      "phrase": "본인이 화장실에 가고 싶다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "avoid_market",
+      "stay"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "market_crowded|reported_toilet_need",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC025",
+    "split": "train",
+    "kind": "unless",
+    "first": {
+      "id": "forest_noisy",
+      "phrase": "숲길에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "noisy",
+      "action": "avoid_forest"
+    },
+    "second": {
+      "id": "water_noisy",
+      "phrase": "물가에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "noisy",
+      "action": "avoid_water"
+    },
+    "main_commands": [
+      "avoid_forest",
+      "continue"
+    ],
+    "second_command": "avoid_water",
+    "pair_key": "forest_noisy|water_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC026",
+    "split": "train",
+    "kind": "priority",
+    "first": {
+      "id": "forest_crowded",
+      "phrase": "숲길에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "crowded",
+      "action": "avoid_forest"
+    },
+    "second": {
+      "id": "reported_cold",
+      "phrase": "본인이 춥다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "avoid_forest",
+      "stay"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "forest_crowded|reported_cold",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC027",
+    "split": "train",
+    "kind": "correction",
+    "first": {
+      "id": "water_noisy",
+      "phrase": "물가에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "noisy",
+      "action": "avoid_water"
+    },
+    "second": {
+      "id": "reported_hunger",
+      "phrase": "본인이 배고프다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "avoid_water",
+      "continue"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "reported_hunger|water_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC028",
+    "split": "train",
+    "kind": "latest_observation",
+    "first": {
+      "id": "water_crowded",
+      "phrase": "물가에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "crowded",
+      "action": "avoid_water"
+    },
+    "second": {
+      "id": "reported_tiredness",
+      "phrase": "본인이 많이 지쳤다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "avoid_water",
+      "stay"
+    ],
+    "second_command": "rest",
+    "pair_key": "reported_tiredness|water_crowded",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC029",
+    "split": "train",
+    "kind": "single",
+    "first": {
+      "id": "reported_tiredness",
+      "phrase": "본인이 많이 지쳤다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "second": {
+      "id": "water_noisy",
+      "phrase": "물가에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "noisy",
+      "action": "avoid_water"
+    },
+    "main_commands": [
+      "rest",
+      "continue"
+    ],
+    "second_command": "avoid_water",
+    "pair_key": "reported_tiredness|water_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC030",
+    "split": "train",
+    "kind": "and",
+    "first": {
+      "id": "heavy_legs",
+      "phrase": "본인이 다리가 무겁다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "second": {
+      "id": "park_crowded",
+      "phrase": "공원에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "crowded",
+      "action": "avoid_park"
+    },
+    "main_commands": [
+      "rest",
+      "stay"
+    ],
+    "second_command": "avoid_park",
+    "pair_key": "heavy_legs|park_crowded",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC031",
+    "split": "train",
+    "kind": "or",
+    "first": {
+      "id": "self_lost_awareness",
+      "phrase": "본인이 길을 잃었다고 알아차린 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "second": {
+      "id": "water_crowded",
+      "phrase": "물가에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "crowded",
+      "action": "avoid_water"
+    },
+    "main_commands": [
+      "stay",
+      "roam"
+    ],
+    "second_command": "avoid_water",
+    "pair_key": "self_lost_awareness|water_crowded",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC032",
+    "split": "train",
+    "kind": "unless",
+    "first": {
+      "id": "reported_thirst",
+      "phrase": "본인이 목마르다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "heavy_legs",
+      "phrase": "본인이 다리가 무겁다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "rest",
+    "pair_key": "heavy_legs|reported_thirst",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC033",
+    "split": "train",
+    "kind": "priority",
+    "first": {
+      "id": "reported_hunger",
+      "phrase": "본인이 배고프다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "market_crowded",
+      "phrase": "시장에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "crowded",
+      "action": "avoid_market"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "avoid_market",
+    "pair_key": "market_crowded|reported_hunger",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC034",
+    "split": "train",
+    "kind": "correction",
+    "first": {
+      "id": "reported_toilet_need",
+      "phrase": "본인이 화장실에 가고 싶다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "self_lost_awareness",
+      "phrase": "본인이 길을 잃었다고 알아차린 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "stay",
+    "pair_key": "reported_toilet_need|self_lost_awareness",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC035",
+    "split": "train",
+    "kind": "latest_observation",
+    "first": {
+      "id": "familiar_place_recognition",
+      "phrase": "본인이 주변 장소를 익숙한 곳으로 알아보는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "self_lost_awareness",
+      "phrase": "본인이 길을 잃었다고 알아차린 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "stay",
+    "pair_key": "familiar_place_recognition|self_lost_awareness",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC036",
+    "split": "train",
+    "kind": "single",
+    "first": {
+      "id": "reported_anxiety",
+      "phrase": "본인이 불안하다고 말하는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "second": {
+      "id": "self_lost_awareness",
+      "phrase": "본인이 길을 잃었다고 알아차린 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "main_commands": [
+      "stay",
+      "roam"
+    ],
+    "second_command": "stay",
+    "pair_key": "reported_anxiety|self_lost_awareness",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC037",
+    "split": "train",
+    "kind": "and",
+    "first": {
+      "id": "reported_pain",
+      "phrase": "본인이 몸이 아프다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "second": {
+      "id": "forest_noisy",
+      "phrase": "숲길에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "noisy",
+      "action": "avoid_forest"
+    },
+    "main_commands": [
+      "rest",
+      "continue"
+    ],
+    "second_command": "avoid_forest",
+    "pair_key": "forest_noisy|reported_pain",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC038",
+    "split": "train",
+    "kind": "or",
+    "first": {
+      "id": "reported_cold",
+      "phrase": "본인이 춥다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "reported_hunger",
+      "phrase": "본인이 배고프다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "reported_cold|reported_hunger",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC039",
+    "split": "train",
+    "kind": "unless",
+    "first": {
+      "id": "approaching_stranger",
+      "phrase": "낯선 사람이 다가오는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "second": {
+      "id": "reported_tiredness",
+      "phrase": "본인이 많이 지쳤다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "stay",
+      "roam"
+    ],
+    "second_command": "rest",
+    "pair_key": "approaching_stranger|reported_tiredness",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC040",
+    "split": "train",
+    "kind": "priority",
+    "first": {
+      "id": "family_companion",
+      "phrase": "가족이 곁에서 동행하는 상황",
+      "kind": "family",
+      "action": "continue"
+    },
+    "second": {
+      "id": "market_noisy",
+      "phrase": "시장에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "noisy",
+      "action": "avoid_market"
+    },
+    "main_commands": [
+      "continue",
+      "stay"
+    ],
+    "second_command": "avoid_market",
+    "pair_key": "family_companion|market_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC041",
+    "split": "development",
+    "kind": "correction",
+    "first": {
+      "id": "park_noisy",
+      "phrase": "공원에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "noisy",
+      "action": "avoid_park"
+    },
+    "second": {
+      "id": "reported_anxiety",
+      "phrase": "본인이 불안하다고 말하는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "main_commands": [
+      "avoid_park",
+      "continue"
+    ],
+    "second_command": "stay",
+    "pair_key": "park_noisy|reported_anxiety",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC042",
+    "split": "development",
+    "kind": "latest_observation",
+    "first": {
+      "id": "market_noisy",
+      "phrase": "시장에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "noisy",
+      "action": "avoid_market"
+    },
+    "second": {
+      "id": "reported_tiredness",
+      "phrase": "본인이 많이 지쳤다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "avoid_market",
+      "stay"
+    ],
+    "second_command": "rest",
+    "pair_key": "market_noisy|reported_tiredness",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC043",
+    "split": "development",
+    "kind": "single",
+    "first": {
+      "id": "forest_noisy",
+      "phrase": "숲길에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "noisy",
+      "action": "avoid_forest"
+    },
+    "second": {
+      "id": "market_crowded",
+      "phrase": "시장에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "crowded",
+      "action": "avoid_market"
+    },
+    "main_commands": [
+      "avoid_forest",
+      "continue"
+    ],
+    "second_command": "avoid_market",
+    "pair_key": "forest_noisy|market_crowded",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC044",
+    "split": "development",
+    "kind": "and",
+    "first": {
+      "id": "water_noisy",
+      "phrase": "물가에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "noisy",
+      "action": "avoid_water"
+    },
+    "second": {
+      "id": "approaching_stranger",
+      "phrase": "낯선 사람이 다가오는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "main_commands": [
+      "avoid_water",
+      "stay"
+    ],
+    "second_command": "stay",
+    "pair_key": "approaching_stranger|water_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC045",
+    "split": "development",
+    "kind": "or",
+    "first": {
+      "id": "reported_tiredness",
+      "phrase": "본인이 많이 지쳤다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "second": {
+      "id": "park_noisy",
+      "phrase": "공원에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "noisy",
+      "action": "avoid_park"
+    },
+    "main_commands": [
+      "rest",
+      "continue"
+    ],
+    "second_command": "avoid_park",
+    "pair_key": "park_noisy|reported_tiredness",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC046",
+    "split": "development",
+    "kind": "unless",
+    "first": {
+      "id": "heavy_legs",
+      "phrase": "본인이 다리가 무겁다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "second": {
+      "id": "family_companion",
+      "phrase": "가족이 곁에서 동행하는 상황",
+      "kind": "family",
+      "action": "continue"
+    },
+    "main_commands": [
+      "rest",
+      "stay"
+    ],
+    "second_command": "continue",
+    "pair_key": "family_companion|heavy_legs",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC047",
+    "split": "development",
+    "kind": "priority",
+    "first": {
+      "id": "self_lost_awareness",
+      "phrase": "본인이 길을 잃었다고 알아차린 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "second": {
+      "id": "park_crowded",
+      "phrase": "공원에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "crowded",
+      "action": "avoid_park"
+    },
+    "main_commands": [
+      "stay",
+      "roam"
+    ],
+    "second_command": "avoid_park",
+    "pair_key": "park_crowded|self_lost_awareness",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC048",
+    "split": "development",
+    "kind": "correction",
+    "first": {
+      "id": "reported_thirst",
+      "phrase": "본인이 목마르다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "water_crowded",
+      "phrase": "물가에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "crowded",
+      "action": "avoid_water"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "avoid_water",
+    "pair_key": "reported_thirst|water_crowded",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC049",
+    "split": "development",
+    "kind": "latest_observation",
+    "first": {
+      "id": "reported_anxiety",
+      "phrase": "본인이 불안하다고 말하는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "second": {
+      "id": "heavy_legs",
+      "phrase": "본인이 다리가 무겁다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "stay",
+      "roam"
+    ],
+    "second_command": "rest",
+    "pair_key": "heavy_legs|reported_anxiety",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC050",
+    "split": "development",
+    "kind": "single",
+    "first": {
+      "id": "family_companion",
+      "phrase": "가족이 곁에서 동행하는 상황",
+      "kind": "family",
+      "action": "continue"
+    },
+    "second": {
+      "id": "reported_anxiety",
+      "phrase": "본인이 불안하다고 말하는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "main_commands": [
+      "continue",
+      "stay"
+    ],
+    "second_command": "stay",
+    "pair_key": "family_companion|reported_anxiety",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC051",
+    "split": "evaluation",
+    "kind": "and",
+    "first": {
+      "id": "park_noisy",
+      "phrase": "공원에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "noisy",
+      "action": "avoid_park"
+    },
+    "second": {
+      "id": "reported_cold",
+      "phrase": "본인이 춥다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "avoid_park",
+      "continue"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "park_noisy|reported_cold",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC052",
+    "split": "evaluation",
+    "kind": "or",
+    "first": {
+      "id": "park_crowded",
+      "phrase": "공원에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "crowded",
+      "action": "avoid_park"
+    },
+    "second": {
+      "id": "familiar_place_recognition",
+      "phrase": "본인이 주변 장소를 익숙한 곳으로 알아보는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "avoid_park",
+      "stay"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "familiar_place_recognition|park_crowded",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC053",
+    "split": "evaluation",
+    "kind": "unless",
+    "first": {
+      "id": "market_noisy",
+      "phrase": "시장에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "noisy",
+      "action": "avoid_market"
+    },
+    "second": {
+      "id": "reported_anxiety",
+      "phrase": "본인이 불안하다고 말하는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "main_commands": [
+      "avoid_market",
+      "continue"
+    ],
+    "second_command": "stay",
+    "pair_key": "market_noisy|reported_anxiety",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC054",
+    "split": "evaluation",
+    "kind": "priority",
+    "first": {
+      "id": "market_crowded",
+      "phrase": "시장에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "crowded",
+      "action": "avoid_market"
+    },
+    "second": {
+      "id": "heavy_legs",
+      "phrase": "본인이 다리가 무겁다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "avoid_market",
+      "stay"
+    ],
+    "second_command": "rest",
+    "pair_key": "heavy_legs|market_crowded",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC055",
+    "split": "evaluation",
+    "kind": "correction",
+    "first": {
+      "id": "forest_noisy",
+      "phrase": "숲길에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "noisy",
+      "action": "avoid_forest"
+    },
+    "second": {
+      "id": "market_noisy",
+      "phrase": "시장에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "noisy",
+      "action": "avoid_market"
+    },
+    "main_commands": [
+      "avoid_forest",
+      "continue"
+    ],
+    "second_command": "avoid_market",
+    "pair_key": "forest_noisy|market_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC056",
+    "split": "evaluation",
+    "kind": "latest_observation",
+    "first": {
+      "id": "forest_crowded",
+      "phrase": "숲길에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "crowded",
+      "action": "avoid_forest"
+    },
+    "second": {
+      "id": "approaching_stranger",
+      "phrase": "낯선 사람이 다가오는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "main_commands": [
+      "avoid_forest",
+      "stay"
+    ],
+    "second_command": "stay",
+    "pair_key": "approaching_stranger|forest_crowded",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC057",
+    "split": "evaluation",
+    "kind": "single",
+    "first": {
+      "id": "water_noisy",
+      "phrase": "물가에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "noisy",
+      "action": "avoid_water"
+    },
+    "second": {
+      "id": "reported_cold",
+      "phrase": "본인이 춥다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "avoid_water",
+      "continue"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "reported_cold|water_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC058",
+    "split": "evaluation",
+    "kind": "and",
+    "first": {
+      "id": "water_crowded",
+      "phrase": "물가에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "crowded",
+      "action": "avoid_water"
+    },
+    "second": {
+      "id": "reported_pain",
+      "phrase": "본인이 몸이 아프다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "avoid_water",
+      "stay"
+    ],
+    "second_command": "rest",
+    "pair_key": "reported_pain|water_crowded",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC059",
+    "split": "evaluation",
+    "kind": "or",
+    "first": {
+      "id": "reported_tiredness",
+      "phrase": "본인이 많이 지쳤다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "second": {
+      "id": "forest_noisy",
+      "phrase": "숲길에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "noisy",
+      "action": "avoid_forest"
+    },
+    "main_commands": [
+      "rest",
+      "continue"
+    ],
+    "second_command": "avoid_forest",
+    "pair_key": "forest_noisy|reported_tiredness",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC060",
+    "split": "evaluation",
+    "kind": "unless",
+    "first": {
+      "id": "heavy_legs",
+      "phrase": "본인이 다리가 무겁다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "second": {
+      "id": "reported_cold",
+      "phrase": "본인이 춥다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "rest",
+      "stay"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "heavy_legs|reported_cold",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC061",
+    "split": "evaluation",
+    "kind": "priority",
+    "first": {
+      "id": "self_lost_awareness",
+      "phrase": "본인이 길을 잃었다고 알아차린 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "second": {
+      "id": "market_crowded",
+      "phrase": "시장에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "market",
+      "signal": "crowded",
+      "action": "avoid_market"
+    },
+    "main_commands": [
+      "stay",
+      "roam"
+    ],
+    "second_command": "avoid_market",
+    "pair_key": "market_crowded|self_lost_awareness",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC062",
+    "split": "evaluation",
+    "kind": "correction",
+    "first": {
+      "id": "reported_thirst",
+      "phrase": "본인이 목마르다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "reported_cold",
+      "phrase": "본인이 춥다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "reported_cold|reported_thirst",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC063",
+    "split": "evaluation",
+    "kind": "latest_observation",
+    "first": {
+      "id": "reported_hunger",
+      "phrase": "본인이 배고프다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "park_crowded",
+      "phrase": "공원에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "crowded",
+      "action": "avoid_park"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "avoid_park",
+    "pair_key": "park_crowded|reported_hunger",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC064",
+    "split": "evaluation",
+    "kind": "single",
+    "first": {
+      "id": "reported_toilet_need",
+      "phrase": "본인이 화장실에 가고 싶다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "forest_crowded",
+      "phrase": "숲길에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "forest",
+      "signal": "crowded",
+      "action": "avoid_forest"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "avoid_forest",
+    "pair_key": "forest_crowded|reported_toilet_need",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC065",
+    "split": "evaluation",
+    "kind": "and",
+    "first": {
+      "id": "familiar_place_recognition",
+      "phrase": "본인이 주변 장소를 익숙한 곳으로 알아보는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "water_crowded",
+      "phrase": "물가에서 사람이 붐비는 상황",
+      "kind": "environment",
+      "feature": "water",
+      "signal": "crowded",
+      "action": "avoid_water"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "avoid_water",
+    "pair_key": "familiar_place_recognition|water_crowded",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC066",
+    "split": "evaluation",
+    "kind": "or",
+    "first": {
+      "id": "reported_anxiety",
+      "phrase": "본인이 불안하다고 말하는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "second": {
+      "id": "familiar_place_recognition",
+      "phrase": "본인이 주변 장소를 익숙한 곳으로 알아보는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "main_commands": [
+      "stay",
+      "roam"
+    ],
+    "second_command": "seek_1",
+    "pair_key": "familiar_place_recognition|reported_anxiety",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC067",
+    "split": "evaluation",
+    "kind": "unless",
+    "first": {
+      "id": "reported_pain",
+      "phrase": "본인이 몸이 아프다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "second": {
+      "id": "park_noisy",
+      "phrase": "공원에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "noisy",
+      "action": "avoid_park"
+    },
+    "main_commands": [
+      "rest",
+      "continue"
+    ],
+    "second_command": "avoid_park",
+    "pair_key": "park_noisy|reported_pain",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC068",
+    "split": "evaluation",
+    "kind": "priority",
+    "first": {
+      "id": "reported_cold",
+      "phrase": "본인이 춥다고 말하는 상황",
+      "kind": "event",
+      "action": "seek_1"
+    },
+    "second": {
+      "id": "reported_pain",
+      "phrase": "본인이 몸이 아프다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "seek_1",
+      "continue"
+    ],
+    "second_command": "rest",
+    "pair_key": "reported_cold|reported_pain",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC069",
+    "split": "evaluation",
+    "kind": "correction",
+    "first": {
+      "id": "approaching_stranger",
+      "phrase": "낯선 사람이 다가오는 상황",
+      "kind": "event",
+      "action": "stay"
+    },
+    "second": {
+      "id": "reported_pain",
+      "phrase": "본인이 몸이 아프다고 말하는 상황",
+      "kind": "event",
+      "action": "rest"
+    },
+    "main_commands": [
+      "stay",
+      "roam"
+    ],
+    "second_command": "rest",
+    "pair_key": "approaching_stranger|reported_pain",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  },
+  {
+    "group_id": "PC070",
+    "split": "evaluation",
+    "kind": "latest_observation",
+    "first": {
+      "id": "family_companion",
+      "phrase": "가족이 곁에서 동행하는 상황",
+      "kind": "family",
+      "action": "continue"
+    },
+    "second": {
+      "id": "park_noisy",
+      "phrase": "공원에서 소음이 들리는 상황",
+      "kind": "environment",
+      "feature": "park",
+      "signal": "noisy",
+      "action": "avoid_park"
+    },
+    "main_commands": [
+      "continue",
+      "stay"
+    ],
+    "second_command": "avoid_park",
+    "pair_key": "family_companion|park_noisy",
+    "source": "AI-authored hypothetical caregiver account, no actual observation",
+    "clinical_evidence": false
+  }
+]

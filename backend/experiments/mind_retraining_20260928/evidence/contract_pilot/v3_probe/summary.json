@@ -1,0 +1,27 @@
+{
+  "attempts": 4,
+  "responses_received": 4,
+  "timeouts": 0,
+  "contract_pass": 4,
+  "synthetic_action_match": 1,
+  "latency_seconds": {
+    "min": 17.023251082981005,
+    "max": 24.358982208068483,
+    "median": 19.67560404195683
+  },
+  "usage": {
+    "prompt_tokens": 5730,
+    "completion_tokens": 487,
+    "total_tokens": 6217
+  },
+  "actual_cost": null,
+  "gpu_billed_hours": null,
+  "support_round": null,
+  "quality_gate": "not_passed",
+  "notes": [
+    "Four development samples only; not a clinical accuracy estimate",
+    "Action matched in only one after-rest repeat; explanation did not clearly use completed-rest history",
+    "Both high-fatigue repeats contradicted the guardian condition",
+    "Latency recovery and format acceptance do not establish semantic improvement"
+  ]
+}

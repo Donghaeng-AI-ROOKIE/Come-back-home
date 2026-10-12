@@ -1,0 +1,13 @@
+{
+  "purpose": "간결한 core + 단일 context + core 의미 재검토 후보를 새 합성 2개에서 실제 refine 호출로 확인",
+  "max_K_calls": 6,
+  "max_SAR_calls": 2,
+  "automatic_retries": false,
+  "source_fairness": "SAR 기존 필드와 K 원문에 같은 보호자 내용 제공; 잘못된 AI 요약을 인위적으로 넣지 않음",
+  "success": "all prespecified final semantic targets + context market conditional_category + no fallback",
+  "cases_sha256": "f2b3dea083abb2de9eead47874a356832ba9a75d91ff0df0817898860eca7758",
+  "price": null,
+  "support_round": null,
+  "clinical_accuracy": false,
+  "approval_review": "Two previous automatic review rejections preserved; user explicitly approved the exact proposed scope in the latest message. Not yet executed at packaging."
+}

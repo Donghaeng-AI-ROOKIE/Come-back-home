@@ -1,0 +1,86 @@
+{
+  "evaluation_scope": "development only; four synthetic families, sixteen states",
+  "independent_human_review": false,
+  "clinical_accuracy_measured": false,
+  "candidates": {
+    "base": {
+      "expected_records": 16,
+      "responses": 16,
+      "missing_ids": [],
+      "contract_pass": 0,
+      "action_tuple_match": 0,
+      "all_states_correct_families": 0,
+      "family_scores": {
+        "D01": {
+          "correct": 0,
+          "states": 4
+        },
+        "D02": {
+          "correct": 0,
+          "states": 4
+        },
+        "D03": {
+          "correct": 0,
+          "states": 4
+        },
+        "D04": {
+          "correct": 0,
+          "states": 4
+        }
+      },
+      "failure_ids": [
+        "D01-1",
+        "D01-2",
+        "D01-3",
+        "D01-4",
+        "D02-1",
+        "D02-2",
+        "D02-3",
+        "D02-4",
+        "D03-1",
+        "D03-2",
+        "D03-3",
+        "D03-4",
+        "D04-1",
+        "D04-2",
+        "D04-3",
+        "D04-4"
+      ]
+    },
+    "lora_final": {
+      "expected_records": 16,
+      "responses": 16,
+      "missing_ids": [],
+      "contract_pass": 16,
+      "action_tuple_match": 9,
+      "all_states_correct_families": 0,
+      "family_scores": {
+        "D01": {
+          "correct": 2,
+          "states": 4
+        },
+        "D02": {
+          "correct": 2,
+          "states": 4
+        },
+        "D03": {
+          "correct": 3,
+          "states": 4
+        },
+        "D04": {
+          "correct": 2,
+          "states": 4
+        }
+      },
+      "failure_ids": [
+        "D01-2",
+        "D01-4",
+        "D02-3",
+        "D02-4",
+        "D03-2",
+        "D04-1",
+        "D04-4"
+      ]
+    }
+  }
+}

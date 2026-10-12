@@ -46,20 +46,30 @@ def select_alert_cells(
     poa: dict[str, float],
     coverage: float | None = None,
     max_cells: int | None = None,
+    *, policy: str | None = None, max_area_km2: float | None = None,
+    target_res: int | None = None,
 ) -> list[str]:
-    """확률 내림차순으로 누적 커버리지(기본 80%)에 도달할 때까지 셀 선택.
+    """설정된 커버리지 또는 실제 발송 면적 상한으로 대상 선택.
 
-    반환된 셀 집합이 '1차 안전 반경' — 이 안의 사용자가 알림 대상.
+    coverage 정책은 누적 확률, area_budget 정책은 확률 밀도로 정렬한다.
+    면적 정책은 실제 발송 구역의 상한이며 95% 확률 보장이 아니다.
     """
     # 기본값 대입은 `or` 가 아니라 `is None` — coverage=0.0·max_cells=0 을
     # 명시적으로 넘겨도 falsy 라 기본값으로 치환되던 버그 방지.
     coverage = settings.alert_coverage if coverage is None else coverage
     max_cells = settings.max_alert_cells if max_cells is None else max_cells
+    policy = settings.alert_selection_policy if policy is None else policy
+    if policy == "area_budget":
+        from app.phase3.area_budget import select
+        return select(poa, settings.max_alert_area_km2 if max_area_km2 is None else max_area_km2,
+                      max_cells, settings.push_target_res if target_res is None else target_res)
+    if policy != "coverage":
+        raise ValueError('unsupported alert selection policy')
     # 비유한값(NaN/inf) 셀 제외 — 정렬 불안정·acc 오염(NaN 누적 시 커버리지
     # 판정 무력화) 방지. 상류(전략확률 가드레일)에서 막지만 심층 방어.
     ranked = sorted(
         ((c, p) for c, p in poa.items() if math.isfinite(p)),
-        key=lambda kv: kv[1], reverse=True,
+        key=lambda kv: (-kv[1], kv[0]),
     )
     return _cumulative_top_cells(ranked, target_total=1.0, coverage=coverage, max_cells=max_cells)
 
@@ -96,6 +106,14 @@ def select_new_region_cells(
     coverage = settings.alert_coverage if coverage is None else coverage
     max_cells = settings.max_alert_cells if max_cells is None else max_cells
 
+    if settings.alert_selection_policy == "area_budget":
+        # A dense literature prior has the same support at successive updates.
+        # D3 compares delivered selections, not just positive support keys.
+        selected = select_alert_cells(current_poa, coverage, max_cells)
+        old_targets = target_parent_cells(select_alert_cells(last_alert_poa, coverage, max_cells))
+        from app.geo import h3cover
+        fresh = [c for c in selected if h3cover.cover([c],settings.push_target_res)-old_targets]
+        return fresh if sum(current_poa[c] for c in fresh) >= mass_threshold else []
     new_cells = set(current_poa) - set(last_alert_poa)
     ranked = sorted(
         ((c, current_poa[c]) for c in new_cells if math.isfinite(current_poa[c])),
@@ -105,6 +123,20 @@ def select_new_region_cells(
     if total_new_mass < mass_threshold:
         return []
     return _cumulative_top_cells(ranked, target_total=total_new_mass, coverage=coverage, max_cells=max_cells)
+
+
+def targeting_policy_name():
+    return ("selected_area_budget_geographic_cover_v1" if settings.alert_selection_policy == "area_budget"
+            else "selected_coverage_geographic_cover_v1")
+
+
+def targeting_metadata():
+    return {"target_res": settings.push_target_res,
+            "coverage": settings.alert_coverage if settings.alert_selection_policy == "coverage" else None,
+            "max_area_km2": settings.max_alert_area_km2 if settings.alert_selection_policy == "area_budget" else None,
+            "targeting_policy": targeting_policy_name(),
+            "selection_policy": settings.alert_selection_policy,
+            "selection_scope": "poa_and_new_region"}
 
 
 def select_reflex_cells(lkp: GeoPoint, k: int | None = None) -> list[str]:
@@ -119,18 +151,14 @@ def select_reflex_cells(lkp: GeoPoint, k: int | None = None) -> list[str]:
 
 
 def target_parent_cells(cells: list[str], res: int | None = None) -> set[str]:
-    """예측 셀(res9) → 발송 대상 res7 부모 집합.
+    """선택된 예측 셀과 지리적으로 겹치는 coarse 셀 전체.
 
-    폰은 자기 위치를 res7 셀 하나로 바꿔 알려주고(schemas/device.py), 서버는 이
-    집합과 대조해 대상을 고른다. **부모/자식 비교라 근사 오차가 없다** —
-    한때 중심+반경 원으로 근사했는데 육각 셀 집합보다 넓어 구역 밖 사람이
-    4~8배 섞였다. 그건 "폰에 H3 가 없다"는 잘못된 전제에서 나온 우회책이었다.
-
-    부모 셀은 3~8개뿐이라 푸시 페이로드(약 4KiB 상한)에도 그대로 실린다 —
-    res9 목록(500개 ≈ 7KB)이 안 실린다고 봤던 것은 해상도를 낮출 생각을
-    안 한 탓이었다.
+    H3 논리 부모는 지리 경계를 완전히 덮지 않는다. 경계 양쪽 기기도 같은
+    선택 구역의 대상이 되도록 교차 면적이 있는 셀을 포함한다. 기기는 여전히
+    res7 위치 하나만 전송한다.
     """
-    return h3grid.parent_cells(cells, res or settings.push_target_res)
+    from app.geo.h3cover import cover
+    return cover(cells, settings.push_target_res if res is None else res)
 
 
 def relative_prob_by_parent(
@@ -206,6 +234,7 @@ def describe_alert(case: Case, now: datetime | None = None) -> dict:
         "kind": kind,
         "target_cells": sorted(target_parent_cells(cells)) if cells else [],
         "target_res": settings.push_target_res,
+        "targeting_policy": targeting_policy_name(),
         "summary": look.summary if look and look.summary else "인상착의 정보 없음",
         "matched_person_id": case.report.persona_id,
         # 시민 화면이 띄울 최소 신원 — 🚨 **이름은 보내지 않는다.** 나이·인상착의로
@@ -261,8 +290,16 @@ def build_message(kind: str, appearance_summary: str) -> tuple[str, str]:
     return title, body
 
 
-def eligible_for_alert(device, kind: str, rel_by_parent: dict[str, float]) -> bool:
-    """Shared admission for event fanout and walking-entry web push."""
+def eligible_for_alert(device, kind: str, rel_by_parent: dict[str, float],
+                       selected_targets: set[str] | None = None) -> bool:
+    """Selected coverage is authoritative for event fanout and walking entry.
+
+    A second peak-relative filter erased selected probability mass. Existing delivery and dismissal guards remain separate from probability
+    selection; engagement thresholds no longer erase the advertised coverage. With no selection,
+    retain the legacy diagnostic threshold for callers outside this path.
+    """
+    if selected_targets is not None:
+        return devices.location_in_targets(devices.location_cell(device), selected_targets)
     return (kind == "reflex" or not rel_by_parent
             or rel_by_parent.get(device.cell_res7 or "", 0.0)
                >= settings.push_prob_threshold[device.engagement.value])
@@ -270,24 +307,18 @@ def eligible_for_alert(device, kind: str, rel_by_parent: dict[str, float]) -> bo
 
 def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
                 kind: str = "poa", poa: dict[str, float] | None = None,
-                *, only_tokens: set[str] | None = None, delivery_details: bool = False) -> dict:
+                *, only_tokens: set[str] | None = None, delivery_details: bool = False,
+                exclude_targets: set[str] | None = None) -> dict:
     """대상 res7 셀 안의 기기에 타겟 알림 발송.
 
-    ## 두 단계로 거른다
-      1) **지오펜스** — 예측 셀(res9)의 res7 부모 집합 안에 있는 기기만.
-         폰이 자기 res7 칸을 알려주므로 서버가 고를 수 있다(schemas/device.py).
-      2) **확률 문턱** — 그 칸의 최고 상대확률이 기기의 참여도 등급 문턱을 넘어야
-         보낸다. 잘 확인하는 사람은 덜 확실한 곳에서도, 잘 안 보는 사람은 확실한
-         곳에서만(알림 피로도 예산, 작업8).
-
-    🚨 `reflex`(D1 골든타임)는 **문턱 면제**. POA 가 나오기 전에 나가는 알림이라
-    확률이라는 게 아직 없고, 피로도로 줄일 대상도 아니다.
+    선택된 예측 셀과 지리적으로 겹치는 res7 대상 구역의 기기만 고른다.
+    선택 구역을 참여도별 상대확률 문턱으로 다시 줄이지 않는다. 이 변경으로
+    수신 대상은 늘 수 있으며, 실제 전달량은 별도 평가가 필요하다.
 
     발송 실패는 예외로 올리지 않는다. 신고 접수(reflex_alert_on_intake)에서
     호출되는 경로가 있어, 알림이 실패했다고 접수·예측까지 무너지면 안 된다.
 
-    @param poa 상대확률 환산에 쓸 원본 분포. 없으면 문턱을 적용하지 않는다
-        (reflex 처럼 확률 개념이 없는 경우).
+    @param poa 기존 호출 계약과 진단 환산을 위해 유지한 원본 분포.
     """
     from app import storage
     from app.test_scope import isolated
@@ -297,13 +328,14 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
                 "below_threshold": 0, "suppressed": 0, "stub": False,
                 "status": "synthetic_isolated", "source_cells": len(cells)}
     title, body = build_message(kind, appearance_summary)
-    target_cells = target_parent_cells(cells) if cells else set()
+    target_cells = (target_parent_cells(cells) if cells else set()) - (exclude_targets or set())
     # 부모 셀은 3~8개라 페이로드에 그대로 실린다 — 폰이 앱 안 관문 판정에 쓴다.
     payload = {
         "case_id": case_id,
         "kind": kind,   # reflex(1차 안전반경) | poa(예측 기반 타겟) | new_region(3차, 새 지역 한정)
         "target_cells": sorted(target_cells),
         "target_res": settings.push_target_res,
+        "targeting_policy": targeting_policy_name(),
         "appearance": appearance_summary,
     }
 
@@ -315,7 +347,7 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
     recipients = []
     below_threshold = 0
     for device in candidates:
-        if eligible_for_alert(device, kind, rel_by_parent):
+        if eligible_for_alert(device, kind, rel_by_parent, target_cells):
             recipients.append(device)
         else:
             below_threshold += 1
@@ -372,6 +404,7 @@ def describe_resolved(case: Case) -> dict:
         "close_reason": case.close_reason.value if case.close_reason else None,
         "target_cells": sorted(target_parent_cells(cells)) if cells else [],
         "target_res": settings.push_target_res,
+        "targeting_policy": targeting_policy_name(),
     }
 
 
@@ -413,6 +446,10 @@ def notify_prediction(case, *, force=False, now=None, reflex=False) -> dict:
         event = {"id": storage.new_id(), "kind": kind, "cells": cells,
                  "poa": dict(current.current_poa or {}), "attempts": 0, "status": "retry",
                  "retry_at": now.isoformat(), "tokens": None}
+        if kind == 'new_region' and settings.alert_selection_policy == 'area_budget':
+            # A boundary fine cell can cover both new and previously notified
+            # coarse cells. Exclude the old delivery cover, also on retries.
+            event['exclude_targets'] = sorted(target_parent_cells(select_alert_cells(current.last_alert_poa)))
         def reserve(latest):
             if latest.status in (CaseStatus.found, CaseStatus.closed):
                 return None
@@ -436,7 +473,8 @@ def _deliver_event(case, event, now):
         result = send_alerts(case.id, event["cells"], look.summary if look else "인상착의 정보 없음",
                              kind=event["kind"], poa=event["poa"] if event["kind"] == "poa" else None,
                              only_tokens=set(event["tokens"]) if event["tokens"] is not None else None,
-                             delivery_details=True)
+                             delivery_details=True,
+                             **({"exclude_targets":set(event["exclude_targets"])} if "exclude_targets" in event else {}))
     except Exception:
         result = {"sent": 0, "failed": 1, "stub": False}
     def complete(latest):

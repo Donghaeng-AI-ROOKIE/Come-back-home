@@ -1,6 +1,7 @@
 """Phase2 파이프라인 결합 — top-down 을 최종 α-pool 에서 제외한 2-way 구조 검증 (작업 3)."""
 
 from datetime import datetime, timedelta
+import pytest
 
 from app import storage
 from app.phase2 import combine, pipeline
@@ -33,7 +34,7 @@ def test_combine_uses_bottomup_statistical_only(monkeypatch):
     pipeline.run_prediction(_case(), seed=1)
 
     assert captured["n"] == 2
-    assert captured["alphas"] == [0.7, 0.3]
+    assert captured["alphas"] == pytest.approx([0.7, 0.3])
 
 
 def test_topdown_still_computed_for_debug():

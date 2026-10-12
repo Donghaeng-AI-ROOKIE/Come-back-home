@@ -1,0 +1,188 @@
+{
+  "experiment": "KEXAONE_conditions_live_v43_20260925",
+  "completed_cases": 6,
+  "condition_cases": 6,
+  "passed": 2,
+  "cases": [
+    {
+      "case": "and",
+      "pass": true,
+      "checks": {
+        "validation": true,
+        "response": true,
+        "scope": true,
+        "clauses": true
+      },
+      "expected": {
+        "response": "avoid",
+        "scope": "conditional_category",
+        "condition_clauses": [
+          [
+            {
+              "signal": "crowded",
+              "state": "present"
+            },
+            {
+              "signal": "noisy",
+              "state": "present"
+            }
+          ]
+        ]
+      },
+      "actual": {
+        "response": "avoid",
+        "scope": "conditional_category",
+        "condition": "추가 조건 필요",
+        "note_ids": [
+          "N0"
+        ],
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단.",
+        "condition_clauses": [
+          [
+            {
+              "signal": "crowded",
+              "state": "present"
+            },
+            {
+              "signal": "noisy",
+              "state": "present"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "case": "or",
+      "pass": false,
+      "checks": {
+        "validation": false,
+        "response": false,
+        "scope": false,
+        "clauses": false
+      },
+      "expected": {
+        "response": "avoid",
+        "scope": "conditional_category",
+        "condition_clauses": [
+          [
+            {
+              "signal": "crowded",
+              "state": "present"
+            }
+          ],
+          [
+            {
+              "signal": "noisy",
+              "state": "present"
+            }
+          ]
+        ]
+      },
+      "actual": {}
+    },
+    {
+      "case": "quiet",
+      "pass": true,
+      "checks": {
+        "validation": true,
+        "response": true,
+        "scope": true,
+        "clauses": true
+      },
+      "expected": {
+        "response": "avoid",
+        "scope": "conditional_category",
+        "condition_clauses": [
+          [
+            {
+              "signal": "noisy",
+              "state": "absent"
+            }
+          ]
+        ]
+      },
+      "actual": {
+        "response": "avoid",
+        "scope": "conditional_category",
+        "condition": "추가 조건 필요",
+        "note_ids": [
+          "N0"
+        ],
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단.",
+        "condition_clauses": [
+          [
+            {
+              "signal": "noisy",
+              "state": "absent"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "case": "unknown",
+      "pass": false,
+      "checks": {
+        "validation": true,
+        "response": true,
+        "scope": false,
+        "clauses": true
+      },
+      "expected": {
+        "response": "unknown",
+        "scope": "unknown",
+        "condition_clauses": []
+      },
+      "actual": {
+        "response": "unknown",
+        "scope": "place_specific",
+        "condition": "조건 미확인",
+        "note_ids": [
+          "N0"
+        ],
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+      }
+    },
+    {
+      "case": "unsupported_dark",
+      "pass": false,
+      "checks": {
+        "validation": true,
+        "response": false,
+        "scope": false,
+        "clauses": true
+      },
+      "expected": {
+        "response": "avoid",
+        "scope": "conditional_category",
+        "condition_clauses": []
+      },
+      "actual": {
+        "response": "unknown",
+        "scope": "place_specific",
+        "condition": "조건 미확인",
+        "note_ids": [
+          "N0"
+        ],
+        "explanation": "환경 반응의 적용 범위와 추가 조건을 구분한 판단."
+      }
+    },
+    {
+      "case": "one_place",
+      "pass": false,
+      "checks": {
+        "validation": false,
+        "response": false,
+        "scope": false,
+        "clauses": true
+      },
+      "expected": {
+        "response": "avoid",
+        "scope": "place_specific",
+        "condition_clauses": []
+      },
+      "actual": {}
+    }
+  ],
+  "scope": "development/regression cases, not holdout or clinical validation"
+}

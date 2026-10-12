@@ -1,0 +1,675 @@
+{
+  "completed_output_files": 12,
+  "expected_output_files": 12,
+  "arms": {
+    "A": {
+      "rows": 12,
+      "ready": 12,
+      "passed_runs": 9,
+      "passed_checks": 129,
+      "total_checks": 132,
+      "failed_checks": [
+        {
+          "tag": "G1_r2",
+          "criterion": {
+            "path": "core.routes.푸른시장.value",
+            "accept": [
+              "repeated_independent"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        },
+        {
+          "tag": "E1_r2",
+          "criterion": {
+            "special": "all_goals_unknown"
+          },
+          "pass": false,
+          "observed": {
+            "다온공원": "historical_only",
+            "푸른시장": "historical_only",
+            "은빛경로당": "historical_only"
+          }
+        },
+        {
+          "tag": "G1_r1",
+          "criterion": {
+            "path": "core.routes.푸른시장.value",
+            "accept": [
+              "repeated_independent"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        }
+      ],
+      "failed_runs": [
+        {
+          "tag": "G1_r2",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        },
+        {
+          "tag": "E1_r2",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        },
+        {
+          "tag": "G1_r1",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        }
+      ],
+      "pipeline_fallbacks": [
+        {
+          "tag": "E2_r1",
+          "fallbacks": [
+            "context_review_failed:ValueError"
+          ]
+        },
+        {
+          "tag": "W1_r2",
+          "fallbacks": [
+            "core_draft_failed:ValueError"
+          ]
+        },
+        {
+          "tag": "E2_r2",
+          "fallbacks": [
+            "core_draft_failed:ValueError"
+          ]
+        }
+      ]
+    },
+    "B": {
+      "rows": 12,
+      "ready": 12,
+      "passed_runs": 9,
+      "passed_checks": 129,
+      "total_checks": 132,
+      "failed_checks": [
+        {
+          "tag": "G1_r2",
+          "criterion": {
+            "path": "core.routes.푸른시장.value",
+            "accept": [
+              "repeated_independent"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        },
+        {
+          "tag": "E1_r2",
+          "criterion": {
+            "special": "all_goals_unknown"
+          },
+          "pass": false,
+          "observed": {
+            "다온공원": "historical_only",
+            "푸른시장": "historical_only",
+            "은빛경로당": "historical_only"
+          }
+        },
+        {
+          "tag": "G1_r1",
+          "criterion": {
+            "path": "core.routes.푸른시장.value",
+            "accept": [
+              "repeated_independent"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        }
+      ],
+      "failed_runs": [
+        {
+          "tag": "G1_r2",
+          "state": "ready",
+          "source": "exaone",
+          "error_type": null
+        },
+        {
+          "tag": "E1_r2",
+          "state": "ready",
+          "source": "exaone",
+          "error_type": null
+        },
+        {
+          "tag": "G1_r1",
+          "state": "ready",
+          "source": "exaone",
+          "error_type": null
+        }
+      ],
+      "pipeline_fallbacks": [
+        {
+          "tag": "E2_r1",
+          "fallbacks": [
+            "context_review_failed:ValueError"
+          ]
+        },
+        {
+          "tag": "W1_r2",
+          "fallbacks": [
+            "core_draft_failed:ValueError"
+          ]
+        },
+        {
+          "tag": "E2_r2",
+          "fallbacks": [
+            "core_draft_failed:ValueError"
+          ]
+        }
+      ]
+    },
+    "C": {
+      "rows": 12,
+      "ready": 12,
+      "passed_runs": 9,
+      "passed_checks": 123,
+      "total_checks": 132,
+      "failed_checks": [
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "path": "context.environment.market.response",
+            "accept": [
+              "avoid"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        },
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "path": "context.environment.market.scope",
+            "accept": [
+              "conditional_category"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        },
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "path": "context.environment.market.condition",
+            "accept": [
+              "추가 조건 필요"
+            ]
+          },
+          "pass": false,
+          "observed": "조건 미확인"
+        },
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "special": "clauses",
+            "feature": "market",
+            "value": [
+              [
+                {
+                  "signal": "crowded",
+                  "state": "present"
+                }
+              ],
+              [
+                {
+                  "signal": "noisy",
+                  "state": "present"
+                }
+              ]
+            ]
+          },
+          "pass": false,
+          "observed": []
+        },
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "path": "core.mobility.value",
+            "accept": [
+              "C"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        },
+        {
+          "tag": "E2_r1",
+          "criterion": {
+            "special": "environment_scope_preserved",
+            "scope": "conditional_category"
+          },
+          "pass": false,
+          "observed": []
+        },
+        {
+          "tag": "E1_r1",
+          "criterion": {
+            "path": "context.environment.market.scope",
+            "accept": [
+              "place_specific"
+            ]
+          },
+          "pass": false,
+          "observed": "conditional_category"
+        },
+        {
+          "tag": "E1_r1",
+          "criterion": {
+            "special": "environment_scope_preserved",
+            "scope": "place_specific"
+          },
+          "pass": false,
+          "observed": [
+            {
+              "feature": "market",
+              "direction": "회피",
+              "strength": 0.5,
+              "condition_clauses": [
+                [
+                  {
+                    "signal": "crowded",
+                    "state": "present"
+                  },
+                  {
+                    "signal": "noisy",
+                    "state": "present"
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "G1_r1",
+          "criterion": {
+            "path": "core.routes.푸른시장.value",
+            "accept": [
+              "repeated_independent"
+            ]
+          },
+          "pass": false,
+          "observed": "unknown"
+        }
+      ],
+      "failed_runs": [
+        {
+          "tag": "E2_r1",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        },
+        {
+          "tag": "E1_r1",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        },
+        {
+          "tag": "G1_r1",
+          "state": "ready",
+          "source": "stub",
+          "error_type": null
+        }
+      ],
+      "pipeline_fallbacks": [
+        {
+          "tag": "E2_r1",
+          "fallbacks": [
+            "core_draft_failed:ValueError"
+          ]
+        },
+        {
+          "tag": "E1_r1",
+          "fallbacks": [
+            "core_draft_failed:ValueError",
+            "context_review_failed:ValueError"
+          ]
+        }
+      ]
+    }
+  },
+  "usage": {
+    "K": {
+      "started": 128,
+      "finished": 128,
+      "tokens": {
+        "prompt_tokens": 565231,
+        "completion_tokens": 845759,
+        "total_tokens": 1410990
+      },
+      "finish_reasons": {
+        "stop": 122,
+        "length": 6
+      },
+      "http_statuses": {
+        "200": 128
+      },
+      "actual_cost": null,
+      "support_round": null,
+      "unit_price": null
+    },
+    "SAR": {
+      "started": 24,
+      "finished": 24,
+      "tokens": {
+        "prompt_tokens": 39364,
+        "completion_tokens": 7079,
+        "total_tokens": 46443
+      },
+      "finish_reasons": {
+        "stop": 24
+      },
+      "http_statuses": {
+        "200": 24
+      },
+      "actual_cost": null,
+      "support_round": null,
+      "unit_price": null
+    },
+    "Midm": {
+      "started": 198,
+      "finished": 198,
+      "tokens": {
+        "prompt_tokens": 172807,
+        "completion_tokens": 1782,
+        "total_tokens": 174589
+      },
+      "finish_reasons": {
+        "stop": 198
+      },
+      "http_statuses": {
+        "200": 198
+      },
+      "actual_cost": null,
+      "support_round": null,
+      "unit_price": null
+    }
+  },
+  "errors": [
+    {
+      "request": "W1_r2:A:initial_person_core",
+      "outcome": "response_received",
+      "error_type": null,
+      "finish_reason": "length"
+    },
+    {
+      "request": "E1_r1:C:initial_person_core",
+      "outcome": "response_received",
+      "error_type": null,
+      "finish_reason": "length"
+    },
+    {
+      "request": "E1_r1:C:initial_person_context_review",
+      "outcome": "response_received",
+      "error_type": null,
+      "finish_reason": "length"
+    },
+    {
+      "request": "E2_r1:A:initial_person_context_review",
+      "outcome": "response_received",
+      "error_type": null,
+      "finish_reason": "length"
+    },
+    {
+      "request": "E2_r2:A:initial_person_core",
+      "outcome": "response_received",
+      "error_type": null,
+      "finish_reason": "length"
+    },
+    {
+      "request": "E2_r1:C:initial_person_core",
+      "outcome": "response_received",
+      "error_type": null,
+      "finish_reason": "length"
+    }
+  ],
+  "same_K_ablation": [
+    {
+      "tag": "E2_r1",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs"
+      ]
+    },
+    {
+      "tag": "W1_r1",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs",
+        "attraction_weights"
+      ]
+    },
+    {
+      "tag": "G1_r2",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs",
+        "attraction_weights"
+      ]
+    },
+    {
+      "tag": "W2_r1",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs",
+        "attraction_weights"
+      ]
+    },
+    {
+      "tag": "G2_r2",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs",
+        "attraction_weights"
+      ]
+    },
+    {
+      "tag": "E1_r1",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs"
+      ]
+    },
+    {
+      "tag": "E1_r2",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs"
+      ]
+    },
+    {
+      "tag": "W2_r2",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs",
+        "attraction_weights"
+      ]
+    },
+    {
+      "tag": "G2_r1",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs",
+        "attraction_weights"
+      ]
+    },
+    {
+      "tag": "W1_r2",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs",
+        "attraction_weights"
+      ]
+    },
+    {
+      "tag": "G1_r1",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs"
+      ]
+    },
+    {
+      "tag": "E2_r2",
+      "same_person_semantics": true,
+      "changed_numeric": [
+        "strategy_probs"
+      ]
+    }
+  ],
+  "repeat_stability": [
+    {
+      "case": "W1",
+      "arm": "A",
+      "same": true,
+      "changed_sections": []
+    },
+    {
+      "case": "W1",
+      "arm": "B",
+      "same": true,
+      "changed_sections": []
+    },
+    {
+      "case": "W1",
+      "arm": "C",
+      "same": false,
+      "changed_sections": [
+        "traits"
+      ]
+    },
+    {
+      "case": "W2",
+      "arm": "A",
+      "same": false,
+      "changed_sections": [
+        "traits"
+      ]
+    },
+    {
+      "case": "W2",
+      "arm": "B",
+      "same": false,
+      "changed_sections": [
+        "traits"
+      ]
+    },
+    {
+      "case": "W2",
+      "arm": "C",
+      "same": false,
+      "changed_sections": [
+        "traits"
+      ]
+    },
+    {
+      "case": "G1",
+      "arm": "A",
+      "same": false,
+      "changed_sections": [
+        "traits"
+      ]
+    },
+    {
+      "case": "G1",
+      "arm": "B",
+      "same": false,
+      "changed_sections": [
+        "traits"
+      ]
+    },
+    {
+      "case": "G1",
+      "arm": "C",
+      "same": false,
+      "changed_sections": [
+        "routes",
+        "traits"
+      ]
+    },
+    {
+      "case": "G2",
+      "arm": "A",
+      "same": false,
+      "changed_sections": [
+        "traits"
+      ]
+    },
+    {
+      "case": "G2",
+      "arm": "B",
+      "same": false,
+      "changed_sections": [
+        "traits"
+      ]
+    },
+    {
+      "case": "G2",
+      "arm": "C",
+      "same": true,
+      "changed_sections": []
+    },
+    {
+      "case": "E1",
+      "arm": "A",
+      "same": false,
+      "changed_sections": [
+        "goals",
+        "traits"
+      ]
+    },
+    {
+      "case": "E1",
+      "arm": "B",
+      "same": false,
+      "changed_sections": [
+        "goals",
+        "traits"
+      ]
+    },
+    {
+      "case": "E1",
+      "arm": "C",
+      "same": false,
+      "changed_sections": [
+        "traits",
+        "environment"
+      ]
+    },
+    {
+      "case": "E2",
+      "arm": "A",
+      "same": true,
+      "changed_sections": []
+    },
+    {
+      "case": "E2",
+      "arm": "B",
+      "same": true,
+      "changed_sections": []
+    },
+    {
+      "case": "E2",
+      "arm": "C",
+      "same": false,
+      "changed_sections": [
+        "scalars",
+        "traits",
+        "environment",
+        "condition_contract"
+      ]
+    }
+  ],
+  "ledger_events": 712,
+  "complete_attempt_pairs": true,
+  "adjudication": "predefined synthetic criteria, automated checks and assistant review; not independent human evaluation"
+}

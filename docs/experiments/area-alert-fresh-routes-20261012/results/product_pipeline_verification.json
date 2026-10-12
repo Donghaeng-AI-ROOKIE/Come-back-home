@@ -1,0 +1,41 @@
+{
+  "person_id": "E09",
+  "walkers": 500,
+  "prediction_seed": 104729,
+  "new_model_calls": 0,
+  "external_calls": 0,
+  "actual_push": 0,
+  "actual_pipeline": true,
+  "preview_side_effects": false,
+  "preview_max_delta": 2.7755575615628914e-17,
+  "rows": [
+    {
+      "hour": 1,
+      "personal_max_delta": 1.6653345369377348e-16,
+      "literature_max_delta": 0.0,
+      "checkpoint_committed": true,
+      "source": "ISRID_urban_lognormal_approximation"
+    },
+    {
+      "hour": 2,
+      "personal_max_delta": 1.1102230246251565e-16,
+      "literature_max_delta": 0.0,
+      "checkpoint_committed": true,
+      "source": "ISRID_urban_lognormal_approximation"
+    },
+    {
+      "hour": 4,
+      "personal_max_delta": 8.326672684688674e-17,
+      "literature_max_delta": 0.0,
+      "checkpoint_committed": true,
+      "source": "ISRID_urban_lognormal_approximation"
+    },
+    {
+      "hour": 6,
+      "personal_max_delta": 2.7755575615628914e-17,
+      "literature_max_delta": 0.0,
+      "checkpoint_committed": true,
+      "source": "ISRID_urban_lognormal_approximation"
+    }
+  ]
+}

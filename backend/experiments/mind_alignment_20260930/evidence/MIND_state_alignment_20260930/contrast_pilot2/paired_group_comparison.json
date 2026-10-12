@@ -1,0 +1,21 @@
+{
+  "unit": "authored paired-person source group",
+  "groups": 10,
+  "inputs": 40,
+  "improved": 3,
+  "regressed": 0,
+  "unchanged": 37,
+  "accuracy_difference": 0.075,
+  "bootstrap_percentile_95": [
+    0.0,
+    0.15
+  ],
+  "repetitions_per_input": 1,
+  "bootstrap_repetitions": 10000,
+  "seed": 930,
+  "limitations": [
+    "Development comparison after prompting changes, not a final holdout.",
+    "Ten synthetic source groups; not an estimate of patient accuracy.",
+    "Single generation per input does not quantify repeated-sampling variability."
+  ]
+}

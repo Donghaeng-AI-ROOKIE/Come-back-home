@@ -1,0 +1,29 @@
+[
+  {
+    "purge_ms": 262.971,
+    "vacuum_count": 1,
+    "writes": 200,
+    "write_p50_ms": 0.206,
+    "write_p95_ms": 2.202,
+    "write_max_ms": 2.956,
+    "errors": []
+  },
+  {
+    "purge_ms": 279.814,
+    "vacuum_count": 1,
+    "writes": 200,
+    "write_p50_ms": 0.218,
+    "write_p95_ms": 1.994,
+    "write_max_ms": 3.194,
+    "errors": []
+  },
+  {
+    "purge_ms": 365.447,
+    "vacuum_count": 1,
+    "writes": 200,
+    "write_p50_ms": 0.503,
+    "write_p95_ms": 2.391,
+    "write_max_ms": 4.08,
+    "errors": []
+  }
+]

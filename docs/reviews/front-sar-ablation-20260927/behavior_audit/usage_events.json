@@ -1,0 +1,27 @@
+[
+  {
+    "schema_version": 1,
+    "event_id": "a8d3ee5e-9747-406b-984c-bdf5057005c5",
+    "recorded_at": "2026-09-27T06:46:35.201308+00:00",
+    "event_type": "resource_session_started",
+    "run_id": "FRONT_SAR_behavior_audit_20260927",
+    "resource": "local CPU offline replay",
+    "actual_cost": null,
+    "support_round": null,
+    "new_model_requests": 0
+  },
+  {
+    "schema_version": 1,
+    "event_id": "6a7ce31c-18e2-434a-91ae-6271d072240f",
+    "recorded_at": "2026-09-27T06:47:27.213447+00:00",
+    "event_type": "resource_session_finished",
+    "run_id": "FRONT_SAR_behavior_audit_20260927",
+    "resource": "local CPU offline replay",
+    "status": "complete",
+    "wall_seconds": 52.01272645802237,
+    "actual_cost": null,
+    "support_round": null,
+    "completed_simulations": 360,
+    "new_model_requests": 0
+  }
+]

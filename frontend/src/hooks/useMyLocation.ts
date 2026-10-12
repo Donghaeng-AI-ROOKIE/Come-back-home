@@ -1,15 +1,11 @@
 /**
  * 내 위치 — 앱 전체가 공유하는 단일 구독.
  *
- * ## 🚨 이 좌표는 서버로 가지 않는다
- * 이 훅의 반환값을 API 요청 바디에 **그대로 실으면 안 된다** — presence 하트비트에
- * 좌표 필드가 없는 것도 같은 이유다.
- *
- * 유일한 예외가 푸시 등록인데, 거기서도 좌표가 아니라 **res7 셀 하나**(≈5km²)로
- * 바꿔서 나간다(utils/h3cell.ts). 변환을 폰이 하기 때문에 정밀 좌표는 기기를
- * 떠난 적이 없다 — 서버를 믿을 필요가 없는 구조라는 게 그 설계의 핵심이다.
- * 앱을 완전히 껐을 때도 알림이 가려면 서버가 대상을 골라야 해서 생긴 예외이고,
- * "위치를 보낸다"가 아니라 "어느 동네 칸인지만 보낸다"로 읽어야 한다.
+ * presence 하트비트나 산책 기록에 좌표 이력을 그대로 저장하지 않는다.
+ * 푸시 등록은 서버 정책의 H3 해상도로 바꾼 셀을 전송한다.
+ * 별도로 주변 산책 장소 조회는 현재 좌표를 /geo/nearby-walks에 전송하고,
+ * 서버가 공공 지도에 주변 장소를 질의한다. 이 조회 예외 때문에
+ * "정밀 좌표가 기기를 떠난 적 없다"고 설명하면 안 된다.
  *
  * ## 왜 모듈 싱글턴인가
  * 진입 관문(RootNavigator)·경보 상세·수색 탭·잠금화면이 모두 위치를 본다. 훅마다
@@ -29,7 +25,7 @@
  * 그래서 홈에서 그 사실을 알려야 한다.
  */
 import { useEffect, useSyncExternalStore } from 'react';
-import { Platform } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import * as Location from 'expo-location';
 import type { GeoPoint } from '../types/domain';
 
@@ -151,7 +147,7 @@ async function start(): Promise<void> {
 
     // Accuracy.High(GPS): 표기 단위가 50m 라 Balanced(≈100m)로는 정확도 게이트에
     // 걸려 숫자가 아예 안 뜬다. 전경에서만 도는 단일 워처라 비용을 감수한다.
-    subscription = await Location.watchPositionAsync(
+    const nativeSubscription = await Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.High,
         distanceInterval: 25, // 25m 이상 움직였을 때만 — 정지 상태 갱신 폭주 방지
@@ -166,12 +162,23 @@ async function start(): Promise<void> {
         if (state.point == null) setState({ point: null, accuracyM: null, status: 'unavailable' });
       },
     );
+    // Obtain a real fresh fix while stationary; never re-date the previous fix.
+    const refresh = async () => {
+      if (AppState.currentState !== 'active') return;
+      try { const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+        if (refCount > 0) apply(loc);
+      } catch { /* the previous timestamp expires normally */ }
+    };
+    const timer = setInterval(() => void refresh(), 60_000);
+    subscription = { remove: () => { clearInterval(timer); nativeSubscription.remove(); } };
   } catch {
     // 위치서비스가 꺼져 있거나 기기가 지원하지 않는 경우.
     // 화면이 이것 때문에 깨지면 안 되므로 조용히 물러난다.
     setState({ point: null, accuracyM: null, status: 'unavailable' });
   } finally {
     starting = false;
+    // Permission/watch setup can finish after the last screen unmounts.
+    if (refCount === 0) stop();
   }
 }
 

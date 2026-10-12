@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-10-12T08:55:07.643Z",
+  "production_deployment": "bd27a698-ce14-4671-987f-3af80d75f7ae",
+  "public_manifest": {
+    "transport": "supabase",
+    "supabase_host": "qoprqgnlohnbzbynhchg.supabase.co",
+    "public_key_type": "publishable",
+    "mock": false,
+    "built_at": "2026-10-12T08:48:19.256Z",
+    "source_commit": "e13d9f51eb56886be1eff4a2ed333ef8394c6adc",
+    "entry_bundle": "/_expo/static/js/web/index-a6772646db7f15f1f5144350d7f648f0.js",
+    "entry_sha256": "186585f24983b11d8151148b1cc65a7f46396ff79f8ff1dd604e12cb8ed6d4c7"
+  },
+  "public_compiled_contract": {
+    "transport": "supabase",
+    "supabase_host": "qoprqgnlohnbzbynhchg.supabase.co",
+    "public_key_type": "publishable"
+  },
+  "public_entry_sha_matches": true,
+  "public_html_entry_matches": true,
+  "api_policy_changed": false,
+  "engine_changed": false,
+  "model_calls": 0,
+  "real_notifications": 0,
+  "browser": {
+    "invalid_credentials_response": true,
+    "synthetic_guardian_home_reached": true,
+    "new_tab_session_restored": true,
+    "logout_returned_to_auth": true,
+    "synthetic_auth_removed": true,
+    "user_confirmed_login_success": true,
+    "old_open_tab_had_stale_bundle": true,
+    "user_tab_reopened_with_new_bundle": true
+  },
+  "checks": {
+    "cloud_build_tests_passed": 5,
+    "cloud_transport_tests_passed": 7,
+    "typescript": true
+  },
+  "known_validation_failure": {
+    "urllib_public_check_http": 403,
+    "curl_public_check_http": 200,
+    "note": "Failed public urllib request recorded; curl verified the same public URLs."
+  }
+}

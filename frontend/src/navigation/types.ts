@@ -36,7 +36,7 @@ export type RootStackParamList = {
   Appearance: { caseId: string };
   TipWarn: { caseId: string };
   ReportChat: { caseId: string };
-  ReportDone: { caseId: string; beforeAreaKm2?: number; afterAreaKm2?: number; deltaPct?: number };
+  ReportDone: { caseId: string };
 
   // 시민 산책 플로우
   WalkActive: undefined;

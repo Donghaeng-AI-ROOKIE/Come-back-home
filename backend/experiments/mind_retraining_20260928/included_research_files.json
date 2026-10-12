@@ -1,0 +1,24 @@
+{
+  "mind_upgrade": [
+    "__init__.py",
+    "contract.py",
+    "contract_v2.py",
+    "contract_v3.py",
+    "runtime.py",
+    "build_cases.py"
+  ],
+  "mind_grounded": [
+    "__init__.py",
+    "context_view.py",
+    "answer_boundary.py",
+    "next_candidates.py",
+    "cache.py",
+    "compact.py",
+    "nonthinking.py",
+    "source_enum.py",
+    "contract.py",
+    "build_followup.py",
+    "replay.py",
+    "dataset.py"
+  ]
+}

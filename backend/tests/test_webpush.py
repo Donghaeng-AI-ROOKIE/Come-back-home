@@ -24,7 +24,9 @@ def test_public_key_endpoint_reports_disabled_without_keys(monkeypatch):
     monkeypatch.setattr(settings, "vapid_private_key", "", raising=False)
     r = c.get("/phase3/webpush/public-key")
     assert r.status_code == 200
-    assert r.json() == {"key": "", "enabled": False}, "키가 없으면 앱이 구독을 시도하면 안 된다"
+    assert (r.json()["key"], r.json()["enabled"]) == ("", False), "키가 없으면 앱이 구독을 시도하면 안 된다"
+    assert r.json()["target_res"] == settings.push_target_res
+    assert r.json()["location_ttl_seconds"] == 300
 
 
 def test_register_web_subscription_is_stored():

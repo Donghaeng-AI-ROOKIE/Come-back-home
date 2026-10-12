@@ -1,0 +1,39 @@
+{
+  "model_or_embedding_attempts_by_role_in_time_window": {
+    "midm_chat": 31,
+    "embedding_query": 31,
+    "embedding_passage": 20,
+    "initial_person_core": 1,
+    "initial_person_context": 1,
+    "initial_person_semantic_audit": 1,
+    "initial_person_context_review": 1,
+    "mind_policy_draft": 1,
+    "mind_policy_review": 1,
+    "exaone_chat": 2,
+    "Mini_tip_contract": 1,
+    "Mini_copy_contract": 1
+  },
+  "source_window_may_include_concurrent_service_users": true,
+  "paired_model_attempts_finished": true,
+  "production_Mini_tip_single_attempt_usage": "unavailable; start/end reservation recorded separately",
+  "model_tokens_by_role_reported": {
+    "midm_chat": 51980,
+    "embedding_query": 6927,
+    "embedding_passage": 25157,
+    "initial_person_context": 13698,
+    "initial_person_core": 14147,
+    "initial_person_context_review": 8524,
+    "initial_person_semantic_audit": 13801,
+    "mind_policy_draft": 7898,
+    "mind_policy_review": 16087,
+    "exaone_chat": 4766,
+    "Mini_tip_contract": 1187,
+    "Mini_copy_contract": 756
+  },
+  "actual_cost": null,
+  "cost_status": "unconfirmed",
+  "first_observer_transport_requests": 73,
+  "completed_e2e_transport_requests": 210,
+  "new_map_acquisition": 0,
+  "real_notifications": 0
+}

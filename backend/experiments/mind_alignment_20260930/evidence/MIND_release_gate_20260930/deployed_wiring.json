@@ -1,0 +1,34 @@
+{
+  "phase2/pipeline.py": {
+    "exists": true,
+    "sha256": "00fa7c3a9ab042ebc7df2e1bac06e2fefdcb630c42e26e5b47893a722d365226",
+    "uses_reinterpret_mind": false,
+    "mentions_WalkingSession": false,
+    "mentions_motion_goal_candidate": false,
+    "mentions_mind_action_decision": false
+  },
+  "phase2/simulation.py": {
+    "exists": true,
+    "sha256": "4de8d1be2a0705d93fdfddf1fe55ef765f761079df1c99c53ccae9e92bc2315b",
+    "uses_reinterpret_mind": true,
+    "mentions_WalkingSession": false,
+    "mentions_motion_goal_candidate": false,
+    "mentions_mind_action_decision": false
+  },
+  "llm/exaone.py": {
+    "exists": true,
+    "sha256": "1d67ffa5c5c2ba4eeff8b3c605e1e9b838215c8437748e736134b0dd101450ad",
+    "uses_reinterpret_mind": true,
+    "mentions_WalkingSession": false,
+    "mentions_motion_goal_candidate": false,
+    "mentions_mind_action_decision": false
+  },
+  "llm/mind_action_decision.py": {
+    "exists": false
+  },
+  "runtime_settings": {
+    "mind_call_budget": 5,
+    "mind_contract": "v2"
+  },
+  "read_only": true
+}

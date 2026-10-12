@@ -4,7 +4,8 @@ import logging
 from datetime import datetime, timedelta
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
+import h3
 
 from app import storage
 from app.geo import h3grid
@@ -32,18 +33,36 @@ class TipIn(BaseModel):
 
 
 # These routes are private worker endpoints; cloud_bridge injects verified owner_id.
-class WebSubscriptionIn(BaseModel):
+class LocationCellIn(BaseModel):
+    cell_res7: str | None = Field(default=None, max_length=32)
+    target_cell: str | None = Field(default=None, max_length=32)
+
+    @model_validator(mode="after")
+    def valid_location(self):
+        if self.cell_res7 is not None and (not h3.is_valid_cell(self.cell_res7) or h3.get_resolution(self.cell_res7)!=7):
+            raise ValueError("cell_res7 must be a valid legacy res7 cell")
+        if self.target_cell is not None and (not h3.is_valid_cell(self.target_cell) or h3.get_resolution(self.target_cell) not in (7,8,9)):
+            raise ValueError("target_cell must be a valid res7, res8 or res9 cell")
+        if self.cell_res7 is not None and self.target_cell is not None and self.cell_res7!=self.target_cell:
+            raise ValueError("conflicting current location cells")
+        return self
+
+    @property
+    def current_cell(self):
+        return self.target_cell or self.cell_res7
+
+
+class WebSubscriptionIn(LocationCellIn):
     owner_id: str
     subscription: dict
-    cell_res7: str | None = None
     engagement: Engagement = Engagement.normal
 
 class WebDeviceIn(BaseModel):
     owner_id: str
     device_id: str = Field(min_length=8,max_length=80)
 
-class WebLocationIn(WebDeviceIn):
-    cell_res7: str | None = None
+class WebLocationIn(WebDeviceIn, LocationCellIn):
+    pass
 
 class WebEntryIn(WebDeviceIn):
     case_id: str = Field(min_length=1,max_length=80)
@@ -51,7 +70,7 @@ class WebEntryIn(WebDeviceIn):
 @router.post("/webpush/subscription")
 def register_web_subscription(body: WebSubscriptionIn):
     from app.phase3 import webpush_entry as entry
-    return entry.register(body.owner_id,body.subscription,body.cell_res7,body.engagement)
+    return entry.register(body.owner_id,body.subscription,body.current_cell,body.engagement)
 
 @router.delete("/webpush/subscription")
 def delete_web_subscription(body: WebDeviceIn):
@@ -61,7 +80,7 @@ def delete_web_subscription(body: WebDeviceIn):
 @router.post("/webpush/location")
 def update_web_location(body: WebLocationIn):
     from app.phase3 import webpush_entry as entry
-    return entry.update_location(body.owner_id,body.device_id,body.cell_res7)
+    return entry.update_location(body.owner_id,body.device_id,body.current_cell)
 
 @router.post("/webpush/enter")
 def notify_web_entry(body: WebEntryIn):
@@ -125,8 +144,8 @@ def send_alerts(case_id: str):
 
 
 @router.get("/alerts")
-def list_active_alerts(cell_res7: str | None = None):
-    """지금 살아 있는 경보 중 **이 res7 칸에 해당하는 것만.**
+def list_active_alerts(cell_res7: str | None = None, target_cell: str | None = None):
+    """현재 셀에 해당하는 활성 경보만. 서버 해상도와 기존 res7을 지원한다.
 
     ## 왜 조회 경로가 따로 필요한가
     푸시는 **보내는 그 순간**에만 도달한다 — 폰이 꺼져 있었거나, 알림을 쓸어
@@ -136,7 +155,7 @@ def list_active_alerts(cell_res7: str | None = None):
     ## 🚨 전부 내려주지 않는다
     "활성 사건 목록"을 통째로 주면 앱이 전국 실종자 명단을 받게 되고, 폰이 그중
     자기 것을 고르는 구조가 된다 — 푸시에서 포기한 A안(서버가 위치를 모르고 폰이
-    필터링)으로 되돌아가는 것이고, res7 로 최소화해 둔 것을 조회 경로가 조용히
+    필터링)으로 되돌아가는 것이고, 위치 기준을 조회 경로가 조용히
     무효화한다. 발송과 **같은 기준**으로 서버가 고른다.
 
     ## 칸을 안 주면 빈 목록 (fail-closed)
@@ -147,7 +166,8 @@ def list_active_alerts(cell_res7: str | None = None):
     종결(발견·철회)된 사건은 빠진다. 파기 대기 중인 개인정보를 계속 노출하지
     않기 위해서이기도 하고, 찾은 사람을 계속 찾게 두면 안 되기 때문이기도 하다.
     """
-    if not cell_res7:
+    cell = _query_cell(cell_res7, target_cell)
+    if not cell:
         return []
     out = []
     from app.test_scope import isolated
@@ -164,7 +184,7 @@ def list_active_alerts(cell_res7: str | None = None):
             # (실제로 손상된 POA 셀 id 하나가 엔드포인트를 500 으로 만들었다)
             log.exception("[alerts] 경보 표현 생성 실패 — 이 사건만 건너뜀 (%s)", case.id)
             continue
-        if cell_res7 in info["target_cells"]:
+        if devices.location_in_targets(cell, info["target_cells"]):
             out.append(info)
     # 최근 발령 순 — 관문은 첫 항목부터 본다(utils/alertGate.pickGateCase).
     out.sort(key=lambda a: a["issued_at"], reverse=True)
@@ -172,7 +192,7 @@ def list_active_alerts(cell_res7: str | None = None):
 
 
 @router.get("/alerts/resolved")
-def list_resolved_alerts(cell_res7: str | None = None, hours: int = 24):
+def list_resolved_alerts(cell_res7: str | None = None, hours: int = 24, target_cell: str | None = None):
     """최근 **무사히 발견된** 사건 — 시민 화면의 '상황 종료' 카드.
 
     ## 왜 보여주나
@@ -187,11 +207,12 @@ def list_resolved_alerts(cell_res7: str | None = None, hours: int = 24):
     ## 최근 것만 · 내 주변 것만
     - `hours` 안에 종결된 것만. 오래된 목록은 알림이 아니라 기록이고, 파기 대기
       중인 개인정보를 필요 이상으로 오래 띄우게 된다.
-    - 활성 경보와 **같은 res7 기준**으로 고른다. 여기서 전국을 내려주면 경보
+    - 활성 경보와 **같은 위치 기준**으로 고른다. 여기서 전국을 내려주면 경보
       경로에서 위치 최소화해 둔 것을 이 경로가 조용히 무효화한다.
     - 칸이 없으면 빈 목록 — 활성 경보와 같은 fail-closed.
     """
-    if not cell_res7:
+    cell = _query_cell(cell_res7, target_cell)
+    if not cell:
         return []
     cutoff = datetime.now() - timedelta(hours=hours)
     out = []
@@ -208,7 +229,7 @@ def list_resolved_alerts(cell_res7: str | None = None, hours: int = 24):
         except Exception:  # noqa: BLE001 — 활성 경보와 같은 이유로 한 건만 건너뛴다
             log.exception("[alerts] 종결 표현 생성 실패 — 이 사건만 건너뜀 (%s)", case.id)
             continue
-        if cell_res7 in info["target_cells"]:
+        if devices.location_in_targets(cell, info["target_cells"]):
             out.append(info)
     out.sort(key=lambda a: a["closed_at"], reverse=True)
     return out
@@ -266,7 +287,6 @@ def submit_tip(case_id: str, body: TipIn, background: BackgroundTasks):
 
 
 @router.get("/cases/{case_id}/poa")
-@storage.serialize_case
 def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
     """POA 상위 셀 조회 (지도 시각화용).
 
@@ -277,7 +297,37 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
 
     첫 조회는 계산하느라 ~7초 걸리고 이후는 캐시(case.poa_by_hour)에서 즉시 나온다.
     **케이스 상태는 바뀌지 않는다** — 알림·제보는 계속 실제 경과시간 지도만 쓴다.
+
+    같은 사건을 다시 계산하는 중이면(제보 층2 재예측 등, 수십 초~2분) 잠금을
+    기다리지 않고 **마지막으로 저장된 지도**를 준다. 기다리면 단일 계산 줄 전체가
+    멈춘다(2026-10-12 운영: 제보 1건 뒤 지도 요청이 약 2.5분 대기). 시간축 지도는
+    캐시를 채워야 하므로 기존처럼 잠근다.
     """
+    lock = storage.case_lock(case_id)
+    if elapsed_hours is None and not lock.acquire(blocking=False):
+        saved = storage.cases.saved_copy(case_id)
+        if saved is not None:
+            # 삭제·종결은 메모리 사본에 먼저 반영되므로 둘 다 확인한다.
+            _require_active(_get_case(case_id))
+            _require_active(saved)
+            if not saved.current_poa:
+                raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
+            return _poa_body(saved, saved.current_poa, _sim_elapsed(saved), top)
+        lock.acquire()
+    elif elapsed_hours is not None:
+        lock.acquire()
+    try:
+        return _get_poa_locked(case_id, top, elapsed_hours)
+    finally:
+        lock.release()
+
+
+def _sim_elapsed(case) -> float | None:
+    return (round((case.last_sim_at - case.lkp_time).total_seconds() / 3600.0, 2)
+            if case.last_sim_at else None)
+
+
+def _get_poa_locked(case_id: str, top: int, elapsed_hours: float | None):
     case = _get_case(case_id)
     _require_active(case)
     if elapsed_hours is not None:
@@ -289,11 +339,11 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
 
     poa = case.current_poa
-    shown_elapsed = (
-        round((case.last_sim_at - case.lkp_time).total_seconds() / 3600.0, 2)
-        if case.last_sim_at else None)
+    shown_elapsed = _sim_elapsed(case)
     if elapsed_hours is not None:
-        key = f"{elapsed_hours:g}"
+        from app.config import settings
+        from app.phase2.literature_distance import VERSION as literature_version
+        key = f"{settings.statistical_channel_definition}:{literature_version}:{settings.personal_channel_weight}:{elapsed_hours:g}"
         cached = case.poa_by_hour.get(key)
         if cached is None:
             from app.phase2 import pipeline
@@ -308,7 +358,10 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
             storage.cases.save(case.id, case)
         poa = cached
         shown_elapsed = elapsed_hours
+    return _poa_body(case, poa, shown_elapsed, top)
 
+
+def _poa_body(case, poa: dict, shown_elapsed: float | None, top: int) -> dict:
     ranked = sorted(poa.items(), key=lambda kv: kv[1], reverse=True)[:top]
     return {
         "case_id": case.id,
@@ -342,14 +395,13 @@ def get_poa(case_id: str, top: int = 20, elapsed_hours: float | None = None):
     }
 
 
-class DeviceIn(BaseModel):
+class DeviceIn(LocationCellIn):
     # Expo Push 토큰 (ExponentPushToken[...]).
     token: str = Field(min_length=8, max_length=256)
     platform: Platform
-    # 현재 위치의 H3 res7 셀. **폰이 좌표를 이 해상도로 바꿔서 보낸다** —
+    # 현재 위치는 LocationCellIn의 서버 해상도 셀 또는 기존 res7 셀로 받는다.
     # 정밀 좌표는 기기를 떠나지 않는다. 서버는 현재 값만 덮어쓰고 이력을 안 남긴다.
     # 못 구했으면 생략(그 기기는 타겟 발송에서 빠진다).
-    cell_res7: str | None = Field(default=None, max_length=32)
     # 참여도 등급 3값. 원시 이력(열람·제보 횟수)은 폰에만 있고 이 요약값만 온다.
     engagement: Engagement = Engagement.normal
     # 웹 푸시 구독(platform=web 일 때). 브라우저가 만들어 준 endpoint·keys 이며
@@ -364,13 +416,14 @@ def register_device(body: DeviceIn):
     ⚠️ 이 시점부터 서버는 지속적 기기 식별자를 갖는다. 푸시의 본질이라 회피할 수
     없고, 남는 선택지는 토큰에 무엇을 붙이지 않느냐뿐이다.
     """
-    device = devices.register(body.token, body.platform, body.cell_res7, body.engagement,
+    device = devices.register(body.token, body.platform, body.current_cell, body.engagement,
                               web_subscription=body.web_subscription)
     return {
         "registered": True,
         "platform": device.platform,
         "since": device.registered_at,
-        "targetable": device.cell_res7 is not None,
+        "targetable": devices.location_cell(device) is not None,
+        "location_resolution": h3.get_resolution(devices.location_cell(device)) if devices.location_cell(device) else None,
     }
 
 
@@ -381,7 +434,21 @@ def webpush_public_key() -> dict:
     비어 있으면 앱은 구독을 시도하지 않는다 — 서버에 키가 없는데 브라우저에만
     권한 팝업을 띄우면, 허용해도 알림이 오지 않는 상태가 된다.
     """
-    return {"key": webpush.public_key(), "enabled": webpush.enabled()}
+    return {"key": webpush.public_key(), "enabled": webpush.enabled(), **targeting_policy()}
+
+
+@router.get("/targeting-policy")
+def targeting_policy():
+    return {**alerts.targeting_metadata(),
+            "location_ttl_seconds": 300, "supported_location_resolutions": [7,8,9]}
+
+
+def _query_cell(cell_res7, target_cell):
+    # Empty query values historically mean unavailable location.
+    try:
+        return LocationCellIn(cell_res7=cell_res7 or None, target_cell=target_cell or None).current_cell
+    except ValueError:
+        raise HTTPException(422, "올바른 위치 구역이 필요합니다.")
 
 
 @router.delete("/devices/{token}")

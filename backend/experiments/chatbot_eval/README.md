@@ -41,9 +41,11 @@ PYTHONUTF8=1 python -m experiments.chatbot_eval.run_eval --quiet         # 점�
 결과를 내므로 **내용 지표(끌림점·evidence·축)가 낮은 게 정상**이다 —
 배관(세션 구동·종료·규칙 폴백·지오코딩)만 검증하는 모드다. 남는 신호:
 
-- `_ensure_found_place`/`_PLACE_TOKEN_RE` 정규식 백스톱이 잡는 끌림점(예: "버스정류장")
-- `_apply_extraction` 노트 폴백으로 원발화가 축 근거로 남는 것(축 커버리지 일부)
-- 노트 품질 필터(`_NON_FACT`: "모르"/"못 알아")가 답변을 반려하는 경우 → 축 누락
+- `_apply_extraction` 노트 폴백으로 원발화가 축 근거로 남는 것(축 커버리지 일부 —
+  스텁 추출은 모든 답을 informative 로 본다)
+
+장소·답변 유형·근거 강도는 2026-09-26부터 전부 Mi:dm 판정이다(정규식 백스톱 제거).
+스텁에서는 끌림점이 생기지 않는다.
 
 내용 성능은 `--real` 로만 측정된다.
 

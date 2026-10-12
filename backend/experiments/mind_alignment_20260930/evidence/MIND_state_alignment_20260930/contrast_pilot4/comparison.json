@@ -1,0 +1,54 @@
+{
+  "batch": "contrast_pilot4",
+  "results": {
+    "separate_motion_and_goal": {
+      "planned": 40,
+      "completed": 40,
+      "not_run": 0,
+      "contract_pass": 40,
+      "command_correct": 37,
+      "source_correct": 40,
+      "slices": {
+        "all_conditions_known": {
+          "completed": 20,
+          "command_correct": 19
+        },
+        "has_unknown_condition": {
+          "completed": 20,
+          "command_correct": 18
+        }
+      },
+      "complete_pairs": 20,
+      "pairs_both_correct": 17,
+      "action_differing_pairs": 15,
+      "action_differing_pairs_both_correct": 13,
+      "all_explanations_semantically_reviewed": true,
+      "semantic_review_method": "Codex comparison of original source, authored observations and public final explanation; unblinded, not independent human review",
+      "independent_human_review": false,
+      "semantic_counts": {
+        "wording_review": 2,
+        "pass": 30,
+        "fail": 8
+      }
+    }
+  },
+  "usage": {
+    "calls_started": 40,
+    "calls_ended": 40,
+    "complete_ledger_pairs": true,
+    "input_tokens": 76748,
+    "output_tokens": 118544,
+    "missing_usage": 0,
+    "unit_price": null,
+    "actual_cost": null,
+    "support_round": null,
+    "latency_median_seconds": 25.128345451550558,
+    "latency_max_seconds": 42.88386438507587
+  },
+  "final_evaluation_calls": 0,
+  "clinical_patients": 0,
+  "planned_unique_development_profiles": 20,
+  "planned_paired_source_groups": 10,
+  "observed_unique_development_profiles": 20,
+  "observed_paired_source_groups": 10
+}

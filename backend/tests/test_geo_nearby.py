@@ -1,5 +1,9 @@
 """산책 루트 조회 — 좌표열·길이·정렬 규칙 (외부 호출 없이 검증)."""
+import json
+import pytest
+from fastapi.testclient import TestClient
 from app.geo import nearby
+from app.main import app
 from app.schemas.common import GeoPoint
 
 CENTER = GeoPoint(lat=37.5585, lng=126.9368)
@@ -53,7 +57,7 @@ def test_sorted_by_nearest_point_not_centroid(monkeypatch):
     assert rows[0]["name"] == "긴산책로"
 
 
-def test_external_failure_returns_empty(monkeypatch):
+def test_external_failure_is_not_reported_as_no_places(monkeypatch):
     nearby._cache.clear()
 
     def boom(*a, **k):
@@ -61,4 +65,54 @@ def test_external_failure_returns_empty(monkeypatch):
 
     monkeypatch.setattr(nearby, "_fetch", boom)
     monkeypatch.setattr(nearby, "_disk_get", lambda k: None)
-    assert nearby.nearby_walks(CENTER) == [], "실패 시 지어낸 길을 그리지 않는다"
+    with pytest.raises(nearby.NearbyUnavailable):
+        nearby.nearby_walks(CENTER)
+    response = TestClient(app).get('/geo/nearby-walks', params={'lat': CENTER.lat, 'lng': CENTER.lng})
+    assert response.status_code == 503
+    assert '다시 시도' in response.json()['detail']
+
+
+def test_empty_search_can_recover_without_restarting_worker(monkeypatch):
+    key = (round(CENTER.lat, 3), round(CENTER.lng, 3))
+    nearby._cache.clear()
+    nearby._cache[key] = []  # Existing empty cache left by the previous release.
+    monkeypatch.setattr(nearby, '_disk_get', lambda k: None)
+    monkeypatch.setattr(nearby, '_disk_put', lambda *a: None)
+    way = _way('다시찾은공원', _line(CENTER.lat, CENTER.lng, 60, .0001), leisure='park')
+    answers = iter([[], [way]])
+    monkeypatch.setattr(nearby, '_fetch', lambda *a: next(answers))
+    assert nearby.nearby_walks(CENTER) == []
+    assert nearby.nearby_walks(CENTER)[0]['name'] == '다시찾은공원'
+
+
+def test_http_200_overpass_timeout_uses_global_fallback_and_logs_no_location(monkeypatch, tmp_path):
+    from app.config import settings
+    ledger = tmp_path / 'usage.jsonl'
+    monkeypatch.setattr(settings, 'research_usage_ledger_path', str(ledger))
+    responses = iter([{'remark': 'runtime timeout', 'elements': []}, {'elements': []}])
+    calls = []
+    class Reply:
+        status = 200
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+        def read(self): return json.dumps(next(responses)).encode()
+    def open_request(req, timeout):
+        calls.append((req.full_url, timeout))
+        return Reply()
+    monkeypatch.setattr(nearby.urllib.request, 'urlopen', open_request)
+    assert nearby._fetch(CENTER, 8) == []
+    assert [url for url, _ in calls] == list(nearby.URLS)
+    assert all(timeout == 8 for _, timeout in calls)
+    assert not any('osm.ch' in url or 'kumi.systems' in url for url, _ in calls)
+    events = [json.loads(line) for line in ledger.read_text().splitlines()]
+    assert len(events) == 4
+    assert events[1]['error_type'] == 'NearbyUnavailable'
+    assert events[-1]['error_type'] is None
+    assert str(CENTER.lat) not in ledger.read_text()
+    assert str(CENTER.lng) not in ledger.read_text()
+
+
+def test_geo_query_bounds_reject_invalid_coordinates_and_limit():
+    client = TestClient(app)
+    for params in [{'lat': 91, 'lng': 126}, {'lat': 37, 'lng': 181}, {'lat': 37, 'lng': 126, 'limit': -1}]:
+        assert client.get('/geo/nearby-walks', params=params).status_code == 422

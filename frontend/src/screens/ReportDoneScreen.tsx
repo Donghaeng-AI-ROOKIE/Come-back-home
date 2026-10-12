@@ -27,7 +27,7 @@ export default function ReportDoneScreen() {
           <DoneLogo width={77} height={42} style={styles.logo} />
           <Image source={mascot} resizeMode="contain" style={styles.mascot} />
           <Text style={styles.title}>제보 접수 완료</Text>
-          <Text style={styles.desc}>제보해주신 정보는 AI 예측 동선 갱신과{`\n`}위치 분석에 즉시 반영됩니다.</Text>
+          <Text style={styles.desc}>제보가 바로 접수됐어요. AI 예측 동선은{`\n`}뒤에서 다시 계산해 잠시 뒤 지도에 반영돼요.</Text>
 
           <View style={styles.notice}>
             <Text style={styles.noticeTitle}>보호자가 오실 때까지 10분만 기다려주세요.</Text>

@@ -1,0 +1,17 @@
+{
+  "status": "selected_for_develop_after_personal_first_confirmation",
+  "personal_weight": 0.3,
+  "statistical_weight": 0.7,
+  "minimum_personal_weight": 0.3,
+  "target_res": 9,
+  "max_area_km2": 5.8,
+  "statistical_channel": "literature_distance_prior",
+  "selection": "area_budget",
+  "all_declared_gates_passed": true,
+  "personal_effect_required": true,
+  "all_habitual_family_point_gates_passed": true,
+  "contradictory_preliminary_ci_noninferiority_proven": false,
+  "zero_misses_guaranteed": false,
+  "production_deployed": false,
+  "scope": "Best eligible measured candidate on frozen development criteria; not universal optimum or clinical validation."
+}

@@ -1,0 +1,38 @@
+{
+  "person_id": "E09",
+  "seed": 104729,
+  "walkers_per_channel": 500,
+  "raw_prior": "original_SAR",
+  "new_model_calls": 0,
+  "new_map_calls": 0,
+  "rows": [
+    {
+      "hour": 1,
+      "agent_max_delta": 1.6653345369377348e-16,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.5940000000000003,
+      "checkpoint_committed": true
+    },
+    {
+      "hour": 2,
+      "agent_max_delta": 1.1102230246251565e-16,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.6160000000000003,
+      "checkpoint_committed": true
+    },
+    {
+      "hour": 4,
+      "agent_max_delta": 8.326672684688674e-17,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.5760000000000003,
+      "checkpoint_committed": true
+    },
+    {
+      "hour": 6,
+      "agent_max_delta": 2.7755575615628914e-17,
+      "statistical_max_delta": 0.0,
+      "channel_tv": 0.5840000000000002,
+      "checkpoint_committed": true
+    }
+  ]
+}

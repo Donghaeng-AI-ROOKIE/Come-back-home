@@ -1,0 +1,93 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "splits": {
+    "train.jsonl": {
+      "rows": 2160,
+      "lineages": 720,
+      "paired_states": 1080,
+      "different_person_action_pairs": 519,
+      "scene_only_oracle_upper_bound": 0.7597222222222222,
+      "action_counts": {
+        "continue": 1110,
+        "avoid_park": 30,
+        "defer": 561,
+        "stay": 144,
+        "avoid_market": 48,
+        "seek_1": 105,
+        "avoid_forest": 36,
+        "avoid_water": 36,
+        "rest": 48,
+        "roam": 42
+      },
+      "kind_counts": {
+        "single": 324,
+        "and": 324,
+        "or": 324,
+        "unless": 324,
+        "priority": 324,
+        "correction": 270,
+        "latest_observation": 270
+      }
+    },
+    "development.jsonl": {
+      "rows": 180,
+      "lineages": 180,
+      "paired_states": 90,
+      "different_person_action_pairs": 43,
+      "scene_only_oracle_upper_bound": 0.7611111111111111,
+      "action_counts": {
+        "continue": 92,
+        "avoid_park": 5,
+        "defer": 47,
+        "avoid_market": 3,
+        "stay": 14,
+        "avoid_forest": 3,
+        "avoid_water": 1,
+        "rest": 6,
+        "roam": 6,
+        "seek_1": 3
+      },
+      "kind_counts": {
+        "correction": 36,
+        "latest_observation": 36,
+        "single": 36,
+        "and": 18,
+        "or": 18,
+        "unless": 18,
+        "priority": 18
+      }
+    },
+    "evaluation.jsonl": {
+      "rows": 360,
+      "lineages": 360,
+      "paired_states": 180,
+      "different_person_action_pairs": 88,
+      "scene_only_oracle_upper_bound": 0.7555555555555555,
+      "action_counts": {
+        "continue": 184,
+        "avoid_park": 6,
+        "defer": 92,
+        "stay": 27,
+        "avoid_market": 6,
+        "rest": 11,
+        "avoid_forest": 6,
+        "avoid_water": 4,
+        "roam": 11,
+        "seek_1": 13
+      },
+      "kind_counts": {
+        "and": 54,
+        "or": 54,
+        "unless": 54,
+        "priority": 54,
+        "correction": 54,
+        "latest_observation": 54,
+        "single": 36
+      }
+    }
+  },
+  "scope": "mechanical consistency only; no independent human or clinical validation",
+  "training_ready": false,
+  "semantic_template_review_required": true
+}

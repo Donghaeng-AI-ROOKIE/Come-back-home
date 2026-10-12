@@ -1,0 +1,8 @@
+{
+  "checked_at": "2026-10-12T10:10:27.279746+00:00",
+  "image": "cbh-cloud-worker:20261012-62b5d88",
+  "running": true,
+  "started_at": "2026-10-12T05:25:14.637069501Z",
+  "restart_count": 0,
+  "backend_diff_files_against_origin_develop": 0
+}

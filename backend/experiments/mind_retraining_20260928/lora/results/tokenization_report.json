@@ -1,0 +1,28 @@
+{
+  "max_tokens": 4096,
+  "local_files_only": true,
+  "encoding_method": "generation_prefix_plus_answer_tokens",
+  "inference_calls": 0,
+  "files": {
+    "train.jsonl": {
+      "records": 72,
+      "encoded": 72,
+      "max_length": 1429,
+      "min_target_tokens": 89
+    },
+    "development.jsonl": {
+      "records": 16,
+      "encoded": 16,
+      "max_length": 1411,
+      "min_target_tokens": 87
+    },
+    "evaluation.jsonl": {
+      "records": 16,
+      "encoded": 16,
+      "max_length": 1434,
+      "min_target_tokens": 89
+    }
+  },
+  "errors": [],
+  "status": "PASS"
+}

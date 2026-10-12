@@ -1,0 +1,12 @@
+{
+  "tests": "2 passed",
+  "condition_records": 3024,
+  "geometry_membership_subset_checks": "passed",
+  "on_policy_replication": "12 groups match previous targeting replay",
+  "matched_area_checks": "all 1296 matched policy records equal on policy",
+  "artifacts_sha256": {
+    "REPORT.md": "e6f0e8666c92594bf6a9a81905cbdbf3393d74aeffc53ee15197521a0705b7be",
+    "snapshots.jsonl": "87956296f7d98839da73fa6d65a8911425b2d03cadefa9db87982f4cd62a90d3",
+    "summary.json": "c1166a87e6002113ff1e70a4a338200c265fb49d3cfd657a2243cb30873cd128"
+  }
+}

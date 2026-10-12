@@ -1,0 +1,19 @@
+{
+  "model": "depmkuykpfon9lg",
+  "usage": {
+    "completion_tokens": 4730,
+    "prompt_tokens": 1850,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 6580
+  },
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "message": {
+        "content": "{\"persistence\": {\"evidence\": \"missing\", \"pattern\": \"unresolved\", \"value\": \"unknown\", \"note_ids\": []}, \"environment\": {\"water\": {\"response\": \"unknown\", \"scope\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": []}, \"forest\": {\"response\": \"unknown\", \"scope\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": []}, \"park\": {\"response\": \"unknown\", \"scope\": \"unknown\", \"condition\": \"unknown\", \"note_ids\": [], \"condition_clauses\": []}, \"market\": {\"response\": \"avoid\", \"scope\": \"explicit_category\", \"condition\": \"present\", \"note_ids\": [\"N0\"], \"condition_clauses\": [[{\"signal\": \"crowded\", \"state\": \"present\"}], [{\"signal\": \"noisy\", \"state\": \"present\"}]]}}}"
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "candidate": "c5",
+  "evaluation_attempts": 48,
+  "contract_pass": 48,
+  "allowed_action_goal_feature_match": 35,
+  "critical_action_violations": 13,
+  "additional_critical_environment_claims_with_correct_action": 3,
+  "both_repeats_action_pass_cases": 17,
+  "both_repeats_action_fail_cases": 6,
+  "mixed_repeat_cases": 1,
+  "median_local_delivery_seconds": 3.6056135414983146,
+  "max_local_delivery_seconds": 3.8106289580464363,
+  "deployment_gate": "FAIL",
+  "reasons": [
+    "35/48 below predeclared 46/48",
+    "personal-condition and environmental-grounding errors",
+    "development D05 failure retained"
+  ],
+  "new_training": 0
+}

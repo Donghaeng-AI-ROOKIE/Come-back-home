@@ -1,0 +1,1 @@
+{"source": "45b6086", "candidate_image": "cbh-cloud-worker:20261012-walk-45b6086", "base_image": "cbh-cloud-worker:20261012-62b5d88", "changed_backend_source_files": ["geo/nearby.py", "api/geo.py"], "engine_source_hashes_unchanged": true, "isolated_api_checks": {"error_503": true, "empty_200": true, "input_bounds": true, "network": "none", "model_calls": 0}}

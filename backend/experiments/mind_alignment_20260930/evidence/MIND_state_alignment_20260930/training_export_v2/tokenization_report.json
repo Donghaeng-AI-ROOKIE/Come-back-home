@@ -1,0 +1,38 @@
+{
+  "files": {
+    "train.jsonl": {
+      "rows": 2160,
+      "encoded": 2160,
+      "total_tokens": 5304204,
+      "supervised_tokens": 143091,
+      "min_tokens": 2295,
+      "max_tokens": 2724,
+      "min_answer_tokens": 56
+    },
+    "train_base.jsonl": {
+      "rows": 720,
+      "encoded": 720,
+      "total_tokens": 1758318,
+      "supervised_tokens": 47697,
+      "min_tokens": 2295,
+      "max_tokens": 2701,
+      "min_answer_tokens": 56
+    },
+    "development.jsonl": {
+      "rows": 180,
+      "encoded": 180,
+      "total_tokens": 442184,
+      "supervised_tokens": 11723,
+      "min_tokens": 2315,
+      "max_tokens": 2676,
+      "min_answer_tokens": 56
+    }
+  },
+  "errors": [],
+  "inference_calls": 0,
+  "training_runs": 0,
+  "local_files_only": true,
+  "max_tokens": 8192,
+  "gpu_disabled": true,
+  "status": "PASS"
+}

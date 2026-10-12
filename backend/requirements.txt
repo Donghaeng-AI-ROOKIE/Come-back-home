@@ -3,7 +3,9 @@ uvicorn[standard]>=0.30
 pydantic>=2.7
 pydantic-settings>=2.3
 numpy>=1.26
-h3>=4.0
+h3>=4.5
+shapely>=2.0
+pyproj>=3.6
 pytest>=8.0
 
 # Phase 0 온보딩 — 히스토리-어웨어 슬롯 검색용 한국어 임베더 (로컬)

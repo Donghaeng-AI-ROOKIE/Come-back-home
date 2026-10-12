@@ -1,0 +1,221 @@
+{
+  "region": "KINTEX, Goyang",
+  "center": {
+    "lat": 37.6652142,
+    "lng": 126.7483258
+  },
+  "center_identity": "Nominatim railway station 킨텍스; not a verified booth entrance",
+  "sha256": "b8bce04b2fda6db26f30bbaea428cce04179e695b462295b5471c66c5bbd418c",
+  "nodes": 3260,
+  "directed_edges": 9978,
+  "weak_components": 18,
+  "start_component_nodes": 3216,
+  "start_component_fraction": 0.9865030674846625,
+  "start_snap_distance_m": 1.8972335112880288,
+  "invalid_edge_lengths": 0,
+  "nodes_outside_query_rectangle": 181,
+  "route_left_query_rectangle": false,
+  "scripted_provider": true,
+  "new_model_calls": 0,
+  "termination_reason": null,
+  "hourly": [
+    {
+      "elapsed_minutes": 60.0,
+      "distance_m": 2639.999999999999,
+      "fatigue": 0.527923838968253,
+      "confusion": 0.3061679880368937,
+      "anxiety": 0.18370079282213622,
+      "interpreted_confusion": null,
+      "current_action": "roam",
+      "target_label": null,
+      "target_reached": false,
+      "last_rest_end_minutes": 5.0,
+      "recent_events": [
+        {
+          "kind": "decision",
+          "elapsed_minutes": 0.0,
+          "action": "rest",
+          "reason": "initial",
+          "target": null
+        },
+        {
+          "kind": "rest_complete",
+          "elapsed_minutes": 5.0
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 5.0,
+          "action": "roam",
+          "reason": "rest_complete",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 25.5603095688013,
+          "action": "roam",
+          "reason": "scheduled_review",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 41.77832100607944,
+          "action": "roam",
+          "reason": "fatigue_changed",
+          "target": null
+        }
+      ],
+      "node": 9217993735,
+      "edge_to": 9217993740,
+      "edge_progress_m": 57.92648873737164
+    },
+    {
+      "elapsed_minutes": 120.0,
+      "distance_m": 5520.000000000007,
+      "fatigue": 0.979617944548903,
+      "confusion": 0.6386879853259354,
+      "anxiety": 0.38321279119556123,
+      "interpreted_confusion": null,
+      "current_action": "roam",
+      "target_label": null,
+      "target_reached": false,
+      "last_rest_end_minutes": 5.0,
+      "recent_events": [
+        {
+          "kind": "decision",
+          "elapsed_minutes": 0.0,
+          "action": "rest",
+          "reason": "initial",
+          "target": null
+        },
+        {
+          "kind": "rest_complete",
+          "elapsed_minutes": 5.0
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 5.0,
+          "action": "roam",
+          "reason": "rest_complete",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 25.5603095688013,
+          "action": "roam",
+          "reason": "scheduled_review",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 41.77832100607944,
+          "action": "roam",
+          "reason": "fatigue_changed",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 62.89264023807271,
+          "action": "roam",
+          "reason": "scheduled_review",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 81.81311412484128,
+          "action": "roam",
+          "reason": "fatigue_changed",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 102.18334489658062,
+          "action": "roam",
+          "reason": "scheduled_review",
+          "target": null
+        }
+      ],
+      "node": 11262443093,
+      "edge_to": 6139310403,
+      "edge_progress_m": 30.79819789701378
+    },
+    {
+      "elapsed_minutes": 180.0,
+      "distance_m": 8400.000000000004,
+      "fatigue": 1.5681917658144067,
+      "confusion": 1.0,
+      "anxiety": 0.6979467459570224,
+      "interpreted_confusion": null,
+      "current_action": "roam",
+      "target_label": null,
+      "target_reached": false,
+      "last_rest_end_minutes": 5.0,
+      "recent_events": [
+        {
+          "kind": "decision",
+          "elapsed_minutes": 25.5603095688013,
+          "action": "roam",
+          "reason": "scheduled_review",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 41.77832100607944,
+          "action": "roam",
+          "reason": "fatigue_changed",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 62.89264023807271,
+          "action": "roam",
+          "reason": "scheduled_review",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 81.81311412484128,
+          "action": "roam",
+          "reason": "fatigue_changed",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 102.18334489658062,
+          "action": "roam",
+          "reason": "scheduled_review",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 124.0546094041068,
+          "action": "roam",
+          "reason": "scheduled_review",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 145.8742477754422,
+          "action": "roam",
+          "reason": "scheduled_review",
+          "target": null
+        },
+        {
+          "kind": "decision",
+          "elapsed_minutes": 166.96055565960899,
+          "action": "roam",
+          "reason": "scheduled_review",
+          "target": null
+        }
+      ],
+      "node": 6967793450,
+      "edge_to": 6967793439,
+      "edge_progress_m": 54.50893180565572
+    }
+  ],
+  "limits": [
+    "Scripted provider; no clinical accuracy or model semantic evidence",
+    "Road graph only; POI/noise/crowd layers not attached",
+    "OSM way geometry may extend beyond query rectangle",
+    "Booth entrance must be chosen before a booth-specific demo"
+  ]
+}

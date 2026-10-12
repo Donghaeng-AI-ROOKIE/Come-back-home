@@ -1,0 +1,33 @@
+{
+  "candidate": "w0.1_area6.37",
+  "personal_weight": 0.1,
+  "statistical_weight": 0.9,
+  "max_area_km2": 6.368199998062131,
+  "eligible": [
+    "mixed_area7.00",
+    "w0.5_area6.37",
+    "w0.5_area7.00",
+    "w0.6_area7.00",
+    "w0.7_area7.00",
+    "w0.85_area7.00",
+    "w0.8_area7.00",
+    "w0.9_area7.00",
+    "w0.1_area6.37",
+    "w0.1_area7.00",
+    "w0.2_area6.37",
+    "w0.2_area7.00",
+    "w0.3_area6.37",
+    "w0.3_area7.00",
+    "w0.4_area6.37",
+    "w0.4_area7.00"
+  ],
+  "selection_only_uses_old_2026101201_1203_truth": true,
+  "previous_90_10_confirmation_not_used_for_selection": true,
+  "confirmation_generated": false,
+  "criterion": "Highest area efficiency among explored candidates whose point inclusion rates do not drop vs BOTH preliminary and former final in any of three futures and whose efficiency exceeds preliminary. Previous final failed contrary-vs-preliminary constraint. Bootstrap CIs reported, not silently converted to proven superiority.",
+  "search_summaries_sha256": {
+    "exploration": "f19551c550ef9a425d60053459d4e59f1f8b96f33779ef166c0d0130cae3d1f4",
+    "ratio_exploration": "f8455d09d695be581fb25263cae9c338f00c39bc24a317f0c1ddc536ab7c16df",
+    "low_personal_exploration": "992d386e2357da2eafb3efd38d044b075cc8b9fa65a990fe24b1f304ee244915"
+  }
+}

@@ -1,0 +1,497 @@
+{
+  "method": "Codex unblinded final-response audit, not independent human/clinical review",
+  "counts": {
+    "baseline": {
+      "pass": 10,
+      "fail": 6
+    },
+    "scene_v1": {
+      "pass": 13,
+      "fail": 3
+    }
+  },
+  "records": [
+    {
+      "id": "S30_H3_D01-1",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "rest",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "피로 수준이 0.9로 높아 공원 소음이 존재하더라도 휴식이 우선시되며, 보호자 설명에 따라 몸이 많이 지치면 먼저 앉는 행동을 취해야 합니다."
+      }
+    },
+    {
+      "id": "S30_H3_D01-1",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "rest",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "개인 조건에 따라 피로가 '고하' 수준일 때는 휴식을 우선해야 하며, 현재 관측된 피로 수준 0.9가 해당하므로 'rest' 명령을 선택했습니다."
+      },
+      "language_quality_note": "고하/존재하는만 등 비문. 수치·명령의 뜻은 확인 가능하므로 의미 오류와 구분해 표시."
+    },
+    {
+      "id": "S30_H3_D01-2",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "avoid_park",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "공원 소음이 확인되었으나 피로는 낮아 소음 회피가 우선. 소음이 없는 조용한 공원이 아닐 경우 피해야 함."
+      }
+    },
+    {
+      "id": "S30_H3_D01-2",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "avoid_park",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "공원 소음이 존재하는만 개인 조건이 소음 회피보다 높은 피로일 때 휴식을 우선하지만, 현재 피로 수준이 낮음에도 공원이 시끄러우면 소음 회피 조건에 해당하여 공원 환경을 피해야 합니다. 현재 관측에서 공원 소음이 true이므로 다음 명령으로 공원에서 멀어지는 이동을 선택합니다."
+      },
+      "language_quality_note": "고하/존재하는만 등 비문. 수치·명령의 뜻은 확인 가능하므로 의미 오류와 구분해 표시."
+    },
+    {
+      "id": "S30_H3_D01-3",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "피로가 낮아 휴식이 필요하지 않고 공원 소음이 없어 등록 장소 A를 향한 이동을 유지합니다."
+      }
+    },
+    {
+      "id": "S30_H3_D01-3",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "개인 조건에 따라 공원 소음이 없고 피로 수준이 낮아 이동을 지속합니다."
+      }
+    },
+    {
+      "id": "S30_H3_D01-4",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "fail",
+      "review_note": "유보 명령은 맞으나 미확인 조건을 미충족으로 기술",
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "보호자 원문에 따르면 공원 소음이 없고 피로가 낮을 때 이동하며, 현재 공원 소음 미확인으로 조건 미충족하여 판단 유보."
+      }
+    },
+    {
+      "id": "S30_H3_D01-4",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "fail",
+      "review_note": "유보 명령은 맞으나 이동 조건을 휴식 조건으로 잘못 설명",
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "공원 소음 수준이 확인되지 않아 휴식 조건(소음 없음 시 이동)을 적용할 수 없어 판단 유보"
+      }
+    },
+    {
+      "id": "S30_H3_D04-1",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": false,
+      "semantic_status": "fail",
+      "review_note": "혼자이고 시끄러우면 회피한다는 원문을 제자리 대기로 바꿈",
+      "final_response": {
+        "next_command_id": "stay",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "시장 소음 상황에서 혼자 있으므로 제자리에서 대기합니다."
+      }
+    },
+    {
+      "id": "S30_H3_D04-1",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "avoid_market",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "개인은 시장 소음 시 혼자일 경우 회피하는 특성이 있으며, 현재 시장 환경이 시끄럽고 동행자가 없는 상황이므로 시장에서 멀어지는 이동이 적절합니다."
+      }
+    },
+    {
+      "id": "S30_H3_D04-2",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": false,
+      "semantic_status": "fail",
+      "review_note": "가족 동행 예외를 설명하면서 실제로는 휴식을 선택",
+      "final_response": {
+        "next_command_id": "rest",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "시장 소음이 있는 환경에서 피로도 0.2로 낮으나, 동행자가 확인되었으나 보호자 원문(N1)에 따르면 시장 소음 시 혼자면 돌아가는 반면 동행 시 계속 진행함. 현재 동행자 확인으로 'seek_0' 유지 또는 'continue' 가능하나 피로도 낮음 및 소음 환경으로 인해 휴식이 필요할 수 있음."
+      }
+    },
+    {
+      "id": "S30_H3_D04-2",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "시장 소음 상황에서 가족이 동행 중이므로 원래 경로를 계속 유지합니다."
+      }
+    },
+    {
+      "id": "S30_H3_D04-3",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "현재 시장 소음이 없고 동행자가 없으므로, 조용할 때 혼자라도 계속 이동하는 개인 조건에 따라 진행 중인 이동을 유지합니다."
+      }
+    },
+    {
+      "id": "S30_H3_D04-3",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "조용한 시장에서 혼자라도 계속 이동하는 개인 조건에 따라 현재 시장 조용함으로 종료하지 않고 원래 목적지인 등록 장소 A로의 탐색을 계속함."
+      }
+    },
+    {
+      "id": "S30_H3_D04-4",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "defer",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "보호자 설명에 따르면 시장 소음이 클 때 혼자일 경우 돌아서야 하나, 동행자 존재 여부가 미확인되어 조건 충족 확인 불가로 판단 유보"
+      }
+    },
+    {
+      "id": "S30_H3_D04-4",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": false,
+      "semantic_status": "fail",
+      "review_note": "가족 동행 여부 미확인은 혼자임을 뜻하지 않는다는 이유로 이동 유지를 확정",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "시장 소음 상황에서 가족 동행 미확인은 혼자임을 뜻하지 않으므로, 소음 환경에서도 등록 장소 A로의 계속 진행"
+      }
+    },
+    {
+      "id": "S30_X01",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "fail",
+      "review_note": "휴식 명령은 맞지만 관측되지 않은 발이 무거워졌다는 증상을 현재 사실처럼 추정",
+      "final_response": {
+        "next_command_id": "rest",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "보호자 지침 N1에 따라 현재 피로 수치가 높고 발이 무거워진 것으로 판단하여 즉시 휴식을 취합니다."
+      }
+    },
+    {
+      "id": "S30_X01",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "rest",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "개인 조건(N1)에 따라 높은 피로도 상태에서 즉시 휴식이 필요하므로 휴식 명령을 선택합니다."
+      }
+    },
+    {
+      "id": "S30_X02",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "개인은 피로가 높아도 목적지를 기억할 때 계속 걸음을 멈추지 않는 특성에 따라, 등록 장소 A를 목표로 한 'seek' 동작을 유지해야 함."
+      }
+    },
+    {
+      "id": "S30_X02",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "치매 개인은 피로도가 높음에도 불구하고 쉬지 않고 목적지까지 계속 걷는 경향이 관찰되었으므로, 진행하던 탐색을 유지합니다."
+      }
+    },
+    {
+      "id": "S30_X05",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "공원에서 소음만 확인되고 혼잡함이 없으므로 보호자 원문에 따라 이동을 계속함. 소음과 혼잡 중 하나만 있을 때 이동을 이어가야 한다는 조건이 충족됨."
+      }
+    },
+    {
+      "id": "S30_X05",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "공원에서 소음만 있고 혼잡이 없어 이동하던 이동을 이어갑니다."
+      }
+    },
+    {
+      "id": "S30_X06",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "avoid_park",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "공원 소음이 있거나 혼잡할 경우 다른 쪽으로 돌아가야 한다는 보호자 원문(N1)에 따라 현재 공원 소음이 참이므로 공원을 피해야 함"
+      }
+    },
+    {
+      "id": "S30_X06",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "avoid_park",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "공원이 소음이 많고 혼잡하지 않더라도 개인 조건에 따라 다른 쪽으로 돌아가야 하므로"
+      }
+    },
+    {
+      "id": "S30_X11",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "시장 소음이 있으나 정정된 행동 지침에 따라 원래 길을 계속 걷기로 결정합니다."
+      }
+    },
+    {
+      "id": "S30_X11",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N2"
+        ],
+        "reason": "정정된 정보에 따라 시끄러운 시장 환경에서도 경로를 계속 진행하므로 현재 이동을 유지한다."
+      }
+    },
+    {
+      "id": "S30_X12",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": false,
+      "semantic_status": "fail",
+      "review_note": "보호자가 반응을 관찰하지 못했다는데 목적지 이동을 확정; 같은 목표를 재설정",
+      "final_response": {
+        "next_command_id": "seek_0",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "보호자가 공원 소음에 대한 불확실성으로 원래 목표 계속 진행 결정함"
+      }
+    },
+    {
+      "id": "S30_X12",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": false,
+      "semantic_status": "fail",
+      "review_note": "개인 반응을 모르겠다는 답에도 이전 동작 유지를 선택",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "공원의 시끄러움 관측이 확인되었으나, 본문에서 '원래 목표를 계속 향할지 피할지도 모르겠다'고 미확정 상태에서 이전 이동 동작 유지"
+      }
+    },
+    {
+      "id": "S30_X19",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": false,
+      "semantic_status": "fail",
+      "review_note": "길을 잃었다는 명시 관측을 혼란 수치0.2로 부정하고 이동 유지",
+      "final_response": {
+        "next_command_id": "continue",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "길을 잃은 것으로 확인되지 않았으며(혼란 수준 0.2), 등록 장소 A로의 이동을 계속합니다."
+      }
+    },
+    {
+      "id": "S30_X19",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "stay",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "길을 잃은 것으로 관측되어 조건에 따라 가족을 위해 그 자리에서 기다립니다."
+      }
+    },
+    {
+      "id": "S30_X21",
+      "arm": "baseline",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "seek_0",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "보호자 원문에 따라. 쉰 뒤 피로가 낮아지면 등록 장소 A를 향해 출발하라는 조건을 현재 피로가 0.1로 낮아진 상태이므로 seek_0을 선택합니다."
+      }
+    },
+    {
+      "id": "S30_X21",
+      "arm": "scene_v1",
+      "repeat": 1,
+      "behavior_match": true,
+      "semantic_status": "pass",
+      "review_note": "개인 원문·관측·행동과 최종 설명이 일치",
+      "final_response": {
+        "next_command_id": "seek_0",
+        "source_ids": [
+          "N1"
+        ],
+        "reason": "개인의 조건이 낮은 피로감을 나타내며, '앉아서 쉰 뒤 피로가 낮아지면 등록 장소 A를 향해 다시 출발한다'는 N1 증거에 따라 등록 장소 A를 목표로 이동해야 합니다."
+      }
+    }
+  ]
+}

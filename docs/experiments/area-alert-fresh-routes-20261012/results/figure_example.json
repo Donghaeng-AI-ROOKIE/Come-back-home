@@ -1,0 +1,46 @@
+[
+  {
+    "arm": "district_proxy",
+    "person_id": "E09",
+    "prediction_seed": 104729,
+    "truth_seed": 2026101202,
+    "future": "contradictory",
+    "hour": 4,
+    "area_km2": 60.016985948577,
+    "hit": false,
+    "selected_mass": null
+  },
+  {
+    "arm": "preliminary_saved_policy",
+    "person_id": "E09",
+    "prediction_seed": 104729,
+    "truth_seed": 2026101202,
+    "future": "contradictory",
+    "hour": 4,
+    "area_km2": 7.066889655982495,
+    "hit": true,
+    "selected_mass": null
+  },
+  {
+    "arm": "current",
+    "person_id": "E09",
+    "prediction_seed": 104729,
+    "truth_seed": 2026101202,
+    "future": "contradictory",
+    "hour": 4,
+    "area_km2": 5.336796536914647,
+    "hit": false,
+    "selected_mass": 0.95
+  },
+  {
+    "arm": "area6",
+    "person_id": "E09",
+    "prediction_seed": 104729,
+    "truth_seed": 2026101202,
+    "future": "contradictory",
+    "hour": 4,
+    "area_km2": 6.346534548663735,
+    "hit": false,
+    "selected_mass": 0.9467830303313278
+  }
+]

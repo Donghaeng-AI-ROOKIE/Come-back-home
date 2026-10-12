@@ -1,0 +1,86 @@
+[
+  {
+    "case": "claim_deletion",
+    "repeat": 1,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 1
+  },
+  {
+    "case": "claim_deletion",
+    "repeat": 2,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 1
+  },
+  {
+    "case": "fresh_collection_old_event",
+    "repeat": 1,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 1
+  },
+  {
+    "case": "fresh_collection_old_event",
+    "repeat": 2,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 1
+  },
+  {
+    "case": "identity_only",
+    "repeat": 1,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 1
+  },
+  {
+    "case": "identity_only",
+    "repeat": 2,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 1
+  },
+  {
+    "case": "incident_update_old_profile",
+    "repeat": 1,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 1
+  },
+  {
+    "case": "incident_update_old_profile",
+    "repeat": 2,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 1
+  },
+  {
+    "case": "one_behavior_correction",
+    "repeat": 1,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 1
+  },
+  {
+    "case": "one_behavior_correction",
+    "repeat": 2,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 1
+  },
+  {
+    "case": "supplement_after_edit",
+    "repeat": 1,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 2
+  },
+  {
+    "case": "supplement_after_edit",
+    "repeat": 2,
+    "source_ids_valid": true,
+    "normalized_engine_inputs": true,
+    "output_count": 2
+  }
+]

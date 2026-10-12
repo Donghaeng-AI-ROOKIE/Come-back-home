@@ -94,19 +94,16 @@ export default function ReportChatScreen() {
     }
     setSending(true);
     /**
-     * 오래 걸리는 이유를 화면이 말하게 한다.
+     * 늦어지면 화면이 이유를 말하게 한다.
      *
-     * 신뢰도가 높은 제보는 접수와 동시에 **예상 경로를 다시 계산한다**(층2).
-     * 그 지역 도로망이 서버에 없으면 내려받느라 오래 걸린다 —
-     * 실측 08-12: 신촌 사건에 망원역 제보를 넣으니 **88초**.
-     *
-     * 그동안 화면에는 '전송 중…'만 떠 있었다. 90초 가까이 그 상태면 사용자는
-     * 앱이 멈춘 줄 안다("무한 로딩이 걸린다" 현장 제보). 실제로는 정상 동작이고,
-     * 그 시간이 예상 경로를 좁히는 데 쓰이고 있다. 그러면 그렇게 말해야 한다.
+     * 예상 경로 재계산(층2)은 이제 접수 응답 뒤에 서버가 따로 돌린다 — 제보자는
+     * 그 계산을 기다리지 않는다. 남는 대기는 위치·시각 추출과 서버 줄 대기뿐이라
+     * 보통 몇 초다. 그래도 '전송 중…'만 오래 떠 있으면 멈춘 줄 아므로(현장 제보
+     * 08-12) 실제로 하고 있는 일만 말한다. 재계산 중이라고 말하지 않는다.
      */
     setProgress('');
-    const t1 = setTimeout(() => setProgress('제보를 반영해 예상 경로를 다시 계산하고 있어요.'), 6_000);
-    const t2 = setTimeout(() => setProgress('처음 보는 지역이라 지도를 내려받는 중입니다. 최대 2분까지 걸릴 수 있어요.'), 25_000);
+    const t1 = setTimeout(() => setProgress('목격 위치와 시각을 확인하며 제보를 접수하고 있어요.'), 6_000);
+    const t2 = setTimeout(() => setProgress('연결이 느려 조금 더 걸리고 있어요. 이 화면을 닫지 말고 잠시만 기다려 주세요.'), 25_000);
     try {
       const result = await send(opts);
       if (result == null) {   // 되묻기 — 화면이 그 항목을 띄운 상태다
@@ -119,12 +116,7 @@ export default function ReportChatScreen() {
         queryClient.invalidateQueries({ queryKey: ['activeAlerts'] }),
         queryClient.invalidateQueries({ queryKey: ['case', caseId] }),
       ]);
-      navigation.replace('ReportDone', {
-        caseId,
-        beforeAreaKm2: result.beforeAreaKm2,
-        afterAreaKm2: result.afterAreaKm2,
-        deltaPct: result.deltaPct,
-      });
+      navigation.replace('ReportDone', { caseId });
     } catch (e) {
       Alert.alert('제보를 전송하지 못했습니다', String(e));
       setSending(false);

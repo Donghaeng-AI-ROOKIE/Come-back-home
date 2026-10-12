@@ -1,0 +1,43 @@
+{
+  "status": "wording_ambiguity_found_after_freeze_do_not_relabel_scores",
+  "affected_profiles": [
+    {
+      "group_id": "PC009",
+      "person_id": "PC009_P1",
+      "split": "train",
+      "issue": "only-if wording and else branch specify same action; ambiguous exclusive phrasing",
+      "author_intended_action": "continue"
+    },
+    {
+      "group_id": "PC023",
+      "person_id": "PC023_P1",
+      "split": "train",
+      "issue": "only-if wording and else branch specify same action; ambiguous exclusive phrasing",
+      "author_intended_action": "continue"
+    },
+    {
+      "group_id": "PC037",
+      "person_id": "PC037_P1",
+      "split": "train",
+      "issue": "only-if wording and else branch specify same action; ambiguous exclusive phrasing",
+      "author_intended_action": "continue"
+    },
+    {
+      "group_id": "PC051",
+      "person_id": "PC051_P1",
+      "split": "evaluation",
+      "issue": "only-if wording and else branch specify same action; ambiguous exclusive phrasing",
+      "author_intended_action": "continue"
+    },
+    {
+      "group_id": "PC065",
+      "person_id": "PC065_P1",
+      "split": "evaluation",
+      "issue": "only-if wording and else branch specify same action; ambiguous exclusive phrasing",
+      "author_intended_action": "continue"
+    }
+  ],
+  "effect": "Keep frozen authored-command scores, separately note that these are not uniformly unambiguous gold labels. Wrong destination changes remain unsupported independent of this wording.",
+  "future_change": "Rewrite only-if phrasing for behavior-invariant profiles in a new data version before training; do not silently alter current evaluation.",
+  "independent_human_review": false
+}

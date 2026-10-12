@@ -1,0 +1,22 @@
+{
+  "providers": {
+    "K_EXAONE_API": {
+      "attempts": 74,
+      "known_usage_responses": 72,
+      "input_tokens": 132440,
+      "output_tokens": 68656,
+      "total_tokens": 201096
+    },
+    "self_hosted_EXAONE": {
+      "attempts": 6,
+      "known_usage_responses": 3,
+      "input_tokens": 4532,
+      "output_tokens": 2700,
+      "total_tokens": 7232
+    }
+  },
+  "actual_cost": null,
+  "support_round": null,
+  "gpu_billed_hours": null,
+  "note": "Unknown usage is not zero; latency is not billable GPU time"
+}

@@ -1,0 +1,1464 @@
+[
+  {
+    "id": "D01",
+    "persona": {
+      "id": "person-2a31d604f7",
+      "type": "dementia",
+      "name": "합성 평가",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "등록 장소 A",
+          "location": {
+            "lat": 37.6659428,
+            "lng": 126.7434215
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "등록 장소 B",
+          "location": {
+            "lat": 37.6634592,
+            "lng": 126.7528285
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "피곤하지 않으면 등록 장소 A로 계속 걷고, 많이 피곤해지면 잠깐 앉아 쉰 뒤 다시 걷는다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "behavior",
+          "question": "평소 어떤 행동을 보이나요?",
+          "answer": "피곤하지 않으면 등록 장소 A로 계속 걷고, 많이 피곤해지면 잠깐 앉아 쉰 뒤 다시 걷는다."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-28T13:05:20.929967",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "prior": {
+      "strategy_probs": {
+        "random_walk": 1.0
+      },
+      "attraction_weights": {
+        "등록 장소 A": 0.5,
+        "등록 장소 B": 0.5
+      },
+      "radius_lognormal": {
+        "mu": 0.0,
+        "sigma": 1.0
+      },
+      "reasoning": "",
+      "source": "exaone",
+      "fallback_reason": "",
+      "strategy_before_behavior": {},
+      "attraction_levels": {},
+      "initial_interpretation": {},
+      "persona_adjustments": {}
+    },
+    "context": {
+      "contract_version": "mind-context-v1",
+      "case_id": "D01",
+      "person_id": "person-2a31d604f7",
+      "person_revision": "ee055758504cb59f8320db12ba3dfe054fa89bd57b95a986cb34b5bca6fcf512",
+      "person": {
+        "age": 78,
+        "type": "dementia",
+        "evidence_notes": [
+          {
+            "id": "N0",
+            "text": "질문: 평소 어떤 행동을 보이나요?\n답변: 피곤하지 않으면 등록 장소 A로 계속 걷고, 많이 피곤해지면 잠깐 앉아 쉰 뒤 다시 걷는다.",
+            "source_kinds": [
+              "guardian_turn"
+            ],
+            "recorded_at": [],
+            "provenance": "guardian_original"
+          }
+        ],
+        "initial_interpretation": {},
+        "prepared_person_interpretation": {},
+        "compiled_environment_responses": [],
+        "interpretation_is_not_new_observation": true
+      },
+      "known_places": [
+        {
+          "label": "등록 장소 A",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        },
+        {
+          "label": "등록 장소 B",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        }
+      ],
+      "state": {
+        "elapsed_minutes": 60.0,
+        "distance_m": 500.0,
+        "fatigue": 0.9,
+        "confusion": 0.2,
+        "anxiety": null,
+        "interpreted_confusion": null,
+        "current_action": "seek",
+        "target_label": "등록 장소 A",
+        "target_reached": false,
+        "last_rest_end_minutes": null,
+        "recent_events": []
+      },
+      "clock_time": "2026-09-28T09:00:00",
+      "trigger": "state_review",
+      "environment": {
+        "map_proximity_m": {
+          "water": null,
+          "forest": null,
+          "market": 20,
+          "park": null
+        },
+        "observed_signals": {
+          "water": {
+            "noisy": null,
+            "crowded": null
+          },
+          "forest": {
+            "noisy": null,
+            "crowded": null
+          },
+          "market": {
+            "noisy": null,
+            "crowded": null
+          },
+          "park": {
+            "noisy": null,
+            "crowded": null
+          }
+        },
+        "observed_place_labels": [],
+        "visibility_of_other_places": "unknown"
+      },
+      "research": [],
+      "limitations": [
+        "gauges are provisional engine states, not clinical measurements",
+        "map proximity does not prove visibility or current noise"
+      ]
+    },
+    "rubric": {
+      "actions": [
+        "rest"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    }
+  },
+  {
+    "id": "D02",
+    "persona": {
+      "id": "person-2a31d604f7",
+      "type": "dementia",
+      "name": "합성 평가",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "등록 장소 A",
+          "location": {
+            "lat": 37.6659428,
+            "lng": 126.7434215
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "등록 장소 B",
+          "location": {
+            "lat": 37.6634592,
+            "lng": 126.7528285
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "피곤하지 않으면 등록 장소 A로 계속 걷고, 많이 피곤해지면 잠깐 앉아 쉰 뒤 다시 걷는다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "behavior",
+          "question": "평소 어떤 행동을 보이나요?",
+          "answer": "피곤하지 않으면 등록 장소 A로 계속 걷고, 많이 피곤해지면 잠깐 앉아 쉰 뒤 다시 걷는다."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-28T13:05:20.935368",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "prior": {
+      "strategy_probs": {
+        "random_walk": 1.0
+      },
+      "attraction_weights": {
+        "등록 장소 A": 0.5,
+        "등록 장소 B": 0.5
+      },
+      "radius_lognormal": {
+        "mu": 0.0,
+        "sigma": 1.0
+      },
+      "reasoning": "",
+      "source": "exaone",
+      "fallback_reason": "",
+      "strategy_before_behavior": {},
+      "attraction_levels": {},
+      "initial_interpretation": {},
+      "persona_adjustments": {}
+    },
+    "context": {
+      "contract_version": "mind-context-v1",
+      "case_id": "D02",
+      "person_id": "person-2a31d604f7",
+      "person_revision": "ee055758504cb59f8320db12ba3dfe054fa89bd57b95a986cb34b5bca6fcf512",
+      "person": {
+        "age": 78,
+        "type": "dementia",
+        "evidence_notes": [
+          {
+            "id": "N0",
+            "text": "질문: 평소 어떤 행동을 보이나요?\n답변: 피곤하지 않으면 등록 장소 A로 계속 걷고, 많이 피곤해지면 잠깐 앉아 쉰 뒤 다시 걷는다.",
+            "source_kinds": [
+              "guardian_turn"
+            ],
+            "recorded_at": [],
+            "provenance": "guardian_original"
+          }
+        ],
+        "initial_interpretation": {},
+        "prepared_person_interpretation": {},
+        "compiled_environment_responses": [],
+        "interpretation_is_not_new_observation": true
+      },
+      "known_places": [
+        {
+          "label": "등록 장소 A",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        },
+        {
+          "label": "등록 장소 B",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        }
+      ],
+      "state": {
+        "elapsed_minutes": 60.0,
+        "distance_m": 500.0,
+        "fatigue": 0.1,
+        "confusion": 0.2,
+        "anxiety": null,
+        "interpreted_confusion": null,
+        "current_action": "seek",
+        "target_label": "등록 장소 A",
+        "target_reached": false,
+        "last_rest_end_minutes": null,
+        "recent_events": []
+      },
+      "clock_time": "2026-09-28T09:00:00",
+      "trigger": "state_review",
+      "environment": {
+        "map_proximity_m": {
+          "water": null,
+          "forest": null,
+          "market": 20,
+          "park": null
+        },
+        "observed_signals": {
+          "water": {
+            "noisy": null,
+            "crowded": null
+          },
+          "forest": {
+            "noisy": null,
+            "crowded": null
+          },
+          "market": {
+            "noisy": null,
+            "crowded": null
+          },
+          "park": {
+            "noisy": null,
+            "crowded": null
+          }
+        },
+        "observed_place_labels": [],
+        "visibility_of_other_places": "unknown"
+      },
+      "research": [],
+      "limitations": [
+        "gauges are provisional engine states, not clinical measurements",
+        "map proximity does not prove visibility or current noise"
+      ]
+    },
+    "rubric": {
+      "actions": [
+        "continue",
+        "seek"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    }
+  },
+  {
+    "id": "D03",
+    "persona": {
+      "id": "person-1a19b1e8df",
+      "type": "dementia",
+      "name": "합성 평가",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "등록 장소 A",
+          "location": {
+            "lat": 37.6659428,
+            "lng": 126.7434215
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "등록 장소 B",
+          "location": {
+            "lat": 37.6634592,
+            "lng": 126.7528285
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "오래 걸어 피곤해지면 쉬고, 충분히 쉬고 나서는 등록 장소 A로 다시 걷는다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "behavior",
+          "question": "평소 어떤 행동을 보이나요?",
+          "answer": "오래 걸어 피곤해지면 쉬고, 충분히 쉬고 나서는 등록 장소 A로 다시 걷는다."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-28T13:05:20.935755",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "prior": {
+      "strategy_probs": {
+        "random_walk": 1.0
+      },
+      "attraction_weights": {
+        "등록 장소 A": 0.5,
+        "등록 장소 B": 0.5
+      },
+      "radius_lognormal": {
+        "mu": 0.0,
+        "sigma": 1.0
+      },
+      "reasoning": "",
+      "source": "exaone",
+      "fallback_reason": "",
+      "strategy_before_behavior": {},
+      "attraction_levels": {},
+      "initial_interpretation": {},
+      "persona_adjustments": {}
+    },
+    "context": {
+      "contract_version": "mind-context-v1",
+      "case_id": "D03",
+      "person_id": "person-1a19b1e8df",
+      "person_revision": "104f3577a07b8cc777c7805cb696fc8c16771b7039228f84599d5a121d7ec048",
+      "person": {
+        "age": 78,
+        "type": "dementia",
+        "evidence_notes": [
+          {
+            "id": "N0",
+            "text": "질문: 평소 어떤 행동을 보이나요?\n답변: 오래 걸어 피곤해지면 쉬고, 충분히 쉬고 나서는 등록 장소 A로 다시 걷는다.",
+            "source_kinds": [
+              "guardian_turn"
+            ],
+            "recorded_at": [],
+            "provenance": "guardian_original"
+          }
+        ],
+        "initial_interpretation": {},
+        "prepared_person_interpretation": {},
+        "compiled_environment_responses": [],
+        "interpretation_is_not_new_observation": true
+      },
+      "known_places": [
+        {
+          "label": "등록 장소 A",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        },
+        {
+          "label": "등록 장소 B",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        }
+      ],
+      "state": {
+        "elapsed_minutes": 60.0,
+        "distance_m": 500.0,
+        "fatigue": 0.2,
+        "confusion": 0.2,
+        "anxiety": null,
+        "interpreted_confusion": null,
+        "current_action": "seek",
+        "target_label": "등록 장소 A",
+        "target_reached": false,
+        "last_rest_end_minutes": 59.0,
+        "recent_events": [
+          {
+            "kind": "rest_complete",
+            "elapsed_minutes": 59
+          }
+        ]
+      },
+      "clock_time": "2026-09-28T09:00:00",
+      "trigger": "state_review",
+      "environment": {
+        "map_proximity_m": {
+          "water": null,
+          "forest": null,
+          "market": 20,
+          "park": null
+        },
+        "observed_signals": {
+          "water": {
+            "noisy": null,
+            "crowded": null
+          },
+          "forest": {
+            "noisy": null,
+            "crowded": null
+          },
+          "market": {
+            "noisy": null,
+            "crowded": null
+          },
+          "park": {
+            "noisy": null,
+            "crowded": null
+          }
+        },
+        "observed_place_labels": [],
+        "visibility_of_other_places": "unknown"
+      },
+      "research": [],
+      "limitations": [
+        "gauges are provisional engine states, not clinical measurements",
+        "map proximity does not prove visibility or current noise"
+      ]
+    },
+    "rubric": {
+      "actions": [
+        "continue",
+        "seek"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    }
+  },
+  {
+    "id": "D04",
+    "persona": {
+      "id": "person-fb7887b083",
+      "type": "dementia",
+      "name": "합성 평가",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "등록 장소 A",
+          "location": {
+            "lat": 37.6659428,
+            "lng": 126.7434215
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "등록 장소 B",
+          "location": {
+            "lat": 37.6634592,
+            "lng": 126.7528285
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "몸이 지쳐도 앉아서 쉬지 않고 계속 걷는다. 쉬자고 해도 걸음을 멈추지 않는 모습이 반복된다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "behavior",
+          "question": "평소 어떤 행동을 보이나요?",
+          "answer": "몸이 지쳐도 앉아서 쉬지 않고 계속 걷는다. 쉬자고 해도 걸음을 멈추지 않는 모습이 반복된다."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-28T13:05:20.936044",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "prior": {
+      "strategy_probs": {
+        "random_walk": 1.0
+      },
+      "attraction_weights": {
+        "등록 장소 A": 0.5,
+        "등록 장소 B": 0.5
+      },
+      "radius_lognormal": {
+        "mu": 0.0,
+        "sigma": 1.0
+      },
+      "reasoning": "",
+      "source": "exaone",
+      "fallback_reason": "",
+      "strategy_before_behavior": {},
+      "attraction_levels": {},
+      "initial_interpretation": {},
+      "persona_adjustments": {}
+    },
+    "context": {
+      "contract_version": "mind-context-v1",
+      "case_id": "D04",
+      "person_id": "person-fb7887b083",
+      "person_revision": "0296cbc13c8c795527f4de7c849502386f13024b4b6fc7298f723c6a08387501",
+      "person": {
+        "age": 78,
+        "type": "dementia",
+        "evidence_notes": [
+          {
+            "id": "N0",
+            "text": "질문: 평소 어떤 행동을 보이나요?\n답변: 몸이 지쳐도 앉아서 쉬지 않고 계속 걷는다. 쉬자고 해도 걸음을 멈추지 않는 모습이 반복된다.",
+            "source_kinds": [
+              "guardian_turn"
+            ],
+            "recorded_at": [],
+            "provenance": "guardian_original"
+          }
+        ],
+        "initial_interpretation": {},
+        "prepared_person_interpretation": {},
+        "compiled_environment_responses": [],
+        "interpretation_is_not_new_observation": true
+      },
+      "known_places": [
+        {
+          "label": "등록 장소 A",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        },
+        {
+          "label": "등록 장소 B",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        }
+      ],
+      "state": {
+        "elapsed_minutes": 60.0,
+        "distance_m": 500.0,
+        "fatigue": 0.9,
+        "confusion": 0.2,
+        "anxiety": null,
+        "interpreted_confusion": null,
+        "current_action": "seek",
+        "target_label": "등록 장소 A",
+        "target_reached": false,
+        "last_rest_end_minutes": null,
+        "recent_events": []
+      },
+      "clock_time": "2026-09-28T09:00:00",
+      "trigger": "state_review",
+      "environment": {
+        "map_proximity_m": {
+          "water": null,
+          "forest": null,
+          "market": 20,
+          "park": null
+        },
+        "observed_signals": {
+          "water": {
+            "noisy": null,
+            "crowded": null
+          },
+          "forest": {
+            "noisy": null,
+            "crowded": null
+          },
+          "market": {
+            "noisy": null,
+            "crowded": null
+          },
+          "park": {
+            "noisy": null,
+            "crowded": null
+          }
+        },
+        "observed_place_labels": [],
+        "visibility_of_other_places": "unknown"
+      },
+      "research": [],
+      "limitations": [
+        "gauges are provisional engine states, not clinical measurements",
+        "map proximity does not prove visibility or current noise"
+      ]
+    },
+    "rubric": {
+      "actions": [
+        "continue",
+        "seek",
+        "roam"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    }
+  },
+  {
+    "id": "D05",
+    "persona": {
+      "id": "person-85e7df66aa",
+      "type": "dementia",
+      "name": "합성 평가",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "등록 장소 A",
+          "location": {
+            "lat": 37.6659428,
+            "lng": 126.7434215
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "등록 장소 B",
+          "location": {
+            "lat": 37.6634592,
+            "lng": 126.7528285
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "길을 잃어 어디인지 모르겠으면 그 자리에 머물러 가족을 기다린다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "behavior",
+          "question": "평소 어떤 행동을 보이나요?",
+          "answer": "길을 잃어 어디인지 모르겠으면 그 자리에 머물러 가족을 기다린다."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-28T13:05:20.936314",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "prior": {
+      "strategy_probs": {
+        "random_walk": 1.0
+      },
+      "attraction_weights": {
+        "등록 장소 A": 0.5,
+        "등록 장소 B": 0.5
+      },
+      "radius_lognormal": {
+        "mu": 0.0,
+        "sigma": 1.0
+      },
+      "reasoning": "",
+      "source": "exaone",
+      "fallback_reason": "",
+      "strategy_before_behavior": {},
+      "attraction_levels": {},
+      "initial_interpretation": {},
+      "persona_adjustments": {}
+    },
+    "context": {
+      "contract_version": "mind-context-v1",
+      "case_id": "D05",
+      "person_id": "person-85e7df66aa",
+      "person_revision": "4d59b36fce01bfbbe7f46799655247f8e3ee01b70f3d819b46ccd99a1b42f5ac",
+      "person": {
+        "age": 78,
+        "type": "dementia",
+        "evidence_notes": [
+          {
+            "id": "N0",
+            "text": "질문: 평소 어떤 행동을 보이나요?\n답변: 길을 잃어 어디인지 모르겠으면 그 자리에 머물러 가족을 기다린다.",
+            "source_kinds": [
+              "guardian_turn"
+            ],
+            "recorded_at": [],
+            "provenance": "guardian_original"
+          }
+        ],
+        "initial_interpretation": {},
+        "prepared_person_interpretation": {},
+        "compiled_environment_responses": [],
+        "interpretation_is_not_new_observation": true
+      },
+      "known_places": [
+        {
+          "label": "등록 장소 A",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        },
+        {
+          "label": "등록 장소 B",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        }
+      ],
+      "state": {
+        "elapsed_minutes": 60.0,
+        "distance_m": 500.0,
+        "fatigue": 0.2,
+        "confusion": 0.9,
+        "anxiety": null,
+        "interpreted_confusion": null,
+        "current_action": "seek",
+        "target_label": "등록 장소 A",
+        "target_reached": false,
+        "last_rest_end_minutes": null,
+        "recent_events": [
+          {
+            "kind": "orientation_lost",
+            "elapsed_minutes": 59
+          }
+        ]
+      },
+      "clock_time": "2026-09-28T09:00:00",
+      "trigger": "state_review",
+      "environment": {
+        "map_proximity_m": {
+          "water": null,
+          "forest": null,
+          "market": 20,
+          "park": null
+        },
+        "observed_signals": {
+          "water": {
+            "noisy": null,
+            "crowded": null
+          },
+          "forest": {
+            "noisy": null,
+            "crowded": null
+          },
+          "market": {
+            "noisy": null,
+            "crowded": null
+          },
+          "park": {
+            "noisy": null,
+            "crowded": null
+          }
+        },
+        "observed_place_labels": [],
+        "visibility_of_other_places": "unknown"
+      },
+      "research": [],
+      "limitations": [
+        "gauges are provisional engine states, not clinical measurements",
+        "map proximity does not prove visibility or current noise"
+      ]
+    },
+    "rubric": {
+      "actions": [
+        "stay"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    }
+  },
+  {
+    "id": "D06",
+    "persona": {
+      "id": "person-a64a465ca4",
+      "type": "dementia",
+      "name": "합성 평가",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "등록 장소 A",
+          "location": {
+            "lat": 37.6659428,
+            "lng": 126.7434215
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "등록 장소 B",
+          "location": {
+            "lat": 37.6634592,
+            "lng": 126.7528285
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "길을 잃어도 한 곳에서 기다리지 않고 가족을 찾으려고 계속 걸어 다닌다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "behavior",
+          "question": "평소 어떤 행동을 보이나요?",
+          "answer": "길을 잃어도 한 곳에서 기다리지 않고 가족을 찾으려고 계속 걸어 다닌다."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-28T13:05:20.936556",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "prior": {
+      "strategy_probs": {
+        "random_walk": 1.0
+      },
+      "attraction_weights": {
+        "등록 장소 A": 0.5,
+        "등록 장소 B": 0.5
+      },
+      "radius_lognormal": {
+        "mu": 0.0,
+        "sigma": 1.0
+      },
+      "reasoning": "",
+      "source": "exaone",
+      "fallback_reason": "",
+      "strategy_before_behavior": {},
+      "attraction_levels": {},
+      "initial_interpretation": {},
+      "persona_adjustments": {}
+    },
+    "context": {
+      "contract_version": "mind-context-v1",
+      "case_id": "D06",
+      "person_id": "person-a64a465ca4",
+      "person_revision": "e3fe6c9edc2874c663e91a17ce78955cefeccd990b761d6c76575340a018d9ea",
+      "person": {
+        "age": 78,
+        "type": "dementia",
+        "evidence_notes": [
+          {
+            "id": "N0",
+            "text": "질문: 평소 어떤 행동을 보이나요?\n답변: 길을 잃어도 한 곳에서 기다리지 않고 가족을 찾으려고 계속 걸어 다닌다.",
+            "source_kinds": [
+              "guardian_turn"
+            ],
+            "recorded_at": [],
+            "provenance": "guardian_original"
+          }
+        ],
+        "initial_interpretation": {},
+        "prepared_person_interpretation": {},
+        "compiled_environment_responses": [],
+        "interpretation_is_not_new_observation": true
+      },
+      "known_places": [
+        {
+          "label": "등록 장소 A",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        },
+        {
+          "label": "등록 장소 B",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        }
+      ],
+      "state": {
+        "elapsed_minutes": 60.0,
+        "distance_m": 500.0,
+        "fatigue": 0.2,
+        "confusion": 0.9,
+        "anxiety": null,
+        "interpreted_confusion": null,
+        "current_action": "seek",
+        "target_label": "등록 장소 A",
+        "target_reached": false,
+        "last_rest_end_minutes": null,
+        "recent_events": [
+          {
+            "kind": "orientation_lost",
+            "elapsed_minutes": 59
+          }
+        ]
+      },
+      "clock_time": "2026-09-28T09:00:00",
+      "trigger": "state_review",
+      "environment": {
+        "map_proximity_m": {
+          "water": null,
+          "forest": null,
+          "market": 20,
+          "park": null
+        },
+        "observed_signals": {
+          "water": {
+            "noisy": null,
+            "crowded": null
+          },
+          "forest": {
+            "noisy": null,
+            "crowded": null
+          },
+          "market": {
+            "noisy": null,
+            "crowded": null
+          },
+          "park": {
+            "noisy": null,
+            "crowded": null
+          }
+        },
+        "observed_place_labels": [],
+        "visibility_of_other_places": "unknown"
+      },
+      "research": [],
+      "limitations": [
+        "gauges are provisional engine states, not clinical measurements",
+        "map proximity does not prove visibility or current noise"
+      ]
+    },
+    "rubric": {
+      "actions": [
+        "continue",
+        "seek",
+        "roam"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    }
+  },
+  {
+    "id": "D07",
+    "persona": {
+      "id": "person-7409866dc6",
+      "type": "dementia",
+      "name": "합성 평가",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "등록 장소 A",
+          "location": {
+            "lat": 37.6659428,
+            "lng": 126.7434215
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "등록 장소 B",
+          "location": {
+            "lat": 37.6634592,
+            "lng": 126.7528285
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "시장 주변이 조용하면 등록 장소 A로 계속 걷지만 시끄러우면 시장에서 멀어지는 길로 돌아간다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "behavior",
+          "question": "평소 어떤 행동을 보이나요?",
+          "answer": "시장 주변이 조용하면 등록 장소 A로 계속 걷지만 시끄러우면 시장에서 멀어지는 길로 돌아간다."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-28T13:05:20.936791",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "prior": {
+      "strategy_probs": {
+        "random_walk": 1.0
+      },
+      "attraction_weights": {
+        "등록 장소 A": 0.5,
+        "등록 장소 B": 0.5
+      },
+      "radius_lognormal": {
+        "mu": 0.0,
+        "sigma": 1.0
+      },
+      "reasoning": "",
+      "source": "exaone",
+      "fallback_reason": "",
+      "strategy_before_behavior": {},
+      "attraction_levels": {},
+      "initial_interpretation": {},
+      "persona_adjustments": {}
+    },
+    "context": {
+      "contract_version": "mind-context-v1",
+      "case_id": "D07",
+      "person_id": "person-7409866dc6",
+      "person_revision": "827aea8b3b4c3657962c245d827c0cbbc6d487eeb505ca59c0c955de7468527a",
+      "person": {
+        "age": 78,
+        "type": "dementia",
+        "evidence_notes": [
+          {
+            "id": "N0",
+            "text": "질문: 평소 어떤 행동을 보이나요?\n답변: 시장 주변이 조용하면 등록 장소 A로 계속 걷지만 시끄러우면 시장에서 멀어지는 길로 돌아간다.",
+            "source_kinds": [
+              "guardian_turn"
+            ],
+            "recorded_at": [],
+            "provenance": "guardian_original"
+          }
+        ],
+        "initial_interpretation": {},
+        "prepared_person_interpretation": {},
+        "compiled_environment_responses": [],
+        "interpretation_is_not_new_observation": true
+      },
+      "known_places": [
+        {
+          "label": "등록 장소 A",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        },
+        {
+          "label": "등록 장소 B",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        }
+      ],
+      "state": {
+        "elapsed_minutes": 60.0,
+        "distance_m": 500.0,
+        "fatigue": 0.2,
+        "confusion": 0.2,
+        "anxiety": null,
+        "interpreted_confusion": null,
+        "current_action": "seek",
+        "target_label": "등록 장소 A",
+        "target_reached": false,
+        "last_rest_end_minutes": null,
+        "recent_events": []
+      },
+      "clock_time": "2026-09-28T09:00:00",
+      "trigger": "state_review",
+      "environment": {
+        "map_proximity_m": {
+          "water": null,
+          "forest": null,
+          "market": 20,
+          "park": null
+        },
+        "observed_signals": {
+          "water": {
+            "noisy": null,
+            "crowded": null
+          },
+          "forest": {
+            "noisy": null,
+            "crowded": null
+          },
+          "market": {
+            "noisy": true,
+            "crowded": null
+          },
+          "park": {
+            "noisy": null,
+            "crowded": null
+          }
+        },
+        "observed_place_labels": [],
+        "visibility_of_other_places": "unknown"
+      },
+      "research": [],
+      "limitations": [
+        "gauges are provisional engine states, not clinical measurements",
+        "map proximity does not prove visibility or current noise"
+      ]
+    },
+    "rubric": {
+      "actions": [
+        "avoid"
+      ],
+      "goal": null,
+      "avoid_feature": "market",
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    }
+  },
+  {
+    "id": "D08",
+    "persona": {
+      "id": "person-7409866dc6",
+      "type": "dementia",
+      "name": "합성 평가",
+      "age": 78,
+      "home": {
+        "lat": 37.6652142,
+        "lng": 126.7483258
+      },
+      "attraction_points": [
+        {
+          "label": "등록 장소 A",
+          "location": {
+            "lat": 37.6659428,
+            "lng": 126.7434215
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        },
+        {
+          "label": "등록 장소 B",
+          "location": {
+            "lat": 37.6634592,
+            "lng": 126.7528285
+          },
+          "weight": 0.3,
+          "precision": "unknown",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "origin_slot": ""
+        }
+      ],
+      "behavior_notes": [
+        "시장 주변이 조용하면 등록 장소 A로 계속 걷지만 시끄러우면 시장에서 멀어지는 길로 돌아간다."
+      ],
+      "axis_evidence": {},
+      "axis_quotes": {},
+      "onboarding_quotes": {},
+      "onboarding_turns": [
+        {
+          "slot": "behavior",
+          "question": "평소 어떤 행동을 보이나요?",
+          "answer": "시장 주변이 조용하면 등록 장소 A로 계속 걷지만 시끄러우면 시장에서 멀어지는 길로 돌아간다."
+        }
+      ],
+      "guardian_edited_notes": null,
+      "guardian_note_revisions": [],
+      "prepared_initial": {},
+      "initial_preparation_status": {},
+      "axis_scores": {},
+      "axis_scoring_report": {},
+      "route_familiarity": [],
+      "env_responses": [],
+      "behavior_tendency": null,
+      "created_at": "2026-09-28T13:05:20.937028",
+      "guardian_id": "",
+      "version": 0,
+      "completed_tiers": []
+    },
+    "prior": {
+      "strategy_probs": {
+        "random_walk": 1.0
+      },
+      "attraction_weights": {
+        "등록 장소 A": 0.5,
+        "등록 장소 B": 0.5
+      },
+      "radius_lognormal": {
+        "mu": 0.0,
+        "sigma": 1.0
+      },
+      "reasoning": "",
+      "source": "exaone",
+      "fallback_reason": "",
+      "strategy_before_behavior": {},
+      "attraction_levels": {},
+      "initial_interpretation": {},
+      "persona_adjustments": {}
+    },
+    "context": {
+      "contract_version": "mind-context-v1",
+      "case_id": "D08",
+      "person_id": "person-7409866dc6",
+      "person_revision": "827aea8b3b4c3657962c245d827c0cbbc6d487eeb505ca59c0c955de7468527a",
+      "person": {
+        "age": 78,
+        "type": "dementia",
+        "evidence_notes": [
+          {
+            "id": "N0",
+            "text": "질문: 평소 어떤 행동을 보이나요?\n답변: 시장 주변이 조용하면 등록 장소 A로 계속 걷지만 시끄러우면 시장에서 멀어지는 길로 돌아간다.",
+            "source_kinds": [
+              "guardian_turn"
+            ],
+            "recorded_at": [],
+            "provenance": "guardian_original"
+          }
+        ],
+        "initial_interpretation": {},
+        "prepared_person_interpretation": {},
+        "compiled_environment_responses": [],
+        "interpretation_is_not_new_observation": true
+      },
+      "known_places": [
+        {
+          "label": "등록 장소 A",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        },
+        {
+          "label": "등록 장소 B",
+          "place_type": "registered_synthetic",
+          "evidence": "mention_only",
+          "attraction_weight": 0.5
+        }
+      ],
+      "state": {
+        "elapsed_minutes": 60.0,
+        "distance_m": 500.0,
+        "fatigue": 0.2,
+        "confusion": 0.2,
+        "anxiety": null,
+        "interpreted_confusion": null,
+        "current_action": "seek",
+        "target_label": "등록 장소 A",
+        "target_reached": false,
+        "last_rest_end_minutes": null,
+        "recent_events": []
+      },
+      "clock_time": "2026-09-28T09:00:00",
+      "trigger": "state_review",
+      "environment": {
+        "map_proximity_m": {
+          "water": null,
+          "forest": null,
+          "market": 20,
+          "park": null
+        },
+        "observed_signals": {
+          "water": {
+            "noisy": null,
+            "crowded": null
+          },
+          "forest": {
+            "noisy": null,
+            "crowded": null
+          },
+          "market": {
+            "noisy": false,
+            "crowded": null
+          },
+          "park": {
+            "noisy": null,
+            "crowded": null
+          }
+        },
+        "observed_place_labels": [],
+        "visibility_of_other_places": "unknown"
+      },
+      "research": [],
+      "limitations": [
+        "gauges are provisional engine states, not clinical measurements",
+        "map proximity does not prove visibility or current noise"
+      ]
+    },
+    "rubric": {
+      "actions": [
+        "continue",
+        "seek"
+      ],
+      "goal": null,
+      "avoid_feature": null,
+      "basis": "prewritten synthetic guardian condition; not clinical ground truth"
+    }
+  }
+]

@@ -1,0 +1,258 @@
+{
+  "experiment_id": "SAR_RESERVED_NOVELTY_AREA10_20261012",
+  "status": "one_fixed_candidate_seen31_exploratory",
+  "policy": {
+    "recorded_at": "2026-10-11T15:28:44.177898+00:00",
+    "user_instruction": "개인화대로 안 움직이는 경우도 포함할 조금의 가능성",
+    "candidate_count": 1,
+    "policy": "reserve_novelty_area10_v1",
+    "area_budget": "per-person/seed/hour current alert area, whole res9 cells, never exceed",
+    "personal_quota": 0.9,
+    "statistical_quota": 0.1,
+    "personal_ranking": "personal probability / WGS84 cell area",
+    "novelty_mask": "exclude personal-only cells selected within full current area budget; do not spend the safety quota on cells already in that personal cover",
+    "statistical_ranking": "distance-only probability / WGS84 cell area outside novelty mask",
+    "unused_quota": "leave unused, no reallocation or overspending",
+    "max_cells": 500,
+    "model_mixture": "unchanged personal90/statistical10; target-selection policy is a separate trial",
+    "people": 31,
+    "checks": 744,
+    "promotion_gates": [
+      "contradictory inclusion improvement CI>0",
+      "overall inclusion noninferior CI>=0",
+      "area-efficiency noninferior CI>=0",
+      "actual area never exceeds matched budget"
+    ],
+    "new_model_calls": 0,
+    "map_requests": 0,
+    "remote_runs": 0,
+    "actual_push": 0,
+    "cost_amount": null,
+    "fresh_holdout": false,
+    "product_default_changed": false
+  },
+  "comparison": {
+    "current": {
+      "people": 31,
+      "checks": 744,
+      "hits": 362,
+      "hit_pct": 48.655913978494624,
+      "mean_area_km2": 5.741552068596368,
+      "efficiency_pp_per_km2": 8.474348642524719
+    },
+    "distance_only": {
+      "people": 31,
+      "checks": 744,
+      "hits": 360,
+      "hit_pct": 48.38709677419355,
+      "mean_area_km2": 5.674422311625214,
+      "efficiency_pp_per_km2": 8.527228696930557
+    },
+    "candidate_minus_current": {
+      "efficiency_pp_per_km2": {
+        "point": 0.052880054405838095,
+        "ci95": [
+          -0.13505581167799613,
+          0.26496375851873316
+        ],
+        "undefined_bootstrap_draws": 0
+      },
+      "hit_pp": {
+        "point": -0.26881720430107525,
+        "ci95": [
+          -1.3440860215053763,
+          0.9408602150537635
+        ],
+        "undefined_bootstrap_draws": 0
+      },
+      "mean_area_km2": {
+        "point": -0.0671297569711537,
+        "ci95": [
+          -0.06917904456017046,
+          -0.06502767321494722
+        ],
+        "undefined_bootstrap_draws": 0
+      },
+      "relative_efficiency_gain_pct": {
+        "point": 0.624001402780161,
+        "ci95": [
+          -1.5651435965730818,
+          3.182118635392571
+        ],
+        "undefined_bootstrap_draws": 0
+      }
+    }
+  },
+  "future_slices": {
+    "habitual": {
+      "current": {
+        "people": 31,
+        "checks": 248,
+        "hits": 234,
+        "hit_pct": 94.35483870967742,
+        "mean_area_km2": 5.741552068596368,
+        "efficiency_pp_per_km2": 16.433681621691584
+      },
+      "distance_only": {
+        "people": 31,
+        "checks": 248,
+        "hits": 238,
+        "hit_pct": 95.96774193548387,
+        "mean_area_km2": 5.674422311625214,
+        "efficiency_pp_per_km2": 16.912336915578937
+      },
+      "candidate_minus_current": {
+        "efficiency_pp_per_km2": {
+          "point": 0.4786552938873534,
+          "ci95": [
+            0.12870807078578483,
+            0.8919510503209227
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "hit_pp": {
+          "point": 1.6129032258064515,
+          "ci95": [
+            -0.4032258064516129,
+            4.032258064516129
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "mean_area_km2": {
+          "point": -0.0671297569711537,
+          "ci95": [
+            -0.06917904456017292,
+            -0.06502767321495087
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "relative_efficiency_gain_pct": {
+          "point": 2.9126479683989626,
+          "ci95": [
+            0.7621545642600613,
+            5.588580267661239
+          ],
+          "undefined_bootstrap_draws": 0
+        }
+      }
+    },
+    "departure": {
+      "current": {
+        "people": 31,
+        "checks": 248,
+        "hits": 126,
+        "hit_pct": 50.806451612903224,
+        "mean_area_km2": 5.741552068596368,
+        "efficiency_pp_per_km2": 8.84890548860316
+      },
+      "distance_only": {
+        "people": 31,
+        "checks": 248,
+        "hits": 122,
+        "hit_pct": 49.193548387096776,
+        "mean_area_km2": 5.674422311625214,
+        "efficiency_pp_per_km2": 8.669349175212732
+      },
+      "candidate_minus_current": {
+        "efficiency_pp_per_km2": {
+          "point": -0.1795563133904281,
+          "ci95": [
+            -0.5681604550104532,
+            0.18947632722223187
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "hit_pp": {
+          "point": -1.6129032258064515,
+          "ci95": [
+            -3.629032258064516,
+            0.4032258064516129
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "mean_area_km2": {
+          "point": -0.0671297569711537,
+          "ci95": [
+            -0.06917904456017292,
+            -0.06502767321495087
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "relative_efficiency_gain_pct": {
+          "point": -2.029135847610586,
+          "ci95": [
+            -6.164123919480468,
+            2.1311046944181675
+          ],
+          "undefined_bootstrap_draws": 0
+        }
+      }
+    },
+    "contradictory": {
+      "current": {
+        "people": 31,
+        "checks": 248,
+        "hits": 2,
+        "hit_pct": 0.8064516129032258,
+        "mean_area_km2": 5.741552068596368,
+        "efficiency_pp_per_km2": 0.14045881727941523
+      },
+      "distance_only": {
+        "people": 31,
+        "checks": 248,
+        "hits": 0,
+        "hit_pct": 0.0,
+        "mean_area_km2": 5.674422311625214,
+        "efficiency_pp_per_km2": 0.0
+      },
+      "candidate_minus_current": {
+        "efficiency_pp_per_km2": {
+          "point": -0.14045881727941523,
+          "ci95": [
+            -0.34955261026186835,
+            0.0
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "hit_pp": {
+          "point": -0.8064516129032258,
+          "ci95": [
+            -2.0161290322580645,
+            0.0
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "mean_area_km2": {
+          "point": -0.0671297569711537,
+          "ci95": [
+            -0.06917904456017292,
+            -0.06502767321495087
+          ],
+          "undefined_bootstrap_draws": 0
+        },
+        "relative_efficiency_gain_pct": {
+          "point": -100.0,
+          "ci95": null,
+          "undefined_bootstrap_draws": 1296,
+          "ci95_status": "undefined: resampled baseline has zero hits; draws not silently discarded"
+        }
+      }
+    }
+  },
+  "max_budget_overspend_km2": -1.0134883284385054e-05,
+  "maps": 248,
+  "mean_safety_area_km2": 0.5425871903483341,
+  "min_safety_cells": 0,
+  "max_safety_cells": 21,
+  "source_sha256": "7fcd982e462d967d6072b845c8e143f6951c121ba1e4a9f0de1148607c9e4ab4",
+  "protocol_sha256": "8f41c6db758e48ca6a2875da3a2bf828b680594b8c1574eb3dc8d4dc88b6a0ba",
+  "selection_labels": "distance_only is reserved-safety arm here; auc10 is deliberately uncomputed for a quota policy and omitted below",
+  "gates": {
+    "contradictory_inclusion_positive_ci": false,
+    "overall_inclusion_noninferior_ci": false,
+    "area_efficiency_noninferior_ci": false,
+    "no_budget_overspend": true,
+    "fresh_holdout": false,
+    "product_default_changed": false
+  }
+}

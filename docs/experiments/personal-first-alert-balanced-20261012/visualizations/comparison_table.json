@@ -1,0 +1,198 @@
+{
+  "overall": {
+    "preliminary": {
+      "checks": 2808,
+      "hits": 1484,
+      "hit_pct": 52.849002849002844,
+      "mean_area_km2": 6.19451848095876,
+      "efficiency_pp_per_km2": 8.531575619873381
+    },
+    "current": {
+      "checks": 2808,
+      "hits": 1493,
+      "hit_pct": 53.16951566951567,
+      "mean_area_km2": 5.647124163792429,
+      "efficiency_pp_per_km2": 9.415326124830361
+    },
+    "candidate": {
+      "checks": 2808,
+      "hits": 1789,
+      "hit_pct": 63.71082621082621,
+      "mean_area_km2": 5.7687512678655235,
+      "efficiency_pp_per_km2": 11.044127793431391
+    },
+    "vs_preliminary": {
+      "hit_delta_pp": 10.861823361823369,
+      "efficiency_relative_pct": 29.4500369627539,
+      "efficiency_delta": 2.51255217355801,
+      "hit_delta_ci95": [
+        4.736467236467236,
+        17.307692307692307
+      ],
+      "efficiency_delta_ci95": [
+        1.4615003385162306,
+        3.5072266822882066
+      ]
+    },
+    "vs_current": {
+      "hit_delta_pp": 10.541310541310544,
+      "efficiency_relative_pct": 17.299471595630745,
+      "efficiency_delta": 1.6288016686010298,
+      "hit_delta_ci95": [
+        7.905982905982906,
+        13.284366096866083
+      ],
+      "efficiency_delta_ci95": [
+        0.954450219729527,
+        2.166977258849959
+      ]
+    }
+  },
+  "habitual": {
+    "preliminary": {
+      "checks": 936,
+      "hits": 709,
+      "hit_pct": 75.74786324786325,
+      "mean_area_km2": 6.1945184809587595,
+      "efficiency_pp_per_km2": 12.228208452473506
+    },
+    "current": {
+      "checks": 936,
+      "hits": 849,
+      "hit_pct": 90.7051282051282,
+      "mean_area_km2": 5.647124163792428,
+      "efficiency_pp_per_km2": 16.062180602774905
+    },
+    "candidate": {
+      "checks": 936,
+      "hits": 899,
+      "hit_pct": 96.04700854700855,
+      "mean_area_km2": 5.7687512678655235,
+      "efficiency_pp_per_km2": 16.649531950186955
+    },
+    "vs_preliminary": {
+      "hit_delta_pp": 20.299145299145295,
+      "efficiency_relative_pct": 36.15675603582886,
+      "efficiency_delta": 4.421323497713448,
+      "hit_delta_ci95": [
+        11.965811965811966,
+        29.05982905982906
+      ],
+      "efficiency_delta_ci95": [
+        2.7078090747376633,
+        5.966389853401635
+      ]
+    },
+    "vs_current": {
+      "hit_delta_pp": 5.341880341880341,
+      "efficiency_relative_pct": 3.656734797955008,
+      "efficiency_delta": 0.5873513474120493,
+      "hit_delta_ci95": [
+        2.6709401709401708,
+        8.226495726495726
+      ],
+      "efficiency_delta_ci95": [
+        -0.9873376592849056,
+        1.8606981834765548
+      ]
+    }
+  },
+  "departure": {
+    "preliminary": {
+      "checks": 936,
+      "hits": 502,
+      "hit_pct": 53.63247863247863,
+      "mean_area_km2": 6.1945184809587595,
+      "efficiency_pp_per_km2": 8.658054503725952
+    },
+    "current": {
+      "checks": 936,
+      "hits": 541,
+      "hit_pct": 57.799145299145295,
+      "mean_area_km2": 5.647124163792428,
+      "efficiency_pp_per_km2": 10.235146885867167
+    },
+    "candidate": {
+      "checks": 936,
+      "hits": 607,
+      "hit_pct": 64.85042735042735,
+      "mean_area_km2": 5.7687512678655235,
+      "efficiency_pp_per_km2": 11.241675076488857
+    },
+    "vs_preliminary": {
+      "hit_delta_pp": 11.217948717948723,
+      "efficiency_relative_pct": 29.840659603737272,
+      "efficiency_delta": 2.5836205727629054,
+      "hit_delta_ci95": [
+        4.380341880341881,
+        18.26923076923077
+      ],
+      "efficiency_delta_ci95": [
+        1.319094600854885,
+        3.77265112965717
+      ]
+    },
+    "vs_current": {
+      "hit_delta_pp": 7.051282051282058,
+      "efficiency_relative_pct": 9.834037575088628,
+      "efficiency_delta": 1.0065281906216903,
+      "hit_delta_ci95": [
+        3.6324786324786325,
+        10.683760683760683
+      ],
+      "efficiency_delta_ci95": [
+        0.27911614921681877,
+        1.6251179848324184
+      ]
+    }
+  },
+  "contradictory": {
+    "preliminary": {
+      "checks": 936,
+      "hits": 273,
+      "hit_pct": 29.166666666666668,
+      "mean_area_km2": 6.1945184809587595,
+      "efficiency_pp_per_km2": 4.708463903420687
+    },
+    "current": {
+      "checks": 936,
+      "hits": 103,
+      "hit_pct": 11.004273504273504,
+      "mean_area_km2": 5.647124163792428,
+      "efficiency_pp_per_km2": 1.9486508858490168
+    },
+    "candidate": {
+      "checks": 936,
+      "hits": 283,
+      "hit_pct": 30.235042735042732,
+      "mean_area_km2": 5.7687512678655235,
+      "efficiency_pp_per_km2": 5.241176353618363
+    },
+    "vs_preliminary": {
+      "hit_delta_pp": 1.0683760683760646,
+      "efficiency_relative_pct": 11.313932975267416,
+      "efficiency_delta": 0.5327124501976765,
+      "hit_delta_ci95": [
+        -5.769230769230769,
+        7.905982905982906
+      ],
+      "efficiency_delta_ci95": [
+        -0.4233502102458379,
+        1.4717348938897066
+      ]
+    },
+    "vs_current": {
+      "hit_delta_pp": 19.230769230769226,
+      "efficiency_relative_pct": 168.9643584533004,
+      "efficiency_delta": 3.2925254677693463,
+      "hit_delta_ci95": [
+        15.384615384615385,
+        22.97008547008547
+      ],
+      "efficiency_delta_ci95": [
+        2.7296967056913934,
+        3.8480870304247166
+      ]
+    }
+  }
+}

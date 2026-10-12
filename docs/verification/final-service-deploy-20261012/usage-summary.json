@@ -1,0 +1,12 @@
+{
+  "run_id": "SERVICE_final_deploy_20261012",
+  "synced_events": 86,
+  "transport_attempts_started": 43,
+  "transport_attempts_finished": 43,
+  "failed_transport_attempts": 1,
+  "model_attempts_after_deployment": 0,
+  "real_notifications": 0,
+  "actual_cost": null,
+  "gpu_time_seconds": null,
+  "scope": "stored synthetic SAR/K replay, no fresh model requests; runtime worker polling kept in remote persistent ledger"
+}

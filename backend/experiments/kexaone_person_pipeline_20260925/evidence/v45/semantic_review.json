@@ -1,0 +1,10 @@
+{
+  "preregistered_all_pass": false,
+  "regression_core_direction": "same_heading; expected unknown before incident",
+  "new_case_core_persistence": "conflict; different time periods were conflated",
+  "new_case_day_injection": "keep_moving/retrace: pass",
+  "new_case_night_injection": "wait_for_help/retrace: fail; direction should remain unknown",
+  "cause": "context omitted conditional direction, unconditional core interpretation propagated to night",
+  "next_candidate": "separate behavior ownership; no direction/persistence in preparation core request; context owns baseline_direction and behavior_rules",
+  "clinical_accuracy": null
+}

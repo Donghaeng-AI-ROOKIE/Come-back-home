@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "rows": 2160,
+  "added_rows": 0,
+  "unchanged_originals_and_labels": true,
+  "development_unchanged": true,
+  "evaluation_unchanged": true,
+  "base_rows_tiredness_report_by_proxy": {
+    "False": {
+      "0.9": 12,
+      "0.1": 10,
+      "0.5": 2
+    },
+    "True": {
+      "0.5": 8,
+      "0.9": 4,
+      "0.1": 12
+    },
+    "None": {
+      "0.9": 4,
+      "0.1": 10,
+      "0.5": 10
+    }
+  },
+  "not_clinical_calibration": true,
+  "remaining_gaps": [
+    "all current actions are seek",
+    "all elapsed_minutes are 60",
+    "no saved K preparation",
+    "no clinical review"
+  ]
+}

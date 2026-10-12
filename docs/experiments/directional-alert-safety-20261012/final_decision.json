@@ -1,0 +1,52 @@
+{
+  "status": "not_adopted",
+  "retained_default": {
+    "personal_weight": 0.3,
+    "literature_weight": 0.7,
+    "target_res": 9,
+    "area_cap_km2": 5.8
+  },
+  "requested_minimum50_res8": "experimented; not made default because following preservation failed",
+  "directional_candidate": {
+    "candidate": "keep30_r9_f0.05_p0.35_g0.5",
+    "gates": {
+      "current_targets_preserved100pct": true,
+      "current_hit_losses_zero": true,
+      "efficiency_positive_ci_vs_current": false,
+      "efficiency_positive_ci_vs_preliminary": true,
+      "contrary_positive_ci_vs_current": true,
+      "contrary_positive_ci_vs_preliminary": false,
+      "personal_habitual_effect_vs_stat_only_ci": true
+    },
+    "confirm": false,
+    "production_deployed": false,
+    "fresh_truth_seeds": [
+      2026101251,
+      2026101252,
+      2026101253
+    ]
+  },
+  "live_directional_selector_enabled": false,
+  "limits": [
+    "same synthetic people with fresh random road paths; no clinical truth",
+    "directional score is uncalibrated",
+    "generic stub fanout only; app/web integration unperformed",
+    "administrative alert comparison is a proxy, no actual dispatch logs"
+  ],
+  "user_final_selection": {
+    "date": "2026-10-12",
+    "instruction": "그러면 그냥 지금까지 중에서 제일 좋은걸로 픽스하자",
+    "status": "fixed_existing_policy",
+    "selected_profile": "current",
+    "personal_weight": 0.3,
+    "literature_weight": 0.7,
+    "target_res": 9,
+    "area_cap_km2": 5.8,
+    "selection_policy": "area_budget",
+    "directional_safety_enabled": false,
+    "further_candidate_experiments": false,
+    "all_behavior_superiority_claimed": false,
+    "production_deployed": false,
+    "decision_document": "../final-alert-policy-20261012.md"
+  }
+}

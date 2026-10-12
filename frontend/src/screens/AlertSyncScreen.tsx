@@ -24,13 +24,18 @@ export default function AlertSyncScreen() {
   const route = useRoute<RouteProp<RootStackParamList, 'AlertSync'>>();
   const caseId = route.params.caseId;
   const enterSearch = useAppModeStore((s) => s.enterSearch);
+  const closeCase = useAppModeStore((s) => s.closeCase);
   const { data: alerts } = useActiveAlerts();
   const alert = alerts?.find((item) => item.caseId === caseId);
   const view = alertToView(alert ?? {});
   const appearance = view.appearance.slice(0, 3);
-  const watching = usePresenceCount(caseId);
-  const guidance = useGuidance(caseId).data?.text;
+  // 사건이 삭제·종결되면 지도 조회가 그 사실을 알려 준다. 이 화면은 스택 아래에
+  // 남은 채로도 마운트돼 있으므로, 알아챈 뒤에는 하트비트·안내 조회까지 끊어야
+  // 끝난 사건에 요청이 계속 쌓이지 않는다(2026-10-12 운영 실측).
   const poa = usePoaPrediction(caseId, 0);
+  const ended = poa.ended;
+  const watching = usePresenceCount(caseId, !ended);
+  const guidance = useGuidance(caseId, !ended).data?.text;
   const lkp = alert?.lkp;
   const region = lkp ? {
     latitude: lkp.lat,
@@ -39,7 +44,19 @@ export default function AlertSyncScreen() {
     longitudeDelta: 0.012,
   } : undefined;
 
-  useEffect(() => { enterSearch(caseId, 'critical'); }, [caseId, enterSearch]);
+  useEffect(() => {
+    if (ended) {
+      // 다른 사건으로 이미 넘어갔다면 그 수색 모드는 건드리지 않는다.
+      if (useAppModeStore.getState().activeCaseId === caseId) closeCase();
+      return;
+    }
+    enterSearch(caseId, 'critical');
+  }, [caseId, ended, enterSearch, closeCase]);
+
+  const leave = () => {
+    if (navigation.canGoBack()) navigation.popToTop();
+    else navigation.reset({ index: 0, routes: [{ name: 'CitizenTabs' }] });
+  };
 
   /**
    * 손잡이를 끌어 시트를 키우고 줄인다.
@@ -124,6 +141,15 @@ export default function AlertSyncScreen() {
           <View style={styles.handle} />
         </View>
         <ScrollView contentContainerStyle={styles.sheetBody} showsVerticalScrollIndicator={false}>
+          {ended ? (
+            <View style={styles.endedBox} accessibilityRole="alert">
+              <Text style={styles.name}>종료된 사건이에요</Text>
+              <Text style={styles.endedText}>수색이 끝났거나 신고가 정리되어 지도와 알림 제공이 중단되었어요. 함께 찾아 주셔서 감사합니다.</Text>
+              <Pressable style={styles.reportButton} onPress={leave} accessibilityLabel="홈으로 돌아가기">
+                <Text style={styles.reportText}>홈으로</Text>
+              </Pressable>
+            </View>
+          ) : (<>
           <View style={styles.kickerRow}>
             <Text style={styles.kicker}>지금 함께 찾고 있어요</Text>
             {watching != null ? <View style={styles.count}><Text style={styles.countText}>•{watching}명</Text></View> : null}
@@ -153,6 +179,7 @@ export default function AlertSyncScreen() {
           <Pressable style={styles.reportButton} onPress={() => navigation.navigate('ReportChat', { caseId })}>
             <Text style={styles.reportText}>목격 내용 제보하기</Text>
           </Pressable>
+          </>)}
         </ScrollView>
       </Animated.View>
       <View style={[styles.tabs, { height: tabBar.height }]}><FigmaFlowTabBar mode="citizen" active="alert" /></View>
@@ -207,4 +234,6 @@ const styles = StyleSheet.create({
   reportButton: { marginHorizontal: 10, marginTop: 19, height: 57, borderRadius: 26, backgroundColor: red, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   reportText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   tabs: { position: 'absolute', left: 0, right: 0, bottom: 0 },
+  endedBox: { paddingTop: 12, paddingHorizontal: 17 },
+  endedText: { marginTop: 9, fontFamily: type.family, fontSize: 13, lineHeight: 18, color: ink },
 });
