@@ -1,0 +1,37 @@
+{
+  "code_basis": "develop 3f330f7d4a816d01730bc7cb60552aa0719b42dc",
+  "source_sha256": {
+    "backend/app/config.py": "5b1f5957fc72b011e6e450fa4958a97872b9b11ffbe74e8db2c64e50bff713a8",
+    "backend/app/phase2/pipeline.py": "67a73c94b9b55e361cd708849de9fd68ad524a787e088e1f68b4ca51634b0fc4",
+    "backend/app/llm/exaone.py": "e913220d4fe9494586aaedea7fe315328467d54da14fa52e63f8b9f23a35a3d0",
+    "backend/app/phase2/person_projection.py": "7d1233f21b2c6b725f1b302f8d0b457484689bf57622fc6a3002299a42f0b4b2",
+    "backend/app/phase0/person_preparation.py": "f6ff3ab655acaceccc09a95c68229e8505570f87cf4ac94b0556ec313b3a3c03",
+    "backend/app/llm/initial_behavior.py": "cca68aa53fa0ae890b701384f7151660f74f036f9316de87aebbb915c1c1af7c",
+    "backend/app/phase0/mind_preparation.py": "ffb9ee046661889f9f8726b000a77af1565358b8f48fbda3746cf579496cfede",
+    "backend/app/phase2/continuous_prediction.py": "9c8f0e072bb8c61691101773b3f62fc03f74810862b3821cbe4a6f61d2663f89",
+    "backend/app/phase2/person_walk.py": "c6217d4abda4ff43f36bd097ca1660533e59c078243c010798049a32740076e8",
+    "backend/app/phase2/persistent_context_walk.py": "78533f58be4697ba2a02fde6258a8cefde1019ca9b6cb6b39a5d20230c1e300e",
+    "backend/app/llm/tip_llm.py": "48d22c43fff1b11f7caf6a45f18bb8b8889dd2ddc5526d0b4dce9d996bc0a4f5",
+    "backend/app/llm/copy_llm.py": "017abd5d100c34c228b865b47e8c57e06426cd60006e2c40972d438cb777cabf",
+    "backend/app/phase3/tip_flow.py": "6ed5755e11037f96aeb2df2fafe793c0a7bb9ff02e81c63884b86fff1f6e2c18"
+  },
+  "code_defaults": {
+    "axis_scoring_enabled": false,
+    "personal_channel_weight": 0.3,
+    "statistical_channel_definition": "literature_distance_prior",
+    "alert_selection_policy": "area_budget",
+    "max_alert_area_km2": 5.8,
+    "push_target_res": 9,
+    "mind_model": "exaone-mind-dem5"
+  },
+  "new_doc_relative_links_checked": 7,
+  "env_example_keys_checked": 24,
+  "env_example_no_enabled_axis_override": true,
+  "new_models_called": 0,
+  "new_e2e_run": false,
+  "deployment_changes": 0,
+  "pr288_verified_images": 6,
+  "pr286_verified_images": 5,
+  "signed_private_image_urls_persisted": false,
+  "app_code_changed": false
+}

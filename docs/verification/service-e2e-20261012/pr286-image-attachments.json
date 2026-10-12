@@ -1,0 +1,18 @@
+{
+  "repository_visibility": "PRIVATE",
+  "signed_private_image_urls_persisted": false,
+  "attachments": {
+    "final_comparison.png": "https://github.com/user-attachments/assets/af234cae-06aa-4e62-a522-e67c51d45828",
+    "all_39_people.png": "https://github.com/user-attachments/assets/0cfc8395-d7dd-4766-96f8-a4ee0a6f3bdb",
+    "final_time_maps.png": "https://github.com/user-attachments/assets/b5d041f1-b2b3-4e19-b077-b8caa5db7191",
+    "balanced_comparison.png": "https://github.com/user-attachments/assets/24479c28-7b1f-485b-bdb2-93ec45b55ceb",
+    "following_and_departing.png": "https://github.com/user-attachments/assets/9f6494a1-dfbf-455b-a77c-f98f64e26c2f"
+  },
+  "original_sha256": {
+    "final_comparison.png": "c484abfaccc8e39556193961a4ebd9aae9d8e2e0efca25234c19cc7ee68e9c63",
+    "all_39_people.png": "70505b28da5a551e464c427cf5d5930e3c78b13569871c0769f077c5e6f0081d",
+    "final_time_maps.png": "2b00df1d6e6e073673d9ed4fcc72715701cf7dd3b20521290249947d3afc7a52",
+    "balanced_comparison.png": "8ea2ee15de5c16cdd653a3f1e457b9e2afc03b21ee2f2cf480e3c9a4bd0eace9",
+    "following_and_departing.png": "e7efa58a069182d525afb15d4c555608a8c2f0b6dfcbbab979719d9361bae26c"
+  }
+}
