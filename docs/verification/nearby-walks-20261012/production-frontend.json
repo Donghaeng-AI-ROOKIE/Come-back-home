@@ -6,5 +6,9 @@
   "built_at": "2026-10-12T10:29:56.093Z",
   "source_commit": "45b6086ec6833f6b36cf9680e80fe6a48aa0d12d",
   "entry_bundle": "/_expo/static/js/web/index-86526c66d8ed7f9865a10663bfe90bcb.js",
-  "entry_sha256": "c2aff0004421231ecc3a744c2178238f83be9afb3049b08406aa2cfb0c5be24a"
+  "entry_sha256": "c2aff0004421231ecc3a744c2178238f83be9afb3049b08406aa2cfb0c5be24a",
+  "production_deployment": "315d7811-d59e-4b10-baa1-9f914a2db3c8",
+  "checked_at": "2026-10-12T10:44:35.236973+00:00",
+  "public_js_hash_matches": true,
+  "compiled_supabase_contract_verified": true
 }

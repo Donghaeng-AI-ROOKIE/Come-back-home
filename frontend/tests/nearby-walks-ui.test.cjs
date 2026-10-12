@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');const vm=require('node:vm');const ts=require('typescript');
 const React=require('react');const {renderToStaticMarkup}=require('react-dom/server');
 const source=ts.transpileModule(fs.readFileSync('src/screens/CitizenHomeScreen.tsx','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.React}}).outputText;
-function screen(query){
+function screen(query,status='granted'){
   const buttons=[];let statsRefresh=0,walkRefresh=0;let refreshHome;
   const Box=({children})=>React.createElement('div',null,children);
   const Text=({children})=>React.createElement('span',null,children);
@@ -18,7 +18,7 @@ function screen(query){
     '../theme/tokens':{color:{brand:'green'},type:{}},
     '../hooks/queries':{useActiveWalk:()=>({}),useWalkStats:()=>({data:{},refetch(){statsRefresh++}}),
       useNearbyWalks:()=>({...query,refetch(){walkRefresh++}}),useStartWalk:()=>({mutate(){throw Error('unwanted walk start')}})},
-    '../hooks/useMyLocation':{useMyLocation:()=>({status:'granted'}),isLocationSettled:()=>true,retryLocation(){}},
+    '../hooks/useMyLocation':{useMyLocation:()=>({status}),isLocationSettled:()=>true,retryLocation(){}},
     'react-native-maps':{Polyline:()=>null},'../utils/walkFormat':{formatKm:()=> '0.00'}};
   const out={exports:{}};vm.runInNewContext(source,{exports:out.exports,require:name=>modules[name]??{__esModule:true,default:Box},module:out});
   const html=renderToStaticMarkup(React.createElement(out.exports.default));
@@ -38,4 +38,10 @@ test('empty result offers a new search and pull refresh retries the places query
 test('available real routes still render their name and measured length',()=>{
   const s=screen({data:[{name:'실제 OSM 공원',lat:37.5,lng:126.9,path:[],kind:'park',route_km:1.2,distance_km:.3}]});
   assert.match(s.html,/실제 OSM 공원/);assert.match(s.html,/1.2/);assert.doesNotMatch(s.html,/다시 불러오기/);
+});
+
+test('refresh while location is unavailable does not send a query with null coordinates',()=>{
+  const s=screen({data:undefined},'unavailable');s.refresh();
+  assert.deepEqual(s.counts(),{statsRefresh:1,walkRefresh:0});
+  assert.match(s.html,/위치를 알 수 없어/);
 });
