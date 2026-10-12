@@ -1,0 +1,196 @@
+{
+  "checked_at": "2026-10-12T05:31:20.160093+00:00",
+  "verification": {
+    "policy": {
+      "enabled": true,
+      "coverage": null,
+      "target_res": 9,
+      "max_area_km2": 5.8,
+      "selection_scope": "poa_and_new_region",
+      "selection_policy": "area_budget",
+      "targeting_policy": "selected_area_budget_geographic_cover_v1",
+      "location_ttl_seconds": 300,
+      "supported_location_resolutions": [
+        7,
+        8,
+        9
+      ]
+    },
+    "checks": {
+      "authenticated_read_lane_policy": true,
+      "actual_worker_prediction": true,
+      "prepared_person_map_query": true,
+      "checkpoint_reused": true,
+      "independent_channels": true,
+      "linear_30_70_exact": true,
+      "area_cap_and_res9": true,
+      "synthetic_excluded_from_citizen_list": true,
+      "synthetic_actual_delivery_blocked": true
+    },
+    "model_calls": 0,
+    "cached_synthetic_SAR_K_replay": true,
+    "real_notifications": 0,
+    "engine": "continuous-person-v8-open-case-family-absent",
+    "quality": {
+      "channels_identical": false,
+      "channel_total_variation": 0.9261742735441444,
+      "personal_channel_weight": 0.3,
+      "statistical_definition": "literature_distance_prior",
+      "statistical_uses_onboarding_prior": false,
+      "statistical_uses_conditional_mind_program": false,
+      "checkpoint_committed": true
+    },
+    "target_cells": 80,
+    "area_km2": 5.769566766785264,
+    "mixture_max_delta": 1.3877787807814457e-17,
+    "requests": 33,
+    "passed": true
+  },
+  "runtime": {
+    "axis_scoring_enabled": false,
+    "axis_scoring_model": "exaone-base",
+    "exaone_model": "exaone-sar",
+    "midm_model": "midm-pro-fp8-kaic",
+    "tip_llm_model": "midm-2.0-mini",
+    "copy_llm_model": "",
+    "mind_model": "exaone-mind-dem5",
+    "mind_policy_contract": "guarded_core",
+    "mind_policy_deployment": "staging",
+    "statistical_channel_definition": "literature_distance_prior",
+    "personal_channel_weight": 0.3,
+    "alert_selection_policy": "area_budget",
+    "max_alert_area_km2": 5.8,
+    "push_target_res": 9
+  },
+  "source_hashes": {
+    "config.py": "5b1f5957fc72b011e6e450fa4958a97872b9b11ffbe74e8db2c64e50bff713a8",
+    "phase2/pipeline.py": "67a73c94b9b55e361cd708849de9fd68ad524a787e088e1f68b4ca51634b0fc4",
+    "phase2/continuous_prediction.py": "9c8f0e072bb8c61691101773b3f62fc03f74810862b3821cbe4a6f61d2663f89",
+    "phase2/literature_distance.py": "433975753a4388f7f99b4c14de7d5d1acaed572d187b276058d0a78536d4e76e",
+    "phase3/area_budget.py": "e238da1524b80f20ff0c51f21a002d03bbb73c18a5f1ceb89fa312bc09dc70b3",
+    "phase3/alerts.py": "162666b18a42b75a6bd43dd6ab1157487af916d392c6f700a503f8f9af9dd5c8",
+    "api/phase3.py": "e90efa4d42eab2dbce1108479f37591f127a93d8e10c0ae719bd6cc87c3caa21"
+  },
+  "cleanup": {
+    "cases": 0,
+    "personas": 0,
+    "synthetic_auth_file_removed": true
+  },
+  "total_test_http_requests": 43,
+  "model_attempts_after_deploy": 0,
+  "actual_cost": null,
+  "deployment": {
+    "before_image": "cbh-cloud-worker:20261011-df53252",
+    "before_image_id": "sha256:01403ba69e909a70ffd07c2b75f1f28a5807da5ff43db7668473fc059c225a4f",
+    "old_compose": "/data/work/cbh-app-flow-20261010/deploy/supabase/compose.yml",
+    "old_runtime_env": "/data/work/cbh-app-flow-20261011b/compose.runtime.env",
+    "rollback_command": [
+      "sudo",
+      "-n",
+      "docker",
+      "compose",
+      "--env-file",
+      "/data/work/cbh-app-flow-20261011b/compose.runtime.env",
+      "-p",
+      "cbh-cloud-worker",
+      "-f",
+      "/data/work/cbh-app-flow-20261010/deploy/supabase/compose.yml",
+      "up",
+      "-d",
+      "--no-build",
+      "--pull",
+      "never"
+    ],
+    "deployed_at": "2026-10-12T05:25:14.825502+00:00",
+    "image": "cbh-cloud-worker:20261012-62b5d88",
+    "image_id": "sha256:e4d4f977804c4716f04795fd5377f764bf4005d75c9d8592dd862f222ff44b2b",
+    "running": true,
+    "restart_count": 0,
+    "explicit_policy": {
+      "PERSONAL_CHANNEL_WEIGHT": "0.3",
+      "STATISTICAL_CHANNEL_DEFINITION": "literature_distance_prior",
+      "ALERT_SELECTION_POLICY": "area_budget",
+      "MAX_ALERT_AREA_KM2": "5.8",
+      "PUSH_TARGET_RES": "9",
+      "AXIS_SCORING_ENABLED": "false",
+      "CBH_API_ENABLED": "true"
+    },
+    "data_and_assets_preserved": true
+  },
+  "preflight": {
+    "passed": true,
+    "personalization_applied": true,
+    "engine": "continuous-person-v8-open-case-family-absent",
+    "channels_identical": false,
+    "channel_tv": 0.9282548156806358,
+    "weight_delta": 1.3877787807814457e-17,
+    "target_cells": 80,
+    "area_km2": 5.769566766785264,
+    "res": 9,
+    "model_calls": 0,
+    "saved_synthetic_SAR_K_replay": true,
+    "real_push": 0
+  },
+  "targeting": {
+    "passed": true,
+    "synthetic_recipient_checks": 300,
+    "selected_cells": 80,
+    "outside_cells": 20,
+    "stub_recipients": 240,
+    "app_web_fanout_mismatches": 0,
+    "network": "none",
+    "real_push": 0,
+    "model_calls": 0,
+    "scope": "new live image on separate preflight data volume"
+  },
+  "health": {
+    "running": true,
+    "restarts": 0,
+    "started_at": "2026-10-12T05:25:14.637069501Z"
+  },
+  "frontend": {
+    "project": "doraogil",
+    "production_url": "https://doraogil.pages.dev",
+    "deployment_id": "68abffec-ac6d-49ef-a021-c563ff355a0f",
+    "rollback_deployment_id": "e243517a-b1ad-4a48-a4aa-0fd2b84b6ecf",
+    "commit": "62b5d887c0e1c1885693d1649cf2624f438bb484",
+    "entry_script": "/_expo/static/js/web/index-31f8eef03eee1d6a8348c68e5bd6d738.js",
+    "browser_boot_passed": true,
+    "browser_errors": 0,
+    "warning": "expo-notifications web listener support warning",
+    "archive_sha256": "a3d79bf44cf2cdc5e38467c5089e6dcdd1c49f8f63b6d021ce78bb14acc85873"
+  },
+  "local_checks": {
+    "backend": {
+      "passed": 68,
+      "suite": "cloud_bridge;area_budget_alerts;target_resolution_contract;literature_distance;equal_area_targeting;targeting_resolution"
+    },
+    "frontend_node": {
+      "passed": 11,
+      "suite": "cloud-transport;targeting-resolution"
+    },
+    "typescript": "passed",
+    "web_build": "passed",
+    "running_image_code_hashes_match_commit": true
+  },
+  "preflight_failures": [
+    {
+      "stage": "image_nonroot",
+      "error": "PermissionError",
+      "resolution": "Dockerfile makes application code readable by worker user before replacement",
+      "model_calls": 0
+    },
+    {
+      "stage": "isolated_runner_contract",
+      "error": "candidate_not_qualified",
+      "resolution": "runner now uses the same guarded_core/staging settings as real Compose",
+      "model_calls": 0
+    },
+    {
+      "stage": "queue_status_probe",
+      "http_status": 404,
+      "resolution": "private queue is not publicly queryable; official submit/result RPC used instead",
+      "model_calls": 0
+    }
+  ]
+}
