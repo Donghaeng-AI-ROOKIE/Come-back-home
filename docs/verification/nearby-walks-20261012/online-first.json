@@ -1,0 +1,37 @@
+{
+  "summary": {
+    "mapo": {
+      "success": false,
+      "error_type": "NearbyUnavailable",
+      "duration_seconds": 17.339
+    },
+    "kintex": {
+      "success": true,
+      "routes": 4,
+      "names": [
+        "킨텍스온누리공원",
+        "공개공지",
+        "왕벚나무길",
+        "보행자길"
+      ],
+      "lengths_km": [
+        0.52,
+        0.57,
+        0.47,
+        0.66
+      ],
+      "duration_seconds": 10.956,
+      "raw_file": "kintex-4.json",
+      "sha256": "01c32505a785f24ebf5c48a92f2e9f6c7933f888c877c07979caef7be3885e08",
+      "fetched_at": "2026-10-12T10:25:00.293769+00:00",
+      "provider_host": "overpass-api.de",
+      "query": "data=%5Bout%3Ajson%5D%5Btimeout%3A8%5D%3B%0A%28%0A++way%28around%3A2000%2C37.6652142%2C126.7481857%29%5B%22leisure%22~%22park%7Cgarden%22%5D%5B%22name%22%5D%3B%0A++way%28around%3A2000%2C37.6652142%2C126.7481857%29%5B%22highway%22~%22footway%7Cpath%7Cpedestrian%22%5D%5B%22name%22%5D%3B%0A%29%3B%0Aout+geom+tags%3B"
+    }
+  },
+  "upstream_attempts": 4,
+  "max_upstream_attempts": 4,
+  "user_GPS_used": false,
+  "model_calls": 0,
+  "real_push": 0,
+  "actual_cost": null
+}

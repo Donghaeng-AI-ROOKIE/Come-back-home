@@ -1,0 +1,24 @@
+{
+  "online_final_rescan": "completed_after_explicit_user_approval",
+  "reason": "npm audit transmits project dependency graph to external npm registry; explicit authorization missing per review",
+  "comparison_source": "npm-audit-after.json from already completed prior scan",
+  "installed_navigation_core": "7.23.0",
+  "installed_nanoid": "3.3.18",
+  "patched_decoder_chain_removed": true,
+  "nanoid_patched_against_retrieved_advisories": true,
+  "latest_registry_audit_after_nanoid_patch_performed": true,
+  "prior_automatic_review_block_resolved": true,
+  "user_authorization": "온라인 재검사 승인",
+  "final_scan": "npm-audit-final.json",
+  "final_vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 8,
+    "high": 30,
+    "critical": 0,
+    "total": 38
+  },
+  "unique_final_advisories": 42,
+  "runtime_nanoid_and_decoder_advisories_present": false,
+  "remaining_advisory_leaf_packages_absent_from_exact_web_bundle": true
+}

@@ -1,0 +1,74 @@
+{
+  "source": "../experiments/directional-alert-safety-20261012/confirmation_summary.json",
+  "truth_seeds": [
+    2026101251,
+    2026101252,
+    2026101253
+  ],
+  "profiles": {
+    "preliminary": {
+      "overall": {
+        "checks": 2808,
+        "hits": 1482,
+        "hit_pct": 52.77777777777778,
+        "mean_area_km2": 6.19451848095876,
+        "efficiency_pp_per_km2": 8.520077539523147
+      },
+      "futures": {
+        "habitual": {
+          "checks": 936,
+          "hits": 694,
+          "hit_pct": 74.14529914529915,
+          "mean_area_km2": 6.1945184809587595,
+          "efficiency_pp_per_km2": 11.96950164459325
+        },
+        "departure": {
+          "checks": 936,
+          "hits": 503,
+          "hit_pct": 53.73931623931624,
+          "mean_area_km2": 6.1945184809587595,
+          "efficiency_pp_per_km2": 8.675301624251302
+        },
+        "contradictory": {
+          "checks": 936,
+          "hits": 285,
+          "hit_pct": 30.448717948717945,
+          "mean_area_km2": 6.1945184809587595,
+          "efficiency_pp_per_km2": 4.915429349724893
+        }
+      }
+    },
+    "current": {
+      "overall": {
+        "checks": 2808,
+        "hits": 1769,
+        "hit_pct": 62.99857549857549,
+        "mean_area_km2": 5.7687512678655235,
+        "efficiency_pp_per_km2": 10.920660741520477
+      },
+      "futures": {
+        "habitual": {
+          "checks": 936,
+          "hits": 905,
+          "hit_pct": 96.6880341880342,
+          "mean_area_km2": 5.7687512678655235,
+          "efficiency_pp_per_km2": 16.76065229690678
+        },
+        "departure": {
+          "checks": 936,
+          "hits": 606,
+          "hit_pct": 64.74358974358975,
+          "mean_area_km2": 5.7687512678655235,
+          "efficiency_pp_per_km2": 11.223155018702219
+        },
+        "contradictory": {
+          "checks": 936,
+          "hits": 258,
+          "hit_pct": 27.564102564102566,
+          "mean_area_km2": 5.7687512678655235,
+          "efficiency_pp_per_km2": 4.77817490895243
+        }
+      }
+    }
+  }
+}

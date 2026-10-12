@@ -1,0 +1,32 @@
+{
+  "summary": {
+    "mapo": {
+      "success": true,
+      "routes": 4,
+      "names": [
+        "백양로",
+        "경의선 숲길",
+        "와우근린공원",
+        "청송대"
+      ],
+      "lengths_km": [
+        0.56,
+        0.73,
+        1.68,
+        0.48
+      ],
+      "duration_seconds": 6.498,
+      "raw_file": "mapo-1.json",
+      "sha256": "485eb70f8c6e3b83f9e013ca70a4407b61b4e72f2085252aba41a05810f47a82",
+      "fetched_at": "2026-10-12T10:29:56.061072+00:00",
+      "provider_host": "overpass-api.de",
+      "query": "data=%5Bout%3Ajson%5D%5Btimeout%3A15%5D%3B%0A%28%0A++way%28around%3A2000%2C37.5585%2C126.9368%29%5B%22leisure%22~%22park%7Cgarden%22%5D%5B%22name%22%5D%3B%0A++way%28around%3A2000%2C37.5585%2C126.9368%29%5B%22highway%22~%22footway%7Cpath%7Cpedestrian%22%5D%5B%22name%22%5D%3B%0A%29%3B%0Aout+geom+tags%3B"
+    }
+  },
+  "upstream_attempts": 1,
+  "max_upstream_attempts": 2,
+  "user_GPS_used": false,
+  "model_calls": 0,
+  "real_push": 0,
+  "actual_cost": null
+}

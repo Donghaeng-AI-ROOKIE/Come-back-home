@@ -29,7 +29,9 @@ npm start        # i = iOS 시뮬레이터, a = Android, w = 웹
 웹 배포본:
 
 ```bash
-npm run build:web    # expo export --platform web + 부팅 감시기 주입
+npm run build:web    # 기존 동일 출처 /api 또는 로컬용
+# Cloudflare Pages + Supabase 운영 업로드는 반드시 아래 명령:
+npm run build:web:cloud -- --env-file /path/to/protected-public.env
 ```
 
 - 지도는 iOS·Android에서 동작한다. 웹은 지도 플레이스홀더를 쓴다.
@@ -102,3 +104,7 @@ src/
 ## 미구현
 
 백그라운드 지오펜스(현재는 앱이 켜져 있을 때만 presence를 올린다), 실기기 푸시 수신 검증.
+
+### Cloudflare 업로드 전 인증 빌드 검증
+
+`build:web:cloud`는 `EXPO_PUBLIC_TRANSPORT=supabase`, 올바른 Supabase URL, publishable/anon 키, `EXPO_PUBLIC_USE_MOCK=false`를 필수로 검사한다. Expo를 `--clear`로 빌드하고 실제 출력 모듈의 transport·URL·공개키까지 대조한다. 누락·stale cache·서버키는 배포 산출물 검증에서 실패한다. `dist/cloud-build.json`은 키 없이 entry 해시를 보존한다. 이 검사를 통과한 dist만 Pages에 업로드한다. `build:web`만 실행한 산출물은 Supabase 운영 배포용으로 사용하지 않는다.

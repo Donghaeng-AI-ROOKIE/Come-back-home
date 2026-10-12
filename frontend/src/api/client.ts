@@ -422,6 +422,7 @@ export type NearbyWalk = {
 export async function getNearbyWalks(point: GeoPoint, limit = 4): Promise<NearbyWalk[]> {
   return api<NearbyWalk[]>(
     `/geo/nearby-walks?lat=${point.lat}&lng=${point.lng}&limit=${limit}`,
+    { timeoutMs: 45_000 },
   );
 }
 

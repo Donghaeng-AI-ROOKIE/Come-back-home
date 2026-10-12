@@ -1,0 +1,16 @@
+{
+  "map_upstream_attempts_started": 5,
+  "map_upstream_attempts_finished": 5,
+  "initial_batch_maximum": 4,
+  "approved_followup_maximum": 2,
+  "approved_followup_used": 1,
+  "service_transport_attempts_started": 12,
+  "service_transport_attempts_finished": 12,
+  "service_transport_maximum": 30,
+  "additional_map_calls_in_service_smoke": 0,
+  "model_calls": 0,
+  "real_push": 0,
+  "cost_status": "unconfirmed",
+  "actual_cost": null,
+  "ledger_synced_by_event_id": true
+}
