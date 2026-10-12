@@ -11,9 +11,9 @@
 직선거리를 "걸어서 N km"라고 적으면 그건 잰 적 없는 숫자다.
 
 ## 비용
-한 번에 15초쯤 걸린다. 그래서 동네 단위(≈110m 격자)로 캐시하고, 앱은 세션 내내
-다시 묻지 않는다(useNearbyWalks 의 staleTime: Infinity). 실패하면 빈 목록이다 —
-지어낸 길을 그리지 않는다.
+전 세계 데이터를 제공하는 미러2개를 각15초 상한으로 조회한다. 동네 단위
+(≈110m 격자)의 성공 결과는 캐시한다. 실패는503으로 구분하고 빈 결과는 서버에
+캐시하지 않는다. 앱은5분 캐시와 수동 재검색을 제공한다.
 """
 
 from __future__ import annotations
@@ -21,8 +21,10 @@ from __future__ import annotations
 import json
 import math
 import threading
+import time
 import urllib.parse
 import urllib.request
+import uuid
 
 from app.schemas.common import GeoPoint
 
@@ -30,8 +32,7 @@ from app.schemas.common import GeoPoint
 # 시연·현장에서 "가끔 안 나오는 기능"은 없는 기능과 같다.
 URLS = (
     "https://overpass-api.de/api/interpreter",
-    "https://overpass.kumi.systems/api/interpreter",
-    "https://overpass.osm.ch/api/interpreter",
+    "https://overpass.private.coffee/api/interpreter",
 )
 URL = URLS[0]   # 하위호환 — 테스트가 참조한다
 _UA = "come-back-home/0.1 (SAR nearby walks)"
@@ -46,7 +47,7 @@ MAX_POINTS = 120
 
 # leisure=park 는 공원 경계(둘레), highway=footway/path/pedestrian 은 길 자체.
 # 둘 다 "걸을 수 있는 선"이라는 점에서 같고, 화면에는 종류를 구분해 적는다.
-_QUERY = """[out:json][timeout:25];
+_QUERY = """[out:json][timeout:15];
 (
   way(around:{r},{lat},{lng})["leisure"~"park|garden"]["name"];
   way(around:{r},{lat},{lng})["highway"~"footway|path|pedestrian"]["name"];
@@ -56,6 +57,10 @@ out geom tags;"""
 _ROUND = 3  # ≈110m — 같은 동네면 같은 결과를 재사용
 _cache: dict[tuple[float, float], list[dict]] = {}
 _lock = threading.Lock()
+
+
+class NearbyUnavailable(RuntimeError):
+    """Upstream lookup failed; this is not an empty successful search."""
 
 
 def _disk_key(key: tuple[float, float]) -> str:
@@ -114,20 +119,41 @@ def _fetch(center: GeoPoint, timeout: float) -> list[dict]:
     """
     query = _QUERY.format(r=RADIUS_M, lat=center.lat, lng=center.lng)
     body = urllib.parse.urlencode({"data": query}).encode("utf-8")
+    from app.config import settings
+    from app.llm.usage_ledger import append_event
     last: Exception | None = None
     for url in URLS:
+        common = {"attempt_id": str(uuid.uuid4()), "run_id": "nearby_walks",
+                  "provider": "Overpass", "role": "osm_nearby_walks",
+                  "endpoint_host": urllib.parse.urlsplit(url).hostname,
+                  "actual_cost": None, "cost_status": "unconfirmed"}
+        append_event({**common, "event_type": "api_attempt_started"}, settings.research_usage_ledger_path)
+        started = time.monotonic()
+        status, error = None, None
         try:
             req = urllib.request.Request(url, data=body, headers={"User-Agent": _UA})
             with urllib.request.urlopen(req, timeout=timeout) as resp:
-                return json.loads(resp.read().decode("utf-8")).get("elements", [])
+                status = resp.status
+                result = json.loads(resp.read().decode("utf-8"))
+                # Overpass can return HTTP 200 with a timeout remark/partial data.
+                if result.get("remark") or not isinstance(result.get("elements"), list):
+                    raise NearbyUnavailable("Incomplete Overpass response")
+                return result["elements"]
         except Exception as e:  # noqa: BLE001 — 다음 미러로 넘어간다
             last = e
+            status = getattr(e, "code", status)
+            error = type(e).__name__
             print(f"[nearby] {url} 실패({type(e).__name__}) — 다음 미러 시도")
+        finally:
+            append_event({**common, "event_type": "api_attempt_finished",
+                          "http_status": status, "error_type": error,
+                          "duration_ms": round((time.monotonic()-started)*1000, 2),
+                          "usage": None, "usage_status": "not_applicable"}, settings.research_usage_ledger_path)
     raise last if last else RuntimeError("Overpass 미러 없음")
 
 
-def nearby_walks(center: GeoPoint, limit: int = 4, timeout: float = 12.0) -> list[dict]:
-    """가까운 순으로 산책 루트. 실패하거나 없으면 빈 목록.
+def nearby_walks(center: GeoPoint, limit: int = 4, timeout: float = 15.0) -> list[dict]:
+    """가까운 순으로 산책 루트. 성공한 빈 검색과 조회 실패를 구분한다.
 
     각 항목: name / lat·lng(대표점) / distance_km(내 위치→길 시작점 직선)
     / route_km(길의 실제 길이) / kind / path(좌표열)
@@ -140,14 +166,13 @@ def nearby_walks(center: GeoPoint, limit: int = 4, timeout: float = 12.0) -> lis
         if hit is not None:
             with _lock:
                 _cache[key] = hit
-    if hit is not None:
+    if hit:
         return hit[:limit]
 
     try:
         elements = _fetch(center, timeout)
-    except Exception as e:  # noqa: BLE001 — 외부 서비스 실패는 기능 없음으로 처리
-        print(f"[nearby] Overpass 실패({type(e).__name__}) — 빈 목록으로 응답")
-        return []
+    except Exception as e:
+        raise NearbyUnavailable("Nearby lookup unavailable") from e
 
     me = (center.lat, center.lng)
     best: dict[str, dict] = {}   # 이름당 하나 — 같은 공원이 여러 way 로 쪼개져 온다
@@ -182,8 +207,8 @@ def nearby_walks(center: GeoPoint, limit: int = 4, timeout: float = 12.0) -> lis
     rows = sorted(best.values(), key=lambda r: r["_near_m"])
     for r in rows:
         r.pop("_near_m", None)
-    with _lock:
-        _cache[key] = rows
     if rows:
+        with _lock:
+            _cache[key] = rows
         _disk_put(key, rows)   # 빈 결과는 남기지 않는다 — 다음에 다시 시도한다
     return rows[:limit]

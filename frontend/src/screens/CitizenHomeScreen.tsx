@@ -73,6 +73,7 @@ export default function CitizenHomeScreen() {
   const { data: stats, refetch, isRefetching } = useWalkStats();
   const { data: active } = useActiveWalk();
   const walks = useNearbyWalks();
+  const refreshHome = () => { void refetch(); void walks.refetch(); };
   // 위치를 못 받은 경우와 주변에 없는 경우는 다른 상황이다 — 같은 문구로 뭉개면
   // 사용자는 앱이 고장 난 줄 알고 권한을 켜 볼 생각을 못 한다.
   const { status: locStatus, message: locMessage } = useMyLocation(true);
@@ -93,7 +94,7 @@ export default function CitizenHomeScreen() {
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
+        refreshControl={<RefreshControl refreshing={isRefetching || walks.isFetching} onRefresh={refreshHome} />}
       >
         <View style={styles.logoRow}><FigmaLogo mode="citizen" /></View>
 
@@ -139,11 +140,22 @@ export default function CitizenHomeScreen() {
               {locMessage ? `\n\n${locMessage}` : ''}
             </Text>
           </Pressable>
-        ) : walks.isLoading || !isLocationSettled(locStatus) ? (
+        ) : walks.isFetching || !isLocationSettled(locStatus) ? (
           <ActivityIndicator style={styles.routeLoading} color={color.brand} />
+        ) : walks.isError ? (
+          <Pressable onPress={() => void walks.refetch()} accessibilityRole="button" accessibilityLabel="산책 장소 다시 불러오기">
+            <Text style={styles.routeEmpty}>
+              산책 장소 정보를 불러오지 못했습니다.{'\n'}
+              <Text style={styles.routeRetry}>눌러서 다시 불러오기</Text>
+            </Text>
+          </Pressable>
         ) : (walks.data?.length ?? 0) === 0 ? (
           // 지어낸 목록으로 채우지 않는다 — 못 찾았으면 못 찾았다고 말한다.
-          <Text style={styles.routeEmpty}>주변에서 산책 장소를 찾지 못했습니다.</Text>
+          <Pressable onPress={() => void walks.refetch()} accessibilityRole="button" accessibilityLabel="주변 산책 장소 다시 검색">
+            <Text style={styles.routeEmpty}>반경 2km 안에서 등록된 산책 장소를 찾지 못했습니다.{'\n'}
+              <Text style={styles.routeRetry}>눌러서 다시 검색하기</Text>
+            </Text>
+          </Pressable>
         ) : (
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.routeRow}>
             {walks.data!.map((route) => (
