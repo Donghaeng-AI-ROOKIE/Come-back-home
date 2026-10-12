@@ -73,7 +73,7 @@ export default function CitizenHomeScreen() {
   const { data: stats, refetch, isRefetching } = useWalkStats();
   const { data: active } = useActiveWalk();
   const walks = useNearbyWalks();
-  const refreshHome = () => { void refetch(); void walks.refetch(); };
+  const refreshHome = () => { void refetch(); if (locStatus === 'granted') void walks.refetch(); };
   // 위치를 못 받은 경우와 주변에 없는 경우는 다른 상황이다 — 같은 문구로 뭉개면
   // 사용자는 앱이 고장 난 줄 알고 권한을 켜 볼 생각을 못 한다.
   const { status: locStatus, message: locMessage } = useMyLocation(true);
