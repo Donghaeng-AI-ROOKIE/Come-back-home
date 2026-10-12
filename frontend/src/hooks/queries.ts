@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getActiveAlerts, getGuidance, getNearbyWalks, getPoaPrediction, getResolvedAlerts, touchPresence } from '../api/client';
+import { isCaseEnded } from '../api/errors';
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
 import { getAreaLabels, getCase, getMyCases, getPersonaStatus, listPersonas, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
@@ -79,14 +80,22 @@ export function useResolvedAlerts(enabled = true) {
   });
 }
 
+/**
+ * 끝난 사건(삭제·종결)은 재시도도 주기 조회도 하지 않는다. 그 밖의 실패는
+ * 기존처럼 기본 3회 재시도 후 다음 주기에 다시 묻는다 — 일시 장애까지 멈추면
+ * 지도가 회복되지 않는다.
+ */
+const retryUnlessEnded = (failureCount: number, error: unknown) => !isCaseEnded(error) && failureCount < 3;
+
 export function usePoaPrediction(caseId: string, t: TimeAxis) {
   const result = useQuery({
     queryKey: ['poa', caseId, t],
     queryFn: () => getPoaPrediction(caseId, t),
     enabled: !!caseId,
-    refetchInterval: ALERT_POLL_MS,
+    retry: retryUnlessEnded,
+    refetchInterval: (q) => (isCaseEnded(q.state.error) ? false : ALERT_POLL_MS),
   });
-  return { ...result, data: result.isError ? undefined : result.data };
+  return { ...result, data: result.isError ? undefined : result.data, ended: isCaseEnded(result.error) };
 }
 
 export function useCase(caseId: string) {
@@ -232,7 +241,8 @@ export function usePresence(caseId: string, enabled = true) {
     queryKey: ['presence', caseId],
     queryFn: () => touchPresence(caseId),
     enabled: enabled && !!caseId,
-    refetchInterval: PRESENCE_POLL_MS,
+    // 끝난 사건에 하트비트를 계속 보내면 계산 줄만 점유한다.
+    refetchInterval: (q) => (isCaseEnded(q.state.error) ? false : PRESENCE_POLL_MS),
     staleTime: 0,
     retry: false,
   });
@@ -273,7 +283,8 @@ export function useGuidance(caseId: string, enabled = true) {
     // 서버가 LLM 으로 문구를 다듬는 **동안만** 다시 묻는다. 서버는 기다리지 않고
     // 템플릿을 먼저 주므로(골든타임), 이게 없으면 다듬은 문구가 화면에 영영 안 온다.
     // 항상 폴링하지 않는 이유: 다듬기는 사건당 한 번뿐이라 끝나면 물어볼 게 없다.
-    refetchInterval: (q) => (q.state.data?.pending ? 3_000 : false),
+    // 실패해도 직전 data(pending=true)가 남으므로 끝난 사건이면 먼저 끊는다.
+    refetchInterval: (q) => (!isCaseEnded(q.state.error) && q.state.data?.pending ? 3_000 : false),
   });
 }
 
