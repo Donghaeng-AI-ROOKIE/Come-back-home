@@ -203,14 +203,9 @@ export type TipInput = {
   hasPhoto?: boolean;
 };
 
-/** 제보 전송 결과 — 기여 시각화(수색구역 delta)까지 포함. */
+/** 제보 전송 결과 — 접수된 제보. 지도 갱신은 서버가 뒤에서 하고 주기 조회로 받는다. */
 export type TipResult = {
   tip: Tip;
-  beforeAreaKm2: number;
-  afterAreaKm2: number;
-  deltaPct: number; // 음수 = 좁혀짐
-  beforeGrid?: PoaGrid;
-  afterGrid?: PoaGrid;
 };
 
 // ── 목표 지점(POI) 확률 ───────────────────────────────
