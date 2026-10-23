@@ -1,0 +1,172 @@
+{
+  "date": "2026-10-23",
+  "scope": "Existing artifact audit, no simulation rerun or external calls",
+  "people": 39,
+  "rules": 93,
+  "condition_fact_counts": {
+    "target_recognized": 14,
+    "is_walking": 39,
+    "continuous_walk_minutes": 39,
+    "lost_awareness": 19,
+    "family_present": 14,
+    "market.noisy": 16,
+    "physical_arrival": 1
+  },
+  "clock_condition_count": 0,
+  "source_hash_checks": 195,
+  "source_hash_checks_passed": true,
+  "cached_personal_maps_identical": 312,
+  "historical_clock_recheck": {
+    "identical_maps": 320,
+    "maps": 320,
+    "people_with_any_difference": [],
+    "differing": {},
+    "quality_behaviour_differences_excluding_version_strings": {}
+  },
+  "historical_clock_recheck_timezone": "Asia/Seoul",
+  "historical_clock_score_deltas": {
+    "map_hit": {
+      "delta": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "people": 31,
+      "people_better": 0,
+      "people_worse": 0
+    },
+    "alert_hit": {
+      "delta": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "people": 31,
+      "people_better": 0,
+      "people_worse": 0
+    },
+    "map_area": {
+      "delta": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "people": 31,
+      "people_better": 0,
+      "people_worse": 0
+    },
+    "alert_area": {
+      "delta": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "people": 31,
+      "people_better": 0,
+      "people_worse": 0
+    },
+    "auc10": {
+      "delta": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "people": 31,
+      "people_better": 0,
+      "people_worse": 0
+    },
+    "auc20": {
+      "delta": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "people": 31,
+      "people_better": 0,
+      "people_worse": 0
+    },
+    "auc30": {
+      "delta": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "people": 31,
+      "people_better": 0,
+      "people_worse": 0
+    }
+  },
+  "final_metrics_recomputed": {
+    "preliminary": {
+      "n": 2808,
+      "hits": 1482,
+      "hit_pct": 52.77777777777778,
+      "area": 6.19451848095876,
+      "efficiency": 8.520077539523147,
+      "futures": {
+        "habitual": 74.14529914529915,
+        "departure": 53.73931623931624,
+        "contradictory": 30.44871794871795
+      }
+    },
+    "current": {
+      "n": 2808,
+      "hits": 1769,
+      "hit_pct": 62.9985754985755,
+      "area": 5.7687512678655235,
+      "efficiency": 10.920660741520477,
+      "futures": {
+        "habitual": 96.6880341880342,
+        "departure": 64.74358974358974,
+        "contradictory": 27.564102564102566
+      }
+    }
+  },
+  "conclusion": "The reported final synthetic metrics need not be withdrawn for this clock bug: preserved post-fix reunion provenance, prior clock recheck, and all 39 policies lacking clock_hour support no impact on this dataset. This is not an all-39 new old-vs-fixed production replay, nor proof for clock-conditioned cases.",
+  "source_sha256": {
+    "결선/실험/EFFICIENCY_reunion_recheck_20261011/remeasure31/results_remeasure31.json": "7ec93316fdec498ec0734050e4b77142509063073519ec4b89580358309c289b",
+    "결선/실험/DIRECTIONAL_ALERT_SAFETY_20261012/results/confirmation_rows.json": "04c9a27c2534c8c9148c7603bf444c03cefe7357cfbd766ec7927800fc7c9096",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E01.json": "0d88cc3b7534889d24a601e40b0c3cdb54bfe06348b5927ecb51c65c04ee45d5",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E02.json": "48a3222231206ecef1cee6a29f8342a71754467d00004cd26828d1162fd2f529",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E03.json": "07c62b78b0f113b06653e7d3c795434a863bfc698f0b8cfb7dffa39cf1bb5fc5",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E04.json": "5cb4959502af1f8d37311d4aea1983925256a10fb2a6a5b35cd1d2874a8fa9ab",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E05.json": "5437007a77b54ad24f55e86c98bde88d1b11485d89b996035d522a383b121af9",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E06.json": "00c2d8d62c395ee30b3584af30fb6c08b7deef3c9743d84e3a3f828625889178",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E07.json": "1a7fa1b6224c112377323d1c9021545f998a20b556679825638d0da16956dec2",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E08.json": "e9dc92c987452c12ce3d44d40135cc7dd1e9bca8cd1e7beb28ffa3dc70bfb031",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E09.json": "c8c81b328889692c0985be42a41f0bf0dade971b1617408b3752cca00e4db360",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E10.json": "bd999c363a356c5500e04a3afe43a7d60c6eecbef480ea057b8775c828027ef0",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E11.json": "ee51ffefe8e13c61d7a60b6064e68c66e54d19a3da8555d7d83c1e0fd051fd5f",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E12.json": "13b4f1eb47b7db905ce0ef4dda8743da72b79802047e7edc5ee80e7fc3ddc56c",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E13.json": "6a3f62e82a7b5be1bf2c8166d1ee5d6a0f3c6f21b2f335c6192922fa5def2494",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E14.json": "2bf068f0ef18c2e1183793616de9ea88dd3120fe02794ff016c74d02847d2892",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E15.json": "53c59693859d50082e7c25126a693f8159592b42b3412ad88df7411f8f8e052b",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E16.json": "4c39fe6ee99eb1b37b7fe6d860d4f02a5ae9b69a06519c3ec1a51d4e8b9d9f96",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E17.json": "e8822fd197b13c2c972c9ac7292cb4ce74f041806f4a0603b78532eda64ef12d",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E18.json": "32d45c19ca1ef619bfc590caf2fdeb8a4748226233aad8ff5f5e671b6a009c11",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E19.json": "20d59e32d748117a1cd58141e8da9b8343cb54d78128d66f0ebf8878627c3402",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E21.json": "b66a0cd06f132973f9a410d278599dce6d59d80097d19d8e84f43854ba0b5125",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E22.json": "1aea92cf3721b17f4743dd61f50dacf40efe39a89796db427c8fb3f1442d53ef",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E23.json": "a42323e45abb25c5c60f4f715cd465de04f7749875335e529bdbb4767df27934",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E24.json": "386ef21e1c7bbe06ae29424654fdb05438b4ad348a617fa03a610ce7dffd80bc",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E25.json": "253edcdf83915d68355f8b9b1be4d58fbabf3c5199da338c12abc1a2198d5a93",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E26.json": "3a944140f30e7880be34f7115eccce8d1ca298646318e42d085df9c0b9f5a69b",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E27.json": "066a655aa27e08459c14e01dfec0e333ad1c44b71edccb45f8018d9710063c70",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E28.json": "fff4b9a609f94ebb0aededec29ffe5a343b23f3e4f743e75cc817ab8fb185297",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E29.json": "233b8d85b35f747bc50bd57a73ea294ad51dcf0f58c0b754661c1f08b67b81b8",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E30.json": "f787be719d4689493cd65a699f52eb9def1ce24b49b337871cd280c78d735826",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E31.json": "aac4052d8c8b8af7a5cc4ae40bac9d660229768f5ac3546021dcc231e2d77d6f",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E32.json": "d43fefefca92ea25a64a83278568e9765abf7a8133b269f030bf24a9bb3b8d2f",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E33.json": "54c586a76db287c0f3b8651f5ae08e9d1d2b7f435e7bc2a746f1e745b29bea9e",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E34.json": "6ab52a1ea2cea8dda15e6ca7e53c17eeba9258e0dd90c618b9932e94c17ee5fe",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E35.json": "9574d68408eb553586dd55a1c1cc4f94b500799ed75bfb976f802622ad97345e",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E36.json": "73868388cdd4d2400b6d98c3e2f92e8442368f536e32ee3113d63e4a40589435",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E37.json": "a7acdf952b3793e12e4e912b75dfc75e5afd7a27f143c6ad291a84493da21dac",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E38.json": "6df48b3b400a2293943bdc0c67364e6b1612c7cfbb109ee6db996ce0cd3ec005",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E39.json": "5f75e0e81f7d9fb620215e2465405a6ff105607ddb24662124c0f7700eb2fff0",
+    "결선/실험/CHANNEL_ALERT_repair_20261011/cases/current_policies/E40.json": "8dd6b524d00bbcb3ebe0c6d4c6122961fff891bb6ec84bf5defb8a591f15ef60"
+  },
+  "new_model_calls": 0,
+  "remote_calls": 0,
+  "actual_push": 0
+}
