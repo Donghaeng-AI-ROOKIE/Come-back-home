@@ -1,14 +1,14 @@
 # 돌아오길 API 계약 — front ↔ back 공유 진실
 
-> 이 문서가 **유일한 계약**이다. 프론트 목(mock)은 이 스펙을 흉내내고, 백엔드는 이 스펙을 구현한다.
-> **계약을 바꾸려면 이 문서를 먼저 고치고 양쪽에 공지.**
-> 출처: `backend/app/api/*.py` + `backend/app/schemas/*.py`
-> 갱신 2026-08-13: 라우터 전수 재추출(51개). Walk·Geo·Auth·presence·웹푸시·Phase 0 세션 API 추가, 제거된 사진·문서 첨부와 VARCO·Upstage 추출 경로 삭제.
+이 문서는 앱과 백엔드의 업무 API 계약을 설명합니다. 실제 입력/응답 스키마는 `backend/app/api/`와 `backend/app/schemas/`, 클라우드 공개 경로와 권한은 `backend/app/cloud_bridge/policy.py`를 함께 확인합니다.
 
-- Base URL: 로컬 `http://localhost:8000`, Swagger `/docs`. 웹 배포본은 같은 출처의 `/api`를 쓴다(nginx가 백엔드로 넘긴다).
-- 모든 시각은 **ISO 8601** 문자열(로컬 naive). 좌표는 `{lat, lng}`.
-- **스텁 모드:** 모델 API 키가 없으면 백엔드가 **유효한 모양의 폴백 응답**을 반환한다. 실 배선·렌더 검증은 키 없이도 가능하다.
-- **데모 케이스 미리 seed됨:** 서버 부팅 시 정릉동 케이스가 `case_id="case-jeongneung-001"`로 자동 생성·예측까지 완료된다. CORS는 열려 있다.
+2026-10-23: main #297 기준으로 전송 경계, 데모 기본값, 자동 예측, 비동기 제보, 알림 정책 설명을 정정했습니다. 아래 표는 주요 업무 API 참조이며 전체 OpenAPI 목록은 로컬 `/docs`를 사용합니다.
+
+- **운영 클라우드:** 앱은 Supabase Auth로 로그인하고 인증된 RPC 작업을 제출합니다. 비공개 GPU worker가 허용된 FastAPI 경로를 실행하고 결과를 반환합니다. 소유자 ID는 검증된 사용자 UUID에서 주입합니다. [배포 연결](deploy/supabase/README.md).
+- **로컬 HTTP:** `http://localhost:8000`, Swagger `/docs`. 기존 nginx `/api` 구성은 로컬/과거 배포 경로이며 현재 Pages 운영 경로와 구분합니다. FastAPI 라우터 전체를 인증된 공개 API로 직접 노출하지 않습니다.
+- 시각 입력은 **ISO 8601, UTC `Z` 또는 명시적 offset 권장**입니다. 내부 naive 변환과 한국 시각 조건 변환을 구분합니다. 좌표는 `{lat, lng}`입니다.
+- **스텁/폴백:** 모델 미설정 개발 실행의 결과는 실제 모델 품질 검증으로 사용하지 않습니다. 응답의 준비 상태, `prior_source`, `roadnet_used`를 확인합니다.
+- **데모 자동 생성:** `SEED_DEMO_DATA=false`가 기본입니다. 서버 부팅만으로 데모 사건이 생성되지 않습니다.
 
 ---
 
@@ -17,7 +17,7 @@
 1. **POA 응답에 폴리곤이 이미 포함됨** — `GET .../poa`의 각 셀이 `{ cell, prob, polygon: [{lat,lng} × 6] }`로 온다. h3-js 변환이 필요 없다. H3 res-9 육각형 변은 약 174m.
 2. **POA는 `{셀ID: 확률}`, 합=1.** 상위 셀만 필요하면 `?top=N`.
 3. **`POST /tips`는 두 형태를 반환한다.** `status` 키 유무로 분기해야 한다(아래 Phase 3 참고).
-4. **고신뢰 제보는 응답이 오래 걸린다.** 층2(새 LKP 재예측)를 그 요청 하나가 품기 때문이다(실측 29.5초, 새 지역이면 2분 초과). 짧은 타임아웃으로 끊으면 사건에 POA가 없는 상태가 남는다. 끊긴 뒤에도 서버는 접수를 마치므로, 재전송 전에 접수 여부를 먼저 조회해야 중복 제보가 생기지 않는다.
+4. **제보 접수와 무거운 재예측은 분리된다.** 구조화와 접수 결과를 먼저 반환하고, 층2 재예측과 추가 알림은 백그라운드에서 처리한다. cloud worker는 응답 본문이 완성되면 작업 결과를 먼저 게시한다. 지도는 재계산 중 저장된 결과를 반환한다. 접수 전 구조화와 큐 대기는 남으므로 전체 요청 지연이 0이라는 뜻은 아니다. 연결 중단 시에는 접수 상태를 먼저 확인한다.
 
 ---
 
@@ -99,7 +99,7 @@ Tip {
 
 ## 엔드포인트
 
-### Auth — 계정과 역할
+### Auth — 로컬 HTTP 계정과 역할
 
 | 메서드 | 경로 | 요청 | 응답 |
 |---|---|---|---|
@@ -109,7 +109,7 @@ Tip {
 | POST | `/auth/role` | `{ role }` + Bearer | 동일 |
 | POST | `/auth/logout` | Bearer | `{ ok: true }` |
 
-> Phase·Privacy·Debug 라우터에는 인증 의존성이 없다. 토큰은 앱이 사용자를 구분하는 데 쓰고, 서버는 아직 강제하지 않는다.
+> 위 `/auth/*`는 로컬 HTTP 경로다. 운영 앱은 Supabase Auth를 사용하며 cloud bridge가 소유권과 허용 경로를 검사한다. `/privacy/*` 관리자 경로는 별도 키를 요구하고 cloud bridge에서는 공개하지 않는다. `/debug/*`도 내부 검증용이다.
 
 ### Phase 0 — 온보딩 (보호자 사전등록)
 
@@ -139,7 +139,17 @@ Tip {
 | POST | `/phase1/reports` | `{ missing_type, lkp, lkp_time, persona_id?, situation?, appearance? }` | Case |
 | GET | `/phase1/cases/{case_id}` | — | Case |
 
-접수 즉시 LKP 중심 H3 `k=2`(19셀) 1차 경보 경로가 실행된다(`reflex_alert_on_intake=true` 기본, 실패해도 접수는 계속). 사진·문서 첨부 플래그는 제거됐다(PR #136·#141).
+접수 시 마지막 목격 위치 중심의 1차 경보 경로를 실행한다(`reflex_alert_on_intake=true` 기본, 실패해도 접수는 계속). 실제 대상은 현재 알림 해상도와 면적 정책으로 선택한다.
+
+앱의 신고 완료 화면(`ReportSentScreen`)이 `/predict`를 자동 요청하며 사용자가 별도 버튼을 누를 필요는 없다. `POST /reports` 자체는 사건을 접수하는 API이고 서버 refresher가 미예측 사건도 주기적으로 확인한다. 앱을 통한 자동 요청과 신고 API 한 번으로 동기 예측까지 완료하는 동작을 구분한다.
+
+| 메서드 | 보호자 소유 사건 경로 | 설명 |
+|---|---|---|
+| GET | `/phase1/cases` | 인증 사용자 소유 사건 목록 |
+| POST | `/phase1/cases/{case_id}/close` | 발견 또는 신고 철회로 종결 |
+| DELETE | `/phase1/cases/{case_id}` | 종결 후 삭제 요청 |
+
+Cloud bridge가 소유자 ID를 주입한다. 클라이언트가 보낸 다른 사용자 ID를 권한으로 사용하지 않는다.
 
 ### Phase 2 — 위치 예측
 
@@ -154,7 +164,7 @@ Tip {
 | 메서드 | 경로 | 요청/쿼리 | 응답 |
 |---|---|---|---|
 | POST | `/phase3/cases/{case_id}/reflex-alerts` | — | `{ case_id, target_cells, message, sent, note }` — 1차 경보 수동 재발송 |
-| POST | `/phase3/cases/{case_id}/alerts` | — | 동일 — POA 누적 설정값(기본 95%) 타겟 알림. 최초 호출 시 `last_alert_poa` 시딩 |
+| POST | `/phase3/cases/{case_id}/alerts` | — | 동일 — 최종 `area_budget` 정책의 res9, 합집합 최대 5.8㎢ 대상. coverage 정책은 과거 호환 경로 |
 | GET | `/phase3/alerts` | `?target_cell=` (기존 `cell_res7` 지원) | 그 셀의 활성 알림 목록 |
 | GET | `/phase3/alerts/resolved` | `?target_cell=&hours=24` (기존 `cell_res7` 지원) | 최근 해제(발견·종결)된 알림 |
 | POST | `/phase3/cases/{case_id}/tips` | `{ text, location?, seen_at?, force?, reporter_user_id? }` | **Tip 또는 되묻기** (아래) |
@@ -173,7 +183,7 @@ Tip {
 
 > `POST /tips`는 두 가지 형태를 반환한다.
 >
-> - **Tip 객체** — 정상 접수. 저장·POA 갱신까지 완료됨
+> - **Tip 객체** — 제보 처리 결과. `decision`에 따라 폐기 또는 저장/지도 갱신하며, 필요한 무거운 재예측은 백그라운드에서 진행한다. Tip 반환을 새 지도 계산 완료로 해석하지 않는다.
 > - **`{ "status": "need_more", "missing": ["location"|"time"], "reason"?: str }`** — 저장하지 않고 되묻기. 프론트가 부족한 항목만 받아 **합친 전체 텍스트로 재제출**하거나 `force: true`로 확정한다. `reason`은 시각 분기에서만 오는 사유 코드(현재 `"layer2_needs_time"`)
 >
 > `text`는 자유 텍스트 한 덩어리다. 위치·시각은 별도 필드가 아니라 이 텍스트에서 구조화·지오코딩·시각 변환으로 뽑는다(`location`·`seen_at`은 지도 핀 등 명시값이 있을 때만).
@@ -237,22 +247,22 @@ Tip {
 
 ---
 
-## 데모 시나리오 호출 순서
+## 앱의 일반 흐름
 
-```
-1. POST /phase0/interviews/sessions               → session_id  (보호자 등록 시작)
-2. POST /phase0/interviews/sessions/{id}/messages → 반복        (확인 게이트에서 Persona 확정)
-3. POST /phase0/interviews/sessions/{id}/complete → persona_id  (최종 상태 조회)
-4. POST /phase1/reports                           → case_id + 1차 경보 자동 발송
-5. POST /phase2/cases/{id}/predict                → POA
-6. GET  /phase3/cases/{id}/poa                    → 히트맵 렌더 (폴리곤 포함)
-7. POST /phase3/cases/{id}/alerts                 → 타겟 알림 (누적 80% 셀)
-8. POST /phase3/cases/{id}/tips                   → Tip(decision) → 층1/층2
-9. GET  /phase3/cases/{id}/poa                    → 좁혀진 히트맵
-10. POST /privacy/cases/{id}/close                → 종결, 5일 후 파기 예약
+```text
+1. Supabase 로그인
+2. POST /phase0/interviews/sessions               → session_id
+3. POST /phase0/interviews/sessions/{id}/messages  → 보호자 대화, 등록 확정
+4. POST /phase0/interviews/sessions/{id}/complete  → persona_id 및 등록 상태 조회
+5. POST /phase1/reports                           → case_id, 1차 경보 경로
+6. 신고 완료 화면이 /phase2/cases/{id}/predict 자동 요청 → 서버 계산
+7. GET /phase3/cases/{id}/poa                     → 지도 조회
+8. POST /phase3/cases/{id}/tips                   → 처리 결과, 필요한 재예측은 백그라운드
+9. GET /phase3/cases/{id}/poa                     → 저장 지도 또는 갱신 결과
+10. POST /phase1/cases/{id}/close                 → 보호자 종결, 보관/파기 절차
 ```
 
-Phase 1 이후 구간은 `backend/tests/test_e2e_flow.py`가 스텁 모드로 실제 통과시킨다.
+예측 완료 시 알림 경로는 서버에서 처리한다. `/predict`와 `/alerts` 수동 호출은 진단용이며 일반 사용자에게 추가 실행을 요구하지 않는다. `frontend/tests/tip-submit-no-wait.test.cjs`, `backend/tests/test_tip_deferred_reprediction.py`, `backend/tests/test_cloud_bridge.py`는 응답과 재계산 분리를 검사한다.
 
 ### 자동 파기 재시도 시 대상 재확인 (2026-09-28)
 
