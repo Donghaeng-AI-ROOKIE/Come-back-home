@@ -8,6 +8,7 @@ import contextlib
 import json
 import logging
 import os
+import threading
 import time
 import uuid
 from urllib.parse import urlsplit
@@ -15,7 +16,7 @@ from urllib.parse import urlsplit
 import httpx
 from fastapi import HTTPException
 from app.cloud_bridge.policy import authorize
-from app.llm.usage_ledger import append_event
+from app.llm.usage_ledger import append_event, warm_started_index
 
 log = logging.getLogger(__name__)
 
@@ -200,6 +201,14 @@ async def consume(cloud, api, lane, enabled, continuations=None):
             await asyncio.sleep(5)
 
 
+def warm_ledger_index(path):
+    try:
+        warm_started_index(path)
+    except (OSError, ValueError) as exc:
+        # Capped model calls count again themselves and still fail closed.
+        log.warning('Usage ledger pre-count failed: %s', type(exc).__name__)
+
+
 async def main():
     from app.main import app
     enabled = os.environ.get('CBH_API_ENABLED', 'false').lower() == 'true'
@@ -207,6 +216,9 @@ async def main():
     # credentials, model routing and usage logging have been verified.
     lifecycle = app.router.lifespan_context(app) if enabled else contextlib.nullcontext()
     cloud = Cloud(os.environ['SUPABASE_URL'], os.environ['SUPABASE_SERVICE_ROLE_KEY'])
+    # Count existing history off the lock now, not inside the first SAR call.
+    threading.Thread(target=warm_ledger_index, args=(cloud.ledger,),
+                     name='ledger-index', daemon=True).start()
     try:
         async with lifecycle:
             transport = EarlyResponseTransport(app)
