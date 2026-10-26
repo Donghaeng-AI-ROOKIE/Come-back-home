@@ -368,14 +368,18 @@ class NominatimGeocoder(_BaseGeocoder):
         self.country = country
 
     def locate(self, query: str, anchor: GeoPoint | None = None) -> GeoResult | None:
+        results = self.keyword_candidates(query, anchor, size=1)
+        return results[0] if results else None
+
+    def keyword_candidates(self, query: str, anchor: GeoPoint | None = None, size: int = 5) -> list[GeoResult]:
         import json
         import math
         import urllib.parse
         import urllib.request
 
         if not query:
-            return None
-        q: dict = {"q": query, "format": "json", "limit": 1, "countrycodes": self.country}
+            return []
+        q: dict = {"q": query, "format": "json", "limit": max(1, min(size, 10)), "countrycodes": self.country}
         if anchor is not None:
             # 앵커 기준 ~ANCHOR_MAX_KM 박스로 제한 (viewbox=left,top,right,bottom + bounded)
             dlat = ANCHOR_MAX_KM / 111.32
@@ -391,15 +395,15 @@ class NominatimGeocoder(_BaseGeocoder):
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                 rows = json.loads(resp.read().decode("utf-8"))
         except Exception:  # noqa: BLE001
-            return None
+            return []
         if not rows:
-            return None
-        r = rows[0]
-        return GeoResult(
+            return []
+        return [GeoResult(
             GeoPoint(lat=float(r["lat"]), lng=float(r["lon"])),
             precision="approx", source="nominatim", matched=r.get("display_name"),
             address=r.get("display_name"),
-        )
+            detail={k: r[k] for k in ("osm_type", "osm_id", "type", "class", "category") if k in r},
+        ) for r in rows]
 
 
 # ── 오프라인 gazetteer (최후 폴백) ──────────────────────────────────
@@ -452,7 +456,9 @@ class ChainGeocoder(_BaseGeocoder):
     def keyword_candidates(self, query: str, anchor: GeoPoint | None = None, size: int = 5) -> list[GeoResult]:
         for b in self.backends:
             if hasattr(b, "keyword_candidates"):
-                return b.keyword_candidates(query, anchor, size)
+                results = b.keyword_candidates(query, anchor, size)
+                if results:
+                    return results
         return []
 
     def home_alternatives(self, res: GeoResult, text: str) -> list[HomeAlternative] | None:
@@ -475,7 +481,9 @@ def get_geocoder(use_nominatim: bool = False) -> Geocoder:
     """설정 기반 체인. kakao_rest_key 있으면 카카오 우선 → (nominatim) → gazetteer."""
     from app.config import settings
 
-    backends: list[Geocoder] = []
+    from app.geo.named_place_cache import NamedPlaceCache
+    cached = NamedPlaceCache(settings.roadnet_cache_dir)
+    backends: list[Geocoder] = [cached] if cached.path.is_file() else []
     if getattr(settings, "kakao_rest_key", ""):
         backends.append(KakaoGeocoder(settings.kakao_rest_key))
     if use_nominatim:
