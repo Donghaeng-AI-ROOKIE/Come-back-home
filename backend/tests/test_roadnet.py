@@ -59,3 +59,32 @@ def test_env_empty_before_env_layer(net):
 def test_unloaded_network_raises():
     with pytest.raises(RuntimeError):
         OSMnxNetwork().nearest_node(DEMO_LKP)
+
+
+def test_http_cache_stays_in_data_volume_when_workdir_is_read_only(monkeypatch, tmp_path):
+    import osmnx as ox
+    import networkx as nx
+
+    data = tmp_path / 'mounted-data'
+    readonly = tmp_path / 'read-only-app'
+    readonly.mkdir()
+    monkeypatch.chdir(readonly)
+    monkeypatch.setattr(ox.settings, 'cache_folder', 'cache')
+
+    def download(*args, **kwargs):
+        # The HTTP layer writes before graph serialization; reproduce that order.
+        http_cache = Path(ox.settings.cache_folder)
+        assert http_cache.is_relative_to(data)
+        (http_cache / 'response.json').write_text('{}')
+        graph = nx.MultiDiGraph(crs='epsg:4326')
+        graph.add_node(1, x=126.9243, y=37.5216)
+        return graph
+
+    monkeypatch.setattr(ox, 'graph_from_point', download)
+    net = OSMnxNetwork(data)
+    net.load(GeoPoint(lat=37.5216, lng=126.9243), 3000)
+    assert (data / 'http' / 'response.json').is_file()
+    assert not (readonly / 'cache').exists()
+    # A second load must consume the GraphML without requesting another map.
+    monkeypatch.setattr(ox, 'graph_from_point', lambda *a, **k: pytest.fail('cache miss'))
+    OSMnxNetwork(data).load(GeoPoint(lat=37.5216, lng=126.9243), 3000)
