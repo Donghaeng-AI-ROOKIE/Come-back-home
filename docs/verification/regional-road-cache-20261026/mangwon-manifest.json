@@ -1,0 +1,22 @@
+{
+  "region": "Mangwon station, Seoul",
+  "source": "Geofabrik South Korea OSM extract 2026-10-25",
+  "attribution": "https://www.openstreetmap.org/copyright",
+  "source_url": "https://download.geofabrik.de/asia/south-korea-261025.osm.pbf",
+  "source_sha256": "395e4e7cdbad3eea862227cb6290433efef274959a6deaf7f15916d17f2f2b2b",
+  "acquired_at": "2026-10-26T08:08:12.315508+00:00",
+  "osmnx_version": "2.1.1",
+  "bbox_south_west_north_east": [
+    37.49754417819296,
+    126.836262712958,
+    37.614455821807034,
+    126.98373728704199
+  ],
+  "radius_m": 6500,
+  "sha256": "dbe26a10ed61e4b24a12d13f0f745b9536e736d7f87405745f71d6d9d4134f42",
+  "nodes": 54068,
+  "edges": 153100,
+  "object_key": "regions/mangwon-20261026-dbe26a10ed61e4b24a12d13f0f745b9536e736d7f87405745f71d6d9d4134f42.graphml.gz",
+  "compressed_bytes": 6299619,
+  "environment_features": "not included"
+}

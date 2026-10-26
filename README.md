@@ -102,6 +102,7 @@ KINTEX 합성 인물 39명의 새 이동 경로 351개를 두 예측 시드와 1
 - [문서 안내](docs/README.md): 최종 구조, 평가, 과거 실험, 검증 기록을 목적별로 찾기
 - [최종 E2E 구조](docs/SERVICE_E2E_20261012.md): 축 OFF, SAR prior, 마음 규칙, Mini 역할
 - [클라우드 실행 구조](deploy/supabase/README.md): 인증, 대기열, worker, 배포 설정
+- [지역 도로망 사전 저장](docs/verification/regional-road-cache-20261026/README.md): Supabase 지도 캐시와 망원 적용 검증
 - [10월 12일 서비스 검증](docs/verification/service-full-audit-20261012/README.md): 해당 시점의 범위와 잔여 한계
 - [발표 참고 자료](docs/PRESENTATION_FINAL_20261012.md): 비교표, 설명, 질문 답변
 

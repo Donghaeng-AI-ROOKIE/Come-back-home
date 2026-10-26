@@ -45,22 +45,38 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
         from app.geo import roadnet
         try:
             net=roadnet.verified_network(settings.personal_walk_cache_path)
-            from app.geo.road_anchors import connect_anchors
-            points=[case.lkp]+[a.location for a in (persona.attraction_points if persona else [])]
-            net=connect_anchors(net, points)
             south,west,north,east=net.coverage_bbox
-            if not (south <= case.lkp.lat <= north and west <= case.lkp.lng <= east):
-                return None,'verified regional map does not cover the report location'
-            if net.road_distance_km(case.lkp,case.lkp) is None:
-                return None,'verified regional map does not cover the report location'
-            return net,''
+            if south <= case.lkp.lat <= north and west <= case.lkp.lng <= east:
+                from app.geo.road_anchors import connect_anchors
+                points=[case.lkp]+[a.location for a in (persona.attraction_points if persona else [])]
+                net=connect_anchors(net, points)
+                if net.road_distance_km(case.lkp,case.lkp) is not None:
+                    return net,''
+            # A regional fixture is an optimization, not a nationwide coverage
+            # restriction. Outside it, use the report-centred cache/downloader.
+            log.info("Configured regional road map does not cover the report; loading local roads")
         except (OSError,ValueError,KeyError) as exc:
-            return None,'verified regional map unavailable: '+type(exc).__name__
+            log.warning("Configured regional road map unavailable (%s); loading local roads", type(exc).__name__)
     r = None
     if (settings.roadnet_dynamic_radius and prior is not None
             and elapsed_hours is not None):
         r = radius.roadnet_radius_m(prior.radius_lognormal, elapsed_hours,
                                     radius.vmax_kmh(persona))
+    try:
+        from app.geo.road_bundles import get_preloaded_network
+        from app.geo.road_anchors import connect_anchors
+        prepared = get_preloaded_network(case.lkp, r or settings.roadnet_radius_m)
+        if prepared is not None:
+            points = [case.lkp] + [a.location for a in (persona.attraction_points if persona else [])]
+            bundle_source = getattr(prepared, "bundle_source", "preloaded")
+            bundle_hash = getattr(prepared, "bundle_sha256", "")
+            prepared = connect_anchors(prepared, points)
+            prepared.bundle_source = bundle_source
+            prepared.bundle_sha256 = bundle_hash
+            if prepared.road_distance_km(case.lkp, case.lkp) is not None:
+                return prepared, ""
+    except Exception as exc:
+        log.warning("Preloaded regional road bundle unavailable (%s)", type(exc).__name__)
     try:
         from app.geo import roadnet
 
@@ -162,6 +178,9 @@ def run_prediction(
     poa_bu, poa_stat, quality = continuous_prediction.run_pair(staged_case, source_persona, prior, net, elapsed_hours, seed=seed)
     if net is not None:
         quality['road_anchor_connections']=getattr(net,'anchor_connections',[])
+        if getattr(net, 'bundle_source', None):
+            quality['roadnet_source'] = net.bundle_source
+            quality['roadnet_sha256'] = net.bundle_sha256
     if poa_bu is None:
         poa_bu = simulation.run_monte_carlo(
         case.lkp, prior, persona, elapsed_hours, mode="agent", net=net, mind=mind, seed=seed,
