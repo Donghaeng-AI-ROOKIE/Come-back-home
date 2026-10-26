@@ -162,7 +162,6 @@ export default function AlertSyncScreen() {
               <Text style={styles.meta}>{view.meta}</Text>
               <View style={styles.tags}>
                 {appearance.map((tag) => <View key={tag} style={styles.tag}><Text style={styles.tagText} numberOfLines={1}>{tag}</Text></View>)}
-                <Pressable style={styles.photoButton} onPress={() => navigation.navigate('Appearance', { caseId })}><Text style={styles.photoText}>인상착의 사진 보기</Text></Pressable>
               </View>
             </View>
           </View>
@@ -176,6 +175,11 @@ export default function AlertSyncScreen() {
             <Text style={styles.infoText}>발견하면 가까이 가지 말고 112에 신고해 주세요.{`\n`}이 앱은 신고 채널이 아니라, 함께 실종자를 찾는 앱이에요.</Text>
           </View>
 
+          {/* 태그 줄의 작은 칩 대신, '목격 내용 제보하기'와 같은 크기의 버튼으로 올린다.
+              보조(테두리) 스타일이라 주행동(제보하기)과 위계가 갈린다. */}
+          <Pressable style={styles.appearanceButton} onPress={() => navigation.navigate('Appearance', { caseId })} accessibilityRole="button" accessibilityLabel="인상착의 사진 보기">
+            <Text style={styles.appearanceButtonText}>인상착의 사진 보기</Text>
+          </Pressable>
           <Pressable style={styles.reportButton} onPress={() => navigation.navigate('ReportChat', { caseId })}>
             <Text style={styles.reportText}>목격 내용 제보하기</Text>
           </Pressable>
@@ -224,8 +228,9 @@ const styles = StyleSheet.create({
   tags: { marginTop: 10, flexDirection: 'row', flexWrap: 'wrap', gap: 5, alignItems: 'center' },
   tag: { height: 18, paddingHorizontal: 6, borderRadius: 20, backgroundColor: wash, justifyContent: 'center' },
   tagText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.07, color: red },
-  photoButton: { height: 18, paddingHorizontal: 9, borderRadius: 20, backgroundColor: red, justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 2, elevation: 2 },
-  photoText: { fontFamily: type.familyBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.07, color: '#FFFFFF' },
+  // 작은 인상착의 칩을 떼고 '목격 내용 제보하기' 위에 같은 크기의 보조 버튼으로 올렸다.
+  appearanceButton: { marginHorizontal: 10, marginTop: 19, height: 57, borderRadius: 26, borderWidth: 1.5, borderColor: red, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
+  appearanceButtonText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: red },
   // 고정 높이 41 을 떼고 패딩으로 — 안내문이 길어지면 잘렸다.
   infoCard: { marginLeft: 23, marginRight: 21, marginTop: 9, minHeight: 41, borderRadius: 9, backgroundColor: '#FFF4F4', flexDirection: 'row', alignItems: 'center', paddingVertical: 7, paddingLeft: 9, paddingRight: 12 },
   firstInfo: { marginTop: 21 },
