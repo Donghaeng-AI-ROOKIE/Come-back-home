@@ -77,3 +77,30 @@ test('missing old request is never resubmitted after retention uncertainty',asyn
   await assert.rejects(harness(rpc,store).request('/phase2/cases/x/predict',{method:'POST'}),{status:503});
   assert.equal(submissions,1);assert.equal(store.size,1);
 });
+test('expired family lookup renews once instead of being stuck after reload',async()=>{
+  const ids=[];
+  const h=harness(async(name,args)=>{
+    if(name==='cbh_submit'){ids.push(args.p_id);return {data:args.p_id,error:null};}
+    return {data:ids.length===1?{state:'expired'}:{state:'done',status_code:200,result:[{id:'synthetic'}]},error:null};
+  });
+  const result=await h.request('/phase0/personas');
+  assert.equal(result[0].id,'synthetic');assert.equal(ids.length,2);assert.notEqual(ids[0],ids[1]);assert.equal(h.store.size,0);
+});
+test('stored POA can recover interrupted read but preview and guidance cannot',async()=>{
+  for(const [path,expected] of [['/phase3/cases/demo/poa?top=64',2],['/phase3/cases/demo/poa?elapsed_hours=1&top=64',1],['/phase3/cases/demo/guidance',1]]){
+    let submitted=0;
+    const h=harness(async name=>{if(name==='cbh_submit')submitted++;return {data:{state:'interrupted'},error:null}});
+    await assert.rejects(h.request(path),{status:503});assert.equal(submitted,expected);
+  }
+});
+test('old missing family read gets a fresh id, without changing mutation recovery',async()=>{
+  const store=new Map();const ids=[];let done=false;
+  const rpc=async(name,args)=>{
+    if(name==='cbh_submit'){ids.push(args.p_id);done=ids.length>1;return {data:args.p_id,error:null}};
+    return {data:done?{state:'done',status_code:200,result:[]}:null,error:null};
+  };
+  await assert.rejects(harness(rpc,store).request('/phase0/personas',{timeoutMs:0}),{status:0});
+  for(const [key,val] of store){const r=JSON.parse(val);r.createdAt-=3*60*60*1000;store.set(key,JSON.stringify(r));}
+  assert.equal((await harness(rpc,store).request('/phase0/personas')).length,0);
+  assert.equal(ids.length,2);assert.notEqual(ids[0],ids[1]);
+});
