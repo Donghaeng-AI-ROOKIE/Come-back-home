@@ -77,11 +77,14 @@ def interpret(personal,run_id,*,candidate=None):
             return parsed.model_dump(mode='json'),audit
         if valid and conditional:
             checks=_checks(parsed)
+            coverage=getattr(candidate,'source_coverage_checks',lambda policy:[])(parsed)
             audit[-1]['interpretation_checks']=checks
+            if coverage:audit[-1]['source_coverage_checks']=coverage
             # Only after a valid first output: the re-read is then the second and
             # last public output. A corrected second output is never re-asked.
-            if checks and role=='draft' and settings.mind_policy_interpretation_review and hasattr(candidate,'check_request'):
-                parsed=_interpretation_review(candidate,personal,run_id,url,draft_value,parsed,checks,audit)
+            review_checks=(checks if settings.mind_policy_interpretation_review else [])+coverage
+            if review_checks and role=='draft' and hasattr(candidate,'check_request'):
+                parsed=_interpretation_review(candidate,personal,run_id,url,draft_value,parsed,review_checks,audit)
             return parsed.model_dump(mode='json'),audit
     return parsed.model_dump(mode='json'),audit
 
@@ -168,7 +171,7 @@ def prepare(persona_id,*,retry=False,job_id=None):
                       'K_original_source_repair_not_independent_human_validation'),
                   'public_output_count':len(audit),
                   'invalid_first_output_corrected':bool(audit and not audit[0]['schema_valid'] and audit[-1]['schema_valid']),
-                  'policy_quality':'partial' if any(x.get('recovery') for x in audit) else 'compiled',
+                  'policy_quality':'partial' if any(x.get('recovery') or (x.get('role')=='interpretation_check' and not x.get('adopted') and any(c.get('check')=='unrepresented_source_review' for c in x.get('checks_sent',[]))) for x in audit) else 'compiled',
                   'quarantined_rule_count':sum(x.get('recovery',{}).get('quarantined_rule_count',0) for x in audit),
                   'quote_source':'exact_source_copied_from_named_note_when_unspecified',
                   'interpretation_checks':_checks(mind_policy.Policy.model_validate(policy)),

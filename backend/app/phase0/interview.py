@@ -1684,6 +1684,8 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
             try:
                 finalize_persona(session)
                 msg = "확인 감사합니다. 신고 화면으로 이동합니다."
+            except UnresolvedAttractionError as e:
+                msg = _unresolved_attraction_message(session, e)
             except ValueError as e:
                 # finalize 실패(예: home 좌표화 실패) — _handle_confirmation 의 동일
                 # 처리와 일관되게 세션을 열어둔 채 home 재질문으로 복귀시킨다.
@@ -1962,6 +1964,8 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
             msg = ("확인 감사합니다. 신고 화면으로 이동합니다."
                    if session.target_tiers == [Tier.route.value]
                    else "확인 감사합니다. 이 내용으로 프로필을 등록했어요. 🙏")
+        except UnresolvedAttractionError as e:
+            msg = _unresolved_attraction_message(session, e)
         except ValueError as e:
             # 데드엔드 금지(라이브 실측): 구버전은 여기서 done=True 로 닫아,
             # "다시 확인해 달라"는 안내와 달리 이후 입력을 전부 무시했다.
@@ -2256,6 +2260,21 @@ def _score_and_save(persona_id: str) -> None:
     storage.personas.update_existing(persona_id,merge_scoring)
 
 
+class UnresolvedAttractionError(ValueError):
+    """Do not confirm a profile after silently deleting a named destination."""
+    def __init__(self, unresolved):
+        self.labels = [str(item.get("label") or "장소") for item in unresolved]
+        super().__init__("목적지 위치 미확인")
+
+
+def _unresolved_attraction_message(session, error):
+    session.awaiting_confirmation = True
+    return ("말씀하신 목적지의 지도 위치를 확인하지 못해 등록을 완료하지 않았어요: "
+            + ", ".join(error.labels)
+            + ". 입력한 정보는 그대로 보관했습니다. 장소의 주소나 가까운 건물을 알려주시거나, "
+              "지도 연결이 회복된 뒤 '다시 확인해 주세요'라고 말씀해 주세요.")
+
+
 def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     """확인 완료된 인터뷰 초안(draft_*) → 지오코딩 → 확정 Persona 저장.
 
@@ -2301,11 +2320,8 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
     points, unresolved = to_attraction_points(session.draft_attractions, geo, anchor=home,
                                               chooser=_CHOOSER if geocoder is None else None)
     if unresolved:
-        # 되묻기(_arealess_attractions)까지 거치고도 좌표가 안 나온 장소 — 예측에서
-        # 빠진다. 조용히 사라지면 원인 추적이 불가능하므로 최소한 로그로 남긴다.
-        print("[phase0] 끌림점 좌표화 실패 → 예측 제외: "
-              + ", ".join(f"{u.get('label')}({u.get('area_text') or '지역 미상'})"
-                          for u in unresolved))
+        # Preserve the draft and keep confirmation open until named goals resolve.
+        raise UnresolvedAttractionError(unresolved)
     # 중복 제거 — 같은 이름(또는 같은 좌표)이 poi/address 로 두 번 잡히면 더 정밀한 것만.
     _rank = {"poi": 0, "address": 1, "dong": 2, "approx": 3, "unknown": 4}
     uniq: dict[object, AttractionPoint] = {}

@@ -20,7 +20,8 @@ def request(personal, model, draft=None):
     body['messages'][0]['content'] += '''
 규칙의 주체는 어르신이다. 보호자의 질문 답변에서 화자·인용 속 화자·실제 행동 주체를 구별한다. 보호자가 찾으러 간 일이나 함께 귀가시킨 일을 어르신의 독립 이동으로 만들지 않는다. '제가'라는 단어만으로 판단하지 말고 인용과 문장 전체의 주체를 본다. 예: '어머니는 기다렸고 제가 데리러 갔어요'는 어머니의 기다림만, '어머니가 등록된 은행을 알아보고 그쪽으로 먼저 걸어갔어요'는 어머니의 seek이다. 등록 장소가 있어도 가족의 행동에 그 장소를 붙이지 않는다.
 is_walking은 모든 행동의 공통 안전 조건이 아니다. 보행 한계에 따른 신체 휴식에는 필요하지만 장소 회피에는 원문이 걷는 중으로 한정할 때만 쓴다. '시끄러우면 피함'은 서 있거나 기다리는 중에도 해당할 수 있으므로 임의로 is_walking을 추가하지 않는다. 원문이 명시적으로 '걷는 중일 때만'이라고 하면 그 한정은 보존한다. 대기에도 스스로 대기를 끝내는 걷기 조건을 넣지 않는다.
-source_assessment에는 어르신이 실제로 한 행동을 적고 보호자가 한 후속 조치를 섞지 않는다. 불확실한 정보로 이동 목적지나 후속 행동을 채우지 않는다.'''
+source_assessment에는 어르신이 실제로 한 행동을 적고 보호자가 한 후속 조치를 섞지 않는다. 불확실한 정보로 이동 목적지나 후속 행동을 채우지 않는다.
+보행 자체는 기본 시뮬레이터가 수행한다. 별도의 관찰된 반응 조건이 없는 '걸을 수 있다'는 능력을 True 또는 is_walking만 조건인 walk 규칙으로 중복 생성하지 않는다. 휴식이 끝난 뒤 실제로 어디로 출발했는지 원문이 말하지 않으면 후속 walk/seek를 만들지 않는다. 원문에 명시된 보행 한계와 휴식 시간은 rest 규칙에 보존한다.'''
     return compact.bounded(body)
 
 
@@ -28,12 +29,51 @@ def repair_request(personal, model, draft, problem):
     body = request(personal, model)
     payload = json.loads(body['messages'][1]['content'])
     payload.update(previous_public_output=deepcopy(draft), validation_error=problem,
+        rule_validation_errors=validation_errors(draft, personal),
         task='검사 오류를 고친 완전한 JSON을 출력한다. 오류 행동의 주체와 원문 근거부터 재확인한다. 근거 없는 seek를 고치려고 목적지를 임의로 채우지 않는다. 정상적인 규칙의 조건·수치·범위는 보존한다.')
     body['messages'][1]['content'] = json.dumps(payload, ensure_ascii=False)
     return compact.bounded(body)
 
 
+def validation_errors(value, personal):
+    """Give the one correction all invalid rules, not only the first exception.
+
+    Diagnostics use the unchanged compiler; they never manufacture a condition,
+    substitute a goal, or drop a rule from the model's draft.
+    """
+    try:
+        value = json.loads(value) if isinstance(value, str) else value
+        _validate_shape(value, compact.schema_a(personal))
+        parsed = compact.OutputA.model_validate(value)
+    except (ValueError, TypeError, KeyError):
+        return []
+    ids = {note['id'] for note in personal['notes']}
+    errors = []
+    for index, rule in enumerate(parsed.rules):
+        single = {'source_assessment': parsed.source_assessment,
+                  'rules': [rule.model_dump()],
+                  'non_action_note_ids': sorted(ids - set(rule.note_ids))}
+        try:
+            compile(single, personal)
+        except (ValueError, TypeError, KeyError, AssertionError, AttributeError, SyntaxError) as error:
+            errors.append({'rule_index': index, 'note_ids': rule.note_ids,
+                           'error': type(error).__name__ + ': ' + str(error)[:240]})
+    return errors
+
+
+def source_coverage_checks(policy):
+    """Ask the model to re-read unrepresented sources; code assigns no behavior."""
+    ids = sorted({item.note_id for item in policy.unrepresented})
+    return [{'check': 'unrepresented_source_review', 'note_ids': ids}] if ids else []
+
+
 def _describe(check):
+    if check['check'] == 'unrepresented_source_review':
+        return (f"답변 {check['note_ids']}가 실행 규칙에 반영되지 않았다. 원문을 각각 다시 읽고, "
+                '조건부 반응이나 신체 휴식 필요를 놓쳤는지 확인한다. 장소 정정·부정·관찰 없음·능력만의 설명과 '
+                '실제 행동을 구별한다. 기존 등록 목적지는 원문에 그곳으로 향하는 행동이 있을 때만 연결한다. '
+                '표현 가능한 근거 있는 행동은 보존하되 없는 조건이나 장소를 만들지 않는다.')
+
     if check['check'] == 'same_note_followup_missing_wait_trigger':
         return (f"{check['movement_rule_id']} 이동과 {check['wait_rule_id']} 대기는 같은 답변 {check['note_ids']}에서 나왔지만 "
                 '이동 조건에 대기의 발동 조건이 없다. 원문이 이 이동이 언제 일어난다고 말하는지 확인한다.')
@@ -50,7 +90,7 @@ def check_request(personal, model, draft, checks):
     body = request(personal, model)
     payload = json.loads(body['messages'][1]['content'])
     payload.update(previous_public_output=deepcopy(draft), structural_checks=[_describe(c) for c in checks],
-        task='구조 검사 항목만 원문으로 다시 확인한 완전한 JSON을 출력한다. 원문이 그 이동이 일어나는 상황이나 순서를 말하면 '
+        task='구조 검사와 미반영 답변을 원문으로 다시 확인한 완전한 JSON을 출력한다. 원문이 그 이동이 일어나는 상황이나 순서를 말하면 '
              '이동 규칙의 조건에 반영하고, 원문이 말하지 않으면 바꾸지 않는다. 규칙을 지워서 검사를 피하지 않는다. '
              '검사 항목과 관계없는 규칙의 조건·수치·범위는 보존한다.')
     body['messages'][1]['content'] = json.dumps(payload, ensure_ascii=False)
