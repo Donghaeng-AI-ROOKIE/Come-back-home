@@ -201,3 +201,34 @@ def test_notification_failure_does_not_invalidate_prediction(monkeypatch):
     monkeypatch.setattr(alerts,'send_alerts',fail)
     alerts.notify_prediction(row)
     assert row.status==CaseStatus.predicted and row.last_alert_poa is None
+
+
+def test_synthetic_profile_verification_restricts_every_delivery_path(monkeypatch):
+    import hashlib
+    from app.config import settings
+    row=case(monkeypatch);row.report.persona_id='e2e-profile'
+    first=registered(FINE)
+    second=entry.register(OWNER,sub('https://web.push.apple.com/second-device'),FINE,'normal')['device_id']
+    monkeypatch.setattr(settings,'verification_push_persona_id','e2e-profile')
+    monkeypatch.setattr(settings,'verification_push_device_sha256',hashlib.sha256(first.encode()).hexdigest())
+    accepted=[]
+    monkeypatch.setattr(webpush,'send_one',lambda subscription,*a:accepted.append(subscription['endpoint']) or True)
+    # A client cannot widen the server restriction by using fine-cell entry.
+    assert entry.enter(OWNER,second,row.id)['status']!='accepted'
+    assert accepted==[]
+    assert entry.enter(OWNER,first,row.id)['status']=='accepted'
+    assert len(accepted)==1
+    # Ordinary profiles retain their eligibility.
+    row.report.persona_id='ordinary-profile'
+    assert entry.enter(OWNER,second,row.id)['status']=='accepted'
+    assert len(accepted)==2
+
+
+def test_verification_without_a_valid_recipient_fails_closed(monkeypatch):
+    from app.config import settings
+    row=case(monkeypatch);row.report.persona_id='e2e-profile'
+    token=registered(FINE)
+    monkeypatch.setattr(settings,'verification_push_persona_id','e2e-profile')
+    monkeypatch.setattr(settings,'verification_push_device_sha256','')
+    monkeypatch.setattr(webpush,'send_one',lambda *a:pytest.fail('Unrestricted verification push'))
+    assert entry.enter(OWNER,token,row.id)['status']!='accepted'
