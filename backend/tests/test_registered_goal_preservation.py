@@ -116,3 +116,59 @@ def test_without_cache_or_providers_factory_preserves_gazetteer(monkeypatch,tmp_
     monkeypatch.setattr(settings,'roadnet_cache_dir',str(tmp_path))
     monkeypatch.setattr(settings,'kakao_rest_key','')
     assert isinstance(get_geocoder(),GazetteerGeocoder)
+
+
+def test_valid_draft_with_unrepresented_notes_gets_source_review(monkeypatch):
+    from app.phase0 import mind_preparation as mp
+    source={'notes':[{'id':'N0','text':'30분 걸으면 10분 쉰다.'},
+                     {'id':'N1','text':'시장에 사람이 많으면 피한다.'}], 'places':[], 'prepared_initial':{}}
+    draft={'source_assessment':'보행 한계 후 휴식', 'rules':[{'action':'rest','goal_place':'','applies_only_at':[],
+           'condition':'is_walking and continuous_walk_minutes >= 30','hold_minutes':10,'note_ids':['N0']}],
+           'non_action_note_ids':['N1']}
+    revised=deepcopy(draft);revised['rules'].append({'action':'avoid_market','goal_place':'','applies_only_at':[],
+           'condition':'market.crowded','hold_minutes':0,'note_ids':['N1']});revised['non_action_note_ids']=[]
+    calls=[]
+    def send(url,body,role,run):
+        calls.append((role,json.loads(body['messages'][1]['content'])))
+        return {'choices':[{'finish_reason':'stop','message':{'content':json.dumps(draft if len(calls)==1 else revised)}}]}
+    monkeypatch.setattr(mp,'_send',send)
+    result,audit=mp.interpret(source,'offline-coverage',candidate=guarded)
+    assert [x[0] for x in calls]==['draft','interpretation_check']
+    assert calls[1][1]['original_notes']==source['notes']
+    assert 'N1' in str(calls[1][1]['structural_checks'])
+    assert [r['action'] for r in result['rules']]==['rest','avoid']
+    assert audit[-1]['adopted'] and not result['unrepresented']
+
+
+def test_failed_source_reread_is_not_reported_as_fully_prepared(monkeypatch):
+    from app import storage
+    from app.config import settings
+    from app.phase0 import mind_preparation as mp
+    from app.llm import mind_policy as m
+    from app.schemas.persona import Persona
+    source={'notes':[{'id':'N0','text':'30분 걸으면 10분 쉰다.'},
+                     {'id':'N1','text':'사람이 많은 시장을 피한다.'}], 'places':[], 'prepared_initial':{}}
+    draft={'source_assessment':'휴식', 'rules':[{'action':'rest','goal_place':'','applies_only_at':[],
+           'condition':'is_walking and continuous_walk_minutes >= 30','hold_minutes':10,'note_ids':['N0']}],
+           'non_action_note_ids':['N1']}
+    monkeypatch.setattr(mp,'selected',lambda:guarded)
+    monkeypatch.setattr(mp,'enabled',lambda:True)
+    monkeypatch.setattr(m,'source',lambda p:deepcopy(source))
+    monkeypatch.setattr(m,'revision',lambda p:'coverage-regression')
+    for key in ['kexaone_api_key','kexaone_base_url','kexaone_model']:
+        monkeypatch.setattr(settings,key,'offline-test')
+    calls=[]
+    def send(url,body,role,run):
+        calls.append(role)
+        if len(calls)==2:raise ValueError('invalid reread')
+        return {'choices':[{'finish_reason':'stop','message':{'content':json.dumps(draft)}}]}
+    monkeypatch.setattr(mp,'_send',send)
+    p=Persona(id='coverage-reread-failure',type='dementia',name='합성',age=78,home=HOME)
+    storage.personas.save(p.id,p)
+    try:
+        saved=mp.prepare(p.id,retry=True)
+        assert calls==['draft','interpretation_check']
+        assert saved.prepared_mind['policy_quality']=='partial'
+        assert mp.ready(saved)[1]=='ready_partial'
+        assert saved.prepared_mind['interpretation_check_review']=='K_reread_failed_first_policy_kept'
+    finally:storage.personas.delete(p.id)

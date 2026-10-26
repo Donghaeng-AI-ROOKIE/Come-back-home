@@ -53,7 +53,7 @@ def test_saved_onboarding_preparation_actual_api_hourly_restore_and_found(cached
     if candidate_kind=='guarded_partial':
         bad=deepcopy(raw['rules'][0]);bad.update(action='seek',goal_place='',applies_only_at=[],hold_minutes=0)
         raw['rules'].append(bad)
-    expected_calls=1 if candidate_kind=='guarded_core' else 2
+    expected_calls=2  # guarded core also re-reads unrepresented source notes
     def replay_http(url,body,**kw):
         http_calls.append(body)
         assert json.loads(body['messages'][1]['content'])['original_notes']

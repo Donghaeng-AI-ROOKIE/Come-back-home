@@ -61,7 +61,19 @@ def validation_errors(value, personal):
     return errors
 
 
+def source_coverage_checks(policy):
+    """Ask the model to re-read unrepresented sources; code assigns no behavior."""
+    ids = sorted({item.note_id for item in policy.unrepresented})
+    return [{'check': 'unrepresented_source_review', 'note_ids': ids}] if ids else []
+
+
 def _describe(check):
+    if check['check'] == 'unrepresented_source_review':
+        return (f"답변 {check['note_ids']}가 실행 규칙에 반영되지 않았다. 원문을 각각 다시 읽고, "
+                '조건부 반응이나 신체 휴식 필요를 놓쳤는지 확인한다. 장소 정정·부정·관찰 없음·능력만의 설명과 '
+                '실제 행동을 구별한다. 기존 등록 목적지는 원문에 그곳으로 향하는 행동이 있을 때만 연결한다. '
+                '표현 가능한 근거 있는 행동은 보존하되 없는 조건이나 장소를 만들지 않는다.')
+
     if check['check'] == 'same_note_followup_missing_wait_trigger':
         return (f"{check['movement_rule_id']} 이동과 {check['wait_rule_id']} 대기는 같은 답변 {check['note_ids']}에서 나왔지만 "
                 '이동 조건에 대기의 발동 조건이 없다. 원문이 이 이동이 언제 일어난다고 말하는지 확인한다.')
@@ -78,7 +90,7 @@ def check_request(personal, model, draft, checks):
     body = request(personal, model)
     payload = json.loads(body['messages'][1]['content'])
     payload.update(previous_public_output=deepcopy(draft), structural_checks=[_describe(c) for c in checks],
-        task='구조 검사 항목만 원문으로 다시 확인한 완전한 JSON을 출력한다. 원문이 그 이동이 일어나는 상황이나 순서를 말하면 '
+        task='구조 검사와 미반영 답변을 원문으로 다시 확인한 완전한 JSON을 출력한다. 원문이 그 이동이 일어나는 상황이나 순서를 말하면 '
              '이동 규칙의 조건에 반영하고, 원문이 말하지 않으면 바꾸지 않는다. 규칙을 지워서 검사를 피하지 않는다. '
              '검사 항목과 관계없는 규칙의 조건·수치·범위는 보존한다.')
     body['messages'][1]['content'] = json.dumps(payload, ensure_ascii=False)
