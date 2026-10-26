@@ -46,7 +46,7 @@
     "OS screenshot and map screenshot have different capture times",
     "stored case C POA predates road fix, roadnet_used=false",
     "guidance text was still loading",
-    "new persona mind preparation retry pending"
+    "new persona mind retry interrupted by worker OOM at 2026-10-26T18:26:23+09:00"
   ],
   "assets": {
     "citizen-alerts-location-unavailable.png": "5a5234518294f9df70da09e067dccd40f6e34bd52c2226ee5e0b2d6db1fb7bb7",
