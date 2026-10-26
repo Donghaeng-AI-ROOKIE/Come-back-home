@@ -141,7 +141,7 @@ export async function getPoaPrediction(caseId: string, t: TimeAxis): Promise<Poa
 export async function submitTip(
   caseId: string,
   input: TipInput,
-  opts: { force?: boolean; reporterUserId?: string } = {},
+  opts: { force?: boolean; reporterUserId?: string; submissionId?: string } = {},
 ): Promise<TipResult | NeedMore> {
   if (USE_MOCK) {
     const tip: Tip = {
@@ -159,6 +159,8 @@ export async function submitTip(
   }
 
   const body = JSON.stringify({
+    background_analysis: true,
+    submission_id: opts.submissionId ?? undefined,
     text: input.text,
     location: input.location ?? null,
     seen_at: input.seenAt ?? null,
@@ -172,7 +174,7 @@ export async function submitTip(
       method: 'POST',
       // 재예측은 응답 뒤에 돌지만, 위치·시각 추출(Mi:dm)과 계산 줄 대기가 기본
       // 12초를 넘을 수 있어 넉넉히 둔다. 끊겨도 아래에서 접수 여부를 확인한다.
-      timeoutMs: SLOW_TIMEOUT_MS,
+      timeoutMs: 30_000,
       body,
     });
   } catch (e) {

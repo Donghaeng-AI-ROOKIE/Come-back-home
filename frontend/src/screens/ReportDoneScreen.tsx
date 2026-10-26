@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -27,7 +27,7 @@ export default function ReportDoneScreen() {
           <DoneLogo width={77} height={42} style={styles.logo} />
           <Image source={mascot} resizeMode="contain" style={styles.mascot} />
           <Text style={styles.title}>제보 접수 완료</Text>
-          <Text style={styles.desc}>제보가 바로 접수됐어요. AI 예측 동선은{`\n`}뒤에서 다시 계산해 잠시 뒤 지도에 반영돼요.</Text>
+          <Text style={styles.desc}>제보 내용을 저장했어요.{`\n`}내용 분석과 지도 반영은 서버에서 진행해요.</Text>
 
           <View style={styles.notice}>
             <Text style={styles.noticeTitle}>보호자가 오실 때까지 10분만 기다려주세요.</Text>

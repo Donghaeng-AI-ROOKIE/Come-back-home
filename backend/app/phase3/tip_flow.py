@@ -90,6 +90,8 @@ def process_tip(
     force: bool = False,
     now: datetime | None = None,
     defer_heavy: bool = False,
+    tip_id: str | None = None,
+    prestructured: dict | None = None,
 ) -> Tip | dict:
     """제보 1건 처리.
 
@@ -111,7 +113,7 @@ def process_tip(
 
     # 구조화 1회 — 슬롯 JSON + 구체성 등급이 같은 호출 결과라 여기서 한 번만 부르고
     # 아래 score_tip 에 그대로 주입한다(재호출 방지).
-    structured = tip_llm.structure_tip(text)
+    structured = prestructured if prestructured is not None else tip_llm.structure_tip(text)
 
     if location is None:
         location = _geocode_tip_location(structured.get("location_text"), case.lkp)
@@ -122,7 +124,7 @@ def process_tip(
         return {"status": "need_more", "missing": ["location"]}
 
     tip = Tip(
-        id=storage.new_id(),
+        id=tip_id or storage.new_id(),
         case_id=case.id,
         text=text,
         location=location,
@@ -172,7 +174,7 @@ def process_tip(
 
 
 @storage.serialize_case
-def finish_tip(case_id: str, tip_id: str, now: datetime | None = None) -> None:
+def finish_tip(case_id: str, tip_id: str, now: datetime | None = None) -> bool:
     """`defer_heavy` 로 미뤄 둔 뒷일 — 층2 재예측·D3 알림. 백그라운드에서 돈다.
 
     사건을 **저장소에서 다시 읽는다.** 미뤄 두는 동안 다른 제보가 들어왔을 수
@@ -191,8 +193,10 @@ def finish_tip(case_id: str, tip_id: str, now: datetime | None = None) -> None:
         try:
             _apply_heavy(case, tip, now or datetime.now())
             storage.cases.save(case.id, case)
+            return True
         except Exception:   # 백그라운드라 예외를 올릴 곳이 없다 — 로그로만 남긴다
             log.exception("[tip] 후속 처리 실패 (case=%s tip=%s)", case_id, tip_id)
+            return False
 
 
 def _apply_heavy(case: Case, tip: Tip, now: datetime) -> None:

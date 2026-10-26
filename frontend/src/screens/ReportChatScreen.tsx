@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -10,6 +10,7 @@ import type { TipResult } from '../types/domain';
 import { useQueryClient } from '@tanstack/react-query';
 import { color, type } from '../theme/tokens';
 import { submitTip } from '../api/client';
+import { receiptDeadline } from '../utils/receiptDeadline';
 import { useAuthStore } from '../store/authStore';
 import { useMyLocation } from '../hooks/useMyLocation';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
@@ -41,6 +42,8 @@ export default function ReportChatScreen() {
   const [location, setLocation] = useState('');
   const [seenAt, setSeenAt] = useState('');
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
+  const attempt = useRef<{ identity: string; id: string; point?: { lat: number; lng: number } } | null>(null);
   /** 전송이 오래 걸릴 때 화면에 띄우는 진행 안내(왜 기다리는지). */
   const [progress, setProgress] = useState('');
 
@@ -58,14 +61,20 @@ export default function ReportChatScreen() {
    * 남아 있는 근사 중 가장 낫다.
    */
   const send = async (opts: { force?: boolean; useMyPoint?: boolean }, retried = false): Promise<TipResult | null> => {
-    const result = await submitTip(caseId, {
-      location: opts.useMyPoint ? (myPoint ?? undefined) : undefined,
+    const identity = JSON.stringify([caseId, summary.trim(), location.trim(), seenAt.trim(), opts]);
+    if (attempt.current?.identity !== identity) {
+      const id = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+        ? crypto.randomUUID() : `tip-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      attempt.current = { identity, id, point: opts.useMyPoint ? (myPoint ?? undefined) : undefined };
+    }
+    const result = await receiptDeadline(submitTip(caseId, {
+      location: attempt.current.point,
       text: [
         summary.trim(),
         location.trim() && `목격 위치: ${location.trim()}`,
         seenAt.trim() && `목격 시각: ${seenAt.trim()}`,
       ].filter(Boolean).join(' / ') || '목격 제보',
-    }, { force: !!opts.force, reporterUserId: userId ?? undefined });
+    }, { force: !!opts.force, reporterUserId: userId ?? undefined, submissionId: attempt.current.id }));
 
     if (!('status' in result)) return result;
 
@@ -89,10 +98,11 @@ export default function ReportChatScreen() {
   const submit = async (opts: { force?: boolean; useMyPoint?: boolean } = {}) => {
     if (sending) return;
     if (!summary.trim()) {
-      Alert.alert('제보 내용을 입력해 주세요');
+      setError('제보 내용을 입력해 주세요.');
       return;
     }
     setSending(true);
+    setError('');
     /**
      * 늦어지면 화면이 이유를 말하게 한다.
      *
@@ -102,8 +112,8 @@ export default function ReportChatScreen() {
      * 08-12) 실제로 하고 있는 일만 말한다. 재계산 중이라고 말하지 않는다.
      */
     setProgress('');
-    const t1 = setTimeout(() => setProgress('목격 위치와 시각을 확인하며 제보를 접수하고 있어요.'), 6_000);
-    const t2 = setTimeout(() => setProgress('연결이 느려 조금 더 걸리고 있어요. 이 화면을 닫지 말고 잠시만 기다려 주세요.'), 25_000);
+    const t1 = setTimeout(() => setProgress('제보 내용을 안전하게 저장하고 있어요.'), 6_000);
+    const t2 = setTimeout(() => setProgress('연결을 확인하고 있어요. 접수가 완료되면 서버에서 내용을 분석합니다.'), 25_000);
     try {
       const result = await send(opts);
       if (result == null) {   // 되묻기 — 화면이 그 항목을 띄운 상태다
@@ -111,19 +121,19 @@ export default function ReportChatScreen() {
         setSending(false);
         return;
       }
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['guardianCases'] }),
-        queryClient.invalidateQueries({ queryKey: ['activeAlerts'] }),
-        queryClient.invalidateQueries({ queryKey: ['case', caseId] }),
-      ]);
+      // A saved receipt is completion for the citizen. Never wait for map reads.
+      void queryClient.invalidateQueries({ queryKey: ['guardianCases'] }).catch(() => {});
+      void queryClient.invalidateQueries({ queryKey: ['activeAlerts'] }).catch(() => {});
+      void queryClient.invalidateQueries({ queryKey: ['case', caseId] }).catch(() => {});
       navigation.replace('ReportDone', { caseId });
     } catch (e) {
-      Alert.alert('제보를 전송하지 못했습니다', String(e));
+      setError(e instanceof Error ? e.message : '접수 여부를 확인하지 못했어요. 다시 누르면 같은 요청을 확인합니다.');
       setSending(false);
     } finally {
       clearTimeout(t1);
       clearTimeout(t2);
       setProgress('');
+      setSending(false);
     }
   };
 
@@ -231,6 +241,7 @@ export default function ReportChatScreen() {
             {/* 왜 기다리는지 화면이 말한다. 문구는 만들어져 있었는데 **어디에도
                 그려지지 않아** 사용자는 '전송 중…'만 90초 동안 봤다(실측 08-12).
                 이제 첫 누름부터 실제 전송이 걸리므로 더 자주 보이는 자리다. */}
+            {error ? <Text style={styles.progress} accessibilityRole="alert">{error}</Text> : null}
             {progress ? <Text style={styles.progress} accessibilityRole="alert">{progress}</Text> : null}
           </View>
         </ScrollView>

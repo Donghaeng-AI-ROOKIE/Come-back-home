@@ -133,6 +133,8 @@ def close_case(case: Case, reason: CloseReason, now: datetime | None = None) -> 
     case.closed_at = now or datetime.now()
     case.alert_delivery = {}
     storage.cases.save(case.id, case)
+    from app.phase3.tip_receipts import cancel_case
+    cancel_case(case.id)
     # 종결과 동시에 익명 참여자 카운트를 턴다. 안 그러면 TTL(90s)이 다 지날 때까지
     # 끝난 사건에 "N명이 함께 보고 있어요"가 남는다.
     presence.clear(case.id)
@@ -170,6 +172,8 @@ def retention_info(case: Case, now: datetime | None = None) -> dict:
 @storage.serialize_case
 def purge_case(case: Case, *, cause: str) -> None:
     """케이스 파기 — 본체(report·tips 내장) + 파생물(debug_traces) 동반삭제."""
+    from app.phase3.tip_receipts import purge_case as purge_tip_receipts
+    purge_tip_receipts(case.id)
     storage.debug_traces.delete(case.id)
     storage.cases.delete(case.id)
     presence.clear(case.id)  # 종결을 거치지 않고 바로 파기되는 경로(테스트·일괄파기)도 있다

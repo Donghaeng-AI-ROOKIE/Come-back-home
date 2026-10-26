@@ -277,7 +277,7 @@ def new_id() -> str:
 def reset_for_tests() -> None:
     """테스트 격리용 — 메모리와 커넥션을 비운다. 운영 경로에서 쓰지 않는다."""
     global _conn
-    for repo in (personas, interviews, cases, debug_traces, audit_logs,
+    for repo in (personas, interviews, cases, tip_receipts, debug_traces, audit_logs,
                  privacy_runs, privacy_jobs, privacy_scheduler, privacy_alerts,
                  walk_sessions, walk_tip_counts):
         repo._items.clear()
@@ -293,6 +293,7 @@ from app.schemas.account import Account, Session
 from app.schemas.case import Case
 from app.schemas.debug import PredictionDebug
 from app.schemas.device import Device
+from app.schemas.tip import TipReceipt
 from app.schemas.persona import InterviewSession, Persona
 from app.schemas.privacy import (
     AuditRecord, PrivacyAlert, PrivacyJob, PrivacyRun, PrivacySchedulerState,
@@ -306,6 +307,7 @@ personas = Repository(Persona, "personas")
 interviews = Repository(InterviewSession, "interviews")
 # 사건 단위 — 종결 후 TTL 만료 시 파기(privacy.lifecycle).
 cases = Repository(Case, "cases")
+tip_receipts = Repository(TipReceipt, "tip_receipts")
 # 워커 궤적·LLM 트레이스. **일부러 영속화하지 않는다** — 시연 대시보드용 파생물이라
 # 재시작 시 사라져도 되고, LLM 원문까지 디스크에 남길 이유가 없다.
 debug_traces = Repository(PredictionDebug)
