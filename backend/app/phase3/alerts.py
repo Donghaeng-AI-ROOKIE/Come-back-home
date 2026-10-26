@@ -340,6 +340,13 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
     }
 
     candidates = devices.devices_in_cells(target_cells)
+    verified_case = storage.cases.get(case_id)
+    if (settings.verification_push_persona_id and verified_case is not None
+            and verified_case.report.persona_id == settings.verification_push_persona_id):
+        import hashlib
+        allowed = settings.verification_push_device_sha256
+        candidates = [d for d in candidates if len(allowed) == 64
+                      and hashlib.sha256(d.token.encode()).hexdigest() == allowed]
     if only_tokens is not None:
         candidates = [d for d in candidates if d.token in only_tokens]
     rel_by_parent = relative_prob_by_parent(poa) if poa else {}

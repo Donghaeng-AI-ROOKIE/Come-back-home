@@ -1,0 +1,54 @@
+{
+  "checked_at": "2026-10-26T12:50:26.841273+00:00",
+  "case_id": "31840f744505",
+  "status": "CaseStatus.predicted",
+  "created_at": "2026-10-26 12:09:14.158379",
+  "last_sim_at": "2026-10-26 12:09:15.257075",
+  "persona_linked": true,
+  "axis_scoring_enabled": false,
+  "initial_interpretation": {
+    "status": "applied",
+    "initial_prior_path": "prepared_person",
+    "sar_source": "exaone",
+    "numeric_baseline_source": "exaone",
+    "SAR_called_during_prediction": true
+  },
+  "sar_numeric_baseline_source": "exaone",
+  "roadnet_used": true,
+  "roadnet_fallback_reason": "",
+  "quality": {
+    "engine": "continuous-person-v8-open-case-family-absent",
+    "personal_policy_status": "ready",
+    "continuous_clock": true,
+    "checkpoint_committed": true,
+    "unresolved_mass": 0.0,
+    "personal_channel_weight": 0.3,
+    "statistical_definition": "literature_distance_prior",
+    "channel_total_variation": 0.5930369721743968,
+    "roadnet_source": "supabase_storage",
+    "roadnet_sha256": "dcf398a82bec31b56adef00410fb33826af688cc1291c631e7a0461b7b077d2c",
+    "unrepresented_note_count": 17,
+    "new_model_calls_during_walk": 0
+  },
+  "compiled_mind_rule_count": 1,
+  "personal_rule_minutes_across_walkers": 4136.665208749999,
+  "poa_cells": 387,
+  "poa_sum": 1.0,
+  "target_cells": 80,
+  "target_area_km2": 5.790111693579654,
+  "target_resolutions": [
+    9
+  ],
+  "delivery": {
+    "kind": "poa",
+    "status": "complete",
+    "sent": 0,
+    "failed": 0,
+    "attempts": 1
+  },
+  "registered_devices_for_persona_owner": 0,
+  "verification_recipient_guard_enabled": true,
+  "server_device_location_changed_by_agent": false,
+  "phone_os_receipt_verified": false,
+  "phone_blocker": "No registered subscription for report owner; Mac locked"
+}

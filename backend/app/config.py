@@ -14,6 +14,9 @@ class Settings(BaseSettings):
 
     # Server-managed disposable test owners; clients cannot mark a real report as a test.
     synthetic_guardian_ids: str = ""
+    # Temporary server-only delivery restriction for a synthetic profile E2E.
+    verification_push_persona_id: str = ""
+    verification_push_device_sha256: str = ""
 
     # 모델 API 키 — 비어 있으면 해당 클라이언트는 스텁 모드
     exaone_api_key: str = ""
