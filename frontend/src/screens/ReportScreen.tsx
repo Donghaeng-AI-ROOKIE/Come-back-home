@@ -208,11 +208,11 @@ export default function ReportScreen() {
           </Pressable>
         </View>
 
-        <View style={styles.locationSection}>
+        <View style={styles.timeSection}>
           <Text style={styles.familyName}>마지막으로 본 시각</Text>
           <TextInput value={lastSeenAt} onChangeText={setLastSeenAt}
             placeholder="예: 2026-09-25 14:30" accessibilityLabel="마지막 목격 시각"
-            style={styles.searchInput} autoCapitalize="none" />
+            style={[styles.searchInput, styles.timeInput]} autoCapitalize="none" />
         </View>
         <View style={styles.locationSection}>
           <SectionHeader icon={<SvgXml xml={icMappinRedXml} width={15} height={20} />} title="마지막 목격 장소" />
@@ -393,7 +393,10 @@ const styles = StyleSheet.create({
   errorBox: { marginTop: 8, marginHorizontal: 23, borderRadius: 8, backgroundColor: '#FDECEC', paddingHorizontal: 12, paddingVertical: 10 },
   errorText: { fontFamily: type.family, fontSize: 12, lineHeight: 17, color: '#C0392B' },
 
-  locationSection: { height: 286, backgroundColor: '#FFFFFF' },
+  timeSection: { paddingHorizontal: 23, paddingTop: 12, paddingBottom: 16, gap: 10, backgroundColor: '#FFFFFF' },
+  timeInput: { flex: 0, minHeight: 40, borderRadius: 8, backgroundColor: '#F8F8F8' },
+  // Search errors belong to this section and must push the following fields down.
+  locationSection: { minHeight: 286, flexShrink: 0, paddingBottom: 8, backgroundColor: '#FFFFFF' },
   searchField: { height: 30, marginHorizontal: 23, borderRadius: 8, backgroundColor: '#F8F8F8', flexDirection: 'row', alignItems: 'center', paddingLeft: 11 },
   searchInput: { flex: 1, height: 30, paddingHorizontal: 10, paddingVertical: 0, fontFamily: type.family, fontSize: 12, lineHeight: 16, color: '#525253', outlineStyle: 'none' } as any,
   mapFrame: { height: 155, marginHorizontal: 23, marginTop: 12, borderRadius: 10, overflow: 'hidden', backgroundColor: '#EEECE6' },
