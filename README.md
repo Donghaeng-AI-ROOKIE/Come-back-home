@@ -13,6 +13,19 @@
 
 [서비스 열기](https://doraogil.pages.dev/) · [문서 안내](docs/README.md) · [기술 구조](docs/SERVICE_E2E_20261012.md) · [최종 정책과 근거](docs/experiments/final-alert-policy-20261012.md) · [API 계약](API_CONTRACT.md)
 
+## 운영 서비스 화면
+
+보호자 등록부터 시민의 긴급 알림과 수색 지도까지, **2026-10-26 실제 배포 앱에서 촬영한 화면**입니다. 합성 사건 C의 iPhone 푸시와 같은 사건의 지도 화면을 함께 공개합니다.
+
+<table>
+<tr><th>보호자 홈</th><th>사건 C의 iPhone 확률 지도</th></tr>
+<tr><td><img src="docs/assets/service-screens-20261026/guardian-home.png" width="280" alt="합성 가족이 표시된 운영 보호자 홈"/></td><td><img src="docs/assets/service-screens-20261026/iphone-case-c-map-user.png" width="280" alt="운영 iPhone 앱의 합성 사건 C 확률 지도"/></td></tr>
+</table>
+
+<img src="docs/assets/service-screens-20261026/iphone-os-case-c.png" width="520" alt="같은 사건 C의 실제 iPhone 푸시 알림, 개인 배경 가림"/>
+
+OS 알림 사진과 지도 사진의 촬영 시각은 다릅니다. 17:59 현재 대상 구역에 대응하는 추가 발송 기록과 휴대폰 수신도 확인했습니다. 위 지도는 도로망 수정 전 저장 결과이며, 하단 수색 안내는 로딩 중입니다. [전체 화면, 촬영 시각과 검증 범위](docs/SERVICE_SCREENS_20261026.md)에서 상세히 확인할 수 있습니다.
+
 ## 최종 구현
 
 | 항목 | 선택한 구성 |

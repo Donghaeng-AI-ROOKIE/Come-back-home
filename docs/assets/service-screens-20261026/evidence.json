@@ -1,0 +1,66 @@
+{
+  "case_id": "256e85a7b49a",
+  "synthetic_title": "[개인 프로필 앱 신고 C · 실제 실종 아님], 검증용 가상 인상착의, 수색·제보하지 마세요",
+  "status": "predicted",
+  "target_cell_count": 80,
+  "poa_cell_count": 7011,
+  "poa_sha256": "9d3ab765f1617550bfde814d5e7c09ca1cb1ba17489cccb9e688f279f42765ac",
+  "lkp_time": "2026-10-12 12:52:47.762929",
+  "last_sim_at": "2026-10-26 08:06:12.485881",
+  "last_alert_at": "2026-10-12 12:51:54.518478",
+  "roadnet_used": false,
+  "roadnet_fallback_reason": "verified regional map does not cover the report location",
+  "quality": {
+    "engine": "legacy",
+    "personal_policy_status": "ready",
+    "personal_channel_weight": 0.3,
+    "channel_contract": "personal-mind-literature-distance-v1",
+    "statistical_definition": "literature_distance_prior",
+    "fallback": null
+  },
+  "delivery_metadata": {
+    "kind": "new_region",
+    "status": "complete",
+    "sent": 0,
+    "failed": 0,
+    "attempts": 1,
+    "created_at": null,
+    "completed_at": null
+  },
+  "current_target_sha256": "50ce02dadf9b93be520d40865917d5aa9da27beb76ebb3b447df0c91d3a6b441",
+  "current_target_count": 80,
+  "matching_current_target_entry_delivery_times": [
+    "2026-10-26 08:59:17.569380"
+  ],
+  "captures": {
+    "os_case_c": "2026-10-26T15:50:04+09:00",
+    "mirroring_map": "2026-10-26T18:12:00+09:00",
+    "user_map": "2026-10-26T18:14:59+09:00"
+  },
+  "os_receipt_confirmation": {
+    "source": "user confirmation in chat",
+    "text": "15분전에 도착햇어",
+    "exact_arrival_time_measured": false
+  },
+  "limitations": [
+    "OS screenshot and map screenshot have different capture times",
+    "stored case C POA predates road fix, roadnet_used=false",
+    "guidance text was still loading",
+    "new persona mind preparation retry pending"
+  ],
+  "assets": {
+    "citizen-alerts-location-unavailable.png": "5a5234518294f9df70da09e067dccd40f6e34bd52c2226ee5e0b2d6db1fb7bb7",
+    "citizen-home.png": "d57c00f32078bcfa5fb74951b4d08f7aaede2511a898881fa1bf027848e45b2b",
+    "citizen-walk-idle.png": "b831471df5064167e256bd87043777e335b628fd53b31830c35b9ad6bde7fabd",
+    "guardian-alerts.png": "bc4da44b14b955c1f48e010d4484ae7985fdeb2d6e8cce9c333f0029c025f30a",
+    "guardian-home.png": "9d0e53ab03d3aa6e44af81ffabcaff5ddccee554106da14129325e3010667dae",
+    "guardian-interview.png": "6a534e0bc6f6c9263099808c61afd3ebcc4bc06570af8f75d40f6c175ec6e782",
+    "guardian-report.png": "378335f0347204a7b6ce85f787f1ce4a16a33d446cab74b69e4623979c65330a",
+    "iphone-case-c-alert-list.png": "ed66d4aa81094b5ca1aa30f4b3df224e52bd4f4b3dbbe7cbe50078a519029d6a",
+    "iphone-case-c-detail.png": "c652f03b6ec4e7bab9d44be3e16300849b7d3f3b6bdb72df790bc0c9f4d9998e",
+    "iphone-case-c-map-user.png": "2aeb20fa7e0ebfb4a793ae54ea66aa16f4d1c16e1a7618afe1da59f235f85ba0",
+    "iphone-case-c-probability-map.png": "f98b889301f2693a472354e3de0bf3de9b7305dcc16366671a0a9b44ab453bf7",
+    "iphone-os-case-c.png": "113753d651ec4aaaeb26d2bb7701134331640ef0eb18023022e1b71a6e980e50",
+    "iphone-os-test.png": "9b6b2a6364463f9fd2f63bbdfcf8645a8582a508742dda396f48b9362553ab99"
+  }
+}

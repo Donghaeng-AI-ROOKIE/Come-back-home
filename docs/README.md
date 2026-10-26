@@ -6,6 +6,7 @@
 
 | 목적 | 문서 |
 |---|---|
+| 운영 앱 화면, 같은 사건의 iPhone 푸시와 지도 | [실제 서비스 화면](SERVICE_SCREENS_20261026.md) |
 | 모델 역할, SAR 초기 prior, 마음 규칙, 전체 흐름 | [서비스 E2E 구조](SERVICE_E2E_20261012.md) |
 | 전송 경계, 신고, 제보, 지도 조회 계약 | [API 계약](../API_CONTRACT.md) |
 | Cloudflare Pages, Supabase, GPU worker 구성 | [배포 연결 안내](../deploy/supabase/README.md) |
