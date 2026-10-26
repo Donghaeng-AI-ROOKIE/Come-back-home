@@ -59,6 +59,11 @@ class OSMnxNetwork(RoadNetwork):
         if cache.exists():
             self.graph = ox.load_graphml(cache)
             return
+        # OSMnx also caches HTTP responses. Its default relative `cache/` is
+        # unwritable in the deployed read-only container; use the data volume.
+        http_cache = self.cache_dir / "http"
+        http_cache.mkdir(parents=True, exist_ok=True)
+        ox.settings.cache_folder = str(http_cache)
         self.graph = ox.graph_from_point(
             (center.lat, center.lng), dist=radius_m, network_type="walk",
         )
