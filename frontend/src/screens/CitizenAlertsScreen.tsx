@@ -94,7 +94,8 @@ export default function CitizenAlertsScreen() {
             tone="green"
             badge="상황 종료"
             title={`${bracketAddress(r.area)}${r.age ? ` ${r.age}세` : ''} 어르신`}
-            body={'시민 제보를 통해 가족의 품으로 무사히 돌아갔습니다.\n제보해 주셔서 감사합니다.'}
+            // 제보 수가 있으면 "N명의 제보 덕분에", 0건이면 숫자 없이(0명은 어색) 폴백.
+            body={`${r.tipCount && r.tipCount > 0 ? `${r.tipCount}명의 제보 덕분에` : '여러분의 관심 덕분에'} 가족의 품으로 무사히 돌아갔습니다.\n제보해 주셔서 감사합니다.`}
           />
         ))}
       </ScrollView>
