@@ -56,6 +56,24 @@ async function run<T>(key:string,path:string,method:string,body:unknown,timeout:
   }
   if (!resume) await submit();
   let recoveredSubmission = false;
+  let renewedRead = false;
+  // These GETs only retrieve stored state. Preview/guidance GETs may compute or
+  // call a model, so they retain the same at-most-once protection as mutations.
+  const repeatableRead = method === 'GET' && (
+    /^\/phase0\/personas(?:\/[\w-]+(?:\/preparation)?)?(?:\?[^#]*)?$/.test(path) ||
+    /^\/phase3\/alerts(?:\?[^#]*)?$/.test(path) ||
+    /^\/phase3\/cases\/[\w-]+\/poa(?:\?top=\d+)?$/.test(path)
+  );
+  async function renewRead(): Promise<boolean> {
+    if (!repeatableRead || renewedRead) return false;
+    renewedRead = true;
+    recoveredSubmission = true;
+    id = crypto.randomUUID();
+    createdAt = Date.now();
+    await safeStorage.setItem(key,JSON.stringify({id,createdAt}));
+    await submit();
+    return true;
+  }
   while (Date.now()<until && !signal?.aborted) {
     const { data, error } = await db.rpc('cbh_result',{p_id:id});
     // A disconnected browser can persist an ID before Supabase receives it.
@@ -65,6 +83,7 @@ async function run<T>(key:string,path:string,method:string,body:unknown,timeout:
     if (resume && !error && data === null && !recoveredSubmission) {
       const age = createdAt === null ? Infinity : Date.now()-createdAt;
       if (age < 0 || age > 2*60*60*1000) {
+        if (await renewRead()) continue;
         throw new ApiError(503,path,'오래된 요청의 완료 여부를 확인할 수 없습니다. 기록을 확인해 주세요. 요청 '+id.slice(0,8));
       }
       recoveredSubmission = true;
@@ -78,6 +97,7 @@ async function run<T>(key:string,path:string,method:string,body:unknown,timeout:
       return data.result as T;
     }
     if (!error && ['interrupted','expired'].includes(data?.state)) {
+      if (await renewRead()) continue;
       // Retain UUID so clicking the button again cannot repeat uncertain AI work.
       throw new ApiError(503,path,'완료 여부를 확인할 수 없습니다. 기록을 확인해 주세요. 요청 '+id.slice(0,8));
     }
