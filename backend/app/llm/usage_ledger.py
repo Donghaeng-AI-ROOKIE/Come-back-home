@@ -6,8 +6,11 @@
 """
 from __future__ import annotations
 
+import base64
 import json
 import os
+import subprocess
+import sys
 import threading
 
 try:
@@ -109,6 +112,19 @@ class _StartedIndex:
                 reader.seek(0)
                 self.head = reader.read(min(self.offset, 256))
 
+    def adopt(self, fd, counted):
+        """다른 프로세스가 센 앞부분을 받는다. 같은 파일이고 지금보다 더 센 경우에만."""
+        stat = os.fstat(fd)
+        head = base64.b64decode(counted["head"])
+        with os.fdopen(os.dup(fd), "rb") as reader:
+            reader.seek(0)
+            same_head = reader.read(len(head)) == head
+        identity = (stat.st_dev, stat.st_ino)
+        if tuple(counted["identity"]) != identity or not same_head or counted["offset"] <= self.offset:
+            return
+        self.identity, self.head, self.offset = identity, head, counted["offset"]
+        self.counts = {run_id: count for run_id, count in counted["counts"]}
+
 
 _INDEXES = {}
 _INDEXES_LOCK = threading.Lock()
@@ -120,17 +136,36 @@ def _started_index(path):
 
 
 def warm_started_index(ledger_path=DEFAULT_LEDGER):
-    """기존 원장을 파일 잠금 없이 미리 세어 둔다. 첫 상한 검사가 원장 전체를 기다리지 않게 한다."""
-    try:
-        fd = os.open(ledger_path, os.O_RDONLY)
-    except FileNotFoundError:
+    """기존 원장을 별도 프로세스에서 미리 세어 둔다. 첫 상한 검사가 원장 전체를 기다리지 않게 한다.
+
+    같은 프로세스의 스레드에서 세면 해석하는 동안 GIL을 쥐어 워커의 다른 처리가 함께 멈춘다
+    (2.3GB 원장에서 재시작 후 첫 요청이 약 2초 → 38.6초로 늦어졌다).
+    """
+    if not os.path.exists(ledger_path):
         return
+    done = subprocess.run([sys.executable, os.path.abspath(__file__), "--count-started",
+                           os.fspath(ledger_path)], capture_output=True, text=True, check=False)
+    if done.returncode != 0:
+        raise ValueError("usage ledger history could not be counted")
+    counted = json.loads(done.stdout)
+    fd = os.open(ledger_path, os.O_RDONLY)
     try:
         index = _started_index(ledger_path)
         with index.lock:
-            index.advance(fd, complete=False)
+            index.adopt(fd, counted)
     finally:
         os.close(fd)
+
+
+def _count_started_history(ledger_path):
+    index = _StartedIndex()
+    fd = os.open(ledger_path, os.O_RDONLY)
+    try:
+        index.advance(fd, complete=False)
+    finally:
+        os.close(fd)
+    return {"identity": list(index.identity), "head": base64.b64encode(index.head).decode(),
+            "offset": index.offset, "counts": list(index.counts.items())}
 
 
 def _lock(fd) -> None:
@@ -226,3 +261,10 @@ def logged_json_request(url, payload, *, headers, provider, model, role, run_id,
     finally:
         result.update(finished_at=_now(), duration_ms=round((time.monotonic()-started)*1000, 2))
         append_event(result, ledger_path)
+
+
+if __name__ == "__main__":
+    # warm_started_index 가 별도 프로세스로 실행한다. 표준 라이브러리만 쓰므로 app 패키지를 불러오지 않는다.
+    if len(sys.argv) != 3 or sys.argv[1] != "--count-started":
+        raise SystemExit("usage: usage_ledger.py --count-started LEDGER")
+    print(json.dumps(_count_started_history(sys.argv[2])))

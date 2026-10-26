@@ -21,12 +21,14 @@ class _JsonProbe:
 
     def __init__(self, pause_first=False):
         self.calls = 0
+        self.ledger_lines = 0
         self.pause_first = pause_first
         self.scanning = threading.Event()
         self.release = threading.Event()
 
     def loads(self, text, *args, **kwargs):
         self.calls += 1
+        self.ledger_lines += (b'"event_type"' if isinstance(text, bytes) else '"event_type"') in text
         if self.pause_first and self.calls == 1:
             self.scanning.set()
             self.release.wait(10)
@@ -92,6 +94,31 @@ def test_prewarmed_index_leaves_first_capped_call_only_the_tail(tmp_path, monkey
     monkeypatch.setattr(ledger, 'json', probe)
     ledger.append_event({'event_type': 'api_attempt_started', 'run_id': 'sar'}, path, max_started=1)
     assert probe.calls == 0
+
+
+def test_prewarm_parses_history_outside_this_process(tmp_path, monkeypatch):
+    # Parsing 2.3 GB in a worker thread held the GIL: after a restart the
+    # worker's first request came 38.6 s late instead of ~2 s.
+    path = tmp_path / 'usage.jsonl'
+    _history(path)
+    probe = _JsonProbe()
+    monkeypatch.setattr(ledger, 'json', probe)
+    ledger.warm_started_index(path)
+    assert probe.ledger_lines == 0
+    with pytest.raises(ledger.CallBudgetExceeded):
+        ledger.append_event({'event_type': 'api_attempt_started', 'run_id': 'old-0'}, path, max_started=1)
+    ledger.append_event({'event_type': 'api_attempt_started', 'run_id': 'old-1'}, path, max_started=1)
+    assert probe.ledger_lines == 0
+
+
+def test_prewarm_on_malformed_history_fails_and_capped_calls_still_fail_closed(tmp_path):
+    path = tmp_path / 'usage.jsonl'
+    path.write_text('{broken}\n')
+    with pytest.raises(ValueError):
+        ledger.warm_started_index(path)
+    with pytest.raises(json.JSONDecodeError):
+        ledger.append_event({'event_type': 'api_attempt_started', 'run_id': 'new'}, path, max_started=1)
+    assert path.read_text() == '{broken}\n'
 
 
 def test_counts_include_events_written_outside_this_process(tmp_path):
