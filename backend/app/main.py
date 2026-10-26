@@ -59,6 +59,8 @@ async def lifespan(app: FastAPI):
     refresher.start()
     from app.phase0.person_preparation import recover
     recover()
+    from app.phase3.tip_receipts import start as start_tip_receipts
+    start_tip_receipts()
     yield
     privacy_scheduler.stop()
 

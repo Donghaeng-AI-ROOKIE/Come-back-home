@@ -65,6 +65,7 @@ class Settings(BaseSettings):
     # OpenAI 호환 chat completions 전제로 셋 다 채우면 실동작, 비어 있으면 스텁.
     #   tip_llm_base_url = 발급받은 endpoint URL
     #   tip_llm_model    = 발급받은 endpoint ID
+    tip_llm_timeout: float = Field(default=12.0, gt=0, le=120)
     tip_llm_base_url: str = ""
     tip_llm_model: str = ""
 

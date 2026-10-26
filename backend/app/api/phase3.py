@@ -24,6 +24,8 @@ class TipIn(BaseModel):
     text: str
     location: GeoPoint | None = None   # 명시 좌표(향후 지도 핀 등). 없으면 텍스트에서 지오코딩.
     seen_at: datetime | None = None
+    background_analysis: bool = False
+    submission_id: str | None = Field(default=None, min_length=8, max_length=80, pattern=r"^[A-Za-z0-9_-]+$")
     force: bool = False                 # 위치 미확보 되묻기를 건너뛰고 그대로 확정
     # 마이페이지 "제보 N건" 배지용. **Tip 에 저장하지 않고 카운터만 올린다** —
     # 시민 신원과 사건을 잇는 기록을 남기면 케이스 파기 후에도 연결이 남는다
@@ -140,6 +142,7 @@ def send_alerts(case_id: str):
     _require_active(case)
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
+
     return alerts.notify_prediction(case, force=True)
 
 
@@ -252,6 +255,18 @@ def submit_tip(case_id: str, body: TipIn, background: BackgroundTasks):
     _require_active(case)
     if not case.current_poa:
         raise HTTPException(409, "POA 없음 — Phase 2 예측을 먼저 실행하세요")
+    if body.background_analysis:
+        from app.phase3 import tip_receipts
+        result, created = tip_receipts.receive(case_id, body.text, body.location,
+            body.seen_at, body.submission_id or storage.new_id(), body.force)
+        if body.reporter_user_id and created:
+            try:
+                prev = storage.walk_tip_counts.get(body.reporter_user_id) or 0
+                storage.walk_tip_counts.save(body.reporter_user_id, prev + 1)
+            except Exception as exc:  # noqa: BLE001 — 배지 실패가 저장된 제보를 실패로 만들면 안 된다
+                log.warning('Tip saved; participation count unavailable: %s', type(exc).__name__)
+        background.add_task(tip_receipts.schedule, case_id, result.id)
+        return result
     # **제보자를 기다리게 하지 않는다.**
     #
     # 고신뢰 제보는 접수와 동시에 예상 경로를 다시 계산한다. 그 지역 도로망이

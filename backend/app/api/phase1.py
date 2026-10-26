@@ -53,13 +53,15 @@ def get_case(case_id: str):
     case = storage.cases.get(case_id)
     if case is None:
         raise HTTPException(404, "케이스 없음")
-    return case
+    from app.phase3.tip_receipts import with_pending
+    return with_pending(case)
 
 
 @router.get("/cases", response_model=list[Case], response_model_exclude={"__all__": {"continuous_state", "prior_context_key", "alert_delivery"}})
 def list_owned_cases(guardian_id: str):
     # Identity is injected by the private cloud bridge, not accepted from the browser.
-    return sorted([c for c in storage.cases.list() if guardian_id and c.guardian_id == guardian_id],
+    from app.phase3.tip_receipts import with_pending
+    return sorted([with_pending(c) for c in storage.cases.list() if guardian_id and c.guardian_id == guardian_id],
                   key=lambda c: c.created_at, reverse=True)
 
 

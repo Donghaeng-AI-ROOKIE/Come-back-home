@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from enum import Enum
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -23,3 +24,18 @@ class Tip(BaseModel):
     p: float | None = None                     # 신뢰도 (시공간개연성 + 챗봇 질문으로 산출)
     decision: TipDecision | None = None
     created_at: datetime = Field(default_factory=datetime.now)
+    processing_status: str = "processed"
+
+
+class TipReceipt(BaseModel):
+    """Durable intake independent of long-running case prediction locks."""
+    id: str
+    case_id: str
+    fingerprint: str
+    text: str
+    location: GeoPoint | None = None
+    seen_at: LocalNaiveDT | None = None
+    created_at: datetime = Field(default_factory=datetime.now)
+    state: Literal["queued", "running", "processed", "failed", "cancelled"] = "queued"
+    attempts: int = 0
+    error_code: str = ""
