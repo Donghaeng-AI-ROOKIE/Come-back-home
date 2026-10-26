@@ -26,6 +26,9 @@
 
 ## 날짜별 서비스 검증
 
+- [10월 26일 운영 화면과 실제 iPhone 알림](SERVICE_SCREENS_20261026.md)
+- [10월 26일 사용량 원장 메모리 복구](verification/usage-ledger-memory-20261026/README.md)
+
 - [최종 정책 최초 배포](releases/final-service-deploy-20261012.md)
 - [인증, 등록, 모델, 예측, 제보, 종결 점검](verification/service-full-audit-20261012/README.md)
 - [로그인 빌드 수정](verification/login-cloud-build-20261012/README.md)

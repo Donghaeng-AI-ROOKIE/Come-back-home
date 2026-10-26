@@ -46,7 +46,7 @@
     "OS screenshot and map screenshot have different capture times",
     "stored case C POA predates road fix, roadnet_used=false",
     "guidance text was still loading",
-    "new persona mind retry interrupted by worker OOM at 2026-10-26T18:26:23+09:00"
+    "new persona initial ready, mind ready_partial with 2 quarantined rules; no new report E2E"
   ],
   "assets": {
     "citizen-alerts-location-unavailable.png": "5a5234518294f9df70da09e067dccd40f6e34bd52c2226ee5e0b2d6db1fb7bb7",
@@ -61,6 +61,17 @@
     "iphone-case-c-map-user.png": "2aeb20fa7e0ebfb4a793ae54ea66aa16f4d1c16e1a7618afe1da59f235f85ba0",
     "iphone-case-c-probability-map.png": "f98b889301f2693a472354e3de0bf3de9b7305dcc16366671a0a9b44ab453bf7",
     "iphone-os-case-c.png": "113753d651ec4aaaeb26d2bb7701134331640ef0eb18023022e1b71a6e980e50",
-    "iphone-os-test.png": "9b6b2a6364463f9fd2f63bbdfcf8645a8582a508742dda396f48b9362553ab99"
+    "iphone-os-test.png": "9b6b2a6364463f9fd2f63bbdfcf8645a8582a508742dda396f48b9362553ab99",
+    "guardian-persona-prepared.png": "bb11a51acb68ddb714bc84c31a82a7c244296711722bb451b96490c451b0cd8f"
+  },
+  "new_persona_preparation": {
+    "persona_id": "9befb8a2d56c",
+    "initial_ready": true,
+    "mind_ready": true,
+    "policy_quality": "partial",
+    "quarantined_rule_count": 2,
+    "completed_at": "2026-10-26T18:51:18+09:00",
+    "captured_at": "2026-10-26T18:53:00+09:00",
+    "new_case_created": false
   }
 }
