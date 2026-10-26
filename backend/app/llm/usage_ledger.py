@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import threading
 
 try:
     import fcntl
@@ -41,12 +42,18 @@ def append_event(event, ledger_path=DEFAULT_LEDGER, *, max_started=None):
     payload = (json.dumps(record, ensure_ascii=False, allow_nan=False) + "\n").encode()
     fd = os.open(path, os.O_RDWR | os.O_CREAT | os.O_APPEND, 0o600)
     try:
+        index = _started_index(path) if max_started is not None else None
+        if index is not None:
+            # 지난 기록은 파일 잠금 밖에서 센다. 잠금을 쥔 채 큰 원장을 읽으면 같은
+            # 원장에 쓰는 다른 스레드(워커 이벤트 루프 포함)가 그동안 모두 멈춘다.
+            with index.lock:
+                index.advance(fd, complete=False)
         _lock(fd)
-        if max_started is not None:
-            # 같은 파일 잠금 안에서 확인·예약해 동시 호출도 상한을 지킨다.
-            with os.fdopen(os.dup(fd), "r", encoding="utf-8") as reader:
-                reader.seek(0)
-                count = _count_started(reader, record.get("run_id"))
+        if index is not None:
+            # 같은 파일 잠금 안에서 남은 꼬리만 마저 세고 예약해 동시 호출도 상한을 지킨다.
+            with index.lock:
+                index.advance(fd, complete=True)
+                count = index.counts.get(record.get("run_id"), 0)
             if count >= max_started:
                 raise CallBudgetExceeded("approved call budget exhausted")
         view = memoryview(payload)
@@ -62,16 +69,68 @@ def append_event(event, ledger_path=DEFAULT_LEDGER, *, max_started=None):
     return record
 
 
-def _count_started(reader, run_id):
-    """Scan history with memory bounded by one event, retaining fail-closed parsing."""
-    count = 0
-    for line in reader:
-        if not line.strip():
-            continue
-        row = json.loads(line)
-        if row.get("event_type") == "api_attempt_started" and row.get("run_id") == run_id:
-            count += 1
-    return count
+class _StartedIndex:
+    """이 프로세스가 이미 센 원장 앞부분의 run_id별 시작 이벤트 수.
+
+    원장은 덧붙이기만 하므로 센 바이트는 다시 읽지 않는다. 파일이 교체·축소되거나
+    앞부분이 바뀌면 처음부터 다시 센다. 메모리는 한 줄과 run_id별 숫자만 쓴다.
+    """
+
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.identity = None
+        self.head = b""
+        self.offset = 0
+        self.counts = {}
+
+    def advance(self, fd, *, complete):
+        """complete=False(잠금 밖)는 다른 쓰기가 끝내지 않은 마지막 줄을 남겨 둔다.
+        complete=True(잠금 안)는 끝까지 읽는다. 깨진 기록은 어느 쪽이든 예외로 실패한다."""
+        stat = os.fstat(fd)
+        identity = (stat.st_dev, stat.st_ino)
+        with os.fdopen(os.dup(fd), "rb") as reader:
+            same_head = True
+            if self.head:
+                reader.seek(0)
+                same_head = reader.read(len(self.head)) == self.head
+            if identity != self.identity or stat.st_size < self.offset or not same_head:
+                self.identity, self.head, self.offset, self.counts = identity, b"", 0, {}
+            reader.seek(self.offset)
+            for line in reader:
+                if not complete and not line.endswith(b"\n"):
+                    break
+                if line.strip():
+                    row = json.loads(line)
+                    if row.get("event_type") == "api_attempt_started":
+                        run_id = row.get("run_id")
+                        self.counts[run_id] = self.counts.get(run_id, 0) + 1
+                self.offset += len(line)
+            if not self.head and self.offset:
+                reader.seek(0)
+                self.head = reader.read(min(self.offset, 256))
+
+
+_INDEXES = {}
+_INDEXES_LOCK = threading.Lock()
+
+
+def _started_index(path):
+    with _INDEXES_LOCK:
+        return _INDEXES.setdefault(os.path.abspath(path), _StartedIndex())
+
+
+def warm_started_index(ledger_path=DEFAULT_LEDGER):
+    """기존 원장을 파일 잠금 없이 미리 세어 둔다. 첫 상한 검사가 원장 전체를 기다리지 않게 한다."""
+    try:
+        fd = os.open(ledger_path, os.O_RDONLY)
+    except FileNotFoundError:
+        return
+    try:
+        index = _started_index(ledger_path)
+        with index.lock:
+            index.advance(fd, complete=False)
+    finally:
+        os.close(fd)
 
 
 def _lock(fd) -> None:
