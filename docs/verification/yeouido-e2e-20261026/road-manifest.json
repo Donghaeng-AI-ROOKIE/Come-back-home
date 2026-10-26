@@ -1,0 +1,22 @@
+{
+  "region": "Yeouido station, Seoul",
+  "source": "Geofabrik South Korea OSM extract 2026-10-25",
+  "attribution": "https://www.openstreetmap.org/copyright",
+  "source_url": "https://download.geofabrik.de/asia/south-korea-261025.osm.pbf",
+  "source_sha256": "395e4e7cdbad3eea862227cb6290433efef274959a6deaf7f15916d17f2f2b2b",
+  "acquired_at": "2026-10-26T11:38:20.908736+00:00",
+  "osmnx_version": "2.1.1",
+  "bbox_south_west_north_east": [
+    37.458647576515496,
+    126.84492724057147,
+    37.5845524234845,
+    127.00367275942854
+  ],
+  "radius_m": 7000,
+  "sha256": "dcf398a82bec31b56adef00410fb33826af688cc1291c631e7a0461b7b077d2c",
+  "nodes": 62255,
+  "edges": 179232,
+  "object_key": "regions/yeouido-20261026-dcf398a82bec31b56adef00410fb33826af688cc1291c631e7a0461b7b077d2c.graphml.gz",
+  "compressed_bytes": 7277104,
+  "environment_features": "not included"
+}
