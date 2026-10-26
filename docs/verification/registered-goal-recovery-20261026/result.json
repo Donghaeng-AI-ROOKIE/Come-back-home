@@ -1,0 +1,79 @@
+{
+  "tests": {
+    "passed": 194,
+    "skipped": 2
+  },
+  "consumer": {
+    "passed": true,
+    "network_disabled": true,
+    "new_model_calls": 0,
+    "baseline_kind": "local numeric baseline for consumer contract; not a new SAR inference or prediction",
+    "initial_state": "ready",
+    "mind_state": "ready",
+    "quarantined_rule_count": 0,
+    "registered_goal_used": true,
+    "route_familiarity_used": true,
+    "water_avoidance_in_initial_parameters": true,
+    "rest_boundary_checks": [
+      {
+        "continuous_walk_minutes": 0,
+        "is_walking": true,
+        "rest_active": false,
+        "hold_minutes": null
+      },
+      {
+        "continuous_walk_minutes": 29,
+        "is_walking": true,
+        "rest_active": false,
+        "hold_minutes": null
+      },
+      {
+        "continuous_walk_minutes": 30,
+        "is_walking": true,
+        "rest_active": true,
+        "hold_minutes": 10.0
+      },
+      {
+        "continuous_walk_minutes": 31,
+        "is_walking": true,
+        "rest_active": true,
+        "hold_minutes": 10.0
+      },
+      {
+        "continuous_walk_minutes": 30,
+        "is_walking": false,
+        "rest_active": false,
+        "hold_minutes": null
+      }
+    ],
+    "unknown_walk_duration_not_forced": true,
+    "mind_action_count": 1,
+    "unrepresented_note_count": 17,
+    "source_coverage_review_adopted": true
+  },
+  "deployment": {
+    "new_image": "cbh-cloud-worker:20261026-persona-goals",
+    "deployed_at": "2026-10-26T10:41:19.100749+00:00",
+    "running": true,
+    "restart_count": 0,
+    "runtime_environment_unchanged": true,
+    "modules": {
+      "geo/geocode.py": "193f44d8de46a5e681ee87ddb788b33b28e88144bf442e56acc49eaf2a14d760",
+      "geo/named_place_cache.py": "54aa5d0751fd98eaf93446cfdeff2966a45f37dee58e1a0e8b158882cdc30903",
+      "llm/mind_policy_guarded_core.py": "46ca6a0152ca8e1b93c65b9456fd8f309d3ed029c97428b0b1ada5003940428c",
+      "phase0/interview.py": "f2da3dc67805e5ad6aef6891ea448b68f609a339613ccc8712b8a43e2d6c4124",
+      "phase0/mind_preparation.py": "a533d16cbba3305908705b09e95112117cd22aa97e977c5520e579db5f65fe0f"
+    }
+  },
+  "api_usage": {
+    "attempts_started": 20,
+    "attempts_finished": 20,
+    "actual_cost": null,
+    "cost_status": "unconfirmed"
+  },
+  "limitations": [
+    "One synthetic profile; no new missing-person report or push in this recovery",
+    "One conditional rest rule; not all source statements become executable mind rules",
+    "Consumer contract check uses local numerical baseline, not new SAR model inference"
+  ]
+}
