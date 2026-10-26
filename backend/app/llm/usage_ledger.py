@@ -46,9 +46,7 @@ def append_event(event, ledger_path=DEFAULT_LEDGER, *, max_started=None):
             # 같은 파일 잠금 안에서 확인·예약해 동시 호출도 상한을 지킨다.
             with os.fdopen(os.dup(fd), "r", encoding="utf-8") as reader:
                 reader.seek(0)
-                rows = [json.loads(line) for line in reader if line.strip()]
-            count = sum(r.get("event_type") == "api_attempt_started"
-                        and r.get("run_id") == record.get("run_id") for r in rows)
+                count = _count_started(reader, record.get("run_id"))
             if count >= max_started:
                 raise CallBudgetExceeded("approved call budget exhausted")
         view = memoryview(payload)
@@ -62,6 +60,18 @@ def append_event(event, ledger_path=DEFAULT_LEDGER, *, max_started=None):
         _unlock(fd)
         os.close(fd)
     return record
+
+
+def _count_started(reader, run_id):
+    """Scan history with memory bounded by one event, retaining fail-closed parsing."""
+    count = 0
+    for line in reader:
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        if row.get("event_type") == "api_attempt_started" and row.get("run_id") == run_id:
+            count += 1
+    return count
 
 
 def _lock(fd) -> None:
