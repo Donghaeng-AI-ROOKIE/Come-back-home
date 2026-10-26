@@ -104,3 +104,23 @@ test('old missing family read gets a fresh id, without changing mutation recover
   assert.equal((await harness(rpc,store).request('/phase0/personas')).length,0);
   assert.equal(ids.length,2);assert.notEqual(ids[0],ids[1]);
 });
+
+test('expired notification configuration and saved account reads recover once',async()=>{
+  for(const path of ['/phase3/webpush/public-key','/phase3/targeting-policy','/walk/stats?user_id=owner','/walk/sessions/active?user_id=owner','/phase1/cases?guardian_id=owner','/phase1/cases/demo','/phase3/alerts/resolved?target_cell=synthetic']) {
+    const ids=[];
+    const h=harness(async(name,args)=>{
+      if(name==='cbh_submit'){ids.push(args.p_id);return {data:args.p_id,error:null};}
+      return {data:ids.length===1?{state:'expired'}:{state:'done',status_code:200,result:{ready:true}},error:null};
+    });
+    assert.equal((await h.request(path)).ready,true,path);
+    assert.equal(ids.length,2,path);assert.notEqual(ids[0],ids[1]);
+  }
+});
+test('configuration recovery does not duplicate push, location, model or external map work',async()=>{
+  for(const [path,method] of [['/phase3/webpush/test','POST'],['/phase3/webpush/enter','POST'],['/phase3/webpush/location','POST'],['/phase1/reports','POST'],['/geo/nearby-walks?lat=37.5&lon=126.9','GET'],['/phase3/cases/demo/guidance','GET']]) {
+    let count=0;
+    const h=harness(async name=>{if(name==='cbh_submit')count++;return {data:{state:'expired'},error:null};});
+    await assert.rejects(h.request(path,{method}),{status:503});
+    assert.equal(count,1,path);
+  }
+});

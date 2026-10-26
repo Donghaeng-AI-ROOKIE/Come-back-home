@@ -60,8 +60,11 @@ async function run<T>(key:string,path:string,method:string,body:unknown,timeout:
   // These GETs only retrieve stored state. Preview/guidance GETs may compute or
   // call a model, so they retain the same at-most-once protection as mutations.
   const repeatableRead = method === 'GET' && (
+    /^\/phase3\/(?:webpush\/public-key|targeting-policy)$/.test(path) ||
+    /^\/walk\/(?:stats|sessions\/active)(?:\?[^#]*)?$/.test(path) ||
+    /^\/phase1\/cases(?:\/[\w-]+)?(?:\?[^#]*)?$/.test(path) ||
     /^\/phase0\/personas(?:\/[\w-]+(?:\/preparation)?)?(?:\?[^#]*)?$/.test(path) ||
-    /^\/phase3\/alerts(?:\?[^#]*)?$/.test(path) ||
+    /^\/phase3\/alerts(?:\/resolved)?(?:\?[^#]*)?$/.test(path) ||
     /^\/phase3\/cases\/[\w-]+\/poa(?:\?top=\d+)?$/.test(path)
   );
   async function renewRead(): Promise<boolean> {
