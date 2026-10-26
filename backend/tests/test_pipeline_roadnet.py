@@ -83,3 +83,72 @@ def test_roadnet_off_returns_none():
     net, reason = pipeline._load_roadnet(_case())
     assert net is None
     assert reason == "off"
+
+
+@pytest.mark.parametrize('regional_state', ['outside', 'unsnappable', 'missing'])
+def test_regional_cache_miss_loads_report_local_roads(monkeypatch, regional_state):
+    """A configured KINTEX fixture must not disable dynamic roads elsewhere."""
+    from types import SimpleNamespace
+    from app.geo import roadnet, envlayer, road_anchors
+
+    monkeypatch.setattr(settings, 'use_roadnet', True)
+    monkeypatch.setattr(settings, 'personal_walk_cache_path', '/verified/kintex.graphml')
+    case = _case()
+    bbox = [37.66, 126.73, 37.69, 126.77] if regional_state == 'outside' else [37, 126, 38, 128]
+    regional = SimpleNamespace(coverage_bbox=bbox, road_distance_km=lambda *_: None)
+    def verified(_):
+        if regional_state == 'missing':
+            raise FileNotFoundError('configured region unavailable')
+        return regional
+    monkeypatch.setattr(roadnet, 'verified_network', verified)
+    monkeypatch.setattr(road_anchors, 'connect_anchors', lambda net, points: net)
+    loaded = object()
+    calls = []
+    monkeypatch.setattr(roadnet, 'get_network', lambda center, radius_m=None: calls.append(center) or loaded)
+    monkeypatch.setattr(envlayer, 'attach', lambda *args, **kwargs: None)
+    net, reason = pipeline._load_roadnet(case)
+    assert net is loaded
+    assert reason == ''
+    assert calls == [case.lkp]
+
+
+def test_covered_verified_region_does_not_download(monkeypatch):
+    from types import SimpleNamespace
+    from app.geo import roadnet, road_anchors
+    monkeypatch.setattr(settings, 'use_roadnet', True)
+    monkeypatch.setattr(settings, 'personal_walk_cache_path', '/verified/region.graphml')
+    regional = SimpleNamespace(coverage_bbox=[37, 126, 38, 128], road_distance_km=lambda *_: 0.)
+    monkeypatch.setattr(roadnet, 'verified_network', lambda _: regional)
+    monkeypatch.setattr(road_anchors, 'connect_anchors', lambda net, points: net)
+    monkeypatch.setattr(roadnet, 'get_network', lambda *a, **kw: pytest.fail('covered region must not download'))
+    net, reason = pipeline._load_roadnet(_case())
+    assert net is regional
+    assert reason == ''
+
+
+def test_outside_region_download_failure_is_reported(monkeypatch):
+    from types import SimpleNamespace
+    from app.geo import roadnet
+    monkeypatch.setattr(settings, 'use_roadnet', True)
+    monkeypatch.setattr(settings, 'personal_walk_cache_path', '/verified/kintex.graphml')
+    monkeypatch.setattr(roadnet, 'verified_network', lambda _: SimpleNamespace(coverage_bbox=[37.66,126.73,37.69,126.77]))
+    def unavailable(*a, **kw):
+        raise TimeoutError('regional download unavailable')
+    monkeypatch.setattr(roadnet, 'get_network', unavailable)
+    net, reason = pipeline._load_roadnet(_case())
+    assert net is None
+    assert 'TimeoutError' in reason
+
+
+def test_preloaded_region_skips_external_road_and_environment_queries(monkeypatch, tmp_path):
+    from types import SimpleNamespace
+    from app.geo import road_bundles, roadnet, road_anchors, envlayer
+    monkeypatch.setattr(settings, 'use_roadnet', True)
+    monkeypatch.setattr(settings, 'personal_walk_cache_path', '')
+    bundle=SimpleNamespace(road_distance_km=lambda *_: 0, bundle_source='supabase_storage', bundle_sha256='a'*64)
+    monkeypatch.setattr(road_bundles,'get_preloaded_network',lambda *args:bundle)
+    monkeypatch.setattr(road_anchors,'connect_anchors',lambda net,points:net)
+    monkeypatch.setattr(roadnet,'get_network',lambda *a,**kw:pytest.fail('unexpected Overpass request'))
+    monkeypatch.setattr(envlayer,'attach',lambda *a,**kw:pytest.fail('unexpected environment request'))
+    net,reason=pipeline._load_roadnet(_case())
+    assert net is bundle and reason == ''
