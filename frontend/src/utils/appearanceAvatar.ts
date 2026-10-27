@@ -1,3 +1,5 @@
+import { bodyNotes } from './bodyNotes';
+
 export type AppearanceColors = {
   top?: string;
   bottom?: string;
@@ -126,7 +128,10 @@ function descriptionsFromAppearance(appearance: string[]): AppearanceDescription
   // \uB0A8\uC740 \uD56D\uBAA9\uC740 \uD0A4\u00B7\uCCB4\uD615\u00B7\uC18C\uC9C0\uD488 \uD6C4\uBCF4. \uC0C9 \uD310\uC815\uACFC \uACB9\uCE58\uC9C0 \uC54A\uC73C\uBBC0\uB85C(\uC22B\uC790 cm, \uB9C8\uB978/\uD1B5\uD1B5,
   // \uBAA8\uC790\u00B7\uC548\uACBD\u00B7\uAC00\uBC29\u00B7\uC9C0\uD321\uC774) \uC804\uBD80 \uB118\uACA8\uB3C4 \uC548\uC804\uD558\uB2E4 \u2014 \uBD80\uAC00\uC815\uBCF4\uAC00 4\uBC88\uC9F8 \uCE78\uC5D0 \uC628\uB2E4\uB294
   // \uAC00\uC815\uB3C4 \uBC30\uC5F4\uC774 \uBC00\uB9AC\uBA74 \uAE68\uC9C0\uBBC0\uB85C \uC704\uCE58\uB85C \uC790\uB974\uC9C0 \uC54A\uB294\uB2E4.
-  const extra = parts.filter((part) => !used.has(part)).join(' ');
+  // "160/50/검정 핸드백"처럼 단위 없이 적은 키도 읽히게 bodyNotes 로 이름을 붙인다
+  // ("키 160cm"). 옷 치수(상의 105, 신발 230)가 키로 붙어도 parseHeightScale 이 읽는
+  // 130~199 밖이라 그림은 그대로다.
+  const extra = bodyNotes(parts.filter((part) => !used.has(part)).join(',')).join(' ');
 
   return { top, bottom, shoes, extra };
 }
@@ -150,7 +155,7 @@ function parseAccessories(text: string): AvatarAccessory[] {
   const values: AvatarAccessory[] = [];
   if (/(모자|캡|비니)/.test(text)) values.push('hat');
   if (/(안경|선글라스)/.test(text)) values.push('glasses');
-  if (/(가방|백팩|배낭|크로스백)/.test(text)) values.push('bag');
+  if (/(가방|백팩|배낭|크로스백|핸드백)/.test(text)) values.push('bag');
   if (/(지팡이|보행봉)/.test(text)) values.push('cane');
   return values;
 }

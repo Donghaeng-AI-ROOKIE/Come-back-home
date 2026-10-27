@@ -13,6 +13,7 @@ import { useAppModeStore } from '../store/appModeStore';
 import { useEngagementStore } from '../store/engagementStore';
 import { useActiveAlerts, useGoldenTime, usePresenceCount } from '../hooks/queries';
 import { alertToView } from '../data/missingView';
+import { appearanceTags } from '../utils/bodyNotes';
 
 
 export default function AlertDetailScreen() {
@@ -26,12 +27,11 @@ export default function AlertDetailScreen() {
   const alert = alerts?.find((item) => item.caseId === caseId);
   const view = alertToView(alert ?? {});
   // 서버/예전 목업이 인상착의를 한 문장으로 내려줘도 상의·하의·신발·체형은
-  // 피그마처럼 각각 독립된 태그여야 한다. 배열 경계와 쉼표 경계를 모두 정규화한다.
-  const appearance = view.appearance
-    .flatMap((item) => item.split(/[,，\n]+/))
-    .map((item) => item.trim())
-    .filter(Boolean)
-    .slice(0, 4);
+  // 피그마처럼 각각 독립된 태그여야 한다. 배열 경계와 쉼표 경계를 모두 정규화하고,
+  // '키/체형/소지품' 칸의 "160/50/검정 핸드백"은 키·몸무게·소지품 태그로 나눈다
+  // (utils/bodyNotes). 나누면 태그가 4개를 넘으므로 개수로 자르지 않는다 — 넘치는
+  // 줄은 styles.tags 의 높이 상한이 가린다.
+  const appearance = appearanceTags(view.appearance);
   const watching = usePresenceCount(caseId);
   const golden = useGoldenTime();
 
@@ -160,7 +160,10 @@ const styles = StyleSheet.create({
   personImage: { position: 'absolute', left: 16, top: 39, width: 62, height: 62, borderRadius: 31 },
   name: { position: 'absolute', left: 92, top: 38, fontFamily: type.familyCssBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: ink },
   meta: { position: 'absolute', left: 92, top: 65, fontFamily: type.familyCss, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: ink },
-  tags: { position: 'absolute', left: 92, right: 26, top: 89, flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
+  // 태그는 두 줄(16 + 5 + 16)까지만 보인다. 카드(높이 141) 안에 남는 높이가 52 라
+  // 세 번째 줄은 카드 밖으로 나간다. 넘치는 태그는 줄째로 가리고, 전부는 인상착의
+  // 화면(Appearance)에서 본다. 10/27 운영 사건의 태그 6개는 375 폭에서 두 줄에 든다.
+  tags: { position: 'absolute', left: 92, right: 26, top: 89, maxHeight: 37, overflow: 'hidden', flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
   tag: { height: 16, paddingHorizontal: 6, borderRadius: 20, backgroundColor: wash, justifyContent: 'center' },
   tagText: { fontFamily: type.familyCssBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.07, color: red },
   chevron: { position: 'absolute', right: 17, top: 19, fontFamily: type.familyCss, fontSize: 25, lineHeight: 28, color: red },

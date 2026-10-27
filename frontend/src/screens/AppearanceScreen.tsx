@@ -12,6 +12,7 @@ import AppearanceFigure from '../components/AppearanceFigure';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import { useActiveAlerts } from '../hooks/queries';
 import { alertToView } from '../data/missingView';
+import { bodyNotes } from '../utils/bodyNotes';
 
 type ClothingKey = 'top' | 'bottom' | 'shoes';
 
@@ -65,10 +66,12 @@ function getAppearancePresentation(
     return value ? [{ key, value }] : [];
   });
 
-  const remaining = values.filter((_, index) => !used.has(index));
+  // 옷이 아닌 나머지는 '키/체형/소지품' 칸이다. "160/50/검정 핸드백"처럼 숫자만
+  // 적혀도 키·몸무게로 나눠 이름을 붙인다(utils/bodyNotes, 10/27 운영 사건).
+  const remaining = bodyNotes(values.filter((_, index) => !used.has(index)).join(','));
   const height = remaining.filter((value) => /키|cm|센티/.test(value));
-  const body = remaining.filter((value) => /체형/.test(value));
-  const belongings = remaining.filter((value) => !/키|cm|센티|체형/.test(value));
+  const body = remaining.filter((value) => !/키|cm|센티/.test(value) && /체형|몸무게/.test(value));
+  const belongings = remaining.filter((value) => !/키|cm|센티|체형|몸무게/.test(value));
 
   return { clothing, extra: [...height, ...body, ...belongings] };
 }
@@ -100,8 +103,10 @@ export default function AppearanceScreen() {
             {appearance.extra.length ? <Text style={styles.extraText} numberOfLines={2}>{appearance.extra.join(' · ')}</Text> : null}
           </View>
         </View>
-        <Pressable style={styles.primary} onPress={() => navigation.navigate('TipWarn', { caseId })}><Text style={styles.primaryText}>비슷한 사람을 봤어요</Text></Pressable>
-        <Pressable style={styles.secondary} onPress={() => navigation.goBack()}><Text style={styles.secondaryText}>비슷한 사람을 보지 못했어요</Text></Pressable>
+        <Pressable style={styles.primary} onPress={() => navigation.navigate('TipWarn', { caseId })} accessibilityRole="button"><Text style={styles.primaryText}>비슷한 사람을 봤어요</Text></Pressable>
+        {/* 이 버튼은 이전 화면으로 돌아가기만 한다. "보지 못했어요"라고 쓰면 무언가를
+            알리는 것처럼 읽혀서, 하는 일 그대로 적는다(10/27 팀 점검). */}
+        <Pressable style={styles.secondary} onPress={() => navigation.goBack()} accessibilityRole="button"><Text style={styles.secondaryText}>이전 화면으로 돌아가기</Text></Pressable>
       </View>
       <FigmaFlowTabBar mode="citizen" active="alert" />
     </SafeAreaView>
