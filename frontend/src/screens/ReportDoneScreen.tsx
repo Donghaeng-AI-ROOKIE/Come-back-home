@@ -34,6 +34,12 @@ export default function ReportDoneScreen() {
             <Text style={styles.noticeText}>당신의 따뜻한 관심이 누군가를 가족의 품으로 돌려보내는 결정적인 단서가 되었습니다.{`\n`}감사합니다.</Text>
           </View>
 
+          {/* 위치 없는 제보는 수색지도에 반영되지 않는다 — 분포를 기울이려면 위치가, 출발점을
+              옮기려면 시각까지 있어야 한다(backend phase3/tip_flow). 시민은 그걸 몰랐다
+              (10/27 측정의 막연한 제보). 판정은 접수 뒤 서버에서 돌아 이 화면은 결과를
+              모르므로, 이 제보가 반영됐는지가 아니라 일반 안내로만 쓴다. */}
+          <Text style={styles.hint}>본 장소와 시각을 함께 알려 주시면{`\n`}수색지도에 반영돼요.</Text>
+
           <Pressable style={styles.done} onPress={goHome} accessibilityRole="button">
             <DoneHome width={14} height={14} color={color.brand} />
             <Text style={styles.doneText}>홈으로 돌아가기</Text>
@@ -56,6 +62,8 @@ const styles = StyleSheet.create({
   notice: { position: 'absolute', top: 317, width: 330, height: 112, borderRadius: 10, backgroundColor: '#FFFFFF', alignItems: 'center', paddingTop: 14 },
   noticeTitle: { width: 296, textAlign: 'center', fontFamily: type.familyCss, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#297057' },
   noticeText: { width: 296, textAlign: 'center', fontFamily: type.familyCss, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#4D4D4D', marginTop: 8 },
+  // 안내 카드(317~429)와 버튼(483) 사이. 두 줄(34)이라 버튼과 겹치지 않는다.
+  hint: { position: 'absolute', top: 440, width: 300, textAlign: 'center', fontFamily: type.familyCss, fontSize: 12, lineHeight: 17, letterSpacing: -0.08, color: '#525253' },
   done: { position: 'absolute', top: 483, width: 255, height: 37, borderRadius: 30, backgroundColor: '#FFFFFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, shadowColor: '#000000', shadowOpacity: 0.25, shadowRadius: 2, shadowOffset: { width: 1, height: 1 }, elevation: 3 },
   doneText: { fontFamily: type.familyCssMedium, fontSize: 14, lineHeight: 18, color: '#525253' },
 });
