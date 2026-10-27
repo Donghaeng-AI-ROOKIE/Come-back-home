@@ -92,10 +92,17 @@ export default function AlertDetailScreen() {
         </View>
 
         {/* 꺾쇠(›) 대신 명시적 버튼으로 수색지도(AlertSync)로 보낸다. 인물 카드도
-            여전히 눌러서 갈 수 있지만, 화살표만으론 눌리는 줄 모른다는 제보가 있었다. */}
-        <Pressable style={styles.searchMap} onPress={() => navigation.navigate('AlertSync', { caseId })} accessibilityRole="button" accessibilityLabel="수색지도 보기">
-          <Text style={styles.searchMapText}>수색지도 보기</Text>
-        </Pressable>
+            여전히 눌러서 갈 수 있지만, 화살표만으론 눌리는 줄 모른다는 제보가 있었다.
+            인상착의도 위의 그림만으로는 눌리는 줄 몰라(IA 리뷰 10/26) 같은 줄에 버튼을
+            나란히 둔다. 같은 높이를 반으로 나눠 아래 요소의 top 은 그대로다. */}
+        <View style={styles.searchMap}>
+          <Pressable style={styles.searchMapButton} onPress={() => navigation.navigate('Appearance', { caseId })} accessibilityRole="button" accessibilityLabel="인상착의 보기">
+            <Text style={styles.searchMapText}>인상착의 보기</Text>
+          </Pressable>
+          <Pressable style={styles.searchMapButton} onPress={() => navigation.navigate('AlertSync', { caseId })} accessibilityRole="button" accessibilityLabel="수색지도 보기">
+            <Text style={styles.searchMapText}>수색지도 보기</Text>
+          </Pressable>
+        </View>
 
         <View style={styles.actions}>
           {/* '봤어요' = **본 것을 제보하겠다**는 뜻이므로 제보 흐름으로 보낸다
@@ -163,7 +170,8 @@ const styles = StyleSheet.create({
   placeText: { position: 'absolute', left: 12, top: 30, fontFamily: type.familyCss, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: ink },
   // 최종 목격 장소와 봤어요/못봤어요 사이에 '수색지도 보기'를 넣으면서 아래
   // 요소(actions·hint·stop)를 그만큼 내렸다. 전부 절대배치라 top 을 함께 옮긴다.
-  searchMap: { position: 'absolute', left: 16, right: 16, top: 490, height: 48, borderRadius: 10, borderWidth: 1.5, borderColor: red, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
+  searchMap: { position: 'absolute', left: 16, right: 16, top: 490, height: 48, flexDirection: 'row', gap: 10 },
+  searchMapButton: { flex: 1, borderRadius: 10, borderWidth: 1.5, borderColor: red, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
   searchMapText: { fontFamily: type.familyCssBold, fontSize: 16, lineHeight: 20, letterSpacing: -0.2, color: red },
   actions: { position: 'absolute', left: 16, right: 16, top: 557, height: 50, flexDirection: 'row', gap: 15 },
   button: { flex: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
