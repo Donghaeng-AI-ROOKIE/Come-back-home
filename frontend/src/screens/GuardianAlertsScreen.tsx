@@ -25,7 +25,13 @@ import { CaseLifecycleCard } from '../components/LifecycleControls';
  * 남의 실종 사건과 제보 원문까지 보호자 화면에 뜬다 — 백엔드가 그 경로를
  * fail-closed 로 막아 둔 이유다(api/phase3.list_active_alerts).
  * 그중에서도 제보 목록은 **지도에 보이는 진행 중 사건 하나**의 것만 쓴다. 종결
- * 사건은 위쪽 사건 카드로만 남는다(utils/guardianTips 의 listedCases).
+ * 사건은 아래쪽 사건 카드로만 남는다(utils/guardianTips 의 listedCases).
+ *
+ * ## 순서: 지도 → 제보 알림 → 사건 관리 → 종결된 사건(접힘)
+ * 사건 카드가 모두 제보 목록 위에 쌓여 있어, 사건이 늘수록 제보가 시트 아래로
+ * 밀려났다. 이 탭에서 보호자가 가장 자주 보는 것은 제보라 제보를 먼저 둔다. 진행 중
+ * 사건의 종결 버튼(가족을 찾았어요·신고 철회)은 그 아래 "사건 관리"에, 종결 사건의
+ * 삭제 버튼은 맨 아래 "종결된 사건 N건"에 접어 둔다(utils/guardianTips 의 splitCases).
  *
  * ## 시각 표기
  * `seen_at`(목격 시각)과 `created_at`(접수 시각) 모두 서버가 자기 시계로 찍은
@@ -44,7 +50,7 @@ import MapPin from '../components/MapPin';
 import WebMap from '../components/WebMap';
 import { useAreaLabels, useGuardianCases, usePoaPrediction } from '../hooks/queries';
 import type { Case, CaseTip } from '../api/guardian';
-import { formatTipTime, listedCases, mapCaseOf, tipTimeMs } from '../utils/guardianTips';
+import { formatTipTime, listedCases, mapCaseOf, splitCases, tipTimeMs } from '../utils/guardianTips';
 
 /** 제보를 묶는 단위 — 백엔드 예측 격자와 같은 res9(≈한 변 174m, 골목 한 구획). */
 const GROUP_RES = 9;
@@ -110,9 +116,12 @@ function groupTips(cases: Case[]): TipGroup[] {
 
 export default function GuardianAlertsScreen() {
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  /** 종결된 사건 묶음은 기본으로 접어 둔다 — 지금 할 일이 아니라 정리할 일이다. */
+  const [closedOpen, setClosedOpen] = useState(false);
   const { data, isLoading, isError, refetch } = useGuardianCases();
 
   const cases = data ?? [];
+  const { active: activeCases, closed: closedCases } = useMemo(() => splitCases(cases), [data]);
   // 목록은 지도와 같은 사건(진행 중 사건 하나)만 — 종결 사건 제보가 섞이지 않게.
   const groups = useMemo(() => groupTips(listedCases(cases)), [data]);
   const centers = useMemo(
@@ -270,7 +279,6 @@ export default function GuardianAlertsScreen() {
 
         {selected == null ? (
           <ScrollView contentContainerStyle={[styles.sheetBody, hasMap ? null : styles.sheetBodyFull]} showsVerticalScrollIndicator={false}>
-            {cases.map(c => <CaseLifecycleCard key={c.id} item={c} />)}
             <Text style={styles.title}>제보 알림</Text>
             <Text style={styles.subtitle}>주변 시민들의 실제 제보입니다.</Text>
             {isLoading ? <ActivityIndicator color={color.guardian} style={styles.loading} /> : null}
@@ -302,6 +310,30 @@ export default function GuardianAlertsScreen() {
                 <Text style={styles.chevron}>›</Text>
               </Pressable>
             ))}
+
+            {activeCases.length > 0 ? (
+              <>
+                <Text style={[styles.title, styles.sectionTitle]}>사건 관리</Text>
+                <Text style={styles.subtitle}>가족을 찾았거나 신고를 거두면 여기서 수색을 종결해 주세요.</Text>
+                {activeCases.map((c) => <CaseLifecycleCard key={c.id} item={c} />)}
+              </>
+            ) : null}
+
+            {closedCases.length > 0 ? (
+              <>
+                <Pressable
+                  style={styles.closedHead}
+                  onPress={() => setClosedOpen((open) => !open)}
+                  accessibilityRole="button"
+                  accessibilityState={{ expanded: closedOpen }}
+                  accessibilityLabel={`종결된 사건 ${closedCases.length}건, ${closedOpen ? '접기' : '펼치기'}`}
+                >
+                  <Text style={styles.closedTitle}>종결된 사건 {closedCases.length}건</Text>
+                  <Text style={styles.closedToggle}>{closedOpen ? '접기' : '펼치기'}</Text>
+                </Pressable>
+                {closedOpen ? closedCases.map((c) => <CaseLifecycleCard key={c.id} item={c} />) : null}
+              </>
+            ) : null}
           </ScrollView>
         ) : (
           <ScrollView contentContainerStyle={[styles.sheetBody, hasMap ? null : styles.sheetBodyFull]} showsVerticalScrollIndicator={false}>
@@ -365,6 +397,12 @@ const styles = StyleSheet.create({
   cardTitle: { position: 'absolute', left: 16, right: 28, top: 41, fontFamily: type.familyCssBold, fontSize: 17, lineHeight: 22, color: '#525253' },
   cardBody: { position: 'absolute', left: 16, top: 70, fontFamily: type.familyCssBold, fontSize: 11, lineHeight: 13, color: '#525253' },
   chevron: { position: 'absolute', right: 14, top: 19, fontSize: 24, color: '#67AE6E' },
+  // 사건 관리 — 제보 목록 아래에 같은 제목 체계로 잇는다.
+  sectionTitle: { marginTop: 36 },
+  // 종결된 사건 묶음 머리 — 제보 카드와 같은 회색 바탕의 한 줄. 누르면 펼친다.
+  closedHead: { marginLeft: 23, marginRight: 22, marginTop: 28, height: 48, borderRadius: 10, backgroundColor: '#F7F7F7', paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  closedTitle: { fontFamily: type.familyCssBold, fontSize: 15, lineHeight: 19, color: '#525253' },
+  closedToggle: { fontFamily: type.familyCssBold, fontSize: 11, lineHeight: 13, color: '#8E8E93' },
   header: { height: 32, justifyContent: 'center', alignItems: 'center' },
   headerTitle: { fontFamily: type.familyCssBold, fontSize: 18, lineHeight: 23, color: '#000000' },
   back: { position: 'absolute', left: 12, top: 2, width: 24, height: 28, justifyContent: 'center' },
