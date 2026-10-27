@@ -13,7 +13,7 @@ function render(){
   const modules={react:React,
     'react-native':{View:Box,Text,Image:()=>null,Pressable:Box,StyleSheet:{create:x=>x}},
     'react-native-safe-area-context':{SafeAreaView:Box},'expo-status-bar':{StatusBar:()=>null},
-    'expo-linear-gradient':{LinearGradient:Box},'@react-navigation/native':{useNavigation:()=>({navigate(){}})},
+    'expo-linear-gradient':{LinearGradient:Box},'@react-navigation/native':{useNavigation:()=>({navigate(){},popTo(){}}),useRoute:()=>({params:{caseId:'c1'}})},
     '../theme/tokens':{color:{brand:'green'},type:{}}};
   const out={exports:{}};
   vm.runInNewContext(source,{exports:out.exports,module:out,require:name=>modules[name]??{__esModule:true,default:()=>null}});
