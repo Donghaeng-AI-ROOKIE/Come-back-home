@@ -24,11 +24,14 @@ import { CaseLifecycleCard } from '../components/LifecycleControls';
  * 이 기기가 접수한 사건만(store/guardianCaseStore). 활성 경보를 통째로 받아 오면
  * 남의 실종 사건과 제보 원문까지 보호자 화면에 뜬다 — 백엔드가 그 경로를
  * fail-closed 로 막아 둔 이유다(api/phase3.list_active_alerts).
+ * 그중에서도 제보 목록은 **지도에 보이는 진행 중 사건 하나**의 것만 쓴다. 종결
+ * 사건은 위쪽 사건 카드로만 남는다(utils/guardianTips 의 listedCases).
  *
  * ## 시각 표기
- * `seen_at`(목격 시각)은 시민이 입력한 **로컬** 시각, `created_at`(접수 시각)은
- * 서버가 찍은 값인데 배포 컨테이너 시계가 UTC 라 naive UTC 로 온다. 같은 함수로
- * 파싱하면 접수 시각만 9시간 어긋난다 — 08-10 실측(15:42 접수 → 06:42 표시).
+ * `seen_at`(목격 시각)과 `created_at`(접수 시각) 모두 서버가 자기 시계로 찍은
+ * naive UTC 다 — 목격 시각도 시민이 쓴 글("10분 전")을 서버가 계산한 값이다.
+ * 기기 로컬로 읽으면 9시간 어긋난다 — 08-10 실측(15:42 접수 → 06:42 표시),
+ * 10/27 운영(11:38 목격 → 02:38 표시). 규칙은 utils/guardianTips 의 tipTimeMs.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Animated, PanResponder, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -41,6 +44,7 @@ import MapPin from '../components/MapPin';
 import WebMap from '../components/WebMap';
 import { useAreaLabels, useGuardianCases, usePoaPrediction } from '../hooks/queries';
 import type { Case, CaseTip } from '../api/guardian';
+import { formatTipTime, listedCases, mapCaseOf, tipTimeMs } from '../utils/guardianTips';
 
 /** 제보를 묶는 단위 — 백엔드 예측 격자와 같은 res9(≈한 변 174m, 골목 한 구획). */
 const GROUP_RES = 9;
@@ -63,29 +67,6 @@ type TipGroup = {
   latest: number;
 };
 
-/** 서버가 찍은 naive UTC 를 UTC 로 해석. 오프셋이 이미 있으면 그대로 둔다. */
-function parseServerTime(iso: string): number {
-  const hasOffset = iso.endsWith('Z') || iso.includes('+');
-  return new Date(hasOffset ? iso : `${iso}Z`).getTime();
-}
-
-/** 목격 시각이 있으면 그것을, 없으면 접수 시각을 쓴다(각각 다른 시간대 규칙). */
-function tipTime(tip: CaseTip): number {
-  if (tip.seen_at) {
-    const t = new Date(tip.seen_at).getTime(); // 사용자가 입력한 로컬 naive
-    if (!Number.isNaN(t)) return t;
-  }
-  return parseServerTime(tip.created_at);
-}
-
-function timeText(tip: CaseTip): string {
-  const t = tipTime(tip);
-  if (Number.isNaN(t)) return '';
-  const d = new Date(t);
-  const p = (n: number) => String(n).padStart(2, '0');
-  return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${p(d.getHours())}:${p(d.getMinutes())}`;
-}
-
 /** 그룹 안 최고 신뢰도 → 시안의 배지 문구. p 가 아직 없으면 "검토 중". */
 function trustLabel(tips: CaseTip[]): string {
   const scores = tips.map((t) => t.p).filter((p): p is number => typeof p === 'number');
@@ -94,7 +75,7 @@ function trustLabel(tips: CaseTip[]): string {
   return best >= 0.8 ? '신뢰도 상' : best >= 0.5 ? '신뢰도 중' : '신뢰도 하';
 }
 
-/** 내 사건들의 제보를 위치로 묶는다. 위치 없는 제보도 버리지 않고 한 묶음으로. */
+/** 사건들의 제보를 위치로 묶는다. 위치 없는 제보도 버리지 않고 한 묶음으로. */
 function groupTips(cases: Case[]): TipGroup[] {
   const map = new Map<string, TipGroup>();
   for (const c of cases) {
@@ -111,25 +92,20 @@ function groupTips(cases: Case[]): TipGroup[] {
       const g = map.get(key);
       if (g) {
         g.tips.push(tip);
-        g.latest = Math.max(g.latest, tipTime(tip));
+        g.latest = Math.max(g.latest, tipTimeMs(tip));
       } else {
         map.set(key, {
           key,
           center: key === UNKNOWN ? null : { lat: loc!.lat, lng: loc!.lng },
           tips: [tip],
-          latest: tipTime(tip),
+          latest: tipTimeMs(tip),
         });
       }
     }
   }
   const out = [...map.values()];
-  for (const g of out) g.tips.sort((a, b) => tipTime(b) - tipTime(a));
+  for (const g of out) g.tips.sort((a, b) => tipTimeMs(b) - tipTimeMs(a));
   return out.sort((a, b) => b.latest - a.latest);
-}
-
-/** 지도에 그릴 사건 — 최종 목격 좌표가 있는 것 중 가장 최근(스토어가 최신순). */
-function mapCaseOf(cases: Case[]): Case | null {
-  return cases.find((c) => !['found','closed'].includes(c.status) && c.lkp && Number.isFinite(c.lkp.lat) && Number.isFinite(c.lkp.lng)) ?? null;
 }
 
 export default function GuardianAlertsScreen() {
@@ -137,7 +113,8 @@ export default function GuardianAlertsScreen() {
   const { data, isLoading, isError, refetch } = useGuardianCases();
 
   const cases = data ?? [];
-  const groups = useMemo(() => groupTips(cases), [data]);
+  // 목록은 지도와 같은 사건(진행 중 사건 하나)만 — 종결 사건 제보가 섞이지 않게.
+  const groups = useMemo(() => groupTips(listedCases(cases)), [data]);
   const centers = useMemo(
     () => groups.map((g) => g.center).filter((c): c is { lat: number; lng: number } => c != null),
     [groups],
@@ -180,7 +157,7 @@ export default function GuardianAlertsScreen() {
   };
 
   const selected = groups.find((g) => g.key === selectedKey) ?? null;
-  const hasCase = cases.length > 0;
+  const hasCase = mapCase != null;
 
   /**
    * 손잡이를 끌어 시트를 키우고 줄인다(시민 AlertSyncScreen 과 같은 동작).
@@ -340,7 +317,7 @@ export default function GuardianAlertsScreen() {
             <Text style={styles.reportCount}>제보 {selected.tips.length}건</Text>
             {selected.tips.map((tip) => (
               <View key={tip.id} style={styles.reportCard}>
-                <Text style={styles.reportDate}>{timeText(tip)}</Text>
+                <Text style={styles.reportDate}>{formatTipTime(tip)}</Text>
                 <Text style={styles.reportText} numberOfLines={2}>{tip.text}</Text>
               </View>
             ))}
