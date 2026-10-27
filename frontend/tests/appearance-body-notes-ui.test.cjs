@@ -1,9 +1,11 @@
-// 인상착의 '키/체형/소지품' 칸 — 숫자만 적힌 키·몸무게가 시민 화면에 이름 붙어 나오는가.
+// 인상착의 '키/체형/소지품' 칸 — 숫자만 적힌 키·몸무게가 시민 화면에 이름 붙어 나오는가,
+// 인상착의 화면의 아래 버튼이 하는 일(돌아가기)을 그대로 말하는가.
 //
 // 10/27 팀 점검(운영 사건 7ccf1a190cd3): 보호자가 네 번째 칸에 "160/50/검정 핸드백"이라고
-// 적자 경보 상세 칩과 인상착의 화면에 "160/50/검정 핸드백"이 그대로 나왔다.
+// 적자 경보 상세 칩과 인상착의 화면에 "160/50/검정 핸드백"이 그대로 나왔다. 인상착의 화면의
+// [비슷한 사람을 보지 못했어요]는 실제로는 이전 화면으로 돌아가기만 했다.
 //
-// 화면 파일을 실제로 변환해 그린다(react-dom/server).
+// 화면 파일을 실제로 변환해 그리고(react-dom/server), 버튼의 onPress 를 직접 눌러 본다.
 // 경보 상세는 React 를 import 하지 않는 자동 JSX 라 jsx-runtime 으로 변환한다.
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
@@ -65,6 +67,14 @@ test('appearance screen names height and weight in the line under the clothing t
   // seed 예시 꼴 — 단위가 붙은 키와 체형을 나눈다.
   const seed=spans(render('src/screens/AppearanceScreen.tsx',{...CASE,appearance:['회색 점퍼','검정 바지','흰색 운동화','160cm 마른 체형, 흰머리']}).html);
   assert.ok(seed.includes('키 160cm · 마른 체형 · 흰머리'),seed.join(' | '));
+});
+
+test('the grey button on the appearance screen says it goes back, and goes back', () => {
+  const ui=render('src/screens/AppearanceScreen.tsx');
+  assert.match(ui.html,/<span>이전 화면으로 돌아가기<\/span>/);
+  assert.doesNotMatch(ui.html,/비슷한 사람을 보지 못했어요/);
+  ui.press('이전 화면으로 돌아가기');
+  assert.deepEqual(ui.calls,[['goBack']]);
 });
 
 test('the figure reads a bare-number height and a handbag', () => {

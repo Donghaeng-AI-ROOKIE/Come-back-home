@@ -103,8 +103,10 @@ export default function AppearanceScreen() {
             {appearance.extra.length ? <Text style={styles.extraText} numberOfLines={2}>{appearance.extra.join(' · ')}</Text> : null}
           </View>
         </View>
-        <Pressable style={styles.primary} onPress={() => navigation.navigate('TipWarn', { caseId })}><Text style={styles.primaryText}>비슷한 사람을 봤어요</Text></Pressable>
-        <Pressable style={styles.secondary} onPress={() => navigation.goBack()}><Text style={styles.secondaryText}>비슷한 사람을 보지 못했어요</Text></Pressable>
+        <Pressable style={styles.primary} onPress={() => navigation.navigate('TipWarn', { caseId })} accessibilityRole="button"><Text style={styles.primaryText}>비슷한 사람을 봤어요</Text></Pressable>
+        {/* 이 버튼은 이전 화면으로 돌아가기만 한다. "보지 못했어요"라고 쓰면 무언가를
+            알리는 것처럼 읽혀서, 하는 일 그대로 적는다(10/27 팀 점검). */}
+        <Pressable style={styles.secondary} onPress={() => navigation.goBack()} accessibilityRole="button"><Text style={styles.secondaryText}>이전 화면으로 돌아가기</Text></Pressable>
       </View>
       <FigmaFlowTabBar mode="citizen" active="alert" />
     </SafeAreaView>
