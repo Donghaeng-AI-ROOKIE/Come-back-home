@@ -10,6 +10,7 @@ import { color, type } from '../theme/tokens';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import { isLocationSettled, retryLocation, useMyLocation } from '../hooks/useMyLocation';
 import { useAppModeStore } from '../store/appModeStore';
+import { resolvedMessage, resolvedThanks } from '../utils/resolvedCopy';
 
 /**
  * 서버 주소가 `[서울특별시 마포구] 월드컵로`처럼 행정구역만 묶여 와도
@@ -94,8 +95,7 @@ export default function CitizenAlertsScreen() {
             tone="green"
             badge="상황 종료"
             title={`${bracketAddress(r.area)}${r.age ? ` ${r.age}세` : ''} 어르신`}
-            // 제보 수가 있으면 "N명의 제보 덕분에", 0건이면 숫자 없이(0명은 어색) 폴백.
-            body={`${r.tipCount && r.tipCount > 0 ? `${r.tipCount}명의 제보 덕분에` : '여러분의 관심 덕분에'} 가족의 품으로 무사히 돌아갔습니다.\n제보해 주셔서 감사합니다.`}
+            body={`${resolvedMessage(r.tipCount)}\n${resolvedThanks(r.tipCount)}`}
           />
         ))}
       </ScrollView>
