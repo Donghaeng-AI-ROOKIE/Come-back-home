@@ -3,7 +3,8 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
@@ -16,7 +17,20 @@ const mascot = require('../../assets/figma/report-done-mascot.png');
 
 export default function ReportDoneScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportDone'>>().params;
   const goHome = () => navigation.navigate('CitizenTabs', { screen: 'Home' });
+  /**
+   * 제보한 사건의 수색지도로 돌아간다 — "홈으로"만 있으면 수색 맥락이 끊겼다.
+   *
+   * `popTo` 를 쓴다. 수색지도에서 제보하러 왔으면 스택에 있는 그 지도로 되돌아가고
+   * (제보 화면들은 replace 로 이어져 사이에 남은 것이 없다), 경보 상세에서 바로 왔으면
+   * 이 완료 화면 자리에 지도를 연다. `navigate` 는 v7 에서 같은 이름의 화면이 있어도
+   * 새로 쌓아, 뒤로 가기에 지도가 두 번 나온다.
+   *
+   * 그사이 사건이 종결됐으면 지도 화면이 "종료된 사건이에요"와 홈 버튼을 띄운다
+   * (AlertSync 의 ended 분기).
+   */
+  const backToMap = () => navigation.popTo('AlertSync', { caseId });
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -40,9 +54,12 @@ export default function ReportDoneScreen() {
               모르므로, 이 제보가 반영됐는지가 아니라 일반 안내로만 쓴다. */}
           <Text style={styles.hint}>본 장소와 시각을 함께 알려 주시면{`\n`}수색지도에 반영돼요.</Text>
 
+          <Pressable style={styles.map} onPress={backToMap} accessibilityRole="button">
+            <Text style={styles.mapText}>수색지도로 돌아가기</Text>
+          </Pressable>
           <Pressable style={styles.done} onPress={goHome} accessibilityRole="button">
             <DoneHome width={14} height={14} color={color.brand} />
-            <Text style={styles.doneText}>홈으로 돌아가기</Text>
+            <Text style={styles.doneText}>홈으로</Text>
           </Pressable>
         </View>
         <FigmaFlowTabBar mode="citizen" active="home" />
@@ -64,6 +81,9 @@ const styles = StyleSheet.create({
   noticeText: { width: 296, textAlign: 'center', fontFamily: type.familyCss, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: '#4D4D4D', marginTop: 8 },
   // 안내 카드(317~429)와 버튼(483) 사이. 두 줄(34)이라 버튼과 겹치지 않는다.
   hint: { position: 'absolute', top: 440, width: 300, textAlign: 'center', fontFamily: type.familyCss, fontSize: 12, lineHeight: 17, letterSpacing: -0.08, color: '#525253' },
-  done: { position: 'absolute', top: 483, width: 255, height: 37, borderRadius: 30, backgroundColor: '#FFFFFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, shadowColor: '#000000', shadowOpacity: 0.25, shadowRadius: 2, shadowOffset: { width: 1, height: 1 }, elevation: 3 },
+  // 주버튼 — 같은 화면의 초록 톤을 채운 버튼. 보조(홈으로)는 원래의 흰 버튼을 그 아래에 둔다.
+  map: { position: 'absolute', top: 483, width: 255, height: 44, borderRadius: 30, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.25, shadowRadius: 2, shadowOffset: { width: 1, height: 1 }, elevation: 3 },
+  mapText: { fontFamily: type.familyCssBold, fontSize: 15, lineHeight: 19, color: '#FFFFFF' },
+  done: { position: 'absolute', top: 539, width: 255, height: 37, borderRadius: 30, backgroundColor: '#FFFFFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, shadowColor: '#000000', shadowOpacity: 0.25, shadowRadius: 2, shadowOffset: { width: 1, height: 1 }, elevation: 3 },
   doneText: { fontFamily: type.familyCssMedium, fontSize: 14, lineHeight: 18, color: '#525253' },
 });
