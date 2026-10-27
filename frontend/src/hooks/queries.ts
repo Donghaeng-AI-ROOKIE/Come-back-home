@@ -107,16 +107,26 @@ export function useCase(caseId: string) {
  *
  * 시민 경보와 같은 주기로 다시 묻는다. 보호자가 제보 도착을 시민보다 늦게 알
  * 이유가 없다.
+ *
+ * @param use 하단 탭바(components/FigmaFlowTabBar)가 고른다. 기본은 'poll'.
+ *   - 'poll': 주기 조회까지 한다.
+ *   - 'follow': 다른 화면(보호자 탭 GuardianTabs)이 읽어 둔 목록을 따라 읽기만 한다. 캐시가
+ *     비어 있을 때만 한 번 묻는다. 주기 조회 타이머는 관찰자마다 따로 돌아서(TanStack Query 의
+ *     refetchInterval), 같은 쿼리 키라도 주기를 거는 관찰자가 늘면 요청이 는다.
+ *   - 'off': 묻지 않는다 — 탭바는 시민 화면에도 그려지는데, 시민 기기가 보호자 사건 목록을
+ *     묻지 않게 한다.
  */
-export function useGuardianCases() {
+export function useGuardianCases(use: 'poll' | 'follow' | 'off' = 'poll') {
   const userId = useAuthStore(s => s.userId);
   const caseIds = useGuardianCaseStore((s) => s.caseIds);
+  const poll = use === 'poll';
   return useQuery({
     queryKey: ['guardianCases', userId, caseIds],
     queryFn: () => getMyCases(caseIds, userId ?? undefined),
-    enabled: userId != null,
-    refetchInterval: ALERT_POLL_MS,
-    refetchOnWindowFocus: true,
+    enabled: use !== 'off' && userId != null,
+    refetchInterval: poll ? ALERT_POLL_MS : false,
+    refetchOnWindowFocus: poll,
+    refetchOnMount: poll,
   });
 }
 

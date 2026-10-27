@@ -333,7 +333,9 @@ export default function ReportScreen() {
         </View>
       </ScrollView>
 
-      <FigmaFlowTabBar mode="guardian" active={null} />
+      {/* 실종 신고는 긴급 흐름이다 — 신고를 시작한 "홈"을 빨강으로 켠다(utils/tabAccent).
+          사건이 아직 없어도 빨강이고, 신고하지 않고 나가면 초록으로 돌아온다. */}
+      <FigmaFlowTabBar mode="guardian" active="home" emergency />
       </KeyboardAvoidingView>
 
       {/* `Modal` 을 쓰지 않는다 — react-native-web 의 Modal 은 `#root` **바깥**
