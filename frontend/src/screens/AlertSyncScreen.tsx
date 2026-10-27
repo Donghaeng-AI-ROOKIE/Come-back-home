@@ -183,7 +183,11 @@ export default function AlertSyncScreen() {
           <Pressable style={styles.appearanceButton} onPress={() => navigation.navigate('Appearance', { caseId })} accessibilityRole="button" accessibilityLabel="인상착의 사진 보기">
             <Text style={styles.appearanceButtonText}>인상착의 사진 보기</Text>
           </Pressable>
-          <Pressable style={styles.reportButton} onPress={() => navigation.navigate('ReportChat', { caseId })}>
+          {/* 경보 상세의 '봤어요'와 같은 길로 — 허위 제보 주의사항(TipWarn)을 거쳐 제보로
+              간다. 이 버튼만 곧바로 ReportChat 으로 가서, 수색지도에서 제보한 사람은 주의
+              사항을 한 번도 보지 않았다. TipWarn 은 replace 로 ReportChat 을 여므로 스택에
+              주의사항 화면이 남지 않는다. */}
+          <Pressable style={styles.reportButton} onPress={() => navigation.navigate('TipWarn', { caseId })} accessibilityRole="button">
             <Text style={styles.reportText}>목격 내용 제보하기</Text>
           </Pressable>
           </>)}
