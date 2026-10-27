@@ -12,6 +12,7 @@ import AppearanceFigure from '../components/AppearanceFigure';
 import FigmaStatusBar from '../components/FigmaStatusBar';
 import { useActiveAlerts } from '../hooks/queries';
 import { alertToView } from '../data/missingView';
+import { bodyNotes } from '../utils/bodyNotes';
 
 type ClothingKey = 'top' | 'bottom' | 'shoes';
 
@@ -65,10 +66,12 @@ function getAppearancePresentation(
     return value ? [{ key, value }] : [];
   });
 
-  const remaining = values.filter((_, index) => !used.has(index));
+  // 옷이 아닌 나머지는 '키/체형/소지품' 칸이다. "160/50/검정 핸드백"처럼 숫자만
+  // 적혀도 키·몸무게로 나눠 이름을 붙인다(utils/bodyNotes, 10/27 운영 사건).
+  const remaining = bodyNotes(values.filter((_, index) => !used.has(index)).join(','));
   const height = remaining.filter((value) => /키|cm|센티/.test(value));
-  const body = remaining.filter((value) => /체형/.test(value));
-  const belongings = remaining.filter((value) => !/키|cm|센티|체형/.test(value));
+  const body = remaining.filter((value) => !/키|cm|센티/.test(value) && /체형|몸무게/.test(value));
+  const belongings = remaining.filter((value) => !/키|cm|센티|체형|몸무게/.test(value));
 
   return { clothing, extra: [...height, ...body, ...belongings] };
 }

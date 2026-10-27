@@ -9,6 +9,17 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');const vm=require('node:vm');const path=require('node:path');const ts=require('typescript');
 const React=require('react');const {renderToStaticMarkup}=require('react-dom/server');
 
+function transpile(file){
+  return ts.transpileModule(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),
+    {compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.React}}).outputText;
+}
+
+function loadUtil(file){
+  const out={exports:{}};
+  vm.runInNewContext(transpile(file),{exports:out.exports,module:out});
+  return out.exports;
+}
+
 function render(file){
   const calls=[];const pressables=[];
   const Box=({children})=>React.createElement('div',null,children);
@@ -21,9 +32,9 @@ function render(file){
     '@react-navigation/native':{useNavigation:()=>nav,useRoute:()=>({params:{caseId:'c1'}})},
     '../theme/tokens':{color:{figmaRed:'red',figmaGray:'gray'},type:{}},
     '../hooks/queries':{useActiveAlerts:()=>({data:[]})},
-    '../data/missingView':{alertToView:()=>({appearance:[]})}};
-  const source=ts.transpileModule(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),
-    {compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.React}}).outputText;
+    '../data/missingView':{alertToView:()=>({appearance:[]})},
+    '../utils/bodyNotes':loadUtil('src/utils/bodyNotes.ts')};
+  const source=transpile(file);
   const out={exports:{}};
   vm.runInNewContext(source,{exports:out.exports,module:out,require:name=>modules[name]??{__esModule:true,default:()=>null}});
   const html=renderToStaticMarkup(React.createElement(out.exports.default));
