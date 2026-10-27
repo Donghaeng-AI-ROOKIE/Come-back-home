@@ -24,22 +24,44 @@ def cdf(km):
     if km<=0:return 0.
     return NormalDist().cdf((math.log(km)-MU)/SIGMA)
 
+def support_radius_km():
+    """통계 채널 원의 최대 반경(P95 거리). 경과시간이 길어져도 이보다 커지지 않는다."""
+    return math.exp(MU+P95_Z*SIGMA)
+
+
+def _projection(lat,lng):
+    local=CRS.from_proj4(f'+proj=aeqd +lat_0={lat} +lon_0={lng} +datum=WGS84 +units=m')
+    return (Transformer.from_crs('EPSG:4326',local,always_xy=True),
+            Transformer.from_crs(local,'EPSG:4326',always_xy=True))
+
+
+def _inside(geo_disk,coverage_bbox):
+    south,west,north,east=coverage_bbox
+    w,s,e,n=geo_disk.bounds
+    return not (w<west or s<south or e>east or n>north)
+
+
+def support_fits(lat,lng,coverage_bbox,*,circle_segments=256):
+    """최대 반경의 통계 채널 원이 지도 범위 안에 들어가는가.
+
+    들어가지 않는 지도로 시작한 사건은 원이 경계에 닿는 순간부터 distance_map 이
+    계산을 거부해, 그 뒤 재예측이 모두 실패한다. 지도를 고를 때 미리 확인한다."""
+    _,inverse=_projection(lat,lng)
+    disk=Point(0,0).buffer(support_radius_km()*1000,quad_segs=circle_segments)
+    return _inside(transform(inverse.transform,disk),coverage_bbox)
+
+
 def distance_map(lat,lng,hours,*,resolution=9,bands=64,circle_segments=256,coverage_bbox=None):
     if not all(math.isfinite(x) for x in (lat,lng,hours)) or hours<0 or not -80<lat<80 or not -180<lng<180:
         raise ValueError('invalid center/time for this local geodesic prior')
     if resolution!=9 or bands<16 or circle_segments<64:raise ValueError('unsupported quadrature configuration')
-    cap=min(math.exp(MU+P95_Z*SIGMA),max(.5,VMAX_KMH*hours))
+    cap=min(support_radius_km(),max(.5,VMAX_KMH*hours))
     retained=cdf(cap)
-    local=CRS.from_proj4(f'+proj=aeqd +lat_0={lat} +lon_0={lng} +datum=WGS84 +units=m')
-    forward=Transformer.from_crs('EPSG:4326',local,always_xy=True)
-    inverse=Transformer.from_crs(local,'EPSG:4326',always_xy=True)
+    forward,inverse=_projection(lat,lng)
     disk=Point(0,0).buffer(cap*1000,quad_segs=circle_segments)
     geo_disk=transform(inverse.transform,disk)
-    if coverage_bbox is not None:
-        south,west,north,east=coverage_bbox
-        w,s,e,n=geo_disk.bounds
-        if w<west or s<south or e>east or n>north:
-            raise ValueError('distance support exceeds verified KINTEX map; never clip and renormalize')
+    if coverage_bbox is not None and not _inside(geo_disk,coverage_bbox):
+        raise ValueError('distance support exceeds verified KINTEX map; never clip and renormalize')
     shape=h3.LatLngPoly([(y,x) for x,y in list(geo_disk.exterior.coords)[:-1]])
     cells=sorted(h3.h3shape_to_cells_experimental(shape,resolution,contain='overlap'))
     polys=[];rmax=[]
