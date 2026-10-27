@@ -32,6 +32,7 @@ import json
 from functools import wraps
 import sqlite3
 import threading
+import time
 import uuid
 from pathlib import Path
 import contextlib
@@ -248,12 +249,44 @@ def case_lock(case_id: str) -> threading.RLock:
     return _case_locks[hash(case_id) % len(_case_locks)]
 
 
+# 잠금을 오래 기다리거나 오래 쥔 경우만 남긴다. 10/27 운영 측정에서 제보 하나가
+# 분석을 끝내고도 재예측 시작까지 88초를 기다렸는데, 그 사이 모델 호출도 예측
+# 기록도 없어 누가 무엇을 쥐고 있었는지 알 수 없었다. 워커 로그는 WARNING 이상만
+# 남기므로 파이프라인의 [timing] 줄처럼 print 로 낸다.
+LOCK_WAIT_LOG_MS = 1000
+LOCK_HOLD_LOG_MS = 5000
+
+
+class timed_lock:
+    """`with timed_lock(lock, "누가", case_id) as held:` — 기다린 시간은 held.wait_ms."""
+
+    def __init__(self, lock, by: str, case_id: str = "") -> None:
+        self.lock, self.by, self.case_id = lock, by, case_id
+        self.wait_ms = 0.0
+        self._held_at = 0.0
+
+    def __enter__(self):
+        start = time.monotonic()
+        self.lock.acquire()
+        self._held_at = time.monotonic()
+        self.wait_ms = (self._held_at - start) * 1000
+        if self.wait_ms >= LOCK_WAIT_LOG_MS:
+            print(f"[lock-wait] by={self.by} case={self.case_id} wait_ms={self.wait_ms:.0f}")
+        return self
+
+    def __exit__(self, *exc) -> None:
+        hold_ms = (time.monotonic() - self._held_at) * 1000
+        self.lock.release()
+        if hold_ms >= LOCK_HOLD_LOG_MS:
+            print(f"[lock-hold] by={self.by} case={self.case_id} hold_ms={hold_ms:.0f}")
+
+
 def serialize_case(fn):
     @wraps(fn)
     def wrapped(*args, **kwargs):
         case_or_id = args[0] if args else kwargs.get("case", kwargs.get("case_id"))
         key = case_or_id if isinstance(case_or_id, str) else case_or_id.id
-        with case_lock(key):
+        with timed_lock(case_lock(key), fn.__qualname__, key):
             return fn(*args, **kwargs)
     return wrapped
 

@@ -22,6 +22,7 @@
 
 import logging
 import threading
+import time
 from collections import defaultdict
 from datetime import datetime
 
@@ -187,7 +188,8 @@ def finish_tip(case_id: str, tip_id: str, now: datetime | None = None) -> bool:
     실패해도 예외를 밖으로 올리지 않는다 — 이미 응답은 나갔고, 여기서 터지면
     로그 없이 사라진다. 제보 자체는 이미 저장돼 있다.
     """
-    with _case_lock(case_id):
+    began = time.monotonic()
+    with storage.timed_lock(_case_lock(case_id), "tip_flow.finish_tip", case_id) as held:
         case = storage.cases.get(case_id)
         if case is None or case.status in (CaseStatus.found, CaseStatus.closed):
             return
@@ -195,22 +197,32 @@ def finish_tip(case_id: str, tip_id: str, now: datetime | None = None) -> bool:
         if tip is None:
             return
         try:
-            _apply_heavy(case, tip, now or datetime.now())
+            stages = _apply_heavy(case, tip, now or datetime.now())
             storage.cases.save(case.id, case)
+            parts = " ".join(f"{k}={v:.0f}" if isinstance(v, float) else f"{k}={v}" for k, v in stages.items())
+            print(f"[tip-heavy] case={case_id} tip={tip_id[:8]} lock_wait_ms={held.wait_ms:.0f} {parts} "
+                  f"total_ms={(time.monotonic() - began) * 1000:.0f}")
             return True
         except Exception:   # 백그라운드라 예외를 올릴 곳이 없다 — 로그로만 남긴다
             log.exception("[tip] 후속 처리 실패 (case=%s tip=%s)", case_id, tip_id)
             return False
 
 
-def _apply_heavy(case: Case, tip: Tip, now: datetime) -> None:
-    """층2 재예측·주기 재실행·D3 알림 — **오래 걸리는 부분**(수십 초~2분)."""
+def _apply_heavy(case: Case, tip: Tip, now: datetime) -> dict:
+    """층2 재예측·주기 재실행·D3 알림 — **오래 걸리는 부분**(수십 초~2분).
+
+    반환: 무엇을 했고 각 단계가 몇 ms 걸렸는지([tip-heavy] 로그용).
+    predict_ms 에는 run_prediction 의 사건 잠금 대기가 들어 있다(1초 넘으면 [lock-wait] 줄).
+    """
+    stages: dict = {"kind": "none"}
     # ③ 층2 — 새 LKP 확정 시 Phase 2 재실행
     if tip.decision == TipDecision.layer2:
         assert tip.location is not None and tip.seen_at is not None
         case.lkp = tip.location
         case.lkp_time = tip.seen_at
+        started = time.monotonic()
         pipeline.run_prediction(case, now=now)  # baseline/current POA 재생성
+        stages.update(kind="layer2", predict_ms=(time.monotonic() - started) * 1000)
         # 층2 직후: 새 baseline 위에 새 LKP 시각 이후의 잔여 유효 제보 재적용
         case.current_poa = poa_update.reapply_tips(
             case.baseline_poa or {}, case.tips, since=tip.seen_at)
@@ -218,10 +230,15 @@ def _apply_heavy(case: Case, tip: Tip, now: datetime) -> None:
         # ④ 제보와 무관한 층2 트리거(주기 도달 / 분포 이탈)도 함께 검사
         rerun, reason = triggers.should_rerun_phase2(case, now)
         if rerun:
+            started = time.monotonic()
             pipeline.run_prediction(case, now=now)
+            stages.update(kind="rerun", predict_ms=(time.monotonic() - started) * 1000)
             case.current_poa = poa_update.reapply_tips(
                 case.baseline_poa or {}, case.tips, since=case.lkp_time)
 
     # All update paths use the same POA/D3 policy and delivery bookkeeping.
     storage.cases.save(case.id, case)
+    started = time.monotonic()
     alerts.notify_prediction(case)
+    stages["notify_ms"] = (time.monotonic() - started) * 1000
+    return stages

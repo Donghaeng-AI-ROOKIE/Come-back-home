@@ -8,6 +8,8 @@ import json
 import logging
 import queue
 import threading
+import time
+from datetime import datetime
 
 from fastapi import HTTPException
 
@@ -102,9 +104,22 @@ def process(receipt_id):
         existing = next((t for t in case.tips if t.id == r.id), None)
         # The input snapshot is private to this attempt. No case lock spans the LLM.
         text, location, seen_at, created_at = r.text, r.location, r.seen_at, r.created_at
+    # 단계별 시간 — 접수부터 재예측 끝까지 어디서 기다렸는지 한 줄로 남긴다.
+    stages = {'queued_ms': max(0.0, (datetime.now(created_at.tzinfo) - created_at).total_seconds() * 1000)}
+    began = mark = time.monotonic()
+    decision = ''
+
+    def lap(key):
+        nonlocal mark
+        now = time.monotonic()
+        stages[key] = (now - mark) * 1000
+        mark = now
+
     try:
         structured = tip_llm.structure_tip(text) if existing is None else None
-        with storage.case_lock(r.case_id):
+        lap('structure_ms')
+        with storage.timed_lock(storage.case_lock(r.case_id), 'tip_receipts.process', r.case_id) as held:
+            stages['lock_wait_ms'] = held.wait_ms
             with _guard:
                 current = storage.tip_receipts.get(r.id)
                 if current is None or current.state == 'cancelled':
@@ -120,10 +135,14 @@ def process(receipt_id):
                 result.created_at = created_at
             result.processing_status = 'running'
             storage.cases.save(case.id, case)
+        lap('analyze_ms')
+        decision = getattr(result.decision, 'value', result.decision) or ''
         heavy_ok = True
         if tip_flow.needs_heavy(case, result):
             heavy_ok = tip_flow.finish_tip(case.id, result.id) is not False
-        with storage.case_lock(r.case_id):
+            lap('heavy_ms')
+        with storage.timed_lock(storage.case_lock(r.case_id), 'tip_receipts.process', r.case_id) as held:
+            stages['final_lock_wait_ms'] = held.wait_ms
             case = _active(r.case_id)
             result = next(t for t in case.tips if t.id == r.id)
             result.processing_status = 'processed' if heavy_ok else 'failed'
@@ -136,6 +155,7 @@ def process(receipt_id):
                 # Once transferred to Case.tips, avoid retaining a second raw copy.
                 current.text = ''; current.location = None; current.seen_at = None
                 storage.tip_receipts.save(current.id, current)
+        _print_timing(r, decision, 'processed' if heavy_ok else 'map_update_failed', stages, began)
     except (AlreadyClosed, HTTPException):
         cancel_case(r.case_id)
     except Exception as exc:  # noqa: BLE001 — 분석이 실패해도 원문은 남기고 재시도 대상으로 둔다
@@ -145,6 +165,15 @@ def process(receipt_id):
                 current.state = 'failed'; current.error_code = type(exc).__name__
                 storage.tip_receipts.save(current.id, current)
         log.warning('Saved tip analysis failed: %s', type(exc).__name__)
+        _print_timing(r, decision, type(exc).__name__, stages, began)
+
+
+def _print_timing(receipt, decision, outcome, stages, began):
+    """워커 로그용 한 줄. 파이프라인 [timing] 과 같은 key=ms 형식이다."""
+    parts = ' '.join(f'{k}={v:.0f}' for k, v in stages.items())
+    total = (time.monotonic() - began) * 1000
+    print(f'[tip-timing] receipt={receipt.id[:8]} case={receipt.case_id} attempt={receipt.attempts} '
+          f'decision={decision or "-"} outcome={outcome} {parts} total_ms={total:.0f}')
 
 
 def _enqueue(receipt_id):
