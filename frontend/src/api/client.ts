@@ -304,6 +304,7 @@ type ResolvedAlertResponse = {
   closed_at: string;
   close_reason?: string | null;
   tip_count?: number | null;
+  search_minutes?: number | null;
 };
 
 /**
@@ -372,6 +373,7 @@ export async function getResolvedAlerts(targetCell: string | null): Promise<Reso
     age: r.age ?? undefined,
     closedAt: r.closed_at,
     tipCount: r.tip_count ?? undefined,
+    searchMinutes: r.search_minutes ?? undefined,
   }));
 }
 

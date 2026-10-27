@@ -37,6 +37,16 @@ export type RootStackParamList = {
   TipWarn: { caseId: string };
   ReportChat: { caseId: string };
   ReportDone: { caseId: string };
+  /** 상황 종료 상세 — 긴급 알림 목록의 초록 카드에서 연다. 카드가 가진 값만 들고 간다
+      (이름·인상착의·위치는 종결 응답에 애초에 없다). 서버를 다시 부르지 않는다. */
+  ResolvedDetail: {
+    caseId: string;
+    area: string;
+    age?: number;
+    closedAt: string;
+    tipCount?: number;
+    searchMinutes?: number;
+  };
 
   // 시민 산책 플로우
   WalkActive: undefined;

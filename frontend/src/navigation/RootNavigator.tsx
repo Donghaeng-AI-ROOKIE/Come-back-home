@@ -38,6 +38,7 @@ import AppearanceScreen from '../screens/AppearanceScreen';
 import TipWarnScreen from '../screens/TipWarnScreen';
 import ReportChatScreen from '../screens/ReportChatScreen';
 import ReportDoneScreen from '../screens/ReportDoneScreen';
+import ResolvedDetailScreen from '../screens/ResolvedDetailScreen';
 
 // 시민 — 산책
 import WalkActiveScreen from '../screens/WalkActiveScreen';
@@ -198,6 +199,7 @@ export default function RootNavigator() {
           <Stack.Screen name="TipWarn" component={TipWarnScreen} />
           <Stack.Screen name="ReportChat" component={ReportChatScreen} />
           <Stack.Screen name="ReportDone" component={ReportDoneScreen} />
+          <Stack.Screen name="ResolvedDetail" component={ResolvedDetailScreen} />
           <Stack.Screen name="WalkActive" component={WalkActiveScreen} />
           <Stack.Screen name="WalkSummary" component={WalkSummaryScreen} />
           <Stack.Screen
