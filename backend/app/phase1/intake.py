@@ -13,9 +13,9 @@ from fastapi import HTTPException
 
 from app import storage
 from app.config import settings
-from app.geo import reverse, roadnet
+from app.geo import roadnet
 from app.phase1.color_extract import extract_color
-from app.phase3 import alerts
+from app.phase3 import alerts, case_area
 from app.schemas.case import Case, CaseStatus
 from app.schemas.common import GeoPoint
 from app.schemas.persona import PersonaType
@@ -131,9 +131,9 @@ def create_report(
                 print(f"[roadnet] 사전 로딩 실패: {type(exc).__name__}")
         threading.Thread(target=preload, daemon=True).start()
 
-    # 지역명 캐시 예열 — 경보의 "area" 는 폴링 경로라 캐시만 읽는다(alerts.describe_alert).
-    # 여기서 미리 채워 두면 시민이 처음 경보를 열 때 이미 이름이 있다.
+    # 지역명 — 경보의 "area" 는 폴링 경로라 외부 조회를 하지 않는다(alerts.describe_alert).
+    # 여기서 미리 얻어 **사건에 저장해** 두면 시민이 처음 경보를 열 때 이미 이름이 있고,
+    # 워커가 재시작해도 남는다(phase3/case_area.py). 역지오코딩 캐시도 함께 채워진다.
     # **별도 스레드다** — 골든타임에 외부 조회를 기다리게 할 수 없다.
-    if settings.reverse_geocode_on_intake:
-        threading.Thread(target=reverse.warm, args=(case.lkp,), daemon=True).start()
+    case_area.start(case.id)
     return case

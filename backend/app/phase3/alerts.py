@@ -10,8 +10,8 @@ from zoneinfo import ZoneInfo
 import threading
 
 from app.config import settings
-from app.geo import h3grid, reverse
-from app.phase3 import devices, push
+from app.geo import h3grid
+from app.phase3 import case_area, devices, push
 from app.schemas.case import Case
 from app.schemas.common import GeoPoint
 from app.schemas.tip import TipDecision
@@ -226,12 +226,13 @@ def describe_alert(case: Case, now: datetime | None = None) -> dict:
     return {
         "case_id": case.id,
         "issued_at": case.last_alert_at or case.created_at,
-        # 최종 목격 지점의 지역명 — **캐시만 읽는다**(geo/reverse.cached_label).
-        # 채우는 일은 신고 접수 때 미리 해 둔다. 이 함수는 시민 앱이 15초마다 부르는
-        # 폴링 경로라 여기서 외부 호출을 하면 OSM 이 느린 날 경보가 통째로 늦어진다.
-        # 아직 안 채워졌거나 조회에 실패했으면 빈 문자열이고 앱이 "내 주변"으로
-        # 물러난다 — 좌표에서 동 이름을 지어내지는 않는다.
-        "area": reverse.cached_label(case.lkp),
+        # 최종 목격 지점의 지역명 — **외부 조회를 하지 않는다.** 신고 접수 때 얻어
+        # 사건에 저장해 둔 이름을 먼저 쓰고, 없으면 역지오코딩 캐시를 읽는다
+        # (phase3/case_area.area_of). 이 함수는 시민 앱이 15초마다 부르는 폴링 경로라
+        # 여기서 외부 호출을 하면 OSM 이 느린 날 경보가 통째로 늦어진다.
+        # 이름을 모르면 빈 문자열이고 앱이 "내 주변"으로 물러난다 — 좌표에서 동
+        # 이름을 지어내지는 않는다.
+        "area": case_area.area_of(case),
         "severity": "critical" if elapsed_h <= settings.alert_critical_window_h else "active",
         "kind": kind,
         "target_cells": sorted(target_parent_cells(cells)) if cells else [],
@@ -419,7 +420,9 @@ def describe_resolved(case: Case) -> dict:
     persona = storage.personas.get(case.report.persona_id) if case.report.persona_id else None
     return {
         "case_id": case.id,
-        "area": reverse.cached_label(case.lkp),
+        # 접수 때 저장한 이름이 먼저다 — 종결 카드는 워커가 재시작한 뒤에도 24시간
+        # 보이므로 메모리 캐시만 쓰면 "[] 어르신"이 됐다(10/27 운영).
+        "area": case_area.area_of(case),
         "age": persona.age if persona else None,
         "closed_at": case.closed_at,
         "close_reason": case.close_reason.value if case.close_reason else None,

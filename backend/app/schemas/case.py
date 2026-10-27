@@ -45,6 +45,11 @@ class Case(BaseModel):
     # 현재 앵커 — 층2 트리거 시 고신뢰 목격 위치·시각으로 교체된다
     lkp: GeoPoint
     lkp_time: LocalNaiveDT
+    # 경보·종결 카드의 지역명("[고양시 일산서구] 킨텍스로")과 그 이름이 가리키는 좌표.
+    # 신고 접수 때 한 번 얻어 둔다 — 메모리 캐시만 쓰면 워커 재시작 뒤 비었다
+    # (phase3/case_area.py). 사건 본문이라 파기와 함께 지워진다.
+    area_label: str = ""
+    area_label_point: GeoPoint | None = None
 
     # Phase 2 산출물
     prior: PriorParams | None = None
