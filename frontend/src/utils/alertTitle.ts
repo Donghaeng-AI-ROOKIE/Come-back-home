@@ -1,6 +1,8 @@
 /**
  * 알림 카드 제목 — 긴급 수색 알림 목록의 카드와 상황 종료 상세 화면이 같은
  * 제목을 쓰도록 한곳에 둔다.
+ *
+ * 이 파일은 node 시험이 직접 읽으므로 다른 유틸을 import 하지 않는다.
  */
 
 /** 대괄호와 겹친 공백을 걷어 낸 주소. 남는 글자가 없으면 빈 문자열이다. */
@@ -12,8 +14,16 @@ function cleanAddress(area?: string | null): string {
  * 서버 주소가 `[서울특별시 마포구] 월드컵로`처럼 행정구역만 묶여 와도
  * 화면에서는 주소 전체를 하나의 대괄호 안에 표시한다.
  */
-export function bracketAddress(area: string): string {
+export function bracketAddress(area?: string | null): string {
   return `[${cleanAddress(area)}]`;
+}
+
+/**
+ * 진행 중 경보 제목 "[지역] N세 실종 어르신" — 긴급 알림 목록 카드의 제목이다.
+ * 지역명이 비어 있으면 "최종 목격 위치 기준"으로 쓴다(목록 카드가 원래 쓰던 규칙).
+ */
+export function activeAlertTitle(area?: string | null, age?: number | null): string {
+  return `${bracketAddress(area || '최종 목격 위치 기준')}${age ? ` ${age}세` : ''} 실종 어르신`;
 }
 
 /**

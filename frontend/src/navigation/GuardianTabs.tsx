@@ -15,7 +15,9 @@ import { useAuthStore } from '../store/authStore';
 import { useGuardianStore } from '../store/guardianStore';
 import GuardianAlertsScreen from '../screens/GuardianAlertsScreen';
 import FigmaTabIcon from '../components/FigmaTabIcon';
-import { usePersonas } from '../hooks/queries';
+import { useGuardianCases, usePersonas } from '../hooks/queries';
+import { useGuardianCaseStore } from '../store/guardianCaseStore';
+import { listedCases } from '../utils/guardianTips';
 
 const Tab = createBottomTabNavigator<GuardianTabParamList>();
 
@@ -90,6 +92,20 @@ export default function GuardianTabs() {
   // 키보드가 떠 있으면 탭바를 감춘다 — 앱이 보이는 높이로 줄어들면서 탭바가
   // 키보드 바로 위로 올라와 대화 영역을 잡아먹는다(hooks/useKeyboardVisible).
   const keyboardOpen = useKeyboardVisible();
+  /**
+   * 알림 탭에 보인 제보를 "본 제보"로 적는다 — 홈 "수색 중" 카드의 새 제보 수가
+   * 이 기록을 뺀 나머지다(utils/guardianSearchCard).
+   *
+   * 탭에 들어올 때와 나갈 때 적는다. 나갈 때 적는 이유: 탭을 열어 둔 사이에 들어온
+   * 제보도 목록에 곧바로 그려졌으므로 본 것이다. 적는 대상은 탭 목록과 같은 사건
+   * 하나뿐이다(listedCases) — 목록에 없는 사건의 제보까지 읽음 처리하면 안 된다.
+   * 사건 목록은 알림 탭과 **같은 쿼리 키**라 요청이 늘지 않는다.
+   */
+  const { data: cases } = useGuardianCases();
+  const markTipsSeen = useGuardianCaseStore((s) => s.markTipsSeen);
+  const markShownTipsSeen = () => {
+    for (const c of listedCases(cases ?? [])) markTipsSeen(c.id, (c.tips ?? []).map((t) => t.id));
+  };
   return (
     <Tab.Navigator
       screenOptions={{
@@ -127,6 +143,7 @@ export default function GuardianTabs() {
       <Tab.Screen
         name="GuardianAlerts"
         component={GuardianAlertsScreen}
+        listeners={{ focus: markShownTipsSeen, blur: markShownTipsSeen }}
         options={{ tabBarLabel: '알림', tabBarIcon: ({ focused }) => <FigmaTabIcon name="alert" focused={focused} activeColor={color.guardian} /> }}
       />
       <Tab.Screen
