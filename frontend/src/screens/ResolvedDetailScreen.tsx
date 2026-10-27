@@ -52,7 +52,7 @@ export default function ResolvedDetailScreen() {
         {/* 목록의 초록 카드와 같은 색·배지·제목 — 눌렀던 카드가 펼쳐진 것으로 읽혀야 한다. */}
         <View style={styles.hero}>
           <View style={styles.badge}><Text style={styles.badgeText}>상황 종료</Text></View>
-          <Text style={[styles.heroTitle, keepWords]} lineBreakStrategyIOS="hangul-word">{resolvedTitle(params.area || '내 주변', asNumber(params.age))}</Text>
+          <Text style={[styles.heroTitle, keepWords]} lineBreakStrategyIOS="hangul-word">{resolvedTitle(params.area, asNumber(params.age))}</Text>
           <Text style={[styles.heroMessage, keepWords]} lineBreakStrategyIOS="hangul-word">{resolvedMessage(tipCount)}</Text>
         </View>
 
