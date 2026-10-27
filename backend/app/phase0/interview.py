@@ -152,6 +152,20 @@ def _geocodable(label: str) -> bool:
         return False
 
 
+def _area_question_targets(session: InterviewSession) -> list[dict]:
+    """요약·정정 게이트에서 동네를 물을 끌림점 — 아직 안 물었고, 라벨만으로는 좌표가 안 나오는 곳.
+
+    답한 턴에 즉시 묻는 _ask_area_for_new_place 와 같은 예외를 게이트에도 둔다. 게이트에
+    이 예외가 없던 동안은 자주 가는 곳 슬롯(즉시 묻기 대상이 아닌 슬롯)의 "서강대학교"처럼
+    지도에서 이름으로 바로 나오는 곳도 요약 직전에 "어느 동네인가요?"를 받았다(라이브
+    실측 2026-10-27). 이름 없이 부른 곳(name_kind=generic: "교회", "큰길")은 계속 묻는다 —
+    라벨 검색은 서초구 사랑의교회·제주 식당 '큰길'처럼 아무 곳이나 찾는다.
+    """
+    return [a for a in _arealess_attractions(session)
+            if str(a.get("label")) not in session.asked_area_labels
+            and not (a.get("name_kind") != "generic" and _geocodable(str(a.get("label"))))]
+
+
 def _ask_area_for_new_place(
     session: InterviewSession, prev_slot: SlotSpec, extracted: dict, utterance: str,
 ) -> str | None:
@@ -1663,8 +1677,7 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
             return session
         # 요약 전 '주소 없는 끌림점' 되묻기 — 장소당 1회. 좌표가 없으면 그 장소는
         # 예측에 못 들어가고 finalize 에서 조용히 버려지므로, 닫기 전에 한 번은 묻는다.
-        pending = [a for a in _arealess_attractions(session)
-                   if str(a.get("label")) not in session.asked_area_labels]
+        pending = _area_question_targets(session)
         if pending:
             label = str(pending[0]["label"])
             session.asked_area_labels.append(label)
@@ -2021,8 +2034,7 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
 
     # 정정으로 새로 들어온 장소에 지역 표기가 없으면 요약 대신 주소부터 묻는다 —
     # 확인 단계에서 추가된 곳도 좌표가 없으면 그대로 사라지기 때문(요약 전 게이트와 동일 원칙).
-    pending = [a for a in _arealess_attractions(session)
-               if str(a.get("label")) not in session.asked_area_labels]
+    pending = _area_question_targets(session)
     if pending:
         label = str(pending[0]["label"])
         session.asked_area_labels.append(label)

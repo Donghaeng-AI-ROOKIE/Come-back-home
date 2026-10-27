@@ -204,6 +204,7 @@ def test_summary_gate_asks_for_missing_area(monkeypatch):
                                                  "slot_filled": True})
     monkeypatch.setattr(interview, "_next_slot", lambda *a, **k: None)
     monkeypatch.setattr(interview.midm, "extract_area", lambda label, answer: "청주시 서원구 산남동")
+    monkeypatch.setattr(interview, "_geocodable", lambda label: False)   # 라벨만으로는 못 찾는 곳
 
     out = interview.answer_interview(s.id, "딱히 없어요")
     assert "'예전에 살던 집'은 어느 동네인가요" in out.messages[-1]["text"]
@@ -231,6 +232,7 @@ def test_confirmation_added_place_triggers_area_question(monkeypatch):
     monkeypatch.setattr(interview.midm, "extract_correction",
                         lambda labels, utterance: {"intent": "correct", "fields": {}, "place_ops": [
                             {"op": "add", "value": "청주 중앙시장", "area": ""}]})
+    monkeypatch.setattr(interview, "_geocodable", lambda label: False)
     out = interview._handle_confirmation(s, "청주 중앙시장도 자주 가세요")
     assert "'청주 중앙시장'은 어느 동네인가요" in out.messages[-1]["text"]
     assert out.pending_area_label == "청주 중앙시장"
@@ -290,3 +292,73 @@ def test_generic_place_area_is_asked_even_if_label_geocodes(monkeypatch):
     assert out.pending_area_label == "교회"
     assert "'교회'은 어느 동네인가요" in out.messages[-1]["text"]
     assert out.draft_attractions[0]["name_kind"] == "generic"
+
+
+# ── ①-b 게이트 예외: 고유명이고 라벨만으로 찾히면 묻지 않는다 (라이브 실측 2026-10-27) ──
+# "서강대학교에 자주 간다"는 자주 가는 곳 슬롯이라 답한 턴에 즉시 묻는 경로의 대상이 아니고,
+# 요약 직전 게이트가 잡았는데 그 게이트에는 즉시 경로의 예외가 없어 동네를 되물었다.
+
+def _gate_session(label, name_kind, sid):
+    from app import storage
+    s = _session(id=sid, draft_fields={"name": "송복남", "age": "82세", "home": "마포구 백범로 35"},
+                 filled_keys=["identity", "home"],
+                 draft_attractions=[{"label": label, "area_text": "", "name_kind": name_kind,
+                                     "origin_slot": "routine_destinations"}],
+                 asked_more_places=True, prev_target_key="routine_destinations")
+    storage.interviews.save(s.id, s)
+    return s
+
+
+def _no_more_slots(monkeypatch):
+    monkeypatch.setattr(interview.midm, "extract_answer",
+                        lambda slot, conv, **_: {"fields": {}, "attraction_points": [],
+                                                 "behavior_notes": [], "slot_filled": True})
+    monkeypatch.setattr(interview, "_next_slot", lambda *a, **k: None)
+
+
+def test_summary_gate_skips_proper_place_that_geocodes(monkeypatch):
+    """'서강대학교'(name_kind=proper)는 지도에서 이름으로 바로 나온다 — 요약 직전에 동네를 묻지 않는다."""
+    s = _gate_session("서강대학교", "proper", "pr-gate-proper")
+    _no_more_slots(monkeypatch)
+    asked = []
+    monkeypatch.setattr(interview, "_geocodable", lambda label: asked.append(label) or True)
+    out = interview.answer_interview(s.id, "딱히 없어요")
+    assert asked == ["서강대학교"]
+    assert out.pending_area_label is None and out.awaiting_confirmation
+    assert "어느 동네인가요" not in out.messages[-1]["text"]
+    assert out.draft_attractions[0]["area_text"] == ""     # 지역 표기는 비워 둔다 — finalize 가 이름으로 찾는다
+
+
+def test_summary_gate_still_asks_generic_place_even_if_label_geocodes(monkeypatch):
+    """'교회'(generic)는 라벨 검색이 아무 교회나 찾는다 — 지도에 나와도 동네를 묻는다."""
+    s = _gate_session("교회", "generic", "pr-gate-generic")
+    _no_more_slots(monkeypatch)
+    monkeypatch.setattr(interview, "_geocodable", lambda label: True)
+    out = interview.answer_interview(s.id, "딱히 없어요")
+    assert out.pending_area_label == "교회" and not out.awaiting_confirmation
+    assert "'교회'은 어느 동네인가요" in out.messages[-1]["text"]
+
+
+def test_summary_gate_asks_proper_place_that_does_not_geocode(monkeypatch):
+    """고유명이라도 지도에서 못 찾으면(오타·작은 가게) 묻는다 — 질문 한 번이 좌표 없는 끌림점보다 싸다."""
+    s = _gate_session("동네 떡집 복떡방", "proper", "pr-gate-nogeo")
+    _no_more_slots(monkeypatch)
+    monkeypatch.setattr(interview, "_geocodable", lambda label: False)
+    out = interview.answer_interview(s.id, "딱히 없어요")
+    assert out.pending_area_label == "동네 떡집 복떡방"
+
+
+def test_confirmation_added_proper_place_that_geocodes_goes_to_summary(monkeypatch):
+    """정정 게이트도 같은 예외 — 확인 단계에서 추가한 '서강대학교'는 바로 요약으로."""
+    s = _session(id="pr-add-proper", draft_fields={"name": "송복남", "age": "82세",
+                                                   "home": "마포구 백범로 35"},
+                 awaiting_confirmation=True)
+    monkeypatch.setattr(interview.midm, "extract_correction",
+                        lambda labels, utterance: {"intent": "correct", "fields": {}, "place_ops": [
+                            {"op": "add", "value": "서강대학교", "area": "", "name_kind": "proper"}]})
+    monkeypatch.setattr(interview, "_geocodable", lambda label: True)
+    out = interview._handle_confirmation(s, "서강대학교도 자주 가세요")
+    assert out.pending_area_label is None
+    assert "어느 동네인가요" not in out.messages[-1]["text"]
+    assert out.awaiting_confirmation                      # 요약 재진입
+    assert [a["label"] for a in out.draft_attractions] == ["서강대학교"]
