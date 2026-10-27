@@ -25,8 +25,11 @@ export default function TipWarnScreen() {
           <Text style={styles.warnText}>허위 또는 장난 제보는 실종자를 찾는 골든타임을 심각하게 훼손합니다.</Text>
           <Text style={styles.warnText}>허위 신고 시 법적 처벌을 받을 수 있으니 신중하게 제보해 주세요.</Text>
         </View>
-        <Pressable style={styles.primary} onPress={() => navigation.replace('ReportChat', { caseId })}><Text style={styles.primaryText}>비슷한 사람을 봤어요</Text></Pressable>
-        <Pressable style={styles.secondary} onPress={() => navigation.goBack()}><Text style={styles.secondaryText}>비슷한 사람을 보지 못했어요</Text></Pressable>
+        {/* 이 화면에 오는 사람은 이미 '봤어요'(경보 상세)나 '비슷한 사람을 봤어요'(인상착의)로
+            봤다고 답하고 왔다. 여기서 다시 "봤나요/못 봤나요"를 물으면 같은 질문을 두 번 하는
+            셈이라, 주의사항을 확인했다는 동의와 되돌아가기만 둔다. */}
+        <Pressable style={styles.primary} onPress={() => navigation.replace('ReportChat', { caseId })} accessibilityRole="button"><Text style={styles.primaryText}>주의사항 확인하고 제보하기</Text></Pressable>
+        <Pressable style={styles.secondary} onPress={() => navigation.goBack()} accessibilityRole="button"><Text style={styles.secondaryText}>취소</Text></Pressable>
       </View>
       <FigmaFlowTabBar mode="citizen" active="alert" />
     </SafeAreaView>
