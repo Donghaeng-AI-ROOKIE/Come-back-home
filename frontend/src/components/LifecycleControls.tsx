@@ -6,6 +6,7 @@ import { closeCase, deleteCase, deletePersona, confirmPersona, Case, Persona } f
 import { useAuthStore } from '../store/authStore';
 import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import { useGuardianStore } from '../store/guardianStore';
+import { refreshAfterCaseChange } from '../utils/caseRefresh';
 
 function Action({ label, run, explanation }: { label: string; run: () => Promise<void>; explanation: string }) {
   const [confirming, setConfirming] = useState(false);
@@ -30,7 +31,8 @@ export function CaseLifecycleCard({ item }: { item: Case }) {
   const qc = useQueryClient();
   if (!owner) return null;
   const closed = ['found', 'closed'].includes(item.status);
-  const refresh = async () => { await qc.cancelQueries(); qc.clear(); };
+  // 종결·삭제 직후 사건 목록을 바로 다시 받는다(이유는 utils/caseRefresh 주석).
+  const refresh = () => refreshAfterCaseChange(qc);
   return <View style={card}>
     <Text style={{ fontWeight: '700' }}>{closed ? '종결된 수색' : '진행 중인 수색'} · {new Date(item.created_at).toLocaleDateString('ko-KR')}</Text>
     {closed ? <>
