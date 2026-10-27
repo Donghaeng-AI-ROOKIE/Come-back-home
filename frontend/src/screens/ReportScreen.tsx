@@ -333,7 +333,7 @@ export default function ReportScreen() {
         </View>
       </ScrollView>
 
-      <FigmaFlowTabBar mode="guardian" active="home" />
+      <FigmaFlowTabBar mode="guardian" active={null} />
       </KeyboardAvoidingView>
 
       {/* `Modal` 을 쓰지 않는다 — react-native-web 의 Modal 은 `#root` **바깥**

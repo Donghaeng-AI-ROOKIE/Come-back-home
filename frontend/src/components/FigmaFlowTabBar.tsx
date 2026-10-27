@@ -8,9 +8,18 @@ import { FLOW_TAB_PADDING_TOP, useTabBarMetrics } from '../theme/tabBar';
 import { useKeyboardVisible } from '../hooks/useKeyboardVisible';
 import FigmaTabIcon, { type FigmaTabIconName } from './FigmaTabIcon';
 
+type TabKey = 'home' | 'register' | 'alert' | 'profile';
+
+/**
+ * 탭 내비게이터 밖 화면(스택)의 하단 탭바.
+ *
+ * `active` 가 null 이면 어느 탭도 강조하지 않는다 — 실종 신고(Report·ReportSent)처럼
+ * 어느 탭에도 속하지 않는 흐름에서 "홈"이 켜져 있으면, 지금 홈에 있다고 잘못 읽힌다.
+ * 탭은 그대로 눌러 이동할 수 있다.
+ */
 export default function FigmaFlowTabBar({ mode, active }: {
   mode: 'guardian' | 'citizen';
-  active: 'home' | 'register' | 'alert' | 'profile';
+  active: TabKey | null;
 }) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   // 탭 내비게이터가 아니라 일반 View 라 안전영역을 아무도 안 넣어 준다 —
@@ -22,7 +31,7 @@ export default function FigmaFlowTabBar({ mode, active }: {
   const guardian = mode === 'guardian';
   if (keyboardOpen) return null;
   const accent = guardian ? color.guardian : active === 'alert' ? color.figmaRed : color.brand;
-  const items: { key: typeof active; label: string; icon: FigmaTabIconName }[] = guardian
+  const items: { key: TabKey; label: string; icon: FigmaTabIconName }[] = guardian
     ? [
         { key: 'home', label: '홈', icon: 'home' },
         { key: 'register', label: '사전등록', icon: 'register' },
@@ -35,7 +44,7 @@ export default function FigmaFlowTabBar({ mode, active }: {
         { key: 'alert', label: '긴급 알림', icon: 'alert' },
         { key: 'profile', label: '내 정보', icon: 'profile' },
       ];
-  const goTo = (key: typeof active) => {
+  const goTo = (key: TabKey) => {
     if (guardian) {
       const screen = key === 'home' ? 'GuardianHome' : key === 'register' ? 'GuardianReg' : key === 'alert' ? 'GuardianAlerts' : 'GuardianMy';
       navigation.navigate('GuardianTabs', { screen });

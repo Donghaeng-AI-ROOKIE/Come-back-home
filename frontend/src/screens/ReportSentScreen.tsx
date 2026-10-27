@@ -76,7 +76,7 @@ export default function ReportSentScreen() {
         </View>
       </ScrollView>
       <GuideSheet open={guideOpen} onClose={() => setGuideOpen(false)} />
-      <FigmaFlowTabBar mode="guardian" active="home" />
+      <FigmaFlowTabBar mode="guardian" active={null} />
     </SafeAreaView>
   );
 }
