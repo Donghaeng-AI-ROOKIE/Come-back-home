@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { formatTipTime, listedCases, mapCaseOf, tipTimeMs } from '../src/utils/guardianTips.ts';
+import { formatTipTime, listedCases, mapCaseOf, splitCases, tipTimeMs } from '../src/utils/guardianTips.ts';
 
 // 보호자 기기는 한국 시간이다. 서버 컨테이너는 UTC 라 시각이 오프셋 없이 온다.
 process.env.TZ = 'Asia/Seoul';
@@ -43,4 +43,18 @@ test('with no open case nothing is listed', () => {
   const closed = { id: 'closed', status: 'closed', lkp: KINTEX, tips: [{ id: 't0', text: '[테스트] 배포 확인용 합성 제보' }] };
   assert.equal(mapCaseOf([closed]), null);
   assert.deepEqual(listedCases([closed]), []);
+});
+
+test('case management splits ongoing and closed cases, keeping the server order', () => {
+  const cases = [
+    { id: 'a', status: 'searching' },
+    { id: 'b', status: 'found' },
+    { id: 'c', status: 'intake' },
+    { id: 'd', status: 'closed' },
+    { id: 'e', status: 'predicted' },
+  ];
+  const { active, closed } = splitCases(cases);
+  assert.deepEqual(active.map((c) => c.id), ['a', 'c', 'e']);
+  assert.deepEqual(closed.map((c) => c.id), ['b', 'd']);
+  assert.deepEqual(splitCases([]), { active: [], closed: [] });
 });

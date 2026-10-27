@@ -58,3 +58,15 @@ export function listedCases<C extends MapCase>(cases: readonly C[]): C[] {
   const c = mapCaseOf(cases);
   return c ? [c] : [];
 }
+
+/**
+ * 알림 탭 아래쪽 "사건 관리" 묶음 — 진행 중 사건과 종결 사건을 나눈다(서버 목록 순서 그대로).
+ *
+ * 예전에는 두 종류 사건 카드가 모두 제보 목록 **위**에 쌓여, 사건이 쌓일수록 제보가
+ * 화면 아래로 밀려났다. 보호자가 이 탭에서 가장 자주 보는 것은 제보라 제보를 먼저 두고,
+ * 진행 중 사건 카드(종결 버튼)는 그 아래, 종결 사건(삭제 버튼)은 접어서 맨 아래에 둔다.
+ */
+export function splitCases<C extends { status: string }>(cases: readonly C[]): { active: C[]; closed: C[] } {
+  const closed = cases.filter((c) => ['found', 'closed'].includes(c.status));
+  return { active: cases.filter((c) => !closed.includes(c)), closed };
+}
