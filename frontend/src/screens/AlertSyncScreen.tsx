@@ -16,6 +16,7 @@ import MapPin from '../components/MapPin';
 import WebMap from '../components/WebMap';
 import PersonSilhouette from '../components/PersonSilhouette';
 import { useTabBarMetrics } from '../theme/tabBar';
+import { guidanceLine } from '../utils/guidanceLine';
 
 
 export default function AlertSyncScreen() {
@@ -35,7 +36,9 @@ export default function AlertSyncScreen() {
   const poa = usePoaPrediction(caseId, 0);
   const ended = poa.ended;
   const watching = usePresenceCount(caseId, !ended);
-  const guidance = useGuidance(caseId, !ended).data?.text;
+  // 로딩 문구는 첫 조회 중에만 — 빈 응답·실패에서 영원히 남지 않게(utils/guidanceLine).
+  const guidanceQuery = useGuidance(caseId, !ended);
+  const guidance = guidanceLine({ text: guidanceQuery.data?.text, loading: guidanceQuery.isLoading });
   const lkp = alert?.lkp;
   const region = lkp ? {
     latitude: lkp.lat,
@@ -168,7 +171,7 @@ export default function AlertSyncScreen() {
 
           <View style={[styles.infoCard, styles.firstInfo]}>
             <Text style={styles.infoIcon}>●</Text>
-            <Text style={styles.infoText} numberOfLines={2}>{guidance || '사건에 맞는 수색 안내를 불러오고 있습니다.'}</Text>
+            <Text style={styles.infoText} numberOfLines={2}>{guidance}</Text>
           </View>
           <View style={styles.infoCard}>
             <Text style={styles.infoIcon}>i</Text>
