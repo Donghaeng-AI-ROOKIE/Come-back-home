@@ -306,3 +306,17 @@ def test_merge_refinement_orders_by_admin_level():
     assert m("마포구 스타벅스", "마포구요") == "마포구 스타벅스"        # 보탤 게 없다 → 무변경
     assert m("산남동", "아 성북구 정릉동") == "산남동"                  # 동이 또 왔다 = 새 답 → 무변경
     assert m("마포구 스타벅스", "합정동 이마트") == "마포구 스타벅스"    # 상호가 바뀌었다 → 무변경
+
+
+def test_road_address_with_lot_number_is_not_treated_as_many_branches(monkeypatch):
+    """'마포구 백범로 35'는 주소다 — 키워드검색이 먼저 돌아 그 건물 POI(서강대학교)가 걸려도
+    건물 번호 '35'를 상호로 보고 되묻지 않는다(실측 2026-10-27: 집 질문이 세 번 반복됨)."""
+    sogang = GeoResult(GeoPoint(lat=37.5511, lng=126.9410), precision="poi", source="kakao",
+                       matched="서강대학교", address="서울 마포구 백범로 35")
+    many = [_alt(f"서강대학교 {b}", "서울 마포구 백범로 35", 37.55, 126.94, "poi")
+            for b in ("정문", "J관", "K관", "도서관", "체육관", "학생회관")]
+    s = _alt_session(monkeypatch, {"마포구 백범로 35": sogang}, {"마포구 백범로 35": many})
+    out = interview.answer_interview(s.id, "마포구 백범로 35")
+    assert out.draft_fields["home"] == "마포구 백범로 35" and "home" in out.filled_keys
+    assert out.home_choice_rounds == 0 and out.prev_target_key != "home"
+    assert "여러 곳이에요" not in out.messages[-1]["text"]

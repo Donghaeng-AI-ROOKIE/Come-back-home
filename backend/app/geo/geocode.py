@@ -119,6 +119,8 @@ def _warn_kakao_denied(err) -> None:
 
 # 행정구역 접미사 — 마지막 토큰이 이걸로 끝나면 '순수 지역명'으로 보고 주소검색 먼저.
 _ADMIN_SUFFIX = ("특별시", "광역시", "시", "도", "구", "군", "동", "읍", "면", "리")
+# 번지·건물번호 — "35", "856-3", "12번지"
+_LOT_NUMBER_RE = re.compile(r"^\d+(?:-\d+)?(?:번지)?$")
 
 
 def _looks_like_region(query: str) -> bool:
@@ -128,7 +130,15 @@ def _looks_like_region(query: str) -> bool:
     False → 키워드검색 먼저(상호/건물 POI). '면목동 방앗간', '서울숲' 등.
     """
     toks = query.split()
-    return bool(toks) and toks[-1].endswith(_ADMIN_SUFFIX)
+    if not toks:
+        return False
+    if toks[-1].endswith(_ADMIN_SUFFIX):
+        return True
+    # "마포구 백범로 35", "면목동 12", "하남대로 856-3" — 번지·건물번호로 끝나는 주소.
+    # 마지막 토큰만 보면 숫자라 키워드검색이 먼저 돌아 그 건물 안 POI(서강대학교,
+    # "12스톤즈")가 잡히고, 집 주소 되묻기가 그걸 '여러 지점'으로 오인했다(실측 2026-10-27).
+    return (len(toks) >= 2 and _LOT_NUMBER_RE.match(toks[-1]) is not None
+            and toks[-2].endswith(_ADMIN_SUFFIX + ("로", "길")))
 
 
 # 지역 표기 토큰 — 한글 2자 이상 + (숫자) + 행정구역/도로 접미사 (+ 번지 숫자).

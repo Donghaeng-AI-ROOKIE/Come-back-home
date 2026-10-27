@@ -108,6 +108,14 @@ def test_looks_like_region_heuristic():
     assert not _looks_like_region("면목동 방앗간")   # 상호 포함
     assert not _looks_like_region("서울숲")          # 랜드마크
     assert not _looks_like_region("정릉초등학교")
+    # 번지·건물번호로 끝나는 주소 — 키워드로 먼저 찾으면 그 건물 안 POI 가 잡힌다(2026-10-27)
+    assert _looks_like_region("마포구 백범로 35")
+    assert _looks_like_region("면목동 12")
+    assert _looks_like_region("하남시 하남대로 856-3")
+    assert _looks_like_region("정릉동 12번지")
+    assert not _looks_like_region("101동 1203호")
+    assert not _looks_like_region("스타벅스 2호점")
+    assert not _looks_like_region("35")
 
 
 @pytest.mark.skipif(not os.environ.get("KAKAO_REST_KEY"), reason="카카오 키 없음 (live)")
