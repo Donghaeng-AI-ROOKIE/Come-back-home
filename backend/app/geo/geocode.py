@@ -298,9 +298,11 @@ class KakaoGeocoder(_BaseGeocoder):
         if not docs:
             return None
         d = docs[0]
+        # address_type(REGION·ROAD·REGION_ADDR·ROAD_ADDR)은 이 좌표가 번지인지 도로·지역
+        # 대표점인지 알려 준다 — 신고 장소 검색의 정밀도 안내가 쓴다(api/geo._granularity).
         return GeoResult(GeoPoint(lat=float(d["y"]), lng=float(d["x"])),
                          precision="address", source="kakao", matched=d.get("address_name"),
-                         address=d.get("address_name"))
+                         address=d.get("address_name"), detail={"address_type": d.get("address_type")})
 
     def locate(self, query: str, anchor: GeoPoint | None = None, *, region: bool = False) -> GeoResult | None:
         if not query:
