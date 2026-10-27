@@ -21,6 +21,7 @@
 """
 
 import logging
+import re
 import threading
 import time
 from collections import defaultdict
@@ -39,6 +40,12 @@ from app.schemas.tip import Tip, TipDecision
 
 _GEO = get_geocoder(use_nominatim=True)
 
+# 구조화(tip_llm.structure_tip)는 장소에 붙은 조사를 떼라고 지시하지 않고, 결과를
+# 후처리하지도 않는다. 구조화 코드로 모델을 비교한 실험에서 다른 모델이 "시장에서"·
+# "편의점에서"를 낸 기록이 있다(experiments/tip_llm_compare/results). 운영 모델(Mi:dm Mini)
+# 기록에는 없지만, 남으면 꼬리말("앞쪽에서")도 못 뗀다. 원문이 실패할 때 두 번째 질의에서만 뗀다.
+_TRAILING_PARTICLE_RE = re.compile(r"\s*에서\s*$")
+
 
 def _geocode_tip_location(location_text: str | None, anchor: GeoPoint) -> GeoPoint | None:
     """제보의 location_text(자유서술) → 좌표. Phase 0 온보딩 끌림점과 동일한
@@ -51,7 +58,8 @@ def _geocode_tip_location(location_text: str | None, anchor: GeoPoint) -> GeoPoi
     """
     if not location_text:
         return None
-    for query in dict.fromkeys((location_text, base_place_name(location_text))):
+    bare = _TRAILING_PARTICLE_RE.sub("", location_text) or location_text
+    for query in dict.fromkeys((location_text, base_place_name(bare))):
         res = _GEO.locate(query, anchor)
         if res is not None and h3grid.haversine_km(anchor, res.point) <= ANCHOR_MAX_KM:
             return res.point

@@ -99,6 +99,23 @@ def test_front_side_tip_is_found_by_its_base_name(monkeypatch):
     assert geo.calls == ["능내초등학교 앞쪽", "능내초등학교"]
 
 
+@pytest.mark.parametrize("text", ["능내초등학교 앞쪽에서", "능내초등학교에서", "능내초등학교 앞에서"])
+def test_trailing_particle_is_dropped_after_exact_query_fails(monkeypatch, text):
+    # 구조화 프롬프트는 조사를 떼라고 하지 않는다. 모델 비교 실험에서 다른 모델이
+    # "시장에서"·"편의점에서"를 낸 기록이 있다(experiments/tip_llm_compare/results).
+    geo = _FakeGeo({"능내초등학교": NEUNGNAE})
+    monkeypatch.setattr(tip_flow, "_GEO", geo)
+    assert tip_flow._geocode_tip_location(text, GUNPO_LKP) == NEUNGNAE
+    assert geo.calls == [text, "능내초등학교"]
+
+
+def test_particle_alone_is_not_queried_as_empty_text(monkeypatch):
+    geo = _FakeGeo({})
+    monkeypatch.setattr(tip_flow, "_GEO", geo)
+    assert tip_flow._geocode_tip_location("에서", LKP) is None
+    assert geo.calls == ["에서"]
+
+
 def test_text_without_position_word_is_queried_once(monkeypatch):
     geo = _FakeGeo({})
     monkeypatch.setattr(tip_flow, "_GEO", geo)
