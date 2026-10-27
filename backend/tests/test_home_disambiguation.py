@@ -320,3 +320,17 @@ def test_road_address_with_lot_number_is_not_treated_as_many_branches(monkeypatc
     assert out.draft_fields["home"] == "마포구 백범로 35" and "home" in out.filled_keys
     assert out.home_choice_rounds == 0 and out.prev_target_key != "home"
     assert "여러 곳이에요" not in out.messages[-1]["text"]
+
+
+def test_address_with_building_name_is_not_treated_as_many_branches(monkeypatch):
+    """'하남시 하남대로 856 하남더샵센트럴뷰' — 번지 뒤에 건물명이 붙은 실제 입력(08-12 실측 형식).
+    주소검색은 이 조합을 못 찾아 키워드로 내려오고 단지 안 POI 가 여럿 걸리지만, 번지가 있으면 주소다."""
+    apt = GeoResult(GeoPoint(lat=37.5440, lng=127.2033), precision="poi", source="kakao",
+                    matched="하남더샵센트럴뷰아파트", address="경기 하남시 하남대로 856")
+    many = [_alt(f"하남더샵센트럴뷰 {b}", "경기 하남시 하남대로 856", 37.544, 127.203, "poi")
+            for b in ("101동", "102동", "103동", "상가", "관리사무소", "경로당")]
+    text = "하남시 하남대로 856 하남더샵센트럴뷰"
+    s = _alt_session(monkeypatch, {text: apt}, {text: many})
+    out = interview.answer_interview(s.id, text)
+    assert out.draft_fields["home"] == text and "home" in out.filled_keys
+    assert out.home_choice_rounds == 0 and "여러 곳이에요" not in out.messages[-1]["text"]

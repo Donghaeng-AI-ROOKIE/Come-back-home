@@ -21,10 +21,10 @@ from app.llm import midm
 from app.phase0 import retrieval, safety
 from app.geo.geocode import (
     HOME_ALT_MAX_LIST,
-    _LOT_NUMBER_RE,
     GeoResult,
     clean_area_text,
     get_geocoder,
+    has_lot_number,
     has_region_token,
     region_tokens,
     token_in_text,
@@ -608,11 +608,12 @@ def _disambiguate_home(session: InterviewSession, res: GeoResult, text: str) -> 
     """
     if session.home_choice_rounds >= _HOME_CHOICE_MAX_ROUNDS:
         return None
-    if res.precision == "poi" and _LOT_NUMBER_RE.match(_non_region_part(text) or "x"):
-        # "마포구 백범로 35"처럼 지역 표기 + 번지뿐인 답은 주소다. 키워드검색이 먼저 돌아
-        # 그 건물 안 POI 가 걸리면 건물 번호를 상호로 보고 "'35'이(가) 여러 곳이에요"라고
-        # 물었다(실측 2026-10-27). 지오코더(_looks_like_region)가 이제 주소검색을 먼저
-        # 돌리지만, 주소검색이 미탐이라 키워드로 내려온 경우의 마지막 방어선.
+    if res.precision == "poi" and has_lot_number(text):
+        # "마포구 백범로 35", "하남시 하남대로 856 하남더샵센트럴뷰"처럼 번지가 있는 답은
+        # 한 곳을 가리키는 주소다. 키워드검색이 먼저 돌아 그 건물(단지) 안 POI 가 걸리면
+        # 번지·건물명을 상호로 보고 "'35'이(가) 여러 곳이에요"라고 물었다(실측 2026-10-27).
+        # 지오코더(_looks_like_region)가 번지로 끝나는 답은 주소검색을 먼저 돌리지만,
+        # 건물명이 뒤에 붙거나 주소검색이 미탐이라 키워드로 내려온 경우의 마지막 방어선.
         return None
     alts = _home_alternatives(res, text)
     if alts is None:

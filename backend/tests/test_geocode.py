@@ -118,6 +118,16 @@ def test_looks_like_region_heuristic():
     assert not _looks_like_region("35")
 
 
+def test_has_lot_number_marks_addresses_even_with_building_name():
+    from app.geo.geocode import has_lot_number
+    assert has_lot_number("마포구 백범로 35")
+    assert has_lot_number("하남시 하남대로 856 하남더샵센트럴뷰")   # 건물명이 뒤에 붙어도 주소
+    assert has_lot_number("정릉동 12번지 2층")
+    assert not has_lot_number("마포구 스타벅스")
+    assert not has_lot_number("잠실주공5단지 101동")                 # 아파트 동은 번지가 아니다
+    assert not has_lot_number("대흥역 2번 출구")
+
+
 @pytest.mark.skipif(not os.environ.get("KAKAO_REST_KEY"), reason="카카오 키 없음 (live)")
 def test_kakao_keyword_returns_poi_precision():
     """구체 장소명 → 키워드검색 → 실제 상호 건물 좌표(precision=poi). (네트워크)"""

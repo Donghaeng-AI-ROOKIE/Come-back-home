@@ -123,6 +123,16 @@ _ADMIN_SUFFIX = ("특별시", "광역시", "시", "도", "구", "군", "동", "�
 _LOT_NUMBER_RE = re.compile(r"^\d+(?:-\d+)?(?:번지)?$")
 
 
+def has_lot_number(text: str) -> bool:
+    """답에 '도로명·동 + 번지'가 있나 — "하남시 하남대로 856 하남더샵센트럴뷰"처럼 뒤에 건물명이
+    붙어도 번지가 있으면 **한 곳을 가리키는 주소**다. 집 주소 되묻기가 이걸 상호로 보고
+    "'856 하남더샵센트럴뷰'이(가) 여러 곳이에요"라고 묻던 실측(2026-10-27)."""
+    toks = str(text or "").split()
+    return any(_LOT_NUMBER_RE.match(toks[i]) is not None
+               and toks[i - 1].endswith(_ADMIN_SUFFIX + ("로", "길"))
+               for i in range(1, len(toks)))
+
+
 def _looks_like_region(query: str) -> bool:
     """'면목동', '성북구 정릉동'처럼 마지막 토큰이 행정구역 접미사로 끝나는가.
 
