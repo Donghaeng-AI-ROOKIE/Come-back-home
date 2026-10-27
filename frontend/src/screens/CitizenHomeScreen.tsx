@@ -6,16 +6,19 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
-import { useActiveWalk, useNearbyWalks, useStartWalk, useWalkStats } from '../hooks/queries';
+import { useActiveAlerts, useActiveWalk, useNearbyWalks, useStartWalk, useWalkStats } from '../hooks/queries';
 import type { NearbyWalk } from '../api/client';
 import { isLocationSettled, retryLocation, useMyLocation } from '../hooks/useMyLocation';
 import FigmaLogo from '../components/FigmaLogo';
 import PushEnableCard from '../components/PushEnableCard';
 import FigmaStatusBar from '../components/FigmaStatusBar';
+import AlertCard from '../components/AlertCard';
+import { useAppModeStore } from '../store/appModeStore';
+import { nearbyAlertCard } from '../utils/alertTitle';
 import { Polyline } from 'react-native-maps';
 import BaseMap from '../components/BaseMap';
 import WebMap from '../components/WebMap';
-import { formatKm } from '../utils/walkFormat';
+import { formatKm, koreanMonth } from '../utils/walkFormat';
 
 /**
  * 카드 썸네일 — 그 길의 **실제 모양**을 지도 위에 그린다.
@@ -78,6 +81,18 @@ export default function CitizenHomeScreen() {
   // 사용자는 앱이 고장 난 줄 알고 권한을 켜 볼 생각을 못 한다.
   const { status: locStatus, message: locMessage } = useMyLocation(true);
   const locBlocked = isLocationSettled(locStatus) && locStatus !== 'granted';
+  /**
+   * 주변 진행 중 경보 — 있어도 홈에는 아무 표시가 없었다. 긴급 알림 목록과 같은
+   * 규칙으로 고른 맨 위 경보 한 장을 홈 맨 위에 둔다(utils/alertTitle.nearbyAlertCard).
+   * 경보 관문(useAlertGate)이 이미 같은 훅·같은 쿼리 키로 묻고 있어 요청이 늘지 않는다.
+   */
+  const { data: alerts } = useActiveAlerts();
+  const dismissedCases = useAppModeStore((s) => s.dismissedCases);
+  const alertCard = nearbyAlertCard(alerts, dismissedCases);
+  const openAlert = () => {
+    if (alertCard?.caseId) navigation.navigate('AlertDetail', { caseId: alertCard.caseId });
+    else navigation.navigate('CitizenTabs', { screen: 'Alerts' });
+  };
   const startWalk = useStartWalk();
   const onStart = (areaLabel?: string) => {
     if (active) return navigation.navigate('WalkActive');
@@ -98,12 +113,24 @@ export default function CitizenHomeScreen() {
       >
         <View style={styles.logoRow}><FigmaLogo mode="citizen" /></View>
 
+        {alertCard ? (
+          <AlertCard
+            tone="red"
+            badge={alertCard.badge}
+            title={alertCard.title}
+            body={alertCard.body}
+            onPress={openAlert}
+            accessibilityLabel={`${alertCard.badge}. ${alertCard.title}. ${alertCard.body}`}
+            style={styles.alertCard}
+          />
+        ) : null}
+
         {/* 앱을 꺼 둬도 경보를 받게 하는 유일한 경로 — 이미 켜져 있으면 안 그린다. */}
         <PushEnableCard />
 
         <View style={styles.monthHead}>
           <Text style={styles.kicker}>이번 달 나의 산책 기록</Text>
-          <Text style={styles.monthTitle}>8월에는 총 {formatKm(stats?.month_km ?? 0)}km를 걸었네요!</Text>
+          <Text style={styles.monthTitle}>{koreanMonth(Date.now())}월에는 총 {formatKm(stats?.month_km ?? 0)}km를 걸었네요!</Text>
         </View>
         {/* Figma 의 월간 이미지 영역 — **카드 규격(높이·여백·라운드)은 시안 그대로** 두고
             내용만 서버 집계로 채운다. 빈 회색 상자로 두면 화면의 한 블록이 통째로
@@ -188,6 +215,8 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   content: { paddingBottom: 38 },
   logoRow: { height: 78, paddingLeft: 30, paddingTop: 26 },
+  // 목록 카드(28 간격) 대신 홈 가장자리 여백(16)에 맞춘다 — 아래 알림 연결 카드와 같은 줄.
+  alertCard: { marginHorizontal: 16, marginTop: 4, marginBottom: 4 },
   monthHead: { height: 87, paddingHorizontal: 16, paddingTop: 18 },
   kicker: { fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#007AFF' },
   monthTitle: { fontFamily: type.familyCssExtraBold, fontSize: 18, lineHeight: 23, color: '#000000', marginTop: 5 },
