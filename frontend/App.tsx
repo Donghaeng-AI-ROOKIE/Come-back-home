@@ -37,6 +37,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       LockScreenAlert: 'lock/:caseId',
       AlertDetail: 'alert/:caseId',
       AlertSync: 'sync/:caseId',
+      ResolvedDetail: 'resolved/:caseId',
     },
   },
 };

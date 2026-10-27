@@ -141,8 +141,10 @@ export type ResolvedAlert = {
   /** 시민에게 보여줄 최소 신원 — 이름은 오지 않는다(활성 경보와 같은 원칙). */
   age?: number;
   closedAt: string; // ISO
-  /** 이 사건에 들어온 제보 건수. 종결 카드 "여러분의 제보 N건 덕분에…" 문구에 쓴다. */
+  /** 이 사건에 들어온 제보 건수(폐기 판정 제외). 종결 카드 "여러분의 제보 N건 덕분에…" 문구에 쓴다. */
   tipCount?: number;
+  /** 신고부터 종결까지 걸린 분. 상황 종료 상세의 "수색 시간"에 쓴다. 모르면 없다. */
+  searchMinutes?: number;
 };
 
 export type PoliceAlert = {

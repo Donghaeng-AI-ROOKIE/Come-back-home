@@ -14,6 +14,7 @@ from app.geo import h3grid, reverse
 from app.phase3 import devices, push
 from app.schemas.case import Case
 from app.schemas.common import GeoPoint
+from app.schemas.tip import TipDecision
 
 
 def _cumulative_top_cells(
@@ -388,6 +389,14 @@ def send_alerts(case_id: str, cells: list[str], appearance_summary: str,
     }
 
 
+def _search_minutes(case: Case) -> int | None:
+    """신고(사건 생성)부터 종결까지 걸린 분. 종결 시각이 없거나 거꾸로면 None."""
+    if case.closed_at is None:
+        return None
+    seconds = (case.closed_at - case.created_at).total_seconds()
+    return int(seconds // 60) if seconds >= 0 else None
+
+
 def describe_resolved(case: Case) -> dict:
     """종결된 사건 하나 → 시민 화면의 **상황 종료 카드** 표현.
 
@@ -397,8 +406,8 @@ def describe_resolved(case: Case) -> dict:
     어느 것도 필요 없고, 계속 뿌리면 목적을 넘는 제공이 된다. 파기 대기 중인
     개인정보이기도 하다.
 
-    그래서 카드가 그리는 것만 남긴다 — 지역, 나이, 종결 시각. 이름은 여기서도
-    보내지 않는다(`describe_alert` 와 같은 원칙).
+    그래서 카드와 상세 화면이 그리는 것만 남긴다 — 지역, 나이, 종결 시각, 제보
+    수, 수색 시간. 이름은 여기서도 보내지 않는다(`describe_alert` 와 같은 원칙).
 
     ## 대상 칸은 왜 여전히 필요한가
     "내 주변에서 있었던 일"만 보여주기 위해서다. 전국의 종결 사건을 다 내려주면
@@ -414,9 +423,12 @@ def describe_resolved(case: Case) -> dict:
         "age": persona.age if persona else None,
         "closed_at": case.closed_at,
         "close_reason": case.close_reason.value if case.close_reason else None,
-        # 종결 카드 "N명의 제보 덕분에…" 문구용 집계. 개인정보가 아니라 수치만 준다
-        # (describe_resolved 의 최소 제공 원칙에 맞는다 — 이름·좌표는 여전히 안 보냄).
-        "tip_count": len(case.tips),
+        # 종결 카드 "여러분의 제보 N건 덕분에…" 문구용 집계. 개인정보가 아니라 수치만
+        # 준다(describe_resolved 의 최소 제공 원칙에 맞는다 — 이름·좌표는 여전히 안 보냄).
+        # 폐기 판정(discard) 제보는 수색에 반영되지 않았으므로 "덕분에"에 넣지 않는다.
+        "tip_count": sum(1 for tip in case.tips if tip.decision is not TipDecision.discard),
+        # 상세 화면의 "수색 시간". 신고(사건 생성)부터 종결까지의 분.
+        "search_minutes": _search_minutes(case),
         "target_cells": sorted(target_parent_cells(cells)) if cells else [],
         "target_res": settings.push_target_res,
         "targeting_policy": targeting_policy_name(),

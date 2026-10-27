@@ -11,15 +11,7 @@ import FigmaStatusBar from '../components/FigmaStatusBar';
 import { isLocationSettled, retryLocation, useMyLocation } from '../hooks/useMyLocation';
 import { useAppModeStore } from '../store/appModeStore';
 import { resolvedMessage, resolvedThanks } from '../utils/resolvedCopy';
-
-/**
- * 서버 주소가 `[서울특별시 마포구] 월드컵로`처럼 행정구역만 묶여 와도
- * 화면에서는 주소 전체를 하나의 대괄호 안에 표시한다.
- */
-function bracketAddress(area: string): string {
-  const address = area.replace(/[\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
-  return `[${address}]`;
-}
+import { bracketAddress, resolvedTitle } from '../utils/alertTitle';
 
 export default function CitizenAlertsScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -88,14 +80,24 @@ export default function CitizenAlertsScreen() {
         ))}
         {/* 상황 종료 — 시안의 초록 카드. 진행 중 사건 **아래**에 둔다:
             지금 찾아야 할 것이 먼저고, 결과는 그다음이다.
-            누를 곳이 없다(수색 화면으로 보낼 이유가 없는 끝난 사건이다). */}
+            수색 화면이 아니라 상황 종료 상세(ResolvedDetail)로 연다 — 끝난 사건을
+            수색 화면으로 보낼 이유는 없지만, 어떻게 끝났는지는 궁금하다(IA 리뷰 10/26).
+            카드가 가진 값만 넘긴다. 상세 화면은 서버를 다시 부르지 않는다. */}
         {resolved.map((r) => (
           <AlertCard
             key={r.caseId}
             tone="green"
             badge="상황 종료"
-            title={`${bracketAddress(r.area)}${r.age ? ` ${r.age}세` : ''} 어르신`}
+            title={resolvedTitle(r.area, r.age)}
             body={`${resolvedMessage(r.tipCount)}\n${resolvedThanks(r.tipCount)}`}
+            onPress={() => navigation.navigate('ResolvedDetail', {
+              caseId: r.caseId,
+              area: r.area,
+              age: r.age,
+              closedAt: r.closedAt,
+              tipCount: r.tipCount,
+              searchMinutes: r.searchMinutes,
+            })}
           />
         ))}
       </ScrollView>
@@ -106,9 +108,9 @@ export default function CitizenAlertsScreen() {
 /**
  * 시안의 알림 카드. tone 이 색과 배지를 가른다(빨강=수색 중, 초록=상황 종료).
  *
- * `onPress` 가 없으면 **꺾쇠(›)도 그리지 않는다.** 종결 카드는 열 곳이 없는데
- * (끝난 사건을 수색 화면으로 보낼 수는 없다) 꺾쇠만 남기면 눌러도 아무 일이
- * 없는 표식이 된다 — 시안의 꺾쇠를 지킨 대가로 "눌리지 않는다"는 제보를 받게 된다.
+ * `onPress` 가 없으면 **꺾쇠(›)도 그리지 않는다.** 눌러도 아무 일이 없는 꺾쇠는
+ * "눌리지 않는다"는 제보로 돌아온다. 지금은 두 카드 모두 열 곳이 있다 — 수색 중은
+ * 경보 상세(AlertDetail), 상황 종료는 상황 종료 상세(ResolvedDetail).
  */
 function AlertCard({ tone, badge, title, body, onPress }: { tone: 'red' | 'green'; badge: string; title: string; body: string; onPress?: () => void }) {
   const red = tone === 'red';
