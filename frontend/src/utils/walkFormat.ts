@@ -13,6 +13,18 @@ export function formatKm(km: number): string {
 }
 
 /**
+ * 지금이 한국 시간으로 몇 월인가(1~12). 홈 "N월에는 총 …km를 걸었네요!"의 N.
+ *
+ * 문구가 "8월에는"으로 박혀 있어 10월에도 8월이라고 했다. 기기 시간대가 아니라
+ * 한국 시간으로 센다 — 서버가 이번 달 거리(month_km)를 한국 시간 달로 합산하므로
+ * (backend walk/stats.aggregate) 같은 달을 가리켜야 한다. 한국은 일광절약시간이
+ * 없어 UTC+9 고정이다.
+ */
+export function koreanMonth(nowMs: number): number {
+  return new Date(nowMs + 9 * 3_600_000).getUTCMonth() + 1;
+}
+
+/**
  * 초 → mm:ss.
  *
  * 한 시간을 넘겨도 분으로 이어 센다(65:00). 산책은 그보다 짧은 게 보통이라

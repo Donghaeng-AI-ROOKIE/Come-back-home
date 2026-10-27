@@ -1,6 +1,9 @@
 """안심 산책 API — 세션 생명주기·레벨/배지 규칙·개인정보 경계."""
 
+import os
+import time
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import pytest
 from fastapi.testclient import TestClient
@@ -84,6 +87,47 @@ def test_month_km_counts_only_current_month():
                               now=datetime(2026, 8, 5))
     assert st.total_km == 10.0
     assert st.month_km == 3.0
+
+
+@pytest.fixture(params=["UTC", "Asia/Seoul", "America/New_York"])
+def server_tz(request):
+    """서버 시계 시간대. 저장 시각은 서버 로컬 naive 라 시간대마다 같은 순간이 다른 값이 된다."""
+    if not hasattr(time, "tzset"):
+        pytest.skip("time.tzset unavailable")
+    before = os.environ.get("TZ")
+    os.environ["TZ"] = request.param
+    time.tzset()
+    yield request.param
+    if before is None:
+        os.environ.pop("TZ", None)
+    else:
+        os.environ["TZ"] = before
+    time.tzset()
+
+
+_UTC = ZoneInfo("UTC")
+
+
+def _server_local(instant: datetime) -> datetime:
+    """순간 → 이 서버가 저장했을 naive 로컬 시각(schemas.common._to_local_naive 와 같은 규칙)."""
+    return instant.astimezone().replace(tzinfo=None)
+
+
+def test_month_km_follows_the_korean_month_on_any_server_clock(server_tz):
+    """홈은 "N월에는 총 …km"를 한국 시간 달로 쓴다 — 서버 합산도 같은 달이어야 한다.
+
+    운영 컨테이너는 UTC 라, 예전에는 한국 11/1 00~09시에 앱은 "11월"인데 서버는 10월
+    거리를 줬고, 10/31 밤(한국 11/1 새벽)에 끝낸 산책은 10월로 세었다.
+    """
+    # 한국 11/1 01:00 에 끝낸 산책(= 10/31 16:00 UTC) — 11월 거리다.
+    _session("u1", 2.0, _server_local(datetime(2026, 10, 31, 16, 0, tzinfo=_UTC)))
+    # 한국 10/31 23:00 에 끝낸 산책(= 10/31 14:00 UTC) — 10월 거리다.
+    _session("u1", 5.0, _server_local(datetime(2026, 10, 31, 14, 0, tzinfo=_UTC)))
+    # 지금은 한국 11/1 01:30(= 10/31 16:30 UTC).
+    now = _server_local(datetime(2026, 10, 31, 16, 30, tzinfo=_UTC))
+    st = walk_stats.aggregate("u1", storage.walk_sessions.list(), tip_count=0, now=now)
+    assert st.month_km == 2.0
+    assert st.total_km == 7.0
 
 
 # ── API ───────────────────────────────────────────────────────────

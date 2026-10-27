@@ -16,10 +16,11 @@ function screen(query,status='granted'){
   const modules={react:React,'react-native':native,'react-native-safe-area-context':{SafeAreaView:Box},
     'expo-status-bar':{StatusBar:()=>null},'@react-navigation/native':{useNavigation:()=>({navigate(){}})},
     '../theme/tokens':{color:{brand:'green'},type:{}},
-    '../hooks/queries':{useActiveWalk:()=>({}),useWalkStats:()=>({data:{},refetch(){statsRefresh++}}),
+    '../hooks/queries':{useActiveAlerts:()=>({data:[]}),useActiveWalk:()=>({}),useWalkStats:()=>({data:{},refetch(){statsRefresh++}}),
       useNearbyWalks:()=>({...query,refetch(){walkRefresh++}}),useStartWalk:()=>({mutate(){throw Error('unwanted walk start')}})},
     '../hooks/useMyLocation':{useMyLocation:()=>({status}),isLocationSettled:()=>true,retryLocation(){}},
-    'react-native-maps':{Polyline:()=>null},'../utils/walkFormat':{formatKm:()=> '0.00'}};
+    '../store/appModeStore':{useAppModeStore:sel=>sel({dismissedCases:{}})},'../utils/alertTitle':{nearbyAlertCard:()=>null},
+    'react-native-maps':{Polyline:()=>null},'../utils/walkFormat':{formatKm:()=> '0.00',koreanMonth:()=>10}};
   const out={exports:{}};vm.runInNewContext(source,{exports:out.exports,require:name=>modules[name]??{__esModule:true,default:Box},module:out});
   const html=renderToStaticMarkup(React.createElement(out.exports.default));
   return {html,buttons,refresh(){refreshHome()},counts:()=>({statsRefresh,walkRefresh})};

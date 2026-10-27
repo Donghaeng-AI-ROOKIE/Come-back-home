@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { activeAlertTitle, bracketAddress, resolvedTitle } from '../src/utils/alertTitle.ts';
+import { activeAlertTitle, bracketAddress, nearbyAlertCard, resolvedTitle } from '../src/utils/alertTitle.ts';
 
 test('the whole address sits inside one pair of brackets', () => {
   assert.equal(bracketAddress('[서울특별시 마포구] 월드컵로'), '[서울특별시 마포구 월드컵로]');
@@ -24,4 +24,31 @@ test('active alert title is the list card title, with the old fallback for a bla
   assert.equal(activeAlertTitle('[고양시 일산서구] 킨텍스로', 81), '[고양시 일산서구 킨텍스로] 81세 실종 어르신');
   assert.equal(activeAlertTitle('', undefined), '[최종 목격 위치 기준] 실종 어르신');
   assert.equal(activeAlertTitle(null, 0), '[최종 목격 위치 기준] 실종 어르신');
+});
+
+test('the home card picks the first alert the list would show, skipping dismissed cases', () => {
+  const alerts = [
+    { caseId: 'a', area: '[고양시 일산서구] 킨텍스로', age: 81 },
+    { caseId: 'b', area: '[서울특별시 마포구] 월드컵로', age: 79 },
+  ];
+  assert.equal(nearbyAlertCard([], {}), null);
+  assert.equal(nearbyAlertCard(undefined, {}), null);
+  assert.equal(nearbyAlertCard(alerts, { a: 1, b: 2 }), null);
+  assert.deepEqual(nearbyAlertCard(alerts, { a: 1 }), {
+    badge: '내 주변 수색 중',
+    title: '[서울특별시 마포구 월드컵로] 79세 실종 어르신',
+    body: '봤다면 바로 제보해 주세요',
+    caseId: 'b',
+  });
+});
+
+test('two or more alerts say how many others there are and open the list instead of one alert', () => {
+  const card = nearbyAlertCard([
+    { caseId: 'a', area: '[고양시 일산서구] 킨텍스로', age: 81 },
+    { caseId: 'b', area: '', age: null },
+    { caseId: 'c', area: '정릉동' },
+  ], {});
+  assert.equal(card.badge, '내 주변 수색 중 · 외 2건');
+  assert.equal(card.title, '[고양시 일산서구 킨텍스로] 81세 실종 어르신');
+  assert.equal(card.caseId, null);
 });

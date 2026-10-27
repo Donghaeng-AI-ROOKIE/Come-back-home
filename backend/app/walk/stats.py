@@ -10,8 +10,11 @@
 """
 
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from app.schemas.walk import Badge, WalkSession, WalkStats
+
+_KST = ZoneInfo("Asia/Seoul")
 
 # (레벨, 진입 누적 km, 표시명). 간격을 앞은 촘촘히 뒤는 성기게 둔다 —
 # 초반에 레벨이 오르지 않으면 이탈하고, 후반에 자주 오르면 의미가 옅어진다.
@@ -64,6 +67,19 @@ def badges_for(total_km: float, walk_count: int, tip_count: int) -> list[Badge]:
     return out
 
 
+def _korean_month(at: datetime) -> tuple[int, int]:
+    """저장 시각의 한국 시간 (연, 월).
+
+    저장 시각은 서버 로컬 naive 다(schemas.common._to_local_naive). 운영 컨테이너는
+    UTC 라 그대로 달을 비교하면 한국 매월 1일 0~9시가 지난달로 셈해진다. 앱 홈은
+    "N월에는 총 …km"를 한국 시간 달로 쓰므로 같은 달을 합산해야 한다.
+    naive 에 astimezone 을 부르면 서버 로컬로 읽는다(phase2.person_walk.korean_clock 과
+    같은 규칙).
+    """
+    korean = at.astimezone(_KST)
+    return korean.year, korean.month
+
+
 def aggregate(
     user_id: str,
     sessions: list[WalkSession],
@@ -74,9 +90,9 @@ def aggregate(
     now = now or datetime.now()
     done = [s for s in sessions if s.ended_at is not None]
     total_km = round(sum(s.distance_km for s in done), 2)
+    this_month = _korean_month(now)
     month_km = round(sum(s.distance_km for s in done
-                         if s.ended_at.year == now.year
-                         and s.ended_at.month == now.month), 2)
+                         if _korean_month(s.ended_at) == this_month), 2)
     level, label, remaining = level_for(total_km)
     return WalkStats(
         user_id=user_id,

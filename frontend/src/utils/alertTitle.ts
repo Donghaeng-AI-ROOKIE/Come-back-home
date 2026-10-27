@@ -38,3 +38,31 @@ export function resolvedTitle(area?: string | null, age?: number | null): string
   const place = address ? `[${address}]` : '내 주변';
   return `${place}${age ? ` ${age}세` : ''} 어르신`;
 }
+
+type NearbyAlert = { caseId: string; area?: string | null; age?: number | null };
+
+/** 시민 홈 맨 위 경보 카드. `caseId` 가 null 이면 긴급 알림 탭(목록)으로 연다. */
+export type NearbyAlertCard = { badge: string; title: string; body: string; caseId: string | null };
+
+/**
+ * 시민 홈의 주변 경보 카드 — 주변에 진행 중 경보가 있어도 홈에는 아무 표시가 없었다.
+ *
+ * 긴급 알림 목록과 같은 경보를 같은 규칙으로 고른다: "이 사건은 그만 볼래요"로 끈
+ * 사건은 빼고(CitizenAlertsScreen 과 같은 거름), 맨 위 경보의 제목은 목록 카드와 같다.
+ * 한 건이면 그 경보 상세로, 둘 이상이면 배지에 "외 N건"을 붙이고 목록으로 보낸다.
+ */
+export function nearbyAlertCard(
+  alerts: readonly NearbyAlert[] | null | undefined,
+  dismissed: Readonly<Record<string, unknown>>,
+): NearbyAlertCard | null {
+  const visible = (alerts ?? []).filter((a) => dismissed[a.caseId] === undefined);
+  const first = visible[0];
+  if (!first) return null;
+  const others = visible.length - 1;
+  return {
+    badge: others > 0 ? `내 주변 수색 중 · 외 ${others}건` : '내 주변 수색 중',
+    title: activeAlertTitle(first.area, first.age),
+    body: '봤다면 바로 제보해 주세요',
+    caseId: others > 0 ? null : first.caseId,
+  };
+}
