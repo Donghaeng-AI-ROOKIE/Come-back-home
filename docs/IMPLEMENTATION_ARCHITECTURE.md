@@ -689,7 +689,7 @@ flowchart TD
     AUTH -- "citizen" --> CT["CitizenTabs<br/>홈·산책·알림·내정보"]
     AUTH -- "guardian" --> GT["GuardianTabs<br/>홈·등록·알림·내정보"]
     CT --> HOME["Home"]
-    CT --> SEARCH["Search"]
+    CT --> SEARCH["AlertSync<br/>수색지도"]
     CT --> TIP["ReportChat"]
     GT --> REG["RegChat<br/>전체·Tier1·보완"]
     GT --> REPORT["Report<br/>실종 신고"]
