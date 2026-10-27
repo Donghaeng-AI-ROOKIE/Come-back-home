@@ -24,6 +24,7 @@ from app.geo.geocode import (
     GeoResult,
     clean_area_text,
     get_geocoder,
+    has_lot_number,
     has_region_token,
     region_tokens,
     token_in_text,
@@ -150,6 +151,20 @@ def _geocodable(label: str) -> bool:
         return _GEO.locate(label) is not None
     except Exception:  # noqa: BLE001 — 지오코더 장애가 인터뷰를 죽이면 안 됨
         return False
+
+
+def _area_question_targets(session: InterviewSession) -> list[dict]:
+    """요약·정정 게이트에서 동네를 물을 끌림점 — 아직 안 물었고, 라벨만으로는 좌표가 안 나오는 곳.
+
+    답한 턴에 즉시 묻는 _ask_area_for_new_place 와 같은 예외를 게이트에도 둔다. 게이트에
+    이 예외가 없던 동안은 자주 가는 곳 슬롯(즉시 묻기 대상이 아닌 슬롯)의 "서강대학교"처럼
+    지도에서 이름으로 바로 나오는 곳도 요약 직전에 "어느 동네인가요?"를 받았다(라이브
+    실측 2026-10-27). 이름 없이 부른 곳(name_kind=generic: "교회", "큰길")은 계속 묻는다 —
+    라벨 검색은 서초구 사랑의교회·제주 식당 '큰길'처럼 아무 곳이나 찾는다.
+    """
+    return [a for a in _arealess_attractions(session)
+            if str(a.get("label")) not in session.asked_area_labels
+            and not (a.get("name_kind") != "generic" and _geocodable(str(a.get("label"))))]
 
 
 def _ask_area_for_new_place(
@@ -606,6 +621,13 @@ def _disambiguate_home(session: InterviewSession, res: GeoResult, text: str) -> 
     말해 달라고 하되 실제 후보에서 뽑은 예시를 붙여 답 형식을 바로 알게 한다.
     """
     if session.home_choice_rounds >= _HOME_CHOICE_MAX_ROUNDS:
+        return None
+    if res.precision == "poi" and has_lot_number(text):
+        # "마포구 백범로 35", "하남시 하남대로 856 하남더샵센트럴뷰"처럼 번지가 있는 답은
+        # 한 곳을 가리키는 주소다. 키워드검색이 먼저 돌아 그 건물(단지) 안 POI 가 걸리면
+        # 번지·건물명을 상호로 보고 "'35'이(가) 여러 곳이에요"라고 물었다(실측 2026-10-27).
+        # 지오코더(_looks_like_region)가 번지로 끝나는 답은 주소검색을 먼저 돌리지만,
+        # 건물명이 뒤에 붙거나 주소검색이 미탐이라 키워드로 내려온 경우의 마지막 방어선.
         return None
     alts = _home_alternatives(res, text)
     if alts is None:
@@ -1663,8 +1685,7 @@ def answer_interview(session_id: str, user_text: str) -> InterviewSession:
             return session
         # 요약 전 '주소 없는 끌림점' 되묻기 — 장소당 1회. 좌표가 없으면 그 장소는
         # 예측에 못 들어가고 finalize 에서 조용히 버려지므로, 닫기 전에 한 번은 묻는다.
-        pending = [a for a in _arealess_attractions(session)
-                   if str(a.get("label")) not in session.asked_area_labels]
+        pending = _area_question_targets(session)
         if pending:
             label = str(pending[0]["label"])
             session.asked_area_labels.append(label)
@@ -2025,8 +2046,7 @@ def _handle_confirmation(session: InterviewSession, clean: str) -> InterviewSess
 
     # 정정으로 새로 들어온 장소에 지역 표기가 없으면 요약 대신 주소부터 묻는다 —
     # 확인 단계에서 추가된 곳도 좌표가 없으면 그대로 사라지기 때문(요약 전 게이트와 동일 원칙).
-    pending = [a for a in _arealess_attractions(session)
-               if str(a.get("label")) not in session.asked_area_labels]
+    pending = _area_question_targets(session)
     if pending:
         label = str(pending[0]["label"])
         session.asked_area_labels.append(label)

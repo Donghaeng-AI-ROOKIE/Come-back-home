@@ -83,7 +83,6 @@ export default function AlertDetailScreen() {
           <View style={styles.tags}>
             {appearance.map((tag, index) => <View key={`${tag}-${index}`} style={styles.tag}><Text style={styles.tagText} numberOfLines={1}>{tag}</Text></View>)}
           </View>
-          <Text style={styles.chevron}>›</Text>
         </Pressable>
 
         <View style={styles.placeCard}>
@@ -91,6 +90,12 @@ export default function AlertDetailScreen() {
           <Text style={styles.placeLabel}>최종 목격 장소</Text>
           <Text style={styles.placeText}>{place}{alert?.lkpTime ? ` · ${new Date(alert.lkpTime).toLocaleString('ko-KR')}` : ''}</Text>
         </View>
+
+        {/* 꺾쇠(›) 대신 명시적 버튼으로 수색지도(AlertSync)로 보낸다. 인물 카드도
+            여전히 눌러서 갈 수 있지만, 화살표만으론 눌리는 줄 모른다는 제보가 있었다. */}
+        <Pressable style={styles.searchMap} onPress={() => navigation.navigate('AlertSync', { caseId })} accessibilityRole="button" accessibilityLabel="수색지도 보기">
+          <Text style={styles.searchMapText}>수색지도 보기</Text>
+        </Pressable>
 
         <View style={styles.actions}>
           {/* '봤어요' = **본 것을 제보하겠다**는 뜻이므로 제보 흐름으로 보낸다
@@ -156,13 +161,17 @@ const styles = StyleSheet.create({
   pin: { position: 'absolute', left: 10, top: 10, fontSize: 7, color: '#8E8E93' },
   placeLabel: { position: 'absolute', left: 28, top: 10, fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#8E8E93' },
   placeText: { position: 'absolute', left: 12, top: 30, fontFamily: type.familyCss, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: ink },
-  actions: { position: 'absolute', left: 16, right: 16, top: 509, height: 50, flexDirection: 'row', gap: 15 },
+  // 최종 목격 장소와 봤어요/못봤어요 사이에 '수색지도 보기'를 넣으면서 아래
+  // 요소(actions·hint·stop)를 그만큼 내렸다. 전부 절대배치라 top 을 함께 옮긴다.
+  searchMap: { position: 'absolute', left: 16, right: 16, top: 490, height: 48, borderRadius: 10, borderWidth: 1.5, borderColor: red, backgroundColor: '#FFFFFF', alignItems: 'center', justifyContent: 'center' },
+  searchMapText: { fontFamily: type.familyCssBold, fontSize: 16, lineHeight: 20, letterSpacing: -0.2, color: red },
+  actions: { position: 'absolute', left: 16, right: 16, top: 557, height: 50, flexDirection: 'row', gap: 15 },
   button: { flex: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   seen: { backgroundColor: red, shadowColor: '#000', shadowOpacity: 0.16, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   notSeen: { backgroundColor: 'rgba(239,239,244,0.94)' },
   seenText: { fontFamily: type.familyCssBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#FFFFFF' },
   notSeenText: { fontFamily: type.familyCssBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#8E8E93' },
-  hint: { position: 'absolute', top: 571, left: 0, right: 0, textAlign: 'center', fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#8E8E93' },
-  stop: { position: 'absolute', left: 110, right: 110, top: 620, height: 37, alignItems: 'center', justifyContent: 'center' },
+  hint: { position: 'absolute', top: 619, left: 0, right: 0, textAlign: 'center', fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#8E8E93' },
+  stop: { position: 'absolute', left: 110, right: 110, top: 668, height: 37, alignItems: 'center', justifyContent: 'center' },
   stopText: { fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#8E8E93', textDecorationLine: 'underline' },
 });
