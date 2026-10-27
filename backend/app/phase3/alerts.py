@@ -432,7 +432,8 @@ def notify_prediction(case, *, force=False, now=None, reflex=False) -> dict:
     from app.phase3 import triggers
     from app.schemas.case import CaseStatus
     now = now or datetime.now()
-    with _notification_lock:
+    # One lock for every case: a slow push send here delays every other case's alerts.
+    with storage.timed_lock(_notification_lock, "alerts.notify_prediction", case.id):
         current = storage.cases.get(case.id)
         if current is None or current.status in (CaseStatus.found, CaseStatus.closed) or (not current.current_poa and not reflex):
             return {"status": "inactive"}
