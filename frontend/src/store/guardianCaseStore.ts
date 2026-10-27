@@ -21,24 +21,48 @@ const MAX_KEEP = 10;
 type GuardianCaseState = {
   /** 최근 접수 순(앞이 최신). */
   caseIds: string[];
+  /**
+   * 사건별로 보호자 알림 탭에서 이미 보여 준 제보 ID — 홈 "수색 중" 카드의 "새 제보"
+   * 수를 세는 기준이다(utils/guardianSearchCard). 서버에는 "읽음" 개념이 없어 기기가
+   * 기억한다. 최근에 적은 사건부터 MAX_KEEP 건만 남긴다.
+   */
+  seenTips: Record<string, string[]>;
   addCase: (caseId: string) => void;
   removeCase: (caseId: string) => void;
+  markTipsSeen: (caseId: string, tipIds: string[]) => void;
   clear: () => void;
 };
 
 export const useGuardianCaseStore = create<GuardianCaseState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       caseIds: [],
+      seenTips: {},
       addCase: (caseId) =>
         set((s) => ({ caseIds: [caseId, ...s.caseIds.filter((id) => id !== caseId)].slice(0, MAX_KEEP) })),
-      removeCase: (caseId) => set((s) => ({ caseIds: s.caseIds.filter((id) => id !== caseId) })),
-      clear: () => set({ caseIds: [] }),
+      removeCase: (caseId) => set((s) => {
+        const { [caseId]: _gone, ...seenTips } = s.seenTips;
+        return { caseIds: s.caseIds.filter((id) => id !== caseId), seenTips };
+      }),
+      markTipsSeen: (caseId, tipIds) => {
+        const before = get().seenTips[caseId] ?? [];
+        const merged = [...new Set([...before, ...tipIds])];
+        // 바뀐 것이 없으면 set 을 부르지 않는다 — persist 는 set 마다 저장소에 쓰므로,
+        // 탭을 오갈 때마다 같은 값을 다시 쓰게 된다.
+        if (merged.length === before.length) return;
+        set((s) => {
+          // 객체 키 순서 = 적은 순서. 방금 적은 사건을 맨 뒤로 보내고 앞에서부터 밀어낸다.
+          const { [caseId]: _old, ...rest } = s.seenTips;
+          const entries = Object.entries({ ...rest, [caseId]: merged }).slice(-MAX_KEEP);
+          return { seenTips: Object.fromEntries(entries) };
+        });
+      },
+      clear: () => set({ caseIds: [], seenTips: {} }),
     }),
     {
       name: 'guardian-case-v2',
       storage: createJSONStorage(() => safeStorage),
-      partialize: (s) => ({ caseIds: s.caseIds }),
+      partialize: (s) => ({ caseIds: s.caseIds, seenTips: s.seenTips }),
     },
   ),
 );

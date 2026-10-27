@@ -132,6 +132,8 @@ export type Case = {
   tips: CaseTip[];
   last_alert_at?: string | null;
   closed_at?: string | null;
+  /** 신고 접수 때 저장한 지역명(`[고양시 일산서구] 킨텍스로`). 이 필드 전의 사건은 빈 값이다. */
+  area_label?: string | null;
 };
 
 // ── Phase 0 — 사전등록 인터뷰 ────────────────────────────────────

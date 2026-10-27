@@ -1,14 +1,17 @@
-﻿import React from 'react';
+﻿import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { useGuardianStore } from '../store/guardianStore';
+import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import { useGuardianCases, usePersonaStatus, usePersonas } from '../hooks/queries';
+import { guardianSearchCard } from '../utils/guardianSearchCard';
 import FigmaLogo from '../components/FigmaLogo';
+import AlertCard from '../components/AlertCard';
 import EmergencyIcon from '../../assets/figma/guardian-emergency.svg';
 import RegisterIcon from '../../assets/figma/guardian-register.svg';
 import FigmaStatusBar from '../components/FigmaStatusBar';
@@ -36,6 +39,36 @@ export default function GuardianHomeScreen() {
   const { data: cases } = useGuardianCases();
   const needsSupplement = status?.persona_status === 'partial' && (cases?.length ?? 0) > 0;
 
+  /**
+   * 진행 중 사건 카드 — 신고 뒤에도 홈이 신고 전과 같아, 지도와 제보는 "알림" 탭을
+   * 알아서 눌러야 보였다. 경과 시간은 30초마다 다시 센다(분 단위 표기라 충분하다).
+   * 사건 목록은 위 useGuardianCases 그대로라 요청이 늘지 않는다.
+   */
+  const seenTips = useGuardianCaseStore((s) => s.seenTips);
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 30_000);
+    return () => clearInterval(id);
+  }, []);
+  const searchCard = guardianSearchCard(cases ?? [], list, seenTips, now);
+  const openSearch = () => navigation.navigate('GuardianTabs', { screen: 'GuardianAlerts' });
+
+  /**
+   * 진행 중 사건이 있을 때 "실종 신고"는 곧바로 신고 화면으로 가지 않고 한 번 묻는다 —
+   * 같은 가족을 두 번 신고하면 수색이 두 건으로 갈린다. 다른 가족이 실종됐을 수도
+   * 있으니 막지는 않는다.
+   *
+   * `Alert` 를 쓰지 않는다 — 웹(react-native-web)에서는 버튼 두 개짜리 Alert 가
+   * 뜨지 않는다. 사건 카드의 종결 확인(components/LifecycleControls)처럼 화면 안에서
+   * 묻는다. 화면을 떠나면 접는다.
+   */
+  const [confirmReport, setConfirmReport] = useState(false);
+  useFocusEffect(useCallback(() => () => setConfirmReport(false), []));
+  const onEmergency = () => {
+    if (searchCard) setConfirmReport(true);
+    else navigation.navigate('Report');
+  };
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar style="dark" />
@@ -46,9 +79,21 @@ export default function GuardianHomeScreen() {
           <Text style={styles.modeLabel}>보호자{`\n`}안심 모드</Text>
         </View>
 
+        {searchCard ? (
+          <AlertCard
+            tone="red"
+            badge={searchCard.badge}
+            title={searchCard.title}
+            body={searchCard.body}
+            onPress={openSearch}
+            accessibilityLabel={`${searchCard.title}. ${searchCard.body}. 눌러서 수색 지도와 제보 보기`}
+            style={styles.searchCard}
+          />
+        ) : null}
+
         <View style={styles.hero}>
           <Pressable
-            onPress={() => navigation.navigate('Report')}
+            onPress={onEmergency}
             accessibilityRole="button"
             accessibilityLabel="긴급 실종 신고"
             style={({ pressed }) => [styles.emergency, pressed && styles.pressed]}
@@ -80,6 +125,29 @@ export default function GuardianHomeScreen() {
             </View>
           </Pressable>
         </View>
+
+        {confirmReport && searchCard ? (
+          <View style={styles.confirm} accessibilityRole="alert">
+            <Text style={styles.confirmTitle}>이미 수색 중인 사건이 있어요.</Text>
+            <Text style={styles.confirmBody}>다른 가족을 신고하려면 새로 신고해 주세요.</Text>
+            <View style={styles.confirmActions}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => { setConfirmReport(false); openSearch(); }}
+                style={({ pressed }) => [styles.confirmButton, styles.confirmPrimary, pressed && styles.pressed]}
+              >
+                <Text style={styles.confirmPrimaryText}>수색 화면 보기</Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => { setConfirmReport(false); navigation.navigate('Report'); }}
+                style={({ pressed }) => [styles.confirmButton, styles.confirmSecondary, pressed && styles.pressed]}
+              >
+                <Text style={styles.confirmSecondaryText}>새로 신고하기</Text>
+              </Pressable>
+            </View>
+          </View>
+        ) : null}
 
         <View style={styles.sectionHead}>
           <Text style={styles.sectionTitle}>사전 등록된 가족</Text>
@@ -120,6 +188,8 @@ const styles = StyleSheet.create({
   content: { paddingBottom: 36 },
   logoRow: { height: 87, paddingLeft: 30, paddingTop: 19, flexDirection: 'row', alignItems: 'flex-start' },
   modeLabel: { fontFamily: type.familyYeolumBold, fontSize: 16, lineHeight: 20, letterSpacing: 0.41, color: '#8E8E93', marginLeft: 12, marginTop: 0 },
+  // 목록 카드(28 간격) 대신 홈 가장자리 여백에 맞춘다 — 아래 가족 목록과 같은 23.
+  searchCard: { marginHorizontal: 23, marginTop: 4, marginBottom: 0 },
   hero: { height: 135, flexDirection: 'row', alignItems: 'center', paddingLeft: 28, paddingRight: 26, gap: 19 },
   emergency: { position: 'relative', top: 3, width: 102, height: 106, borderRadius: 55, backgroundColor: '#F14444', alignItems: 'center', justifyContent: 'center', shadowColor: '#F14444', shadowOpacity: 0.63, shadowRadius: 2, elevation: 3 },
   emergencyIcon: { width: 47, height: 43, alignItems: 'center', justifyContent: 'center' },
@@ -144,6 +214,17 @@ const styles = StyleSheet.create({
   registerCopy: { paddingTop: 5 },
   registerTitle: { fontFamily: type.familyBold, color: '#FFFFFF', fontSize: 15, lineHeight: 18 },
   registerBody: { fontFamily: type.familyMedium, color: '#FFFFFF', fontSize: 10, lineHeight: 13, letterSpacing: 0.07, marginTop: 5 },
+  // 실종 신고 확인 — 수색 중 카드와 같은 빨강 톤. 주버튼은 보호자 초록(수색 화면 보기),
+  // 새 신고는 실종 신고 버튼의 빨강 테두리로 둔다.
+  confirm: { marginHorizontal: 23, marginTop: 8, borderRadius: 10, backgroundColor: '#FFF0F1', paddingHorizontal: 16, paddingTop: 16, paddingBottom: 14, shadowColor: '#000000', shadowOpacity: 0.1, shadowRadius: 7, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
+  confirmTitle: { fontFamily: type.familyBold, fontSize: 15, lineHeight: 20, color: '#525253' },
+  confirmBody: { fontFamily: type.family, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#525253', marginTop: 6 },
+  confirmActions: { flexDirection: 'row', gap: 8, marginTop: 14 },
+  confirmButton: { flex: 1, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
+  confirmPrimary: { backgroundColor: color.guardian },
+  confirmPrimaryText: { fontFamily: type.familyBold, fontSize: 14, color: '#FFFFFF' },
+  confirmSecondary: { backgroundColor: '#FFFFFF', borderWidth: 1.5, borderColor: '#F14444' },
+  confirmSecondaryText: { fontFamily: type.familyBold, fontSize: 14, color: '#F14444' },
   sectionHead: { height: 64, justifyContent: 'flex-end', paddingHorizontal: 23, paddingBottom: 13 },
   sectionTitle: { fontFamily: type.familySemiBold, fontSize: 18, color: '#000000' },
   familyList: { minHeight: 158, marginHorizontal: 23, gap: 12 },
