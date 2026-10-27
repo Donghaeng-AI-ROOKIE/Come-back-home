@@ -28,6 +28,25 @@ from app.schemas.prediction import MindState, POA, PredictionResult
 log = logging.getLogger(__name__)
 
 
+_SUPPORT_REASON = 'road map is smaller than the statistical distance support'
+
+
+def _covers_statistical_support(case: Case, net) -> bool:
+    """문헌 거리 통계 채널의 원(최대 P95 반경)이 이 지도 안에 다 들어가는가.
+
+    들어가지 않는 지도로 연속 엔진을 돌리면, 원이 지도 경계에 닿는 시점(반경 6.5~7km
+    지역 지도는 실종 약 1.5시간 뒤)부터 재예측이 영구 실패한다(2026-10-26 #300 이후).
+    그런 지도는 쓰지 않고 #300 이전처럼 도로망 없는 기존 엔진으로 보낸다.
+    """
+    if settings.statistical_channel_definition != 'literature_distance_prior':
+        return True
+    bbox = getattr(net, 'coverage_bbox', None)
+    if bbox is None:
+        return False
+    from app.phase2.literature_distance import support_fits
+    return support_fits(case.lkp.lat, case.lkp.lng, bbox)
+
+
 def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | None = None):
     """도로망 로딩 (설정 시) — 실패해도 예측은 연속 공간 폴백으로 계속.
 
@@ -47,6 +66,8 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
             net=roadnet.verified_network(settings.personal_walk_cache_path)
             south,west,north,east=net.coverage_bbox
             if south <= case.lkp.lat <= north and west <= case.lkp.lng <= east:
+                if not _covers_statistical_support(case, net):
+                    return None, _SUPPORT_REASON
                 from app.geo.road_anchors import connect_anchors
                 points=[case.lkp]+[a.location for a in (persona.attraction_points if persona else [])]
                 net=connect_anchors(net, points)
@@ -67,6 +88,8 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
         from app.geo.road_anchors import connect_anchors
         prepared = get_preloaded_network(case.lkp, r or settings.roadnet_radius_m)
         if prepared is not None:
+            if not _covers_statistical_support(case, prepared):
+                return None, _SUPPORT_REASON
             points = [case.lkp] + [a.location for a in (persona.attraction_points if persona else [])]
             bundle_source = getattr(prepared, "bundle_source", "preloaded")
             bundle_hash = getattr(prepared, "bundle_sha256", "")
@@ -77,6 +100,12 @@ def _load_roadnet(case: Case, prior=None, persona=None, elapsed_hours: float | N
                 return prepared, ""
     except Exception as exc:
         log.warning("Preloaded regional road bundle unavailable (%s)", type(exc).__name__)
+    if settings.statistical_channel_definition == 'literature_distance_prior':
+        from app.phase2.literature_distance import support_radius_km
+        if (r or settings.roadnet_radius_m) < support_radius_km() * 1000:
+            # 동적 지도(반경 최대 roadnet_radius_max_m)로는 통계 채널 원을 담을 수 없다.
+            # 공개 Overpass 를 기다리지 않는다(하남 사건: 63초 대기 후 실패).
+            return None, _SUPPORT_REASON
     try:
         from app.geo import roadnet
 
