@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { bracketAddress, resolvedTitle } from '../src/utils/alertTitle.ts';
+import { activeAlertTitle, bracketAddress, resolvedTitle } from '../src/utils/alertTitle.ts';
 
 test('the whole address sits inside one pair of brackets', () => {
   assert.equal(bracketAddress('[서울특별시 마포구] 월드컵로'), '[서울특별시 마포구 월드컵로]');
@@ -17,4 +17,11 @@ test('a blank area never renders empty brackets', () => {
     assert.equal(resolvedTitle(blank, null), '내 주변 어르신');
     assert.equal(resolvedTitle(blank, 81), '내 주변 81세 어르신');
   }
+});
+
+test('active alert title is the list card title, with the old fallback for a blank area', () => {
+  // 긴급 알림 목록 카드가 쓰던 식을 그대로 옮긴 것이다 — 홈 카드도 같은 제목을 쓴다.
+  assert.equal(activeAlertTitle('[고양시 일산서구] 킨텍스로', 81), '[고양시 일산서구 킨텍스로] 81세 실종 어르신');
+  assert.equal(activeAlertTitle('', undefined), '[최종 목격 위치 기준] 실종 어르신');
+  assert.equal(activeAlertTitle(null, 0), '[최종 목격 위치 기준] 실종 어르신');
 });

@@ -11,7 +11,8 @@ import FigmaStatusBar from '../components/FigmaStatusBar';
 import { isLocationSettled, retryLocation, useMyLocation } from '../hooks/useMyLocation';
 import { useAppModeStore } from '../store/appModeStore';
 import { resolvedMessage, resolvedThanks } from '../utils/resolvedCopy';
-import { bracketAddress, resolvedTitle } from '../utils/alertTitle';
+import { activeAlertTitle, resolvedTitle } from '../utils/alertTitle';
+import AlertCard from '../components/AlertCard';
 
 export default function CitizenAlertsScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -73,7 +74,7 @@ export default function CitizenAlertsScreen() {
             key={alert.caseId}
             tone="red"
             badge={`수색 중(${alert.targetCells.length}개 대상 구역)`}
-            title={`${bracketAddress(alert.area || '최종 목격 위치 기준')}${alert.age ? ` ${alert.age}세` : ''} 실종 어르신`}
+            title={activeAlertTitle(alert.area, alert.age)}
             body={`${alert.summary || '인상착의 정보 확인 중'}\n터치하여 예상 구역을 확인해 주세요.`}
             onPress={() => navigation.navigate('AlertDetail', { caseId: alert.caseId })}
           />
@@ -105,51 +106,11 @@ export default function CitizenAlertsScreen() {
   );
 }
 
-/**
- * 시안의 알림 카드. tone 이 색과 배지를 가른다(빨강=수색 중, 초록=상황 종료).
- *
- * `onPress` 가 없으면 **꺾쇠(›)도 그리지 않는다.** 눌러도 아무 일이 없는 꺾쇠는
- * "눌리지 않는다"는 제보로 돌아온다. 지금은 두 카드 모두 열 곳이 있다 — 수색 중은
- * 경보 상세(AlertDetail), 상황 종료는 상황 종료 상세(ResolvedDetail).
- */
-function AlertCard({ tone, badge, title, body, onPress }: { tone: 'red' | 'green'; badge: string; title: string; body: string; onPress?: () => void }) {
-  const red = tone === 'red';
-  const inner = (
-    <>
-      <View style={[styles.badge, red ? styles.redBadge : styles.greenBadge]}><Text style={[styles.badgeText, red ? styles.redBadgeText : styles.greenBadgeText]}>{badge}</Text></View>
-      <Text style={styles.cardTitle}>{title}</Text>
-      <Text style={styles.cardBody}>{body}</Text>
-      {onPress ? <Text style={[styles.chevron, { color: red ? color.figmaRed : '#286C45' }]}>›</Text> : null}
-    </>
-  );
-  if (!onPress) {
-    return <View style={[styles.card, red ? styles.redCard : styles.greenCard]}>{inner}</View>;
-  }
-  return (
-    <Pressable onPress={onPress} style={({ pressed }) => [styles.card, red ? styles.redCard : styles.greenCard, pressed && styles.pressed]}>
-      {inner}
-    </Pressable>
-  );
-}
-
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#FFFFFF' },
   content: { paddingHorizontal: 23, paddingTop: 27, paddingBottom: 30 },
   title: { marginLeft: -3, fontFamily: type.familyCssExtraBold, fontSize: 18, lineHeight: 22, color: '#000000' },
   subtitle: { marginLeft: -3, marginTop: 14, marginBottom: 39, fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray },
-  card: { height: 139, borderRadius: 10, paddingHorizontal: 16, paddingTop: 20, marginBottom: 28, position: 'relative', shadowColor: '#000000', shadowOpacity: 0.1, shadowRadius: 7, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
-  redCard: { backgroundColor: '#FFF0F1' },
-  greenCard: { backgroundColor: '#ECFAE5' },
-  badge: { alignSelf: 'flex-start', height: 16, borderRadius: 8, paddingHorizontal: 11, alignItems: 'center', justifyContent: 'center' },
-  redBadge: { backgroundColor: '#FFC9CB' },
-  greenBadge: { backgroundColor: '#BDE6A9' },
-  badgeText: { fontFamily: type.familyCssBold, fontSize: 10, lineHeight: 13, letterSpacing: 0.07 },
-  redBadgeText: { color: color.figmaRed },
-  greenBadgeText: { color: '#286C45' },
-  cardTitle: { marginTop: 15, fontFamily: type.familyCssBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#525253' },
-  cardBody: { marginTop: 7, fontFamily: type.familyCss, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: '#525253' },
-  chevron: { position: 'absolute', right: 17, top: 17, fontFamily: type.familyCss, fontSize: 28, lineHeight: 30 },
-  pressed: { opacity: 0.82 },
   loading: { marginTop: 70 },
   empty: { minHeight: 120, borderRadius: 10, backgroundColor: '#F7F7F7', alignItems: 'center', justifyContent: 'center', padding: 20 },
   emptyText: { fontFamily: type.familyCss, fontSize: 12, lineHeight: 18, color: color.figmaGray, textAlign: 'center' },
