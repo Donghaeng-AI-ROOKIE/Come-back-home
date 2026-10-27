@@ -41,6 +41,15 @@ type AuthState = {
 
 let signingOut: Promise<unknown> = Promise.resolve();
 
+/**
+ * 지금 바뀌는 로그인 상태가 **저장소에서 되살린 값**인가 — 아래 구독이 이 한 번은 건너뛴다.
+ *
+ * zustand persist 는 저장된 값을 `merge` 로 합친 직후 같은 흐름에서 한 번 `set` 한다.
+ * 그 순간을 이 표시로 알아본다. 되살리기가 실패하면(`merge` 전) 표시가 서지 않아 평소대로
+ * 동작한다.
+ */
+let restoringFromStorage = false;
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
@@ -103,6 +112,11 @@ export const useAuthStore = create<AuthState>()(
     {
       name: 'auth-v2',
       storage: createJSONStorage(() => safeStorage),
+      // zustand 기본 merge 와 같다. 되살린 값이라는 표시만 더한다(위 restoringFromStorage).
+      merge: (persisted, current) => {
+        restoringFromStorage = true;
+        return { ...current, ...(persisted as Partial<AuthState>) };
+      },
       // 비밀번호는 애초에 상태에 없다. 토큰·식별자만 남긴다.
       partialize: (s) => ({ token: s.token, role: s.role, user: s.user, userId: s.userId }),
     },
@@ -110,7 +124,17 @@ export const useAuthStore = create<AuthState>()(
 );
 
 // Drop all local guardian selections when the authenticated owner changes.
+//
+// 앱을 열 때 저장소에서 로그인 상태를 되살리는 것(null → 같은 사람)은 사람이 바뀐 것이 아니다.
+// 두 저장소가 비동기로 되살아나 보호자 기록이 먼저 차고, 곧이어 로그인 상태가 되살아나며
+// 그 기록을 지웠다 — 열 때마다 사건 ID·본 제보(guardianCaseStore)가 비었다(웹 빌드 실측 10/27).
+// 저장된 보호자 기록은 저장된 로그인 사람의 것이다: 로그아웃·계정 전환은 모두 이 구독을
+// 지나며 지운다.
 useAuthStore.subscribe((next, previous) => {
+  if (restoringFromStorage) {
+    restoringFromStorage = false;
+    return;
+  }
   if (next.userId !== previous.userId) {
     useGuardianStore.getState().reset();
     useGuardianCaseStore.getState().clear();
