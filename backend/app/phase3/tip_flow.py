@@ -28,7 +28,7 @@ from datetime import datetime
 from app import storage
 from app.config import settings
 from app.geo import h3grid
-from app.geo.geocode import ANCHOR_MAX_KM, get_geocoder
+from app.geo.geocode import ANCHOR_MAX_KM, base_place_name, get_geocoder
 from app.llm import tip_llm
 from app.phase2 import pipeline
 from app.phase3 import alerts, poa_update, time_resolve, triggers, trust
@@ -42,15 +42,19 @@ _GEO = get_geocoder(use_nominatim=True)
 def _geocode_tip_location(location_text: str | None, anchor: GeoPoint) -> GeoPoint | None:
     """제보의 location_text(자유서술) → 좌표. Phase 0 온보딩 끌림점과 동일한
     앵커 반경 방어선(ANCHOR_MAX_KM)을 쓴다 — LKP 에서 너무 먼 매칭은 오검색으로
-    보고 버린다("은행 앞" 전국 오검색 등, app.geo.geocode 참고)."""
+    보고 버린다("은행 앞" 전국 오검색 등, app.geo.geocode 참고).
+
+    시민은 "킨텍스역 만남의 광장 앞"처럼 만난 지점을 말하는데 지오코더는 그 꼬리표를
+    못 찾는다(10/27 운영 측정: 원문 → None, "킨텍스역 만남의 광장" → LKP 75m). 그래서
+    원문을 먼저 시도하고, 못 찾거나 너무 멀면 꼬리표를 뗀 이름으로 한 번 더 찾는다.
+    """
     if not location_text:
         return None
-    res = _GEO.locate(location_text, anchor)
-    if res is None:
-        return None
-    if h3grid.haversine_km(anchor, res.point) > ANCHOR_MAX_KM:
-        return None
-    return res.point
+    for query in dict.fromkeys((location_text, base_place_name(location_text))):
+        res = _GEO.locate(query, anchor)
+        if res is not None and h3grid.haversine_km(anchor, res.point) <= ANCHOR_MAX_KM:
+            return res.point
+    return None
 
 
 log = logging.getLogger(__name__)
