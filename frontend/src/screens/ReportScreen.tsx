@@ -23,6 +23,10 @@ import CameraIcon from '../../assets/figma/report-camera.svg';
 import { SvgXml } from 'react-native-svg';
 import { icMappinRedXml, icPersonRedXml } from '../assets/guardianSvg';
 
+// 손으로 그린 시계 아이콘 — 피그마 export 가 아니라 여기 둔다. guardianSvg.ts 는
+// 피그마에서 재export 하면 통째로 교체되므로(그 파일 상단 주석), 거기 넣으면 사라진다.
+const icClockRedXml = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="6.6" stroke="#E05454" stroke-width="1.5"/><path d="M8 4.2V8L10.6 9.6" stroke="#E05454" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
 // report-location-map.png(시안 목업)은 더 이상 쓰지 않는다 — 미국 지도라
 // 검색 전 화면에 깔면 "지도가 외국 지도"가 된다(제보 08-12). 실제 지도를 쓴다.
 export default function ReportScreen() {
@@ -209,10 +213,16 @@ export default function ReportScreen() {
         </View>
 
         <View style={styles.timeSection}>
-          <Text style={styles.familyName}>마지막으로 본 시각</Text>
-          <TextInput value={lastSeenAt} onChangeText={setLastSeenAt}
-            placeholder="예: 2026-09-25 14:30" accessibilityLabel="마지막 목격 시각"
-            style={[styles.searchInput, styles.timeInput]} autoCapitalize="none" />
+          <SectionHeader icon={<SvgXml xml={icClockRedXml} width={16} height={16} />} title="마지막으로 본 시각" />
+          {/* 주소 검색칸과 같은 회색 박스에 담는다. 박스 없이 두면 searchInput 의
+              flex:1 이 세로로 늘어나(이 칸은 높이 고정 섹션의 직접 자식) 입력칸이
+              화면을 한참 차지했다. 높이 고정 행으로 감싸면 flex 는 가로로만 찬다. */}
+          <View style={styles.searchField}>
+            <TextInput value={lastSeenAt} onChangeText={setLastSeenAt}
+              placeholder="예: 2026-09-25 14:30" placeholderTextColor="#9A9A9B"
+              accessibilityLabel="마지막 목격 시각"
+              style={styles.searchInput} autoCapitalize="none" />
+          </View>
         </View>
         <View style={styles.locationSection}>
           <SectionHeader icon={<SvgXml xml={icMappinRedXml} width={15} height={20} />} title="마지막 목격 장소" />
@@ -393,10 +403,11 @@ const styles = StyleSheet.create({
   errorBox: { marginTop: 8, marginHorizontal: 23, borderRadius: 8, backgroundColor: '#FDECEC', paddingHorizontal: 12, paddingVertical: 10 },
   errorText: { fontFamily: type.family, fontSize: 12, lineHeight: 17, color: '#C0392B' },
 
-  timeSection: { paddingHorizontal: 23, paddingTop: 12, paddingBottom: 16, gap: 10, backgroundColor: '#FFFFFF' },
-  timeInput: { flex: 0, minHeight: 40, borderRadius: 8, backgroundColor: '#F8F8F8' },
   // Search errors belong to this section and must push the following fields down.
   locationSection: { minHeight: 286, flexShrink: 0, paddingBottom: 8, backgroundColor: '#FFFFFF' },
+  // 시각 섹션은 헤더+입력칸만 담으므로 지도 섹션(286)을 재사용하지 않는다 —
+  // 재사용하면 아래로 ~200px 빈 공간이 생겨 '마지막 목격 장소'가 멀리 밀렸다.
+  timeSection: { paddingBottom: 16, backgroundColor: '#FFFFFF' },
   searchField: { height: 30, marginHorizontal: 23, borderRadius: 8, backgroundColor: '#F8F8F8', flexDirection: 'row', alignItems: 'center', paddingLeft: 11 },
   searchInput: { flex: 1, height: 30, paddingHorizontal: 10, paddingVertical: 0, fontFamily: type.family, fontSize: 12, lineHeight: 16, color: '#525253', outlineStyle: 'none' } as any,
   mapFrame: { height: 155, marginHorizontal: 23, marginTop: 12, borderRadius: 10, overflow: 'hidden', backgroundColor: '#EEECE6' },

@@ -6,6 +6,7 @@
 
 import math
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 import threading
 
 from app.config import settings
@@ -257,7 +258,11 @@ def describe_alert(case: Case, now: datetime | None = None) -> dict:
             "shoes": look.shoes_color if look else "unknown",
         },
         "lkp": {"lat": case.lkp.lat, "lng": case.lkp.lng},
-        "lkp_time": case.lkp_time,
+        # lkp_time 은 서버-로컬 naive(LocalNaiveDT) 로 저장된다. 그대로 내보내면 offset
+        # 없는 문자열이라 앱의 new Date() 가 기기(KST) 시각으로 오해해, UTC 서버에서는
+        # 9시간 어긋났다. 내부 소비자들(person_walk·exaone 등)과 동일하게 Asia/Seoul 로
+        # 재지역화해 offset 을 붙인 절대시각 문자열로 보낸다.
+        "lkp_time": case.lkp_time.astimezone(ZoneInfo("Asia/Seoul")).isoformat(),
     }
 
 
@@ -409,6 +414,9 @@ def describe_resolved(case: Case) -> dict:
         "age": persona.age if persona else None,
         "closed_at": case.closed_at,
         "close_reason": case.close_reason.value if case.close_reason else None,
+        # 종결 카드 "N명의 제보 덕분에…" 문구용 집계. 개인정보가 아니라 수치만 준다
+        # (describe_resolved 의 최소 제공 원칙에 맞는다 — 이름·좌표는 여전히 안 보냄).
+        "tip_count": len(case.tips),
         "target_cells": sorted(target_parent_cells(cells)) if cells else [],
         "target_res": settings.push_target_res,
         "targeting_policy": targeting_policy_name(),

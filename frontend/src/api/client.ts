@@ -303,6 +303,7 @@ type ResolvedAlertResponse = {
   age?: number | null;
   closed_at: string;
   close_reason?: string | null;
+  tip_count?: number | null;
 };
 
 /**
@@ -370,6 +371,7 @@ export async function getResolvedAlerts(targetCell: string | null): Promise<Reso
     area: r.area || '내 주변',
     age: r.age ?? undefined,
     closedAt: r.closed_at,
+    tipCount: r.tip_count ?? undefined,
   }));
 }
 
