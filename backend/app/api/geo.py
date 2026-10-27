@@ -33,6 +33,43 @@ class PlaceOut(BaseModel):
     label: str
     precision: str
     source: str
+    # 이 좌표가 무엇을 가리키는가 — point(건물·역 같은 한 지점) | road(도로) | area(동·구).
+    # 신고 화면은 road·area 일 때 위치를 확인해 달라고 안내한다(_granularity 참고).
+    granularity: str = "point"
+
+
+# Nominatim 의 place 분류 가운데 한 지점(번지)을 가리키는 것. 나머지(suburb·quarter·
+# city …)는 동네·도시 대표점이다.
+_PLACE_POINT_TYPES = {"house"}
+
+
+def _granularity(res: geocode.GeoResult) -> str:
+    """좌표가 한 지점인가, 도로·지역의 대표점인가.
+
+    `precision` 만으로는 가릴 수 없다. Nominatim 결과는 무엇에 걸렸든 모두 "approx" 다
+    (geocode.NominatimGeocoder). 10/27 실측: 시연 검색어 "킨텍스"는 역(railway
+    station)을 정확히 찾았고, "경기 고양시 일산서구 킨텍스로 217-60"은 도로
+    (highway) 중심을 줘 실제 위치에서 약 2.5km 떨어졌다 — 둘 다 "approx" 였다.
+    그래서 출처가 주는 분류를 본다. 분류를 모르면 지점으로 둔다(근거 없이 경고하지 않는다).
+    """
+    detail = res.detail or {}
+    if res.source == "gazetteer" or res.precision == "dong":
+        return "area"
+    if res.source == "nominatim":
+        cls = detail.get("class")
+        if cls == "highway":
+            return "road"
+        if cls == "boundary" or (cls == "place" and detail.get("type") not in _PLACE_POINT_TYPES):
+            return "area"
+        return "point"
+    if res.source == "kakao" and res.precision == "address":
+        # 카카오 주소검색 address_type: REGION(지명)·ROAD(도로명)·REGION_ADDR·ROAD_ADDR(번지까지).
+        kind = detail.get("address_type")
+        if kind == "ROAD":
+            return "road"
+        if kind == "REGION":
+            return "area"
+    return "point"
 
 
 @router.get("/search", response_model=PlaceOut)
@@ -51,7 +88,15 @@ def search(q: str) -> PlaceOut:
     query = (q or "").strip()
     if not query:
         raise HTTPException(400, "검색어가 비어 있습니다")
-    result = geocode.get_geocoder(use_nominatim=True).locate(query)
+    geocoder = geocode.get_geocoder(use_nominatim=True)
+    # "킨텍스 정문", "대화역 2번 출구"처럼 만난 지점 표현이 붙으면 지오코더가 못 찾는다.
+    # 제보 장소(phase3.tip_flow._geocode_tip_location, #320)와 같이 원문을 먼저 찾고,
+    # 못 찾았을 때만 꼬리말을 뗀 이름으로 한 번 더 찾는다. 원문이 찾히면 결과는 그대로다.
+    result = None
+    for candidate in dict.fromkeys((query, geocode.base_place_name(query))):
+        result = geocoder.locate(candidate)
+        if result is not None:
+            break
     if result is None:
         raise HTTPException(404, "장소를 찾지 못했습니다")
     return PlaceOut(
@@ -60,6 +105,7 @@ def search(q: str) -> PlaceOut:
         # 화면에는 "하남시청역 5호선" 처럼 무엇에 걸렸는지 보이는 편이 낫다.
         label=result.matched or query,
         precision=result.precision, source=result.source,
+        granularity=_granularity(result),
     )
 
 

@@ -8,6 +8,7 @@ import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { useQueryClient } from '@tanstack/react-query';
 import { createReport, searchPlace } from '../api/guardian';
+import { placeNotice } from '../utils/placeNotice';
 import { reportTimeIso } from '../utils/reportTime';
 import { useGuardianStore } from '../store/guardianStore';
 import { usePersonas } from '../hooks/queries';
@@ -52,6 +53,8 @@ export default function ReportScreen() {
   const [addressQuery, setAddressQuery] = useState('');
   const [selectedAddress, setSelectedAddress] = useState('서강대학교 정문 교차로 (주소)');
   const [lkp, setLkp] = useState<{ lat: number; lng: number } | null>(null);
+  /** 찾은 좌표가 도로·동네 대표점이면 확인을 부탁하는 문구(utils/placeNotice). */
+  const [placeNote, setPlaceNote] = useState<string | null>(null);
   const [searching, setSearching] = useState(false);
   const [sending, setSending] = useState(false);
   /**
@@ -104,6 +107,7 @@ export default function ReportScreen() {
       // 검색어가 아니라 **매칭된 정식 명칭**을 보여준다 — 무엇에 걸렸는지 알아야
       // 엉뚱한 곳으로 신고되는 것을 보호자가 알아챌 수 있다.
       setSelectedAddress(place.label);
+      setPlaceNote(placeNotice(place.granularity));
     } catch (e) {
       setError(`"${query}" 을(를) 찾지 못했습니다. 장소명이나 도로명을 조금 더 구체적으로 적어 주세요.`);
     } finally {
@@ -284,6 +288,11 @@ export default function ReportScreen() {
           <Text style={styles.address} numberOfLines={1}>
             {lkp ? selectedAddress : '아직 장소를 선택하지 않았습니다'}
           </Text>
+          {lkp && placeNote ? (
+            <View style={styles.noticeBox} accessibilityRole="alert">
+              <Text style={styles.noticeText}>{placeNote}</Text>
+            </View>
+          ) : null}
           {error ? (
             <View style={styles.errorBox} accessibilityRole="alert">
               <Text style={styles.errorText}>{error}</Text>
@@ -402,6 +411,9 @@ const styles = StyleSheet.create({
   // 웹에서 Alert 가 안 뜨는 자리를 대신한다 — 막힌 이유가 화면에 남아야 한다.
   errorBox: { marginTop: 8, marginHorizontal: 23, borderRadius: 8, backgroundColor: '#FDECEC', paddingHorizontal: 12, paddingVertical: 10 },
   errorText: { fontFamily: type.family, fontSize: 12, lineHeight: 17, color: '#C0392B' },
+  // 정밀도 안내는 오류가 아니다 — 접수는 막지 않고 확인만 부탁하므로 회색 상자로 둔다.
+  noticeBox: { marginTop: 8, marginHorizontal: 23, borderRadius: 8, backgroundColor: '#F4F4F2', paddingHorizontal: 12, paddingVertical: 10 },
+  noticeText: { fontFamily: type.family, fontSize: 12, lineHeight: 17, color: '#525253' },
 
   // Search errors belong to this section and must push the following fields down.
   locationSection: { minHeight: 286, flexShrink: 0, paddingBottom: 8, backgroundColor: '#FFFFFF' },

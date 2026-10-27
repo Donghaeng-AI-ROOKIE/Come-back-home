@@ -335,7 +335,8 @@ export async function getAreaLabels(points: GeoPoint[]) {
  * 지명사전). 두 경로가 같은 좌표를 주어야 예측 근거가 어긋나지 않는다.
  */
 export function searchPlace(query: string) {
-  return api<{ lat: number; lng: number; label: string; precision: string; source: string }>(
+  // granularity: 좌표가 한 지점(point)인지 도로(road)·동네(area) 대표점인지. 옛 서버는 안 준다.
+  return api<{ lat: number; lng: number; label: string; precision: string; source: string; granularity?: string }>(
     `/geo/search?q=${encodeURIComponent(query)}`,
   );
 }
