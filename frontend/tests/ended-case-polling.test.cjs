@@ -107,6 +107,7 @@ function screen({ended,activeCaseId}){
     '../components/BaseMap':{default:Box},'../components/PoaHeatmap':{default:()=>null},'../components/MapPin':{default:()=>null},
     '../components/WebMap':{default:()=>null},'../components/PersonSilhouette':{default:()=>null},
     '../theme/tabBar':{useTabBarMetrics:()=>({height:80})},
+    '../utils/guidanceLine':load('src/utils/guidanceLine.ts',{}),
   },{React:R});
   const html=renderToStaticMarkup(React.createElement(out.default));
   return {html,calls,buttons};
