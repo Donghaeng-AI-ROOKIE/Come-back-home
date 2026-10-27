@@ -662,8 +662,12 @@ def _choose_place(geocoder, chooser, d: dict, label: str, area: str, anchor: Geo
 
 
 # 장소명 뒤에 붙는 '만난 지점' 표현 — 지오코더가 못 찾는 꼬리표다.
+# 앞쪽·뒤쪽·옆쪽·부근·인근·근방은 10/27 운영 제보 "능내초등학교 앞쪽에서 봤어요"가
+# 위치 없음이 된 뒤 더했다("능내초등학교 앞쪽" → None, "능내초등학교" → LKP 0.5km).
+# '쪽' 하나만 떼지는 않는다 — "○○ 동쪽"처럼 장소 이름의 일부일 수 있다.
 _PLACE_SUFFIX_RE = re.compile(
-    r"\s*(\d+\s*번\s*출구|출구|입구|정문|후문|앞|뒤|옆|근처|주변|건너편|맞은편)\s*$")
+    r"\s*(\d+\s*번\s*출구|출구|입구|정문|후문|앞쪽|뒤쪽|옆쪽|앞|뒤|옆"
+    r"|근처|주변|부근|인근|근방|건너편|맞은편)\s*$")
 
 
 def _locate_region(geocoder, area: str, anchor: GeoPoint | None) -> GeoResult | None:
