@@ -35,7 +35,7 @@ function mount({cases,seenTips={}}){
   const Box=({children})=>React.createElement('div',null,children);
   const Text=({children})=>React.createElement('span',null,children);
   const Pressable=(props)=>{pressables.push(props);return React.createElement('div',{role:'button'},props.children);};
-  const native={View:Box,Text,ScrollView:Box,Pressable,ActivityIndicator:()=>null,StyleSheet:{create:x=>x}};
+  const native={View:Box,Text,ScrollView:Box,Pressable,ActivityIndicator:()=>null,StyleSheet:{create:x=>x},Platform:{OS:'web'}};
   const tokens={color:{guardian:'green',critical:'red',figmaRed:'red',figmaField:'#eee',figmaGray:'gray'},type:{}};
   const AlertCard=load('src/components/AlertCard.tsx',{react:React,'react-native':native,'../theme/tokens':tokens});
   const modules={react:hooks,'react-native':native,

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import type { StyleProp, ViewStyle } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { color, type } from '../theme/tokens';
 
 /**
@@ -26,8 +26,8 @@ export default function AlertCard({ tone, badge, title, body, onPress, style, ac
   const inner = (
     <>
       <View style={[styles.badge, red ? styles.redBadge : styles.greenBadge]}><Text style={[styles.badgeText, red ? styles.redBadgeText : styles.greenBadgeText]}>{badge}</Text></View>
-      <Text style={styles.cardTitle}>{title}</Text>
-      <Text style={styles.cardBody}>{body}</Text>
+      <Text style={[styles.cardTitle, keepWords]} lineBreakStrategyIOS="hangul-word">{title}</Text>
+      <Text style={[styles.cardBody, keepWords]} lineBreakStrategyIOS="hangul-word">{body}</Text>
       {onPress ? <Text style={[styles.chevron, { color: red ? color.figmaRed : '#286C45' }]}>›</Text> : null}
     </>
   );
@@ -46,8 +46,15 @@ export default function AlertCard({ tone, badge, title, body, onPress, style, ac
   );
 }
 
+// 지역명이 들어간 제목("[고양시 일산서구 한류월드로] 81세 실종 어르신")은 폭 끝에 걸려
+// "어르 / 신"으로 음절 중간에서 꺾였다(10/28 12회차 C2) — 어절 단위로 줄을 바꾼다.
+// 웹은 CSS word-break(RN 타입에는 없어 캐스팅), iOS 는 lineBreakStrategyIOS 로 맞춘다.
+const keepWords = (Platform.OS === 'web' ? { wordBreak: 'keep-all' } : null) as TextStyle | null;
+
 const styles = StyleSheet.create({
-  card: { height: 139, borderRadius: 10, paddingHorizontal: 16, paddingTop: 20, marginBottom: 28, position: 'relative', shadowColor: '#000000', shadowOpacity: 0.1, shadowRadius: 7, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
+  // 높이는 시안 값(139)을 최소로만 둔다. 제목이 두 줄이고 인상착의가 길면 글이 카드
+  // 밖으로 넘치므로 그때는 카드가 늘어나고, 아래 여백(12)이 마지막 줄을 테두리에서 띄운다.
+  card: { minHeight: 139, borderRadius: 10, paddingHorizontal: 16, paddingTop: 20, paddingBottom: 12, marginBottom: 28, position: 'relative', shadowColor: '#000000', shadowOpacity: 0.1, shadowRadius: 7, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   redCard: { backgroundColor: '#FFF0F1' },
   greenCard: { backgroundColor: '#ECFAE5' },
   badge: { alignSelf: 'flex-start', height: 16, borderRadius: 8, paddingHorizontal: 11, alignItems: 'center', justifyContent: 'center' },

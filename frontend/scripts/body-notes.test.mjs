@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { appearanceTags, bodyNotes } from '../src/utils/bodyNotes.ts';
+import { appearanceLine, appearanceTags, bodyNotes } from '../src/utils/bodyNotes.ts';
 
 test('bare numbers in the "height/build/belongings" box read as height then weight', () => {
   // 10/27 운영 사건 7ccf1a190cd3: 보호자가 네 번째 칸에 이렇게 적었고 시민 화면에 그대로 나왔다.
@@ -55,4 +55,13 @@ test('sizes written next to clothing are not read as height or weight', () => {
   assert.deepEqual(appearanceTags(['남색 점퍼/105', '검정 구두/230', '170']),
     ['남색 점퍼/105', '검정 구두/230', '키 170cm']);
   assert.deepEqual(appearanceTags([]), []);
+});
+
+test('the alert summary line on list cards gets the same names as the chips', () => {
+  // 10/28 12회차 C2: 칩은 고쳐졌는데 목록 카드 본문은 서버 summary 원문이 그대로였다.
+  assert.equal(appearanceLine('회색 점퍼, 검은 바지, 흰 운동화, 160/50/검정 핸드백'),
+    '회색 점퍼, 검은 바지, 흰 운동화, 키 160cm, 몸무게 50kg, 검정 핸드백');
+  // 숫자가 없는 요약·대체 문구는 그대로다.
+  assert.equal(appearanceLine('인상착의 정보 없음'), '인상착의 정보 없음');
+  assert.equal(appearanceLine('남색 점퍼/105, 지팡이'), '남색 점퍼/105, 지팡이');
 });
