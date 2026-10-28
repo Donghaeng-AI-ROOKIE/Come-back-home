@@ -18,6 +18,8 @@ import FigmaTabIcon from '../components/FigmaTabIcon';
 import { useGuardianCases, usePersonas } from '../hooks/queries';
 import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import { listedCases } from '../utils/guardianTips';
+import { activeCases } from '../utils/guardianSearchCard';
+import { guardianEmergency, guardianTabAccent } from '../utils/tabAccent';
 
 const Tab = createBottomTabNavigator<GuardianTabParamList>();
 
@@ -106,11 +108,14 @@ export default function GuardianTabs() {
   const markShownTipsSeen = () => {
     for (const c of listedCases(cases ?? [])) markTipsSeen(c.id, (c.tips ?? []).map((t) => t.id));
   };
+  // 진행 중 사건이 있으면 네 탭 모두 빨강으로 강조한다 — 홈 "수색 중" 카드와 같은 판정이고
+  // 위와 같은 사건 목록이다. 모두 종결·철회되면 초록으로 돌아온다(utils/tabAccent).
+  const accent = color[guardianTabAccent(guardianEmergency(false, activeCases(cases ?? []).length))];
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: color.guardian,
+        tabBarActiveTintColor: accent,
         tabBarInactiveTintColor: color.figmaGray,
         tabBarLabelStyle: { fontSize: 10, lineHeight: 13, letterSpacing: 0.16, fontFamily: type.familyRobotoSemiBold, marginTop: 1 },
         tabBarStyle: {
@@ -133,23 +138,23 @@ export default function GuardianTabs() {
       <Tab.Screen
         name="GuardianHome"
         component={GuardianHomeScreen}
-        options={{ tabBarLabel: '홈', tabBarIcon: ({ focused }) => <FigmaTabIcon name="home" focused={focused} activeColor={color.guardian} /> }}
+        options={{ tabBarLabel: '홈', tabBarIcon: ({ focused }) => <FigmaTabIcon name="home" focused={focused} activeColor={accent} /> }}
       />
       <Tab.Screen
         name="GuardianReg"
         component={RegChatScreen}
-        options={{ tabBarLabel: '사전등록', tabBarIcon: ({ focused }) => <FigmaTabIcon name="register" focused={focused} activeColor={color.guardian} /> }}
+        options={{ tabBarLabel: '사전등록', tabBarIcon: ({ focused }) => <FigmaTabIcon name="register" focused={focused} activeColor={accent} /> }}
       />
       <Tab.Screen
         name="GuardianAlerts"
         component={GuardianAlertsScreen}
         listeners={{ focus: markShownTipsSeen, blur: markShownTipsSeen }}
-        options={{ tabBarLabel: '알림', tabBarIcon: ({ focused }) => <FigmaTabIcon name="alert" focused={focused} activeColor={color.guardian} /> }}
+        options={{ tabBarLabel: '알림', tabBarIcon: ({ focused }) => <FigmaTabIcon name="alert" focused={focused} activeColor={accent} /> }}
       />
       <Tab.Screen
         name="GuardianMy"
         component={GuardianMyScreen}
-        options={{ tabBarLabel: '내 정보', tabBarIcon: ({ focused }) => <FigmaTabIcon name="profile" focused={focused} activeColor={color.guardian} /> }}
+        options={{ tabBarLabel: '내 정보', tabBarIcon: ({ focused }) => <FigmaTabIcon name="profile" focused={focused} activeColor={accent} /> }}
       />
     </Tab.Navigator>
   );

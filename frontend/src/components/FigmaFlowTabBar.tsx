@@ -6,20 +6,27 @@ import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { FLOW_TAB_PADDING_TOP, useTabBarMetrics } from '../theme/tabBar';
 import { useKeyboardVisible } from '../hooks/useKeyboardVisible';
+import { useGuardianCases } from '../hooks/queries';
+import { activeCases } from '../utils/guardianSearchCard';
+import { citizenTabAccent, guardianEmergency, guardianTabAccent, type FlowTabKey } from '../utils/tabAccent';
 import FigmaTabIcon, { type FigmaTabIconName } from './FigmaTabIcon';
 
-type TabKey = 'home' | 'register' | 'alert' | 'profile';
+type TabKey = FlowTabKey;
 
 /**
  * 탭 내비게이터 밖 화면(스택)의 하단 탭바.
  *
- * `active` 가 null 이면 어느 탭도 강조하지 않는다 — 실종 신고(Report·ReportSent)처럼
- * 어느 탭에도 속하지 않는 흐름에서 "홈"이 켜져 있으면, 지금 홈에 있다고 잘못 읽힌다.
+ * 긴급 모드면 강조가 빨강이다(utils/tabAccent). 보호자는 진행 중 사건이 있거나
+ * `emergency`(실종 신고 흐름)일 때, 시민은 긴급 알림 탭일 때다.
+ *
+ * `active` 가 null 이면 어느 탭도 강조하지 않는다 — 어느 탭에도 속하지 않는 화면용이다.
  * 탭은 그대로 눌러 이동할 수 있다.
  */
-export default function FigmaFlowTabBar({ mode, active }: {
+export default function FigmaFlowTabBar({ mode, active, emergency = false }: {
   mode: 'guardian' | 'citizen';
   active: TabKey | null;
+  /** 이 화면이 실종 신고 흐름이다(보호자) — 진행 중 사건이 목록에 아직 없어도 빨강. */
+  emergency?: boolean;
 }) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   // 탭 내비게이터가 아니라 일반 View 라 안전영역을 아무도 안 넣어 준다 —
@@ -29,8 +36,13 @@ export default function FigmaFlowTabBar({ mode, active }: {
   // 탭바가 키보드 바로 위로 따라 올라오기 때문이다(hooks/useKeyboardVisible).
   const keyboardOpen = useKeyboardVisible();
   const guardian = mode === 'guardian';
+  // 진행 중 사건 목록은 보호자 탭(GuardianTabs)이 주기 조회하는 것을 따라 읽기만 한다 —
+  // 요청이 늘지 않는다. 시민 화면에서는 묻지 않는다(hooks/queries 의 useGuardianCases).
+  const { data: cases } = useGuardianCases(guardian ? 'follow' : 'off');
   if (keyboardOpen) return null;
-  const accent = guardian ? color.guardian : active === 'alert' ? color.figmaRed : color.brand;
+  const accent = color[guardian
+    ? guardianTabAccent(guardianEmergency(emergency, activeCases(cases ?? []).length))
+    : citizenTabAccent(active)];
   const items: { key: TabKey; label: string; icon: FigmaTabIconName }[] = guardian
     ? [
         { key: 'home', label: '홈', icon: 'home' },

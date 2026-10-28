@@ -62,7 +62,9 @@ export default function ReportDoneScreen() {
             <Text style={styles.doneText}>홈으로</Text>
           </Pressable>
         </View>
-        <FigmaFlowTabBar mode="citizen" active="home" />
+        {/* 제보 완료는 긴급 알림 흐름의 끝이다 — 경보 상세·수색지도·제보처럼 "긴급 알림"(빨강)을
+            켠다. "안심 홈"이 켜져 있으면 제보를 마치자마자 평소 화면으로 돌아온 것처럼 읽혔다. */}
+        <FigmaFlowTabBar mode="citizen" active="alert" />
       </LinearGradient>
     </SafeAreaView>
   );

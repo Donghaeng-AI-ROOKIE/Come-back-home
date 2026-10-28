@@ -76,7 +76,8 @@ export default function ReportSentScreen() {
         </View>
       </ScrollView>
       <GuideSheet open={guideOpen} onClose={() => setGuideOpen(false)} />
-      <FigmaFlowTabBar mode="guardian" active={null} />
+      {/* 신고 화면과 같다 — 접수 직후라 새 사건이 목록에 잡히기 전에도 빨강이다(utils/tabAccent). */}
+      <FigmaFlowTabBar mode="guardian" active="home" emergency />
     </SafeAreaView>
   );
 }
