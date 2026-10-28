@@ -116,8 +116,11 @@ export default function AlertDetailScreen() {
           <Pressable style={[styles.button, styles.seen]} onPress={() => navigation.navigate('TipWarn', { caseId })}>
             <Text style={styles.seenText}>봤어요</Text>
           </Pressable>
-          <Pressable style={[styles.button, styles.notSeen]} onPress={() => navigation.goBack()}>
-            <Text style={styles.notSeenText}>못 봤어요</Text>
+          {/* 이 버튼은 이전 화면으로 돌아가기만 한다. "못 봤어요"라고 쓰면 못 봤다고 알리는
+              것처럼 읽혀서, 인상착의 화면(#340)처럼 하는 일 그대로 적는다(10/28 팀 점검).
+              17px 로 149px 이라 반 폭 버튼(375 폭에서 164px)에 한 줄로 든다. */}
+          <Pressable style={[styles.button, styles.notSeen]} onPress={() => navigation.goBack()} accessibilityRole="button">
+            <Text style={styles.notSeenText} numberOfLines={1}>이전 화면으로 돌아가기</Text>
           </Pressable>
         </View>
         <Text style={styles.hint}>'봤어요'를 누르면 목격 내용을 대화로 편하게 제보할 수 있어요</Text>
