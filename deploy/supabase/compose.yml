@@ -31,7 +31,9 @@ services:
       POA_REFRESH_ENABLED: ${CBH_POA_REFRESH_ENABLED:-true}
       LAYER2_PERIODIC_MINUTES: '60'
       ROADNET_PRELOAD: 'false'
-      REVERSE_GEOCODE_ON_INTAKE: 'false'
+      # Alert area names are looked up only at intake (phase3/case_area.py);
+      # with this off every alert falls back to "내 주변".
+      REVERSE_GEOCODE_ON_INTAKE: 'true'
       REFLEX_ALERT_ON_INTAKE: 'true'
     volumes:
       - ${CBH_CLOUD_DATA:?use a NEW cloud data directory}:/app/data
