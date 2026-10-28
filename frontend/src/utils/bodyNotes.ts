@@ -95,3 +95,14 @@ export function appearanceTags(values: string[]): string[] {
   const notes = pieces.filter((value) => !GARMENT.test(value));
   return [...clothing, ...bodyNotes(notes.join(','))];
 }
+
+/**
+ * 경보 요약 한 줄 → 긴급 알림 목록 카드·잠금화면 문구.
+ *
+ * 서버 `summary` 는 인상착의 칸을 쉼표로 이은 원문("회색 점퍼, 검은 바지, 흰 운동화,
+ * 160/50/검정 핸드백")이라, 칩만 고치면 목록 카드에는 `160/50` 이 그대로 남았다
+ * (10/28 12회차 C2). 칩과 같은 규칙으로 나눈 뒤 쉼표로 다시 잇는다.
+ */
+export function appearanceLine(summary: string): string {
+  return appearanceTags([summary]).join(', ');
+}

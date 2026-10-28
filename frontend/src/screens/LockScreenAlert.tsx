@@ -15,6 +15,7 @@ import NotificationMask from '../../assets/figma/lock-notification-mask.svg';
 import NotificationHeader from '../../assets/figma/lock-notification-header.svg';
 import { useActiveAlerts } from '../hooks/queries';
 import { alertToView } from '../data/missingView';
+import { appearanceLine } from '../utils/bodyNotes';
 
 const appIcon = require('../../assets/figma/lock-app-icon.png');
 
@@ -66,7 +67,7 @@ export default function LockScreenAlert() {
         <Text style={styles.appName}>돌아오길</Text>
         <Text style={styles.appTime}>{issuedTime}</Text>
         <Text style={styles.title}>실종자 발생</Text>
-        <Text style={styles.subtitle}>{alert?.summary || '내 주변에 실종자가 있어요!'}</Text>
+        <Text style={styles.subtitle}>{alert?.summary ? appearanceLine(alert.summary) : '내 주변에 실종자가 있어요!'}</Text>
         <Text style={styles.person}>{view.title} • {view.meta}</Text>
 
         <View style={styles.tagRow}>{appearance.map((label) => <View key={label} style={styles.tag}><Text style={styles.tagText} numberOfLines={1}>{label}</Text></View>)}</View>

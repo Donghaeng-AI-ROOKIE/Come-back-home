@@ -13,6 +13,7 @@ import { useAppModeStore } from '../store/appModeStore';
 import { resolvedMessage, resolvedThanks } from '../utils/resolvedCopy';
 import { activeAlertTitle, resolvedTitle } from '../utils/alertTitle';
 import AlertCard from '../components/AlertCard';
+import { appearanceLine } from '../utils/bodyNotes';
 
 export default function CitizenAlertsScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -75,7 +76,7 @@ export default function CitizenAlertsScreen() {
             tone="red"
             badge={`수색 중(${alert.targetCells.length}개 대상 구역)`}
             title={activeAlertTitle(alert.area, alert.age)}
-            body={`${alert.summary || '인상착의 정보 확인 중'}\n터치하여 예상 구역을 확인해 주세요.`}
+            body={`${alert.summary ? appearanceLine(alert.summary) : '인상착의 정보 확인 중'}\n터치하여 예상 구역을 확인해 주세요.`}
             onPress={() => navigation.navigate('AlertDetail', { caseId: alert.caseId })}
           />
         ))}
