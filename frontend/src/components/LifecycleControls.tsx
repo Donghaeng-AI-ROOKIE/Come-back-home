@@ -48,7 +48,7 @@ export function CaseLifecycleCard({ item }: { item: Case }) {
   const closed = ['found', 'closed'].includes(item.status);
   // 종결·삭제 직후 사건 목록을 바로 다시 받는다(이유는 utils/caseRefresh 주석).
   const refresh = () => refreshAfterCaseChange(qc);
-  return <View style={styles.caseCard}>
+  return <View style={[styles.caseCard, closed ? null : styles.activeCard]}>
     <View style={[styles.badge, closed ? styles.closedBadge : styles.activeBadge]}>
       <Text style={[styles.badgeText, closed ? styles.closedBadgeText : styles.activeBadgeText]}>{closed ? '종결' : '수색 중'}</Text>
     </View>
@@ -87,15 +87,21 @@ export function PersonaLifecycleCard({ item, onConfirmed, onDeleted }: { item: P
 
 /**
  * 보호자 알림 탭의 사건 카드 — 같은 탭의 제보 카드(회색 #F7F7F7, 둥근 10, 그림자 0.1)와
- * 같은 톤이다. 예전에는 회색 테두리 상자라 탭 안에서 혼자 다른 화면처럼 보였다.
+ * 같은 모양이다. 예전에는 회색 테두리 상자라 탭 안에서 혼자 다른 화면처럼 보였다.
+ *
+ * 진행 중 사건 카드는 긴급 모드 빨강 톤이다 — 바탕·배지·[가족을 찾았어요]. 같은 동안
+ * 하단 탭이 빨강이고(utils/tabAccent, #342), 홈 "수색 중" 카드도 같은 빨강 톤(AlertCard
+ * red: 바탕 #FFF0F1, 배지 #FFC9CB)이라, 이 카드만 초록이면 긴급 상황이 끝난 것처럼 읽혔다
+ * (10/28 화면흐름 보드 의견). 종결된 사건 카드는 회색 그대로다.
  */
 const styles = StyleSheet.create({
   caseCard: { marginLeft: 23, marginRight: 22, marginTop: 14, borderRadius: 10, backgroundColor: '#F7F7F7', paddingHorizontal: 16, paddingTop: 15, paddingBottom: 12, shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 10, shadowOffset: { width: 1, height: 1 } },
   badge: { alignSelf: 'flex-start', height: 16, minWidth: 48, paddingHorizontal: 10, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
-  activeBadge: { backgroundColor: '#B0DB9C' },
+  activeCard: { backgroundColor: '#FFF0F1' },
+  activeBadge: { backgroundColor: '#FFC9CB' },
   closedBadge: { backgroundColor: '#E2E2E2' },
   badgeText: { fontFamily: type.familyCssBold, fontSize: 10, lineHeight: 13 },
-  activeBadgeText: { color: '#316837' },
+  activeBadgeText: { color: color.figmaRed },
   closedBadgeText: { color: '#6B6B70' },
   caseTitle: { marginTop: 10, fontFamily: type.familyCssBold, fontSize: 15, lineHeight: 19, color: '#525253' },
   caseBody: { marginTop: 6, fontFamily: type.familyCss, fontSize: 11, lineHeight: 15, color: '#525253' },
@@ -109,7 +115,8 @@ const styles = StyleSheet.create({
 });
 const buttonLook = StyleSheet.create({
   plain: {},
-  primary: { backgroundColor: color.guardian },
+  // [가족을 찾았어요] — 진행 중 사건 카드의 주버튼이라 긴급 모드 빨강이다(위 styles 주석).
+  primary: { backgroundColor: color.figmaRed },
   secondary: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#D8D8D8' },
   danger: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: color.figmaRed },
 });
