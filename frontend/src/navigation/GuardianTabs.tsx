@@ -39,7 +39,7 @@ function confirmAsync(title: string, message: string): Promise<boolean> {
 
 /** 내 정보 — 로그아웃과 등록 현황. 부스 계정에는 진행자 영역(템플릿 저장·다음 체험 준비)이 더 보인다. */
 function GuardianMyScreen() {
-  const { user, signOut, switchRole } = useAuthStore();
+  const { user, userId, signOut, switchRole } = useAuthStore();
   const [switching, setSwitching] = useState(false);
   const cachedPersona = useGuardianStore((s) => s.persona);
   const reset = useGuardianStore((s) => s.reset);
@@ -51,7 +51,7 @@ function GuardianMyScreen() {
   const [busy, setBusy] = useState<null | 'capture' | 'next'>(null);
   const boothLine = booth.data
     ? booth.data.exists
-      ? `템플릿: ${booth.data.name ?? '-'} (${booth.data.age ?? '-'}세) · 대화 ${booth.data.n_messages ?? 0}줄${booth.data.label ? ` · ${booth.data.label}` : ''}`
+      ? `템플릿: ${booth.data.name ?? '-'} (${String(booth.data.age ?? '-').replace(/세$/, '')}세) · 대화 ${booth.data.n_messages ?? 0}줄${booth.data.label ? ` · ${booth.data.label}` : ''}`
       : '템플릿 없음 — 사전 등록을 "이렇게 등록할게요" 요약까지 진행한 뒤 저장하세요'
     : '';
   const captureTemplate = async () => {
@@ -59,9 +59,9 @@ function GuardianMyScreen() {
     if (!(await confirmAsync('템플릿으로 저장', '지금 요약 확인 중인 대화를 다음 체험자들의 시작 상태로 저장합니다. 기존 템플릿은 덮어씁니다.'))) return;
     setBusy('capture');
     try {
-      const meta = await captureDemoTemplate('부스');
+      const meta = await captureDemoTemplate('부스', userId ?? undefined);
       await booth.refetch();
-      Alert.alert('저장했습니다', `${meta.name ?? '-'} (${meta.age ?? '-'}세) · 대화 ${meta.n_messages ?? 0}줄`);
+      Alert.alert('저장했습니다', `${meta.name ?? '-'} (${String(meta.age ?? '-').replace(/세$/, '')}세) · 대화 ${meta.n_messages ?? 0}줄`);
     } catch (e) {
       Alert.alert('저장하지 못했습니다', e instanceof ApiError ? e.message : String(e));
     } finally { setBusy(null); }
@@ -71,7 +71,7 @@ function GuardianMyScreen() {
     if (!(await confirmAsync('다음 체험 준비', '이 계정의 신고는 철회 종결되고 등록된 가족은 지워집니다. 템플릿을 복제해 "맞아요" 직전 화면으로 엽니다.'))) return;
     setBusy('next');
     try {
-      const r = await prepareNextDemoTurn('보호자');
+      const r = await prepareNextDemoTurn('보호자', userId ?? undefined);
       // 이전 체험의 캐시(등록 가족·사건)를 비운다 — 안 비우면 홈에 지운 가족이 남아 보인다.
       reset();
       qc.removeQueries({ queryKey: ['personas'] });

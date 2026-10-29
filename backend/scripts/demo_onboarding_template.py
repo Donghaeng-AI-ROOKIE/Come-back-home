@@ -98,7 +98,7 @@ def main() -> int:
         raise SystemExit("확인 단계에 도달하지 못했다 — 답 목록을 보완하세요")
 
     print("\n요약 확인 단계 도달:\n" + s["messages"][-1]["text"])
-    meta = call(args.api, "POST", "/demo/onboarding/template", {"session_id": sid, "label": args.label})
+    meta = call(args.api, "POST", "/phase0/demo/onboarding/template", {"guardian_id": args.guardian_id, "session_id": sid, "label": args.label})
     print("\n템플릿 저장:", json.dumps(meta, ensure_ascii=False, indent=2))
     print("\n이 세션은 그대로 둔다(원하면 앱에서 '맞아요'로 등록해도 된다).")
     return 0

@@ -367,7 +367,7 @@ export function useDemoBooth() {
   const userId = useAuthStore((s) => s.userId);
   return useQuery({
     queryKey: ['demoBooth', userId],
-    queryFn: () => getDemoTemplate(),
+    queryFn: () => getDemoTemplate(userId ?? undefined),
     enabled: userId != null,
     retry: false,
     staleTime: 60_000,
