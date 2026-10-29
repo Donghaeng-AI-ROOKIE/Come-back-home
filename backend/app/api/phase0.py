@@ -2,6 +2,7 @@
 
 from datetime import datetime, timezone
 from difflib import SequenceMatcher
+from typing import Literal
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
@@ -37,6 +38,7 @@ class RegisterPersonaIn(BaseModel):
     behavior_notes: list[str] = []
     # 등록하는 보호자 계정. session_id 가 있으면 세션의 값이 우선한다.
     guardian_id: str = ""
+    sex: Literal["F", "M"] | None = None
 
 
 @router.post("/interviews", response_model=InterviewSession)
@@ -90,7 +92,7 @@ def register_persona(body: RegisterPersonaIn):
         body.session_id,
         name=body.name, age=body.age, ptype=body.type, home=body.home,
         attraction_points=body.attraction_points, behavior_notes=body.behavior_notes,
-        guardian_id=body.guardian_id,
+        guardian_id=body.guardian_id, sex=body.sex,
     )
 
 
