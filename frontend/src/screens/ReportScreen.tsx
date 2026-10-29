@@ -9,7 +9,7 @@ import { color, type } from '../theme/tokens';
 import { useQueryClient } from '@tanstack/react-query';
 import { createReport, searchPlace } from '../api/guardian';
 import { placeNotice } from '../utils/placeNotice';
-import { reportTimeIso } from '../utils/reportTime';
+import { checkReportTime } from '../utils/reportTime';
 import { useGuardianStore } from '../store/guardianStore';
 import { usePersonas } from '../hooks/queries';
 import { useMyLocation } from '../hooks/useMyLocation';
@@ -143,11 +143,14 @@ export default function ReportScreen() {
       setError('마지막 목격 장소를 먼저 검색해 주세요. 위 검색창에 장소를 입력하고 검색(엔터)하면 지도가 그 위치로 바뀝니다.');
       return;
     }
-    const incidentTime = reportTimeIso(lastSeenAt);
-    if (!incidentTime) {
-      setError('마지막으로 본 시각을 2026-09-25 14:30 형식으로 입력해 주세요. 미래 시각은 사용할 수 없습니다.');
+    const checked = checkReportTime(lastSeenAt);
+    if ('error' in checked) {
+      setError(checked.error === 'future'
+        ? '마지막으로 본 시각이 지금보다 늦습니다. 날짜와 시각을 다시 확인해 주세요.'
+        : '마지막으로 본 시각을 2026-09-25 14:30 형식(24시간제)으로 입력해 주세요.');
       return;
     }
+    const incidentTime = checked.iso;
     setError('');
     const hasAppearance = [top, bottom, shoes, etc].some((value) => value.trim().length > 0);
     setSending(true);
