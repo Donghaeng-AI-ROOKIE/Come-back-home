@@ -7,7 +7,7 @@ import pytest
 
 from app.geo.geocode import GazetteerGeocoder
 from app.phase0 import interview, prompts
-from app.phase0.slots import slots_for
+from app.phase0.slots import slot_by_key, slots_for
 from app.schemas.common import GeoPoint
 from app.schemas.persona import InterviewSession, PersonaType
 
@@ -29,8 +29,17 @@ def test_first_question_asks_name_age_and_sex():
     assert s.messages[0]["text"] == "등록하실 어르신의 성함과 나이, 성별을 알려주세요."
 
 
-def test_extraction_and_correction_prompts_carry_sex():
-    assert '"sex":"<F 또는 M>"' in prompts.EXTRACT_SYSTEM
+def test_sex_is_asked_only_on_the_first_question_turn():
+    # 공통 추출 지시에 넣었더니 다른 턴의 장소 추출이 흔들렸다(10/29 실호출: '조용한 골목' 1/3 → 3/3).
+    # 공통 지시는 #349 이전 그대로 두고, 첫 질문 턴의 입력에만 성별 지시를 붙인다.
+    assert "sex" not in prompts.EXTRACT_SYSTEM
+    conv = [{"role": "assistant", "text": "질문"}, {"role": "user", "text": "김순자 할머니고 82세예요"}]
+    assert "fields.sex" in prompts.build_extract_input(slot_by_key("identity"), conv)
+    for key in ("home", "distress_induced_movement_reactivity", "routine_destinations"):
+        assert "sex" not in prompts.build_extract_input(slot_by_key(key), conv)
+
+
+def test_correction_prompt_carries_sex():
     assert "name/age/sex/home" in prompts.CORRECTION_SYSTEM
     parsed = prompts.parse_correction('{"intent":"correct","fields":{"sex":"F"},"place_ops":[]}', [])
     assert parsed["fields"] == {"sex": "F"}

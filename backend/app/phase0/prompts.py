@@ -83,8 +83,6 @@ attraction_points — 대상자가 다니는·다녔던·가려 하는·살았�
 fields — 이번 답에 나온 것만 넣는다:
 - name: 사람 이름만(호칭·관계어 "어머니", "어르신"은 이름이 아니다)
 - age: 나이를 숫자로만 적는다. "여든둘"처럼 우리말 나이는 82 로 바꿔 적는다
-- sex: 대상자의 성별. 답변에 여성임이 드러나면("여자", "여성", "할머니", "어머니") "F", \
-남성임이 드러나면("남자", "남성", "할아버지", "아버지") "M". 드러나지 않으면 넣지 마라
 - home: 지금 사는 곳의 주소·동 이름·단지 이름을 답변에 나온 그대로. "집에 주로 계세요" \
 같은 문장은 주소가 아니다. 예전에 살던 곳은 home 이 아니라 장소(attraction_points)다
 
@@ -96,7 +94,7 @@ behavior_notes 규칙:
 반드시 아래 JSON 하나만 출력:
 {
   "answer_kind": "<위 여섯 값 중 하나>",
-  "fields": {},               // 이번 답에서 확인된 것만: {"name":"<사람 이름>","age":<나이 숫자>,"sex":"<F 또는 M>","home":"<지금 사는 곳 주소>"}
+  "fields": {},               // 이번 답에서 확인된 것만: {"name":"<사람 이름>","age":<나이 숫자>,"home":"<지금 사는 곳 주소>"}
   "attraction_points": [],    // [{"label":"<장소>","area_text":"<동·랜드마크 또는 빈 문자열>","place_type":"<장소 유형>","name_kind":"<proper 또는 generic>","evidence":"<근거 강도>","quote":"<답변 원문 구절>","same_as":"<등록된 같은 장소 이름 또는 빈 문자열>"}]
   "behavior_notes": [],       // ["<관찰된 행동 사실(짧게)>"]
   "slot_filled": false        // 아래 지정된 슬롯의 '충족 기준'을 이 답이 만족하면 true
@@ -113,6 +111,17 @@ _RECHECK_PLACES = """
 [재확인] 방금 이 답변을 추출했을 때 이 답변에 나온 장소가 하나도 잡히지 않았다. \
 이름이 없는 곳("예전에 살던 집", "옛 직장")이나 발견된 곳을 포함해, 이 답변에 나온 \
 장소가 있으면 빠짐없이 attraction_points 에 넣어라. 정말 없으면 빈 배열로 둔다."""
+
+
+# 성별은 첫 질문(identity) 턴의 입력에만 붙인다. #349 에서 공통 추출 지시(EXTRACT_SYSTEM)에
+# 넣었더니 다른 턴의 추출이 흔들렸다 — 같은 "불안하시면 사람이 적은 조용한 골목으로…" 답에서
+# '조용한 골목'을 장소로 뽑은 비율이 1/3 → 3/3(10/29 Mi:dm 실호출). 여기 두면 나머지 턴은
+# #349 이전과 같은 지시를 받는다.
+_IDENTITY_SEX = """\
+[이 턴에서 함께 뽑을 것]
+- fields.sex: 대상자의 성별. 답변에 여성임이 드러나면("여자", "여성", "할머니", "어머니") "F", \
+남성임이 드러나면("남자", "남성", "할아버지", "아버지") "M". 드러나지 않으면 넣지 마라
+"""
 
 
 def build_extract_input(target_slot: SlotSpec, conversation: list[dict],
@@ -132,7 +141,7 @@ def build_extract_input(target_slot: SlotSpec, conversation: list[dict],
 - key: {target_slot.key} · {target_slot.label}
 - 충족 기준: {target_slot.filled_when}
 [이미 등록된 장소] {", ".join(known_places) if known_places else "(없음)"}
-"""
+""" + (_IDENTITY_SEX if target_slot.key == "identity" else "")
     if not conversation or conversation[-1].get("role") != "user":
         return head + f"\n[대화]\n{_convo(conversation)}\n\n마지막 '보호자:' 발화를 대상으로 추출하라. 위 JSON 하나만 출력."
     return head + f"""
