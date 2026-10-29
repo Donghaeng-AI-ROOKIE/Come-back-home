@@ -1283,6 +1283,30 @@ def _is_home_locator(label: str, utterance: str) -> bool:
     return tail.startswith(_LOCATOR_SUFFIXES)
 
 
+# 주거 형태 낱말 — 띄어 쓴 마지막 낱말만 본다("대화동 아파트", "저희 집"). 붙여 쓴 "국밥집"·
+# "떡집" 같은 가게 이름은 걸리지 않는다.
+_DWELLING_TAIL = re.compile(r"(?:^|\s)(?:아파트|빌라|주택|맨션|오피스텔|연립|단지|집)$")
+
+
+def _is_home_dwelling(label: str, home_text: str, utterance: str) -> bool:
+    """집 답변에서 뽑힌 장소가 집 그 자체인가 — "<집 동네·단지 이름> 아파트" 꼴.
+
+    15회차(10/29): "고양시 일산서구 대화동 아파트에서 저와 함께 지내십니다"를 Mi:dm 이 집
+    "…대화동"과 장소 "대화동 아파트"로 쪼갰다. 장소 이름이 집 문자열보다 길어 위 포함 검사를
+    빠져나가고, 뒤에 "근처" 같은 꼬리표도 없어 _is_home_locator 도 못 잡았다.
+    주거 형태 낱말을 뗀 앞부분이 집 주소에 들어 있으면(집 주소를 아직 모르면 집 답에 있으면)
+    집 자체로 본다. "딸네 아파트"처럼 집 주소에 없는 이름이나 "주간보호센터"는 그대로 둔다.
+    """
+    text = str(label or "").strip()
+    m = _DWELLING_TAIL.search(text)
+    if m is None:
+        return False
+    core = _norm(text[: m.start()])
+    if not core:
+        return True   # "집" — 집 턴에서 그냥 집을 가리킨 말
+    return core in _norm(home_text or utterance)
+
+
 def _merge_target(ap: dict, by_key: dict) -> str | None:
     """새 끌림점을 병합할 기존 라벨 키 — 모델의 same_as + 라벨 포함 + 지역-둔갑. 없으면 None.
 
@@ -1347,6 +1371,9 @@ def _apply_extraction(
             continue
         if utterance and prev_slot.key == "home" and _is_home_locator(str(ap.get("label")), utterance):
             continue  # 집 기준점은 목적지가 아니다 (#257).
+        if utterance and prev_slot.key == "home" and _is_home_dwelling(str(ap.get("label")), home_txt, utterance):
+            session.extraction_audit.append({"event": "home_dwelling_not_place", "label": str(ap.get("label"))})
+            continue  # 집 그 자체("대화동 아파트")도 목적지가 아니다.
         ap["area_text"] = _clean_area(ap.get("area_text"))
         # 이 답변 원문에 대조 — 재출력·지어낸 장소는 버리고, 근거 없는 강도는 내린다.
         if utterance and not _ground_point(session, ap, utterance, last_q):
