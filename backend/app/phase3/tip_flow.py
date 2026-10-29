@@ -66,6 +66,18 @@ def _geocode_tip_location(location_text: str | None, anchor: GeoPoint) -> GeoPoi
     return None
 
 
+def _tip_place(location_text: str | None) -> str:
+    """구조화가 뽑은 장소 → 보호자 제보 목록의 묶음 이름("수리초등학교 앞에서" → "수리초등학교").
+
+    좌표를 찾는 두 번째 질의와 같은 규칙으로 조사·위치어를 뗀다. 같은 곳을 "앞"·"정문"으로
+    달리 말해도 한 묶음이 된다.
+    """
+    if not location_text:
+        return ""
+    bare = _TRAILING_PARTICLE_RE.sub("", location_text) or location_text
+    return base_place_name(bare).strip()
+
+
 log = logging.getLogger(__name__)
 
 # 사건 하나당 하나. 뒤로 미룬 재예측이 겹쳐 돌면 뒤에 끝난 쪽이 앞의 결과를
@@ -141,6 +153,7 @@ def process_tip(
         case_id=case.id,
         text=text,
         location=location,
+        place=_tip_place(structured.get("location_text")),
         seen_at=seen_at,
     )
 

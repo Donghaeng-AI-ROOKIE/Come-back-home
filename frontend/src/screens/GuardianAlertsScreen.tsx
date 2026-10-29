@@ -67,6 +67,8 @@ const SHEET_EXPANDED_TOP = 140;
 
 type TipGroup = {
   key: string;
+  /** 시민이 말한 장소로 묶었으면 그 이름(묶음 제목). 좌표 칸으로 묶었으면 null. */
+  place: string | null;
   center: { lat: number; lng: number } | null;
   tips: CaseTip[];
   /** 그룹 내 최신 제보 시각(정렬용, epoch ms). */
@@ -81,18 +83,29 @@ function trustLabel(tips: CaseTip[]): string {
   return best >= 0.8 ? '신뢰도 상' : best >= 0.5 ? '신뢰도 중' : '신뢰도 하';
 }
 
-/** 사건들의 제보를 위치로 묶는다. 위치 없는 제보도 버리지 않고 한 묶음으로. */
+/**
+ * 사건들의 제보를 묶는다. 위치 없는 제보도 버리지 않고 한 묶음으로.
+ *
+ * 위치가 있으면 시민이 말한 장소 이름("수리초등학교")으로 묶고, 이름이 없을 때만 좌표 칸으로
+ * 묶는다. 칸으로만 묶던 때는 90m 떨어진 두 학교 제보가 칸 경계에 갈려 따로 묶이고, 제목은
+ * 둘 다 근처 도로명 "수리산로"라 보호자가 구별할 수 없었다(10/29 팀 점검).
+ */
 function groupTips(cases: Case[]): TipGroup[] {
   const map = new Map<string, TipGroup>();
   for (const c of cases) {
     for (const tip of c.tips ?? []) {
       const loc = tip.location ?? null;
+      const place = (tip.place ?? '').trim().replace(/\s+/g, ' ');
       let key = UNKNOWN;
       if (loc && Number.isFinite(loc.lat) && Number.isFinite(loc.lng)) {
-        try {
-          key = latLngToCell(loc.lat, loc.lng, GROUP_RES);
-        } catch {
-          key = UNKNOWN;
+        if (place) {
+          key = `place:${place}`;
+        } else {
+          try {
+            key = latLngToCell(loc.lat, loc.lng, GROUP_RES);
+          } catch {
+            key = UNKNOWN;
+          }
         }
       }
       const g = map.get(key);
@@ -102,6 +115,7 @@ function groupTips(cases: Case[]): TipGroup[] {
       } else {
         map.set(key, {
           key,
+          place: key.startsWith('place:') ? place : null,
           center: key === UNKNOWN ? null : { lat: loc!.lat, lng: loc!.lng },
           tips: [tip],
           latest: tipTimeMs(tip),
@@ -124,8 +138,9 @@ export default function GuardianAlertsScreen() {
   const { active: activeCases, closed: closedCases } = useMemo(() => splitCases(cases), [data]);
   // 목록은 지도와 같은 사건(진행 중 사건 하나)만 — 종결 사건 제보가 섞이지 않게.
   const groups = useMemo(() => groupTips(listedCases(cases)), [data]);
+  // 도로명은 장소 이름이 없는 묶음에만 묻는다.
   const centers = useMemo(
-    () => groups.map((g) => g.center).filter((c): c is { lat: number; lng: number } => c != null),
+    () => groups.filter((g) => g.place == null).map((g) => g.center).filter((c): c is { lat: number; lng: number } => c != null),
     [groups],
   );
   const { data: labels } = useAreaLabels(centers);
@@ -161,6 +176,7 @@ export default function GuardianAlertsScreen() {
   /** 그룹 → 표시 이름. 이름이 아직 안 왔으면 좌표로 버틴다(빈 카드보다 낫다). */
   const nameOf = (g: TipGroup): string => {
     if (g.center == null) return '위치 정보 없는 제보';
+    if (g.place) return g.place;
     const idx = centers.indexOf(g.center);
     return labels?.[idx] ?? `${g.center.lat.toFixed(4)}, ${g.center.lng.toFixed(4)}`;
   };

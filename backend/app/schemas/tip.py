@@ -20,6 +20,10 @@ class Tip(BaseModel):
     case_id: str
     text: str                                  # 시민 제보 원문 (챗봇 수집)
     location: GeoPoint | None = None           # 목격 위치 (특정된 경우)
+    # 시민이 말한 장소 이름("수리초등학교") — 구조화가 뽑은 장소에서 조사·위치어("앞"·"근처")를
+    # 뗀 것. 보호자 제보 목록의 묶음 제목·묶는 기준이다(10/29 팀 점검: 좌표 칸·도로명으로만
+    # 묶여 90m 떨어진 두 학교 제보가 둘 다 "수리산로"였다). 장소를 말하지 않았으면 빈 문자열.
+    place: str = ""
     seen_at: LocalNaiveDT | None = None        # 목격 시각 (특정된 경우)
     p: float | None = None                     # 신뢰도 (시공간개연성 + 챗봇 질문으로 산출)
     decision: TipDecision | None = None
