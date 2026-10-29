@@ -83,6 +83,8 @@ attraction_points — 대상자가 다니는·다녔던·가려 하는·살았�
 fields — 이번 답에 나온 것만 넣는다:
 - name: 사람 이름만(호칭·관계어 "어머니", "어르신"은 이름이 아니다)
 - age: 나이를 숫자로만 적는다. "여든둘"처럼 우리말 나이는 82 로 바꿔 적는다
+- sex: 대상자의 성별. 답변에 여성임이 드러나면("여자", "여성", "할머니", "어머니") "F", \
+남성임이 드러나면("남자", "남성", "할아버지", "아버지") "M". 드러나지 않으면 넣지 마라
 - home: 지금 사는 곳의 주소·동 이름·단지 이름을 답변에 나온 그대로. "집에 주로 계세요" \
 같은 문장은 주소가 아니다. 예전에 살던 곳은 home 이 아니라 장소(attraction_points)다
 
@@ -94,7 +96,7 @@ behavior_notes 규칙:
 반드시 아래 JSON 하나만 출력:
 {
   "answer_kind": "<위 여섯 값 중 하나>",
-  "fields": {},               // 이번 답에서 확인된 것만: {"name":"<사람 이름>","age":<나이 숫자>,"home":"<지금 사는 곳 주소>"}
+  "fields": {},               // 이번 답에서 확인된 것만: {"name":"<사람 이름>","age":<나이 숫자>,"sex":"<F 또는 M>","home":"<지금 사는 곳 주소>"}
   "attraction_points": [],    // [{"label":"<장소>","area_text":"<동·랜드마크 또는 빈 문자열>","place_type":"<장소 유형>","name_kind":"<proper 또는 generic>","evidence":"<근거 강도>","quote":"<답변 원문 구절>","same_as":"<등록된 같은 장소 이름 또는 빈 문자열>"}]
   "behavior_notes": [],       // ["<관찰된 행동 사실(짧게)>"]
   "slot_filled": false        // 아래 지정된 슬롯의 '충족 기준'을 이 답이 만족하면 true
@@ -158,7 +160,8 @@ CORRECTION_SYSTEM = """\
 반드시 아래 JSON 하나만 출력:
 {
   "intent": "<confirm | correct | correct_unspecified>",
-  "fields": {},      // 바꿀 기본 정보만. 키는 name/age/home 중 실제로 정정된 것만. \
+  "fields": {},      // 바꿀 기본 정보만. 키는 name/age/sex/home 중 실제로 정정된 것만. \
+sex 는 여성이면 "F", 남성이면 "M". \
 장소(가시려 할 만한 곳) 정정은 여기 넣지 마라 — home 은 '지금 사시는 집'을 고칠 때만.
   "place_ops": []    // 장소 변경 지시 배열
 }
@@ -230,7 +233,7 @@ def parse_correction(raw: str, place_labels: list[str]) -> dict:
     if not isinstance(data, dict):
         return empty
     fields = {k: v for k, v in (data.get("fields") or {}).items()
-              if k in ("name", "age", "home") and isinstance(v, str) and v.strip()}
+              if k in ("name", "age", "sex", "home") and isinstance(v, str) and v.strip()}
     known = set(place_labels)
     ops = []
     for raw_op in data.get("place_ops") or []:

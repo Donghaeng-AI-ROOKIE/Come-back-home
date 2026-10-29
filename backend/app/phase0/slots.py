@@ -120,9 +120,11 @@ SLOTS: list[SlotSpec] = [
     SlotSpec(
         key="identity", label="대상자 성함·나이", guardian_label="성함과 나이",
         axis=Axis.profile, tier=Tier.route, sink=Sink.field,
-        question="등록하실 어르신의 성함과 나이를 알려주세요.",
+        # 성별은 시민 경보·현장 식별에 쓰이는 기본 정보라 첫 질문에서 함께 묻는다(10/29 팀 결정).
+        # 답에 없으면 비워 둔 채 넘어간다 — 등록을 막지 않는다.
+        question="등록하실 어르신의 성함과 나이, 성별을 알려주세요.",
         probes=["나이를 만 나이로 확인"],
-        filled_when="이름·나이 2가지가 모두 특정됨",
+        filled_when="이름·나이 2가지가 모두 특정됨(성별은 답에 있으면 함께 받음)",
         why="Koester 치매 이동거리 프로파일 적용 대상 식별 — 나이는 보행 능력 추정의 기준.",
     ),
     SlotSpec(

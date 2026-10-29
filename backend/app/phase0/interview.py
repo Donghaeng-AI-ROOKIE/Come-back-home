@@ -429,18 +429,41 @@ def _model_age(value) -> int | None:
     return int(m.group(1)) if m and 0 < int(m.group(1)) < 130 else None
 
 
+def _model_sex(value) -> str | None:
+    """모델이 낸 성별 값 → "F"/"M". 그 밖의 값은 None(받지 않는다)."""
+    text = str(value or "").strip().upper()
+    if text in ("F", "여", "여성", "여자"):
+        return "F"
+    if text in ("M", "남", "남성", "남자"):
+        return "M"
+    return None
+
+
+# 성별 근거 대조용 — 답을 해석해 성별을 정하는 규칙이 아니라, 모델이 낸 값이 답에 근거가
+# 있는지만 본다(이름을 글자 그대로 대조하는 것과 같은 역할). 근거 낱말이 없으면 버린다.
+_SEX_CUES = {
+    "F": ("여자", "여성", "할머니", "어머니", "엄마", "할매", "모친", "아내", "부인", "여사"),
+    "M": ("남자", "남성", "할아버지", "아버지", "아빠", "할배", "부친", "남편", "영감"),
+}
+
+
+def _sex_grounded(sex: str, utterance: str) -> bool:
+    return any(cue in utterance for cue in _SEX_CUES[sex])
+
+
 def _grounded_fields(session: InterviewSession, fields: dict, utterance: str) -> dict:
-    """모델이 뽑은 name/age/home 중 이 답에 근거가 있는 것만 남긴다.
+    """모델이 뽑은 name/age/sex/home 중 이 답에 근거가 있는 것만 남긴다.
 
     - 이름: 답에 글자 그대로 있어야 한다(지어낸 이름 차단).
     - 나이: 숫자여야 하고, 답에 아라비아 숫자가 있으면 그중 하나와 같아야 한다.
+    - 성별: "F"/"M" 이어야 하고, 답에 그 성별을 가리키는 말("할머니", "남자")이 있어야 한다.
     - 집 주소: 주소 표현의 낱말이 답에 있어야 한다(라이브 실측 2026-07-21: 과거 거주지
       답에 모델이 **현재 집 동네**를 채워 넣었다). 지도 검증은 _check_home 에서 한 번 수행한다.
     받지 않은 값은 extraction_audit 에 남긴다.
     """
     kept: dict = {}
     for key, value in _flatten_fields(fields or {}).items():
-        if key not in ("name", "age", "home"):
+        if key not in ("name", "age", "sex", "home"):
             kept[key] = value
             continue
         if _norm(str(value)) == _norm(str(session.draft_fields.get(key) or "")).removesuffix("세") \
@@ -453,6 +476,10 @@ def _grounded_fields(session: InterviewSession, fields: dict, utterance: str) ->
             digits = re.findall(r"\d+", utterance)
             ok = age is not None and (not digits or str(age) in digits)
             value = f"{age}세" if ok else value
+        elif key == "sex":
+            sex = _model_sex(value)
+            ok = sex is not None and _sex_grounded(sex, utterance)
+            value = sex if ok else value
         else:
             ok = _area_grounded(str(value), utterance)
         if ok:
@@ -799,6 +826,7 @@ def _ground_profile_fields(session: InterviewSession, prev_slot: SlotSpec,
 _TYPE_KO = {
     PersonaType.dementia: "치매 어르신",
 }
+_SEX_KO = {"F": "여성", "M": "남성"}
 
 # 확인 게이트의 판정(이대로 등록 / 고칠 내용 있음 / 고치겠다고만 함)도 Mi:dm 정정
 # 호출의 intent 로 받는다(prompts.CORRECTION_SYSTEM). 예전 규칙이 막던 실측 사례:
@@ -811,7 +839,7 @@ _TYPE_KO = {
 def _ask_what_to_correct(session: InterviewSession) -> str:
     """무엇을 고칠지 되묻는다 — 고칠 수 있는 항목을 그대로 보여준다."""
     grouped, _ = _group_behaviors(session)
-    parts = ["성함·나이", "지내시는 곳"]
+    parts = ["성함·나이·성별", "지내시는 곳"]
     if session.draft_attractions:
         parts.append("가시려 할 만한 곳")
     for key in grouped:
@@ -946,6 +974,8 @@ def build_summary(session: InterviewSession) -> str:
     if f.get("age"):
         age_num = re.sub(r"[^0-9]", "", str(f["age"]))   # "78세" → "78" (중복 '세' 방지)
         who.append(f"{age_num}세" if age_num else str(f["age"]))
+    if f.get("sex") in _SEX_KO:
+        who.append(_SEX_KO[f["sex"]])
     who.append(_TYPE_KO.get(session.persona_type, "—"))
     lines.append(f"• 대상자: {', '.join(who)}")
 
@@ -2386,6 +2416,8 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
             persona.name = str(f["name"])
         if f.get("age"):
             persona.age = _parse_age(f["age"])
+        if _model_sex(f.get("sex")):
+            persona.sex = _model_sex(f["sex"])
         if session.guardian_id:
             persona.guardian_id = session.guardian_id   # 비었으면 기존 값 보존
         persona.home = home
@@ -2397,6 +2429,7 @@ def finalize_persona(session: InterviewSession, geocoder=None) -> Persona:
             type=session.persona_type,
             name=str(f.get("name") or "미상"),
             age=_parse_age(f.get("age")),
+            sex=_model_sex(f.get("sex")),
             guardian_id=session.guardian_id,
             home=home,
             attraction_points=new_points,
@@ -2462,6 +2495,7 @@ def register_persona(
     attraction_points: list[AttractionPoint] | None = None,
     behavior_notes: list[str] | None = None,
     guardian_id: str = "",
+    sex: str | None = None,
 ) -> Persona:
     """페르소나 등록 (구조화 필드 직접 입력).
 
@@ -2482,6 +2516,7 @@ def register_persona(
         type=ptype,
         name=name,
         age=age,
+        sex=_model_sex(sex),
         home=home,
         guardian_id=owner,
         attraction_points=attraction_points or [],

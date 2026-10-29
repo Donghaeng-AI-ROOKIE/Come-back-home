@@ -82,6 +82,8 @@ export type Persona = {
   id: string;
   name: string;
   age: number;
+  /** 등록 첫 질문에서 받은 성별. 답하지 않았거나 이 필드 전에 등록한 인물은 비어 있다. */
+  sex?: 'F' | 'M' | null;
   type: PersonaType;
   home: GeoPoint;
   attraction_points: AttractionPoint[];

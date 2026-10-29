@@ -172,6 +172,7 @@ export default function PersonaDetailScreen() {
             <InfoRow label="이름" value={persona.name || '이름'} />
             <InfoRow label="연령" value={persona.age ? `${persona.age}세` : '연령'} />
           </>}
+          <InfoRow label="성별" value={persona.sex === 'F' ? '여성' : persona.sex === 'M' ? '남성' : '미입력'} />
           <InfoRow label="유형" value={persona.type === 'dementia' ? '치매' : '유형'} />
         </View>
 
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
   sectionTitle: { height: 55, flexDirection: 'row', alignItems: 'center' },
   sectionIcon: { width: 20, alignItems: 'center', justifyContent: 'center' },
   sectionText: { fontFamily: type.familySemiBold, fontSize: 14, color: '#000000' },
-  basicCard: { height: 111, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 15, justifyContent: 'center' },
+  basicCard: { minHeight: 111, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 15, justifyContent: 'center' },
   placeCard: { minHeight: 84, borderRadius: 10, backgroundColor: color.figmaField, paddingHorizontal: 18, paddingVertical: 15, justifyContent: 'center' },
   infoRow: { minHeight: 27, flexDirection: 'row', alignItems: 'center' },
   infoKey: { width: 51, fontFamily: type.familySemiBold, fontSize: 12, color: '#316837' },

@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from enum import Enum
+from typing import Literal
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -120,6 +121,9 @@ class Persona(BaseModel):
     type: PersonaType
     name: str
     age: int
+    # 성별 "F"/"M" — 등록 첫 질문(성함·나이·성별)에서 받는다. 답하지 않았거나 이 필드 전에
+    # 등록한 인물은 None.
+    sex: Literal["F", "M"] | None = None
     home: GeoPoint
     attraction_points: list[AttractionPoint] = []
     behavior_notes: list[str] = []   # "해질녘에 옛 직장 방향으로 걷는 습관" 등 인터뷰 추출 사실
