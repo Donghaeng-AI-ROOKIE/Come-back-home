@@ -176,3 +176,43 @@ def test_witness_tip_with_front_side_word_gets_location(case, monkeypatch):
 
     assert tip.location == PARK
     assert geo.calls == ["공원 앞쪽", "공원"]
+
+
+@pytest.mark.parametrize(("text", "place"), [
+    # 10/29 팀 점검: 군포 사건 7d20c6614579 의 "수리초등학교 앞"·"수리중학교 앞"이 도로명
+    # "수리산로"로만 묶여 보호자 화면에서 구별되지 않았다.
+    ("수리초등학교 앞", "수리초등학교"),
+    ("킨텍스역 만남의 광장 앞에서", "킨텍스역 만남의 광장"),
+    ("능내초등학교 앞쪽에서", "능내초등학교"),
+    ("이름 없는 골목", "이름 없는 골목"),
+    ("", ""),
+    (None, ""),
+])
+def test_tip_place_is_the_named_place_without_position_words(text, place):
+    assert tip_flow._tip_place(text) == place
+
+
+def test_witness_tip_keeps_the_place_it_named(case, monkeypatch):
+    monkeypatch.setattr(tip_flow, "_GEO", _FakeGeo({"공원": PARK}))
+    stub = tip_flow.tip_llm.structure_tip
+    monkeypatch.setattr(tip_flow.tip_llm, "structure_tip", lambda text: {**stub(text), "location_text": "공원 앞"})
+
+    tip = tip_flow.process_tip(
+        case, text="10분 전에 공원 앞에서 회색 점퍼 입은 할아버지를 봤어요",
+        seen_at=datetime.now() - timedelta(minutes=10),  # noqa: DTZ005 — 위와 같은 이유
+        defer_heavy=True)
+
+    assert tip.place == "공원"
+    assert case.id and tip_flow.storage.cases.get(case.id).tips[-1].place == "공원"
+
+
+def test_tip_without_a_named_place_has_empty_place(case, monkeypatch):
+    stub = tip_flow.tip_llm.structure_tip
+    monkeypatch.setattr(tip_flow.tip_llm, "structure_tip", lambda text: {**stub(text), "location_text": None})
+
+    tip = tip_flow.process_tip(
+        case, text="비슷한 분을 본 것 같은데 정확하진 않아요", location=PARK,
+        seen_at=datetime.now() - timedelta(minutes=10),  # noqa: DTZ005 — 위와 같은 이유
+        defer_heavy=True)
+
+    assert tip.place == ""

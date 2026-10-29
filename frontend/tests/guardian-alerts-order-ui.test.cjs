@@ -123,3 +123,20 @@ test('the case date reads the server time as UTC: a 08:30 KST report is not show
   const html=h.render(React.createElement(CaseLifecycleCard,{item:{...ACTIVE,created_at:'2026-10-26T23:30:00'}}));
   assert.match(html,/2026\. 10\. 27\./);
 });
+
+test('tips are grouped and titled by the place the citizen named, road name only without one', () => {
+  // 10/29 팀 점검(군포 7d20c6614579): "수리초등학교 앞"·"수리중학교 앞" 제보가 둘 다 "수리산로" 묶음이었다.
+  const at=(lat,lng)=>({lat,lng});
+  const GUNPO={...ACTIVE,tips:[
+    {id:'a',text:'5분전에 수리초등학교 앞에서 봤어요',place:'수리초등학교',created_at:'2026-10-28T16:19:37',location:at(37.36018,126.91802)},
+    {id:'b',text:'2분 전에 수리중학교 앞에서 봤어요',place:'수리중학교',created_at:'2026-10-28T16:20:27',location:at(37.36093,126.91843)},
+    {id:'c',text:'수리중학교 정문에서 봤어요',place:' 수리중학교 ',created_at:'2026-10-28T16:22:00',location:at(37.36094,126.91844)},
+    {id:'d',text:'비슷한 분이 지나갔어요',created_at:'2026-10-28T16:23:00',location:at(37.3606,126.9182)}]};
+  const html=mountAlerts([GUNPO]).render();
+  assert.equal((html.match(/해당 위치에서 총/g)||[]).length,3,html);
+  assert.match(html,/>수리초등학교</);
+  assert.match(html,/>수리중학교</);
+  assert.match(html,/수리중학교<\/span><span>해당 위치에서 총 2건/,'same place with different spacing is one group');
+  // 장소를 말하지 않은 제보만 도로명 묶음이다(useAreaLabels 대역의 첫 이름).
+  assert.equal((html.match(/\[고양시 일산서구\] 킨텍스로/g)||[]).length,1);
+});

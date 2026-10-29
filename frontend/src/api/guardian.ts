@@ -107,6 +107,8 @@ export type CaseTip = {
   case_id: string;
   text: string;
   location?: GeoPoint | null;
+  /** 시민이 말한 장소 이름("수리초등학교"). 장소를 말하지 않았거나 이 필드 전의 제보는 빈 값이다. */
+  place?: string | null;
   seen_at?: string | null;
   p?: number | null;
   decision?: 'discard' | 'layer1' | 'layer2' | null;
