@@ -1,10 +1,15 @@
 ﻿/** 보호자 하단 4탭 (Figma): 홈 / 사전등록 / 알림 / 내 정보. */
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, Platform, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useQueryClient } from '@tanstack/react-query';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements';
-import type { GuardianTabParamList } from './types';
+import type { GuardianTabParamList, RootStackParamList } from './types';
+import { captureDemoTemplate, prepareNextDemoTurn } from '../api/guardian';
+import { ApiError } from '../api/config';
 import { color, radius, space, type } from '../theme/tokens';
 import { useTabBarMetrics } from '../theme/tabBar';
 import { useKeyboardVisible } from '../hooks/useKeyboardVisible';
@@ -15,7 +20,7 @@ import { useAuthStore } from '../store/authStore';
 import { useGuardianStore } from '../store/guardianStore';
 import GuardianAlertsScreen from '../screens/GuardianAlertsScreen';
 import FigmaTabIcon from '../components/FigmaTabIcon';
-import { useGuardianCases, usePersonas } from '../hooks/queries';
+import { useDemoBooth, useGuardianCases, usePersonas } from '../hooks/queries';
 import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import { listedCases } from '../utils/guardianTips';
 import { activeCases } from '../utils/guardianSearchCard';
@@ -23,13 +28,60 @@ import { guardianEmergency, guardianTabAccent } from '../utils/tabAccent';
 
 const Tab = createBottomTabNavigator<GuardianTabParamList>();
 
-/** 내 정보 — 로그아웃과 등록 현황만. 시민 마이페이지(레벨·배지)와 다르다. */
+/** 확인 창 — 웹(부스 폰은 Pages 웹앱)은 Alert 버튼이 안 떠서 window.confirm 을 쓴다. */
+function confirmAsync(title: string, message: string): Promise<boolean> {
+  if (Platform.OS === 'web') return Promise.resolve(window.confirm(`${title}\n\n${message}`));
+  return new Promise((resolve) => Alert.alert(title, message, [
+    { text: '취소', style: 'cancel', onPress: () => resolve(false) },
+    { text: '확인', style: 'destructive', onPress: () => resolve(true) },
+  ], { cancelable: true, onDismiss: () => resolve(false) }));
+}
+
+/** 내 정보 — 로그아웃과 등록 현황. 부스 계정에는 진행자 영역(템플릿 저장·다음 체험 준비)이 더 보인다. */
 function GuardianMyScreen() {
   const { user, signOut, switchRole } = useAuthStore();
   const [switching, setSwitching] = useState(false);
   const cachedPersona = useGuardianStore((s) => s.persona);
   const reset = useGuardianStore((s) => s.reset);
   const { data: personas, isLoading } = usePersonas();
+  // ── 부스 진행자(결선) — 서버가 부스 계정에만 템플릿 상태를 준다(그 외 403 → 영역 숨김) ──
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const qc = useQueryClient();
+  const booth = useDemoBooth();
+  const [busy, setBusy] = useState<null | 'capture' | 'next'>(null);
+  const boothLine = booth.data
+    ? booth.data.exists
+      ? `템플릿: ${booth.data.name ?? '-'} (${booth.data.age ?? '-'}세) · 대화 ${booth.data.n_messages ?? 0}줄${booth.data.label ? ` · ${booth.data.label}` : ''}`
+      : '템플릿 없음 — 사전 등록을 "이렇게 등록할게요" 요약까지 진행한 뒤 저장하세요'
+    : '';
+  const captureTemplate = async () => {
+    if (busy) return;
+    if (!(await confirmAsync('템플릿으로 저장', '지금 요약 확인 중인 대화를 다음 체험자들의 시작 상태로 저장합니다. 기존 템플릿은 덮어씁니다.'))) return;
+    setBusy('capture');
+    try {
+      const meta = await captureDemoTemplate('부스');
+      await booth.refetch();
+      Alert.alert('저장했습니다', `${meta.name ?? '-'} (${meta.age ?? '-'}세) · 대화 ${meta.n_messages ?? 0}줄`);
+    } catch (e) {
+      Alert.alert('저장하지 못했습니다', e instanceof ApiError ? e.message : String(e));
+    } finally { setBusy(null); }
+  };
+  const nextTurn = async () => {
+    if (busy) return;
+    if (!(await confirmAsync('다음 체험 준비', '이 계정의 신고는 철회 종결되고 등록된 가족은 지워집니다. 템플릿을 복제해 "맞아요" 직전 화면으로 엽니다.'))) return;
+    setBusy('next');
+    try {
+      const r = await prepareNextDemoTurn('보호자');
+      // 이전 체험의 캐시(등록 가족·사건)를 비운다 — 안 비우면 홈에 지운 가족이 남아 보인다.
+      reset();
+      qc.removeQueries({ queryKey: ['personas'] });
+      qc.removeQueries({ queryKey: ['personaStatus'] });
+      qc.removeQueries({ queryKey: ['guardianCases'] });
+      navigation.navigate('RegChat', { sessionId: r.session.id });
+    } catch (e) {
+      Alert.alert('준비하지 못했습니다', e instanceof ApiError ? e.message : String(e));
+    } finally { setBusy(null); }
+  };
   const registered = personas?.length
     ? personas.map((persona) => `${persona.name} (${persona.age}세)`).join(', ')
     : cachedPersona ? `${cachedPersona.name} (${cachedPersona.age}세)` : '없음';
@@ -55,6 +107,20 @@ function GuardianMyScreen() {
             {isLoading && !cachedPersona ? '불러오는 중…' : registered}
           </Text>
         </View>
+        {booth.data ? (
+          <View style={styles.card}>
+            <Text style={styles.rowKey} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              부스 진행자
+            </Text>
+            <Text style={styles.rowVal} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+              {boothLine}
+            </Text>
+            <View style={styles.divider} />
+            <CTAButton label={busy === 'capture' ? '저장 중…' : '지금 대화를 템플릿으로 저장'} onPress={captureTemplate} variant="ghost" />
+            <View style={styles.switchGap} />
+            <CTAButton label={busy === 'next' ? '준비 중…' : '다음 체험 준비'} onPress={nextTurn} />
+          </View>
+        ) : null}
         <View style={styles.spacer} />
         {/* 역할을 바꿔야 하는 경우가 실제로 있다 — 가입할 때 잘못 고르면 보호자
             계정으로는 산책·제보 화면에 갈 수 없고, 계정을 새로 만드는 수밖에

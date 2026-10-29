@@ -6,6 +6,7 @@
 
 import logging
 import threading
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -89,6 +90,11 @@ app.include_router(debug.router)
 app.include_router(walk.router)
 app.include_router(geo.router)
 app.include_router(auth.router)
+# 부스 시연(결선) — 온보딩 템플릿 복제·턴 리셋. 평소 서버에는 없고 배포 compose 가
+# DEMO_ONBOARDING=true 로 켤 때만 생긴다. 공개 경로 허용은 cloud_bridge/policy.py 가 따로 건다.
+if os.environ.get("DEMO_ONBOARDING", "").lower() == "true":
+    from app.api import demo_onboarding
+    app.include_router(demo_onboarding.router)
 
 
 @app.get("/dashboard", include_in_schema=False)

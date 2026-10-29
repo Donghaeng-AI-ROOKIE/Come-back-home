@@ -141,6 +141,41 @@ export type Case = {
 };
 
 // ── Phase 0 — 사전등록 인터뷰 ────────────────────────────────────
+// ── 부스 시연(결선) — 진행자 기능 ───────────────────────────────────
+// 앱 번들은 모든 사용자에게 같다. 서버(worker policy)가 DEMO_GUARDIAN_IDS 에 적힌
+// 부스 계정에만 이 경로를 열고, 그 외 계정은 403 — 그래서 "내 정보" 탭은 템플릿 조회가
+// 성공한 계정에만 진행자 영역을 보여준다. 소유자 id 는 서버가 로그인 계정으로 강제한다.
+export type DemoTemplateMeta = {
+  exists: boolean; label?: string; captured_at?: string | null; source_session_id?: string | null;
+  name?: string | null; age?: number | null; home?: string | null; n_attractions?: number; n_messages?: number;
+};
+/** 저장된 템플릿 요약. 없으면 `exists: false`(404 아님). 부스 계정이 아니면 403. */
+export function getDemoTemplate() {
+  return api<DemoTemplateMeta>('/phase0/demo/onboarding/template');
+}
+/**
+ * 지금 "이렇게 등록할게요" 요약까지 진행된 이 계정의 대화를 템플릿으로 저장한다.
+ * 세션 id 는 서버가 가장 최근 확인 대기 세션으로 고른다(진행자는 id 를 모른다).
+ */
+export function captureDemoTemplate(label = '') {
+  return api<DemoTemplateMeta>('/phase0/demo/onboarding/template', {
+    method: 'POST', body: JSON.stringify({ label }),
+  });
+}
+export type DemoNextTurn = {
+  session: InterviewSession;
+  reset: { closed_cases: string[]; purged_personas: string[]; purged_interviews: string[] };
+};
+/**
+ * 다음 체험 준비 — 이 계정의 이전 체험(수색 중 사건 → 철회 종결, 페르소나·인터뷰 파기)을
+ * 정리하고 템플릿을 새 세션으로 복제한다. 응답의 세션 id 로 등록 채팅을 연다.
+ */
+export function prepareNextDemoTurn(guardianName: string) {
+  return api<DemoNextTurn>('/phase0/demo/onboarding/sessions', {
+    method: 'POST', body: JSON.stringify({ guardian_name: guardianName }),
+  });
+}
+
 export function startInterview(guardianName: string, personaType?: PersonaType, guardianId?: string) {
   return api<InterviewSession>('/phase0/interviews', {
     method: 'POST',

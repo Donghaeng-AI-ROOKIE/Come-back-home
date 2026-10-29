@@ -35,6 +35,11 @@ services:
       # with this off every alert falls back to "내 주변".
       REVERSE_GEOCODE_ON_INTAKE: 'true'
       REFLEX_ALERT_ON_INTAKE: 'true'
+      # 결선 부스 시연 — 온보딩 템플릿 복제·턴 리셋(app/api/demo_onboarding.py).
+      # 부스 보호자 계정 UUID(쉼표 구분)를 적은 계정만 /phase0/demo/* 를 쓸 수 있다.
+      DEMO_ONBOARDING: ${CBH_DEMO_ONBOARDING:-false}
+      DEMO_GUARDIAN_IDS: ${CBH_DEMO_GUARDIAN_IDS:-}
+      DEMO_ONBOARDING_TEMPLATE: /app/data/demo/onboarding_template.json
     volumes:
       - ${CBH_CLOUD_DATA:?use a NEW cloud data directory}:/app/data
       - ${CBH_ASSETS:?existing read-only KINTEX and RAG assets}:/app/assets:ro

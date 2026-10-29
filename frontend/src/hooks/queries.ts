@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getActiveAlerts, getGuidance, getNearbyWalks, getPoaPrediction, getResolvedAlerts, touchPresence } from '../api/client';
 import { isCaseEnded } from '../api/errors';
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
-import { getAreaLabels, getCase, getMyCases, getPersonaStatus, listPersonas, runPrediction } from '../api/guardian';
+import { getAreaLabels, getCase, getDemoTemplate, getMyCases, getPersonaStatus, listPersonas, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
 import { useAuthStore } from '../store/authStore';
 import { useDebugStore } from '../store/debugStore';
@@ -358,6 +358,22 @@ export function usePersonas() {
  * `usePersonas` 와 같은 갱신 정책을 쓴다 — 보완챗을 마치고 홈으로 돌아왔을 때
  * 카드가 옛 상태로 남아 있으면 방금 답한 게 반영이 안 된 것처럼 보인다.
  */
+/**
+ * 부스 진행자 영역(내 정보 탭) 표시 여부 — 서버가 부스 계정(DEMO_GUARDIAN_IDS)에만
+ * 템플릿 상태를 준다. 다른 계정은 403 이라 data 가 없고 영역이 숨는다. 탭을 열 때만
+ * 한 번 묻고 1분간 재사용한다(큐 작업 1건).
+ */
+export function useDemoBooth() {
+  const userId = useAuthStore((s) => s.userId);
+  return useQuery({
+    queryKey: ['demoBooth', userId],
+    queryFn: () => getDemoTemplate(),
+    enabled: userId != null,
+    retry: false,
+    staleTime: 60_000,
+  });
+}
+
 export function usePersonaStatus() {
   const userId = useAuthStore((s) => s.userId);
   return useQuery({

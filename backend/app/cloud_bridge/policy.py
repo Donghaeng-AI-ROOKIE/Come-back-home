@@ -6,6 +6,7 @@ The existing API must remain private: this policy protects the bridge, not a
 separately exposed uvicorn process.
 """
 from dataclasses import dataclass
+import os
 import re
 import math
 from urllib.parse import parse_qsl, urlencode, urlsplit
@@ -27,6 +28,17 @@ def _own(repo, key: str, owner: str, field: str = "guardian_id"):
     if row is None or getattr(row, field, None) != owner:
         raise HTTPException(404, "내 계정의 기록을 찾을 수 없습니다.")
     return row
+
+
+def _booth_account(owner: str) -> None:
+    """부스 시연 경로는 DEMO_GUARDIAN_IDS(쉼표 구분)에 적힌 계정만. 비어 있으면 아무도 못 쓴다.
+
+    공개 앱 번들은 모든 사용자에게 같으므로 '체험용'을 가르는 건 계정뿐이다.
+    거절 문구는 미지원 경로와 같게 둔다 — 부스 기능의 존재를 드러내지 않는다.
+    """
+    allowed = {x.strip() for x in os.environ.get("DEMO_GUARDIAN_IDS", "").split(",") if x.strip()}
+    if owner not in allowed:
+        raise HTTPException(403, "공개 앱에서 지원하지 않는 기능입니다.")
 
 
 def authorize(owner: str, method: str, path: str, body) -> Request:
@@ -66,7 +78,25 @@ def authorize(owner: str, method: str, path: str, body) -> Request:
         if not allowed or query:raise HTTPException(403,'지원하지 않는 알림 요청입니다.')
         data['owner_id']=owner
         return Request(method,p,data if method!='GET' else None)
-    if p in ("/phase0/interviews", "/phase0/interviews/sessions") and method == "POST":
+    if p.startswith("/phase0/demo/"):
+        # 부스 시연(결선) — 진행자 버튼 2개와 상태 조회. app.api.demo_onboarding 참조.
+        _booth_account(owner)
+        if p == "/phase0/demo/onboarding/template" and method == "GET":
+            query = {"guardian_id": owner}
+            allowed = True
+        elif p == "/phase0/demo/onboarding/template" and method == "POST":
+            if data.get("session_id"):
+                _own(storage.interviews, data["session_id"], owner)
+            data = {"guardian_id": owner, "session_id": data.get("session_id") or None,
+                    "label": str(data.get("label") or "")[:80]}
+            allowed = True
+        elif p == "/phase0/demo/onboarding/sessions" and method == "POST":
+            data = {"guardian_id": owner, "guardian_name": str(data.get("guardian_name") or "보호자")[:40]}
+            allowed = True
+        elif p == "/phase0/demo/onboarding/reset" and method == "POST":
+            data = {"guardian_id": owner}
+            allowed = True
+    elif p in ("/phase0/interviews", "/phase0/interviews/sessions") and method == "POST":
         data["guardian_id"] = owner
         allowed = True
     elif p in ("/phase0/personas", "/phase0/personas/status") and method == "GET":
