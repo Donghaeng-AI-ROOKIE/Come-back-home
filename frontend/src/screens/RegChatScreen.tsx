@@ -10,7 +10,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
 import { ApiError } from '../api/config';
-import { answerInterview, getPersona, linkCasePersona, listSlots, startInterview, startSupplementInterview, startTier1Interview, type InterviewSession, type SlotInfo } from '../api/guardian';
+import { answerInterview, getInterview, getPersona, linkCasePersona, listSlots, startInterview, startSupplementInterview, startTier1Interview, type InterviewSession, type SlotInfo } from '../api/guardian';
 import { useGuardianStore } from '../store/guardianStore';
 import { useAuthStore } from '../store/authStore';
 import BackIcon from '../../assets/figma/detail-back.svg';
@@ -29,6 +29,9 @@ export default function RegChatScreen() {
   // 보완챗 — 빠른 등록이 안 물은 Tier2·3 을 채운다. quick 과 달리 **새 persona 를
   // 만들지 않고 기존 것을 갱신**하므로, 끝난 뒤 갈 곳도 등록 완료 화면이 아니다.
   const supplement = route.params?.mode === 'supplement';
+  // 부스 시연 — 진행자가 "내 정보 → 다음 체험 준비"로 만든 복제 세션(요약 확인 대기).
+  // 새로 만들지 않고 그대로 열며, "맞아요"부터는 평소 온보딩과 완전히 같다.
+  const presetSessionId = route.params?.sessionId;
   const [session, setSession] = useState<InterviewSession | null>(null);
   const [slots, setSlots] = useState<SlotInfo[]>([]);
   const [input, setInput] = useState('');
@@ -46,15 +49,17 @@ export default function RegChatScreen() {
       // 빠른 등록(신고 직전 미니챗)은 **Tier1 5문항만** 묻는다. 여기까지 온 보호자는
       // 이미 가족이 사라진 상태라, 온보딩과 같은 12문항을 물으면 골든타임이 대화로
       // 간다. 나머지 7문항은 신고 접수 뒤 보완챗이 받는다.
-      const opening = quick
-        ? startTier1Interview(GUARDIAN_NAME, guardianId ?? undefined)
-        : supplement
-          ? startSupplementInterview(GUARDIAN_NAME, guardianId ?? undefined)
-          : startInterview(GUARDIAN_NAME, undefined, guardianId ?? undefined);
+      const opening = presetSessionId
+        ? getInterview(presetSessionId)
+        : quick
+          ? startTier1Interview(GUARDIAN_NAME, guardianId ?? undefined)
+          : supplement
+            ? startSupplementInterview(GUARDIAN_NAME, guardianId ?? undefined)
+            : startInterview(GUARDIAN_NAME, undefined, guardianId ?? undefined);
       const [nextSession, catalog] = await Promise.all([opening, listSlots().catch(() => [] as SlotInfo[])]);
       setSession(nextSession); setSlots(catalog);
     } catch (e) { setError(e instanceof ApiError ? e.message : String(e)); }
-  }, [guardianId, quick, supplement]);
+  }, [guardianId, quick, supplement, presetSessionId]);
 
   useEffect(() => { begin(); }, [begin]);
 
