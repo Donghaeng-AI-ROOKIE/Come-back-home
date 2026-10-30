@@ -194,14 +194,15 @@ def _reset(guardian_id: str) -> dict:
             "purged_personas": purged_personas, "purged_interviews": purged_interviews}
 
 
-def _clone(guardian_id: str, guardian_name: str) -> InterviewSession:
+def _prepare_clone(guardian_id: str, guardian_name: str) -> InterviewSession:
+    """템플릿을 한 번 읽고 검증한다. 기존 자료를 지우기 전에는 저장하지 않는다."""
     data = _read_template()
     if data is None:
         raise HTTPException(404, f"온보딩 템플릿 없음 — 먼저 템플릿을 저장하세요 ({template_path()})")
-    raw = dict(data.get("session", {}))
-    for k in _RESET_ON_CLONE:
-        raw.pop(k, None)
     try:
+        raw = dict(data.get("session", {}))
+        for k in _RESET_ON_CLONE:
+            raw.pop(k, None)
         session = InterviewSession(
             id=storage.new_id(), guardian_id=guardian_id, guardian_name=guardian_name,
             persona_id=None, done=False, skip_confirmation=False, llm_call_failures=0,
@@ -211,7 +212,6 @@ def _clone(guardian_id: str, guardian_name: str) -> InterviewSession:
         raise HTTPException(500, f"템플릿이 현재 세션 스키마와 맞지 않음 — 다시 저장하세요 ({type(e).__name__})") from e
     if not session.awaiting_confirmation:
         raise HTTPException(500, "템플릿이 확인 대기 상태가 아님 — 다시 저장하세요")
-    storage.interviews.save(session.id, session)
     return session
 
 
@@ -226,13 +226,13 @@ def next_turn(body: CloneIn):
 
     응답의 `session` 은 `InterviewSession` 전체(대화 전문 포함). 앱은 등록 채팅 화면을
     이 세션 id 로 열고, 체험자의 "맞아요"는 기존 `/phase0/interviews/{id}/answers` 로 간다.
-    템플릿이 없으면 404 — 아무것도 지우지 않는다(리셋은 복제가 가능할 때만).
+    템플릿이 없거나 현재 스키마·확인 대기 조건을 충족하지 않으면 아무것도 지우지 않는다.
     """
     _require_booth(body.guardian_id)
-    if _read_template() is None:
-        raise HTTPException(404, f"온보딩 템플릿 없음 — 먼저 템플릿을 저장하세요 ({template_path()})")
+    session = _prepare_clone(body.guardian_id, body.guardian_name)
     reset = _reset(body.guardian_id)
-    session = _clone(body.guardian_id, body.guardian_name)
+    # 리셋 사이 템플릿이 바뀌어도 다시 읽지 않고 검증한 객체를 그대로 저장한다.
+    storage.interviews.save(session.id, session)
     return NextTurnOut(session=session, reset=reset)
 
 

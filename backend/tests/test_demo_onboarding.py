@@ -4,10 +4,14 @@
 고정하므로 "맞아요" 판정은 결정론적으로 confirm 이다.
 """
 
+import json
+from unittest.mock import Mock
+
 import pytest
 from fastapi.testclient import TestClient
 
 from app import storage
+from app.api import demo_onboarding
 from app.demo_main import app
 from app.schemas.persona import InterviewSession
 
@@ -178,3 +182,55 @@ def test_clone_stamps_fresh_last_active_at():
     client.post("/phase0/demo/onboarding/template", json={"guardian_id": "template-author", "session_id": src.id})
     fresh = client.post("/phase0/demo/onboarding/sessions", json={"guardian_id": GUARDIAN}).json()["session"]
     assert datetime.fromisoformat(fresh["last_active_at"]) > datetime.now() - timedelta(minutes=1)
+
+
+@pytest.mark.parametrize("invalid_fields", [
+    {"persona_type": "unsupported-type"},
+    {"awaiting_confirmation": False},
+])
+def test_invalid_template_does_not_reset_existing_records(monkeypatch, invalid_fields):
+    src = _awaiting_session()
+    assert client.post("/phase0/demo/onboarding/template", json={
+        "guardian_id": "template-author", "session_id": src.id}).status_code == 200
+    existing = _awaiting_session("keep-existing")
+    existing.guardian_id = GUARDIAN
+    storage.interviews.save(existing.id, existing)
+    path = demo_onboarding.template_path()
+    data = json.loads(path.read_text(encoding="utf-8"))
+    data["session"].update(invalid_fields)
+    path.write_text(json.dumps(data), encoding="utf-8")
+    reset = Mock(wraps=demo_onboarding._reset)
+    monkeypatch.setattr(demo_onboarding, "_reset", reset)
+
+    response = client.post("/phase0/demo/onboarding/sessions", json={"guardian_id": GUARDIAN})
+
+    assert response.status_code == 500
+    reset.assert_not_called()
+    assert storage.interviews.get(existing.id).model_dump() == existing.model_dump()
+
+
+def test_next_turn_saves_the_snapshot_validated_before_reset(monkeypatch):
+    guardian = "snapshot-guardian-test"
+    src = _awaiting_session()
+    assert client.post("/phase0/demo/onboarding/template", json={
+        "guardian_id": "template-author", "session_id": src.id}).status_code == 200
+    real_reset = demo_onboarding._reset
+
+    def reset_then_replace_template(guardian_id):
+        # The clone must not be saved before reset, which would delete it again.
+        assert not any(s.guardian_id == guardian_id for s in storage.interviews.list())
+        result = real_reset(guardian_id)
+        # Simulate a template replacement after validation but before saving the session.
+        demo_onboarding.template_path().write_text(
+            json.dumps({"session": {"awaiting_confirmation": False}}), encoding="utf-8")
+        return result
+
+    monkeypatch.setattr(demo_onboarding, "_reset", reset_then_replace_template)
+    response = client.post("/phase0/demo/onboarding/sessions", json={"guardian_id": guardian})
+
+    assert response.status_code == 200
+    session = response.json()["session"]
+    assert session["awaiting_confirmation"] is True
+    assert session["messages"] == src.messages
+    assert session["draft_fields"] == src.draft_fields
+    assert storage.interviews.get(session["id"]).model_dump(mode="json") == session
