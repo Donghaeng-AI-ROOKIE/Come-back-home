@@ -96,3 +96,39 @@ def test_dispatch_preserves_http_errors_and_uses_asgi_without_network():
             return await dispatch(api,dict(owner_id=OWNER,method='GET',path='/walk/stats?user_id='+OTHER),enabled=True)
     status,result=asyncio.run(run())
     assert status==200 and result['user_id']==OWNER
+
+
+# ── 부스 시연 경로(/phase0/demo/*): DEMO_GUARDIAN_IDS 에 적힌 계정만, 소유자 강제 ──
+def test_demo_paths_are_denied_unless_owner_is_a_listed_booth_account(monkeypatch):
+    monkeypatch.delenv('DEMO_GUARDIAN_IDS', raising=False)
+    for method, path in (('GET', '/phase0/demo/onboarding/template'), ('POST', '/phase0/demo/onboarding/template'),
+                         ('POST', '/phase0/demo/onboarding/sessions'), ('POST', '/phase0/demo/onboarding/reset')):
+        with pytest.raises(HTTPException) as exc:
+            authorize(OWNER, method, path, {} if method == 'POST' else None)
+        assert exc.value.status_code == 403
+    monkeypatch.setenv('DEMO_GUARDIAN_IDS', OTHER)
+    with pytest.raises(HTTPException) as exc:
+        authorize(OWNER, 'POST', '/phase0/demo/onboarding/sessions', {})
+    assert exc.value.status_code == 403
+
+
+def test_demo_paths_force_owner_and_check_session_ownership(monkeypatch):
+    monkeypatch.setenv('DEMO_GUARDIAN_IDS', f' {OWNER} ,{OTHER}')
+    r = authorize(OWNER, 'POST', '/phase0/demo/onboarding/sessions', {'guardian_id': OTHER, 'guardian_name': 'x' * 100})
+    assert r.body == {'guardian_id': OWNER, 'guardian_name': 'x' * 40}
+    r = authorize(OWNER, 'POST', '/phase0/demo/onboarding/reset', {'guardian_id': OTHER})
+    assert r.body == {'guardian_id': OWNER}
+    r = authorize(OWNER, 'GET', '/phase0/demo/onboarding/template', None)
+    assert r.path == f'/phase0/demo/onboarding/template?guardian_id={OWNER}' and r.body is None
+    # 세션 id 를 주면 내 것이어야 한다
+    monkeypatch.setattr(storage.interviews, 'get', lambda _: SimpleNamespace(guardian_id=OTHER))
+    with pytest.raises(HTTPException) as exc:
+        authorize(OWNER, 'POST', '/phase0/demo/onboarding/template', {'session_id': 'theirs'})
+    assert exc.value.status_code == 404
+    monkeypatch.setattr(storage.interviews, 'get', lambda _: SimpleNamespace(guardian_id=OWNER))
+    r = authorize(OWNER, 'POST', '/phase0/demo/onboarding/template', {'session_id': 'mine', 'label': 'L', 'guardian_id': OTHER})
+    assert r.body == {'guardian_id': OWNER, 'session_id': 'mine', 'label': 'L'}
+    # 다른 /phase0/demo/ 경로는 없다
+    with pytest.raises(HTTPException) as exc:
+        authorize(OWNER, 'DELETE', '/phase0/demo/onboarding/template', None)
+    assert exc.value.status_code == 403

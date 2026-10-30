@@ -73,6 +73,15 @@ export default function ResolvedDetailScreen() {
         >
           <Text style={styles.primaryText}>목록으로</Text>
         </Pressable>
+        {/* 처음으로 — 수색이 끝난 뒤 안심 홈으로. 부스에서는 체험이 끝난 시민 폰을 다음 체험자 상태로 돌리는 버튼이기도 하다
+            (서버 호출 없음 — 보호자 쪽 턴 리셋은 보호자 폰 "내 정보 → 다음 체험 준비"). */}
+        <Pressable
+          style={({ pressed }) => [styles.secondary, pressed && styles.pressed]}
+          onPress={() => navigation.navigate('CitizenTabs', { screen: 'Home' })}
+          accessibilityRole="button"
+        >
+          <Text style={styles.secondaryText}>처음으로</Text>
+        </Pressable>
       </ScrollView>
       <FigmaFlowTabBar mode="citizen" active="alert" />
     </SafeAreaView>
@@ -124,5 +133,7 @@ const styles = StyleSheet.create({
   notice: { marginTop: 8, textAlign: 'center', fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray },
   primary: { marginTop: 28, marginHorizontal: -13, height: 58, borderRadius: 30, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   primaryText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
+  secondary: { marginTop: 12, marginHorizontal: -13, height: 58, borderRadius: 30, backgroundColor: '#FFFFFF', borderWidth: 2, borderColor: color.brand, alignItems: 'center', justifyContent: 'center' },
+  secondaryText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: color.brand },
   pressed: { opacity: 0.82 },
 });
