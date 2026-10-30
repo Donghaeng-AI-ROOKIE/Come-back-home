@@ -1,6 +1,6 @@
 ﻿/** 보호자 하단 4탭 (Figma): 홈 / 사전등록 / 알림 / 내 정보. */
-import React, { useEffect, useRef, useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, Platform, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useQueryClient } from '@tanstack/react-query';
@@ -8,9 +8,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements';
 import type { GuardianTabParamList, RootStackParamList } from './types';
-import { captureDemoTemplate } from '../api/guardian';
+import { captureDemoTemplate, prepareNextDemoTurn } from '../api/guardian';
 import { ApiError } from '../api/config';
-import { confirmAsync } from '../utils/confirmAsync';
 import { color, radius, space, type } from '../theme/tokens';
 import { useTabBarMetrics } from '../theme/tabBar';
 import { useKeyboardVisible } from '../hooks/useKeyboardVisible';
@@ -21,7 +20,7 @@ import { useAuthStore } from '../store/authStore';
 import { useGuardianStore } from '../store/guardianStore';
 import GuardianAlertsScreen from '../screens/GuardianAlertsScreen';
 import FigmaTabIcon from '../components/FigmaTabIcon';
-import { useDemoBooth, useDemoPending, useGuardianCases, usePersonas } from '../hooks/queries';
+import { useDemoBooth, useGuardianCases, usePersonas } from '../hooks/queries';
 import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import { listedCases } from '../utils/guardianTips';
 import { activeCases } from '../utils/guardianSearchCard';
@@ -29,7 +28,16 @@ import { guardianEmergency, guardianTabAccent } from '../utils/tabAccent';
 
 const Tab = createBottomTabNavigator<GuardianTabParamList>();
 
-/** 내 정보 — 로그아웃과 등록 현황. 부스 계정에는 진행자 영역(템플릿 저장)이 더 보인다. 턴 리셋은 시민 폰의 '처음으로'. */
+/** 확인 창 — 웹(부스 폰은 Pages 웹앱)은 Alert 버튼이 안 떠서 window.confirm 을 쓴다. */
+function confirmAsync(title: string, message: string): Promise<boolean> {
+  if (Platform.OS === 'web') return Promise.resolve(window.confirm(`${title}\n\n${message}`));
+  return new Promise((resolve) => Alert.alert(title, message, [
+    { text: '취소', style: 'cancel', onPress: () => resolve(false) },
+    { text: '확인', style: 'destructive', onPress: () => resolve(true) },
+  ], { cancelable: true, onDismiss: () => resolve(false) }));
+}
+
+/** 내 정보 — 로그아웃과 등록 현황. 부스 계정에는 진행자 영역(템플릿 저장·다음 체험 준비)이 더 보인다. */
 function GuardianMyScreen() {
   const { user, userId, signOut, switchRole } = useAuthStore();
   const [switching, setSwitching] = useState(false);
@@ -37,8 +45,10 @@ function GuardianMyScreen() {
   const reset = useGuardianStore((s) => s.reset);
   const { data: personas, isLoading } = usePersonas();
   // ── 부스 진행자(결선) — 서버가 부스 계정에만 템플릿 상태를 준다(그 외 403 → 영역 숨김) ──
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const qc = useQueryClient();
   const booth = useDemoBooth();
-  const [busy, setBusy] = useState<null | 'capture'>(null);
+  const [busy, setBusy] = useState<null | 'capture' | 'next'>(null);
   const boothLine = booth.data
     ? booth.data.exists
       ? `템플릿: ${booth.data.name ?? '-'} (${String(booth.data.age ?? '-').replace(/세$/, '')}세) · 대화 ${booth.data.n_messages ?? 0}줄${booth.data.label ? ` · ${booth.data.label}` : ''}`
@@ -54,6 +64,22 @@ function GuardianMyScreen() {
       Alert.alert('저장했습니다', `${meta.name ?? '-'} (${String(meta.age ?? '-').replace(/세$/, '')}세) · 대화 ${meta.n_messages ?? 0}줄`);
     } catch (e) {
       Alert.alert('저장하지 못했습니다', e instanceof ApiError ? e.message : String(e));
+    } finally { setBusy(null); }
+  };
+  const nextTurn = async () => {
+    if (busy) return;
+    if (!(await confirmAsync('다음 체험 준비', '이 계정의 신고는 철회 종결되고 등록된 가족은 지워집니다. 템플릿을 복제해 "맞아요" 직전 화면으로 엽니다.'))) return;
+    setBusy('next');
+    try {
+      const r = await prepareNextDemoTurn('보호자', userId ?? undefined);
+      // 이전 체험의 캐시(등록 가족·사건)를 비운다 — 안 비우면 홈에 지운 가족이 남아 보인다.
+      reset();
+      qc.removeQueries({ queryKey: ['personas'] });
+      qc.removeQueries({ queryKey: ['personaStatus'] });
+      qc.removeQueries({ queryKey: ['guardianCases'] });
+      navigation.navigate('RegChat', { sessionId: r.session.id });
+    } catch (e) {
+      Alert.alert('준비하지 못했습니다', e instanceof ApiError ? e.message : String(e));
     } finally { setBusy(null); }
   };
   const registered = personas?.length
@@ -91,9 +117,8 @@ function GuardianMyScreen() {
             </Text>
             <View style={styles.divider} />
             <CTAButton label={busy === 'capture' ? '저장 중…' : '지금 대화를 템플릿으로 저장'} onPress={captureTemplate} variant="ghost" />
-            <Text style={styles.rowKey} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
-              다음 체험 준비는 시민 폰 '상황 종료' 화면의 '처음으로'로 합니다. 이 폰은 자동으로 요약 화면이 열립니다.
-            </Text>
+            <View style={styles.switchGap} />
+            <CTAButton label={busy === 'next' ? '준비 중…' : '다음 체험 준비'} onPress={nextTurn} />
           </View>
         ) : null}
         <View style={styles.spacer} />
@@ -129,35 +154,7 @@ function GuardianMyScreen() {
   );
 }
 
-/** 이미 연 복제 세션 — 탭이 다시 마운트돼도 같은 세션을 두 번 열지 않는다. */
-let openedPendingSession: string | null = null;
-
-/**
- * 부스 보호자 폰: 시민 폰의 '처음으로'가 만든 복제 세션이 생기면 등록 채팅(요약 확인)을 스스로 연다.
- * 서버가 부스 계정에만 pending 을 주므로(그 외 403) 일반 사용자는 폴링하지 않는다.
- */
-function useDemoAutoOpen() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const qc = useQueryClient();
-  const reset = useGuardianStore((s) => s.reset);
-  const booth = useDemoBooth();
-  const pending = useDemoPending(!!booth.data);
-  const sessionId = pending.data?.session_id ?? null;
-  const resetRef = useRef(reset); resetRef.current = reset;
-  useEffect(() => {
-    if (!sessionId || sessionId === openedPendingSession) return;
-    openedPendingSession = sessionId;
-    // 이전 체험의 캐시(등록 가족·사건)를 비운다 — 안 비우면 홈에 지운 가족이 남아 보인다.
-    resetRef.current();
-    qc.removeQueries({ queryKey: ['personas'] });
-    qc.removeQueries({ queryKey: ['personaStatus'] });
-    qc.removeQueries({ queryKey: ['guardianCases'] });
-    navigation.navigate('RegChat', { sessionId });
-  }, [sessionId, navigation, qc]);
-}
-
 export default function GuardianTabs() {
-  useDemoAutoOpen();
   // 시민 탭과 같은 이유로 안전영역을 더해서 높이를 정한다 (theme/tabBar.ts).
   const tabBar = useTabBarMetrics();
   // 키보드가 떠 있으면 탭바를 감춘다 — 앱이 보이는 높이로 줄어들면서 탭바가

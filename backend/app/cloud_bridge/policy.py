@@ -90,9 +90,6 @@ def authorize(owner: str, method: str, path: str, body) -> Request:
             data = {"guardian_id": owner, "session_id": data.get("session_id") or None,
                     "label": str(data.get("label") or "")[:80]}
             allowed = True
-        elif p == "/phase0/demo/onboarding/pending" and method == "GET":
-            query = {"guardian_id": owner}
-            allowed = True
         elif p == "/phase0/demo/onboarding/sessions" and method == "POST":
             data = {"guardian_id": owner, "guardian_name": str(data.get("guardian_name") or "보호자")[:40]}
             allowed = True

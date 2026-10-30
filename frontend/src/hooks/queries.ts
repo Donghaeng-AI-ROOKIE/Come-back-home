@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getActiveAlerts, getGuidance, getNearbyWalks, getPoaPrediction, getResolvedAlerts, touchPresence } from '../api/client';
 import { isCaseEnded } from '../api/errors';
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
-import { getAreaLabels, getCase, getDemoPending, getDemoTemplate, getMyCases, getPersonaStatus, listPersonas, runPrediction } from '../api/guardian';
+import { getAreaLabels, getCase, getDemoTemplate, getMyCases, getPersonaStatus, listPersonas, runPrediction } from '../api/guardian';
 import { useAppModeStore } from '../store/appModeStore';
 import { useAuthStore } from '../store/authStore';
 import { useDebugStore } from '../store/debugStore';
@@ -371,23 +371,6 @@ export function useDemoBooth() {
     enabled: userId != null,
     retry: false,
     staleTime: 60_000,
-  });
-}
-
-/**
- * 보호자 폰: 시민 폰의 '처음으로'가 만든 복제 세션을 몇 초마다 확인한다(부스 계정일 때만).
- * 새 세션이 있으면 GuardianTabs 가 등록 채팅(요약 확인)을 스스로 연다.
- */
-export function useDemoPending(enabled: boolean) {
-  const userId = useAuthStore((s) => s.userId);
-  return useQuery({
-    queryKey: ['demoPending', userId],
-    queryFn: () => getDemoPending(userId ?? undefined),
-    enabled: enabled && userId != null,
-    retry: false,
-    refetchInterval: 5000,   // 부스 폰 1대 기준 분당 12건의 읽기 작업 — 큐 한도(분당 60) 안
-    refetchIntervalInBackground: true,
-    staleTime: 0,
   });
 }
 

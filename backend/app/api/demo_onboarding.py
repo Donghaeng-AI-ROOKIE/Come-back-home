@@ -8,15 +8,12 @@
 그 뒤는 기존 확인 게이트(`interview._handle_confirmation` → `finalize_persona`)가
 그대로 돈다 — 끌림점 좌표화·페르소나 저장이 실제로 일어나 대시보드에 보인다.
 
-## 턴 리셋은 시민 폰의 '처음으로'가 한다
-보호자 폰이 "가족을 찾았어요"로 사건을 종결하면 시민 폰에 '상황 종료' 화면이 뜬다. 그 아래
-**처음으로** 버튼이 `POST /sessions` 를 부른다. 호출 계정(시민)은 부스 목록에 있어야 하고,
-리셋 **대상**은 `DEMO_BOOTH_GUARDIAN_ID`(부스 보호자 계정) — 그 계정의 남은 사건을 철회
-종결하고 페르소나·인터뷰를 정식 파기 경로(privacy.lifecycle)로 지운 뒤 템플릿을 새 세션으로
-복제해 `pending_turn.json` 에 적는다. 보호자 폰은 `GET /pending` 을 몇 초마다 물어 새 세션이
-생기면 스스로 등록 채팅(요약 확인)을 연다 — 시민 폰이 보호자 폰 화면을 직접 바꿀 수는 없다.
-다음 체험자는 "맞아요"부터 시작하고, 대시보드는 아직 아무도 답하지 않은 복제 세션을 대기
-화면으로 본다(피드의 awaiting_confirmation + 마지막 발화자).
+## 턴 리셋은 진행자가 한다
+한 체험이 끝나면 진행자가 보호자 폰 "내 정보" 탭에서 **다음 체험 준비**를 누른다.
+그 한 호출(`POST /sessions`)이 ① 수색 중 사건을 '신고 철회'로 종결하고 ② 페르소나와
+완료·미완료 인터뷰를 정식 파기 경로(privacy.lifecycle)로 지운 뒤 ③ 템플릿을 새 세션으로
+복제한다. 다음 체험자는 "맞아요"부터 시작하고, 대시보드는 아직 아무도 답하지 않은 복제
+세션을 대기 화면으로 본다(피드의 awaiting_confirmation + 마지막 발화자).
 
 ## 경로가 /phase0/ 아래인 이유
 공개 앱은 Supabase 큐(`cbh_submit`)를 거치는데 그 SQL 이 `^/(phase[0-3]|walk|geo)/`
@@ -80,32 +77,6 @@ def _require_booth(guardian_id: str) -> None:
     allowed = allowed_guardians()
     if allowed and guardian_id not in allowed:
         raise HTTPException(404, "부스 체험 계정이 아닙니다.")
-
-
-def booth_guardian(caller_id: str) -> str:
-    """리셋·복제 대상 보호자 계정. 배포는 DEMO_BOOTH_GUARDIAN_ID(부스 보호자 폰 계정)로 고정 —
-    시민 폰이 눌러도 보호자 계정이 리셋된다. 비어 있으면 호출 계정 자신(로컬 연습)."""
-    return os.environ.get("DEMO_BOOTH_GUARDIAN_ID", "").strip() or caller_id
-
-
-def pending_path() -> Path:
-    return template_path().parent / "pending_turn.json"
-
-
-def _write_pending(guardian_id: str, session_id: str) -> None:
-    p = pending_path(); p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps({"guardian_id": guardian_id, "session_id": session_id,
-                             "created_at": datetime.now().isoformat(timespec="seconds")}, ensure_ascii=False), encoding="utf-8")
-
-
-def _read_pending() -> dict | None:
-    p = pending_path()
-    if not p.exists():
-        return None
-    try:
-        return json.loads(p.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return None
 
 
 class CaptureIn(BaseModel):
@@ -251,36 +222,18 @@ class NextTurnOut(BaseModel):
 
 @router.post("/sessions", response_model=NextTurnOut)
 def next_turn(body: CloneIn):
-    """**처음으로(다음 체험 준비)** — 부스 보호자 계정의 이전 체험을 정리하고 템플릿을 새 세션으로 복제한다.
+    """**다음 체험 준비** — 이 계정의 이전 체험을 정리하고 템플릿을 새 세션으로 복제한다.
 
-    호출 계정은 부스 목록에 있어야 하고(시민 폰·보호자 폰 모두 가능), 대상은 `booth_guardian()`.
-    응답의 `session` 은 `InterviewSession` 전체. 보호자 폰은 `GET /pending` 으로 이 세션을 알아내
-    등록 채팅을 열고, 체험자의 "맞아요"는 기존 `/phase0/interviews/{id}/answers` 로 간다.
+    응답의 `session` 은 `InterviewSession` 전체(대화 전문 포함). 앱은 등록 채팅 화면을
+    이 세션 id 로 열고, 체험자의 "맞아요"는 기존 `/phase0/interviews/{id}/answers` 로 간다.
     템플릿이 없으면 404 — 아무것도 지우지 않는다(리셋은 복제가 가능할 때만).
     """
     _require_booth(body.guardian_id)
     if _read_template() is None:
         raise HTTPException(404, f"온보딩 템플릿 없음 — 먼저 템플릿을 저장하세요 ({template_path()})")
-    target = booth_guardian(body.guardian_id)
-    reset = _reset(target)
-    session = _clone(target, body.guardian_name)
-    _write_pending(target, session.id)
+    reset = _reset(body.guardian_id)
+    session = _clone(body.guardian_id, body.guardian_name)
     return NextTurnOut(session=session, reset=reset)
-
-
-@router.get("/pending")
-def pending_turn(guardian_id: str = ""):
-    """보호자 폰이 몇 초마다 묻는다 — '처음으로'가 만든 복제 세션이 아직 답을 기다리면 그 id, 아니면 null.
-    세션이 완료("맞아요")됐거나 지워졌으면 null 로 돌아가 폰이 다시 열지 않는다."""
-    if guardian_id:
-        _require_booth(guardian_id)
-    p = _read_pending()
-    if not p or (guardian_id and p.get("guardian_id") != guardian_id):
-        return {"session_id": None}
-    s = storage.interviews.get(str(p.get("session_id") or ""))
-    if s is None or s.done:
-        return {"session_id": None}
-    return {"session_id": s.id, "created_at": p.get("created_at")}
 
 
 @router.post("/reset")

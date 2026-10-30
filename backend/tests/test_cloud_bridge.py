@@ -101,7 +101,7 @@ def test_dispatch_preserves_http_errors_and_uses_asgi_without_network():
 # ── 부스 시연 경로(/phase0/demo/*): DEMO_GUARDIAN_IDS 에 적힌 계정만, 소유자 강제 ──
 def test_demo_paths_are_denied_unless_owner_is_a_listed_booth_account(monkeypatch):
     monkeypatch.delenv('DEMO_GUARDIAN_IDS', raising=False)
-    for method, path in (('GET', '/phase0/demo/onboarding/template'), ('POST', '/phase0/demo/onboarding/template'), ('GET', '/phase0/demo/onboarding/pending'),
+    for method, path in (('GET', '/phase0/demo/onboarding/template'), ('POST', '/phase0/demo/onboarding/template'),
                          ('POST', '/phase0/demo/onboarding/sessions'), ('POST', '/phase0/demo/onboarding/reset')):
         with pytest.raises(HTTPException) as exc:
             authorize(OWNER, method, path, {} if method == 'POST' else None)
@@ -120,8 +120,6 @@ def test_demo_paths_force_owner_and_check_session_ownership(monkeypatch):
     assert r.body == {'guardian_id': OWNER}
     r = authorize(OWNER, 'GET', '/phase0/demo/onboarding/template', None)
     assert r.path == f'/phase0/demo/onboarding/template?guardian_id={OWNER}' and r.body is None
-    r = authorize(OWNER, 'GET', '/phase0/demo/onboarding/pending', None)
-    assert r.path == f'/phase0/demo/onboarding/pending?guardian_id={OWNER}' and r.body is None
     # 세션 id 를 주면 내 것이어야 한다
     monkeypatch.setattr(storage.interviews, 'get', lambda _: SimpleNamespace(guardian_id=OTHER))
     with pytest.raises(HTTPException) as exc:

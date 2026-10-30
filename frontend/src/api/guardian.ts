@@ -164,18 +164,13 @@ export function captureDemoTemplate(label = '', guardianId?: string) {
     method: 'POST', body: JSON.stringify({ label, guardian_id: guardianId ?? '' }),
   });
 }
-/** 보호자 폰 폴링 — '처음으로'가 만든 복제 세션이 아직 "맞아요"를 기다리면 그 id, 아니면 null. */
-export function getDemoPending(guardianId?: string) {
-  return api<{ session_id: string | null; created_at?: string }>(`/phase0/demo/onboarding/pending?guardian_id=${encodeURIComponent(guardianId ?? '')}`);
-}
 export type DemoNextTurn = {
   session: InterviewSession;
   reset: { closed_cases: string[]; purged_personas: string[]; purged_interviews: string[] };
 };
 /**
- * 처음으로(다음 체험 준비) — 시민 폰의 '상황 종료' 화면에서 누른다. 서버가 부스 보호자 계정의 이전
- * 체험(수색 중 사건 → 철회 종결, 페르소나·인터뷰 파기)을 정리하고 템플릿을 새 세션으로 복제한다.
- * 보호자 폰은 `getDemoPending` 으로 그 세션을 알아내 스스로 등록 채팅을 연다.
+ * 다음 체험 준비 — 이 계정의 이전 체험(수색 중 사건 → 철회 종결, 페르소나·인터뷰 파기)을
+ * 정리하고 템플릿을 새 세션으로 복제한다. 응답의 세션 id 로 등록 채팅을 연다.
  */
 export function prepareNextDemoTurn(guardianName: string, guardianId?: string) {
   return api<DemoNextTurn>('/phase0/demo/onboarding/sessions', {

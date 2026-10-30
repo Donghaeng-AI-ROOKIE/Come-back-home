@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -14,11 +13,6 @@ import { resolvedTitle } from '../utils/alertTitle';
 import { resolvedMessage, resolvedThanks } from '../utils/resolvedCopy';
 import { formatSearchDuration } from '../utils/searchDuration';
 import { serverTimeMs } from '../utils/walkFormat';
-import { useAuthStore } from '../store/authStore';
-import { useDemoBooth } from '../hooks/queries';
-import { prepareNextDemoTurn } from '../api/guardian';
-import { ApiError } from '../api/config';
-import { confirmAsync } from '../utils/confirmAsync';
 
 /**
  * 상황 종료 상세 — 긴급 수색 알림 목록의 초록 카드를 누르면 열린다(IA 리뷰 10/26).
@@ -45,23 +39,6 @@ export default function ResolvedDetailScreen() {
   const backToList = () => {
     if (navigation.canGoBack()) navigation.goBack();
     else navigation.navigate('CitizenTabs', { screen: 'Alerts' });
-  };
-
-  // ── 부스(결선) '처음으로' — 체험이 끝난 시민 폰에서 진행자가 누른다. 서버가 부스 보호자 계정의 이전 체험을
-  // 정리하고 템플릿을 복제하면 보호자 폰이 요약 화면을 스스로 연다. 서버가 부스 계정에만 허용(그 외 403 → 버튼 숨김).
-  const booth = useDemoBooth();
-  const userId = useAuthStore((s) => s.userId);
-  const [resetting, setResetting] = useState(false);
-  const toStart = async () => {
-    if (resetting) return;
-    if (!(await confirmAsync('처음으로', '이 체험을 정리하고 다음 체험을 준비합니다. 보호자 폰은 등록 요약 화면으로 돌아갑니다.'))) return;
-    setResetting(true);
-    try {
-      await prepareNextDemoTurn('보호자', userId ?? undefined);
-      navigation.navigate('CitizenTabs', { screen: 'Home' });
-    } catch (e) {
-      Alert.alert('준비하지 못했습니다', e instanceof ApiError ? e.message : String(e));
-    } finally { setResetting(false); }
   };
 
   return (
@@ -96,16 +73,15 @@ export default function ResolvedDetailScreen() {
         >
           <Text style={styles.primaryText}>목록으로</Text>
         </Pressable>
-        {booth.data ? (
-          <Pressable
-            style={({ pressed }) => [styles.secondary, pressed && styles.pressed]}
-            onPress={toStart}
-            accessibilityRole="button"
-            accessibilityLabel="처음으로 — 다음 체험 준비"
-          >
-            <Text style={styles.secondaryText}>{resetting ? '준비 중…' : '처음으로'}</Text>
-          </Pressable>
-        ) : null}
+        {/* 처음으로 — 수색이 끝난 뒤 안심 홈으로. 부스에서는 체험이 끝난 시민 폰을 다음 체험자 상태로 돌리는 버튼이기도 하다
+            (서버 호출 없음 — 보호자 쪽 턴 리셋은 보호자 폰 "내 정보 → 다음 체험 준비"). */}
+        <Pressable
+          style={({ pressed }) => [styles.secondary, pressed && styles.pressed]}
+          onPress={() => navigation.navigate('CitizenTabs', { screen: 'Home' })}
+          accessibilityRole="button"
+        >
+          <Text style={styles.secondaryText}>처음으로</Text>
+        </Pressable>
       </ScrollView>
       <FigmaFlowTabBar mode="citizen" active="alert" />
     </SafeAreaView>
@@ -157,7 +133,6 @@ const styles = StyleSheet.create({
   notice: { marginTop: 8, textAlign: 'center', fontFamily: type.familyCssSemiBold, fontSize: 11, lineHeight: 13, letterSpacing: 0.07, color: color.figmaGray },
   primary: { marginTop: 28, marginHorizontal: -13, height: 58, borderRadius: 30, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   primaryText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
-  // 부스 '처음으로' — 목록으로 와 같은 모양의 흰 버튼(부스 계정에서만 보인다)
   secondary: { marginTop: 12, marginHorizontal: -13, height: 58, borderRadius: 30, backgroundColor: '#FFFFFF', borderWidth: 2, borderColor: color.brand, alignItems: 'center', justifyContent: 'center' },
   secondaryText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: color.brand },
   pressed: { opacity: 0.82 },
