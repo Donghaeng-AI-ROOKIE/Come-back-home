@@ -1,6 +1,6 @@
 ﻿/** 보호자 하단 4탭 (Figma): 홈 / 사전등록 / 알림 / 내 정보. */
 import React, { useState } from 'react';
-import { Alert, Platform, StyleSheet, Text, View } from 'react-native';
+import { Alert, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useQueryClient } from '@tanstack/react-query';
@@ -25,6 +25,7 @@ import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import { listedCases } from '../utils/guardianTips';
 import { activeCases } from '../utils/guardianSearchCard';
 import { guardianEmergency, guardianTabAccent } from '../utils/tabAccent';
+import { notify } from '../utils/notify';
 
 const Tab = createBottomTabNavigator<GuardianTabParamList>();
 
@@ -49,6 +50,11 @@ function GuardianMyScreen() {
   const qc = useQueryClient();
   const booth = useDemoBooth();
   const [busy, setBusy] = useState<null | 'capture' | 'next'>(null);
+  const [boothMessage, setBoothMessage] = useState<string | null>(null);
+  const showBoothMessage = (title: string, message: string) => {
+    setBoothMessage(`${title}\n${message}`);
+    notify(title, message);
+  };
   const boothLine = booth.data
     ? booth.data.exists
       ? `템플릿: ${booth.data.name ?? '-'} (${String(booth.data.age ?? '-').replace(/세$/, '')}세) · 대화 ${booth.data.n_messages ?? 0}줄${booth.data.label ? ` · ${booth.data.label}` : ''}`
@@ -58,19 +64,27 @@ function GuardianMyScreen() {
     if (busy) return;
     if (!(await confirmAsync('템플릿으로 저장', '지금 요약 확인 중인 대화를 다음 체험자들의 시작 상태로 저장합니다. 기존 템플릿은 덮어씁니다.'))) return;
     setBusy('capture');
+    setBoothMessage(null);
     try {
       const meta = await captureDemoTemplate('부스', userId ?? undefined);
       await booth.refetch();
-      Alert.alert('저장했습니다', `${meta.name ?? '-'} (${String(meta.age ?? '-').replace(/세$/, '')}세) · 대화 ${meta.n_messages ?? 0}줄`);
+      showBoothMessage('저장했습니다', `${meta.name ?? '-'} (${String(meta.age ?? '-').replace(/세$/, '')}세) · 대화 ${meta.n_messages ?? 0}줄`);
     } catch (e) {
-      Alert.alert('저장하지 못했습니다', e instanceof ApiError ? e.message : String(e));
+      showBoothMessage('저장하지 못했습니다', e instanceof ApiError ? e.message : String(e));
     } finally { setBusy(null); }
   };
   const nextTurn = async () => {
     if (busy) return;
-    if (!(await confirmAsync('다음 체험 준비', '이 계정의 신고는 철회 종결되고 등록된 가족은 지워집니다. 템플릿을 복제해 "맞아요" 직전 화면으로 엽니다.'))) return;
     setBusy('next');
+    setBoothMessage(null);
     try {
+      // 다른 진행자가 저장했을 수도 있으므로, 삭제 확인 전에 최신 준비 상태를 읽는다.
+      const current = await booth.refetch({ throwOnError: true });
+      if (!current.data?.exists) {
+        showBoothMessage('먼저 시작 대화를 저장해 주세요', '사전 등록에서 "이렇게 등록할게요" 요약이 나오면, "맞아요"를 누르기 전에 내 정보에서 "지금 대화를 템플릿으로 저장"을 눌러 주세요. 저장 후 다음 체험을 준비할 수 있습니다. 기존 가족과 신고는 그대로 유지했습니다.');
+        return;
+      }
+      if (!(await confirmAsync('다음 체험 준비', '이 계정의 신고는 철회 종결되고 등록된 가족은 지워집니다. 템플릿을 복제해 "맞아요" 직전 화면으로 엽니다.'))) return;
       const r = await prepareNextDemoTurn('보호자', userId ?? undefined);
       // 이전 체험의 캐시(등록 가족·사건)를 비운다 — 안 비우면 홈에 지운 가족이 남아 보인다.
       reset();
@@ -79,7 +93,7 @@ function GuardianMyScreen() {
       qc.removeQueries({ queryKey: ['guardianCases'] });
       navigation.navigate('RegChat', { sessionId: r.session.id });
     } catch (e) {
-      Alert.alert('준비하지 못했습니다', e instanceof ApiError ? e.message : String(e));
+      showBoothMessage('준비하지 못했습니다', e instanceof ApiError ? e.message : String(e));
     } finally { setBusy(null); }
   };
   const registered = personas?.length
@@ -88,7 +102,7 @@ function GuardianMyScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <View style={styles.wrap}>
+      <ScrollView contentContainerStyle={styles.wrap}>
         <Text style={styles.title} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
           내 정보
         </Text>
@@ -115,10 +129,15 @@ function GuardianMyScreen() {
             <Text style={styles.rowVal} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
               {boothLine}
             </Text>
+            {boothMessage ? (
+              <Text accessibilityRole="alert" style={styles.rowKey} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+                {boothMessage}
+              </Text>
+            ) : null}
             <View style={styles.divider} />
-            <CTAButton label={busy === 'capture' ? '저장 중…' : '지금 대화를 템플릿으로 저장'} onPress={captureTemplate} variant="ghost" />
+            <CTAButton label={busy === 'capture' ? '저장 중…' : '지금 대화를 템플릿으로 저장'} onPress={captureTemplate} disabled={busy !== null} variant="ghost" />
             <View style={styles.switchGap} />
-            <CTAButton label={busy === 'next' ? '준비 중…' : '다음 체험 준비'} onPress={nextTurn} />
+            <CTAButton label={busy === 'next' ? '준비 중…' : '다음 체험 준비'} onPress={nextTurn} disabled={busy !== null} />
           </View>
         ) : null}
         <View style={styles.spacer} />
@@ -149,7 +168,7 @@ function GuardianMyScreen() {
           }}
           variant="ghost"
         />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -239,7 +258,7 @@ const styles = StyleSheet.create({
   tabButton: { flex: 1, outlineStyle: 'none' } as any,
   homeIndicator: { position: 'absolute', bottom: 8, left: '32%', right: '32%', height: 5, borderRadius: 100, backgroundColor: '#000000' },
   safe: { flex: 1, backgroundColor: color.surfaceAlt },
-  wrap: { flex: 1, padding: space.xl, gap: space.lg },
+  wrap: { flexGrow: 1, padding: space.xl, gap: space.lg },
   title: { fontSize: type.size.title, color: color.text, fontFamily: type.familyExtraBold },
   card: { backgroundColor: color.surface, borderRadius: radius.lg, borderWidth: 1, borderColor: color.border, padding: space.lg, gap: space.xs },
   rowKey: { fontSize: type.size.caption, color: color.textCaption, fontFamily: type.familyBold },
