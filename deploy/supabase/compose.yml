@@ -39,6 +39,8 @@ services:
       # 부스 보호자 계정 UUID(쉼표 구분)를 적은 계정만 /phase0/demo/* 를 쓸 수 있다.
       DEMO_ONBOARDING: ${CBH_DEMO_ONBOARDING:-false}
       DEMO_GUARDIAN_IDS: ${CBH_DEMO_GUARDIAN_IDS:-}
+      # '처음으로'(시민 폰)가 리셋·복제할 부스 보호자 계정 UUID. DEMO_GUARDIAN_IDS 에는 시민 폰 계정도 넣는다.
+      DEMO_BOOTH_GUARDIAN_ID: ${CBH_DEMO_BOOTH_GUARDIAN_ID:-}
       DEMO_ONBOARDING_TEMPLATE: /app/data/demo/onboarding_template.json
     volumes:
       - ${CBH_CLOUD_DATA:?use a NEW cloud data directory}:/app/data

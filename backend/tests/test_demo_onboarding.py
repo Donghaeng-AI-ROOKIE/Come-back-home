@@ -178,3 +178,31 @@ def test_clone_stamps_fresh_last_active_at():
     client.post("/phase0/demo/onboarding/template", json={"guardian_id": "template-author", "session_id": src.id})
     fresh = client.post("/phase0/demo/onboarding/sessions", json={"guardian_id": GUARDIAN}).json()["session"]
     assert datetime.fromisoformat(fresh["last_active_at"]) > datetime.now() - timedelta(minutes=1)
+
+
+def test_citizen_caller_resets_the_configured_booth_guardian_and_pending_tracks_it(monkeypatch):
+    """시민 폰의 '처음으로': 호출 계정은 시민이지만 리셋·복제 대상은 DEMO_BOOTH_GUARDIAN_ID(보호자 폰 계정)."""
+    monkeypatch.setenv("DEMO_GUARDIAN_IDS", "booth-guardian,booth-citizen")
+    monkeypatch.setenv("DEMO_BOOTH_GUARDIAN_ID", "booth-guardian")
+    src = _awaiting_session(); storage.interviews.save(src.id, src)
+    client.post("/phase0/demo/onboarding/template", json={"guardian_id": "booth-guardian", "session_id": src.id}) \
+        .status_code == 404  # 원본은 다른 계정 소유라 404 — 템플릿은 보호자 계정 세션으로 뜬다
+    mine = _awaiting_session("mine"); mine.guardian_id = "booth-guardian"; storage.interviews.save(mine.id, mine)
+    assert client.post("/phase0/demo/onboarding/template", json={"guardian_id": "booth-guardian"}).status_code == 200
+    # 보호자 계정에 등록된 페르소나가 있다
+    done = client.post("/phase0/demo/onboarding/sessions", json={"guardian_id": "booth-guardian"}).json()["session"]
+    done = client.post(f"/phase0/interviews/{done['id']}/answers", json={"text": "맞아요"}).json()
+    assert done["persona_id"]
+    # 시민 폰이 누른다
+    r = client.post("/phase0/demo/onboarding/sessions", json={"guardian_id": "booth-citizen", "guardian_name": "보호자"})
+    assert r.status_code == 200
+    fresh = r.json()["session"]
+    assert fresh["guardian_id"] == "booth-guardian"                       # 대상은 보호자 계정
+    assert done["persona_id"] in r.json()["reset"]["purged_personas"]     # 보호자 계정이 정리됐다
+    assert storage.personas.list() == [] or all(p.guardian_id != "booth-guardian" for p in storage.personas.list())
+    # 보호자 폰의 폴링: 대기 세션 id → "맞아요" 뒤에는 null
+    assert client.get("/phase0/demo/onboarding/pending?guardian_id=booth-guardian").json()["session_id"] == fresh["id"]
+    assert client.get("/phase0/demo/onboarding/pending?guardian_id=booth-citizen").json()["session_id"] is None
+    assert client.get("/phase0/demo/onboarding/pending?guardian_id=stranger").status_code == 404
+    client.post(f"/phase0/interviews/{fresh['id']}/answers", json={"text": "네, 맞아요"})
+    assert client.get("/phase0/demo/onboarding/pending?guardian_id=booth-guardian").json()["session_id"] is None
