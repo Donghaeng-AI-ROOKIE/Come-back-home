@@ -234,3 +234,150 @@ def test_next_turn_saves_the_snapshot_validated_before_reset(monkeypatch):
     assert session["messages"] == src.messages
     assert session["draft_fields"] == src.draft_fields
     assert storage.interviews.get(session["id"]).model_dump(mode="json") == session
+
+
+# ── 미리 계산한 준비 결과 재사용 (10-31) ─────────────────────────────────────
+
+TURNS = [
+    {"slot": "identity", "question": "성함과 연세를 알려주세요.", "answer": "김영숙, 76세예요.", "recorded_at": "2026-10-31T13:15:00"},
+    {"slot": "lost_behavior", "question": "길을 잃으시면 보통 어떻게 하시나요?", "answer": "그 자리에 가만히 서계시는 편이에요.", "recorded_at": "2026-10-31T13:19:00"},
+]
+
+
+def _template_with_turns() -> InterviewSession:
+    src = _awaiting_session()
+    src.slot_turns = [dict(t) for t in TURNS]
+    storage.interviews.save(src.id, src)
+    assert client.post("/phase0/demo/onboarding/template", json={
+        "guardian_id": "template-author", "session_id": src.id}).status_code == 200
+    return src
+
+
+def _register_clone() -> str:
+    cloned = client.post("/phase0/demo/onboarding/sessions", json={"guardian_id": GUARDIAN}).json()["session"]
+    return client.post(f"/phase0/interviews/{cloned['id']}/answers", json={"text": "맞아요"}).json()["persona_id"]
+
+
+def _mark_prepared(pid: str):
+    """K 준비가 끝난 인물처럼 — 실제 사용처와 같은 지문·리비전으로 결과를 채운다."""
+    from app.llm import mind_policy
+    from app.phase0 import person_preparation
+
+    def done(p):
+        fp = person_preparation.fingerprint(p)
+        q = p.model_copy(deep=True, update={
+            "prepared_initial": {"version": person_preparation.VERSION, "fingerprint": fp,
+                                 "core": {"persistence": {"value": "wait_for_help", "note_ids": ["N1"]}},
+                                 "scope": {}, "prepared_at": "2026-10-31T13:30:01"},
+            "initial_preparation_status": {"state": "ready", "fingerprint": fp, "updated_at": "2026-10-31T13:30:01"},
+        })
+        rule = {"id": "lost-wait", "when": [[{"fact": "lost_awareness", "op": "eq", "value": True}]],
+                "action": "wait", "goal_label": None, "feature": None, "place_labels": [], "hold_minutes": None,
+                "supersedes": [], "evidence": [{"note_id": "N1", "quote": "그 자리에 가만히 서계시는 편이에요."}]}
+        return q.model_copy(deep=True, update={
+            "prepared_mind": {"revision": mind_policy.revision(q), "policy": {"rules": [rule], "unrepresented": []}},
+            "mind_preparation_status": {"state": "ready", "updated_at": "2026-10-31T13:31:36"},
+        })
+
+    return storage.personas.update_existing(pid, done)
+
+
+def test_prepared_result_is_reused_by_the_next_visitor_without_new_preparation(monkeypatch):
+    from app.llm import mind_policy
+    from app.phase0 import person_preparation
+
+    _template_with_turns()
+    first = _mark_prepared(_register_clone())
+    r = client.post("/phase0/demo/onboarding/template/prepared", json={"guardian_id": GUARDIAN})
+    assert r.status_code == 200
+    assert r.json()["prepared"] == {"exists": True, "captured_at": r.json()["prepared"]["captured_at"],
+                                    "source_persona_id": first.id, "prepared_at": "2026-10-31T13:31:36", "n_rules": 1}
+    # 다음 체험자 — 이전 가족은 리셋으로 파기되지만 템플릿에 붙인 결과는 남는다
+    dispatched = []
+    monkeypatch.setattr(person_preparation, "_dispatch", lambda *a, **k: dispatched.append(a))
+    pid = _register_clone()
+    assert storage.personas.get(first.id) is None
+    p = storage.personas.get(pid)
+    assert dispatched == []                                   # K 준비를 다시 걸지 않았다
+    assert p.id == pid and p.id != first.id and p.guardian_id == GUARDIAN and p.created_at > first.created_at
+    assert p.prepared_initial == first.prepared_initial and p.prepared_mind == first.prepared_mind
+    assert p.initial_preparation_status["state"] == "ready" and p.mind_preparation_status["state"] == "ready"
+    assert p.initial_preparation_status["reused_from_template"] is True
+    assert p.initial_preparation_status["source_prepared_at"] == "2026-10-31T13:30:01"
+    assert p.mind_preparation_status["source_prepared_at"] == "2026-10-31T13:31:36"
+    # 실제 사용처(예측의 개인 해석·보행 규칙)가 이 결과를 유효하다고 본다
+    assert p.prepared_initial["fingerprint"] == person_preparation.fingerprint(p)
+    assert p.prepared_mind["revision"] == mind_policy.revision(p)
+
+
+def test_corrected_registration_is_prepared_normally_not_reused():
+    _template_with_turns()
+    _mark_prepared(_register_clone())
+    assert client.post("/phase0/demo/onboarding/template/prepared", json={"guardian_id": GUARDIAN}).status_code == 200
+    # 체험자가 확인 단계에서 답을 정정한 경우 — 등록 내용이 다르면 미리 계산한 결과를 쓰지 않는다
+    cloned = client.post("/phase0/demo/onboarding/sessions", json={"guardian_id": GUARDIAN}).json()["session"]
+    s = storage.interviews.get(cloned["id"])
+    s.slot_turns = [dict(TURNS[0]), dict(TURNS[1], answer="계속 앞으로 걸어가세요.")]
+    storage.interviews.save(s.id, s)
+    pid = client.post(f"/phase0/interviews/{s.id}/answers", json={"text": "맞아요"}).json()["persona_id"]
+    p = storage.personas.get(pid)
+    assert "reused_from_template" not in p.initial_preparation_status
+    assert p.prepared_initial == {} and p.prepared_mind == {}
+
+
+def test_reuse_needs_the_booth_router_and_a_listed_account(monkeypatch):
+    _template_with_turns()
+    _mark_prepared(_register_clone())
+    assert client.post("/phase0/demo/onboarding/template/prepared", json={"guardian_id": GUARDIAN}).status_code == 200
+    monkeypatch.setenv("DEMO_ONBOARDING", "false")
+    pid = _register_clone()
+    assert "reused_from_template" not in storage.personas.get(pid).initial_preparation_status
+    # 같은 인물로 계정 목록만 바꿔 본다 — 목록 밖 계정은 재사용하지 않는다
+    storage.personas.update_existing(pid, lambda p: p.model_copy(update={"initial_preparation_status": {}}))
+    monkeypatch.setenv("DEMO_GUARDIAN_IDS", "someone-else")
+    assert demo_onboarding.reuse_prepared(pid) is False
+    monkeypatch.setenv("DEMO_GUARDIAN_IDS", GUARDIAN)
+    assert demo_onboarding.reuse_prepared(pid) is True
+    assert storage.personas.get(pid).initial_preparation_status["reused_from_template"] is True
+
+
+def test_confirmation_after_a_correction_is_prepared_normally():
+    _template_with_turns()
+    _mark_prepared(_register_clone())
+    assert client.post("/phase0/demo/onboarding/template/prepared", json={"guardian_id": GUARDIAN}).status_code == 200
+    cloned = client.post("/phase0/demo/onboarding/sessions", json={"guardian_id": GUARDIAN}).json()["session"]
+    s = storage.interviews.get(cloned["id"])
+    # 확인 단계에서 한 번 정정을 거친 대화 — 확인 발화가 두 번이 된다
+    s.slot_turns.append({"slot": "confirmation", "question": "등록 요약을 보고 확인·정정하는 단계",
+                         "answer": "아니요, 고칠 게 있어요", "recorded_at": "2026-10-31T13:20:00+00:00"})
+    storage.interviews.save(s.id, s)
+    pid = client.post(f"/phase0/interviews/{s.id}/answers", json={"text": "맞아요"}).json()["persona_id"]
+    assert "reused_from_template" not in storage.personas.get(pid).initial_preparation_status
+
+
+def test_capture_prepared_rejects_unready_foreign_or_missing():
+    assert client.post("/phase0/demo/onboarding/template/prepared", json={"guardian_id": GUARDIAN}).status_code == 404
+    _template_with_turns()
+    assert client.post("/phase0/demo/onboarding/template/prepared", json={"guardian_id": GUARDIAN}).status_code == 409
+    pid = _register_clone()
+    # 준비가 끝나지 않은 가족은 저장하지 않는다
+    r = client.post("/phase0/demo/onboarding/template/prepared", json={"guardian_id": GUARDIAN, "persona_id": pid})
+    assert r.status_code == 409 and "끝나지 않았습니다" in r.json()["detail"]
+    # 다른 대화로 등록한 가족도 저장하지 않는다
+    _mark_prepared(pid)
+    p = storage.personas.get(pid)
+    storage.personas.save(pid, p.model_copy(update={"onboarding_turns": [dict(TURNS[0])]}))
+    r = client.post("/phase0/demo/onboarding/template/prepared", json={"guardian_id": GUARDIAN, "persona_id": pid})
+    assert r.status_code == 409 and "템플릿 대화" in r.json()["detail"]
+    # 남의 가족 id
+    assert client.post("/phase0/demo/onboarding/template/prepared", json={
+        "guardian_id": "someone-else", "persona_id": pid}).status_code == 404
+    assert client.get("/phase0/demo/onboarding/template").json()["prepared"] == {"exists": False}
+
+
+def test_saving_a_new_conversation_drops_the_prepared_result():
+    _template_with_turns()
+    _mark_prepared(_register_clone())
+    assert client.post("/phase0/demo/onboarding/template/prepared", json={"guardian_id": GUARDIAN}).json()["prepared"]["exists"]
+    _template_with_turns()   # 대화를 템플릿으로 다시 저장
+    assert client.get("/phase0/demo/onboarding/template").json()["prepared"] == {"exists": False}

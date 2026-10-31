@@ -102,6 +102,7 @@ def test_dispatch_preserves_http_errors_and_uses_asgi_without_network():
 def test_demo_paths_are_denied_unless_owner_is_a_listed_booth_account(monkeypatch):
     monkeypatch.delenv('DEMO_GUARDIAN_IDS', raising=False)
     for method, path in (('GET', '/phase0/demo/onboarding/template'), ('POST', '/phase0/demo/onboarding/template'),
+                         ('POST', '/phase0/demo/onboarding/template/prepared'),
                          ('POST', '/phase0/demo/onboarding/sessions'), ('POST', '/phase0/demo/onboarding/reset')):
         with pytest.raises(HTTPException) as exc:
             authorize(OWNER, method, path, {} if method == 'POST' else None)
@@ -128,6 +129,16 @@ def test_demo_paths_force_owner_and_check_session_ownership(monkeypatch):
     monkeypatch.setattr(storage.interviews, 'get', lambda _: SimpleNamespace(guardian_id=OWNER))
     r = authorize(OWNER, 'POST', '/phase0/demo/onboarding/template', {'session_id': 'mine', 'label': 'L', 'guardian_id': OTHER})
     assert r.body == {'guardian_id': OWNER, 'session_id': 'mine', 'label': 'L'}
+    # 준비 결과 저장 — 가족 id 를 주면 내 가족이어야 하고, 소유자는 로그인 계정으로 강제한다
+    r = authorize(OWNER, 'POST', '/phase0/demo/onboarding/template/prepared', {'guardian_id': OTHER})
+    assert r.body == {'guardian_id': OWNER, 'persona_id': None}
+    monkeypatch.setattr(storage.personas, 'get', lambda _: SimpleNamespace(guardian_id=OTHER))
+    with pytest.raises(HTTPException) as exc:
+        authorize(OWNER, 'POST', '/phase0/demo/onboarding/template/prepared', {'persona_id': 'theirs'})
+    assert exc.value.status_code == 404
+    monkeypatch.setattr(storage.personas, 'get', lambda _: SimpleNamespace(guardian_id=OWNER))
+    r = authorize(OWNER, 'POST', '/phase0/demo/onboarding/template/prepared', {'persona_id': 'mine'})
+    assert r.body == {'guardian_id': OWNER, 'persona_id': 'mine'}
     # 다른 /phase0/demo/ 경로는 없다
     with pytest.raises(HTTPException) as exc:
         authorize(OWNER, 'DELETE', '/phase0/demo/onboarding/template', None)

@@ -29,7 +29,7 @@ const clone = (value) => value === undefined ? undefined : JSON.parse(JSON.strin
 const saved = { exists: true, name: '검증 가족', age: '78세', n_messages: 8 };
 
 function mount(options = {}) {
-  const calls = { refetch: [], confirm: [], prepare: [], capture: [], reset: 0, removed: [], nav: [], alert: [], nativeAlert: [] };
+  const calls = { refetch: [], confirm: [], prepare: [], capture: [], prepared: [], reset: 0, removed: [], nav: [], alert: [], nativeAlert: [] };
   const existingFamily = { id: 'existing-persona', name: '기존 가족', age: 78 };
   const cache = new Map([
     ['personas', [existingFamily]], ['personaStatus', { persona_status: 'complete' }],
@@ -89,6 +89,11 @@ function mount(options = {}) {
         calls.capture.push(args);
         if (options.captureError) throw options.captureError;
         return saved;
+      },
+      captureDemoPrepared: async (...args) => {
+        calls.prepared.push(args);
+        if (options.preparedError) throw options.preparedError;
+        return { ...saved, prepared: { exists: true, n_rules: 3, prepared_at: '2026-10-31T13:31:36' } };
       },
       prepareNextDemoTurn: async (...args) => {
         calls.prepare.push(args);
@@ -244,4 +249,43 @@ test('template capture failure reports the server message on web and releases bu
   ui.feedback(/저장하지 못했습니다/);
   assert.match(ui.calls.alert[0], /요약 확인 단계가 아닙니다/);
   assert.equal(ui.button('지금 대화를 템플릿으로 저장').accessibilityState.disabled, false);
+});
+
+test('prepared-result capture saves the latest preparation for the next visitors without touching family data', async () => {
+  const ui = mount();
+  await ui.press('지금 준비 결과를 템플릿에 저장');
+  assert.equal(ui.calls.confirm.length, 1);
+  assert.match(ui.calls.confirm[0], /다음 체험자들이 그대로 받도록/);
+  assert.deepEqual(ui.calls.prepared, [['test-user']]);
+  assert.equal(ui.calls.refetch.length, 1);
+  ui.unchanged();
+  ui.feedback(/저장했습니다\n+준비 결과: 규칙 3개/);
+  assert.equal(ui.button('지금 준비 결과를 템플릿에 저장').accessibilityState.disabled, false);
+});
+
+test('prepared-result capture failure shows why (preparation still running) and releases busy state', async () => {
+  const ui = mount({ preparedError: new ApiError(409, '/demo/onboarding/template/prepared', '조건부 규칙 준비가 아직 끝나지 않았습니다') });
+  await ui.press('지금 준비 결과를 템플릿에 저장');
+  assert.equal(ui.calls.prepared.length, 1);
+  assert.deepEqual(ui.calls.refetch, []);
+  ui.unchanged();
+  ui.feedback(/저장하지 못했습니다\n+조건부 규칙 준비가 아직 끝나지 않았습니다/);
+  assert.equal(ui.button('지금 준비 결과를 템플릿에 저장').accessibilityState.disabled, false);
+});
+
+test('cancelling the prepared-result confirmation calls nothing', async () => {
+  const ui = mount({ confirm: false });
+  await ui.press('지금 준비 결과를 템플릿에 저장');
+  assert.deepEqual(ui.calls.prepared, []);
+  assert.deepEqual(ui.calls.alert, []);
+  ui.unchanged();
+});
+
+test('booth card says whether a prepared result is stored', () => {
+  const withPrepared = mount({ cached: { ...saved, prepared: { exists: true, n_rules: 2, prepared_at: '2026-10-31T13:31:36.201734' } } });
+  assert.match(withPrepared.render(), /준비 결과: 규칙 2개 · 13:31 계산분 저장됨/);
+  const without = mount({ cached: { ...saved, prepared: { exists: false } } });
+  assert.match(without.render(), /준비 결과 없음/);
+  const noTemplate = mount({ cached: { exists: false } });
+  assert.doesNotMatch(noTemplate.render(), /준비 결과:|준비 결과 없음/);
 });

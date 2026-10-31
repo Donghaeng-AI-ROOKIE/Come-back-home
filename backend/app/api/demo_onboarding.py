@@ -26,11 +26,23 @@
   읽고 저장만 한다.
 - `app.main` 은 환경변수 `DEMO_ONBOARDING=true` 일 때만 이 라우터를 얹는다(배포 compose).
   로컬에서는 `app.demo_main:app` 으로도 띄울 수 있다.
+
+## 미리 계산한 준비 결과 재사용 (10-31)
+"맞아요" 뒤 K-EXAONE 개인 해석·조건부 규칙 준비는 실측 약 5분 걸린다(10-31 부스 계정 실등록:
+13:26:40 등록 → 13:31:36 규칙 완료). 체험자가 기다릴 수 없고, 그 전에 신고하면 예측은 규칙
+없이 돈다. 그래서 진행자가 **같은 템플릿 대화로 등록해 준비가 끝난 인물**을 골라
+`POST /template/prepared` 로 템플릿에 붙여 두면, 다음 체험자의 "맞아요"로 생긴 인물이
+등록 내용(이름·나이·성별·집·장소·질문과 답)이 같을 때 그 인물의 내용과 준비 결과를 그대로
+받는다(`reuse_prepared`, `person_preparation.enqueue` 가 부른다). K 호출 없이 바로 준비 완료가
+되고, 보행 엔진도 실제로 그 규칙을 쓴다. 준비 상태에는 `reused_from_template` 과 원래 계산
+시각(`source_prepared_at`)을 남겨 실시간 결과처럼 보이지 않게 한다. 등록 내용이 다르거나
+(정정 대화 등) 지문이 맞지 않으면 아무것도 바꾸지 않고 평소처럼 새로 준비한다.
 """
 
 from __future__ import annotations
 
 import json
+import logging
 import os
 from datetime import datetime
 from pathlib import Path
@@ -41,7 +53,7 @@ from pydantic import BaseModel, Field
 from app import storage
 from app.privacy import lifecycle
 from app.schemas.case import CaseStatus, CloseReason
-from app.schemas.persona import InterviewSession
+from app.schemas.persona import InterviewSession, Persona
 
 router = APIRouter(prefix="/phase0/demo/onboarding", tags=["Demo — 부스 온보딩 템플릿"])
 
@@ -58,6 +70,11 @@ _RESET_ON_CLONE = {
 }
 
 _ACTIVE = (CaseStatus.intake, CaseStatus.predicted, CaseStatus.searching)
+
+# 준비 결과를 재사용할 때 새 인물의 값을 지키는 필드 — 소유자·식별자·등록 시각.
+# 나머지(질문과 답·추출 메모·장소·준비 결과)는 미리 계산한 인물의 것을 그대로 받아야
+# 준비 지문(person_preparation.fingerprint)과 규칙 리비전(mind_policy.revision)이 맞는다.
+_KEEP_ON_REUSE = ("id", "guardian_id", "created_at", "last_confirmed_at")
 
 
 def template_path() -> Path:
@@ -94,6 +111,11 @@ class ResetIn(BaseModel):
     guardian_id: str = Field(min_length=1)
 
 
+class CapturePreparedIn(BaseModel):
+    guardian_id: str = Field(min_length=1)
+    persona_id: str | None = None   # 없으면 이 계정의 가장 최근 인물을 고른다
+
+
 def _read_template() -> dict | None:
     p = template_path()
     if not p.exists():
@@ -119,6 +141,21 @@ def _meta(data: dict | None) -> dict:
         "filled_keys": s.get("filled_keys", []),
         "n_attractions": len(s.get("draft_attractions", [])),
         "n_messages": len(s.get("messages", [])),
+        "prepared": _prepared_meta(data),
+    }
+
+
+def _prepared_meta(data: dict) -> dict:
+    prepared = data.get("prepared_persona")
+    if not prepared:
+        return {"exists": False}
+    policy = (prepared.get("prepared_mind") or {}).get("policy") or {}
+    return {
+        "exists": True,
+        "captured_at": data.get("prepared_captured_at"),
+        "source_persona_id": prepared.get("id"),
+        "prepared_at": (prepared.get("mind_preparation_status") or {}).get("updated_at"),
+        "n_rules": len(policy.get("rules") or []),
     }
 
 
@@ -245,3 +282,116 @@ def reset_guardian(body: ResetIn):
     """
     _require_booth(body.guardian_id)
     return _reset(body.guardian_id)
+
+
+def _turns(turns: list[dict]) -> list[tuple]:
+    """템플릿 대화의 질문과 답. 확인 단계 발화(slot=confirmation)는 체험자마다 다르므로 뺀다.
+
+    finalize_persona 가 세션의 slot_turns 를 중복 없이 옮기므로 양쪽 다 같은 기준으로 접는다.
+    """
+    out: list[tuple] = []
+    for t in turns:
+        key = (t.get("slot"), t.get("question"), t.get("answer"))
+        if t.get("slot") != "confirmation" and key not in out:
+            out.append(key)
+    return out
+
+
+def _registration(p: Persona) -> tuple:
+    """같은 등록인지 가르는 값 — 보호자가 답한 내용과 그로 정해진 신원·장소.
+
+    확인 단계 발화는 개수만 본다: "맞아요" 한 번이면 1, 정정을 거쳤으면 2 이상이라 다른 등록이
+    된다(그때는 평소처럼 새로 준비한다). 추출 메모(behavior_notes 등)는 "맞아요" 때 Mi:dm 이 다시
+    뽑아 회차마다 흔들리므로 비교하지 않는다. 그 흔들림이 준비 지문을 바꾸는 것이 재사용이
+    필요한 이유다.
+    """
+    confirmations = sum(1 for t in p.onboarding_turns if t.get("slot") == "confirmation")
+    return (p.type, p.name, p.age, p.sex, round(p.home.lat, 6), round(p.home.lng, 6),
+            sorted(a.label for a in p.attraction_points), _turns(p.onboarding_turns), confirmations)
+
+
+def _prepared_problem(p: Persona) -> str | None:
+    """준비 결과가 이 인물 내용과 맞는지 — 실제 사용처와 같은 지문·리비전으로 본다."""
+    from app.llm import mind_policy
+    from app.phase0 import person_preparation
+    if (p.initial_preparation_status.get("state") != "ready"
+            or p.prepared_initial.get("fingerprint") != person_preparation.fingerprint(p)):
+        return "개인 특성 해석이 아직 끝나지 않았습니다"
+    if (p.mind_preparation_status.get("state") != "ready"
+            or p.prepared_mind.get("revision") != mind_policy.revision(p)):
+        return "조건부 규칙 준비가 아직 끝나지 않았습니다"
+    return None
+
+
+@router.post("/template/prepared")
+def capture_prepared(body: CapturePreparedIn):
+    """이 계정에서 템플릿 대화로 등록해 **준비가 끝난 인물**을 템플릿에 붙인다.
+
+    진행자는 대시보드에서 개인 해석·조건부 규칙이 잘 나온 회차를 확인한 뒤 "내 정보" 탭의
+    **지금 준비 결과를 템플릿에 저장**을 누른다. 그 뒤 체험자의 "맞아요"는 이 결과를 그대로
+    받는다(`reuse_prepared`). 대화를 템플릿으로 다시 저장하면(`POST /template`) 이 결과는
+    함께 사라진다 — 다른 대화로 계산한 결과를 붙이지 않기 위해서다.
+    """
+    _require_booth(body.guardian_id)
+    data = _read_template()
+    if data is None:
+        raise HTTPException(404, "온보딩 템플릿 없음 — 먼저 대화를 템플릿으로 저장하세요")
+    if body.persona_id:
+        persona = storage.personas.get(body.persona_id)
+        if persona is None or persona.guardian_id != body.guardian_id:
+            raise HTTPException(404, "등록된 가족 없음")
+    else:
+        mine = [p for p in storage.personas.list() if p.guardian_id == body.guardian_id]
+        if not mine:
+            raise HTTPException(409, "등록된 가족이 없습니다 — 템플릿 대화에서 \"맞아요\"로 등록한 뒤 저장하세요")
+        persona = max(mine, key=lambda p: p.created_at)
+    if _turns(persona.onboarding_turns) != _turns(data.get("session", {}).get("slot_turns", [])):
+        raise HTTPException(409, "이 가족은 지금 템플릿 대화로 등록한 것이 아닙니다 — 다음 체험 준비 후 \"맞아요\"로 등록하세요")
+    problem = _prepared_problem(persona)
+    if problem:
+        raise HTTPException(409, f"{problem} — 대시보드에서 준비 완료를 확인한 뒤 다시 저장하세요")
+    data.update(prepared_persona=persona.model_dump(mode="json"),
+                prepared_captured_at=datetime.now().isoformat(timespec="seconds"))  # noqa: DTZ005 — captured_at 과 같은 서버 지역 시각
+    template_path().write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    return _meta(data)
+
+
+def reuse_prepared(persona_id: str) -> bool:
+    """체험자의 "맞아요"로 막 생긴 인물에 템플릿의 미리 계산한 준비 결과를 붙인다.
+
+    `person_preparation.enqueue` 가 K 준비를 걸기 전에 부른다. 붙였으면 True. 템플릿에 결과가
+    없거나, 등록 내용이 다르거나, 붙인 뒤 지문·리비전이 맞지 않거나, 어떤 오류든 False 를
+    돌려주고 인물은 그대로 둔다 — 그러면 평소처럼 K 준비가 돈다.
+    """
+    try:
+        current = storage.personas.get(persona_id)
+        if current is None or current.initial_preparation_status:
+            return False
+        allowed = allowed_guardians()
+        if allowed and current.guardian_id not in allowed:
+            return False
+        raw = (_read_template() or {}).get("prepared_persona")
+        if not raw:
+            return False
+        source = Persona.model_validate(raw)
+        if _registration(source) != _registration(current):
+            return False
+        now = datetime.now().isoformat()  # noqa: DTZ005 — 준비 상태 updated_at 은 person_preparation 처럼 서버 지역 시각
+
+        def reused(status: dict) -> dict:
+            return dict(status, reused_from_template=True,
+                        source_prepared_at=status.get("updated_at"), updated_at=now)
+
+        candidate = source.model_copy(deep=True, update={
+            **{k: getattr(current, k) for k in _KEEP_ON_REUSE},
+            "initial_preparation_status": reused(source.initial_preparation_status),
+            "mind_preparation_status": reused(source.mind_preparation_status),
+        })
+        if _prepared_problem(candidate):
+            return False
+        saved = storage.personas.update_existing(
+            persona_id, lambda cur: candidate if not cur.initial_preparation_status else None)
+        return saved is not None
+    except Exception as exc:  # noqa: BLE001 — 재사용 실패가 등록을 막으면 안 된다
+        logging.getLogger(__name__).error("Booth preparation reuse skipped: %s", type(exc).__name__)
+        return False
