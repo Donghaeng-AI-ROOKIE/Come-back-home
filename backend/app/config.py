@@ -264,6 +264,11 @@ class Settings(BaseSettings):
 
     # Phase 2 — Monte Carlo
     mc_num_walkers: int = 500      # 두 MC 공통 워커 수 — 보행은 순수 알고리즘이라 공짜
+    # 부스 대시보드 03 "동선 시뮬레이션"용 대표 궤적 수 (phase2/walker_traces.py).
+    # 개인(마음) 채널 워커 중 전략 비율대로 이만큼만 사건 행
+    # continuous_state.walker_traces 에 남긴다. 0 이면 기록하지 않는다.
+    # 상한은 저장 크기를 묶어 두려는 것이다(워커당 400점 상한과 함께).
+    walker_trace_count: int = Field(default=8, ge=0, le=32)
     # 에이전트 MC 의 EXAONE 마음 재해석 실호출 예산 (예측 1회당).
     # 아키텍처 문서의 "비용 고려 10회"를 워커 수 제한이 아니라 LLM 호출 예산으로
     # 재해석 (2026-07-12): 워커 10명의 종착점 히스토그램은 셀당 0.1 단위 분산이

@@ -479,6 +479,10 @@ class Population:
     def _advance(self,p,end):
         if end<p.minute-1e-8:raise ValueError('cannot reverse a live particle clock')
         rng=random.Random();rng.setstate(_tuples(p.rng_state))
+        # A hook may record only some walkers (walker_traces.Recorder.wants);
+        # the others then skip the position lookup. Hooks only read state.
+        hook=self.trace_hook
+        if hook is not None and not getattr(hook,'wants',lambda _p:True)(p):hook=None
         while p.minute<end-1e-8 and not p.blocked:
             if p.edge_to is None and p.target and not p.arrived and p.node==self.goals[p.target]:
                 p.arrived=True;p.completed_goals.append(p.target)
@@ -534,7 +538,7 @@ class Population:
                 p.rule_minutes[p.hold_rule_id]=p.rule_minutes.get(p.hold_rule_id,0.)+dt
             for rid in p.env_insufficient_rules:
                 p.env_insufficient_minutes[rid]=p.env_insufficient_minutes.get(rid,0.)+dt
-            if self.trace_hook is not None:self.trace_hook(p,self.position(p))
+            if hook is not None:hook(p,self.position(p))
         p.rng_state=rng.getstate()
 
     def advance_to(self,minute):
