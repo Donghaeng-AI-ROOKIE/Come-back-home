@@ -25,6 +25,7 @@ from app.llm.base import LLMClient
 
 _CLOCK_RE = re.compile(r"^([01]?\d|2[0-3]):([0-5]\d)$")
 _TIME_KINDS = ("relative", "absolute", "vague", "none")
+_MERIDIEMS = ("am", "pm")
 
 
 class TipLLMClient(LLMClient):
@@ -72,13 +73,15 @@ class TipLLMClient(LLMClient):
         """구어체 시민 제보 → 구조화 데이터.
 
         반환: {location_text, time_text, time_kind, time_minutes_ago, time_clock,
-               appearance_cues, direction, specificity("상"/"중"/"하")}.
+               time_meridiem, appearance_cues, direction, specificity("상"/"중"/"하")}.
         specificity 는 신뢰도 p 의 구체성 항 입력 — LLM 에 숫자를 직접 받지 않고
         상/중/하 등급만 받아 trust 가 고정값으로 매핑한다 (가드레일 패턴).
-        time_kind/time_minutes_ago/time_clock 도 같은 가드레일 패턴: LLM 은 시민이
-        "명시한" 값만 뽑고(relative/absolute), 상대→절대시각 산술은
-        app.phase3.time_resolve 가 결정론적으로 한다 — LLM 이 몇 분 전인지
-        추측해서 숫자를 지어내면 안 되므로 여기서 값 형태만 검증한다.
+        time_kind/time_minutes_ago/time_clock/time_meridiem 도 같은 가드레일 패턴:
+        LLM 은 시민이 "명시한" 값만 뽑고(relative/absolute), 상대→절대시각 산술과
+        오전/오후 판단은 app.phase3.time_resolve 가 결정론적으로 한다 — LLM 이 몇 분
+        전인지, 오전인지 오후인지 추측해서 지어내면 안 되므로 여기서 값 형태만 검증한다.
+        time_clock 은 시민이 말한 숫자 그대로("1시 15분" → "01:15"), time_meridiem 은
+        시민이 오전/오후를 밝혔을 때만 "am"/"pm", 아니면 None 이다.
         스텁(키 없는 개발 모드): 키워드 휴리스틱으로 필드 채움 비율 → 등급.
         호출·파싱 실패(운영): 판정 없음(_unjudged_tip) — 단어로 추정하지 않는다.
         """
@@ -107,14 +110,18 @@ class TipLLMClient(LLMClient):
         if time_kind != "relative" or not isinstance(minutes_ago, int) or minutes_ago < 0:
             minutes_ago = None
         clock = data.get("time_clock")
-        if time_kind != "absolute" or not _CLOCK_RE.match(str(clock or "")):
+        if time_kind != "absolute" or not isinstance(clock, str) or not _CLOCK_RE.match(clock):
             clock = None
+        meridiem = data.get("time_meridiem")
+        if clock is None or meridiem not in _MERIDIEMS:
+            meridiem = None
         return {
             "location_text": data.get("location_text"),
             "time_text": data.get("time_text"),
             "time_kind": time_kind,
             "time_minutes_ago": minutes_ago,
             "time_clock": clock,
+            "time_meridiem": meridiem,
             "appearance_cues": data.get("appearance_cues") or [],
             "direction": data.get("direction"),
             "specificity": level if level in ("상", "중", "하") else "중",
@@ -153,7 +160,12 @@ JSON 객체 하나만 출력한다 (JSON 밖 문장 금지). 없는 정보는 �
 "vague"(아까·좀전 등 모호) / "none"(시각 언급 없음)
 - time_minutes_ago: time_kind가 relative일 때만 정수(방금=0, "30분 전"=30, \
 "2시간 전"=120). 아니면 null
-- time_clock: time_kind가 absolute일 때만 "HH:MM" 24시간(오전/오후 반영). 아니면 null
+- time_clock: time_kind가 absolute일 때만 시민이 말한 시계 숫자 그대로 "HH:MM". 오전/오후를 \
+더하거나 빼서 바꾸지 마라("1시 15분" → "01:15", "오후 3시" → "03:00", "13시 20분" → "13:20", \
+"자정"·"밤 12시" → "00:00", "정오" → "12:00"). 아니면 null
+- time_meridiem: 시민이 오전/오후를 밝혔을 때만 "am"(오전·새벽·아침) 또는 "pm"(오후·낮·저녁, \
+"정오"). 밝히지 않았거나 "밤"처럼 자정 앞뒤로 갈리는 말이면 null. 오전/오후는 서버가 시점으로 \
+고르므로 추측하지 마라
 - appearance_cues: 옷차림·외모 단서 문자열 배열, 없으면 []
 - direction: 이동 방향·행동 ("골목 쪽", "북쪽으로"), 없으면 null
 - specificity: 제보의 구체성·일관성 등급 "상"/"중"/"하" 중 하나. 세 요소(장소·시각·외모)가 \
@@ -171,34 +183,49 @@ JSON 객체 하나만 출력한다 (JSON 밖 문장 금지). 없는 정보는 �
   ※ 이동방향·행동은 등급 판정에 넣지 않는다(장소·시각·외모 3요소만).
 
 ⚠️ 시민이 명시하지 않은 시각을 추측해서 숫자를 만들지 마라. 모호하면 vague, \
-언급이 없으면 none."""
+언급이 없으면 none. "1시 15분"처럼 오전/오후가 없으면 time_clock "01:15", time_meridiem null 이다."""
 
 
 _STUB_HOURS_AGO_RE = re.compile(r"(\d+)\s*시간\s*전")
 _STUB_MINUTES_AGO_RE = re.compile(r"(\d+)\s*분\s*전")
+# "오후 1시 15분", "3시쯤", "11시 반". "2시간"(경과)·"시장"(단어)은 시계 시각이 아니다.
+_STUB_CLOCK_RE = re.compile(
+    r"(?:(오전|새벽|아침)|(오후|낮|저녁))?\s*(?<!\d)(\d{1,2})\s*시(?!간)(?:\s*(\d{1,2})\s*분|\s*(반))?")
 
 
-def _stub_time_kind(text: str) -> tuple[str, int | None]:
-    """스텁 상대시각 파싱 — 절대시각("3시쯤")은 오전/오후 중의성이 있어 스텁에선
-    보수적으로 시도하지 않는다(vague 로 남김, 실LLM 만 absolute 를 낸다)."""
+def _stub_time_kind(text: str) -> dict:
+    """스텁 시각 파싱 → {time_kind, time_minutes_ago, time_clock, time_meridiem}.
+
+    절대시각("1시 15분")은 말한 숫자 그대로 time_clock 에 두고, 오전/오후는 말했을 때만
+    채운다 — 실LLM 계약과 같다. 오전/오후 중의성은 time_resolve 가 시점으로 푼다.
+    """
+    out = {"time_kind": "none", "time_minutes_ago": None, "time_clock": None, "time_meridiem": None}
     if "방금" in text or "지금" in text:
-        return "relative", 0
+        return {**out, "time_kind": "relative", "time_minutes_ago": 0}
     m = _STUB_HOURS_AGO_RE.search(text)
     if m:
-        return "relative", int(m.group(1)) * 60
+        return {**out, "time_kind": "relative", "time_minutes_ago": int(m.group(1)) * 60}
     m = _STUB_MINUTES_AGO_RE.search(text)
     if m:
-        return "relative", int(m.group(1))
+        return {**out, "time_kind": "relative", "time_minutes_ago": int(m.group(1))}
+    m = _STUB_CLOCK_RE.search(text)
+    if m:
+        hour = int(m.group(3))
+        minute = 30 if m.group(5) else int(m.group(4) or 0)
+        if hour <= 23 and minute <= 59:
+            meridiem = "am" if m.group(1) else ("pm" if m.group(2) else None)
+            return {**out, "time_kind": "absolute", "time_clock": f"{hour:02d}:{minute:02d}",
+                    "time_meridiem": meridiem}
     if any(k in text for k in ("분", "시", "아까", "전")):
-        return "vague", None
-    return "none", None
+        return {**out, "time_kind": "vague"}
+    return out
 
 
 def _unjudged_tip() -> dict:
     """구조화 판정이 없을 때 — 아무 필드도 추정하지 않는다(구체성 None = 신뢰도 항 제외)."""
     return {
         "location_text": None, "time_text": None,
-        "time_kind": "none", "time_minutes_ago": None, "time_clock": None,
+        "time_kind": "none", "time_minutes_ago": None, "time_clock": None, "time_meridiem": None,
         "appearance_cues": [], "direction": None, "specificity": None,
     }
 
@@ -210,16 +237,16 @@ def _stub_structure_tip(text: str) -> dict:
     """
     cues = [k for k in ("점퍼", "셔츠", "바지", "모자", "치마", "코트", "운동화") if k in text]
     behavior = [k for k in ("울", "뛰", "헤매", "앉아", "두리번") if k in text]
-    time_kind, minutes_ago = _stub_time_kind(text)
+    slots = _stub_time_kind(text)
     filled = sum([
         any(k in text for k in ("역", "앞", "동", "로", "길", "편의점", "시장", "공원")),  # 장소 흔적
-        time_kind != "none",                                                              # 시각 흔적
+        slots["time_kind"] != "none",                                                     # 시각 흔적
         bool(cues),                                                                        # 외모
     ])
     level = "상" if filled >= 3 else ("중" if filled == 2 else "하")
     return {
         "location_text": None, "time_text": None,
-        "time_kind": time_kind, "time_minutes_ago": minutes_ago, "time_clock": None,
+        **slots,
         "appearance_cues": cues, "direction": behavior[0] if behavior else None,
         "specificity": level,
     }
