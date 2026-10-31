@@ -210,7 +210,14 @@ def test_pair_preview_and_split_execution_preserve_both_random_streams(full_geog
     for hour in (.5,3):continuous_prediction.run_pair(split,p,prior(),net,hour,seed=42,persist=False)
     assert split.continuous_state==before
     continuous_prediction.run_pair(split,p,prior(),net,2,seed=42)
-    assert split.continuous_state==whole.continuous_state
+    rest=lambda state:{k:v for k,v in state.items() if k!='walker_traces'}
+    assert rest(split.continuous_state)==rest(whole.continuous_state)
+    # Display traces simplify each committed segment on its own (walker_traces.py), so 1h+1h keeps
+    # a few more corner points than one 2h run. Same walkers, horizon and both end positions.
+    a,b=split.continuous_state['walker_traces'],whole.continuous_state['walker_traces']
+    assert {k:v for k,v in a.items() if k!='walkers'}=={k:v for k,v in b.items() if k!='walkers'}
+    ends=lambda t:[(w['walker_idx'],w['strategy'],w['points'][0],w['points'][-1]) for w in t['walkers']]
+    assert ends(a)==ends(b)
 
 
 def test_statistical_failure_rolls_back_personal_checkpoint(full_geography,monkeypatch):

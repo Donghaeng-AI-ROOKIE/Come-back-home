@@ -19,8 +19,11 @@ Usage (inside the worker image, branch code mounted over /app/app):
 """
 import os
 
-for _key in ('EXAONE_API_KEY', 'EXAONE_BASE_URL', 'EXAONE_MODEL', 'MIDM_API_KEY', 'MIDM_BASE_URL',
-             'MIDM_MODEL', 'KEXAONE_API_KEY', 'KEXAONE_BASE_URL', 'KEXAONE_MODEL'):
+# Keys and endpoints only. Model names stay: mind_policy.revision() hashes
+# KEXAONE_MODEL, so blanking it marks every prepared policy 'stale' and the
+# measurement silently falls back to the legacy engine (10-31 server run).
+for _key in ('EXAONE_API_KEY', 'EXAONE_BASE_URL', 'MIDM_API_KEY', 'MIDM_BASE_URL',
+             'KEXAONE_API_KEY', 'KEXAONE_BASE_URL'):
     os.environ[_key] = ''
 os.environ['PERSIST_STORAGE'] = 'false'
 os.environ['REVERSE_GEOCODE_ON_INTAKE'] = 'false'
