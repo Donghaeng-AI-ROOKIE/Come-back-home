@@ -38,23 +38,60 @@ def _client_returning(monkeypatch, payload: dict) -> TipLLMClient:
 
 # ── 실모델 응답 검증(스키마) ────────────────────────────────────────────────
 
-@pytest.mark.parametrize(("payload", "clock", "meridiem"), [
-    ({"time_kind": "absolute", "time_clock": "01:15", "time_meridiem": None}, "01:15", None),
-    ({"time_kind": "absolute", "time_clock": "01:15", "time_meridiem": "pm"}, "01:15", "pm"),
-    ({"time_kind": "absolute", "time_clock": "1:15", "time_meridiem": "am"}, "1:15", "am"),
-    ({"time_kind": "absolute", "time_clock": "13:15"}, "13:15", None),                # 필드 누락 = null
-    ({"time_kind": "absolute", "time_clock": "01:15", "time_meridiem": "오후"}, "01:15", None),
-    ({"time_kind": "absolute", "time_clock": "01:15", "time_meridiem": "PM"}, "01:15", None),
-    ({"time_kind": "absolute", "time_clock": "25:00", "time_meridiem": "pm"}, None, None),
-    ({"time_kind": "absolute", "time_clock": 115, "time_meridiem": "pm"}, None, None),
-    ({"time_kind": "relative", "time_minutes_ago": 5, "time_clock": "01:15", "time_meridiem": "pm"},
+@pytest.mark.parametrize(("text", "payload", "clock", "meridiem"), [
+    ("1시 15분쯤", {"time_kind": "absolute", "time_clock": "01:15", "time_meridiem": None}, "01:15", None),
+    ("오후 1시 15분쯤", {"time_kind": "absolute", "time_clock": "01:15", "time_meridiem": "pm"}, "01:15", "pm"),
+    ("새벽 1시 15분", {"time_kind": "absolute", "time_clock": "1:15", "time_meridiem": "am"}, "1:15", "am"),
+    ("13시 15분에", {"time_kind": "absolute", "time_clock": "13:15"}, "13:15", None),        # 필드 누락 = null
+    ("오후 1시 15분", {"time_kind": "absolute", "time_clock": "01:15", "time_meridiem": "오후"}, "01:15", None),
+    ("오후 1시 15분", {"time_kind": "absolute", "time_clock": "01:15", "time_meridiem": "PM"}, "01:15", None),
+    ("오후 1시", {"time_kind": "absolute", "time_clock": "25:00", "time_meridiem": "pm"}, None, None),
+    ("오후 1시", {"time_kind": "absolute", "time_clock": 115, "time_meridiem": "pm"}, None, None),
+    ("5분 전에 오후", {"time_kind": "relative", "time_minutes_ago": 5, "time_clock": "01:15", "time_meridiem": "pm"},
      None, None),
-    ({"time_kind": "vague", "time_meridiem": "pm"}, None, None),
+    ("오후 아까", {"time_kind": "vague", "time_meridiem": "pm"}, None, None),
 ])
-def test_structure_tip_validates_clock_and_meridiem(monkeypatch, payload, clock, meridiem):
-    out = _client_returning(monkeypatch, {"specificity": "상", **payload}).structure_tip("제보")
+def test_structure_tip_validates_clock_and_meridiem(monkeypatch, text, payload, clock, meridiem):
+    out = _client_returning(monkeypatch, {"specificity": "상", **payload}).structure_tip(text)
     assert out["time_clock"] == clock
     assert out["time_meridiem"] == meridiem
+
+
+# ── 원문이 뒷받침하지 않는 시각 주장 지우기 (11-01 Mi:dm Mini 실호출 사례) ──────────────
+
+@pytest.mark.parametrize(("text", "payload", "want"), [
+    # 원문에 오후 말이 없는데 모델이 pm 을 붙였다 → null(시점으로 고른다)
+    ("4시쯤 호수공원 근처에서 봤어요.", {"time_kind": "absolute", "time_clock": "04:00", "time_meridiem": "pm"},
+     ("absolute", "04:00", None, None)),
+    ("아까 12시 반쯤 라페스타 앞에서 봤어요.", {"time_kind": "absolute", "time_clock": "12:30", "time_meridiem": "pm"},
+     ("absolute", "12:30", None, None)),
+    # 원문에 있으면 그대로
+    ("낮 12시쯤 라페스타에서 봤어요.", {"time_kind": "absolute", "time_clock": "12:00", "time_meridiem": "pm"},
+     ("absolute", "12:00", "pm", None)),
+    ("새벽 1시쯤 호수공원에서 봤어요.", {"time_kind": "absolute", "time_clock": "01:00", "time_meridiem": "am"},
+     ("absolute", "01:00", "am", None)),
+    ("오후 1시 15분쯤 킨텍스역에서 봤어요.", {"time_kind": "absolute", "time_clock": "13:15", "time_meridiem": "pm"},
+     ("absolute", "13:15", "pm", None)),
+    # 말하지 않은 24시간제 변환은 말한 숫자로 되돌린다
+    (MEASURED_TEXT, {"time_kind": "absolute", "time_clock": "13:15", "time_meridiem": None},
+     ("absolute", "01:15", None, None)),
+    ("13시 20분에 킨텍스역 앞에서 봤어요.", {"time_kind": "absolute", "time_clock": "13:20", "time_meridiem": None},
+     ("absolute", "13:20", None, None)),
+    # 경과 말이 없는데 relative → vague ("전시장"의 '전'은 근거가 아니다)
+    ("밤 11시쯤 일산호수공원 입구에서 봤어요.", {"time_kind": "relative", "time_minutes_ago": 0},
+     ("vague", None, None, None)),
+    ("킨텍스 제2전시장 앞에서 봤어요.", {"time_kind": "relative", "time_minutes_ago": 10},
+     ("vague", None, None, None)),
+    ("1시간 전쯤 킨텍스 정문에서 봤어요.", {"time_kind": "relative", "time_minutes_ago": 60},
+     ("relative", None, None, 60)),
+    ("30분쯤 전에 봤어요.", {"time_kind": "relative", "time_minutes_ago": 30}, ("relative", None, None, 30)),
+    ("한 시간 전에 봤어요.", {"time_kind": "relative", "time_minutes_ago": 60}, ("relative", None, None, 60)),
+    ("방금 킨텍스역 2번 출구에서 봤어요.", {"time_kind": "relative", "time_minutes_ago": 0},
+     ("relative", None, None, 0)),
+])
+def test_unsupported_time_claims_are_dropped(monkeypatch, text, payload, want):
+    out = _client_returning(monkeypatch, {"specificity": "상", **payload}).structure_tip(text)
+    assert (out["time_kind"], out["time_clock"], out["time_meridiem"], out["time_minutes_ago"]) == want
 
 
 def test_structure_tip_failure_has_no_meridiem(monkeypatch):
@@ -73,7 +110,7 @@ def test_prompt_asks_for_spoken_clock_not_24h_conversion():
     # 예전 지시문 "HH:MM 24시간(오전/오후 반영)"이 "1시 15분" → 13:15 를 만들었다.
     assert "24시간(오전/오후 반영)" not in _TIP_STRUCTURE_SYSTEM
     assert "time_meridiem" in _TIP_STRUCTURE_SYSTEM
-    assert '"1시 15분" → "01:15"' in _TIP_STRUCTURE_SYSTEM
+    assert "12를 더하거나 빼지 마라" in _TIP_STRUCTURE_SYSTEM
 
 
 # ── 스텁(키 없는 개발 모드): 실모델과 같은 계약 ────────────────────────────────

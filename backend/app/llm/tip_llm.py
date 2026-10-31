@@ -26,6 +26,11 @@ from app.llm.base import LLMClient
 _CLOCK_RE = re.compile(r"^([01]?\d|2[0-3]):([0-5]\d)$")
 _TIME_KINDS = ("relative", "absolute", "vague", "none")
 _MERIDIEMS = ("am", "pm")
+# 원문이 뒷받침하지 않는 시각 주장은 지운다 — 값을 만들지 않고 버리기만 한다(키워드로 시각을 추정하지
+# 않는다는 09-26 결정과 다르다). 11-01 Mi:dm Mini 실호출(온도 0)에서 "4시쯤"·"아까 12시 반쯤"에 없는
+# 오후를 붙여 12시간, "밤 11시쯤"을 "방금"으로 읽어 수 시간 어긋났다.
+_MERIDIEM_WORDS = {"am": ("오전", "새벽", "아침"), "pm": ("오후", "낮", "저녁", "정오")}
+_RELATIVE_SUPPORT_RE = re.compile(r"(분|시간)\s*(쯤\s*)?전|방금|지금|좀\s*전|조금\s*전")   # "전시장"의 '전'은 아니다
 
 
 class TipLLMClient(LLMClient):
@@ -115,6 +120,8 @@ class TipLLMClient(LLMClient):
         meridiem = data.get("time_meridiem")
         if clock is None or meridiem not in _MERIDIEMS:
             meridiem = None
+        clock, meridiem, time_kind, minutes_ago = _drop_unsupported_time(
+            text, clock, meridiem, time_kind, minutes_ago)
         return {
             "location_text": data.get("location_text"),
             "time_text": data.get("time_text"),
@@ -156,16 +163,19 @@ JSON 객체 하나만 출력한다 (JSON 밖 문장 금지). 없는 정보는 �
 
 - location_text: 목격 장소 (건물·가게·교차로 등), 없으면 null
 - time_text: 목격 시각 표현 ("방금", "30분 전", "3시쯤"), 없으면 null
-- time_kind: "relative"(N분/시간 전, 방금) / "absolute"(N시 등 시계 표현) / \
-"vague"(아까·좀전 등 모호) / "none"(시각 언급 없음)
-- time_minutes_ago: time_kind가 relative일 때만 정수(방금=0, "30분 전"=30, \
-"2시간 전"=120). 아니면 null
-- time_clock: time_kind가 absolute일 때만 시민이 말한 시계 숫자 그대로 "HH:MM". 오전/오후를 \
-더하거나 빼서 바꾸지 마라("1시 15분" → "01:15", "오후 3시" → "03:00", "13시 20분" → "13:20", \
-"자정"·"밤 12시" → "00:00", "정오" → "12:00"). 아니면 null
-- time_meridiem: 시민이 오전/오후를 밝혔을 때만 "am"(오전·새벽·아침) 또는 "pm"(오후·낮·저녁, \
-"정오"). 밝히지 않았거나 "밤"처럼 자정 앞뒤로 갈리는 말이면 null. 오전/오후는 서버가 시점으로 \
-고르므로 추측하지 마라
+- time_kind: "전"이 붙은 경과("N분 전", "N시간 전", "방금") → "relative". '시' 뒤에 '간'이 없는 \
+시계 표현("N시", "N시 M분", "N시 반") → "absolute"(N시 반 = N:30, M분은 시계의 분이지 M분 전이 \
+아니다). "아까"가 시계 표현과 같이 있으면 absolute. 시계·경과 없이 "아까"·"좀전"만 → "vague", \
+언급 없음 → "none"
+- time_minutes_ago: relative일 때만 정수(방금=0, "2시간 전"=120). 아니면 null
+- time_clock: absolute일 때만 말한 숫자 그대로 "HH:MM"(12를 더하거나 빼지 마라. 자정 "00:00", \
+정오 "12:00"). 아니면 null
+- time_meridiem: 제보에 오전·새벽·아침 → "am", 오후·낮·저녁 → "pm"(이 말이 있는데 null이면 \
+틀린다). 그 밖(밤, 언급 없음, "13시" 같은 24시간제)은 null. 추측하지 마라
+- 시각 예시 (kind, clock, meridiem, minutes_ago): "2시 40분쯤" → absolute, "02:40", null, null / \
+"오후 2시 10분" → absolute, "02:10", "pm", null / "새벽 4시쯤" → absolute, "04:00", "am", null / \
+"아까 4시 반" → absolute, "04:30", null, null / "밤 10시쯤" → absolute, "10:00", null, null / \
+"40분 전" → relative, null, null, 40
 - appearance_cues: 옷차림·외모 단서 문자열 배열, 없으면 []
 - direction: 이동 방향·행동 ("골목 쪽", "북쪽으로"), 없으면 null
 - specificity: 제보의 구체성·일관성 등급 "상"/"중"/"하" 중 하나. 세 요소(장소·시각·외모)가 \
@@ -183,7 +193,7 @@ JSON 객체 하나만 출력한다 (JSON 밖 문장 금지). 없는 정보는 �
   ※ 이동방향·행동은 등급 판정에 넣지 않는다(장소·시각·외모 3요소만).
 
 ⚠️ 시민이 명시하지 않은 시각을 추측해서 숫자를 만들지 마라. 모호하면 vague, \
-언급이 없으면 none. "1시 15분"처럼 오전/오후가 없으면 time_clock "01:15", time_meridiem null 이다."""
+언급이 없으면 none."""
 
 
 _STUB_HOURS_AGO_RE = re.compile(r"(\d+)\s*시간\s*전")
@@ -191,6 +201,25 @@ _STUB_MINUTES_AGO_RE = re.compile(r"(\d+)\s*분\s*전")
 # "오후 1시 15분", "3시쯤", "11시 반". "2시간"(경과)·"시장"(단어)은 시계 시각이 아니다.
 _STUB_CLOCK_RE = re.compile(
     r"(?:(오전|새벽|아침)|(오후|낮|저녁))?\s*(?<!\d)(\d{1,2})\s*시(?!간)(?:\s*(\d{1,2})\s*분|\s*(반))?")
+
+
+def _drop_unsupported_time(text: str, clock, meridiem, time_kind, minutes_ago):
+    """모델 시각 필드 중 원문(text)이 뒷받침하지 않는 부분만 지운다.
+
+    - 오전/오후: 원문에 그 말(_MERIDIEM_WORDS)이 없으면 null.
+    - 24시간제로 바꾼 시(13~23시): 원문에 "13시"처럼 그 숫자가 없고 오후 말도 없으면 말한 숫자(1~11시)로
+      되돌린다 — "1시 15분"을 13:15 로 낸 경우. 오전/오후는 time_resolve 가 시점으로 고른다.
+    - 경과(relative): 원문에 "N분 전"·"N시간 전"·"방금" 같은 말이 없으면 vague.
+    """
+    if meridiem and not any(w in text for w in _MERIDIEM_WORDS[meridiem]):
+        meridiem = None
+    if clock:
+        hour, minute = clock.split(":")
+        if int(hour) >= 13 and not re.search(rf"(?<!\d){int(hour)}\s*시", text) and meridiem is None:
+            clock = f"{int(hour) - 12:02d}:{minute}"
+    if time_kind == "relative" and not _RELATIVE_SUPPORT_RE.search(text):
+        time_kind, minutes_ago = "vague", None
+    return clock, meridiem, time_kind, minutes_ago
 
 
 def _stub_time_kind(text: str) -> dict:
