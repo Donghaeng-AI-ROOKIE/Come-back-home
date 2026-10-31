@@ -6,7 +6,7 @@ from app import storage
 from app.privacy import lifecycle
 from app.phase0 import mind_preparation
 from app.llm import mind_policy
-from app.phase2 import person_walk
+from app.phase2 import person_walk, walker_traces
 from app.phase2.persistent_context_walk import PersistentContextPopulation as Population, VERSION
 from app.schemas.prediction import MindState, PriorParams
 
@@ -39,7 +39,8 @@ def run(case,persona,prior,net,hours,*,seed=None,persist=True):
     if net is None or getattr(net,'coverage_bbox',None) is None:
         return None,{'engine':'legacy','personal_policy_status':status,'continuous_clock':False,
                      'reason':'verified_map_coverage_missing'}
-    cells,quality=_run_policy(case,persona,prior,net,hours,policy,status,seed=seed,persist=persist)
+    cells,quality=_run_policy(case,persona,prior,net,hours,policy,status,seed=seed,persist=persist,
+        record_traces=persist)
     quality['sequence_normalization']=sequence
     # Disclosure only: structural interpretation warnings never change execution.
     quality['interpretation_checks']=mind_policy.interpretation_checks(policy)
@@ -54,7 +55,25 @@ def _executable_policy(persona):
     return policy,status,report
 
 
-def _run_policy(case,persona,prior,net,hours,policy,status,*,seed=None,persist=True):
+def _start_traces(pop,key,previous):
+    """Representative-path recorder for the personal channel, or None.
+
+    A replay aid must never change or stop a prediction: any failure here only
+    drops the traces of this run.
+    """
+    if settings.walker_trace_count<=0:return None
+    try:
+        recorder=walker_traces.Recorder(pop,settings.walker_trace_count,key=key,previous=previous,
+            strategy_order=person_walk.STRATEGIES)
+    except Exception:  # noqa: BLE001  a replay aid never stops a prediction
+        walker_traces.log.warning('walker trace recording unavailable for this run',exc_info=True)
+        return None
+    pop.trace_hook=recorder
+    return recorder
+
+
+def _run_policy(case,persona,prior,net,hours,policy,status,*,seed=None,persist=True,record_traces=False):
+    """One continuous channel. Only the personal channel records walker traces."""
     previous=case.continuous_state
     effective_seed=seed if seed is not None else previous.get('seed',42)
     # Both executor layers version the checkpoint: a walker change must never
@@ -72,6 +91,10 @@ def _run_policy(case,persona,prior,net,hours,policy,status,*,seed=None,persist=T
             seed=effective_seed,environment_observations=case.report.environment_observations,
             behavior_observations=case.report.behavior_observations,mind=case.mind,
             checkpoint=deepcopy(checkpoint))
+        # Selection reads the strategies the walkers actually received. Traces
+        # continue only on the same key's reused checkpoint; otherwise restart.
+        recorder=(_start_traces(pop,key,previous.get('walker_traces') if checkpoint is not None else None)
+                  if record_traces else None)
         result=pop.advance_to(hours*60)
     except ValueError:
         # Unsupported context/uncertainty cannot turn into a stationary patient
@@ -95,7 +118,10 @@ def _run_policy(case,persona,prior,net,hours,policy,status,*,seed=None,persist=T
     complete=result['quality']['unresolved_mass']<=1e-9
     result['quality']['checkpoint_committed']=bool(persist and complete)
     if persist and complete:
-        case.continuous_state={'key':key,'seed':effective_seed,'checkpoint':pop.checkpoint()}
+        state={'key':key,'seed':effective_seed,'checkpoint':pop.checkpoint()}
+        traces=recorder.result(pop,hours*60) if recorder is not None else None
+        if traces is not None:state['walker_traces']=traces
+        case.continuous_state=state
     return result['cells'],result['quality']
 
 
