@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements';
 import type { GuardianTabParamList, RootStackParamList } from './types';
-import { captureDemoTemplate, prepareNextDemoTurn } from '../api/guardian';
+import { captureDemoPrepared, captureDemoTemplate, prepareNextDemoTurn } from '../api/guardian';
 import { ApiError } from '../api/config';
 import { color, radius, space, type } from '../theme/tokens';
 import { useTabBarMetrics } from '../theme/tabBar';
@@ -49,7 +49,7 @@ function GuardianMyScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const qc = useQueryClient();
   const booth = useDemoBooth();
-  const [busy, setBusy] = useState<null | 'capture' | 'next'>(null);
+  const [busy, setBusy] = useState<null | 'capture' | 'prepared' | 'next'>(null);
   const [boothMessage, setBoothMessage] = useState<string | null>(null);
   const showBoothMessage = (title: string, message: string) => {
     setBoothMessage(`${title}\n${message}`);
@@ -60,6 +60,11 @@ function GuardianMyScreen() {
       ? `템플릿: ${booth.data.name ?? '-'} (${String(booth.data.age ?? '-').replace(/세$/, '')}세) · 대화 ${booth.data.n_messages ?? 0}줄${booth.data.label ? ` · ${booth.data.label}` : ''}`
       : '템플릿 없음 — 사전 등록을 "이렇게 등록할게요" 요약까지 진행한 뒤 저장하세요'
     : '';
+  // 미리 계산한 준비 결과 — 있으면 체험자의 "맞아요" 직후 개인 해석·조건부 규칙이 바로 완료된다.
+  const prepared = booth.data?.exists ? booth.data.prepared : undefined;
+  const preparedLine = prepared?.exists
+    ? `준비 결과: 규칙 ${prepared.n_rules ?? 0}개 · ${(prepared.prepared_at ?? '').slice(11, 16) || '-'} 계산분 저장됨`
+    : booth.data?.exists ? '준비 결과 없음 — "맞아요"로 등록하고 대시보드에서 준비 완료를 확인한 뒤 저장하세요' : '';
   const captureTemplate = async () => {
     if (busy) return;
     if (!(await confirmAsync('템플릿으로 저장', '지금 요약 확인 중인 대화를 다음 체험자들의 시작 상태로 저장합니다. 기존 템플릿은 덮어씁니다.'))) return;
@@ -69,6 +74,19 @@ function GuardianMyScreen() {
       const meta = await captureDemoTemplate('부스', userId ?? undefined);
       await booth.refetch();
       showBoothMessage('저장했습니다', `${meta.name ?? '-'} (${String(meta.age ?? '-').replace(/세$/, '')}세) · 대화 ${meta.n_messages ?? 0}줄`);
+    } catch (e) {
+      showBoothMessage('저장하지 못했습니다', e instanceof ApiError ? e.message : String(e));
+    } finally { setBusy(null); }
+  };
+  const capturePrepared = async () => {
+    if (busy) return;
+    if (!(await confirmAsync('준비 결과 저장', '지금 등록된 가족의 개인 해석·조건부 규칙을 다음 체험자들이 그대로 받도록 저장합니다. 기존 준비 결과는 덮어씁니다.'))) return;
+    setBusy('prepared');
+    setBoothMessage(null);
+    try {
+      const meta = await captureDemoPrepared(userId ?? undefined);
+      await booth.refetch();
+      showBoothMessage('저장했습니다', `준비 결과: 규칙 ${meta.prepared?.n_rules ?? 0}개`);
     } catch (e) {
       showBoothMessage('저장하지 못했습니다', e instanceof ApiError ? e.message : String(e));
     } finally { setBusy(null); }
@@ -129,6 +147,11 @@ function GuardianMyScreen() {
             <Text style={styles.rowVal} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
               {boothLine}
             </Text>
+            {preparedLine ? (
+              <Text style={styles.rowKey} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
+                {preparedLine}
+              </Text>
+            ) : null}
             {boothMessage ? (
               <Text accessibilityRole="alert" style={styles.rowKey} allowFontScaling maxFontSizeMultiplier={type.maxScale}>
                 {boothMessage}
@@ -136,6 +159,8 @@ function GuardianMyScreen() {
             ) : null}
             <View style={styles.divider} />
             <CTAButton label={busy === 'capture' ? '저장 중…' : '지금 대화를 템플릿으로 저장'} onPress={captureTemplate} disabled={busy !== null} variant="ghost" />
+            <View style={styles.switchGap} />
+            <CTAButton label={busy === 'prepared' ? '저장 중…' : '지금 준비 결과를 템플릿에 저장'} onPress={capturePrepared} disabled={busy !== null} variant="ghost" />
             <View style={styles.switchGap} />
             <CTAButton label={busy === 'next' ? '준비 중…' : '다음 체험 준비'} onPress={nextTurn} disabled={busy !== null} />
           </View>

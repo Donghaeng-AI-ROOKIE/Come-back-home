@@ -148,6 +148,9 @@ export type Case = {
 export type DemoTemplateMeta = {
   exists: boolean; label?: string; captured_at?: string | null; source_session_id?: string | null;
   name?: string | null; age?: number | null; home?: string | null; n_attractions?: number; n_messages?: number;
+  // 템플릿에 붙여 둔 '미리 계산한 준비 결과'(개인 해석·조건부 규칙). 있으면 체험자의 "맞아요"가 그대로 받는다.
+  prepared?: { exists: boolean; captured_at?: string | null; source_persona_id?: string | null;
+               prepared_at?: string | null; n_rules?: number };
 };
 // guardian_id: 직접 연결(로컬 개발·EXPO_PUBLIC_API_BASE)에서는 앱이 로그인 계정 id 를 보낸다.
 // 공개 앱(Supabase 큐)에서는 worker policy 가 이 값을 무시하고 로그인 계정으로 덮어쓴다.
@@ -162,6 +165,15 @@ export function getDemoTemplate(guardianId?: string) {
 export function captureDemoTemplate(label = '', guardianId?: string) {
   return api<DemoTemplateMeta>('/phase0/demo/onboarding/template', {
     method: 'POST', body: JSON.stringify({ label, guardian_id: guardianId ?? '' }),
+  });
+}
+/**
+ * 이 계정에서 템플릿 대화로 등록해 준비(개인 해석·조건부 규칙)가 끝난 가족을 템플릿에 붙인다.
+ * 이후 체험자의 "맞아요"는 K-EXAONE 을 다시 부르지 않고 이 결과를 받는다. 준비가 안 끝났으면 409.
+ */
+export function captureDemoPrepared(guardianId?: string) {
+  return api<DemoTemplateMeta>('/phase0/demo/onboarding/template/prepared', {
+    method: 'POST', body: JSON.stringify({ guardian_id: guardianId ?? '' }),
   });
 }
 export type DemoNextTurn = {

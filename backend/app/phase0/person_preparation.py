@@ -7,6 +7,7 @@ import copy
 import hashlib
 import json
 import logging
+import os
 import queue
 import threading
 import uuid
@@ -59,7 +60,16 @@ def _dispatch(persona_id, job_id, kind='initial'):
     _jobs.put((persona_id,job_id) if kind=='initial' else (persona_id,job_id,kind))
 
 
+def _reuse_booth_preparation(persona_id):
+    # 부스 시연(결선): 같은 템플릿 대화로 미리 계산해 둔 결과가 있으면 K 를 다시 부르지 않는다.
+    # 시연 라우터가 켜진 서버(DEMO_ONBOARDING=true)에서만. app.api.demo_onboarding.reuse_prepared 참조.
+    if os.environ.get("DEMO_ONBOARDING","").lower()!="true":return False
+    from app.api import demo_onboarding
+    return demo_onboarding.reuse_prepared(persona_id)
+
+
 def enqueue(persona_id, *, retry=False):
+    if not retry and _reuse_booth_preparation(persona_id):return storage.personas.get(persona_id)
     job_id=str(uuid.uuid4())
     def mark(current):
         key=fingerprint(current);status=current.initial_preparation_status

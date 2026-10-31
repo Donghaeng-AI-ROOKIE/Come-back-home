@@ -79,7 +79,7 @@ def authorize(owner: str, method: str, path: str, body) -> Request:
         data['owner_id']=owner
         return Request(method,p,data if method!='GET' else None)
     if p.startswith("/phase0/demo/"):
-        # 부스 시연(결선) — 진행자 버튼 2개와 상태 조회. app.api.demo_onboarding 참조.
+        # 부스 시연(결선) — 진행자 버튼 3개와 상태 조회. app.api.demo_onboarding 참조.
         _booth_account(owner)
         if p == "/phase0/demo/onboarding/template" and method == "GET":
             query = {"guardian_id": owner}
@@ -89,6 +89,11 @@ def authorize(owner: str, method: str, path: str, body) -> Request:
                 _own(storage.interviews, data["session_id"], owner)
             data = {"guardian_id": owner, "session_id": data.get("session_id") or None,
                     "label": str(data.get("label") or "")[:80]}
+            allowed = True
+        elif p == "/phase0/demo/onboarding/template/prepared" and method == "POST":
+            if data.get("persona_id"):
+                _own(storage.personas, data["persona_id"], owner)
+            data = {"guardian_id": owner, "persona_id": data.get("persona_id") or None}
             allowed = True
         elif p == "/phase0/demo/onboarding/sessions" and method == "POST":
             data = {"guardian_id": owner, "guardian_name": str(data.get("guardian_name") or "보호자")[:40]}
