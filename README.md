@@ -10,12 +10,17 @@
 </p>
 
 <p align="center">
-  <img src="docs/assets/cover-20261101.png" width="100%" alt="생활밀착형 실종자 수색 애플리케이션 돌아오길, TEAM 동행 결선 표지"/>
+  <a href="https://doraogil.pages.dev/"><strong>🌿 돌아오길 서비스 바로가기</strong></a><br>
+  <a href="https://doraogil.pages.dev/">https://doraogil.pages.dev/</a>
+</p>
+
+<p align="center">
+  <a href="https://doraogil.pages.dev/"><img src="docs/assets/cover-20261101.png" width="100%" alt="생활밀착형 실종자 수색 애플리케이션 돌아오길 — 클릭하면 서비스로 이동"/></a>
 </p>
 
 2026 인공지능 루키 국내 AI 트랙 결선 프로젝트입니다. 보호자의 생활 정보와 치매 행동 연구를 참고한 예측 모델, 수색 문헌 통계, 실제 도로망을 연결해 수색 우선 구역을 계산합니다. 목표는 **알림 대상 면적당 정답 위치 포함 효율을 높이는 것**입니다.
 
-[서비스 열기](https://doraogil.pages.dev/) · [문서 안내](docs/README.md) · [아키텍처와 처리 흐름](docs/ARCHITECTURE_20261101.md) · [최종 정책과 근거](docs/experiments/final-alert-policy-20261012.md) · [API 계약](API_CONTRACT.md)
+[문서 안내](docs/README.md) · [아키텍처와 처리 흐름](docs/ARCHITECTURE_20261101.md) · [최종 정책과 근거](docs/experiments/final-alert-policy-20261012.md) · [API 계약](API_CONTRACT.md)
 
 ## 서비스 화면
 
