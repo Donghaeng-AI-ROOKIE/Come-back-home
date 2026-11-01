@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1540" height="1480" viewBox="0 0 1540 1480" font-family="'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+<title>돌아오길 예측·제보·알림 처리 흐름</title><desc>등록 단계의 K 해석 준비와 사건 단계의 SAR, CPU 보행, 문헌 지도 결합, 알림, 비동기 제보 처리 및 폴백 분기를 구분합니다.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333333"/></marker><marker id="arrow-off" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9a9a9a"/></marker></defs>
+<rect width="1540" height="1480" fill="#ffffff"/>
+<text x="20" y="36" font-size="20" font-weight="800" fill="#111111">돌아오길 예측·알림 처리 흐름</text>
+<text x="20" y="58" font-size="12" fill="#555555">main 88fe182 기준 · 2026-11-01 문서 정리 · 10/30 처리 흐름도 개정 (라이브 재검증 아님)</text>
+<rect x="20" y="80" width="250" height="62" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2.4"/>
+<text x="32" y="103" font-size="13.5" font-weight="700" fill="#111111">보호자 대화</text>
+<text x="32" y="123" font-size="12" fill="#333333">습관 · 자주 가는 곳 · 집</text>
+<rect x="229.0" y="88" width="33.0" height="16" rx="8" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="245.5" y="99.6" font-size="10.5" fill="#111111" text-anchor="middle" font-weight="600">입력</text>
+<rect x="320" y="80" width="250" height="62" rx="8" fill="#ffffff" stroke="#9a9a9a" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="332" y="103" font-size="13.5" font-weight="700" fill="#8a8a8a">EXAONE Base 축 채점</text>
+<text x="332" y="123" font-size="12" fill="#9a9a9a">전체 축 채점 · 배포 설정 OFF</text>
+<rect x="531.1" y="88" width="30.9" height="16" rx="8" fill="#ffffff" stroke="#9a9a9a" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="546.6" y="99.6" font-size="10.5" fill="#8a8a8a" text-anchor="middle" font-weight="600">OFF</text>
+<rect x="950" y="80" width="250" height="62" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2.4"/>
+<text x="962" y="103" font-size="13.5" font-weight="700" fill="#111111">실종 신고 (보호자)</text>
+<text x="962" y="123" font-size="12" fill="#333333">위치 · 시각 · 상황 · 인상착의</text>
+<rect x="1159.0" y="88" width="33.0" height="16" rx="8" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1175.5" y="99.6" font-size="10.5" fill="#111111" text-anchor="middle" font-weight="600">입력</text>
+<rect x="1240" y="80" width="200" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="1252" y="103" font-size="13.5" font-weight="700" fill="#111111">1차 경보</text>
+<text x="1252" y="123" font-size="12" fill="#444444">마지막 위치 주변 즉시 알림</text>
+<rect x="1401.1" y="88" width="30.9" height="16" rx="8" fill="#e6e6e6"/>
+<text x="1416.5" y="99.6" font-size="10.5" fill="#333333" text-anchor="middle" font-weight="600">CPU</text>
+<rect x="20" y="180" width="250" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="32" y="203" font-size="13.5" font-weight="700" fill="#111111">Mi:dm (KT)</text>
+<text x="32" y="223" font-size="12" fill="#444444">사실 추출 · 원문 근거 저장</text>
+<rect x="203.8" y="188" width="58.2" height="16" rx="8" fill="#ffffff" stroke="#111111" stroke-width="1"/>
+<text x="232.9" y="199.6" font-size="10.5" fill="#111111" text-anchor="middle" font-weight="600">외부 API</text>
+<rect x="320" y="180" width="250" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="332" y="203" font-size="13.5" font-weight="700" fill="#111111">임베딩 + 문헌 RAG</text>
+<text x="332" y="223" font-size="12" fill="#444444">Upstage · 논문 발췌 검색</text>
+<rect x="503.8" y="188" width="58.2" height="16" rx="8" fill="#ffffff" stroke="#111111" stroke-width="1"/>
+<text x="532.9" y="199.6" font-size="10.5" fill="#111111" text-anchor="middle" font-weight="600">외부 API</text>
+<rect x="20" y="290" width="250" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="32" y="313" font-size="13.5" font-weight="700" fill="#111111">K-EXAONE</text>
+<text x="32" y="333" font-size="12" fill="#444444">개인 해석 · 규칙 생성 (등록 후 비동기)</text>
+<rect x="203.8" y="298" width="58.2" height="16" rx="8" fill="#ffffff" stroke="#111111" stroke-width="1"/>
+<text x="232.9" y="309.6" font-size="10.5" fill="#111111" text-anchor="middle" font-weight="600">외부 API</text>
+<rect x="950" y="290" width="250" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="962" y="313" font-size="13.5" font-weight="700" fill="#111111">EXAONE + SAR LoRA</text>
+<text x="962" y="333" font-size="12" fill="#444444">출발값 생성 · 입력이 같으면 재사용</text>
+<rect x="1161.1" y="298" width="30.9" height="16" rx="8" fill="#111111"/>
+<text x="1176.5" y="309.6" font-size="10.5" fill="#ffffff" text-anchor="middle" font-weight="600">GPU</text>
+<rect x="20" y="400" width="250" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="32" y="423" font-size="13.5" font-weight="700" fill="#111111">조건부 행동 규칙 저장</text>
+<text x="32" y="443" font-size="12" fill="#444444">예: 6분 걸으면 5분 휴식</text>
+<rect x="320" y="400" width="250" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="332" y="423" font-size="13.5" font-weight="700" fill="#111111">초기 개인 해석 저장</text>
+<text x="332" y="443" font-size="12" fill="#444444">목적지 · 이동 능력 · 대기 · 방향</text>
+<rect x="630" y="500" width="250" height="70" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="642" y="523" font-size="13.5" font-weight="700" fill="#111111">백엔드 코드</text>
+<text x="642" y="543" font-size="12" fill="#444444">SAR 출발값 검증</text>
+<text x="642" y="560" font-size="12" fill="#444444">+ 저장된 K 해석 반영</text>
+<rect x="841.1" y="508" width="30.9" height="16" rx="8" fill="#e6e6e6"/>
+<text x="856.6" y="519.6" font-size="10.5" fill="#333333" text-anchor="middle" font-weight="600">CPU</text>
+<rect x="1240" y="500" width="200" height="70" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="1252" y="523" font-size="13.5" font-weight="700" fill="#111111">문헌 지도 70%</text>
+<text x="1252" y="543" font-size="12" fill="#444444">ISRID 거리분포</text>
+<text x="1252" y="560" font-size="12" fill="#444444">위치 · 경과시간만, 모델 0회</text>
+<rect x="1401.1" y="508" width="30.9" height="16" rx="8" fill="#e6e6e6"/>
+<text x="1416.5" y="519.6" font-size="10.5" fill="#333333" text-anchor="middle" font-weight="600">CPU</text>
+<rect x="610" y="620" width="290" height="70" rx="8" fill="#e4e4e4" stroke="#111111" stroke-width="1.6"/>
+<text x="622" y="643" font-size="13.5" font-weight="700" fill="#111111">검증 도로망과 K 규칙이 있는가?</text>
+<text x="622" y="663" font-size="12" fill="#222222">이번 계산 범위를 덮는 도로망 확인</text>
+<text x="622" y="680" font-size="12" fill="#222222">지도 범위와 준비 상태로 분기</text>
+<rect x="120" y="750" width="300" height="100" rx="8" fill="#f1f1f1" stroke="#222222" stroke-width="1.2"/>
+<text x="132" y="773" font-size="13.5" font-weight="700" fill="#111111">연속 도로망 보행</text>
+<text x="132" y="793" font-size="12" fill="#444444">저장된 K 규칙 · 게이지 · 체크포인트</text>
+<text x="132" y="810" font-size="12" fill="#444444">보행 중 모델 호출 0회</text>
+<text x="132" y="827" font-size="12" fill="#444444">정상 경로</text>
+<rect x="381.1" y="758" width="30.9" height="16" rx="8" fill="#e6e6e6"/>
+<text x="396.6" y="769.6" font-size="10.5" fill="#333333" text-anchor="middle" font-weight="600">CPU</text>
+<rect x="610" y="750" width="300" height="100" rx="8" fill="#f1f1f1" stroke="#222222" stroke-width="1.2"/>
+<text x="622" y="773" font-size="13.5" font-weight="700" fill="#111111">기존 도로망 보행</text>
+<text x="622" y="793" font-size="12" fill="#444444">K 규칙 미실행 · 게이지 사용</text>
+<text x="622" y="810" font-size="12" fill="#444444">Mind LoRA(dem5) 사건당 최대 5회</text>
+<text x="622" y="827" font-size="12" fill="#444444">K 준비가 없거나 오래됐을 때</text>
+<rect x="871.1" y="758" width="30.9" height="16" rx="8" fill="#111111"/>
+<text x="886.6" y="769.6" font-size="10.5" fill="#ffffff" text-anchor="middle" font-weight="600">GPU</text>
+<rect x="940" y="750" width="270" height="100" rx="8" fill="#f1f1f1" stroke="#222222" stroke-width="1.2"/>
+<text x="952" y="773" font-size="13.5" font-weight="700" fill="#111111">도로 없는 대체 계산</text>
+<text x="952" y="793" font-size="12" fill="#444444">K 초기 해석(출발값)만 적용</text>
+<text x="952" y="810" font-size="12" fill="#444444">규칙 · 게이지 · 체크포인트 미사용</text>
+<text x="952" y="827" font-size="12" fill="#444444">미적용 기능을 품질 상태에 표시</text>
+<rect x="1171.1" y="758" width="30.9" height="16" rx="8" fill="#e6e6e6"/>
+<text x="1186.5" y="769.6" font-size="10.5" fill="#333333" text-anchor="middle" font-weight="600">CPU</text>
+<rect x="630" y="890" width="250" height="60" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="642" y="913" font-size="13.5" font-weight="700" fill="#111111">개인화 지도 30%</text>
+<text x="642" y="933" font-size="12" fill="#444444">보행자 500명 위치 분포</text>
+<rect x="1240" y="890" width="200" height="70" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="1252" y="913" font-size="13.5" font-weight="700" fill="#111111">시간 갱신</text>
+<text x="1252" y="933" font-size="12" fill="#444444">5분마다 검사</text>
+<text x="1252" y="950" font-size="12" fill="#444444">60분 경과 또는 KL&gt;0.5 (배포 설정)</text>
+<rect x="1401.1" y="898" width="30.9" height="16" rx="8" fill="#e6e6e6"/>
+<text x="1416.5" y="909.6" font-size="10.5" fill="#333333" text-anchor="middle" font-weight="600">CPU</text>
+<rect x="630" y="990" width="250" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="642" y="1013" font-size="13.5" font-weight="700" fill="#111111">지도 결합</text>
+<text x="642" y="1033" font-size="12" fill="#444444">0.3 × 개인 + 0.7 × 문헌 → 제보 재적용</text>
+<rect x="841.1" y="998" width="30.9" height="16" rx="8" fill="#e6e6e6"/>
+<text x="856.6" y="1009.6" font-size="10.5" fill="#333333" text-anchor="middle" font-weight="600">CPU</text>
+<rect x="630" y="1100" width="250" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="642" y="1123" font-size="13.5" font-weight="700" fill="#111111">알림 구역 선정</text>
+<text x="642" y="1143" font-size="12" fill="#444444">res9 · 합집합 최대 5.8㎢</text>
+<rect x="841.1" y="1108" width="30.9" height="16" rx="8" fill="#e6e6e6"/>
+<text x="856.6" y="1119.6" font-size="10.5" fill="#333333" text-anchor="middle" font-weight="600">CPU</text>
+<rect x="640" y="1210" width="280" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="652" y="1233" font-size="13.5" font-weight="700" fill="#111111">Web Push</text>
+<text x="652" y="1253" font-size="12" fill="#444444">구역 안 · 구독 · 5분 내 위치 기기</text>
+<rect x="853.8" y="1218" width="58.2" height="16" rx="8" fill="#ffffff" stroke="#111111" stroke-width="1"/>
+<text x="882.9" y="1229.6" font-size="10.5" fill="#111111" text-anchor="middle" font-weight="600">외부 API</text>
+<rect x="980" y="1210" width="240" height="62" rx="8" fill="#ffffff" stroke="#9a9a9a" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="992" y="1233" font-size="13.5" font-weight="700" fill="#8a8a8a">Expo Push</text>
+<text x="992" y="1253" font-size="12" fill="#9a9a9a">발송 경로 구현 · 별도 설정 필요</text>
+<rect x="1181.1" y="1218" width="30.9" height="16" rx="8" fill="#ffffff" stroke="#9a9a9a" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="1196.5" y="1229.6" font-size="10.5" fill="#8a8a8a" text-anchor="middle" font-weight="600">설정</text>
+<rect x="20" y="890" width="250" height="62" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2.4"/>
+<text x="32" y="913" font-size="13.5" font-weight="700" fill="#111111">시민 목격 제보</text>
+<text x="32" y="933" font-size="12" fill="#333333">먼저 접수 · 저장 후 바로 응답</text>
+<rect x="229.0" y="898" width="33.0" height="16" rx="8" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="245.5" y="909.6" font-size="10.5" fill="#111111" text-anchor="middle" font-weight="600">입력</text>
+<rect x="20" y="1000" width="250" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="32" y="1023" font-size="13.5" font-weight="700" fill="#111111">Mi:dm 2.0 Mini</text>
+<text x="32" y="1043" font-size="12" fill="#444444">장소 · 시각 · 인상착의 구조화</text>
+<rect x="231.1" y="1008" width="30.9" height="16" rx="8" fill="#111111"/>
+<text x="246.5" y="1019.6" font-size="10.5" fill="#ffffff" text-anchor="middle" font-weight="600">GPU</text>
+<rect x="20" y="1100" width="250" height="62" rx="8" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="32" y="1123" font-size="13.5" font-weight="700" fill="#111111">제보 판정 코드</text>
+<text x="32" y="1143" font-size="12" fill="#444444">위치 · 시각 · 신뢰도 p 계산</text>
+<rect x="231.1" y="1108" width="30.9" height="16" rx="8" fill="#e6e6e6"/>
+<text x="246.5" y="1119.6" font-size="10.5" fill="#333333" text-anchor="middle" font-weight="600">CPU</text>
+<rect x="20" y="1215" width="160" height="60" rx="8" fill="#f1f1f1" stroke="#222222" stroke-width="1.2"/>
+<text x="32" y="1238" font-size="13.5" font-weight="700" fill="#111111">p &lt; 0.2</text>
+<text x="32" y="1258" font-size="12" fill="#444444">버림 (반영 안 함)</text>
+<rect x="195" y="1215" width="175" height="60" rx="8" fill="#f1f1f1" stroke="#222222" stroke-width="1.2"/>
+<text x="207" y="1238" font-size="13.5" font-weight="700" fill="#111111">p ≥ 0.2 · 층2 미충족</text>
+<text x="207" y="1258" font-size="12" fill="#444444">층1 · 지도 확률만 조정</text>
+<rect x="385" y="1215" width="185" height="60" rx="8" fill="#f1f1f1" stroke="#222222" stroke-width="1.2"/>
+<text x="397" y="1238" font-size="13.5" font-weight="700" fill="#111111">p ≥ 0.8 + 위치·시각</text>
+<text x="397" y="1258" font-size="12" fill="#444444">층2 · 기준 위치 교체</text>
+<path d="M145,142 L145,180" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M270,200 L295,200 L295,111 L320,111" fill="none" stroke="#9a9a9a" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arrow-off)"/>
+<path d="M145,242 L145,290" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M445,242 L445,266 L220,266 L220,290" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M570,211 L975,211 L975,290" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M1075,142 L1075,290" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M1200,111 L1240,111" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M1200,128 L1220,128 L1220,535 L1240,535" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M145,352 L145,400" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M270,321 L445,321 L445,400" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M445,462 L445,520 L630,520" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M1075,352 L1075,545 L880,545" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M755,570 L755,620" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M145,462 L145,655 L610,655" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M755,690 L755,750" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M755,712 L270,712 L270,750" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M755,712 L1075,712 L1075,750" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<rect x="273.0" y="724.5" width="69.8" height="19.5" rx="4" fill="#ffffff"/>
+<text x="278" y="738" font-size="11.5" font-weight="600" fill="#111111" text-anchor="start">둘 다 있음</text>
+<rect x="758.0" y="724.5" width="85.9" height="19.5" rx="4" fill="#ffffff"/>
+<text x="763" y="738" font-size="11.5" font-weight="600" fill="#111111" text-anchor="start">도로망만 있음</text>
+<rect x="1078.0" y="724.5" width="74.4" height="19.5" rx="4" fill="#ffffff"/>
+<text x="1083" y="738" font-size="11.5" font-weight="600" fill="#111111" text-anchor="start">도로망 없음</text>
+<path d="M270,850 L270,870 L700,870 L700,890" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M760,850 L760,890" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M1075,850 L1075,870 L820,870 L820,890" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M755,950 L755,990" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M1440,535 L1458,535 L1458,1021 L880,1021" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M1240,925 L880,925" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<rect x="992.3" y="905" width="135.4" height="19" rx="4" fill="#ffffff"/>
+<text x="1060" y="918" font-size="11" font-weight="500" fill="#333333" text-anchor="middle">재계산 (출발값 재사용)</text>
+<path d="M755,1052 L755,1100" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M755,1162 L755,1210" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M880,1131 L1100,1131 L1100,1210" fill="none" stroke="#9a9a9a" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arrow-off)"/>
+<path d="M1440,111 L1495,111 L1495,1330 L780,1330 L780,1272" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<rect x="1044.9" y="1312" width="210.2" height="19" rx="4" fill="#ffffff"/>
+<text x="1150" y="1325" font-size="11" font-weight="500" fill="#333333" text-anchor="middle">1차 경보는 지도 계산 없이 바로 발송</text>
+<path d="M145,952 L145,1000" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M145,1062 L145,1100" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M145,1162 L145,1190 L100,1190 L100,1215" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M145,1190 L282,1190 L282,1215" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M145,1190 L477,1190 L477,1215" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<path d="M282,1275 L282,1298 L600,1298 L600,1036 L630,1036" fill="none" stroke="#333333" stroke-width="1.3" marker-end="url(#arrow)"/>
+<rect x="489.9" y="1280" width="100.2" height="19" rx="4" fill="#ffffff"/>
+<text x="540" y="1293" font-size="11" font-weight="500" fill="#333333" text-anchor="middle">현재 지도에 반영</text>
+<path d="M477,1275 L477,1350 L10,1350 L10,558 L630,558" fill="none" stroke="#111111" stroke-width="1.6" stroke-dasharray="8 4" marker-end="url(#arrow)"/>
+<text x="320" y="1366" font-size="11.5" font-weight="700" fill="#111111" text-anchor="middle">층2 재예측: 새 목격 위치·시각으로 기준 변경 → SAR부터 재계산 (한국 시각은 코드로 해석)</text>
+<line x1="20" y1="1386" x2="1520" y2="1386" stroke="#d0d0d0" stroke-width="1"/>
+<rect x="20" y="1400" width="34" height="20" rx="4" fill="#ffffff" stroke="#111111" stroke-width="2.4"/>
+<text x="62" y="1415" font-size="12" fill="#333333">사용자 입력</text>
+<rect x="155.2" y="1400" width="34" height="20" rx="4" fill="#ffffff" stroke="#222222" stroke-width="1.2"/>
+<text x="197.2" y="1415" font-size="12" fill="#333333">주요 경로</text>
+<rect x="266.4" y="1400" width="34" height="20" rx="4" fill="#f1f1f1" stroke="#222222" stroke-width="1.2"/>
+<text x="308.4" y="1415" font-size="12" fill="#333333">조건에 따라 하나만 실행</text>
+<rect x="476.0" y="1400" width="34" height="20" rx="4" fill="#e4e4e4" stroke="#111111" stroke-width="1.6"/>
+<text x="518.0" y="1415" font-size="12" fill="#333333">분기 판정</text>
+<rect x="599.2" y="1400" width="34" height="20" rx="4" fill="#ffffff" stroke="#9a9a9a" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="641.2" y="1415" font-size="12" fill="#333333">OFF</text>
+<rect x="691.2" y="1402" width="30.9" height="16" rx="8" fill="#111111"/>
+<text x="706.7" y="1413.6" font-size="10.5" fill="#ffffff" text-anchor="middle" font-weight="600">GPU</text>
+<rect x="732.1" y="1402" width="58.2" height="16" rx="8" fill="#ffffff" stroke="#111111" stroke-width="1"/>
+<text x="761.2" y="1413.6" font-size="10.5" fill="#111111" text-anchor="middle" font-weight="600">외부 API</text>
+<rect x="800.3" y="1402" width="30.9" height="16" rx="8" fill="#e6e6e6"/>
+<text x="815.8" y="1413.6" font-size="10.5" fill="#333333" text-anchor="middle" font-weight="600">CPU</text>
+<text x="845.2" y="1415" font-size="12" fill="#333333">실행 위치 (GPU·CPU는 우리 GPU 서버)</text>
+<text x="20" y="1446" font-size="11.5" fill="#555555">근거: pipeline.py · continuous_prediction.py · simulation.py · tip_receipts.py · time_resolve.py · alerts.py · deploy/supabase/compose.yml</text>
+</svg>

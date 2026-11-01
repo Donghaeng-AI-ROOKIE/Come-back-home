@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1560" viewBox="0 0 1200 1560" font-family="Apple SD Gothic Neo,Malgun Gothic,Noto Sans KR,sans-serif">
+<title>돌아오길 예측과 알림의 주요 처리 흐름</title><desc>보호자 대화, 검색, K 개인 해석과 규칙, SAR 초기 수치, 도로망 준비 상태에 따른 세 보행 분기, 개인 30%와 문헌 70% 지도 결합, H3 구역과 푸시를 나타냅니다.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#9da6a1" stroke-width="1.4"/></marker></defs>
+<rect width="1200" height="1560" fill="#fff"/>
+<path d="M625 100V145" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M205 215V250H260V290" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M500 180H460V250H310V290" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M750 180H920" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="4 3"/>
+<path d="M625 215V350H850V385" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M385 325H540V385" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M260 360V480H197V515" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M925 315H900V365H880V385" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M1045 350V485H1060V515" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M540 455V490H600V515" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M850 455V490H740V515" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M650 590V625H490V665" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M197 590V625H280V665" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M390 750V765H195V780" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M390 750V765H580V780" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M390 750V765H985V780" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M195 813V850" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M580 813V850" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M985 813V850" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M195 945V990H510V1020" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M580 945V1020" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M985 945V990H650V1020" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M580 1090V1150" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M1060 590H1190V1115H650V1150" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M580 1220V1270" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M580 1340V1365H510V1390" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M730 1305H985V1390" fill="none" stroke="#a4aaa7" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="4 3"/>
+<rect x="515" y="30" width="220" height="70" rx="20" fill="#dcf3e6" stroke="#cbe5d7" stroke-width="1.4"/>
+<text x="625.0" y="71.0" text-anchor="middle" font-size="17" font-weight="600" fill="#287543">보호자 대화</text>
+<rect x="500" y="145" width="250" height="70" rx="20" fill="#e8f5ed" stroke="#449b73" stroke-width="1.4"/>
+<text x="625.0" y="175.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">ON · Mi:dm</text>
+<text x="625.0" y="197.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">사실·원문 근거 저장</text>
+<rect x="65" y="150" width="280" height="65" rx="20" fill="#e8f5ed" stroke="#449b73" stroke-width="1.4"/>
+<text x="205.0" y="188.5" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">ON · 임베딩 + 문헌 RAG</text>
+<rect x="135" y="290" width="250" height="70" rx="20" fill="#e8f5ed" stroke="#449b73" stroke-width="1.4"/>
+<text x="260.0" y="331.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">ON · K-EXAONE</text>
+<rect x="920" y="145" width="250" height="70" rx="20" fill="#fff0f0" stroke="#ed7777" stroke-width="1.4"/>
+<text x="1045.0" y="186.0" text-anchor="middle" font-size="17" font-weight="600" fill="#8c3434">OFF · 전체 축 채점</text>
+<rect x="925" y="280" width="240" height="70" rx="20" fill="#dcf3e6" stroke="#cbe5d7" stroke-width="1.4"/>
+<text x="1045.0" y="310.0" text-anchor="middle" font-size="17" font-weight="600" fill="#287543">실종 신고</text>
+<text x="1045.0" y="332.0" text-anchor="middle" font-size="17" font-weight="600" fill="#287543">위치·시각·상황</text>
+<rect x="420" y="385" width="240" height="70" rx="20" fill="#dcf3e6" stroke="#cbe5d7" stroke-width="1.4"/>
+<text x="540.0" y="415.0" text-anchor="middle" font-size="17" font-weight="600" fill="#287543">초기 개인 해석 저장</text>
+<text x="540.0" y="437.0" text-anchor="middle" font-size="17" font-weight="600" fill="#287543">목적지·이동 특성 등</text>
+<rect x="710" y="385" width="280" height="70" rx="20" fill="#e8f5ed" stroke="#449b73" stroke-width="1.4"/>
+<text x="850.0" y="415.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">ON · SAR LoRA</text>
+<text x="850.0" y="437.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">초기 수치 생성 또는 재사용</text>
+<rect x="40" y="515" width="315" height="75" rx="20" fill="#dcf3e6" stroke="#cbe5d7" stroke-width="1.4"/>
+<text x="197.5" y="558.5" text-anchor="middle" font-size="17" font-weight="600" fill="#287543">조건부 마음·행동 규칙 저장</text>
+<rect x="455" y="515" width="390" height="75" rx="20" fill="#e8f5ed" stroke="#449b73" stroke-width="1.4"/>
+<text x="650.0" y="547.5" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">백엔드 CPU 코드</text>
+<text x="650.0" y="569.5" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">SAR 초기 수치에 K 개인 해석 반영</text>
+<rect x="940" y="515" width="240" height="75" rx="20" fill="#e8f5ed" stroke="#449b73" stroke-width="1.4"/>
+<text x="1060.0" y="547.5" text-anchor="middle" font-size="16" font-weight="600" fill="#234c3b">문헌통계 지도 70%</text>
+<text x="1060.0" y="569.5" text-anchor="middle" font-size="16" font-weight="600" fill="#234c3b">거리분포 + 위치·경과시간</text>
+<rect x="200" y="665" width="380" height="85" rx="20" fill="#fff4d9" stroke="#d8a144" stroke-width="1.4" stroke-dasharray="3 3"/>
+<text x="390.0" y="702.5" text-anchor="middle" font-size="17" font-weight="600" fill="#715113">계산 범위를 덮는 검증 도로망과</text>
+<text x="390.0" y="724.5" text-anchor="middle" font-size="17" font-weight="600" fill="#715113">실행 가능한 K 규칙이 있는가?</text>
+<rect x="133" y="780" width="124" height="33" rx="17" fill="#f0faf4" stroke="#b0d9c0"/>
+<text x="195.0" y="802" text-anchor="middle" font-size="15" font-weight="600" fill="#2e774c">둘 다 있음</text>
+<rect x="505" y="780" width="150" height="33" rx="17" fill="#f0faf4" stroke="#b0d9c0"/>
+<text x="580.0" y="802" text-anchor="middle" font-size="15" font-weight="600" fill="#2e774c">도로망만 있음</text>
+<rect x="912" y="780" width="146" height="33" rx="17" fill="#f0faf4" stroke="#b0d9c0"/>
+<text x="985.0" y="802" text-anchor="middle" font-size="15" font-weight="600" fill="#2e774c">도로망 없음</text>
+<rect x="40" y="850" width="310" height="95" rx="20" fill="#fff4d9" stroke="#d8a144" stroke-width="1.4" stroke-dasharray="3 3"/>
+<text x="195.0" y="881.5" text-anchor="middle" font-size="16" font-weight="600" fill="#715113">조건부 · 연속 도로망 보행</text>
+<text x="195.0" y="903.5" text-anchor="middle" font-size="16" font-weight="600" fill="#715113">저장 규칙·게이지·체크포인트</text>
+<text x="195.0" y="925.5" text-anchor="middle" font-size="16" font-weight="600" fill="#715113">CPU 실행 · 보행 중 모델 호출 없음</text>
+<rect x="425" y="850" width="310" height="95" rx="20" fill="#fff4d9" stroke="#d8a144" stroke-width="1.4" stroke-dasharray="3 3"/>
+<text x="580.0" y="892.5" text-anchor="middle" font-size="16" font-weight="600" fill="#715113">조건부 · 기존 도로망 보행</text>
+<text x="580.0" y="914.5" text-anchor="middle" font-size="16" font-weight="600" fill="#715113">Mind LoRA 제한 호출 폴백</text>
+<rect x="810" y="850" width="350" height="95" rx="20" fill="#fff4d9" stroke="#d8a144" stroke-width="1.4" stroke-dasharray="3 3"/>
+<text x="985.0" y="881.5" text-anchor="middle" font-size="16" font-weight="600" fill="#715113">조건부 · 도로 없는 대체 계산</text>
+<text x="985.0" y="903.5" text-anchor="middle" font-size="16" font-weight="600" fill="#715113">초기 수치 사용</text>
+<text x="985.0" y="925.5" text-anchor="middle" font-size="16" font-weight="600" fill="#715113">규칙 실행·게이지·체크포인트 미사용</text>
+<rect x="430" y="1020" width="300" height="70" rx="20" fill="#e8f5ed" stroke="#449b73" stroke-width="1.4"/>
+<text x="580.0" y="1061.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">개인화 지도 30%</text>
+<rect x="430" y="1150" width="300" height="70" rx="20" fill="#e8f5ed" stroke="#449b73" stroke-width="1.4"/>
+<text x="580.0" y="1180.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">ON · 지도 결합</text>
+<text x="580.0" y="1202.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">개인화 30% + 문헌통계 70%</text>
+<rect x="430" y="1270" width="300" height="70" rx="20" fill="#e8f5ed" stroke="#449b73" stroke-width="1.4"/>
+<text x="580.0" y="1300.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">ON · H3 res9</text>
+<text x="580.0" y="1322.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">예측 알림 구역 최대 5.8㎢</text>
+<rect x="360" y="1390" width="300" height="80" rx="20" fill="#e8f5ed" stroke="#449b73" stroke-width="1.4"/>
+<text x="510.0" y="1425.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">Web Push</text>
+<text x="510.0" y="1447.0" text-anchor="middle" font-size="17" font-weight="600" fill="#234c3b">구역·구독·최근 위치 확인</text>
+<rect x="850" y="1390" width="270" height="80" rx="20" fill="#fff0f0" stroke="#ed7777" stroke-width="1.4"/>
+<text x="985.0" y="1425.0" text-anchor="middle" font-size="17" font-weight="600" fill="#8c3434">Expo Push</text>
+<text x="985.0" y="1447.0" text-anchor="middle" font-size="17" font-weight="600" fill="#8c3434">별도 설정 필요</text>
+<text x="600" y="1520" text-anchor="middle" font-size="13" fill="#718077">main 88fe182 기준 · 분기별 적용 상태는 응답 품질 정보로 확인 · 2026-11-01 문서 개정</text>
+</svg>

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="730" viewBox="0 0 1120 730" font-family="Apple SD Gothic Neo,Malgun Gothic,Noto Sans KR,sans-serif">
+<title>돌아오길 실행 아키텍처</title><desc>Cloudflare 앱, Supabase 인증과 작업 큐, CPU worker와 SQLite, GPU 모델 및 외부 모델 API, 지도 자산과 Web Push의 연결.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#577566"/></marker></defs>
+<rect width="1120" height="730" fill="#fff"/>
+<text x="36" y="44" font-size="25" font-weight="700" fill="#193f2b">돌아오길 실행 아키텍처</text>
+<text x="36" y="70" font-size="13" fill="#52665b">main 88fe182 · 웹 제공, 작업 전달, CPU 계산, GPU 추론을 분리</text>
+<rect x="36" y="112" width="270" height="105" rx="12" fill="#f3f8f4" stroke="#9cb5a6"/>
+<text x="54" y="142" font-size="17" font-weight="700" fill="#193f2b">휴대폰 · 웹 앱</text>
+<text x="54" y="168" font-size="13" fill="#344d40">Expo / React Native</text>
+<text x="54" y="189" font-size="13" fill="#344d40">입력 · 지도 · 위치 · 알림 권한</text>
+<rect x="36" y="278" width="270" height="100" rx="12" fill="#f3f8f4" stroke="#9cb5a6"/>
+<text x="54" y="308" font-size="17" font-weight="700" fill="#193f2b">Cloudflare Pages</text>
+<text x="54" y="334" font-size="13" fill="#344d40">웹 정적 파일 제공</text>
+<text x="54" y="355" font-size="13" fill="#344d40">배포된 앱을 브라우저가 실행</text>
+<rect x="388" y="112" width="330" height="105" rx="12" fill="#f3f8f4" stroke="#9cb5a6"/>
+<text x="406" y="142" font-size="17" font-weight="700" fill="#193f2b">Supabase</text>
+<text x="406" y="168" font-size="13" fill="#344d40">Auth 로그인 · 소유자 권한</text>
+<text x="406" y="189" font-size="13" fill="#344d40">cbh_submit → 작업 큐 → cbh_result</text>
+<rect x="388" y="278" width="330" height="152" rx="12" fill="#f3f8f4" stroke="#9cb5a6"/>
+<text x="406" y="308" font-size="17" font-weight="700" fill="#193f2b">cloud-worker · CPU</text>
+<text x="406" y="334" font-size="13" fill="#344d40">read / compute 작업 소비</text>
+<text x="406" y="355" font-size="13" fill="#344d40">FastAPI를 프로세스 내부에서 호출</text>
+<text x="406" y="376" font-size="13" fill="#344d40">검증 · 보행 · 지도 결합 · 알림 구역</text>
+<text x="406" y="397" font-size="13" fill="#344d40">GPU 서버에 위치하나 GPU 할당 없음</text>
+<rect x="36" y="492" width="270" height="113" rx="12" fill="#eef2fb" stroke="#9cb5a6"/>
+<text x="54" y="522" font-size="17" font-weight="700" fill="#193f2b">GPU 모델 서버</text>
+<text x="54" y="548" font-size="13" fill="#344d40">EXAONE + SAR LoRA</text>
+<text x="54" y="569" font-size="13" fill="#344d40">Mi:dm 2.0 Mini</text>
+<text x="54" y="590" font-size="13" fill="#344d40">worker가 추론 엔드포인트 호출</text>
+<rect x="388" y="492" width="330" height="113" rx="12" fill="#f3f8f4" stroke="#9cb5a6"/>
+<text x="406" y="522" font-size="17" font-weight="700" fill="#193f2b">SQLite · 데이터 볼륨</text>
+<text x="406" y="548" font-size="13" fill="#344d40">프로필 · 사건 · 제보 접수 · 체크포인트</text>
+<text x="406" y="569" font-size="13" fill="#344d40">감사 / 사용량 기록 · 파기 상태</text>
+<text x="406" y="590" font-size="13" fill="#344d40">Supabase 작업 큐와 업무 저장소 구분</text>
+<rect x="800" y="278" width="284" height="152" rx="12" fill="#fff8ec" stroke="#9cb5a6"/>
+<text x="818" y="308" font-size="17" font-weight="700" fill="#193f2b">외부 API · 지도 자산</text>
+<text x="818" y="334" font-size="13" fill="#344d40">KT Mi:dm · Friendli K-EXAONE</text>
+<text x="818" y="355" font-size="13" fill="#344d40">Upstage 임베딩 / 기존 RAG</text>
+<text x="818" y="376" font-size="13" fill="#344d40">저장 도로망 · 지도 캐시</text>
+<text x="818" y="397" font-size="13" fill="#344d40">지도 범위 / 준비 상태에 따른 폴백</text>
+<rect x="800" y="492" width="284" height="113" rx="12" fill="#f3f8f4" stroke="#9cb5a6"/>
+<text x="818" y="522" font-size="17" font-weight="700" fill="#193f2b">Web Push → 시민 기기</text>
+<text x="818" y="548" font-size="13" fill="#344d40">선정 구역 + 구독 + 최근 위치</text>
+<text x="818" y="569" font-size="13" fill="#344d40">발송 결과와 OS 수신은 별도 확인</text>
+<text x="818" y="590" font-size="13" fill="#344d40">Expo Push는 별도 설정 경로</text>
+<path d="M171 278V217" fill="none" stroke="#577566" stroke-width="2" marker-end="url(#a)"/>
+<text x="171" y="253" text-anchor="middle" font-size="12" fill="#52665b">앱 로드</text>
+<path d="M306 164H388" fill="none" stroke="#577566" stroke-width="2" marker-end="url(#a)"/>
+<text x="347" y="150" text-anchor="middle" font-size="12" fill="#52665b">요청 / 조회</text>
+<path d="M553 217V278" fill="none" stroke="#577566" stroke-width="2" marker-end="url(#a)"/>
+<text x="627" y="251" text-anchor="middle" font-size="12" fill="#52665b">claim / 결과 저장</text>
+<path d="M553 430V492" fill="none" stroke="#577566" stroke-width="2" marker-end="url(#a)"/>
+<path d="M388 354H340V548H306" fill="none" stroke="#577566" stroke-width="2" marker-end="url(#a)"/>
+<text x="340" y="458" text-anchor="middle" font-size="12" fill="#52665b">모델 추론</text>
+<path d="M718 354H800" fill="none" stroke="#577566" stroke-width="2" marker-end="url(#a)"/>
+<path d="M718 395H758V548H800" fill="none" stroke="#577566" stroke-width="2" marker-end="url(#a)"/>
+<text x="758" y="463" text-anchor="middle" font-size="12" fill="#52665b">발송</text>
+<text x="36" y="663" font-size="14" font-weight="700" fill="#193f2b">접수 완료 → 분석과 재예측 → 지도 반영 → 기기 수신은 각각 다른 단계입니다.</text>
+<text x="36" y="691" font-size="12" fill="#52665b">문서 정리: 2026-11-01 · 배포 구성과 코드 기준이며, 운영 서버의 현재 이미지 / 설정을 새로 조회한 결과는 아닙니다.</text>
+</svg>

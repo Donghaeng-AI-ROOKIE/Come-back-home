@@ -1,0 +1,101 @@
+{
+  "source_branch": "docs/user-flow-timing-20261027",
+  "assets": [
+    {
+      "file": "registration-chat.png",
+      "source": "docs/user-flow/runs/20261029/screens/A2.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "9f347b39a23a8cc56ab01a461f5d2046d03bcba3a65a2a337d5e0de9e08753a9",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "registration-summary.png",
+      "source": "docs/user-flow/runs/20261029/screens/A3-summary.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "af1340d59d4b23661c16fbb6c7983987d49d9ae6c7c2f15e1558f7e85362e1eb",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "guardian-home.png",
+      "source": "docs/user-flow/runs/20261029/screens/A4-home.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "e9206872657fdbf00c8e42b740ca28a02377672052d28cfce308da76cbbf0608",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "missing-report.png",
+      "source": "docs/user-flow/runs/20261028d/screens/B2.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "19100089fc4669381997e88a16756eb5522b8ab88a7ea077ac85f8ea9155ac04",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "search-map.png",
+      "source": "docs/user-flow/runs/20261028d/screens/C3.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "343f77c701ee3871ec720e9d4e436ab9a79b662498b83aabc924e34055000907",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "alert-detail.png",
+      "source": "docs/user-flow/runs/20261028d/screens/C3-detail.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "a213f1a382c5e59a4c436710a2f6cfa9eb76224ccd860ff6a0896cca1836f4d4",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "tip-warning.png",
+      "source": "docs/user-flow/runs/20261028d/screens/C4-warn.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "516bfc6b980d01ac54dd210982524befad218ea9e522257eeba03f0a8e56cd51",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "tip-input.png",
+      "source": "docs/user-flow/runs/20261028d/screens/C4-open.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "b1fd0894b24ca70fa24ee781a539e7107cab3984a62887361e5af0be43156e82",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "tip-receipt.png",
+      "source": "docs/user-flow/runs/20261028d/screens/C4-done.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "a80b793f22f20927763a514731f511f2616057c080eaa83df47f73dc99defb44",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "map-after-tip.png",
+      "source": "docs/user-flow/runs/20261028d/screens/C5-map-after.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "5c56f5423906517e78472c4c5767b69fcec917b2844f46fb5c2d3125522c2f4d",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "resolved-card.png",
+      "source": "docs/user-flow/runs/20261028c/screens-found/F2.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "7d96870c7e37830dfc0a38f678b10dacfa49fda0cf7b57c82be74823ed950821",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "resolved-detail.png",
+      "source": "docs/user-flow/runs/20261028c/screens-found/F3.png",
+      "source_commit": "148f3eb92a2543a22e06d6b99c61ac19a7260d46",
+      "sha256": "c1edd3dc08f23e026e554134960c291dba8a9b69cbf634f4bc2a2c19bb19c0fa",
+      "width": 390,
+      "height": 844
+    }
+  ]
+}
