@@ -29,7 +29,7 @@
 
 ## 날짜별 서비스 검증
 
-- [10월 28~29일 화면 캡처와 11월 1일 문서 정리](SERVICE_SCREENS_20261101.md)
+- [10월 28–29일 화면 캡처와 11월 1일 문서 정리](SERVICE_SCREENS_20261101.md)
 - [10월 26일 운영 화면과 실제 iPhone 알림](SERVICE_SCREENS_20261026.md)
 - [10월 26일 사용량 원장 메모리 복구](verification/usage-ledger-memory-20261026/README.md)
 
