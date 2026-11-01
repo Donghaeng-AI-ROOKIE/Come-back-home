@@ -6,10 +6,13 @@
 
 | 목적 | 문서 |
 |---|---|
+| 등록·신고·수색 지도·제보·발견 안내 원본 12장 | [서비스 화면과 출처](SERVICE_SCREENS_20261101.md) |
+| 현재 실행 아키텍처, 처리 흐름, 폴백과 코드 근거 | [11월 1일 아키텍처](ARCHITECTURE_20261101.md) |
+| 부스 계정의 템플릿 복제·턴 리셋 | [부스 시연 안내](DEMO_ONBOARDING.md) |
 | 운영 앱 화면, 같은 사건의 iPhone 푸시와 지도 | [실제 서비스 화면](SERVICE_SCREENS_20261026.md) |
 | 모델 역할, SAR 초기 prior, 마음 규칙, 전체 흐름 | [서비스 E2E 구조](SERVICE_E2E_20261012.md) |
 | 전송 경계, 신고, 제보, 지도 조회 계약 | [API 계약](../API_CONTRACT.md) |
-| Cloudflare Pages, Supabase, GPU worker 구성 | [배포 연결 안내](../deploy/supabase/README.md) |
+| Cloudflare Pages, Supabase, CPU worker와 GPU 모델 연결 | [배포 연결 안내](../deploy/supabase/README.md) |
 | 최종 정책과 후보 선택 근거 | [정책 확정](experiments/final-alert-policy-20261012.md) |
 | 발표용 상세 비교와 질문 답변 | [발표 참고 자료](PRESENTATION_FINAL_20261012.md) |
 
@@ -26,6 +29,7 @@
 
 ## 날짜별 서비스 검증
 
+- [10월 28~29일 화면 캡처와 11월 1일 문서 정리](SERVICE_SCREENS_20261101.md)
 - [10월 26일 운영 화면과 실제 iPhone 알림](SERVICE_SCREENS_20261026.md)
 - [10월 26일 사용량 원장 메모리 복구](verification/usage-ledger-memory-20261026/README.md)
 

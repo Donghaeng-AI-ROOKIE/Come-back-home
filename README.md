@@ -9,22 +9,43 @@
   AI 기반 동선 예측과 맞춤 알림으로 실종자 수색을 효율화하는 서비스
 </p>
 
+<p align="center">
+  <img src="docs/assets/cover-20261101.png" width="100%" alt="생활밀착형 실종자 수색 애플리케이션 돌아오길, TEAM 동행 결선 표지"/>
+</p>
+
 2026 인공지능 루키 국내 AI 트랙 결선 프로젝트입니다. 보호자의 생활 정보와 치매 행동 연구를 참고한 예측 모델, 수색 문헌 통계, 실제 도로망을 연결해 수색 우선 구역을 계산합니다. 목표는 **알림 대상 면적당 정답 위치 포함 효율을 높이는 것**입니다.
 
-[서비스 열기](https://doraogil.pages.dev/) · [문서 안내](docs/README.md) · [기술 구조](docs/SERVICE_E2E_20261012.md) · [최종 정책과 근거](docs/experiments/final-alert-policy-20261012.md) · [API 계약](API_CONTRACT.md)
+[서비스 열기](https://doraogil.pages.dev/) · [문서 안내](docs/README.md) · [아키텍처와 처리 흐름](docs/ARCHITECTURE_20261101.md) · [최종 정책과 근거](docs/experiments/final-alert-policy-20261012.md) · [API 계약](API_CONTRACT.md)
 
-## 운영 서비스 화면
+## 서비스 화면
 
-보호자 등록부터 시민의 긴급 알림과 수색 지도까지, **2026-10-26 실제 배포 앱에서 촬영한 화면**입니다. 합성 사건 C의 iPhone 푸시와 같은 사건의 지도 화면을 함께 공개합니다.
+보호자 등록부터 시민의 수색 참여와 제보, 상황 종료까지 이어지는 **실제 앱 화면**입니다. 제공된 화면 보드의 원본 PNG를 사용했습니다. 2026-10-28~29 배포 웹앱에서 합성 인물·사건으로 촬영했으며, 사진을 누르면 크게 볼 수 있습니다.
 
-<table>
-<tr><th>보호자 홈</th><th>사건 C의 iPhone 확률 지도</th></tr>
-<tr><td><img src="docs/assets/service-screens-20261026/guardian-home.png" width="280" alt="합성 가족이 표시된 운영 보호자 홈"/></td><td><img src="docs/assets/service-screens-20261026/iphone-case-c-map-user.png" width="280" alt="운영 iPhone 앱의 합성 사건 C 확률 지도"/></td></tr>
+<table align="center">
+<tr><th align="center">보호자 홈</th><th align="center">실종 신고</th><th align="center">시민 수색 지도</th></tr>
+<tr>
+<td align="center"><a href="docs/assets/service-flow-20261101/guardian-home.png"><img src="docs/assets/service-flow-20261101/guardian-home.png" width="230" alt="사전 등록 가족과 실종 신고 버튼이 있는 보호자 홈"/></a></td>
+<td align="center"><a href="docs/assets/service-flow-20261101/missing-report.png"><img src="docs/assets/service-flow-20261101/missing-report.png" width="230" alt="마지막 목격 시각과 장소, 인상착의를 입력하는 실종 신고 화면"/></a></td>
+<td align="center"><a href="docs/assets/service-flow-20261101/search-map.png"><img src="docs/assets/service-flow-20261101/search-map.png" width="230" alt="예상 위치를 육각형 셀로 표시한 시민 수색 지도"/></a></td>
+</tr>
+<tr><th align="center">목격 내용 제보</th><th align="center">제보 접수 완료</th><th align="center">상황 종료 · 감사 안내</th></tr>
+<tr>
+<td align="center"><a href="docs/assets/service-flow-20261101/tip-input.png"><img src="docs/assets/service-flow-20261101/tip-input.png" width="230" alt="목격 내용을 자유롭게 작성하는 제보 입력 화면"/></a></td>
+<td align="center"><a href="docs/assets/service-flow-20261101/tip-receipt.png"><img src="docs/assets/service-flow-20261101/tip-receipt.png" width="230" alt="저장을 알리고 분석과 지도 반영이 서버에서 진행됨을 안내하는 제보 접수 화면"/></a></td>
+<td align="center"><a href="docs/assets/service-flow-20261101/resolved-detail.png"><img src="docs/assets/service-flow-20261101/resolved-detail.png" width="230" alt="가족 발견과 시민 제보에 대한 감사, 종결 정보를 표시하는 합성 시연 화면"/></a></td>
+</tr>
 </table>
 
-<img src="docs/assets/service-screens-20261026/iphone-os-case-c.png" width="520" alt="같은 사건 C의 실제 iPhone 푸시 알림, 개인 배경 가림"/>
+상황 종료 화면의 ‘4분·제보 2건’은 합성 시연 사건의 표시값입니다. 실제 구조 실적이나 발견율을 뜻하지 않습니다. 접수 완료는 제보 저장을 뜻하며 지도 반영 완료와 구분합니다. [등록 대화·경보 상세 등 전체 12장과 촬영 출처](docs/SERVICE_SCREENS_20261101.md).
 
-OS 알림 사진과 지도 사진의 촬영 시각은 다릅니다. 17:59 현재 대상 구역에 대응하는 추가 발송 기록과 휴대폰 수신도 확인했습니다. 위 지도는 도로망 수정 전 저장 결과이며, 하단 수색 안내는 로딩 중입니다. [전체 화면, 촬영 시각과 검증 범위](docs/SERVICE_SCREENS_20261026.md)에서 상세히 확인할 수 있습니다.
+<details>
+<summary>실제 iPhone OS 알림 확인 기록 (2026-10-26)</summary>
+
+<p align="center"><img src="docs/assets/service-screens-20261026/iphone-os-case-c.png" width="520" alt="합성 사건 C의 실제 iPhone OS 푸시 알림, 개인 배경 가림"/></p>
+
+10월 26일 같은 합성 사건의 추가 발송 기록과 휴대폰 수신을 확인했습니다. 위 웹앱 캡처와 별도의 검증입니다. [사진·촬영 시각·검증 범위](docs/SERVICE_SCREENS_20261026.md).
+
+</details>
 
 ## 최종 구현
 
@@ -35,7 +56,7 @@ OS 알림 사진과 지도 사진의 촬영 시각은 다릅니다. 17:59 현재
 | 지도 결합 | 개인화 30% + 문헌통계 70% |
 | 알림 구역 | H3 res9, 대상 구역 합집합 최대 5.8㎢ |
 | 전체 성향 축 채점 | OFF. SAR 초기 prior 생성과 K 개인 해석 반영은 유지 |
-| 서비스 연결 | Cloudflare Pages → Supabase Auth 및 작업 대기열 → GPU 서버 worker |
+| 서비스 연결 | Cloudflare Pages → Supabase Auth·작업 큐 → CPU worker ↔ GPU 모델 서버 |
 
 보호자 정보와 마음, 행동 규칙을 반영한 개인화 지도에 30%, 문헌의 이동거리 분포로 계산한 통계 지도에 70%의 가중치를 적용해 최종 위치 확률을 산출합니다. 개인의 습관과 행동 특성을 반영하면서, 평소와 다른 이동 가능성까지 함께 고려하도록 설계했습니다.
 
@@ -46,26 +67,29 @@ OS 알림 사진과 지도 사진의 촬영 시각은 다릅니다. 17:59 현재
 1. **보호자 등록:** Mi:dm과 대화하며 생활 습관, 이동 능력, 자주 가는 장소를 저장합니다. K-EXAONE이 개인 해석과 조건별 행동 규칙을 미리 준비합니다.
 2. **실종 신고:** 등록 프로필과 마지막 목격 위치, 시각, 인상착의를 연결합니다. 신고 완료 화면이 예측 요청을 자동 시작하고 계산은 서버에서 진행합니다. 서버의 주기 갱신도 미예측 사건을 확인합니다.
 3. **예측과 알림:** 도로망 보행으로 개인화 지도를 만들고 독립 문헌통계 지도와 결합합니다. 선정 구역의 위치, 구독, 참여 상태 등 수신 조건을 충족한 시민에게 앱, 웹 푸시를 보냅니다.
-4. **시민 제보:** Mi:dm 2.0 Mini가 제보를 구조화하고 코드는 정보 충실도와 시공간 개연성을 평가합니다. 접수 결과를 먼저 반환하고 무거운 재예측과 추가 알림은 뒤에서 처리합니다. 재계산 중에는 저장된 지도를 조회합니다.
+4. **시민 제보:** Mi:dm 2.0 Mini가 제보를 구조화하고 코드는 정보 충실도와 시공간 개연성을 평가합니다. 앱의 비동기 접수 경로는 제보를 저장해 먼저 응답하고, 구조화·지도 갱신·재예측과 추가 알림을 뒤에서 처리합니다. 재계산 중에는 저장된 지도를 조회합니다.
 5. **시간 갱신과 종결:** 보행 체크포인트를 이어 계산합니다. 사건 종결 후 예측과 추가 제보를 차단하고, 설정된 보관 기간과 파기 절차를 적용합니다.
 
 평상시에는 산책 기록과 주변 산책 장소 추천을 제공합니다. 실종 경보를 받으면 같은 앱에서 수색 지도와 제보로 이동합니다. 신고, 알림, 예측은 공적 실종 신고 및 수색을 보조합니다.
 
-```mermaid
-flowchart TD
-  G["보호자 대화: Mi:dm"] --> K["K-EXAONE: 개인 해석, 행동 규칙 준비"]
-  G --> S["사건별 SAR LoRA: 초기 이동 수치"]
-  R["실종 신고"] --> S
-  S --> P["도로망 개인 보행: 코드가 해석과 규칙 적용"]
-  K --> P
-  R --> L["독립 문헌 거리분포 지도"]
-  P --> M["개인화 30% + 문헌통계 70%"]
-  L --> M
-  M --> A["res9, 최대 5.8㎢ 대상 선정"]
-  A --> N["수신 조건 확인, 앱과 웹 푸시"]
-  T["시민 제보: Mi:dm 2.0 Mini"] --> U["코드 평가, 지도 갱신과 재예측"]
-  U --> M
-```
+## 아키텍처와 처리 흐름
+
+등록 때 K-EXAONE의 개인 해석과 행동 규칙을 준비하고, 신고 때 SAR 초기 수치와 연결합니다. 도로망·규칙 준비 상태에 따라 보행을 계산한 뒤 개인화 30%와 독립 문헌통계 70%를 결합해 알림 구역을 고릅니다.
+
+<p align="center"><a href="docs/assets/architecture-20261101/prediction-flow.svg"><img src="docs/assets/architecture-20261101/prediction-flow.svg" width="900" alt="돌아오길 주요 처리 흐름: 보호자 대화, K 개인 해석, SAR, 도로망 분기, 두 지도 결합과 알림"/></a></p>
+
+10월 30일 처리 흐름을 첨부한 초록색 도식 구성에 맞춰 정리하고, main `88fe182` 코드와 대조했습니다. 그림의 ON은 사용 경로를 뜻하며 모든 사건에서 규칙 보행이 실행됐다는 의미는 아닙니다. 신고 직후의 1차 주변 경보는 예측 기반 경보와 별도입니다. 시민 제보는 저장 후 먼저 응답하고, Mini 구조화·코드 평가·지도 갱신과 재예측을 뒤에서 처리합니다.
+
+<details>
+<summary>실행 아키텍처 — Cloudflare·Supabase·CPU·GPU 연결</summary>
+
+웹 파일은 Cloudflare Pages가 제공하고, Supabase는 인증과 작업 전달을 담당합니다. GPU 서버에 있는 **worker의 CPU**가 검증·보행·지도 결합을 수행하며, 필요한 순간 GPU 모델 서버나 외부 API를 호출합니다. 프로필·사건·제보·체크포인트는 worker의 SQLite 데이터 볼륨에 저장합니다.
+
+![Cloudflare 앱, Supabase 인증과 작업 큐, CPU worker, GPU 모델 및 외부 API의 실행 구조](docs/assets/architecture-20261101/runtime.svg)
+
+</details>
+
+[제보·시간 갱신까지 포함한 상세 처리 흐름](docs/assets/architecture-20261101/processing-flow.svg) · [실행 구조·폴백과 코드 근거](docs/ARCHITECTURE_20261101.md) · [부스 전용 템플릿·준비 결과 재사용](docs/DEMO_ONBOARDING.md)
 
 ### 모델별 역할
 
@@ -110,10 +134,11 @@ KINTEX 합성 인물 39명의 새 이동 경로 351개를 두 예측 시드와 1
 
 ## 코드, 실험, 배포 기록
 
-2026-10-23 정리 시작 시 main `530c725`는 #297로 develop의 #296까지 포함하며 두 브랜치의 파일 내용이 같았습니다. 이 정리는 문서와 근거 안내를 갱신합니다. 서비스 엔진, 정책, 운영 배포를 새로 변경한 작업이 아닙니다.
+2026-11-01 문서 개정은 main `88fe182`(#358) 기준입니다. 표지와 10월 28~29일 앱 캡처를 추가하고, 10월 30일 처리 흐름도를 최신 코드와 대조했습니다. 부스 템플릿·준비 결과 재사용(#352~#356), 대표 보행 궤적 저장(#357), 제보 목격 시각의 한국 시간 해석(#358)을 문서에 연결했습니다. 기존 성능표는 해당 실험 기록을 유지합니다.
 
 - [문서 안내](docs/README.md): 최종 구조, 평가, 과거 실험, 검증 기록을 목적별로 찾기
-- [최종 E2E 구조](docs/SERVICE_E2E_20261012.md): 축 OFF, SAR prior, 마음 규칙, Mini 역할
+- [최신 아키텍처와 처리 흐름](docs/ARCHITECTURE_20261101.md): CPU/GPU 분리, 접수·분석 분리, 폴백과 코드 근거
+- [10월 12일 E2E 구조](docs/SERVICE_E2E_20261012.md): 당시 축 OFF, SAR prior, 마음 규칙, Mini 역할
 - [클라우드 실행 구조](deploy/supabase/README.md): 인증, 대기열, worker, 배포 설정
 - [지역 도로망 사전 저장](docs/verification/regional-road-cache-20261026/README.md): Supabase 지도 캐시와 망원 적용 검증
 - [10월 12일 서비스 검증](docs/verification/service-full-audit-20261012/README.md): 해당 시점의 범위와 잔여 한계
@@ -127,7 +152,7 @@ KINTEX 합성 인물 39명의 새 이동 경로 351개를 두 예측 시드와 1
 backend/       FastAPI, 온보딩, SAR prior, 도로망 보행, 제보, 알림, 파기
 frontend/      Expo / React Native 앱과 웹, Supabase 인증 및 작업 전송
 dashboard/    내부 시연과 관제용 Vite / React 화면
-deploy/       Supabase 대기열 SQL, GPU worker 컨테이너 구성
+deploy/       Supabase 대기열 SQL, CPU worker와 GPU 모델 연결 구성
 docs/         최종 구조, 평가 근거, 날짜별 검증과 과거 실험
 API_CONTRACT.md  전송 경계와 업무 API 계약
 ```
