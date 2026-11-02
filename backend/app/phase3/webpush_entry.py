@@ -4,16 +4,22 @@ Only the current negotiated H3 res7/8/9 cell is retained, with a five-minute
 eligibility TTL. Coordinates and movement history are not sent. A res9 cell
 reveals a smaller location region. Entry is client observation, not GPS proof.
 """
-import base64,hashlib,re,threading,time
-from datetime import datetime,timedelta
+import base64
+import hashlib
+import re
+import threading
+import time
+from datetime import datetime, timedelta
 from urllib.parse import urlsplit
+
 import h3
 from fastapi import HTTPException
+
 from app import storage
-from app.phase3 import alerts,devices,webpush
 from app.config import settings
-from app.schemas.device import Platform
+from app.phase3 import alerts, devices, webpush
 from app.schemas.case import CaseStatus
+from app.schemas.device import Platform
 
 _lock=threading.RLock()
 _recent_attempts={}
@@ -32,8 +38,7 @@ def validate_subscription(sub):
     try:
         u=urlsplit(endpoint);host=u.hostname or ''
         allowed=(host in ('fcm.googleapis.com','web.push.apple.com','updates.push.services.mozilla.com')
-                 or host.endswith('.push.services.mozilla.com') or host.endswith('.push.apple.com')
-                 or host.endswith('.notify.windows.com'))
+                 or host.endswith(('.push.services.mozilla.com','.push.apple.com','.notify.windows.com')))
         if not (u.scheme=='https' and allowed and u.port in (None,443)
                 and not u.username and not u.password and not u.fragment and len(endpoint)<=2048):
             raise ValueError()
@@ -134,7 +139,7 @@ def update_location(owner,token,cell):
 
 def deliver(device,title,body,payload,*,test=False,now=None):
     """One duplicate guard shared by event fanout and entry; vendor acceptance only."""
-    now=now or datetime.now()
+    now=now or datetime.now()  # noqa: DTZ005 — 기기 기록(location_updated_at 등)과 같은 서버 지역 시각
     token=device.token
     if not test:
         case = storage.cases.get(payload.get('case_id'))
@@ -172,7 +177,7 @@ def deliver(device,title,body,payload,*,test=False,now=None):
     return 'accepted' if sent else 'failed'
 
 def enter(owner,token,case_id,*,test=False,now=None):
-    now=now or datetime.now()
+    now=now or datetime.now()  # noqa: DTZ005 — 기기 기록(location_updated_at 등)과 같은 서버 지역 시각
     d=owned(owner,token)
     if not webpush.enabled():return {'status':'unavailable'}
     if test:
