@@ -74,11 +74,36 @@ def register(owner,sub,cell,engagement):
 
 
 def target_for_case(case):
-    # Preserve the existing D1/reflex and POA notification-area selection.
-    kind='poa' if case.current_poa else 'reflex'
-    cells=(alerts.select_alert_cells(case.current_poa) if case.current_poa
-           else alerts.select_reflex_cells(case.lkp))
-    return kind,cells
+    """Area an entry push may repeat: reflex(1차) before prediction, else the POA area.
+
+    After a POA/D3 notification has been delivered, entry repeats **that announced
+    area** (`last_alert_poa`), not the live POA. A tip's layer-1 update changes the
+    live POA before its re-prediction finishes, and D3 decides afterwards whether
+    the change is a new region. Following the live POA sent a 2차-worded push
+    to a newly covered device ahead of the 3차 decision.
+    """
+    if not case.current_poa:
+        return 'reflex',alerts.select_reflex_cells(case.lkp)
+    return 'poa',alerts.select_alert_cells(getattr(case,'last_alert_poa',None) or case.current_poa)
+
+def _stage_key(case_id,kind):
+    """reflex(1차) is one stage; poa(2차) and new_region(3차) both announce the POA area."""
+    stage='reflex' if kind=='reflex' else 'predicted'
+    return hashlib.sha256(f'stage:{case_id}:{stage}'.encode()).hexdigest()
+
+def _stage_notified(token,case_id,kind,now):
+    """Has this device had a push for this case's current stage within ENTRY_COOLDOWN?
+
+    Counts event fanout (2차 poa, 3차 new_region) and earlier entry pushes. An
+    attempt still in flight counts for 60 seconds, as for event keys.
+    """
+    key=_stage_key(case_id,kind)
+    with _lock:
+        d=storage.devices.get(token)
+        if d is None:return False
+        if time.monotonic()-_recent_attempts.get((token,key),-1e30)<60:return True
+        last=d.entry_sent_at.get(key)
+        return bool(last and now-last<ENTRY_COOLDOWN)
 
 def targets(cell,device=None):
     if cell is None:return []
@@ -120,6 +145,8 @@ def deliver(device,title,body,payload,*,test=False,now=None):
     # A changed target area or D1 -> POA -> D3 is a different notification event.
     identity=str(payload.get('case_id',''))+':'+str(payload.get('kind',''))+':'+','.join(sorted(payload.get('target_cells',[])))
     event_key='test' if test else hashlib.sha256(identity.encode()).hexdigest()
+    # Entry consults this per-stage stamp (enter); event fanout records it only.
+    stage_key=None if test else _stage_key(payload.get('case_id',''),payload.get('kind',''))
     with _lock:
         d=storage.devices.get(token)
         if d is None:return 'unavailable'
@@ -130,6 +157,7 @@ def deliver(device,title,body,payload,*,test=False,now=None):
         # Trial notifications are limited; D1/POA/D3 retain the existing eligibility policy.
         if test and d.sent_count_24h(now)>=MAX_DAILY:return 'daily_limit'
         _recent_attempts[key]=stamp
+        if stage_key:_recent_attempts[(token,stage_key)]=stamp
         for k,t in list(_recent_attempts.items()):
             if stamp-t>3600:_recent_attempts.pop(k,None)
     sent=webpush.send_one(d.web_subscription,title,body,payload)
@@ -139,6 +167,7 @@ def deliver(device,title,body,payload,*,test=False,now=None):
             if current is not None:
                 current.entry_sent_at={k:t for k,t in current.entry_sent_at.items() if now-t<timedelta(hours=24)}
                 current.entry_sent_at[event_key]=now
+                if stage_key:current.entry_sent_at[stage_key]=now
                 storage.devices.save(token,current)
     return 'accepted' if sent else 'failed'
 
@@ -157,6 +186,10 @@ def enter(owner,token,case_id,*,test=False,now=None):
         return {'status':'location_stale'}
     if not any(t['case_id']==case_id for t in targets(cell,d)):return {'status':'outside'}
     kind,cells=target_for_case(case)
+    # One push per device per stage per ENTRY_COOLDOWN. The event key alone
+    # changes with every new target area, so after a tip it re-sent a 2차-worded
+    # `poa` push within one 15-second location tick of the 3차 `new_region` push.
+    if _stage_notified(token,case.id,kind,now):return {'status':'cooldown','delivery_confirmed':False}
     look=case.report.appearance
     summary=look.summary if look and look.summary else '인상착의 정보 없음'
     result=alerts.send_alerts(case.id,cells,summary,kind=kind,poa=case.current_poa,only_tokens={token})
