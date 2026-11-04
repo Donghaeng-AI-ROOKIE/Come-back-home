@@ -51,7 +51,10 @@ async function run<T>(key:string,path:string,method:string,body:unknown,timeout:
     const { error } = await db.rpc('cbh_submit',{p_id:id,p_method:method,p_path:path,p_body:body});
     if (error && error.code && !['PGRST000','PGRST001','PGRST002'].includes(error.code)) {
       await safeStorage.removeItem(key);
-      throw new ApiError(503,path,error.message);
+      const busy = error.code === '53300';
+      throw new ApiError(busy ? 429 : 503, path, busy
+        ? '요청이 많아 작업을 시작하지 못했습니다. 잠시 후 다시 시도해 주세요.'
+        : error.message, true);
     }
   }
   if (!resume) await submit();

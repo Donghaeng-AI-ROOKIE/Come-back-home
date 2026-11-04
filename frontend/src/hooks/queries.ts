@@ -156,6 +156,7 @@ export function useRunPrediction(caseId: string) {
   return useMutation({
     mutationFn: () => runPrediction(caseId),
     onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['guardianCase', caseId], exact: true });
       qc.invalidateQueries({ queryKey: ['poa', caseId] });
       qc.invalidateQueries({ queryKey: ['activeAlerts'] });
       qc.invalidateQueries({ queryKey: ['guardianCases'] });
