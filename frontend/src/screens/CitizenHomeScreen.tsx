@@ -1,13 +1,12 @@
-﻿import React from 'react';
-import { ActivityIndicator, Alert, Platform, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Alert, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { color, type } from '../theme/tokens';
-import { useActiveAlerts, useActiveWalk, useNearbyWalks, useStartWalk, useWalkStats } from '../hooks/queries';
-import type { NearbyWalk } from '../api/client';
+import { useActiveAlerts, useActiveWalk, useStartWalk, useWalkStats } from '../hooks/queries';
 import { isLocationSettled, retryLocation, useMyLocation } from '../hooks/useMyLocation';
 import FigmaLogo from '../components/FigmaLogo';
 import PushEnableCard from '../components/PushEnableCard';
@@ -15,70 +14,14 @@ import FigmaStatusBar from '../components/FigmaStatusBar';
 import AlertCard from '../components/AlertCard';
 import { useAppModeStore } from '../store/appModeStore';
 import { nearbyAlertCard } from '../utils/alertTitle';
-import { Polyline } from 'react-native-maps';
-import BaseMap from '../components/BaseMap';
-import WebMap from '../components/WebMap';
 import { formatKm, koreanMonth } from '../utils/walkFormat';
-
-/**
- * 카드 썸네일 — 그 길의 **실제 모양**을 지도 위에 그린다.
- *
- * "루트 추천"이라면서 지도 한 장만 띄우면 어디를 어떻게 걷는 길인지 알 수 없다.
- * 서버가 OSM 원본 좌표열을 주므로(geo/nearby.py) 그것을 그대로 선으로 잇는다.
- */
-function RouteThumb({ route, style }: { route: NearbyWalk; style: any }) {
-  const center = { lat: route.lat, lng: route.lng };
-  // 좌표열이 없을 수도 있다 — 서버 디스크 캐시에 옛 형식이 남아 있는 경우.
-  // 그때는 선 없이 그 자리 지도만 보여준다(빈 배열에 Math.max 를 쓰면 -Infinity 다).
-  const path = route.path ?? [];
-  // 길 전체가 담기도록 경계에 맞춰 축척을 정한다 — 고정 축척이면 긴 길이 잘린다.
-  const lats = path.map((p) => p.lat);
-  const lngs = path.map((p) => p.lng);
-  const span = path.length
-    ? Math.max(
-        (Math.max(...lats) - Math.min(...lats)) * 1.4,
-        (Math.max(...lngs) - Math.min(...lngs)) * 1.4,
-        0.004,
-      )
-    : 0.006;
-  if (Platform.OS === 'web') {
-    return (
-      <WebMap
-        style={style}
-        center={center}
-        path={path}
-        zoom={span > 0.02 ? 13 : span > 0.01 ? 14 : 15}
-        accessibilityLabel={`${route.name} 산책 경로`}
-      />
-    );
-  }
-  return (
-    <BaseMap
-      style={style}
-      liteMode
-      scrollEnabled={false}
-      region={{ latitude: route.lat, longitude: route.lng, latitudeDelta: span, longitudeDelta: span }}
-      accessibilityLabel={`${route.name} 산책 경로`}
-    >
-      {path.length > 1 ? (
-        <Polyline
-          coordinates={path.map((p) => ({ latitude: p.lat, longitude: p.lng }))}
-          strokeColor={color.brand}
-          strokeWidth={4}
-        />
-      ) : null}
-    </BaseMap>
-  );
-}
 
 export default function CitizenHomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { data: stats, refetch, isRefetching } = useWalkStats();
   const { data: active } = useActiveWalk();
-  const walks = useNearbyWalks();
-  const refreshHome = () => { void refetch(); if (locStatus === 'granted') void walks.refetch(); };
-  // 위치를 못 받은 경우와 주변에 없는 경우는 다른 상황이다 — 같은 문구로 뭉개면
-  // 사용자는 앱이 고장 난 줄 알고 권한을 켜 볼 생각을 못 한다.
+  const refreshHome = () => { void refetch(); };
+  // 위치 권한 복구는 경보 대상 확인과 산책 기록에 계속 필요하다.
   const { status: locStatus, message: locMessage } = useMyLocation(true);
   const locBlocked = isLocationSettled(locStatus) && locStatus !== 'granted';
   /**
@@ -109,7 +52,7 @@ export default function CitizenHomeScreen() {
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={isRefetching || walks.isFetching} onRefresh={refreshHome} />}
+        refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refreshHome} />}
       >
         <View style={styles.logoRow}><FigmaLogo mode="citizen" /></View>
 
@@ -154,50 +97,15 @@ export default function CitizenHomeScreen() {
           </View>
         </View>
 
-        <View style={styles.routeHead}><Text style={styles.routeHeadline}>내 주변 산책 루트 추천</Text></View>
         {locBlocked ? (
-          /* 시민이 앱을 열면 가장 먼저 보는 자리다 — 여기서 위치를 되살릴 수
-             있어야 한다. 첫 권한 팝업을 놓치면 앱은 스스로 다시 묻지 않는다
-             (useMyLocation.retryLocation 주석). 위치가 없으면 산책 거리도,
-             긴급 알림 목록도 통째로 못 쓴다. */
-          <Pressable onPress={retryLocation} accessibilityRole="button">
-            <Text style={styles.routeEmpty}>
-              위치를 알 수 없어 주변 산책길을 찾지 못했습니다.{'\n'}
-              <Text style={styles.routeRetry}>눌러서 위치 권한 다시 요청하기</Text>
+          <Pressable onPress={retryLocation} accessibilityRole="button" accessibilityLabel="위치 권한 다시 요청하기">
+            <Text style={styles.locationNotice}>
+              위치를 알 수 없어 주변 경보와 산책 기록 이용이 제한됩니다.{'\n'}
+              <Text style={styles.locationRetry}>눌러서 위치 권한 다시 요청하기</Text>
               {locMessage ? `\n\n${locMessage}` : ''}
             </Text>
           </Pressable>
-        ) : walks.isFetching || !isLocationSettled(locStatus) ? (
-          <ActivityIndicator style={styles.routeLoading} color={color.brand} />
-        ) : walks.isError ? (
-          <Pressable onPress={() => void walks.refetch()} accessibilityRole="button" accessibilityLabel="산책 장소 다시 불러오기">
-            <Text style={styles.routeEmpty}>
-              산책 장소 정보를 불러오지 못했습니다.{'\n'}
-              <Text style={styles.routeRetry}>눌러서 다시 불러오기</Text>
-            </Text>
-          </Pressable>
-        ) : (walks.data?.length ?? 0) === 0 ? (
-          // 지어낸 목록으로 채우지 않는다 — 못 찾았으면 못 찾았다고 말한다.
-          <Pressable onPress={() => void walks.refetch()} accessibilityRole="button" accessibilityLabel="주변 산책 장소 다시 검색">
-            <Text style={styles.routeEmpty}>반경 2km 안에서 등록된 산책 장소를 찾지 못했습니다.{'\n'}
-              <Text style={styles.routeRetry}>눌러서 다시 검색하기</Text>
-            </Text>
-          </Pressable>
-        ) : (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.routeRow}>
-            {walks.data!.map((route) => (
-              <Pressable key={`${route.name}-${route.lat}`} onPress={() => onStart(route.name)} style={({ pressed }) => [styles.routeCard, pressed && styles.pressed]}>
-                <RouteThumb route={route} style={styles.routeImage} />
-                <Text style={styles.routeName} numberOfLines={1}>{route.name}</Text>
-                {/* 코스 길이와 내 위치까지의 거리는 다른 값이다 — 섞어 적으면
-                    직선거리를 걸은 거리처럼 읽게 된다. */}
-                <Text style={styles.routeMeta}>
-                  {route.kind === 'park' ? '둘레' : '코스'} {route.route_km}km · 여기서 {route.distance_km}km
-                </Text>
-              </Pressable>
-            ))}
-          </ScrollView>
-        )}
+        ) : null}
 
         <Pressable
           onPress={() => onStart()}
@@ -229,16 +137,8 @@ const styles = StyleSheet.create({
   monthStat: { flex: 1, alignItems: 'center', gap: 6 },
   monthStatValue: { fontFamily: type.familyCssBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#000000' },
   monthStatLabel: { fontFamily: type.familyCss, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: color.figmaGray },
-  routeLoading: { height: 212, justifyContent: 'center' },
-  routeEmpty: { height: 212, paddingHorizontal: 16, fontFamily: type.familyCss, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: color.figmaGray },
-  routeRetry: { color: color.brand, textDecorationLine: 'underline' },
-  routeHead: { height: 56, justifyContent: 'center', paddingHorizontal: 16 },
-  routeHeadline: { fontFamily: type.familyCssExtraBold, fontSize: 18, lineHeight: 23, color: '#000000' },
-  routeRow: { paddingLeft: 16, paddingRight: 16, gap: 8 },
-  routeCard: { width: 164, height: 212 },
-  routeImage: { width: 164, height: 162, borderRadius: 10, backgroundColor: '#DEDEDE' },
-  routeName: { fontFamily: type.familyCssBold, fontSize: 17, lineHeight: 22, letterSpacing: -0.41, color: '#000000', marginTop: 10 },
-  routeMeta: { fontFamily: type.familyCss, fontSize: 13, lineHeight: 18, letterSpacing: -0.08, color: color.figmaGray },
+  locationNotice: { marginTop: 20, paddingHorizontal: 16, fontFamily: type.familyCss, fontSize: 13, lineHeight: 18, color: color.figmaGray },
+  locationRetry: { color: color.brand, textDecorationLine: 'underline' },
   start: { height: 57, marginHorizontal: 10, marginTop: 37, borderRadius: 30, backgroundColor: color.brand, alignItems: 'center', justifyContent: 'center', shadowColor: '#000000', shadowOpacity: 0.18, shadowRadius: 2, shadowOffset: { width: 0, height: 2 }, elevation: 3 },
   startText: { fontFamily: type.familyCssBold, fontSize: 20, lineHeight: 25, letterSpacing: 0.38, color: '#FFFFFF' },
   pressed: { opacity: 0.8 },
