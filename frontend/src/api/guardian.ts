@@ -8,6 +8,7 @@
  * 슬롯 충족도에 따라 질문이 달라지므로 앱에 박아 두면 서버와 어긋난다.
  */
 import { CLOUD_TRANSPORT } from './supabase';
+import { ApiError } from './errors';
 import type { GeoPoint } from '../types/domain';
 import { CHAT_TIMEOUT_MS, SLOW_TIMEOUT_MS, api } from './config';
 
@@ -411,6 +412,9 @@ export async function runPrediction(caseId: string, seed?: number) {
     return await api<{ case_id: string }>(`/phase2/cases/${caseId}/predict${q}`,
                                           { method: 'POST', timeoutMs: SLOW_TIMEOUT_MS });
   } catch (e) {
+    // A rejected submission never started a prediction. Do not wait for a result
+    // that cannot arrive; only uncertain execution retains recovery polling.
+    if (e instanceof ApiError && (e.submissionRejected || (e.status >= 400 && e.status < 500))) throw e;
     // **연결이 끊겨도 서버는 계산을 끝낸다.** 결과가 실제로 생겼는지 확인한다.
     //
     // 공개 경로의 Cloudflare 는 **100초에서 끊는다(524)** — 무료 플랜이라 못 늘린다.

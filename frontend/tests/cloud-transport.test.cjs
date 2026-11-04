@@ -7,7 +7,7 @@ const {webcrypto}=require('node:crypto');
 const source=ts.transpileModule(fs.readFileSync(require('node:path').join(__dirname,'../src/api/cloudTransport.ts'),'utf8'),{
   compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022},
 }).outputText;
-class ApiError extends Error {constructor(status,path,message){super(message);this.status=status;this.path=path}}
+class ApiError extends Error {constructor(status,path,message,submissionRejected=false){super(message);this.status=status;this.path=path;this.submissionRejected=submissionRejected}}
 function harness(rpc,store=new Map()) {
   const exports={};
   const deps={
@@ -123,4 +123,11 @@ test('configuration recovery does not duplicate push, location, model or externa
     await assert.rejects(h.request(path,{method}),{status:503});
     assert.equal(count,1,path);
   }
+});
+
+test('queue rejection clears unsubmitted ID and never polls; manual retry can submit',async()=>{
+ let results=0,submissions=0,reject=true;
+ const h=harness(async name=>{if(name==='cbh_submit'){submissions++;return reject?{error:{code:'53300',message:'queue busy'}}:{error:null};}results++;return {data:{state:'done',status_code:200,result:{ok:true}},error:null};});
+ await assert.rejects(h.request('/phase2/cases/demo/predict',{method:'POST'}),{status:429,submissionRejected:true});assert.equal(results,0);assert.equal(h.store.size,0);
+ reject=false;assert.equal((await h.request('/phase2/cases/demo/predict',{method:'POST'})).ok,true);assert.equal(submissions,2);assert.equal(results,1);
 });

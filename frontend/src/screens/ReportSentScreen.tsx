@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { SvgXml } from 'react-native-svg';
 import { icBroadcastGreenXml } from '../assets/guardianSvg';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
@@ -12,6 +12,7 @@ import { color, type } from '../theme/tokens';
 import { useRunPrediction } from '../hooks/queries';
 import { useQuery } from '@tanstack/react-query';
 import { getCase } from '../api/guardian';
+import { ApiError } from '../api/errors';
 import { useGuardianCaseStore } from '../store/guardianCaseStore';
 import FigmaLogo from '../components/FigmaLogo';
 import FigmaFlowTabBar from '../components/FigmaFlowTabBar';
@@ -22,8 +23,12 @@ export default function ReportSentScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { caseId } = useRoute<RouteProp<RootStackParamList, 'ReportSent'>>().params;
   const predict = useRunPrediction(caseId);
+  const isFocused = useIsFocused();
   const { data: reportCase } = useQuery({ queryKey: ['guardianCase', caseId],
-    queryFn: () => getCase(caseId), refetchInterval: 5000 });
+    // Load the profile once; prediction success invalidates this query once.
+    // A mounted screen behind another route must not keep using the quota.
+    queryFn: () => getCase(caseId), enabled: isFocused && !!caseId,
+    refetchInterval: false, refetchOnWindowFocus: false, retry: false });
   const interpretationStatus = reportCase?.prior?.initial_interpretation?.status;
   const missingProfile = !!reportCase && !reportCase.report.persona_id;
   const awaitingPreparation = interpretationStatus?.startsWith('preparation_');
@@ -50,11 +55,13 @@ export default function ReportSentScreen() {
         </View>
         <View style={styles.notice}>
           <Text style={styles.noticeTitle}>안내사항</Text>
-          <Text style={styles.noticeText}>{predict.isError ? '신고는 접수됐습니다. AI 분석만 다시 시도해 주세요.' : predict.isSuccess ? '예상 위치 계산이 완료됐습니다. 지도에서 예상 위치와 접수된 제보를 확인할 수 있습니다.' : '입력한 정보로 예상 위치를 계산하고 있습니다. 인근 시민들의 제보가 확인되는 대로 안내해 드리겠습니다.'}</Text>
+          <Text style={styles.noticeText}>{predict.isError ? (predict.error instanceof ApiError && predict.error.submissionRejected
+            ? `신고는 접수됐습니다. ${predict.error.message}`
+            : '신고는 접수됐습니다. AI 분석만 다시 시도해 주세요.') : predict.isSuccess ? '예상 위치 계산이 완료됐습니다. 지도에서 예상 위치와 접수된 제보를 확인할 수 있습니다.' : '입력한 정보로 예상 위치를 계산하고 있습니다. 인근 시민들의 제보가 확인되는 대로 안내해 드리겠습니다.'}</Text>
           {missingProfile ? <Text style={styles.noticeText}>사전등록 정보가 없어 개인별 습관은 아직 반영되지 않았습니다.</Text>
             : awaitingPreparation ? <Text style={styles.noticeText}>현재 확보된 정보로 예측했습니다. 개인 특성 해석은 아직 반영되지 않았습니다.</Text> : null}
         </View>
-        {reportCase?.report.persona_id ? <View style={{ width: 330 }}>
+        {isFocused && reportCase?.report.persona_id ? <View style={{ width: 330 }}>
           <PreparationNotice personaId={reportCase.report.persona_id} />
         </View> : null}
         <View style={styles.actions}>
