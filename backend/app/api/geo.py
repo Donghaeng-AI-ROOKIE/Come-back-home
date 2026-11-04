@@ -132,17 +132,8 @@ class NearbyWalk(BaseModel):
 @router.get("/nearby-walks", response_model=list[NearbyWalk])
 def nearby_walks(lat: float = Query(ge=-90, le=90), lng: float = Query(ge=-180, le=180),
                  limit: int = Query(default=4, ge=1, le=12)) -> list[NearbyWalk]:
-    """내 주변 산책 **루트** — 실제 OSM 산책로의 좌표열까지.
-
-    이름과 지도 한 장만 주면 어디를 어떻게 걷는 길인지 알 수 없다. 길의 실제
-    모양(path)과 실제 길이(route_km)를 함께 준다 — 직선거리를 "걸어서 N km"로
-    적으면 잰 적 없는 숫자가 된다. 정상 검색이 비었으면 빈 목록, 조회 실패는503이다.
-    """
-    try:
-        rows = nearby.nearby_walks(GeoPoint(lat=lat, lng=lng), limit=limit)
-    except nearby.NearbyUnavailable as exc:
-        raise HTTPException(503, "산책 장소 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.") from exc
-    return [NearbyWalk(**r) for r in rows]
+    """Disabled recommendations: older clients receive an immediate empty list."""
+    return nearby.nearby_walks(GeoPoint(lat=lat, lng=lng), limit=limit)
 
 
 # ── 지도 타일 중계 ────────────────────────────────────────────
