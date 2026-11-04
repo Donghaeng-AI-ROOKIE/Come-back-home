@@ -1,7 +1,7 @@
 /** 서버 동기화 훅 (TanStack Query v5) + 파생 골든타임 (spec §2.4). */
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getActiveAlerts, getGuidance, getNearbyWalks, getPoaPrediction, getResolvedAlerts, touchPresence } from '../api/client';
+import { getActiveAlerts, getGuidance, getPoaPrediction, getResolvedAlerts, touchPresence } from '../api/client';
 import { isCaseEnded } from '../api/errors';
 import { getActiveWalk, getWalkStats, endWalk, startWalk } from '../api/walk';
 import { getAreaLabels, getCase, getDemoTemplate, getMyCases, getPersonaStatus, listPersonas, runPrediction } from '../api/guardian';
@@ -127,28 +127,6 @@ export function useGuardianCases(use: 'poll' | 'follow' | 'off' = 'poll') {
     refetchInterval: poll ? ALERT_POLL_MS : false,
     refetchOnWindowFocus: poll,
     refetchOnMount: poll,
-  });
-}
-
-/**
- * 내 주변 산책 장소 — 서버가 OSM 에서 실제 공원·산책로를 찾아 준다.
- *
- * 앱에 고정 목록을 박아 두면 어디서 켜도 같은 이름이 뜨는데 그건 "내 주변"이
- * 아니다(실측: 고정값 "경의선 숲길 1.2km" — 신촌에서 실제 거리는 0.6km).
- * 위치를 모르면 묻지 않는다.
- */
-export function useNearbyWalks() {
-  const { point } = useMyLocation(true);
-  const key = point ? `${point.lat.toFixed(3)},${point.lng.toFixed(3)}` : null;
-  return useQuery({
-    queryKey: ['nearbyWalks', key],
-    queryFn: () => getNearbyWalks(point!),
-    enabled: point != null,
-    // Empty results and temporary map failures must not persist for the whole session.
-    staleTime: 5 * 60_000,
-    // 실패해도 다시 시도하지 않는다. 외부 지도 서비스가 느린 날 재시도가 붙으면
-    // 대기 시간이 두 배가 되고, 그동안 화면에는 스피너만 돈다.
-    retry: false,
   });
 }
 

@@ -1,118 +1,78 @@
-"""산책 루트 조회 — 좌표열·길이·정렬 규칙 (외부 호출 없이 검증)."""
-import json
+"""Retired recommendations must never hold up predictions or contact Overpass."""
+import asyncio
+import socket
+import urllib.request
+
+import httpx
 import pytest
 from fastapi.testclient import TestClient
+
 from app.geo import nearby
 from app.main import app
 from app.schemas.common import GeoPoint
 
-CENTER = GeoPoint(lat=37.5585, lng=126.9368)
+CENTER = GeoPoint(lat=37.6689, lng=126.7457)
 
 
-def _way(name: str, coords: list[tuple[float, float]], **tags) -> dict:
-    return {"tags": {"name": name, **tags},
-            "geometry": [{"lat": la, "lon": ln} for la, ln in coords]}
+@pytest.fixture
+def forbid_lookup(monkeypatch):
+    def forbidden(*args, **kwargs):
+        pytest.fail("Retired nearby recommendations performed I/O")
+    monkeypatch.setattr(urllib.request, "urlopen", forbidden)
+    monkeypatch.setattr(socket, "create_connection", forbidden)
+    from app import storage
+    monkeypatch.setattr(storage.nearby_walks_cache, "get", forbidden)
+    monkeypatch.setattr(storage.nearby_walks_cache, "save", forbidden)
 
 
-def _line(lat: float, lng: float, n: int, step: float) -> list[tuple[float, float]]:
-    return [(lat + i * step, lng) for i in range(n)]
+def test_direct_lookup_does_not_touch_network_or_cache(forbid_lookup):
+    for _ in range(3):
+        assert nearby.nearby_walks(CENTER) == []
 
 
-def test_returns_geometry_and_real_length(monkeypatch):
-    nearby._cache.clear()
-    # 0.0001도 ≈ 11m → 60점이면 약 650m
-    way = _way("테스트공원", _line(37.5600, 126.9368, 60, 0.0001), leisure="park")
-    monkeypatch.setattr(nearby, "_fetch", lambda *a, **k: [way])
-    monkeypatch.setattr(nearby, "_disk_get", lambda k: None)
-    monkeypatch.setattr(nearby, "_disk_put", lambda k, v: None)
-
-    rows = nearby.nearby_walks(CENTER)
-    assert len(rows) == 1
-    r = rows[0]
-    assert r["name"] == "테스트공원" and r["kind"] == "park"
-    assert len(r["path"]) >= 2, "경로 좌표열이 있어야 지도에 선을 그린다"
-    assert 0.5 < r["route_km"] < 0.8, r["route_km"]
-    # 직선거리와 코스 길이는 다른 값이다
-    assert r["distance_km"] != r["route_km"]
+def test_legacy_http_requests_return_empty_without_retry_errors(forbid_lookup):
+    client = TestClient(app)
+    for _ in range(3):
+        response = client.get('/geo/nearby-walks', params={'lat': CENTER.lat, 'lng': CENTER.lng})
+        assert response.status_code == 200
+        assert response.json() == []
 
 
-def test_short_ways_are_dropped(monkeypatch):
-    nearby._cache.clear()
-    short = _way("골목", _line(37.5586, 126.9368, 5, 0.0001))   # ≈44m
-    monkeypatch.setattr(nearby, "_fetch", lambda *a, **k: [short])
-    monkeypatch.setattr(nearby, "_disk_get", lambda k: None)
-    monkeypatch.setattr(nearby, "_disk_put", lambda k, v: None)
-    assert nearby.nearby_walks(CENTER) == [], "골목 한 토막을 산책 루트라 하지 않는다"
+def test_legacy_lookup_does_not_hold_compute_consumer(forbid_lookup, monkeypatch):
+    from app.cloud_bridge import worker
+    from types import SimpleNamespace
+    # Authorization is covered by test_cloud_bridge; this test exercises the
+    # deployed ASGI transport and two sequential compute dispatches, without LLMs.
+    monkeypatch.setattr(worker, 'authorize', lambda owner, method, path, body:
+                        SimpleNamespace(method=method, path=path, body=body))
+
+    async def scenario():
+        transport = worker.EarlyResponseTransport(app)
+        async with httpx.AsyncClient(transport=transport, base_url='http://private-engine') as api:
+            job = {'owner_id': 'offline', 'method': 'GET',
+                   'path': f'/geo/nearby-walks?lat={CENTER.lat}&lng={CENTER.lng}'}
+            for _ in range(4):
+                assert await worker.dispatch(api, job, enabled=True) == (200, [])
+            # The following compute request can run immediately; substitute only
+            # its handler to avoid executing a real prediction.
+            calls = []
+            async def prediction(method, path, **kwargs):
+                calls.append(path)
+                return httpx.Response(200, json={'prediction_reached': True})
+            monkeypatch.setattr(api, 'request', prediction)
+            result = await worker.dispatch(api, {**job, 'method': 'POST',
+                'path': '/phase2/cases/offline/predict'}, enabled=True)
+            assert result == (200, {'prediction_reached': True})
+            assert calls == ['/phase2/cases/offline/predict']
+            if transport.pending:
+                await asyncio.gather(*transport.pending)
+
+    async def bounded():
+        await asyncio.wait_for(scenario(), timeout=2)
+    asyncio.run(bounded())
 
 
-def test_sorted_by_nearest_point_not_centroid(monkeypatch):
-    """긴 길은 대표점이 멀어도 옆을 지나가면 가깝다."""
-    nearby._cache.clear()
-    far_mid = _way("긴산책로", _line(37.5585, 126.9368, 90, 0.0001))   # 바로 옆에서 시작
-    near_all = _way("먼공원", _line(37.5700, 126.9368, 60, 0.0001), leisure="park")
-    monkeypatch.setattr(nearby, "_fetch", lambda *a, **k: [near_all, far_mid])
-    monkeypatch.setattr(nearby, "_disk_get", lambda k: None)
-    monkeypatch.setattr(nearby, "_disk_put", lambda k, v: None)
-    rows = nearby.nearby_walks(CENTER)
-    assert rows[0]["name"] == "긴산책로"
-
-
-def test_external_failure_is_not_reported_as_no_places(monkeypatch):
-    nearby._cache.clear()
-
-    def boom(*a, **k):
-        raise TimeoutError("overpass down")
-
-    monkeypatch.setattr(nearby, "_fetch", boom)
-    monkeypatch.setattr(nearby, "_disk_get", lambda k: None)
-    with pytest.raises(nearby.NearbyUnavailable):
-        nearby.nearby_walks(CENTER)
-    response = TestClient(app).get('/geo/nearby-walks', params={'lat': CENTER.lat, 'lng': CENTER.lng})
-    assert response.status_code == 503
-    assert '다시 시도' in response.json()['detail']
-
-
-def test_empty_search_can_recover_without_restarting_worker(monkeypatch):
-    key = (round(CENTER.lat, 3), round(CENTER.lng, 3))
-    nearby._cache.clear()
-    nearby._cache[key] = []  # Existing empty cache left by the previous release.
-    monkeypatch.setattr(nearby, '_disk_get', lambda k: None)
-    monkeypatch.setattr(nearby, '_disk_put', lambda *a: None)
-    way = _way('다시찾은공원', _line(CENTER.lat, CENTER.lng, 60, .0001), leisure='park')
-    answers = iter([[], [way]])
-    monkeypatch.setattr(nearby, '_fetch', lambda *a: next(answers))
-    assert nearby.nearby_walks(CENTER) == []
-    assert nearby.nearby_walks(CENTER)[0]['name'] == '다시찾은공원'
-
-
-def test_http_200_overpass_timeout_uses_global_fallback_and_logs_no_location(monkeypatch, tmp_path):
-    from app.config import settings
-    ledger = tmp_path / 'usage.jsonl'
-    monkeypatch.setattr(settings, 'research_usage_ledger_path', str(ledger))
-    responses = iter([{'remark': 'runtime timeout', 'elements': []}, {'elements': []}])
-    calls = []
-    class Reply:
-        status = 200
-        def __enter__(self): return self
-        def __exit__(self, *args): pass
-        def read(self): return json.dumps(next(responses)).encode()
-    def open_request(req, timeout):
-        calls.append((req.full_url, timeout))
-        return Reply()
-    monkeypatch.setattr(nearby.urllib.request, 'urlopen', open_request)
-    assert nearby._fetch(CENTER, 8) == []
-    assert [url for url, _ in calls] == list(nearby.URLS)
-    assert all(timeout == 8 for _, timeout in calls)
-    assert not any('osm.ch' in url or 'kumi.systems' in url for url, _ in calls)
-    events = [json.loads(line) for line in ledger.read_text().splitlines()]
-    assert len(events) == 4
-    assert events[1]['error_type'] == 'NearbyUnavailable'
-    assert events[-1]['error_type'] is None
-    assert str(CENTER.lat) not in ledger.read_text()
-    assert str(CENTER.lng) not in ledger.read_text()
-
-
-def test_geo_query_bounds_reject_invalid_coordinates_and_limit():
+def test_geo_query_bounds_still_reject_invalid_input():
     client = TestClient(app)
     for params in [{'lat': 91, 'lng': 126}, {'lat': 37, 'lng': 181}, {'lat': 37, 'lng': 126, 'limit': -1}]:
         assert client.get('/geo/nearby-walks', params=params).status_code == 422
